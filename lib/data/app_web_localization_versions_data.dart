@@ -1,0 +1,43 @@
+/// rsi : "0.2.11"
+/// uex : "2.2"
+/// addresses : "1.0"
+/// concierge : "1.1"
+/// hangar : "1.2"
+/// orgs : "1.3"
+
+class AppWebLocalizationVersionsData {
+  AppWebLocalizationVersionsData({
+      this.rsi, 
+      this.uex, 
+      this.addresses, 
+      this.concierge, 
+      this.hangar, 
+      this.orgs,});
+
+  AppWebLocalizationVersionsData.fromJson(dynamic json) {
+    rsi = json['rsi'];
+    uex = json['uex'];
+    addresses = json['addresses'];
+    concierge = json['concierge'];
+    hangar = json['hangar'];
+    orgs = json['orgs'];
+  }
+  String? rsi;
+  String? uex;
+  String? addresses;
+  String? concierge;
+  String? hangar;
+  String? orgs;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['rsi'] = rsi;
+    map['uex'] = uex;
+    map['addresses'] = addresses;
+    map['concierge'] = concierge;
+    map['hangar'] = hangar;
+    map['orgs'] = orgs;
+    return map;
+  }
+
+}
