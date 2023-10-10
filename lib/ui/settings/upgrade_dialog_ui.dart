@@ -66,7 +66,7 @@ class UpgradeDialogUI extends BaseUI<UpgradeDialogUIModel> {
                             top: 4, bottom: 4, left: 8, right: 8),
                         child: Text("立即更新"),
                       )),
-                if (AppConf.appVersionCode <=
+                if (AppConf.appVersionCode >=
                     (AppConf.networkVersionData?.minVersionCode ?? 0))
                   Button(
                       onPressed: model.doCancel,
