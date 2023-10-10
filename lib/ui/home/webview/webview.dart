@@ -31,6 +31,10 @@ class WebViewModel {
 
   bool enableCapture = false;
 
+  Map<String, String>? _curReplaceWords;
+
+  Map<String, String>? get curReplaceWords => _curReplaceWords;
+
   initWebView({String title = ""}) async {
     try {
       webview = await WebviewWindow.create(
@@ -90,6 +94,12 @@ class WebViewModel {
             if (url.startsWith(hangar)) {
               replaceWords.addAll(_getLocalizationResource("hangar"));
             }
+
+            _curReplaceWords = {};
+            for (var element in replaceWords) {
+              _curReplaceWords?[element["word"] ?? ""] =
+                  element["replacement"] ?? "";
+            }
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(
                 "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
@@ -129,7 +139,7 @@ class WebViewModel {
 
     /// https://github.com/CxJuice/Uex_Chinese_Translate
     // get versions
-    const hostUrl = "https://ch.citizenwiki.cn/json-files";
+    const hostUrl = "https://ch.citizenwiki.cn/json-files/locales";
 
     final v = AppWebLocalizationVersionsData.fromJson(
         await _getJson("$hostUrl/versions.json"));
@@ -153,7 +163,7 @@ class WebViewModel {
 
   List<Map<String, String>> _getLocalizationResource(String key) {
     final List<Map<String, String>> localizations = [];
-    final dict = localizationResource[key]?["dict"];
+    final dict = localizationResource[key];
     if (dict is Map) {
       for (var element in dict.entries) {
         final k = element.key

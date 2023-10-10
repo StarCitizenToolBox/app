@@ -9,7 +9,6 @@ class WebviewLocalizationCaptureUIModel extends BaseUIModel {
   WebviewLocalizationCaptureUIModel(this.webViewModel);
 
   Map<String, dynamic> data = {};
-  Map<String, dynamic> oldData = {};
 
   String renderString = "";
 
@@ -32,11 +31,13 @@ class WebviewLocalizationCaptureUIModel extends BaseUIModel {
     if (map["action"] == "webview_localization_capture") {
       dPrint(
           "<WebviewLocalizationCaptureUIModel> webview_localization_capture message == $map");
-      if (!oldData.containsKey(map["key"])) {
-        data[map["key"].toString().trim().toLowerCase().replaceAll(" ", "_")] =
-            map["value"];
+      final key = map["key"];
+      if (key != null && key.toString().trim() != "") {
+        if (!(webViewModel.curReplaceWords?.containsKey(key) ?? false)) {
+          data[key] = map["value"];
+        }
+        _updateRenderString();
       }
-      _updateRenderString();
     }
   }
 
@@ -46,7 +47,6 @@ class WebviewLocalizationCaptureUIModel extends BaseUIModel {
   }
 
   doClean() {
-    oldData.addAll(data);
     data.clear();
     _updateRenderString();
   }
