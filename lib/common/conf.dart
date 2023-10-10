@@ -12,7 +12,7 @@ import '../base/ui.dart';
 
 class AppConf {
   static const String appVersion = "2.9 Beta";
-  static const int appVersionCode = 12;
+  static const int appVersionCode = 13;
   static const String appVersionDate = "2023-10-06";
 
   static const String gitlabHomeUrl =
