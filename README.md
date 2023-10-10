@@ -1,6 +1,6 @@
-# 星际公民诊断工具
+# 星际公民盒子
 
-该工具为 星际公民玩家 提供 一键诊断，官网及工具网站汉化，游戏汉化，游戏性能优化 等功能，让你的游戏体验更愉快。
+该工具为 星际公民玩家 提供 一键诊断，官网及工具网站汉化，游戏汉化，游戏性能优化 等功能，给您带来更愉快的游戏体验。
 
 ### 安装
 1. 前往 [Release](https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor/-/releases) 页面，下载最新安装包 （Setup.exe）。
