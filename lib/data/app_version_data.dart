@@ -1,9 +1,10 @@
-/// lastVersion : "V2.5"
-/// lastVersionCode : 8
-/// lastBetaVersion : "V2.5"
-/// lastBetaVersionCode : 8
-/// minVersionCode : 7
-/// minBetaVersionCode : 7
+/// lastVersion : "V2.9"
+/// lastVersionCode : 13
+/// lastBetaVersion : "V2.9"
+/// lastBetaVersionCode : 13
+/// minVersionCode : 13
+/// minBetaVersionCode : 13
+/// p4kDownloadUrl : "https://p4k.42kit.com/Data.p4k"
 
 class AppVersionData {
   AppVersionData({
@@ -12,7 +13,8 @@ class AppVersionData {
       this.lastBetaVersion, 
       this.lastBetaVersionCode, 
       this.minVersionCode, 
-      this.minBetaVersionCode,});
+      this.minBetaVersionCode, 
+      this.p4kDownloadUrl,});
 
   AppVersionData.fromJson(dynamic json) {
     lastVersion = json['lastVersion'];
@@ -21,6 +23,7 @@ class AppVersionData {
     lastBetaVersionCode = json['lastBetaVersionCode'];
     minVersionCode = json['minVersionCode'];
     minBetaVersionCode = json['minBetaVersionCode'];
+    p4kDownloadUrl = json['p4kDownloadUrl'];
   }
   String? lastVersion;
   num? lastVersionCode;
@@ -28,6 +31,7 @@ class AppVersionData {
   num? lastBetaVersionCode;
   num? minVersionCode;
   num? minBetaVersionCode;
+  String? p4kDownloadUrl;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -37,6 +41,7 @@ class AppVersionData {
     map['lastBetaVersionCode'] = lastBetaVersionCode;
     map['minVersionCode'] = minVersionCode;
     map['minBetaVersionCode'] = minBetaVersionCode;
+    map['p4kDownloadUrl'] = p4kDownloadUrl;
     return map;
   }
 

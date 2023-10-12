@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/ui/tools/downloader/downloader_dialog_ui_model.dart';
@@ -302,7 +303,15 @@ class ToolsUIModel extends BaseUIModel {
   }
 
   Future<void> _downloadP4k() async {
-    const downloadUrl = "https://r2test.citizenwiki.cn/Data.p4k";
+    final downloadUrl = AppConf.networkVersionData?.p4kDownloadUrl;
+    if (downloadUrl == null || downloadUrl.isEmpty) {
+      showToast(context!, "该功能维护中，请稍后再试！");
+      return;
+    }
+    await showToast(
+        context!,
+        "P4k 是星际公民的核心游戏文件，高达近 100GB，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户。"
+        "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
     final r = await showDialog(
         context: context!,
         dismissWithEsc: false,
