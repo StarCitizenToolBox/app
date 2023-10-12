@@ -26,7 +26,7 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                         child: InfoBar(
                           title: const Text("警告"),
                           content: const Text(
-                              "您正在使用游戏内置文本，官方文本目前为机器翻译（截至3.21.0），建议您在下方 [最新版本] 安装社区汉化。"),
+                              "您正在使用游戏内置文本，官方文本目前为机器翻译（截至3.21.0），建议您在下方安装社区汉化。"),
                           severity: InfoBarSeverity.info,
                           style: InfoBarThemeData(decoration: (severity) {
                             return const BoxDecoration(
