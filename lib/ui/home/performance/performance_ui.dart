@@ -24,7 +24,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                         InfoBar(
                           title: const Text("图形优化提示"),
                           content: const Text(
-                            "该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起返效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。",
+                            "该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起反效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。",
                           ),
                           onClose: () => model.closeTip(),
                         ),

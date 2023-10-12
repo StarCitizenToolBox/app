@@ -6,6 +6,7 @@ import 'localization_ui_model.dart';
 class LocalizationUI extends BaseUI<LocalizationUIModel> {
   @override
   Widget? buildBody(BuildContext context, LocalizationUIModel model) {
+    final curInstallInfo = model.apiLocalizationData?[model.patchStatus?.value];
     return ContentDialog(
       title: makeTitle(context, model),
       constraints: BoxConstraints(
@@ -76,6 +77,42 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                               ),
                             )),
                     ],
+                  ),
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 130),
+                    child: (curInstallInfo != null &&
+                            curInstallInfo.node != null &&
+                            curInstallInfo.node!.isNotEmpty)
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  color: FluentTheme.of(context).cardColor,
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "备注：",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      "${curInstallInfo.node}",
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(.8)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                          ),
                   ),
                 ],
               ]),
@@ -175,7 +212,6 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                   ],
                 ),
               ),
-              const SizedBox(height: 12),
             ],
           ),
         ),
