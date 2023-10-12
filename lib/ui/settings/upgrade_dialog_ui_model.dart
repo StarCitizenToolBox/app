@@ -48,6 +48,7 @@ class UpgradeDialogUIModel extends BaseUIModel {
       progress = null;
       showToast(context!, "下载失败，请尝试手动安装！");
       notifyListeners();
+      return;
     }
 
     try {
