@@ -41,6 +41,8 @@ class LocalizationUIModel extends BaseUIModel {
 
   StreamSubscription? customizeDirListenSub;
 
+  bool enableCustomize = false;
+
   @override
   void initModel() {
     selectedLanguage = languageSupport.entries.first.key;
@@ -56,6 +58,7 @@ class LocalizationUIModel extends BaseUIModel {
   @override
   Future loadData() async {
     await _updateStatus();
+    _checkUserCfg();
     _scanCustomizeDir();
     final l =
         await handleError(() => Api.getScLocalizationData(selectedLanguage));
@@ -263,6 +266,7 @@ class LocalizationUIModel extends BaseUIModel {
         "${scDataDir.absolute.path}\\Localization\\$selectedLanguage\\global.ini");
     return () async {
       if (await iniFile.exists()) await iniFile.delete();
+      await updateLangCfg(false);
       await _updateStatus();
     };
   }
@@ -299,5 +303,34 @@ class LocalizationUIModel extends BaseUIModel {
       workingVersion = "";
       notifyListeners();
     };
+  }
+
+  void _checkUserCfg() async {
+    final userCfgFile = File("$scInstallPath\\USER.cfg");
+    if (await userCfgFile.exists()) {
+      final cfgString = await userCfgFile.readAsString();
+      if (cfgString.contains("g_language=") &&
+          !cfgString.contains("g_language=$selectedLanguage")) {
+        final ok = await showConfirmDialogs(
+            context!,
+            "是否移除不兼容的汉化参数",
+            const Text(
+                "USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。"),
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context!).size.width * .35));
+        if (ok == true) {
+          var finalString = "";
+          for (var item in cfgString.split("\n")) {
+            if (!item.trim().startsWith("g_language=")) {
+              finalString = "$finalString$item\n";
+            }
+          }
+          await userCfgFile.delete();
+          await userCfgFile.create();
+          await userCfgFile.writeAsString(finalString, flush: true);
+          reloadData();
+        }
+      }
+    }
   }
 }

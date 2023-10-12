@@ -67,13 +67,19 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                             onPressed: model.doDelIniFile(),
                             child: const Padding(
                               padding: EdgeInsets.all(4),
-                              child: Icon(FluentIcons.delete),
+                              child: Row(
+                                children: [
+                                  Icon(FluentIcons.delete),
+                                  SizedBox(width: 6),
+                                  Text("删除"),
+                                ],
+                              ),
                             )),
                     ],
                   ),
                 ],
               ]),
-              makeListContainer("最新版本", [
+              makeListContainer("社区汉化", [
                 if (model.apiLocalizationData == null)
                   makeLoading(context)
                 else if (model.apiLocalizationData!.isEmpty)
@@ -88,49 +94,87 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                   for (final item in model.apiLocalizationData!.entries)
                     makeRemoteList(context, model, item),
               ]),
-              makeListContainer("自定义", [
-                if (model.customizeList == null)
-                  makeLoading(context)
-                else if (model.customizeList!.isEmpty)
-                  Center(
-                    child: Text(
-                      "请将 任意名称.ini 文件放入 Customize_ini 文件夹，即可使用此工具快捷安装 / 切换。",
-                      style: TextStyle(
-                          fontSize: 13, color: Colors.white.withOpacity(.8)),
-                    ),
-                  )
-                else ...[
-                  for (final file in model.customizeList!)
-                    Row(
-                      children: [
-                        Text(
-                          model.getCustomizeFileName(file),
-                        ),
-                        const Spacer(),
-                        if (model.workingVersion == file)
-                          const Padding(
-                            padding: EdgeInsets.only(right: 12),
-                            child: ProgressRing(),
+              const SizedBox(height: 12),
+              IconButton(
+                  icon: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(model.enableCustomize
+                          ? FluentIcons.chevron_up
+                          : FluentIcons.chevron_down),
+                      const SizedBox(width: 12),
+                      const Text("高级功能"),
+                    ],
+                  ),
+                  onPressed: () {
+                    model.enableCustomize = !model.enableCustomize;
+                    model.notifyListeners();
+                  }),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 130),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 12),
+                    model.enableCustomize
+                        ? makeListContainer("自定义文本", [
+                            if (model.customizeList == null)
+                              makeLoading(context)
+                            else if (model.customizeList!.isEmpty)
+                              Center(
+                                child: Text(
+                                  "暂无自定义文本",
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.white.withOpacity(.8)),
+                                ),
+                              )
+                            else ...[
+                              for (final file in model.customizeList!)
+                                Row(
+                                  children: [
+                                    Text(
+                                      model.getCustomizeFileName(file),
+                                    ),
+                                    const Spacer(),
+                                    if (model.workingVersion == file)
+                                      const Padding(
+                                        padding: EdgeInsets.only(right: 12),
+                                        child: ProgressRing(),
+                                      )
+                                    else
+                                      Button(
+                                          onPressed: model.doLocalInstall(file),
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8,
+                                                right: 8,
+                                                top: 4,
+                                                bottom: 4),
+                                            child: Text("安装"),
+                                          ))
+                                  ],
+                                )
+                            ],
+                          ], actions: [
+                            Button(
+                                onPressed: () => model.openDir(),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(4),
+                                  child: Row(
+                                    children: [
+                                      Icon(FluentIcons.folder_open),
+                                      SizedBox(width: 6),
+                                      Text("打开文件夹"),
+                                    ],
+                                  ),
+                                )),
+                          ])
+                        : SizedBox(
+                            width: MediaQuery.of(context).size.width,
                           )
-                        else
-                          Button(
-                              onPressed: model.doLocalInstall(file),
-                              child: const Padding(
-                                padding: EdgeInsets.only(
-                                    left: 8, right: 8, top: 4, bottom: 4),
-                                child: Text("安装"),
-                              ))
-                      ],
-                    )
-                ],
-              ], actions: [
-                Button(
-                    onPressed: () => model.openDir(),
-                    child: const Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Icon(FluentIcons.folder_open),
-                    )),
-              ]),
+                  ],
+                ),
+              ),
               const SizedBox(height: 12),
             ],
           ),
@@ -190,9 +234,21 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 8, right: 8, top: 4, bottom: 4),
-                      child: Text(isInstalled
-                          ? "已安装"
-                          : ((item.value.enable ?? false) ? "安装" : "不可用")),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: Icon(isInstalled
+                                ? FluentIcons.check_mark
+                                : (item.value.enable ?? false)
+                                    ? FluentIcons.download
+                                    : FluentIcons.disable_updates),
+                          ),
+                          Text(isInstalled
+                              ? "已安装"
+                              : ((item.value.enable ?? false) ? "安装" : "不可用")),
+                        ],
+                      ),
                     )),
             ],
           ),
