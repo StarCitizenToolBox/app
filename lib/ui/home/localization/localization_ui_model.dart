@@ -309,7 +309,7 @@ class LocalizationUIModel extends BaseUIModel {
     final userCfgFile = File("$scInstallPath\\USER.cfg");
     if (await userCfgFile.exists()) {
       final cfgString = await userCfgFile.readAsString();
-      if (cfgString.contains("g_language=") &&
+      if (cfgString.contains("g_language") &&
           !cfgString.contains("g_language=$selectedLanguage")) {
         final ok = await showConfirmDialogs(
             context!,
@@ -321,7 +321,7 @@ class LocalizationUIModel extends BaseUIModel {
         if (ok == true) {
           var finalString = "";
           for (var item in cfgString.split("\n")) {
-            if (!item.trim().startsWith("g_language=")) {
+            if (!item.trim().startsWith("g_language")) {
               finalString = "$finalString$item\n";
             }
           }
