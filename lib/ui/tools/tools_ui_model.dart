@@ -308,10 +308,15 @@ class ToolsUIModel extends BaseUIModel {
       showToast(context!, "该功能维护中，请稍后再试！");
       return;
     }
+    if ((await SystemHelper.getPID("RSI Launcher.exe")).isNotEmpty) {
+      showToast(context!, "RSI启动器正在运行，请手动退出启动器再使用此功能。");
+      return;
+    }
     await showToast(
         context!,
         "P4k 是星际公民的核心游戏文件，高达近 100GB，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户。"
         "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
+
     final r = await showDialog(
         context: context!,
         dismissWithEsc: false,

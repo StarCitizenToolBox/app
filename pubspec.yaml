@@ -43,7 +43,6 @@ dependencies:
   dio: ^5.3.3
   markdown_widget: ^2.2.0
   extended_image: ^8.1.1
-  hyper_thread_downloader: ^1.0.5
   device_info_plus: ^9.0.3
   file_picker: ^5.5.0
   file_sizes: ^1.0.6

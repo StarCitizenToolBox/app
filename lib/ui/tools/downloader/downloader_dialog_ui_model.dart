@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:hyper_thread_downloader/hyper_thread_downloader.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+
+import 'dio_range_download.dart';
 
 class DownloaderDialogUIModel extends BaseUIModel {
   final String fileName;
@@ -14,15 +16,16 @@ class DownloaderDialogUIModel extends BaseUIModel {
   DownloaderDialogUIModel(this.fileName, this.savePath, this.downloadUrl,
       {this.showChangeSavePathDialog = false, this.threadCount = 1});
 
-  final downloader = HyperDownload();
+  CancelToken? downloadCancelToken;
 
   int? downloadTaskId;
 
   bool isInMerging = false;
 
   double? progress;
-  double? speed;
-  double? remainTime;
+  int? speed;
+  DateTime? lastUpdateTime;
+  int? lastUpdateCount;
   int? count;
   int? total;
 
@@ -53,48 +56,44 @@ class DownloaderDialogUIModel extends BaseUIModel {
       savePath = "$savePath/$fileName";
     }
     // start download
-    downloader.startDownload(
-        url: downloadUrl,
-        savePath: savePath,
-        threadCount: threadCount,
-        prepareWorking: (bool done) {},
-        workingMerge: (bool done) {
+    try {
+      downloadCancelToken = CancelToken();
+      final r = await RangeDownload.downloadWithChunks(downloadUrl, savePath,
+          maxChunk: 10,
+          cancelToken: downloadCancelToken,
+          isRangeDownload: true, onReceiveProgress: (int count, int total) {
+        lastUpdateTime ??= DateTime.now();
+        if ((DateTime.now().difference(lastUpdateTime ?? DateTime.now()))
+                .inSeconds >=
+            1) {
+          lastUpdateTime = DateTime.now();
+          speed = (count - (lastUpdateCount ?? 0));
+          lastUpdateCount = count;
+          notifyListeners();
+        }
+        this.count = count;
+        this.total = total;
+        progress = count / total * 100;
+        if (count == total) {
           isInMerging = true;
-          progress = null;
-          notifyListeners();
-        },
-        downloadProgress: ({
-          required double progress,
-          required double speed,
-          required double remainTime,
-          required int count,
-          required int total,
-        }) {
-          this.progress = ((progress) * 100);
-          this.speed = speed;
-          this.remainTime = remainTime;
-          this.count = count;
-          this.total = total;
-          notifyListeners();
-        },
-        downloadComplete: () {
-          notifyListeners();
-          Navigator.pop(context!, savePath);
-        },
-        downloadFailed: (String reason) {
-          notifyListeners();
-          showToast(context!, "下载失败！ $reason");
-        },
-        downloadTaskId: (int id) {
-          downloadTaskId = id;
-        },
-        downloadingLog: (String log) {});
+        }
+        notifyListeners();
+      });
+      if (r.statusCode == 200) {
+        Navigator.pop(context!, savePath);
+      }
+    } catch (e) {
+      if (e is DioException && e.type != DioExceptionType.cancel) {
+        if (mounted) showToast(context!, "下载失败：$e");
+      }
+    }
   }
 
   doCancel() {
-    if (downloadTaskId != null) {
-      downloader.stopDownload(id: downloadTaskId!);
-    }
+    try {
+      downloadCancelToken?.cancel();
+      downloadCancelToken = null;
+    } catch (_) {}
     Navigator.pop(context!, "cancel");
   }
 }

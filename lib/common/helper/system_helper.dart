@@ -93,7 +93,10 @@ class SystemHelper {
 
   static Future<List<String>> getPID(String name) async {
     final r = await Process.run("powershell", ["(ps $name).Id"]);
-    return r.stdout.toString().trim().split("\n");
+    final str = r.stdout.toString().trim();
+    dPrint(str);
+    if (str.isEmpty) return [];
+    return str.split("\n");
   }
 
   static checkAndLaunchRSILauncher(String path) async {
