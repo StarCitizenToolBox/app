@@ -58,9 +58,21 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
                     crossAxisCount: 3,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
-                    itemCount: model.items.length,
+                    itemCount: (model.isItemLoading)
+                        ? model.items.length + 1
+                        : model.items.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      if (index == model.items.length) {
+                        return Container(
+                            width: 300,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: FluentTheme.of(context).cardColor,
+                            ),
+                            child: makeLoading(context));
+                      }
                       final item = model.items[index];
                       return Container(
                         width: 300,

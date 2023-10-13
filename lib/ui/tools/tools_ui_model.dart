@@ -29,27 +29,16 @@ class ToolsUIModel extends BaseUIModel {
 
   var items = <_ToolsItemData>[];
 
+  bool isItemLoading = false;
+
   @override
   Future loadData({bool skipPathScan = false}) async {
     items.clear();
     notifyListeners();
-
     if (!skipPathScan) {
       await reScanPath();
     }
     try {
-      final nvmePatchStatus = await SystemHelper.checkNvmePatchStatus();
-
-      final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
-
-      double logPathLen = 0;
-      try {
-        logPathLen =
-            (await File(await SCLoggerHelper.getLogFilePath() ?? "").length()) /
-                1024 /
-                1024;
-      } catch (_) {}
-
       items = [
         _ToolsItemData(
           "systeminfo",
@@ -78,30 +67,53 @@ class ToolsUIModel extends BaseUIModel {
           "在某些情况下 RSI启动器 无法正确获得管理员权限，您可尝试使用该功能以管理员模式运行启动器。",
           const Icon(FluentIcons.admin, size: 28),
           onTap: _adminRSILauncher,
-        ),
-        _ToolsItemData(
-          "clean_shaders",
-          "清理着色器缓存",
-          "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：${((await SystemHelper.getDirLen(gameShaderCachePath ?? "", skipPath: [
-                    "$gameShaderCachePath\\Crashes"
-                  ])) / 1024 / 1024).toStringAsFixed(4)} MB",
-          const Icon(FontAwesomeIcons.shapes, size: 28),
-          onTap: _cleanShaderCache,
-        ),
-        _ToolsItemData(
-          "rsilauncher_log_fix",
-          "RSI Launcher Log 修复",
-          "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${(logPathLen.toStringAsFixed(4))} MB",
-          const Icon(FontAwesomeIcons.bookBible, size: 28),
-          onTap: _rsiLogFix,
-        ),
-        _ToolsItemData(
-          "rsilauncher_log_select",
-          "RSI Launcher Log 查看",
-          "打开 RSI启动器 Log文件 所在文件夹",
-          const Icon(FontAwesomeIcons.bookBible, size: 28),
-          onTap: _selectLog,
-        ),
+        )
+      ];
+      isItemLoading = true;
+      notifyListeners();
+      items.addAll(await _addLogCard());
+      notifyListeners();
+      items.addAll(await _addNvmePatchCard());
+      notifyListeners();
+      items.add(await _addShaderCard());
+      isItemLoading = false;
+      notifyListeners();
+    } catch (e) {
+      showToast(context!, "初始化失败，请截图报告给开发者。$e");
+    }
+    notifyListeners();
+  }
+
+  Future<List<_ToolsItemData>> _addLogCard() async {
+    double logPathLen = 0;
+    try {
+      logPathLen =
+          (await File(await SCLoggerHelper.getLogFilePath() ?? "").length()) /
+              1024 /
+              1024;
+    } catch (_) {}
+    return [
+      _ToolsItemData(
+        "rsilauncher_log_select",
+        "RSI Launcher Log 查看",
+        "打开 RSI启动器 Log文件 所在文件夹",
+        const Icon(FontAwesomeIcons.bookBible, size: 28),
+        onTap: _selectLog,
+      ),
+      _ToolsItemData(
+        "rsilauncher_log_fix",
+        "RSI Launcher Log 修复",
+        "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${(logPathLen.toStringAsFixed(4))} MB",
+        const Icon(FontAwesomeIcons.bookBible, size: 28),
+        onTap: _rsiLogFix,
+      ),
+    ];
+  }
+
+  Future<List<_ToolsItemData>> _addNvmePatchCard() async {
+    final nvmePatchStatus = await SystemHelper.checkNvmePatchStatus();
+    return [
+      if (nvmePatchStatus)
         _ToolsItemData(
           "remove_nvme_settings",
           "移除 nvme 注册表补丁",
@@ -117,6 +129,7 @@ class ToolsUIModel extends BaseUIModel {
                 }
               : null,
         ),
+      if (!nvmePatchStatus)
         _ToolsItemData(
           "add_nvme_settings",
           "写入 nvme 注册表补丁",
@@ -135,13 +148,27 @@ class ToolsUIModel extends BaseUIModel {
             working = false;
             loadData(skipPathScan: true);
           },
-        ),
-      ];
-    } catch (e) {
-      showToast(context!, "初始化失败，请截图报告给开发者。$e");
-    }
-    notifyListeners();
+        )
+    ];
   }
+
+  Future<_ToolsItemData> _addShaderCard() async {
+    final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
+    return _ToolsItemData(
+      "clean_shaders",
+      "清理着色器缓存",
+      "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：${((await SystemHelper.getDirLen(gameShaderCachePath ?? "", skipPath: [
+                "$gameShaderCachePath\\Crashes"
+              ])) / 1024 / 1024).toStringAsFixed(4)} MB",
+      const Icon(FontAwesomeIcons.shapes, size: 28),
+      onTap: _cleanShaderCache,
+    );
+  }
+
+  /// ---------------------------- func -------------------------------------------------------
+  /// -----------------------------------------------------------------------------------------
+  /// -----------------------------------------------------------------------------------------
+  /// -----------------------------------------------------------------------------------------
 
   Future<void> reScanPath() async {
     scInstallPaths.clear();
