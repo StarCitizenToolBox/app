@@ -335,8 +335,10 @@ class ToolsUIModel extends BaseUIModel {
       showToast(context!, "该功能维护中，请稍后再试！");
       return;
     }
-    if ((await SystemHelper.getPID("RSI Launcher.exe")).isNotEmpty) {
-      showToast(context!, "RSI启动器正在运行，请手动退出启动器再使用此功能。");
+    if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
+      showToast(context!, "RSI启动器正在运行，请先关闭启动器再使用此功能！",
+          constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context!).size.width * .35));
       return;
     }
     await showToast(
