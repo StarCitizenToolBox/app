@@ -56,6 +56,9 @@ function WebLocalizationUpdateReplaceWords(w, b) {
     replaceWords.forEach(({word, replacement}) => {
         SCLocalizationReplaceLocalesMap[word] = replacement;
     });
+    if (window.location.hostname.startsWith("issue-council.robertsspaceindustries.com")) {
+        SCLocalizationReplaceLocalesMap["save"] = "保存";
+    }
     allTranslate().then(_ => {
     });
     // console.log("WebLocalizationUpdateReplaceWords ==" + w)
@@ -155,14 +158,29 @@ function GetSCLocalizationTranslateString(txtSrc) {
     } else if (SCLocalizationEnableSplitMode) {
         if (sourceKey.includes(" - ")) {
             let nodeValue = txtSrc
-            sourceKey.split(" - ").forEach(function (splitKey) {
-                if (SCLocalizationReplaceLocalesMap[splitKey.toLowerCase()]) {
-                    nodeValue = nodeValue.replace(splitKey, SCLocalizationReplaceLocalesMap[splitKey.toLowerCase()])
+            let splitKey = sourceKey.split(" - ");
+            if (splitKey[0].toLowerCase() === "upgrade" && key.includes("to") && key.endsWith("edition")) {
+                // 升级包规则
+                let noVersionStr = key.replace("STANDARD EDITION".toLowerCase(), "").replace("upgrade", "").replace("WARBOND EDITION".toLowerCase(), "")
+                let shipNames = noVersionStr.split(" to ")
+                let finalString = "升级包 " + GetSCLocalizationTranslateString(shipNames[0]) + " 到 " + GetSCLocalizationTranslateString(shipNames[1]);
+                if (key.endsWith("WARBOND EDITION".toLowerCase())) {
+                    finalString = finalString + " 战争债券版"
                 } else {
-                    nodeValue = nodeValue.replace(splitKey, GetSCLocalizationTranslateString(splitKey))
+                    finalString = finalString + " 标准版"
                 }
-            });
-            txtSrc = nodeValue
+                txtSrc = finalString
+            } else {
+                // 机库通用规则
+                splitKey.forEach(function (splitKey) {
+                    if (SCLocalizationReplaceLocalesMap[splitKey.toLowerCase()]) {
+                        nodeValue = nodeValue.replace(splitKey, SCLocalizationReplaceLocalesMap[splitKey.toLowerCase()])
+                    } else {
+                        nodeValue = nodeValue.replace(splitKey, GetSCLocalizationTranslateString(splitKey))
+                    }
+                });
+                txtSrc = nodeValue
+            }
         } else if (key.endsWith("starter pack") || key.endsWith("starter package")) {
             let shipName = key.replace("starter package", "").replace("starter pack", "").trim()
             if (SCLocalizationReplaceLocalesMap[shipName.toLowerCase()]) {
