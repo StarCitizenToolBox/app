@@ -1,8 +1,9 @@
 /// https://github.com/CxJuice/Uex_Chinese_Translate
 
-let replaceLocalesMap = {"k": "v"};
 
+let SCLocalizationReplaceLocalesMap = {};
 let enable_webview_localization_capture = false;
+let SCLocalizationEnableSplitMode = false;
 
 function InitWebLocalization() {
     let scriptTimeAgo = document.createElement('script');
@@ -31,11 +32,17 @@ function LocalizationWatchUpdate() {
         characterData: true,
         childList: true,
     });
+
+    if (window.location.href.includes("robertsspaceindustries.com")) {
+        console.log("SCLocalizationEnableSplitMode = true");
+        SCLocalizationEnableSplitMode = true;
+    }
+
     if (window.location.hostname.includes("www.erkul.games") || window.location.hostname.includes("ccugame.app")) {
         document.body.addEventListener("click", function (event) {
             setTimeout(function () {
                 allTranslate().then(_ => {
-                })
+                });
             }, 200);
         });
     }
@@ -47,26 +54,17 @@ function WebLocalizationUpdateReplaceWords(w, b) {
         return b.word.length - a.word.length;
     });
     replaceWords.forEach(({word, replacement}) => {
-        replaceLocalesMap[word] = replacement;
+        SCLocalizationReplaceLocalesMap[word] = replacement;
     });
     allTranslate().then(_ => {
-    })
+    });
     // console.log("WebLocalizationUpdateReplaceWords ==" + w)
 }
 
 async function allTranslate() {
     async function replaceTextNode(node1) {
         if (node1.nodeType === Node.TEXT_NODE) {
-            let nodeValue = node1.nodeValue;
-            const key = nodeValue.trim().toLowerCase()
-                .replace(/\xa0/g, ' ') // replace '&nbsp;'
-                .replace(/\s{2,}/g, ' ');
-            if (replaceLocalesMap[key]) {
-                nodeValue = replaceLocalesMap[key]
-            } else {
-                ReportUnTranslate(key, node1.nodeValue);
-            }
-            node1.nodeValue = nodeValue;
+            node1.nodeValue = GetSCLocalizationTranslateString(node1.nodeValue);
         } else {
             for (let i = 0; i < node1.childNodes.length; i++) {
                 await replaceTextNode(node1.childNodes[i]);
@@ -114,16 +112,7 @@ function translateElement(el) {
     } else {
         k = 'data';
     }
-
-    const txtSrc = el[k].trim();
-    const key = txtSrc.toLowerCase()
-        .replace(/\xa0/g, ' ') // replace '&nbsp;'
-        .replace(/\s{2,}/g, ' ');
-    if (replaceLocalesMap[key]) {
-        el[k] = el[k].replace(txtSrc, replaceLocalesMap[key])
-    } else {
-        ReportUnTranslate(key, txtSrc);
-    }
+    el[k] = GetSCLocalizationTranslateString(el[k]);
 }
 
 function translateRelativeTimeEl(el) {
@@ -154,13 +143,54 @@ function shouldTranslateEl(el) {
     return true;
 }
 
+function GetSCLocalizationTranslateString(txtSrc) {
+    let oldTxtSrc = txtSrc
+    const key = txtSrc.toLowerCase().replace(/\xa0/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    const sourceKey = txtSrc.replace(/\xa0/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    let noTheKey = key.replace("the ", "");
+    let noHorizontalKey = key.replace("- ", "");
+
+    if (SCLocalizationReplaceLocalesMap[key]) {
+        txtSrc = SCLocalizationReplaceLocalesMap[key]
+    } else if (SCLocalizationEnableSplitMode) {
+        if (sourceKey.includes(" - ")) {
+            let nodeValue = txtSrc
+            sourceKey.split(" - ").forEach(function (splitKey) {
+                if (SCLocalizationReplaceLocalesMap[splitKey.toLowerCase()]) {
+                    nodeValue = nodeValue.replace(splitKey, SCLocalizationReplaceLocalesMap[splitKey.toLowerCase()])
+                } else {
+                    nodeValue = nodeValue.replace(splitKey, GetSCLocalizationTranslateString(splitKey))
+                }
+            });
+            txtSrc = nodeValue
+        } else if (key.endsWith("starter pack") || key.endsWith("starter package")) {
+            let shipName = key.replace("starter package", "").replace("starter pack", "").trim()
+            if (SCLocalizationReplaceLocalesMap[shipName.toLowerCase()]) {
+                shipName = SCLocalizationReplaceLocalesMap[shipName.toLowerCase()];
+            }
+            txtSrc = shipName + " 新手包";
+        } else if (key.startsWith("the ") && SCLocalizationReplaceLocalesMap[noTheKey]) {
+            txtSrc = SCLocalizationReplaceLocalesMap[noTheKey];
+        } else if (key.startsWith("- ") && SCLocalizationReplaceLocalesMap[noHorizontalKey]) {
+            txtSrc = "- " + SCLocalizationReplaceLocalesMap[noHorizontalKey];
+        }
+    }
+    if (oldTxtSrc === txtSrc) {
+        ReportUnTranslate(key, txtSrc);
+    }
+    return txtSrc
+}
+
+InitWebLocalization();
+
 function ReportUnTranslate(k, v) {
-    const cnPattern = /[\u4e00-\u9fa5]/;
-    const enPattern = /[a-zA-Z]/;
-    const htmlPattern = /<[^>]*>/;
-    const cssRegex = /(?:^|[^<])<style[^>]*>[\s\S]*?<\/style>(?:[^>]|$)/i;
-    const jsRegex = /(?:^|[^<])<script[^>]*>[\s\S]*?<\/script>(?:[^>]|$)/i;
+
     if (enable_webview_localization_capture) {
+        const cnPattern = /[\u4e00-\u9fa5]/;
+        const enPattern = /[a-zA-Z]/;
+        const htmlPattern = /<[^>]*>/;
+        const cssRegex = /(?:^|[^<])<style[^>]*>[\s\S]*?<\/style>(?:[^>]|$)/i;
+        const jsRegex = /(?:^|[^<])<script[^>]*>[\s\S]*?<\/script>(?:[^>]|$)/i;
         if (k.trim() !== "" && !cnPattern.test(k) && !htmlPattern.test(k) && !cssRegex.test(k) && !jsRegex.test(k)
             && enPattern.test(k) && !k.startsWith("http://") && !k.startsWith("https://")) {
             window.chrome.webview.postMessage({action: 'webview_localization_capture', key: k, value: v});
