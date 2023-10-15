@@ -162,7 +162,8 @@ class LocalizationUIModel extends BaseUIModel {
     if (!await cfgFile.exists()) return false;
     final str = (await cfgFile.readAsString()).replaceAll(" ", "");
     return str.contains("sys_languages=$lang") &&
-        str.contains("g_language=$lang");
+        str.contains("g_language=$lang") &&
+        str.contains("g_languageAudio=english");
   }
 
   Future<String> getInstalledIniVersion() async {
@@ -228,10 +229,12 @@ class LocalizationUIModel extends BaseUIModel {
     if (enable) {
       if (exists) {
         for (var value in str) {
-          if (value.contains("sys_languages=")) {
+          if (value.contains("sys_languages")) {
             value = "sys_languages=$selectedLanguage";
           } else if (value.contains("g_language")) {
             value = "g_language=$selectedLanguage";
+          } else if (value.contains("g_languageAudio")) {
+            value = "g_language=english";
           }
           if (value.trim().isNotEmpty) newStr.writeln(value);
         }
@@ -241,6 +244,9 @@ class LocalizationUIModel extends BaseUIModel {
       }
       if (!newStr.toString().contains("g_language=$selectedLanguage")) {
         newStr.writeln("g_language=$selectedLanguage");
+      }
+      if (!newStr.toString().contains("g_languageAudio")) {
+        newStr.writeln("g_languageAudio=english");
       }
     } else {
       if (exists) {
