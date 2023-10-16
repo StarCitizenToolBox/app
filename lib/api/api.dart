@@ -39,6 +39,12 @@ class Api {
     return l;
   }
 
+  static Future<List> getScServerStatus() async {
+    final r =
+        await dio.get("https://status.robertsspaceindustries.com/index.json");
+    return r.data["systems"];
+  }
+
   static Future<Map<String, dynamic>> getRepoJson(
       String dir, String name) async {
     final data = await getRepoData(dir, name);

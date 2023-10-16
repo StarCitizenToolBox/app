@@ -230,26 +230,6 @@
     "group": "图形（修改后建议清理着色器）"
   },
   {
-    "key": "r_HDRDisplayMaxNits",
-    "name": "HDR 最高亮度",
-    "info": "推荐设置为您显示器的最高亮度",
-    "type": "int",
-    "max": 2000,
-    "min": 300,
-    "value": 1000,
-    "group": "HDR设置 （在游戏设置启用HDR ）"
-  },
-  {
-    "key": "r_HDRDisplayRefWhite",
-    "name": "HDR 白点亮度",
-    "info": "调整画面明暗细节对比度",
-    "type": "int",
-    "max": 2000,
-    "min": 1,
-    "value": 150,
-    "group": "HDR设置 （在游戏设置启用HDR ）"
-  },
-  {
     "key": "r_displayinfo",
     "name": "屏幕信息（展示帧率）",
     "info": "在屏幕右上角展示帧率，服务器信息等",

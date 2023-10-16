@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -46,6 +47,18 @@ class HomeUIModel extends BaseUIModel {
 
   AppPlacardData? appPlacardData;
 
+  List? scServerStatus;
+
+  Timer? serverUpdateTimer;
+
+  final statusCnName = const {
+    "Platform": "平台",
+    "Persistent Universe": "持续宇宙",
+    "Electronic Access": "电子访问",
+  };
+
+  bool isRsiLauncherStarting = false;
+
   @override
   Future loadData() async {
     if (AppConf.networkVersionData == null) return;
@@ -53,19 +66,36 @@ class HomeUIModel extends BaseUIModel {
       final r = await Api.getAppPlacard();
       final box = await Hive.openBox("app_conf");
       final version = box.get("close_placard", defaultValue: "");
-      if (r.enable != true) return;
-      if (r.alwaysShow != true && version == r.version) return;
-      appPlacardData = r;
-      notifyListeners();
+      if (r.enable == true) {
+        if (r.alwaysShow != true && version == r.version) {
+        } else {
+          appPlacardData = r;
+        }
+      }
     } catch (e) {
       dPrint(e);
     }
+    notifyListeners();
+    updateSCServerStatus();
   }
 
   @override
   void initModel() {
     reScanPath();
+    serverUpdateTimer = Timer.periodic(
+      const Duration(minutes: 1),
+      (timer) {
+        updateSCServerStatus();
+      },
+    );
     super.initModel();
+  }
+
+  @override
+  void dispose() {
+    serverUpdateTimer?.cancel();
+    serverUpdateTimer = null;
+    super.dispose();
   }
 
   Future<void> reScanPath() async {
@@ -88,6 +118,17 @@ class HomeUIModel extends BaseUIModel {
       lastScreenInfo = "解析 log 文件失败！";
       showToast(context!,
           "解析 log 文件失败！ \n请关闭游戏，退出RSI启动器后重试，若仍有问题，请使用工具箱中的 RSI Launcher log 修复。");
+    }
+  }
+
+  updateSCServerStatus() async {
+    try {
+      final s = await Api.getScServerStatus();
+      dPrint("updateSCServerStatus===$s");
+      scServerStatus = s;
+      notifyListeners();
+    } catch (e) {
+      dPrint(e);
     }
   }
 
@@ -405,6 +446,22 @@ class HomeUIModel extends BaseUIModel {
     }
 
     await webViewModel.launch(url);
+    notifyListeners();
+  }
+
+  launchRSI() async {
+    isRsiLauncherStarting = true;
+    notifyListeners();
+    final rsiLauncherInstalledPath = await SystemHelper.getRSILauncherPath();
+    if (rsiLauncherInstalledPath.isEmpty) {
+      isRsiLauncherStarting = false;
+      notifyListeners();
+      showToast(context!, "未找到 RSI 启动器目录");
+      return;
+    }
+    SystemHelper.checkAndLaunchRSILauncher(rsiLauncherInstalledPath);
+    await Future.delayed(const Duration(seconds: 3));
+    isRsiLauncherStarting = false;
     notifyListeners();
   }
 }
