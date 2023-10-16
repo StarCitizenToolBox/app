@@ -9,7 +9,7 @@ class UpgradeDialogUI extends BaseUI<UpgradeDialogUIModel> {
   Widget? buildBody(BuildContext context, UpgradeDialogUIModel model) {
     return Material(
       child: ContentDialog(
-        title: const Text("发现新版本"),
+        title: Text("发现新版本 -> ${model.targetVersion}"),
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55),
         content: Column(

@@ -7,6 +7,7 @@ import 'package:starcitizen_doctor/common/conf.dart';
 
 class UpgradeDialogUIModel extends BaseUIModel {
   String? description;
+  String targetVersion = "";
   String downloadUrl = "";
 
   bool isUpgrading = false;
@@ -17,6 +18,7 @@ class UpgradeDialogUIModel extends BaseUIModel {
   Future loadData() async {
     // get download url for gitlab release
     try {
+      targetVersion = AppConf.networkVersionData!.lastVersion!;
       final r = await Api.getAppReleaseDataByVersionName(
           AppConf.networkVersionData!.lastVersion!);
       description = r["description"];
