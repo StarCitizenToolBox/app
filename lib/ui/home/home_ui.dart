@@ -237,13 +237,15 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                             item["status"] == "ok"
                                                 ? FontAwesomeIcons.circleCheck
                                                 : FluentIcons.error,
-                                            color: item["status"] == "ok"
+                                            color: (item["status"] ==
+                                                        "operational" ||
+                                                    item["status"] == "ok")
                                                 ? Colors.green
                                                 : Colors.red,
-                                            size: 20,
+                                            size: 18,
                                           ),
                                         ),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: 3),
                                         Text(
                                           "${model.statusCnName[item["name"]] ?? item["name"]}",
                                           style: const TextStyle(fontSize: 13),

@@ -55,6 +55,7 @@ class HomeUIModel extends BaseUIModel {
     "Platform": "平台",
     "Persistent Universe": "持续宇宙",
     "Electronic Access": "电子访问",
+    "Arena Commander": "竞技场指挥官"
   };
 
   bool isRsiLauncherStarting = false;
