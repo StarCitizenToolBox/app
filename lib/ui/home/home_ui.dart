@@ -232,17 +232,17 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                   for (final item in model.scServerStatus ?? [])
                                     Row(
                                       children: [
-                                        Center(
-                                          child: Icon(
-                                            item["status"] == "ok"
-                                                ? FontAwesomeIcons.circleCheck
-                                                : FluentIcons.error,
-                                            color: (item["status"] ==
-                                                        "operational" ||
-                                                    item["status"] == "ok")
-                                                ? Colors.green
-                                                : Colors.red,
-                                            size: 18,
+                                        SizedBox(
+                                          height: 14,
+                                          child: Center(
+                                            child: Icon(
+                                              FontAwesomeIcons.solidCircle,
+                                              color:
+                                                  model.isRSIServerStatusOK(item)
+                                                      ? Colors.green
+                                                      : Colors.red,
+                                              size: 12,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(width: 3),

@@ -465,4 +465,8 @@ class HomeUIModel extends BaseUIModel {
     isRsiLauncherStarting = false;
     notifyListeners();
   }
+
+  bool isRSIServerStatusOK(Map map) {
+    return (map["status"] == "ok" || map["status"] == "operational");
+  }
 }
