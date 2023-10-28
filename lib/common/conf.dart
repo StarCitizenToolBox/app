@@ -35,8 +35,10 @@ class AppConf {
     WidgetsFlutterBinding.ensureInitialized();
 
     /// init device info
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    windowsDeviceInfo = await deviceInfo.windowsInfo;
+    try {
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      windowsDeviceInfo = await deviceInfo.windowsInfo;
+    }catch (_){}
 
     /// init Data
     applicationSupportDir =
@@ -85,7 +87,8 @@ class AppConf {
     try {
       networkVersionData = await Api.getAppVersion();
       dPrint(
-          "lastVersion=${networkVersionData?.lastVersion}  ${networkVersionData?.lastVersionCode}");
+          "lastVersion=${networkVersionData?.lastVersion}  ${networkVersionData
+              ?.lastVersionCode}");
     } catch (e) {
       dPrint("_checkUpdate Error:$e");
     }

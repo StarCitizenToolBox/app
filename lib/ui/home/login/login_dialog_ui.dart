@@ -32,7 +32,7 @@ class LoginDialog extends BaseUI<LoginDialogModel> {
               Text("请输入RSI账户 [${model.nickname}] 的邮箱，以保存登录状态（输入错误会导致无法进入游戏！）"),
               const SizedBox(height: 12),
               TextFormBox(
-                controller: model.emailCtrl,
+                // controller: model.emailCtrl,
               ),
               const SizedBox(height: 6),
               Text(
@@ -79,24 +79,24 @@ class LoginDialog extends BaseUI<LoginDialogModel> {
           ],
         ),
       ),
-      actions: [
-        if (model.loginStatus == 1) ...[
-          Button(
-              child: const Padding(
-                padding: EdgeInsets.all(4),
-                child: Text("取消"),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          const SizedBox(width: 80),
-          FilledButton(
-              child: const Padding(
-                padding: EdgeInsets.all(4),
-                child: Text("保存"),
-              ),
-              onPressed: () => model.onSaveEmail()),
-        ],
+      actions: const [
+        // if (model.loginStatus == 1) ...[
+        //   Button(
+        //       child: const Padding(
+        //         padding: EdgeInsets.all(4),
+        //         child: Text("取消"),
+        //       ),
+        //       onPressed: () {
+        //         Navigator.pop(context);
+        //       }),
+        //   const SizedBox(width: 80),
+        //   FilledButton(
+        //       child: const Padding(
+        //         padding: EdgeInsets.all(4),
+        //         child: Text("保存"),
+        //       ),
+        //       onPressed: () => model.onSaveEmail()),
+        // ],
       ],
     );
   }

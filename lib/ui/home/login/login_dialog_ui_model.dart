@@ -23,7 +23,7 @@ class LoginDialogModel extends BaseUIModel {
 
   final HomeUIModel homeUIModel;
 
-  TextEditingController emailCtrl = TextEditingController();
+  // TextEditingController emailCtrl = TextEditingController();
 
   LoginDialogModel(this.installPath, this.homeUIModel);
 
@@ -42,7 +42,7 @@ class LoginDialogModel extends BaseUIModel {
         Navigator.pop(context!);
         return;
       }
-      final emailBox = await Hive.openBox("quick_login_email");
+      // final emailBox = await Hive.openBox("quick_login_email");
       final data = message["data"];
       authToken = data["authToken"];
       webToken = data["webToken"];
@@ -53,13 +53,7 @@ class LoginDialogModel extends BaseUIModel {
           .replaceAll("\")", "");
       Map<String, dynamic> payload = Jwt.parseJwt(authToken!);
       nickname = payload["nickname"] ?? "";
-      if (emailBox.get(nickname, defaultValue: "") == "") {
-        loginStatus = 1;
-        notifyListeners();
-      } else {
-        emailCtrl.text = emailBox.get(nickname, defaultValue: "");
-        _readyForLaunch();
-      }
+      _readyForLaunch();
     }, useLocalization: true);
   }
 
@@ -114,23 +108,23 @@ class LoginDialogModel extends BaseUIModel {
     notifyListeners();
   }
 
-  onSaveEmail() async {
-    final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
-    if (!emailRegex.hasMatch(emailCtrl.text.trim())) {
-      showToast(context!, "邮箱输入有误！");
-      return;
-    }
-    final emailBox = await Hive.openBox("quick_login_email");
-    await emailBox.put(nickname, emailCtrl.text.trim());
-    _readyForLaunch();
-    notifyListeners();
-  }
+  // onSaveEmail() async {
+  //   final RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+  //   if (!emailRegex.hasMatch(emailCtrl.text.trim())) {
+  //     showToast(context!, "邮箱输入有误！");
+  //     return;
+  //   }
+  //   final emailBox = await Hive.openBox("quick_login_email");
+  //   await emailBox.put(nickname, emailCtrl.text.trim());
+  //   _readyForLaunch();
+  //   notifyListeners();
+  // }
 
   Future<void> _readyForLaunch() async {
     loginStatus = 2;
     notifyListeners();
     final launchData = {
-      "username": emailCtrl.text.trim(),
+      "username": "",
       "token": webToken,
       "auth_token": authToken,
       "star_network": {
