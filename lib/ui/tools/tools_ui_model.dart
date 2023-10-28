@@ -183,7 +183,7 @@ class ToolsUIModel extends BaseUIModel {
         return;
       }
       scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
-          checkExists: false, withVersion: ["LIVE", "PTU", "EVO"]);
+          checkExists: false, withVersion: ["LIVE", "PTU", "EPTU"]);
       if (scInstallPaths.isNotEmpty) {
         scInstalledPath = scInstallPaths.first;
       }
