@@ -81,6 +81,8 @@ class HomeUIModel extends BaseUIModel {
           appPlacardData = r;
         }
       }
+      updateSCServerStatus();
+      notifyListeners();
       appWebLocalizationVersionsData = AppWebLocalizationVersionsData.fromJson(
           (await Api.dio.get("${AppConf.webTranslateHomeUrl}/versions.json",
                   options: Options(responseType: ResponseType.json)))
@@ -89,7 +91,6 @@ class HomeUIModel extends BaseUIModel {
       dPrint(e);
     }
     notifyListeners();
-    updateSCServerStatus();
   }
 
   @override
@@ -449,7 +450,6 @@ class HomeUIModel extends BaseUIModel {
       isFixingString = "";
       isFixing = false;
     }
-
     await webViewModel.initWebView(
       title: title,
     );
@@ -467,6 +467,7 @@ class HomeUIModel extends BaseUIModel {
       });
     }
 
+    await Future.delayed(const Duration(milliseconds: 500));
     await webViewModel.launch(url);
     notifyListeners();
   }

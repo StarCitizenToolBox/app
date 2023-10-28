@@ -129,6 +129,7 @@ class LoginDialogModel extends BaseUIModel {
             .initLocalization(homeUIModel.appWebLocalizationVersionsData!);
       } catch (_) {}
     }
+    await Future.delayed(const Duration(milliseconds: 500));
     await webViewModel.initWebView(
       title: title,
     );
