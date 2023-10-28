@@ -1,5 +1,3 @@
-/// https://github.com/CxJuice/Uex_Chinese_Translate
-
 /// ------- WebLocalization Script --------------
 let SCLocalizationReplaceLocalesMap = {};
 let enable_webview_localization_capture = false;
@@ -220,7 +218,7 @@ InitWebLocalization();
 
 
 /// ----- Login Script ----
-async function getRSILauncherToken() {
+async function getRSILauncherToken(channelId) {
     // check login
     let r = await fetch("api/launcher/v3/account/check", {
         method: 'POST', headers: {
@@ -253,12 +251,12 @@ async function getRSILauncherToken() {
     });
 
     if (tokenR.status !== 200) return;
-    let TokenData = (await tokenR.json())["data"];
+    let TokenData = (await tokenR.json())["data"]["token"];
     console.log(TokenData);
 
     // get release Data
     let releaseFormData = new FormData();
-    releaseFormData.append("channelId", "LIVE");
+    releaseFormData.append("channelId", channelId);
     releaseFormData.append("claims", claimsData);
     releaseFormData.append("gameId", "SC");
     releaseFormData.append("platformId", "prod");
@@ -271,6 +269,9 @@ async function getRSILauncherToken() {
     if (releaseR.status !== 200) return;
     let releaseDataJson = (await releaseR.json())['data'];
     console.log(releaseDataJson);
+    // get user avatar
+    let $avatarElement = $(".c-account-sidebar__profile-metas-avatar");
+    let avatarUrl = $avatarElement.css("background-image");
 
     // post message
     window.chrome.webview.postMessage({
@@ -278,7 +279,8 @@ async function getRSILauncherToken() {
             'webToken': $.cookie('Rsi-Token'),
             'claims': claimsData,
             'authToken': TokenData,
-            'releaseInfo': releaseDataJson
+            'releaseInfo': releaseDataJson,
+            "avatar": avatarUrl
         }
     });
 }

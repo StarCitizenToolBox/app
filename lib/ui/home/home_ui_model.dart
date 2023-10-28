@@ -13,6 +13,8 @@ import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/md_content_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/md_content_dialog_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
+import 'package:starcitizen_doctor/ui/home/login/login_dialog_ui.dart';
+import 'package:starcitizen_doctor/ui/home/login/login_dialog_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/performance/performance_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/webview/webview.dart';
 import 'package:starcitizen_doctor/ui/home/webview/webview_localization_capture_ui_model.dart';
@@ -36,6 +38,10 @@ class HomeUIModel extends BaseUIModel {
   bool isFixing = false;
   String isFixingString = "";
 
+  final Map<String, bool> _isGameRunning = {};
+
+  bool get isCurGameRunning => _isGameRunning[scInstalledPath] ?? false;
+
   set lastScreenInfo(String info) {
     _lastScreenInfo = info;
     notifyListeners();
@@ -57,8 +63,6 @@ class HomeUIModel extends BaseUIModel {
     "Electronic Access": "电子访问",
     "Arena Commander": "竞技场指挥官"
   };
-
-  bool isRsiLauncherStarting = false;
 
   @override
   Future loadData() async {
@@ -110,7 +114,7 @@ class HomeUIModel extends BaseUIModel {
         return;
       }
       scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
-          withVersion: ["LIVE", "PTU", "EPTU"], checkExists: true);
+          withVersion: ["LIVE", "PTU", "EVO"], checkExists: true);
       if (scInstallPaths.isNotEmpty) {
         scInstalledPath = scInstallPaths.first;
       }
@@ -402,8 +406,8 @@ class HomeUIModel extends BaseUIModel {
             context!,
             "星际公民官网汉化",
             const Text(
-              "\n\n\n本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！"
-              "\n\n\n使用此功能登录账号时请确保您的 StarCitizenDoctor 是从可信任的来源下载。",
+              "本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！"
+              "\n\n\n使用此功能登录账号时请确保您的 星际公民盒子 是从可信任的来源下载。",
               style: TextStyle(fontSize: 16),
             ),
             constraints: BoxConstraints(
@@ -460,25 +464,39 @@ class HomeUIModel extends BaseUIModel {
   }
 
   launchRSI() async {
-    isRsiLauncherStarting = true;
-    notifyListeners();
-    // final rsiLauncherInstalledPath = await SystemHelper.getRSILauncherPath();
-    // if (rsiLauncherInstalledPath.isEmpty) {
-    //   isRsiLauncherStarting = false;
-    //   notifyListeners();
-    //   showToast(context!, "未找到 RSI 启动器目录");
-    //   return;
-    // }
-    // SystemHelper.checkAndLaunchRSILauncher(rsiLauncherInstalledPath);
-    goWebView("登录 RSI 账户", "https://robertsspaceindustries.com/connect",
-        loginMode: true, rsiLoginCallback: (data, ok) {
-      dPrint("======rsiLoginCallback=== $ok =====\n$data}");
-      isRsiLauncherStarting = false;
-      notifyListeners();
-    }, useLocalization: true);
+    if (scInstalledPath == "not_install") {
+      showToast(context!, "该功能需要一个有效的安装位置");
+      return;
+    }
+    if (isCurGameRunning) {
+      await Process.run("powershell.exe", ["ps \"StarCitizen\" | kill"]);
+      return;
+    }
+    showDialog(
+        context: context!,
+        dismissWithEsc: false,
+        builder: (context) {
+          return BaseUIContainer(
+              uiCreate: () => LoginDialog(),
+              modelCreate: () => LoginDialogModel(scInstalledPath, this));
+        });
   }
 
   bool isRSIServerStatusOK(Map map) {
     return (map["status"] == "ok" || map["status"] == "operational");
+  }
+
+  doLaunchGame(String launchExe, List<String> args, String installPath) async {
+    _isGameRunning[installPath] = true;
+    notifyListeners();
+    try {
+      await Process.run(launchExe, args);
+      final launchFile = File("$installPath\\loginData.json");
+      if (await launchFile.exists()) {
+        await launchFile.delete();
+      }
+    } catch (_) {}
+    _isGameRunning[installPath] = false;
+    notifyListeners();
   }
 }

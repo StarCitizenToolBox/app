@@ -23,7 +23,8 @@ class WebViewModel {
 
   bool get isClosed => _isClosed;
 
-  WebViewModel(this.context, {this.loginMode = false, this.loginCallback});
+  WebViewModel(this.context,
+      {this.loginMode = false, this.loginCallback, this.loginChannel = "LIVE"});
 
   String url = "";
   bool canGoBack = false;
@@ -39,6 +40,7 @@ class WebViewModel {
   Map<String, String>? get curReplaceWords => _curReplaceWords;
 
   final bool loginMode;
+  final String loginChannel;
 
   bool _loginModeSuccess = false;
 
@@ -56,7 +58,6 @@ class WebViewModel {
       if (loginMode) {
         await webview.setWebviewWindowVisibility(false);
       }
-
       // webview.openDevToolsWindow();
       webview.isNavigating.addListener(() async {
         if (!webview.isNavigating.value && localizationResource.isNotEmpty) {
@@ -117,10 +118,14 @@ class WebViewModel {
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(
                 "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
+
+            /// loginMode
             if (loginMode) {
-              dPrint("--- do rsi login ---");
+              dPrint(
+                  "--- do rsi login ---\n run === getRSILauncherToken(\"$loginChannel\");");
               await Future.delayed(const Duration(milliseconds: 200));
-              webview.evaluateJavaScript("getRSILauncherToken();");
+              webview.evaluateJavaScript(
+                  "getRSILauncherToken(\"$loginChannel\");");
             }
           } else if (uri.host.contains("www.erkul.games") ||
               uri.host.contains("uexcorp.space") ||
@@ -163,8 +168,7 @@ class WebViewModel {
   }
 
   initLocalization() async {
-    localizationScript =
-        await rootBundle.loadString('assets/localization_web_script.js');
+    localizationScript = await rootBundle.loadString('assets/web_script.js');
 
     /// https://github.com/CxJuice/Uex_Chinese_Translate
     // get versions
@@ -172,6 +176,7 @@ class WebViewModel {
 
     final v = AppWebLocalizationVersionsData.fromJson(
         await _getJson("$hostUrl/versions.json"));
+
     dPrint("AppWebLocalizationVersionsData === ${v.toJson()}");
 
     localizationResource["zh-CN"] = await _getJson("$hostUrl/zh-CN-rsi.json",

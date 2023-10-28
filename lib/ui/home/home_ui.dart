@@ -237,10 +237,10 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                           child: Center(
                                             child: Icon(
                                               FontAwesomeIcons.solidCircle,
-                                              color:
-                                                  model.isRSIServerStatusOK(item)
-                                                      ? Colors.green
-                                                      : Colors.red,
+                                              color: model
+                                                      .isRSIServerStatusOK(item)
+                                                  ? Colors.green
+                                                  : Colors.red,
                                               size: 12,
                                             ),
                                           ),
@@ -296,14 +296,14 @@ class HomeUI extends BaseUI<HomeUIModel> {
             const SizedBox(width: 12),
             AnimatedSize(
               duration: const Duration(milliseconds: 130),
-              child: model.isRsiLauncherStarting
-                  ? makeLoading(context, width: 28)
-                  : Button(
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(FluentIcons.play),
-                      ),
-                      onPressed: () => model.launchRSI()),
+              child: Button(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(model.isCurGameRunning
+                        ? FluentIcons.stop_solid
+                        : FluentIcons.play),
+                  ),
+                  onPressed: () => model.launchRSI()),
             ),
             const SizedBox(width: 12),
             Button(
