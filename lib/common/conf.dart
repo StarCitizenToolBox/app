@@ -23,6 +23,8 @@ class AppConf {
       "https://jihulab.com/StarCitizenCN_Community/api/-/raw/main/";
   static const String gitlabApiPath = "https://jihulab.com/api/v4/";
 
+  static const String webTranslateHomeUrl= "https://ch.citizenwiki.cn/json-files/locales";
+
   static late final String applicationSupportDir;
 
   static AppVersionData? networkVersionData;

@@ -167,16 +167,12 @@ class WebViewModel {
     webview.launch(url);
   }
 
-  initLocalization() async {
+  initLocalization(AppWebLocalizationVersionsData v) async {
     localizationScript = await rootBundle.loadString('assets/web_script.js');
 
     /// https://github.com/CxJuice/Uex_Chinese_Translate
     // get versions
-    const hostUrl = "https://ch.citizenwiki.cn/json-files/locales";
-
-    final v = AppWebLocalizationVersionsData.fromJson(
-        await _getJson("$hostUrl/versions.json"));
-
+    const hostUrl = AppConf.webTranslateHomeUrl;
     dPrint("AppWebLocalizationVersionsData === ${v.toJson()}");
 
     localizationResource["zh-CN"] = await _getJson("$hostUrl/zh-CN-rsi.json",

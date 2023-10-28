@@ -83,107 +83,123 @@ class HomeUI extends BaseUI<HomeUIModel> {
           Positioned(
             top: 0,
             right: 24,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: FluentTheme.of(context).cardColor.withOpacity(.03),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    makeWebViewButton(model,
-                        icon: SvgPicture.asset(
-                          "assets/rsi.svg",
-                          colorFilter: makeSvgColor(Colors.white),
-                          height: 18,
-                        ),
-                        name: "星际公民官网汉化",
-                        webTitle: "星际公民官网汉化",
-                        webURL: "https://robertsspaceindustries.com",
-                        info: "罗伯茨航天工业公司，万物的起源",
-                        useLocalization: true,
-                        width: width),
-                    const SizedBox(height: 12),
-                    makeWebViewButton(model,
-                        icon: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/uex.svg",
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: FluentTheme.of(context).cardColor.withOpacity(.03),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        makeWebViewButton(model,
+                            icon: SvgPicture.asset(
+                              "assets/rsi.svg",
+                              colorFilter: makeSvgColor(Colors.white),
                               height: 18,
                             ),
-                            const SizedBox(width: 12),
-                          ],
-                        ),
-                        name: "UEX 汉化",
-                        webTitle: "UEX 汉化",
-                        webURL: "https://uexcorp.space",
-                        info: "采矿、精炼、贸易计算器、价格、船信息",
-                        useLocalization: true,
-                        width: width),
-                    const SizedBox(height: 12),
-                    makeWebViewButton(model,
-                        icon: Row(
+                            name: "星际公民官网汉化",
+                            webTitle: "星际公民官网汉化",
+                            webURL: "https://robertsspaceindustries.com",
+                            info: "罗伯茨航天工业公司，万物的起源",
+                            useLocalization: true,
+                            width: width),
+                        const SizedBox(height: 12),
+                        makeWebViewButton(model,
+                            icon: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/uex.svg",
+                                  height: 18,
+                                ),
+                                const SizedBox(width: 12),
+                              ],
+                            ),
+                            name: "UEX 汉化",
+                            webTitle: "UEX 汉化",
+                            webURL: "https://uexcorp.space",
+                            info: "采矿、精炼、贸易计算器、价格、船信息",
+                            useLocalization: true,
+                            width: width),
+                        const SizedBox(height: 12),
+                        makeWebViewButton(model,
+                            icon: Row(
+                              children: [
+                                ExtendedImage.network(
+                                  "https://www.erkul.games/assets/icons/icon-512x512.png",
+                                  height: 20,
+                                ),
+                                const SizedBox(width: 12),
+                              ],
+                            ),
+                            name: "DPS计算器汉化",
+                            webTitle: "DPS计算器汉化",
+                            webURL: "https://www.erkul.games/live/calculator",
+                            info: "在线改船，查询伤害数值和配件购买地点",
+                            useLocalization: true,
+                            width: width),
+                        const SizedBox(height: 12),
+                        const Text("外部浏览器拓展："),
+                        const SizedBox(height: 8),
+                        Row(
                           children: [
-                            ExtendedImage.network(
-                              "https://www.erkul.games/assets/icons/icon-512x512.png",
-                              height: 20,
+                            Button(
+                              child: const FaIcon(FontAwesomeIcons.chrome,
+                                  size: 18),
+                              onPressed: () {
+                                launchUrlString(
+                                    "https://chrome.google.com/webstore/detail/gocnjckojmledijgmadmacoikibcggja?authuser=0&hl=zh-CN");
+                              },
                             ),
                             const SizedBox(width: 12),
+                            Button(
+                              child:
+                                  const FaIcon(FontAwesomeIcons.edge, size: 18),
+                              onPressed: () {
+                                launchUrlString(
+                                    "https://microsoftedge.microsoft.com/addons/detail/lipbbcckldklpdcpfagicipecaacikgi");
+                              },
+                            ),
+                            const SizedBox(width: 12),
+                            Button(
+                              child: const FaIcon(
+                                  FontAwesomeIcons.firefoxBrowser,
+                                  size: 18),
+                              onPressed: () {
+                                launchUrlString(
+                                    "https://addons.mozilla.org/zh-CN/firefox/"
+                                    "addon/%E6%98%9F%E9%99%85%E5%85%AC%E6%B0%91%E7%9B%92%E5%AD%90%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8B%93%E5%B1%95/");
+                              },
+                            ),
+                            const SizedBox(width: 12),
+                            Button(
+                              child: const FaIcon(FontAwesomeIcons.github,
+                                  size: 18),
+                              onPressed: () {
+                                launchUrlString(
+                                    "https://github.com/xkeyC/StarCitizenBoxBrowserEx");
+                              },
+                            ),
                           ],
-                        ),
-                        name: "DPS计算器汉化",
-                        webTitle: "DPS计算器汉化",
-                        webURL: "https://www.erkul.games/live/calculator",
-                        info: "在线改船，查询伤害数值和配件购买地点",
-                        useLocalization: true,
-                        width: width),
-                    const SizedBox(height: 12),
-                    const Text("外部浏览器拓展："),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Button(
-                          child:
-                              const FaIcon(FontAwesomeIcons.chrome, size: 18),
-                          onPressed: () {
-                            launchUrlString(
-                                "https://chrome.google.com/webstore/detail/gocnjckojmledijgmadmacoikibcggja?authuser=0&hl=zh-CN");
-                          },
-                        ),
-                        const SizedBox(width: 12),
-                        Button(
-                          child: const FaIcon(FontAwesomeIcons.edge, size: 18),
-                          onPressed: () {
-                            launchUrlString(
-                                "https://microsoftedge.microsoft.com/addons/detail/lipbbcckldklpdcpfagicipecaacikgi");
-                          },
-                        ),
-                        const SizedBox(width: 12),
-                        Button(
-                          child: const FaIcon(FontAwesomeIcons.firefoxBrowser,
-                              size: 18),
-                          onPressed: () {
-                            launchUrlString(
-                                "https://addons.mozilla.org/zh-CN/firefox/"
-                                "addon/%E6%98%9F%E9%99%85%E5%85%AC%E6%B0%91%E7%9B%92%E5%AD%90%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8B%93%E5%B1%95/");
-                          },
-                        ),
-                        const SizedBox(width: 12),
-                        Button(
-                          child:
-                              const FaIcon(FontAwesomeIcons.github, size: 18),
-                          onPressed: () {
-                            launchUrlString(
-                                "https://github.com/xkeyC/StarCitizenBoxBrowserEx");
-                          },
-                        ),
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
-              ),
+                if (model.appWebLocalizationVersionsData == null)
+                  Positioned.fill(
+                      child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(.3),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: const Center(
+                      child: ProgressRing(),
+                    ),
+                  ))
+              ],
             ),
           ),
           Positioned(
@@ -297,13 +313,20 @@ class HomeUI extends BaseUI<HomeUIModel> {
             AnimatedSize(
               duration: const Duration(milliseconds: 130),
               child: Button(
+                  onPressed: model.appWebLocalizationVersionsData == null
+                      ? null
+                      : () => model.launchRSI(),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Icon(model.isCurGameRunning
-                        ? FluentIcons.stop_solid
-                        : FluentIcons.play),
-                  ),
-                  onPressed: () => model.launchRSI()),
+                    child: Icon(
+                      model.isCurGameRunning
+                          ? FluentIcons.stop_solid
+                          : FluentIcons.play,
+                      color: model.isCurGameRunning
+                          ? Colors.red.withOpacity(.8)
+                          : null,
+                    ),
+                  )),
             ),
             const SizedBox(width: 12),
             Button(

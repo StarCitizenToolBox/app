@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:desktop_webview_window/desktop_webview_window.dart';
+import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
@@ -10,6 +11,7 @@ import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
+import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/md_content_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/md_content_dialog_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
@@ -49,6 +51,8 @@ class HomeUIModel extends BaseUIModel {
 
   List<MapEntry<String, String>>? checkResult;
 
+  AppWebLocalizationVersionsData? appWebLocalizationVersionsData;
+
   final cnExp = RegExp(r"[^\x00-\xff]");
 
   AppPlacardData? appPlacardData;
@@ -77,6 +81,10 @@ class HomeUIModel extends BaseUIModel {
           appPlacardData = r;
         }
       }
+      appWebLocalizationVersionsData = AppWebLocalizationVersionsData.fromJson(
+          (await Api.dio.get("${AppConf.webTranslateHomeUrl}/versions.json",
+                  options: Options(responseType: ResponseType.json)))
+              .data);
     } catch (e) {
       dPrint(e);
     }
@@ -434,7 +442,7 @@ class HomeUIModel extends BaseUIModel {
       isFixing = true;
       notifyListeners();
       try {
-        await webViewModel.initLocalization();
+        await webViewModel.initLocalization(appWebLocalizationVersionsData!);
       } catch (e) {
         showToast(context!, "初始化网页汉化资源失败！$e");
       }

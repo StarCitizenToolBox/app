@@ -53,6 +53,33 @@ class LoginDialogModel extends BaseUIModel {
           .replaceAll("\")", "");
       Map<String, dynamic> payload = Jwt.parseJwt(authToken!);
       nickname = payload["nickname"] ?? "";
+      final buildInfoFile = File("$installPath\\build_manifest.id");
+      if (await buildInfoFile.exists()) {
+        final buildInfo =
+            json.decode(await buildInfoFile.readAsString())["Data"];
+        dPrint("buildInfo ======= $buildInfo");
+
+        if (releaseInfo?["versionLabel"] != null &&
+            buildInfo["RequestedP4ChangeNum"] != null) {
+          if (!(releaseInfo!["versionLabel"]!
+              .toString()
+              .endsWith(buildInfo["RequestedP4ChangeNum"]!.toString()))) {
+            final ok = await showConfirmDialogs(
+                context!,
+                "游戏版本过期",
+                Text(
+                    "RSI 服务器报告版本号：${releaseInfo?["versionLabel"]} \n\n本地版本号：${buildInfo["RequestedP4ChangeNum"]} \n\n建议使用 RSI Launcher 更新游戏！"),
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context!).size.width * .4),
+                cancel: "忽略");
+            if (ok == true) {
+              Navigator.pop(context!);
+              return;
+            }
+          }
+        }
+      }
+
       _readyForLaunch();
     }, useLocalization: true);
   }
@@ -98,7 +125,8 @@ class LoginDialogModel extends BaseUIModel {
         loginChannel: getChannelID());
     if (useLocalization) {
       try {
-        await webViewModel.initLocalization();
+        await webViewModel
+            .initLocalization(homeUIModel.appWebLocalizationVersionsData!);
       } catch (_) {}
     }
     await webViewModel.initWebView(
