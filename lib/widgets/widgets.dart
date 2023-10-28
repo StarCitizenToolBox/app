@@ -60,45 +60,45 @@ fastPadding(
 }
 
 List<Widget> makeMarkdownView(String description) {
-  return MarkdownGenerator(
+  return MarkdownGenerator().buildWidgets(description,
       config: MarkdownConfig(configs: [
-    LinkConfig(onTap: (url) {
-      if (url.startsWith("/")) {
-        url = "${AppConf.gitlabHomeUrl}/$url";
-      }
-      launchUrlString(url);
-    }),
-    ImgConfig(builder: (String url, Map<String, String> attributes) {
-      return ExtendedImage.network(
-        url,
-        loadStateChanged: (ExtendedImageState state) {
-          switch (state.extendedImageLoadState) {
-            case LoadState.loading:
-              return const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      ProgressRing(),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Text("加载图片...")
-                    ],
-                  ),
-                ),
-              );
-            case LoadState.completed:
-              return ExtendedRawImage(
-                image: state.extendedImageInfo?.image,
-              );
-            case LoadState.failed:
-              return const Text("Loading Image error");
+        LinkConfig(onTap: (url) {
+          if (url.startsWith("/")) {
+            url = "${AppConf.gitlabHomeUrl}/$url";
           }
-        },
-      );
-    })
-  ])).buildWidgets(description);
+          launchUrlString(url);
+        }),
+        ImgConfig(builder: (String url, Map<String, String> attributes) {
+          return ExtendedImage.network(
+            url,
+            loadStateChanged: (ExtendedImageState state) {
+              switch (state.extendedImageLoadState) {
+                case LoadState.loading:
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          ProgressRing(),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text("加载图片...")
+                        ],
+                      ),
+                    ),
+                  );
+                case LoadState.completed:
+                  return ExtendedRawImage(
+                    image: state.extendedImageInfo?.image,
+                  );
+                case LoadState.failed:
+                  return const Text("Loading Image error");
+              }
+            },
+          );
+        })
+      ]));
 }
 
 class NoScrollBehavior extends ScrollBehavior {

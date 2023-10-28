@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:desktop_webview_window/desktop_webview_window.dart';
@@ -12,6 +13,8 @@ import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart'
 import '../../../api/api.dart';
 import '../../../base/ui.dart';
 
+typedef RsiLoginCallback = void Function(Map? data, bool success);
+
 class WebViewModel {
   late Webview webview;
   final BuildContext context;
@@ -20,7 +23,7 @@ class WebViewModel {
 
   bool get isClosed => _isClosed;
 
-  WebViewModel(this.context);
+  WebViewModel(this.context, {this.loginMode = false, this.loginCallback});
 
   String url = "";
   bool canGoBack = false;
@@ -35,19 +38,27 @@ class WebViewModel {
 
   Map<String, String>? get curReplaceWords => _curReplaceWords;
 
+  final bool loginMode;
+
+  bool _loginModeSuccess = false;
+
+  final RsiLoginCallback? loginCallback;
+
   initWebView({String title = ""}) async {
     try {
       webview = await WebviewWindow.create(
           configuration: CreateConfiguration(
-              windowWidth: 1920,
-              windowHeight: 1080,
+              windowWidth: loginMode ? 960 : 1920,
+              windowHeight: loginMode ? 720 : 1080,
               userDataFolderWindows:
                   "${AppConf.applicationSupportDir}/webview_data",
               title: title));
+
       // webview.openDevToolsWindow();
       webview.isNavigating.addListener(() async {
         if (!webview.isNavigating.value && localizationResource.isNotEmpty) {
           final uri = Uri.parse(url);
+          dPrint("webview Navigating uri === $uri");
           if (uri.host.contains("robertsspaceindustries.com")) {
             // SC 官网
             dPrint("load script");
@@ -103,6 +114,11 @@ class WebViewModel {
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(
                 "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
+            if (loginMode) {
+              dPrint("--- do rsi login ---");
+              await Future.delayed(const Duration(milliseconds: 200));
+              webview.evaluateJavaScript("getRSILauncherToken();");
+            }
           } else if (uri.host.contains("www.erkul.games") ||
               uri.host.contains("uexcorp.space") ||
               uri.host.contains("ccugame.app")) {
@@ -121,9 +137,17 @@ class WebViewModel {
         dPrint("OnUrlRequestCallback === $url");
         this.url = url;
       });
-      webview.onClose.whenComplete(() {
-        _isClosed = true;
-      });
+      webview.onClose.whenComplete(dispose);
+      if (loginMode) {
+        webview.addOnWebMessageReceivedCallback((messageString) {
+          final message = json.decode(messageString);
+          if (message["action"] == "webview_rsi_login_success") {
+            _loginModeSuccess = true;
+            loginCallback?.call(message, true);
+            webview.close();
+          }
+        });
+      }
     } catch (e) {
       showToast(context, "初始化失败：$e");
     }
@@ -210,5 +234,12 @@ class WebViewModel {
   void removeOnWebMessageReceivedCallback(
       OnWebMessageReceivedCallback callback) {
     webview.removeOnWebMessageReceivedCallback(callback);
+  }
+
+  FutureOr<void> dispose() {
+    if (loginMode && !_loginModeSuccess) {
+      loginCallback?.call(null, false);
+    }
+    _isClosed = true;
   }
 }

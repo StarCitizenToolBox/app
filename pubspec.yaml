@@ -44,7 +44,7 @@ dependencies:
   markdown_widget: ^2.2.0
   extended_image: ^8.1.1
   device_info_plus: ^9.0.3
-  file_picker: ^5.5.0
+  file_picker: ^6.0.0
   file_sizes: ^1.0.6
   desktop_webview_window: ^0.2.3
   flutter_svg: ^2.0.7
@@ -59,7 +59,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

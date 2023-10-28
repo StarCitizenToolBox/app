@@ -388,9 +388,12 @@ class HomeUIModel extends BaseUIModel {
     notifyListeners();
   }
 
-  goWebView(String title, String url, {bool useLocalization = false}) async {
+  goWebView(String title, String url,
+      {bool useLocalization = false,
+      bool loginMode = false,
+      RsiLoginCallback? rsiLoginCallback}) async {
     if (useLocalization) {
-      const tipVersion = 1;
+      const tipVersion = 2;
       final box = await Hive.openBox("app_conf");
       final skip =
           await box.get("skip_web_localization_tip_version", defaultValue: 0);
@@ -399,15 +402,18 @@ class HomeUIModel extends BaseUIModel {
             context!,
             "星际公民官网汉化",
             const Text(
-              "该汉化功能移植自星际公民汉化组的 Tampermonkey 浏览器插件（https://greasyfork.org/zh-CN/scripts/459084），文本内容由星际公民汉化组进行更新。"
-              "\n\n移植后的脚本源代码随 StarCitizenDoctor 项目一起分发（https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor）。"
               "\n\n\n本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！"
               "\n\n\n使用此功能登录账号时请确保您的 StarCitizenDoctor 是从可信任的来源下载。",
               style: TextStyle(fontSize: 16),
             ),
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context!).size.width * .6));
-        if (!ok) return;
+        if (!ok) {
+          if (loginMode) {
+            rsiLoginCallback?.call(null, false);
+          }
+          return;
+        }
         await box.put("skip_web_localization_tip_version", tipVersion);
       }
     }
@@ -417,7 +423,8 @@ class HomeUIModel extends BaseUIModel {
           "https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
       return;
     }
-    final webViewModel = WebViewModel(context!);
+    final webViewModel = WebViewModel(context!,
+        loginMode: loginMode, loginCallback: rsiLoginCallback);
     if (useLocalization) {
       isFixingString = "正在初始化汉化资源...";
       isFixing = true;
@@ -431,7 +438,9 @@ class HomeUIModel extends BaseUIModel {
       isFixing = false;
     }
 
-    await webViewModel.initWebView(title: title);
+    await webViewModel.initWebView(
+      title: title,
+    );
     if (await File(
             "${AppConf.applicationSupportDir}\\webview_data\\enable_webview_localization_capture")
         .exists()) {
@@ -453,17 +462,19 @@ class HomeUIModel extends BaseUIModel {
   launchRSI() async {
     isRsiLauncherStarting = true;
     notifyListeners();
-    final rsiLauncherInstalledPath = await SystemHelper.getRSILauncherPath();
-    if (rsiLauncherInstalledPath.isEmpty) {
+    // final rsiLauncherInstalledPath = await SystemHelper.getRSILauncherPath();
+    // if (rsiLauncherInstalledPath.isEmpty) {
+    //   isRsiLauncherStarting = false;
+    //   notifyListeners();
+    //   showToast(context!, "未找到 RSI 启动器目录");
+    //   return;
+    // }
+    // SystemHelper.checkAndLaunchRSILauncher(rsiLauncherInstalledPath);
+    goWebView("登录 RSI 账户", "https://robertsspaceindustries.com/connect",
+        loginMode: true, rsiLoginCallback: (data, ok) {
       isRsiLauncherStarting = false;
       notifyListeners();
-      showToast(context!, "未找到 RSI 启动器目录");
-      return;
-    }
-    SystemHelper.checkAndLaunchRSILauncher(rsiLauncherInstalledPath);
-    await Future.delayed(const Duration(seconds: 3));
-    isRsiLauncherStarting = false;
-    notifyListeners();
+    }, useLocalization: true);
   }
 
   bool isRSIServerStatusOK(Map map) {

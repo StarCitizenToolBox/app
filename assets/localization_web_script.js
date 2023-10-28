@@ -1,6 +1,6 @@
 /// https://github.com/CxJuice/Uex_Chinese_Translate
 
-
+/// ------- WebLocalization Script --------------
 let SCLocalizationReplaceLocalesMap = {};
 let enable_webview_localization_capture = false;
 let SCLocalizationEnableSplitMode = false;
@@ -217,3 +217,67 @@ function ReportUnTranslate(k, v) {
 }
 
 InitWebLocalization();
+
+
+/// ----- Login Script ----
+async function getRSILauncherToken() {
+    // check login
+    let r = await fetch("api/launcher/v3/account/check", {
+        method: 'POST', headers: {
+            'x-rsi-token': $.cookie('Rsi-Token'),
+        },
+    });
+    if (r.status !== 200) {
+        // wait login
+        return;
+    }
+
+    // get claims
+    let claimsR = await fetch("api/launcher/v3/games/claims", {
+        method: 'POST', headers: {
+            'x-rsi-token': $.cookie('Rsi-Token'),
+        },
+    });
+    if (claimsR.status !== 200) return;
+    let claimsData = (await claimsR.json())["data"];
+
+    let tokenFormData = new FormData();
+    tokenFormData.append('claims', claimsData);
+    tokenFormData.append('gameId', 'SC');
+    let tokenR = await fetch("api/launcher/v3/games/token", {
+        method: 'POST', headers: {
+            'x-rsi-token': $.cookie('Rsi-Token'),
+        },
+        body: tokenFormData
+    });
+
+    if (tokenR.status !== 200) return;
+    let TokenData = (await tokenR.json())["data"];
+    console.log(TokenData);
+
+    // get release Data
+    let releaseFormData = new FormData();
+    releaseFormData.append("channelId", "LIVE");
+    releaseFormData.append("claims", claimsData);
+    releaseFormData.append("gameId", "SC");
+    releaseFormData.append("platformId", "prod");
+    let releaseR = await fetch("api/launcher/v3/games/release", {
+        method: 'POST', headers: {
+            'x-rsi-token': $.cookie('Rsi-Token'),
+        },
+        body: releaseFormData
+    });
+    if (releaseR.status !== 200) return;
+    let releaseDataJson = await releaseR.json();
+    console.log(releaseDataJson);
+
+    // post message
+    window.chrome.webview.postMessage({
+        action: 'webview_rsi_login_success', data: {
+            'webToken': $.cookie('Rsi-Token'),
+            'claims': claimsData,
+            'authToken': TokenData,
+            'releaseInfo': releaseDataJson
+        }
+    });
+}

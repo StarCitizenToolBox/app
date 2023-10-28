@@ -16,8 +16,7 @@ class BaseUIContainer extends ConsumerStatefulWidget {
   final dynamic Function() modelCreate;
 
   const BaseUIContainer(
-      {Key? key, required this.uiCreate, required this.modelCreate})
-      : super(key: key);
+      {super.key, required this.uiCreate, required this.modelCreate});
 
   @override
   // ignore: no_logic_in_create_state
