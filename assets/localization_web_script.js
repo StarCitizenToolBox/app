@@ -229,6 +229,7 @@ async function getRSILauncherToken() {
     });
     if (r.status !== 200) {
         // wait login
+        window.chrome.webview.postMessage({action: 'webview_rsi_login_show_window'});
         return;
     }
 
@@ -268,7 +269,7 @@ async function getRSILauncherToken() {
         body: releaseFormData
     });
     if (releaseR.status !== 200) return;
-    let releaseDataJson = await releaseR.json();
+    let releaseDataJson = (await releaseR.json())['data'];
     console.log(releaseDataJson);
 
     // post message

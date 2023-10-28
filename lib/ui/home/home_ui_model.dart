@@ -472,6 +472,7 @@ class HomeUIModel extends BaseUIModel {
     // SystemHelper.checkAndLaunchRSILauncher(rsiLauncherInstalledPath);
     goWebView("登录 RSI 账户", "https://robertsspaceindustries.com/connect",
         loginMode: true, rsiLoginCallback: (data, ok) {
+      dPrint("======rsiLoginCallback=== $ok =====\n$data}");
       isRsiLauncherStarting = false;
       notifyListeners();
     }, useLocalization: true);

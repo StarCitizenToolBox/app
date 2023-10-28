@@ -53,6 +53,9 @@ class WebViewModel {
               userDataFolderWindows:
                   "${AppConf.applicationSupportDir}/webview_data",
               title: title));
+      if (loginMode) {
+        await webview.setWebviewWindowVisibility(false);
+      }
 
       // webview.openDevToolsWindow();
       webview.isNavigating.addListener(() async {
@@ -141,7 +144,9 @@ class WebViewModel {
       if (loginMode) {
         webview.addOnWebMessageReceivedCallback((messageString) {
           final message = json.decode(messageString);
-          if (message["action"] == "webview_rsi_login_success") {
+          if (message["action"] == "webview_rsi_login_show_window") {
+            webview.setWebviewWindowVisibility(true);
+          } else if (message["action"] == "webview_rsi_login_success") {
             _loginModeSuccess = true;
             loginCallback?.call(message, true);
             webview.close();
