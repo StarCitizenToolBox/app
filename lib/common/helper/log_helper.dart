@@ -67,7 +67,8 @@ class SCLoggerHelper {
               dPrint("find installPath == $installPath");
               scInstallPaths.add(installPath);
             } else if (await File("$installPath/Bin64/StarCitizen.exe")
-                .exists()) {
+                    .exists() &&
+                await File("$installPath/Data.p4k").exists()) {
               dPrint("find installPath == $installPath");
               scInstallPaths.add(installPath);
             }
