@@ -11,9 +11,9 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.5+2 Beta";
-  static const int appVersionCode = 20;
-  static const String appVersionDate = "2023-10-18";
+  static const String appVersion = "2.9.6 Beta";
+  static const int appVersionCode = 21;
+  static const String appVersionDate = "2023-10-28";
 
   static const String gitlabHomeUrl =
       "https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor";
@@ -23,7 +23,8 @@ class AppConf {
       "https://jihulab.com/StarCitizenCN_Community/api/-/raw/main/";
   static const String gitlabApiPath = "https://jihulab.com/api/v4/";
 
-  static const String webTranslateHomeUrl= "https://ch.citizenwiki.cn/json-files/locales";
+  static const String webTranslateHomeUrl =
+      "https://ch.citizenwiki.cn/json-files/locales";
 
   static late final String applicationSupportDir;
 
@@ -40,7 +41,7 @@ class AppConf {
     try {
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       windowsDeviceInfo = await deviceInfo.windowsInfo;
-    }catch (_){}
+    } catch (_) {}
 
     /// init Data
     applicationSupportDir =
@@ -89,8 +90,7 @@ class AppConf {
     try {
       networkVersionData = await Api.getAppVersion();
       dPrint(
-          "lastVersion=${networkVersionData?.lastVersion}  ${networkVersionData
-              ?.lastVersionCode}");
+          "lastVersion=${networkVersionData?.lastVersion}  ${networkVersionData?.lastVersionCode}");
     } catch (e) {
       dPrint("_checkUpdate Error:$e");
     }
