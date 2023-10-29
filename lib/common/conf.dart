@@ -24,7 +24,7 @@ class AppConf {
   static const String gitlabApiPath = "https://jihulab.com/api/v4/";
 
   static const String webTranslateHomeUrl =
-      "https://jihulab.com/StarCitizenCN_Community/scweb_chinese_translate/-/raw/main/json";
+      "https://jihulab.com/StarCitizenCN_Community/scweb_chinese_translate/-/raw/main/json/locales";
 
   static late final String applicationSupportDir;
 
