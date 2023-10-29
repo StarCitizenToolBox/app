@@ -84,9 +84,10 @@ class HomeUIModel extends BaseUIModel {
       updateSCServerStatus();
       notifyListeners();
       appWebLocalizationVersionsData = AppWebLocalizationVersionsData.fromJson(
-          (await Api.dio.get("${AppConf.webTranslateHomeUrl}/versions.json",
-                  options: Options(responseType: ResponseType.json)))
-              .data);
+          json.decode((await Api.dio.get(
+                  "${AppConf.webTranslateHomeUrl}/versions.json",
+                  options: Options(responseType: ResponseType.plain)))
+              .data));
     } catch (e) {
       dPrint(e);
     }
