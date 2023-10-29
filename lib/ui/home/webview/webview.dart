@@ -55,9 +55,6 @@ class WebViewModel {
               userDataFolderWindows:
                   "${AppConf.applicationSupportDir}/webview_data",
               title: title));
-      if (loginMode) {
-        await webview.setWebviewWindowVisibility(false);
-      }
       // webview.openDevToolsWindow();
       webview.isNavigating.addListener(() async {
         if (!webview.isNavigating.value && localizationResource.isNotEmpty) {
@@ -157,6 +154,8 @@ class WebViewModel {
             webview.close();
           }
         });
+        Future.delayed(const Duration(seconds: 1))
+            .then((value) => {webview.setWebviewWindowVisibility(false)});
       }
     } catch (e) {
       showToast(context, "初始化失败：$e");

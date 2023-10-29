@@ -105,7 +105,7 @@ Widget _defaultWebviewTitleBar(BuildContext context) {
                 )
               : const SizedBox(width: 24),
           const SizedBox(width: 12),
-          SelectableText("${state.url}"),
+          SelectableText(state.url ?? ""),
           const Spacer()
         ],
       ));
