@@ -84,7 +84,7 @@ class DownloaderDialogUIModel extends BaseUIModel {
       }
     } catch (e) {
       if (e is DioException && e.type != DioExceptionType.cancel) {
-        if (mounted) showToast(context!, "下载失败：$e");
+        Navigator.pop(context!, e);
       }
     }
   }

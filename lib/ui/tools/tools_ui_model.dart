@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
@@ -33,6 +34,7 @@ class ToolsUIModel extends BaseUIModel {
 
   @override
   Future loadData({bool skipPathScan = false}) async {
+    if (isItemLoading) return;
     items.clear();
     notifyListeners();
     if (!skipPathScan) {
@@ -244,7 +246,7 @@ class ToolsUIModel extends BaseUIModel {
 
   Future<String> getSystemInfo() async {
     return "系统：${await SystemHelper.getSystemName()}\n\n"
-        "处理器：${await SystemHelper.getSystemCimInstance("Win32_Processor")}\n\n"
+        "处理器：${await SystemHelper.getCpuName()}\n\n"
         "内存大小：${await SystemHelper.getSystemMemorySizeGB()}GB\n\n"
         "显卡信息：\n${await SystemHelper.getGpuInfo()}\n\n"
         "硬盘信息：\n${await SystemHelper.getDiskInfo()}\n\n";
@@ -359,8 +361,11 @@ class ToolsUIModel extends BaseUIModel {
     if (r != null) {
       if (r == "cancel") {
         return showToast(context!, "下载已取消，下载进度已保留，如果您无需恢复下载，请手动删除下载临时文件。");
+      } else if (r is DioException) {
+        showToast(context!, "下载失败：$r");
+      } else {
+        showToast(context!, "下载完毕，文件已保存到：$r");
       }
-      showToast(context!, "下载完毕，文件已保存到：$r");
     }
   }
 }

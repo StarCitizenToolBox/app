@@ -129,6 +129,12 @@ class SystemHelper {
     return r.stdout.toString().trim();
   }
 
+  static Future<String> getCpuName() async {
+    final r = await Process.run(
+        "powershell", ["(Get-WmiObject -Class Win32_Processor).Name"]);
+    return r.stdout.toString().trim();
+  }
+
   static Future<String> getGpuInfo() async {
     const cmd = r"""
     $adapterMemory = (Get-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0*" -Name "HardwareInformation.AdapterString", "HardwareInformation.qwMemorySize" -Exclude PSPath -ErrorAction SilentlyContinue)
