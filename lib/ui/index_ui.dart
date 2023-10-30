@@ -27,7 +27,8 @@ class IndexUI extends BaseUI<IndexUIModel> {
                   children: [
                     Image.asset("assets/app_logo.png", width: 24, height: 24),
                     const SizedBox(width: 12),
-                    const Text("星际公民盒子  V${AppConf.appVersion}"),
+                    const Text(
+                        "星际公民盒子  V${AppConf.appVersion}${AppConf.isMSE ? " MSE" : ""}"),
                   ],
                 ),
               ),

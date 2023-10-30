@@ -13,9 +13,9 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.6+1 Beta";
-  static const int appVersionCode = 22;
-  static const String appVersionDate = "2023-10-29";
+  static const String appVersion = "2.9.7 Beta";
+  static const int appVersionCode = 23;
+  static const String appVersionDate = "2023-10-30";
 
   static const String gitlabHomeUrl =
       "https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor";
@@ -37,6 +37,9 @@ class AppConf {
   static bool offlineMode = false;
 
   static late final WindowsDeviceInfo windowsDeviceInfo;
+
+  static const isMSE =
+      String.fromEnvironment("MSE", defaultValue: "false") == "true";
 
   static init() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -92,9 +95,11 @@ class AppConf {
 
   static Future<void> _checkUpdate() async {
     // clean path
-    final dir = Directory(getUpgradePath());
-    if (await dir.exists()) {
-      dir.delete(recursive: true);
+    if (!isMSE) {
+      final dir = Directory(getUpgradePath());
+      if (await dir.exists()) {
+        dir.delete(recursive: true);
+      }
     }
     try {
       networkVersionData = await Api.getAppVersion();

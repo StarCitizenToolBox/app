@@ -13,6 +13,7 @@ final globalUIModelProvider = ChangeNotifierProvider((ref) => globalUIModel);
 
 class AppGlobalUIModel extends BaseUIModel {
   Future<bool> checkUpdate(BuildContext context, {bool init = true}) async {
+    if (AppConf.isMSE) return true;
     if (!init) {
       try {
         AppConf.networkVersionData = await Api.getAppVersion();

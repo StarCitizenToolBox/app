@@ -50,8 +50,8 @@ dependencies:
   flutter_svg: ^2.0.7
   archive: ^3.4.4
   jwt_decode: ^0.3.1
-  html: ^0.15.4
   uuid: ^4.1.0
+  flutter_tilt: ^2.0.10
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +63,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  msix: ^3.16.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -106,3 +107,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+msix_config:
+  display_name: 星际公民盒子MSE
+  publisher_display_name: xkeyC Studio
+  identity_name: 56575xkeyC.MSE
+  publisher: CN=B54C897B-C263-4680-B6AB-4913C603DF87
+  msix_version: 2.9.7.0
+  logo_path: ./assets/app_logo.png
+  capabilities: internetClient,allowElevation
+  languages: zh-cn
+  windows_build_args: --dart-define="MSE=true"
+#  store: true

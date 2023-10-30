@@ -1,6 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
@@ -74,11 +75,15 @@ class HomeUI extends BaseUI<HomeUIModel> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 64, bottom: 64),
-            child: Image.asset(
-              "assets/sc_logo.png",
-              height: 256,
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              fit: BoxFit.fitHeight,
+              child: Center(
+                child: Image.asset(
+                  "assets/sc_logo.png",
+                  height: 256,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
             ),
           ),
           Positioned(
@@ -226,61 +231,65 @@ class HomeUI extends BaseUI<HomeUIModel> {
                       subtitle: "探索宇宙的好伙伴",
                       jumpUrl: "https://citizenwiki.cn"),
                   const SizedBox(height: 12),
-                  Container(
+                  Tilt(
+                    shadowConfig: const ShadowConfig(maxIntensity: .2),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
                       width: width,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
                         color: FluentTheme.of(context).cardColor,
                       ),
-                      child: IconButton(
-                        icon: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(children: [
-                            const Row(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(children: [
+                          const Row(
+                            children: [
+                              Text("星际公民服务器状态："),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          if (model.scServerStatus == null)
+                            makeLoading(context, width: 20)
+                          else
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("星际公民服务器状态："),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            if (model.scServerStatus == null)
-                              makeLoading(context, width: 20)
-                            else
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  for (final item in model.scServerStatus ?? [])
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          height: 14,
-                                          child: Center(
-                                            child: Icon(
-                                              FontAwesomeIcons.solidCircle,
-                                              color: model
-                                                      .isRSIServerStatusOK(item)
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                              size: 12,
-                                            ),
+                                for (final item in model.scServerStatus ?? [])
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 14,
+                                        child: Center(
+                                          child: Icon(
+                                            FontAwesomeIcons.solidCircle,
+                                            color:
+                                                model.isRSIServerStatusOK(item)
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                            size: 12,
                                           ),
                                         ),
-                                        const SizedBox(width: 3),
-                                        Text(
-                                          "${model.statusCnName[item["name"]] ?? item["name"]}",
-                                          style: const TextStyle(fontSize: 13),
-                                        ),
-                                      ],
-                                    )
-                                ],
-                              )
-                          ]),
-                        ),
-                        onPressed: () {
-                          launchUrlString(
-                              "https://status.robertsspaceindustries.com/");
-                        },
-                      )),
+                                      ),
+                                      const SizedBox(width: 3),
+                                      Text(
+                                        "${model.statusCnName[item["name"]] ?? item["name"]}",
+                                        style: const TextStyle(fontSize: 13),
+                                      ),
+                                    ],
+                                  )
+                              ],
+                            )
+                        ]),
+                      ),
+                      // child: IconButton(
+                      //   icon: ,
+                      //   onPressed: () {
+                      //     launchUrlString(
+                      //         "https://status.robertsspaceindustries.com/");
+                      //   },
+                      // ),
+                    ),
+                  ),
                 ],
               ))
         ],
@@ -526,62 +535,66 @@ class HomeUI extends BaseUI<HomeUIModel> {
     required String jumpUrl,
   }) {
     final width = MediaQuery.of(context).size.width * .21;
-    return Container(
-      width: width,
-      height: 128,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: FluentTheme.of(context).cardColor,
-      ),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: ExtendedImage.network(
-              bgURl,
-              fit: BoxFit.cover,
-              width: width,
-            ),
-          ),
-          Container(
+    return Tilt(
+      shadowConfig: const ShadowConfig(maxIntensity: .3),
+      borderRadius: BorderRadius.circular(12),
+      child: GestureDetector(
+        onTap: () {
+          launchUrlString(jumpUrl);
+        },
+        child: ClipRRect(
+          child: Container(
             width: width,
             height: 128,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.black.withOpacity(.7),
+              color: FluentTheme.of(context).cardColor,
+            ),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(.3),
+                  child: ExtendedImage.network(
+                    bgURl,
+                    fit: BoxFit.cover,
+                    width: width,
+                  ),
+                ),
+                Container(
+                  width: width,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(.7),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 24,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          subtitle,
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(.8),
+                              fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
-          Positioned(
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: IconButton(
-              icon: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(.8), fontSize: 14),
-                    ),
-                  ],
-                ),
-              ),
-              onPressed: () {
-                launchUrlString(jumpUrl);
-              },
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
@@ -595,16 +608,24 @@ class HomeUI extends BaseUI<HomeUIModel> {
       required double width,
       String? info,
       String? touchKey}) {
-    return Container(
-      width: width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: FluentTheme.of(context).cardColor,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: IconButton(
-            icon: Column(
+    return Tilt(
+      shadowConfig: const ShadowConfig(maxIntensity: .3),
+      borderRadius: BorderRadius.circular(12),
+      child: GestureDetector(
+        onTap: () {
+          if (touchKey != null) {
+            AnalyticsApi.touch(touchKey);
+          }
+          model.goWebView(webTitle, webURL, useLocalization: true);
+        },
+        child: Container(
+          width: width,
+          decoration: BoxDecoration(
+            color: FluentTheme.of(context).cardColor,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -627,12 +648,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
                   )
               ],
             ),
-            onPressed: () {
-              if (touchKey != null) {
-                AnalyticsApi.touch(touchKey);
-              }
-              model.goWebView(webTitle, webURL, useLocalization: true);
-            }),
+          ),
+        ),
       ),
     );
   }
