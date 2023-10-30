@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
@@ -131,6 +132,7 @@ class HomeUIModel extends BaseUIModel {
       lastScreenInfo = "扫描完毕，共找到 ${scInstallPaths.length} 个有效安装目录";
     } catch (e) {
       lastScreenInfo = "解析 log 文件失败！";
+      AnalyticsApi.touch("error_launchLogs");
       showToast(context!,
           "解析 log 文件失败！ \n请关闭游戏，退出RSI启动器后重试，若仍有问题，请使用工具箱中的 RSI Launcher log 修复。");
     }
@@ -369,6 +371,7 @@ class HomeUIModel extends BaseUIModel {
           showToast(context!, "该功能需要一个有效的安装位置");
           return;
         }
+        AnalyticsApi.touch("performance_launch");
         BaseUIContainer(
                 uiCreate: () => PerformanceUI(),
                 modelCreate: () => PerformanceUIModel(scInstalledPath))
@@ -414,7 +417,7 @@ class HomeUIModel extends BaseUIModel {
       if (skip != tipVersion) {
         final ok = await showConfirmDialogs(
             context!,
-            "星际公民官网汉化",
+            "星际公民网站汉化",
             const Text(
               "本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！"
               "\n\n\n使用此功能登录账号时请确保您的 星际公民盒子 是从可信任的来源下载。",
@@ -482,6 +485,7 @@ class HomeUIModel extends BaseUIModel {
       await Process.run("powershell.exe", ["ps \"StarCitizen\" | kill"]);
       return;
     }
+    AnalyticsApi.touch("gameLaunch");
     showDialog(
         context: context!,
         dismissWithEsc: false,

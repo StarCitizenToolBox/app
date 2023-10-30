@@ -4,8 +4,10 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
+import 'package:uuid/uuid.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../base/ui.dart';
@@ -25,6 +27,8 @@ class AppConf {
 
   static const String webTranslateHomeUrl =
       "https://jihulab.com/StarCitizenCN_Community/scweb_chinese_translate/-/raw/main/json/locales";
+
+  static const String xkeycApiUrl = "https://sctoolbox.xkeyc.com";
 
   static late final String applicationSupportDir;
 
@@ -49,7 +53,11 @@ class AppConf {
     dPrint("applicationSupportDir == $applicationSupportDir");
     try {
       Hive.init("$applicationSupportDir/db");
-      await Hive.openBox("app_conf");
+      final box = await Hive.openBox("app_conf");
+      if (box.get("install_id", defaultValue: "") == "") {
+        await box.put("install_id", const Uuid().v4());
+        AnalyticsApi.touch("firstLaunch");
+      }
     } catch (e) {
       exit(1);
     }
@@ -75,6 +83,7 @@ class AppConf {
       await Window.hideWindowControls();
     });
     await _checkUpdate();
+    AnalyticsApi.touch("launch");
   }
 
   static String getUpgradePath() {

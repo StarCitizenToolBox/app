@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/data/game_performance_data.dart';
@@ -94,6 +95,7 @@ class PerformanceUIModel extends BaseUIModel {
 
   applyProfile(bool cleanShader) async {
     if (performanceMap == null) return;
+    AnalyticsApi.touch("performance_apply");
     workingString = "生成配置文件";
     notifyListeners();
     String conf = "";

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:starcitizen_doctor/ui/about/about_ui_model.dart';
@@ -58,6 +59,7 @@ class IndexUIModel extends BaseUIModel {
       await showToast(context!, "运行环境出错，请检查系统环境变量 （PATH）！");
       await launchUrlString(
           "https://answers.microsoft.com/zh-hans/windows/forum/all/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%8F%98/b88369e6-2620-4a77-b07a-d0af50894a07");
+      await AnalyticsApi.touch("error_powershell");
       exit(0);
     }
 

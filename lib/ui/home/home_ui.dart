@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -106,7 +107,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
                             webURL: "https://robertsspaceindustries.com",
                             info: "罗伯茨航天工业公司，万物的起源",
                             useLocalization: true,
-                            width: width),
+                            width: width,
+                            touchKey: "webLocalization_rsi"),
                         const SizedBox(height: 12),
                         makeWebViewButton(model,
                             icon: Row(
@@ -123,7 +125,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
                             webURL: "https://uexcorp.space",
                             info: "采矿、精炼、贸易计算器、价格、船信息",
                             useLocalization: true,
-                            width: width),
+                            width: width,
+                            touchKey: "webLocalization_uex"),
                         const SizedBox(height: 12),
                         makeWebViewButton(model,
                             icon: Row(
@@ -140,7 +143,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
                             webURL: "https://www.erkul.games/live/calculator",
                             info: "在线改船，查询伤害数值和配件购买地点",
                             useLocalization: true,
-                            width: width),
+                            width: width,
+                            touchKey: "webLocalization_dps"),
                         const SizedBox(height: 12),
                         const Text("外部浏览器拓展："),
                         const SizedBox(height: 8),
@@ -589,7 +593,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
       required String webURL,
       required bool useLocalization,
       required double width,
-      String? info}) {
+      String? info,
+      String? touchKey}) {
     return Container(
       width: width,
       decoration: BoxDecoration(
@@ -622,8 +627,12 @@ class HomeUI extends BaseUI<HomeUIModel> {
                   )
               ],
             ),
-            onPressed: () =>
-                model.goWebView(webTitle, webURL, useLocalization: true)),
+            onPressed: () {
+              if (touchKey != null) {
+                AnalyticsApi.touch(touchKey);
+              }
+              model.goWebView(webTitle, webURL, useLocalization: true);
+            }),
       ),
     );
   }

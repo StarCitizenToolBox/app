@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:archive/archive_io.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
@@ -128,6 +129,7 @@ class LocalizationUIModel extends BaseUIModel {
 
   VoidCallback? doRemoteInstall(ScLocalizationData value) {
     return () async {
+      AnalyticsApi.touch("install_localization");
       final downloadUrl =
           "${AppConf.gitlabLocalizationUrl}/-/archive/${value.versionName}/LocalizationData-${value.versionName}.tar.bz2";
       final savePath =
