@@ -125,7 +125,8 @@ class HomeUIModel extends BaseUIModel {
         return;
       }
       scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
-          withVersion: ["LIVE", "PTU", "EPTU"], checkExists: true);
+          withVersion: ["LIVE", "PTU", "EPTU", "TECH-PREVIEW"],
+          checkExists: true);
       if (scInstallPaths.isNotEmpty) {
         scInstalledPath = scInstallPaths.first;
       }

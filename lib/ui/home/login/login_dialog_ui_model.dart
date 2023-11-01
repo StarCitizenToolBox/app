@@ -191,6 +191,8 @@ class LoginDialogModel extends BaseUIModel {
       return "PTU";
     } else if (installPath.endsWith("\\EPTU")) {
       return "EPTU";
+    } else if (installPath.endsWith("\\TECH-PREVIEW")) {
+      return "TECH-PREVIEW";
     }
     return "LIVE";
   }
