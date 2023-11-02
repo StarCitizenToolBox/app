@@ -52,6 +52,7 @@ dependencies:
   jwt_decode: ^0.3.1
   uuid: ^4.1.0
   flutter_tilt: ^2.0.10
+  card_swiper: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +78,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/countdown/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

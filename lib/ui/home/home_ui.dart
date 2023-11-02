@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
+import 'package:starcitizen_doctor/widgets/countdown_time_text.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'home_ui_model.dart';
@@ -91,112 +93,183 @@ class HomeUI extends BaseUI<HomeUIModel> {
             right: 24,
             child: Stack(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: FluentTheme.of(context).cardColor.withOpacity(.03),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        makeWebViewButton(model,
-                            icon: SvgPicture.asset(
-                              "assets/rsi.svg",
-                              colorFilter: makeSvgColor(Colors.white),
-                              height: 18,
-                            ),
-                            name: "星际公民官网汉化",
-                            webTitle: "星际公民官网汉化",
-                            webURL: "https://robertsspaceindustries.com",
-                            info: "罗伯茨航天工业公司，万物的起源",
-                            useLocalization: true,
-                            width: width,
-                            touchKey: "webLocalization_rsi"),
-                        const SizedBox(height: 12),
-                        makeWebViewButton(model,
-                            icon: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/uex.svg",
+                Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color:
+                            FluentTheme.of(context).cardColor.withOpacity(.03),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            makeWebViewButton(model,
+                                icon: SvgPicture.asset(
+                                  "assets/rsi.svg",
+                                  colorFilter: makeSvgColor(Colors.white),
                                   height: 18,
                                 ),
-                                const SizedBox(width: 12),
-                              ],
-                            ),
-                            name: "UEX 汉化",
-                            webTitle: "UEX 汉化",
-                            webURL: "https://uexcorp.space",
-                            info: "采矿、精炼、贸易计算器、价格、船信息",
-                            useLocalization: true,
-                            width: width,
-                            touchKey: "webLocalization_uex"),
-                        const SizedBox(height: 12),
-                        makeWebViewButton(model,
-                            icon: Row(
+                                name: "星际公民官网汉化",
+                                webTitle: "星际公民官网汉化",
+                                webURL: "https://robertsspaceindustries.com",
+                                info: "罗伯茨航天工业公司，万物的起源",
+                                useLocalization: true,
+                                width: width,
+                                touchKey: "webLocalization_rsi"),
+                            const SizedBox(height: 12),
+                            makeWebViewButton(model,
+                                icon: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/uex.svg",
+                                      height: 18,
+                                    ),
+                                    const SizedBox(width: 12),
+                                  ],
+                                ),
+                                name: "UEX 汉化",
+                                webTitle: "UEX 汉化",
+                                webURL: "https://uexcorp.space",
+                                info: "采矿、精炼、贸易计算器、价格、船信息",
+                                useLocalization: true,
+                                width: width,
+                                touchKey: "webLocalization_uex"),
+                            const SizedBox(height: 12),
+                            makeWebViewButton(model,
+                                icon: Row(
+                                  children: [
+                                    ExtendedImage.network(
+                                      "https://www.erkul.games/assets/icons/icon-512x512.png",
+                                      height: 20,
+                                    ),
+                                    const SizedBox(width: 12),
+                                  ],
+                                ),
+                                name: "DPS计算器汉化",
+                                webTitle: "DPS计算器汉化",
+                                webURL:
+                                    "https://www.erkul.games/live/calculator",
+                                info: "在线改船，查询伤害数值和配件购买地点",
+                                useLocalization: true,
+                                width: width,
+                                touchKey: "webLocalization_dps"),
+                            const SizedBox(height: 12),
+                            const Text("外部浏览器拓展："),
+                            const SizedBox(height: 8),
+                            Row(
                               children: [
-                                ExtendedImage.network(
-                                  "https://www.erkul.games/assets/icons/icon-512x512.png",
-                                  height: 20,
+                                Button(
+                                  child: const FaIcon(FontAwesomeIcons.chrome,
+                                      size: 18),
+                                  onPressed: () {
+                                    launchUrlString(
+                                        "https://chrome.google.com/webstore/detail/gocnjckojmledijgmadmacoikibcggja?authuser=0&hl=zh-CN");
+                                  },
                                 ),
                                 const SizedBox(width: 12),
+                                Button(
+                                  child: const FaIcon(FontAwesomeIcons.edge,
+                                      size: 18),
+                                  onPressed: () {
+                                    launchUrlString(
+                                        "https://microsoftedge.microsoft.com/addons/detail/lipbbcckldklpdcpfagicipecaacikgi");
+                                  },
+                                ),
+                                const SizedBox(width: 12),
+                                Button(
+                                  child: const FaIcon(
+                                      FontAwesomeIcons.firefoxBrowser,
+                                      size: 18),
+                                  onPressed: () {
+                                    launchUrlString(
+                                        "https://addons.mozilla.org/zh-CN/firefox/"
+                                        "addon/%E6%98%9F%E9%99%85%E5%85%AC%E6%B0%91%E7%9B%92%E5%AD%90%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8B%93%E5%B1%95/");
+                                  },
+                                ),
+                                const SizedBox(width: 12),
+                                Button(
+                                  child: const FaIcon(FontAwesomeIcons.github,
+                                      size: 18),
+                                  onPressed: () {
+                                    launchUrlString(
+                                        "https://github.com/xkeyC/StarCitizenBoxBrowserEx");
+                                  },
+                                ),
                               ],
-                            ),
-                            name: "DPS计算器汉化",
-                            webTitle: "DPS计算器汉化",
-                            webURL: "https://www.erkul.games/live/calculator",
-                            info: "在线改船，查询伤害数值和配件购买地点",
-                            useLocalization: true,
-                            width: width,
-                            touchKey: "webLocalization_dps"),
-                        const SizedBox(height: 12),
-                        const Text("外部浏览器拓展："),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Button(
-                              child: const FaIcon(FontAwesomeIcons.chrome,
-                                  size: 18),
-                              onPressed: () {
-                                launchUrlString(
-                                    "https://chrome.google.com/webstore/detail/gocnjckojmledijgmadmacoikibcggja?authuser=0&hl=zh-CN");
-                              },
-                            ),
-                            const SizedBox(width: 12),
-                            Button(
-                              child:
-                                  const FaIcon(FontAwesomeIcons.edge, size: 18),
-                              onPressed: () {
-                                launchUrlString(
-                                    "https://microsoftedge.microsoft.com/addons/detail/lipbbcckldklpdcpfagicipecaacikgi");
-                              },
-                            ),
-                            const SizedBox(width: 12),
-                            Button(
-                              child: const FaIcon(
-                                  FontAwesomeIcons.firefoxBrowser,
-                                  size: 18),
-                              onPressed: () {
-                                launchUrlString(
-                                    "https://addons.mozilla.org/zh-CN/firefox/"
-                                    "addon/%E6%98%9F%E9%99%85%E5%85%AC%E6%B0%91%E7%9B%92%E5%AD%90%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8B%93%E5%B1%95/");
-                              },
-                            ),
-                            const SizedBox(width: 12),
-                            Button(
-                              child: const FaIcon(FontAwesomeIcons.github,
-                                  size: 18),
-                              onPressed: () {
-                                launchUrlString(
-                                    "https://github.com/xkeyC/StarCitizenBoxBrowserEx");
-                              },
-                            ),
+                            )
                           ],
-                        )
-                      ],
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 12),
+                    Container(
+                        width: width + 24,
+                        decoration: BoxDecoration(
+                            color: FluentTheme.of(context).cardColor,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 12, right: 12, top: 6, bottom: 6),
+                          child: (model.countdownFestivalListData == null)
+                              ? SizedBox(
+                                  width: width,
+                                  height: 62,
+                                  child: const Center(
+                                    child: ProgressRing(),
+                                  ),
+                                )
+                              : SizedBox(
+                                  width: width,
+                                  height: 62,
+                                  child: Swiper(
+                                    itemCount:
+                                        model.countdownFestivalListData!.length,
+                                    autoplay: true,
+                                    autoplayDelay: 5000,
+                                    itemBuilder: (context, index) {
+                                      final item = model
+                                          .countdownFestivalListData![index];
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          if (item.icon != null &&
+                                              item.icon != "") ...[
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(1000),
+                                              child: Image.asset(
+                                                "assets/countdown/${item.icon}",
+                                                width: 48,
+                                                height: 48,
+                                              ),
+                                            ),
+                                          ],
+                                          Column(
+                                            children: [
+                                              Text(
+                                                item.name ?? "",
+                                                style: const TextStyle(
+                                                    fontSize: 15),
+                                              ),
+                                              const SizedBox(height: 3),
+                                              CountdownTimeText(
+                                                targetTime: DateTime
+                                                    .fromMillisecondsSinceEpoch(
+                                                        item.time ?? 0),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                        )),
+                  ],
                 ),
                 if (model.appWebLocalizationVersionsData == null)
                   Positioned.fill(
@@ -234,60 +307,68 @@ class HomeUI extends BaseUI<HomeUIModel> {
                   Tilt(
                     shadowConfig: const ShadowConfig(maxIntensity: .2),
                     borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      width: width,
-                      decoration: BoxDecoration(
-                        color: FluentTheme.of(context).cardColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(children: [
-                          const Row(
-                            children: [
-                              Text("星际公民服务器状态："),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          if (model.scServerStatus == null)
-                            makeLoading(context, width: 20)
-                          else
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: GestureDetector(
+                      onTap: () {
+                        model.goWebView("RSI 服务器状态",
+                            "https://status.robertsspaceindustries.com/",
+                            useLocalization: true);
+                      },
+                      child: Container(
+                        width: width,
+                        decoration: BoxDecoration(
+                          color: FluentTheme.of(context).cardColor,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(children: [
+                            const Row(
                               children: [
-                                for (final item in model.scServerStatus ?? [])
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        height: 14,
-                                        child: Center(
-                                          child: Icon(
-                                            FontAwesomeIcons.solidCircle,
-                                            color:
-                                                model.isRSIServerStatusOK(item)
-                                                    ? Colors.green
-                                                    : Colors.red,
-                                            size: 12,
+                                Text("星际公民服务器状态："),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            if (model.scServerStatus == null)
+                              makeLoading(context, width: 20)
+                            else
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  for (final item in model.scServerStatus ?? [])
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 14,
+                                          child: Center(
+                                            child: Icon(
+                                              FontAwesomeIcons.solidCircle,
+                                              color: model
+                                                      .isRSIServerStatusOK(item)
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                              size: 12,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 3),
-                                      Text(
-                                        "${model.statusCnName[item["name"]] ?? item["name"]}",
-                                        style: const TextStyle(fontSize: 13),
-                                      ),
-                                    ],
-                                  )
-                              ],
-                            )
-                        ]),
+                                        const SizedBox(width: 3),
+                                        Text(
+                                          "${model.statusCnName[item["name"]] ?? item["name"]}",
+                                          style: const TextStyle(fontSize: 13),
+                                        ),
+                                      ],
+                                    )
+                                ],
+                              )
+                          ]),
+                        ),
+                        // child: IconButton(
+                        //   icon: ,
+                        //   onPressed: () {
+                        //     launchUrlString(
+                        //         "https://status.robertsspaceindustries.com/");
+                        //   },
+                        // ),
                       ),
-                      // child: IconButton(
-                      //   icon: ,
-                      //   onPressed: () {
-                      //     launchUrlString(
-                      //         "https://status.robertsspaceindustries.com/");
-                      //   },
-                      // ),
                     ),
                   ),
                 ],

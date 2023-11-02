@@ -13,6 +13,7 @@ import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
+import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/md_content_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/md_content_dialog_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
@@ -54,6 +55,8 @@ class HomeUIModel extends BaseUIModel {
 
   AppWebLocalizationVersionsData? appWebLocalizationVersionsData;
 
+  List<CountdownFestivalItemData>? countdownFestivalListData;
+
   final cnExp = RegExp(r"[^\x00-\xff]");
 
   AppPlacardData? appPlacardData;
@@ -89,6 +92,8 @@ class HomeUIModel extends BaseUIModel {
                   "${AppConf.webTranslateHomeUrl}/versions.json",
                   options: Options(responseType: ResponseType.plain)))
               .data));
+      countdownFestivalListData = await Api.getFestivalCountdownList();
+      notifyListeners();
     } catch (e) {
       dPrint(e);
     }

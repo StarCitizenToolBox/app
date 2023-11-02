@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
+import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 
 class Api {
@@ -18,6 +19,19 @@ class Api {
   static Future<AppPlacardData> getAppPlacard() async {
     return AppPlacardData.fromJson(
         await getRepoJson("sc_doctor", "placard.json"));
+  }
+
+  static Future<List<CountdownFestivalItemData>>
+      getFestivalCountdownList() async {
+    List<CountdownFestivalItemData> l = [];
+    final r = json.decode(await getRepoData("sc_doctor", "countdown.json"));
+    if (r is List) {
+      for (var element in r) {
+        l.add(CountdownFestivalItemData.fromJson(element));
+      }
+    }
+    l.sort((a, b) => (a.time ?? 0) - (b.time ?? 0));
+    return l;
   }
 
   static Future<Map<String, dynamic>> getAppReleaseDataByVersionName(
