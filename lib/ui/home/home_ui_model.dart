@@ -14,6 +14,7 @@ import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
+import 'package:starcitizen_doctor/ui/home/countdown/countdown_dialog_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/md_content_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/md_content_dialog_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
@@ -24,6 +25,7 @@ import 'package:starcitizen_doctor/ui/home/webview/webview.dart';
 import 'package:starcitizen_doctor/ui/home/webview/webview_localization_capture_ui_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'countdown/countdown_dialog_ui.dart';
 import 'localization/localization_ui.dart';
 import 'performance/performance_ui.dart';
 import 'webview/webview_localization_capture_ui.dart';
@@ -518,5 +520,17 @@ class HomeUIModel extends BaseUIModel {
     } catch (_) {}
     _isGameRunning[installPath] = false;
     notifyListeners();
+  }
+
+  onTapFestival() {
+    if (countdownFestivalListData == null) return;
+    showDialog(
+        context: context!,
+        builder: (context) {
+          return BaseUIContainer(
+              uiCreate: () => CountdownDialogUI(),
+              modelCreate: () =>
+                  CountdownDialogUIModel(countdownFestivalListData!));
+        });
   }
 }

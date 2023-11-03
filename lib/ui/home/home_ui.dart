@@ -205,70 +205,76 @@ class HomeUI extends BaseUI<HomeUIModel> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Container(
-                        width: width + 24,
-                        decoration: BoxDecoration(
-                            color: FluentTheme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12, right: 12, top: 6, bottom: 6),
-                          child: (model.countdownFestivalListData == null)
-                              ? SizedBox(
-                                  width: width,
-                                  height: 62,
-                                  child: const Center(
-                                    child: ProgressRing(),
-                                  ),
-                                )
-                              : SizedBox(
-                                  width: width,
-                                  height: 62,
-                                  child: Swiper(
-                                    itemCount:
-                                        model.countdownFestivalListData!.length,
-                                    autoplay: true,
-                                    autoplayDelay: 5000,
-                                    itemBuilder: (context, index) {
-                                      final item = model
-                                          .countdownFestivalListData![index];
-                                      return Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          if (item.icon != null &&
-                                              item.icon != "") ...[
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(1000),
-                                              child: Image.asset(
-                                                "assets/countdown/${item.icon}",
-                                                width: 48,
-                                                height: 48,
-                                              ),
-                                            ),
-                                          ],
-                                          Column(
+                    Tilt(
+                      borderRadius: BorderRadius.circular(12),
+                      shadowConfig: const ShadowConfig(disable: true),
+                      child: GestureDetector(
+                        onTap: ()=> model.onTapFestival(),
+                        child: Container(
+                            width: width + 24,
+                            decoration: BoxDecoration(
+                                color: FluentTheme.of(context).cardColor),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12, right: 12, top: 6, bottom: 6),
+                              child: (model.countdownFestivalListData == null)
+                                  ? SizedBox(
+                                      width: width,
+                                      height: 62,
+                                      child: const Center(
+                                        child: ProgressRing(),
+                                      ),
+                                    )
+                                  : SizedBox(
+                                      width: width,
+                                      height: 62,
+                                      child: Swiper(
+                                        itemCount: model
+                                            .countdownFestivalListData!.length,
+                                        autoplay: true,
+                                        autoplayDelay: 5000,
+                                        itemBuilder: (context, index) {
+                                          final item = model
+                                              .countdownFestivalListData![index];
+                                          return Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Text(
-                                                item.name ?? "",
-                                                style: const TextStyle(
-                                                    fontSize: 15),
-                                              ),
-                                              const SizedBox(height: 3),
-                                              CountdownTimeText(
-                                                targetTime: DateTime
-                                                    .fromMillisecondsSinceEpoch(
-                                                        item.time ?? 0),
+                                              if (item.icon != null &&
+                                                  item.icon != "") ...[
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(1000),
+                                                  child: Image.asset(
+                                                    "assets/countdown/${item.icon}",
+                                                    width: 48,
+                                                    height: 48,
+                                                  ),
+                                                ),
+                                              ],
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    item.name ?? "",
+                                                    style: const TextStyle(
+                                                        fontSize: 15),
+                                                  ),
+                                                  const SizedBox(height: 3),
+                                                  CountdownTimeText(
+                                                    targetTime: DateTime
+                                                        .fromMillisecondsSinceEpoch(
+                                                            item.time ?? 0),
+                                                  ),
+                                                ],
                                               ),
                                             ],
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                ),
-                        )),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                            )),
+                      ),
+                    ),
                   ],
                 ),
                 if (model.appWebLocalizationVersionsData == null)
