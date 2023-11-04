@@ -56,7 +56,7 @@ add_subdirectory("runner")
 # Generated plugin build rules, which manage building the plugins and adding
 # them to the application.
 include(flutter/generated_plugins.cmake)
-
+include(./rust.cmake)
 
 # === Installation ===
 # Support files are copied into place next to the executable, so that it can

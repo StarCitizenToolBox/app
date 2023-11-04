@@ -2,6 +2,7 @@ import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/rust/ffi.dart';
 import 'package:starcitizen_doctor/ui/index_ui_model.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -9,6 +10,9 @@ import 'global_ui_model.dart';
 import 'ui/index_ui.dart';
 
 void main(List<String> args) async {
+
+  dPrint("rust ffi ${await rustFii.platform()}");
+
   if (runWebViewTitleBarWidget(args,
       backgroundColor: const Color.fromRGBO(19, 36, 49, 1),
       builder: _defaultWebviewTitleBar)) {
