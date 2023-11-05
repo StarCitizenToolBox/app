@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cryptography/cryptography.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:hive/hive.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/webview/webview.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -26,6 +29,8 @@ class LoginDialogModel extends BaseUIModel {
   // TextEditingController emailCtrl = TextEditingController();
 
   LoginDialogModel(this.installPath, this.homeUIModel);
+
+  final LocalAuthentication localAuth = LocalAuthentication();
 
   @override
   void initModel() {
@@ -53,6 +58,34 @@ class LoginDialogModel extends BaseUIModel {
           .replaceAll("\")", "");
       Map<String, dynamic> payload = Jwt.parseJwt(authToken!);
       nickname = payload["nickname"] ?? "";
+
+      final inputEmail = data["inputEmail"];
+      final inputPassword = data["inputPassword"];
+
+      if (inputEmail != null && inputEmail != "") {
+        final userBox = await Hive.openBox("rsi_account_data");
+        await userBox.put("account_email", inputEmail);
+      }
+
+      if (await localAuth.isDeviceSupported()) {
+        if (inputEmail != null &&
+            inputEmail != "" &&
+            inputPassword != null &&
+            inputPassword != "") {
+          final ok = await showConfirmDialogs(
+              context!,
+              "是否开启自动密码填充？",
+              const Text(
+                  "盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。"));
+          if (ok == true) {
+            if (await localAuth.authenticate(localizedReason: "输入PIN以启用加密") ==
+                true) {
+              await _savePwd(inputEmail, inputPassword);
+            }
+          }
+        }
+      }
+
       final buildInfoFile = File("$installPath\\build_manifest.id");
       if (await buildInfoFile.exists()) {
         final buildInfo =
@@ -150,10 +183,11 @@ class LoginDialogModel extends BaseUIModel {
   // }
 
   Future<void> _readyForLaunch() async {
+    final userBox = await Hive.openBox("rsi_account_data");
     loginStatus = 2;
     notifyListeners();
     final launchData = {
-      "username": "",
+      "username": userBox.get("account_email", defaultValue: ""),
       "token": webToken,
       "auth_token": authToken,
       "star_network": {
@@ -195,5 +229,34 @@ class LoginDialogModel extends BaseUIModel {
       return "TECH-PREVIEW";
     }
     return "LIVE";
+  }
+
+  _savePwd(String inputEmail, String inputPassword) async {
+    final algorithm = AesGcm.with256bits();
+    final secretKey = await algorithm.newSecretKey();
+    final nonce = algorithm.newNonce();
+
+    final secretBox = await algorithm.encrypt(utf8.encode(inputPassword),
+        secretKey: secretKey, nonce: nonce);
+
+    await algorithm.decrypt(
+        SecretBox(secretBox.cipherText,
+            nonce: secretBox.nonce, mac: secretBox.mac),
+        secretKey: secretKey);
+
+    final pwdEncrypted = base64.encode(secretBox.cipherText);
+
+    final userBox = await Hive.openBox("rsi_account_data");
+    await userBox.put("account_email", inputEmail);
+    await userBox.put("account_pwd_encrypted", pwdEncrypted);
+    await userBox.put("nonce", base64.encode(secretBox.nonce));
+    await userBox.put("mac", base64.encode(secretBox.mac.bytes));
+
+    final secretKeyStr = base64.encode((await secretKey.extractBytes()));
+
+    Win32Credentials.write(
+        credentialName: "SCToolbox_RSI_Account_secret",
+        userName: inputEmail,
+        password: secretKeyStr);
   }
 }

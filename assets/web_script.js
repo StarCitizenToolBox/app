@@ -219,6 +219,21 @@ InitWebLocalization();
 
 /// ----- Login Script ----
 async function getRSILauncherToken(channelId) {
+    if (!window.location.href.includes("robertsspaceindustries.com")) return;
+
+    if (window.location.href.startsWith("https://robertsspaceindustries.com/connect")) {
+        $(function () {
+            $('#email').on('input', function () {
+                let inputEmail = $('#email').val()
+                sessionStorage.setItem('inputEmail', inputEmail);
+            });
+            $('#password').on('input', function () {
+                let inputPassword = $('#password').val()
+                sessionStorage.setItem('inputPassword', inputPassword);
+            });
+        });
+    }
+
     // check login
     let r = await fetch("api/launcher/v3/account/check", {
         method: 'POST', headers: {
@@ -280,7 +295,25 @@ async function getRSILauncherToken(channelId) {
             'claims': claimsData,
             'authToken': TokenData,
             'releaseInfo': releaseDataJson,
-            "avatar": avatarUrl
+            "avatar": avatarUrl,
+            "inputEmail": sessionStorage.getItem("inputEmail"),
+            "inputPassword": sessionStorage.getItem("inputPassword")
         }
     });
+}
+
+function RSIAutoLogin(email, pwd) {
+    if (!window.location.href.includes("robertsspaceindustries.com")) return;
+    $(function () {
+        if (email !== "") {
+            $('#email').val(email)
+        }
+        if (pwd !== "") {
+            $('#password').val(pwd)
+        }
+        if (email !== "" && pwd !== "") {
+            $('.c-form__submit-button-label').click();
+        }
+    });
+
 }

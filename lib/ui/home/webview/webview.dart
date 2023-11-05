@@ -3,11 +3,14 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cryptography/cryptography.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
 
 import '../../../api/api.dart';
@@ -148,6 +151,7 @@ class WebViewModel {
           final message = json.decode(messageString);
           if (message["action"] == "webview_rsi_login_show_window") {
             webview.setWebviewWindowVisibility(true);
+            _checkAutoLogin(webview);
           } else if (message["action"] == "webview_rsi_login_success") {
             _loginModeSuccess = true;
             loginCallback?.call(message, true);
@@ -246,5 +250,35 @@ class WebViewModel {
       loginCallback?.call(null, false);
     }
     _isClosed = true;
+  }
+
+  Future<void> _checkAutoLogin(Webview webview) async {
+    final LocalAuthentication localAuth = LocalAuthentication();
+    if (!await localAuth.isDeviceSupported()) return;
+
+    final userBox = await Hive.openBox("rsi_account_data");
+    final email = await userBox.get("account_email", defaultValue: "");
+
+    final pwdE = await userBox.get("account_pwd_encrypted", defaultValue: "");
+    final nonceStr = await userBox.get("nonce", defaultValue: "");
+    final macStr = await userBox.get("mac", defaultValue: "");
+    if (email == "") return;
+    if (pwdE != "" && nonceStr != "" && macStr != "") {
+      // decrypt
+      if (await localAuth.authenticate(localizedReason: "请输入设备PIN以自动登录RSI账户") !=
+          true) return;
+      final kv = Win32Credentials.read("SCToolbox_RSI_Account_secret");
+      if (kv == null || kv.key != email) return;
+
+      final algorithm = AesGcm.with256bits();
+      final r = await algorithm.decrypt(
+          SecretBox(base64.decode(pwdE),
+              nonce: base64.decode(nonceStr), mac: Mac(base64.decode(macStr))),
+          secretKey: SecretKey(base64.decode(kv.value)));
+      final decryptedPwd = utf8.decode(r);
+      webview.evaluateJavaScript("RSIAutoLogin(\"$email\",\"$decryptedPwd\")");
+    } else {
+      webview.evaluateJavaScript("RSIAutoLogin(\"$email\",\"\")");
+    }
   }
 }

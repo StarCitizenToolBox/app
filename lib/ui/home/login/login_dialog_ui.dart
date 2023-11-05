@@ -19,12 +19,18 @@ class LoginDialog extends BaseUI<LoginDialogModel> {
           children: [
             const Row(),
             if (model.loginStatus == 0) ...[
-              const Center(
+              Center(
                 child: Column(
                   children: [
-                    Text("登录中..."),
-                    SizedBox(height: 12),
-                    ProgressRing()
+                    const Text("登录中..."),
+                    const SizedBox(height: 12),
+                    const ProgressRing(),
+                    const SizedBox(height: 24),
+                    Text(
+                      "* 若开启了自动填充，请留意弹出的 Windows Hello 窗口",
+                      style: TextStyle(
+                          fontSize: 13, color: Colors.white.withOpacity(.6)),
+                    )
                   ],
                 ),
               ),
@@ -32,8 +38,8 @@ class LoginDialog extends BaseUI<LoginDialogModel> {
               Text("请输入RSI账户 [${model.nickname}] 的邮箱，以保存登录状态（输入错误会导致无法进入游戏！）"),
               const SizedBox(height: 12),
               TextFormBox(
-                // controller: model.emailCtrl,
-              ),
+                  // controller: model.emailCtrl,
+                  ),
               const SizedBox(height: 6),
               Text(
                 "*该操作同一账号只需执行一次，输入错误请在盒子设置中清理，切换账号请在汉化浏览器中操作。",
