@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
-
-import 'dio_range_download.dart';
+import 'package:starcitizen_doctor/common/rust/ffi.dart';
 
 class DownloaderDialogUIModel extends BaseUIModel {
   final String fileName;
@@ -16,16 +14,12 @@ class DownloaderDialogUIModel extends BaseUIModel {
   DownloaderDialogUIModel(this.fileName, this.savePath, this.downloadUrl,
       {this.showChangeSavePathDialog = false, this.threadCount = 1});
 
-  CancelToken? downloadCancelToken;
-
-  int? downloadTaskId;
-
   bool isInMerging = false;
+
+  String? downloadTaskId;
 
   double? progress;
   int? speed;
-  DateTime? lastUpdateTime;
-  int? lastUpdateCount;
   int? count;
   int? total;
 
@@ -52,48 +46,66 @@ class DownloaderDialogUIModel extends BaseUIModel {
       savePath = userSelect;
       dPrint(savePath);
       notifyListeners();
-    } else {
-      savePath = "$savePath/$fileName";
     }
-    // start download
+
+    if (savePath.endsWith("\\$fileName")) {
+      savePath = savePath.substring(0, savePath.length - fileName.length - 1);
+    }
+
+    final downloaderSavePath = "$savePath//$fileName.downloading";
+
     try {
-      downloadCancelToken = CancelToken();
-      final r = await RangeDownload.downloadWithChunks(downloadUrl, savePath,
-          maxChunk: 10,
-          cancelToken: downloadCancelToken,
-          isRangeDownload: true, onReceiveProgress: (int count, int total) {
-        lastUpdateTime ??= DateTime.now();
-        if ((DateTime.now().difference(lastUpdateTime ?? DateTime.now()))
-                .inSeconds >=
-            1) {
-          lastUpdateTime = DateTime.now();
-          speed = (count - (lastUpdateCount ?? 0));
-          lastUpdateCount = count;
-          notifyListeners();
+      rustFii
+          .startDownload(
+              url: downloadUrl,
+              savePath: savePath,
+              fileName: "$fileName.downloading",
+              connectionCount: 10)
+          .listen((event) async {
+        dPrint(
+            "id == ${event.id} p ==${event.progress} t==${event.total} s==${event.speed} st==${event.status}");
+
+        downloadTaskId = event.id;
+        count = event.progress;
+        if (event.total != 0) {
+          total = event.total;
         }
-        this.count = count;
-        this.total = total;
-        progress = count / total * 100;
-        if (count == total) {
-          isInMerging = true;
+        speed = event.speed;
+        if (total != null && total != 0 && event.progress != 0) {
+          progress = (event.progress / total!) * 100;
         }
         notifyListeners();
+
+        if (progress != null &&
+            progress != 0 &&
+            event.status == const MyDownloaderStatus.noStart()) {
+          Navigator.pop(context!, "cancel");
+          return;
+        }
+
+        if (event.status == const MyDownloaderStatus.finished()) {
+          count = total;
+          isInMerging = true;
+          notifyListeners();
+          await File(downloaderSavePath)
+              .rename(downloaderSavePath.replaceAll(".downloading", ""));
+          final bsonFile = File("$downloaderSavePath.bson");
+          if (await bsonFile.exists()) {
+            bsonFile.delete();
+          }
+          Navigator.pop(context!, "$savePath\\$fileName");
+        }
       });
-      if (r.statusCode == 200) {
-        Navigator.pop(context!, savePath);
-      }
     } catch (e) {
-      if (e is DioException && e.type != DioExceptionType.cancel) {
-        Navigator.pop(context!, e);
-      }
+      Navigator.pop(context!, e);
     }
   }
 
   doCancel() {
     try {
-      downloadCancelToken?.cancel();
-      downloadCancelToken = null;
+      if (downloadTaskId != null) {
+        rustFii.cancelDownload(id: downloadTaskId!);
+      }
     } catch (_) {}
-    Navigator.pop(context!, "cancel");
   }
 }

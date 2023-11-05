@@ -333,7 +333,7 @@ class ToolsUIModel extends BaseUIModel {
   }
 
   Future<void> _downloadP4k() async {
-    final downloadUrl = AppConf.networkVersionData?.p4kDownloadUrl;
+    var downloadUrl = AppConf.networkVersionData?.p4kDownloadUrl;
     if (downloadUrl == null || downloadUrl.isEmpty) {
       showToast(context!, "该功能维护中，请稍后再试！");
       return;

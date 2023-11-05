@@ -9,3 +9,8 @@ crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
 flutter_rust_bridge = "1"
+http-downloader = { version = "0.3.2", features = ["status-tracker", "speed-tracker", "breakpoint-resume", "bson-file-archiver"] }
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
+url = "2.4.1"
+uuid = { version = "1.5.0", features = ["v4", "fast-rng", "macro-diagnostics"] }
+async-std = "1.12.0"

@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/common/rust/ffi.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:uuid/uuid.dart';
 import 'package:window_manager/window_manager.dart';
@@ -64,6 +65,13 @@ class AppConf {
     } catch (e) {
       exit(1);
     }
+
+    /// check Rust bridge
+    if (await rustFii.ping() != "PONG") {
+      dPrint("Rust bridge Error");
+      exit(1);
+    }
+    dPrint("---- rust bridge inited -----");
 
     /// init windows
     await windowManager.ensureInitialized();

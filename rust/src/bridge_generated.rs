@@ -20,44 +20,63 @@ use std::sync::Arc;
 
 // Section: imports
 
+use crate::downloader::DownloadCallbackData;
+use crate::downloader::MyDownloaderStatus;
+use crate::downloader::MyNetworkItemPendingType;
+
 // Section: wire functions
 
-fn wire_platform_impl(port_: MessagePort) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Platform, _>(
+fn wire_ping_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
         WrapInfo {
-            debug_name: "platform",
+            debug_name: "ping",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
-        move || move |task_callback| Result::<_, ()>::Ok(platform()),
+        move || move |task_callback| Result::<_, ()>::Ok(ping()),
     )
 }
-fn wire_add_impl(
+fn wire_start_download_impl(
     port_: MessagePort,
-    left: impl Wire2Api<usize> + UnwindSafe,
-    right: impl Wire2Api<usize> + UnwindSafe,
+    url: impl Wire2Api<String> + UnwindSafe,
+    save_path: impl Wire2Api<String> + UnwindSafe,
+    file_name: impl Wire2Api<String> + UnwindSafe,
+    connection_count: impl Wire2Api<u8> + UnwindSafe,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, usize, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
-            debug_name: "add",
+            debug_name: "start_download",
+            port: Some(port_),
+            mode: FfiCallMode::Stream,
+        },
+        move || {
+            let api_url = url.wire2api();
+            let api_save_path = save_path.wire2api();
+            let api_file_name = file_name.wire2api();
+            let api_connection_count = connection_count.wire2api();
+            move |task_callback| {
+                Result::<_, ()>::Ok(start_download(
+                    api_url,
+                    api_save_path,
+                    api_file_name,
+                    api_connection_count,
+                    task_callback.stream_sink::<_, DownloadCallbackData>(),
+                ))
+            }
+        },
+    )
+}
+fn wire_cancel_download_impl(port_: MessagePort, id: impl Wire2Api<String> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
+        WrapInfo {
+            debug_name: "cancel_download",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_left = left.wire2api();
-            let api_right = right.wire2api();
-            move |task_callback| Result::<_, ()>::Ok(add(api_left, api_right))
+            let api_id = id.wire2api();
+            move |task_callback| Result::<_, ()>::Ok(cancel_download(api_id))
         },
-    )
-}
-fn wire_rust_release_mode_impl(port_: MessagePort) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, bool, _>(
-        WrapInfo {
-            debug_name: "rust_release_mode",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || move |task_callback| Result::<_, ()>::Ok(rust_release_mode()),
     )
 }
 // Section: wrapper structs
@@ -82,30 +101,66 @@ where
         (!self.is_null()).then(|| self.wire2api())
     }
 }
-impl Wire2Api<usize> for usize {
-    fn wire2api(self) -> usize {
+
+impl Wire2Api<u8> for u8 {
+    fn wire2api(self) -> u8 {
         self
     }
 }
+
 // Section: impl IntoDart
 
-impl support::IntoDart for Platform {
+impl support::IntoDart for DownloadCallbackData {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.id.into_into_dart().into_dart(),
+            self.total.into_into_dart().into_dart(),
+            self.progress.into_into_dart().into_dart(),
+            self.speed.into_into_dart().into_dart(),
+            self.status.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for DownloadCallbackData {}
+impl rust2dart::IntoIntoDart<DownloadCallbackData> for DownloadCallbackData {
+    fn into_into_dart(self) -> Self {
+        self
+    }
+}
+
+impl support::IntoDart for MyDownloaderStatus {
     fn into_dart(self) -> support::DartAbi {
         match self {
-            Self::Unknown => 0,
-            Self::Android => 1,
-            Self::Ios => 2,
-            Self::Windows => 3,
-            Self::Unix => 4,
-            Self::MacIntel => 5,
-            Self::MacApple => 6,
-            Self::Wasm => 7,
+            Self::NoStart => vec![0.into_dart()],
+            Self::Running => vec![1.into_dart()],
+            Self::Pending(field0) => vec![2.into_dart(), field0.into_into_dart().into_dart()],
+            Self::Error(field0) => vec![3.into_dart(), field0.into_into_dart().into_dart()],
+            Self::Finished => vec![4.into_dart()],
         }
         .into_dart()
     }
 }
-impl support::IntoDartExceptPrimitive for Platform {}
-impl rust2dart::IntoIntoDart<Platform> for Platform {
+impl support::IntoDartExceptPrimitive for MyDownloaderStatus {}
+impl rust2dart::IntoIntoDart<MyDownloaderStatus> for MyDownloaderStatus {
+    fn into_into_dart(self) -> Self {
+        self
+    }
+}
+
+impl support::IntoDart for MyNetworkItemPendingType {
+    fn into_dart(self) -> support::DartAbi {
+        match self {
+            Self::QueueUp => 0,
+            Self::Starting => 1,
+            Self::Stopping => 2,
+            Self::Initializing => 3,
+        }
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for MyNetworkItemPendingType {}
+impl rust2dart::IntoIntoDart<MyNetworkItemPendingType> for MyNetworkItemPendingType {
     fn into_into_dart(self) -> Self {
         self
     }

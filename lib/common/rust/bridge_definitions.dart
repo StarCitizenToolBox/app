@@ -7,28 +7,61 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:uuid/uuid.dart';
+import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+
+part 'bridge_definitions.freezed.dart';
 
 abstract class Rust {
-  Future<Platform> platform({dynamic hint});
+  Future<String> ping({dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kPlatformConstMeta;
+  FlutterRustBridgeTaskConstMeta get kPingConstMeta;
 
-  Future<int> add({required int left, required int right, dynamic hint});
+  Stream<DownloadCallbackData> startDownload(
+      {required String url,
+      required String savePath,
+      required String fileName,
+      required int connectionCount,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kAddConstMeta;
+  FlutterRustBridgeTaskConstMeta get kStartDownloadConstMeta;
 
-  Future<bool> rustReleaseMode({dynamic hint});
+  Future<void> cancelDownload({required String id, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kRustReleaseModeConstMeta;
+  FlutterRustBridgeTaskConstMeta get kCancelDownloadConstMeta;
 }
 
-enum Platform {
-  Unknown,
-  Android,
-  Ios,
-  Windows,
-  Unix,
-  MacIntel,
-  MacApple,
-  Wasm,
+class DownloadCallbackData {
+  final String id;
+  final int total;
+  final int progress;
+  final int speed;
+  final MyDownloaderStatus status;
+
+  const DownloadCallbackData({
+    required this.id,
+    required this.total,
+    required this.progress,
+    required this.speed,
+    required this.status,
+  });
+}
+
+@freezed
+sealed class MyDownloaderStatus with _$MyDownloaderStatus {
+  const factory MyDownloaderStatus.noStart() = MyDownloaderStatus_NoStart;
+  const factory MyDownloaderStatus.running() = MyDownloaderStatus_Running;
+  const factory MyDownloaderStatus.pending(
+    MyNetworkItemPendingType field0,
+  ) = MyDownloaderStatus_Pending;
+  const factory MyDownloaderStatus.error(
+    String field0,
+  ) = MyDownloaderStatus_Error;
+  const factory MyDownloaderStatus.finished() = MyDownloaderStatus_Finished;
+}
+
+enum MyNetworkItemPendingType {
+  QueueUp,
+  Starting,
+  Stopping,
+  Initializing,
 }

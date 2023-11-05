@@ -25,57 +25,66 @@ class RustImpl implements Rust {
   factory RustImpl.wasm(FutureOr<WasmModule> module) =>
       RustImpl(module as ExternalLibrary);
   RustImpl.raw(this._platform);
-  Future<Platform> platform({dynamic hint}) {
+  Future<String> ping({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_platform(port_),
-      parseSuccessData: _wire2api_platform,
+      callFfi: (port_) => _platform.inner.wire_ping(port_),
+      parseSuccessData: _wire2api_String,
       parseErrorData: null,
-      constMeta: kPlatformConstMeta,
+      constMeta: kPingConstMeta,
       argValues: [],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kPlatformConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kPingConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "platform",
+        debugName: "ping",
         argNames: [],
       );
 
-  Future<int> add({required int left, required int right, dynamic hint}) {
-    var arg0 = api2wire_usize(left);
-    var arg1 = api2wire_usize(right);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_add(port_, arg0, arg1),
-      parseSuccessData: _wire2api_usize,
+  Stream<DownloadCallbackData> startDownload(
+      {required String url,
+      required String savePath,
+      required String fileName,
+      required int connectionCount,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_String(url);
+    var arg1 = _platform.api2wire_String(savePath);
+    var arg2 = _platform.api2wire_String(fileName);
+    var arg3 = api2wire_u8(connectionCount);
+    return _platform.executeStream(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_start_download(port_, arg0, arg1, arg2, arg3),
+      parseSuccessData: _wire2api_download_callback_data,
       parseErrorData: null,
-      constMeta: kAddConstMeta,
-      argValues: [left, right],
+      constMeta: kStartDownloadConstMeta,
+      argValues: [url, savePath, fileName, connectionCount],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kAddConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kStartDownloadConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "add",
-        argNames: ["left", "right"],
+        debugName: "start_download",
+        argNames: ["url", "savePath", "fileName", "connectionCount"],
       );
 
-  Future<bool> rustReleaseMode({dynamic hint}) {
+  Future<void> cancelDownload({required String id, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(id);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_rust_release_mode(port_),
-      parseSuccessData: _wire2api_bool,
+      callFfi: (port_) => _platform.inner.wire_cancel_download(port_, arg0),
+      parseSuccessData: _wire2api_unit,
       parseErrorData: null,
-      constMeta: kRustReleaseModeConstMeta,
-      argValues: [],
+      constMeta: kCancelDownloadConstMeta,
+      argValues: [id],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kRustReleaseModeConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kCancelDownloadConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "rust_release_mode",
-        argNames: [],
+        debugName: "cancel_download",
+        argNames: ["id"],
       );
 
   void dispose() {
@@ -83,29 +92,76 @@ class RustImpl implements Rust {
   }
 // Section: wire2api
 
-  bool _wire2api_bool(dynamic raw) {
-    return raw as bool;
+  String _wire2api_String(dynamic raw) {
+    return raw as String;
+  }
+
+  DownloadCallbackData _wire2api_download_callback_data(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return DownloadCallbackData(
+      id: _wire2api_String(arr[0]),
+      total: _wire2api_u64(arr[1]),
+      progress: _wire2api_u64(arr[2]),
+      speed: _wire2api_u64(arr[3]),
+      status: _wire2api_my_downloader_status(arr[4]),
+    );
   }
 
   int _wire2api_i32(dynamic raw) {
     return raw as int;
   }
 
-  Platform _wire2api_platform(dynamic raw) {
-    return Platform.values[raw as int];
+  MyDownloaderStatus _wire2api_my_downloader_status(dynamic raw) {
+    switch (raw[0]) {
+      case 0:
+        return MyDownloaderStatus_NoStart();
+      case 1:
+        return MyDownloaderStatus_Running();
+      case 2:
+        return MyDownloaderStatus_Pending(
+          _wire2api_my_network_item_pending_type(raw[1]),
+        );
+      case 3:
+        return MyDownloaderStatus_Error(
+          _wire2api_String(raw[1]),
+        );
+      case 4:
+        return MyDownloaderStatus_Finished();
+      default:
+        throw Exception("unreachable");
+    }
   }
 
-  int _wire2api_usize(dynamic raw) {
+  MyNetworkItemPendingType _wire2api_my_network_item_pending_type(dynamic raw) {
+    return MyNetworkItemPendingType.values[raw as int];
+  }
+
+  int _wire2api_u64(dynamic raw) {
     return castInt(raw);
+  }
+
+  int _wire2api_u8(dynamic raw) {
+    return raw as int;
+  }
+
+  Uint8List _wire2api_uint_8_list(dynamic raw) {
+    return raw as Uint8List;
+  }
+
+  void _wire2api_unit(dynamic raw) {
+    return;
   }
 }
 
 // Section: api2wire
 
 @protected
-int api2wire_usize(int raw) {
+int api2wire_u8(int raw) {
   return raw;
 }
+
 // Section: finalizer
 
 class RustPlatform extends FlutterRustBridgeBase<RustWire> {
@@ -113,6 +169,17 @@ class RustPlatform extends FlutterRustBridgeBase<RustWire> {
 
 // Section: api2wire
 
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_String(String raw) {
+    return api2wire_uint_8_list(utf8.encoder.convert(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_uint_8_list(Uint8List raw) {
+    final ans = inner.new_uint_8_list_0(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
 // Section: finalizer
 
 // Section: api_fill_to_wire
@@ -213,51 +280,77 @@ class RustWire implements FlutterRustBridgeWireBase {
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr
       .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
-  void wire_platform(
+  void wire_ping(
     int port_,
   ) {
-    return _wire_platform(
+    return _wire_ping(
       port_,
     );
   }
 
-  late final _wire_platformPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-          'wire_platform');
-  late final _wire_platform =
-      _wire_platformPtr.asFunction<void Function(int)>();
+  late final _wire_pingPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_ping');
+  late final _wire_ping = _wire_pingPtr.asFunction<void Function(int)>();
 
-  void wire_add(
+  void wire_start_download(
     int port_,
-    int left,
-    int right,
+    ffi.Pointer<wire_uint_8_list> url,
+    ffi.Pointer<wire_uint_8_list> save_path,
+    ffi.Pointer<wire_uint_8_list> file_name,
+    int connection_count,
   ) {
-    return _wire_add(
+    return _wire_start_download(
       port_,
-      left,
-      right,
+      url,
+      save_path,
+      file_name,
+      connection_count,
     );
   }
 
-  late final _wire_addPtr = _lookup<
+  late final _wire_start_downloadPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.UintPtr, ffi.UintPtr)>>('wire_add');
-  late final _wire_add =
-      _wire_addPtr.asFunction<void Function(int, int, int)>();
+          ffi.Void Function(
+              ffi.Int64,
+              ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>,
+              ffi.Uint8)>>('wire_start_download');
+  late final _wire_start_download = _wire_start_downloadPtr.asFunction<
+      void Function(int, ffi.Pointer<wire_uint_8_list>,
+          ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>, int)>();
 
-  void wire_rust_release_mode(
+  void wire_cancel_download(
     int port_,
+    ffi.Pointer<wire_uint_8_list> id,
   ) {
-    return _wire_rust_release_mode(
+    return _wire_cancel_download(
       port_,
+      id,
     );
   }
 
-  late final _wire_rust_release_modePtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-          'wire_rust_release_mode');
-  late final _wire_rust_release_mode =
-      _wire_rust_release_modePtr.asFunction<void Function(int)>();
+  late final _wire_cancel_downloadPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_cancel_download');
+  late final _wire_cancel_download = _wire_cancel_downloadPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
+    int len,
+  ) {
+    return _new_uint_8_list_0(
+      len,
+    );
+  }
+
+  late final _new_uint_8_list_0Ptr = _lookup<
+          ffi
+          .NativeFunction<ffi.Pointer<wire_uint_8_list> Function(ffi.Int32)>>(
+      'new_uint_8_list_0');
+  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr
+      .asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -275,6 +368,13 @@ class RustWire implements FlutterRustBridgeWireBase {
 }
 
 final class _Dart_Handle extends ffi.Opaque {}
+
+final class wire_uint_8_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
 
 typedef DartPostCObjectFnType = ffi.Pointer<
     ffi.NativeFunction<

@@ -2,27 +2,64 @@ use super::*;
 // Section: wire functions
 
 #[no_mangle]
-pub extern "C" fn wire_platform(port_: i64) {
-    wire_platform_impl(port_)
+pub extern "C" fn wire_ping(port_: i64) {
+    wire_ping_impl(port_)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_add(port_: i64, left: usize, right: usize) {
-    wire_add_impl(port_, left, right)
+pub extern "C" fn wire_start_download(
+    port_: i64,
+    url: *mut wire_uint_8_list,
+    save_path: *mut wire_uint_8_list,
+    file_name: *mut wire_uint_8_list,
+    connection_count: u8,
+) {
+    wire_start_download_impl(port_, url, save_path, file_name, connection_count)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_rust_release_mode(port_: i64) {
-    wire_rust_release_mode_impl(port_)
+pub extern "C" fn wire_cancel_download(port_: i64, id: *mut wire_uint_8_list) {
+    wire_cancel_download_impl(port_, id)
 }
 
 // Section: allocate functions
+
+#[no_mangle]
+pub extern "C" fn new_uint_8_list_0(len: i32) -> *mut wire_uint_8_list {
+    let ans = wire_uint_8_list {
+        ptr: support::new_leak_vec_ptr(Default::default(), len),
+        len,
+    };
+    support::new_leak_box_ptr(ans)
+}
 
 // Section: related functions
 
 // Section: impl Wire2Api
 
+impl Wire2Api<String> for *mut wire_uint_8_list {
+    fn wire2api(self) -> String {
+        let vec: Vec<u8> = self.wire2api();
+        String::from_utf8_lossy(&vec).into_owned()
+    }
+}
+
+impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
+    fn wire2api(self) -> Vec<u8> {
+        unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        }
+    }
+}
 // Section: wire structs
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_uint_8_list {
+    ptr: *mut u8,
+    len: i32,
+}
 
 // Section: impl NewWithNullPtr
 

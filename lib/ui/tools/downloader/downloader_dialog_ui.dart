@@ -54,7 +54,7 @@ class DownloaderDialogUI extends BaseUI<DownloaderDialogUIModel> {
 
   String getStatus(DownloaderDialogUIModel model) {
     if (model.progress == null && !model.isInMerging) return "准备中...";
-    if (model.isInMerging) return "正在合并文件...";
+    if (model.isInMerging) return "正在处理文件...";
     return "${model.progress?.toStringAsFixed(2) ?? "0"}%  ";
   }
 }
