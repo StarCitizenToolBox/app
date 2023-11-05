@@ -105,6 +105,9 @@ class DownloaderDialogUIModel extends BaseUIModel {
     try {
       if (downloadTaskId != null) {
         rustFii.cancelDownload(id: downloadTaskId!);
+        downloadTaskId = null;
+      } else {
+        Navigator.pop(context!, "cancel");
       }
     } catch (_) {}
   }
