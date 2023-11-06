@@ -94,12 +94,12 @@ class AppConf {
       );
       await windowManager.show();
       await Window.initialize();
+      await Window.hideWindowControls();
       if (windowsDeviceInfo.productName.contains("Windows 11")) {
         await Window.setEffect(
           effect: WindowEffect.acrylic,
         );
       }
-      await Window.hideWindowControls();
     });
     await _checkUpdate();
     AnalyticsApi.touch("launch");
