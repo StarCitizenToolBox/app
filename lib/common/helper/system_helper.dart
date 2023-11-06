@@ -183,15 +183,15 @@ foreach ($adapter in $adapterMemory) {
 
   static initVBS() async {
     final script = '''
-  If Not WScript.Arguments.Named.Exists("elevate") Then
+If Not WScript.Arguments.Named.Exists("elevate") Then
     CreateObject("Shell.Application").ShellExecute WScript.FullName _
     , """" & WScript.ScriptFullName & """ /elevate", "", "runas", 1
     WScript.Quit
   End If
-  
-  Set WshShell = WScript.CreateObject("WScript.Shell")
-  exeName = """${Platform.resolvedExecutable}"""
-  statusCode = WshShell.Run(exeName, 1, true)
+Dim objShell
+Set objShell = WScript.CreateObject( "WScript.Shell" )
+objShell.Run("""${Platform.resolvedExecutable}""")
+Set objShell = Nothing
   ''';
     final vbsFile = File(AppConf.launchHelperPath);
     if (await vbsFile.exists()) {
