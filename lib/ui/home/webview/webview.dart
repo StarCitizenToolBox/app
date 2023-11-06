@@ -263,7 +263,10 @@ class WebViewModel {
     final nonceStr = await userBox.get("nonce", defaultValue: "");
     final macStr = await userBox.get("mac", defaultValue: "");
     if (email == "") return;
+    webview.evaluateJavaScript("RSIAutoLogin(\"$email\",\"\")");
     if (pwdE != "" && nonceStr != "" && macStr != "") {
+      // send toast
+      webview.evaluateJavaScript("SCTShowToast(\"请完成 Windows Hello 验证以填充密码\")");
       // decrypt
       if (await localAuth.authenticate(localizedReason: "请输入设备PIN以自动登录RSI账户") !=
           true) return;
@@ -277,8 +280,6 @@ class WebViewModel {
           secretKey: SecretKey(base64.decode(kv.value)));
       final decryptedPwd = utf8.decode(r);
       webview.evaluateJavaScript("RSIAutoLogin(\"$email\",\"$decryptedPwd\")");
-    } else {
-      webview.evaluateJavaScript("RSIAutoLogin(\"$email\",\"\")");
     }
   }
 }

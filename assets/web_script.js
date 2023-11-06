@@ -311,9 +311,26 @@ function RSIAutoLogin(email, pwd) {
         if (pwd !== "") {
             $('#password').val(pwd)
         }
+        sessionStorage.setItem('inputEmail', '');
+        sessionStorage.setItem('inputPassword', '');
         if (email !== "" && pwd !== "") {
             $('.c-form__submit-button-label').click();
         }
     });
+}
+
+function SCTShowToast(message, duration) {
+    let m = document.createElement('div');
+    m.innerHTML = message;
+    m.style.cssText = "font-family:siyuan;max-width:60%;min-width: 150px;padding:0 14px;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 4px;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 999999;background: rgba(0, 0, 0,.7);font-size: 16px;";
+    document.body.appendChild(m);
+    setTimeout(function () {
+        let d = 0.5;
+        m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
+        m.style.opacity = '0';
+        setTimeout(function () {
+            document.body.removeChild(m)
+        }, d * 1000);
+    }, 3500);
 
 }
