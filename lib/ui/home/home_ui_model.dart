@@ -172,7 +172,6 @@ class HomeUIModel extends BaseUIModel {
     checkResult = [];
     await _checkPreInstall();
     await _checkEAC();
-
     // TODO for debug
     // checkResult?.add(const MapEntry("unSupport_system", "android"));
     // checkResult?.add(const MapEntry("nvme_PhysicalBytes", "c"));

@@ -6,8 +6,10 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/rust/ffi.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
+import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -37,12 +39,18 @@ class AppConf {
 
   static bool offlineMode = false;
 
+  static bool isRunningAdmin = false;
+
   static late final WindowsDeviceInfo windowsDeviceInfo;
 
   static const isMSE =
       String.fromEnvironment("MSE", defaultValue: "false") == "true";
 
-  static init() async {
+  static final launchHelperPath =
+      "${AppConf.applicationSupportDir}\\launch_helper.vbs";
+
+  static init(List<String> args) async {
+    dPrint("launch args == $args");
     WidgetsFlutterBinding.ensureInitialized();
 
     /// init device info
@@ -72,6 +80,7 @@ class AppConf {
       exit(1);
     }
     dPrint("---- rust bridge inited -----");
+    isRunningAdmin = await globalUIModel.checkAdmin();
 
     /// init windows
     await windowManager.ensureInitialized();

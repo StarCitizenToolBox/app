@@ -14,7 +14,7 @@ void main(List<String> args) async {
       builder: _defaultWebviewTitleBar)) {
     return;
   }
-  await AppConf.init();
+  await AppConf.init(args);
   runApp(ProviderScope(
     child: BaseUIContainer(
       uiCreate: () => AppUI(),

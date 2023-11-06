@@ -127,7 +127,7 @@ msix_config:
   publisher: CN=B54C897B-C263-4680-B6AB-4913C603DF87
   msix_version: 2.9.7.0
   logo_path: ./assets/app_logo.png
-  capabilities: internetClient,allowElevation
+  capabilities: internetClient
   languages: zh-cn
   windows_build_args: --dart-define="MSE=true"
 #  store: true

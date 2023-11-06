@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 
 class SystemHelper {
@@ -178,5 +179,25 @@ foreach ($adapter in $adapterMemory) {
       }
     } catch (_) {}
     return totalSize;
+  }
+
+  static initVBS() async {
+    final script = '''
+  If Not WScript.Arguments.Named.Exists("elevate") Then
+    CreateObject("Shell.Application").ShellExecute WScript.FullName _
+    , """" & WScript.ScriptFullName & """ /elevate", "", "runas", 1
+    WScript.Quit
+  End If
+  
+  Set WshShell = WScript.CreateObject("WScript.Shell")
+  exeName = """${Platform.resolvedExecutable}"""
+  statusCode = WshShell.Run(exeName, 1, true)
+  ''';
+    final vbsFile = File(AppConf.launchHelperPath);
+    if (await vbsFile.exists()) {
+      await vbsFile.delete();
+    }
+    await vbsFile.create();
+    await vbsFile.writeAsString(script);
   }
 }

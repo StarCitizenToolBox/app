@@ -1,10 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 
 import 'api/api.dart';
 import 'base/ui_model.dart';
 import 'common/conf.dart';
+import 'common/helper/system_helper.dart';
 import 'ui/settings/upgrade_dialog_ui.dart';
 import 'ui/settings/upgrade_dialog_ui_model.dart';
 
@@ -41,5 +45,33 @@ class AppGlobalUIModel extends BaseUIModel {
       return true;
     }
     return false;
+  }
+
+  Future<bool> checkAdmin() async {
+    const checkAdmin =
+        r"if ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { exit 0 } else { exit 1 }";
+    final r = await Process.run("powershell.exe", [checkAdmin]);
+    dPrint("code == ${r.exitCode}  msg == ${r.stdout} err = ${r.stderr}");
+    if (r.exitCode == 0) {
+      return true;
+    } else {
+      if (!AppConf.isMSE) {
+        await _runAsAdmin();
+      } else {
+        final logPath = await SCLoggerHelper.getLogFilePath();
+        if (logPath != null) {
+          if (await File(logPath).exists()) {
+            await _runAsAdmin();
+          }
+        }
+      }
+      return false;
+    }
+  }
+
+  _runAsAdmin() async {
+    await SystemHelper.initVBS();
+    await Process.run("powershell.exe", [AppConf.launchHelperPath]);
+    exit(0);
   }
 }
