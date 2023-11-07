@@ -350,7 +350,7 @@ class HomeUIModel extends BaseUIModel {
   }
 
   openDir(rsiLauncherInstalledPath) async {
-    await Process.run("powershell.exe",
+    await Process.run(SystemHelper.powershellPath,
         ["explorer.exe", "/select,\"$rsiLauncherInstalledPath\""]);
   }
 
@@ -489,7 +489,7 @@ class HomeUIModel extends BaseUIModel {
       return;
     }
     if (isCurGameRunning) {
-      await Process.run("powershell.exe", ["ps \"StarCitizen\" | kill"]);
+      await Process.run(SystemHelper.powershellPath, ["ps \"StarCitizen\" | kill"]);
       return;
     }
     AnalyticsApi.touch("gameLaunch");

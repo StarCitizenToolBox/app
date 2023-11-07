@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/rust/ffi.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
@@ -80,6 +81,7 @@ class AppConf {
     }
     dPrint("---- rust bridge inited -----");
     isRunningAdmin = await globalUIModel.checkAdmin();
+    await SystemHelper.initPowerShellPath();
 
     /// init windows
     await windowManager.ensureInitialized();

@@ -50,7 +50,7 @@ class AppGlobalUIModel extends BaseUIModel {
   Future<bool> checkAdmin() async {
     const checkAdmin =
         r"if ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { exit 0 } else { exit 1 }";
-    final r = await Process.run("powershell.exe", [checkAdmin]);
+    final r = await Process.run(SystemHelper.powershellPath, [checkAdmin]);
     dPrint("code == ${r.exitCode}  msg == ${r.stdout} err = ${r.stderr}");
     if (r.exitCode == 0) {
       return true;
@@ -71,7 +71,8 @@ class AppGlobalUIModel extends BaseUIModel {
 
   _runAsAdmin() async {
     await SystemHelper.initVBS();
-    await Process.run("powershell.exe", [AppConf.launchHelperPath]);
+    await Process.run(
+        SystemHelper.powershellPath, [AppConf.launchHelperPath]);
     exit(0);
   }
 }

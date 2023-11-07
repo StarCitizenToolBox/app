@@ -4,9 +4,27 @@ import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 
 class SystemHelper {
+  static String powershellPath = "powershell.exe";
+
+  static initPowerShellPath() async {
+    var result = await Process.run(powershellPath, ["echo", "ping"]);
+    if (!result.stdout.toString().startsWith("ping") &&
+        powershellPath == "powershell.exe") {
+      Map<String, String> envVars = Platform.environment;
+      final systemRoot = envVars["SYSTEMROOT"];
+      if (systemRoot != null) {
+        final autoSearchPath =
+            "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
+        dPrint("auto search powershell path === $autoSearchPath");
+        powershellPath = autoSearchPath;
+        initPowerShellPath();
+      }
+    }
+  }
+
   static Future<bool> checkNvmePatchStatus() async {
     try {
-      var result = await Process.run('powershell.exe', [
+      var result = await Process.run(SystemHelper.powershellPath, [
         "Get-ItemProperty",
         "-Path",
         "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
@@ -26,7 +44,7 @@ class SystemHelper {
   }
 
   static Future<String> addNvmePatch() async {
-    var result = await Process.run('powershell.exe', [
+    var result = await Process.run(SystemHelper.powershellPath, [
       'New-ItemProperty',
       "-Path",
       "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
@@ -42,7 +60,7 @@ class SystemHelper {
 
   static doRemoveNvmePath() async {
     try {
-      var result = await Process.run('powershell.exe', [
+      var result = await Process.run(SystemHelper.powershellPath, [
         "Clear-ItemProperty",
         "-Path",
         "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
@@ -68,7 +86,7 @@ class SystemHelper {
         "$programDataPath\\Microsoft\\Windows\\Start Menu\\Programs\\Roberts Space Industries\\RSI Launcher.lnk";
     final rsiLinkFile = File(rsiFilePath);
     if (await rsiLinkFile.exists()) {
-      final r = await Process.run("powershell.exe", [
+      final r = await Process.run(SystemHelper.powershellPath, [
         "(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath"
       ]);
       if (r.stdout.toString().contains("RSI Launcher.exe")) {

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 
 class UpgradeDialogUIModel extends BaseUIModel {
   String? description;
@@ -64,7 +65,8 @@ class UpgradeDialogUIModel extends BaseUIModel {
       isUpgrading = false;
       progress = null;
       showToast(context!, "运行失败，请尝试手动安装！");
-      Process.run("powershell.exe", ["explorer.exe", "/select,\"$fileName\""]);
+      Process.run(SystemHelper.powershellPath,
+          ["explorer.exe", "/select,\"$fileName\""]);
       notifyListeners();
     }
   }

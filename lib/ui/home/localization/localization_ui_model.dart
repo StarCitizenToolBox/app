@@ -8,6 +8,7 @@ import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 
 class LocalizationUIModel extends BaseUIModel {
@@ -212,7 +213,7 @@ class LocalizationUIModel extends BaseUIModel {
   openDir() async {
     showToast(context!,
         "即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。");
-    await Process.run("powershell.exe",
+    await Process.run(SystemHelper.powershellPath,
         ["explorer.exe", "/select,\"${customizeDir.absolute.path}\"\\"]);
   }
 

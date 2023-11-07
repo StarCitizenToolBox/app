@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:starcitizen_doctor/ui/about/about_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
@@ -64,7 +65,7 @@ class IndexUIModel extends BaseUIModel {
     }
 
     try {
-      var result = await Process.run('powershell.exe', ["echo", "ping"]);
+      var result = await Process.run(SystemHelper.powershellPath, ["echo", "ping"]);
       if (result.stdout.toString().startsWith("ping")) {
         dPrint("powershell check pass");
       } else {
