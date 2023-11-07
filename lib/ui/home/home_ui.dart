@@ -209,7 +209,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                       borderRadius: BorderRadius.circular(12),
                       shadowConfig: const ShadowConfig(disable: true),
                       child: GestureDetector(
-                        onTap: ()=> model.onTapFestival(),
+                        onTap: () => model.onTapFestival(),
                         child: Container(
                             width: width + 24,
                             decoration: BoxDecoration(
@@ -234,8 +234,9 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                         autoplay: true,
                                         autoplayDelay: 5000,
                                         itemBuilder: (context, index) {
-                                          final item = model
-                                              .countdownFestivalListData![index];
+                                          final item =
+                                              model.countdownFestivalListData![
+                                                  index];
                                           return Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
@@ -244,11 +245,13 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                                   item.icon != "") ...[
                                                 ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(1000),
+                                                      BorderRadius.circular(
+                                                          1000),
                                                   child: Image.asset(
                                                     "assets/countdown/${item.icon}",
                                                     width: 48,
                                                     height: 48,
+                                                    fit: BoxFit.cover,
                                                   ),
                                                 ),
                                               ],

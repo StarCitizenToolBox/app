@@ -25,7 +25,8 @@ class LoginDialog extends BaseUI<LoginDialogModel> {
                     const Text("登录中..."),
                     const SizedBox(height: 12),
                     const ProgressRing(),
-                    const SizedBox(height: 24),
+                    if (model.isDeviceSupportWinHello)
+                      const SizedBox(height: 24),
                     Text(
                       "* 若开启了自动填充，请留意弹出的 Windows Hello 窗口",
                       style: TextStyle(

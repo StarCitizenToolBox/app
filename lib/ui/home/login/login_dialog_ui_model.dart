@@ -32,17 +32,21 @@ class LoginDialogModel extends BaseUIModel {
 
   final LocalAuthentication localAuth = LocalAuthentication();
 
+  var isDeviceSupportWinHello = false;
+
   @override
   void initModel() {
     _launchWebLogin();
     super.initModel();
   }
 
-  void _launchWebLogin() {
+  Future<void> _launchWebLogin() async {
+    isDeviceSupportWinHello = await localAuth.isDeviceSupported();
+    notifyListeners();
     goWebView("登录 RSI 账户", "https://robertsspaceindustries.com/connect",
         loginMode: true, rsiLoginCallback: (message, ok) async {
-      dPrint(
-          "======rsiLoginCallback=== $ok ===== data==\n${json.encode(message)}");
+      // dPrint(
+      //     "======rsiLoginCallback=== $ok ===== data==\n${json.encode(message)}");
       if (message == null || !ok) {
         Navigator.pop(context!);
         return;
@@ -62,25 +66,28 @@ class LoginDialogModel extends BaseUIModel {
       final inputEmail = data["inputEmail"];
       final inputPassword = data["inputPassword"];
 
+      final userBox = await Hive.openBox("rsi_account_data");
       if (inputEmail != null && inputEmail != "") {
-        final userBox = await Hive.openBox("rsi_account_data");
         await userBox.put("account_email", inputEmail);
       }
-
-      if (await localAuth.isDeviceSupported()) {
-        if (inputEmail != null &&
-            inputEmail != "" &&
-            inputPassword != null &&
-            inputPassword != "") {
-          final ok = await showConfirmDialogs(
-              context!,
-              "是否开启自动密码填充？",
-              const Text(
-                  "盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。"));
-          if (ok == true) {
-            if (await localAuth.authenticate(localizedReason: "输入PIN以启用加密") ==
-                true) {
-              await _savePwd(inputEmail, inputPassword);
+      if (isDeviceSupportWinHello) {
+        if (await userBox.get("enable", defaultValue: true)) {
+          if (inputEmail != null &&
+              inputEmail != "" &&
+              inputPassword != null &&
+              inputPassword != "") {
+            final ok = await showConfirmDialogs(
+                context!,
+                "是否开启自动密码填充？",
+                const Text(
+                    "盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。"));
+            if (ok == true) {
+              if (await localAuth.authenticate(localizedReason: "输入PIN以启用加密") ==
+                  true) {
+                await _savePwd(inputEmail, inputPassword);
+              }
+            } else {
+              await userBox.put("enable", false);
             }
           }
         }

@@ -246,6 +246,8 @@ async function getRSILauncherToken(channelId) {
         return;
     }
 
+    SCTShowToast("登录游戏中...");
+
     // get claims
     let claimsR = await fetch("api/launcher/v3/games/claims", {
         method: 'POST', headers: {
@@ -311,9 +313,9 @@ function RSIAutoLogin(email, pwd) {
         if (pwd !== "") {
             $('#password').val(pwd)
         }
-        sessionStorage.setItem('inputEmail', '');
         sessionStorage.setItem('inputPassword', '');
         if (email !== "" && pwd !== "") {
+            $("#remember").prop("checked", true);
             $('.c-form__submit-button-label').click();
         }
     });
