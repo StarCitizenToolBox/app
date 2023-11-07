@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/win32/credentials.dart';
 
 class SettingUIModel extends BaseUIModel {
@@ -15,7 +16,9 @@ class SettingUIModel extends BaseUIModel {
     final LocalAuthentication localAuth = LocalAuthentication();
     isDeviceSupportWinHello = await localAuth.isDeviceSupported();
     notifyListeners();
-    _updateAutoLoginAccount();
+    if (AppConf.isMSE) {
+      _updateAutoLoginAccount();
+    }
   }
 
   Future<void> onResetAutoLogin() async {

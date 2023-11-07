@@ -1,7 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
-import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'about_ui_model.dart';
@@ -25,16 +24,11 @@ class AboutUI extends BaseUI<AboutUIModel> {
           ),
           const SizedBox(height: 12),
           Button(
+              onPressed: model.checkUpdate,
               child: const Padding(
                 padding: EdgeInsets.all(4),
                 child: Text("检查更新"),
-              ),
-              onPressed: () async {
-                final hasUpdate = await globalUIModel.checkUpdate(context);
-                if (!hasUpdate) {
-                  if (mounted) showToast(context, "已是最新版本");
-                }
-              }),
+              )),
           const SizedBox(height: 32),
           Container(
             decoration: BoxDecoration(

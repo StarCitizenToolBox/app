@@ -74,6 +74,8 @@ class HomeUIModel extends BaseUIModel {
     "Arena Commander": "竞技场指挥官"
   };
 
+  bool isRsiLauncherStarting = false;
+
   @override
   Future loadData() async {
     if (AppConf.networkVersionData == null) return;
@@ -488,19 +490,37 @@ class HomeUIModel extends BaseUIModel {
       showToast(context!, "该功能需要一个有效的安装位置");
       return;
     }
-    if (isCurGameRunning) {
-      await Process.run(SystemHelper.powershellPath, ["ps \"StarCitizen\" | kill"]);
-      return;
+
+    if (AppConf.isMSE) {
+      if (isCurGameRunning) {
+        await Process.run(
+            SystemHelper.powershellPath, ["ps \"StarCitizen\" | kill"]);
+        return;
+      }
+      AnalyticsApi.touch("gameLaunch");
+      showDialog(
+          context: context!,
+          dismissWithEsc: false,
+          builder: (context) {
+            return BaseUIContainer(
+                uiCreate: () => LoginDialog(),
+                modelCreate: () => LoginDialogModel(scInstalledPath, this));
+          });
+    } else {
+      isRsiLauncherStarting = true;
+      notifyListeners();
+      final rsiLauncherInstalledPath = await SystemHelper.getRSILauncherPath();
+      if (rsiLauncherInstalledPath.isEmpty) {
+        isRsiLauncherStarting = false;
+        notifyListeners();
+        showToast(context!, "未找到 RSI 启动器目录");
+        return;
+      }
+      SystemHelper.checkAndLaunchRSILauncher(rsiLauncherInstalledPath);
+      await Future.delayed(const Duration(seconds: 3));
+      isRsiLauncherStarting = false;
+      notifyListeners();
     }
-    AnalyticsApi.touch("gameLaunch");
-    showDialog(
-        context: context!,
-        dismissWithEsc: false,
-        builder: (context) {
-          return BaseUIContainer(
-              uiCreate: () => LoginDialog(),
-              modelCreate: () => LoginDialogModel(scInstalledPath, this));
-        });
   }
 
   bool isRSIServerStatusOK(Map map) {

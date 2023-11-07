@@ -415,21 +415,23 @@ class HomeUI extends BaseUI<HomeUIModel> {
             const SizedBox(width: 12),
             AnimatedSize(
               duration: const Duration(milliseconds: 130),
-              child: Button(
-                  onPressed: model.appWebLocalizationVersionsData == null
-                      ? null
-                      : () => model.launchRSI(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      model.isCurGameRunning
-                          ? FluentIcons.stop_solid
-                          : FluentIcons.play,
-                      color: model.isCurGameRunning
-                          ? Colors.red.withOpacity(.8)
-                          : null,
-                    ),
-                  )),
+              child: model.isRsiLauncherStarting
+                  ? const ProgressRing()
+                  : Button(
+                      onPressed: model.appWebLocalizationVersionsData == null
+                          ? null
+                          : () => model.launchRSI(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          model.isCurGameRunning
+                              ? FluentIcons.stop_solid
+                              : FluentIcons.play,
+                          color: model.isCurGameRunning
+                              ? Colors.red.withOpacity(.8)
+                              : null,
+                        ),
+                      )),
             ),
             const SizedBox(width: 12),
             Button(
