@@ -44,7 +44,7 @@ class AppConf {
   static late final WindowsDeviceInfo windowsDeviceInfo;
 
   static const isMSE =
-      String.fromEnvironment("MSE", defaultValue: "true") == "true";
+      String.fromEnvironment("MSE", defaultValue: "false") == "true";
 
   static final launchHelperPath =
       "${AppConf.applicationSupportDir}\\launch_helper.vbs";
