@@ -2,6 +2,11 @@
 
 该工具为 星际公民玩家 提供 一键诊断，官网及工具网站汉化，游戏汉化，游戏性能优化 等功能，给您带来更愉快的游戏体验。
 
+<a href="https://apps.microsoft.com/detail/%E6%98%9F%E9%99%85%E5%85%AC%E6%B0%91%E7%9B%92%E5%AD%90MSE/9NF3SWFWNKL1?launch=true
+	&mode=mini">
+    	<img src="https://get.microsoft.com/images/zh-cn%20dark.svg" width="200"/>
+        </a>
+
 ### 功能
 - 本地化管理：一键安装社区汉化，切换语言
 - 一键诊断：来自上百名小白鼠用户的日志文件，可处理星际公民常见问题
@@ -10,7 +15,8 @@
 - 服务器状态指示器：比官网启动器早了几个小时增加了服务器状态指示功能，且指示的更为细致。
 - 其他常用工具：包括 p4k分流下载，清理着色器，重装EAC等多种功能在内的工具箱。
 
-### 安装
+### 手动安装
+
 1. 前往 [Release](https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor/-/releases) 页面，下载最新安装包 （Setup.exe）。
 2. 双击安装，建议使用默认安装位置 点击安装即可。
 
