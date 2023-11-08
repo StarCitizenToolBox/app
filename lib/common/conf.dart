@@ -16,8 +16,8 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.10 Beta";
-  static const int appVersionCode = 25;
+  static const String appVersion = "2.9.12 Beta";
+  static const int appVersionCode = 27;
   static const String appVersionDate = "2023-11-03";
 
   static const String gitlabHomeUrl =
@@ -45,9 +45,6 @@ class AppConf {
 
   static const isMSE =
       String.fromEnvironment("MSE", defaultValue: "false") == "true";
-
-  static final launchHelperPath =
-      "${AppConf.applicationSupportDir}\\launch_helper.vbs";
 
   static init(List<String> args) async {
     dPrint("launch args == $args");

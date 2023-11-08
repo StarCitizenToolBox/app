@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 
 import 'api/api.dart';
@@ -70,9 +71,14 @@ class AppGlobalUIModel extends BaseUIModel {
   }
 
   _runAsAdmin() async {
-    await SystemHelper.initVBS();
-    await Process.run(
-        SystemHelper.powershellPath, [AppConf.launchHelperPath]);
+    final box = await Hive.openBox("app_conf");
+    await box.close();
+    await Process.run(SystemHelper.powershellPath, [
+    """
+    Start-Process powershell -Verb RunAs -ArgumentList "Start-Process '${Platform.resolvedExecutable}' -Verb RunAs"
+    """
+    ]);
+    await Future.delayed(const Duration(seconds: 2));
     exit(0);
   }
 }
