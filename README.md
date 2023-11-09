@@ -2,10 +2,7 @@
 
 该工具为 星际公民玩家 提供 一键诊断，官网及工具网站汉化，游戏汉化，游戏性能优化 等功能，给您带来更愉快的游戏体验。
 
-<a href="https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true
-	&mode=mini">
-    	<img src="https://get.microsoft.com/images/zh-cn%20dark.svg" width="200"/>
-        </a>
+[![](https://get.microsoft.com/images/zh-cn%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
 
 ### 功能
 - 本地化管理：一键安装社区汉化，切换语言
