@@ -1,47 +1,98 @@
-/// lastVersion : "V2.9"
-/// lastVersionCode : 13
-/// lastBetaVersion : "V2.9"
-/// lastBetaVersionCode : 13
-/// minVersionCode : 13
-/// minBetaVersionCode : 13
+/// lastVersion : "V2.9.9"
+/// lastVersionCode : 25
+/// minVersionCode : 15
+/// MSE_lastVersion : "V2.9.13"
+/// MSE_lastVersionCode : 27
+/// MSE_minVersionCode : 27
 /// p4kDownloadUrl : "https://p4k.42kit.com/Data.p4k"
+/// activityColors : {"enable":true,"startTime":1700236800000,"endTime":1701360000000,"background":"","menu":"","mica":""}
 
 class AppVersionData {
   AppVersionData({
       this.lastVersion, 
       this.lastVersionCode, 
-      this.lastBetaVersion, 
-      this.lastBetaVersionCode, 
       this.minVersionCode, 
-      this.minBetaVersionCode, 
-      this.p4kDownloadUrl,});
+      this.mSELastVersion, 
+      this.mSELastVersionCode, 
+      this.mSEMinVersionCode, 
+      this.p4kDownloadUrl, 
+      this.activityColors,});
 
   AppVersionData.fromJson(dynamic json) {
     lastVersion = json['lastVersion'];
     lastVersionCode = json['lastVersionCode'];
-    lastBetaVersion = json['lastBetaVersion'];
-    lastBetaVersionCode = json['lastBetaVersionCode'];
     minVersionCode = json['minVersionCode'];
-    minBetaVersionCode = json['minBetaVersionCode'];
+    mSELastVersion = json['MSE_lastVersion'];
+    mSELastVersionCode = json['MSE_lastVersionCode'];
+    mSEMinVersionCode = json['MSE_minVersionCode'];
     p4kDownloadUrl = json['p4kDownloadUrl'];
+    activityColors = json['activityColors'] != null ? ActivityColors.fromJson(json['activityColors']) : null;
   }
   String? lastVersion;
   num? lastVersionCode;
-  String? lastBetaVersion;
-  num? lastBetaVersionCode;
   num? minVersionCode;
-  num? minBetaVersionCode;
+  String? mSELastVersion;
+  num? mSELastVersionCode;
+  num? mSEMinVersionCode;
   String? p4kDownloadUrl;
+  ActivityColors? activityColors;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['lastVersion'] = lastVersion;
     map['lastVersionCode'] = lastVersionCode;
-    map['lastBetaVersion'] = lastBetaVersion;
-    map['lastBetaVersionCode'] = lastBetaVersionCode;
     map['minVersionCode'] = minVersionCode;
-    map['minBetaVersionCode'] = minBetaVersionCode;
+    map['MSE_lastVersion'] = mSELastVersion;
+    map['MSE_lastVersionCode'] = mSELastVersionCode;
+    map['MSE_minVersionCode'] = mSEMinVersionCode;
     map['p4kDownloadUrl'] = p4kDownloadUrl;
+    if (activityColors != null) {
+      map['activityColors'] = activityColors?.toJson();
+    }
+    return map;
+  }
+
+}
+
+/// enable : true
+/// startTime : 1700236800000
+/// endTime : 1701360000000
+/// background : ""
+/// menu : ""
+/// mica : ""
+
+class ActivityColors {
+  ActivityColors({
+      this.enable, 
+      this.startTime, 
+      this.endTime, 
+      this.background, 
+      this.menu, 
+      this.mica,});
+
+  ActivityColors.fromJson(dynamic json) {
+    enable = json['enable'];
+    startTime = json['startTime'];
+    endTime = json['endTime'];
+    background = json['background'];
+    menu = json['menu'];
+    mica = json['mica'];
+  }
+  bool? enable;
+  num? startTime;
+  num? endTime;
+  String? background;
+  String? menu;
+  String? mica;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['enable'] = enable;
+    map['startTime'] = startTime;
+    map['endTime'] = endTime;
+    map['background'] = background;
+    map['menu'] = menu;
+    map['mica'] = mica;
     return map;
   }
 

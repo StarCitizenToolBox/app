@@ -43,6 +43,10 @@ class AppConf {
 
   static late final WindowsDeviceInfo windowsDeviceInfo;
 
+  static String colorBackground = "#132431";
+  static String colorMenu = "#122D42";
+  static String colorMica = "#0A3142";
+
   static const isMSE =
       String.fromEnvironment("MSE", defaultValue: "false") == "true";
 

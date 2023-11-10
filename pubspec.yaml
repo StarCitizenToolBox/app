@@ -61,6 +61,7 @@ dependencies:
   local_auth: ^2.1.7
   cryptography: ^2.7.0
   cryptography_flutter: ^2.3.2
+  hexcolor: ^3.0.1
 
 dev_dependencies:
   flutter_test:

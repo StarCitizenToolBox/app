@@ -1,5 +1,6 @@
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/ui/index_ui_model.dart';
@@ -34,11 +35,11 @@ class AppUI extends BaseUI {
       darkTheme: FluentThemeData(
         brightness: Brightness.dark,
         fontFamily: "SourceHanSansCN-Regular",
-        navigationPaneTheme: const NavigationPaneThemeData(
-          backgroundColor: Color.fromRGBO(19, 36, 49, .75),
+        navigationPaneTheme: NavigationPaneThemeData(
+          backgroundColor: HexColor(AppConf.colorBackground).withOpacity(.75),
         ),
-        menuColor: const Color.fromRGBO(18, 45, 66, .95),
-        micaBackgroundColor: const Color.fromRGBO(10, 49, 66, 1.0),
+        menuColor: HexColor(AppConf.colorMenu).withOpacity(.95),
+        micaBackgroundColor: HexColor(AppConf.colorMica),
       ),
       debugShowCheckedModeBanner: false,
       home: BaseUIContainer(
