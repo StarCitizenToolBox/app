@@ -5,7 +5,7 @@
 /// MSE_lastVersionCode : 27
 /// MSE_minVersionCode : 27
 /// p4kDownloadUrl : "https://p4k.42kit.com/Data.p4k"
-/// activityColors : {"enable":true,"startTime":1700236800000,"endTime":1701360000000,"background":"","menu":"","mica":""}
+/// activityColors : {"enable":true,"startTime":1700236800000,"endTime":1701360000000,"background":"#290859","menu":"#310666","mica":"#270452"}
 
 class AppVersionData {
   AppVersionData({
@@ -57,9 +57,9 @@ class AppVersionData {
 /// enable : true
 /// startTime : 1700236800000
 /// endTime : 1701360000000
-/// background : ""
-/// menu : ""
-/// mica : ""
+/// background : "#290859"
+/// menu : "#310666"
+/// mica : "#270452"
 
 class ActivityColors {
   ActivityColors({
@@ -79,8 +79,8 @@ class ActivityColors {
     mica = json['mica'];
   }
   bool? enable;
-  num? startTime;
-  num? endTime;
+  int? startTime;
+  int? endTime;
   String? background;
   String? menu;
   String? mica;

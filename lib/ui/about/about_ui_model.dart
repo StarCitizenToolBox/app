@@ -9,7 +9,7 @@ class AboutUIModel extends BaseUIModel {
       launchUrlString("ms-windows-store://pdp/?productid=9NF3SWFWNKL1");
       return;
     }
-    final hasUpdate = await globalUIModel.checkUpdate(context!);
+    final hasUpdate = await globalUIModel.doCheckUpdate(context!);
     if (!hasUpdate) {
       if (mounted) showToast(context!, "已是最新版本");
     }

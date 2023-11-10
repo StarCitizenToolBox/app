@@ -1,11 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 
-import 'api/api.dart';
 import 'base/ui_model.dart';
 import 'common/conf.dart';
 import 'common/helper/system_helper.dart';
@@ -16,16 +17,13 @@ final globalUIModel = AppGlobalUIModel();
 final globalUIModelProvider = ChangeNotifierProvider((ref) => globalUIModel);
 
 class AppGlobalUIModel extends BaseUIModel {
+  Timer? activityThemeColorTimer;
 
-  String colorBackground = "#132431";
-  String colorMenu = "#122D42";
-  String colorMica = "#0A3142";
-
-  Future<bool> checkUpdate(BuildContext context, {bool init = true}) async {
+  Future<bool> doCheckUpdate(BuildContext context, {bool init = true}) async {
     if (AppConf.isMSE) return true;
     if (!init) {
       try {
-        AppConf.networkVersionData = await Api.getAppVersion();
+        await AppConf.checkUpdate();
       } catch (_) {}
     }
     await Future.delayed(const Duration(milliseconds: 100));
@@ -74,5 +72,46 @@ class AppGlobalUIModel extends BaseUIModel {
         ["Start-Process '${Platform.resolvedExecutable}' -Verb RunAs"]);
     await Future.delayed(const Duration(seconds: 2));
     exit(0);
+  }
+
+  checkActivityThemeColor() {
+    if (activityThemeColorTimer != null) {
+      activityThemeColorTimer?.cancel();
+      activityThemeColorTimer = null;
+    }
+    if (AppConf.networkVersionData == null ||
+        AppConf.networkVersionData?.activityColors?.enable != true) return;
+
+    final startTime = AppConf.networkVersionData!.activityColors?.startTime;
+    final endTime = AppConf.networkVersionData!.activityColors?.endTime;
+    if (startTime == null || endTime == null) return;
+    final now = DateTime.now().millisecondsSinceEpoch;
+
+    dPrint("now == $now  start == $startTime end == $endTime");
+    if (now < startTime) {
+      activityThemeColorTimer = Timer(
+          Duration(milliseconds: startTime - now), checkActivityThemeColor);
+      dPrint("start Timer ....");
+    } else if (now >= startTime && now <= endTime) {
+      dPrint("update Color ....");
+      // update Color
+      final colorCfg = AppConf.networkVersionData!.activityColors;
+      AppConf.colorBackground =
+          HexColor(colorCfg?.background ?? "#132431").withOpacity(.75);
+      AppConf.colorMenu =
+          HexColor(colorCfg?.menu ?? "#132431").withOpacity(.95);
+      AppConf.colorMica = HexColor(colorCfg?.mica ?? "#0A3142");
+      notifyListeners();
+      // wait for end
+      activityThemeColorTimer =
+          Timer(Duration(milliseconds: endTime - now), checkActivityThemeColor);
+    } else {
+      dPrint("reset Color ....");
+      AppConf.colorBackground = HexColor("#132431").withOpacity(.75);
+      AppConf.colorMenu = HexColor("#132431").withOpacity(.95);
+      AppConf.colorMica = HexColor("#0A3142");
+      notifyListeners();
+    }
+    notifyListeners();
   }
 }

@@ -1,6 +1,5 @@
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/ui/index_ui_model.dart';
@@ -31,16 +30,14 @@ class AppUI extends BaseUI {
       title: "StarCitizen Doctor",
       restorationScopeId: "Doctor",
       themeMode: ThemeMode.dark,
-      // theme: FluentThemeData(brightness: Brightness.light),
-      darkTheme: FluentThemeData(
+      theme: FluentThemeData(
         brightness: Brightness.dark,
         fontFamily: "SourceHanSansCN-Regular",
         navigationPaneTheme: NavigationPaneThemeData(
-          backgroundColor:
-              HexColor(globalUIModel.colorBackground).withOpacity(.75),
+          backgroundColor: AppConf.colorBackground,
         ),
-        menuColor: HexColor(globalUIModel.colorMenu).withOpacity(.95),
-        micaBackgroundColor: HexColor(globalUIModel.colorMica),
+        menuColor: AppConf.colorMenu,
+        micaBackgroundColor: AppConf.colorMica,
       ),
       debugShowCheckedModeBanner: false,
       home: BaseUIContainer(
@@ -58,7 +55,6 @@ class WindowButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluentThemeData theme = FluentTheme.of(context);
-
     return SizedBox(
       width: 138,
       height: 50,

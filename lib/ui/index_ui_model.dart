@@ -17,7 +17,7 @@ class IndexUIModel extends BaseUIModel {
   void initModel() {
     _checkRunTime();
     Future.delayed(const Duration(milliseconds: 300))
-        .then((value) => globalUIModel.checkUpdate(context!));
+        .then((value) => globalUIModel.doCheckUpdate(context!));
     super.initModel();
   }
 

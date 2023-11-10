@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
@@ -43,6 +44,10 @@ class AppConf {
 
   static late final WindowsDeviceInfo windowsDeviceInfo;
 
+  static Color? colorBackground;
+  static Color? colorMenu;
+  static Color? colorMica;
+
   static const isMSE =
       String.fromEnvironment("MSE", defaultValue: "false") == "true";
 
@@ -80,6 +85,11 @@ class AppConf {
     await SystemHelper.initPowershellPath();
     isRunningAdmin = await globalUIModel.checkAdmin();
 
+    /// init defaultColor
+    colorBackground = HexColor("#132431").withOpacity(.75);
+    colorMenu = HexColor("#132431").withOpacity(.95);
+    colorMica = HexColor("#0A3142");
+
     /// init windows
     await windowManager.ensureInitialized();
     windowManager.waitUntilReadyToShow().then((_) async {
@@ -100,7 +110,7 @@ class AppConf {
         );
       }
     });
-    await _checkUpdate();
+    await checkUpdate();
     AnalyticsApi.touch("launch");
   }
 
@@ -108,7 +118,7 @@ class AppConf {
     return "${AppConf.applicationSupportDir}/._upgrade";
   }
 
-  static Future<void> _checkUpdate() async {
+  static Future<void> checkUpdate() async {
     // clean path
     if (!isMSE) {
       final dir = Directory(getUpgradePath());
@@ -118,6 +128,7 @@ class AppConf {
     }
     try {
       networkVersionData = await Api.getAppVersion();
+      globalUIModel.checkActivityThemeColor();
       dPrint(
           "lastVersion=${networkVersionData?.lastVersion}  ${networkVersionData?.lastVersionCode}");
     } catch (e) {
