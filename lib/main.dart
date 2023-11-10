@@ -36,10 +36,11 @@ class AppUI extends BaseUI {
         brightness: Brightness.dark,
         fontFamily: "SourceHanSansCN-Regular",
         navigationPaneTheme: NavigationPaneThemeData(
-          backgroundColor: HexColor(AppConf.colorBackground).withOpacity(.75),
+          backgroundColor:
+              HexColor(globalUIModel.colorBackground).withOpacity(.75),
         ),
-        menuColor: HexColor(AppConf.colorMenu).withOpacity(.95),
-        micaBackgroundColor: HexColor(AppConf.colorMica),
+        menuColor: HexColor(globalUIModel.colorMenu).withOpacity(.95),
+        micaBackgroundColor: HexColor(globalUIModel.colorMica),
       ),
       debugShowCheckedModeBanner: false,
       home: BaseUIContainer(

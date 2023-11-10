@@ -16,6 +16,11 @@ final globalUIModel = AppGlobalUIModel();
 final globalUIModelProvider = ChangeNotifierProvider((ref) => globalUIModel);
 
 class AppGlobalUIModel extends BaseUIModel {
+
+  String colorBackground = "#132431";
+  String colorMenu = "#122D42";
+  String colorMica = "#0A3142";
+
   Future<bool> checkUpdate(BuildContext context, {bool init = true}) async {
     if (AppConf.isMSE) return true;
     if (!init) {
