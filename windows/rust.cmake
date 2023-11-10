@@ -4,15 +4,7 @@
 # Once done, uncomment this line:
 # find_package(Corrosion REQUIRED)
 
-include(FetchContent)
-
-FetchContent_Declare(
-    Corrosion
-    GIT_REPOSITORY https://github.com/AndrewGaspar/corrosion.git
-    GIT_TAG origin/master # Optionally specify a version tag or branch here
-)
-
-FetchContent_MakeAvailable(Corrosion)
+add_subdirectory(./corrosion)
 
 corrosion_import_crate(MANIFEST_PATH ../rust/Cargo.toml IMPORTED_CRATES imported_crates)
 target_link_libraries(${BINARY_NAME} PRIVATE ${imported_crates})

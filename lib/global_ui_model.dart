@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 
 import 'api/api.dart';
 import 'base/ui_model.dart';
@@ -58,13 +57,6 @@ class AppGlobalUIModel extends BaseUIModel {
     } else {
       if (!AppConf.isMSE) {
         await _runAsAdmin();
-      } else {
-        final logPath = await SCLoggerHelper.getLogFilePath();
-        if (logPath != null) {
-          if (await File(logPath).exists()) {
-            await _runAsAdmin();
-          }
-        }
       }
       return false;
     }
@@ -73,11 +65,8 @@ class AppGlobalUIModel extends BaseUIModel {
   _runAsAdmin() async {
     final box = await Hive.openBox("app_conf");
     await box.close();
-    await Process.run(SystemHelper.powershellPath, [
-    """
-    Start-Process powershell -Verb RunAs -ArgumentList "Start-Process '${Platform.resolvedExecutable}' -Verb RunAs"
-    """
-    ]);
+    await Process.run(SystemHelper.powershellPath,
+        ["Start-Process '${Platform.resolvedExecutable}' -Verb RunAs"]);
     await Future.delayed(const Duration(seconds: 2));
     exit(0);
   }

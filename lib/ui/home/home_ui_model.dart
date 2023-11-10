@@ -296,7 +296,8 @@ class HomeUIModel extends BaseUIModel {
         return;
       case "no_live_path":
         try {
-          await Directory(item.value).create(recursive: true);
+          SystemHelper.powershellAdminRun(
+              ['New-Item -ItemType Directory -Path "${item.value}" -Force']);
           showToast(context!, "创建文件夹成功，请尝试继续下载游戏！");
           checkResult?.remove(item);
           notifyListeners();
@@ -325,8 +326,8 @@ class HomeUIModel extends BaseUIModel {
         final Map eacJson = json.decode(utf8.decode(eacJsonData));
         final eacID = eacJson["productid"];
         try {
-          var result = await Process.run(
-              "${item.value}\\EasyAntiCheat_EOS_Setup.exe", ["install", eacID]);
+          var result = await SystemHelper.powershellAdminRun(
+              ["${item.value}\\EasyAntiCheat_EOS_Setup.exe", "install", eacID]);
           dPrint("${item.value}\\EasyAntiCheat_EOS_Setup.exe install $eacID");
           if (result.stderr == "") {
             showToast(context!, "修复成功，请尝试启动游戏。（若问题无法解决，请使用工具箱的 《重装 EAC》）");

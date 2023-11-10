@@ -18,6 +18,7 @@ class MDContentDialogUI extends BaseUI<MDContentDialogUIModel> {
                   padding: const EdgeInsets.only(left: 12, right: 12),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: makeMarkdownView(model.data ?? ""),
                   ),
                 ),

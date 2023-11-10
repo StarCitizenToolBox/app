@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 
 class SystemHelper {
   static String powershellPath = "powershell.exe";
 
-  static initPowerShellPath() async {
+  static initPowershellPath() async {
     var result = await Process.run(powershellPath, ["echo", "ping"]);
     if (!result.stdout.toString().startsWith("ping") &&
         powershellPath == "powershell.exe") {
@@ -16,7 +17,7 @@ class SystemHelper {
             "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
         dPrint("auto search powershell path === $autoSearchPath");
         powershellPath = autoSearchPath;
-        initPowerShellPath();
+        initPowershellPath();
       }
     }
   }
@@ -43,7 +44,7 @@ class SystemHelper {
   }
 
   static Future<String> addNvmePatch() async {
-    var result = await Process.run(SystemHelper.powershellPath, [
+    var result = await powershellAdminRun([
       'New-ItemProperty',
       "-Path",
       "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
@@ -59,7 +60,7 @@ class SystemHelper {
 
   static doRemoveNvmePath() async {
     try {
-      var result = await Process.run(SystemHelper.powershellPath, [
+      var result = await powershellAdminRun([
         "Clear-ItemProperty",
         "-Path",
         "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
@@ -98,7 +99,7 @@ class SystemHelper {
 
   static killRSILauncher() async {
     var psr = await Process.run(
-        "powershell", ["ps", "\"RSI Launcher\"", "|select -expand id"]);
+        powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
     if (psr.stderr == "") {
       for (var value in (psr.stdout ?? "").toString().split("\n")) {
         dPrint(value);
@@ -110,7 +111,7 @@ class SystemHelper {
   }
 
   static Future<List<String>> getPID(String name) async {
-    final r = await Process.run("powershell", ["(ps $name).Id"]);
+    final r = await Process.run(powershellPath, ["(ps $name).Id"]);
     final str = r.stdout.toString().trim();
     dPrint(str);
     if (str.isEmpty) return [];
@@ -121,14 +122,18 @@ class SystemHelper {
     // check running and kill
     await killRSILauncher();
     // launch
-    final r = await Process.run("powershell", ["start", "\"$path\""]);
+    final r = await Process.run(powershellPath, [
+      'Start-Process',
+      "'$path'",
+      '-Verb RunAs',
+    ]);
     dPrint(path);
     dPrint(r.stdout);
     dPrint(r.stderr);
   }
 
   static Future<int> getSystemMemorySizeGB() async {
-    final r = await Process.run("powershell", [
+    final r = await Process.run(powershellPath, [
       "(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"
     ]);
     return int.tryParse(r.stdout.toString().trim()) ?? 0;
@@ -137,19 +142,19 @@ class SystemHelper {
   static Future<String> getSystemCimInstance(String win32InstanceName,
       {pathName = "Name"}) async {
     final r = await Process.run(
-        "powershell", ["(Get-CimInstance $win32InstanceName).$pathName"]);
+        powershellPath, ["(Get-CimInstance $win32InstanceName).$pathName"]);
     return r.stdout.toString().trim();
   }
 
   static Future<String> getSystemName() async {
     final r = await Process.run(
-        "powershell", ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
+        powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
     return r.stdout.toString().trim();
   }
 
   static Future<String> getCpuName() async {
     final r = await Process.run(
-        "powershell", ["(Get-WmiObject -Class Win32_Processor).Name"]);
+        powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
     return r.stdout.toString().trim();
   }
 
@@ -163,12 +168,12 @@ foreach ($adapter in $adapterMemory) {
   }
 }
     """;
-    final r = await Process.run("powershell", [cmd]);
+    final r = await Process.run(powershellPath, [cmd]);
     return r.stdout.toString().trim();
   }
 
   static Future<String> getDiskInfo() async {
-    return (await Process.run("powershell",
+    return (await Process.run(powershellPath,
             ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
         .stdout
         .toString()
@@ -196,5 +201,41 @@ foreach ($adapter in $adapterMemory) {
       }
     } catch (_) {}
     return totalSize;
+  }
+
+  static Future<ProcessResult> powershellAdminRun(List<String> args) async {
+    // 创建 PowerShell 脚本文件
+    final scriptContent = """
+    ${args.join(' ')}
+  """;
+
+    // 将脚本内容写入临时文件
+    final scriptFile =
+        File('${AppConf.applicationSupportDir}\\temp\\psh_script.ps1');
+    if (await scriptFile.exists()) {
+      await scriptFile.delete();
+    }
+    if (!await scriptFile.exists()) {
+      await scriptFile.create(recursive: true);
+    }
+    await scriptFile.writeAsString(scriptContent);
+
+    List<String> command = [
+      'Start-Process',
+      'powershell.exe',
+      '-Verb RunAs',
+      '-ArgumentList',
+      "'-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File','${scriptFile.absolute.path}'",
+      '-Wait',
+      '-PassThru '
+    ];
+
+    final r = await Process.run(
+      'powershell.exe',
+      command,
+      runInShell: true,
+    );
+    await scriptFile.delete();
+    return r;
   }
 }

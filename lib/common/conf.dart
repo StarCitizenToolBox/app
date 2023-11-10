@@ -77,8 +77,8 @@ class AppConf {
       exit(1);
     }
     dPrint("---- rust bridge inited -----");
+    await SystemHelper.initPowershellPath();
     isRunningAdmin = await globalUIModel.checkAdmin();
-    await SystemHelper.initPowerShellPath();
 
     /// init windows
     await windowManager.ensureInitialized();

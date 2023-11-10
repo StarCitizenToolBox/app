@@ -55,8 +55,8 @@ class UpgradeDialogUIModel extends BaseUIModel {
     }
 
     try {
-      final r =
-          await (Process.run("powershell", ["start", fileName, "/SILENT"]));
+      final r = await (Process.run(
+          SystemHelper.powershellPath, ["start", fileName, "/SILENT"]));
       if (r.stderr.toString().isNotEmpty) {
         throw r.stderr;
       }
