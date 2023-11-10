@@ -162,6 +162,9 @@ class HomeUIModel extends BaseUIModel {
   VoidCallback? doCheck() {
     if (isChecking) return null;
     return () async {
+      if (!AppConf.isRunningAdmin) {
+        await showToast(context!, "因微软商店版本权限限制，若功能异常请 关闭盒子，右键 '以管理员身份运行'。");
+      }
       isChecking = true;
       lastScreenInfo = "正在分析...";
       await _statCheck();
@@ -357,7 +360,7 @@ class HomeUIModel extends BaseUIModel {
         ["explorer.exe", "/select,\"$rsiLauncherInstalledPath\""]);
   }
 
-  onMenuTap(String key) {
+  onMenuTap(String key) async {
     switch (key) {
       case "auto_check":
         doCheck()?.call();
@@ -366,6 +369,9 @@ class HomeUIModel extends BaseUIModel {
         if (scInstalledPath == "not_install") {
           showToast(context!, "该功能需要一个有效的安装位置");
           return;
+        }
+        if (!AppConf.isRunningAdmin) {
+          await showToast(context!, "因微软商店版本权限限制，若功能异常请 关闭盒子，右键 '以管理员身份运行'。");
         }
         showDialog(
             context: context!,
@@ -380,6 +386,9 @@ class HomeUIModel extends BaseUIModel {
         if (scInstalledPath == "not_install") {
           showToast(context!, "该功能需要一个有效的安装位置");
           return;
+        }
+        if (!AppConf.isRunningAdmin) {
+          await showToast(context!, "因微软商店版本权限限制，若功能异常请 关闭盒子，右键 '以管理员身份运行'。");
         }
         AnalyticsApi.touch("performance_launch");
         BaseUIContainer(
