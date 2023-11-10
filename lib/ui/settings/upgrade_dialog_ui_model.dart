@@ -41,7 +41,8 @@ class UpgradeDialogUIModel extends BaseUIModel {
   doUpgrade() async {
     if (AppConf.isMSE) {
       launchUrlString("ms-windows-store://pdp/?productid=9NF3SWFWNKL1");
-      return;
+      await Future.delayed(const Duration(seconds: 3));
+      exit(0);
     }
     isUpgrading = true;
     notifyListeners();
