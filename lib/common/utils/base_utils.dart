@@ -18,7 +18,7 @@ Future showToast(BuildContext context, String msg,
         FilledButton(
           child: const Padding(
             padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
-            child: Text('关闭'),
+            child: Text('我知道了'),
           ),
           onPressed: () => Navigator.pop(context),
         ),
