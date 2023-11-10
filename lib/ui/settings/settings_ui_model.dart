@@ -22,11 +22,15 @@ class SettingUIModel extends BaseUIModel {
   }
 
   Future<void> onResetAutoLogin() async {
-    final userBox = await Hive.openBox("rsi_account_data");
-    await userBox.deleteFromDisk();
-    Win32Credentials.delete("SCToolbox_RSI_Account_secret");
-    showToast(context!, "已清理自动填充数据");
-    reloadData();
+    final ok = await showConfirmDialogs(context!, "确认重置自动填充？",
+        const Text("这将会删除本地的账号记录，或在下次启动游戏时将自动填充选择 ‘否’ 以禁用自动填充。"));
+    if (ok) {
+      final userBox = await Hive.openBox("rsi_account_data");
+      await userBox.deleteFromDisk();
+      Win32Credentials.delete("SCToolbox_RSI_Account_secret");
+      showToast(context!, "已清理自动填充数据");
+      reloadData();
+    }
   }
 
   Future _updateAutoLoginAccount() async {
