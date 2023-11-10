@@ -129,8 +129,13 @@ class AppConf {
     try {
       networkVersionData = await Api.getAppVersion();
       globalUIModel.checkActivityThemeColor();
-      dPrint(
-          "lastVersion=${networkVersionData?.lastVersion}  ${networkVersionData?.lastVersionCode}");
+      if (isMSE) {
+        dPrint(
+            "lastVersion=${networkVersionData?.mSELastVersion}  ${networkVersionData?.mSELastVersionCode}");
+      } else {
+        dPrint(
+            "lastVersion=${networkVersionData?.lastVersion}  ${networkVersionData?.lastVersionCode}");
+      }
     } catch (e) {
       dPrint("_checkUpdate Error:$e");
     }

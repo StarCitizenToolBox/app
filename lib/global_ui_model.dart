@@ -20,7 +20,6 @@ class AppGlobalUIModel extends BaseUIModel {
   Timer? activityThemeColorTimer;
 
   Future<bool> doCheckUpdate(BuildContext context, {bool init = true}) async {
-    if (AppConf.isMSE) return true;
     if (!init) {
       try {
         await AppConf.checkUpdate();
@@ -32,8 +31,10 @@ class AppGlobalUIModel extends BaseUIModel {
           "检查更新失败！请检查网络连接... \n进入离线模式.. \n\n请谨慎在离线模式中使用。 \n当前版本构建日期：${AppConf.appVersionDate}\n QQ群：940696487");
       return false;
     }
-    if (((AppConf.networkVersionData?.lastVersionCode) ?? 0) >
-        AppConf.appVersionCode) {
+    final lastVersion = AppConf.isMSE
+        ? AppConf.networkVersionData?.mSELastVersionCode
+        : AppConf.networkVersionData?.lastVersionCode;
+    if ((lastVersion ?? 0) > AppConf.appVersionCode) {
       // need update
       final r = await showDialog(
           dismissWithEsc: false,

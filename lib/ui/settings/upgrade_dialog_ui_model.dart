@@ -5,6 +5,7 @@ import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class UpgradeDialogUIModel extends BaseUIModel {
   String? description;
@@ -19,9 +20,10 @@ class UpgradeDialogUIModel extends BaseUIModel {
   Future loadData() async {
     // get download url for gitlab release
     try {
-      targetVersion = AppConf.networkVersionData!.lastVersion!;
-      final r = await Api.getAppReleaseDataByVersionName(
-          AppConf.networkVersionData!.lastVersion!);
+      targetVersion = AppConf.isMSE
+          ? AppConf.networkVersionData!.mSELastVersion!
+          : AppConf.networkVersionData!.lastVersion!;
+      final r = await Api.getAppReleaseDataByVersionName(targetVersion);
       description = r["description"];
       final assetsLinks = List.of(r["assets"]?["links"] ?? []);
       for (var link in assetsLinks) {
@@ -37,6 +39,10 @@ class UpgradeDialogUIModel extends BaseUIModel {
   }
 
   doUpgrade() async {
+    if (AppConf.isMSE) {
+      launchUrlString("ms-windows-store://pdp/?productid=9NF3SWFWNKL1");
+      return;
+    }
     isUpgrading = true;
     notifyListeners();
     final fileName = "${AppConf.getUpgradePath()}/next_SETUP.exe";
