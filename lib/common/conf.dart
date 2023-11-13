@@ -17,7 +17,7 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.13 Beta";
+  static const String appVersion = "2.9.14 Beta";
   static const int appVersionCode = 28;
   static const String appVersionDate = "2023-11-11";
 
@@ -39,8 +39,6 @@ class AppConf {
   static AppVersionData? networkVersionData;
 
   static bool offlineMode = false;
-
-  static bool isRunningAdmin = false;
 
   static late final WindowsDeviceInfo windowsDeviceInfo;
 
@@ -83,7 +81,6 @@ class AppConf {
     }
     dPrint("---- rust bridge inited -----");
     await SystemHelper.initPowershellPath();
-    isRunningAdmin = await globalUIModel.checkAdmin();
 
     /// init defaultColor
     colorBackground = HexColor("#132431").withOpacity(.75);

@@ -211,9 +211,6 @@ class ToolsUIModel extends BaseUIModel {
       showToast(context!, "该功能需要一个有效的游戏安装目录");
       return;
     }
-    if (!AppConf.isRunningAdmin) {
-      await showToast(context!, "因微软商店版本权限限制，若功能异常请 关闭盒子，右键 '以管理员身份运行'。");
-    }
     working = true;
     try {
       final eacPath = "$scInstalledPath\\EasyAntiCheat";
@@ -353,10 +350,6 @@ class ToolsUIModel extends BaseUIModel {
         context!,
         "P4k 是星际公民的核心游戏文件，高达近 100GB，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户。"
         "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
-
-    if (!AppConf.isRunningAdmin) {
-      await showToast(context!, "因微软商店版本权限限制，若功能异常请 关闭盒子，右键 '以管理员身份运行'。");
-    }
 
     AnalyticsApi.touch("p4k_download");
     final r = await showDialog(

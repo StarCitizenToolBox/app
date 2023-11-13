@@ -1,15 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hive/hive.dart';
 
 import 'base/ui_model.dart';
 import 'common/conf.dart';
-import 'common/helper/system_helper.dart';
 import 'ui/settings/upgrade_dialog_ui.dart';
 import 'ui/settings/upgrade_dialog_ui_model.dart';
 
@@ -49,30 +46,6 @@ class AppGlobalUIModel extends BaseUIModel {
       return true;
     }
     return false;
-  }
-
-  Future<bool> checkAdmin() async {
-    const checkAdmin =
-        r"if ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { exit 0 } else { exit 1 }";
-    final r = await Process.run(SystemHelper.powershellPath, [checkAdmin]);
-    dPrint("code == ${r.exitCode}  msg == ${r.stdout} err = ${r.stderr}");
-    if (r.exitCode == 0) {
-      return true;
-    } else {
-      if (!AppConf.isMSE) {
-        await _runAsAdmin();
-      }
-      return false;
-    }
-  }
-
-  _runAsAdmin() async {
-    final box = await Hive.openBox("app_conf");
-    await box.close();
-    await Process.run(SystemHelper.powershellPath,
-        ["Start-Process '${Platform.resolvedExecutable}' -Verb RunAs"]);
-    await Future.delayed(const Duration(seconds: 2));
-    exit(0);
   }
 
   checkActivityThemeColor() {

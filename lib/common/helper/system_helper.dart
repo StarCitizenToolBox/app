@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 
 class SystemHelper {
@@ -44,7 +43,7 @@ class SystemHelper {
   }
 
   static Future<String> addNvmePatch() async {
-    var result = await powershellAdminRun([
+    var result = await Process.run(powershellPath, [
       'New-ItemProperty',
       "-Path",
       "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
@@ -60,7 +59,7 @@ class SystemHelper {
 
   static doRemoveNvmePath() async {
     try {
-      var result = await powershellAdminRun([
+      var result = await Process.run(powershellPath, [
         "Clear-ItemProperty",
         "-Path",
         "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
@@ -201,41 +200,5 @@ foreach ($adapter in $adapterMemory) {
       }
     } catch (_) {}
     return totalSize;
-  }
-
-  static Future<ProcessResult> powershellAdminRun(List<String> args) async {
-    // 创建 PowerShell 脚本文件
-    final scriptContent = """
-    ${args.join(' ')}
-  """;
-
-    // 将脚本内容写入临时文件
-    final scriptFile =
-        File('${AppConf.applicationSupportDir}\\temp\\psh_script.ps1');
-    if (await scriptFile.exists()) {
-      await scriptFile.delete();
-    }
-    if (!await scriptFile.exists()) {
-      await scriptFile.create(recursive: true);
-    }
-    await scriptFile.writeAsString(scriptContent);
-
-    List<String> command = [
-      'Start-Process',
-      'powershell.exe',
-      '-Verb RunAs',
-      '-ArgumentList',
-      "'-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File','${scriptFile.absolute.path}'",
-      '-Wait',
-      '-PassThru '
-    ];
-
-    final r = await Process.run(
-      'powershell.exe',
-      command,
-      runInShell: true,
-    );
-    await scriptFile.delete();
-    return r;
   }
 }
