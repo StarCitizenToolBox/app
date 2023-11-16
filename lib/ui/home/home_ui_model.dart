@@ -507,19 +507,19 @@ class HomeUIModel extends BaseUIModel {
                 modelCreate: () => LoginDialogModel(scInstalledPath, this));
           });
     } else {
-      isRsiLauncherStarting = true;
-      notifyListeners();
-      final rsiLauncherInstalledPath = await SystemHelper.getRSILauncherPath();
-      if (rsiLauncherInstalledPath.isEmpty) {
-        isRsiLauncherStarting = false;
-        notifyListeners();
-        showToast(context!, "未找到 RSI 启动器目录");
-        return;
+      final ok = await showConfirmDialogs(
+          context!,
+          "一键启动功能提示",
+          const Text("为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。"
+              "\n\n微软商店版由微软提供分发下载与数字签名，可有效防止软件数据被篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。"),
+          confirm: "安装微软商店版本",
+          cancel: "取消");
+      if (ok == true) {
+        await launchUrlString(
+            "https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true");
+        await Future.delayed(const Duration(seconds: 2));
+        exit(0);
       }
-      SystemHelper.checkAndLaunchRSILauncher(rsiLauncherInstalledPath);
-      await Future.delayed(const Duration(seconds: 3));
-      isRsiLauncherStarting = false;
-      notifyListeners();
     }
   }
 
