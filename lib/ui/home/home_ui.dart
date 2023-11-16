@@ -587,8 +587,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
           "为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区(${item.value})"),
       "eac_file_miss": const MapEntry("EasyAntiCheat 文件丢失",
           "未在 LIVE 文件夹找到 EasyAntiCheat 文件 或 文件不完整，请使用 RSI 启动器校验文件"),
-      "eac_not_install": const MapEntry("EasyAntiCheat 未安装",
-          "EasyAntiCheat 未安装，请点击修复为您一键安装。（在 EAC 完成首次启动前，本条目持续存在）"),
+      "eac_not_install": const MapEntry("EasyAntiCheat 未安装 或 未正常退出",
+          "EasyAntiCheat 未安装，请点击修复为您一键安装。（在游戏正常启动并结束前，该问题会一直出现，若您因为其他原因游戏闪退，可忽略此条目）"),
       "cn_user_name":
           const MapEntry("中文用户名！", "中文用户名可能会导致游戏启动/安装错误！ 点击修复按钮查看修改教程！"),
       "cn_install_path": MapEntry("中文安装路径！",

@@ -6,7 +6,6 @@
 
 import 'dart:convert';
 import 'dart:ffi';
-import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:win32/win32.dart';
@@ -18,7 +17,7 @@ class Win32Credentials {
       {required String credentialName,
       required String userName,
       required String password}) {
-    final examplePassword = utf8.encode(password) as Uint8List;
+    final examplePassword = utf8.encode(password);
     final blob = examplePassword.allocatePointer();
 
     final credential = calloc<CREDENTIAL>()

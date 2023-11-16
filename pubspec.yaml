@@ -74,7 +74,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   msix: ^3.16.4
-  ffigen: ^9.0.1
+  ffigen: ^10.0.0
   build_runner: ^2.4.6
   freezed: ^2.4.5
 
@@ -126,7 +126,7 @@ msix_config:
   publisher_display_name: xkeyC Studio
   identity_name: 56575xkeyC.MSE
   publisher: CN=B54C897B-C263-4680-B6AB-4913C603DF87
-  msix_version: 2.9.15.0
+  msix_version: 2.9.16.0
   logo_path: ./assets/app_logo.png
   capabilities: internetClient,allowElevation
   languages: zh-cn

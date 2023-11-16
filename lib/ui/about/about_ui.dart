@@ -18,10 +18,16 @@ class AboutUI extends BaseUI<AboutUIModel> {
           const SizedBox(height: 64),
           Image.asset("assets/app_logo.png", width: 64, height: 64),
           const SizedBox(height: 6),
-          const Text(
-            "星际公民盒子 V${AppConf.appVersion}",
-            style: TextStyle(fontSize: 21),
-          ),
+          if (AppConf.isMSE)
+            const Text(
+              "SCN公民盒子  V${AppConf.appVersion}",
+              style: TextStyle(fontSize: 18),
+            )
+          else
+            const Text(
+              "星际公民盒子  V${AppConf.appVersion}",
+              style: TextStyle(fontSize: 18),
+            ),
           const SizedBox(height: 12),
           Button(
               onPressed: model.checkUpdate,
