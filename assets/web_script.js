@@ -36,7 +36,7 @@ function LocalizationWatchUpdate() {
         SCLocalizationEnableSplitMode = true;
     }
 
-    if (window.location.hostname.includes("www.erkul.games") || window.location.hostname.includes("ccugame.app")) {
+    if (window.location.hostname.includes("www.erkul.games")) {
         document.body.addEventListener("click", function (event) {
             setTimeout(function () {
                 allTranslate().then(_ => {

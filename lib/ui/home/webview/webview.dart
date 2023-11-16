@@ -104,6 +104,7 @@ class WebViewModel {
             }
 
             if (url.startsWith(concierge)) {
+              replaceWords.clear();
               replaceWords.addAll(_getLocalizationResource("concierge"));
             }
             if (url.startsWith(hangar)) {
@@ -128,8 +129,7 @@ class WebViewModel {
                   "getRSILauncherToken(\"$loginChannel\");");
             }
           } else if (uri.host.contains("www.erkul.games") ||
-              uri.host.contains("uexcorp.space") ||
-              uri.host.contains("ccugame.app")) {
+              uri.host.contains("uexcorp.space")) {
             // 工具网站
             dPrint("load script");
             await Future.delayed(const Duration(milliseconds: 100));
