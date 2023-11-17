@@ -28,7 +28,7 @@ class IndexUI extends BaseUI<IndexUIModel> {
                     Image.asset("assets/app_logo.png", width: 24, height: 24),
                     const SizedBox(width: 12),
                     if (AppConf.isMSE)
-                      const Text("SCN公民盒子  V${AppConf.appVersion}")
+                      const Text("SC汉化盒子  V${AppConf.appVersion}")
                     else
                       const Text("星际公民盒子  V${AppConf.appVersion}"),
                   ],

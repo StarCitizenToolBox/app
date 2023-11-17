@@ -122,7 +122,7 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 msix_config:
-  display_name: 星际公民盒子MSE
+  display_name: SC汉化盒子
   publisher_display_name: xkeyC Studio
   identity_name: 56575xkeyC.MSE
   publisher: CN=B54C897B-C263-4680-B6AB-4913C603DF87

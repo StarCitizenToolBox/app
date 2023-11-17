@@ -20,7 +20,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
           const SizedBox(height: 6),
           if (AppConf.isMSE)
             const Text(
-              "SCN公民盒子  V${AppConf.appVersion}",
+              "SC汉化盒子  V${AppConf.appVersion}",
               style: TextStyle(fontSize: 18),
             )
           else
