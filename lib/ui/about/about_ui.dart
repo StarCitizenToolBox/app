@@ -56,10 +56,27 @@ class AboutUI extends BaseUI<AboutUIModel> {
               IconButton(
                 icon: Row(
                   children: [
-                    const Icon(FontAwesomeIcons.qq),
-                    const SizedBox(width: 6),
+                    const Icon(FontAwesomeIcons.link),
+                    const SizedBox(width: 8),
                     Text(
-                      "反馈QQ群: 940696487",
+                      "在线反馈",
+                      style: TextStyle(
+                          fontSize: 14, color: Colors.white.withOpacity(.6)),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  launchUrlString("https://txc.qq.com/products/614843");
+                },
+              ),
+              const SizedBox(width: 24),
+              IconButton(
+                icon: Row(
+                  children: [
+                    const Icon(FontAwesomeIcons.qq),
+                    const SizedBox(width: 8),
+                    Text(
+                      "QQ群: 940696487",
                       style: TextStyle(
                           fontSize: 14, color: Colors.white.withOpacity(.6)),
                     ),
@@ -75,7 +92,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
                 icon: Row(
                   children: [
                     const Icon(FontAwesomeIcons.envelope),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: 8),
                     Text(
                       "邮箱: scbox@xkeyc.com",
                       style: TextStyle(
@@ -91,8 +108,8 @@ class AboutUI extends BaseUI<AboutUIModel> {
               IconButton(
                 icon: Row(
                   children: [
-                    const Icon(FontAwesomeIcons.gitlab),
-                    const SizedBox(width: 6),
+                    const Icon(FontAwesomeIcons.github),
+                    const SizedBox(width: 8),
                     Text(
                       "开源",
                       style: TextStyle(
@@ -102,7 +119,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
                 ),
                 onPressed: () {
                   launchUrlString(
-                      "https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor");
+                      "https://github.com/xkeyC/StarCitizenToolBox");
                 },
               ),
             ],
