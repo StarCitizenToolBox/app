@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/webview/webview.dart';
@@ -217,12 +218,21 @@ class LoginDialogModel extends BaseUIModel {
     await launchFile.writeAsString(json.encode(launchData));
     notifyListeners();
     await Future.delayed(const Duration(seconds: 1));
+
+    await Future.delayed(const Duration(seconds: 3));
+    final confBox = await Hive.openBox("app_conf");
+    final inputGameLaunchECore = int.tryParse(
+            confBox.get("gameLaunch_eCore_count", defaultValue: "0")) ??
+        0;
+    final processorAffinity =
+        await SystemHelper.getCpuAffinity(inputGameLaunchECore);
+
+    // TODO 更新启动方式
+
     homeUIModel.doLaunchGame(
         '$installPath\\$executable',
         ["-no_login_dialog", ...launchOptions.toString().split(" ")],
         installPath);
-    await Future.delayed(const Duration(seconds: 3));
-    Navigator.pop(context!);
   }
 
   String getChannelID() {
@@ -232,8 +242,6 @@ class LoginDialogModel extends BaseUIModel {
       return "PTU";
     } else if (installPath.endsWith("\\EPTU")) {
       return "EPTU";
-    } else if (installPath.endsWith("\\TECH-PREVIEW")) {
-      return "TECH-PREVIEW";
     }
     return "LIVE";
   }

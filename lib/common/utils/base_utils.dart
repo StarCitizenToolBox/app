@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter/services.dart';
+
 void dPrint(src) {
   if (kDebugMode) {
     print(src);
@@ -56,6 +58,38 @@ Future<bool> showConfirmDialogs(
       ],
       constraints: constraints);
   return r == true;
+}
+
+Future<String?> showInputDialogs(BuildContext context,
+    {required String title,
+    required String content,
+    BoxConstraints? constraints,
+    String? initialValue,
+    List<TextInputFormatter>? inputFormatters}) async {
+  String? userInput;
+  constraints ??=
+      BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .38);
+  final ok = await showConfirmDialogs(
+      context,
+      title,
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (content.isNotEmpty) Text(content),
+          const SizedBox(height: 6),
+          TextFormBox(
+            initialValue: initialValue,
+            onChanged: (str) {
+              userInput = str;
+            },
+            inputFormatters: inputFormatters,
+          ),
+        ],
+      ),
+      constraints: constraints);
+  if (ok == true) return userInput;
+  return null;
 }
 
 Future showBaseDialog(BuildContext context,

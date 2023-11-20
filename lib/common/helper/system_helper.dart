@@ -201,4 +201,17 @@ foreach ($adapter in $adapterMemory) {
     } catch (_) {}
     return totalSize;
   }
+
+  static Future<int> getNumberOfLogicalProcessors() async {
+    final cpuNumberResult = await Process.run(powershellPath,
+        ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
+    if (cpuNumberResult.exitCode != 0) return 0;
+    return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
+  }
+
+  static Future<int?> getCpuAffinity(int eCoreCount) async {
+    final cpuNumber = await getNumberOfLogicalProcessors();
+    if (cpuNumber == 0) return null;
+    return (1 << cpuNumber) - (1 << eCoreCount);
+  }
 }

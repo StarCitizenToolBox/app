@@ -49,7 +49,7 @@ class LoginDialog extends BaseUI<LoginDialogModel> {
                   color: Colors.white.withOpacity(.6),
                 ),
               )
-            ] else if (model.loginStatus == 2) ...[
+            ] else if (model.loginStatus == 2 || model.loginStatus == 3) ...[
               Center(
                 child: Column(
                   children: [
@@ -76,7 +76,9 @@ class LoginDialog extends BaseUI<LoginDialogModel> {
                           fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 32),
-                    const Text("正在为您启动游戏..."),
+                    Text(model.loginStatus == 2
+                        ? "正在为您启动游戏..."
+                        : "正在等待优化CPU参数..."),
                     const SizedBox(height: 12),
                     const ProgressRing(),
                   ],
