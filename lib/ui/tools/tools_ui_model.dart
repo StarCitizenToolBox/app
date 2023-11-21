@@ -10,6 +10,7 @@ import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/ui/tools/downloader/downloader_dialog_ui_model.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'downloader/downloader_dialog_ui.dart';
 
@@ -351,6 +352,8 @@ class ToolsUIModel extends BaseUIModel {
         "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
 
     AnalyticsApi.touch("p4k_download");
+    launchUrlString(
+        "https://citizenwiki.cn/SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90#%E5%88%86%E6%B5%81%E4%B8%8B%E8%BD%BD%E6%95%99%E7%A8%8B");
     final r = await showDialog(
         context: context!,
         dismissWithEsc: false,
