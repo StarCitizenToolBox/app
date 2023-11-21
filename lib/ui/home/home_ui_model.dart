@@ -526,11 +526,32 @@ class HomeUIModel extends BaseUIModel {
     return (map["status"] == "ok" || map["status"] == "operational");
   }
 
-  doLaunchGame(String launchExe, List<String> args, String installPath) async {
+  doLaunchGame(String launchExe, List<String> args, String installPath,
+      int? processorAffinity) async {
     _isGameRunning[installPath] = true;
     notifyListeners();
     try {
-      await Process.run(launchExe, args);
+      if (processorAffinity == null) {
+        ProcessResult result = await Process.run(launchExe, args);
+        dPrint('Exit code: ${result.exitCode}');
+        dPrint('stdout: ${result.stdout}');
+        dPrint('stderr: ${result.stderr}');
+      } else {
+        ProcessResult result = await Process.run("cmd.exe", [
+          '/C',
+          'Start',
+          '"StarCitizen"',
+          '/High',
+          '/Affinity',
+          '$processorAffinity',
+          launchExe,
+          ...args
+        ]);
+        dPrint('Exit code: ${result.exitCode}');
+        dPrint('stdout: ${result.stdout}');
+        dPrint('stderr: ${result.stderr}');
+      }
+
       final launchFile = File("$installPath\\loginData.json");
       if (await launchFile.exists()) {
         await launchFile.delete();

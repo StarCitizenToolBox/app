@@ -228,11 +228,13 @@ class LoginDialogModel extends BaseUIModel {
         await SystemHelper.getCpuAffinity(inputGameLaunchECore);
 
     // TODO 更新启动方式
-
     homeUIModel.doLaunchGame(
         '$installPath\\$executable',
         ["-no_login_dialog", ...launchOptions.toString().split(" ")],
-        installPath);
+        installPath,
+        processorAffinity);
+    await Future.delayed(const Duration(seconds: 1));
+    Navigator.pop(context!);
   }
 
   String getChannelID() {
