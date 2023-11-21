@@ -56,7 +56,7 @@ class SettingUIModel extends BaseUIModel {
         userBox.get("gameLaunch_eCore_count", defaultValue: "0");
     final input = await showInputDialogs(context!,
         title: "请输入要忽略的 CPU 核心数",
-        content: "",
+        content: "tip：您的设备拥有几个能效核心就输入几，非大小核设备请保持0",
         initialValue: defaultInput,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly]);
     if (input == null) return;

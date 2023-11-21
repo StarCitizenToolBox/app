@@ -76,8 +76,12 @@ Future<String?> showInputDialogs(BuildContext context,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (content.isNotEmpty) Text(content),
-          const SizedBox(height: 6),
+          if (content.isNotEmpty)
+            Text(
+              content,
+              style: TextStyle(color: Colors.white.withOpacity(.6)),
+            ),
+          const SizedBox(height: 8),
           TextFormBox(
             initialValue: initialValue,
             onChanged: (str) {
