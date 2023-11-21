@@ -97,10 +97,15 @@ class SCLoggerHelper {
 
     if (scInstallPaths.isNotEmpty) {
       // 动态检测更多位置
-      for (var fileName in List.from(scInstallPaths)) {
-        for (var v in withVersion) {
-          await checkAndAddPath(
-              fileName.toString().replaceAll("\\$v", ""), true);
+      for (var v in withVersion) {
+        for (var fileName in List.from(scInstallPaths)) {
+          if (fileName.toString().endsWith(v)) {
+            for (var nv in withVersion) {
+              final nextName =
+                  "${fileName.toString().replaceAll("\\$v", "")}\\$nv";
+              await checkAndAddPath(nextName, true);
+            }
+          }
         }
       }
     }
