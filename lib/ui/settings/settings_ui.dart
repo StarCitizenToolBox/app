@@ -19,7 +19,7 @@ class SettingUI extends BaseUI<SettingUIModel> {
                 onTap: model.onResetAutoLogin),
             const SizedBox(height: 12),
             makeSettingsItem(const Icon(FontAwesomeIcons.microchip),
-                "启动游戏时忽略能效核心（ 适用于Intel 12+ 处理器 ）",
+                "启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ）",
                 subTitle:
                     "已设置的核心数量：${model.inputGameLaunchECore}    （ 设置需要忽略的处理器的能效心数量，盒子将在使用启动游戏功能时为您修改游戏所运行的CPU参数，当为 0 时不启用此功能 ）",
                 onTap: model.setGameLaunchECore),
@@ -30,20 +30,18 @@ class SettingUI extends BaseUI<SettingUIModel> {
               subTitle: model.customLauncherPath != null
                   ? "${model.customLauncherPath}"
                   : "手动设置启动器位置，建议仅在无法自动扫描安装位置时使用",
-              onTap: model.setLauncherPath,
-              onDel: () {
-                model.delName("custom_launcher_path");
-              }),
+              onTap: model.setLauncherPath, onDel: () {
+            model.delName("custom_launcher_path");
+          }),
           const SizedBox(height: 12),
           makeSettingsItem(
               const Icon(FluentIcons.game), "设置游戏文件 （StarCitizen.exe）",
               subTitle: model.customGamePath != null
                   ? "${model.customGamePath}"
                   : "手动设置游戏安装位置，建议仅在无法自动扫描安装位置时使用",
-              onTap: model.setGamePath,
-              onDel: () {
-                model.delName("custom_game_path");
-              }),
+              onTap: model.setGamePath, onDel: () {
+            model.delName("custom_game_path");
+          }),
         ],
       ),
     );
