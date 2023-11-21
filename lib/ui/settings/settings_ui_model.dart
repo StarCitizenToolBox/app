@@ -83,7 +83,7 @@ class SettingUIModel extends BaseUIModel {
       showToast(context!, "设置成功，在对应页面点击刷新即可扫描出新路径");
       reloadData();
     } else {
-      showToast(context!, "路径有误！");
+      showToast(context!, "文件有误！");
     }
   }
 
@@ -104,7 +104,7 @@ class SettingUIModel extends BaseUIModel {
       showToast(context!, "设置成功，在对应页面点击刷新即可扫描出新路径");
       reloadData();
     } else {
-      showToast(context!, "路径有误！");
+      showToast(context!, "文件有误！");
     }
   }
 
