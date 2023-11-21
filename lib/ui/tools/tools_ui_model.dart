@@ -191,16 +191,16 @@ class ToolsUIModel extends BaseUIModel {
         scInstalledPath = scInstallPaths.first;
       }
     } catch (e) {
+      dPrint(e);
       showToast(context!, "解析 log 文件失败！\n请尝试使用 RSI Launcher log 修复 工具！");
     }
     notifyListeners();
 
     if (rsiLauncherInstalledPath == "") {
-      showToast(context!,
-          "未找到 RSI 启动器，请尝试重新安装。 \n\n下载链接：https://robertsspaceindustries.com/download");
+      showToast(context!, "未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。");
     }
     if (scInstalledPath == "") {
-      showToast(context!, "未找到星际公民游戏安装位置，请至少完成一次游戏启动操作。");
+      showToast(context!, "未找到星际公民游戏安装位置，请至少完成一次游戏启动操作 或在设置中手动添加。");
     }
   }
 

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:hive/hive.dart';
+
 import '../utils/base_utils.dart';
 
 class SCLoggerHelper {
@@ -48,31 +50,57 @@ class SCLoggerHelper {
       List<String> withVersion = const ["LIVE"]}) async {
     List<String> scInstallPaths = [];
 
-    for (var v in withVersion) {
-      for (var i = listData.length - 1; i > 0; i--) {
-        final m = listData[i];
-        final info = m["[browser][info] "];
-        if (info is String) {
-          String installPath = "";
-          if (info.contains("Installing Star Citizen $v")) {
-            installPath = "${info.split(" at ")[1]}\\$v";
-          }
-          if (info.contains("Launching Star Citizen $v from")) {
-            installPath = info
-                .replaceAll("Launching Star Citizen $v from (", "")
-                .replaceAll(")", "");
-          }
-          if (installPath.isNotEmpty && !scInstallPaths.contains(installPath)) {
-            if (!checkExists) {
-              dPrint("find installPath == $installPath");
-              scInstallPaths.add(installPath);
-            } else if (await File("$installPath/Bin64/StarCitizen.exe")
-                    .exists() &&
-                await File("$installPath/Data.p4k").exists()) {
-              dPrint("find installPath == $installPath");
-              scInstallPaths.add(installPath);
+    checkAndAddPath(String path, bool checkExists) async {
+      if (path.isNotEmpty && !scInstallPaths.contains(path)) {
+        if (!checkExists) {
+          dPrint("find installPath == $path");
+          scInstallPaths.add(path);
+        } else if (await File("$path/Bin64/StarCitizen.exe").exists() &&
+            await File("$path/Data.p4k").exists()) {
+          dPrint("find installPath == $path");
+          scInstallPaths.add(path);
+        }
+      }
+    }
+
+    final confBox = await Hive.openBox("app_conf");
+    final path = confBox.get("custom_game_path");
+    if (path != null && path != "") {
+      for (var v in withVersion) {
+        await checkAndAddPath("$path\\$v", checkExists);
+      }
+    }
+
+    try {
+      for (var v in withVersion) {
+        for (var i = listData.length - 1; i > 0; i--) {
+          final m = listData[i];
+          final info = m["[browser][info] "];
+          if (info is String) {
+            String installPath = "";
+            if (info.contains("Installing Star Citizen $v")) {
+              installPath = "${info.split(" at ")[1]}\\$v";
             }
+            if (info.contains("Launching Star Citizen $v from")) {
+              installPath = info
+                  .replaceAll("Launching Star Citizen $v from (", "")
+                  .replaceAll(")", "");
+            }
+            await checkAndAddPath(installPath, checkExists);
           }
+        }
+      }
+    } catch (e) {
+      dPrint(e);
+      if (scInstallPaths.isEmpty) rethrow;
+    }
+
+    if (scInstallPaths.isNotEmpty) {
+      // 动态检测更多位置
+      for (var fileName in List.from(scInstallPaths)) {
+        for (var v in withVersion) {
+          await checkAndAddPath(
+              fileName.toString().replaceAll("\\$v", ""), true);
         }
       }
     }

@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
@@ -13,6 +14,9 @@ class SettingUIModel extends BaseUIModel {
   bool isEnableAutoLoginPwd = false;
   String inputGameLaunchECore = "0";
 
+  String? customLauncherPath;
+  String? customGamePath;
+
   @override
   loadData() async {
     final LocalAuthentication localAuth = LocalAuthentication();
@@ -22,6 +26,7 @@ class SettingUIModel extends BaseUIModel {
       _updateAutoLoginAccount();
       _updateGameLaunchECore();
     }
+    _loadCustomPath();
   }
 
   Future<void> onResetAutoLogin() async {
@@ -64,5 +69,59 @@ class SettingUIModel extends BaseUIModel {
     inputGameLaunchECore =
         userBox.get("gameLaunch_eCore_count", defaultValue: "0");
     notifyListeners();
+  }
+
+  Future<void> setLauncherPath() async {
+    final r = await FilePicker.platform.pickFiles(
+        dialogTitle: "请选择RSI启动器位置（RSI Launcher.exe）",
+        type: FileType.custom,
+        allowedExtensions: ["exe"]);
+    if (r == null || r.files.firstOrNull?.path == null) return;
+    final fileName = r.files.first.path!;
+    if (fileName.endsWith("\\RSI Launcher.exe")) {
+      await _saveCustomPath("custom_launcher_path", fileName);
+      showToast(context!, "设置成功，在对应页面点击刷新即可扫描出新路径");
+      reloadData();
+    } else {
+      showToast(context!, "路径有误！");
+    }
+  }
+
+  Future<void> setGamePath() async {
+    final r = await FilePicker.platform.pickFiles(
+        dialogTitle: "请选择游戏安装位置（StarCitizen.exe）",
+        type: FileType.custom,
+        allowedExtensions: ["exe"]);
+    if (r == null || r.files.firstOrNull?.path == null) return;
+    final fileName = r.files.first.path!;
+    dPrint(fileName);
+    final fileNameRegExp =
+        RegExp(r"^(.*\\StarCitizen\\.*\\)Bin64\\StarCitizen\.exe$");
+    if (fileNameRegExp.hasMatch(fileName)) {
+      RegExp pathRegex = RegExp(r"\\[^\\]+\\Bin64\\StarCitizen\.exe$");
+      String extractedPath = fileName.replaceFirst(pathRegex, '');
+      await _saveCustomPath("custom_game_path", extractedPath);
+      showToast(context!, "设置成功，在对应页面点击刷新即可扫描出新路径");
+      reloadData();
+    } else {
+      showToast(context!, "路径有误！");
+    }
+  }
+
+  _saveCustomPath(String pathKey, String dir) async {
+    final confBox = await Hive.openBox("app_conf");
+    await confBox.put(pathKey, dir);
+  }
+
+  _loadCustomPath() async {
+    final confBox = await Hive.openBox("app_conf");
+    customLauncherPath = confBox.get("custom_launcher_path");
+    customGamePath = confBox.get("custom_game_path");
+  }
+
+  Future<void> delName(String key) async {
+    final confBox = await Hive.openBox("app_conf");
+    await confBox.delete(key);
+    reloadData();
   }
 }

@@ -23,15 +23,34 @@ class SettingUI extends BaseUI<SettingUIModel> {
                 subTitle:
                     "已设置的核心数量：${model.inputGameLaunchECore}    （ 设置需要忽略的处理器的能效心数量，盒子将在使用启动游戏功能时为您修改游戏所运行的CPU参数，当为 0 时不启用此功能 ）",
                 onTap: model.setGameLaunchECore),
-          ] else
-            const Text("暂无设置项"),
+            const SizedBox(height: 12),
+          ],
+          makeSettingsItem(
+              const Icon(FluentIcons.folder_open), "设置启动器文件（RSI Launcher.exe）",
+              subTitle: model.customLauncherPath != null
+                  ? "${model.customLauncherPath}"
+                  : "手动设置启动器位置，建议仅在无法自动扫描安装位置时使用",
+              onTap: model.setLauncherPath,
+              onDel: () {
+                model.delName("custom_launcher_path");
+              }),
+          const SizedBox(height: 12),
+          makeSettingsItem(
+              const Icon(FluentIcons.game), "设置游戏文件 （StarCitizen.exe）",
+              subTitle: model.customGamePath != null
+                  ? "${model.customGamePath}"
+                  : "手动设置游戏安装位置，建议仅在无法自动扫描安装位置时使用",
+              onTap: model.setGamePath,
+              onDel: () {
+                model.delName("custom_game_path");
+              }),
         ],
       ),
     );
   }
 
   Widget makeSettingsItem(Widget icon, String title,
-      {String? subTitle, VoidCallback? onTap}) {
+      {String? subTitle, VoidCallback? onTap, VoidCallback? onDel}) {
     return Button(
       onPressed: onTap,
       child: Padding(
@@ -57,10 +76,19 @@ class SettingUI extends BaseUI<SettingUIModel> {
                       style: TextStyle(
                           fontSize: 12, color: Colors.white.withOpacity(.6)),
                     )
-                  ],
+                  ]
                 ],
               ),
             ),
+            if (onDel != null) ...[
+              Button(
+                  onPressed: onDel,
+                  child: const Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Icon(FluentIcons.delete),
+                  )),
+              const SizedBox(width: 12),
+            ],
             const Icon(FluentIcons.chevron_right),
           ],
         ),

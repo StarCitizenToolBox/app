@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 
 class SystemHelper {
@@ -79,6 +80,14 @@ class SystemHelper {
 
   /// 获取 RSI 启动器 目录
   static Future<String> getRSILauncherPath() async {
+    final confBox = await Hive.openBox("app_conf");
+    final path = confBox.get("custom_launcher_path");
+    if (path != null && path != "") {
+      if (await File(path).exists()) {
+        return path;
+      }
+    }
+
     Map<String, String> envVars = Platform.environment;
     final programDataPath = envVars["programdata"];
     final rsiFilePath =
