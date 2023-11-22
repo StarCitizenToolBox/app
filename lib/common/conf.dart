@@ -17,8 +17,8 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.17 Beta";
-  static const int appVersionCode = 29;
+  static const String appVersion = "2.9.19 Beta";
+  static const int appVersionCode = 30;
   static const String appVersionDate = "2023-11-22";
 
   static const String gitlabHomeUrl =
