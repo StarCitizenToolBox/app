@@ -16,7 +16,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
         children: [
           const Spacer(),
           const SizedBox(height: 64),
-          Image.asset("assets/app_logo.png", width: 64, height: 64),
+          Image.asset("assets/app_logo.png", width: 128, height: 128),
           const SizedBox(height: 6),
           if (AppConf.isMSE)
             const Text(

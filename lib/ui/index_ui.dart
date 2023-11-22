@@ -25,7 +25,12 @@ class IndexUI extends BaseUI<IndexUIModel> {
                 alignment: AlignmentDirectional.centerStart,
                 child: Row(
                   children: [
-                    Image.asset("assets/app_logo.png", width: 24, height: 24),
+                    Image.asset(
+                      "assets/app_logo_mini.png",
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.cover,
+                    ),
                     const SizedBox(width: 12),
                     if (AppConf.isMSE)
                       const Text("SC汉化盒子  V${AppConf.appVersion}")
