@@ -17,9 +17,9 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.19 Beta";
-  static const int appVersionCode = 30;
-  static const String appVersionDate = "2023-11-22";
+  static const String appVersion = "2.9.20 Beta";
+  static const int appVersionCode = 31;
+  static const String appVersionDate = "2023-11-23";
 
   static const String gitlabHomeUrl =
       "https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor";
