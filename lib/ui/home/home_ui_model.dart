@@ -527,7 +527,7 @@ class HomeUIModel extends BaseUIModel {
   }
 
   doLaunchGame(String launchExe, List<String> args, String installPath,
-      int? processorAffinity) async {
+      String? processorAffinity) async {
     _isGameRunning[installPath] = true;
     notifyListeners();
     try {
@@ -537,13 +537,14 @@ class HomeUIModel extends BaseUIModel {
         dPrint('stdout: ${result.stdout}');
         dPrint('stderr: ${result.stderr}');
       } else {
+        dPrint("set Affinity === $processorAffinity ");
         ProcessResult result = await Process.run("cmd.exe", [
           '/C',
           'Start',
           '"StarCitizen"',
           '/High',
           '/Affinity',
-          '$processorAffinity',
+          processorAffinity,
           launchExe,
           ...args
         ]);

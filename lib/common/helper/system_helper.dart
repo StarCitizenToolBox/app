@@ -218,9 +218,26 @@ foreach ($adapter in $adapterMemory) {
     return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
   }
 
-  static Future<int?> getCpuAffinity(int eCoreCount) async {
+  static Future<String?> getCpuAffinity(int eCoreCount) async {
     final cpuNumber = await getNumberOfLogicalProcessors();
-    if (cpuNumber == 0) return null;
-    return (1 << cpuNumber) - (1 << eCoreCount);
+    if (cpuNumber == 0 || eCoreCount == 0 || eCoreCount > cpuNumber) {
+      return null;
+    }
+
+    StringBuffer sb = StringBuffer();
+    for (var i = 0; i < cpuNumber; i++) {
+      if (i < eCoreCount) {
+        sb.write("0");
+      } else {
+        sb.write("1");
+      }
+    }
+    final binaryString = sb.toString();
+    int hexDigits = (binaryString.length / 4).ceil();
+    dPrint("Affinity sb ==== $sb");
+    return int.parse(binaryString, radix: 2)
+        .toRadixString(16)
+        .padLeft(hexDigits, '0')
+        .toUpperCase();
   }
 }
