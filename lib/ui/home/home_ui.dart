@@ -233,7 +233,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
             left: 24,
             bottom: 0,
             child: SizedBox(
-              height: 420,
+              height: 415,
               child: ScrollConfiguration(
                 behavior:
                     ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -241,7 +241,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                     child: Column(
                   children: [
                     SizedBox(
-                        height: 200,
+                        height: 190,
                         width: 316,
                         child: Tilt(
                           shadowConfig: const ShadowConfig(maxIntensity: .3),
@@ -290,7 +290,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                 )
                               : Column(
                                   children: [
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: 1),
                                     ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
