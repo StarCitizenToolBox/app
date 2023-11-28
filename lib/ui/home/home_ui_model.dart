@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_rss/dart_rss.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/api/rss.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
@@ -24,6 +26,9 @@ import 'package:starcitizen_doctor/ui/home/performance/performance_ui_model.dart
 import 'package:starcitizen_doctor/ui/home/webview/webview.dart';
 import 'package:starcitizen_doctor/ui/home/webview/webview_localization_capture_ui_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import 'package:html/parser.dart' as html;
+import 'package:html/dom.dart' as htmlDom;
 
 import 'countdown/countdown_dialog_ui.dart';
 import 'localization/localization_ui.dart';
@@ -47,6 +52,9 @@ class HomeUIModel extends BaseUIModel {
   final Map<String, bool> _isGameRunning = {};
 
   bool get isCurGameRunning => _isGameRunning[scInstalledPath] ?? false;
+
+  List<RssItem>? rssVideoItems;
+  List<RssItem>? rssTextItems;
 
   set lastScreenInfo(String info) {
     _lastScreenInfo = info;
@@ -98,6 +106,7 @@ class HomeUIModel extends BaseUIModel {
               .data));
       countdownFestivalListData = await Api.getFestivalCountdownList();
       notifyListeners();
+      handleError(() => _loadRRS());
     } catch (e) {
       dPrint(e);
     }
@@ -156,6 +165,15 @@ class HomeUIModel extends BaseUIModel {
     } catch (e) {
       dPrint(e);
     }
+  }
+
+  Future _loadRRS() async {
+    final v = await RSSApi.getRssVideo();
+    rssVideoItems = v;
+    notifyListeners();
+    final t = await RSSApi.getRssText();
+    rssTextItems = t;
+    notifyListeners();
   }
 
   VoidCallback? doCheck() {
@@ -572,5 +590,18 @@ class HomeUIModel extends BaseUIModel {
               modelCreate: () =>
                   CountdownDialogUIModel(countdownFestivalListData!));
         });
+  }
+
+  getRssImage(RssItem item) {
+    final h = html.parse(item.description ?? "");
+    if (h.body == null) return "";
+    for (var node in h.body!.nodes) {
+      if (node is htmlDom.Element) {
+        if (node.localName == "img") {
+          return node.attributes["src"]?.trim() ?? "";
+        }
+      }
+    }
+    return "";
   }
 }

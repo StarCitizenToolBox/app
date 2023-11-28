@@ -1,11 +1,11 @@
 import 'package:card_swiper/card_swiper.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
+import 'package:starcitizen_doctor/widgets/cache_image.dart';
 import 'package:starcitizen_doctor/widgets/countdown_time_text.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -18,6 +18,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
       children: [
         Center(
           child: SingleChildScrollView(
+            padding: EdgeInsets.zero,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -36,7 +37,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                         ? null
                         : () => model.closePlacard(),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 6),
                 ],
                 if (!model.isChecking &&
                     model.checkResult != null &&
@@ -71,7 +72,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
   }
 
   List<Widget> makeIndex(BuildContext context, HomeUIModel model) {
-    final width = MediaQuery.of(context).size.width * .21;
+    const double width = 280;
     return [
       Stack(
         children: [
@@ -80,10 +81,17 @@ class HomeUI extends BaseUI<HomeUIModel> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Center(
-                child: Image.asset(
-                  "assets/sc_logo.png",
-                  height: 256,
-                  fit: BoxFit.fitHeight,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: Image.asset(
+                        "assets/sc_logo.png",
+                        fit: BoxFit.fitHeight,
+                        height: 260,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -222,27 +230,128 @@ class HomeUI extends BaseUI<HomeUIModel> {
             ),
           ),
           Positioned(
-              left: 24,
+            left: 24,
+            bottom: 0,
+            child: SizedBox(
+              height: 420,
+              child: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: SingleChildScrollView(
+                    child: Column(
+                  children: [
+                    SizedBox(
+                        height: 200,
+                        width: 316,
+                        child: Tilt(
+                          shadowConfig: const ShadowConfig(maxIntensity: .3),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                          ),
+                          child: model.rssVideoItems == null
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(.1)),
+                                  child: makeLoading(context),
+                                )
+                              : Swiper(
+                                  itemCount: model.rssVideoItems?.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    final item = model.rssVideoItems![index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (item.link != null) {
+                                          launchUrlString(item.link!);
+                                        }
+                                      },
+                                      child: CacheNetImage(
+                                        url: model.getRssImage(item),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    );
+                                  },
+                                  autoplay: true,
+                                ),
+                        )),
+                    SizedBox(
+                      width: 316,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(.1),
+                              borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(12),
+                                  bottomRight: Radius.circular(12))),
+                          child: model.rssTextItems == null
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 24, bottom: 24),
+                                  child: makeLoading(context),
+                                )
+                              : Column(
+                                  children: [
+                                    const SizedBox(height: 12),
+                                    ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final item = model.rssTextItems![index];
+                                        return Tilt(
+                                            shadowConfig: const ShadowConfig(
+                                                maxIntensity: .3),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                if (item.link != null) {
+                                                  launchUrlString(item.link!);
+                                                }
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 12,
+                                                    right: 12,
+                                                    top: 4,
+                                                    bottom: 4),
+                                                child: Row(
+                                                  children: [
+                                                    const Text("· "),
+                                                    Expanded(
+                                                      child: Text(
+                                                        "${item.title}",
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: const TextStyle(
+                                                            fontSize: 12.2),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ));
+                                      },
+                                      itemCount: model.rssTextItems?.length,
+                                    ),
+                                    const SizedBox(height: 12),
+                                  ],
+                                )),
+                    ),
+                  ],
+                )),
+              ),
+            ),
+          ),
+          Positioned(
+              left: 0,
+              right: 0,
               bottom: 0,
-              child: Column(
-                children: [
-                  const SizedBox(height: 12),
-                  makeADCard(context, model,
-                      bgURl:
-                          "https://i2.hdslb.com/bfs/face/7582c8d46fc03004f4f8032c667c0ea4dbbb1088.jpg",
-                      title: "Anicat",
-                      subtitle: "高质量星际公民资讯UP主",
-                      jumpUrl: "https://space.bilibili.com/27976358/video"),
-                  const SizedBox(height: 12),
-                  makeADCard(context, model,
-                      bgURl:
-                          "https://citizenwiki.cn/images/f/f2/890Jump_beach.jpg.webp",
-                      title: "星际公民中文百科",
-                      subtitle: "探索宇宙的好伙伴",
-                      jumpUrl: "https://citizenwiki.cn"),
-                  const SizedBox(height: 12),
-                  makeGameStatusCard(context, model, width),
-                ],
+              child: Center(
+                child: makeGameStatusCard(context, model, 320),
               ))
         ],
       ),
@@ -315,9 +424,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
       ),
       const SizedBox(height: 8),
       Text(model.lastScreenInfo, maxLines: 1),
-      const SizedBox(height: 32),
       makeIndexActionLists(context, model),
-      const SizedBox(height: 32),
     ];
   }
 
@@ -475,79 +582,6 @@ class HomeUI extends BaseUI<HomeUIModel> {
         child: const Padding(
           padding: EdgeInsets.only(left: 8, right: 8),
           child: Text("修复"),
-        ),
-      ),
-    );
-  }
-
-  Widget makeADCard(
-    BuildContext context,
-    HomeUIModel model, {
-    required String bgURl,
-    required String title,
-    required String subtitle,
-    required String jumpUrl,
-  }) {
-    final width = MediaQuery.of(context).size.width * .21;
-    return Tilt(
-      shadowConfig: const ShadowConfig(maxIntensity: .3),
-      borderRadius: BorderRadius.circular(12),
-      child: GestureDetector(
-        onTap: () {
-          launchUrlString(jumpUrl);
-        },
-        child: ClipRRect(
-          child: Container(
-            width: width,
-            height: 128,
-            decoration: BoxDecoration(
-              color: FluentTheme.of(context).cardColor,
-            ),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(.3),
-                  child: ExtendedImage.network(
-                    bgURl,
-                    fit: BoxFit.cover,
-                    width: width,
-                  ),
-                ),
-                Container(
-                  width: width,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(.7),
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            fontSize: 24,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          subtitle,
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(.8),
-                              fontSize: 14),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
         ),
       ),
     );

@@ -34,6 +34,14 @@ class AppConf {
 
   static const String xkeycApiUrl = "https://sctoolbox.xkeyc.com";
 
+  static const rssVideoUrl =
+      "https://rss.42kit.com/bilibili/user/channel/27976358/290653";
+
+  static const rssTextUrl1 =
+      "https://rss.42kit.com/bilibili/user/article/40102960";
+  static const rssTextUrl2 =
+      "https://rss.42kit.com/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
+
   static late final String applicationSupportDir;
 
   static AppVersionData? networkVersionData;
@@ -90,8 +98,8 @@ class AppConf {
     /// init windows
     await windowManager.ensureInitialized();
     windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setSize(const Size(1280, 820));
-      await windowManager.setMinimumSize(const Size(1280, 820));
+      await windowManager.setSize(const Size(1300, 830));
+      await windowManager.setMinimumSize(const Size(1300, 830));
       await windowManager.center(animate: true);
       await windowManager.setSkipTaskbar(false);
       await windowManager.setTitleBarStyle(
