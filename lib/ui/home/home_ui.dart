@@ -141,8 +141,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
                             makeWebViewButton(model,
                                 icon: Row(
                                   children: [
-                                    ExtendedImage.network(
-                                      "https://www.erkul.games/assets/icons/icon-512x512.png",
+                                    Image.asset(
+                                      "assets/dps.png",
                                       height: 20,
                                     ),
                                     const SizedBox(width: 12),
@@ -205,79 +205,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Tilt(
-                      borderRadius: BorderRadius.circular(12),
-                      shadowConfig: const ShadowConfig(disable: true),
-                      child: GestureDetector(
-                        onTap: () => model.onTapFestival(),
-                        child: Container(
-                            width: width + 24,
-                            decoration: BoxDecoration(
-                                color: FluentTheme.of(context).cardColor),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12, right: 12, top: 6, bottom: 6),
-                              child: (model.countdownFestivalListData == null)
-                                  ? SizedBox(
-                                      width: width,
-                                      height: 62,
-                                      child: const Center(
-                                        child: ProgressRing(),
-                                      ),
-                                    )
-                                  : SizedBox(
-                                      width: width,
-                                      height: 62,
-                                      child: Swiper(
-                                        itemCount: model
-                                            .countdownFestivalListData!.length,
-                                        autoplay: true,
-                                        autoplayDelay: 5000,
-                                        itemBuilder: (context, index) {
-                                          final item =
-                                              model.countdownFestivalListData![
-                                                  index];
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              if (item.icon != null &&
-                                                  item.icon != "") ...[
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          1000),
-                                                  child: Image.asset(
-                                                    "assets/countdown/${item.icon}",
-                                                    width: 48,
-                                                    height: 48,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ],
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                    item.name ?? "",
-                                                    style: const TextStyle(
-                                                        fontSize: 15),
-                                                  ),
-                                                  const SizedBox(height: 3),
-                                                  CountdownTimeText(
-                                                    targetTime: DateTime
-                                                        .fromMillisecondsSinceEpoch(
-                                                            item.time ?? 0),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ),
-                            )),
-                      ),
-                    ),
+                    makeActivityBanner(context, model, width),
                   ],
                 ),
                 if (model.appWebLocalizationVersionsData == null)
@@ -313,73 +241,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                       subtitle: "探索宇宙的好伙伴",
                       jumpUrl: "https://citizenwiki.cn"),
                   const SizedBox(height: 12),
-                  Tilt(
-                    shadowConfig: const ShadowConfig(maxIntensity: .2),
-                    borderRadius: BorderRadius.circular(12),
-                    child: GestureDetector(
-                      onTap: () {
-                        model.goWebView("RSI 服务器状态",
-                            "https://status.robertsspaceindustries.com/",
-                            useLocalization: true);
-                      },
-                      child: Container(
-                        width: width,
-                        decoration: BoxDecoration(
-                          color: FluentTheme.of(context).cardColor,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(children: [
-                            const Row(
-                              children: [
-                                Text("星际公民服务器状态："),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            if (model.scServerStatus == null)
-                              makeLoading(context, width: 20)
-                            else
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  for (final item in model.scServerStatus ?? [])
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          height: 14,
-                                          child: Center(
-                                            child: Icon(
-                                              FontAwesomeIcons.solidCircle,
-                                              color: model
-                                                      .isRSIServerStatusOK(item)
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                              size: 12,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 3),
-                                        Text(
-                                          "${model.statusCnName[item["name"]] ?? item["name"]}",
-                                          style: const TextStyle(fontSize: 13),
-                                        ),
-                                      ],
-                                    )
-                                ],
-                              )
-                          ]),
-                        ),
-                        // child: IconButton(
-                        //   icon: ,
-                        //   onPressed: () {
-                        //     launchUrlString(
-                        //         "https://status.robertsspaceindustries.com/");
-                        //   },
-                        // ),
-                      ),
-                    ),
-                  ),
+                  makeGameStatusCard(context, model, width),
                 ],
               ))
         ],
@@ -742,6 +604,136 @@ class HomeUI extends BaseUI<HomeUIModel> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget makeGameStatusCard(
+      BuildContext context, HomeUIModel model, double width) {
+    return Tilt(
+      shadowConfig: const ShadowConfig(maxIntensity: .2),
+      borderRadius: BorderRadius.circular(12),
+      child: GestureDetector(
+        onTap: () {
+          model.goWebView(
+              "RSI 服务器状态", "https://status.robertsspaceindustries.com/",
+              useLocalization: true);
+        },
+        child: Container(
+          width: width,
+          decoration: BoxDecoration(
+            color: FluentTheme.of(context).cardColor,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(children: [
+              const Row(
+                children: [
+                  Text("星际公民服务器状态："),
+                ],
+              ),
+              const SizedBox(height: 12),
+              if (model.scServerStatus == null)
+                makeLoading(context, width: 20)
+              else
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (final item in model.scServerStatus ?? [])
+                      Row(
+                        children: [
+                          SizedBox(
+                            height: 14,
+                            child: Center(
+                              child: Icon(
+                                FontAwesomeIcons.solidCircle,
+                                color: model.isRSIServerStatusOK(item)
+                                    ? Colors.green
+                                    : Colors.red,
+                                size: 12,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 3),
+                          Text(
+                            "${model.statusCnName[item["name"]] ?? item["name"]}",
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                        ],
+                      )
+                  ],
+                )
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget makeActivityBanner(
+      BuildContext context, HomeUIModel model, double width) {
+    return Tilt(
+      borderRadius: BorderRadius.circular(12),
+      shadowConfig: const ShadowConfig(disable: true),
+      child: GestureDetector(
+        onTap: () => model.onTapFestival(),
+        child: Container(
+            width: width + 24,
+            decoration: BoxDecoration(color: FluentTheme.of(context).cardColor),
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
+              child: (model.countdownFestivalListData == null)
+                  ? SizedBox(
+                      width: width,
+                      height: 62,
+                      child: const Center(
+                        child: ProgressRing(),
+                      ),
+                    )
+                  : SizedBox(
+                      width: width,
+                      height: 62,
+                      child: Swiper(
+                        itemCount: model.countdownFestivalListData!.length,
+                        autoplay: true,
+                        autoplayDelay: 5000,
+                        itemBuilder: (context, index) {
+                          final item = model.countdownFestivalListData![index];
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              if (item.icon != null && item.icon != "") ...[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(1000),
+                                  child: Image.asset(
+                                    "assets/countdown/${item.icon}",
+                                    width: 48,
+                                    height: 48,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ],
+                              Column(
+                                children: [
+                                  Text(
+                                    item.name ?? "",
+                                    style: const TextStyle(fontSize: 15),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  CountdownTimeText(
+                                    targetTime:
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            item.time ?? 0),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+            )),
       ),
     );
   }
