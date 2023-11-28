@@ -68,7 +68,7 @@ class ToolsUIModel extends BaseUIModel {
         _ToolsItemData(
           "rsilauncher_admin_mode",
           "RSI Launcher 管理员模式",
-          "在某些情况下 RSI启动器 无法正确获得管理员权限，您可尝试使用该功能以管理员模式运行启动器。",
+          "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。",
           const Icon(FluentIcons.admin, size: 28),
           onTap: _adminRSILauncher,
         )

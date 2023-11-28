@@ -220,14 +220,9 @@ class LoginDialogModel extends BaseUIModel {
     await Future.delayed(const Duration(seconds: 1));
 
     await Future.delayed(const Duration(seconds: 3));
-    final confBox = await Hive.openBox("app_conf");
-    final inputGameLaunchECore = int.tryParse(
-            confBox.get("gameLaunch_eCore_count", defaultValue: "0")) ??
-        0;
     final processorAffinity =
-        await SystemHelper.getCpuAffinity(inputGameLaunchECore);
+        await SystemHelper.getCpuAffinity();
 
-    // TODO 更新启动方式
     homeUIModel.doLaunchGame(
         '$installPath\\$executable',
         ["-no_login_dialog", ...launchOptions.toString().split(" ")],

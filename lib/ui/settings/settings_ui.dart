@@ -17,14 +17,14 @@ class SettingUI extends BaseUI<SettingUIModel> {
                 subTitle:
                     "启用：${model.isEnableAutoLogin ? "已启用" : "已禁用"}    设备支持：${model.isDeviceSupportWinHello ? "支持" : "不支持"}     邮箱：${model.autoLoginEmail}      密码：${model.isEnableAutoLoginPwd ? "已加密保存" : "未保存"}",
                 onTap: model.onResetAutoLogin),
-            const SizedBox(height: 12),
-            makeSettingsItem(const Icon(FontAwesomeIcons.microchip),
-                "启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ） [实验性功能，请随时反馈]",
-                subTitle:
-                    "已设置的核心数量：${model.inputGameLaunchECore}    （ 设置需要忽略的处理器的能效心数量，盒子将在使用启动游戏功能时为您修改游戏所运行的CPU参数，当为 0 时不启用此功能 ）",
-                onTap: model.setGameLaunchECore),
-            const SizedBox(height: 12),
           ],
+          const SizedBox(height: 12),
+          makeSettingsItem(const Icon(FontAwesomeIcons.microchip),
+              "启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ） [实验性功能，请随时反馈]",
+              subTitle:
+                  "已设置的核心数量：${model.inputGameLaunchECore}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）",
+              onTap: model.setGameLaunchECore),
+          const SizedBox(height: 12),
           makeSettingsItem(
               const Icon(FluentIcons.folder_open), "设置启动器文件（RSI Launcher.exe）",
               subTitle: model.customLauncherPath != null

@@ -130,14 +130,21 @@ class SystemHelper {
     // check running and kill
     await killRSILauncher();
     // launch
-    final r = await Process.run(powershellPath, [
-      'Start-Process',
-      "'$path'",
-      '-Verb RunAs',
-    ]);
+    final processorAffinity = await SystemHelper.getCpuAffinity();
+    if (processorAffinity == null) {
+      Process.run(path, []);
+    } else {
+      Process.run("cmd.exe", [
+        '/C',
+        'Start',
+        '""',
+        '/High',
+        '/Affinity',
+        processorAffinity,
+        path,
+      ]);
+    }
     dPrint(path);
-    dPrint(r.stdout);
-    dPrint(r.stderr);
   }
 
   static Future<int> getSystemMemorySizeGB() async {
@@ -218,7 +225,11 @@ foreach ($adapter in $adapterMemory) {
     return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
   }
 
-  static Future<String?> getCpuAffinity(int eCoreCount) async {
+  static Future<String?> getCpuAffinity() async {
+    final confBox = await Hive.openBox("app_conf");
+    final eCoreCount = int.tryParse(
+            confBox.get("gameLaunch_eCore_count", defaultValue: "0")) ??
+        0;
     final cpuNumber = await getNumberOfLogicalProcessors();
     if (cpuNumber == 0 || eCoreCount == 0 || eCoreCount > cpuNumber) {
       return null;

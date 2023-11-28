@@ -31,14 +31,19 @@ class AppUI extends BaseUI {
       restorationScopeId: "Doctor",
       themeMode: ThemeMode.dark,
       theme: FluentThemeData(
-        brightness: Brightness.dark,
-        fontFamily: "SourceHanSansCN-Regular",
-        navigationPaneTheme: NavigationPaneThemeData(
-          backgroundColor: AppConf.colorBackground,
-        ),
-        menuColor: AppConf.colorMenu,
-        micaBackgroundColor: AppConf.colorMica,
-      ),
+          brightness: Brightness.dark,
+          fontFamily: "SourceHanSansCN-Regular",
+          navigationPaneTheme: NavigationPaneThemeData(
+            backgroundColor: AppConf.colorBackground,
+          ),
+          menuColor: AppConf.colorMenu,
+          micaBackgroundColor: AppConf.colorMica,
+          buttonTheme: ButtonThemeData(
+              defaultButtonStyle: ButtonStyle(
+            shape: ButtonState.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+                side: BorderSide(color: Colors.white.withOpacity(.01)))),
+          ))),
       debugShowCheckedModeBanner: false,
       home: BaseUIContainer(
           uiCreate: () => IndexUI(), modelCreate: () => IndexUIModel()),

@@ -537,7 +537,7 @@ class HomeUIModel extends BaseUIModel {
         dPrint('stdout: ${result.stdout}');
         dPrint('stderr: ${result.stderr}');
       } else {
-        dPrint("set Affinity === $processorAffinity ");
+        dPrint("set Affinity === $processorAffinity launchExe === $launchExe");
         ProcessResult result = await Process.run("cmd.exe", [
           '/C',
           'Start',
