@@ -604,4 +604,11 @@ class HomeUIModel extends BaseUIModel {
     }
     return "";
   }
+
+  handleTitle(String? title) {
+    if (title == null) return "";
+    title = title.replaceAll("【", "[ ");
+    title = title.replaceAll("】", " ] ");
+    return title;
+  }
 }

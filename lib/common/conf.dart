@@ -17,9 +17,9 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.21 Beta";
-  static const int appVersionCode = 32;
-  static const String appVersionDate = "2023-11-28";
+  static const String appVersion = "2.9.22 Beta";
+  static const int appVersionCode = 33;
+  static const String appVersionDate = "2023-11-30";
 
   static const String gitlabHomeUrl =
       "https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor";
@@ -98,8 +98,8 @@ class AppConf {
     /// init windows
     await windowManager.ensureInitialized();
     windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setSize(const Size(1300, 830));
-      await windowManager.setMinimumSize(const Size(1300, 830));
+      await windowManager.setSize(const Size(1280, 810));
+      await windowManager.setMinimumSize(const Size(1280, 810));
       await windowManager.center(animate: true);
       await windowManager.setSkipTaskbar(false);
       await windowManager.setTitleBarStyle(

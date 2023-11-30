@@ -77,7 +77,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
       Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 64, bottom: 64),
+            padding: const EdgeInsets.only(top: 64, bottom: 0),
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Center(
@@ -91,6 +91,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                         height: 260,
                       ),
                     ),
+                    makeGameStatusCard(context, model, 320)
                   ],
                 ),
               ),
@@ -98,261 +99,14 @@ class HomeUI extends BaseUI<HomeUIModel> {
           ),
           Positioned(
             top: 0,
-            right: 24,
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color:
-                            FluentTheme.of(context).cardColor.withOpacity(.03),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            makeWebViewButton(model,
-                                icon: SvgPicture.asset(
-                                  "assets/rsi.svg",
-                                  colorFilter: makeSvgColor(Colors.white),
-                                  height: 18,
-                                ),
-                                name: "星际公民官网汉化",
-                                webTitle: "星际公民官网汉化",
-                                webURL: "https://robertsspaceindustries.com",
-                                info: "罗伯茨航天工业公司，万物的起源",
-                                useLocalization: true,
-                                width: width,
-                                touchKey: "webLocalization_rsi"),
-                            const SizedBox(height: 12),
-                            makeWebViewButton(model,
-                                icon: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/uex.svg",
-                                      height: 18,
-                                    ),
-                                    const SizedBox(width: 12),
-                                  ],
-                                ),
-                                name: "UEX 汉化",
-                                webTitle: "UEX 汉化",
-                                webURL: "https://uexcorp.space",
-                                info: "采矿、精炼、贸易计算器、价格、船信息",
-                                useLocalization: true,
-                                width: width,
-                                touchKey: "webLocalization_uex"),
-                            const SizedBox(height: 12),
-                            makeWebViewButton(model,
-                                icon: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/dps.png",
-                                      height: 20,
-                                    ),
-                                    const SizedBox(width: 12),
-                                  ],
-                                ),
-                                name: "DPS计算器汉化",
-                                webTitle: "DPS计算器汉化",
-                                webURL:
-                                    "https://www.erkul.games/live/calculator",
-                                info: "在线改船，查询伤害数值和配件购买地点",
-                                useLocalization: true,
-                                width: width,
-                                touchKey: "webLocalization_dps"),
-                            const SizedBox(height: 12),
-                            const Text("外部浏览器拓展："),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Button(
-                                  child: const FaIcon(FontAwesomeIcons.chrome,
-                                      size: 18),
-                                  onPressed: () {
-                                    launchUrlString(
-                                        "https://chrome.google.com/webstore/detail/gocnjckojmledijgmadmacoikibcggja?authuser=0&hl=zh-CN");
-                                  },
-                                ),
-                                const SizedBox(width: 12),
-                                Button(
-                                  child: const FaIcon(FontAwesomeIcons.edge,
-                                      size: 18),
-                                  onPressed: () {
-                                    launchUrlString(
-                                        "https://microsoftedge.microsoft.com/addons/detail/lipbbcckldklpdcpfagicipecaacikgi");
-                                  },
-                                ),
-                                const SizedBox(width: 12),
-                                Button(
-                                  child: const FaIcon(
-                                      FontAwesomeIcons.firefoxBrowser,
-                                      size: 18),
-                                  onPressed: () {
-                                    launchUrlString(
-                                        "https://addons.mozilla.org/zh-CN/firefox/"
-                                        "addon/%E6%98%9F%E9%99%85%E5%85%AC%E6%B0%91%E7%9B%92%E5%AD%90%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8B%93%E5%B1%95/");
-                                  },
-                                ),
-                                const SizedBox(width: 12),
-                                Button(
-                                  child: const FaIcon(FontAwesomeIcons.github,
-                                      size: 18),
-                                  onPressed: () {
-                                    launchUrlString(
-                                        "https://github.com/xkeyC/StarCitizenBoxBrowserEx");
-                                  },
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    makeActivityBanner(context, model, width),
-                  ],
-                ),
-                if (model.appWebLocalizationVersionsData == null)
-                  Positioned.fill(
-                      child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(.3),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: const Center(
-                      child: ProgressRing(),
-                    ),
-                  ))
-              ],
-            ),
-          ),
-          Positioned(
             left: 24,
-            bottom: 0,
-            child: SizedBox(
-              height: 415,
-              child: ScrollConfiguration(
-                behavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                child: SingleChildScrollView(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                        height: 190,
-                        width: 316,
-                        child: Tilt(
-                          shadowConfig: const ShadowConfig(maxIntensity: .3),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          child: model.rssVideoItems == null
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(.1)),
-                                  child: makeLoading(context),
-                                )
-                              : Swiper(
-                                  itemCount: model.rssVideoItems?.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    final item = model.rssVideoItems![index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        if (item.link != null) {
-                                          launchUrlString(item.link!);
-                                        }
-                                      },
-                                      child: CacheNetImage(
-                                        url: model.getRssImage(item),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                  autoplay: true,
-                                ),
-                        )),
-                    SizedBox(
-                      width: 316,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(.1),
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(12),
-                                  bottomRight: Radius.circular(12))),
-                          child: model.rssTextItems == null
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 24, bottom: 24),
-                                  child: makeLoading(context),
-                                )
-                              : Column(
-                                  children: [
-                                    const SizedBox(height: 1),
-                                    ListView.builder(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        final item = model.rssTextItems![index];
-                                        return Tilt(
-                                            shadowConfig: const ShadowConfig(
-                                                maxIntensity: .3),
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                if (item.link != null) {
-                                                  launchUrlString(item.link!);
-                                                }
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 12,
-                                                    right: 12,
-                                                    top: 4,
-                                                    bottom: 4),
-                                                child: Row(
-                                                  children: [
-                                                    const Text("· "),
-                                                    Expanded(
-                                                      child: Text(
-                                                        "${item.title}",
-                                                        textAlign:
-                                                            TextAlign.start,
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                            fontSize: 12.2),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ));
-                                      },
-                                      itemCount: model.rssTextItems?.length,
-                                    ),
-                                    const SizedBox(height: 12),
-                                  ],
-                                )),
-                    ),
-                  ],
-                )),
-              ),
-            ),
+            child: makeLeftColumn(context, model, width),
           ),
           Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Center(
-                child: makeGameStatusCard(context, model, 320),
-              ))
+            right: 24,
+            top: 0,
+            child: makeNewsCard(context, model),
+          ),
         ],
       ),
       const SizedBox(height: 24),
@@ -426,6 +180,227 @@ class HomeUI extends BaseUI<HomeUIModel> {
       Text(model.lastScreenInfo, maxLines: 1),
       makeIndexActionLists(context, model),
     ];
+  }
+
+  Widget makeLeftColumn(BuildContext context, HomeUIModel model, double width) {
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: FluentTheme.of(context).cardColor.withOpacity(.03),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    makeWebViewButton(model,
+                        icon: SvgPicture.asset(
+                          "assets/rsi.svg",
+                          colorFilter: makeSvgColor(Colors.white),
+                          height: 18,
+                        ),
+                        name: "星际公民官网汉化",
+                        webTitle: "星际公民官网汉化",
+                        webURL: "https://robertsspaceindustries.com",
+                        info: "罗伯茨航天工业公司，万物的起源",
+                        useLocalization: true,
+                        width: width,
+                        touchKey: "webLocalization_rsi"),
+                    const SizedBox(height: 12),
+                    makeWebViewButton(model,
+                        icon: Row(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/uex.svg",
+                              height: 18,
+                            ),
+                            const SizedBox(width: 12),
+                          ],
+                        ),
+                        name: "UEX 汉化",
+                        webTitle: "UEX 汉化",
+                        webURL: "https://uexcorp.space",
+                        info: "采矿、精炼、贸易计算器、价格、船信息",
+                        useLocalization: true,
+                        width: width,
+                        touchKey: "webLocalization_uex"),
+                    const SizedBox(height: 12),
+                    makeWebViewButton(model,
+                        icon: Row(
+                          children: [
+                            Image.asset(
+                              "assets/dps.png",
+                              height: 20,
+                            ),
+                            const SizedBox(width: 12),
+                          ],
+                        ),
+                        name: "DPS计算器汉化",
+                        webTitle: "DPS计算器汉化",
+                        webURL: "https://www.erkul.games/live/calculator",
+                        info: "在线改船，查询伤害数值和配件购买地点",
+                        useLocalization: true,
+                        width: width,
+                        touchKey: "webLocalization_dps"),
+                    const SizedBox(height: 12),
+                    const Text("外部浏览器拓展："),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Button(
+                          child:
+                              const FaIcon(FontAwesomeIcons.chrome, size: 18),
+                          onPressed: () {
+                            launchUrlString(
+                                "https://chrome.google.com/webstore/detail/gocnjckojmledijgmadmacoikibcggja?authuser=0&hl=zh-CN");
+                          },
+                        ),
+                        const SizedBox(width: 12),
+                        Button(
+                          child: const FaIcon(FontAwesomeIcons.edge, size: 18),
+                          onPressed: () {
+                            launchUrlString(
+                                "https://microsoftedge.microsoft.com/addons/detail/lipbbcckldklpdcpfagicipecaacikgi");
+                          },
+                        ),
+                        const SizedBox(width: 12),
+                        Button(
+                          child: const FaIcon(FontAwesomeIcons.firefoxBrowser,
+                              size: 18),
+                          onPressed: () {
+                            launchUrlString(
+                                "https://addons.mozilla.org/zh-CN/firefox/"
+                                "addon/%E6%98%9F%E9%99%85%E5%85%AC%E6%B0%91%E7%9B%92%E5%AD%90%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8B%93%E5%B1%95/");
+                          },
+                        ),
+                        const SizedBox(width: 12),
+                        Button(
+                          child:
+                              const FaIcon(FontAwesomeIcons.github, size: 18),
+                          onPressed: () {
+                            launchUrlString(
+                                "https://github.com/xkeyC/StarCitizenBoxBrowserEx");
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            makeActivityBanner(context, model, width),
+          ],
+        ),
+        if (model.appWebLocalizationVersionsData == null)
+          Positioned.fill(
+              child: Container(
+            decoration: BoxDecoration(
+                color: Colors.black.withOpacity(.3),
+                borderRadius: BorderRadius.circular(12)),
+            child: const Center(
+              child: ProgressRing(),
+            ),
+          ))
+      ],
+    );
+  }
+
+  Widget makeNewsCard(BuildContext context, HomeUIModel model) {
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+      child: Container(
+          width: 316,
+          height: 386,
+          decoration: BoxDecoration(
+              color: Colors.white.withOpacity(.1),
+              borderRadius: BorderRadius.circular(12)),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                    height: 190,
+                    width: 316,
+                    child: Tilt(
+                      shadowConfig: const ShadowConfig(maxIntensity: .3),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
+                      child: model.rssVideoItems == null
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(.1)),
+                              child: makeLoading(context),
+                            )
+                          : Swiper(
+                              itemCount: model.rssVideoItems?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                final item = model.rssVideoItems![index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (item.link != null) {
+                                      launchUrlString(item.link!);
+                                    }
+                                  },
+                                  child: CacheNetImage(
+                                    url: model.getRssImage(item),
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              },
+                              autoplay: true,
+                            ),
+                    )),
+                const SizedBox(height: 1),
+                if (model.rssTextItems == null)
+                  makeLoading(context)
+                else
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = model.rssTextItems![index];
+                      return Tilt(
+                          shadowConfig: const ShadowConfig(maxIntensity: .3),
+                          borderRadius: BorderRadius.circular(12),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (item.link != null) {
+                                launchUrlString(item.link!);
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12, right: 12, top: 4, bottom: 4),
+                              child: Row(
+                                children: [
+                                  const Text("· "),
+                                  Expanded(
+                                    child: Text(
+                                      "${model.handleTitle(item.title)}",
+                                      textAlign: TextAlign.start,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 12.2),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ));
+                    },
+                    itemCount: model.rssTextItems?.length,
+                  ),
+                const SizedBox(height: 12),
+              ],
+            ),
+          )),
+    );
   }
 
   Widget makeIndexActionLists(BuildContext context, HomeUIModel model) {
@@ -661,18 +636,13 @@ class HomeUI extends BaseUI<HomeUIModel> {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(children: [
-              const Row(
-                children: [
-                  Text("星际公民服务器状态："),
-                ],
-              ),
-              const SizedBox(height: 12),
               if (model.scServerStatus == null)
                 makeLoading(context, width: 20)
               else
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    const Text("状态："),
                     for (final item in model.scServerStatus ?? [])
                       Row(
                         children: [
@@ -716,7 +686,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
             decoration: BoxDecoration(color: FluentTheme.of(context).cardColor),
             child: Padding(
               padding:
-                  const EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
+                  const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
               child: (model.countdownFestivalListData == null)
                   ? SizedBox(
                       width: width,
