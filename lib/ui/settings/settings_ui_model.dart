@@ -22,9 +22,9 @@ class SettingUIModel extends BaseUIModel {
     final LocalAuthentication localAuth = LocalAuthentication();
     isDeviceSupportWinHello = await localAuth.isDeviceSupported();
     notifyListeners();
+    _updateGameLaunchECore();
     if (AppConf.isMSE) {
       _updateAutoLoginAccount();
-      _updateGameLaunchECore();
     }
     _loadCustomPath();
   }
