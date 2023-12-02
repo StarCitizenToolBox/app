@@ -28,7 +28,7 @@ import 'package:starcitizen_doctor/ui/home/webview/webview_localization_capture_
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:html/parser.dart' as html;
-import 'package:html/dom.dart' as htmlDom;
+import 'package:html/dom.dart' as html_dom;
 
 import 'countdown/countdown_dialog_ui.dart';
 import 'localization/localization_ui.dart';
@@ -596,7 +596,7 @@ class HomeUIModel extends BaseUIModel {
     final h = html.parse(item.description ?? "");
     if (h.body == null) return "";
     for (var node in h.body!.nodes) {
-      if (node is htmlDom.Element) {
+      if (node is html_dom.Element) {
         if (node.localName == "img") {
           return node.attributes["src"]?.trim() ?? "";
         }
