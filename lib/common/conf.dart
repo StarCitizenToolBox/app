@@ -108,7 +108,7 @@ class AppConf {
     /// init windows
     await windowManager.ensureInitialized();
     windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setSize(const Size(1080, 810));
+      await windowManager.setSize(const Size(1280, 810));
       await windowManager.setMinimumSize(const Size(1280, 810));
       await windowManager.center(animate: true);
       await windowManager.setSkipTaskbar(false);
