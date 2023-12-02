@@ -29,7 +29,7 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
                     onPressed: model.working ? null : model.loadData,
                     child: const Padding(
                       padding: EdgeInsets.only(
-                          top: 32, bottom: 32, left: 12, right: 12),
+                          top: 30, bottom: 30, left: 12, right: 12),
                       child: Icon(FluentIcons.refresh),
                     ),
                   ),
@@ -197,7 +197,7 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
         const SizedBox(width: 8),
         Button(
             child: const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(6),
               child: Icon(FluentIcons.folder_open),
             ),
             onPressed: () => model.openDir(model.scInstalledPath))
@@ -234,7 +234,7 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
         const SizedBox(width: 8),
         Button(
             child: const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(6),
               child: Icon(FluentIcons.folder_open),
             ),
             onPressed: () => model.openDir(model.rsiLauncherInstalledPath))

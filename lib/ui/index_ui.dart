@@ -48,7 +48,7 @@ class IndexUI extends BaseUI<IndexUIModel> {
       pane: NavigationPane(
         selected: model.curIndex,
         items: getNavigationPaneItems(model),
-        size: const NavigationPaneSize(openWidth: 160),
+        size: const NavigationPaneSize(openWidth: 64),
       ),
       paneBodyBuilder: (item, child) {
         // final name =
@@ -97,8 +97,20 @@ class IndexUI extends BaseUI<IndexUIModel> {
     return [
       for (final kv in menus.entries)
         PaneItem(
-          icon: Icon(kv.key),
-          title: Text(kv.value),
+          icon: Padding(
+            padding: const EdgeInsets.only(top: 6, bottom: 6, left: 4),
+            child: Column(
+              children: [
+                Icon(kv.key, size: 18),
+                const SizedBox(height: 3),
+                Text(
+                  kv.value,
+                  style: const TextStyle(fontSize: 11),
+                )
+              ],
+            ),
+          ),
+          // title: Text(kv.value),
           body: const SizedBox.shrink(),
           onTap: () {
             model.onIndexMenuTap(kv.value);

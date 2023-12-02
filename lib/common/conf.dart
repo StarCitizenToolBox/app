@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/api/grpc_api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/rust/ffi.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
@@ -54,6 +56,8 @@ class AppConf {
   static Color? colorMenu;
   static Color? colorMica;
 
+  static List<int>? certData;
+
   static const isMSE =
       String.fromEnvironment("MSE", defaultValue: "false") == "true";
 
@@ -95,10 +99,16 @@ class AppConf {
     colorMenu = HexColor("#132431").withOpacity(.95);
     colorMica = HexColor("#0A3142");
 
+    /// init grpcKeys
+    certData = (await rootBundle.load("assets/cert.pem"))
+        .buffer
+        .asUint8List()
+        .toList();
+
     /// init windows
     await windowManager.ensureInitialized();
     windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setSize(const Size(1280, 810));
+      await windowManager.setSize(const Size(1080, 810));
       await windowManager.setMinimumSize(const Size(1280, 810));
       await windowManager.center(animate: true);
       await windowManager.setSkipTaskbar(false);
@@ -124,6 +134,7 @@ class AppConf {
   }
 
   static Future<void> checkUpdate() async {
+    GrpcApi.pingServer();
     // clean path
     if (!isMSE) {
       final dir = Directory(getUpgradePath());

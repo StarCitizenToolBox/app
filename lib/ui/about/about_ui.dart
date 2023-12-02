@@ -119,7 +119,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
                 ),
                 onPressed: () {
                   launchUrlString(
-                      "https://github.com/xkeyC/StarCitizenToolBox");
+                      "https://github.com/StarCitizenToolBox/app");
                 },
               ),
             ],

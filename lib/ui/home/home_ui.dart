@@ -147,7 +147,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                           ? null
                           : () => model.launchRSI(),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(6),
                         child: Icon(
                           model.isCurGameRunning
                               ? FluentIcons.stop_solid
@@ -161,7 +161,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
             const SizedBox(width: 12),
             Button(
                 child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(6),
                   child: Icon(FluentIcons.folder_open),
                 ),
                 onPressed: () => model.openDir(model.scInstalledPath)),
