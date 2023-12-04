@@ -8,7 +8,6 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
-import 'package:starcitizen_doctor/api/grpc_api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/rust/ffi.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
@@ -134,7 +133,6 @@ class AppConf {
   }
 
   static Future<void> checkUpdate() async {
-    GrpcApi.pingServer();
     // clean path
     if (!isMSE) {
       final dir = Directory(getUpgradePath());
