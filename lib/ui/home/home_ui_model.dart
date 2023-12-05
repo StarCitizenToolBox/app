@@ -228,7 +228,7 @@ class HomeUIModel extends BaseUIModel {
       return;
     }
     final eacFilePath =
-        "${Platform.environment["appdata"]}\\EasyAntiCheat\\$eacID\\$eacDeploymentId\\easyanticheat_wow64_x64.eac";
+        "${Platform.environment["appdata"]}\\EasyAntiCheat\\$eacID\\$eacDeploymentId\\anticheatlauncher.log";
     if (!await File(eacFilePath).exists()) {
       checkResult?.add(MapEntry("eac_not_install", eacPath));
       return;

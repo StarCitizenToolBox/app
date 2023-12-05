@@ -18,8 +18,8 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.23-1 Beta";
-  static const int appVersionCode = 32;
+  static const String appVersion = "2.9.22 Beta";
+  static const int appVersionCode = 33;
   static const String appVersionDate = "2023-12-05";
 
   static const String giteaAttachmentsUrl =
