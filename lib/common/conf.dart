@@ -18,30 +18,33 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.22 Beta";
-  static const int appVersionCode = 33;
-  static const String appVersionDate = "2023-11-30";
+  static const String appVersion = "2.9.23-1 Beta";
+  static const int appVersionCode = 32;
+  static const String appVersionDate = "2023-12-05";
 
-  static const String gitlabHomeUrl =
-      "https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor";
+  static const String giteaAttachmentsUrl =
+      "https://git.sctoolbox.sccsgo.com/SCToolBox/Release";
   static const String gitlabLocalizationUrl =
-      "https://jihulab.com/StarCitizenCN_Community/LocalizationData";
+      "https://git.sctoolbox.sccsgo.com/SCToolBox/LocalizationData";
   static const String apiRepoPath =
-      "https://jihulab.com/StarCitizenCN_Community/api/-/raw/main/";
-  static const String gitlabApiPath = "https://jihulab.com/api/v4/";
+      "https://git.sctoolbox.sccsgo.com/SCToolBox/api/raw/branch/main/";
+
+  static const String gitlabApiPath =
+      "https://git.sctoolbox.sccsgo.com/api/v1/";
 
   static const String webTranslateHomeUrl =
-      "https://jihulab.com/StarCitizenCN_Community/scweb_chinese_translate/-/raw/main/json/locales";
+      "https://git.sctoolbox.sccsgo.com/SCToolBox/ScWeb_Chinese_Translate/raw/branch/main/json/locales";
 
   static const String xkeycApiUrl = "https://sctoolbox.xkeyc.com";
 
-  static const rssVideoUrl =
-      "https://rss.42kit.com/bilibili/user/channel/27976358/290653";
+  static const _rssHomeUrl = "https://rss.sctoolbox.sccsgo.com";
 
-  static const rssTextUrl1 =
-      "https://rss.42kit.com/bilibili/user/article/40102960";
+  static const rssVideoUrl =
+      "$_rssHomeUrl/bilibili/user/channel/27976358/290653";
+
+  static const rssTextUrl1 = "$_rssHomeUrl/bilibili/user/article/40102960";
   static const rssTextUrl2 =
-      "https://rss.42kit.com/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
+      "$_rssHomeUrl/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
 
   static late final String applicationSupportDir;
 

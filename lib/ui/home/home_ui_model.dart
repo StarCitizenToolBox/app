@@ -174,6 +174,7 @@ class HomeUIModel extends BaseUIModel {
     final t = await RSSApi.getRssText();
     rssTextItems = t;
     notifyListeners();
+    dPrint("RSS update Success !");
   }
 
   VoidCallback? doCheck() {

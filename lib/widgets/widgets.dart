@@ -3,7 +3,6 @@ import 'dart:ui' as ui;
 
 import 'package:markdown_widget/config/all.dart';
 import 'package:markdown_widget/widget/all.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../base/ui.dart';
@@ -59,16 +58,19 @@ fastPadding(
       child: child);
 }
 
-List<Widget> makeMarkdownView(String description) {
+List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {
   return MarkdownGenerator().buildWidgets(description,
       config: MarkdownConfig(configs: [
         LinkConfig(onTap: (url) {
-          if (url.startsWith("/")) {
-            url = "${AppConf.gitlabHomeUrl}/$url";
+          if (url.startsWith("/") && attachmentsUrl != null) {
+            url = "$attachmentsUrl/$url";
           }
           launchUrlString(url);
         }),
         ImgConfig(builder: (String url, Map<String, String> attributes) {
+          if (url.startsWith("/") && attachmentsUrl != null) {
+            url = "$attachmentsUrl/$url";
+          }
           return ExtendedImage.network(
             url,
             loadStateChanged: (ExtendedImageState state) {
@@ -93,7 +95,7 @@ List<Widget> makeMarkdownView(String description) {
                     image: state.extendedImageInfo?.image,
                   );
                 case LoadState.failed:
-                  return const Text("Loading Image error");
+                  return Text("Loading Image error $url");
               }
             },
           );

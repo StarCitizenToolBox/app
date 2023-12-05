@@ -34,7 +34,8 @@ class UpgradeDialogUI extends BaseUI<UpgradeDialogUIModel> {
                         ),
                       )
                     ] else
-                      ...makeMarkdownView(model.description!),
+                      ...makeMarkdownView(model.description!,
+                          attachmentsUrl: AppConf.giteaAttachmentsUrl),
                   ],
                 ),
               ),

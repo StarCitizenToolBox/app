@@ -132,7 +132,7 @@ class LocalizationUIModel extends BaseUIModel {
     return () async {
       AnalyticsApi.touch("install_localization");
       final downloadUrl =
-          "${AppConf.gitlabLocalizationUrl}/-/archive/${value.versionName}/LocalizationData-${value.versionName}.tar.bz2";
+          "${AppConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
       final savePath =
           File("${downloadDir.absolute.path}\\${value.versionName}.sclang");
       try {
@@ -284,7 +284,7 @@ class LocalizationUIModel extends BaseUIModel {
   static StringBuffer _readArchive(String savePath) {
     final inputStream = InputFileStream(savePath);
     final archive =
-        TarDecoder().decodeBytes(BZip2Decoder().decodeBuffer(inputStream));
+        TarDecoder().decodeBytes(GZipDecoder().decodeBuffer(inputStream));
     StringBuffer globalIni = StringBuffer("");
     for (var element in archive.files) {
       if (element.name.contains("global.ini")) {

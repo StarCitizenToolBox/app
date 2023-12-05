@@ -24,12 +24,11 @@ class UpgradeDialogUIModel extends BaseUIModel {
           ? AppConf.networkVersionData!.mSELastVersion!
           : AppConf.networkVersionData!.lastVersion!;
       final r = await Api.getAppReleaseDataByVersionName(targetVersion);
-      description = r["description"];
-      final assetsLinks = List.of(r["assets"]?["links"] ?? []);
-      for (var link in assetsLinks) {
-        if (link["name"].toString().contains("SETUP.exe")) {
-          downloadUrl = link["direct_asset_url"];
-          break;
+      description = r["body"];
+      final assets = List.of(r["assets"] ?? []);
+      for (var asset in assets) {
+        if (asset["name"].toString().endsWith("SETUP.exe")) {
+          downloadUrl = asset["browser_download_url"];
         }
       }
       notifyListeners();
