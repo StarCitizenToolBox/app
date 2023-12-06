@@ -18,9 +18,9 @@ import 'package:window_manager/window_manager.dart';
 import '../base/ui.dart';
 
 class AppConf {
-  static const String appVersion = "2.9.22 Beta";
-  static const int appVersionCode = 33;
-  static const String appVersionDate = "2023-12-05";
+  static const String appVersion = "2.10.0 Beta";
+  static const int appVersionCode = 35;
+  static const String appVersionDate = "2023-12-06";
 
   static const String giteaAttachmentsUrl =
       "https://git.sctoolbox.sccsgo.com/SCToolBox/Release";

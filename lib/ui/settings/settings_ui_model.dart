@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/win32/credentials.dart';
 
 class SettingUIModel extends BaseUIModel {
@@ -17,8 +20,11 @@ class SettingUIModel extends BaseUIModel {
   String? customLauncherPath;
   String? customGamePath;
 
+  int locationCacheSize = 0;
+
   @override
   loadData() async {
+    dPrint("SettingUIModel.loadData");
     final LocalAuthentication localAuth = LocalAuthentication();
     isDeviceSupportWinHello = await localAuth.isDeviceSupported();
     notifyListeners();
@@ -27,6 +33,7 @@ class SettingUIModel extends BaseUIModel {
       _updateAutoLoginAccount();
     }
     _loadCustomPath();
+    _loadLocationCacheSize();
   }
 
   Future<void> onResetAutoLogin() async {
@@ -124,5 +131,22 @@ class SettingUIModel extends BaseUIModel {
     final confBox = await Hive.openBox("app_conf");
     await confBox.delete(key);
     reloadData();
+  }
+
+  _loadLocationCacheSize() async {
+    final len = await SystemHelper.getDirLen(
+        "${AppConf.applicationSupportDir}/Localizations");
+    locationCacheSize = len;
+    notifyListeners();
+  }
+
+  Future<void> cleanLocationCache() async {
+    final ok = await showConfirmDialogs(
+        context!, "确认清理汉化缓存？", const Text("这不会影响已安装的汉化。"));
+    if (ok == true) {
+      final dir = Directory("${AppConf.applicationSupportDir}/Localizations");
+      await handleError(() => dir.delete(recursive: true));
+      reloadData();
+    }
   }
 }

@@ -51,6 +51,9 @@ class IndexUIModel extends BaseUIModel {
       case 1:
         getCreatedChildUIModel("tools")?.reloadData();
         break;
+      case 2:
+        getCreatedChildUIModel("settings")?.reloadData();
+        break;
     }
     notifyListeners();
   }
@@ -65,7 +68,8 @@ class IndexUIModel extends BaseUIModel {
     }
 
     try {
-      var result = await Process.run(SystemHelper.powershellPath, ["echo", "ping"]);
+      var result =
+          await Process.run(SystemHelper.powershellPath, ["echo", "ping"]);
       if (result.stdout.toString().startsWith("ping")) {
         dPrint("powershell check pass");
       } else {
