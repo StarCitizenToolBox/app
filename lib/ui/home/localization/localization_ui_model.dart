@@ -68,9 +68,9 @@ class LocalizationUIModel extends BaseUIModel {
       apiLocalizationData = {};
       for (var element in l) {
         final isPTU = !scInstallPath.contains("LIVE");
-        if (isPTU && element.channel == "PTU") {
+        if (isPTU && element.gameChannel == "PTU") {
           apiLocalizationData![element.versionName ?? ""] = element;
-        } else if (!isPTU && element.channel == "PU") {
+        } else if (!isPTU && element.gameChannel == "PU") {
           apiLocalizationData![element.versionName ?? ""] = element;
         }
       }

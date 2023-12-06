@@ -81,8 +81,8 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                   AnimatedSize(
                     duration: const Duration(milliseconds: 130),
                     child: (curInstallInfo != null &&
-                            curInstallInfo.node != null &&
-                            curInstallInfo.node!.isNotEmpty)
+                            curInstallInfo.note != null &&
+                            curInstallInfo.note!.isNotEmpty)
                         ? Padding(
                             padding: const EdgeInsets.only(top: 12),
                             child: Container(
@@ -101,7 +101,7 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                                     ),
                                     const SizedBox(height: 6),
                                     Text(
-                                      "${curInstallInfo.node}",
+                                      "${curInstallInfo.note}",
                                       style: TextStyle(
                                           color: Colors.white.withOpacity(.8)),
                                     )
@@ -244,7 +244,7 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "通道：${item.value.channel}",
+                    "通道：${item.value.gameChannel}",
                     style: TextStyle(color: Colors.white.withOpacity(.6)),
                   ),
                   const SizedBox(height: 4),
