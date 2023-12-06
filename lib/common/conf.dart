@@ -46,6 +46,8 @@ class AppConf {
   static const rssTextUrl2 =
       "$_rssHomeUrl/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
 
+  static const gameChannels = ["LIVE", "PTU", "EPTU"];
+
   static late final String applicationSupportDir;
 
   static AppVersionData? networkVersionData;

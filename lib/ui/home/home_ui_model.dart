@@ -29,6 +29,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
+import 'package:windows_ui/windows_ui.dart';
 
 import 'countdown/countdown_dialog_ui.dart';
 import 'localization/localization_ui.dart';
@@ -67,6 +68,10 @@ class HomeUIModel extends BaseUIModel {
 
   List<CountdownFestivalItemData>? countdownFestivalListData;
 
+  MapEntry<String, bool>? localizationUpdateInfo;
+
+  bool _isSendLocalizationUpdateNotification = false;
+
   final cnExp = RegExp(r"[^\x00-\xff]");
 
   AppPlacardData? appPlacardData;
@@ -74,6 +79,7 @@ class HomeUIModel extends BaseUIModel {
   List? scServerStatus;
 
   Timer? serverUpdateTimer;
+  Timer? appUpdateTimer;
 
   final statusCnName = const {
     "Platform": "平台",
@@ -110,6 +116,8 @@ class HomeUIModel extends BaseUIModel {
     } catch (e) {
       dPrint(e);
     }
+    // check Localization update
+    _checkLocalizationUpdate();
     notifyListeners();
   }
 
@@ -117,11 +125,15 @@ class HomeUIModel extends BaseUIModel {
   void initModel() {
     reScanPath();
     serverUpdateTimer = Timer.periodic(
-      const Duration(minutes: 1),
+      const Duration(minutes: 10),
       (timer) {
         updateSCServerStatus();
       },
     );
+
+    appUpdateTimer = Timer.periodic(const Duration(minutes: 30), (timer) {
+      _checkLocalizationUpdate();
+    });
     super.initModel();
   }
 
@@ -129,6 +141,8 @@ class HomeUIModel extends BaseUIModel {
   void dispose() {
     serverUpdateTimer?.cancel();
     serverUpdateTimer = null;
+    appUpdateTimer?.cancel();
+    appUpdateTimer = null;
     super.dispose();
   }
 
@@ -384,7 +398,7 @@ class HomeUIModel extends BaseUIModel {
           showToast(context!, "该功能需要一个有效的安装位置");
           return;
         }
-        showDialog(
+        await showDialog(
             context: context!,
             dismissWithEsc: false,
             builder: (BuildContext context) {
@@ -392,6 +406,7 @@ class HomeUIModel extends BaseUIModel {
                   uiCreate: () => LocalizationUI(),
                   modelCreate: () => LocalizationUIModel(scInstalledPath));
             });
+        _checkLocalizationUpdate();
         return;
       case "performance":
         if (scInstalledPath == "not_install") {
@@ -611,5 +626,35 @@ class HomeUIModel extends BaseUIModel {
     title = title.replaceAll("【", "[ ");
     title = title.replaceAll("】", " ] ");
     return title;
+  }
+
+  Future<void> _checkLocalizationUpdate() async {
+    final info = await handleError(
+        () => LocalizationUIModel.checkLocalizationUpdates(scInstallPaths));
+    dPrint("lUpdateInfo === $info");
+    localizationUpdateInfo = info;
+    notifyListeners();
+
+    if (info?.value == true && !_isSendLocalizationUpdateNotification) {
+      final toastNotifier =
+          ToastNotificationManager.createToastNotifierWithId("SC汉化盒子");
+      if (toastNotifier != null) {
+        final toastContent = ToastNotificationManager.getTemplateContent(
+            ToastTemplateType.toastText02);
+        if (toastContent != null) {
+          final xmlNodeList = toastContent.getElementsByTagName('text');
+          const title = '汉化有新版本！';
+          final content = '您在 ${info?.key} 安装的汉化有新版本啦！';
+          xmlNodeList.item(0)?.appendChild(toastContent.createTextNode(title));
+          xmlNodeList
+              .item(1)
+              ?.appendChild(toastContent.createTextNode(content));
+          final toastNotification =
+              ToastNotification.createToastNotification(toastContent);
+          toastNotifier.show(toastNotification);
+          _isSendLocalizationUpdateNotification = true;
+        }
+      }
+    }
   }
 }

@@ -466,6 +466,17 @@ class HomeUI extends BaseUI<HomeUIModel> {
                             Text(item.infoString),
                           ],
                         )),
+                        if (item.key == "localization" &&
+                            model.localizationUpdateInfo != null)
+                          Container(
+                            padding: const EdgeInsets.only(
+                                top: 3, bottom: 3, left: 8, right: 8),
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(12)),
+                            child:
+                                Text(model.localizationUpdateInfo?.key ?? " "),
+                          ),
                         const SizedBox(width: 12),
                         if (item.key == "auto_check" && model.isChecking)
                           const ProgressRing()

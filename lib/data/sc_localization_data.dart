@@ -1,10 +1,9 @@
 /// enable : true
-/// versionName : "3.21.1(PU)_CN_V2"
+/// versionName : "3.21.1(PU)_CNE_V2"
 /// updateAt : "2023-12-03: 14:50:00"
-/// info : "简体中文汉化（首选）"
+/// info : "简体中文半汉化（物品名称英文版）"
 /// game_channel : "PU"
-/// note : "·因游戏暂不支持3D字体汉化，F键交互将依旧为英文。\n·角色抬头显示器(HUD)的中文字体不显示。\n·某些元素字体过小。\n·搜索栏无法输入中文。\n·部位文本未翻译（在翻了，在翻了！）"
-/// upgrade_channel : "CN"
+/// note : ""
 
 class ScLocalizationData {
   ScLocalizationData({
@@ -13,8 +12,7 @@ class ScLocalizationData {
       this.updateAt, 
       this.info, 
       this.gameChannel, 
-      this.note, 
-      this.upgradeChannel,});
+      this.note,});
 
   ScLocalizationData.fromJson(dynamic json) {
     enable = json['enable'];
@@ -23,7 +21,6 @@ class ScLocalizationData {
     info = json['info'];
     gameChannel = json['game_channel'];
     note = json['note'];
-    upgradeChannel = json['upgrade_channel'];
   }
   bool? enable;
   String? versionName;
@@ -31,7 +28,6 @@ class ScLocalizationData {
   String? info;
   String? gameChannel;
   String? note;
-  String? upgradeChannel;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -41,7 +37,6 @@ class ScLocalizationData {
     map['info'] = info;
     map['game_channel'] = gameChannel;
     map['note'] = note;
-    map['upgrade_channel'] = upgradeChannel;
     return map;
   }
 

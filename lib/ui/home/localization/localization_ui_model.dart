@@ -100,8 +100,10 @@ class LocalizationUIModel extends BaseUIModel {
   }
 
   _updateStatus() async {
-    patchStatus = MapEntry(await getLangCfgEnableLang(lang: selectedLanguage),
-        await getInstalledIniVersion());
+    patchStatus = MapEntry(
+        await getLangCfgEnableLang(lang: selectedLanguage),
+        await getInstalledIniVersion(
+            "${scDataDir.absolute.path}\\Localization\\$selectedLanguage\\global.ini"));
     notifyListeners();
   }
 
@@ -169,9 +171,8 @@ class LocalizationUIModel extends BaseUIModel {
         str.contains("g_languageAudio=english");
   }
 
-  Future<String> getInstalledIniVersion() async {
-    final iniFile = File(
-        "${scDataDir.absolute.path}\\Localization\\$selectedLanguage\\global.ini");
+  static Future<String> getInstalledIniVersion(String iniPath) async {
+    final iniFile = File(iniPath);
     if (!await iniFile.exists()) return "游戏内置";
     final iniStringSplit = (await iniFile.readAsString()).split("\n");
     for (var i = iniStringSplit.length - 1; i > 0; i--) {
@@ -341,5 +342,41 @@ class LocalizationUIModel extends BaseUIModel {
         }
       }
     }
+  }
+
+  static Future<MapEntry<String, bool>?> checkLocalizationUpdates(
+      List<String> gameInstallPaths) async {
+    final updateInfo = <String, bool>{};
+    for (var kv in languageSupport.entries) {
+      final l = await Api.getScLocalizationData(kv.key);
+      for (var value in gameInstallPaths) {
+        final iniPath = "$value\\data\\Localization\\${kv.key}\\global.ini";
+        if (!await File(iniPath).exists()) {
+          continue;
+        }
+        final installed = await getInstalledIniVersion(iniPath);
+        if (installed == "游戏内置" || installed == "自定义文件") {
+          continue;
+        }
+        final hasUpdate = l
+                .where((element) => element.versionName == installed)
+                .firstOrNull ==
+            null;
+        updateInfo[value] = hasUpdate;
+      }
+    }
+    dPrint("checkLocalizationUpdates ==== $updateInfo");
+    for (var v in updateInfo.entries) {
+      if (v.value) {
+        for (var element in AppConf.gameChannels) {
+          if (v.key.contains("StarCitizen\\$element")) {
+            return MapEntry(element, true);
+          }else {
+            return const MapEntry("", true);
+          }
+        }
+      }
+    }
+    return null;
   }
 }
