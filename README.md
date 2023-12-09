@@ -12,14 +12,10 @@
 - 服务器状态指示器：比官网启动器早了几个小时增加了服务器状态指示功能，且指示的更为细致。
 - 其他常用工具：包括 p4k分流下载，清理着色器，重装EAC等多种功能在内的工具箱。
 
-### 手动安装
-
-1. 前往 [Release](https://jihulab.com/StarCitizenCN_Community/StarCitizenDoctor/-/releases) 页面，下载最新安装包 （Setup.exe）。
-2. 双击安装，建议使用默认安装位置 点击安装即可。
-
 ### 📸 屏幕截图
-![image.png](https://s2.loli.net/2023/10/05/ng3ECSaQqs6LxHm.png)
-![image.png](https://s2.loli.net/2023/10/05/kARF27iDs86f3Kn.png)
-![image.png](https://s2.loli.net/2023/10/05/LwaiZflD1NFq8Xj.png)
-![image.png](https://s2.loli.net/2023/10/05/eGl7ISPEVZM5Cvq.png)
-![image.png](https://s2.loli.net/2023/10/05/XEHunP3yWDK7RT1.png)
+![1.png](https://s2.loli.net/2023/12/06/S7qc2MmnjBeVkPE.png)
+![2.png](https://s2.loli.net/2023/12/06/XuwBoWN7EhqL2Ie.png)
+![3.png](https://s2.loli.net/2023/12/06/uogbQMVe5Ufs6XG.png)
+![4.png](https://s2.loli.net/2023/12/06/y9sJqkUb1IOWj6m.png)
+![5.png](https://s2.loli.net/2023/12/06/yf9z4NrhEOiR5FP.png)
+![6.png](https://s2.loli.net/2023/12/06/AakZFw97cySI3UQ.png)
