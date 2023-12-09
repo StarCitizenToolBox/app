@@ -17,15 +17,18 @@ class AppGlobalUIModel extends BaseUIModel {
   Timer? activityThemeColorTimer;
 
   Future<bool> doCheckUpdate(BuildContext context, {bool init = true}) async {
+    dynamic checkUpdateError;
     if (!init) {
       try {
         await AppConf.checkUpdate();
-      } catch (_) {}
+      } catch (e) {
+        checkUpdateError = e;
+      }
     }
     await Future.delayed(const Duration(milliseconds: 100));
     if (AppConf.networkVersionData == null) {
       showToast(context,
-          "检查更新失败！请检查网络连接... \n进入离线模式.. \n\n请谨慎在离线模式中使用。 \n当前版本构建日期：${AppConf.appVersionDate}\n QQ群：940696487");
+          "检查更新失败！请检查网络连接... \n进入离线模式.. \n\n请谨慎在离线模式中使用。 \n当前版本构建日期：${AppConf.appVersionDate}\n QQ群：940696487 \n错误信息：$checkUpdateError");
       return false;
     }
     final lastVersion = AppConf.isMSE
