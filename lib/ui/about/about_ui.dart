@@ -36,7 +36,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Text(
-                "不仅仅是汉化！\n\n星际公民盒子是你探索宇宙的好帮手，我们致力于为各位公民解决游戏中的常见问题，并为社区汉化、性能调优、常用网站汉化 等操作提供便利。",
+                "不仅仅是汉化！\n\nSC汉化盒子是你探索宇宙的好帮手，我们致力于为各位公民解决游戏中的常见问题，并为社区汉化、性能调优、常用网站汉化 等操作提供便利。",
                 style: TextStyle(
                     fontSize: 14, color: Colors.white.withOpacity(.9)),
               ),

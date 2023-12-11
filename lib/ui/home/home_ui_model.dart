@@ -462,7 +462,7 @@ class HomeUIModel extends BaseUIModel {
             "星际公民网站汉化",
             const Text(
               "本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！"
-              "\n\n\n使用此功能登录账号时请确保您的 星际公民盒子 是从可信任的来源下载。",
+              "\n\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。",
               style: TextStyle(fontSize: 16),
             ),
             constraints: BoxConstraints(

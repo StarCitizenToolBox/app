@@ -136,10 +136,10 @@ class LoginDialogModel extends BaseUIModel {
       if (skip != tipVersion) {
         final ok = await showConfirmDialogs(
             context!,
-            "星际公民盒子一键启动",
+            "盒子一键启动",
             const Text(
-              "本功能可以帮您更加便利的启动游戏。\n\n为确保账户安全 ，本功能使用汉化浏览器保留登录状态，且不会保存您的密码信息，与 RSI 启动器行为一致。"
-              "\n\n使用此功能登录账号时请确保您的 星际公民盒子 是从可信任的来源下载。",
+              "本功能可以帮您更加便利的启动游戏。\n\n为确保账户安全 ，本功能使用汉化浏览器保留登录状态，且不会保存您的密码信息（除非你启用了自动填充功能）。"
+              "\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。",
               style: TextStyle(fontSize: 16),
             ),
             constraints: BoxConstraints(
@@ -220,8 +220,7 @@ class LoginDialogModel extends BaseUIModel {
     await Future.delayed(const Duration(seconds: 1));
 
     await Future.delayed(const Duration(seconds: 3));
-    final processorAffinity =
-        await SystemHelper.getCpuAffinity();
+    final processorAffinity = await SystemHelper.getCpuAffinity();
 
     homeUIModel.doLaunchGame(
         '$installPath\\$executable',
