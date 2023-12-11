@@ -65,6 +65,7 @@ dependencies:
   hexcolor: ^3.0.1
   dart_rss: ^3.0.1
   html: ^0.15.4
+  xml: ^6.5.0
 
 dependency_overrides:
   http: ^1.1.2

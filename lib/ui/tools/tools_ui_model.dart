@@ -11,6 +11,7 @@ import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/ui/tools/downloader/downloader_dialog_ui_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:xml/xml.dart';
 
 import 'downloader/downloader_dialog_ui.dart';
 
@@ -79,7 +80,10 @@ class ToolsUIModel extends BaseUIModel {
       notifyListeners();
       items.addAll(await _addNvmePatchCard());
       notifyListeners();
+      items.add(await _addPhotographyCard());
+      notifyListeners();
       items.add(await _addShaderCard());
+      // close loading
       isItemLoading = false;
       notifyListeners();
     } catch (e) {
@@ -166,6 +170,19 @@ class ToolsUIModel extends BaseUIModel {
               ])) / 1024 / 1024).toStringAsFixed(4)} MB",
       const Icon(FontAwesomeIcons.shapes, size: 28),
       onTap: _cleanShaderCache,
+    );
+  }
+
+  Future<_ToolsItemData> _addPhotographyCard() async {
+    // 获取配置文件状态
+    final isEnable = await _checkPhotographyStatus();
+
+    return _ToolsItemData(
+      "photography_mode",
+      isEnable ? "关闭摄影模式" : "开启摄影模式",
+      "一键修改镜游戏内镜头参数以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。",
+      const Icon(FontAwesomeIcons.camera, size: 28),
+      onTap: () => _onChangePhotographyMode(isEnable),
     );
   }
 
@@ -373,6 +390,60 @@ class ToolsUIModel extends BaseUIModel {
         showToast(context!, "下载完毕，文件已保存到：$r");
       }
     }
+  }
+
+  Future<bool> _checkPhotographyStatus({bool? setMode}) async {
+    const keys = ["AudioShakeStrength", "CameraSpringMovement", "ShakeScale"];
+    final attributesFile = File(
+        "$scInstalledPath\\USER\\Client\\0\\Profiles\\default\\attributes.xml");
+    if (setMode == null) {
+      bool isEnable = false;
+      if (scInstalledPath.isNotEmpty) {
+        if (await attributesFile.exists()) {
+          final xmlFile =
+              XmlDocument.parse(await attributesFile.readAsString());
+          isEnable = true;
+          for (var k in keys) {
+            if (!isEnable) break;
+            final e = xmlFile.rootElement.children
+                .where((element) => element.getAttribute("name") == k)
+                .firstOrNull;
+            if (e != null && e.getAttribute("value") == "0") {
+            } else {
+              isEnable = false;
+            }
+          }
+        }
+      }
+      return isEnable;
+    } else {
+      if (!await attributesFile.exists()) {
+        showToast(context!, "配置文件不存在，请尝试运行一次游戏");
+        return false;
+      }
+      final xmlFile = XmlDocument.parse(await attributesFile.readAsString());
+      // clear all
+      xmlFile.rootElement.children.removeWhere(
+          (element) => keys.contains(element.getAttribute("name")));
+      if (setMode) {
+        for (var element in keys) {
+          XmlElement newNode = XmlElement(XmlName('Attr'), [
+            XmlAttribute(XmlName('name'), element),
+            XmlAttribute(XmlName('value'), '0'),
+          ]);
+          xmlFile.rootElement.children.add(newNode);
+        }
+      }
+      dPrint(xmlFile);
+      await attributesFile.delete();
+      await attributesFile.writeAsString(xmlFile.toXmlString(pretty: true));
+    }
+    return true;
+  }
+
+  _onChangePhotographyMode(bool isEnable) async {
+    await handleError(() => _checkPhotographyStatus(setMode: !isEnable));
+    reloadData();
   }
 }
 
