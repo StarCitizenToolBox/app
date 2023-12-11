@@ -12,7 +12,10 @@ class SettingUI extends BaseUI<SettingUIModel> {
       margin: const EdgeInsets.all(16),
       child: Column(
         children: [
+          makeSettingsItem(const Icon(FluentIcons.link, size: 20), "创建设置快捷方式",
+              subTitle: "在桌面创建《SC汉化盒子》快捷方式", onTap: model.addShortCut),
           if (AppConf.isMSE) ...[
+            const SizedBox(height: 12),
             makeSettingsItem(
                 const Icon(FluentIcons.reset_device, size: 20), "重置自动密码填充",
                 subTitle:

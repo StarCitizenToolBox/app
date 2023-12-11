@@ -18,16 +18,9 @@ class AboutUI extends BaseUI<AboutUIModel> {
           const SizedBox(height: 64),
           Image.asset("assets/app_logo.png", width: 128, height: 128),
           const SizedBox(height: 6),
-          if (AppConf.isMSE)
-            const Text(
-              "SC汉化盒子  V${AppConf.appVersion}",
-              style: TextStyle(fontSize: 18),
-            )
-          else
-            const Text(
-              "星际公民盒子  V${AppConf.appVersion}",
-              style: TextStyle(fontSize: 18),
-            ),
+          const Text(
+              "SC汉化盒子  V${AppConf.appVersion} ${AppConf.isMSE ? "" : " +Dev"}",
+              style: TextStyle(fontSize: 18)),
           const SizedBox(height: 12),
           Button(
               onPressed: model.checkUpdate,
@@ -118,8 +111,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
                   ],
                 ),
                 onPressed: () {
-                  launchUrlString(
-                      "https://github.com/StarCitizenToolBox/app");
+                  launchUrlString("https://github.com/StarCitizenToolBox/app");
                 },
               ),
             ],

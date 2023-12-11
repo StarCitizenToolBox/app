@@ -149,4 +149,25 @@ class SettingUIModel extends BaseUIModel {
       reloadData();
     }
   }
+
+  Future<void> addShortCut() async {
+    dPrint(Platform.resolvedExecutable);
+    final script = """
+    \$targetPath = "${Platform.resolvedExecutable}";
+    \$shortcutPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory), "${AppConf.appShortCutName}");
+    \$shell = New-Object -ComObject WScript.Shell
+    \$shortcut = \$shell.CreateShortcut(\$shortcutPath)
+    if (\$shortcut -eq \$null) {
+        Write-Host "Failed to create shortcut."
+    } else {
+        \$shortcut.TargetPath = \$targetPath
+        \$shortcut.Save()
+        Write-Host "Shortcut created successfully."
+    }
+""";
+    final r = await Process.run(SystemHelper.powershellPath, [script]);
+    dPrint(r.exitCode);
+    dPrint(r.stdout);
+    dPrint(r.stderr);
+  }
 }

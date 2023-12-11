@@ -48,6 +48,8 @@ class AppConf {
 
   static const gameChannels = ["LIVE", "PTU", "EPTU"];
 
+  static const appShortCutName = "SC汉化盒子${AppConf.isMSE ? "" : "DEV"}.lnk";
+
   static late final String applicationSupportDir;
 
   static AppVersionData? networkVersionData;

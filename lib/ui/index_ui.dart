@@ -32,10 +32,8 @@ class IndexUI extends BaseUI<IndexUIModel> {
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(width: 12),
-                    if (AppConf.isMSE)
-                      const Text("SC汉化盒子  V${AppConf.appVersion}")
-                    else
-                      const Text("星际公民盒子  V${AppConf.appVersion}"),
+                    const Text(
+                        "SC汉化盒子  V${AppConf.appVersion} ${AppConf.isMSE ? "" : " +Dev"}")
                   ],
                 ),
               ),
