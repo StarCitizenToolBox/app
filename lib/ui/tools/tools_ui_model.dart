@@ -80,9 +80,9 @@ class ToolsUIModel extends BaseUIModel {
       notifyListeners();
       items.addAll(await _addNvmePatchCard());
       notifyListeners();
-      items.add(await _addPhotographyCard());
-      notifyListeners();
       items.add(await _addShaderCard());
+      notifyListeners();
+      items.add(await _addPhotographyCard());
       // close loading
       isItemLoading = false;
       notifyListeners();
