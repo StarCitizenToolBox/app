@@ -283,7 +283,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                               const FaIcon(FontAwesomeIcons.github, size: 18),
                           onPressed: () {
                             launchUrlString(
-                                "https://github.com/xkeyC/StarCitizenBoxBrowserEx");
+                                "https://github.com/StarCitizenToolBox/StarCitizenBoxBrowserEx");
                           },
                         ),
                       ],
