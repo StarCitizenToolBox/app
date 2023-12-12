@@ -33,7 +33,7 @@ class IndexUI extends BaseUI<IndexUIModel> {
                     ),
                     const SizedBox(width: 12),
                     const Text(
-                        "SC汉化盒子  V${AppConf.appVersion} ${AppConf.isMSE ? "" : " +Dev"}")
+                        "SC汉化盒子  V${AppConf.appVersion} ${AppConf.isMSE ? "" : " Dev"}")
                   ],
                 ),
               ),
