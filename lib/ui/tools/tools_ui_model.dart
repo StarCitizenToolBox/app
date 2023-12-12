@@ -180,7 +180,9 @@ class ToolsUIModel extends BaseUIModel {
     return _ToolsItemData(
       "photography_mode",
       isEnable ? "关闭摄影模式" : "开启摄影模式",
-      "一键修改镜游戏内镜头参数以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。",
+      isEnable
+          ? "还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。"
+          : "一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。",
       const Icon(FontAwesomeIcons.camera, size: 28),
       onTap: () => _onChangePhotographyMode(isEnable),
     );
