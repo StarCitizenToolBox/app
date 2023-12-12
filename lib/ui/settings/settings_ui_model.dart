@@ -151,10 +151,16 @@ class SettingUIModel extends BaseUIModel {
   }
 
   Future<void> addShortCut() async {
+    if (AppConf.isMSE) {
+      showToast(context!, "因微软版功能限制，请在接下来打开的窗口中 手动将《SC汉化盒子》拖动到桌面，即可创建快捷方式。");
+      await Future.delayed(const Duration(seconds: 1));
+      Process.run("explorer.exe", ["shell:AppsFolder"]);
+      return;
+    }
     dPrint(Platform.resolvedExecutable);
     final script = """
     \$targetPath = "${Platform.resolvedExecutable}";
-    \$shortcutPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory), "${AppConf.appShortCutName}");
+    \$shortcutPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory), "SC汉化盒子DEV.lnk");
     \$shell = New-Object -ComObject WScript.Shell
     \$shortcut = \$shell.CreateShortcut(\$shortcutPath)
     if (\$shortcut -eq \$null) {
@@ -165,9 +171,7 @@ class SettingUIModel extends BaseUIModel {
         Write-Host "Shortcut created successfully."
     }
 """;
-    final r = await Process.run(SystemHelper.powershellPath, [script]);
-    dPrint(r.exitCode);
-    dPrint(r.stdout);
-    dPrint(r.stderr);
+    await Process.run(SystemHelper.powershellPath, [script]);
+    showToast(context!, "创建完毕，请返回桌面查看");
   }
 }
