@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
@@ -60,8 +59,6 @@ class AppConf {
   static Color? colorMenu;
   static Color? colorMica;
 
-  static List<int>? certData;
-
   static const isMSE =
       String.fromEnvironment("MSE", defaultValue: "false") == "true";
 
@@ -102,12 +99,6 @@ class AppConf {
     colorBackground = HexColor("#132431").withOpacity(.75);
     colorMenu = HexColor("#132431").withOpacity(.95);
     colorMica = HexColor("#0A3142");
-
-    /// init grpcKeys
-    certData = (await rootBundle.load("assets/cert.pem"))
-        .buffer
-        .asUint8List()
-        .toList();
 
     /// init windows
     await windowManager.ensureInitialized();
