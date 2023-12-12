@@ -128,9 +128,15 @@ class WebViewModel {
               webview.evaluateJavaScript(
                   "getRSILauncherToken(\"$loginChannel\");");
             }
-          } else if (uri.host.contains("www.erkul.games") ||
-              uri.host.contains("uexcorp.space")) {
-            // 工具网站
+          } else if (uri.host.contains("www.erkul.games")) {
+            dPrint("load script");
+            await Future.delayed(const Duration(milliseconds: 100));
+            await webview.evaluateJavaScript(localizationScript);
+            dPrint("update replaceWords");
+            final replaceWords = _getLocalizationResource("DPS");
+            await webview.evaluateJavaScript(
+                "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
+          } else if (uri.host.contains("uexcorp.space")) {
             dPrint("load script");
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(localizationScript);
@@ -192,6 +198,8 @@ class WebViewModel {
         cacheKey: "hangar", version: v.hangar);
     localizationResource["UEX"] = await _getJson("$hostUrl/zh-CN-uex.json",
         cacheKey: "uex", version: v.uex);
+    localizationResource["DPS"] = await _getJson("$hostUrl/zh-CN-dps.json",
+        cacheKey: "dps", version: v.dps);
   }
 
   List<Map<String, String>> _getLocalizationResource(String key) {
