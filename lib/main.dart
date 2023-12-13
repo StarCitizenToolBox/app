@@ -30,6 +30,13 @@ class AppUI extends BaseUI {
       title: "StarCitizen Doctor",
       restorationScopeId: "Doctor",
       themeMode: ThemeMode.dark,
+      builder: (context, child) {
+        return MediaQuery(
+          data:
+              MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+          child: child ?? const SizedBox(),
+        );
+      },
       theme: FluentThemeData(
           brightness: Brightness.dark,
           fontFamily: "SourceHanSansCN-Regular",
