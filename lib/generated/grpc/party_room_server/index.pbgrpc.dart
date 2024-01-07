@@ -25,6 +25,10 @@ class IndexServiceClient extends $grpc.Client {
       '/IndexService/PingServer',
       ($0.PingData value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.PingData.fromBuffer(value));
+  static final _$getRoomTypes = $grpc.ClientMethod<$0.Empty, $0.RoomTypesData>(
+      '/IndexService/GetRoomTypes',
+      ($0.Empty value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.RoomTypesData.fromBuffer(value));
 
   IndexServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -34,6 +38,10 @@ class IndexServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.PingData> pingServer($0.PingData request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$pingServer, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.RoomTypesData> getRoomTypes($0.Empty request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getRoomTypes, request, options: options);
   }
 }
 
@@ -49,11 +57,23 @@ abstract class IndexServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.PingData.fromBuffer(value),
         ($0.PingData value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $0.RoomTypesData>(
+        'GetRoomTypes',
+        getRoomTypes_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($0.RoomTypesData value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.PingData> pingServer_Pre($grpc.ServiceCall call, $async.Future<$0.PingData> request) async {
     return pingServer(call, await request);
   }
 
+  $async.Future<$0.RoomTypesData> getRoomTypes_Pre($grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return getRoomTypes(call, await request);
+  }
+
   $async.Future<$0.PingData> pingServer($grpc.ServiceCall call, $0.PingData request);
+  $async.Future<$0.RoomTypesData> getRoomTypes($grpc.ServiceCall call, $0.Empty request);
 }

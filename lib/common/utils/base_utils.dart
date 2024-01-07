@@ -12,9 +12,9 @@ void dPrint(src) {
 }
 
 Future showToast(BuildContext context, String msg,
-    {BoxConstraints? constraints}) async {
+    {BoxConstraints? constraints, String? title}) async {
   return showBaseDialog(context,
-      title: "提示",
+      title: title ?? "提示",
       content: Text(msg),
       actions: [
         FilledButton(

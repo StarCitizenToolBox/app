@@ -74,7 +74,12 @@ class BaseUIModel extends ChangeNotifier {
         notifyListeners();
         return null;
       }
-      if (!noAlert) showToast(context!, errorOverride ?? errorMsg);
+      if (!noAlert) {
+        showToast(context!, errorOverride ?? errorMsg,
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context!).size.width * .6,
+            ),title: "出现错误！");
+      }
     }
     return null;
   }
