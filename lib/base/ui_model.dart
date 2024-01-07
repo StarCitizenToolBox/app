@@ -52,7 +52,9 @@ class BaseUIModel extends ChangeNotifier {
   }
 
   Future<T?> handleError<T>(Future<T> Function() requestFunc,
-      {bool showFullScreenError = false, String? errorOverride}) async {
+      {bool showFullScreenError = false,
+      String? errorOverride,
+      bool noAlert = false}) async {
     uiErrorMsg = "";
     if (mounted) notifyListeners();
     try {
@@ -72,7 +74,7 @@ class BaseUIModel extends ChangeNotifier {
         notifyListeners();
         return null;
       }
-      showToast(context!, errorOverride ?? errorMsg);
+      if (!noAlert) showToast(context!, errorOverride ?? errorMsg);
     }
     return null;
   }

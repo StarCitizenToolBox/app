@@ -66,6 +66,9 @@ dependencies:
   dart_rss: ^3.0.1
   html: ^0.15.4
   xml: ^6.5.0
+  fixnum: ^1.1.0
+  protobuf: ^3.1.0
+  grpc: ^3.2.4
 
 dependency_overrides:
   http: ^1.1.2
@@ -81,7 +84,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   msix: ^3.16.4
-  ffigen: ^10.0.0
+  ffigen: ^11.0.0
   build_runner: ^2.4.6
   freezed: ^2.4.5
 

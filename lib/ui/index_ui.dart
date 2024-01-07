@@ -4,6 +4,7 @@ import 'package:starcitizen_doctor/main.dart';
 import 'package:starcitizen_doctor/ui/about/about_ui.dart';
 import 'package:starcitizen_doctor/ui/about/about_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui.dart';
+import 'package:starcitizen_doctor/ui/party_room/party_room_home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui.dart';
@@ -12,6 +13,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'home/home_ui_model.dart';
 import 'index_ui_model.dart';
+import 'party_room/party_room_home_ui.dart';
 
 class IndexUI extends BaseUI<IndexUIModel> {
   @override
@@ -68,15 +70,20 @@ class IndexUI extends BaseUI<IndexUIModel> {
                 model.getChildUIModelProviders<HomeUIModel>("home"));
       case 1:
         return BaseUIContainer(
+            uiCreate: () => PartyRoomHomeUI(),
+            modelCreate: () =>
+                model.getChildUIModelProviders<PartyRoomHomeUIModel>("party"));
+      case 2:
+        return BaseUIContainer(
             uiCreate: () => ToolsUI(),
             modelCreate: () =>
                 model.getChildUIModelProviders<ToolsUIModel>("tools"));
-      case 2:
+      case 3:
         return BaseUIContainer(
             uiCreate: () => SettingUI(),
             modelCreate: () =>
                 model.getChildUIModelProviders<SettingUIModel>("settings"));
-      case 3:
+      case 4:
         return BaseUIContainer(
             uiCreate: () => AboutUI(),
             modelCreate: () =>
@@ -88,6 +95,7 @@ class IndexUI extends BaseUI<IndexUIModel> {
   List<NavigationPaneItem> getNavigationPaneItems(IndexUIModel model) {
     final menus = {
       FluentIcons.home: "首页",
+      FluentIcons.game: "大厅",
       FluentIcons.toolbox: "工具",
       FluentIcons.settings: "设置",
       FluentIcons.info: "关于",

@@ -10,6 +10,8 @@ import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'party_room/party_room_home_ui_model.dart';
+
 class IndexUIModel extends BaseUIModel {
   int curIndex = 0;
 
@@ -32,6 +34,8 @@ class IndexUIModel extends BaseUIModel {
         return SettingUIModel();
       case "about":
         return AboutUIModel();
+      case "party":
+        return PartyRoomHomeUIModel();
     }
     return null;
   }
@@ -39,9 +43,10 @@ class IndexUIModel extends BaseUIModel {
   void onIndexMenuTap(String value) {
     final index = {
       "首页": 0,
-      "工具": 1,
-      "设置": 2,
-      "关于": 3,
+      "大厅": 1,
+      "工具": 2,
+      "设置": 3,
+      "关于": 4,
     };
     curIndex = index[value] ?? 0;
     switch (curIndex) {
@@ -49,9 +54,12 @@ class IndexUIModel extends BaseUIModel {
         getCreatedChildUIModel("home")?.reloadData();
         break;
       case 1:
-        getCreatedChildUIModel("tools")?.reloadData();
+        getCreatedChildUIModel("party")?.reloadData();
         break;
       case 2:
+        getCreatedChildUIModel("tools")?.reloadData();
+        break;
+      case 3:
         getCreatedChildUIModel("settings")?.reloadData();
         break;
     }
