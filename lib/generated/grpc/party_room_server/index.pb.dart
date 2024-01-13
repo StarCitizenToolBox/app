@@ -517,6 +517,7 @@ class RoomData extends $pb.GeneratedMessage {
     $core.int? curPlayer,
     RoomStatus? status,
     $core.String? deviceUUID,
+    $core.String? announcement,
   }) {
     final $result = create();
     if (id != null) {
@@ -546,6 +547,9 @@ class RoomData extends $pb.GeneratedMessage {
     if (deviceUUID != null) {
       $result.deviceUUID = deviceUUID;
     }
+    if (announcement != null) {
+      $result.announcement = announcement;
+    }
     return $result;
   }
   RoomData._() : super();
@@ -562,6 +566,7 @@ class RoomData extends $pb.GeneratedMessage {
     ..a<$core.int>(7, _omitFieldNames ? '' : 'curPlayer', $pb.PbFieldType.O3, protoName: 'curPlayer')
     ..e<RoomStatus>(8, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: RoomStatus.All, valueOf: RoomStatus.valueOf, enumValues: RoomStatus.values)
     ..aOS(9, _omitFieldNames ? '' : 'deviceUUID', protoName: 'deviceUUID')
+    ..aOS(10, _omitFieldNames ? '' : 'announcement')
     ..hasRequiredFields = false
   ;
 
@@ -660,6 +665,15 @@ class RoomData extends $pb.GeneratedMessage {
   $core.bool hasDeviceUUID() => $_has(8);
   @$pb.TagNumber(9)
   void clearDeviceUUID() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get announcement => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set announcement($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasAnnouncement() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearAnnouncement() => clearField(10);
 }
 
 class RoomListPageReqData extends $pb.GeneratedMessage {

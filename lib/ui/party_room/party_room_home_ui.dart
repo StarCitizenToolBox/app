@@ -103,7 +103,7 @@ class PartyRoomHomeUI extends BaseUI<PartyRoomHomeUIModel> {
               ),
               const SizedBox(width: 12),
               Button(
-                onPressed: () {},
+                onPressed: () => model.onCreateRoom(),
                 child: const Padding(
                   padding: EdgeInsets.all(3),
                   child: Row(

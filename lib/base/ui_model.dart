@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grpc/grpc.dart';
 
 import 'ui.dart';
 
@@ -62,13 +63,11 @@ class BaseUIModel extends ChangeNotifier {
     } catch (e) {
       dPrint("$runtimeType.handleError Error:$e");
       String errorMsg = "Unknown Error";
-      // if (e is AppHttpResultData && stringIsNotEmpty(e.msg)) {
-      //   errorMsg = e.msg!;
-      //   return null;
-      // } else {
-      //   errorMsg = e.toString();
-      // }
-      errorMsg = e.toString();
+      if (e is GrpcError) {
+        errorMsg = "服务器错误： ${e.message} ?? Unknown Error";
+      } else {
+        errorMsg = e.toString();
+      }
       if (showFullScreenError) {
         uiErrorMsg = errorMsg;
         notifyListeners();
@@ -78,7 +77,8 @@ class BaseUIModel extends ChangeNotifier {
         showToast(context!, errorOverride ?? errorMsg,
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context!).size.width * .6,
-            ),title: "出现错误！");
+            ),
+            title: "出现错误！");
       }
     }
     return null;

@@ -32,7 +32,7 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^2.3.6
   window_manager: ^0.3.2
-  fluent_ui: ^4.8.1
+  fluent_ui: ^4.8.5
   flutter_staggered_grid_view: ^0.7.0
   flutter_acrylic: ^1.1.0
   url_launcher: ^6.1.10

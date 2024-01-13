@@ -2,6 +2,9 @@ import 'package:fixnum/fixnum.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/generated/grpc/party_room_server/index.pb.dart';
 import 'package:starcitizen_doctor/grpc/party_room_server.dart';
+import 'package:starcitizen_doctor/ui/party_room/dialogs/party_room_create_dialog_ui_model.dart';
+
+import 'dialogs/party_room_create_dialog_ui.dart';
 
 class PartyRoomHomeUIModel extends BaseUIModel {
   String? pingServerMessage;
@@ -33,7 +36,7 @@ class PartyRoomHomeUIModel extends BaseUIModel {
 
   RoomSortType selectedSortType = RoomSortType.Default;
 
-  int pageNum = 1;
+  int pageNum = 0;
 
   List<RoomData>? rooms;
 
@@ -48,17 +51,27 @@ class PartyRoomHomeUIModel extends BaseUIModel {
     if (pingServerMessage != "") {
       pingServerMessage = null;
       notifyListeners();
+      await _pingServer();
     }
-    await _pingServer();
-    _loadPage();
+    await _loadPage();
+  }
+
+  @override
+  reloadData() async {
+    pageNum = 0;
+    rooms = null;
+    notifyListeners();
+    return super.reloadData();
   }
 
   _loadPage() async {
-    final r = await PartyRoomGrpcServer.getRoomList(RoomListPageReqData(
-        pageNum: Int64.tryParseInt("$pageNum"),
-        typeID: selectedRoomType?.id,
-        subTypeID: selectedRoomSubType?.id,
-        status: selectedStatus));
+    final r = await handleError(() => PartyRoomGrpcServer.getRoomList(
+        RoomListPageReqData(
+            pageNum: Int64.tryParseInt("$pageNum"),
+            typeID: selectedRoomType?.id,
+            subTypeID: selectedRoomSubType?.id,
+            status: selectedStatus)));
+    if (r == null) return;
     if (r.pageData.hasNext) {
       pageNum++;
     } else {
@@ -88,7 +101,7 @@ class PartyRoomHomeUIModel extends BaseUIModel {
     selectedRoomType =
         RoomType(id: "", name: "全部", desc: "查看所有类型的房间，寻找一起玩的伙伴。");
     selectedRoomSubType = RoomSubtype(id: "", name: "全部");
-    roomTypes = {null: selectedRoomType!};
+    roomTypes = {"": selectedRoomType!};
     for (var element in r.roomTypes) {
       roomTypes![element.id] = element;
     }
@@ -110,24 +123,42 @@ class PartyRoomHomeUIModel extends BaseUIModel {
   void onChangeRoomType(RoomType? value) {
     selectedRoomType = value;
     selectedRoomSubType = null;
+    reloadData();
     notifyListeners();
   }
 
   void onChangeRoomStatus(RoomStatus? value) {
     if (value == null) return;
     selectedStatus = value;
+    reloadData();
     notifyListeners();
   }
 
   void onChangeRoomSort(RoomSortType? value) {
     if (value == null) return;
     selectedSortType = value;
+    reloadData();
     notifyListeners();
   }
 
   void onChangeRoomSubType(RoomSubtype? value) {
     if (value == null) return;
     selectedRoomSubType = value;
+    reloadData();
     notifyListeners();
+  }
+
+  onCreateRoom() async {
+    final room = await showDialog(
+      context: context!,
+      dismissWithEsc: false,
+      builder: (BuildContext context) {
+        return BaseUIContainer(
+            uiCreate: () => PartyRoomCreateDialogUI(),
+            modelCreate: () =>
+                PartyRoomCreateDialogUIModel(Map.from(roomTypes!)));
+      },
+    );
+    dPrint(room);
   }
 }

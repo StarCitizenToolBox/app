@@ -47,6 +47,8 @@ class AppConf {
 
   static const gameChannels = ["LIVE", "PTU", "EPTU"];
 
+  static String deviceUUID = "";
+
   static late final String applicationSupportDir;
 
   static AppVersionData? networkVersionData;
@@ -83,6 +85,7 @@ class AppConf {
         await box.put("install_id", const Uuid().v4());
         AnalyticsApi.touch("firstLaunch");
       }
+      deviceUUID = box.get("install_id", defaultValue: "");
     } catch (e) {
       exit(1);
     }
