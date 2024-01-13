@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/services.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/generated/grpc/party_room_server/index.pb.dart';
@@ -119,6 +122,15 @@ class PartyRoomCreateDialogUI extends BaseUI<PartyRoomCreateDialogUIModel> {
     );
   }
 
+  Color generateColorFromSeed(String seed) {
+    int hash = utf8
+        .encode(seed)
+        .fold(0, (previousValue, element) => 31 * previousValue + element);
+    Random random = Random(hash);
+    return Color.fromARGB(
+        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+  }
+
   List<Widget> makeSubTypeSelectWidgets(
       BuildContext context, PartyRoomCreateDialogUIModel model) {
     bool isItemSelected(RoomSubtype subtype) {
@@ -135,7 +147,7 @@ class PartyRoomCreateDialogUI extends BaseUI<PartyRoomCreateDialogUIModel> {
             Container(
               decoration: BoxDecoration(
                   color: isItemSelected(item)
-                      ? Colors.green
+                      ? generateColorFromSeed(item.name).withOpacity(.4)
                       : FluentTheme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(1000)),
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),

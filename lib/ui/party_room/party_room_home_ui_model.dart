@@ -68,8 +68,8 @@ class PartyRoomHomeUIModel extends BaseUIModel {
     final r = await handleError(() => PartyRoomGrpcServer.getRoomList(
         RoomListPageReqData(
             pageNum: Int64.tryParseInt("$pageNum"),
-            typeID: selectedRoomType?.id,
-            subTypeID: selectedRoomSubType?.id,
+            typeID: selectedRoomType?.id ?? "",
+            subTypeID: selectedRoomSubType?.id ?? "",
             status: selectedStatus)));
     if (r == null) return;
     if (r.pageData.hasNext) {
@@ -115,7 +115,7 @@ class PartyRoomHomeUIModel extends BaseUIModel {
       types[element.id] = element;
     }
     if (types.isEmpty) return null;
-    final allSubType = RoomSubtype(id: "all", name: "全部");
+    final allSubType = RoomSubtype(id: "", name: "全部");
     selectedRoomSubType ??= allSubType;
     return {"all": allSubType}..addAll(types);
   }
@@ -159,6 +159,12 @@ class PartyRoomHomeUIModel extends BaseUIModel {
                 PartyRoomCreateDialogUIModel(Map.from(roomTypes!)));
       },
     );
+    if (room == null) return;
     dPrint(room);
+    reloadData();
+  }
+
+  onRefreshRoom() {
+    reloadData();
   }
 }

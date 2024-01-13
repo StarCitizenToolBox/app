@@ -518,6 +518,7 @@ class RoomData extends $pb.GeneratedMessage {
     RoomStatus? status,
     $core.String? deviceUUID,
     $core.String? announcement,
+    $core.String? avatar,
   }) {
     final $result = create();
     if (id != null) {
@@ -550,6 +551,9 @@ class RoomData extends $pb.GeneratedMessage {
     if (announcement != null) {
       $result.announcement = announcement;
     }
+    if (avatar != null) {
+      $result.avatar = avatar;
+    }
     return $result;
   }
   RoomData._() : super();
@@ -567,6 +571,7 @@ class RoomData extends $pb.GeneratedMessage {
     ..e<RoomStatus>(8, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: RoomStatus.All, valueOf: RoomStatus.valueOf, enumValues: RoomStatus.values)
     ..aOS(9, _omitFieldNames ? '' : 'deviceUUID', protoName: 'deviceUUID')
     ..aOS(10, _omitFieldNames ? '' : 'announcement')
+    ..aOS(11, _omitFieldNames ? '' : 'avatar')
     ..hasRequiredFields = false
   ;
 
@@ -674,6 +679,15 @@ class RoomData extends $pb.GeneratedMessage {
   $core.bool hasAnnouncement() => $_has(9);
   @$pb.TagNumber(10)
   void clearAnnouncement() => clearField(10);
+
+  @$pb.TagNumber(11)
+  $core.String get avatar => $_getSZ(10);
+  @$pb.TagNumber(11)
+  set avatar($core.String v) { $_setString(10, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasAvatar() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearAvatar() => clearField(11);
 }
 
 class RoomListPageReqData extends $pb.GeneratedMessage {

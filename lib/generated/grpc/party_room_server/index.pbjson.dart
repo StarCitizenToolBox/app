@@ -164,6 +164,7 @@ const RoomData$json = {
     {'1': 'status', '3': 8, '4': 1, '5': 14, '6': '.RoomStatus', '10': 'status'},
     {'1': 'deviceUUID', '3': 9, '4': 1, '5': 9, '10': 'deviceUUID'},
     {'1': 'announcement', '3': 10, '4': 1, '5': 9, '10': 'announcement'},
+    {'1': 'avatar', '3': 11, '4': 1, '5': 9, '10': 'avatar'},
   ],
 };
 
@@ -174,7 +175,8 @@ final $typed_data.Uint8List roomDataDescriptor = $convert.base64Decode(
     'KAlSBW93bmVyEhwKCW1heFBsYXllchgFIAEoBVIJbWF4UGxheWVyEh4KCmNyZWF0ZVRpbWUYBi'
     'ABKANSCmNyZWF0ZVRpbWUSHAoJY3VyUGxheWVyGAcgASgFUgljdXJQbGF5ZXISIwoGc3RhdHVz'
     'GAggASgOMgsuUm9vbVN0YXR1c1IGc3RhdHVzEh4KCmRldmljZVVVSUQYCSABKAlSCmRldmljZV'
-    'VVSUQSIgoMYW5ub3VuY2VtZW50GAogASgJUgxhbm5vdW5jZW1lbnQ=');
+    'VVSUQSIgoMYW5ub3VuY2VtZW50GAogASgJUgxhbm5vdW5jZW1lbnQSFgoGYXZhdGFyGAsgASgJ'
+    'UgZhdmF0YXI=');
 
 @$core.Deprecated('Use roomListPageReqDataDescriptor instead')
 const RoomListPageReqData$json = {

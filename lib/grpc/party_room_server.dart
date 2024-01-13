@@ -31,7 +31,7 @@ class PartyRoomGrpcServer {
     return await _indexService.getRoomList(req);
   }
 
-  static Future createRoom(RoomData roomData) async {
-    await _indexService.createRoom(roomData);
+  static Future<RoomData> createRoom(RoomData roomData) async {
+    return await _indexService.createRoom(roomData);
   }
 }

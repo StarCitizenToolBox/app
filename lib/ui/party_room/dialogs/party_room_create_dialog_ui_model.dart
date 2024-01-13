@@ -67,6 +67,7 @@ class PartyRoomCreateDialogUIModel extends BaseUIModel {
               roomSubTypeIds: [for (var value in selectedSubType) value.id],
               owner: userName,
               deviceUUID: AppConf.deviceUUID,
+              maxPlayer: maxPlayer,
               announcement: announcementCtrl.text.trim())));
       isWorking = false;
       notifyListeners();
