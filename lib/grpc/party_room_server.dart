@@ -26,4 +26,8 @@ class PartyRoomGrpcServer {
     final r = await _indexService.getRoomTypes(Empty());
     return r;
   }
+
+  static Future<RoomListData> getRoomList(RoomListPageReqData req) async {
+    return await _indexService.getRoomList(req);
+  }
 }

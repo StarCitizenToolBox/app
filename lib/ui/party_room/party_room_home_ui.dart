@@ -16,6 +16,13 @@ class PartyRoomHomeUI extends BaseUI<PartyRoomHomeUIModel> {
     return Column(
       children: [
         makeHeader(context, model),
+        if (model.rooms == null)
+          Expanded(child: makeLoading(context))
+        else if (model.rooms!.isEmpty)
+          const Expanded(
+              child: Center(
+            child: Text("没有符合条件的房间！"),
+          )),
       ],
     );
   }

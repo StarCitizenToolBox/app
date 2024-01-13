@@ -1,3 +1,4 @@
+import 'package:fixnum/fixnum.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/generated/grpc/party_room_server/index.pb.dart';
 import 'package:starcitizen_doctor/grpc/party_room_server.dart';
@@ -32,6 +33,16 @@ class PartyRoomHomeUIModel extends BaseUIModel {
 
   RoomSortType selectedSortType = RoomSortType.Default;
 
+  int pageNum = 1;
+
+  List<RoomData>? rooms;
+
+  @override
+  void initModel() {
+    super.initModel();
+    _loadTypes();
+  }
+
   @override
   Future loadData() async {
     if (pingServerMessage != "") {
@@ -39,7 +50,22 @@ class PartyRoomHomeUIModel extends BaseUIModel {
       notifyListeners();
     }
     await _pingServer();
-    await _loadTypes();
+    _loadPage();
+  }
+
+  _loadPage() async {
+    final r = await PartyRoomGrpcServer.getRoomList(RoomListPageReqData(
+        pageNum: Int64.tryParseInt("$pageNum"),
+        typeID: selectedRoomType?.id,
+        subTypeID: selectedRoomSubType?.id,
+        status: selectedStatus));
+    if (r.pageData.hasNext) {
+      pageNum++;
+    } else {
+      pageNum = -1;
+    }
+    rooms = r.rooms;
+    notifyListeners();
   }
 
   _pingServer() async {
@@ -56,12 +82,12 @@ class PartyRoomHomeUIModel extends BaseUIModel {
     }
   }
 
-  _loadTypes() async {
+  Future<void> _loadTypes() async {
     final r = await handleError(() => PartyRoomGrpcServer.getRoomTypes());
     if (r == null) return;
     selectedRoomType =
-        RoomType(id: null, name: "全部", desc: "查看所有类型的房间，寻找一起玩的伙伴。");
-    selectedRoomSubType = RoomSubtype(id: "all", name: "全部");
+        RoomType(id: "", name: "全部", desc: "查看所有类型的房间，寻找一起玩的伙伴。");
+    selectedRoomSubType = RoomSubtype(id: "", name: "全部");
     roomTypes = {null: selectedRoomType!};
     for (var element in r.roomTypes) {
       roomTypes![element.id] = element;

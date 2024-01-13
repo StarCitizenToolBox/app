@@ -59,6 +59,38 @@ const Empty$json = {
 final $typed_data.Uint8List emptyDescriptor = $convert.base64Decode(
     'CgVFbXB0eQ==');
 
+@$core.Deprecated('Use baseRespDataDescriptor instead')
+const BaseRespData$json = {
+  '1': 'BaseRespData',
+  '2': [
+    {'1': 'code', '3': 1, '4': 1, '5': 5, '10': 'code'},
+    {'1': 'message', '3': 2, '4': 1, '5': 9, '10': 'message'},
+  ],
+};
+
+/// Descriptor for `BaseRespData`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List baseRespDataDescriptor = $convert.base64Decode(
+    'CgxCYXNlUmVzcERhdGESEgoEY29kZRgBIAEoBVIEY29kZRIYCgdtZXNzYWdlGAIgASgJUgdtZX'
+    'NzYWdl');
+
+@$core.Deprecated('Use basePageRespDataDescriptor instead')
+const BasePageRespData$json = {
+  '1': 'BasePageRespData',
+  '2': [
+    {'1': 'code', '3': 1, '4': 1, '5': 5, '10': 'code'},
+    {'1': 'message', '3': 2, '4': 1, '5': 9, '10': 'message'},
+    {'1': 'hasNext', '3': 3, '4': 1, '5': 8, '10': 'hasNext'},
+    {'1': 'curPageNum', '3': 4, '4': 1, '5': 4, '10': 'curPageNum'},
+    {'1': 'pageSize', '3': 5, '4': 1, '5': 3, '10': 'pageSize'},
+  ],
+};
+
+/// Descriptor for `BasePageRespData`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List basePageRespDataDescriptor = $convert.base64Decode(
+    'ChBCYXNlUGFnZVJlc3BEYXRhEhIKBGNvZGUYASABKAVSBGNvZGUSGAoHbWVzc2FnZRgCIAEoCV'
+    'IHbWVzc2FnZRIYCgdoYXNOZXh0GAMgASgIUgdoYXNOZXh0Eh4KCmN1clBhZ2VOdW0YBCABKARS'
+    'CmN1clBhZ2VOdW0SGgoIcGFnZVNpemUYBSABKANSCHBhZ2VTaXpl');
+
 @$core.Deprecated('Use pingDataDescriptor instead')
 const PingData$json = {
   '1': 'PingData',
@@ -117,4 +149,62 @@ const RoomSubtype$json = {
 /// Descriptor for `RoomSubtype`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List roomSubtypeDescriptor = $convert.base64Decode(
     'CgtSb29tU3VidHlwZRIOCgJpZBgBIAEoCVICaWQSEgoEbmFtZRgCIAEoCVIEbmFtZQ==');
+
+@$core.Deprecated('Use roomDataDescriptor instead')
+const RoomData$json = {
+  '1': 'RoomData',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'roomTypeID', '3': 2, '4': 1, '5': 9, '10': 'roomTypeID'},
+    {'1': 'roomSubTypeIds', '3': 3, '4': 3, '5': 9, '10': 'roomSubTypeIds'},
+    {'1': 'owner', '3': 4, '4': 1, '5': 9, '10': 'owner'},
+    {'1': 'maxPlayer', '3': 5, '4': 1, '5': 5, '10': 'maxPlayer'},
+    {'1': 'createTime', '3': 6, '4': 1, '5': 3, '10': 'createTime'},
+    {'1': 'curPlayer', '3': 7, '4': 1, '5': 5, '10': 'curPlayer'},
+    {'1': 'status', '3': 8, '4': 1, '5': 14, '6': '.RoomStatus', '10': 'status'},
+    {'1': 'deviceUUID', '3': 9, '4': 1, '5': 9, '10': 'deviceUUID'},
+  ],
+};
+
+/// Descriptor for `RoomData`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List roomDataDescriptor = $convert.base64Decode(
+    'CghSb29tRGF0YRIOCgJpZBgBIAEoCVICaWQSHgoKcm9vbVR5cGVJRBgCIAEoCVIKcm9vbVR5cG'
+    'VJRBImCg5yb29tU3ViVHlwZUlkcxgDIAMoCVIOcm9vbVN1YlR5cGVJZHMSFAoFb3duZXIYBCAB'
+    'KAlSBW93bmVyEhwKCW1heFBsYXllchgFIAEoBVIJbWF4UGxheWVyEh4KCmNyZWF0ZVRpbWUYBi'
+    'ABKANSCmNyZWF0ZVRpbWUSHAoJY3VyUGxheWVyGAcgASgFUgljdXJQbGF5ZXISIwoGc3RhdHVz'
+    'GAggASgOMgsuUm9vbVN0YXR1c1IGc3RhdHVzEh4KCmRldmljZVVVSUQYCSABKAlSCmRldmljZV'
+    'VVSUQ=');
+
+@$core.Deprecated('Use roomListPageReqDataDescriptor instead')
+const RoomListPageReqData$json = {
+  '1': 'RoomListPageReqData',
+  '2': [
+    {'1': 'typeID', '3': 1, '4': 1, '5': 9, '10': 'typeID'},
+    {'1': 'subTypeID', '3': 2, '4': 1, '5': 9, '10': 'subTypeID'},
+    {'1': 'status', '3': 3, '4': 1, '5': 14, '6': '.RoomStatus', '10': 'status'},
+    {'1': 'sort', '3': 4, '4': 1, '5': 14, '6': '.RoomSortType', '10': 'sort'},
+    {'1': 'pageNum', '3': 5, '4': 1, '5': 4, '10': 'pageNum'},
+  ],
+};
+
+/// Descriptor for `RoomListPageReqData`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List roomListPageReqDataDescriptor = $convert.base64Decode(
+    'ChNSb29tTGlzdFBhZ2VSZXFEYXRhEhYKBnR5cGVJRBgBIAEoCVIGdHlwZUlEEhwKCXN1YlR5cG'
+    'VJRBgCIAEoCVIJc3ViVHlwZUlEEiMKBnN0YXR1cxgDIAEoDjILLlJvb21TdGF0dXNSBnN0YXR1'
+    'cxIhCgRzb3J0GAQgASgOMg0uUm9vbVNvcnRUeXBlUgRzb3J0EhgKB3BhZ2VOdW0YBSABKARSB3'
+    'BhZ2VOdW0=');
+
+@$core.Deprecated('Use roomListDataDescriptor instead')
+const RoomListData$json = {
+  '1': 'RoomListData',
+  '2': [
+    {'1': 'pageData', '3': 1, '4': 1, '5': 11, '6': '.BasePageRespData', '10': 'pageData'},
+    {'1': 'rooms', '3': 2, '4': 3, '5': 11, '6': '.RoomData', '10': 'rooms'},
+  ],
+};
+
+/// Descriptor for `RoomListData`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List roomListDataDescriptor = $convert.base64Decode(
+    'CgxSb29tTGlzdERhdGESLQoIcGFnZURhdGEYASABKAsyES5CYXNlUGFnZVJlc3BEYXRhUghwYW'
+    'dlRGF0YRIfCgVyb29tcxgCIAMoCzIJLlJvb21EYXRhUgVyb29tcw==');
 

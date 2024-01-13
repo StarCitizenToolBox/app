@@ -29,6 +29,14 @@ class IndexServiceClient extends $grpc.Client {
       '/IndexService/GetRoomTypes',
       ($0.Empty value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.RoomTypesData.fromBuffer(value));
+  static final _$createRoom = $grpc.ClientMethod<$0.RoomData, $0.RoomData>(
+      '/IndexService/CreateRoom',
+      ($0.RoomData value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.RoomData.fromBuffer(value));
+  static final _$getRoomList = $grpc.ClientMethod<$0.RoomListPageReqData, $0.RoomListData>(
+      '/IndexService/GetRoomList',
+      ($0.RoomListPageReqData value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.RoomListData.fromBuffer(value));
 
   IndexServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -42,6 +50,14 @@ class IndexServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.RoomTypesData> getRoomTypes($0.Empty request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getRoomTypes, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.RoomData> createRoom($0.RoomData request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createRoom, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.RoomListData> getRoomList($0.RoomListPageReqData request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getRoomList, request, options: options);
   }
 }
 
@@ -64,6 +80,20 @@ abstract class IndexServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($0.RoomTypesData value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.RoomData, $0.RoomData>(
+        'CreateRoom',
+        createRoom_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.RoomData.fromBuffer(value),
+        ($0.RoomData value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.RoomListPageReqData, $0.RoomListData>(
+        'GetRoomList',
+        getRoomList_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.RoomListPageReqData.fromBuffer(value),
+        ($0.RoomListData value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.PingData> pingServer_Pre($grpc.ServiceCall call, $async.Future<$0.PingData> request) async {
@@ -74,6 +104,16 @@ abstract class IndexServiceBase extends $grpc.Service {
     return getRoomTypes(call, await request);
   }
 
+  $async.Future<$0.RoomData> createRoom_Pre($grpc.ServiceCall call, $async.Future<$0.RoomData> request) async {
+    return createRoom(call, await request);
+  }
+
+  $async.Future<$0.RoomListData> getRoomList_Pre($grpc.ServiceCall call, $async.Future<$0.RoomListPageReqData> request) async {
+    return getRoomList(call, await request);
+  }
+
   $async.Future<$0.PingData> pingServer($grpc.ServiceCall call, $0.PingData request);
   $async.Future<$0.RoomTypesData> getRoomTypes($grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$0.RoomData> createRoom($grpc.ServiceCall call, $0.RoomData request);
+  $async.Future<$0.RoomListData> getRoomList($grpc.ServiceCall call, $0.RoomListPageReqData request);
 }
