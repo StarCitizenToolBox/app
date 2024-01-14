@@ -34,4 +34,15 @@ class PartyRoomGrpcServer {
   static Future<RoomData> createRoom(RoomData roomData) async {
     return await _indexService.createRoom(roomData);
   }
+
+  static Future<RoomData?> touchUserRoom(String userName, String deviceUUID) {
+    return _indexService
+        .touchUser(PreUser(userName: userName, deviceUUID: deviceUUID));
+  }
+
+  static ResponseStream<RoomUpdateMessage> joinRoom(
+      String roomID, String userName, String deviceUUID) {
+    return _indexService.joinRoom(
+        PreUser(roomID: roomID, userName: userName, deviceUUID: deviceUUID));
+  }
 }

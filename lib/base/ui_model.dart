@@ -64,7 +64,7 @@ class BaseUIModel extends ChangeNotifier {
       dPrint("$runtimeType.handleError Error:$e");
       String errorMsg = "Unknown Error";
       if (e is GrpcError) {
-        errorMsg = "服务器错误： ${e.message} ?? Unknown Error";
+        errorMsg = "远程服务器消息： ${e.message ?? "Unknown Error"}";
       } else {
         errorMsg = e.toString();
       }
@@ -112,7 +112,10 @@ class BaseUIModel extends ChangeNotifier {
     return _childUIProviders![modelKey]!;
   }
 
-  T? getCreatedChildUIModel<T extends BaseUIModel>(String modelKey) {
+  T? getCreatedChildUIModel<T extends BaseUIModel>(String modelKey,{bool create = false}) {
+    if (create && _childUIModels?[modelKey]  == null) {
+      _getChildUIModel(modelKey);
+    }
     return _childUIModels?[modelKey] as T?;
   }
 

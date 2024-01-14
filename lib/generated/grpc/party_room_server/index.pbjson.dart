@@ -50,6 +50,36 @@ final $typed_data.Uint8List roomSortTypeDescriptor = $convert.base64Decode(
     '5pbXVtUGxheWVyTnVtYmVyEAISEwoPUmVjZW50bHlDcmVhdGVkEAMSEQoNT2xkZXN0Q3JlYXRl'
     'ZBAE');
 
+@$core.Deprecated('Use roomUserStatusDescriptor instead')
+const RoomUserStatus$json = {
+  '1': 'RoomUserStatus',
+  '2': [
+    {'1': 'RoomUserStatusJoin', '2': 0},
+    {'1': 'RoomUserStatusLostOffline', '2': 1},
+    {'1': 'RoomUserStatusLeave', '2': 2},
+    {'1': 'RoomUserStatusWaitingConnect', '2': 3},
+  ],
+};
+
+/// Descriptor for `RoomUserStatus`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List roomUserStatusDescriptor = $convert.base64Decode(
+    'Cg5Sb29tVXNlclN0YXR1cxIWChJSb29tVXNlclN0YXR1c0pvaW4QABIdChlSb29tVXNlclN0YX'
+    'R1c0xvc3RPZmZsaW5lEAESFwoTUm9vbVVzZXJTdGF0dXNMZWF2ZRACEiAKHFJvb21Vc2VyU3Rh'
+    'dHVzV2FpdGluZ0Nvbm5lY3QQAw==');
+
+@$core.Deprecated('Use roomUpdateTypeDescriptor instead')
+const RoomUpdateType$json = {
+  '1': 'RoomUpdateType',
+  '2': [
+    {'1': 'RoomUpdateData', '2': 0},
+    {'1': 'RoomClose', '2': 1},
+  ],
+};
+
+/// Descriptor for `RoomUpdateType`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List roomUpdateTypeDescriptor = $convert.base64Decode(
+    'Cg5Sb29tVXBkYXRlVHlwZRISCg5Sb29tVXBkYXRlRGF0YRAAEg0KCVJvb21DbG9zZRAB');
+
 @$core.Deprecated('Use emptyDescriptor instead')
 const Empty$json = {
   '1': 'Empty',
@@ -165,6 +195,7 @@ const RoomData$json = {
     {'1': 'deviceUUID', '3': 9, '4': 1, '5': 9, '10': 'deviceUUID'},
     {'1': 'announcement', '3': 10, '4': 1, '5': 9, '10': 'announcement'},
     {'1': 'avatar', '3': 11, '4': 1, '5': 9, '10': 'avatar'},
+    {'1': 'updateTime', '3': 12, '4': 1, '5': 3, '10': 'updateTime'},
   ],
 };
 
@@ -176,7 +207,7 @@ final $typed_data.Uint8List roomDataDescriptor = $convert.base64Decode(
     'ABKANSCmNyZWF0ZVRpbWUSHAoJY3VyUGxheWVyGAcgASgFUgljdXJQbGF5ZXISIwoGc3RhdHVz'
     'GAggASgOMgsuUm9vbVN0YXR1c1IGc3RhdHVzEh4KCmRldmljZVVVSUQYCSABKAlSCmRldmljZV'
     'VVSUQSIgoMYW5ub3VuY2VtZW50GAogASgJUgxhbm5vdW5jZW1lbnQSFgoGYXZhdGFyGAsgASgJ'
-    'UgZhdmF0YXI=');
+    'UgZhdmF0YXISHgoKdXBkYXRlVGltZRgMIAEoA1IKdXBkYXRlVGltZQ==');
 
 @$core.Deprecated('Use roomListPageReqDataDescriptor instead')
 const RoomListPageReqData$json = {
@@ -210,4 +241,52 @@ const RoomListData$json = {
 final $typed_data.Uint8List roomListDataDescriptor = $convert.base64Decode(
     'CgxSb29tTGlzdERhdGESLQoIcGFnZURhdGEYASABKAsyES5CYXNlUGFnZVJlc3BEYXRhUghwYW'
     'dlRGF0YRIfCgVyb29tcxgCIAMoCzIJLlJvb21EYXRhUgVyb29tcw==');
+
+@$core.Deprecated('Use preUserDescriptor instead')
+const PreUser$json = {
+  '1': 'PreUser',
+  '2': [
+    {'1': 'userName', '3': 1, '4': 1, '5': 9, '10': 'userName'},
+    {'1': 'deviceUUID', '3': 2, '4': 1, '5': 9, '10': 'deviceUUID'},
+    {'1': 'roomID', '3': 3, '4': 1, '5': 9, '10': 'roomID'},
+  ],
+};
+
+/// Descriptor for `PreUser`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List preUserDescriptor = $convert.base64Decode(
+    'CgdQcmVVc2VyEhoKCHVzZXJOYW1lGAEgASgJUgh1c2VyTmFtZRIeCgpkZXZpY2VVVUlEGAIgAS'
+    'gJUgpkZXZpY2VVVUlEEhYKBnJvb21JRBgDIAEoCVIGcm9vbUlE');
+
+@$core.Deprecated('Use roomUserDataDescriptor instead')
+const RoomUserData$json = {
+  '1': 'RoomUserData',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'playerName', '3': 2, '4': 1, '5': 9, '10': 'playerName'},
+    {'1': 'Avatar', '3': 3, '4': 1, '5': 9, '10': 'Avatar'},
+    {'1': 'status', '3': 4, '4': 1, '5': 14, '6': '.RoomUserStatus', '10': 'status'},
+  ],
+};
+
+/// Descriptor for `RoomUserData`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List roomUserDataDescriptor = $convert.base64Decode(
+    'CgxSb29tVXNlckRhdGESDgoCaWQYASABKAlSAmlkEh4KCnBsYXllck5hbWUYAiABKAlSCnBsYX'
+    'llck5hbWUSFgoGQXZhdGFyGAMgASgJUgZBdmF0YXISJwoGc3RhdHVzGAQgASgOMg8uUm9vbVVz'
+    'ZXJTdGF0dXNSBnN0YXR1cw==');
+
+@$core.Deprecated('Use roomUpdateMessageDescriptor instead')
+const RoomUpdateMessage$json = {
+  '1': 'RoomUpdateMessage',
+  '2': [
+    {'1': 'roomData', '3': 1, '4': 1, '5': 11, '6': '.RoomData', '10': 'roomData'},
+    {'1': 'usersData', '3': 2, '4': 3, '5': 11, '6': '.RoomUserData', '10': 'usersData'},
+    {'1': 'roomUpdateType', '3': 3, '4': 1, '5': 14, '6': '.RoomUpdateType', '10': 'roomUpdateType'},
+  ],
+};
+
+/// Descriptor for `RoomUpdateMessage`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List roomUpdateMessageDescriptor = $convert.base64Decode(
+    'ChFSb29tVXBkYXRlTWVzc2FnZRIlCghyb29tRGF0YRgBIAEoCzIJLlJvb21EYXRhUghyb29tRG'
+    'F0YRIrCgl1c2Vyc0RhdGEYAiADKAsyDS5Sb29tVXNlckRhdGFSCXVzZXJzRGF0YRI3Cg5yb29t'
+    'VXBkYXRlVHlwZRgDIAEoDjIPLlJvb21VcGRhdGVUeXBlUg5yb29tVXBkYXRlVHlwZQ==');
 

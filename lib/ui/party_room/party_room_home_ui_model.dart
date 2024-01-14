@@ -1,10 +1,13 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/grpc/party_room_server.dart';
 import 'package:starcitizen_doctor/generated/grpc/party_room_server/index.pb.dart';
-import 'package:starcitizen_doctor/grpc/party_room_server.dart';
+import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/dialogs/party_room_create_dialog_ui_model.dart';
 
 import 'dialogs/party_room_create_dialog_ui.dart';
+import 'party_room_chat_ui_model.dart';
 
 class PartyRoomHomeUIModel extends BaseUIModel {
   String? pingServerMessage;
@@ -40,10 +43,22 @@ class PartyRoomHomeUIModel extends BaseUIModel {
 
   List<RoomData>? rooms;
 
+  final pageCtrl = PageController();
+
   @override
   void initModel() {
     super.initModel();
     _loadTypes();
+    _touchUser();
+  }
+
+  @override
+  BaseUIModel? onCreateChildUIModel(modelKey) {
+    switch (modelKey) {
+      case "chat":
+        return PartyRoomChatUIModel(this);
+    }
+    return null;
   }
 
   @override
@@ -61,6 +76,7 @@ class PartyRoomHomeUIModel extends BaseUIModel {
     pageNum = 0;
     rooms = null;
     notifyListeners();
+    _touchUser();
     return super.reloadData();
   }
 
@@ -166,5 +182,34 @@ class PartyRoomHomeUIModel extends BaseUIModel {
 
   onRefreshRoom() {
     reloadData();
+  }
+
+  Future<void> _touchUser() async {
+    if (getCreatedChildUIModel<PartyRoomChatUIModel>("chat")?.selectRoom ==
+        null) {
+      final userName = await globalUIModel.getRunningGameUser();
+      if (userName == null) return;
+      // 检测用户已加入的房间
+      final room = await handleError(() =>
+          PartyRoomGrpcServer.touchUserRoom(userName, AppConf.deviceUUID));
+      dPrint("touch room == ${room?.toProto3Json()}");
+      if (room == null || room.id == "") return;
+      onTapRoom(room);
+    }
+  }
+
+  onTapRoom(RoomData item) {
+    getCreatedChildUIModel<PartyRoomChatUIModel>("chat", create: true)
+        ?.setRoom(item);
+    notifyListeners();
+    pageCtrl.animateToPage(1,
+        duration: const Duration(milliseconds: 100), curve: Curves.easeInExpo);
+  }
+
+  void checkUIInit() {
+    if (getCreatedChildUIModel<PartyRoomChatUIModel>("chat")?.selectRoom !=
+        null) {
+      pageCtrl.jumpToPage(1);
+    }
   }
 }

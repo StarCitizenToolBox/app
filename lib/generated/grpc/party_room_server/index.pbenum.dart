@@ -59,5 +59,39 @@ class RoomSortType extends $pb.ProtobufEnum {
   const RoomSortType._($core.int v, $core.String n) : super(v, n);
 }
 
+class RoomUserStatus extends $pb.ProtobufEnum {
+  static const RoomUserStatus RoomUserStatusJoin = RoomUserStatus._(0, _omitEnumNames ? '' : 'RoomUserStatusJoin');
+  static const RoomUserStatus RoomUserStatusLostOffline = RoomUserStatus._(1, _omitEnumNames ? '' : 'RoomUserStatusLostOffline');
+  static const RoomUserStatus RoomUserStatusLeave = RoomUserStatus._(2, _omitEnumNames ? '' : 'RoomUserStatusLeave');
+  static const RoomUserStatus RoomUserStatusWaitingConnect = RoomUserStatus._(3, _omitEnumNames ? '' : 'RoomUserStatusWaitingConnect');
+
+  static const $core.List<RoomUserStatus> values = <RoomUserStatus> [
+    RoomUserStatusJoin,
+    RoomUserStatusLostOffline,
+    RoomUserStatusLeave,
+    RoomUserStatusWaitingConnect,
+  ];
+
+  static final $core.Map<$core.int, RoomUserStatus> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static RoomUserStatus? valueOf($core.int value) => _byValue[value];
+
+  const RoomUserStatus._($core.int v, $core.String n) : super(v, n);
+}
+
+class RoomUpdateType extends $pb.ProtobufEnum {
+  static const RoomUpdateType RoomUpdateData = RoomUpdateType._(0, _omitEnumNames ? '' : 'RoomUpdateData');
+  static const RoomUpdateType RoomClose = RoomUpdateType._(1, _omitEnumNames ? '' : 'RoomClose');
+
+  static const $core.List<RoomUpdateType> values = <RoomUpdateType> [
+    RoomUpdateData,
+    RoomClose,
+  ];
+
+  static final $core.Map<$core.int, RoomUpdateType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static RoomUpdateType? valueOf($core.int value) => _byValue[value];
+
+  const RoomUpdateType._($core.int v, $core.String n) : super(v, n);
+}
+
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

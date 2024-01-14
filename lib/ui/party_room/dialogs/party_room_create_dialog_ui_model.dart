@@ -1,8 +1,8 @@
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/grpc/party_room_server.dart';
 import 'package:starcitizen_doctor/generated/grpc/party_room_server/index.pb.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
-import 'package:starcitizen_doctor/grpc/party_room_server.dart';
 
 class PartyRoomCreateDialogUIModel extends BaseUIModel {
   Map<String?, RoomType> roomTypes;

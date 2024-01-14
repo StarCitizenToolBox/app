@@ -519,6 +519,7 @@ class RoomData extends $pb.GeneratedMessage {
     $core.String? deviceUUID,
     $core.String? announcement,
     $core.String? avatar,
+    $fixnum.Int64? updateTime,
   }) {
     final $result = create();
     if (id != null) {
@@ -554,6 +555,9 @@ class RoomData extends $pb.GeneratedMessage {
     if (avatar != null) {
       $result.avatar = avatar;
     }
+    if (updateTime != null) {
+      $result.updateTime = updateTime;
+    }
     return $result;
   }
   RoomData._() : super();
@@ -572,6 +576,7 @@ class RoomData extends $pb.GeneratedMessage {
     ..aOS(9, _omitFieldNames ? '' : 'deviceUUID', protoName: 'deviceUUID')
     ..aOS(10, _omitFieldNames ? '' : 'announcement')
     ..aOS(11, _omitFieldNames ? '' : 'avatar')
+    ..aInt64(12, _omitFieldNames ? '' : 'updateTime', protoName: 'updateTime')
     ..hasRequiredFields = false
   ;
 
@@ -688,6 +693,15 @@ class RoomData extends $pb.GeneratedMessage {
   $core.bool hasAvatar() => $_has(10);
   @$pb.TagNumber(11)
   void clearAvatar() => clearField(11);
+
+  @$pb.TagNumber(12)
+  $fixnum.Int64 get updateTime => $_getI64(11);
+  @$pb.TagNumber(12)
+  set updateTime($fixnum.Int64 v) { $_setInt64(11, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasUpdateTime() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearUpdateTime() => clearField(12);
 }
 
 class RoomListPageReqData extends $pb.GeneratedMessage {
@@ -854,6 +868,250 @@ class RoomListData extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(2)
   $core.List<RoomData> get rooms => $_getList(1);
+}
+
+class PreUser extends $pb.GeneratedMessage {
+  factory PreUser({
+    $core.String? userName,
+    $core.String? deviceUUID,
+    $core.String? roomID,
+  }) {
+    final $result = create();
+    if (userName != null) {
+      $result.userName = userName;
+    }
+    if (deviceUUID != null) {
+      $result.deviceUUID = deviceUUID;
+    }
+    if (roomID != null) {
+      $result.roomID = roomID;
+    }
+    return $result;
+  }
+  PreUser._() : super();
+  factory PreUser.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PreUser.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PreUser', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userName', protoName: 'userName')
+    ..aOS(2, _omitFieldNames ? '' : 'deviceUUID', protoName: 'deviceUUID')
+    ..aOS(3, _omitFieldNames ? '' : 'roomID', protoName: 'roomID')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  PreUser clone() => PreUser()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  PreUser copyWith(void Function(PreUser) updates) => super.copyWith((message) => updates(message as PreUser)) as PreUser;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PreUser create() => PreUser._();
+  PreUser createEmptyInstance() => create();
+  static $pb.PbList<PreUser> createRepeated() => $pb.PbList<PreUser>();
+  @$core.pragma('dart2js:noInline')
+  static PreUser getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PreUser>(create);
+  static PreUser? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userName => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userName($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserName() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserName() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get deviceUUID => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set deviceUUID($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDeviceUUID() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDeviceUUID() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get roomID => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set roomID($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasRoomID() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearRoomID() => clearField(3);
+}
+
+class RoomUserData extends $pb.GeneratedMessage {
+  factory RoomUserData({
+    $core.String? id,
+    $core.String? playerName,
+    $core.String? avatar,
+    RoomUserStatus? status,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (playerName != null) {
+      $result.playerName = playerName;
+    }
+    if (avatar != null) {
+      $result.avatar = avatar;
+    }
+    if (status != null) {
+      $result.status = status;
+    }
+    return $result;
+  }
+  RoomUserData._() : super();
+  factory RoomUserData.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RoomUserData.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RoomUserData', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'playerName', protoName: 'playerName')
+    ..aOS(3, _omitFieldNames ? '' : 'Avatar', protoName: 'Avatar')
+    ..e<RoomUserStatus>(4, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: RoomUserStatus.RoomUserStatusJoin, valueOf: RoomUserStatus.valueOf, enumValues: RoomUserStatus.values)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RoomUserData clone() => RoomUserData()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RoomUserData copyWith(void Function(RoomUserData) updates) => super.copyWith((message) => updates(message as RoomUserData)) as RoomUserData;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static RoomUserData create() => RoomUserData._();
+  RoomUserData createEmptyInstance() => create();
+  static $pb.PbList<RoomUserData> createRepeated() => $pb.PbList<RoomUserData>();
+  @$core.pragma('dart2js:noInline')
+  static RoomUserData getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RoomUserData>(create);
+  static RoomUserData? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get playerName => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set playerName($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPlayerName() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPlayerName() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get avatar => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set avatar($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAvatar() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAvatar() => clearField(3);
+
+  @$pb.TagNumber(4)
+  RoomUserStatus get status => $_getN(3);
+  @$pb.TagNumber(4)
+  set status(RoomUserStatus v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasStatus() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearStatus() => clearField(4);
+}
+
+class RoomUpdateMessage extends $pb.GeneratedMessage {
+  factory RoomUpdateMessage({
+    RoomData? roomData,
+    $core.Iterable<RoomUserData>? usersData,
+    RoomUpdateType? roomUpdateType,
+  }) {
+    final $result = create();
+    if (roomData != null) {
+      $result.roomData = roomData;
+    }
+    if (usersData != null) {
+      $result.usersData.addAll(usersData);
+    }
+    if (roomUpdateType != null) {
+      $result.roomUpdateType = roomUpdateType;
+    }
+    return $result;
+  }
+  RoomUpdateMessage._() : super();
+  factory RoomUpdateMessage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RoomUpdateMessage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RoomUpdateMessage', createEmptyInstance: create)
+    ..aOM<RoomData>(1, _omitFieldNames ? '' : 'roomData', protoName: 'roomData', subBuilder: RoomData.create)
+    ..pc<RoomUserData>(2, _omitFieldNames ? '' : 'usersData', $pb.PbFieldType.PM, protoName: 'usersData', subBuilder: RoomUserData.create)
+    ..e<RoomUpdateType>(3, _omitFieldNames ? '' : 'roomUpdateType', $pb.PbFieldType.OE, protoName: 'roomUpdateType', defaultOrMaker: RoomUpdateType.RoomUpdateData, valueOf: RoomUpdateType.valueOf, enumValues: RoomUpdateType.values)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RoomUpdateMessage clone() => RoomUpdateMessage()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RoomUpdateMessage copyWith(void Function(RoomUpdateMessage) updates) => super.copyWith((message) => updates(message as RoomUpdateMessage)) as RoomUpdateMessage;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static RoomUpdateMessage create() => RoomUpdateMessage._();
+  RoomUpdateMessage createEmptyInstance() => create();
+  static $pb.PbList<RoomUpdateMessage> createRepeated() => $pb.PbList<RoomUpdateMessage>();
+  @$core.pragma('dart2js:noInline')
+  static RoomUpdateMessage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RoomUpdateMessage>(create);
+  static RoomUpdateMessage? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  RoomData get roomData => $_getN(0);
+  @$pb.TagNumber(1)
+  set roomData(RoomData v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasRoomData() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearRoomData() => clearField(1);
+  @$pb.TagNumber(1)
+  RoomData ensureRoomData() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.List<RoomUserData> get usersData => $_getList(1);
+
+  @$pb.TagNumber(3)
+  RoomUpdateType get roomUpdateType => $_getN(2);
+  @$pb.TagNumber(3)
+  set roomUpdateType(RoomUpdateType v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasRoomUpdateType() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearRoomUpdateType() => clearField(3);
 }
 
 

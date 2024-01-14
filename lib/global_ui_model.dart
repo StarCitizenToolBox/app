@@ -16,7 +16,7 @@ final globalUIModelProvider = ChangeNotifierProvider((ref) => globalUIModel);
 class AppGlobalUIModel extends BaseUIModel {
   Timer? activityThemeColorTimer;
 
-  Future<String> getRunningGameUser() async {
+  Future<String?> getRunningGameUser() async {
     await Future.delayed(const Duration(milliseconds: 300));
 
     ///TODO 实现获取运行中用户名

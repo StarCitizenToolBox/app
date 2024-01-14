@@ -37,6 +37,18 @@ class IndexServiceClient extends $grpc.Client {
       '/IndexService/GetRoomList',
       ($0.RoomListPageReqData value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.RoomListData.fromBuffer(value));
+  static final _$touchUser = $grpc.ClientMethod<$0.PreUser, $0.RoomData>(
+      '/IndexService/TouchUser',
+      ($0.PreUser value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.RoomData.fromBuffer(value));
+  static final _$joinRoom = $grpc.ClientMethod<$0.PreUser, $0.RoomUpdateMessage>(
+      '/IndexService/JoinRoom',
+      ($0.PreUser value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.RoomUpdateMessage.fromBuffer(value));
+  static final _$leaveRoom = $grpc.ClientMethod<$0.PreUser, $0.BaseRespData>(
+      '/IndexService/LeaveRoom',
+      ($0.PreUser value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.BaseRespData.fromBuffer(value));
 
   IndexServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -58,6 +70,18 @@ class IndexServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.RoomListData> getRoomList($0.RoomListPageReqData request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getRoomList, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.RoomData> touchUser($0.PreUser request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$touchUser, request, options: options);
+  }
+
+  $grpc.ResponseStream<$0.RoomUpdateMessage> joinRoom($0.PreUser request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$joinRoom, $async.Stream.fromIterable([request]), options: options);
+  }
+
+  $grpc.ResponseFuture<$0.BaseRespData> leaveRoom($0.PreUser request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$leaveRoom, request, options: options);
   }
 }
 
@@ -94,6 +118,27 @@ abstract class IndexServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.RoomListPageReqData.fromBuffer(value),
         ($0.RoomListData value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.PreUser, $0.RoomData>(
+        'TouchUser',
+        touchUser_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.PreUser.fromBuffer(value),
+        ($0.RoomData value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.PreUser, $0.RoomUpdateMessage>(
+        'JoinRoom',
+        joinRoom_Pre,
+        false,
+        true,
+        ($core.List<$core.int> value) => $0.PreUser.fromBuffer(value),
+        ($0.RoomUpdateMessage value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.PreUser, $0.BaseRespData>(
+        'LeaveRoom',
+        leaveRoom_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.PreUser.fromBuffer(value),
+        ($0.BaseRespData value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.PingData> pingServer_Pre($grpc.ServiceCall call, $async.Future<$0.PingData> request) async {
@@ -112,8 +157,23 @@ abstract class IndexServiceBase extends $grpc.Service {
     return getRoomList(call, await request);
   }
 
+  $async.Future<$0.RoomData> touchUser_Pre($grpc.ServiceCall call, $async.Future<$0.PreUser> request) async {
+    return touchUser(call, await request);
+  }
+
+  $async.Stream<$0.RoomUpdateMessage> joinRoom_Pre($grpc.ServiceCall call, $async.Future<$0.PreUser> request) async* {
+    yield* joinRoom(call, await request);
+  }
+
+  $async.Future<$0.BaseRespData> leaveRoom_Pre($grpc.ServiceCall call, $async.Future<$0.PreUser> request) async {
+    return leaveRoom(call, await request);
+  }
+
   $async.Future<$0.PingData> pingServer($grpc.ServiceCall call, $0.PingData request);
   $async.Future<$0.RoomTypesData> getRoomTypes($grpc.ServiceCall call, $0.Empty request);
   $async.Future<$0.RoomData> createRoom($grpc.ServiceCall call, $0.RoomData request);
   $async.Future<$0.RoomListData> getRoomList($grpc.ServiceCall call, $0.RoomListPageReqData request);
+  $async.Future<$0.RoomData> touchUser($grpc.ServiceCall call, $0.PreUser request);
+  $async.Stream<$0.RoomUpdateMessage> joinRoom($grpc.ServiceCall call, $0.PreUser request);
+  $async.Future<$0.BaseRespData> leaveRoom($grpc.ServiceCall call, $0.PreUser request);
 }
