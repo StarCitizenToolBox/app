@@ -570,14 +570,12 @@ class HomeUIModel extends BaseUIModel {
     _isGameRunning[installPath] = true;
     notifyListeners();
     try {
+      late ProcessResult result;
       if (processorAffinity == null) {
-        ProcessResult result = await Process.run(launchExe, args);
-        dPrint('Exit code: ${result.exitCode}');
-        dPrint('stdout: ${result.stdout}');
-        dPrint('stderr: ${result.stderr}');
+        result = await Process.run(launchExe, args);
       } else {
         dPrint("set Affinity === $processorAffinity launchExe === $launchExe");
-        ProcessResult result = await Process.run("cmd.exe", [
+        result = await Process.run("cmd.exe", [
           '/C',
           'Start',
           '"StarCitizen"',
@@ -587,9 +585,13 @@ class HomeUIModel extends BaseUIModel {
           launchExe,
           ...args
         ]);
-        dPrint('Exit code: ${result.exitCode}');
-        dPrint('stdout: ${result.stdout}');
-        dPrint('stderr: ${result.stderr}');
+      }
+      dPrint('Exit code: ${result.exitCode}');
+      dPrint('stdout: ${result.stdout}');
+      dPrint('stderr: ${result.stderr}');
+      if (result.exitCode != 0) {
+        showToast(context!,
+            "游戏非正常退出\nexitCode=${result.exitCode}\nstdout=${result.stdout}\nstderr=${result.stderr}");
       }
 
       final launchFile = File("$installPath\\loginData.json");
