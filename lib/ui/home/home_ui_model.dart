@@ -113,7 +113,11 @@ class HomeUIModel extends BaseUIModel {
               .data));
       countdownFestivalListData = await Api.getFestivalCountdownList();
       notifyListeners();
-      handleError(() => _loadRRS());
+      try {
+        _loadRRS();
+      } catch (e) {
+        dPrint("_loadRRS Error:$e");
+      }
     } catch (e) {
       dPrint(e);
     }
