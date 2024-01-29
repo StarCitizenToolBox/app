@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
@@ -354,6 +355,10 @@ class ToolsUIModel extends BaseUIModel {
   }
 
   Future<void> _downloadP4k() async {
+    String savePath = scInstalledPath;
+    String fileName = "Data.p4k";
+    bool isResumeDownload = false;
+    final box = await Hive.openBox("p4k_cache");
     var downloadUrl = AppConf.networkVersionData?.p4kDownloadUrl;
     if (downloadUrl == null || downloadUrl.isEmpty) {
       showToast(context!, "该功能维护中，请稍后再试！");
@@ -365,14 +370,36 @@ class ToolsUIModel extends BaseUIModel {
               maxWidth: MediaQuery.of(context!).size.width * .35));
       return;
     }
-    await showToast(
-        context!,
-        "P4k 是星际公民的核心游戏文件，高达近 100GB，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户。"
-        "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
-
-    AnalyticsApi.touch("p4k_download");
-    launchUrlString(
-        "https://citizenwiki.cn/SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90#%E5%88%86%E6%B5%81%E4%B8%8B%E8%BD%BD%E6%95%99%E7%A8%8B");
+    final lastSavePath = (box.get("last_save_dir", defaultValue: {}) as Map);
+    dPrint("lastSavePath === $lastSavePath");
+    if (lastSavePath.isNotEmpty) {
+      final s = lastSavePath["save_path"] ?? "";
+      final f = lastSavePath["file_name"] ?? "";
+      if ((await File("$s/$f.downloading").exists()) &&
+          (await File("$s/$f.downloading.bson").exists())) {
+        final ok = await showConfirmDialogs(context!, "是否恢复下载？",
+            const Text("检测到未完成的下载，点击确认即可恢复下载，点击取消将会删除之前的临时文件，并开始一个新的下载。"));
+        if (ok) {
+          savePath = s;
+          fileName = f;
+          isResumeDownload = true;
+        } else {
+          // del last cache and del file
+          await box.delete("last_save_dir");
+          await File("$s/$f.downloading").delete();
+          await File("$s/$f.downloading.bson").delete();
+        }
+      } else {
+        // del last cache
+        await box.delete("last_save_dir");
+      }
+    } else {
+      await showToast(
+          context!,
+          "P4k 是星际公民的核心游戏文件，高达近 100GB，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户。"
+          "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
+      AnalyticsApi.touch("p4k_download");
+    }
     final r = await showDialog(
         context: context!,
         dismissWithEsc: false,
@@ -380,16 +407,24 @@ class ToolsUIModel extends BaseUIModel {
           return BaseUIContainer(
               uiCreate: () => DownloaderDialogUI(),
               modelCreate: () => DownloaderDialogUIModel(
-                  "Data.p4k", scInstalledPath, downloadUrl,
-                  showChangeSavePathDialog: true, threadCount: 10));
+                  fileName, savePath, downloadUrl,
+                  showChangeSavePathDialog: !isResumeDownload,
+                  threadCount: 10,
+                  isP4kDownload: true));
         });
+
     if (r != null) {
       if (r == "cancel") {
-        return showToast(context!, "下载已取消，下载进度已保留，如果您无需恢复下载，请手动删除下载临时文件。");
+        return showToast(context!, "下载进度已保留，您可以再次点击此功能恢复下载。");
       } else if (r is DioException) {
         showToast(context!, "下载失败：$r");
       } else {
-        showToast(context!, "下载完毕，文件已保存到：$r");
+        final ok = await showConfirmDialogs(
+            context!, "下载完毕！", Text("文件已保存到：$r\n\n是否查看P4K操作教程？"));
+        if (ok == true) {
+          launchUrlString(
+              "https://citizenwiki.cn/SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90#%E5%88%86%E6%B5%81%E4%B8%8B%E8%BD%BD%E6%95%99%E7%A8%8B");
+        }
       }
     }
   }

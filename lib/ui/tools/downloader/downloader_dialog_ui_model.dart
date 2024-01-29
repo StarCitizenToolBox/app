@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/rust/ffi.dart';
 
@@ -10,9 +11,12 @@ class DownloaderDialogUIModel extends BaseUIModel {
   final String downloadUrl;
   final bool showChangeSavePathDialog;
   final int threadCount;
+  final bool isP4kDownload;
 
   DownloaderDialogUIModel(this.fileName, this.savePath, this.downloadUrl,
-      {this.showChangeSavePathDialog = false, this.threadCount = 1});
+      {this.showChangeSavePathDialog = false,
+      this.threadCount = 1,
+      this.isP4kDownload = false});
 
   bool isInMerging = false;
 
@@ -52,8 +56,15 @@ class DownloaderDialogUIModel extends BaseUIModel {
       savePath = savePath.substring(0, savePath.length - fileName.length - 1);
     }
 
-    final downloaderSavePath = "$savePath//$fileName.downloading";
+    if (isP4kDownload) {
+      final box = await Hive.openBox("p4k_cache");
+      await box.put(
+        "last_save_dir",
+        {"save_path": savePath, "file_name": fileName},
+      );
+    }
 
+    final downloaderSavePath = "$savePath//$fileName.downloading";
     try {
       rustFii
           .startDownload(

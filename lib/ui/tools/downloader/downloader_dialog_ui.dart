@@ -36,13 +36,21 @@ class DownloaderDialogUI extends BaseUI<DownloaderDialogUIModel> {
               const SizedBox(width: 24),
             ],
           ),
+          if (model.isP4kDownload) ...[
+            const SizedBox(height: 24),
+            Text(
+              "提示：因网络波动，若下载进度长时间卡住或速度变慢，可尝试点击暂停下载，之后重新点击P4K分流下载。",
+              style:
+                  TextStyle(fontSize: 13, color: Colors.white.withOpacity(.7)),
+            ),
+          ],
         ],
       ),
       actions: [
         FilledButton(
             child: const Padding(
               padding: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
-              child: Text("取消下载"),
+              child: Text("暂停下载"),
             ),
             onPressed: () => model.doCancel()),
       ],
