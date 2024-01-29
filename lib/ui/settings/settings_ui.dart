@@ -53,7 +53,7 @@ class SettingUI extends BaseUI<SettingUIModel> {
               onTap: model.cleanLocationCache),
           const SizedBox(height: 12),
           makeSettingsItem(
-              const Icon(FluentIcons.internet_sharing, size: 20), "工具站访问加速",
+              const Icon(FluentIcons.speed_high, size: 20), "工具站访问加速",
               onTap: () =>
                   model.onChangeToolSiteMirror(!model.isEnableToolSiteMirrors),
               subTitle:
