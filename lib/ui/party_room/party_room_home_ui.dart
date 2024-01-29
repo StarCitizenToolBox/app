@@ -7,8 +7,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/generated/grpc/party_room_server/index.pb.dart';
-import 'package:starcitizen_doctor/ui/party_room/party_room_chat_ui.dart';
-import 'package:starcitizen_doctor/ui/party_room/party_room_chat_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/cache_image.dart';
 
 import 'party_room_home_ui_model.dart';
