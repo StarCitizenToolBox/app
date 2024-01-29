@@ -1,6 +1,7 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'about_ui_model.dart';
@@ -59,7 +60,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
                   ],
                 ),
                 onPressed: () {
-                  launchUrlString("https://txc.qq.com/products/614843");
+                  launchUrlString(URLConf.feedbackUrl);
                 },
               ),
               const SizedBox(width: 24),

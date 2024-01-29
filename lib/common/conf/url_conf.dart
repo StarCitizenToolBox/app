@@ -22,4 +22,6 @@ class URLConf {
   static const rssTextUrl1 = "$_rssHomeUrl/bilibili/user/article/40102960";
   static const rssTextUrl2 =
       "$_rssHomeUrl/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
+
+  static const feedbackUrl = "https://txc.qq.com/products/614843";
 }

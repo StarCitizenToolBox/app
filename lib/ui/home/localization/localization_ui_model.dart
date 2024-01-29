@@ -11,6 +11,7 @@ import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class LocalizationUIModel extends BaseUIModel {
   final String scInstallPath;
@@ -273,9 +274,9 @@ class LocalizationUIModel extends BaseUIModel {
   }
 
   VoidCallback? doDelIniFile() {
-    final iniFile = File(
-        "${scDataDir.absolute.path}\\Localization\\$selectedLanguage\\global.ini");
     return () async {
+      final iniFile = File(
+          "${scDataDir.absolute.path}\\Localization\\$selectedLanguage\\global.ini");
       if (await iniFile.exists()) await iniFile.delete();
       await updateLangCfg(false);
       await _updateStatus();
@@ -372,12 +373,16 @@ class LocalizationUIModel extends BaseUIModel {
         for (var element in AppConf.gameChannels) {
           if (v.key.contains("StarCitizen\\$element")) {
             return MapEntry(element, true);
-          }else {
+          } else {
             return const MapEntry("", true);
           }
         }
       }
     }
     return null;
+  }
+
+  void goFeedback() {
+    launchUrlString(URLConf.feedbackUrl);
   }
 }

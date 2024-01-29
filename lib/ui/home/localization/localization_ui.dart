@@ -64,18 +64,35 @@ class LocalizationUI extends BaseUI<LocalizationUIModel> {
                       Text("已安装版本：${model.patchStatus?.value}"),
                       const Spacer(),
                       if (model.patchStatus?.value != "游戏内置")
-                        Button(
-                            onPressed: model.doDelIniFile(),
-                            child: const Padding(
-                              padding: EdgeInsets.all(4),
-                              child: Row(
-                                children: [
-                                  Icon(FluentIcons.delete),
-                                  SizedBox(width: 6),
-                                  Text("删除"),
-                                ],
-                              ),
-                            )),
+                        Row(
+                          children: [
+                            Button(
+                                onPressed: model.goFeedback,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(4),
+                                  child: Row(
+                                    children: [
+                                      Icon(FluentIcons.feedback),
+                                      SizedBox(width: 6),
+                                      Text("汉化反馈"),
+                                    ],
+                                  ),
+                                )),
+                            const SizedBox(width: 16),
+                            Button(
+                                onPressed: model.doDelIniFile(),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(4),
+                                  child: Row(
+                                    children: [
+                                      Icon(FluentIcons.delete),
+                                      SizedBox(width: 6),
+                                      Text("卸载汉化"),
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ),
                     ],
                   ),
                   AnimatedSize(
