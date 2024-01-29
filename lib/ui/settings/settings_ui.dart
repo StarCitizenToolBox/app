@@ -51,13 +51,26 @@ class SettingUI extends BaseUI<SettingUIModel> {
               subTitle:
                   "缓存大小 ${(model.locationCacheSize / 1024 / 1024).toStringAsFixed(2)}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化",
               onTap: model.cleanLocationCache),
+          const SizedBox(height: 12),
+          makeSettingsItem(
+              const Icon(FluentIcons.internet_sharing, size: 20), "工具站访问加速",
+              onTap: () =>
+                  model.onChangeToolSiteMirror(!model.isEnableToolSiteMirrors),
+              subTitle:
+                  "使用镜像服务器加速访问 DPS UEX 等工具网站，若访问异常请关闭该功能。 为保护账户安全，任何情况下都不会加速RSI官网。",
+              onSwitch: model.onChangeToolSiteMirror,
+              switchStatus: model.isEnableToolSiteMirrors),
         ],
       ),
     );
   }
 
   Widget makeSettingsItem(Widget icon, String title,
-      {String? subTitle, VoidCallback? onTap, VoidCallback? onDel}) {
+      {String? subTitle,
+      VoidCallback? onTap,
+      VoidCallback? onDel,
+      void Function(bool? b)? onSwitch,
+      bool switchStatus = false}) {
     return Button(
       onPressed: onTap,
       child: Padding(
@@ -94,8 +107,11 @@ class SettingUI extends BaseUI<SettingUIModel> {
                     padding: EdgeInsets.all(6),
                     child: Icon(FluentIcons.delete),
                   )),
-              const SizedBox(width: 12),
             ],
+            if (onSwitch != null) ...[
+              ToggleSwitch(checked: switchStatus, onChanged: onSwitch),
+            ],
+            const SizedBox(width: 12),
             const Icon(FluentIcons.chevron_right),
           ],
         ),

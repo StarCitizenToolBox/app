@@ -9,14 +9,15 @@
 
 class AppVersionData {
   AppVersionData({
-      this.lastVersion, 
-      this.lastVersionCode, 
-      this.minVersionCode, 
-      this.mSELastVersion, 
-      this.mSELastVersionCode, 
-      this.mSEMinVersionCode, 
-      this.p4kDownloadUrl, 
-      this.activityColors,});
+    this.lastVersion,
+    this.lastVersionCode,
+    this.minVersionCode,
+    this.mSELastVersion,
+    this.mSELastVersionCode,
+    this.mSEMinVersionCode,
+    this.p4kDownloadUrl,
+    this.activityColors,
+  });
 
   AppVersionData.fromJson(dynamic json) {
     lastVersion = json['lastVersion'];
@@ -26,8 +27,12 @@ class AppVersionData {
     mSELastVersionCode = json['MSE_lastVersionCode'];
     mSEMinVersionCode = json['MSE_minVersionCode'];
     p4kDownloadUrl = json['p4kDownloadUrl'];
-    activityColors = json['activityColors'] != null ? ActivityColors.fromJson(json['activityColors']) : null;
+    activityColors = json['activityColors'] != null
+        ? ActivityColors.fromJson(json['activityColors'])
+        : null;
+    webMirrors = json["web_mirrors"];
   }
+
   String? lastVersion;
   num? lastVersionCode;
   num? minVersionCode;
@@ -36,6 +41,7 @@ class AppVersionData {
   num? mSEMinVersionCode;
   String? p4kDownloadUrl;
   ActivityColors? activityColors;
+  Map? webMirrors;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -49,9 +55,9 @@ class AppVersionData {
     if (activityColors != null) {
       map['activityColors'] = activityColors?.toJson();
     }
+    map["web_mirrors"] = webMirrors;
     return map;
   }
-
 }
 
 /// enable : true
@@ -63,12 +69,13 @@ class AppVersionData {
 
 class ActivityColors {
   ActivityColors({
-      this.enable, 
-      this.startTime, 
-      this.endTime, 
-      this.background, 
-      this.menu, 
-      this.mica,});
+    this.enable,
+    this.startTime,
+    this.endTime,
+    this.background,
+    this.menu,
+    this.mica,
+  });
 
   ActivityColors.fromJson(dynamic json) {
     enable = json['enable'];
@@ -78,6 +85,7 @@ class ActivityColors {
     menu = json['menu'];
     mica = json['mica'];
   }
+
   bool? enable;
   int? startTime;
   int? endTime;
@@ -95,5 +103,4 @@ class ActivityColors {
     map['mica'] = mica;
     return map;
   }
-
 }

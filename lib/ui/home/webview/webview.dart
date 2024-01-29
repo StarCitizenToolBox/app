@@ -39,6 +39,8 @@ class WebViewModel {
 
   bool enableCapture = false;
 
+  bool isEnableToolSiteMirrors = false;
+
   Map<String, String>? _curReplaceWords;
 
   Map<String, String>? get curReplaceWords => _curReplaceWords;
@@ -52,6 +54,9 @@ class WebViewModel {
 
   initWebView({String title = ""}) async {
     try {
+      final userBox = await Hive.openBox("app_conf");
+      isEnableToolSiteMirrors =
+          userBox.get("isEnableToolSiteMirrors", defaultValue: false);
       webview = await WebviewWindow.create(
           configuration: CreateConfiguration(
               windowWidth: loginMode ? 960 : 1920,
@@ -62,9 +67,8 @@ class WebViewModel {
       // webview.openDevToolsWindow();
       webview.isNavigating.addListener(() async {
         if (!webview.isNavigating.value && localizationResource.isNotEmpty) {
-          final uri = Uri.parse(url);
-          dPrint("webview Navigating uri === $uri");
-          if (uri.host.contains("robertsspaceindustries.com")) {
+          dPrint("webview Navigating url === $url");
+          if (url.startsWith("https://robertsspaceindustries.com")) {
             // SC 官网
             dPrint("load script");
             await Future.delayed(const Duration(milliseconds: 100));
@@ -129,7 +133,8 @@ class WebViewModel {
               webview.evaluateJavaScript(
                   "getRSILauncherToken(\"$loginChannel\");");
             }
-          } else if (uri.host.contains("www.erkul.games")) {
+          } else if (url
+              .startsWith(await _handleMirrorsUrl("https://www.erkul.games"))) {
             dPrint("load script");
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(localizationScript);
@@ -137,7 +142,8 @@ class WebViewModel {
             final replaceWords = _getLocalizationResource("DPS");
             await webview.evaluateJavaScript(
                 "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
-          } else if (uri.host.contains("uexcorp.space")) {
+          } else if (url
+              .startsWith(await _handleMirrorsUrl("https://uexcorp.space"))) {
             dPrint("load script");
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(localizationScript);
@@ -173,8 +179,20 @@ class WebViewModel {
     }
   }
 
+  Future<String> _handleMirrorsUrl(String url) async {
+    var finalUrl = url;
+    if (isEnableToolSiteMirrors) {
+      for (var kv in AppConf.networkVersionData!.webMirrors!.entries) {
+        if (url.startsWith(kv.key)) {
+          finalUrl = url.replaceFirst(kv.key, kv.value);
+        }
+      }
+    }
+    return finalUrl;
+  }
+
   launch(String url) async {
-    webview.launch(url);
+    webview.launch(await _handleMirrorsUrl(url));
   }
 
   initLocalization(AppWebLocalizationVersionsData v) async {

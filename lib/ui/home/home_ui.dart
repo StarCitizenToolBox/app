@@ -223,7 +223,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                         ),
                         name: "UEX 汉化",
                         webTitle: "UEX 汉化",
-                        webURL: "https://uexcorp.space",
+                        webURL: "https://uexcorp.space/",
                         info: "采矿、精炼、贸易计算器、价格、船信息",
                         useLocalization: true,
                         width: width,

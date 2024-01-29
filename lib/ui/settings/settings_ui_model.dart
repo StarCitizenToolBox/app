@@ -15,6 +15,7 @@ class SettingUIModel extends BaseUIModel {
   String autoLoginEmail = "-";
   bool isEnableAutoLogin = false;
   bool isEnableAutoLoginPwd = false;
+  bool isEnableToolSiteMirrors = false;
   String inputGameLaunchECore = "0";
 
   String? customLauncherPath;
@@ -34,6 +35,7 @@ class SettingUIModel extends BaseUIModel {
     }
     _loadCustomPath();
     _loadLocationCacheSize();
+    _loadToolSiteMirrorState();
   }
 
   Future<void> onResetAutoLogin() async {
@@ -173,5 +175,19 @@ class SettingUIModel extends BaseUIModel {
 """;
     await Process.run(SystemHelper.powershellPath, [script]);
     showToast(context!, "创建完毕，请返回桌面查看");
+  }
+
+  _loadToolSiteMirrorState() async {
+    final userBox = await Hive.openBox("app_conf");
+    isEnableToolSiteMirrors =
+        userBox.get("isEnableToolSiteMirrors", defaultValue: false);
+    notifyListeners();
+  }
+
+  void onChangeToolSiteMirror(bool? b) async {
+    final userBox = await Hive.openBox("app_conf");
+    isEnableToolSiteMirrors = b == true;
+    await userBox.put("isEnableToolSiteMirrors", isEnableToolSiteMirrors);
+    notifyListeners();
   }
 }
