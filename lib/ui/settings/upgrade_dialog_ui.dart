@@ -41,6 +41,23 @@ class UpgradeDialogUI extends BaseUI<UpgradeDialogUIModel> {
                 ),
               ),
             )),
+            if (model.isUsingDiversion) ...[
+              const SizedBox(height: 24),
+              GestureDetector(
+                onTap: model.launchReleaseUrl,
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(.1),
+                      borderRadius: BorderRadius.circular(7)),
+                  child: Text(
+                    "提示：当前正在使用分流服务器进行更新，可能会出现下载速度下降，但有助于我们进行成本控制，若下载异常请点击这里跳转手动安装。",
+                    style: TextStyle(
+                        fontSize: 14, color: Colors.white.withOpacity(.7)),
+                  ),
+                ),
+              ),
+            ],
             if (model.isUpgrading) ...[
               const SizedBox(height: 24),
               Row(

@@ -18,7 +18,7 @@ import '../../base/ui.dart';
 
 class AppConf {
   static const String appVersion = "2.11.0 Beta";
-  static const int appVersionCode = 36;
+  static const int appVersionCode = 35;
   static const String appVersionDate = "2024-01-07";
 
   static const gameChannels = ["LIVE", "PTU", "EPTU"];
