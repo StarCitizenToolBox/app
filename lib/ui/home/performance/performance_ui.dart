@@ -161,6 +161,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
   }
 
   Widget makeItem(GamePerformanceData item) {
+    final model = ref.watch(provider);
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
@@ -225,6 +226,13 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                   },
                 )
               ],
+            )
+          else if (item.type == "customize")
+            TextFormBox(
+              maxLines: 10,
+              placeholder:
+                  "您可以在这里输入未收录进盒子的自定义参数。配置示例:\n\nr_displayinfo=0\nr_VSync=0",
+              controller: model.customizeCtrl,
             ),
           if (item.info != null && item.info!.isNotEmpty) ...[
             const SizedBox(height: 12),

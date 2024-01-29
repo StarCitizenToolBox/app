@@ -140,6 +140,16 @@
     "group": "图形（修改后建议清理着色器）"
   },
   {
+    "key": "q_ShaderPostProcess",
+    "name": "着色器质量",
+    "info": "",
+    "type": "int",
+    "max": 3,
+    "min": 0,
+    "value": 3,
+    "group": "图形（修改后建议清理着色器）"
+  },
+  {
     "key": "q_ShaderFX",
     "name": "FX 质量",
     "info": "",
@@ -240,6 +250,16 @@
     "group": "设置"
   },
   {
+    "key": "sys_maxFps",
+    "name": "最大帧率",
+    "info": "调整游戏最高帧率，0为不限制",
+    "type": "int",
+    "max": 300,
+    "min": 0,
+    "value": 0,
+    "group": "设置"
+  },
+  {
     "key": "r_DisplaySessionInfo",
     "name": "显示会话信息",
     "info": "开启后在屏幕上显示一个二维码，用于反馈时让 CIG 快速定位相关信息",
@@ -288,5 +308,15 @@
     "min": 0,
     "value": 1,
     "group": "设置"
+  },
+  {
+    "key": "customize",
+    "name": "自定义参数",
+    "info": "",
+    "type": "customize",
+    "max": 1,
+    "min": 0,
+    "value": 1,
+    "group": "自定义"
   }
 ]

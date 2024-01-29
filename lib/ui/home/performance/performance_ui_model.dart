@@ -13,7 +13,11 @@ class PerformanceUIModel extends BaseUIModel {
 
   PerformanceUIModel(this.scPath);
 
+  TextEditingController customizeCtrl = TextEditingController();
+
   Map<String?, List<GamePerformanceData>>? performanceMap;
+
+  List<String> inAppKeys = [];
 
   String workingString = "";
 
@@ -26,6 +30,8 @@ class PerformanceUIModel extends BaseUIModel {
 
   @override
   Future loadData() async {
+    customizeCtrl.clear();
+    inAppKeys.clear();
     final String jsonString =
         await rootBundle.loadString('assets/performance.json');
     final list = json.decode(jsonString);
@@ -34,6 +40,9 @@ class PerformanceUIModel extends BaseUIModel {
       performanceMap = {};
       for (var element in list) {
         final item = GamePerformanceData.fromJson(element);
+        if (item.key != "customize") {
+          inAppKeys.add(item.key ?? "");
+        }
         performanceMap?[item.group] ??= [];
         performanceMap?[item.group]?.add(item);
       }
@@ -101,7 +110,19 @@ class PerformanceUIModel extends BaseUIModel {
     String conf = "";
     for (var v in performanceMap!.entries) {
       for (var c in v.value) {
-        conf = "$conf${c.key} = ${c.value}\n";
+        if (c.key != "customize") {
+          conf = "$conf${c.key}=${c.value}\n";
+        }
+      }
+    }
+    if (customizeCtrl.text.trim().isNotEmpty) {
+      final lines = customizeCtrl.text.split("\n");
+      for (var value in lines) {
+        final sp = value.split("=");
+        // 忽略无效的配置文件
+        if (sp.length == 2) {
+          conf = "$conf${sp[0].trim()}=${sp[1].trim()}\n";
+        }
       }
     }
     workingString = "写出配置文件";
@@ -152,6 +173,10 @@ class PerformanceUIModel extends BaseUIModel {
             if (v != null) value.value = v;
           }
         }
+      }
+      if (kv.length == 2 && !inAppKeys.contains(kv[0].trim())) {
+        customizeCtrl.text =
+            "${customizeCtrl.text}${kv[0].trim()}=${kv[1].trim()}\n";
       }
     }
     notifyListeners();
