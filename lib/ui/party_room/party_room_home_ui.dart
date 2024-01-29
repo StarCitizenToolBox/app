@@ -24,18 +24,26 @@ class PartyRoomHomeUI extends BaseUI<PartyRoomHomeUIModel> {
 
   @override
   Widget build(BuildContext context) {
-    final model = ref.watch(provider);
-    return PageView(
-      controller: model.pageCtrl,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        super.build(context),
-        BaseUIContainer(
-            uiCreate: () => PartyRoomChatUI(),
-            modelCreate: () =>
-                model.getChildUIModelProviders<PartyRoomChatUIModel>("chat"))
-      ],
+    // final model = ref.watch(provider);
+    return const Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text("敬请期待！"),
+        ],
+      ),
     );
+    // return PageView(
+    //   controller: model.pageCtrl,
+    //   physics: const NeverScrollableScrollPhysics(),
+    //   children: [
+    //     super.build(context),
+    //     BaseUIContainer(
+    //         uiCreate: () => PartyRoomChatUI(),
+    //         modelCreate: () =>
+    //             model.getChildUIModelProviders<PartyRoomChatUIModel>("chat"))
+    //   ],
+    // );
   }
 
   @override
@@ -90,6 +98,7 @@ class PartyRoomHomeUI extends BaseUI<PartyRoomHomeUIModel> {
         DateTime.fromMillisecondsSinceEpoch(item.createTime.toInt());
     return Tilt(
       borderRadius: BorderRadius.circular(13),
+      clipBehavior: Clip.hardEdge,
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(13),

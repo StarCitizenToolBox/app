@@ -45,12 +45,6 @@ class PartyRoomHomeUIModel extends BaseUIModel {
 
   final pageCtrl = PageController();
 
-  @override
-  void initModel() {
-    super.initModel();
-    _loadTypes();
-    _touchUser();
-  }
 
   @override
   BaseUIModel? onCreateChildUIModel(modelKey) {
@@ -63,66 +57,66 @@ class PartyRoomHomeUIModel extends BaseUIModel {
 
   @override
   Future loadData() async {
-    if (pingServerMessage != "") {
-      pingServerMessage = null;
-      notifyListeners();
-      await _pingServer();
-    }
-    await _loadPage();
+    // if (pingServerMessage != "") {
+    //   pingServerMessage = null;
+    //   notifyListeners();
+    //   await _pingServer();
+    // }
+    // await _loadPage();
   }
 
-  @override
-  reloadData() async {
-    pageNum = 0;
-    rooms = null;
-    notifyListeners();
-    _touchUser();
-    return super.reloadData();
-  }
+  // @override
+  // reloadData() async {
+  //   pageNum = 0;
+  //   rooms = null;
+  //   notifyListeners();
+  //   _touchUser();
+  //   return super.reloadData();
+  // }
 
-  _loadPage() async {
-    final r = await handleError(() => PartyRoomGrpcServer.getRoomList(
-        RoomListPageReqData(
-            pageNum: Int64.tryParseInt("$pageNum"),
-            typeID: selectedRoomType?.id ?? "",
-            subTypeID: selectedRoomSubType?.id ?? "",
-            status: selectedStatus)));
-    if (r == null) return;
-    if (r.pageData.hasNext) {
-      pageNum++;
-    } else {
-      pageNum = -1;
-    }
-    rooms = r.rooms;
-    notifyListeners();
-  }
-
-  _pingServer() async {
-    try {
-      final r = await PartyRoomGrpcServer.pingServer();
-      dPrint(
-          "[PartyRoomHomeUIModel] Connected! serverVersion ==> ${r.serverVersion}");
-      pingServerMessage = "";
-      notifyListeners();
-    } catch (e) {
-      pingServerMessage = "服务器连接失败，请稍后重试。\n$e";
-      notifyListeners();
-      return;
-    }
-  }
-
-  Future<void> _loadTypes() async {
-    final r = await handleError(() => PartyRoomGrpcServer.getRoomTypes());
-    if (r == null) return;
-    selectedRoomType =
-        RoomType(id: "", name: "全部", desc: "查看所有类型的房间，寻找一起玩的伙伴。");
-    selectedRoomSubType = RoomSubtype(id: "", name: "全部");
-    roomTypes = {"": selectedRoomType!};
-    for (var element in r.roomTypes) {
-      roomTypes![element.id] = element;
-    }
-    notifyListeners();
-  }
+  // _loadPage() async {
+  //   final r = await handleError(() => PartyRoomGrpcServer.getRoomList(
+  //       RoomListPageReqData(
+  //           pageNum: Int64.tryParseInt("$pageNum"),
+  //           typeID: selectedRoomType?.id ?? "",
+  //           subTypeID: selectedRoomSubType?.id ?? "",
+  //           status: selectedStatus)));
+  //   if (r == null) return;
+  //   if (r.pageData.hasNext) {
+  //     pageNum++;
+  //   } else {
+  //     pageNum = -1;
+  //   }
+  //   rooms = r.rooms;
+  //   notifyListeners();
+  // }
+  //
+  // _pingServer() async {
+  //   try {
+  //     final r = await PartyRoomGrpcServer.pingServer();
+  //     dPrint(
+  //         "[PartyRoomHomeUIModel] Connected! serverVersion ==> ${r.serverVersion}");
+  //     pingServerMessage = "";
+  //     notifyListeners();
+  //   } catch (e) {
+  //     pingServerMessage = "服务器连接失败，请稍后重试。\n$e";
+  //     notifyListeners();
+  //     return;
+  //   }
+  // }
+  //
+  // Future<void> _loadTypes() async {
+  //   final r = await handleError(() => PartyRoomGrpcServer.getRoomTypes());
+  //   if (r == null) return;
+  //   selectedRoomType =
+  //       RoomType(id: "", name: "全部", desc: "查看所有类型的房间，寻找一起玩的伙伴。");
+  //   selectedRoomSubType = RoomSubtype(id: "", name: "全部");
+  //   roomTypes = {"": selectedRoomType!};
+  //   for (var element in r.roomTypes) {
+  //     roomTypes![element.id] = element;
+  //   }
+  //   notifyListeners();
+  // }
 
   Map<String, RoomSubtype>? getCurRoomSubTypes() {
     if (selectedRoomType?.subTypes == null) return null;
@@ -184,19 +178,19 @@ class PartyRoomHomeUIModel extends BaseUIModel {
     reloadData();
   }
 
-  Future<void> _touchUser() async {
-    if (getCreatedChildUIModel<PartyRoomChatUIModel>("chat")?.selectRoom ==
-        null) {
-      final userName = await globalUIModel.getRunningGameUser();
-      if (userName == null) return;
-      // 检测用户已加入的房间
-      final room = await handleError(() =>
-          PartyRoomGrpcServer.touchUserRoom(userName, AppConf.deviceUUID));
-      dPrint("touch room == ${room?.toProto3Json()}");
-      if (room == null || room.id == "") return;
-      onTapRoom(room);
-    }
-  }
+  // Future<void> _touchUser() async {
+  //   if (getCreatedChildUIModel<PartyRoomChatUIModel>("chat")?.selectRoom ==
+  //       null) {
+  //     final userName = await globalUIModel.getRunningGameUser();
+  //     if (userName == null) return;
+  //     // 检测用户已加入的房间
+  //     final room = await handleError(() =>
+  //         PartyRoomGrpcServer.touchUserRoom(userName, AppConf.deviceUUID));
+  //     dPrint("touch room == ${room?.toProto3Json()}");
+  //     if (room == null || room.id == "") return;
+  //     onTapRoom(room);
+  //   }
+  // }
 
   onTapRoom(RoomData item) {
     getCreatedChildUIModel<PartyRoomChatUIModel>("chat", create: true)
