@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
@@ -37,7 +37,7 @@ class Api {
   static Future<Map<String, dynamic>> getAppReleaseDataByVersionName(
       String version) async {
     final r = await dio
-        .get("${AppConf.gitlabApiPath}/repos/SCToolBox/Release/releases/tags/$version");
+        .get("${URLConf.gitlabApiPath}/repos/SCToolBox/Release/releases/tags/$version");
     return r.data;
   }
 
@@ -66,7 +66,7 @@ class Api {
   }
 
   static Future getRepoData(String dir, String name) async {
-    final r = await dio.get("${AppConf.apiRepoPath}/$dir/$name");
+    final r = await dio.get("${URLConf.apiRepoPath}/$dir/$name");
     return r.data;
   }
 }

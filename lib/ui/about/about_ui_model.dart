@@ -1,5 +1,5 @@
 import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

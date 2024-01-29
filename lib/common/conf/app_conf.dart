@@ -14,36 +14,12 @@ import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:window_manager/window_manager.dart';
 
-import '../base/ui.dart';
+import '../../base/ui.dart';
 
 class AppConf {
   static const String appVersion = "2.11.0 Beta";
   static const int appVersionCode = 36;
   static const String appVersionDate = "2024-01-07";
-
-  static const String giteaAttachmentsUrl =
-      "https://git.sctoolbox.sccsgo.com/SCToolBox/Release";
-  static const String gitlabLocalizationUrl =
-      "https://git.sctoolbox.sccsgo.com/SCToolBox/LocalizationData";
-  static const String apiRepoPath =
-      "https://git.sctoolbox.sccsgo.com/SCToolBox/api/raw/branch/main/";
-
-  static const String gitlabApiPath =
-      "https://git.sctoolbox.sccsgo.com/api/v1/";
-
-  static const String webTranslateHomeUrl =
-      "https://git.sctoolbox.sccsgo.com/SCToolBox/ScWeb_Chinese_Translate/raw/branch/main/json/locales";
-
-  static const String xkeycApiUrl = "https://sctoolbox.xkeyc.com";
-
-  static const _rssHomeUrl = "https://rss.sctoolbox.sccsgo.com";
-
-  static const rssVideoUrl =
-      "$_rssHomeUrl/bilibili/user/channel/27976358/290653";
-
-  static const rssTextUrl1 = "$_rssHomeUrl/bilibili/user/article/40102960";
-  static const rssTextUrl2 =
-      "$_rssHomeUrl/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
 
   static const gameChannels = ["LIVE", "PTU", "EPTU"];
 

@@ -7,7 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/conf/app_conf.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 
@@ -134,7 +135,7 @@ class LocalizationUIModel extends BaseUIModel {
     return () async {
       AnalyticsApi.touch("install_localization");
       final downloadUrl =
-          "${AppConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
+          "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
       final savePath =
           File("${downloadDir.absolute.path}\\${value.versionName}.sclang");
       try {

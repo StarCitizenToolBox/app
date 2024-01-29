@@ -1,6 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'about_ui_model.dart';

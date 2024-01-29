@@ -9,7 +9,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/conf/app_conf.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
 
@@ -181,7 +182,7 @@ class WebViewModel {
 
     /// https://github.com/CxJuice/Uex_Chinese_Translate
     // get versions
-    const hostUrl = AppConf.webTranslateHomeUrl;
+    const hostUrl = URLConf.webTranslateHomeUrl;
     dPrint("AppWebLocalizationVersionsData === ${v.toJson()}");
 
     localizationResource["zh-CN"] = await _getJson("$hostUrl/zh-CN-rsi.json",

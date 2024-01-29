@@ -10,7 +10,8 @@ import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/api/rss.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/conf/app_conf.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
@@ -107,7 +108,7 @@ class HomeUIModel extends BaseUIModel {
       notifyListeners();
       appWebLocalizationVersionsData = AppWebLocalizationVersionsData.fromJson(
           json.decode((await Api.dio.get(
-                  "${AppConf.webTranslateHomeUrl}/versions.json",
+                  "${URLConf.webTranslateHomeUrl}/versions.json",
                   options: Options(responseType: ResponseType.plain)))
               .data));
       countdownFestivalListData = await Api.getFestivalCountdownList();

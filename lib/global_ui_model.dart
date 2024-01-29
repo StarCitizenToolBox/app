@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import 'base/ui_model.dart';
-import 'common/conf.dart';
+import 'common/conf/app_conf.dart';
 import 'ui/settings/upgrade_dialog_ui.dart';
 import 'ui/settings/upgrade_dialog_ui_model.dart';
 

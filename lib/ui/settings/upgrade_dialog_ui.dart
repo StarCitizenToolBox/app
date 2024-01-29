@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' show Material;
 import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/conf/app_conf.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 
 import 'upgrade_dialog_ui_model.dart';
 
@@ -35,7 +36,7 @@ class UpgradeDialogUI extends BaseUI<UpgradeDialogUIModel> {
                       )
                     ] else
                       ...makeMarkdownView(model.description!,
-                          attachmentsUrl: AppConf.giteaAttachmentsUrl),
+                          attachmentsUrl: URLConf.giteaAttachmentsUrl),
                   ],
                 ),
               ),

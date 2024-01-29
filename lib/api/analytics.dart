@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:starcitizen_doctor/common/conf.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 
 class AnalyticsApi {
@@ -11,7 +11,7 @@ class AnalyticsApi {
     if (kDebugMode) return;
     dPrint("AnalyticsApi.touch === $key start");
     try {
-      await _dio.post("${AppConf.xkeycApiUrl}/analytics/$key");
+      await _dio.post("${URLConf.xkeycApiUrl}/analytics/$key");
       dPrint("AnalyticsApi.touch === $key  over");
     } catch (e) {
       dPrint("AnalyticsApi.touch === $key Error:$e");
