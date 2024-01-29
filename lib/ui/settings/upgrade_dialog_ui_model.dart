@@ -6,6 +6,7 @@ import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart';
 
@@ -90,21 +91,21 @@ class UpgradeDialogUIModel extends BaseUIModel {
       return;
     }
 
-    // try {
-    //   final r = await (Process.run(
-    //       SystemHelper.powershellPath, ["start", fileName, "/SILENT"]));
-    //   if (r.stderr.toString().isNotEmpty) {
-    //     throw r.stderr;
-    //   }
-    //   exit(0);
-    // } catch (_) {
-    //   isUpgrading = false;
-    //   progress = null;
-    //   showToast(context!, "运行失败，请尝试手动安装！");
-    //   Process.run(SystemHelper.powershellPath,
-    //       ["explorer.exe", "/select,\"$fileName\""]);
-    //   notifyListeners();
-    // }
+    try {
+      final r = await (Process.run(
+          SystemHelper.powershellPath, ["start", fileName, "/SILENT"]));
+      if (r.stderr.toString().isNotEmpty) {
+        throw r.stderr;
+      }
+      exit(0);
+    } catch (_) {
+      isUpgrading = false;
+      progress = null;
+      showToast(context!, "运行失败，请尝试手动安装！");
+      Process.run(SystemHelper.powershellPath,
+          ["explorer.exe", "/select,\"$fileName\""]);
+      notifyListeners();
+    }
   }
 
   void doCancel() {
