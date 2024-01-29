@@ -57,7 +57,7 @@ class SettingUI extends BaseUI<SettingUIModel> {
               onTap: () =>
                   model.onChangeToolSiteMirror(!model.isEnableToolSiteMirrors),
               subTitle:
-                  "使用镜像服务器加速访问 DPS UEX 等工具网站，若访问异常请关闭该功能。 为保护账户安全，任何情况下都不会加速RSI官网。",
+                  "使用镜像服务器加速访问 Dps Uex 等工具网站，若访问异常请关闭该功能。 为保护账户安全，任何情况下都不会加速RSI官网。",
               onSwitch: model.onChangeToolSiteMirror,
               switchStatus: model.isEnableToolSiteMirrors),
         ],
