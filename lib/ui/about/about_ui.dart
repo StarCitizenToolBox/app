@@ -1,3 +1,4 @@
+import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
@@ -117,6 +118,8 @@ class AboutUI extends BaseUI<AboutUIModel> {
               ),
             ],
           ),
+          const SizedBox(height: 24),
+          makeRescueBanner(context),
           const Spacer(),
           Row(
             children: [
@@ -147,6 +150,36 @@ class AboutUI extends BaseUI<AboutUIModel> {
           ),
           const SizedBox(height: 12),
         ],
+      ),
+    );
+  }
+
+  Widget makeRescueBanner(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        await showToast(context,
+            "您即将前往由 深空治疗中心（群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。");
+        launchUrlString(
+            "https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=-M4wEme_bCXbUGT4LFKLH0bAYTFt70Ad&authKey=vHVr0TNgRmKu%2BHwywoJV6EiLa7La2VX74Vkyixr05KA0H9TqB6qWlCdY%2B9jLQ4Ha&noverify=0&group_code=536454632");
+      },
+      child: Tilt(
+        shadowConfig: const ShadowConfig(maxIntensity: .2),
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+            decoration: BoxDecoration(
+              color: FluentTheme.of(context).cardColor,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset("assets/rescue.png", width: 24, height: 24),
+                  const SizedBox(width: 12),
+                  const Text("安装失败？游戏闪退？？ 点我加群获取免费人工支援！"),
+                ],
+              ),
+            )),
       ),
     );
   }
