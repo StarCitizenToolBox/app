@@ -243,15 +243,16 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
             ),
           ],
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                "${item.key}    最小值: ${item.min} / 最大值: ${item.max}",
-                style: TextStyle(color: Colors.white.withOpacity(.6)),
-              )
-            ],
-          ),
+          if (item.type != "customize")
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "${item.key}    最小值: ${item.min} / 最大值: ${item.max}",
+                  style: TextStyle(color: Colors.white.withOpacity(.6)),
+                )
+              ],
+            ),
           const SizedBox(height: 6),
           Container(
               color: FluentTheme.of(context).cardColor.withOpacity(.1),
