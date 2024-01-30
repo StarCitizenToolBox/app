@@ -158,7 +158,7 @@ class AboutUI extends BaseUI<AboutUIModel> {
     return GestureDetector(
       onTap: () async {
         await showToast(context,
-            "您即将前往由 深空治疗中心（群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。");
+            "您即将前往由 深空治疗中心（QQ群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。");
         launchUrlString(
             "https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=-M4wEme_bCXbUGT4LFKLH0bAYTFt70Ad&authKey=vHVr0TNgRmKu%2BHwywoJV6EiLa7La2VX74Vkyixr05KA0H9TqB6qWlCdY%2B9jLQ4Ha&noverify=0&group_code=536454632");
       },
