@@ -89,6 +89,13 @@ class WebViewModel {
 
             const hangar = "https://robertsspaceindustries.com/account/pledges";
 
+            const spectrum =
+                "https://robertsspaceindustries.com/spectrum/community/";
+            // 跳过光谱论坛 https://github.com/StarCitizenToolBox/StarCitizenBoxBrowserEx/issues/1
+            if (url.startsWith(spectrum)) {
+              return;
+            }
+
             if (url.startsWith(org) ||
                 url.startsWith(citizens) ||
                 url.startsWith(organization)) {
