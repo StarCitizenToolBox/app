@@ -99,8 +99,6 @@ class AppConf {
         );
       }
     });
-    await checkUpdate();
-    AnalyticsApi.touch("launch");
   }
 
   static String getUpgradePath() {

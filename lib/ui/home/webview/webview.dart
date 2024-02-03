@@ -207,7 +207,7 @@ class WebViewModel {
 
     /// https://github.com/CxJuice/Uex_Chinese_Translate
     // get versions
-    const hostUrl = URLConf.webTranslateHomeUrl;
+    final hostUrl = URLConf.webTranslateHomeUrl;
     dPrint("AppWebLocalizationVersionsData === ${v.toJson()}");
 
     localizationResource["zh-CN"] = await _getJson("$hostUrl/zh-CN-rsi.json",

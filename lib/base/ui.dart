@@ -23,7 +23,7 @@ class BaseUIContainer extends ConsumerStatefulWidget {
   ConsumerState<BaseUIContainer> createState() => uiCreate();
 
   Future push(BuildContext context) {
-    return Navigator.push(context, makeRoute(context, this));
+    return Navigator.push(context, makeRoute(context));
   }
 
 // Future pushShowModalBottomSheet(BuildContext context) {
@@ -37,11 +37,10 @@ class BaseUIContainer extends ConsumerStatefulWidget {
 // }
 
   /// 获取路由
-  FluentPageRoute makeRoute(
-      BuildContext context, BaseUIContainer baseUIContainer) {
+  FluentPageRoute makeRoute(BuildContext context) {
     return MyPageRoute(
       builder: (BuildContext context) {
-        return baseUIContainer;
+        return this;
       },
     );
   }

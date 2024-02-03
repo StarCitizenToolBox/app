@@ -11,7 +11,7 @@ class AnalyticsApi {
     if (kDebugMode) return;
     dPrint("AnalyticsApi.touch === $key start");
     try {
-      await _dio.post("${URLConf.xkeycApiUrl}/analytics/$key");
+      await _dio.post("${URLConf.xkeycApiHome}/analytics/$key");
       dPrint("AnalyticsApi.touch === $key  over");
     } catch (e) {
       dPrint("AnalyticsApi.touch === $key Error:$e");
