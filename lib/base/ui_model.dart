@@ -112,8 +112,9 @@ class BaseUIModel extends ChangeNotifier {
     return _childUIProviders![modelKey]!;
   }
 
-  T? getCreatedChildUIModel<T extends BaseUIModel>(String modelKey,{bool create = false}) {
-    if (create && _childUIModels?[modelKey]  == null) {
+  T? getCreatedChildUIModel<T extends BaseUIModel>(String modelKey,
+      {bool create = false}) {
+    if (create && _childUIModels?[modelKey] == null) {
       _getChildUIModel(modelKey);
     }
     return _childUIModels?[modelKey] as T?;

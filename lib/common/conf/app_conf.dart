@@ -8,13 +8,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
-import 'package:starcitizen_doctor/common/rust/ffi.dart';
+import 'package:starcitizen_doctor/common/rust/frb_generated.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
+import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:uuid/uuid.dart';
 import 'package:window_manager/window_manager.dart';
-
-import '../../base/ui.dart';
 
 class AppConf {
   static const String appVersion = "2.10.3 Beta";
@@ -67,10 +66,7 @@ class AppConf {
     }
 
     /// check Rust bridge
-    if (await rustFii.ping() != "PONG") {
-      dPrint("Rust bridge Error");
-      exit(1);
-    }
+    await RustLib.init();
     dPrint("---- rust bridge inited -----");
     await SystemHelper.initPowershellPath();
 

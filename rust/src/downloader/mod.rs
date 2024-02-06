@@ -5,11 +5,11 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Duration;
 use async_std::sync::Mutex;
+use flutter_rust_bridge::for_generated::lazy_static;
 use http_downloader::{breakpoint_resume::DownloadBreakpointResumeExtension, ExtendedHttpFileDownloader, HttpDownloaderBuilder, speed_tracker::DownloadSpeedTrackerExtension, status_tracker::DownloadStatusTrackerExtension};
 use http_downloader::bson_file_archiver::{ArchiveFilePath, BsonFileArchiverBuilder};
 use url::Url;
-use flutter_rust_bridge::StreamSink;
-use flutter_rust_bridge::support::lazy_static;
+use crate::frb_generated::StreamSink;
 use http_downloader::status_tracker::{DownloaderStatus, NetworkItemPendingType};
 use uuid::Uuid;
 
@@ -107,7 +107,7 @@ pub async fn do_start_download(url: String, save_path: String, file_name: String
             let total_len = total_size_future.await;
             if let Some(total_len) = total_len {
                 // info!("Total size: {:.2} Mb",total_len.get() as f64 / 1024_f64/ 1024_f64);
-                sink_clone.add(DownloadCallbackData::new(id.to_string(), total_len.get()));
+                sink_clone.add(DownloadCallbackData::new(id.to_string(), total_len.get())).unwrap();
             }
 
             while downloaded_len_receiver.changed().await.is_ok() {
@@ -122,7 +122,7 @@ pub async fn do_start_download(url: String, save_path: String, file_name: String
                         progress: p,
                         speed: _byte_per_second,
                         status: get_my_status(_status),
-                    });
+                    }).unwrap();
                 }
                 tokio::time::sleep(Duration::from_millis(100)).await;
             }
@@ -137,8 +137,7 @@ pub async fn do_start_download(url: String, save_path: String, file_name: String
         progress: 0,
         speed: 0,
         status: get_my_status(_status),
-    });
-    sink.close();
+    }).unwrap();
     remove_downloader(&id.to_string()).await;
     println!("rust downloader download complete");
     Ok(())

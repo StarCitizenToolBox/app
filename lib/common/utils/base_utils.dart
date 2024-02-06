@@ -106,10 +106,11 @@ Future showBaseDialog(BuildContext context,
     builder: (context) => ContentDialog(
       title: Text(title),
       content: content,
-      constraints: constraints ?? const BoxConstraints(
-        maxWidth: 512,
-        maxHeight: 756.0,
-      ),
+      constraints: constraints ??
+          const BoxConstraints(
+            maxWidth: 512,
+            maxHeight: 756.0,
+          ),
       actions: actions,
     ),
   );

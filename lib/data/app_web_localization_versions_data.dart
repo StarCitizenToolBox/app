@@ -8,13 +8,14 @@
 
 class AppWebLocalizationVersionsData {
   AppWebLocalizationVersionsData({
-      this.rsi, 
-      this.uex, 
-      this.addresses, 
-      this.concierge, 
-      this.hangar, 
-      this.orgs, 
-      this.dps,});
+    this.rsi,
+    this.uex,
+    this.addresses,
+    this.concierge,
+    this.hangar,
+    this.orgs,
+    this.dps,
+  });
 
   AppWebLocalizationVersionsData.fromJson(dynamic json) {
     rsi = json['rsi'];
@@ -44,5 +45,4 @@ class AppWebLocalizationVersionsData {
     map['dps'] = dps;
     return map;
   }
-
 }

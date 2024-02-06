@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/rust/ffi.dart';
+import 'package:starcitizen_doctor/common/rust/api/downloader_api.dart'
+    as rust_downloader;
+import 'package:starcitizen_doctor/common/rust/downloader.dart';
 
 class DownloaderDialogUIModel extends BaseUIModel {
   final String fileName;
@@ -66,7 +68,7 @@ class DownloaderDialogUIModel extends BaseUIModel {
 
     final downloaderSavePath = "$savePath//$fileName.downloading";
     try {
-      rustFii
+      rust_downloader
           .startDownload(
               url: downloadUrl,
               savePath: savePath,
@@ -112,10 +114,10 @@ class DownloaderDialogUIModel extends BaseUIModel {
     }
   }
 
-  doCancel() {
+  doCancel() async {
     try {
       if (downloadTaskId != null) {
-        rustFii.cancelDownload(id: downloadTaskId!);
+        await rust_downloader.cancelDownload(id: downloadTaskId!);
         downloadTaskId = null;
       } else {
         Navigator.pop(context!, "cancel");

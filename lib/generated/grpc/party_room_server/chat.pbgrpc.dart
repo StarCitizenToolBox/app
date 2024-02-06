@@ -26,22 +26,26 @@ class ChatServiceClient extends $grpc.Client {
       '/ChatService/ListenMessage',
       ($0.PreUser value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.ChatMessage.fromBuffer(value));
-  static final _$sendMessage = $grpc.ClientMethod<$1.ChatMessage, $0.BaseRespData>(
-      '/ChatService/SendMessage',
-      ($1.ChatMessage value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.BaseRespData.fromBuffer(value));
+  static final _$sendMessage =
+      $grpc.ClientMethod<$1.ChatMessage, $0.BaseRespData>(
+          '/ChatService/SendMessage',
+          ($1.ChatMessage value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $0.BaseRespData.fromBuffer(value));
 
   ChatServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+      : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseStream<$1.ChatMessage> listenMessage($0.PreUser request, {$grpc.CallOptions? options}) {
-    return $createStreamingCall(_$listenMessage, $async.Stream.fromIterable([request]), options: options);
+  $grpc.ResponseStream<$1.ChatMessage> listenMessage($0.PreUser request,
+      {$grpc.CallOptions? options}) {
+    return $createStreamingCall(
+        _$listenMessage, $async.Stream.fromIterable([request]),
+        options: options);
   }
 
-  $grpc.ResponseFuture<$0.BaseRespData> sendMessage($1.ChatMessage request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.BaseRespData> sendMessage($1.ChatMessage request,
+      {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$sendMessage, request, options: options);
   }
 }
@@ -67,14 +71,18 @@ abstract class ChatServiceBase extends $grpc.Service {
         ($0.BaseRespData value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$1.ChatMessage> listenMessage_Pre($grpc.ServiceCall call, $async.Future<$0.PreUser> request) async* {
+  $async.Stream<$1.ChatMessage> listenMessage_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.PreUser> request) async* {
     yield* listenMessage(call, await request);
   }
 
-  $async.Future<$0.BaseRespData> sendMessage_Pre($grpc.ServiceCall call, $async.Future<$1.ChatMessage> request) async {
+  $async.Future<$0.BaseRespData> sendMessage_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.ChatMessage> request) async {
     return sendMessage(call, await request);
   }
 
-  $async.Stream<$1.ChatMessage> listenMessage($grpc.ServiceCall call, $0.PreUser request);
-  $async.Future<$0.BaseRespData> sendMessage($grpc.ServiceCall call, $1.ChatMessage request);
+  $async.Stream<$1.ChatMessage> listenMessage(
+      $grpc.ServiceCall call, $0.PreUser request);
+  $async.Future<$0.BaseRespData> sendMessage(
+      $grpc.ServiceCall call, $1.ChatMessage request);
 }

@@ -9,14 +9,15 @@
 
 class GamePerformanceData {
   GamePerformanceData({
-      this.key, 
-      this.name, 
-      this.info, 
-      this.type, 
-      this.max, 
-      this.min, 
-      this.value, 
-      this.group,});
+    this.key,
+    this.name,
+    this.info,
+    this.type,
+    this.max,
+    this.min,
+    this.value,
+    this.group,
+  });
 
   GamePerformanceData.fromJson(dynamic json) {
     key = json['key'];
@@ -49,5 +50,4 @@ class GamePerformanceData {
     map['group'] = group;
     return map;
   }
-
 }

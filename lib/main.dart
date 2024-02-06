@@ -1,12 +1,12 @@
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/conf/app_conf.dart';
-import 'package:starcitizen_doctor/ui/splash_ui_model.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'base/ui_model.dart';
+import 'common/conf/app_conf.dart';
 import 'global_ui_model.dart';
 import 'ui/splash_ui.dart';
+import 'ui/splash_ui_model.dart';
 
 void main(List<String> args) async {
   if (runWebViewTitleBarWidget(args,

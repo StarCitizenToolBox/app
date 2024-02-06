@@ -1,16 +1,15 @@
 [package]
-name = "rust"
+name = "rust_lib"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-crate-type = ["staticlib", "cdylib"]
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
-flutter_rust_bridge = "1"
+flutter_rust_bridge = "=2.0.0-dev.23"
 http-downloader = { version = "0.3.2", features = ["status-tracker", "speed-tracker", "breakpoint-resume", "bson-file-archiver"] }
 tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
-url = "2.4.1"
-uuid = { version = "1.5.0", features = ["v4", "fast-rng", "macro-diagnostics"] }
+url = "2.5.0"
+uuid = { version = "1.7.0", features = ["v4", "fast-rng", "macro-diagnostics"] }
 async-std = "1.12.0"

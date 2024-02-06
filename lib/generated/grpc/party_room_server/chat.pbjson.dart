@@ -48,8 +48,22 @@ const ChatMessage$json = {
   '2': [
     {'1': 'senderID', '3': 1, '4': 1, '5': 9, '10': 'senderID'},
     {'1': 'receiverID', '3': 2, '4': 1, '5': 9, '10': 'receiverID'},
-    {'1': 'receiverType', '3': 3, '4': 1, '5': 14, '6': '.ReceiverType', '10': 'receiverType'},
-    {'1': 'messageType', '3': 4, '4': 1, '5': 14, '6': '.MessageType', '10': 'messageType'},
+    {
+      '1': 'receiverType',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.ReceiverType',
+      '10': 'receiverType'
+    },
+    {
+      '1': 'messageType',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.MessageType',
+      '10': 'messageType'
+    },
     {'1': 'data', '3': 5, '4': 1, '5': 9, '10': 'data'},
   ],
 };
@@ -60,4 +74,3 @@ final $typed_data.Uint8List chatMessageDescriptor = $convert.base64Decode(
     'gCIAEoCVIKcmVjZWl2ZXJJRBIxCgxyZWNlaXZlclR5cGUYAyABKA4yDS5SZWNlaXZlclR5cGVS'
     'DHJlY2VpdmVyVHlwZRIuCgttZXNzYWdlVHlwZRgEIAEoDjIMLk1lc3NhZ2VUeXBlUgttZXNzYW'
     'dlVHlwZRISCgRkYXRhGAUgASgJUgRkYXRh');
-

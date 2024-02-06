@@ -41,7 +41,6 @@ class PartyRoomHomeUIModel extends BaseUIModel {
 
   final pageCtrl = PageController();
 
-
   @override
   BaseUIModel? onCreateChildUIModel(modelKey) {
     switch (modelKey) {

@@ -8,13 +8,14 @@
 
 class AppPlacardData {
   AppPlacardData({
-      this.version, 
-      this.title, 
-      this.content, 
-      this.link, 
-      this.linkType, 
-      this.alwaysShow, 
-      this.enable,});
+    this.version,
+    this.title,
+    this.content,
+    this.link,
+    this.linkType,
+    this.alwaysShow,
+    this.enable,
+  });
 
   AppPlacardData.fromJson(dynamic json) {
     version = json['version'];
@@ -44,5 +45,4 @@ class AppPlacardData {
     map['enable'] = enable;
     return map;
   }
-
 }

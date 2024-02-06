@@ -86,8 +86,8 @@ const Empty$json = {
 };
 
 /// Descriptor for `Empty`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List emptyDescriptor = $convert.base64Decode(
-    'CgVFbXB0eQ==');
+final $typed_data.Uint8List emptyDescriptor =
+    $convert.base64Decode('CgVFbXB0eQ==');
 
 @$core.Deprecated('Use baseRespDataDescriptor instead')
 const BaseRespData$json = {
@@ -140,7 +140,14 @@ final $typed_data.Uint8List pingDataDescriptor = $convert.base64Decode(
 const RoomTypesData$json = {
   '1': 'RoomTypesData',
   '2': [
-    {'1': 'roomTypes', '3': 1, '4': 3, '5': 11, '6': '.RoomType', '10': 'roomTypes'},
+    {
+      '1': 'roomTypes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.RoomType',
+      '10': 'roomTypes'
+    },
   ],
 };
 
@@ -157,7 +164,14 @@ const RoomType$json = {
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     {'1': 'icon', '3': 3, '4': 1, '5': 9, '10': 'icon'},
     {'1': 'desc', '3': 4, '4': 1, '5': 9, '10': 'desc'},
-    {'1': 'subTypes', '3': 5, '4': 3, '5': 11, '6': '.RoomSubtype', '10': 'subTypes'},
+    {
+      '1': 'subTypes',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.RoomSubtype',
+      '10': 'subTypes'
+    },
   ],
 };
 
@@ -191,7 +205,14 @@ const RoomData$json = {
     {'1': 'maxPlayer', '3': 5, '4': 1, '5': 5, '10': 'maxPlayer'},
     {'1': 'createTime', '3': 6, '4': 1, '5': 3, '10': 'createTime'},
     {'1': 'curPlayer', '3': 7, '4': 1, '5': 5, '10': 'curPlayer'},
-    {'1': 'status', '3': 8, '4': 1, '5': 14, '6': '.RoomStatus', '10': 'status'},
+    {
+      '1': 'status',
+      '3': 8,
+      '4': 1,
+      '5': 14,
+      '6': '.RoomStatus',
+      '10': 'status'
+    },
     {'1': 'deviceUUID', '3': 9, '4': 1, '5': 9, '10': 'deviceUUID'},
     {'1': 'announcement', '3': 10, '4': 1, '5': 9, '10': 'announcement'},
     {'1': 'avatar', '3': 11, '4': 1, '5': 9, '10': 'avatar'},
@@ -215,7 +236,14 @@ const RoomListPageReqData$json = {
   '2': [
     {'1': 'typeID', '3': 1, '4': 1, '5': 9, '10': 'typeID'},
     {'1': 'subTypeID', '3': 2, '4': 1, '5': 9, '10': 'subTypeID'},
-    {'1': 'status', '3': 3, '4': 1, '5': 14, '6': '.RoomStatus', '10': 'status'},
+    {
+      '1': 'status',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.RoomStatus',
+      '10': 'status'
+    },
     {'1': 'sort', '3': 4, '4': 1, '5': 14, '6': '.RoomSortType', '10': 'sort'},
     {'1': 'pageNum', '3': 5, '4': 1, '5': 4, '10': 'pageNum'},
   ],
@@ -232,7 +260,14 @@ final $typed_data.Uint8List roomListPageReqDataDescriptor = $convert.base64Decod
 const RoomListData$json = {
   '1': 'RoomListData',
   '2': [
-    {'1': 'pageData', '3': 1, '4': 1, '5': 11, '6': '.BasePageRespData', '10': 'pageData'},
+    {
+      '1': 'pageData',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.BasePageRespData',
+      '10': 'pageData'
+    },
     {'1': 'rooms', '3': 2, '4': 3, '5': 11, '6': '.RoomData', '10': 'rooms'},
   ],
 };
@@ -264,7 +299,14 @@ const RoomUserData$json = {
     {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     {'1': 'playerName', '3': 2, '4': 1, '5': 9, '10': 'playerName'},
     {'1': 'Avatar', '3': 3, '4': 1, '5': 9, '10': 'Avatar'},
-    {'1': 'status', '3': 4, '4': 1, '5': 14, '6': '.RoomUserStatus', '10': 'status'},
+    {
+      '1': 'status',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.RoomUserStatus',
+      '10': 'status'
+    },
   ],
 };
 
@@ -278,9 +320,30 @@ final $typed_data.Uint8List roomUserDataDescriptor = $convert.base64Decode(
 const RoomUpdateMessage$json = {
   '1': 'RoomUpdateMessage',
   '2': [
-    {'1': 'roomData', '3': 1, '4': 1, '5': 11, '6': '.RoomData', '10': 'roomData'},
-    {'1': 'usersData', '3': 2, '4': 3, '5': 11, '6': '.RoomUserData', '10': 'usersData'},
-    {'1': 'roomUpdateType', '3': 3, '4': 1, '5': 14, '6': '.RoomUpdateType', '10': 'roomUpdateType'},
+    {
+      '1': 'roomData',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.RoomData',
+      '10': 'roomData'
+    },
+    {
+      '1': 'usersData',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.RoomUserData',
+      '10': 'usersData'
+    },
+    {
+      '1': 'roomUpdateType',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.RoomUpdateType',
+      '10': 'roomUpdateType'
+    },
   ],
 };
 
@@ -289,4 +352,3 @@ final $typed_data.Uint8List roomUpdateMessageDescriptor = $convert.base64Decode(
     'ChFSb29tVXBkYXRlTWVzc2FnZRIlCghyb29tRGF0YRgBIAEoCzIJLlJvb21EYXRhUghyb29tRG'
     'F0YRIrCgl1c2Vyc0RhdGEYAiADKAsyDS5Sb29tVXNlckRhdGFSCXVzZXJzRGF0YRI3Cg5yb29t'
     'VXBkYXRlVHlwZRgDIAEoDjIPLlJvb21VcGRhdGVUeXBlUg5yb29tVXBkYXRlVHlwZQ==');
-

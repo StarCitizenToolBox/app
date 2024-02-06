@@ -45,3 +45,4 @@ app.*.map.json
 /pubspec.lock
 /rust/target/
 /rust/Cargo.lock
+/rust_builder/

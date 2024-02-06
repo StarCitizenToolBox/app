@@ -7,12 +7,13 @@
 
 class ScLocalizationData {
   ScLocalizationData({
-      this.enable, 
-      this.versionName, 
-      this.updateAt, 
-      this.info, 
-      this.gameChannel, 
-      this.note,});
+    this.enable,
+    this.versionName,
+    this.updateAt,
+    this.info,
+    this.gameChannel,
+    this.note,
+  });
 
   ScLocalizationData.fromJson(dynamic json) {
     enable = json['enable'];
@@ -39,5 +40,4 @@ class ScLocalizationData {
     map['note'] = note;
     return map;
   }
-
 }

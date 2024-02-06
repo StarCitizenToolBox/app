@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'bridge_definitions.dart';
+part of 'downloader.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -122,7 +122,7 @@ class _$MyDownloaderStatus_NoStartImpl implements MyDownloaderStatus_NoStart {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MyDownloaderStatus_NoStartImpl);
@@ -246,7 +246,7 @@ class _$MyDownloaderStatus_RunningImpl implements MyDownloaderStatus_Running {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MyDownloaderStatus_RunningImpl);
@@ -388,7 +388,7 @@ class _$MyDownloaderStatus_PendingImpl implements MyDownloaderStatus_Pending {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MyDownloaderStatus_PendingImpl &&
@@ -544,7 +544,7 @@ class _$MyDownloaderStatus_ErrorImpl implements MyDownloaderStatus_Error {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MyDownloaderStatus_ErrorImpl &&
@@ -682,7 +682,7 @@ class _$MyDownloaderStatus_FinishedImpl implements MyDownloaderStatus_Finished {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MyDownloaderStatus_FinishedImpl);

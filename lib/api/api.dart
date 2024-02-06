@@ -36,8 +36,8 @@ class Api {
 
   static Future<Map<String, dynamic>> getAppReleaseDataByVersionName(
       String version) async {
-    final r = await dio
-        .get("${URLConf.gitlabApiPath}/repos/SCToolBox/Release/releases/tags/$version");
+    final r = await dio.get(
+        "${URLConf.gitlabApiPath}/repos/SCToolBox/Release/releases/tags/$version");
     return r.data;
   }
 

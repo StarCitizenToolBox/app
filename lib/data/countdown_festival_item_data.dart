@@ -1,8 +1,9 @@
 class CountdownFestivalItemData {
   CountdownFestivalItemData({
-      this.name, 
-      this.time, 
-      this.icon,});
+    this.name,
+    this.time,
+    this.icon,
+  });
 
   CountdownFestivalItemData.fromJson(dynamic json) {
     name = json['name'];
@@ -20,5 +21,4 @@ class CountdownFestivalItemData {
     map['icon'] = icon;
     return map;
   }
-
 }
