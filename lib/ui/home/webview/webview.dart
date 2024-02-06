@@ -5,7 +5,6 @@ import 'dart:convert';
 
 import 'package:cryptography/cryptography.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
@@ -13,8 +12,8 @@ import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
+import 'package:starcitizen_doctor/common/rust/api/http_api.dart' as rust_http;
 
-import '../../../api/api.dart';
 import '../../../base/ui.dart';
 
 typedef RsiLoginCallback = void Function(Map? data, bool success);
@@ -257,10 +256,9 @@ class WebViewModel {
       }
     }
     final startTime = DateTime.now();
-    final r = await Api.dio
-        .get(url, options: Options(responseType: ResponseType.plain));
+    final r = await rust_http.getString(url: url);
     final endTime = DateTime.now();
-    final data = json.decode(r.data);
+    final data = json.decode(r);
     if (cacheKey.isNotEmpty) {
       dPrint(
           "update $cacheKey v == $version  time == ${(endTime.microsecondsSinceEpoch - startTime.microsecondsSinceEpoch) / 1000 / 1000}s");

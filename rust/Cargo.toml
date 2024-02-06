@@ -9,7 +9,10 @@ crate-type = ["cdylib", "staticlib"]
 [dependencies]
 flutter_rust_bridge = "=2.0.0-dev.23"
 http-downloader = { version = "0.3.2", features = ["status-tracker", "speed-tracker", "breakpoint-resume", "bson-file-archiver"] }
-tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
+tokio = { version = "1", features = ["full"] }
 url = "2.5.0"
 uuid = { version = "1.7.0", features = ["v4", "fast-rng", "macro-diagnostics"] }
 async-std = "1.12.0"
+once_cell = "1.19.0"
+reqwest = { version = "0.11", features = ["rustls-tls-native-roots", "cookies", "gzip", "brotli", "deflate", "multipart", "trust-dns", "json"] }
+serde_json = { version = "1.0.1", features = [] }

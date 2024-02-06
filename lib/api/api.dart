@@ -1,16 +1,13 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
+import 'package:starcitizen_doctor/common/rust/api/http_api.dart' as rust_http;
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 
 class Api {
-  static final dio =
-      Dio(BaseOptions(connectTimeout: const Duration(seconds: 10)));
-
   static Future<AppVersionData> getAppVersion() async {
     return AppVersionData.fromJson(
         await getRepoJson("sc_doctor", "version.json"));
@@ -36,9 +33,10 @@ class Api {
 
   static Future<Map<String, dynamic>> getAppReleaseDataByVersionName(
       String version) async {
-    final r = await dio.get(
-        "${URLConf.gitlabApiPath}/repos/SCToolBox/Release/releases/tags/$version");
-    return r.data;
+    final r = await rust_http.getString(
+        url:
+            "${URLConf.gitlabApiPath}/repos/SCToolBox/Release/releases/tags/$version");
+    return json.decode(r);
   }
 
   static Future<List<ScLocalizationData>> getScLocalizationData(
@@ -54,9 +52,10 @@ class Api {
   }
 
   static Future<List> getScServerStatus() async {
-    final r =
-        await dio.get("https://status.robertsspaceindustries.com/index.json");
-    return r.data["systems"];
+    final r = await rust_http.getString(
+        url: "https://status.robertsspaceindustries.com/index.json");
+    final map = json.decode(r);
+    return map["systems"];
   }
 
   static Future<Map<String, dynamic>> getRepoJson(
@@ -65,8 +64,9 @@ class Api {
     return json.decode(data);
   }
 
-  static Future getRepoData(String dir, String name) async {
-    final r = await dio.get("${URLConf.apiRepoPath}/$dir/$name");
-    return r.data;
+  static Future<String> getRepoData(String dir, String name) async {
+    final r =
+        await rust_http.getString(url: "${URLConf.apiRepoPath}/$dir/$name");
+    return r;
   }
 }
