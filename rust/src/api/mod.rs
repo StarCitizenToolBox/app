@@ -3,3 +3,4 @@
 //
 
 pub mod downloader_api;
+mod http;
