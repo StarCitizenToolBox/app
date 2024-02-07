@@ -28,6 +28,9 @@ lazy_static! {
             .connect_timeout(Duration::from_secs(10))
             .timeout(Duration::from_secs(10))
             .dns_resolver(DNS_CLIENT.clone())
+            .gzip(true)
+            .brotli(true)
+            .deflate(true)
             .build()
             .unwrap()
     };

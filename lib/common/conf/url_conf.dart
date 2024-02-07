@@ -16,7 +16,7 @@ class URLConf {
   static String get gitlabLocalizationUrl =>
       "$gitApiHome/SCToolBox/LocalizationData";
 
-  static String get apiRepoPath => "$gitApiHome/SCToolBox/api/raw/branch/main/";
+  static String get apiRepoPath => "$gitApiHome/SCToolBox/api/raw/branch/main";
 
   static String get gitlabApiPath => "https://$gitApiHome/api/v1/";
 

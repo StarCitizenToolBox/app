@@ -10,7 +10,7 @@ class RSHttp {
   static init() async {
     await rust_http.setDefaultHeader(headers: {
       "User-Agent":
-          "SCToolBox/${AppConf.appVersion} (${AppConf.appVersionCode}) ${AppConf.isMSE ? "" : " DEV"} RSHttp"
+          "SCToolBox/${AppConf.appVersion} (${AppConf.appVersionCode})${AppConf.isMSE ? "" : " DEV"} RSHttp"
     });
   }
 
