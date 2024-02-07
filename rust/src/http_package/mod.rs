@@ -21,12 +21,13 @@ pub struct RustHttpResponse {
 
 lazy_static! {
     static ref DEFAULT_HEADER: RwLock<HeaderMap> = RwLock::from(HeaderMap::new());
+    static ref DNS_CLIENT : Arc<dns::MyHickoryDnsResolver> = Arc::from(dns::MyHickoryDnsResolver::default());
     static ref HTTP_CLIENT: reqwest::Client = {
         reqwest::Client::builder()
             .use_rustls_tls()
             .connect_timeout(Duration::from_secs(10))
             .timeout(Duration::from_secs(10))
-            .dns_resolver(Arc::from(dns::MyHickoryDnsResolver::default()))
+            .dns_resolver(DNS_CLIENT.clone())
             .build()
             .unwrap()
     };
@@ -81,6 +82,10 @@ pub async fn fetch(
         data,
     };
     Ok(resp)
+}
+
+pub async fn dns_lookup_txt(name: String) -> anyhow::Result<Vec<String>> {
+    DNS_CLIENT.lookup_txt(name).await
 }
 
 fn _reade_resp_header(r_header: &HeaderMap) -> HashMap<String, String> {

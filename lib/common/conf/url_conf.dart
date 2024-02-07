@@ -1,5 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/rust/http_package.dart';
 
 class URLConf {
   /// HOME API
@@ -7,83 +8,92 @@ class URLConf {
   static String rssApiHome = "https://rss.sctoolbox.sccsgo.com";
   static const String xkeycApiHome = "https://sctoolbox.xkeyc.com";
 
-  static bool isUsingFallback = false;
+  static bool isUrlCheckPass = false;
 
   /// URLS
-  static String giteaAttachmentsUrl = "$gitApiHome/SCToolBox/Release";
-  static String gitlabLocalizationUrl =
+  static String get giteaAttachmentsUrl => "$gitApiHome/SCToolBox/Release";
+
+  static String get gitlabLocalizationUrl =>
       "$gitApiHome/SCToolBox/LocalizationData";
-  static String apiRepoPath = "$gitApiHome/SCToolBox/api/raw/branch/main/";
 
-  static String gitlabApiPath = "https://$gitApiHome/api/v1/";
+  static String get apiRepoPath => "$gitApiHome/SCToolBox/api/raw/branch/main/";
 
-  static String webTranslateHomeUrl =
+  static String get gitlabApiPath => "https://$gitApiHome/api/v1/";
+
+  static String get webTranslateHomeUrl =>
       "$gitApiHome/SCToolBox/ScWeb_Chinese_Translate/raw/branch/main/json/locales";
 
-  static String rssVideoUrl =
+  static String get rssVideoUrl =>
       "$rssApiHome/bilibili/user/channel/27976358/290653";
 
-  static String rssTextUrl1 = "$rssApiHome/bilibili/user/article/40102960";
-  static String rssTextUrl2 =
+  static String get rssTextUrl1 => "$rssApiHome/bilibili/user/article/40102960";
+
+  static String get rssTextUrl2 =>
       "$rssApiHome/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
 
   static const feedbackUrl = "https://txc.qq.com/products/614843";
 
-  static const devReleaseUrl =
-      "https://git.sctoolbox.sccsgo.com/SCToolBox/Release/releases";
+  static String get devReleaseUrl => "$gitApiHome/SCToolBox/Release/releases";
 
-  static const _gitApiList = [
-    "https://git.sctoolbox.sccsgo.com",
-    "https://sctb-git.xkeyc.com"
-  ];
-
-  static const _rssApiList = [
-    "https://rss.sctoolbox.sccsgo.com",
-    "https://rss.42kit.com"
-  ];
-
-  static checkHost() async {
-    final dio = Dio(BaseOptions(connectTimeout: const Duration(seconds: 5)));
-    bool hasAvailable = false;
-    // 寻找可用的 git API
-    for (var value in _gitApiList) {
-      try {
-        final resp = await dio.head(value);
-        if (resp.statusCode == 200) {
-          dPrint("[URLConf].checkHost passed $value");
-          gitApiHome = value;
-          hasAvailable = true;
-          break;
-        }
-        isUsingFallback = true;
-        continue;
-      } catch (e) {
-        dPrint("[URLConf].checkHost $value Error= $e");
-        isUsingFallback = true;
-        continue;
-      }
+  static Future<bool> checkHost() async {
+    // 使用 DNS 获取可用列表
+    final gitApiList =
+        _genFinalList(await RSHttp.dnsLookupTxt("git.dns.scbox.org"));
+    dPrint("DNS gitApiList ==== $gitApiList");
+    final fasterGit = await getFasterUrl(gitApiList);
+    dPrint("gitApiList.Faster ==== $fasterGit");
+    if (fasterGit != null) {
+      gitApiHome = fasterGit;
     }
-    // 寻找可用的 RSS API
-    for (var value in _rssApiList) {
-      try {
-        final resp = await dio.head(value);
-        if (resp.statusCode == 200) {
-          rssApiHome = value;
-          hasAvailable = true;
-          dPrint("[URLConf].checkHost passed $value");
-          break;
-        }
-        isUsingFallback = true;
-        continue;
-      } catch (e) {
-        dPrint("[URLConf].checkHost $value Error= $e");
-        isUsingFallback = true;
-        continue;
+    final rssApiList =
+        _genFinalList(await RSHttp.dnsLookupTxt("rss.dns.scbox.org"));
+    final fasterRss = await getFasterUrl(rssApiList);
+    dPrint("DNS rssApiList ==== $rssApiList");
+    dPrint("rssApiList.Faster ==== $fasterRss");
+    if (fasterRss != null) {
+      rssApiHome = fasterRss;
+    }
+    isUrlCheckPass = fasterGit != null && fasterRss != null;
+    return isUrlCheckPass;
+  }
+
+  static Future<String?> getFasterUrl(List<String> urls) async {
+    String firstUrl = "";
+    int callLen = 0;
+
+    void onCall(RustHttpResponse? response, String url) {
+      callLen++;
+      if (response != null && response.statusCode == 200 && firstUrl.isEmpty) {
+        firstUrl = url;
       }
     }
 
-    if (!hasAvailable) {
-      isUsingFallback = false;
+    for (var value in urls) {
+      RSHttp.head(value).then((resp) => onCall(resp, value), onError: (err) {
+        callLen++;
+        dPrint("RSHttp.head error $err");
+      });
     }
+
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 16));
+      if (firstUrl.isNotEmpty) {
+        return firstUrl;
+      }
+      if (callLen == urls.length && firstUrl.isEmpty) {
+        return null;
+      }
+    }
+  }
+
+  static List<String> _genFinalList(List<String> sList) {
+    List<String> list = [];
+    for (var ll in sList) {
+      final ssList = ll.split(",");
+      for (var value in ssList) {
+        list.add(value);
+      }
+    }
+    return list;
   }
 }

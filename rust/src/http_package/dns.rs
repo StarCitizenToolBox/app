@@ -3,8 +3,6 @@ use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioAsyncResolver};
 use hyper::client::connect::dns::Name;
 use once_cell::sync::OnceCell;
 use reqwest::dns::{Addrs, Resolve, Resolving};
-
-use std::io;
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
 use std::sync::Arc;
 
@@ -32,6 +30,17 @@ impl Resolve for MyHickoryDnsResolver {
             });
             Ok(addrs)
         })
+    }
+}
+
+impl MyHickoryDnsResolver {
+    pub(crate) async fn lookup_txt(&self, name: String) -> anyhow::Result<Vec<String>> {
+        let resolver = self.state.get_or_try_init(new_resolver)?;
+        let txt = resolver.txt_lookup(name).await?;
+        let t = txt.iter()
+            .map(|rdata| rdata.to_string())
+            .collect::<Vec<_>>();
+        Ok(t)
     }
 }
 

@@ -133,12 +133,6 @@ class HomeUIModel extends BaseUIModel {
     appUpdateTimer = Timer.periodic(const Duration(minutes: 30), (timer) {
       _checkLocalizationUpdate();
     });
-    Future.delayed(const Duration(milliseconds: 100)).then((value) {
-      if (URLConf.isUsingFallback) {
-        if (!mounted) return;
-        showToast(context!, "因源服务器异常（机房故障或遭受攻击），当前正在使用备用线路，可能会出现访问速度下降，敬请谅解。");
-      }
-    });
     super.initModel();
   }
 

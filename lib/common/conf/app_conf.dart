@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/frb_generated.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
@@ -67,6 +68,7 @@ class AppConf {
 
     /// check Rust bridge
     await RustLib.init();
+    await RSHttp.init();
     dPrint("---- rust bridge inited -----");
     await SystemHelper.initPowershellPath();
 

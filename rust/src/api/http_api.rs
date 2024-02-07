@@ -40,3 +40,7 @@ pub async fn fetch(method: MyMethod,
                    input_data: Option<Vec<u8>>) -> RustHttpResponse {
     http_package::fetch(_my_method_to_hyper_method(method), url, headers, input_data).await.unwrap()
 }
+
+pub async fn dns_lookup_txt(host: String) -> Vec<String> {
+    http_package::dns_lookup_txt(host).await.unwrap()
+}

@@ -24,6 +24,9 @@ Future<RustHttpResponse> fetch(
         inputData: inputData,
         hint: hint);
 
+Future<List<String>> dnsLookupTxt({required String host, dynamic hint}) =>
+    RustLib.instance.api.dnsLookupTxt(host: host, hint: hint);
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::rust_async::RwLock<reqwest :: Version>>
 @sealed
 class ReqwestVersion extends RustOpaque {
