@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::error::Error;
 use std::num::{NonZeroU8, NonZeroUsize};
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -63,8 +62,7 @@ pub async fn do_cancel_download(id: &str) {
     d.unwrap().cancel().await
 }
 
-#[tokio::main]
-pub async fn do_start_download(url: String, save_path: String, file_name: String, connection_count: u8, sink: Arc<StreamSink<DownloadCallbackData>>) -> Result<(), Box<dyn Error>> {
+pub async fn do_start_download(url: String, save_path: String, file_name: String, connection_count: u8, sink: Arc<StreamSink<DownloadCallbackData>>) -> anyhow::Result<()> {
     let save_dir = PathBuf::from(save_path);
     let test_url = Url::parse(&*url)?;
 

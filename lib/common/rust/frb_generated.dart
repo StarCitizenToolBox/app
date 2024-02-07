@@ -300,9 +300,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     switch (raw[0]) {
       case 0:
-        return const MyDownloaderStatus_NoStart();
+        return MyDownloaderStatus_NoStart();
       case 1:
-        return const MyDownloaderStatus_Running();
+        return MyDownloaderStatus_Running();
       case 2:
         return MyDownloaderStatus_Pending(
           dco_decode_my_network_item_pending_type(raw[1]),
@@ -312,7 +312,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dco_decode_String(raw[1]),
         );
       case 4:
-        return const MyDownloaderStatus_Finished();
+        return MyDownloaderStatus_Finished();
       default:
         throw Exception("unreachable");
     }
@@ -501,9 +501,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var tag_ = sse_decode_i_32(deserializer);
     switch (tag_) {
       case 0:
-        return const MyDownloaderStatus_NoStart();
+        return MyDownloaderStatus_NoStart();
       case 1:
-        return const MyDownloaderStatus_Running();
+        return MyDownloaderStatus_Running();
       case 2:
         var var_field0 = sse_decode_my_network_item_pending_type(deserializer);
         return MyDownloaderStatus_Pending(var_field0);
@@ -511,7 +511,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         var var_field0 = sse_decode_String(deserializer);
         return MyDownloaderStatus_Error(var_field0);
       case 4:
-        return const MyDownloaderStatus_Finished();
+        return MyDownloaderStatus_Finished();
       default:
         throw UnimplementedError('');
     }

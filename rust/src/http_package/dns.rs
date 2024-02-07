@@ -43,12 +43,12 @@ impl Iterator for SocketAddrs {
     }
 }
 
-fn new_resolver() -> io::Result<TokioAsyncResolver> {
+fn new_resolver() -> anyhow::Result<TokioAsyncResolver> {
     let ali_ips: &[IpAddr] = &[
         IpAddr::V4(Ipv4Addr::new(223, 5, 5, 5)),
         IpAddr::V4(Ipv4Addr::new(223, 6, 6, 6)),
-        IpAddr::V6("2400:3200::1".parse::<Ipv6Addr>().unwrap()),
-        IpAddr::V6("2400:3200:baba::1".parse::<Ipv6Addr>().unwrap()),
+        IpAddr::V6("2400:3200::1".parse::<Ipv6Addr>()?),
+        IpAddr::V6("2400:3200:baba::1".parse::<Ipv6Addr>()?),
     ];
 
     let group =

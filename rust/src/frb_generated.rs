@@ -82,44 +82,17 @@ fn wire_start_download_impl(
     rust_vec_len_: i32,
     data_len_: i32,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "start_download",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Stream,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec,_,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "start_download", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Stream }, move || { 
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_url = <String>::sse_decode(&mut deserializer);
-            let api_save_path = <String>::sse_decode(&mut deserializer);
-            let api_file_name = <String>::sse_decode(&mut deserializer);
-            let api_connection_count = <u8>::sse_decode(&mut deserializer);
-            deserializer.end();
-            move |context| {
-                transform_result_sse((move || {
-                    Result::<_, ()>::Ok(crate::api::downloader_api::start_download(
-                        api_url,
-                        api_save_path,
-                        api_file_name,
-                        api_connection_count,
-                        StreamSink::new(
-                            context
-                                .rust2dart_context()
-                                .stream_sink::<_, crate::downloader::DownloadCallbackData>(),
-                        ),
-                    ))
-                })())
-            }
-        },
-    )
+let api_save_path = <String>::sse_decode(&mut deserializer);
+let api_file_name = <String>::sse_decode(&mut deserializer);
+let api_connection_count = <u8>::sse_decode(&mut deserializer);deserializer.end(); move |context| async move {
+                    transform_result_sse((move || async move {
+                         Result::<_,()>::Ok(crate::api::downloader_api::start_download(api_url, api_save_path, api_file_name, api_connection_count, StreamSink::new(context.rust2dart_context().stream_sink::<_,crate::downloader::DownloadCallbackData>())).await)
+                    })().await)
+                } })
 }
 fn wire_fetch_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,

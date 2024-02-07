@@ -48,7 +48,7 @@ pub async fn fetch(
     url: String,
     headers: Option<HashMap<String, String>>,
     input_data: Option<Vec<u8>>,
-) -> reqwest::Result<RustHttpResponse> {
+) -> anyhow::Result<RustHttpResponse> {
     let mut req = _mix_header(HTTP_CLIENT.request(method, url), headers);
     if input_data.is_some() {
         req = req.body(input_data.unwrap());
