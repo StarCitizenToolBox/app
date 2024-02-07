@@ -10,9 +10,9 @@ import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
+import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
-import 'package:starcitizen_doctor/common/rust/api/http_api.dart' as rust_http;
 
 import '../../../base/ui.dart';
 
@@ -256,7 +256,7 @@ class WebViewModel {
       }
     }
     final startTime = DateTime.now();
-    final r = await rust_http.getString(url: url);
+    final r = await RSHttp.getText(url);
     final endTime = DateTime.now();
     final data = json.decode(r);
     if (cacheKey.isNotEmpty) {

@@ -1,40 +1,42 @@
 use std::collections::HashMap;
-use std::time::Duration;
-use once_cell::sync::Lazy;
-use reqwest;
-use reqwest::header::{HeaderMap, HeaderValue};
-use reqwest::RequestBuilder;
-
-static HTTP_CLIENT: Lazy<reqwest::Client> = Lazy::new(|| {
-    let mut header_map = HeaderMap::new();
-    header_map.insert("User-Agent", HeaderValue::from_static("SCToolBox/2.10.x lib_rust_http"));
-    reqwest::Client::builder()
-        .use_rustls_tls()
-        .connect_timeout(Duration::from_secs(10))
-        .timeout(Duration::from_secs(10))
-        .default_headers(header_map).build().unwrap()
-});
+use hyper::Method;
+use crate::http_package;
+use crate::http_package::RustHttpResponse;
 
 
-#[tokio::main]
-pub async fn get_string(url: String, headers: Option<HashMap<String, String>>) -> String {
-    let mut req = _append_header(HTTP_CLIENT.get(url), headers);
-    req.send().await.unwrap().text().await.unwrap()
+pub enum MyMethod {
+    Options,
+    Gets,
+    Post,
+    Put,
+    Delete,
+    Head,
+    Trace,
+    Connect,
+    Patch,
 }
 
-pub async fn post_json_string(url: String, headers: Option<HashMap<String, String>>, json_data: Option<String>) -> String {
-    let mut req = _append_header(HTTP_CLIENT.post(url), headers);
-    if json_data.is_some() {
-        req = req.body(json_data.unwrap()).header(reqwest::header::CONTENT_TYPE, "application/json");
-    }
-    req.send().await.unwrap().text().await.unwrap()
+fn _my_method_to_hyper_method(m: MyMethod) -> Method {
+    return match m {
+        MyMethod::Options => { Method::OPTIONS }
+        MyMethod::Gets => { Method::GET }
+        MyMethod::Post => { Method::POST }
+        MyMethod::Put => { Method::PUT }
+        MyMethod::Delete => { Method::DELETE }
+        MyMethod::Head => { Method::HEAD }
+        MyMethod::Trace => { Method::TRACE }
+        MyMethod::Connect => { Method::CONNECT }
+        MyMethod::Patch => { Method::PATCH }
+    };
 }
 
-fn _append_header(mut req: RequestBuilder, headers: Option<HashMap<String, String>>) -> RequestBuilder {
-    if headers.is_some() {
-        for x in headers.unwrap() {
-            req = req.header(x.0, x.1);
-        }
-    }
-    req
+pub fn set_default_header(headers: HashMap<String, String>) {
+    http_package::set_default_header(headers)
+}
+
+pub async fn fetch(method: MyMethod,
+                   url: String,
+                   headers: Option<HashMap<String, String>>,
+                   input_data: Option<Vec<u8>>) -> RustHttpResponse {
+    http_package::fetch(_my_method_to_hyper_method(method), url, headers, input_data).await.unwrap()
 }

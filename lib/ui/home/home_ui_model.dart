@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:dart_rss/dart_rss.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
-import 'package:starcitizen_doctor/common/rust/api/http_api.dart' as rust_http;
+import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
@@ -107,8 +107,8 @@ class HomeUIModel extends BaseUIModel {
       updateSCServerStatus();
       notifyListeners();
       appWebLocalizationVersionsData = AppWebLocalizationVersionsData.fromJson(
-          json.decode((await rust_http.getString(
-              url: "${URLConf.webTranslateHomeUrl}/versions.json"))));
+          json.decode((await RSHttp.getText(
+              "${URLConf.webTranslateHomeUrl}/versions.json"))));
       countdownFestivalListData = await Api.getFestivalCountdownList();
       notifyListeners();
       _loadRRS();

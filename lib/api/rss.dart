@@ -1,20 +1,20 @@
 import 'dart:io';
 
 import 'package:dart_rss/dart_rss.dart';
-import 'package:starcitizen_doctor/common/rust/api/http_api.dart' as rust_http;
+import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 
 class RSSApi {
   static Future<List<RssItem>> getRssVideo() async {
-    final r = await rust_http.getString(url: URLConf.rssVideoUrl);
+    final r = await RSHttp.getText(URLConf.rssVideoUrl);
     final f = RssFeed.parse(r);
     return f.items.sublist(0, 8);
   }
 
   static Future<List<RssItem>> getRssText() async {
-    final r1 = await rust_http.getString(url: URLConf.rssTextUrl1);
+    final r1 = await RSHttp.getText(URLConf.rssTextUrl1);
     final r1f = RssFeed.parse(r1);
-    final r2 = await rust_http.getString(url: URLConf.rssTextUrl2);
+    final r2 = await RSHttp.getText(URLConf.rssTextUrl2);
     final r2f = RssFeed.parse(r2);
     final items = r1f.items..addAll(r2f.items);
     items.sort((a, b) {

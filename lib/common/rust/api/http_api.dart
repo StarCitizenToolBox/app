@@ -4,16 +4,53 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../frb_generated.dart';
+import '../http_package.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-Future<String> getString(
-        {required String url, Map<String, String>? headers, dynamic hint}) =>
-    RustLib.instance.api.getString(url: url, headers: headers, hint: hint);
+Future<void> setDefaultHeader(
+        {required Map<String, String> headers, dynamic hint}) =>
+    RustLib.instance.api.setDefaultHeader(headers: headers, hint: hint);
 
-Future<String> postJsonString(
-        {required String url,
+Future<RustHttpResponse> fetch(
+        {required MyMethod method,
+        required String url,
         Map<String, String>? headers,
-        String? jsonData,
+        Uint8List? inputData,
         dynamic hint}) =>
-    RustLib.instance.api.postJsonString(
-        url: url, headers: headers, jsonData: jsonData, hint: hint);
+    RustLib.instance.api.fetch(
+        method: method,
+        url: url,
+        headers: headers,
+        inputData: inputData,
+        hint: hint);
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::rust_async::RwLock<reqwest :: Version>>
+@sealed
+class ReqwestVersion extends RustOpaque {
+  ReqwestVersion.dcoDecode(List<dynamic> wire)
+      : super.dcoDecode(wire, _kStaticData);
+
+  ReqwestVersion.sseDecode(int ptr, int externalSizeOnNative)
+      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_ReqwestVersion,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ReqwestVersion,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ReqwestVersionPtr,
+  );
+}
+
+enum MyMethod {
+  options,
+  gets,
+  post,
+  put,
+  delete,
+  head,
+  trace,
+  connect,
+  patch,
+}
