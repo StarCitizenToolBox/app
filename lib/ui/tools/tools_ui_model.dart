@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
@@ -416,8 +415,6 @@ class ToolsUIModel extends BaseUIModel {
     if (r != null) {
       if (r == "cancel") {
         return showToast(context!, "下载进度已保留，您可以再次点击此功能恢复下载。");
-      } else if (r is DioException) {
-        showToast(context!, "下载失败：$r");
       } else {
         final ok = await showConfirmDialogs(
             context!, "下载完毕！", Text("文件已保存到：$r\n\n是否查看P4K操作教程？"));

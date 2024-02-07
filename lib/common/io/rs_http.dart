@@ -14,10 +14,16 @@ class RSHttp {
     });
   }
 
-  static Future<String> getText(String url,
+  static Future<RustHttpResponse> get(String url,
       {Map<String, String>? headers}) async {
     final r = await rust_http.fetch(
         method: MyMethod.gets, url: url, headers: headers);
+    return r;
+  }
+
+  static Future<String> getText(String url,
+      {Map<String, String>? headers}) async {
+    final r = await get(url, headers: headers);
     if (r.data == null) return "";
     final str = utf8.decode(r.data!);
     return str;
