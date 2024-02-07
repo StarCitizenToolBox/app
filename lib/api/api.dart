@@ -34,7 +34,7 @@ class Api {
   static Future<Map<String, dynamic>> getAppReleaseDataByVersionName(
       String version) async {
     final r = await RSHttp.getText(
-        "${URLConf.gitlabApiPath}/repos/SCToolBox/Release/releases/tags/$version");
+        "${URLConf.gitlabApiPath}repos/SCToolBox/Release/releases/tags/$version");
     return json.decode(r);
   }
 
