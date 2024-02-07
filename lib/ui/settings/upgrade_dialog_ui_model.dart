@@ -38,6 +38,7 @@ class UpgradeDialogUIModel extends BaseUIModel {
       }
       notifyListeners();
     } catch (e) {
+      dPrint("UpgradeDialogUIModel.loadData Error : $e");
       Navigator.pop(context!, false);
     }
   }

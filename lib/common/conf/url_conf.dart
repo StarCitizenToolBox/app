@@ -18,7 +18,7 @@ class URLConf {
 
   static String get apiRepoPath => "$gitApiHome/SCToolBox/api/raw/branch/main";
 
-  static String get gitlabApiPath => "https://$gitApiHome/api/v1/";
+  static String get gitlabApiPath => "$gitApiHome/api/v1/";
 
   static String get webTranslateHomeUrl =>
       "$gitApiHome/SCToolBox/ScWeb_Chinese_Translate/raw/branch/main/json/locales";
