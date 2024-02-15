@@ -21,5 +21,6 @@
 ![6.png](https://s2.loli.net/2023/12/06/AakZFw97cySI3UQ.png)
 
 ### ❤️ 鸣谢
+![jetbrains.svg](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg) 
+
 特别感谢 [JetBrains](https://www.jetbrains.com/?from=SCToolbox) 为开源项目提供免费的 IDE 授权。
-![jetbrains.svg](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
