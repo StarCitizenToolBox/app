@@ -17,7 +17,11 @@ class SplashUIModel extends BaseUIModel {
 
   Future<void> _initApp() async {
     AnalyticsApi.touch("launch");
-    await URLConf.checkHost();
+    try {
+      await URLConf.checkHost();
+    } catch (e) {
+      dPrint("checkHost Error:$e");
+    }
     step = 1;
     notifyListeners();
     await AppConf.checkUpdate();

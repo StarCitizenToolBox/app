@@ -37,10 +37,10 @@ pub fn set_default_header(headers: HashMap<String, String>) {
 pub async fn fetch(method: MyMethod,
                    url: String,
                    headers: Option<HashMap<String, String>>,
-                   input_data: Option<Vec<u8>>) -> RustHttpResponse {
-    http_package::fetch(_my_method_to_hyper_method(method), url, headers, input_data).await.unwrap()
+                   input_data: Option<Vec<u8>>) -> anyhow::Result<RustHttpResponse> {
+    http_package::fetch(_my_method_to_hyper_method(method), url, headers, input_data).await
 }
 
-pub async fn dns_lookup_txt(host: String) -> Vec<String> {
-    http_package::dns_lookup_txt(host).await.unwrap()
+pub async fn dns_lookup_txt(host: String) -> anyhow::Result<Vec<String>> {
+    http_package::dns_lookup_txt(host).await
 }

@@ -1,9 +1,9 @@
-use hickory_resolver::config::{NameServerConfigGroup, ResolverConfig, ResolverOpts};
-use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioAsyncResolver};
+use std::io;
+use hickory_resolver::{lookup_ip::LookupIpIntoIter, system_conf, TokioAsyncResolver};
 use hyper::client::connect::dns::Name;
 use once_cell::sync::OnceCell;
 use reqwest::dns::{Addrs, Resolve, Resolving};
-use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
+use std::net::SocketAddr;
 use std::sync::Arc;
 
 /// Wrapper around an `AsyncResolver`, which implements the `Resolve` trait.
@@ -52,16 +52,12 @@ impl Iterator for SocketAddrs {
     }
 }
 
-fn new_resolver() -> anyhow::Result<TokioAsyncResolver> {
-    let ali_ips: &[IpAddr] = &[
-        IpAddr::V4(Ipv4Addr::new(223, 5, 5, 5)),
-        IpAddr::V4(Ipv4Addr::new(223, 6, 6, 6)),
-        IpAddr::V6("2400:3200::1".parse::<Ipv6Addr>()?),
-        IpAddr::V6("2400:3200:baba::1".parse::<Ipv6Addr>()?),
-    ];
-
-    let group =
-        NameServerConfigGroup::from_ips_https(ali_ips, 443, "dns.alidns.com".to_string(), true);
-    let cfg = ResolverConfig::from_parts(None, vec![], group);
-    Ok(TokioAsyncResolver::tokio(cfg, ResolverOpts::default()))
+fn new_resolver() -> io::Result<TokioAsyncResolver> {
+    let (config, opts) = system_conf::read_system_conf().map_err(|e| {
+        io::Error::new(
+            io::ErrorKind::Other,
+            format!("error reading DNS system conf: {}", e),
+        )
+    })?;
+    Ok(TokioAsyncResolver::tokio(config, opts))
 }
