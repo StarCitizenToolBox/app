@@ -138,12 +138,12 @@ class SCLoggerHelper {
       return const MapEntry("可用内存不足", "请尝试增加虚拟内存（ 1080p 下， 物理可用+虚拟内存需 > 64G ）");
     }
     if (line.contains("EXCEPTION_ACCESS_VIOLATION")) {
-      return const MapEntry("游戏触发了最为广泛的崩溃问题，请查看排障指南：",
+      return const MapEntry("游戏触发了最为广泛的崩溃问题，请查看排障指南",
           "https://docs.qq.com/doc/DUURxUVhzTmZoY09Z");
     }
     if (line.contains("DXGI_ERROR_DEVICE_REMOVED")) {
       return const MapEntry(
-          "您的显卡崩溃啦！，请查看排障指南：", "https://www.bilibili.com/read/cv19335199");
+          "您的显卡崩溃啦！请查看排障指南", "https://www.bilibili.com/read/cv19335199");
     }
     if (line.contains("Wakeup socket sendto error")) {
       return const MapEntry("检测到 socket 异常", "如使用 X黑盒 加速器，请尝试更换加速模式");
