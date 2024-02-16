@@ -113,11 +113,69 @@ class SCLoggerHelper {
     return scInstallPaths;
   }
 
-  static String getGameLogs(String gameDir) {
-    return "";
+  static Future<List<String>?> getGameRunningLogs(String gameDir) async {
+    final logFile = File("$gameDir/Game.log");
+    if (!await logFile.exists()) {
+      return null;
+    }
+    return await logFile.readAsLines(
+        encoding: const Utf8Codec(allowMalformed: true));
   }
 
-  static String getGameExitLogInfo(String logs) {
-    return "";
+  static MapEntry<String, String>? getGameRunningLogInfo(List<String> logs) {
+    for (var i = logs.length - 1; i > 0; i--) {
+      final line = logs[i];
+      final r = _checkRunningLine(line);
+      if (r != null) {
+        return r;
+      }
+    }
+    return null;
+  }
+
+  static MapEntry<String, String>? _checkRunningLine(String line) {
+    if (line.contains("STATUS_CRYENGINE_OUT_OF_SYSMEM")) {
+      return const MapEntry("可用内存不足", "请尝试增加虚拟内存（ 1080p 下， 物理可用+虚拟内存需 > 64G ）");
+    }
+    if (line.contains("EXCEPTION_ACCESS_VIOLATION")) {
+      return const MapEntry("游戏触发了最为广泛的崩溃问题，请查看排障指南：",
+          "https://docs.qq.com/doc/DUURxUVhzTmZoY09Z");
+    }
+    if (line.contains("DXGI_ERROR_DEVICE_REMOVED")) {
+      return const MapEntry(
+          "您的显卡崩溃啦！，请查看排障指南：", "https://www.bilibili.com/read/cv19335199");
+    }
+    if (line.contains("Wakeup socket sendto error")) {
+      return const MapEntry("检测到 socket 异常", "如使用 X黑盒 加速器，请尝试更换加速模式");
+    }
+
+    if (line.contains("The requested operation requires elevated")) {
+      return const MapEntry("权限不足", "请尝试以管理员权限运行启动器，或使用盒子（微软商店版）启动。");
+    }
+    if (line.contains(
+        "The process cannot access the file because is is being used by another process")) {
+      return const MapEntry("游戏进程被占用", "请尝试重启启动器，或直接重启电脑");
+    }
+    if (line.contains("0xc0000043")) {
+      return const MapEntry("游戏程序文件损坏", "请尝试删除 Bin64 文件夹 并在启动器校验。");
+    }
+    if (line.contains("option to verify the content of the Data.p4k file")) {
+      return const MapEntry("P4K文件损坏", "请尝试删除 Data.p4k 文件 并在启动器校验 或 使用盒子分流。");
+    }
+    if (line.contains("OUTOFMEMORY Direct3D could not allocate")) {
+      return const MapEntry("可用显存不足", "请不要在后台运行其他高显卡占用的 游戏/应用，或更换显卡。");
+    }
+    if (line.contains("OUTOFMEMORY Direct3D could not allocate")) {
+      return const MapEntry("可用显存不足", "请不要在后台运行其他高显卡占用的 游戏/应用，或更换显卡。");
+    }
+
+    /// Unknown
+    if (line.contains("network.replicatedEntityHandle")) {
+      return const MapEntry("_", "network.replicatedEntityHandle");
+    }
+    if (line.contains("Exception Unknown")) {
+      return const MapEntry("_", "Exception Unknown");
+    }
+    return null;
   }
 }

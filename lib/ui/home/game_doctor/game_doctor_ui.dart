@@ -26,23 +26,19 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
                   ))
                 else if (model.checkResult == null ||
                     model.checkResult!.isEmpty) ...[
-                  Expanded(
+                  const Expanded(
                       child: Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const SizedBox(height: 12),
-                        const Text("扫描完毕，没有找到问题！", maxLines: 1),
-                        const SizedBox(height: 64),
-                        makeRescueBanner(context),
+                        SizedBox(height: 12),
+                        Text("扫描完毕，没有找到问题！", maxLines: 1),
+                        SizedBox(height: 64),
                       ],
                     ),
                   ))
-                ] else ...[
+                ] else
                   ...makeResult(context, model),
-                  const SizedBox(height: 64),
-                  makeRescueBanner(context),
-                ],
               ],
             ),
             if (model.isFixing)
@@ -62,7 +58,12 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
                     ],
                   ),
                 ),
-              )
+              ),
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: makeRescueBanner(context),
+            )
           ],
         ));
   }
@@ -70,12 +71,12 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
   List<Widget> makeResult(BuildContext context, GameDoctorUIModel model) {
     return [
       const SizedBox(height: 24),
-      const Text(
-        "检测结果",
-        style: TextStyle(fontSize: 24),
-      ),
-      const SizedBox(height: 6),
       Text(model.lastScreenInfo, maxLines: 1),
+      const SizedBox(height: 12),
+      Text(
+        "注意：本工具检测结果仅供参考，若您不理解以下操作，请提供截图给有经验的玩家！",
+        style: TextStyle(color: Colors.red, fontSize: 16),
+      ),
       const SizedBox(height: 24),
       ListView.builder(
         itemCount: model.checkResult!.length,
@@ -86,11 +87,7 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
           return makeResultItem(item, model);
         },
       ),
-      const SizedBox(height: 24),
-      Text(
-        "注意：本工具检测结果仅供参考，若您不理解以上操作，请提供截图给有经验的玩家！",
-        style: TextStyle(color: Colors.red, fontSize: 16),
-      ),
+      const SizedBox(height: 64),
     ];
   }
 
@@ -116,7 +113,7 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
                 children: [
                   Image.asset("assets/rescue.png", width: 24, height: 24),
                   const SizedBox(width: 12),
-                  const Text("需要帮助？ 点击加群获得免费人工支援！"),
+                  const Text("需要帮助？ 点击加群寻求免费人工支援！"),
                 ],
               ),
             )),
@@ -144,29 +141,90 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
       "low_ram": MapEntry(
           "物理内存过低", "您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：${item.value}）"),
     };
-    return ListTile(
-      title: Text(errorNames[item.key]?.key ?? item.key),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(top: 4, bottom: 4),
-        child: Text("修复建议： ${errorNames[item.key]?.value ?? "暂无解决方法，请截图反馈"}"),
-      ),
-      trailing: Button(
-        onPressed: (errorNames[item.key]?.value == null || model.isFixing)
-            ? null
-            : () async {
-                await model.doFix(item);
-                model.isFixing = false;
-                model.notifyListeners();
-              },
-        child: const Padding(
-          padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-          child: Text("修复"),
+    bool isCheckedError = errorNames.containsKey(item.key);
+
+    if (isCheckedError) {
+      return Container(
+        decoration: BoxDecoration(
+          color: FluentTheme.of(context).cardColor,
         ),
+        margin: const EdgeInsets.only(bottom: 12),
+        child: ListTile(
+          title: Text(
+            errorNames[item.key]?.key ?? "",
+            style: const TextStyle(fontSize: 18),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4, bottom: 4),
+            child: Column(
+              children: [
+                const SizedBox(height: 4),
+                Text(
+                  "修复建议： ${errorNames[item.key]?.value ?? "暂无解决方法，请截图反馈"}",
+                  style: TextStyle(
+                      fontSize: 14, color: Colors.white.withOpacity(.7)),
+                ),
+              ],
+            ),
+          ),
+          trailing: Button(
+            onPressed: (errorNames[item.key]?.value == null || model.isFixing)
+                ? null
+                : () async {
+                    await model.doFix(item);
+                    model.isFixing = false;
+                    model.notifyListeners();
+                  },
+            child: const Padding(
+              padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+              child: Text("修复"),
+            ),
+          ),
+        ),
+      );
+    }
+
+    final isSubTitleUrl = item.value.startsWith("https://");
+
+    return Container(
+      decoration: BoxDecoration(
+        color: FluentTheme.of(context).cardColor,
+      ),
+      margin: const EdgeInsets.only(bottom: 12),
+      child: ListTile(
+        title: Text(
+          item.key,
+          style: const TextStyle(fontSize: 18),
+        ),
+        subtitle: isSubTitleUrl
+            ? null
+            : Column(
+                children: [
+                  const SizedBox(height: 4),
+                  Text(
+                    item.value,
+                    style: TextStyle(
+                        fontSize: 14, color: Colors.white.withOpacity(.7)),
+                  ),
+                ],
+              ),
+        trailing: isSubTitleUrl
+            ? Button(
+                onPressed: () {
+                  launchUrlString(item.value);
+                },
+                child: const Padding(
+                  padding:
+                      EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+                  child: Text("查看解决方案"),
+                ),
+              )
+            : null,
       ),
     );
   }
 
   @override
   String getUITitle(BuildContext context, GameDoctorUIModel model) =>
-      "一键诊断  -> ${model.scInstalledPath}";
+      "一键诊断  >   ${model.scInstalledPath}";
 }

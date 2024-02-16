@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -48,13 +49,14 @@ class GameDoctorUIModel extends BaseUIModel {
 
   Future _statCheck() async {
     checkResult = [];
-    await _checkPreInstall();
-    await _checkEAC();
     // TODO for debug
-
     // checkResult?.add(const MapEntry("unSupport_system", "android"));
     // checkResult?.add(const MapEntry("nvme_PhysicalBytes", "C"));
     // checkResult?.add(const MapEntry("no_live_path", ""));
+
+    await _checkPreInstall();
+    await _checkEAC();
+    await _checkGameRunningLog();
 
     if (checkResult!.isEmpty) {
       checkResult = null;
@@ -65,6 +67,22 @@ class GameDoctorUIModel extends BaseUIModel {
 
     if (scInstalledPath == "not_install" && (checkResult?.isEmpty ?? true)) {
       showToast(context!, "扫描完毕，没有发现问题，若仍然安装失败，请尝试使用工具箱中的 RSI启动器管理员模式。");
+    }
+  }
+
+  Future _checkGameRunningLog() async {
+    if (scInstalledPath == "not_install") return;
+    lastScreenInfo = "正在检查：Game.log";
+    final logs = await SCLoggerHelper.getGameRunningLogs(scInstalledPath);
+    if (logs == null) return;
+    final info = SCLoggerHelper.getGameRunningLogInfo(logs);
+    if (info != null) {
+      if (info.key != "_") {
+        checkResult?.add(MapEntry("游戏异常退出：${info.key}", info.value));
+      } else {
+        checkResult
+            ?.add(MapEntry("游戏异常退出：未知异常", "info:${info.value}，请点击右下角加群反馈。"));
+      }
     }
   }
 
