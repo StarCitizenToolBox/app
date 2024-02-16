@@ -1,5 +1,3 @@
-import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:starcitizen_doctor/main.dart';
 import 'package:starcitizen_doctor/widgets/my_page_route.dart';
@@ -82,10 +80,6 @@ abstract class BaseUI<T extends BaseUIModel>
 
   Widget? getFloatingActionButton(BuildContext context, T model) => null;
 
-  FloatingActionButtonLocation? getFloatingActionButtonLocation(
-          BuildContext context, T model) =>
-      null;
-
   bool getDrawerEnableOpenDragGesture(BuildContext context, T model) => true;
 
   Widget? getDrawer(BuildContext context, T model) => null;
@@ -148,32 +142,6 @@ abstract class BaseUI<T extends BaseUIModel>
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  Widget errorBody(BuildContext context, Widget? child, T model) {
-    if (model.uiErrorMsg.isNotEmpty) {
-      // 全局错误信息
-      return InkWell(
-        child: Center(
-            child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Error",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Text(model.uiErrorMsg),
-          ],
-        )),
-        onTap: () async {
-          await model.onErrorReloadData();
-        },
-      );
-    }
-    if (child == null) return makeLoading(context);
-    return child;
-  }
 
   // void updateStatusBarIconColor(BuildContext context) {
   //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

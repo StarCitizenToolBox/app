@@ -72,17 +72,25 @@ class ToolsUIModel extends BaseUIModel {
           "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。",
           const Icon(FluentIcons.admin, size: 28),
           onTap: _adminRSILauncher,
-        )
+        ),
+        if (scInstalledPath != "")
+          _ToolsItemData(
+            "game_log_select",
+            "游戏 Game.log 查看",
+            "打开 Game.log 所在文件夹",
+            const Icon(FontAwesomeIcons.bookBible, size: 28),
+            onTap: _selectGameLog,
+          ),
       ];
       isItemLoading = true;
+      items.add(await _addShaderCard());
+      notifyListeners();
+      items.add(await _addPhotographyCard());
       notifyListeners();
       items.addAll(await _addLogCard());
       notifyListeners();
       items.addAll(await _addNvmePatchCard());
       notifyListeners();
-      items.add(await _addShaderCard());
-      notifyListeners();
-      items.add(await _addPhotographyCard());
       // close loading
       isItemLoading = false;
       notifyListeners();
@@ -299,6 +307,10 @@ class ToolsUIModel extends BaseUIModel {
       showToast(context!, "清理失败，请手动移除，文件位置：$path");
     }
     working = false;
+  }
+
+  Future<void> _selectGameLog() async {
+    openDir("$scInstalledPath\\Game.log");
   }
 
   Future<void> _selectLog() async {
