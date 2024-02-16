@@ -1,3 +1,4 @@
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:starcitizen_doctor/main.dart';
@@ -102,11 +103,13 @@ abstract class BaseUI<T extends BaseUIModel>
           automaticallyImplyLeading: automaticallyImplyLeading,
           title: DragToMoveArea(
             child: titleRow ??
-                Row(
-                  children: [
-                    Text(getUITitle(context, model)),
-                  ],
-                ),
+                Column(children: [Expanded(
+                  child: Row(
+                    children: [
+                      Text(getUITitle(context, model)),
+                    ],
+                  ),
+                )],),
           ),
           actions: Row(
             mainAxisAlignment: MainAxisAlignment.end,

@@ -39,12 +39,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                   ),
                   const SizedBox(height: 6),
                 ],
-                if (!model.isChecking &&
-                    model.checkResult != null &&
-                    model.checkResult!.isNotEmpty)
-                  ...makeResult(context, model)
-                else
-                  ...makeIndex(context, model)
+                ...makeIndex(context, model)
               ],
             ),
           ),
@@ -167,7 +162,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                 onPressed: () => model.openDir(model.scInstalledPath)),
             const SizedBox(width: 12),
             Button(
-              onPressed: model.isChecking ? null : model.reScanPath,
+              onPressed: model.reScanPath,
               child: const Padding(
                 padding: EdgeInsets.all(6),
                 child: Icon(FluentIcons.refresh),
@@ -423,9 +418,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
           itemBuilder: (context, index) {
             final item = items.elementAt(index);
             return HoverButton(
-              onPressed: item.key == "auto_check" && model.isChecking
-                  ? null
-                  : () => model.onMenuTap(item.key),
+              onPressed: () => model.onMenuTap(item.key),
               builder: (BuildContext context, Set<ButtonStates> states) {
                 return Container(
                   width: 300,
@@ -478,13 +471,10 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                 Text(model.localizationUpdateInfo?.key ?? " "),
                           ),
                         const SizedBox(width: 12),
-                        if (item.key == "auto_check" && model.isChecking)
-                          const ProgressRing()
-                        else
-                          const Icon(
-                            FluentIcons.chevron_right,
-                            size: 16,
-                          ),
+                        const Icon(
+                          FluentIcons.chevron_right,
+                          size: 16,
+                        )
                       ],
                     ),
                   ),
@@ -495,83 +485,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
     );
   }
 
-  List<Widget> makeResult(BuildContext context, HomeUIModel model) {
-    return [
-      const SizedBox(height: 24),
-      const Text(
-        "检测结果",
-        style: TextStyle(fontSize: 20),
-      ),
-      const SizedBox(height: 6),
-      Text(model.lastScreenInfo, maxLines: 1),
-      const SizedBox(height: 24),
-      ListView.builder(
-        itemCount: model.checkResult!.length,
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
-          final item = model.checkResult![index];
-          return makeResultItem(item, model);
-        },
-      ),
-      Text(
-        "注意：本工具检测结果仅供参考，若您不理解以上操作，请提供截图给有经验的玩家！",
-        style: TextStyle(color: Colors.red, fontSize: 16),
-      ),
-      const SizedBox(height: 64),
-      FilledButton(
-        onPressed: model.resetCheck,
-        child: const Padding(
-          padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
-          child: Text('返回'),
-        ),
-      ),
-      const SizedBox(height: 38),
-    ];
-  }
-
   @override
   String getUITitle(BuildContext context, HomeUIModel model) => "HOME";
-
-  Widget makeResultItem(MapEntry<String, String> item, HomeUIModel model) {
-    final errorNames = {
-      "unSupport_system":
-          MapEntry("不支持的操作系统，游戏可能无法运行", "请升级您的系统 (${item.value})"),
-      "no_live_path": MapEntry("安装目录缺少LIVE文件夹，可能导致安装失败",
-          "点击修复为您创建 LIVE 文件夹，完成后重试安装。(${item.value})"),
-      "nvme_PhysicalBytes": MapEntry("新型 NVME 设备，与 RSI 启动器暂不兼容，可能导致安装失败",
-          "为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区(${item.value})"),
-      "eac_file_miss": const MapEntry("EasyAntiCheat 文件丢失",
-          "未在 LIVE 文件夹找到 EasyAntiCheat 文件 或 文件不完整，请使用 RSI 启动器校验文件"),
-      "eac_not_install": const MapEntry("EasyAntiCheat 未安装 或 未正常退出",
-          "EasyAntiCheat 未安装，请点击修复为您一键安装。（在游戏正常启动并结束前，该问题会一直出现，若您因为其他原因游戏闪退，可忽略此条目）"),
-      "cn_user_name":
-          const MapEntry("中文用户名！", "中文用户名可能会导致游戏启动/安装错误！ 点击修复按钮查看修改教程！"),
-      "cn_install_path": MapEntry("中文安装路径！",
-          "中文安装路径！这可能会导致游戏 启动/安装 错误！（${item.value}），请在RSI启动器更换安装路径。"),
-      "low_ram": MapEntry(
-          "物理内存过低", "您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：${item.value}）"),
-    };
-    return ListTile(
-      title: Text(errorNames[item.key]?.key ?? item.key),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(top: 4, bottom: 4),
-        child: Text("修复建议： ${errorNames[item.key]?.value ?? "暂无解决方法，请截图反馈"}"),
-      ),
-      trailing: Button(
-        onPressed: (errorNames[item.key]?.value == null || model.isFixing)
-            ? null
-            : () async {
-                await model.doFix(item);
-                model.isFixing = false;
-                model.notifyListeners();
-              },
-        child: const Padding(
-          padding: EdgeInsets.only(left: 8, right: 8),
-          child: Text("修复"),
-        ),
-      ),
-    );
-  }
 
   Widget makeWebViewButton(HomeUIModel model,
       {required Widget icon,

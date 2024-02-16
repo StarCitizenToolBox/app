@@ -112,4 +112,12 @@ class SCLoggerHelper {
 
     return scInstallPaths;
   }
+
+  static String getGameLogs(String gameDir) {
+    return "";
+  }
+
+  static String getGameExitLogInfo(String logs) {
+    return "";
+  }
 }
