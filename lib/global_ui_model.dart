@@ -35,7 +35,7 @@ class AppGlobalUIModel extends BaseUIModel {
     await Future.delayed(const Duration(milliseconds: 100));
     if (AppConf.networkVersionData == null) {
       showToast(context,
-          "网络异常，这可能是服务器正在维护或遭受攻击... \n进入离线模式.. \n\n请谨慎在离线模式中使用。 \n当前版本构建日期：${AppConf.appVersionDate}\n QQ群：940696487 \n错误信息：$checkUpdateError");
+          "网络异常！\n这可能是您的网络环境存在DNS污染，请尝试更换DNS。\n或服务器正在维护或遭受攻击，稍后再试。 \n进入离线模式... \n\n请谨慎在离线模式中使用。 \n当前版本构建日期：${AppConf.appVersionDate}\n QQ群：940696487 \n错误信息：$checkUpdateError");
       return false;
     }
     final lastVersion = AppConf.isMSE

@@ -25,9 +25,8 @@ lazy_static! {
     static ref HTTP_CLIENT: reqwest::Client = {
         reqwest::Client::builder()
             .use_rustls_tls()
-            .connect_timeout(Duration::from_secs(10))
-            .timeout(Duration::from_secs(10))
             .dns_resolver(DNS_CLIENT.clone())
+            .connect_timeout(Duration::from_secs(10))
             .gzip(true)
             .brotli(true)
             .deflate(true)

@@ -29,7 +29,7 @@ class RSHttp {
     return str;
   }
 
-  static Future postData(String url,
+  static Future<RustHttpResponse> postData(String url,
       {Map<String, String>? headers,
       String? contentType,
       Uint8List? data}) async {
@@ -39,7 +39,7 @@ class RSHttp {
     }
     final r = await rust_http.fetch(
         method: MyMethod.post, url: url, headers: headers, inputData: data);
-    return r.statusCode == 200;
+    return r;
   }
 
   static Future<RustHttpResponse> head(String url,

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
@@ -11,9 +9,9 @@ class AnalyticsApi {
     if (kDebugMode) return;
     dPrint("AnalyticsApi.touch === $key start");
     try {
-      await RSHttp.postData("${URLConf.xkeycApiHome}/analytics/$key",
-          data: utf8.encode(json.encode({"test": "a"})), contentType: "application/json");
-      dPrint("AnalyticsApi.touch === $key  over");
+      final r = await RSHttp.postData("${URLConf.xkeycApiHome}/analytics/$key",
+          data: null);
+      dPrint("AnalyticsApi.touch === $key  over statusCode == ${r.statusCode}");
     } catch (e) {
       dPrint("AnalyticsApi.touch === $key Error:$e");
     }
