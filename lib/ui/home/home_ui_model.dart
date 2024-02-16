@@ -389,9 +389,23 @@ class HomeUIModel extends BaseUIModel {
       dPrint('Exit code: ${result.exitCode}');
       dPrint('stdout: ${result.stdout}');
       dPrint('stderr: ${result.stderr}');
+
       if (result.exitCode != 0) {
+        final logs = await SCLoggerHelper.getGameRunningLogs(scInstalledPath);
+        MapEntry<String, String>? exitInfo;
+        bool hasUrl = false;
+        if (logs != null) {
+          exitInfo = SCLoggerHelper.getGameRunningLogInfo(logs);
+          if (exitInfo!.value.startsWith("https://")) {
+            hasUrl = true;
+          }
+        }
         showToast(context!,
-            "游戏非正常退出\nexitCode=${result.exitCode}\nstdout=${result.stdout}\nstderr=${result.stderr}\n\n诊断信息：");
+            "游戏非正常退出\nexitCode=${result.exitCode}\nstdout=${result.stdout ?? ""}\nstderr=${result.stderr ?? ""}\n\n诊断信息：${exitInfo == null ? "未知错误，请通过一键诊断加群反馈。" : exitInfo.key} \n${hasUrl ? "请查看弹出的网页链接获得详细信息。" : exitInfo?.value ?? ""}");
+        if (hasUrl) {
+          await Future.delayed(const Duration(seconds: 3));
+          launchUrlString(exitInfo!.value);
+        }
       }
 
       final launchFile = File("$installPath\\loginData.json");
