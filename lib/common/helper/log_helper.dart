@@ -165,9 +165,6 @@ class SCLoggerHelper {
     if (line.contains("OUTOFMEMORY Direct3D could not allocate")) {
       return const MapEntry("可用显存不足", "请不要在后台运行其他高显卡占用的 游戏/应用，或更换显卡。");
     }
-    if (line.contains("OUTOFMEMORY Direct3D could not allocate")) {
-      return const MapEntry("可用显存不足", "请不要在后台运行其他高显卡占用的 游戏/应用，或更换显卡。");
-    }
 
     /// Unknown
     if (line.contains("network.replicatedEntityHandle")) {
