@@ -6,7 +6,7 @@ class URLConf {
   /// HOME API
   static String gitApiHome = "https://git.sctoolbox.sccsgo.com";
   static String rssApiHome = "https://rss.sctoolbox.sccsgo.com";
-  static const String xkeycApiHome = "https://sctoolbox.xkeyc.com";
+  static const String analyticsApiHome = "https://scbox.org";
 
   static bool isUrlCheckPass = false;
 

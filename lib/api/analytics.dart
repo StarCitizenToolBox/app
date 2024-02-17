@@ -9,7 +9,8 @@ class AnalyticsApi {
     if (kDebugMode) return;
     dPrint("AnalyticsApi.touch === $key start");
     try {
-      final r = await RSHttp.postData("${URLConf.xkeycApiHome}/analytics/$key",
+      final r = await RSHttp.postData(
+          "${URLConf.analyticsApiHome}/analytics/$key",
           data: null);
       dPrint("AnalyticsApi.touch === $key  over statusCode == ${r.statusCode}");
     } catch (e) {

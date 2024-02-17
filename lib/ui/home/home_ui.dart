@@ -1,4 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
@@ -374,7 +376,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                   left: 12, right: 12, top: 4, bottom: 4),
                               child: Row(
                                 children: [
-                                  const Text("· "),
+                                  getRssIcon(item.link ?? ""),
+                                  const SizedBox(width: 6),
                                   Expanded(
                                     child: Text(
                                       "${model.handleTitle(item.title)}",
@@ -396,6 +399,22 @@ class HomeUI extends BaseUI<HomeUIModel> {
             ),
           )),
     );
+  }
+
+  Widget getRssIcon(String url) {
+    if (url.startsWith("https://tieba.baidu.com")) {
+      return SvgPicture.asset("assets/tieba.svg", width: 14, height: 14);
+    }
+
+    if (url.startsWith("https://www.bilibili.com")) {
+      return const FaIcon(
+        FontAwesomeIcons.bilibili,
+        size: 14,
+        color: Color.fromRGBO(0, 161, 214, 1),
+      );
+    }
+
+    return const FaIcon(FontAwesomeIcons.rss, size: 14);
   }
 
   Widget makeIndexActionLists(BuildContext context, HomeUIModel model) {
@@ -514,27 +533,40 @@ class HomeUI extends BaseUI<HomeUIModel> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    icon,
-                    Text(
-                      name,
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          icon,
+                          Text(
+                            name,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                      if (info != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(
+                            info,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white.withOpacity(.6)),
+                          ),
+                        )
+                    ],
+                  ),
                 ),
-                if (info != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      info,
-                      style: TextStyle(
-                          fontSize: 12, color: Colors.white.withOpacity(.6)),
-                    ),
-                  )
+                const SizedBox(width: 12),
+                Icon(
+                  FluentIcons.chevron_right,
+                  size: 14,
+                  color: Colors.white.withOpacity(.6),
+                )
               ],
             ),
           ),
@@ -658,6 +690,12 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                   ),
                                 ],
                               ),
+                              const SizedBox(width: 12),
+                              Icon(
+                                FluentIcons.chevron_right,
+                                size: 14,
+                                color: Colors.white.withOpacity(.6),
+                              )
                             ],
                           );
                         },
