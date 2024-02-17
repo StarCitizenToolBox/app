@@ -18,8 +18,8 @@ import 'package:window_manager/window_manager.dart';
 
 class AppConf {
   static const String appVersion = "2.10.5 Beta";
-  static const int appVersionCode = 39;
-  static const String appVersionDate = "2024-02-03";
+  static const int appVersionCode = 40;
+  static const String appVersionDate = "2024-02-17";
 
   static const gameChannels = ["LIVE", "PTU", "EPTU"];
 
