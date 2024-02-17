@@ -88,7 +88,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                         height: 260,
                       ),
                     ),
-                    makeGameStatusCard(context, model, 320)
+                    makeGameStatusCard(context, model, 340)
                   ],
                 ),
               ),
@@ -386,6 +386,12 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 12.2),
                                     ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Icon(
+                                    FluentIcons.chevron_right,
+                                    size: 12,
+                                    color: Colors.white.withOpacity(.4),
                                   )
                                 ],
                               ),
@@ -616,13 +622,18 @@ class HomeUI extends BaseUI<HomeUIModel> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 3),
+                          const SizedBox(width: 5),
                           Text(
                             "${model.statusCnName[item["name"]] ?? item["name"]}",
                             style: const TextStyle(fontSize: 13),
                           ),
                         ],
-                      )
+                      ),
+                    Icon(
+                      FluentIcons.chevron_right,
+                      size: 12,
+                      color: Colors.white.withOpacity(.4),
+                    )
                   ],
                 )
             ]),

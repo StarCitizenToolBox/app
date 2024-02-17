@@ -67,7 +67,7 @@ class WebViewModel {
       webview.isNavigating.addListener(() async {
         if (!webview.isNavigating.value && localizationResource.isNotEmpty) {
           dPrint("webview Navigating url === $url");
-          if (url.startsWith("https://robertsspaceindustries.com")) {
+          if (url.contains("robertsspaceindustries.com")) {
             // SC 官网
             dPrint("load script");
             await Future.delayed(const Duration(milliseconds: 100));
