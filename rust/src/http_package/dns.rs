@@ -1,10 +1,11 @@
 use std::io;
-use hickory_resolver::{lookup_ip::LookupIpIntoIter, system_conf, TokioAsyncResolver};
+use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioAsyncResolver};
 use hyper::client::connect::dns::Name;
 use once_cell::sync::OnceCell;
 use reqwest::dns::{Addrs, Resolve, Resolving};
-use std::net::SocketAddr;
+use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::Arc;
+use hickory_resolver::config::{NameServerConfigGroup, ResolverConfig, ResolverOpts};
 
 /// Wrapper around an `AsyncResolver`, which implements the `Resolve` trait.
 #[derive(Debug, Default, Clone)]
@@ -53,11 +54,24 @@ impl Iterator for SocketAddrs {
 }
 
 fn new_resolver() -> io::Result<TokioAsyncResolver> {
-    let (config, opts) = system_conf::read_system_conf().map_err(|e| {
-        io::Error::new(
-            io::ErrorKind::Other,
-            format!("error reading DNS system conf: {}", e),
-        )
-    })?;
-    Ok(TokioAsyncResolver::tokio(config, opts))
+    let group = NameServerConfigGroup::from_ips_clear(
+        &[
+            IpAddr::V4(Ipv4Addr::new(119, 29, 29, 29)),
+            IpAddr::V4(Ipv4Addr::new(223, 6, 6, 6)),
+            IpAddr::V4(Ipv4Addr::new(180, 76, 76, 76)),
+            IpAddr::V4(Ipv4Addr::new(1, 2, 4, 8)),
+            IpAddr::V4(Ipv4Addr::new(166, 111, 8, 28)),
+            IpAddr::V4(Ipv4Addr::new(101, 226, 4, 6)),
+            IpAddr::V4(Ipv4Addr::new(114, 114, 114, 114)),
+            IpAddr::V4(Ipv4Addr::new(8, 8, 8, 8)),
+            IpAddr::V4(Ipv4Addr::new(1, 1, 1, 1)),
+        ], 53, true);
+    let cfg = ResolverConfig::from_parts(None, vec![], group);
+    let mut opts = ResolverOpts::default();
+    opts.edns0 = true;
+    opts.timeout = std::time::Duration::from_secs(5);
+    opts.try_tcp_on_error = true;
+    opts.ip_strategy = hickory_resolver::config::LookupIpStrategy::Ipv4thenIpv6;
+    opts.num_concurrent_reqs = 3;
+    Ok(TokioAsyncResolver::tokio(cfg, opts))
 }

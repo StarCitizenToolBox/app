@@ -24,12 +24,10 @@ lazy_static! {
     static ref DNS_CLIENT : Arc<dns::MyHickoryDnsResolver> = Arc::from(dns::MyHickoryDnsResolver::default());
     static ref HTTP_CLIENT: reqwest::Client = {
         reqwest::Client::builder()
-            .use_rustls_tls()
             .dns_resolver(DNS_CLIENT.clone())
+            .use_rustls_tls()
             .connect_timeout(Duration::from_secs(10))
             .gzip(true)
-            .brotli(true)
-            .deflate(true)
             .build()
             .unwrap()
     };

@@ -1,6 +1,4 @@
 import 'package:card_swiper/card_swiper.dart';
-import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';

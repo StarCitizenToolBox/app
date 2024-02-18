@@ -429,7 +429,7 @@ impl SseDecode for crate::http_package::RustHttpResponse {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_statusCode = <u16>::sse_decode(deserializer);
-        let mut var_headers = <std::collections::HashMap<String, String>>::sse_decode(deserializer);
+        let mut var_headers = <HashMap<String, String>>::sse_decode(deserializer);
         let mut var_url = <String>::sse_decode(deserializer);
         let mut var_contentLength = <Option<u64>>::sse_decode(deserializer);
         let mut var_version = <reqwest::Version>::sse_decode(deserializer);
