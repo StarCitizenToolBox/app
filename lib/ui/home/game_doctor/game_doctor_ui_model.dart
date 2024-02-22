@@ -239,4 +239,26 @@ class GameDoctorUIModel extends BaseUIModel {
         return;
     }
   }
+
+  onTapButton(String key) async {
+    switch (key) {
+      case "rsi_log":
+        final path = await SCLoggerHelper.getLogFilePath();
+        if (path == null) return;
+        openDir(path);
+        return;
+      case "game_log":
+        if (scInstalledPath == "not_install") {
+          showToast(context!, "请在首页选择游戏安装目录。");
+          return;
+        }
+        openDir("$scInstalledPath\\Game.log");
+        return;
+    }
+  }
+
+  openDir(path) async {
+    await Process.run(
+        SystemHelper.powershellPath, ["explorer.exe", "/select,\"$path\""]);
+  }
 }

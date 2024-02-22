@@ -73,14 +73,6 @@ class ToolsUIModel extends BaseUIModel {
           const Icon(FluentIcons.admin, size: 28),
           onTap: _adminRSILauncher,
         ),
-        if (scInstalledPath != "")
-          _ToolsItemData(
-            "game_log_select",
-            "游戏 Game.log 查看",
-            "打开 Game.log 所在文件夹",
-            const Icon(FontAwesomeIcons.bookBible, size: 28),
-            onTap: _selectGameLog,
-          ),
       ];
       isItemLoading = true;
       items.add(await _addShaderCard());
@@ -109,13 +101,6 @@ class ToolsUIModel extends BaseUIModel {
               1024;
     } catch (_) {}
     return [
-      _ToolsItemData(
-        "rsilauncher_log_select",
-        "RSI Launcher Log 查看",
-        "打开 RSI启动器 Log文件 所在文件夹",
-        const Icon(FontAwesomeIcons.bookBible, size: 28),
-        onTap: _selectLog,
-      ),
       _ToolsItemData(
         "rsilauncher_log_fix",
         "RSI Launcher Log 修复",
@@ -307,16 +292,6 @@ class ToolsUIModel extends BaseUIModel {
       showToast(context!, "清理失败，请手动移除，文件位置：$path");
     }
     working = false;
-  }
-
-  Future<void> _selectGameLog() async {
-    openDir("$scInstalledPath\\Game.log");
-  }
-
-  Future<void> _selectLog() async {
-    final path = await SCLoggerHelper.getLogFilePath();
-    if (path == null) return;
-    openDir(path);
   }
 
   openDir(path) async {

@@ -12,6 +12,31 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
           children: [
             Column(
               children: [
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    for (final item in const {
+                      "rsi_log": "RSI启动器log",
+                      "game_log": "游戏运行log",
+                    }.entries)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6, right: 6),
+                        child: Button(
+                            child: Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Row(
+                                children: [
+                                  const Icon(FluentIcons.folder_open),
+                                  const SizedBox(width: 6),
+                                  Text(item.value),
+                                ],
+                              ),
+                            ),
+                            onPressed: () => model.onTapButton(item.key)),
+                      ),
+                  ],
+                ),
                 if (model.isChecking)
                   Expanded(
                       child: Center(
