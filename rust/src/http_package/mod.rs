@@ -28,6 +28,7 @@ lazy_static! {
             .use_rustls_tls()
             .connect_timeout(Duration::from_secs(10))
             .gzip(true)
+            .no_proxy()
             .build()
             .unwrap()
     };

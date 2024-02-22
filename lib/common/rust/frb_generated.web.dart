@@ -3,11 +3,9 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'api/downloader_api.dart';
 import 'api/http_api.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'downloader.dart';
 import 'frb_generated.dart';
 import 'http_package.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_web.dart';
@@ -47,9 +45,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_box_autoadd_u_64(dynamic raw);
 
   @protected
-  DownloadCallbackData dco_decode_download_callback_data(dynamic raw);
-
-  @protected
   int dco_decode_i_32(dynamic raw);
 
   @protected
@@ -62,13 +57,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<(String, String)> dco_decode_list_record_string_string(dynamic raw);
 
   @protected
-  MyDownloaderStatus dco_decode_my_downloader_status(dynamic raw);
-
-  @protected
   MyMethod dco_decode_my_method(dynamic raw);
-
-  @protected
-  MyNetworkItemPendingType dco_decode_my_network_item_pending_type(dynamic raw);
 
   @protected
   Map<String, String>? dco_decode_opt_Map_String_String(dynamic raw);
@@ -124,10 +113,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
 
   @protected
-  DownloadCallbackData sse_decode_download_callback_data(
-      SseDeserializer deserializer);
-
-  @protected
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
@@ -141,15 +126,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  MyDownloaderStatus sse_decode_my_downloader_status(
-      SseDeserializer deserializer);
-
-  @protected
   MyMethod sse_decode_my_method(SseDeserializer deserializer);
-
-  @protected
-  MyNetworkItemPendingType sse_decode_my_network_item_pending_type(
-      SseDeserializer deserializer);
 
   @protected
   Map<String, String>? sse_decode_opt_Map_String_String(
@@ -211,10 +188,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_box_autoadd_u_64(int self, SseSerializer serializer);
 
   @protected
-  void sse_encode_download_callback_data(
-      DownloadCallbackData self, SseSerializer serializer);
-
-  @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
@@ -229,15 +202,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       List<(String, String)> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_my_downloader_status(
-      MyDownloaderStatus self, SseSerializer serializer);
-
-  @protected
   void sse_encode_my_method(MyMethod self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_my_network_item_pending_type(
-      MyNetworkItemPendingType self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_Map_String_String(

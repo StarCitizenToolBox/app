@@ -39,61 +39,6 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
-fn wire_cancel_download_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "cancel_download",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_id = <String>::sse_decode(&mut deserializer);
-            deserializer.end();
-            move |context| async move {
-                transform_result_sse(
-                    (move || async move {
-                        Result::<_, ()>::Ok(
-                            crate::api::downloader_api::cancel_download(api_id).await,
-                        )
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
-fn wire_start_download_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec,_,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "start_download", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Stream }, move || { 
-            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
-            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_url = <String>::sse_decode(&mut deserializer);
-let api_save_path = <String>::sse_decode(&mut deserializer);
-let api_file_name = <String>::sse_decode(&mut deserializer);
-let api_connection_count = <u8>::sse_decode(&mut deserializer);deserializer.end(); move |context| async move {
-                    transform_result_sse((move || async move {
-                         Result::<_,()>::Ok(crate::api::downloader_api::start_download(api_url, api_save_path, api_file_name, api_connection_count, StreamSink::new(context.rust2dart_context().stream_sink::<_,crate::downloader::DownloadCallbackData>())).await)
-                    })().await)
-                } })
-}
 fn wire_dns_lookup_txt_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -257,24 +202,6 @@ impl SseDecode for String {
     }
 }
 
-impl SseDecode for crate::downloader::DownloadCallbackData {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_id = <String>::sse_decode(deserializer);
-        let mut var_total = <u64>::sse_decode(deserializer);
-        let mut var_progress = <u64>::sse_decode(deserializer);
-        let mut var_speed = <u64>::sse_decode(deserializer);
-        let mut var_status = <crate::downloader::MyDownloaderStatus>::sse_decode(deserializer);
-        return crate::downloader::DownloadCallbackData {
-            id: var_id,
-            total: var_total,
-            progress: var_progress,
-            speed: var_speed,
-            status: var_status,
-        };
-    }
-}
-
 impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -318,36 +245,6 @@ impl SseDecode for Vec<(String, String)> {
     }
 }
 
-impl SseDecode for crate::downloader::MyDownloaderStatus {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut tag_ = <i32>::sse_decode(deserializer);
-        match tag_ {
-            0 => {
-                return crate::downloader::MyDownloaderStatus::NoStart;
-            }
-            1 => {
-                return crate::downloader::MyDownloaderStatus::Running;
-            }
-            2 => {
-                let mut var_field0 =
-                    <crate::downloader::MyNetworkItemPendingType>::sse_decode(deserializer);
-                return crate::downloader::MyDownloaderStatus::Pending(var_field0);
-            }
-            3 => {
-                let mut var_field0 = <String>::sse_decode(deserializer);
-                return crate::downloader::MyDownloaderStatus::Error(var_field0);
-            }
-            4 => {
-                return crate::downloader::MyDownloaderStatus::Finished;
-            }
-            _ => {
-                unimplemented!("");
-            }
-        }
-    }
-}
-
 impl SseDecode for crate::api::http_api::MyMethod {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -363,20 +260,6 @@ impl SseDecode for crate::api::http_api::MyMethod {
             7 => crate::api::http_api::MyMethod::Connect,
             8 => crate::api::http_api::MyMethod::Patch,
             _ => unreachable!("Invalid variant for MyMethod: {}", inner),
-        };
-    }
-}
-
-impl SseDecode for crate::downloader::MyNetworkItemPendingType {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <i32>::sse_decode(deserializer);
-        return match inner {
-            0 => crate::downloader::MyNetworkItemPendingType::QueueUp,
-            1 => crate::downloader::MyNetworkItemPendingType::Starting,
-            2 => crate::downloader::MyNetworkItemPendingType::Stopping,
-            3 => crate::downloader::MyNetworkItemPendingType::Initializing,
-            _ => unreachable!("Invalid variant for MyNetworkItemPendingType: {}", inner),
         };
     }
 }
@@ -429,7 +312,7 @@ impl SseDecode for crate::http_package::RustHttpResponse {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_statusCode = <u16>::sse_decode(deserializer);
-        let mut var_headers = <HashMap<String, String>>::sse_decode(deserializer);
+        let mut var_headers = <std::collections::HashMap<String, String>>::sse_decode(deserializer);
         let mut var_url = <String>::sse_decode(deserializer);
         let mut var_contentLength = <Option<u64>>::sse_decode(deserializer);
         let mut var_version = <reqwest::Version>::sse_decode(deserializer);
@@ -496,11 +379,9 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        2 => wire_cancel_download_impl(port, ptr, rust_vec_len, data_len),
-        1 => wire_start_download_impl(port, ptr, rust_vec_len, data_len),
-        5 => wire_dns_lookup_txt_impl(port, ptr, rust_vec_len, data_len),
-        4 => wire_fetch_impl(port, ptr, rust_vec_len, data_len),
-        3 => wire_set_default_header_impl(port, ptr, rust_vec_len, data_len),
+        3 => wire_dns_lookup_txt_impl(port, ptr, rust_vec_len, data_len),
+        2 => wire_fetch_impl(port, ptr, rust_vec_len, data_len),
+        1 => wire_set_default_header_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -550,57 +431,6 @@ impl
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::downloader::DownloadCallbackData {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.id.into_into_dart().into_dart(),
-            self.total.into_into_dart().into_dart(),
-            self.progress.into_into_dart().into_dart(),
-            self.speed.into_into_dart().into_dart(),
-            self.status.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::downloader::DownloadCallbackData
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::downloader::DownloadCallbackData>
-    for crate::downloader::DownloadCallbackData
-{
-    fn into_into_dart(self) -> crate::downloader::DownloadCallbackData {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::downloader::MyDownloaderStatus {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self {
-            crate::downloader::MyDownloaderStatus::NoStart => [0.into_dart()].into_dart(),
-            crate::downloader::MyDownloaderStatus::Running => [1.into_dart()].into_dart(),
-            crate::downloader::MyDownloaderStatus::Pending(field0) => {
-                [2.into_dart(), field0.into_into_dart().into_dart()].into_dart()
-            }
-            crate::downloader::MyDownloaderStatus::Error(field0) => {
-                [3.into_dart(), field0.into_into_dart().into_dart()].into_dart()
-            }
-            crate::downloader::MyDownloaderStatus::Finished => [4.into_dart()].into_dart(),
-        }
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::downloader::MyDownloaderStatus
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::downloader::MyDownloaderStatus>
-    for crate::downloader::MyDownloaderStatus
-{
-    fn into_into_dart(self) -> crate::downloader::MyDownloaderStatus {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::http_api::MyMethod {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -624,28 +454,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::http_api::MyMethod>
     for crate::api::http_api::MyMethod
 {
     fn into_into_dart(self) -> crate::api::http_api::MyMethod {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::downloader::MyNetworkItemPendingType {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self {
-            Self::QueueUp => 0.into_dart(),
-            Self::Starting => 1.into_dart(),
-            Self::Stopping => 2.into_dart(),
-            Self::Initializing => 3.into_dart(),
-        }
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::downloader::MyNetworkItemPendingType
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::downloader::MyNetworkItemPendingType>
-    for crate::downloader::MyNetworkItemPendingType
-{
-    fn into_into_dart(self) -> crate::downloader::MyNetworkItemPendingType {
         self
     }
 }
@@ -715,17 +523,6 @@ impl SseEncode for String {
     }
 }
 
-impl SseEncode for crate::downloader::DownloadCallbackData {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.id, serializer);
-        <u64>::sse_encode(self.total, serializer);
-        <u64>::sse_encode(self.progress, serializer);
-        <u64>::sse_encode(self.speed, serializer);
-        <crate::downloader::MyDownloaderStatus>::sse_encode(self.status, serializer);
-    }
-}
-
 impl SseEncode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -763,31 +560,6 @@ impl SseEncode for Vec<(String, String)> {
     }
 }
 
-impl SseEncode for crate::downloader::MyDownloaderStatus {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        match self {
-            crate::downloader::MyDownloaderStatus::NoStart => {
-                <i32>::sse_encode(0, serializer);
-            }
-            crate::downloader::MyDownloaderStatus::Running => {
-                <i32>::sse_encode(1, serializer);
-            }
-            crate::downloader::MyDownloaderStatus::Pending(field0) => {
-                <i32>::sse_encode(2, serializer);
-                <crate::downloader::MyNetworkItemPendingType>::sse_encode(field0, serializer);
-            }
-            crate::downloader::MyDownloaderStatus::Error(field0) => {
-                <i32>::sse_encode(3, serializer);
-                <String>::sse_encode(field0, serializer);
-            }
-            crate::downloader::MyDownloaderStatus::Finished => {
-                <i32>::sse_encode(4, serializer);
-            }
-        }
-    }
-}
-
 impl SseEncode for crate::api::http_api::MyMethod {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -802,24 +574,6 @@ impl SseEncode for crate::api::http_api::MyMethod {
                 crate::api::http_api::MyMethod::Trace => 6,
                 crate::api::http_api::MyMethod::Connect => 7,
                 crate::api::http_api::MyMethod::Patch => 8,
-                _ => {
-                    unimplemented!("");
-                }
-            },
-            serializer,
-        );
-    }
-}
-
-impl SseEncode for crate::downloader::MyNetworkItemPendingType {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(
-            match self {
-                crate::downloader::MyNetworkItemPendingType::QueueUp => 0,
-                crate::downloader::MyNetworkItemPendingType::Starting => 1,
-                crate::downloader::MyNetworkItemPendingType::Stopping => 2,
-                crate::downloader::MyNetworkItemPendingType::Initializing => 3,
                 _ => {
                     unimplemented!("");
                 }
