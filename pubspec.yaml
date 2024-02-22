@@ -72,6 +72,8 @@ dependencies:
   grpc: ^3.2.4
   rust_builder:
     path: rust_builder
+  aria2:
+    path: ../../xkeyC/dart_aria2_rpc
 
 dependency_overrides:
   http: ^1.1.2

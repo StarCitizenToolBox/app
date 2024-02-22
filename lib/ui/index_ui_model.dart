@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:aria2/models/aria2GlobalStat.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/io/aria2c.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:starcitizen_doctor/ui/about/about_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
@@ -15,9 +17,17 @@ import 'party_room/party_room_home_ui_model.dart';
 class IndexUIModel extends BaseUIModel {
   int curIndex = 0;
 
+  Aria2GlobalStat? aria2globalStat;
+
+  int get aria2TotalTaskNum => aria2globalStat == null
+      ? 0
+      : ((aria2globalStat!.numActive ?? 0) +
+          (aria2globalStat!.numWaiting ?? 0));
+
   @override
   void initModel() {
-    _checkRunTime();
+    _checkRuntime();
+    _listenAria2c();
     Future.delayed(const Duration(milliseconds: 300))
         .then((value) => globalUIModel.doCheckUpdate(context!));
     super.initModel();
@@ -66,7 +76,7 @@ class IndexUIModel extends BaseUIModel {
     notifyListeners();
   }
 
-  Future<void> _checkRunTime() async {
+  Future<void> _checkRuntime() async {
     Future<void> onError() async {
       await showToast(context!, "运行环境出错，请检查系统环境变量 （PATH）！");
       await launchUrlString(
@@ -85,6 +95,22 @@ class IndexUIModel extends BaseUIModel {
       }
     } catch (e) {
       onError();
+    }
+  }
+
+  void goDownloader() {
+
+  }
+
+  void _listenAria2c() async {
+    while (true) {
+      try {
+        aria2globalStat = await Aria2cManager.aria2c.getGlobalStat();
+        notifyListeners();
+      } catch (e) {
+        dPrint("aria2globalStat update error:$e");
+      }
+      await Future.delayed(const Duration(seconds: 10));
     }
   }
 }

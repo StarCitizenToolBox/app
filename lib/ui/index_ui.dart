@@ -41,9 +41,45 @@ class IndexUI extends BaseUI<IndexUIModel> {
               ),
             );
           }(),
-          actions: const Row(
+          actions: Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [WindowButtons()],
+            children: [
+              IconButton(
+                  icon: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: Icon(
+                          FluentIcons.installation,
+                          size: 22,
+                          color: Colors.white.withOpacity(.6),
+                        ),
+                      ),
+                      if (model.aria2TotalTaskNum != 0)
+                        Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.only(
+                                  left: 6, right: 6, bottom: 1.5, top: 1.5),
+                              child: Text(
+                                "${model.aria2TotalTaskNum}",
+                                style: const TextStyle(
+                                  fontSize: 8,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ))
+                    ],
+                  ),
+                  onPressed: model.goDownloader),
+              const SizedBox(width: 24),
+              const WindowButtons()
+            ],
           )),
       pane: NavigationPane(
         selected: model.curIndex,
