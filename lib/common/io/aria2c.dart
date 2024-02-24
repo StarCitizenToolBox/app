@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:aria2/aria2.dart';
 import 'package:flutter/foundation.dart';
@@ -44,7 +45,6 @@ class Aria2cManager {
     if (kDebugMode) {
       if ((await SystemHelper.getPID("aria2c")).isNotEmpty) {
         dPrint("[Aria2cManager] debug skip for hot reload");
-        _daemonPID = 0;
         return;
       }
     }
@@ -55,7 +55,9 @@ class Aria2cManager {
     }
 
     final exePath = "$_aria2cDir\\aria2c.exe";
-    dPrint("Aria2cManager .-----  aria2c start ------");
+    final port = await getFreePort();
+    final pwd = generateRandomPassword(16);
+    dPrint("Aria2cManager .-----  aria2c start $port------");
     final p = await Process.start(
         exePath,
         [
@@ -66,8 +68,8 @@ class Aria2cManager {
           "--disable-ipv6",
           "--enable-rpc",
           "--pause",
-          "--rpc-listen-port=64664",
-          "--rpc-secret=ScToolbox_64664",
+          "--rpc-listen-port=$port",
+          "--rpc-secret=$pwd",
           "--input-file=${sessionFile.absolute.path.trim()}",
           "--save-session=${sessionFile.absolute.path.trim()}",
           "--save-session-interval=60",
@@ -80,8 +82,7 @@ class Aria2cManager {
       dPrint("[aria2c]: ${event.trim()}");
       if (event.contains("IPv4 RPC: listening on TCP port")) {
         _daemonPID = p.pid;
-        _aria2c = Aria2c(
-            "ws://127.0.0.1:64664/jsonrpc", "websocket", "ScToolbox_64664");
+        _aria2c = Aria2c("ws://127.0.0.1:$port/jsonrpc", "websocket", pwd);
         _aria2c!.getVersion().then((value) {
           dPrint("Aria2cManager.connected!  version == ${value.version}");
         });
@@ -101,6 +102,25 @@ class Aria2cManager {
       if (_daemonPID != null) return;
       await Future.delayed(const Duration(milliseconds: 100));
     }
+  }
+
+  static Future<int> getFreePort() async {
+    final serverSocket = await ServerSocket.bind("127.0.0.1", 0);
+    final port = serverSocket.port;
+    await serverSocket.close();
+    return port;
+  }
+
+  static String generateRandomPassword(int length) {
+    const String charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    Random random = Random();
+    StringBuffer buffer = StringBuffer();
+    for (int i = 0; i < length; i++) {
+      int randomIndex = random.nextInt(charset.length);
+      buffer.write(charset[randomIndex]);
+    }
+    return buffer.toString();
   }
 
   static int textToByte(String text) {
