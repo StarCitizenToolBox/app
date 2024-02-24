@@ -31,7 +31,29 @@ class DownloadsUIModel extends BaseUIModel {
     _listenDownloader();
   }
 
-  onTapButton(String key) {}
+  onTapButton(String key) async {
+    switch (key) {
+      case "pause_all":
+        await Aria2cManager.aria2c.pauseAll();
+        return;
+      case "resume_all":
+        await Aria2cManager.aria2c.unpauseAll();
+        return;
+      case "cancel_all":
+        final userOK = await showConfirmDialogs(
+            context!, "确认取消全部任务？", const Text("如果文件不再需要，你可能需要手动删除下载文件。"));
+        if (userOK == true) {
+          try {
+            for (var value in [...tasks, ...waitingTasks]) {
+              await Aria2cManager.aria2c.remove(value.gid!);
+            }
+          } catch (e) {
+            dPrint("DownloadsUIModel cancel_all Error:  $e");
+          }
+        }
+        return;
+    }
+  }
 
   _listenDownloader() async {
     try {
@@ -122,7 +144,7 @@ class DownloadsUIModel extends BaseUIModel {
     await Future.delayed(const Duration(milliseconds: 300));
     if (gid != null) {
       final ok = await showConfirmDialogs(
-          context!, "确认取消下载？", const Text("你可能需要手动删除下载文件。"));
+          context!, "确认取消下载？", const Text("如果文件不再需要，你可能需要手动删除下载文件。"));
       if (ok == true) {
         await Aria2cManager.aria2c.remove(gid);
       }

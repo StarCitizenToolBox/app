@@ -14,6 +14,34 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
         content: Column(
           children: [
             const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                for (final item in <MapEntry<String, IconData>, String>{
+                  if (model.tasks.isNotEmpty)
+                    const MapEntry("pause_all", FluentIcons.pause): "暂停全部"
+                  else
+                    const MapEntry("resume_all", FluentIcons.download): "恢复全部",
+                  const MapEntry("cancel_all", FluentIcons.cancel): "取消全部",
+                }.entries)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6, right: 6),
+                    child: Button(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Row(
+                            children: [
+                              Icon(item.key.value),
+                              const SizedBox(width: 6),
+                              Text(item.value),
+                            ],
+                          ),
+                        ),
+                        onPressed: () => model.onTapButton(item.key.key)),
+                  ),
+                const SizedBox(width: 12),
+              ],
+            ),
             Expanded(
                 child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
@@ -26,8 +54,11 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
                       Column(
                         children: [
                           Container(
-                            padding: const EdgeInsets.only(
-                                left: 24, right: 24, top: 12, bottom: 12),
+                            padding: EdgeInsets.only(
+                                left: 24,
+                                right: 24,
+                                top: index == 0 ? 0 : 12,
+                                bottom: 12),
                             margin: const EdgeInsets.only(top: 6, bottom: 6),
                             child: Row(
                               children: [
@@ -150,8 +181,7 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
                                       size: 14,
                                     ),
                                     text: const Text('打开文件夹'),
-                                    onPressed: () =>
-                                        model.openFolder(task)),
+                                    onPressed: () => model.openFolder(task)),
                               ],
                             ),
                           const SizedBox(width: 12),

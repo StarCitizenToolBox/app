@@ -384,13 +384,11 @@ class ToolsUIModel extends BaseUIModel {
 
     try {
       final b64Str = base64Encode(btData.data!);
-      dPrint(b64Str);
       final gid = await Aria2cManager.aria2c
           .addTorrent(b64Str, extraParams: {"dir": savePath});
       _working = false;
       dPrint("Aria2cManager.aria2c.addUri resp === $gid");
       await Aria2cManager.aria2c.saveSession();
-      await showToast(context!, "创建下载任务成功！");
       BaseUIContainer(
           uiCreate: () => DownloadsUI(),
           modelCreate: () => DownloadsUIModel()).push(context!);
