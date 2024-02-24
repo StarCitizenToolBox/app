@@ -1,6 +1,5 @@
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/conf/binary_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
 import 'package:starcitizen_doctor/ui/index_ui.dart';
@@ -29,8 +28,7 @@ class SplashUIModel extends BaseUIModel {
     await AppConf.checkUpdate();
     step = 2;
     notifyListeners();
-    await handleError(() => BinaryModuleConf.extractModel());
-    await handleError(() => Aria2cManager.launchDaemon());
+    await Aria2cManager.checkLazyLoad();
     Navigator.pushAndRemoveUntil(
         context!,
         BaseUIContainer(

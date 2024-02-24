@@ -37,18 +37,22 @@ class DownloadsUIModel extends BaseUIModel {
   onTapButton(String key) async {
     switch (key) {
       case "pause_all":
-        await Aria2cManager.aria2c.pauseAll();
+        if (!Aria2cManager.isAvailable) return;
+        await Aria2cManager.getClient().pauseAll();
         return;
       case "resume_all":
-        await Aria2cManager.aria2c.unpauseAll();
+        if (!Aria2cManager.isAvailable) return;
+
+        await Aria2cManager.getClient().unpauseAll();
         return;
       case "cancel_all":
         final userOK = await showConfirmDialogs(
             context!, "确认取消全部任务？", const Text("如果文件不再需要，你可能需要手动删除下载文件。"));
         if (userOK == true) {
+          if (!Aria2cManager.isAvailable) return;
           try {
             for (var value in [...tasks, ...waitingTasks]) {
-              await Aria2cManager.aria2c.remove(value.gid!);
+              await Aria2cManager.getClient().remove(value.gid!);
             }
           } catch (e) {
             dPrint("DownloadsUIModel cancel_all Error:  $e");
@@ -65,12 +69,15 @@ class DownloadsUIModel extends BaseUIModel {
     try {
       while (true) {
         if (!mounted) return;
-        tasks.clear();
-        tasks = await Aria2cManager.aria2c.tellActive();
-        waitingTasks = await Aria2cManager.aria2c.tellWaiting(0, 1000000);
-        stoppedTasks = await Aria2cManager.aria2c.tellStopped(0, 1000000);
-        globalStat = await Aria2cManager.aria2c.getGlobalStat();
-        notifyListeners();
+        if (Aria2cManager.isAvailable) {
+          final aria2c = Aria2cManager.getClient();
+          tasks.clear();
+          tasks = await aria2c.tellActive();
+          waitingTasks = await aria2c.tellWaiting(0, 1000000);
+          stoppedTasks = await aria2c.tellStopped(0, 1000000);
+          globalStat = await aria2c.getGlobalStat();
+          notifyListeners();
+        }
         await Future.delayed(const Duration(seconds: 1));
       }
     } catch (e) {
@@ -136,14 +143,17 @@ class DownloadsUIModel extends BaseUIModel {
   }
 
   Future<void> resumeTask(String? gid) async {
+    final aria2c = Aria2cManager.getClient();
     if (gid != null) {
-      await Aria2cManager.aria2c.unpause(gid);
+      await aria2c.unpause(gid);
     }
   }
 
   Future<void> pauseTask(String? gid) async {
+    final aria2c = Aria2cManager.getClient();
+
     if (gid != null) {
-      await Aria2cManager.aria2c.pause(gid);
+      await aria2c.pause(gid);
     }
   }
 
@@ -153,7 +163,8 @@ class DownloadsUIModel extends BaseUIModel {
       final ok = await showConfirmDialogs(
           context!, "确认取消下载？", const Text("如果文件不再需要，你可能需要手动删除下载文件。"));
       if (ok == true) {
-        await Aria2cManager.aria2c.remove(gid);
+        final aria2c = Aria2cManager.getClient();
+        await aria2c.remove(gid);
       }
     }
   }
@@ -220,12 +231,13 @@ class DownloadsUIModel extends BaseUIModel {
           ],
         ));
     if (ok == true) {
+      await handleError(() => Aria2cManager.launchDaemon());
+      final aria2c = Aria2cManager.getClient();
       final upByte = Aria2cManager.textToByte(upCtrl.text.trim());
       final downByte = Aria2cManager.textToByte(downCtrl.text.trim());
-      final r = await handleError(
-          () => Aria2cManager.aria2c.changeGlobalOption(Aria2Option()
-            ..maxOverallUploadLimit = upByte
-            ..maxOverallDownloadLimit = downByte));
+      final r = await handleError(() => aria2c.changeGlobalOption(Aria2Option()
+        ..maxOverallUploadLimit = upByte
+        ..maxOverallDownloadLimit = downByte));
       if (r != null) {
         await box.put('downloader_up_limit', upCtrl.text.trim());
         await box.put('downloader_down_limit', downCtrl.text.trim());

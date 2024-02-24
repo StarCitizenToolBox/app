@@ -108,13 +108,17 @@ class IndexUIModel extends BaseUIModel {
 
   void _listenAria2c() async {
     while (true) {
+      if (!mounted) return;
       try {
-        aria2globalStat = await Aria2cManager.aria2c.getGlobalStat();
-        notifyListeners();
+        if (Aria2cManager.isAvailable) {
+          final aria2c = Aria2cManager.getClient();
+          aria2globalStat = await aria2c.getGlobalStat();
+          notifyListeners();
+        }
       } catch (e) {
         dPrint("aria2globalStat update error:$e");
       }
-      await Future.delayed(const Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: 5));
     }
   }
 }

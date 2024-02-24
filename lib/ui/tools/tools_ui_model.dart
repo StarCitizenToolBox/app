@@ -381,13 +381,17 @@ class ToolsUIModel extends BaseUIModel {
       return;
     }
 
+    /// 启动模块
+    await handleError(() => Aria2cManager.launchDaemon());
+    final aria2c = Aria2cManager.getClient();
+
     try {
       final b64Str = base64Encode(btData.data!);
-      final gid = await Aria2cManager.aria2c
-          .addTorrent(b64Str, extraParams: {"dir": savePath});
+      final gid =
+          await aria2c.addTorrent(b64Str, extraParams: {"dir": savePath});
       _working = false;
       dPrint("Aria2cManager.aria2c.addUri resp === $gid");
-      await Aria2cManager.aria2c.saveSession();
+      await aria2c.saveSession();
       BaseUIContainer(
           uiCreate: () => DownloadsUI(),
           modelCreate: () => DownloadsUIModel()).push(context!);

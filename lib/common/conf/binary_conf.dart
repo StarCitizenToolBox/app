@@ -10,9 +10,10 @@ class BinaryModuleConf {
     "aria2c": "0",
   };
 
-  static Future extractModel() async {
+  static Future extractModule(List<String> modules) async {
     final workingDir = "${AppConf.applicationSupportDir}\\modules";
     for (var m in _modules.entries) {
+      if (!modules.contains(m.key)) continue;
       final name = m.key;
       final version = m.value;
       final dir = "$workingDir\\$name";
