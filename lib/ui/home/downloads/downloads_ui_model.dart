@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:aria2/aria2.dart';
+import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
@@ -9,6 +11,7 @@ class DownloadsUIModel extends BaseUIModel {
   List<Aria2Task> tasks = [];
   List<Aria2Task> waitingTasks = [];
   List<Aria2Task> stoppedTasks = [];
+  Aria2GlobalStat? globalStat;
 
   final statusMap = {
     "active": "下载中...",
@@ -52,6 +55,9 @@ class DownloadsUIModel extends BaseUIModel {
           }
         }
         return;
+      case "settings":
+        _showDownloadSpeedSettings();
+        return;
     }
   }
 
@@ -63,6 +69,7 @@ class DownloadsUIModel extends BaseUIModel {
         tasks = await Aria2cManager.aria2c.tellActive();
         waitingTasks = await Aria2cManager.aria2c.tellWaiting(0, 1000000);
         stoppedTasks = await Aria2cManager.aria2c.tellStopped(0, 1000000);
+        globalStat = await Aria2cManager.aria2c.getGlobalStat();
         notifyListeners();
         await Future.delayed(const Duration(seconds: 1));
       }
@@ -155,6 +162,74 @@ class DownloadsUIModel extends BaseUIModel {
     final f = getFilesFormTask(task).firstOrNull;
     if (f != null) {
       SystemHelper.openDir(File(f.path!).absolute.path.replaceAll("/", "\\"));
+    }
+  }
+
+  Future<void> _showDownloadSpeedSettings() async {
+    final box = await Hive.openBox("app_conf");
+
+    final upCtrl = TextEditingController(
+        text: box.get("downloader_up_limit", defaultValue: ""));
+    final downCtrl = TextEditingController(
+        text: box.get("downloader_down_limit", defaultValue: ""));
+
+    final ifr = FilteringTextInputFormatter.allow(RegExp(r'^\d*[km]?$'));
+
+    final ok = await showConfirmDialogs(
+        context!,
+        "限速设置",
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "SC 汉化盒子使用 p2p 网络来加速文件下载，如果您流量有限，可在此处将上传带宽设置为 1(byte)。",
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white.withOpacity(.6),
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text("请输入下载单位，如：1、100k、10m， 0或留空为不限速。"),
+            const SizedBox(height: 12),
+            const Text("上传限速："),
+            const SizedBox(height: 6),
+            TextFormBox(
+              placeholder: "1、100k、10m、0",
+              controller: upCtrl,
+              placeholderStyle: TextStyle(color: Colors.white.withOpacity(.6)),
+              inputFormatters: [ifr],
+            ),
+            const SizedBox(height: 12),
+            const Text("下载限速："),
+            const SizedBox(height: 6),
+            TextFormBox(
+              placeholder: "1、100k、10m、0",
+              controller: downCtrl,
+              placeholderStyle: TextStyle(color: Colors.white.withOpacity(.6)),
+              inputFormatters: [ifr],
+            ),
+            const SizedBox(height: 24),
+            Text(
+              "* P2P 上传仅在下载文件时进行，下载完成后会关闭 p2p 连接。如您想参与做种，请通过关于页面联系我们。",
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.white.withOpacity(.6),
+              ),
+            )
+          ],
+        ));
+    if (ok == true) {
+      final upByte = Aria2cManager.textToByte(upCtrl.text.trim());
+      final downByte = Aria2cManager.textToByte(downCtrl.text.trim());
+      final r = await handleError(
+          () => Aria2cManager.aria2c.changeGlobalOption(Aria2Option()
+            ..maxOverallUploadLimit = upByte
+            ..maxOverallDownloadLimit = downByte));
+      if (r != null) {
+        await box.put('downloader_up_limit', upCtrl.text.trim());
+        await box.put('downloader_down_limit', downCtrl.text.trim());
+      }
     }
   }
 }

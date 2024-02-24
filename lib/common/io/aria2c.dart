@@ -62,8 +62,7 @@ class Aria2cManager {
           "--save-session=${sessionFile.absolute.path.trim()}",
           "--save-session-interval=60",
           "--file-allocation=trunc",
-          // TODO for debug
-          "--max-overall-download-limit=100k"
+          "--seed-time=0",
         ],
         workingDirectory: _aria2cDir);
     p.stdout.transform(utf8.decoder).listen((event) {
@@ -87,5 +86,21 @@ class Aria2cManager {
       if (_isDaemonRunning) return;
       await Future.delayed(const Duration(milliseconds: 100));
     }
+  }
+
+  static int textToByte(String text) {
+    if (text.length == 1) {
+      return 0;
+    }
+    if (int.tryParse(text) != null) {
+      return int.parse(text);
+    }
+    if (text.endsWith("k")) {
+      return int.parse(text.substring(0, text.length - 1)) * 1024;
+    }
+    if (text.endsWith("m")) {
+      return int.parse(text.substring(0, text.length - 1)) * 1024 * 1024;
+    }
+    return 0;
   }
 }
