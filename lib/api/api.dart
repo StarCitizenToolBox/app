@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
+import 'package:starcitizen_doctor/data/app_torrent_data.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
@@ -45,6 +46,18 @@ class Api {
     if (data is List) {
       for (var element in data) {
         l.add(ScLocalizationData.fromJson(element));
+      }
+    }
+    return l;
+  }
+
+  static Future<List<AppTorrentData>> getAppTorrentDataList() async {
+    final data = await getRepoData("sc_doctor", "torrent.json");
+    final dataJson = json.decode(data);
+    List<AppTorrentData> l = [];
+    if (dataJson is List) {
+      for (var value in dataJson) {
+        l.add(AppTorrentData.fromJson(value));
       }
     }
     return l;

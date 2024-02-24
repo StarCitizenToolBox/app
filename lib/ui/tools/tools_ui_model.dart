@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
+import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -54,7 +56,7 @@ class ToolsUIModel extends BaseUIModel {
         _ToolsItemData(
           "p4k_downloader",
           "P4K 分流下载 / 修复",
-          "使用星际公民中文百科提供的分流下载服务。 \n\n资源有限，请勿滥用。请确保您的硬盘拥有至少大于 200G 的可用空间。",
+          "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n资源有限，请勿滥用。",
           const Icon(FontAwesomeIcons.download, size: 28),
           onTap: _downloadP4k,
         ),
@@ -354,49 +356,76 @@ class ToolsUIModel extends BaseUIModel {
         context!,
         "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。"
         "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
-    // AnalyticsApi.touch("p4k_download");
-
-    final userSelect = await FilePicker.platform.saveFile(
-        initialDirectory: savePath, fileName: fileName, lockParentWindow: true);
-    if (userSelect == null) {
-      return;
-    }
-    // 不再需要删除旧 p4k，直接在其基础上校验
-    // final f = File(userSelect);
-    // if (await f.exists()) {
-    //   await f.delete();
-    // }
-    savePath = userSelect;
-    dPrint(savePath);
-    notifyListeners();
-    if (savePath.endsWith("\\$fileName")) {
-      savePath = savePath.substring(0, savePath.length - fileName.length - 1);
-    }
-
-    _working = true;
-    final btData = await handleError(() => RSHttp.get(
-        "https://p4k.42kit.com/3.22.1-LIVE.9072370/Data.p4k.torrent"));
-    if (btData == null || btData.data == null) {
-      _working = false;
-      return;
-    }
-
-    /// 启动模块
-    await handleError(() => Aria2cManager.launchDaemon());
-    final aria2c = Aria2cManager.getClient();
 
     try {
+      working = true;
+      notifyListeners();
+
+      await Aria2cManager.launchDaemon();
+      final aria2c = Aria2cManager.getClient();
+
+      // check download task list
+      for (var value in [
+        ...await aria2c.tellActive(),
+        ...await aria2c.tellWaiting(0, 100000)
+      ]) {
+        final t = DownloadsUIModel.getTaskTypeAndName(value);
+        if (t.key == "torrent" && t.value.contains("Data.p4k")) {
+          showToast(context!, "已经有一个p4k下载任务正在进行中，请前往下载管理器查看！");
+          working = false;
+          return;
+        }
+      }
+
+      var torrentUrl = "";
+      final l = await Api.getAppTorrentDataList();
+      for (var torrent in l) {
+        if (torrent.name == "Data.p4k") {
+          torrentUrl = torrent.url!;
+        }
+      }
+      if (torrentUrl == "") {
+        working = false;
+        showToast(context!, "功能维护中，请稍后重试！");
+        return;
+      }
+
+      final userSelect = await FilePicker.platform.saveFile(
+          initialDirectory: savePath,
+          fileName: fileName,
+          lockParentWindow: true);
+      if (userSelect == null) {
+        working = false;
+        return;
+      }
+
+      savePath = userSelect;
+      dPrint(savePath);
+      notifyListeners();
+      if (savePath.endsWith("\\$fileName")) {
+        savePath = savePath.substring(0, savePath.length - fileName.length - 1);
+      }
+
+      final btData = await handleError(() => RSHttp.get(torrentUrl));
+      if (btData == null || btData.data == null) {
+        working = false;
+        return;
+      }
       final b64Str = base64Encode(btData.data!);
+
       final gid =
           await aria2c.addTorrent(b64Str, extraParams: {"dir": savePath});
-      _working = false;
+      working = false;
       dPrint("Aria2cManager.aria2c.addUri resp === $gid");
       await aria2c.saveSession();
+      AnalyticsApi.touch("p4k_download");
+
       BaseUIContainer(
           uiCreate: () => DownloadsUI(),
           modelCreate: () => DownloadsUIModel()).push(context!);
     } catch (e) {
-      showToast(context!, "初始化失败！");
+      working = false;
+      showToast(context!, "初始化失败！: $e");
     }
     // launchUrlString("https://citizenwiki.cn/SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90#%E5%88%86%E6%B5%81%E4%B8%8B%E8%BD%BD%E6%95%99%E7%A8%8B");
   }

@@ -58,7 +58,7 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
                   child: ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   final (task, type, isFirstType) = model.getTaskAndType(index);
-                  final nt = model.getTaskTypeAndName(task);
+                  final nt = DownloadsUIModel.getTaskTypeAndName(task);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

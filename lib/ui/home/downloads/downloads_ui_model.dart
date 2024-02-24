@@ -110,7 +110,7 @@ class DownloadsUIModel extends BaseUIModel {
     throw Exception("Index out of range or element is null");
   }
 
-  MapEntry<String, String> getTaskTypeAndName(Aria2Task task) {
+  static MapEntry<String, String> getTaskTypeAndName(Aria2Task task) {
     if (task.bittorrent == null) {
       String uri = task.files?[0]['uris'][0]['uri'] as String;
       return MapEntry("url", uri.split('/').last);
