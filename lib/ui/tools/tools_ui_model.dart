@@ -9,7 +9,11 @@ import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
+import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/ui/home/downloads/downloads_ui.dart';
 import 'package:xml/xml.dart';
+
+import '../home/downloads/downloads_ui_model.dart';
 
 class ToolsUIModel extends BaseUIModel {
   bool _working = false;
@@ -50,7 +54,7 @@ class ToolsUIModel extends BaseUIModel {
         ),
         _ToolsItemData(
           "p4k_downloader",
-          "P4K 分流下载",
+          "P4K 分流下载 / 修复",
           "使用星际公民中文百科提供的分流下载服务。 \n\n资源有限，请勿滥用。请确保您的硬盘拥有至少大于 200G 的可用空间。",
           const Icon(FontAwesomeIcons.download, size: 28),
           onTap: _downloadP4k,
@@ -340,11 +344,6 @@ class ToolsUIModel extends BaseUIModel {
     String savePath = scInstalledPath;
     String fileName = "Data.p4k";
 
-    var downloadUrl = AppConf.networkVersionData?.p4kDownloadUrl;
-    if (downloadUrl == null || downloadUrl.isEmpty) {
-      showToast(context!, "该功能维护中，请稍后再试！");
-      return;
-    }
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       showToast(context!, "RSI启动器正在运行！请先关闭启动器再使用此功能！",
           constraints: BoxConstraints(
@@ -354,20 +353,20 @@ class ToolsUIModel extends BaseUIModel {
 
     await showToast(
         context!,
-        "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户。"
+        "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。"
         "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
     // AnalyticsApi.touch("p4k_download");
 
     final userSelect = await FilePicker.platform.saveFile(
         initialDirectory: savePath, fileName: fileName, lockParentWindow: true);
     if (userSelect == null) {
-      Navigator.pop(context!);
       return;
     }
-    final f = File(userSelect);
-    if (await f.exists()) {
-      await f.delete();
-    }
+    // 不再需要删除旧 p4k，直接在其基础上校验
+    // final f = File(userSelect);
+    // if (await f.exists()) {
+    //   await f.delete();
+    // }
     savePath = userSelect;
     dPrint(savePath);
     notifyListeners();
@@ -375,14 +374,29 @@ class ToolsUIModel extends BaseUIModel {
       savePath = savePath.substring(0, savePath.length - fileName.length - 1);
     }
 
-    final gid = await Aria2cManager.aria2c.addUri(
-        ["https://release.scbox.org/data_3.22.0A-LIVE.9035564.p4k.torrent"],
-        extraParams: {"dir": savePath});
+    _working = true;
+    final btData = await handleError(() => RSHttp.get(
+        "https://p4k.42kit.com/3.22.1-LIVE.9072370/Data.p4k.torrent"));
+    if (btData == null || btData.data == null) {
+      _working = false;
+      return;
+    }
 
-    dPrint("Aria2cManager.aria2c.addUri resp === $gid");
-
-    showToast(context!, "添加下载任务成功！请留意盒子右上角的下载管理器。");
-
+    try {
+      final b64Str = base64Encode(btData.data!);
+      dPrint(b64Str);
+      final gid = await Aria2cManager.aria2c
+          .addTorrent(b64Str, extraParams: {"dir": savePath});
+      _working = false;
+      dPrint("Aria2cManager.aria2c.addUri resp === $gid");
+      await Aria2cManager.aria2c.saveSession();
+      await showToast(context!, "创建下载任务成功！");
+      BaseUIContainer(
+          uiCreate: () => DownloadsUI(),
+          modelCreate: () => DownloadsUIModel()).push(context!);
+    } catch (e) {
+      showToast(context!, "初始化失败！");
+    }
     // launchUrlString("https://citizenwiki.cn/SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90#%E5%88%86%E6%B5%81%E4%B8%8B%E8%BD%BD%E6%95%99%E7%A8%8B");
   }
 

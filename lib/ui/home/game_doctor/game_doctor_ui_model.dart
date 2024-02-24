@@ -245,20 +245,15 @@ class GameDoctorUIModel extends BaseUIModel {
       case "rsi_log":
         final path = await SCLoggerHelper.getLogFilePath();
         if (path == null) return;
-        openDir(path);
+        SystemHelper.openDir(path);
         return;
       case "game_log":
         if (scInstalledPath == "not_install") {
           showToast(context!, "请在首页选择游戏安装目录。");
           return;
         }
-        openDir("$scInstalledPath\\Game.log");
+        SystemHelper.openDir("$scInstalledPath\\Game.log");
         return;
     }
-  }
-
-  openDir(path) async {
-    await Process.run(
-        SystemHelper.powershellPath, ["explorer.exe", "/select,\"$path\""]);
   }
 }

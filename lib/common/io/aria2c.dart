@@ -62,12 +62,13 @@ class Aria2cManager {
           "--save-session=${sessionFile.absolute.path.trim()}",
           "--save-session-interval=60",
           "--file-allocation=trunc",
+          // TODO for debug
+          "--max-overall-download-limit=100k"
         ],
-        workingDirectory: _aria2cDir,
-        runInShell: false);
+        workingDirectory: _aria2cDir);
     p.stdout.transform(utf8.decoder).listen((event) {
       if (event.trim().isEmpty) return;
-      dPrint("[aria2c]: $event");
+      dPrint("[aria2c]: ${event.trim()}");
       if (event.contains("IPv4 RPC: listening on TCP port")) {
         _isDaemonRunning = true;
         aria2c;

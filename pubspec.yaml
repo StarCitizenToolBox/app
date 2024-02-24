@@ -73,7 +73,9 @@ dependencies:
   rust_builder:
     path: rust_builder
   aria2:
+    #git: https://github.com/xkeyC/dart_aria2_rpc.git
     path: ../../xkeyC/dart_aria2_rpc
+  intl: ^0.18.0
 
 dependency_overrides:
   http: ^1.1.2

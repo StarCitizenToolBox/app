@@ -7,6 +7,8 @@ import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:starcitizen_doctor/ui/about/about_ui_model.dart';
+import 'package:starcitizen_doctor/ui/home/downloads/downloads_ui.dart';
+import 'package:starcitizen_doctor/ui/home/downloads/downloads_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
@@ -98,8 +100,10 @@ class IndexUIModel extends BaseUIModel {
     }
   }
 
-  void goDownloader() {
-
+  Future<void> goDownloader() async {
+    await BaseUIContainer(
+        uiCreate: () => DownloadsUI(),
+        modelCreate: () => DownloadsUIModel()).push(context!);
   }
 
   void _listenAria2c() async {
