@@ -63,6 +63,11 @@ class Api {
     return l;
   }
 
+  static Future<String> getTorrentTrackerList() async {
+    final data = await getRepoData("sc_doctor", "tracker.list");
+    return data;
+  }
+
   static Future<List> getScServerStatus() async {
     final r = await RSHttp.getText(
         "https://status.robertsspaceindustries.com/index.json");

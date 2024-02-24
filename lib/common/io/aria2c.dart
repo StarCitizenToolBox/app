@@ -4,6 +4,8 @@ import 'dart:math';
 
 import 'package:aria2/aria2.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
+import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/binary_conf.dart';
@@ -57,6 +59,9 @@ class Aria2cManager {
     final exePath = "$_aria2cDir\\aria2c.exe";
     final port = await getFreePort();
     final pwd = generateRandomPassword(16);
+    dPrint("pwd === $pwd");
+    final trackerList = await Api.getTorrentTrackerList();
+    dPrint("trackerList === $trackerList");
     dPrint("Aria2cManager .-----  aria2c start $port------");
     final p = await Process.start(
         exePath,
@@ -77,7 +82,7 @@ class Aria2cManager {
           "--seed-time=0",
         ],
         workingDirectory: _aria2cDir);
-    p.stdout.transform(utf8.decoder).listen((event) {
+    p.stdout.transform(utf8.decoder).listen((event) async {
       if (event.trim().isEmpty) return;
       dPrint("[aria2c]: ${event.trim()}");
       if (event.contains("IPv4 RPC: listening on TCP port")) {
@@ -86,6 +91,13 @@ class Aria2cManager {
         _aria2c!.getVersion().then((value) {
           dPrint("Aria2cManager.connected!  version == ${value.version}");
         });
+        final box = await Hive.openBox("app_conf");
+        _aria2c!.changeGlobalOption(Aria2Option()
+          ..maxOverallUploadLimit =
+              textToByte(box.get("downloader_up_limit", defaultValue: "0"))
+          ..maxOverallDownloadLimit =
+              textToByte(box.get("downloader_down_limit", defaultValue: "0"))
+          ..btTracker = trackerList);
       }
     }, onDone: () {
       dPrint("[aria2c] onDone: ");
