@@ -129,7 +129,7 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
                                       )
                                     else if (task.status == "active")
                                       Text(
-                                          "下载中... (${((task.completedLength ?? 0) / (task.totalLength ?? 1)).toStringAsFixed(4)}%)")
+                                          "下载中... (${((task.completedLength ?? 0) * 100 / (task.totalLength ?? 1)).toStringAsFixed(4)}%)")
                                     else
                                       Text(
                                         "状态：${model.statusMap[task.status]}",
