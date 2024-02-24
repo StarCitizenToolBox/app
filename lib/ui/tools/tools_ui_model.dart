@@ -12,6 +12,7 @@ import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/ui/home/downloads/downloads_ui.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:xml/xml.dart';
 
 import '../home/downloads/downloads_ui_model.dart';
@@ -427,7 +428,9 @@ class ToolsUIModel extends BaseUIModel {
       working = false;
       showToast(context!, "初始化失败！: $e");
     }
-    // launchUrlString("https://citizenwiki.cn/SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90#%E5%88%86%E6%B5%81%E4%B8%8B%E8%BD%BD%E6%95%99%E7%A8%8B");
+    await Future.delayed(const Duration(seconds: 3));
+    launchUrlString(
+        "https://citizenwiki.cn/SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90#%E5%88%86%E6%B5%81%E4%B8%8B%E8%BD%BD%E6%95%99%E7%A8%8B");
   }
 
   Future<bool> _checkPhotographyStatus({bool? setMode}) async {
