@@ -39,11 +39,12 @@ class DownloadsUIModel extends BaseUIModel {
       case "pause_all":
         if (!Aria2cManager.isAvailable) return;
         await Aria2cManager.getClient().pauseAll();
+        await Aria2cManager.getClient().saveSession();
         return;
       case "resume_all":
         if (!Aria2cManager.isAvailable) return;
-
         await Aria2cManager.getClient().unpauseAll();
+        await Aria2cManager.getClient().saveSession();
         return;
       case "cancel_all":
         final userOK = await showConfirmDialogs(
@@ -54,6 +55,7 @@ class DownloadsUIModel extends BaseUIModel {
             for (var value in [...tasks, ...waitingTasks]) {
               await Aria2cManager.getClient().remove(value.gid!);
             }
+            await Aria2cManager.getClient().saveSession();
           } catch (e) {
             dPrint("DownloadsUIModel cancel_all Error:  $e");
           }
@@ -241,6 +243,7 @@ class DownloadsUIModel extends BaseUIModel {
       if (r != null) {
         await box.put('downloader_up_limit', upCtrl.text.trim());
         await box.put('downloader_down_limit', downCtrl.text.trim());
+        notifyListeners();
       }
     }
   }

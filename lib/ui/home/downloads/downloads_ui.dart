@@ -2,6 +2,7 @@ import 'package:file_sizes/file_sizes.dart';
 import 'package:intl/intl.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
+import 'package:starcitizen_doctor/common/io/aria2c.dart';
 
 import 'downloads_ui_model.dart';
 
@@ -12,19 +13,22 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
   Widget? buildBody(BuildContext context, DownloadsUIModel model) {
     return makeDefaultPage(context, model,
         content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 12),
             Row(
               children: [
                 const Spacer(),
                 const SizedBox(width: 24),
+                const SizedBox(width: 12),
                 for (final item in <MapEntry<String, IconData>, String>{
                   const MapEntry("settings", FluentIcons.settings): "限速设置",
                   if (model.tasks.isNotEmpty)
-                    const MapEntry("pause_all", FluentIcons.pause): "暂停全部"
-                  else
+                    const MapEntry("pause_all", FluentIcons.pause): "全部暂停",
+                  if (model.waitingTasks.isNotEmpty)
                     const MapEntry("resume_all", FluentIcons.download): "恢复全部",
-                  const MapEntry("cancel_all", FluentIcons.cancel): "取消全部",
+                  if (model.tasks.isNotEmpty || model.waitingTasks.isNotEmpty)
+                    const MapEntry("cancel_all", FluentIcons.cancel): "全部取消",
                 }.entries)
                   Padding(
                     padding: const EdgeInsets.only(left: 6, right: 6),
@@ -79,11 +83,6 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      if (type == "active")
-                                        Text(
-                                          "下载： ${FileSize.getSize(model.globalStat?.downloadSpeed ?? 0)}/s    上传：${FileSize.getSize(model.globalStat?.uploadSpeed ?? 0)}/s",
-                                          style: const TextStyle(fontSize: 13),
-                                        ),
                                     ],
                                   )),
                                 ],
@@ -213,7 +212,32 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
                   );
                 },
                 itemCount: model.getTasksLen(),
-              ))
+              )),
+            Container(
+              color: FluentTheme.of(context).cardColor.withOpacity(.06),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12, bottom: 3, top: 3),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: Aria2cManager.isAvailable
+                            ? Colors.green
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(1000),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      "下载： ${FileSize.getSize(model.globalStat?.downloadSpeed ?? 0)}/s    上传：${FileSize.getSize(model.globalStat?.uploadSpeed ?? 0)}/s",
+                      style: const TextStyle(fontSize: 12),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
         ));
   }
