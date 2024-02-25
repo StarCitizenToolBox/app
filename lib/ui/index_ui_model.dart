@@ -7,8 +7,8 @@ import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:starcitizen_doctor/ui/about/about_ui_model.dart';
-import 'package:starcitizen_doctor/ui/home/downloads/downloads_ui.dart';
-import 'package:starcitizen_doctor/ui/home/downloads/downloads_ui_model.dart';
+import 'package:starcitizen_doctor/ui/home/downloader/downloader_ui.dart';
+import 'package:starcitizen_doctor/ui/home/downloader/downloader_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
@@ -102,8 +102,8 @@ class IndexUIModel extends BaseUIModel {
 
   Future<void> goDownloader() async {
     await BaseUIContainer(
-        uiCreate: () => DownloadsUI(),
-        modelCreate: () => DownloadsUIModel()).push(context!);
+        uiCreate: () => DownloaderUI(),
+        modelCreate: () => DownloaderUIModel()).push(context!);
   }
 
   void _listenAria2c() async {

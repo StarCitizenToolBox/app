@@ -11,11 +11,11 @@ import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
-import 'package:starcitizen_doctor/ui/home/downloads/downloads_ui.dart';
+import 'package:starcitizen_doctor/ui/home/downloader/downloader_ui.dart';
+import 'package:starcitizen_doctor/ui/home/downloader/downloader_ui_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:xml/xml.dart';
 
-import '../home/downloads/downloads_ui_model.dart';
 
 class ToolsUIModel extends BaseUIModel {
   bool _working = false;
@@ -370,7 +370,7 @@ class ToolsUIModel extends BaseUIModel {
         ...await aria2c.tellActive(),
         ...await aria2c.tellWaiting(0, 100000)
       ]) {
-        final t = DownloadsUIModel.getTaskTypeAndName(value);
+        final t = DownloaderUIModel.getTaskTypeAndName(value);
         if (t.key == "torrent" && t.value.contains("Data.p4k")) {
           showToast(context!, "已经有一个p4k下载任务正在进行中，请前往下载管理器查看！");
           working = false;
@@ -422,8 +422,8 @@ class ToolsUIModel extends BaseUIModel {
       AnalyticsApi.touch("p4k_download");
 
       BaseUIContainer(
-          uiCreate: () => DownloadsUI(),
-          modelCreate: () => DownloadsUIModel()).push(context!);
+          uiCreate: () => DownloaderUI(),
+          modelCreate: () => DownloaderUIModel()).push(context!);
     } catch (e) {
       working = false;
       showToast(context!, "初始化失败！: $e");

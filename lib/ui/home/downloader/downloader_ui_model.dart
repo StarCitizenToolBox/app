@@ -7,7 +7,7 @@ import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
 
-class DownloadsUIModel extends BaseUIModel {
+class DownloaderUIModel extends BaseUIModel {
   List<Aria2Task> tasks = [];
   List<Aria2Task> waitingTasks = [];
   List<Aria2Task> stoppedTasks = [];

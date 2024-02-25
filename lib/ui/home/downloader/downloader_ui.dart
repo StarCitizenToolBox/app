@@ -4,13 +4,13 @@ import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
 
-import 'downloads_ui_model.dart';
+import 'downloader_ui_model.dart';
 
-class DownloadsUI extends BaseUI<DownloadsUIModel> {
+class DownloaderUI extends BaseUI<DownloaderUIModel> {
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
 
   @override
-  Widget? buildBody(BuildContext context, DownloadsUIModel model) {
+  Widget? buildBody(BuildContext context, DownloaderUIModel model) {
     return makeDefaultPage(context, model,
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
                   child: ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   final (task, type, isFirstType) = model.getTaskAndType(index);
-                  final nt = DownloadsUIModel.getTaskTypeAndName(task);
+                  final nt = DownloaderUIModel.getTaskTypeAndName(task);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -243,5 +243,5 @@ class DownloadsUI extends BaseUI<DownloadsUIModel> {
   }
 
   @override
-  String getUITitle(BuildContext context, DownloadsUIModel model) => "下载管理";
+  String getUITitle(BuildContext context, DownloaderUIModel model) => "下载管理";
 }
