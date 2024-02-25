@@ -2,6 +2,7 @@ use std::sync::Arc;
 use tokio::io::{AsyncBufReadExt, BufReader};
 use crate::frb_generated::StreamSink;
 
+
 pub async fn start_process(
     executable: String,
     arguments: Vec<String>,
@@ -24,10 +25,16 @@ pub async fn start_process(
     let mut info = job.query_extended_limit_info().unwrap();
     info.limit_kill_on_job_close();
     job.set_extended_limit_info(&mut info).unwrap();
-    job.assign_current_process().unwrap();
 
+    let job_arc = Arc::from(job);
 
     if let Ok(mut child) = command.spawn() {
+        {
+            let raw_handle = child.raw_handle();
+            if raw_handle.is_some() {
+                job_arc.assign_process(raw_handle.unwrap() as isize).unwrap();
+            }
+        }
         let stdout = child.stdout.take().expect("Failed to open stdout");
         let stderr = child.stderr.take().expect("Failed to open stderr");
         let output_task = tokio::spawn(process_output(stdout, stream_sink_arc.clone()));
