@@ -150,6 +150,53 @@ fn wire_set_default_header_impl(
         },
     )
 }
+fn wire_start_process_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "start_process",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Stream,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_executable = <String>::sse_decode(&mut deserializer);
+            let api_arguments = <Vec<String>>::sse_decode(&mut deserializer);
+            let api_working_directory = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| async move {
+                transform_result_sse(
+                    (move || async move {
+                        Result::<_, ()>::Ok(
+                            crate::api::process_api::start_process(
+                                api_executable,
+                                api_arguments,
+                                api_working_directory,
+                                StreamSink::new(
+                                    context.rust2dart_context().stream_sink::<_, String>(),
+                                ),
+                            )
+                            .await,
+                        )
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 
 // Section: related_funcs
 
@@ -382,6 +429,7 @@ fn pde_ffi_dispatcher_primary_impl(
         3 => wire_dns_lookup_txt_impl(port, ptr, rust_vec_len, data_len),
         2 => wire_fetch_impl(port, ptr, rust_vec_len, data_len),
         1 => wire_set_default_header_impl(port, ptr, rust_vec_len, data_len),
+        4 => wire_start_process_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }

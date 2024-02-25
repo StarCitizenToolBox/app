@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -11,8 +10,11 @@ import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/binary_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 
+import 'package:starcitizen_doctor/common/rust/api/process_api.dart'
+    as rs_process;
+
 class Aria2cManager {
-  static int? _daemonPID;
+  static bool _isDaemonRunning = false;
 
   static final String _aria2cDir =
       "${AppConf.applicationSupportDir}\\modules\\aria2c";
@@ -24,7 +26,7 @@ class Aria2cManager {
     throw "not connect!";
   }
 
-  static bool get isAvailable => _daemonPID != null && _aria2c != null;
+  static bool get isAvailable => _isDaemonRunning && _aria2c != null;
 
   static Future checkLazyLoad() async {
     try {
@@ -40,7 +42,7 @@ class Aria2cManager {
   }
 
   static Future launchDaemon() async {
-    if (_daemonPID != null) return;
+    if (_isDaemonRunning) return;
     await BinaryModuleConf.extractModule(["aria2c"]);
 
     /// skip for debug hot reload
@@ -63,9 +65,10 @@ class Aria2cManager {
     final trackerList = await Api.getTorrentTrackerList();
     dPrint("trackerList === $trackerList");
     dPrint("Aria2cManager .-----  aria2c start $port------");
-    final p = await Process.start(
-        exePath,
-        [
+
+    final stream = rs_process.startProcess(
+        executable: exePath,
+        arguments: [
           "-V",
           "-c",
           "-x 10",
@@ -82,36 +85,24 @@ class Aria2cManager {
           "--seed-time=0",
         ],
         workingDirectory: _aria2cDir);
-    p.stdout.transform(utf8.decoder).listen((event) async {
-      if (event.trim().isEmpty) return;
-      dPrint("[aria2c]: ${event.trim()}");
-      if (event.contains("IPv4 RPC: listening on TCP port")) {
-        _daemonPID = p.pid;
-        _aria2c = Aria2c("ws://127.0.0.1:$port/jsonrpc", "websocket", pwd);
-        _aria2c!.getVersion().then((value) {
-          dPrint("Aria2cManager.connected!  version == ${value.version}");
-        });
-        final box = await Hive.openBox("app_conf");
-        _aria2c!.changeGlobalOption(Aria2Option()
-          ..maxOverallUploadLimit =
-              textToByte(box.get("downloader_up_limit", defaultValue: "0"))
-          ..maxOverallDownloadLimit =
-              textToByte(box.get("downloader_down_limit", defaultValue: "0"))
-          ..btTracker = trackerList);
+
+    stream.listen((event) {
+      dPrint("Aria2cManager.rs_process event === $event");
+      if (event.startsWith("output:")) {
+        if (event.contains("IPv4 RPC: listening on TCP port")) {
+          _onLaunch(port, pwd, trackerList);
+        }
+      } else if (event.startsWith("error:")) {
+        _isDaemonRunning = false;
+        _aria2c = null;
+      } else if (event.startsWith("exit:")) {
+        _isDaemonRunning = false;
+        _aria2c = null;
       }
-    }, onDone: () {
-      dPrint("[aria2c] onDone: ");
-      _daemonPID = null;
-    }, onError: (e) {
-      dPrint("[aria2c] stdout ERROR: $e");
-      _daemonPID = null;
     });
-    p.pid;
-    p.stderr.transform(utf8.decoder).listen((event) {
-      dPrint("[aria2c] stderr ERROR : $event");
-    });
+
     while (true) {
-      if (_daemonPID != null) return;
+      if (_isDaemonRunning) return;
       await Future.delayed(const Duration(milliseconds: 100));
     }
   }
@@ -149,5 +140,21 @@ class Aria2cManager {
       return int.parse(text.substring(0, text.length - 1)) * 1024 * 1024;
     }
     return 0;
+  }
+
+  static Future<void> _onLaunch(
+      int port, String pwd, String trackerList) async {
+    _isDaemonRunning = true;
+    _aria2c = Aria2c("ws://127.0.0.1:$port/jsonrpc", "websocket", pwd);
+    _aria2c!.getVersion().then((value) {
+      dPrint("Aria2cManager.connected!  version == ${value.version}");
+    });
+    final box = await Hive.openBox("app_conf");
+    _aria2c!.changeGlobalOption(Aria2Option()
+      ..maxOverallUploadLimit =
+          textToByte(box.get("downloader_up_limit", defaultValue: "0"))
+      ..maxOverallDownloadLimit =
+          textToByte(box.get("downloader_down_limit", defaultValue: "0"))
+      ..btTracker = trackerList);
   }
 }

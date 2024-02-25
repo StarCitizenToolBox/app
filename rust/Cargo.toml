@@ -12,7 +12,7 @@ crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 flutter_rust_bridge = "=2.0.0-dev.24"
-tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros","process"] }
 url = "2.5.0"
 uuid = { version = "1.7.0", features = ["v4", "fast-rng", "macro-diagnostics"] }
 async-std = "1.12.0"
@@ -21,3 +21,4 @@ once_cell = "1.19.0"
 reqwest = { version = "0.11", features = ["rustls-tls-native-roots", "cookies", "gzip", "json","stream"] }
 hickory-resolver = {version = "0.24.0"}
 anyhow = "1.0"
+win32job = "2"

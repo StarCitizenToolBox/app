@@ -1,3 +1,3 @@
 mod frb_generated;
-mod api;
-mod http_package;
+pub mod api;
+pub mod http_package;

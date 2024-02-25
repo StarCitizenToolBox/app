@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/http_api.dart';
+import 'api/process_api.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.io.dart' if (dart.library.html) 'frb_generated.web.dart';
@@ -74,6 +75,12 @@ abstract class RustLibApi extends BaseApi {
 
   Future<void> setDefaultHeader(
       {required Map<String, String> headers, dynamic hint});
+
+  Stream<String> startProcess(
+      {required String executable,
+      required List<String> arguments,
+      required String workingDirectory,
+      dynamic hint});
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_ReqwestVersion;
@@ -175,6 +182,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kSetDefaultHeaderConstMeta => const TaskConstMeta(
         debugName: "set_default_header",
         argNames: ["headers"],
+      );
+
+  @override
+  Stream<String> startProcess(
+      {required String executable,
+      required List<String> arguments,
+      required String workingDirectory,
+      dynamic hint}) {
+    return handler.executeStream(StreamTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(executable, serializer);
+        sse_encode_list_String(arguments, serializer);
+        sse_encode_String(workingDirectory, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 4, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kStartProcessConstMeta,
+      argValues: [executable, arguments, workingDirectory],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kStartProcessConstMeta => const TaskConstMeta(
+        debugName: "start_process",
+        argNames: ["executable", "arguments", "workingDirectory"],
       );
 
   RustArcIncrementStrongCountFnType

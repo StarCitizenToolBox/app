@@ -3,7 +3,6 @@ use hyper::Method;
 use crate::http_package;
 use crate::http_package::RustHttpResponse;
 
-
 pub enum MyMethod {
     Options,
     Gets,
