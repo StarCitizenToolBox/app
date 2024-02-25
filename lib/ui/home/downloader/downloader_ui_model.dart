@@ -167,6 +167,7 @@ class DownloaderUIModel extends BaseUIModel {
       if (ok == true) {
         final aria2c = Aria2cManager.getClient();
         await aria2c.remove(gid);
+        await Aria2cManager.getClient().saveSession();
       }
     }
   }
