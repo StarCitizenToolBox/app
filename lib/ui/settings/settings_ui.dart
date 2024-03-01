@@ -60,6 +60,11 @@ class SettingUI extends BaseUI<SettingUIModel> {
                   "使用镜像服务器加速访问 Dps Uex 等工具网站，若访问异常请关闭该功能。 为保护账户安全，任何情况下都不会加速RSI官网。",
               onSwitch: model.onChangeToolSiteMirror,
               switchStatus: model.isEnableToolSiteMirrors),
+          const SizedBox(height: 12),
+          makeSettingsItem(
+              const Icon(FluentIcons.document_set, size: 20), "查看log",
+              onTap: () => model.showLogs(),
+              subTitle: "查看汉化盒子的 log 文件，以定位盒子的 bug"),
         ],
       ),
     );

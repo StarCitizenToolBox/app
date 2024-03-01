@@ -190,4 +190,8 @@ class SettingUIModel extends BaseUIModel {
     await userBox.put("isEnableToolSiteMirrors", isEnableToolSiteMirrors);
     notifyListeners();
   }
+
+  showLogs() async {
+    SystemHelper.openDir(AppConf.appLogFile?.absolute.path);
+  }
 }
