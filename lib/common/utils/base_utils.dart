@@ -1,15 +1,10 @@
+import 'dart:async';
+
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
-
-void dPrint(src) {
-  if (kDebugMode) {
-    print(src);
-  }
-}
 
 Future showToast(BuildContext context, String msg,
     {BoxConstraints? constraints, String? title}) async {

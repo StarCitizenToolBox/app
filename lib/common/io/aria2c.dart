@@ -5,19 +5,19 @@ import 'package:aria2/aria2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/api/api.dart';
-import 'package:starcitizen_doctor/base/ui.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/binary_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 
 import 'package:starcitizen_doctor/common/rust/api/process_api.dart'
     as rs_process;
+import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class Aria2cManager {
   static bool _isDaemonRunning = false;
 
   static final String _aria2cDir =
-      "${AppConf.applicationSupportDir}\\modules\\aria2c";
+      "${AppConf.applicationBinaryModuleDir}\\aria2c";
 
   static Aria2c? _aria2c;
 
@@ -86,6 +86,8 @@ class Aria2cManager {
         ],
         workingDirectory: _aria2cDir);
 
+    String launchError = "";
+
     stream.listen((event) {
       dPrint("Aria2cManager.rs_process event === $event");
       if (event.startsWith("output:")) {
@@ -95,14 +97,17 @@ class Aria2cManager {
       } else if (event.startsWith("error:")) {
         _isDaemonRunning = false;
         _aria2c = null;
+        launchError = event;
       } else if (event.startsWith("exit:")) {
         _isDaemonRunning = false;
         _aria2c = null;
+        launchError = event;
       }
     });
 
     while (true) {
       if (_isDaemonRunning) return;
+      if (launchError.isNotEmpty) throw launchError;
       await Future.delayed(const Duration(milliseconds: 100));
     }
   }

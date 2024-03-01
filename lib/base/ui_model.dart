@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grpc/grpc.dart';
 
 import 'ui.dart';
+import '../common/utils/log.dart' as log_utils;
 
 export '../common/utils/base_utils.dart';
 export 'ui.dart';
@@ -132,5 +133,9 @@ class BaseUIModel extends ChangeNotifier {
 
   dismissKeyBoard() {
     FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  dPrint(src) {
+    log_utils.dPrint("<$runtimeType> $src");
   }
 }

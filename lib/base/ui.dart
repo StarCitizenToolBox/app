@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:starcitizen_doctor/main.dart';
 import 'package:starcitizen_doctor/widgets/my_page_route.dart';
 import 'package:window_manager/window_manager.dart';
+import '../common/utils/log.dart' as log_utils;
+
 import 'dart:ui' as ui;
 
 import 'ui_model.dart';
@@ -177,5 +179,9 @@ abstract class BaseUI<T extends BaseUIModel>
 
   makeSvgColor(Color color, {BlendMode blendMode = BlendMode.color}) {
     return ui.ColorFilter.mode(color, blendMode);
+  }
+
+  dPrint(src) {
+    log_utils.dPrint("<$runtimeType> $src");
   }
 }

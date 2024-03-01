@@ -12,6 +12,7 @@ import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart' as log_utils;
 
 class LocalizationUIModel extends BaseUIModel {
   final String scInstallPath;
@@ -372,7 +373,7 @@ class LocalizationUIModel extends BaseUIModel {
         updateInfo[value] = hasUpdate;
       }
     }
-    dPrint("checkLocalizationUpdates ==== $updateInfo");
+    log_utils.dPrint("checkLocalizationUpdates ==== $updateInfo");
     for (var v in updateInfo.entries) {
       if (v.value) {
         for (var element in AppConf.gameChannels) {

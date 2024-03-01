@@ -162,9 +162,10 @@ class GameDoctorUIModel extends BaseUIModel {
         var result = await Process.run('powershell', [
           "(fsutil fsinfo sectorinfo $element: | Select-String 'PhysicalBytesPerSectorForPerformance').ToString().Split(':')[1].Trim()"
         ]);
-        dPrint(result.stdout);
+        dPrint(
+            "fsutil info sector info: ->>> ${result.stdout.toString().trim()}");
         if (result.stderr == "") {
-          final rs = result.stdout.toString();
+          final rs = result.stdout.toString().trim();
           final physicalBytesPerSectorForPerformance = (int.tryParse(rs) ?? 0);
           if (physicalBytesPerSectorForPerformance > 4096) {
             checkResult?.add(MapEntry("nvme_PhysicalBytes", element));

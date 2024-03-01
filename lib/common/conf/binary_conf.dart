@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:archive/archive.dart';
 import 'package:flutter/services.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
-import 'package:starcitizen_doctor/common/utils/base_utils.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class BinaryModuleConf {
   static const _modules = {
@@ -11,7 +11,7 @@ class BinaryModuleConf {
   };
 
   static Future extractModule(List<String> modules) async {
-    final workingDir = "${AppConf.applicationSupportDir}\\modules";
+    final workingDir = AppConf.applicationBinaryModuleDir;
     for (var m in _modules.entries) {
       if (!modules.contains(m.key)) continue;
       final name = m.key;

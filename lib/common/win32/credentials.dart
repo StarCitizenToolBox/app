@@ -8,9 +8,9 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:win32/win32.dart';
 
-import '../utils/base_utils.dart';
 
 class Win32Credentials {
   static void write(

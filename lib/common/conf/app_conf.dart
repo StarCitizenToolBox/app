@@ -10,6 +10,7 @@ import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/frb_generated.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/global_ui_model.dart';
 import 'package:starcitizen_doctor/base/ui.dart';
@@ -26,6 +27,10 @@ class AppConf {
   static String deviceUUID = "";
 
   static late final String applicationSupportDir;
+
+  static late final String applicationBinaryModuleDir;
+
+  static File? appLogFile;
 
   static AppVersionData? networkVersionData;
 
@@ -51,9 +56,21 @@ class AppConf {
     } catch (_) {}
 
     /// init Data
+    final userProfileDir = Platform.environment["USERPROFILE"];
     applicationSupportDir =
         (await getApplicationSupportDirectory()).absolute.path;
+    final logFile = File(
+        "$applicationSupportDir\\logs\\${DateTime.now().millisecondsSinceEpoch}.log");
+    await logFile.create(recursive: true);
+    appLogFile = logFile;
+    if (AppConf.isMSE && userProfileDir != null) {
+      applicationBinaryModuleDir =
+          "$userProfileDir\\AppData\\Local\\Temp\\SCToolbox\\modules";
+    } else {
+      applicationBinaryModuleDir = "$applicationSupportDir\\modules";
+    }
     dPrint("applicationSupportDir == $applicationSupportDir");
+    dPrint("applicationBinaryModuleDir == $applicationBinaryModuleDir");
     try {
       Hive.init("$applicationSupportDir/db");
       final box = await Hive.openBox("app_conf");

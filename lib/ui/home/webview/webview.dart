@@ -11,6 +11,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
 

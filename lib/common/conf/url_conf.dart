@@ -1,6 +1,6 @@
-import 'package:starcitizen_doctor/base/ui_model.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/http_package.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class URLConf {
   /// HOME API

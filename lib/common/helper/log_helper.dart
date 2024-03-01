@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hive/hive.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 
-import '../utils/base_utils.dart';
 
 class SCLoggerHelper {
   static Future<String?> getLogFilePath() async {

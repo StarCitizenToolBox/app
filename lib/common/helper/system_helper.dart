@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:hive/hive.dart';
-import 'package:starcitizen_doctor/common/utils/base_utils.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class SystemHelper {
   static String powershellPath = "powershell.exe";

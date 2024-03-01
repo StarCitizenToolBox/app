@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
-import 'package:starcitizen_doctor/common/utils/base_utils.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class AnalyticsApi {
   static touch(String key) async {
