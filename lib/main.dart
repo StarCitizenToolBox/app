@@ -1,34 +1,43 @@
 import 'package:desktop_webview_window/desktop_webview_window.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'base/ui_model.dart';
-import 'common/conf/app_conf.dart';
-import 'global_ui_model.dart';
-import 'ui/splash_ui.dart';
-import 'ui/splash_ui_model.dart';
+import 'app.dart';
 
 void main(List<String> args) async {
+  // webview window
   if (runWebViewTitleBarWidget(args,
       backgroundColor: const Color.fromRGBO(19, 36, 49, 1),
       builder: _defaultWebviewTitleBar)) {
     return;
   }
-  await AppConf.init(args);
-  runApp(ProviderScope(
-    child: BaseUIContainer(
-      uiCreate: () => AppUI(),
-      modelCreate: () => globalUIModelProvider,
-    ),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  await _initWindow();
+  // run app
+  runApp(const ProviderScope(child: App()));
 }
 
-class AppUI extends BaseUI {
+_initWindow() async {
+  await windowManager.ensureInitialized();
+  await windowManager.setTitleBarStyle(
+    TitleBarStyle.hidden,
+    windowButtonVisibility: false,
+  );
+  await windowManager.hide();
+  await windowManager.center(animate: true);
+}
+
+class App extends HookConsumerWidget {
+  const App({super.key});
+
   @override
-  Widget? buildBody(BuildContext context, BaseUIModel model) {
-    return FluentApp(
-      title: "StarCitizen Doctor",
-      restorationScopeId: "Doctor",
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+    final appState = ref.watch(appGlobalModelProvider);
+    return FluentApp.router(
+      title: "StarCitizenToolBox",
+      restorationScopeId: "StarCitizenToolBox",
       themeMode: ThemeMode.dark,
       builder: (context, child) {
         return MediaQuery(
@@ -41,10 +50,10 @@ class AppUI extends BaseUI {
           brightness: Brightness.dark,
           fontFamily: "SourceHanSansCN-Regular",
           navigationPaneTheme: NavigationPaneThemeData(
-            backgroundColor: AppConf.colorBackground,
+            backgroundColor: appState.themeConf.backgroundColor,
           ),
-          menuColor: AppConf.colorMenu,
-          micaBackgroundColor: AppConf.colorMica,
+          menuColor: appState.themeConf.menuColor,
+          micaBackgroundColor: appState.themeConf.micaColor,
           buttonTheme: ButtonThemeData(
               defaultButtonStyle: ButtonStyle(
             shape: ButtonState.all(RoundedRectangleBorder(
@@ -52,28 +61,9 @@ class AppUI extends BaseUI {
                 side: BorderSide(color: Colors.white.withOpacity(.01)))),
           ))),
       debugShowCheckedModeBanner: false,
-      home: BaseUIContainer(
-          uiCreate: () => SplashUI(), modelCreate: () => SplashUIModel()),
-    );
-  }
-
-  @override
-  String getUITitle(BuildContext context, BaseUIModel model) => "";
-}
-
-class WindowButtons extends StatelessWidget {
-  const WindowButtons({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final FluentThemeData theme = FluentTheme.of(context);
-    return SizedBox(
-      width: 138,
-      height: 50,
-      child: WindowCaption(
-        brightness: theme.brightness,
-        backgroundColor: Colors.transparent,
-      ),
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+      routeInformationProvider: router.routeInformationProvider,
     );
   }
 }

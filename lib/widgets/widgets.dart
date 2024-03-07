@@ -1,61 +1,56 @@
-import 'package:extended_image/extended_image.dart';
-import 'dart:ui' as ui;
-
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:markdown_widget/config/all.dart';
 import 'package:markdown_widget/widget/all.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:extended_image/extended_image.dart';
 
-import '../base/ui.dart';
-
-Widget makeLoading(
-  BuildContext context, {
-  double? width,
-}) {
-  width ??= 30;
-  return Center(
-    child: SizedBox(
-      width: width,
-      height: width,
-      // child: Lottie.asset("images/lottie/loading.zip", width: width),
-      child: const ProgressRing(),
-    ),
+Widget makeDefaultPage(BuildContext context,
+    {Widget? titleRow,
+    List<Widget>? actions,
+    Widget? content,
+    bool automaticallyImplyLeading = true,
+    String title = ""}) {
+  return NavigationView(
+    appBar: NavigationAppBar(
+        automaticallyImplyLeading: automaticallyImplyLeading,
+        title: DragToMoveArea(
+          child: titleRow ??
+              Column(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Text(title),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+        ),
+        actions: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [...?actions, const WindowButtons()],
+        )),
+    content: content,
   );
 }
 
-Widget makeSafeAre(BuildContext context, {bool withKeyboard = true}) {
-  return SafeArea(
-      child: Column(
-    children: [
-      const SizedBox(height: 4),
-      if (withKeyboard)
-        SizedBox(
-          height: MediaQuery.of(context).viewInsets.bottom,
-        ),
-    ],
-  ));
-}
+class WindowButtons extends StatelessWidget {
+  const WindowButtons({super.key});
 
-makeSvgColor(Color color) {
-  return ui.ColorFilter.mode(color, ui.BlendMode.srcIn);
-}
-
-bool isPadUI(BuildContext context) {
-  final size = MediaQuery.of(context).size;
-  return size.width >= size.height;
-}
-
-fastPadding(
-    {required double? all,
-    required Widget child,
-    double left = 0.0,
-    double top = 0.0,
-    double right = 0.0,
-    double bottom = 0.0}) {
-  return Padding(
-      padding: all != null
-          ? EdgeInsets.all(all)
-          : EdgeInsets.only(left: left, top: top, right: right, bottom: bottom),
-      child: child);
+  @override
+  Widget build(BuildContext context) {
+    final FluentThemeData theme = FluentTheme.of(context);
+    return SizedBox(
+      width: 138,
+      height: 50,
+      child: WindowCaption(
+        brightness: theme.brightness,
+        backgroundColor: Colors.transparent,
+      ),
+    );
+  }
 }
 
 List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {
@@ -101,12 +96,4 @@ List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {
           );
         })
       ]));
-}
-
-class NoScrollBehavior extends ScrollBehavior {
-  @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    return child;
-  }
 }

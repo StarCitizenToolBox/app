@@ -5,8 +5,6 @@ import 'package:aria2/aria2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/api/api.dart';
-import 'package:starcitizen_doctor/common/conf/app_conf.dart';
-import 'package:starcitizen_doctor/common/conf/binary_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 
 import 'package:starcitizen_doctor/common/rust/api/process_api.dart'
@@ -16,8 +14,8 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 class Aria2cManager {
   static bool _isDaemonRunning = false;
 
-  static final String _aria2cDir =
-      "${AppConf.applicationBinaryModuleDir}\\aria2c";
+  // static final String _aria2cDir = "${AppConf.applicationBinaryModuleDir}\\aria2c";
+  static final String _aria2cDir = "\\aria2c";
 
   static Aria2c? _aria2c;
 
@@ -43,7 +41,7 @@ class Aria2cManager {
 
   static Future launchDaemon() async {
     if (_isDaemonRunning) return;
-    await BinaryModuleConf.extractModule(["aria2c"]);
+    // await BinaryModuleConf.extractModule(["aria2c"]);
 
     /// skip for debug hot reload
     if (kDebugMode) {

@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:synchronized/synchronized.dart';
 
-import '../conf/app_conf.dart';
-
 var _logLock = Lock();
+File? _logFile;
 
 void dPrint(src) async {
   if (kDebugMode) {
@@ -13,7 +12,11 @@ void dPrint(src) async {
   }
   try {
     await _logLock.synchronized(() async {
-      await AppConf.appLogFile?.writeAsString("$src\n", mode: FileMode.append);
+      _logFile?.writeAsString("$src\n", mode: FileMode.append);
     });
   } catch (_) {}
+}
+
+void setDPrintFile(File file) {
+  _logFile = file;
 }
