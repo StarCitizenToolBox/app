@@ -11,7 +11,6 @@ import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
-import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:html/parser.dart' as html_parser;

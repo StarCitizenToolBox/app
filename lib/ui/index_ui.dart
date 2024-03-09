@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
+import 'package:starcitizen_doctor/ui/home/home_ui.dart';
+import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -11,6 +13,9 @@ class IndexUI extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // pre init child
+    ref.watch(homeUIModelProvider.select((value) => null));
+
     final curIndex = useState(0);
     return NavigationView(
       appBar: NavigationAppBar(
@@ -107,9 +112,14 @@ class IndexUI extends HookConsumerWidget {
   }
 
   Widget getPage(int value) {
-    return Center(
-      child: Text("$value"),
-    );
+    switch (value) {
+      case 0:
+        return const HomeUI();
+      default:
+        return Center(
+          child: Text("UnimplPage $value"),
+        );
+    }
   }
 
   void _onTapIndexMenu(String value, ValueNotifier<int> curIndexState) {

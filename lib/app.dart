@@ -22,7 +22,6 @@ import 'api/api.dart';
 import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
-import 'common/utils/base_utils.dart';
 import 'data/app_version_data.dart';
 import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';

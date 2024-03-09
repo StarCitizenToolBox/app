@@ -5,6 +5,25 @@ import 'package:window_manager/window_manager.dart';
 import 'package:markdown_widget/config/all.dart';
 import 'package:markdown_widget/widget/all.dart';
 import 'package:extended_image/extended_image.dart';
+import 'dart:ui' as ui;
+
+export 'src/cache_image.dart';
+export 'src/countdown_time_text.dart';
+export '../common/utils/base_utils.dart';
+
+Widget makeLoading(
+  BuildContext context, {
+  double? width,
+}) {
+  width ??= 30;
+  return Center(
+    child: SizedBox(
+      width: width,
+      height: width,
+      child: const ProgressRing(),
+    ),
+  );
+}
 
 Widget makeDefaultPage(BuildContext context,
     {Widget? titleRow,
@@ -97,6 +116,10 @@ List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {
           );
         })
       ]));
+}
+
+ColorFilter makeSvgColor(Color color) {
+  return ui.ColorFilter.mode(color, ui.BlendMode.srcIn);
 }
 
 CustomTransitionPage<T> myPageBuilder<T>(
