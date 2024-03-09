@@ -13,6 +13,7 @@ import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/splash_ui.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:uuid/uuid.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -23,6 +24,7 @@ import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
 import 'common/utils/base_utils.dart';
 import 'data/app_version_data.dart';
+import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';
 
 part 'app.g.dart';
@@ -35,9 +37,13 @@ GoRouter router(RouterRef ref) {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) {
-          return const SplashUI();
-        },
+        pageBuilder: (context, state) =>
+            myPageBuilder(context, state, const SplashUI()),
+      ),
+      GoRoute(
+        path: '/index',
+        pageBuilder: (context, state) =>
+            myPageBuilder(context, state, const IndexUI()),
       ),
     ],
   );
@@ -179,7 +185,7 @@ class AppGlobalModel extends _$AppGlobalModel {
 
       if (r != true) {
         if (!context.mounted) return false;
-        showToast(context, "获取更新信息失败，请稍后重试。");
+        await showToast(context, "获取更新信息失败，请稍后重试。");
         return false;
       }
       return true;

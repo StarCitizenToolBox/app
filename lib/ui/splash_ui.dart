@@ -1,11 +1,11 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
-import 'package:starcitizen_doctor/common/io/aria2c.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -72,11 +72,7 @@ class SplashUI extends HookConsumerWidget {
     await appModel.checkUpdate(context);
     stepState.value = 2;
     ref.read(aria2cModelProvider);
-    // Navigator.pushAndRemoveUntil(
-    //     context!,
-    //     BaseUIContainer(
-    //         uiCreate: () => IndexUI(),
-    //         modelCreate: () => IndexUIModel()).makeRoute(context!),
-    //         (route) => false);
+    if (!context.mounted) return;
+    context.go("/index");
   }
 }

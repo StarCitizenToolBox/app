@@ -24,7 +24,6 @@ _initWindow() async {
     TitleBarStyle.hidden,
     windowButtonVisibility: false,
   );
-  await windowManager.hide();
   await windowManager.center(animate: true);
 }
 

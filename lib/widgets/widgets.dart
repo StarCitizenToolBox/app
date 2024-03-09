@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:markdown_widget/config/all.dart';
@@ -96,4 +97,24 @@ List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {
           );
         })
       ]));
+}
+
+CustomTransitionPage<T> myPageBuilder<T>(
+    BuildContext context, GoRouterState state, Widget child) {
+  return CustomTransitionPage(
+      child: child,
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
+        return Semantics(
+          scopesRoute: true,
+          explicitChildNodes: true,
+          child: EntrancePageTransition(
+            animation: CurvedAnimation(
+              parent: animation,
+              curve: FluentTheme.of(context).animationCurve,
+            ),
+            child: child,
+          ),
+        );
+      });
 }

@@ -143,12 +143,12 @@ class UpgradeDialogUI extends HookConsumerWidget {
 
   Future<void> _getUpdateInfo(
       BuildContext context,
-      targetVersion,
+      String targetVersion,
       ValueNotifier<String?> description,
       ValueNotifier<String> downloadUrl) async {
     try {
       final r = await Api.getAppReleaseDataByVersionName(targetVersion);
-      description = r["body"];
+      description.value = r["body"];
       final assets = List.of(r["assets"] ?? []);
       for (var asset in assets) {
         if (asset["name"].toString().endsWith("SETUP.exe")) {
@@ -207,6 +207,7 @@ class UpgradeDialogUI extends HookConsumerWidget {
       }
       if (!context.mounted) return;
       _doCancel(context);
+      return;
     }
     isUpgrading.value = true;
     final fileName = "${appModel.getUpgradePath()}/next_SETUP.exe";
