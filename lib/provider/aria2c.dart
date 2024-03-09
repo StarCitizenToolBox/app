@@ -21,19 +21,35 @@ part 'aria2c.freezed.dart';
 @freezed
 class Aria2cModelState with _$Aria2cModelState {
   const factory Aria2cModelState({
-    required bool isDaemonRunning,
     required String aria2cDir,
     Aria2c? aria2c,
+    Aria2GlobalStat? aria2globalStat,
   }) = _Aria2cModelState;
+}
+
+extension Aria2cModelExt on Aria2cModelState {
+  bool get isRunning => aria2c != null;
+
+  bool get hasDownloadTask => aria2globalStat != null && aria2TotalTaskNum > 0;
+
+  int get aria2TotalTaskNum => aria2globalStat == null
+      ? 0
+      : ((aria2globalStat!.numActive ?? 0) +
+          (aria2globalStat!.numWaiting ?? 0));
 }
 
 @riverpod
 class Aria2cModel extends _$Aria2cModel {
+  bool _disposed = false;
+
   @override
   Aria2cModelState build() {
     if (appGlobalState.applicationBinaryModuleDir == null) {
       throw Exception("applicationBinaryModuleDir is null");
     }
+    ref.onDispose(() {
+      _disposed = true;
+    });
     ref.keepAlive();
     final aria2cDir = "${appGlobalState.applicationBinaryModuleDir}\\aria2c";
     // LazyLoad init
@@ -53,11 +69,11 @@ class Aria2cModel extends _$Aria2cModel {
       }
     }();
 
-    return Aria2cModelState(isDaemonRunning: false, aria2cDir: aria2cDir);
+    return Aria2cModelState(aria2cDir: aria2cDir);
   }
 
   Future launchDaemon(String applicationBinaryModuleDir) async {
-    if (state.isDaemonRunning) return;
+    if (state.aria2c != null) return;
     await BinaryModuleConf.extractModule(
         ["aria2c"], applicationBinaryModuleDir);
 
@@ -111,16 +127,16 @@ class Aria2cModel extends _$Aria2cModel {
           _onLaunch(port, pwd, trackerList);
         }
       } else if (event.startsWith("error:")) {
-        state = state.copyWith(aria2c: null, isDaemonRunning: false);
+        state = state.copyWith(aria2c: null);
         launchError = event;
       } else if (event.startsWith("exit:")) {
-        state = state.copyWith(aria2c: null, isDaemonRunning: false);
+        state = state.copyWith(aria2c: null);
         launchError = event;
       }
     });
 
     while (true) {
-      if (state.isDaemonRunning) return;
+      if (state.aria2c != null) return;
       if (launchError.isNotEmpty) throw launchError;
       await Future.delayed(const Duration(milliseconds: 100));
     }
@@ -163,9 +179,10 @@ class Aria2cModel extends _$Aria2cModel {
 
   Future<void> _onLaunch(int port, String pwd, String trackerList) async {
     final aria2c = Aria2c("ws://127.0.0.1:$port/jsonrpc", "websocket", pwd);
-    state = state.copyWith(aria2c: aria2c, isDaemonRunning: true);
+    state = state.copyWith(aria2c: aria2c);
     aria2c.getVersion().then((value) {
       dPrint("Aria2cManager.connected!  version == ${value.version}");
+      _listenState(aria2c);
     });
     final box = await Hive.openBox("app_conf");
     aria2c.changeGlobalOption(Aria2Option()
@@ -174,5 +191,22 @@ class Aria2cModel extends _$Aria2cModel {
       ..maxOverallDownloadLimit =
           textToByte(box.get("downloader_down_limit", defaultValue: "0"))
       ..btTracker = trackerList);
+  }
+
+  Future<void> _listenState(Aria2c aria2c) async {
+    dPrint("Aria2cModel._listenState start");
+    while (true) {
+      if (_disposed || state.aria2c == null) {
+        dPrint("Aria2cModel._listenState end");
+        return;
+      }
+      try {
+        final aria2globalStat = await aria2c.getGlobalStat();
+        state = state.copyWith(aria2globalStat: aria2globalStat);
+      } catch (e) {
+        dPrint("aria2globalStat update error:$e");
+      }
+      await Future.delayed(const Duration(seconds: 1));
+    }
   }
 }

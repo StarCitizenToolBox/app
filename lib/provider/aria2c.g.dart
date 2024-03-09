@@ -6,7 +6,7 @@ part of 'aria2c.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$aria2cModelHash() => r'45bfdd07a11bb93594b76297a995e8ba24e0e984';
+String _$aria2cModelHash() => r'6685f6a716016113487de190a61f71196094526e';
 
 /// See also [Aria2cModel].
 @ProviderFor(Aria2cModel)

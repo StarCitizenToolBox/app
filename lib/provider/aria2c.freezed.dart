@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Aria2cModelState {
-  bool get isDaemonRunning => throw _privateConstructorUsedError;
   String get aria2cDir => throw _privateConstructorUsedError;
   Aria2c? get aria2c => throw _privateConstructorUsedError;
+  Aria2GlobalStat? get aria2globalStat => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $Aria2cModelStateCopyWith<Aria2cModelState> get copyWith =>
@@ -31,7 +31,8 @@ abstract class $Aria2cModelStateCopyWith<$Res> {
           Aria2cModelState value, $Res Function(Aria2cModelState) then) =
       _$Aria2cModelStateCopyWithImpl<$Res, Aria2cModelState>;
   @useResult
-  $Res call({bool isDaemonRunning, String aria2cDir, Aria2c? aria2c});
+  $Res call(
+      {String aria2cDir, Aria2c? aria2c, Aria2GlobalStat? aria2globalStat});
 }
 
 /// @nodoc
@@ -47,15 +48,11 @@ class _$Aria2cModelStateCopyWithImpl<$Res, $Val extends Aria2cModelState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isDaemonRunning = null,
     Object? aria2cDir = null,
     Object? aria2c = freezed,
+    Object? aria2globalStat = freezed,
   }) {
     return _then(_value.copyWith(
-      isDaemonRunning: null == isDaemonRunning
-          ? _value.isDaemonRunning
-          : isDaemonRunning // ignore: cast_nullable_to_non_nullable
-              as bool,
       aria2cDir: null == aria2cDir
           ? _value.aria2cDir
           : aria2cDir // ignore: cast_nullable_to_non_nullable
@@ -64,6 +61,10 @@ class _$Aria2cModelStateCopyWithImpl<$Res, $Val extends Aria2cModelState>
           ? _value.aria2c
           : aria2c // ignore: cast_nullable_to_non_nullable
               as Aria2c?,
+      aria2globalStat: freezed == aria2globalStat
+          ? _value.aria2globalStat
+          : aria2globalStat // ignore: cast_nullable_to_non_nullable
+              as Aria2GlobalStat?,
     ) as $Val);
   }
 }
@@ -76,7 +77,8 @@ abstract class _$$Aria2cModelStateImplCopyWith<$Res>
       __$$Aria2cModelStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isDaemonRunning, String aria2cDir, Aria2c? aria2c});
+  $Res call(
+      {String aria2cDir, Aria2c? aria2c, Aria2GlobalStat? aria2globalStat});
 }
 
 /// @nodoc
@@ -90,15 +92,11 @@ class __$$Aria2cModelStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isDaemonRunning = null,
     Object? aria2cDir = null,
     Object? aria2c = freezed,
+    Object? aria2globalStat = freezed,
   }) {
     return _then(_$Aria2cModelStateImpl(
-      isDaemonRunning: null == isDaemonRunning
-          ? _value.isDaemonRunning
-          : isDaemonRunning // ignore: cast_nullable_to_non_nullable
-              as bool,
       aria2cDir: null == aria2cDir
           ? _value.aria2cDir
           : aria2cDir // ignore: cast_nullable_to_non_nullable
@@ -107,6 +105,10 @@ class __$$Aria2cModelStateImplCopyWithImpl<$Res>
           ? _value.aria2c
           : aria2c // ignore: cast_nullable_to_non_nullable
               as Aria2c?,
+      aria2globalStat: freezed == aria2globalStat
+          ? _value.aria2globalStat
+          : aria2globalStat // ignore: cast_nullable_to_non_nullable
+              as Aria2GlobalStat?,
     ));
   }
 }
@@ -117,18 +119,18 @@ class _$Aria2cModelStateImpl
     with DiagnosticableTreeMixin
     implements _Aria2cModelState {
   const _$Aria2cModelStateImpl(
-      {required this.isDaemonRunning, required this.aria2cDir, this.aria2c});
+      {required this.aria2cDir, this.aria2c, this.aria2globalStat});
 
-  @override
-  final bool isDaemonRunning;
   @override
   final String aria2cDir;
   @override
   final Aria2c? aria2c;
+  @override
+  final Aria2GlobalStat? aria2globalStat;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Aria2cModelState(isDaemonRunning: $isDaemonRunning, aria2cDir: $aria2cDir, aria2c: $aria2c)';
+    return 'Aria2cModelState(aria2cDir: $aria2cDir, aria2c: $aria2c, aria2globalStat: $aria2globalStat)';
   }
 
   @override
@@ -136,9 +138,9 @@ class _$Aria2cModelStateImpl
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Aria2cModelState'))
-      ..add(DiagnosticsProperty('isDaemonRunning', isDaemonRunning))
       ..add(DiagnosticsProperty('aria2cDir', aria2cDir))
-      ..add(DiagnosticsProperty('aria2c', aria2c));
+      ..add(DiagnosticsProperty('aria2c', aria2c))
+      ..add(DiagnosticsProperty('aria2globalStat', aria2globalStat));
   }
 
   @override
@@ -146,16 +148,16 @@ class _$Aria2cModelStateImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Aria2cModelStateImpl &&
-            (identical(other.isDaemonRunning, isDaemonRunning) ||
-                other.isDaemonRunning == isDaemonRunning) &&
             (identical(other.aria2cDir, aria2cDir) ||
                 other.aria2cDir == aria2cDir) &&
-            (identical(other.aria2c, aria2c) || other.aria2c == aria2c));
+            (identical(other.aria2c, aria2c) || other.aria2c == aria2c) &&
+            (identical(other.aria2globalStat, aria2globalStat) ||
+                other.aria2globalStat == aria2globalStat));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, isDaemonRunning, aria2cDir, aria2c);
+      Object.hash(runtimeType, aria2cDir, aria2c, aria2globalStat);
 
   @JsonKey(ignore: true)
   @override
@@ -167,16 +169,16 @@ class _$Aria2cModelStateImpl
 
 abstract class _Aria2cModelState implements Aria2cModelState {
   const factory _Aria2cModelState(
-      {required final bool isDaemonRunning,
-      required final String aria2cDir,
-      final Aria2c? aria2c}) = _$Aria2cModelStateImpl;
+      {required final String aria2cDir,
+      final Aria2c? aria2c,
+      final Aria2GlobalStat? aria2globalStat}) = _$Aria2cModelStateImpl;
 
-  @override
-  bool get isDaemonRunning;
   @override
   String get aria2cDir;
   @override
   Aria2c? get aria2c;
+  @override
+  Aria2GlobalStat? get aria2globalStat;
   @override
   @JsonKey(ignore: true)
   _$$Aria2cModelStateImplCopyWith<_$Aria2cModelStateImpl> get copyWith =>
