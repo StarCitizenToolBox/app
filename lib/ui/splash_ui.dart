@@ -7,6 +7,7 @@ import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/aria2c.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 class SplashUI extends HookConsumerWidget {
@@ -19,7 +20,7 @@ class SplashUI extends HookConsumerWidget {
 
     useEffect(() {
       final appModel = ref.read(appGlobalModelProvider.notifier);
-      _initApp(context, appModel, stepState);
+      _initApp(context, appModel, stepState, ref);
       return null;
     }, const []);
 
@@ -58,7 +59,7 @@ class SplashUI extends HookConsumerWidget {
   }
 
   void _initApp(BuildContext context, AppGlobalModel appModel,
-      ValueNotifier<int> stepState) async {
+      ValueNotifier<int> stepState, WidgetRef ref) async {
     await appModel.initApp();
     AnalyticsApi.touch("launch");
     try {
@@ -70,7 +71,7 @@ class SplashUI extends HookConsumerWidget {
     if (!context.mounted) return;
     await appModel.checkUpdate(context);
     stepState.value = 2;
-    await Aria2cManager.checkLazyLoad();
+    ref.read(aria2cModelProvider);
     // Navigator.pushAndRemoveUntil(
     //     context!,
     //     BaseUIContainer(
