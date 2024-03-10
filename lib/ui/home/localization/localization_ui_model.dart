@@ -45,13 +45,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   late final _downloadDir =
       Directory("${appGlobalState.applicationSupportDir}\\Localizations");
 
-  late final customizeDir =
+  late final _customizeDir =
       Directory("${_downloadDir.absolute.path}\\Customize_ini");
 
-  late final scDataDir =
+  late final _scDataDir =
       Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data");
 
-  late final cfgFile = File("${scDataDir.absolute.path}\\system.cfg");
+  late final _cfgFile = File("${_scDataDir.absolute.path}\\system.cfg");
 
   StreamSubscription? _customizeDirListenSub;
 
@@ -65,10 +65,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   _init() async {
-    if (!customizeDir.existsSync()) {
-      await customizeDir.create(recursive: true);
+    if (!_customizeDir.existsSync()) {
+      await _customizeDir.create(recursive: true);
     }
-    _customizeDirListenSub = customizeDir.watch().listen((event) {
+    _customizeDirListenSub = _customizeDir.watch().listen((event) {
       _scanCustomizeDir();
     });
     ref.onDispose(() {
@@ -129,7 +129,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   Future<void> updateLangCfg(bool enable) async {
     final selectedLanguage = state.selectedLanguage!;
     final status = await _getLangCfgEnableLang(lang: selectedLanguage);
-    final exists = await cfgFile.exists();
+    final exists = await _cfgFile.exists();
     if (status == enable) {
       await _updateStatus();
       return;
@@ -137,7 +137,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     StringBuffer newStr = StringBuffer();
     var str = <String>[];
     if (exists) {
-      str = (await cfgFile.readAsString()).replaceAll(" ", "").split("\n");
+      str = (await _cfgFile.readAsString()).replaceAll(" ", "").split("\n");
     }
     if (enable) {
       if (exists) {
@@ -173,9 +173,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         }
       }
     }
-    if (exists) await cfgFile.delete(recursive: true);
-    await cfgFile.create(recursive: true);
-    await cfgFile.writeAsString(newStr.toString());
+    if (exists) await _cfgFile.delete(recursive: true);
+    await _cfgFile.create(recursive: true);
+    await _cfgFile.writeAsString(newStr.toString());
     await _updateStatus();
   }
 
@@ -186,7 +186,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   VoidCallback? doDelIniFile() {
     return () async {
       final iniFile = File(
-          "${scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
+          "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
       if (await iniFile.exists()) await iniFile.delete();
       await updateLangCfg(false);
       await _updateStatus();
@@ -216,7 +216,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   _installFormString(StringBuffer globalIni, String versionName) async {
     final iniFile = File(
-        "${scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
     if (versionName.isNotEmpty) {
       if (!globalIni.toString().endsWith("\n")) {
         globalIni.write("\n");
@@ -225,7 +225,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
 
     /// write cfg
-    if (await cfgFile.exists()) {}
+    if (await _cfgFile.exists()) {}
 
     /// write ini
     if (await iniFile.exists()) {
@@ -242,7 +242,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     showToast(context,
         "即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。");
     await Process.run(SystemHelper.powershellPath,
-        ["explorer.exe", "/select,\"${customizeDir.absolute.path}\"\\"]);
+        ["explorer.exe", "/select,\"${_customizeDir.absolute.path}\"\\"]);
   }
 
   VoidCallback? doRemoteInstall(
@@ -326,7 +326,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   void _scanCustomizeDir() {
-    final fileList = customizeDir.listSync();
+    final fileList = _customizeDir.listSync();
     final customizeList = <String>[];
     for (var value in fileList) {
       if (value is File && value.path.endsWith(".ini")) {
@@ -340,13 +340,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     final patchStatus = MapEntry(
         await _getLangCfgEnableLang(lang: state.selectedLanguage!),
         await _getInstalledIniVersion(
-            "${scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"));
+            "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"));
     state = state.copyWith(patchStatus: patchStatus);
   }
 
   Future<bool> _getLangCfgEnableLang({String lang = ""}) async {
-    if (!await cfgFile.exists()) return false;
-    final str = (await cfgFile.readAsString()).replaceAll(" ", "");
+    if (!await _cfgFile.exists()) return false;
+    final str = (await _cfgFile.readAsString()).replaceAll(" ", "");
     return str.contains("sys_languages=$lang") &&
         str.contains("g_language=$lang") &&
         str.contains("g_languageAudio=english");
@@ -369,6 +369,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future checkLangUpdate() async {
-    // TODO 检查更新
+
   }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_build_context_in_providers
+// ignore_for_file: avoid_build_context_in_providers, avoid_public_notifier_properties
 import 'dart:convert';
 import 'dart:io';
 
