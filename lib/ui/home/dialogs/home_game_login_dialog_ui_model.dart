@@ -144,6 +144,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
         }
       }
 
+      if (!context.mounted) return;
       _readyForLaunch(homeState, context);
     }, useLocalization: true, homeState: homeState);
   }

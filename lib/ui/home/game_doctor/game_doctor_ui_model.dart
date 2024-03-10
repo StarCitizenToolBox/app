@@ -200,7 +200,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     }
   }
 
-  final cnExp = RegExp(r"[^\x00-\xff]");
+  final _cnExp = RegExp(r"[^\x00-\xff]");
 
   // ignore: avoid_build_context_in_providers
   Future _checkPreInstall(BuildContext context, String scInstalledPath,
@@ -217,7 +217,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
       await showToast(context, lastScreenInfo);
     }
 
-    if (cnExp.hasMatch(await SCLoggerHelper.getLogFilePath() ?? "")) {
+    if (_cnExp.hasMatch(await SCLoggerHelper.getLogFilePath() ?? "")) {
       checkResult.add(const MapEntry("cn_user_name", ""));
     }
 
@@ -235,7 +235,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
       final checkedPath = [];
       for (var installPath in listData) {
         if (!checkedPath.contains(installPath)) {
-          if (cnExp.hasMatch(installPath)) {
+          if (_cnExp.hasMatch(installPath)) {
             checkResult.add(MapEntry("cn_install_path", installPath));
           }
           if (scInstalledPath == "not_install") {

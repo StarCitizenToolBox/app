@@ -7,7 +7,7 @@ part of 'game_doctor_ui_model.dart';
 // **************************************************************************
 
 String _$homeGameDoctorUIModelHash() =>
-    r'59cbd6f866bacbc24eb0c0eb0ad88fe7f2dac4a7';
+    r'1e32d75095de065cf2cdedf444f74ffc753ce66f';
 
 /// See also [HomeGameDoctorUIModel].
 @ProviderFor(HomeGameDoctorUIModel)

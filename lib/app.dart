@@ -24,6 +24,7 @@ import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
 import 'data/app_version_data.dart';
+import 'ui/home/downloader/home_downloader_ui.dart';
 import 'ui/home/game_doctor/game_doctor_ui.dart';
 import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';
@@ -46,6 +47,10 @@ GoRouter router(RouterRef ref) {
         pageBuilder: (context, state) =>
             myPageBuilder(context, state, const IndexUI()),
         routes: [
+          GoRoute(
+              path: "downloader",
+              pageBuilder: (context, state) =>
+                  myPageBuilder(context, state, const HomeDownloaderUI())),
           GoRoute(
             path: 'game_doctor',
             pageBuilder: (context, state) =>

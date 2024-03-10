@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
@@ -57,7 +58,7 @@ class IndexUI extends HookConsumerWidget {
                     _makeAria2TaskNumWidget()
                   ],
                 ),
-                onPressed: () {},
+                onPressed: () => _goDownloader(context),
                 // onPressed: model.goDownloader
               ),
               const SizedBox(width: 24),
@@ -155,5 +156,9 @@ class IndexUI extends HookConsumerWidget {
             ));
       },
     );
+  }
+
+  _goDownloader(BuildContext context) {
+    context.push('/index/downloader');
   }
 }
