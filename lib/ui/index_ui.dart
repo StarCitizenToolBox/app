@@ -7,6 +7,7 @@ import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
+import 'package:starcitizen_doctor/ui/tools/tools_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -119,6 +120,8 @@ class IndexUI extends HookConsumerWidget {
         return const HomeUI();
       case 1:
         return const PartyRoomUI();
+      case 2:
+        return const ToolsUI();
       default:
         return Center(
           child: Text("UnimplPage $value"),
