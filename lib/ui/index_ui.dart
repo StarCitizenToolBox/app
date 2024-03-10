@@ -7,9 +7,12 @@ import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
+import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
+
+import 'settings/settings_ui.dart';
 
 class IndexUI extends HookConsumerWidget {
   const IndexUI({super.key});
@@ -18,6 +21,7 @@ class IndexUI extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // pre init child
     ref.watch(homeUIModelProvider.select((value) => null));
+    ref.watch(settingsUIModelProvider.select((value) => null));
 
     final curIndex = useState(0);
     return NavigationView(
@@ -122,6 +126,8 @@ class IndexUI extends HookConsumerWidget {
         return const PartyRoomUI();
       case 2:
         return const ToolsUI();
+      case 3:
+        return const SettingsUI();
       default:
         return Center(
           child: Text("UnimplPage $value"),

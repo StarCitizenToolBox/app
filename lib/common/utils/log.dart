@@ -20,3 +20,7 @@ void dPrint(src) async {
 void setDPrintFile(File file) {
   _logFile = file;
 }
+
+File? getDPrintFile() {
+  return _logFile;
+}
