@@ -253,9 +253,9 @@ class HomeUIModel extends _$HomeUIModel {
   Future _loadRRS() async {
     try {
       final rssVideoItems = await RSSApi.getRssVideo();
+      state = state.copyWith(rssVideoItems: rssVideoItems);
       final rssTextItems = await RSSApi.getRssText();
-      state = state.copyWith(
-          rssVideoItems: rssVideoItems, rssTextItems: rssTextItems);
+      state = state.copyWith(rssTextItems: rssTextItems);
       dPrint("RSS update Success !");
     } catch (e) {
       dPrint("_loadRRS Error:$e");
