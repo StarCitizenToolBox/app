@@ -1,5 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:markdown_widget/config/all.dart';
@@ -140,4 +142,50 @@ CustomTransitionPage<T> myPageBuilder<T>(
           ),
         );
       });
+}
+
+class LoadingWidget<T> extends HookConsumerWidget {
+  final T? data;
+  final Future<T?> Function()? onLoadData;
+  final Widget Function(BuildContext context, T data) childBuilder;
+
+  const LoadingWidget(
+      {super.key, this.data, required this.childBuilder, this.onLoadData});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dataState = useState<T?>(null);
+    final errorMsg = useState("");
+    useEffect(() {
+      if (data == null && onLoadData != null) {
+        _loadData(dataState, errorMsg);
+        return null;
+      }
+      return null;
+    }, const []);
+
+    if (errorMsg.value.isNotEmpty) {
+      return Button(
+        onPressed: () {
+          _loadData(dataState, errorMsg);
+        },
+        child: Center(
+          child: Text(errorMsg.value),
+        ),
+      );
+    }
+    if (dataState.value == null && data == null) return makeLoading(context);
+    return childBuilder(context, (data ?? dataState.value) as T);
+  }
+
+  void _loadData(
+      ValueNotifier<T?> dataState, ValueNotifier<String> errorMsg) async {
+    errorMsg.value = "";
+    try {
+      final r = await onLoadData!();
+      dataState.value = r;
+    } catch (e) {
+      errorMsg.value = e.toString();
+    }
+  }
 }

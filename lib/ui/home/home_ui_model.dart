@@ -176,20 +176,6 @@ class HomeUIModel extends _$HomeUIModel {
       appVersionData: appGlobalState.networkVersionData!,
     );
 
-    // if (await File(
-    //         "${AppConf.applicationSupportDir}\\webview_data\\enable_webview_localization_capture")
-    //     .exists()) {
-    //   webViewModel.enableCapture = true;
-    //   BaseUIContainer(
-    //           uiCreate: () => WebviewLocalizationCaptureUI(),
-    //           modelCreate: () =>
-    //               WebviewLocalizationCaptureUIModel(webViewModel))
-    //       .push(context!)
-    //       .then((_) {
-    //     webViewModel.enableCapture = false;
-    //   });
-    // }
-
     await Future.delayed(const Duration(milliseconds: 500));
     await webViewModel.launch(url, appGlobalState.networkVersionData!);
   }
@@ -264,9 +250,10 @@ class HomeUIModel extends _$HomeUIModel {
 
   Future _loadRRS() async {
     try {
+      final rssVideoItems = await RSSApi.getRssVideo();
+      final rssTextItems = await RSSApi.getRssText();
       state = state.copyWith(
-          rssVideoItems: await RSSApi.getRssVideo(),
-          rssTextItems: await RSSApi.getRssText());
+          rssVideoItems: rssVideoItems, rssTextItems: rssTextItems);
       dPrint("RSS update Success !");
     } catch (e) {
       dPrint("_loadRRS Error:$e");

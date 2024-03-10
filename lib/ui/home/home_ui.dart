@@ -10,7 +10,8 @@ import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'home_countdown_dialog_ui.dart';
+import 'dialogs/home_countdown_dialog_ui.dart';
+import 'dialogs/home_md_content_dialog_ui.dart';
 import 'home_ui_model.dart';
 
 class HomeUI extends HookConsumerWidget {
@@ -729,14 +730,14 @@ class HomeUI extends HookConsumerWidget {
         launchUrlString(homeState.appPlacardData?.link);
         return;
       case "doc":
-        // showDialog(
-        //     context: context,
-        //     builder: (context) {
-        //       return BaseUIContainer(
-        //           uiCreate: () => MDContentDialogUI(),
-        //           modelCreate: () => MDContentDialogUIModel(
-        //               appPlacardData?.title ?? "公告详情", appPlacardData?.link));
-        //     });
+        showDialog(
+            context: context,
+            builder: (context) {
+              return HomeMdContentDialogUI(
+                title: homeState.appPlacardData?.title ?? "公告详情",
+                url: homeState.appPlacardData?.link,
+              );
+            });
         return;
     }
   }
