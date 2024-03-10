@@ -1,19 +1,28 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
-import 'package:starcitizen_doctor/base/ui.dart';
-import 'package:starcitizen_doctor/widgets/cache_image.dart';
-import 'package:starcitizen_doctor/widgets/countdown_time_text.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'dialogs/home_countdown_dialog_ui.dart';
+import 'dialogs/home_md_content_dialog_ui.dart';
 import 'home_ui_model.dart';
+import 'localization/localization_dialog_ui.dart';
 
-class HomeUI extends BaseUI<HomeUIModel> {
+class HomeUI extends HookConsumerWidget {
+  const HomeUI({super.key});
+
   @override
-  Widget? buildBody(BuildContext context, HomeUIModel model) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeState = ref.watch(homeUIModelProvider);
+    final model = ref.watch(homeUIModelProvider.notifier);
     return Stack(
       children: [
         Center(
@@ -22,29 +31,29 @@ class HomeUI extends BaseUI<HomeUIModel> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (model.appPlacardData != null) ...[
+                if (homeState.appPlacardData != null) ...[
                   InfoBar(
-                    title: Text("${model.appPlacardData?.title}"),
-                    content: Text("${model.appPlacardData?.content}"),
+                    title: Text("${homeState.appPlacardData?.title}"),
+                    content: Text("${homeState.appPlacardData?.content}"),
                     severity: InfoBarSeverity.info,
-                    action: model.appPlacardData?.link == null
+                    action: homeState.appPlacardData?.link == null
                         ? null
                         : Button(
                             child: const Text('查看详情'),
-                            onPressed: () => model.showPlacard(),
+                            onPressed: () => _showPlacard(context, homeState),
                           ),
-                    onClose: model.appPlacardData?.alwaysShow == true
+                    onClose: homeState.appPlacardData?.alwaysShow == true
                         ? null
                         : () => model.closePlacard(),
                   ),
                   const SizedBox(height: 6),
                 ],
-                ...makeIndex(context, model)
+                ...makeIndex(context, model, homeState)
               ],
             ),
           ),
         ),
-        if (model.isFixing)
+        if (homeState.isFixing)
           Container(
             decoration: BoxDecoration(
               color: Colors.black.withAlpha(150),
@@ -55,8 +64,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
                 children: [
                   const ProgressRing(),
                   const SizedBox(height: 12),
-                  Text(model.isFixingString.isNotEmpty
-                      ? model.isFixingString
+                  Text(homeState.isFixingString.isNotEmpty
+                      ? homeState.isFixingString
                       : "正在处理..."),
                 ],
               ),
@@ -66,7 +75,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
     );
   }
 
-  List<Widget> makeIndex(BuildContext context, HomeUIModel model) {
+  List<Widget> makeIndex(
+      BuildContext context, HomeUIModel model, HomeUIModelState homeState) {
     const double width = 280;
     return [
       Stack(
@@ -86,7 +96,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                         height: 260,
                       ),
                     ),
-                    makeGameStatusCard(context, model, 340)
+                    makeGameStatusCard(context, model, 340, homeState)
                   ],
                 ),
               ),
@@ -95,12 +105,12 @@ class HomeUI extends BaseUI<HomeUIModel> {
           Positioned(
             top: 0,
             left: 24,
-            child: makeLeftColumn(context, model, width),
+            child: makeLeftColumn(context, model, width, homeState),
           ),
           Positioned(
             right: 24,
             top: 0,
-            child: makeNewsCard(context, model),
+            child: makeNewsCard(context, model, homeState),
           ),
         ],
       ),
@@ -114,52 +124,45 @@ class HomeUI extends BaseUI<HomeUIModel> {
             const SizedBox(width: 6),
             Expanded(
               child: ComboBox<String>(
-                value: model.scInstalledPath,
+                value: homeState.scInstalledPath,
                 items: [
                   const ComboBoxItem(
                     value: "not_install",
                     child: Text("未安装 或 安装失败"),
                   ),
-                  for (final path in model.scInstallPaths)
+                  for (final path in homeState.scInstallPaths)
                     ComboBoxItem(
                       value: path,
                       child: Text(path),
                     )
                 ],
-                onChanged: (v) {
-                  model.scInstalledPath = v!;
-                  model.notifyListeners();
-                },
+                onChanged: model.onChangeInstallPath,
               ),
             ),
             const SizedBox(width: 12),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 130),
-              child: model.isRsiLauncherStarting
-                  ? const ProgressRing()
-                  : Button(
-                      onPressed: model.appWebLocalizationVersionsData == null
-                          ? null
-                          : () => model.launchRSI(),
-                      child: Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: Icon(
-                          model.isCurGameRunning
-                              ? FluentIcons.stop_solid
-                              : FluentIcons.play,
-                          color: model.isCurGameRunning
-                              ? Colors.red.withOpacity(.8)
-                              : null,
-                        ),
-                      )),
-            ),
+            Button(
+                onPressed: homeState.webLocalizationVersionsData == null
+                    ? null
+                    : () => model.launchRSI(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Icon(
+                    homeState.isCurGameRunning
+                        ? FluentIcons.stop_solid
+                        : FluentIcons.play,
+                    color: homeState.isCurGameRunning
+                        ? Colors.red.withOpacity(.8)
+                        : null,
+                  ),
+                )),
             const SizedBox(width: 12),
             Button(
-                child: const Padding(
-                  padding: EdgeInsets.all(6),
-                  child: Icon(FluentIcons.folder_open),
-                ),
-                onPressed: () => model.openDir(model.scInstalledPath)),
+              child: const Padding(
+                padding: EdgeInsets.all(6),
+                child: Icon(FluentIcons.folder_open),
+              ),
+              onPressed: () => SystemHelper.openDir(homeState.scInstalledPath),
+            ),
             const SizedBox(width: 12),
             Button(
               onPressed: model.reScanPath,
@@ -172,12 +175,13 @@ class HomeUI extends BaseUI<HomeUIModel> {
         ),
       ),
       const SizedBox(height: 8),
-      Text(model.lastScreenInfo, maxLines: 1),
-      makeIndexActionLists(context, model),
+      Text(homeState.lastScreenInfo, maxLines: 1),
+      makeIndexActionLists(context, model, homeState),
     ];
   }
 
-  Widget makeLeftColumn(BuildContext context, HomeUIModel model, double width) {
+  Widget makeLeftColumn(BuildContext context, HomeUIModel model, double width,
+      HomeUIModelState homeState) {
     return Stack(
       children: [
         Column(
@@ -192,7 +196,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    makeWebViewButton(model,
+                    makeWebViewButton(context, model,
                         icon: SvgPicture.asset(
                           "assets/rsi.svg",
                           colorFilter: makeSvgColor(Colors.white),
@@ -206,7 +210,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                         width: width,
                         touchKey: "webLocalization_rsi"),
                     const SizedBox(height: 12),
-                    makeWebViewButton(model,
+                    makeWebViewButton(context, model,
                         icon: Row(
                           children: [
                             SvgPicture.asset(
@@ -224,7 +228,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                         width: width,
                         touchKey: "webLocalization_uex"),
                     const SizedBox(height: 12),
-                    makeWebViewButton(model,
+                    makeWebViewButton(context, model,
                         icon: Row(
                           children: [
                             Image.asset(
@@ -288,10 +292,10 @@ class HomeUI extends BaseUI<HomeUIModel> {
               ),
             ),
             const SizedBox(height: 16),
-            makeActivityBanner(context, model, width),
+            makeActivityBanner(context, model, width, homeState),
           ],
         ),
-        if (model.appWebLocalizationVersionsData == null)
+        if (homeState.webLocalizationVersionsData == null)
           Positioned.fill(
               child: Container(
             decoration: BoxDecoration(
@@ -305,7 +309,8 @@ class HomeUI extends BaseUI<HomeUIModel> {
     );
   }
 
-  Widget makeNewsCard(BuildContext context, HomeUIModel model) {
+  Widget makeNewsCard(
+      BuildContext context, HomeUIModel model, HomeUIModelState homeState) {
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
       child: Container(
@@ -326,16 +331,16 @@ class HomeUI extends BaseUI<HomeUIModel> {
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12),
                       ),
-                      child: model.rssVideoItems == null
+                      child: homeState.rssVideoItems == null
                           ? Container(
                               decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(.1)),
                               child: makeLoading(context),
                             )
                           : Swiper(
-                              itemCount: model.rssVideoItems?.length ?? 0,
+                              itemCount: homeState.rssVideoItems?.length ?? 0,
                               itemBuilder: (context, index) {
-                                final item = model.rssVideoItems![index];
+                                final item = homeState.rssVideoItems![index];
                                 return GestureDetector(
                                   onTap: () {
                                     if (item.link != null) {
@@ -352,14 +357,14 @@ class HomeUI extends BaseUI<HomeUIModel> {
                             ),
                     )),
                 const SizedBox(height: 1),
-                if (model.rssTextItems == null)
+                if (homeState.rssTextItems == null)
                   makeLoading(context)
                 else
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      final item = model.rssTextItems![index];
+                      final item = homeState.rssTextItems![index];
                       return Tilt(
                           shadowConfig: const ShadowConfig(maxIntensity: .3),
                           borderRadius: BorderRadius.circular(12),
@@ -378,7 +383,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                                   const SizedBox(width: 6),
                                   Expanded(
                                     child: Text(
-                                      "${model.handleTitle(item.title)}",
+                                      model.handleTitle(item.title),
                                       textAlign: TextAlign.start,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -396,7 +401,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                             ),
                           ));
                     },
-                    itemCount: model.rssTextItems?.length,
+                    itemCount: homeState.rssTextItems?.length,
                   ),
                 const SizedBox(height: 12),
               ],
@@ -421,9 +426,10 @@ class HomeUI extends BaseUI<HomeUIModel> {
     return const FaIcon(FontAwesomeIcons.rss, size: 14);
   }
 
-  Widget makeIndexActionLists(BuildContext context, HomeUIModel model) {
+  Widget makeIndexActionLists(
+      BuildContext context, HomeUIModel model, HomeUIModelState homeState) {
     final items = [
-      _HomeItemData("auto_check", "一键诊断", "一键诊断星际公民常见问题",
+      _HomeItemData("game_doctor", "一键诊断", "一键诊断星际公民常见问题",
           FluentIcons.auto_deploy_settings),
       _HomeItemData(
           "localization", "汉化管理", "快捷安装汉化资源", FluentIcons.locale_language),
@@ -441,7 +447,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
           itemBuilder: (context, index) {
             final item = items.elementAt(index);
             return HoverButton(
-              onPressed: () => model.onMenuTap(item.key),
+              onPressed: () => _onMenuTap(context, item.key, homeState),
               builder: (BuildContext context, Set<ButtonStates> states) {
                 return Container(
                   width: 300,
@@ -483,15 +489,15 @@ class HomeUI extends BaseUI<HomeUIModel> {
                           ],
                         )),
                         if (item.key == "localization" &&
-                            model.localizationUpdateInfo != null)
+                            homeState.localizationUpdateInfo != null)
                           Container(
                             padding: const EdgeInsets.only(
                                 top: 3, bottom: 3, left: 8, right: 8),
                             decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(12)),
-                            child:
-                                Text(model.localizationUpdateInfo?.key ?? " "),
+                            child: Text(
+                                homeState.localizationUpdateInfo?.key ?? " "),
                           ),
                         const SizedBox(width: 12),
                         const Icon(
@@ -508,10 +514,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
     );
   }
 
-  @override
-  String getUITitle(BuildContext context, HomeUIModel model) => "HOME";
-
-  Widget makeWebViewButton(HomeUIModel model,
+  Widget makeWebViewButton(BuildContext context, HomeUIModel model,
       {required Widget icon,
       required String name,
       required String webTitle,
@@ -528,7 +531,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
           if (touchKey != null) {
             AnalyticsApi.touch(touchKey);
           }
-          model.goWebView(webTitle, webURL, useLocalization: true);
+          model.goWebView(context, webTitle, webURL, useLocalization: true);
         },
         child: Container(
           width: width,
@@ -579,15 +582,22 @@ class HomeUI extends BaseUI<HomeUIModel> {
     );
   }
 
-  Widget makeGameStatusCard(
-      BuildContext context, HomeUIModel model, double width) {
+  Widget makeGameStatusCard(BuildContext context, HomeUIModel model,
+      double width, HomeUIModelState homeState) {
+    const statusCnName = {
+      "Platform": "平台",
+      "Persistent Universe": "持续宇宙",
+      "Electronic Access": "电子访问",
+      "Arena Commander": "竞技场指挥官"
+    };
+
     return Tilt(
       shadowConfig: const ShadowConfig(maxIntensity: .2),
       borderRadius: BorderRadius.circular(12),
       child: GestureDetector(
         onTap: () {
-          model.goWebView(
-              "RSI 服务器状态", "https://status.robertsspaceindustries.com/",
+          model.goWebView(context, "RSI 服务器状态",
+              "https://status.robertsspaceindustries.com/",
               useLocalization: true);
         },
         child: Container(
@@ -598,14 +608,14 @@ class HomeUI extends BaseUI<HomeUIModel> {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(children: [
-              if (model.scServerStatus == null)
+              if (homeState.scServerStatus == null)
                 makeLoading(context, width: 20)
               else
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("状态："),
-                    for (final item in model.scServerStatus ?? [])
+                    for (final item in homeState.scServerStatus ?? [])
                       Row(
                         children: [
                           SizedBox(
@@ -622,7 +632,7 @@ class HomeUI extends BaseUI<HomeUIModel> {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            "${model.statusCnName[item["name"]] ?? item["name"]}",
+                            "${statusCnName[item["name"]] ?? item["name"]}",
                             style: const TextStyle(fontSize: 13),
                           ),
                         ],
@@ -641,20 +651,20 @@ class HomeUI extends BaseUI<HomeUIModel> {
     );
   }
 
-  Widget makeActivityBanner(
-      BuildContext context, HomeUIModel model, double width) {
+  Widget makeActivityBanner(BuildContext context, HomeUIModel model,
+      double width, HomeUIModelState homeState) {
     return Tilt(
       borderRadius: BorderRadius.circular(12),
       shadowConfig: const ShadowConfig(disable: true),
       child: GestureDetector(
-        onTap: () => model.onTapFestival(),
+        onTap: () => _onTapFestival(context),
         child: Container(
             width: width + 24,
             decoration: BoxDecoration(color: FluentTheme.of(context).cardColor),
             child: Padding(
               padding:
                   const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
-              child: (model.countdownFestivalListData == null)
+              child: (homeState.countdownFestivalListData == null)
                   ? SizedBox(
                       width: width,
                       height: 62,
@@ -666,11 +676,12 @@ class HomeUI extends BaseUI<HomeUIModel> {
                       width: width,
                       height: 62,
                       child: Swiper(
-                        itemCount: model.countdownFestivalListData!.length,
+                        itemCount: homeState.countdownFestivalListData!.length,
                         autoplay: true,
                         autoplayDelay: 5000,
                         itemBuilder: (context, index) {
-                          final item = model.countdownFestivalListData![index];
+                          final item =
+                              homeState.countdownFestivalListData![index];
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -713,6 +724,49 @@ class HomeUI extends BaseUI<HomeUIModel> {
             )),
       ),
     );
+  }
+
+  _showPlacard(BuildContext context, HomeUIModelState homeState) {
+    switch (homeState.appPlacardData?.linkType) {
+      case "external":
+        launchUrlString(homeState.appPlacardData?.link);
+        return;
+      case "doc":
+        showDialog(
+            context: context,
+            builder: (context) {
+              return HomeMdContentDialogUI(
+                title: homeState.appPlacardData?.title ?? "公告详情",
+                url: homeState.appPlacardData?.link,
+              );
+            });
+        return;
+    }
+  }
+
+  _onTapFestival(BuildContext context) {
+    showDialog(
+        context: context, builder: (context) => const HomeCountdownDialogUI());
+  }
+
+  _onMenuTap(
+      BuildContext context, String key, HomeUIModelState homeState) async {
+    const String gameInstallReqInfo =
+        "该功能需要一个有效的安装位置\n\n如果您的游戏未下载完成，请等待下载完毕后使用此功能。\n\n如果您的游戏已下载完毕但未识别，请启动一次游戏后重新打开盒子 或 在设置选项中手动设置安装位置。";
+    switch (key) {
+      case "localization":
+        if (homeState.scInstalledPath == "not_install") {
+          showToast(context, gameInstallReqInfo);
+          break;
+        }
+        await showDialog(
+            context: context,
+            dismissWithEsc: false,
+            builder: (BuildContext context) => const LocalizationDialogUI());
+        break;
+      default:
+        context.push("/index/$key");
+    }
   }
 }
 

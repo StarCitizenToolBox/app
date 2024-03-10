@@ -1,233 +1,134 @@
+// ignore_for_file: avoid_build_context_in_providers
 import 'dart:async';
 import 'dart:io';
 
 import 'package:archive/archive_io.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
-import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
+import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:starcitizen_doctor/common/utils/log.dart' as log_utils;
 
-class LocalizationUIModel extends BaseUIModel {
-  final String scInstallPath;
+part 'localization_ui_model.g.dart';
 
+part 'localization_ui_model.freezed.dart';
+
+@freezed
+class LocalizationUIState with _$LocalizationUIState {
+  const factory LocalizationUIState({
+    String? selectedLanguage,
+    Map<String, ScLocalizationData>? apiLocalizationData,
+    @Default("") String workingVersion,
+    MapEntry<bool, String>? patchStatus,
+    List<String>? customizeList,
+    @Default(false) bool enableCustomize,
+  }) = _LocalizationUIState;
+}
+
+@riverpod
+class LocalizationUIModel extends _$LocalizationUIModel {
   static const languageSupport = {
     "chinese_(simplified)": "简体中文",
     "chinese_(traditional)": "繁體中文",
   };
 
-  late String selectedLanguage;
-
-  Map<String, ScLocalizationData>? apiLocalizationData;
-
-  LocalizationUIModel(this.scInstallPath);
-
-  String workingVersion = "";
-
-  final downloadDir =
-      Directory("${AppConf.applicationSupportDir}\\Localizations");
+  late final _downloadDir =
+      Directory("${appGlobalState.applicationSupportDir}\\Localizations");
 
   late final customizeDir =
-      Directory("${downloadDir.absolute.path}\\Customize_ini");
+      Directory("${_downloadDir.absolute.path}\\Customize_ini");
 
-  late final scDataDir = Directory("$scInstallPath\\data");
+  late final scDataDir =
+      Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data");
 
   late final cfgFile = File("${scDataDir.absolute.path}\\system.cfg");
 
-  MapEntry<bool, String>? patchStatus;
+  StreamSubscription? _customizeDirListenSub;
 
-  List<String>? customizeList;
-
-  StreamSubscription? customizeDirListenSub;
-
-  bool enableCustomize = false;
+  String get _scInstallPath => ref.read(homeUIModelProvider).scInstalledPath!;
 
   @override
-  void initModel() {
-    selectedLanguage = languageSupport.entries.first.key;
+  LocalizationUIState build() {
+    state = LocalizationUIState(selectedLanguage: languageSupport.keys.first);
+    _init();
+    return state;
+  }
+
+  _init() async {
     if (!customizeDir.existsSync()) {
-      customizeDir.createSync(recursive: true);
+      await customizeDir.create(recursive: true);
     }
-    customizeDirListenSub = customizeDir.watch().listen((event) {
+    _customizeDirListenSub = customizeDir.watch().listen((event) {
       _scanCustomizeDir();
     });
-    super.initModel();
+    ref.onDispose(() {
+      _customizeDirListenSub?.cancel();
+      _customizeDirListenSub = null;
+    });
+    _loadData();
   }
 
-  @override
-  Future loadData() async {
+  _loadData() async {
     await _updateStatus();
-    _checkUserCfg();
     _scanCustomizeDir();
-    final l =
-        await handleError(() => Api.getScLocalizationData(selectedLanguage));
+    final l = await Api.getScLocalizationData(state.selectedLanguage!).unwrap();
     if (l != null) {
-      apiLocalizationData = {};
+      final apiLocalizationData = <String, ScLocalizationData>{};
       for (var element in l) {
-        final isPTU = !scInstallPath.contains("LIVE");
+        final isPTU = !_scInstallPath.contains("LIVE");
         if (isPTU && element.gameChannel == "PTU") {
-          apiLocalizationData![element.versionName ?? ""] = element;
+          apiLocalizationData[element.versionName ?? ""] = element;
         } else if (!isPTU && element.gameChannel == "PU") {
-          apiLocalizationData![element.versionName ?? ""] = element;
+          apiLocalizationData[element.versionName ?? ""] = element;
         }
       }
+      state = state.copyWith(apiLocalizationData: apiLocalizationData);
     }
-    notifyListeners();
   }
 
-  @override
-  dispose() {
-    customizeDirListenSub?.cancel();
-    super.dispose();
-  }
-
-  _scanCustomizeDir() {
-    final fileList = customizeDir.listSync();
-    customizeList = [];
-    for (var value in fileList) {
-      if (value is File && value.path.endsWith(".ini")) {
-        customizeList?.add(value.absolute.path);
-      }
-    }
-    notifyListeners();
-  }
-
-  String getCustomizeFileName(String path) {
-    return path.split("\\").last;
-  }
-
-  _updateStatus() async {
-    patchStatus = MapEntry(
-        await getLangCfgEnableLang(lang: selectedLanguage),
-        await getInstalledIniVersion(
-            "${scDataDir.absolute.path}\\Localization\\$selectedLanguage\\global.ini"));
-    notifyListeners();
-  }
-
-  VoidCallback? onBack() {
-    if (workingVersion.isNotEmpty) return null;
-    return () {
-      Navigator.pop(context!);
-    };
-  }
-
-  void selectLang(String v) {
-    selectedLanguage = v;
-    apiLocalizationData = null;
-    notifyListeners();
-    reloadData();
-  }
-
-  VoidCallback? doRefresh() {
-    if (workingVersion.isNotEmpty) return null;
-    return () {
-      apiLocalizationData = null;
-      notifyListeners();
-      reloadData();
-    };
-  }
-
-  VoidCallback? doRemoteInstall(ScLocalizationData value) {
-    return () async {
-      AnalyticsApi.touch("install_localization");
-      final downloadUrl =
-          "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
-      final savePath =
-          File("${downloadDir.absolute.path}\\${value.versionName}.sclang");
-      try {
-        workingVersion = value.versionName!;
-        notifyListeners();
-        if (!await savePath.exists()) {
-          // download
-          dPrint("downloading file to $savePath");
-          final r = await RSHttp.get(downloadUrl);
-          if (r.statusCode == 200 && r.data != null) {
-            await savePath.writeAsBytes(r.data!);
-          } else {
-            throw "statusCode Error : ${r.statusCode}";
+  void checkUserCfg(BuildContext context) async {
+    final userCfgFile = File("$_scInstallPath\\USER.cfg");
+    if (await userCfgFile.exists()) {
+      final cfgString = await userCfgFile.readAsString();
+      if (cfgString.contains("g_language") &&
+          !cfgString.contains("g_language=${state.selectedLanguage}")) {
+        if (!context.mounted) return;
+        final ok = await showConfirmDialogs(
+            context,
+            "是否移除不兼容的汉化参数",
+            const Text(
+                "USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。"),
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * .35));
+        if (ok == true) {
+          var finalString = "";
+          for (var item in cfgString.split("\n")) {
+            if (!item.trim().startsWith("g_language")) {
+              finalString = "$finalString$item\n";
+            }
           }
-        } else {
-          dPrint("use cache $savePath");
+          await userCfgFile.delete();
+          await userCfgFile.create();
+          await userCfgFile.writeAsString(finalString, flush: true);
+          _loadData();
         }
-        await Future.delayed(const Duration(milliseconds: 300));
-        // check file
-        final globalIni = await compute(_readArchive, savePath.absolute.path);
-        if (globalIni.isEmpty) {
-          throw "文件受损，请重新下载";
-        }
-        await _installFormString(globalIni, value.versionName ?? "");
-      } catch (e) {
-        await showToast(context!, "安装出错！\n\n $e");
-        if (await savePath.exists()) await savePath.delete();
-      }
-      workingVersion = "";
-      notifyListeners();
-    };
-  }
-
-  Future<bool> getLangCfgEnableLang({String lang = ""}) async {
-    if (!await cfgFile.exists()) return false;
-    final str = (await cfgFile.readAsString()).replaceAll(" ", "");
-    return str.contains("sys_languages=$lang") &&
-        str.contains("g_language=$lang") &&
-        str.contains("g_languageAudio=english");
-  }
-
-  static Future<String> getInstalledIniVersion(String iniPath) async {
-    final iniFile = File(iniPath);
-    if (!await iniFile.exists()) return "游戏内置";
-    final iniStringSplit = (await iniFile.readAsString()).split("\n");
-    for (var i = iniStringSplit.length - 1; i > 0; i--) {
-      if (iniStringSplit[i]
-          .contains("_starcitizen_doctor_localization_version=")) {
-        final v = iniStringSplit[i]
-            .trim()
-            .split("_starcitizen_doctor_localization_version=")[1];
-        return v;
       }
     }
-    return "自定义文件";
   }
 
-  _installFormString(StringBuffer globalIni, String versionName) async {
-    final iniFile = File(
-        "${scDataDir.absolute.path}\\Localization\\$selectedLanguage\\global.ini");
-    if (versionName.isNotEmpty) {
-      if (!globalIni.toString().endsWith("\n")) {
-        globalIni.write("\n");
-      }
-      globalIni.write("_starcitizen_doctor_localization_version=$versionName");
-    }
-
-    /// write cfg
-    if (await cfgFile.exists()) {}
-
-    /// write ini
-    if (await iniFile.exists()) {
-      await iniFile.delete();
-    }
-    await iniFile.create(recursive: true);
-    await iniFile.writeAsString("\uFEFF${globalIni.toString().trim()}",
-        flush: true);
-    await updateLangCfg(true);
-    await _updateStatus();
-  }
-
-  openDir() async {
-    showToast(context!,
-        "即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。");
-    await Process.run(SystemHelper.powershellPath,
-        ["explorer.exe", "/select,\"${customizeDir.absolute.path}\"\\"]);
-  }
-
-  updateLangCfg(bool enable) async {
-    final status = await getLangCfgEnableLang(lang: selectedLanguage);
+  Future<void> updateLangCfg(bool enable) async {
+    final selectedLanguage = state.selectedLanguage!;
+    final status = await _getLangCfgEnableLang(lang: selectedLanguage);
     final exists = await cfgFile.exists();
     if (status == enable) {
       await _updateStatus();
@@ -276,20 +177,112 @@ class LocalizationUIModel extends BaseUIModel {
     await cfgFile.create(recursive: true);
     await cfgFile.writeAsString(newStr.toString());
     await _updateStatus();
-    notifyListeners();
+  }
+
+  void goFeedback() {
+    launchUrlString(URLConf.feedbackUrl);
   }
 
   VoidCallback? doDelIniFile() {
     return () async {
       final iniFile = File(
-          "${scDataDir.absolute.path}\\Localization\\$selectedLanguage\\global.ini");
+          "${scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
       if (await iniFile.exists()) await iniFile.delete();
       await updateLangCfg(false);
       await _updateStatus();
     };
   }
 
-  /// read locale active
+  void toggleCustomize() {
+    state = state.copyWith(enableCustomize: !state.enableCustomize);
+  }
+
+  String getCustomizeFileName(String path) {
+    return path.split("\\").last;
+  }
+
+  VoidCallback? doLocalInstall(String filePath) {
+    if (state.workingVersion.isNotEmpty) return null;
+    return () async {
+      final f = File(filePath);
+      if (!await f.exists()) return;
+      state = state.copyWith(workingVersion: filePath);
+      final str = await f.readAsString();
+      await _installFormString(
+          StringBuffer(str), "自定义_${getCustomizeFileName(filePath)}");
+      state = state.copyWith(workingVersion: "");
+    };
+  }
+
+  _installFormString(StringBuffer globalIni, String versionName) async {
+    final iniFile = File(
+        "${scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
+    if (versionName.isNotEmpty) {
+      if (!globalIni.toString().endsWith("\n")) {
+        globalIni.write("\n");
+      }
+      globalIni.write("_starcitizen_doctor_localization_version=$versionName");
+    }
+
+    /// write cfg
+    if (await cfgFile.exists()) {}
+
+    /// write ini
+    if (await iniFile.exists()) {
+      await iniFile.delete();
+    }
+    await iniFile.create(recursive: true);
+    await iniFile.writeAsString("\uFEFF${globalIni.toString().trim()}",
+        flush: true);
+    await updateLangCfg(true);
+    await _updateStatus();
+  }
+
+  openDir(BuildContext context) async {
+    showToast(context,
+        "即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。");
+    await Process.run(SystemHelper.powershellPath,
+        ["explorer.exe", "/select,\"${customizeDir.absolute.path}\"\\"]);
+  }
+
+  VoidCallback? doRemoteInstall(
+      BuildContext context, ScLocalizationData value) {
+    return () async {
+      AnalyticsApi.touch("install_localization");
+      final downloadUrl =
+          "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
+      final savePath =
+          File("${_downloadDir.absolute.path}\\${value.versionName}.sclang");
+      try {
+        state = state.copyWith(workingVersion: value.versionName!);
+        if (!await savePath.exists()) {
+          // download
+          dPrint("downloading file to $savePath");
+          final r = await RSHttp.get(downloadUrl);
+          if (r.statusCode == 200 && r.data != null) {
+            await savePath.writeAsBytes(r.data!);
+          } else {
+            throw "statusCode Error : ${r.statusCode}";
+          }
+        } else {
+          dPrint("use cache $savePath");
+        }
+        await Future.delayed(const Duration(milliseconds: 300));
+        // check file
+        final globalIni = await compute(_readArchive, savePath.absolute.path);
+        if (globalIni.isEmpty) {
+          throw "文件受损，请重新下载";
+        }
+        await _installFormString(globalIni, value.versionName ?? "");
+      } catch (e) {
+        if (!context.mounted) return;
+        await showToast(context, "安装出错！\n\n $e");
+        if (await savePath.exists()) await savePath.delete();
+      }
+      state = state.copyWith(workingVersion: "");
+    };
+  }
+
   static StringBuffer _readArchive(String savePath) {
     final inputStream = InputFileStream(savePath);
     final archive =
@@ -308,87 +301,74 @@ class LocalizationUIModel extends BaseUIModel {
     return globalIni;
   }
 
-  VoidCallback? doLocalInstall(String filePath) {
-    if (workingVersion.isNotEmpty) return null;
-    return () async {
-      final f = File(filePath);
-      if (!await f.exists()) return;
-      workingVersion = filePath;
-      notifyListeners();
-      final str = await f.readAsString();
-      await _installFormString(
-          StringBuffer(str), "自定义_${getCustomizeFileName(filePath)}");
-      workingVersion = "";
-      notifyListeners();
+  String? getScInstallPath() {
+    return ref.read(homeUIModelProvider).scInstalledPath;
+  }
+
+  void selectLang(String v) {
+    state = state.copyWith(selectedLanguage: v);
+    _loadData();
+  }
+
+  VoidCallback? onBack(BuildContext context) {
+    if (state.workingVersion.isNotEmpty) return null;
+    return () {
+      Navigator.pop(context);
     };
   }
 
-  void _checkUserCfg() async {
-    final userCfgFile = File("$scInstallPath\\USER.cfg");
-    if (await userCfgFile.exists()) {
-      final cfgString = await userCfgFile.readAsString();
-      if (cfgString.contains("g_language") &&
-          !cfgString.contains("g_language=$selectedLanguage")) {
-        final ok = await showConfirmDialogs(
-            context!,
-            "是否移除不兼容的汉化参数",
-            const Text(
-                "USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。"),
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context!).size.width * .35));
-        if (ok == true) {
-          var finalString = "";
-          for (var item in cfgString.split("\n")) {
-            if (!item.trim().startsWith("g_language")) {
-              finalString = "$finalString$item\n";
-            }
-          }
-          await userCfgFile.delete();
-          await userCfgFile.create();
-          await userCfgFile.writeAsString(finalString, flush: true);
-          reloadData();
-        }
-      }
-    }
+  VoidCallback? doRefresh() {
+    if (state.workingVersion.isNotEmpty) return null;
+    return () {
+      state = state.copyWith(apiLocalizationData: null);
+      _loadData();
+    };
   }
 
-  static Future<MapEntry<String, bool>?> checkLocalizationUpdates(
-      List<String> gameInstallPaths) async {
-    final updateInfo = <String, bool>{};
-    for (var kv in languageSupport.entries) {
-      final l = await Api.getScLocalizationData(kv.key);
-      for (var value in gameInstallPaths) {
-        final iniPath = "$value\\data\\Localization\\${kv.key}\\global.ini";
-        if (!await File(iniPath).exists()) {
-          continue;
-        }
-        final installed = await getInstalledIniVersion(iniPath);
-        if (installed == "游戏内置" || installed == "自定义文件") {
-          continue;
-        }
-        final hasUpdate = l
-                .where((element) => element.versionName == installed)
-                .firstOrNull ==
-            null;
-        updateInfo[value] = hasUpdate;
+  void _scanCustomizeDir() {
+    final fileList = customizeDir.listSync();
+    final customizeList = <String>[];
+    for (var value in fileList) {
+      if (value is File && value.path.endsWith(".ini")) {
+        customizeList.add(value.absolute.path);
       }
     }
-    log_utils.dPrint("checkLocalizationUpdates ==== $updateInfo");
-    for (var v in updateInfo.entries) {
-      if (v.value) {
-        for (var element in AppConf.gameChannels) {
-          if (v.key.contains("StarCitizen\\$element")) {
-            return MapEntry(element, true);
-          } else {
-            return const MapEntry("", true);
-          }
-        }
-      }
-    }
-    return null;
+    state = state.copyWith(customizeList: customizeList);
   }
 
-  void goFeedback() {
-    launchUrlString(URLConf.feedbackUrl);
+  _updateStatus() async {
+    final patchStatus = MapEntry(
+        await _getLangCfgEnableLang(lang: state.selectedLanguage!),
+        await _getInstalledIniVersion(
+            "${scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"));
+    state = state.copyWith(patchStatus: patchStatus);
+  }
+
+  Future<bool> _getLangCfgEnableLang({String lang = ""}) async {
+    if (!await cfgFile.exists()) return false;
+    final str = (await cfgFile.readAsString()).replaceAll(" ", "");
+    return str.contains("sys_languages=$lang") &&
+        str.contains("g_language=$lang") &&
+        str.contains("g_languageAudio=english");
+  }
+
+  static Future<String> _getInstalledIniVersion(String iniPath) async {
+    final iniFile = File(iniPath);
+    if (!await iniFile.exists()) return "游戏内置";
+    final iniStringSplit = (await iniFile.readAsString()).split("\n");
+    for (var i = iniStringSplit.length - 1; i > 0; i--) {
+      if (iniStringSplit[i]
+          .contains("_starcitizen_doctor_localization_version=")) {
+        final v = iniStringSplit[i]
+            .trim()
+            .split("_starcitizen_doctor_localization_version=")[1];
+        return v;
+      }
+    }
+    return "自定义文件";
+  }
+
+  Future checkLangUpdate() async {
+    // TODO 检查更新
   }
 }

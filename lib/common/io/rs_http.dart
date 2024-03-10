@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:starcitizen_doctor/common/conf/app_conf.dart';
+import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/rust/api/http_api.dart' as rust_http;
 import 'package:starcitizen_doctor/common/rust/api/http_api.dart';
 import 'package:starcitizen_doctor/common/rust/http_package.dart';
@@ -10,7 +10,7 @@ class RSHttp {
   static init() async {
     await rust_http.setDefaultHeader(headers: {
       "User-Agent":
-          "SCToolBox/${AppConf.appVersion} (${AppConf.appVersionCode})${AppConf.isMSE ? "" : " DEV"} RSHttp"
+          "SCToolBox/${ConstConf.appVersion} (${ConstConf.appVersionCode})${ConstConf.isMSE ? "" : " DEV"} RSHttp"
     });
   }
 

@@ -1,11 +1,25 @@
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:starcitizen_doctor/base/ui.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 
-import 'tools_ui_model.dart';
+class ToolsUI extends HookConsumerWidget {
+  const ToolsUI({super.key});
 
-class ToolsUI extends BaseUI<ToolsUIModel> {
   @override
-  Widget? buildBody(BuildContext context, ToolsUIModel model) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(toolsUIModelProvider);
+    final model = ref.read(toolsUIModelProvider.notifier);
+
+    useEffect(() {
+      addPostFrameCallback(() {
+        model.loadToolsCard(context, skipPathScan: false);
+      });
+      return null;
+    }, []);
+
     return Stack(
       children: [
         Column(
@@ -18,15 +32,18 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
                   Expanded(
                     child: Column(
                       children: [
-                        makeGameLauncherPathSelect(context, model),
+                        makeGameLauncherPathSelect(context, model, state),
                         const SizedBox(height: 12),
-                        makeGamePathSelect(context, model),
+                        makeGamePathSelect(context, model, state),
                       ],
                     ),
                   ),
                   const SizedBox(width: 12),
                   Button(
-                    onPressed: model.working ? null : model.loadData,
+                    onPressed: state.working
+                        ? null
+                        : () =>
+                            model.loadToolsCard(context, skipPathScan: false),
                     child: const Padding(
                       padding: EdgeInsets.only(
                           top: 30, bottom: 30, left: 12, right: 12),
@@ -37,7 +54,7 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
               ),
             ),
             const SizedBox(height: 12),
-            if (model.items.isEmpty)
+            if (state.items.isEmpty)
               const Expanded(
                 child: Center(
                   child: Column(
@@ -58,12 +75,12 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
                     crossAxisCount: 3,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
-                    itemCount: (model.isItemLoading)
-                        ? model.items.length + 1
-                        : model.items.length,
+                    itemCount: (state.isItemLoading)
+                        ? state.items.length + 1
+                        : state.items.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      if (index == model.items.length) {
+                      if (index == state.items.length) {
                         return Container(
                             width: 300,
                             height: 200,
@@ -73,7 +90,7 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
                             ),
                             child: makeLoading(context));
                       }
-                      final item = model.items[index];
+                      final item = state.items[index];
                       return Container(
                         width: 300,
                         height: 200,
@@ -119,7 +136,7 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
                                 children: [
                                   const Spacer(),
                                   Button(
-                                    onPressed: model.working
+                                    onPressed: state.working
                                         ? null
                                         : item.onTap == null
                                             ? null
@@ -148,7 +165,7 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
               )
           ],
         ),
-        if (model.working)
+        if (state.working)
           Container(
             decoration: BoxDecoration(
               color: Colors.black.withAlpha(150),
@@ -168,7 +185,8 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
     );
   }
 
-  Widget makeGamePathSelect(BuildContext context, ToolsUIModel model) {
+  Widget makeGamePathSelect(
+      BuildContext context, ToolsUIModel model, ToolsUIState state) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -178,18 +196,17 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
           child: SizedBox(
             height: 36,
             child: ComboBox<String>(
-              value: model.scInstalledPath,
+              value: state.scInstalledPath,
               items: [
-                for (final path in model.scInstallPaths)
+                for (final path in state.scInstallPaths)
                   ComboBoxItem(
                     value: path,
                     child: Text(path),
                   )
               ],
               onChanged: (v) {
-                model.loadData(skipPathScan: true);
-                model.scInstalledPath = v!;
-                model.notifyListeners();
+                model.loadToolsCard(context, skipPathScan: true);
+                model.onChangeGamePath(v!);
               },
             ),
           ),
@@ -200,12 +217,13 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
               padding: EdgeInsets.all(6),
               child: Icon(FluentIcons.folder_open),
             ),
-            onPressed: () => model.openDir(model.scInstalledPath))
+            onPressed: () => model.openDir(state.scInstalledPath))
       ],
     );
   }
 
-  Widget makeGameLauncherPathSelect(BuildContext context, ToolsUIModel model) {
+  Widget makeGameLauncherPathSelect(
+      BuildContext context, ToolsUIModel model, ToolsUIState state) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -215,18 +233,17 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
           child: SizedBox(
             height: 36,
             child: ComboBox<String>(
-              value: model.rsiLauncherInstalledPath,
+              value: state.rsiLauncherInstalledPath,
               items: [
-                for (final path in model.rsiLauncherInstallPaths)
+                for (final path in state.rsiLauncherInstallPaths)
                   ComboBoxItem(
                     value: path,
                     child: Text(path),
                   )
               ],
               onChanged: (v) {
-                model.loadData(skipPathScan: true);
-                model.rsiLauncherInstalledPath = v!;
-                model.notifyListeners();
+                model.loadToolsCard(context, skipPathScan: true);
+                model.onChangeLauncherPath(v!);
               },
             ),
           ),
@@ -237,11 +254,8 @@ class ToolsUI extends BaseUI<ToolsUIModel> {
               padding: EdgeInsets.all(6),
               child: Icon(FluentIcons.folder_open),
             ),
-            onPressed: () => model.openDir(model.rsiLauncherInstalledPath))
+            onPressed: () => model.openDir(state.rsiLauncherInstalledPath))
       ],
     );
   }
-
-  @override
-  String getUITitle(BuildContext context, ToolsUIModel model) => "ToolsUI";
 }

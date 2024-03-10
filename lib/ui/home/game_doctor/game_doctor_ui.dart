@@ -1,13 +1,37 @@
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
-import 'package:starcitizen_doctor/base/ui.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/common/helper/log_helper.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'game_doctor_ui_model.dart';
 
-class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
+class HomeGameDoctorUI extends HookConsumerWidget {
+  const HomeGameDoctorUI({super.key});
+
   @override
-  Widget? buildBody(BuildContext context, GameDoctorUIModel model) {
-    return makeDefaultPage(context, model,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeGameDoctorUIModelProvider);
+    final homeState = ref.watch(homeUIModelProvider);
+    final model = ref.read(homeGameDoctorUIModelProvider.notifier);
+
+    useEffect(() {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        dPrint("HomeGameDoctorUI useEffect doCheck timeStamp === $timeStamp");
+        model.doCheck(context);
+      });
+      return null;
+    }, const []);
+
+    return makeDefaultPage(context,
+        title: "一键诊断 -> ${homeState.scInstalledPath}",
+        useBodyContainer: true,
         content: Stack(
           children: [
             Column(
@@ -33,11 +57,12 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
                                 ],
                               ),
                             ),
-                            onPressed: () => model.onTapButton(item.key)),
+                            onPressed: () =>
+                                _onTapButton(context, item.key, homeState)),
                       ),
                   ],
                 ),
-                if (model.isChecking)
+                if (state.isChecking)
                   Expanded(
                       child: Center(
                     child: Column(
@@ -45,12 +70,12 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
                       children: [
                         const ProgressRing(),
                         const SizedBox(height: 12),
-                        Text(model.lastScreenInfo)
+                        Text(state.lastScreenInfo)
                       ],
                     ),
                   ))
-                else if (model.checkResult == null ||
-                    model.checkResult!.isEmpty) ...[
+                else if (state.checkResult == null ||
+                    state.checkResult!.isEmpty) ...[
                   const Expanded(
                       child: Center(
                     child: Column(
@@ -63,10 +88,10 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
                     ),
                   ))
                 ] else
-                  ...makeResult(context, model),
+                  ...makeResult(context, state, model),
               ],
             ),
-            if (model.isFixing)
+            if (state.isFixing)
               Container(
                 decoration: BoxDecoration(
                   color: Colors.black.withAlpha(150),
@@ -77,8 +102,8 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
                     children: [
                       const ProgressRing(),
                       const SizedBox(height: 12),
-                      Text(model.isFixingString.isNotEmpty
-                          ? model.isFixingString
+                      Text(state.isFixingString.isNotEmpty
+                          ? state.isFixingString
                           : "正在处理..."),
                     ],
                   ),
@@ -91,29 +116,6 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
             )
           ],
         ));
-  }
-
-  List<Widget> makeResult(BuildContext context, GameDoctorUIModel model) {
-    return [
-      const SizedBox(height: 24),
-      Text(model.lastScreenInfo, maxLines: 1),
-      const SizedBox(height: 12),
-      Text(
-        "注意：本工具检测结果仅供参考，若您不理解以下操作，请提供截图给有经验的玩家！",
-        style: TextStyle(color: Colors.red, fontSize: 16),
-      ),
-      const SizedBox(height: 24),
-      ListView.builder(
-        itemCount: model.checkResult!.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          final item = model.checkResult![index];
-          return makeResultItem(item, model);
-        },
-      ),
-      const SizedBox(height: 64),
-    ];
   }
 
   Widget makeRescueBanner(BuildContext context) {
@@ -146,8 +148,32 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
     );
   }
 
-  Widget makeResultItem(
-      MapEntry<String, String> item, GameDoctorUIModel model) {
+  List<Widget> makeResult(BuildContext context, HomeGameDoctorState state,
+      HomeGameDoctorUIModel model) {
+    return [
+      const SizedBox(height: 24),
+      Text(state.lastScreenInfo, maxLines: 1),
+      const SizedBox(height: 12),
+      Text(
+        "注意：本工具检测结果仅供参考，若您不理解以下操作，请提供截图给有经验的玩家！",
+        style: TextStyle(color: Colors.red, fontSize: 16),
+      ),
+      const SizedBox(height: 24),
+      ListView.builder(
+        itemCount: state.checkResult!.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          final item = state.checkResult![index];
+          return makeResultItem(context, item, state, model);
+        },
+      ),
+      const SizedBox(height: 64),
+    ];
+  }
+
+  Widget makeResultItem(BuildContext context, MapEntry<String, String> item,
+      HomeGameDoctorState state, HomeGameDoctorUIModel model) {
     final errorNames = {
       "unSupport_system":
           MapEntry("不支持的操作系统，游戏可能无法运行", "请升级您的系统 (${item.value})"),
@@ -193,12 +219,10 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
             ),
           ),
           trailing: Button(
-            onPressed: (errorNames[item.key]?.value == null || model.isFixing)
+            onPressed: (errorNames[item.key]?.value == null || state.isFixing)
                 ? null
                 : () async {
-                    await model.doFix(item);
-                    model.isFixing = false;
-                    model.notifyListeners();
+                    await model.doFix(context, item);
                   },
             child: const Padding(
               padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
@@ -249,7 +273,22 @@ class GameDoctorUI extends BaseUI<GameDoctorUIModel> {
     );
   }
 
-  @override
-  String getUITitle(BuildContext context, GameDoctorUIModel model) =>
-      "一键诊断  >   ${model.scInstalledPath}";
+  _onTapButton(
+      BuildContext context, String key, HomeUIModelState homeState) async {
+    switch (key) {
+      case "rsi_log":
+        final path = await SCLoggerHelper.getLogFilePath();
+        if (path == null) return;
+        SystemHelper.openDir(path);
+        return;
+      case "game_log":
+        if (homeState.scInstalledPath == "not_install" ||
+            homeState.scInstalledPath == null) {
+          showToast(context, "请在首页选择游戏安装目录。");
+          return;
+        }
+        SystemHelper.openDir("${homeState.scInstalledPath}\\Game.log");
+        return;
+    }
+  }
 }

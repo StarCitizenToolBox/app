@@ -1,15 +1,23 @@
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:starcitizen_doctor/base/ui.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/game_performance_data.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 import 'performance_ui_model.dart';
 
-class PerformanceUI extends BaseUI<PerformanceUIModel> {
+class HomePerformanceUI extends HookConsumerWidget {
+  const HomePerformanceUI({super.key});
+
   @override
-  Widget? buildBody(BuildContext context, PerformanceUIModel model) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homePerformanceUIModelProvider);
+    final model = ref.read(homePerformanceUIModelProvider.notifier);
+
     var content = makeLoading(context);
 
-    if (model.performanceMap != null) {
+    if (state.performanceMap != null) {
       content = Stack(
         children: [
           Padding(
@@ -20,7 +28,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                   padding: const EdgeInsets.only(left: 24, right: 24),
                   child: Column(
                     children: [
-                      if (model.showGraphicsPerformanceTip)
+                      if (state.showGraphicsPerformanceTip)
                         InfoBar(
                           title: const Text("图形优化提示"),
                           content: const Text(
@@ -32,7 +40,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                       Row(
                         children: [
                           Text(
-                            "当前状态：${model.enabled ? "已应用" : "未应用"}",
+                            "当前状态：${state.enabled ? "已应用" : "未应用"}",
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(width: 32),
@@ -72,7 +80,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                                 " 恢复默认 ",
                                 style: TextStyle(fontSize: 16),
                               ),
-                              onPressed: () => model.clean()),
+                              onPressed: () => model.clean(context)),
                           const SizedBox(width: 24),
                           Button(
                               child: const Text(
@@ -98,16 +106,16 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 1,
                   crossAxisSpacing: 1,
-                  itemCount: model.performanceMap!.length,
+                  itemCount: state.performanceMap!.length,
                   itemBuilder: (context, index) {
-                    return makeItemGroup(
-                        model.performanceMap!.entries.elementAt(index));
+                    return makeItemGroup(context,
+                        state.performanceMap!.entries.elementAt(index), model);
                   },
                 )),
               ],
             ),
           ),
-          if (model.workingString.isNotEmpty)
+          if (state.workingString.isNotEmpty)
             Container(
               decoration: BoxDecoration(
                 color: Colors.black.withAlpha(150),
@@ -118,7 +126,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                   children: [
                     const ProgressRing(),
                     const SizedBox(height: 12),
-                    Text(model.workingString),
+                    Text(state.workingString),
                   ],
                 ),
               ),
@@ -127,10 +135,16 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
       );
     }
 
-    return makeDefaultPage(context, model, content: content);
+    return makeDefaultPage(context,
+        title: "性能优化 -> ${model.scPath}",
+        useBodyContainer: true,
+        content: content);
   }
 
-  Widget makeItemGroup(MapEntry<String?, List<GamePerformanceData>> group) {
+  Widget makeItemGroup(
+      BuildContext context,
+      MapEntry<String?, List<GamePerformanceData>> group,
+      HomePerformanceUIModel model) {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Container(
@@ -152,7 +166,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                   color: FluentTheme.of(context).cardColor.withOpacity(.2),
                   height: 1),
               const SizedBox(height: 6),
-              for (final item in group.value) makeItem(item)
+              for (final item in group.value) makeItem(context, item, model)
             ],
           ),
         ),
@@ -160,8 +174,8 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
     );
   }
 
-  Widget makeItem(GamePerformanceData item) {
-    final model = ref.watch(provider);
+  Widget makeItem(BuildContext context, GamePerformanceData item,
+      HomePerformanceUIModel model) {
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
@@ -191,10 +205,10 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                               v >= (item.min ?? 0)) {
                             item.value = v;
                           }
-                          setState(() {});
+                          model.updateState();
                         },
                         onTapOutside: (e) {
-                          setState(() {});
+                          model.updateState();
                         },
                       ),
                     ),
@@ -207,7 +221,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                         max: item.max?.toDouble() ?? 0,
                         onChanged: (double value) {
                           item.value = value.toInt();
-                          setState(() {});
+                          model.updateState();
                         },
                       ),
                     )
@@ -222,7 +236,7 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
                   checked: item.value == 1,
                   onChanged: (bool value) {
                     item.value = value ? 1 : 0;
-                    setState(() {});
+                    model.updateState();
                   },
                 )
               ],
@@ -261,8 +275,4 @@ class PerformanceUI extends BaseUI<PerformanceUIModel> {
       ),
     );
   }
-
-  @override
-  String getUITitle(BuildContext context, PerformanceUIModel model) =>
-      "性能优化         ${model.scPath}";
 }

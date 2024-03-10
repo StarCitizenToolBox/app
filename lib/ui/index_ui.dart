@@ -1,23 +1,30 @@
-import 'package:starcitizen_doctor/base/ui_model.dart';
-import 'package:starcitizen_doctor/common/conf/app_conf.dart';
-import 'package:starcitizen_doctor/main.dart';
-import 'package:starcitizen_doctor/ui/about/about_ui.dart';
-import 'package:starcitizen_doctor/ui/about/about_ui_model.dart';
-import 'package:starcitizen_doctor/ui/home/home_ui.dart';
-import 'package:starcitizen_doctor/ui/party_room/party_room_home_ui_model.dart';
-import 'package:starcitizen_doctor/ui/settings/settings_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/common/conf/const_conf.dart';
+import 'package:starcitizen_doctor/provider/aria2c.dart';
+import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
+import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
-import 'package:starcitizen_doctor/ui/tools/tools_ui.dart';
-import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'home/home_ui_model.dart';
-import 'index_ui_model.dart';
-import 'party_room/party_room_home_ui.dart';
+import 'about/about_ui.dart';
+import 'home/home_ui.dart';
+import 'settings/settings_ui.dart';
+import 'tools/tools_ui.dart';
 
-class IndexUI extends BaseUI<IndexUIModel> {
+class IndexUI extends HookConsumerWidget {
+  const IndexUI({super.key});
+
   @override
-  Widget? buildBody(BuildContext context, IndexUIModel model) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // pre init child
+    ref.watch(homeUIModelProvider.select((value) => null));
+    ref.watch(settingsUIModelProvider.select((value) => null));
+
+    final curIndex = useState(0);
     return NavigationView(
       appBar: NavigationAppBar(
           automaticallyImplyLeading: false,
@@ -35,7 +42,7 @@ class IndexUI extends BaseUI<IndexUIModel> {
                     ),
                     const SizedBox(width: 12),
                     const Text(
-                        "SC汉化盒子  V${AppConf.appVersion} ${AppConf.isMSE ? "" : " Dev"}")
+                        "SC汉化盒子  V${ConstConf.appVersion} ${ConstConf.isMSE ? "" : " Dev"}")
                   ],
                 ),
               ),
@@ -45,99 +52,52 @@ class IndexUI extends BaseUI<IndexUIModel> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                  icon: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: Icon(
-                          FluentIcons.installation,
-                          size: 22,
-                          color: Colors.white.withOpacity(.6),
-                        ),
+                icon: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Icon(
+                        FluentIcons.installation,
+                        size: 22,
+                        color: Colors.white.withOpacity(.6),
                       ),
-                      if (model.aria2TotalTaskNum != 0)
-                        Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: const EdgeInsets.only(
-                                  left: 6, right: 6, bottom: 1.5, top: 1.5),
-                              child: Text(
-                                "${model.aria2TotalTaskNum}",
-                                style: const TextStyle(
-                                  fontSize: 8,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ))
-                    ],
-                  ),
-                  onPressed: model.goDownloader),
+                    ),
+                    _makeAria2TaskNumWidget()
+                  ],
+                ),
+                onPressed: () => _goDownloader(context),
+                // onPressed: model.goDownloader
+              ),
               const SizedBox(width: 24),
               const WindowButtons()
             ],
           )),
       pane: NavigationPane(
-        selected: model.curIndex,
-        items: getNavigationPaneItems(model),
+        selected: curIndex.value,
+        items: getNavigationPaneItems(curIndex),
         size: const NavigationPaneSize(openWidth: 64),
       ),
       paneBodyBuilder: (item, child) {
-        // final name =
-        //     item?.key is ValueKey ? (item!.key as ValueKey).value : null;
         return FocusTraversalGroup(
-          key: ValueKey('body_${model.curIndex}'),
-          child: getPage(model),
+          key: ValueKey('body_$curIndex'),
+          child: getPage(curIndex.value),
         );
       },
     );
   }
 
-  Widget getPage(IndexUIModel model) {
-    switch (model.curIndex) {
-      case 0:
-        return BaseUIContainer(
-            uiCreate: () => HomeUI(),
-            modelCreate: () =>
-                model.getChildUIModelProviders<HomeUIModel>("home"));
-      case 1:
-        return BaseUIContainer(
-            uiCreate: () => PartyRoomHomeUI(),
-            modelCreate: () =>
-                model.getChildUIModelProviders<PartyRoomHomeUIModel>("party"));
-      case 2:
-        return BaseUIContainer(
-            uiCreate: () => ToolsUI(),
-            modelCreate: () =>
-                model.getChildUIModelProviders<ToolsUIModel>("tools"));
-      case 3:
-        return BaseUIContainer(
-            uiCreate: () => SettingUI(),
-            modelCreate: () =>
-                model.getChildUIModelProviders<SettingUIModel>("settings"));
-      case 4:
-        return BaseUIContainer(
-            uiCreate: () => AboutUI(),
-            modelCreate: () =>
-                model.getChildUIModelProviders<AboutUIModel>("about"));
-    }
-    return const SizedBox();
-  }
+  Map<IconData, String> get pageMenus => {
+        FluentIcons.home: "首页",
+        FluentIcons.game: "大厅",
+        FluentIcons.toolbox: "工具",
+        FluentIcons.settings: "设置",
+        FluentIcons.info: "关于",
+      };
 
-  List<NavigationPaneItem> getNavigationPaneItems(IndexUIModel model) {
-    final menus = {
-      FluentIcons.home: "首页",
-      FluentIcons.game: "大厅",
-      FluentIcons.toolbox: "工具",
-      FluentIcons.settings: "设置",
-      FluentIcons.info: "关于",
-    };
+  List<NavigationPaneItem> getNavigationPaneItems(
+      ValueNotifier<int> curIndexState) {
     return [
-      for (final kv in menus.entries)
+      for (final kv in pageMenus.entries)
         PaneItem(
           icon: Padding(
             padding: const EdgeInsets.only(top: 6, bottom: 6, left: 4),
@@ -154,13 +114,66 @@ class IndexUI extends BaseUI<IndexUIModel> {
           ),
           // title: Text(kv.value),
           body: const SizedBox.shrink(),
-          onTap: () {
-            model.onIndexMenuTap(kv.value);
-          },
+          onTap: () => _onTapIndexMenu(kv.value, curIndexState),
         ),
     ];
   }
 
-  @override
-  String getUITitle(BuildContext context, IndexUIModel model) => "";
+  Widget getPage(int value) {
+    switch (value) {
+      case 0:
+        return const HomeUI();
+      case 1:
+        return const PartyRoomUI();
+      case 2:
+        return const ToolsUI();
+      case 3:
+        return const SettingsUI();
+      case 4:
+        return const AboutUI();
+      default:
+        return Center(
+          child: Text("UnimplPage $value"),
+        );
+    }
+  }
+
+  void _onTapIndexMenu(String value, ValueNotifier<int> curIndexState) {
+    final pageIndex =
+        pageMenus.values.toList().indexWhere((element) => element == value);
+    curIndexState.value = pageIndex;
+  }
+
+  Widget _makeAria2TaskNumWidget() {
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        final aria2cState = ref.watch(aria2cModelProvider);
+        if (!aria2cState.hasDownloadTask) {
+          return const SizedBox();
+        }
+        return Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.only(
+                  left: 6, right: 6, bottom: 1.5, top: 1.5),
+              child: Text(
+                "${aria2cState.aria2TotalTaskNum}",
+                style: const TextStyle(
+                  fontSize: 8,
+                  color: Colors.white,
+                ),
+              ),
+            ));
+      },
+    );
+  }
+
+  _goDownloader(BuildContext context) {
+    context.push('/index/downloader');
+  }
 }

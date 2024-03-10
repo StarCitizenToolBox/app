@@ -94,7 +94,7 @@ fn _reade_resp_header(r_header: &HeaderMap) -> HashMap<String, String> {
     for ele in r_header {
         resp_headers.insert(
             ele.0.as_str().to_string(),
-            ele.1.to_str().unwrap().to_string(),
+            ele.1.to_str().unwrap_or("").to_string(),
         );
     }
     resp_headers

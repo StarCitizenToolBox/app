@@ -1,16 +1,20 @@
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:starcitizen_doctor/base/ui.dart';
-import 'package:starcitizen_doctor/common/conf/app_conf.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/app.dart';
+import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
+import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'about_ui_model.dart';
-
-class AboutUI extends BaseUI<AboutUIModel> {
-  bool isTipTextCn = false;
+class AboutUI extends HookConsumerWidget {
+  const AboutUI({super.key});
 
   @override
-  Widget? buildBody(BuildContext context, AboutUIModel model) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isTipTextCn = useState(false);
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -20,11 +24,11 @@ class AboutUI extends BaseUI<AboutUIModel> {
           Image.asset("assets/app_logo.png", width: 128, height: 128),
           const SizedBox(height: 6),
           const Text(
-              "SC汉化盒子  V${AppConf.appVersion} ${AppConf.isMSE ? "" : " +Dev"}",
+              "SC汉化盒子  V${ConstConf.appVersion} ${ConstConf.isMSE ? "" : " +Dev"}",
               style: TextStyle(fontSize: 18)),
           const SizedBox(height: 12),
           Button(
-              onPressed: model.checkUpdate,
+              onPressed: () => _onCheckUpdate(context, ref),
               child: const Padding(
                 padding: EdgeInsets.all(4),
                 child: Text("检查更新"),
@@ -131,15 +135,14 @@ class AboutUI extends BaseUI<AboutUIModel> {
                   icon: Padding(
                     padding: const EdgeInsets.all(3),
                     child: Text(
-                      isTipTextCn ? tipTextCN : tipTextEN,
+                      isTipTextCn.value ? tipTextCN : tipTextEN,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 12, color: Colors.white.withOpacity(.9)),
                     ),
                   ),
                   onPressed: () {
-                    isTipTextCn = !isTipTextCn;
-                    setState(() {});
+                    isTipTextCn.value = !isTipTextCn.value;
                   },
                 ),
               ),
@@ -158,6 +161,17 @@ class AboutUI extends BaseUI<AboutUIModel> {
   static const tipTextCN =
       "这是一个非官方的星际公民工具，不隶属于 Cloud Imperium 公司集团。 本软件中非由其主机或用户创作的所有内容均为其各自所有者的财产。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的注册商标。";
 
-  @override
-  String getUITitle(BuildContext context, AboutUIModel model) => "";
+  _onCheckUpdate(BuildContext context, WidgetRef ref) async {
+    if (ConstConf.isMSE) {
+      launchUrlString("ms-windows-store://pdp/?productid=9NF3SWFWNKL1");
+      return;
+    } else {
+      final hasUpdate =
+          await ref.read(appGlobalModelProvider.notifier).checkUpdate(context);
+      if (!hasUpdate) {
+        if (!context.mounted) return;
+        showToast(context, "已经是最新版本！");
+      }
+    }
+  }
 }

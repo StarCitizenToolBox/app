@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:archive/archive.dart';
 import 'package:flutter/services.dart';
-import 'package:starcitizen_doctor/common/conf/app_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class BinaryModuleConf {
@@ -10,8 +9,7 @@ class BinaryModuleConf {
     "aria2c": "0",
   };
 
-  static Future extractModule(List<String> modules) async {
-    final workingDir = AppConf.applicationBinaryModuleDir;
+  static Future extractModule(List<String> modules, String workingDir) async {
     for (var m in _modules.entries) {
       if (!modules.contains(m.key)) continue;
       final name = m.key;
