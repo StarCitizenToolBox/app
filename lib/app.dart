@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/ui/home/performance/performance_ui.dart';
 import 'package:starcitizen_doctor/ui/splash_ui.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -49,6 +50,11 @@ GoRouter router(RouterRef ref) {
             path: 'game_doctor',
             pageBuilder: (context, state) =>
                 myPageBuilder(context, state, const HomeGameDoctorUI()),
+          ),
+          GoRoute(
+            path: 'performance',
+            pageBuilder: (context, state) =>
+                myPageBuilder(context, state, const HomePerformanceUI()),
           ),
         ],
       ),

@@ -30,7 +30,7 @@ class HomeGameDoctorUI extends HookConsumerWidget {
     }, const []);
 
     return makeDefaultPage(context,
-        title: "一键诊断",
+        title: "一键诊断 -> ${homeState.scInstalledPath}",
         useBodyContainer: true,
         content: Stack(
           children: [
