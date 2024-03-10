@@ -11,6 +11,7 @@ import 'dart:ui' as ui;
 
 export 'src/cache_image.dart';
 export 'src/countdown_time_text.dart';
+export '../common/utils/async.dart';
 export '../common/utils/base_utils.dart';
 
 Widget makeLoading(
@@ -198,4 +199,10 @@ class LoadingWidget<T> extends HookConsumerWidget {
       errorMsg.value = e.toString();
     }
   }
+}
+
+addPostFrameCallback(Function() callback) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    callback();
+  });
 }

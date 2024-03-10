@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'dialogs/home_countdown_dialog_ui.dart';
 import 'dialogs/home_md_content_dialog_ui.dart';
 import 'home_ui_model.dart';
+import 'localization/localization_dialog_ui.dart';
 
 class HomeUI extends HookConsumerWidget {
   const HomeUI({super.key});
@@ -446,7 +447,7 @@ class HomeUI extends HookConsumerWidget {
           itemBuilder: (context, index) {
             final item = items.elementAt(index);
             return HoverButton(
-              onPressed: () => _onMenuTap(context, item.key),
+              onPressed: () => _onMenuTap(context, item.key, homeState),
               builder: (BuildContext context, Set<ButtonStates> states) {
                 return Container(
                   width: 300,
@@ -748,8 +749,24 @@ class HomeUI extends HookConsumerWidget {
         context: context, builder: (context) => const HomeCountdownDialogUI());
   }
 
-  _onMenuTap(BuildContext context, String key) {
-    context.push("/index/$key");
+  _onMenuTap(
+      BuildContext context, String key, HomeUIModelState homeState) async {
+    const String gameInstallReqInfo =
+        "该功能需要一个有效的安装位置\n\n如果您的游戏未下载完成，请等待下载完毕后使用此功能。\n\n如果您的游戏已下载完毕但未识别，请启动一次游戏后重新打开盒子 或 在设置选项中手动设置安装位置。";
+    switch (key) {
+      case "localization":
+        if (homeState.scInstalledPath == "not_install") {
+          showToast(context, gameInstallReqInfo);
+          break;
+        }
+        await showDialog(
+            context: context,
+            dismissWithEsc: false,
+            builder: (BuildContext context) => const LocalizationDialogUI());
+        break;
+      default:
+        context.push("/index/$key");
+    }
   }
 }
 
