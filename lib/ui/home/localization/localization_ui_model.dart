@@ -9,6 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
@@ -64,7 +65,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return state;
   }
 
-  _init() async {
+  Future<void> _init() async {
+    if (_scInstallPath == "not_install") {
+      return;
+    }
     if (!_customizeDir.existsSync()) {
       await _customizeDir.create(recursive: true);
     }
@@ -75,24 +79,37 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       _customizeDirListenSub?.cancel();
       _customizeDirListenSub = null;
     });
-    _loadData();
+    await _loadData();
   }
 
-  _loadData() async {
+  final Map<String, Map<String, ScLocalizationData>>
+      _allVersionLocalizationData = {};
+
+  Future<void> _loadData() async {
+    _allVersionLocalizationData.clear();
     await _updateStatus();
     _scanCustomizeDir();
-    final l = await Api.getScLocalizationData(state.selectedLanguage!).unwrap();
-    if (l != null) {
-      final apiLocalizationData = <String, ScLocalizationData>{};
-      for (var element in l) {
-        final isPTU = !_scInstallPath.contains("LIVE");
-        if (isPTU && element.gameChannel == "PTU") {
-          apiLocalizationData[element.versionName ?? ""] = element;
-        } else if (!isPTU && element.gameChannel == "PU") {
-          apiLocalizationData[element.versionName ?? ""] = element;
+    for (var lang in languageSupport.keys) {
+      final l = await Api.getScLocalizationData(lang).unwrap();
+      if (l != null) {
+        if (lang == state.selectedLanguage) {
+          final apiLocalizationData = <String, ScLocalizationData>{};
+          for (var element in l) {
+            final isPTU = !_scInstallPath.contains("LIVE");
+            if (isPTU && element.gameChannel == "PTU") {
+              apiLocalizationData[element.versionName ?? ""] = element;
+            } else if (!isPTU && element.gameChannel == "PU") {
+              apiLocalizationData[element.versionName ?? ""] = element;
+            }
+          }
+          state = state.copyWith(apiLocalizationData: apiLocalizationData);
         }
+        final map = <String, ScLocalizationData>{};
+        for (var element in l) {
+          map[element.versionName ?? ""] = element;
+        }
+        _allVersionLocalizationData[lang] = map;
       }
-      state = state.copyWith(apiLocalizationData: apiLocalizationData);
     }
   }
 
@@ -368,7 +385,46 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return "自定义文件";
   }
 
-  Future checkLangUpdate() async {
+  Future<List<String>> checkLangUpdate({bool skipReload = false}) async {
+    if (_scInstallPath == "not_install") {
+      return [];
+    }
+    if (!skipReload || (state.apiLocalizationData?.isEmpty ?? true)) {
+      await _init();
+    }
 
+    final homeState = ref.read(homeUIModelProvider);
+    if (homeState.scInstallPaths.isEmpty) return [];
+
+    List<String> updates = [];
+
+    for (var scInstallPath in homeState.scInstallPaths) {
+      // 读取游戏安装文件夹
+      final scDataDir = Directory("$scInstallPath\\data\\Localization");
+      // 扫描目录确认已安装的语言
+      final dirList = await scDataDir.list().toList();
+      for (var element in dirList) {
+        for (var lang in languageSupport.keys) {
+          if (element.path.contains(lang)) {
+            final installedVersion =
+                await _getInstalledIniVersion("${element.path}\\global.ini");
+            final curData = _allVersionLocalizationData[lang];
+            dPrint("check Localization update $scInstallPath");
+            if (!(curData?.keys.contains(installedVersion) ?? false)) {
+              // has update
+              for (var channel in ConstConf.gameChannels) {
+                if (scInstallPath.contains(channel)) {
+                  dPrint("check Localization update: has update -> $channel");
+                  updates.add(channel);
+                }
+              }
+            } else {
+              dPrint("check Localization update: up to date");
+            }
+          }
+        }
+      }
+    }
+    return updates;
   }
 }

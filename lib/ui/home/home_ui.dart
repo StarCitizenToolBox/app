@@ -15,6 +15,7 @@ import 'dialogs/home_countdown_dialog_ui.dart';
 import 'dialogs/home_md_content_dialog_ui.dart';
 import 'home_ui_model.dart';
 import 'localization/localization_dialog_ui.dart';
+import 'localization/localization_ui_model.dart';
 
 class HomeUI extends HookConsumerWidget {
   const HomeUI({super.key});
@@ -23,6 +24,7 @@ class HomeUI extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final homeState = ref.watch(homeUIModelProvider);
     final model = ref.watch(homeUIModelProvider.notifier);
+    ref.watch(localizationUIModelProvider);
     return Stack(
       children: [
         Center(
@@ -48,7 +50,7 @@ class HomeUI extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 6),
                 ],
-                ...makeIndex(context, model, homeState)
+                ...makeIndex(context, model, homeState, ref)
               ],
             ),
           ),
@@ -75,8 +77,8 @@ class HomeUI extends HookConsumerWidget {
     );
   }
 
-  List<Widget> makeIndex(
-      BuildContext context, HomeUIModel model, HomeUIModelState homeState) {
+  List<Widget> makeIndex(BuildContext context, HomeUIModel model,
+      HomeUIModelState homeState, WidgetRef ref) {
     const double width = 280;
     return [
       Stack(
@@ -176,7 +178,7 @@ class HomeUI extends HookConsumerWidget {
       ),
       const SizedBox(height: 8),
       Text(homeState.lastScreenInfo, maxLines: 1),
-      makeIndexActionLists(context, model, homeState),
+      makeIndexActionLists(context, model, homeState, ref),
     ];
   }
 
@@ -426,8 +428,8 @@ class HomeUI extends HookConsumerWidget {
     return const FaIcon(FontAwesomeIcons.rss, size: 14);
   }
 
-  Widget makeIndexActionLists(
-      BuildContext context, HomeUIModel model, HomeUIModelState homeState) {
+  Widget makeIndexActionLists(BuildContext context, HomeUIModel model,
+      HomeUIModelState homeState, WidgetRef ref) {
     final items = [
       _HomeItemData("game_doctor", "一键诊断", "一键诊断星际公民常见问题",
           FluentIcons.auto_deploy_settings),
@@ -447,7 +449,7 @@ class HomeUI extends HookConsumerWidget {
           itemBuilder: (context, index) {
             final item = items.elementAt(index);
             return HoverButton(
-              onPressed: () => _onMenuTap(context, item.key, homeState),
+              onPressed: () => _onMenuTap(context, item.key, homeState, ref),
               builder: (BuildContext context, Set<ButtonStates> states) {
                 return Container(
                   width: 300,
@@ -749,8 +751,8 @@ class HomeUI extends HookConsumerWidget {
         context: context, builder: (context) => const HomeCountdownDialogUI());
   }
 
-  _onMenuTap(
-      BuildContext context, String key, HomeUIModelState homeState) async {
+  _onMenuTap(BuildContext context, String key, HomeUIModelState homeState,
+      WidgetRef ref) async {
     const String gameInstallReqInfo =
         "该功能需要一个有效的安装位置\n\n如果您的游戏未下载完成，请等待下载完毕后使用此功能。\n\n如果您的游戏已下载完毕但未识别，请启动一次游戏后重新打开盒子 或 在设置选项中手动设置安装位置。";
     switch (key) {
@@ -759,10 +761,13 @@ class HomeUI extends HookConsumerWidget {
           showToast(context, gameInstallReqInfo);
           break;
         }
+        final model = ref.watch(homeUIModelProvider.notifier);
+        model.checkLocalizationUpdate();
         await showDialog(
             context: context,
             dismissWithEsc: false,
             builder: (BuildContext context) => const LocalizationDialogUI());
+        model.checkLocalizationUpdate(skipReload: true);
         break;
       default:
         context.push("/index/$key");

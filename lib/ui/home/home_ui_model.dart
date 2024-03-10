@@ -16,6 +16,7 @@ import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/utils/async.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
@@ -26,8 +27,10 @@ import 'package:starcitizen_doctor/ui/home/dialogs/home_game_login_dialog_ui.dar
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
+import 'package:windows_ui/windows_ui.dart';
 
 import '../webview/webview.dart';
+import 'localization/localization_ui_model.dart';
 
 part 'home_ui_model.freezed.dart';
 
@@ -199,7 +202,7 @@ class HomeUIModel extends _$HomeUIModel {
     );
 
     _appUpdateTimer = Timer.periodic(const Duration(minutes: 30), (timer) {
-      _checkLocalizationUpdate();
+      checkLocalizationUpdate();
     });
 
     ref.onDispose(() {
@@ -237,7 +240,7 @@ class HomeUIModel extends _$HomeUIModel {
       dPrint(e);
     }
     // check Localization update
-    _checkLocalizationUpdate();
+    checkLocalizationUpdate();
   }
 
   Future<void> _updateSCServerStatus() async {
@@ -262,7 +265,41 @@ class HomeUIModel extends _$HomeUIModel {
     }
   }
 
-  void _checkLocalizationUpdate() {}
+  Future<void> checkLocalizationUpdate({bool skipReload = false}) async {
+    dPrint("_checkLocalizationUpdate");
+    final updates = await (ref.read(localizationUIModelProvider.notifier))
+        .checkLangUpdate(skipReload: skipReload)
+        .unwrap<List<String>>();
+    if (updates == null || updates.isEmpty) {
+      state = state.copyWith(localizationUpdateInfo: null);
+      return;
+    }
+    state =
+        state.copyWith(localizationUpdateInfo: MapEntry(updates.first, true));
+    if (_appUpdateTimer != null) {
+      _appUpdateTimer?.cancel();
+      _appUpdateTimer = null;
+      // 发送通知
+      final toastNotifier =
+          ToastNotificationManager.createToastNotifierWithId("SC汉化盒子");
+      if (toastNotifier != null) {
+        final toastContent = ToastNotificationManager.getTemplateContent(
+            ToastTemplateType.toastText02);
+        if (toastContent != null) {
+          final xmlNodeList = toastContent.getElementsByTagName('text');
+          const title = '汉化有新版本！';
+          final content = '您在 ${updates.first} 安装的汉化有新版本啦！';
+          xmlNodeList.item(0)?.appendChild(toastContent.createTextNode(title));
+          xmlNodeList
+              .item(1)
+              ?.appendChild(toastContent.createTextNode(content));
+          final toastNotification =
+              ToastNotification.createToastNotification(toastContent);
+          toastNotifier.show(toastNotification);
+        }
+      }
+    }
+  }
 
   // ignore: avoid_build_context_in_providers
   launchRSI(BuildContext context) async {
