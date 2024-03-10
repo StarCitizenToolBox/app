@@ -23,6 +23,7 @@ import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
 import 'data/app_version_data.dart';
+import 'ui/home/game_doctor/game_doctor_ui.dart';
 import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';
 
@@ -43,6 +44,13 @@ GoRouter router(RouterRef ref) {
         path: '/index',
         pageBuilder: (context, state) =>
             myPageBuilder(context, state, const IndexUI()),
+        routes: [
+          GoRoute(
+            path: 'game_doctor',
+            pageBuilder: (context, state) =>
+                myPageBuilder(context, state, const HomeGameDoctorUI()),
+          ),
+        ],
       ),
     ],
   );

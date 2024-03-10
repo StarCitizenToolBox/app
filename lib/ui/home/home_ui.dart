@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -427,7 +428,7 @@ class HomeUI extends HookConsumerWidget {
   Widget makeIndexActionLists(
       BuildContext context, HomeUIModel model, HomeUIModelState homeState) {
     final items = [
-      _HomeItemData("auto_check", "一键诊断", "一键诊断星际公民常见问题",
+      _HomeItemData("game_doctor", "一键诊断", "一键诊断星际公民常见问题",
           FluentIcons.auto_deploy_settings),
       _HomeItemData(
           "localization", "汉化管理", "快捷安装汉化资源", FluentIcons.locale_language),
@@ -445,7 +446,7 @@ class HomeUI extends HookConsumerWidget {
           itemBuilder: (context, index) {
             final item = items.elementAt(index);
             return HoverButton(
-              onPressed: () => model.onMenuTap(item.key),
+              onPressed: () => _onMenuTap(context, item.key),
               builder: (BuildContext context, Set<ButtonStates> states) {
                 return Container(
                   width: 300,
@@ -745,6 +746,10 @@ class HomeUI extends HookConsumerWidget {
   _onTapFestival(BuildContext context) {
     showDialog(
         context: context, builder: (context) => const HomeCountdownDialogUI());
+  }
+
+  _onMenuTap(BuildContext context, String key) {
+    context.push("/index/$key");
   }
 }
 

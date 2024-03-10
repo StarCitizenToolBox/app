@@ -121,8 +121,6 @@ class HomeUIModel extends _$HomeUIModel {
     return title;
   }
 
-  onMenuTap(String key) {}
-
   // ignore: avoid_build_context_in_providers
   Future<void> goWebView(BuildContext context, String title, String url,
       {bool useLocalization = false,

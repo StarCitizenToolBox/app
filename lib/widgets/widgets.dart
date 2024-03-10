@@ -32,7 +32,8 @@ Widget makeDefaultPage(BuildContext context,
     List<Widget>? actions,
     Widget? content,
     bool automaticallyImplyLeading = true,
-    String title = ""}) {
+    String title = "",
+    bool useBodyContainer = false}) {
   return NavigationView(
     appBar: NavigationAppBar(
         automaticallyImplyLeading: automaticallyImplyLeading,
@@ -54,7 +55,15 @@ Widget makeDefaultPage(BuildContext context,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [...?actions, const WindowButtons()],
         )),
-    content: content,
+    content: useBodyContainer
+        ? Container(
+            decoration: BoxDecoration(
+              color: FluentTheme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.circular(9),
+            ),
+            child: content,
+          )
+        : content,
   );
 }
 
@@ -128,18 +137,19 @@ CustomTransitionPage<T> myPageBuilder<T>(
     BuildContext context, GoRouterState state, Widget child) {
   return CustomTransitionPage(
       child: child,
+      transitionDuration: const Duration(milliseconds: 150),
+      reverseTransitionDuration: const Duration(milliseconds: 150),
       transitionsBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation, Widget child) {
-        return Semantics(
-          scopesRoute: true,
-          explicitChildNodes: true,
-          child: EntrancePageTransition(
-            animation: CurvedAnimation(
-              parent: animation,
-              curve: FluentTheme.of(context).animationCurve,
-            ),
-            child: child,
-          ),
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.0, 1.0),
+            end: const Offset(0.0, 0.0),
+          ).animate(CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOut,
+          )),
+          child: child,
         );
       });
 }
