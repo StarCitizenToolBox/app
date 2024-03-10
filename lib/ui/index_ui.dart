@@ -4,15 +4,16 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
-import 'package:starcitizen_doctor/ui/home/home_ui.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
-import 'package:starcitizen_doctor/ui/tools/tools_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'about/about_ui.dart';
+import 'home/home_ui.dart';
 import 'settings/settings_ui.dart';
+import 'tools/tools_ui.dart';
 
 class IndexUI extends HookConsumerWidget {
   const IndexUI({super.key});
@@ -128,6 +129,8 @@ class IndexUI extends HookConsumerWidget {
         return const ToolsUI();
       case 3:
         return const SettingsUI();
+      case 4:
+        return const AboutUI();
       default:
         return Center(
           child: Text("UnimplPage $value"),
