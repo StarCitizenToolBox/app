@@ -8,15 +8,28 @@ use std::sync::{Arc, RwLock};
 use std::time::Duration;
 use flutter_rust_bridge::for_generated::lazy_static;
 
-#[derive(Debug)]
+#[allow(non_camel_case_types)]
+pub enum MyHttpVersion { HTTP_09, HTTP_10, HTTP_11, HTTP_2, HTTP_3 }
+
 pub struct RustHttpResponse {
     pub status_code: u16,
     pub headers: HashMap<String, String>,
     pub url: String,
     pub content_length: Option<u64>,
-    pub version: reqwest::Version,
+    pub version: MyHttpVersion,
     pub remote_addr: String,
     pub data: Option<Vec<u8>>,
+}
+
+fn _hyper_version_to_my_version(v: reqwest::Version) -> MyHttpVersion {
+    match v {
+        reqwest::Version::HTTP_09 => { MyHttpVersion::HTTP_09 }
+        reqwest::Version::HTTP_10 => { MyHttpVersion::HTTP_10 }
+        reqwest::Version::HTTP_11 => { MyHttpVersion::HTTP_11 }
+        reqwest::Version::HTTP_2 => { MyHttpVersion::HTTP_2 }
+        reqwest::Version::HTTP_3 => { MyHttpVersion::HTTP_3 }
+        _ => { panic!("Unsupported HTTP version") }
+    }
 }
 
 lazy_static! {
@@ -72,6 +85,8 @@ pub async fn fetch(
     if bytes.is_ok() {
         data = Some(bytes.unwrap().to_vec());
     }
+
+    let version = _hyper_version_to_my_version(version);
 
     let resp = RustHttpResponse {
         status_code,
