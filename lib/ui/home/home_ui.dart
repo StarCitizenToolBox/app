@@ -10,6 +10,7 @@ import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'home_countdown_dialog_ui.dart';
 import 'home_ui_model.dart';
 
 class HomeUI extends HookConsumerWidget {
@@ -36,7 +37,7 @@ class HomeUI extends HookConsumerWidget {
                         ? null
                         : Button(
                             child: const Text('查看详情'),
-                            onPressed: () => _showPlacard(),
+                            onPressed: () => _showPlacard(context, homeState),
                           ),
                     onClose: homeState.appPlacardData?.alwaysShow == true
                         ? null
@@ -653,7 +654,7 @@ class HomeUI extends HookConsumerWidget {
       borderRadius: BorderRadius.circular(12),
       shadowConfig: const ShadowConfig(disable: true),
       child: GestureDetector(
-        onTap: () => _onTapFestival(),
+        onTap: () => _onTapFestival(context),
         child: Container(
             width: width + 24,
             decoration: BoxDecoration(color: FluentTheme.of(context).cardColor),
@@ -722,9 +723,28 @@ class HomeUI extends HookConsumerWidget {
     );
   }
 
-  _showPlacard() {}
+  _showPlacard(BuildContext context, HomeUIModelState homeState) {
+    switch (homeState.appPlacardData?.linkType) {
+      case "external":
+        launchUrlString(homeState.appPlacardData?.link);
+        return;
+      case "doc":
+        // showDialog(
+        //     context: context,
+        //     builder: (context) {
+        //       return BaseUIContainer(
+        //           uiCreate: () => MDContentDialogUI(),
+        //           modelCreate: () => MDContentDialogUIModel(
+        //               appPlacardData?.title ?? "公告详情", appPlacardData?.link));
+        //     });
+        return;
+    }
+  }
 
-  _onTapFestival() {}
+  _onTapFestival(BuildContext context) {
+    showDialog(
+        context: context, builder: (context) => const HomeCountdownDialogUI());
+  }
 }
 
 class _HomeItemData {
