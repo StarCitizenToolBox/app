@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_rss/domain/rss_item.dart';
+import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -25,6 +26,8 @@ import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
+
+import '../webview/webview.dart';
 
 part 'home_ui_model.freezed.dart';
 
@@ -116,8 +119,80 @@ class HomeUIModel extends _$HomeUIModel {
 
   onMenuTap(String key) {}
 
-  void goWebView(String webTitle, String webURL,
-      {required bool useLocalization}) {}
+  // ignore: avoid_build_context_in_providers
+  Future<void> goWebView(BuildContext context, String title, String url,
+      {bool useLocalization = false,
+      bool loginMode = false,
+      RsiLoginCallback? rsiLoginCallback}) async {
+    if (useLocalization) {
+      const tipVersion = 2;
+      final box = await Hive.openBox("app_conf");
+      final skip =
+          await box.get("skip_web_localization_tip_version", defaultValue: 0);
+      if (skip != tipVersion) {
+        if (!context.mounted) return;
+        final ok = await showConfirmDialogs(
+            context,
+            "星际公民网站汉化",
+            const Text(
+              "本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！"
+              "\n\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。",
+              style: TextStyle(fontSize: 16),
+            ),
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * .6));
+        if (!ok) {
+          if (loginMode) {
+            rsiLoginCallback?.call(null, false);
+          }
+          return;
+        }
+        await box.put("skip_web_localization_tip_version", tipVersion);
+      }
+    }
+    if (!await WebviewWindow.isWebviewAvailable()) {
+      if (!context.mounted) return;
+      showToast(context, "需要安装 WebView2 Runtime");
+      launchUrlString(
+          "https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
+      return;
+    }
+    if (!context.mounted) return;
+    final webViewModel = WebViewModel(context,
+        loginMode: loginMode, loginCallback: rsiLoginCallback);
+    if (useLocalization) {
+      state = state.copyWith(isFixing: true, isFixingString: "正在初始化汉化资源...");
+      try {
+        await webViewModel.initLocalization(state.webLocalizationVersionsData!);
+      } catch (e) {
+        if (!context.mounted) return;
+        showToast(context, "初始化网页汉化资源失败！$e");
+      }
+      state = state.copyWith(isFixingString: "", isFixing: false);
+    }
+    await webViewModel.initWebView(
+      title: title,
+      applicationSupportDir: appGlobalState.applicationSupportDir!,
+      appVersionData: appGlobalState.networkVersionData!,
+    );
+
+    // if (await File(
+    //         "${AppConf.applicationSupportDir}\\webview_data\\enable_webview_localization_capture")
+    //     .exists()) {
+    //   webViewModel.enableCapture = true;
+    //   BaseUIContainer(
+    //           uiCreate: () => WebviewLocalizationCaptureUI(),
+    //           modelCreate: () =>
+    //               WebviewLocalizationCaptureUIModel(webViewModel))
+    //       .push(context!)
+    //       .then((_) {
+    //     webViewModel.enableCapture = false;
+    //   });
+    // }
+
+    await Future.delayed(const Duration(milliseconds: 500));
+    await webViewModel.launch(url, appGlobalState.networkVersionData!);
+  }
 
   bool isRSIServerStatusOK(Map map) {
     return (map["status"] == "ok" || map["status"] == "operational");

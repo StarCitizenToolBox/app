@@ -527,7 +527,7 @@ class HomeUI extends HookConsumerWidget {
           if (touchKey != null) {
             AnalyticsApi.touch(touchKey);
           }
-          model.goWebView(webTitle, webURL, useLocalization: true);
+          model.goWebView(context, webTitle, webURL, useLocalization: true);
         },
         child: Container(
           width: width,
@@ -592,8 +592,8 @@ class HomeUI extends HookConsumerWidget {
       borderRadius: BorderRadius.circular(12),
       child: GestureDetector(
         onTap: () {
-          model.goWebView(
-              "RSI 服务器状态", "https://status.robertsspaceindustries.com/",
+          model.goWebView(context, "RSI 服务器状态",
+              "https://status.robertsspaceindustries.com/",
               useLocalization: true);
         },
         child: Container(
