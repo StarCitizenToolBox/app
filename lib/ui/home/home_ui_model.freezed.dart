@@ -23,7 +23,6 @@ mixin _$HomeUIModelState {
   List<String> get scInstallPaths => throw _privateConstructorUsedError;
   AppWebLocalizationVersionsData? get webLocalizationVersionsData =>
       throw _privateConstructorUsedError;
-  bool get isCurGameRunning => throw _privateConstructorUsedError;
   String get lastScreenInfo => throw _privateConstructorUsedError;
   List<RssItem>? get rssVideoItems => throw _privateConstructorUsedError;
   List<RssItem>? get rssTextItems => throw _privateConstructorUsedError;
@@ -32,6 +31,7 @@ mixin _$HomeUIModelState {
   List<dynamic>? get scServerStatus => throw _privateConstructorUsedError;
   List<CountdownFestivalItemData>? get countdownFestivalListData =>
       throw _privateConstructorUsedError;
+  Map<String, bool> get isGameRunning => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeUIModelStateCopyWith<HomeUIModelState> get copyWith =>
@@ -51,13 +51,13 @@ abstract class $HomeUIModelStateCopyWith<$Res> {
       String? scInstalledPath,
       List<String> scInstallPaths,
       AppWebLocalizationVersionsData? webLocalizationVersionsData,
-      bool isCurGameRunning,
       String lastScreenInfo,
       List<RssItem>? rssVideoItems,
       List<RssItem>? rssTextItems,
       MapEntry<String, bool>? localizationUpdateInfo,
       List<dynamic>? scServerStatus,
-      List<CountdownFestivalItemData>? countdownFestivalListData});
+      List<CountdownFestivalItemData>? countdownFestivalListData,
+      Map<String, bool> isGameRunning});
 }
 
 /// @nodoc
@@ -79,13 +79,13 @@ class _$HomeUIModelStateCopyWithImpl<$Res, $Val extends HomeUIModelState>
     Object? scInstalledPath = freezed,
     Object? scInstallPaths = null,
     Object? webLocalizationVersionsData = freezed,
-    Object? isCurGameRunning = null,
     Object? lastScreenInfo = null,
     Object? rssVideoItems = freezed,
     Object? rssTextItems = freezed,
     Object? localizationUpdateInfo = freezed,
     Object? scServerStatus = freezed,
     Object? countdownFestivalListData = freezed,
+    Object? isGameRunning = null,
   }) {
     return _then(_value.copyWith(
       appPlacardData: freezed == appPlacardData
@@ -112,10 +112,6 @@ class _$HomeUIModelStateCopyWithImpl<$Res, $Val extends HomeUIModelState>
           ? _value.webLocalizationVersionsData
           : webLocalizationVersionsData // ignore: cast_nullable_to_non_nullable
               as AppWebLocalizationVersionsData?,
-      isCurGameRunning: null == isCurGameRunning
-          ? _value.isCurGameRunning
-          : isCurGameRunning // ignore: cast_nullable_to_non_nullable
-              as bool,
       lastScreenInfo: null == lastScreenInfo
           ? _value.lastScreenInfo
           : lastScreenInfo // ignore: cast_nullable_to_non_nullable
@@ -140,6 +136,10 @@ class _$HomeUIModelStateCopyWithImpl<$Res, $Val extends HomeUIModelState>
           ? _value.countdownFestivalListData
           : countdownFestivalListData // ignore: cast_nullable_to_non_nullable
               as List<CountdownFestivalItemData>?,
+      isGameRunning: null == isGameRunning
+          ? _value.isGameRunning
+          : isGameRunning // ignore: cast_nullable_to_non_nullable
+              as Map<String, bool>,
     ) as $Val);
   }
 }
@@ -159,13 +159,13 @@ abstract class _$$HomeUIModelStateImplCopyWith<$Res>
       String? scInstalledPath,
       List<String> scInstallPaths,
       AppWebLocalizationVersionsData? webLocalizationVersionsData,
-      bool isCurGameRunning,
       String lastScreenInfo,
       List<RssItem>? rssVideoItems,
       List<RssItem>? rssTextItems,
       MapEntry<String, bool>? localizationUpdateInfo,
       List<dynamic>? scServerStatus,
-      List<CountdownFestivalItemData>? countdownFestivalListData});
+      List<CountdownFestivalItemData>? countdownFestivalListData,
+      Map<String, bool> isGameRunning});
 }
 
 /// @nodoc
@@ -185,13 +185,13 @@ class __$$HomeUIModelStateImplCopyWithImpl<$Res>
     Object? scInstalledPath = freezed,
     Object? scInstallPaths = null,
     Object? webLocalizationVersionsData = freezed,
-    Object? isCurGameRunning = null,
     Object? lastScreenInfo = null,
     Object? rssVideoItems = freezed,
     Object? rssTextItems = freezed,
     Object? localizationUpdateInfo = freezed,
     Object? scServerStatus = freezed,
     Object? countdownFestivalListData = freezed,
+    Object? isGameRunning = null,
   }) {
     return _then(_$HomeUIModelStateImpl(
       appPlacardData: freezed == appPlacardData
@@ -218,10 +218,6 @@ class __$$HomeUIModelStateImplCopyWithImpl<$Res>
           ? _value.webLocalizationVersionsData
           : webLocalizationVersionsData // ignore: cast_nullable_to_non_nullable
               as AppWebLocalizationVersionsData?,
-      isCurGameRunning: null == isCurGameRunning
-          ? _value.isCurGameRunning
-          : isCurGameRunning // ignore: cast_nullable_to_non_nullable
-              as bool,
       lastScreenInfo: null == lastScreenInfo
           ? _value.lastScreenInfo
           : lastScreenInfo // ignore: cast_nullable_to_non_nullable
@@ -246,6 +242,10 @@ class __$$HomeUIModelStateImplCopyWithImpl<$Res>
           ? _value._countdownFestivalListData
           : countdownFestivalListData // ignore: cast_nullable_to_non_nullable
               as List<CountdownFestivalItemData>?,
+      isGameRunning: null == isGameRunning
+          ? _value._isGameRunning
+          : isGameRunning // ignore: cast_nullable_to_non_nullable
+              as Map<String, bool>,
     ));
   }
 }
@@ -260,18 +260,19 @@ class _$HomeUIModelStateImpl implements _HomeUIModelState {
       this.scInstalledPath,
       final List<String> scInstallPaths = const [],
       this.webLocalizationVersionsData,
-      this.isCurGameRunning = false,
       this.lastScreenInfo = "",
       final List<RssItem>? rssVideoItems,
       final List<RssItem>? rssTextItems,
       this.localizationUpdateInfo,
       final List<dynamic>? scServerStatus,
-      final List<CountdownFestivalItemData>? countdownFestivalListData})
+      final List<CountdownFestivalItemData>? countdownFestivalListData,
+      final Map<String, bool> isGameRunning = const {}})
       : _scInstallPaths = scInstallPaths,
         _rssVideoItems = rssVideoItems,
         _rssTextItems = rssTextItems,
         _scServerStatus = scServerStatus,
-        _countdownFestivalListData = countdownFestivalListData;
+        _countdownFestivalListData = countdownFestivalListData,
+        _isGameRunning = isGameRunning;
 
   @override
   final AppPlacardData? appPlacardData;
@@ -294,9 +295,6 @@ class _$HomeUIModelStateImpl implements _HomeUIModelState {
 
   @override
   final AppWebLocalizationVersionsData? webLocalizationVersionsData;
-  @override
-  @JsonKey()
-  final bool isCurGameRunning;
   @override
   @JsonKey()
   final String lastScreenInfo;
@@ -343,9 +341,18 @@ class _$HomeUIModelStateImpl implements _HomeUIModelState {
     return EqualUnmodifiableListView(value);
   }
 
+  final Map<String, bool> _isGameRunning;
+  @override
+  @JsonKey()
+  Map<String, bool> get isGameRunning {
+    if (_isGameRunning is EqualUnmodifiableMapView) return _isGameRunning;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_isGameRunning);
+  }
+
   @override
   String toString() {
-    return 'HomeUIModelState(appPlacardData: $appPlacardData, isFixing: $isFixing, isFixingString: $isFixingString, scInstalledPath: $scInstalledPath, scInstallPaths: $scInstallPaths, webLocalizationVersionsData: $webLocalizationVersionsData, isCurGameRunning: $isCurGameRunning, lastScreenInfo: $lastScreenInfo, rssVideoItems: $rssVideoItems, rssTextItems: $rssTextItems, localizationUpdateInfo: $localizationUpdateInfo, scServerStatus: $scServerStatus, countdownFestivalListData: $countdownFestivalListData)';
+    return 'HomeUIModelState(appPlacardData: $appPlacardData, isFixing: $isFixing, isFixingString: $isFixingString, scInstalledPath: $scInstalledPath, scInstallPaths: $scInstallPaths, webLocalizationVersionsData: $webLocalizationVersionsData, lastScreenInfo: $lastScreenInfo, rssVideoItems: $rssVideoItems, rssTextItems: $rssTextItems, localizationUpdateInfo: $localizationUpdateInfo, scServerStatus: $scServerStatus, countdownFestivalListData: $countdownFestivalListData, isGameRunning: $isGameRunning)';
   }
 
   @override
@@ -367,8 +374,6 @@ class _$HomeUIModelStateImpl implements _HomeUIModelState {
                     webLocalizationVersionsData) ||
                 other.webLocalizationVersionsData ==
                     webLocalizationVersionsData) &&
-            (identical(other.isCurGameRunning, isCurGameRunning) ||
-                other.isCurGameRunning == isCurGameRunning) &&
             (identical(other.lastScreenInfo, lastScreenInfo) ||
                 other.lastScreenInfo == lastScreenInfo) &&
             const DeepCollectionEquality()
@@ -380,7 +385,9 @@ class _$HomeUIModelStateImpl implements _HomeUIModelState {
             const DeepCollectionEquality()
                 .equals(other._scServerStatus, _scServerStatus) &&
             const DeepCollectionEquality().equals(
-                other._countdownFestivalListData, _countdownFestivalListData));
+                other._countdownFestivalListData, _countdownFestivalListData) &&
+            const DeepCollectionEquality()
+                .equals(other._isGameRunning, _isGameRunning));
   }
 
   @override
@@ -392,13 +399,13 @@ class _$HomeUIModelStateImpl implements _HomeUIModelState {
       scInstalledPath,
       const DeepCollectionEquality().hash(_scInstallPaths),
       webLocalizationVersionsData,
-      isCurGameRunning,
       lastScreenInfo,
       const DeepCollectionEquality().hash(_rssVideoItems),
       const DeepCollectionEquality().hash(_rssTextItems),
       localizationUpdateInfo,
       const DeepCollectionEquality().hash(_scServerStatus),
-      const DeepCollectionEquality().hash(_countdownFestivalListData));
+      const DeepCollectionEquality().hash(_countdownFestivalListData),
+      const DeepCollectionEquality().hash(_isGameRunning));
 
   @JsonKey(ignore: true)
   @override
@@ -410,20 +417,19 @@ class _$HomeUIModelStateImpl implements _HomeUIModelState {
 
 abstract class _HomeUIModelState implements HomeUIModelState {
   factory _HomeUIModelState(
-          {final AppPlacardData? appPlacardData,
-          final bool isFixing,
-          final String isFixingString,
-          final String? scInstalledPath,
-          final List<String> scInstallPaths,
-          final AppWebLocalizationVersionsData? webLocalizationVersionsData,
-          final bool isCurGameRunning,
-          final String lastScreenInfo,
-          final List<RssItem>? rssVideoItems,
-          final List<RssItem>? rssTextItems,
-          final MapEntry<String, bool>? localizationUpdateInfo,
-          final List<dynamic>? scServerStatus,
-          final List<CountdownFestivalItemData>? countdownFestivalListData}) =
-      _$HomeUIModelStateImpl;
+      {final AppPlacardData? appPlacardData,
+      final bool isFixing,
+      final String isFixingString,
+      final String? scInstalledPath,
+      final List<String> scInstallPaths,
+      final AppWebLocalizationVersionsData? webLocalizationVersionsData,
+      final String lastScreenInfo,
+      final List<RssItem>? rssVideoItems,
+      final List<RssItem>? rssTextItems,
+      final MapEntry<String, bool>? localizationUpdateInfo,
+      final List<dynamic>? scServerStatus,
+      final List<CountdownFestivalItemData>? countdownFestivalListData,
+      final Map<String, bool> isGameRunning}) = _$HomeUIModelStateImpl;
 
   @override
   AppPlacardData? get appPlacardData;
@@ -438,8 +444,6 @@ abstract class _HomeUIModelState implements HomeUIModelState {
   @override
   AppWebLocalizationVersionsData? get webLocalizationVersionsData;
   @override
-  bool get isCurGameRunning;
-  @override
   String get lastScreenInfo;
   @override
   List<RssItem>? get rssVideoItems;
@@ -451,6 +455,8 @@ abstract class _HomeUIModelState implements HomeUIModelState {
   List<dynamic>? get scServerStatus;
   @override
   List<CountdownFestivalItemData>? get countdownFestivalListData;
+  @override
+  Map<String, bool> get isGameRunning;
   @override
   @JsonKey(ignore: true)
   _$$HomeUIModelStateImplCopyWith<_$HomeUIModelStateImpl> get copyWith =>

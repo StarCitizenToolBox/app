@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:dart_rss/domain/rss_item.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -23,6 +22,7 @@ import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
+import 'package:starcitizen_doctor/ui/home/dialogs/home_game_login_dialog_ui.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
@@ -42,14 +42,18 @@ class HomeUIModelState with _$HomeUIModelState {
     String? scInstalledPath,
     @Default([]) List<String> scInstallPaths,
     AppWebLocalizationVersionsData? webLocalizationVersionsData,
-    @Default(false) bool isCurGameRunning,
     @Default("") String lastScreenInfo,
     List<RssItem>? rssVideoItems,
     List<RssItem>? rssTextItems,
     MapEntry<String, bool>? localizationUpdateInfo,
     List? scServerStatus,
     List<CountdownFestivalItemData>? countdownFestivalListData,
+    @Default({}) Map<String, bool> isGameRunning,
   }) = _HomeUIModelState;
+}
+
+extension HomeUIModelStateEx on HomeUIModelState {
+  bool get isCurGameRunning => isGameRunning[scInstalledPath] ?? false;
 }
 
 @riverpod
@@ -276,14 +280,10 @@ class HomeUIModel extends _$HomeUIModel {
         return;
       }
       AnalyticsApi.touch("gameLaunch");
-      // showDialog(
-      //     context: context,
-      //     dismissWithEsc: false,
-      //     builder: (context) {
-      //       return BaseUIContainer(
-      //           uiCreate: () => LoginDialog(),
-      //           modelCreate: () => LoginDialogModel(scInstalledPath, this));
-      //     });
+      showDialog(
+          context: context,
+          dismissWithEsc: false,
+          builder: (context) => const HomeGameLoginDialogUI());
     } else {
       final ok = await showConfirmDialogs(
           context,
@@ -304,5 +304,65 @@ class HomeUIModel extends _$HomeUIModel {
   void onChangeInstallPath(String? value) {
     if (value == null) return;
     state = state.copyWith(scInstalledPath: value);
+  }
+
+  doLaunchGame(
+      // ignore: avoid_build_context_in_providers
+      BuildContext context,
+      String launchExe,
+      List<String> args,
+      String installPath,
+      String? processorAffinity) async {
+    var runningMap = Map<String, bool>.from(state.isGameRunning);
+    runningMap[installPath] = true;
+    state = state.copyWith(isGameRunning: runningMap);
+    try {
+      late ProcessResult result;
+      if (processorAffinity == null) {
+        result = await Process.run(launchExe, args);
+      } else {
+        dPrint("set Affinity === $processorAffinity launchExe === $launchExe");
+        result = await Process.run("cmd.exe", [
+          '/C',
+          'Start',
+          '"StarCitizen"',
+          '/High',
+          '/Affinity',
+          processorAffinity,
+          launchExe,
+          ...args
+        ]);
+      }
+      dPrint('Exit code: ${result.exitCode}');
+      dPrint('stdout: ${result.stdout}');
+      dPrint('stderr: ${result.stderr}');
+
+      if (result.exitCode != 0) {
+        final logs = await SCLoggerHelper.getGameRunningLogs(installPath);
+        MapEntry<String, String>? exitInfo;
+        bool hasUrl = false;
+        if (logs != null) {
+          exitInfo = SCLoggerHelper.getGameRunningLogInfo(logs);
+          if (exitInfo!.value.startsWith("https://")) {
+            hasUrl = true;
+          }
+        }
+        if (!context.mounted) return;
+        showToast(context,
+            "游戏非正常退出\nexitCode=${result.exitCode}\nstdout=${result.stdout ?? ""}\nstderr=${result.stderr ?? ""}\n\n诊断信息：${exitInfo == null ? "未知错误，请通过一键诊断加群反馈。" : exitInfo.key} \n${hasUrl ? "请查看弹出的网页链接获得详细信息。" : exitInfo?.value ?? ""}");
+        if (hasUrl) {
+          await Future.delayed(const Duration(seconds: 3));
+          launchUrlString(exitInfo!.value);
+        }
+      }
+
+      final launchFile = File("$installPath\\loginData.json");
+      if (await launchFile.exists()) {
+        await launchFile.delete();
+      }
+    } catch (_) {}
+    runningMap = Map<String, bool>.from(state.isGameRunning);
+    runningMap[installPath] = false;
+    state = state.copyWith(isGameRunning: runningMap);
   }
 }
