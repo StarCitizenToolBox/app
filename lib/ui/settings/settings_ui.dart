@@ -29,7 +29,7 @@ class SettingsUI extends HookConsumerWidget {
           ],
           const SizedBox(height: 12),
           makeSettingsItem(const Icon(FontAwesomeIcons.microchip, size: 20),
-              "启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ） [实验性功能，请随时反馈]",
+              "启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ）",
               subTitle:
                   "已设置的核心数量：${sate.inputGameLaunchECore}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）",
               onTap:()=> model.setGameLaunchECore(context)),
