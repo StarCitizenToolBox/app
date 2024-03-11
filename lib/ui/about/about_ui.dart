@@ -61,24 +61,27 @@ class AboutUI extends HookConsumerWidget {
           Row(
             children: [
               const Spacer(),
-              Container(
-                width: MediaQuery.of(context).size.width * .35,
-                decoration: BoxDecoration(
-                    color: FluentTheme.of(context).cardColor.withOpacity(.01),
-                    borderRadius: BorderRadius.circular(12)),
-                child: IconButton(
-                  icon: Padding(
-                    padding: const EdgeInsets.all(3),
-                    child: Text(
-                      isTipTextCn.value ? tipTextCN : tipTextEN,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 12, color: Colors.white.withOpacity(.9)),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * .35,
+                  decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor.withOpacity(.06),
+                      borderRadius: BorderRadius.circular(12)),
+                  child: IconButton(
+                    icon: Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: Text(
+                        isTipTextCn.value ? tipTextCN : tipTextEN,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 12, color: Colors.white.withOpacity(.9)),
+                      ),
                     ),
+                    onPressed: () {
+                      isTipTextCn.value = !isTipTextCn.value;
+                    },
                   ),
-                  onPressed: () {
-                    isTipTextCn.value = !isTipTextCn.value;
-                  },
                 ),
               ),
               const SizedBox(width: 12),
