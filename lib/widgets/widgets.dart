@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -159,9 +161,14 @@ class LoadingWidget<T> extends HookConsumerWidget {
   final T? data;
   final Future<T?> Function()? onLoadData;
   final Widget Function(BuildContext context, T data) childBuilder;
+  final Duration? autoRefreshDuration;
 
   const LoadingWidget(
-      {super.key, this.data, required this.childBuilder, this.onLoadData});
+      {super.key,
+      this.data,
+      required this.childBuilder,
+      this.onLoadData,
+      this.autoRefreshDuration});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -170,7 +177,14 @@ class LoadingWidget<T> extends HookConsumerWidget {
     useEffect(() {
       if (data == null && onLoadData != null) {
         _loadData(dataState, errorMsg);
-        return null;
+      }
+      if (autoRefreshDuration != null) {
+        final timer = Timer.periodic(autoRefreshDuration!, (timer) {
+          if (onLoadData != null) {
+            _loadData(dataState, errorMsg);
+          }
+        });
+        return timer.cancel;
       }
       return null;
     }, const []);

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
@@ -16,5 +18,13 @@ class AnalyticsApi {
     } catch (e) {
       dPrint("AnalyticsApi.touch === $key Error:$e");
     }
+  }
+
+  static Future<Map<String,dynamic>> getAnalyticsData() async {
+    final r = await RSHttp.get("${URLConf.analyticsApiHome}/analytics");
+    if (r.data == null) return {};
+    final jsonData = json.decode(utf8.decode(r.data!));
+    dPrint("AnalyticsApi.getAnalyticsData");
+    return jsonData;
   }
 }
