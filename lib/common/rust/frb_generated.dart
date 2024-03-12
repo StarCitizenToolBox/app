@@ -64,6 +64,8 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  Future<List<String>> dnsLookupIps({required String host, dynamic hint});
+
   Future<List<String>> dnsLookupTxt({required String host, dynamic hint});
 
   Future<RustHttpResponse> fetch(
@@ -71,6 +73,7 @@ abstract class RustLibApi extends BaseApi {
       required String url,
       Map<String, String>? headers,
       Uint8List? inputData,
+      String? withIpAddress,
       dynamic hint});
 
   Future<void> setDefaultHeader(
@@ -90,6 +93,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required super.generalizedFrbRustBinding,
     required super.portManager,
   });
+
+  @override
+  Future<List<String>> dnsLookupIps({required String host, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(host, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 4, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_String,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kDnsLookupIpsConstMeta,
+      argValues: [host],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kDnsLookupIpsConstMeta => const TaskConstMeta(
+        debugName: "dns_lookup_ips",
+        argNames: ["host"],
+      );
 
   @override
   Future<List<String>> dnsLookupTxt({required String host, dynamic hint}) {
@@ -122,6 +150,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       required String url,
       Map<String, String>? headers,
       Uint8List? inputData,
+      String? withIpAddress,
       dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
@@ -130,6 +159,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(url, serializer);
         sse_encode_opt_Map_String_String(headers, serializer);
         sse_encode_opt_list_prim_u_8_strict(inputData, serializer);
+        sse_encode_opt_String(withIpAddress, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 2, port: port_);
       },
@@ -138,7 +168,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeErrorData: sse_decode_AnyhowException,
       ),
       constMeta: kFetchConstMeta,
-      argValues: [method, url, headers, inputData],
+      argValues: [method, url, headers, inputData, withIpAddress],
       apiImpl: this,
       hint: hint,
     ));
@@ -146,7 +176,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kFetchConstMeta => const TaskConstMeta(
         debugName: "fetch",
-        argNames: ["method", "url", "headers", "inputData"],
+        argNames: ["method", "url", "headers", "inputData", "withIpAddress"],
       );
 
   @override
@@ -188,7 +218,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_list_String(arguments, serializer);
         sse_encode_String(workingDirectory, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 4, port: port_);
+            funcId: 5, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -271,6 +301,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Map<String, String>? dco_decode_opt_Map_String_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_Map_String_String(raw);
+  }
+
+  @protected
+  String? dco_decode_opt_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_String(raw);
   }
 
   @protected
@@ -426,6 +462,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_Map_String_String(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_String(deserializer));
     } else {
       return null;
     }
@@ -592,6 +639,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_Map_String_String(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_String(self, serializer);
     }
   }
 

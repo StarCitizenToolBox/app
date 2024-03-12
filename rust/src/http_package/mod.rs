@@ -1,16 +1,27 @@
 pub mod dns;
 
+use scopeguard::defer;
+use lazy_static::lazy_static;
+use hyper::Uri;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use reqwest::{Method, RequestBuilder};
 use std::collections::HashMap;
 use std::str::FromStr;
 use std::sync::{Arc, RwLock};
 use std::time::Duration;
-use flutter_rust_bridge::for_generated::lazy_static;
 
+#[derive(Debug)]
 #[allow(non_camel_case_types)]
-pub enum MyHttpVersion { HTTP_09, HTTP_10, HTTP_11, HTTP_2, HTTP_3 }
+pub enum MyHttpVersion {
+    HTTP_09,
+    HTTP_10,
+    HTTP_11,
+    HTTP_2,
+    HTTP_3,
+    HTTP_UNKNOWN,
+}
 
+#[derive(Debug)]
 pub struct RustHttpResponse {
     pub status_code: u16,
     pub headers: HashMap<String, String>,
@@ -23,28 +34,34 @@ pub struct RustHttpResponse {
 
 fn _hyper_version_to_my_version(v: reqwest::Version) -> MyHttpVersion {
     match v {
-        reqwest::Version::HTTP_09 => { MyHttpVersion::HTTP_09 }
-        reqwest::Version::HTTP_10 => { MyHttpVersion::HTTP_10 }
-        reqwest::Version::HTTP_11 => { MyHttpVersion::HTTP_11 }
-        reqwest::Version::HTTP_2 => { MyHttpVersion::HTTP_2 }
-        reqwest::Version::HTTP_3 => { MyHttpVersion::HTTP_3 }
-        _ => { panic!("Unsupported HTTP version") }
+        reqwest::Version::HTTP_09 => MyHttpVersion::HTTP_09,
+        reqwest::Version::HTTP_10 => MyHttpVersion::HTTP_10,
+        reqwest::Version::HTTP_11 => MyHttpVersion::HTTP_11,
+        reqwest::Version::HTTP_2 => MyHttpVersion::HTTP_2,
+        reqwest::Version::HTTP_3 => MyHttpVersion::HTTP_3,
+        _ => MyHttpVersion::HTTP_UNKNOWN,
     }
 }
 
 lazy_static! {
     static ref DEFAULT_HEADER: RwLock<HeaderMap> = RwLock::from(HeaderMap::new());
-    static ref DNS_CLIENT : Arc<dns::MyHickoryDnsResolver> = Arc::from(dns::MyHickoryDnsResolver::default());
-    static ref HTTP_CLIENT: reqwest::Client = {
-        reqwest::Client::builder()
-            .dns_resolver(DNS_CLIENT.clone())
-            .use_rustls_tls()
-            .connect_timeout(Duration::from_secs(10))
-            .gzip(true)
-            .no_proxy()
-            .build()
-            .unwrap()
-    };
+    static ref DNS_CLIENT: Arc<dns::MyHickoryDnsResolver> = Arc::from(dns::MyHickoryDnsResolver::default());
+    static ref HTTP_CLIENT: reqwest::Client = new_http_client(true);
+}
+
+fn new_http_client(keep_alive: bool) -> reqwest::Client {
+    let mut c = reqwest::Client::builder()
+        .dns_resolver(DNS_CLIENT.clone())
+        .use_rustls_tls()
+        .connect_timeout(Duration::from_secs(10))
+        .gzip(true)
+        .no_proxy();
+    if !keep_alive {
+        c = c.tcp_keepalive(None);
+    } else {
+        c = c.tcp_keepalive(Duration::from_secs(120));
+    }
+    c.build().unwrap()
 }
 
 pub fn set_default_header(headers: HashMap<String, String>) {
@@ -63,13 +80,34 @@ pub async fn fetch(
     url: String,
     headers: Option<HashMap<String, String>>,
     input_data: Option<Vec<u8>>,
+    with_ip_address: Option<String>,
 ) -> anyhow::Result<RustHttpResponse> {
-    let mut req = _mix_header(HTTP_CLIENT.request(method, url), headers);
+    let address_clone = with_ip_address.clone();
+    let url_clone = url.clone();
+
+    if address_clone.is_some() {
+        let addr = std::net::IpAddr::from_str(with_ip_address.unwrap().as_str()).unwrap();
+        let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
+        let url_host = Uri::from_str(url.as_str()).unwrap().host().unwrap().to_string();
+        hosts.insert(url_host, addr);
+    }
+
+    defer! {
+        if address_clone.is_some() {
+            let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
+            hosts.remove(url.clone().as_str());
+        }
+    }
+
+    let mut req = if address_clone.is_some() {
+        _mix_header(new_http_client(false).request(method, url_clone), headers)
+    } else {
+        _mix_header(HTTP_CLIENT.request(method, url_clone), headers)
+    };
     if input_data.is_some() {
         req = req.body(input_data.unwrap());
     }
     let resp = req.send().await?;
-
     let url = resp.url().to_string();
     let status_code = resp.status().as_u16();
     let resp_headers = _reade_resp_header(resp.headers());
@@ -102,6 +140,10 @@ pub async fn fetch(
 
 pub async fn dns_lookup_txt(name: String) -> anyhow::Result<Vec<String>> {
     DNS_CLIENT.lookup_txt(name).await
+}
+
+pub async fn dns_lookup_ips(name: String) -> anyhow::Result<Vec<String>> {
+    DNS_CLIENT.lookup_ips(name).await
 }
 
 fn _reade_resp_header(r_header: &HeaderMap) -> HashMap<String, String> {

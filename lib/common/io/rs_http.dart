@@ -15,15 +15,18 @@ class RSHttp {
   }
 
   static Future<RustHttpResponse> get(String url,
-      {Map<String, String>? headers}) async {
+      {Map<String, String>? headers, String? withIpAddress}) async {
     final r = await rust_http.fetch(
-        method: MyMethod.gets, url: url, headers: headers);
+        method: MyMethod.gets,
+        url: url,
+        headers: headers,
+        withIpAddress: withIpAddress);
     return r;
   }
 
   static Future<String> getText(String url,
-      {Map<String, String>? headers}) async {
-    final r = await get(url, headers: headers);
+      {Map<String, String>? headers, String? withIpAddress}) async {
+    final r = await get(url, headers: headers, withIpAddress: withIpAddress);
     if (r.data == null) return "";
     final str = utf8.decode(r.data!);
     return str;
@@ -32,13 +35,18 @@ class RSHttp {
   static Future<RustHttpResponse> postData(String url,
       {Map<String, String>? headers,
       String? contentType,
-      Uint8List? data}) async {
+      Uint8List? data,
+      String? withIpAddress}) async {
     if (contentType != null) {
       headers ??= {};
       headers["Content-Type"] = contentType;
     }
     final r = await rust_http.fetch(
-        method: MyMethod.post, url: url, headers: headers, inputData: data);
+        method: MyMethod.post,
+        url: url,
+        headers: headers,
+        inputData: data,
+        withIpAddress: withIpAddress);
     return r;
   }
 

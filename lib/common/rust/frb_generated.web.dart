@@ -53,6 +53,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Map<String, String>? dco_decode_opt_Map_String_String(dynamic raw);
 
   @protected
+  String? dco_decode_opt_String(dynamic raw);
+
+  @protected
   int? dco_decode_opt_box_autoadd_u_64(dynamic raw);
 
   @protected
@@ -111,6 +114,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   Map<String, String>? sse_decode_opt_Map_String_String(
       SseDeserializer deserializer);
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
   int? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
@@ -177,6 +183,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_opt_Map_String_String(
       Map<String, String>? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(int? self, SseSerializer serializer);

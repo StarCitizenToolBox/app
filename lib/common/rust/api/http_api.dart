@@ -16,16 +16,21 @@ Future<RustHttpResponse> fetch(
         required String url,
         Map<String, String>? headers,
         Uint8List? inputData,
+        String? withIpAddress,
         dynamic hint}) =>
     RustLib.instance.api.fetch(
         method: method,
         url: url,
         headers: headers,
         inputData: inputData,
+        withIpAddress: withIpAddress,
         hint: hint);
 
 Future<List<String>> dnsLookupTxt({required String host, dynamic hint}) =>
     RustLib.instance.api.dnsLookupTxt(host: host, hint: hint);
+
+Future<List<String>> dnsLookupIps({required String host, dynamic hint}) =>
+    RustLib.instance.api.dnsLookupIps(host: host, hint: hint);
 
 enum MyMethod {
   options,

@@ -12,6 +12,7 @@ enum MyHttpVersion {
   http11,
   http2,
   http3,
+  httpUnknown,
 }
 
 class RustHttpResponse {
