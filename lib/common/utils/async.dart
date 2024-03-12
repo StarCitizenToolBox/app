@@ -8,7 +8,7 @@ extension AsyncError on Future {
       return await this;
     } catch (e) {
       dPrint("unwrap error:$e");
-      if (context != null) {
+      if (context != null && context.mounted) {
         showToast(context, "出现错误: $e");
       }
       return null;

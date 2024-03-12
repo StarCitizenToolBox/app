@@ -22,6 +22,8 @@ import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:xml/xml.dart';
 
+import 'dialogs/hosts_booster_dialog_ui.dart';
+
 part 'tools_ui_model.g.dart';
 
 part 'tools_ui_model.freezed.dart';
@@ -80,6 +82,13 @@ class ToolsUIModel extends _$ToolsUIModel {
           "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n资源有限，请勿滥用。",
           const Icon(FontAwesomeIcons.download, size: 28),
           onTap: () => _downloadP4k(context),
+        ),
+        ToolsItemData(
+          "hosts_booster",
+          "Hosts 加速",
+          "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。",
+          const Icon(FluentIcons.virtual_network, size: 28),
+          onTap: () => _doHostsBooster(context),
         ),
         ToolsItemData(
           "reinstall_eac",
@@ -548,5 +557,11 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   void onChangeLauncherPath(String s) {
     state = state.copyWith(rsiLauncherInstalledPath: s);
+  }
+
+  _doHostsBooster(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => const HostsBoosterDialogUI());
   }
 }

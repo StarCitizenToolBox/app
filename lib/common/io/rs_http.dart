@@ -51,13 +51,20 @@ class RSHttp {
   }
 
   static Future<RustHttpResponse> head(String url,
-      {Map<String, String>? headers}) async {
+      {Map<String, String>? headers, String? withIpAddress}) async {
     final r = await rust_http.fetch(
-        method: MyMethod.head, url: url, headers: headers);
+        method: MyMethod.head,
+        url: url,
+        headers: headers,
+        withIpAddress: withIpAddress);
     return r;
   }
 
   static Future<List<String>> dnsLookupTxt(String host) async {
     return await rust_http.dnsLookupTxt(host: host);
+  }
+
+  static Future<List<String>> dnsLookupIps(String host) async {
+    return await rust_http.dnsLookupIps(host: host);
   }
 }

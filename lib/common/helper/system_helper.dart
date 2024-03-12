@@ -257,4 +257,10 @@ foreach ($adapter in $adapterMemory) {
     await Process.run(
         SystemHelper.powershellPath, ["explorer.exe", "/select,\"$path\""]);
   }
+
+  static String getHostsFilePath() {
+    final envVars = Platform.environment;
+    final systemRoot = envVars["SYSTEMROOT"];
+    return "$systemRoot\\System32\\drivers\\etc\\hosts";
+  }
 }
