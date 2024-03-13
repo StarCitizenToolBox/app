@@ -408,6 +408,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           if (element.path.contains(lang)) {
             final installedVersion =
                 await _getInstalledIniVersion("${element.path}\\global.ini");
+            if (installedVersion == "游戏内置") continue;
             final curData = _allVersionLocalizationData[lang];
             dPrint("check Localization update $scInstallPath");
             if (!(curData?.keys.contains(installedVersion) ?? false)) {
