@@ -148,6 +148,134 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_AnyhowException(
+      AnyhowException raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    throw UnimplementedError();
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_record_string_string> cst_encode_Map_String_String(
+      Map<String, String> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_list_record_string_string(
+        raw.entries.map((e) => (e.key, e.value)).toList());
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_String(String raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_list_prim_u_8_strict(utf8.encoder.convert(raw));
+  }
+
+  @protected
+  ffi.Pointer<ffi.Uint64> cst_encode_box_autoadd_u_64(int raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return wire.cst_new_box_autoadd_u_64(cst_encode_u_64(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_String> cst_encode_list_String(List<String> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_String(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      ans.ref.ptr[i] = cst_encode_String(raw[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_list_prim_u_8_strict(
+      Uint8List raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_u_8_strict(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_record_string_string>
+      cst_encode_list_record_string_string(List<(String, String)> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_record_string_string(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_record_string_string(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_record_string_string>
+      cst_encode_opt_Map_String_String(Map<String, String>? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_Map_String_String(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_opt_String(
+      String? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_String(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.Uint64> cst_encode_opt_box_autoadd_u_64(int? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_u_64(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_strict>
+      cst_encode_opt_list_prim_u_8_strict(Uint8List? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_list_prim_u_8_strict(raw);
+  }
+
+  @protected
+  int cst_encode_u_64(int raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw.toInt();
+  }
+
+  @protected
+  void cst_api_fill_to_wire_record_string_string(
+      (String, String) apiObj, wire_cst_record_string_string wireObj) {
+    wireObj.field0 = cst_encode_String(apiObj.$1);
+    wireObj.field1 = cst_encode_String(apiObj.$2);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_rust_http_response(
+      RustHttpResponse apiObj, wire_cst_rust_http_response wireObj) {
+    wireObj.status_code = cst_encode_u_16(apiObj.statusCode);
+    wireObj.headers = cst_encode_Map_String_String(apiObj.headers);
+    wireObj.url = cst_encode_String(apiObj.url);
+    wireObj.content_length =
+        cst_encode_opt_box_autoadd_u_64(apiObj.contentLength);
+    wireObj.version = cst_encode_my_http_version(apiObj.version);
+    wireObj.remote_addr = cst_encode_String(apiObj.remoteAddr);
+    wireObj.data = cst_encode_opt_list_prim_u_8_strict(apiObj.data);
+  }
+
+  @protected
+  int cst_encode_i_32(int raw);
+
+  @protected
+  int cst_encode_my_http_version(MyHttpVersion raw);
+
+  @protected
+  int cst_encode_my_method(MyMethod raw);
+
+  @protected
+  int cst_encode_u_16(int raw);
+
+  @protected
+  int cst_encode_u_8(int raw);
+
+  @protected
+  void cst_encode_unit(void raw);
+
+  @protected
   void sse_encode_AnyhowException(
       AnyhowException self, SseSerializer serializer);
 
@@ -221,6 +349,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
 // Section: wire_class
 
+// ignore_for_file: camel_case_types, non_constant_identifier_names, avoid_positional_boolean_parameters, annotate_overrides, constant_identifier_names
+// AUTO GENERATED FILE, DO NOT EDIT.
+//
+// Generated by `package:ffigen`.
+// ignore_for_file: type=lint
+
+/// generated by flutter_rust_bridge
 class RustLibWire implements BaseWire {
   factory RustLibWire.fromExternalLibrary(ExternalLibrary lib) =>
       RustLibWire(lib.ffiDynamicLibrary);
@@ -232,4 +367,270 @@ class RustLibWire implements BaseWire {
   /// The symbols are looked up in [dynamicLibrary].
   RustLibWire(ffi.DynamicLibrary dynamicLibrary)
       : _lookup = dynamicLibrary.lookup;
+
+  /// The symbols are looked up with [lookup].
+  RustLibWire.fromLookup(
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
+
+  void store_dart_post_cobject(
+    DartPostCObjectFnType ptr,
+  ) {
+    return _store_dart_post_cobject(
+      ptr,
+    );
+  }
+
+  late final _store_dart_post_cobjectPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(DartPostCObjectFnType)>>(
+          'store_dart_post_cobject');
+  late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
+      .asFunction<void Function(DartPostCObjectFnType)>();
+
+  void wire_dns_lookup_ips(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> host,
+  ) {
+    return _wire_dns_lookup_ips(
+      port_,
+      host,
+    );
+  }
+
+  late final _wire_dns_lookup_ipsPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_starcitizen_doctor_wire_dns_lookup_ips');
+  late final _wire_dns_lookup_ips = _wire_dns_lookup_ipsPtr.asFunction<
+      void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
+  void wire_dns_lookup_txt(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> host,
+  ) {
+    return _wire_dns_lookup_txt(
+      port_,
+      host,
+    );
+  }
+
+  late final _wire_dns_lookup_txtPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_starcitizen_doctor_wire_dns_lookup_txt');
+  late final _wire_dns_lookup_txt = _wire_dns_lookup_txtPtr.asFunction<
+      void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
+  void wire_fetch(
+    int port_,
+    int method,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> url,
+    ffi.Pointer<wire_cst_list_record_string_string> headers,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> input_data,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> with_ip_address,
+  ) {
+    return _wire_fetch(
+      port_,
+      method,
+      url,
+      headers,
+      input_data,
+      with_ip_address,
+    );
+  }
+
+  late final _wire_fetchPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.Int32,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  ffi.Pointer<wire_cst_list_record_string_string>,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_starcitizen_doctor_wire_fetch');
+  late final _wire_fetch = _wire_fetchPtr.asFunction<
+      void Function(
+          int,
+          int,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          ffi.Pointer<wire_cst_list_record_string_string>,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
+  void wire_set_default_header(
+    int port_,
+    ffi.Pointer<wire_cst_list_record_string_string> headers,
+  ) {
+    return _wire_set_default_header(
+      port_,
+      headers,
+    );
+  }
+
+  late final _wire_set_default_headerPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64, ffi.Pointer<wire_cst_list_record_string_string>)>>(
+      'frbgen_starcitizen_doctor_wire_set_default_header');
+  late final _wire_set_default_header = _wire_set_default_headerPtr.asFunction<
+      void Function(int, ffi.Pointer<wire_cst_list_record_string_string>)>();
+
+  void wire_start_process(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> executable,
+    ffi.Pointer<wire_cst_list_String> arguments,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> working_directory,
+  ) {
+    return _wire_start_process(
+      port_,
+      executable,
+      arguments,
+      working_directory,
+    );
+  }
+
+  late final _wire_start_processPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  ffi.Pointer<wire_cst_list_String>,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_starcitizen_doctor_wire_start_process');
+  late final _wire_start_process = _wire_start_processPtr.asFunction<
+      void Function(
+          int,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          ffi.Pointer<wire_cst_list_String>,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
+  ffi.Pointer<ffi.Uint64> cst_new_box_autoadd_u_64(
+    int value,
+  ) {
+    return _cst_new_box_autoadd_u_64(
+      value,
+    );
+  }
+
+  late final _cst_new_box_autoadd_u_64Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Uint64> Function(ffi.Uint64)>>(
+          'frbgen_starcitizen_doctor_cst_new_box_autoadd_u_64');
+  late final _cst_new_box_autoadd_u_64 = _cst_new_box_autoadd_u_64Ptr
+      .asFunction<ffi.Pointer<ffi.Uint64> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_String> cst_new_list_String(
+    int len,
+  ) {
+    return _cst_new_list_String(
+      len,
+    );
+  }
+
+  late final _cst_new_list_StringPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_String> Function(
+              ffi.Int32)>>('frbgen_starcitizen_doctor_cst_new_list_String');
+  late final _cst_new_list_String = _cst_new_list_StringPtr
+      .asFunction<ffi.Pointer<wire_cst_list_String> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_new_list_prim_u_8_strict(
+    int len,
+  ) {
+    return _cst_new_list_prim_u_8_strict(
+      len,
+    );
+  }
+
+  late final _cst_new_list_prim_u_8_strictPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_list_prim_u_8_strict> Function(ffi.Int32)>>(
+      'frbgen_starcitizen_doctor_cst_new_list_prim_u_8_strict');
+  late final _cst_new_list_prim_u_8_strict = _cst_new_list_prim_u_8_strictPtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_u_8_strict> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_record_string_string>
+      cst_new_list_record_string_string(
+    int len,
+  ) {
+    return _cst_new_list_record_string_string(
+      len,
+    );
+  }
+
+  late final _cst_new_list_record_string_stringPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_list_record_string_string> Function(
+                  ffi.Int32)>>(
+      'frbgen_starcitizen_doctor_cst_new_list_record_string_string');
+  late final _cst_new_list_record_string_string =
+      _cst_new_list_record_string_stringPtr.asFunction<
+          ffi.Pointer<wire_cst_list_record_string_string> Function(int)>();
+
+  int dummy_method_to_enforce_bundling() {
+    return _dummy_method_to_enforce_bundling();
+  }
+
+  late final _dummy_method_to_enforce_bundlingPtr =
+      _lookup<ffi.NativeFunction<ffi.Int64 Function()>>(
+          'dummy_method_to_enforce_bundling');
+  late final _dummy_method_to_enforce_bundling =
+      _dummy_method_to_enforce_bundlingPtr.asFunction<int Function()>();
+}
+
+typedef DartPostCObjectFnType
+    = ffi.Pointer<ffi.NativeFunction<DartPostCObjectFnTypeFunction>>;
+typedef DartPostCObjectFnTypeFunction = ffi.Bool Function(
+    DartPort port_id, ffi.Pointer<ffi.Void> message);
+typedef DartDartPostCObjectFnTypeFunction = bool Function(
+    DartDartPort port_id, ffi.Pointer<ffi.Void> message);
+typedef DartPort = ffi.Int64;
+typedef DartDartPort = int;
+
+final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_record_string_string extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> field1;
+}
+
+final class wire_cst_list_record_string_string extends ffi.Struct {
+  external ffi.Pointer<wire_cst_record_string_string> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_list_String extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_rust_http_response extends ffi.Struct {
+  @ffi.Uint16()
+  external int status_code;
+
+  external ffi.Pointer<wire_cst_list_record_string_string> headers;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> url;
+
+  external ffi.Pointer<ffi.Uint64> content_length;
+
+  @ffi.Int32()
+  external int version;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> remote_addr;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
 }

@@ -1,2 +1,4 @@
 rust_input: rust/src/api/**/*.rs
 dart_output: lib/common/rust/
+full_dep: true
+web: false

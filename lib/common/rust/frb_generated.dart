@@ -98,14 +98,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Future<List<String>> dnsLookupIps({required String host, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_String(host, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 4, port: port_);
+        var arg0 = cst_encode_String(host);
+        return wire.wire_dns_lookup_ips(port_, arg0);
       },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_list_String,
-        decodeErrorData: sse_decode_AnyhowException,
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_list_String,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta: kDnsLookupIpsConstMeta,
       argValues: [host],
@@ -123,14 +121,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Future<List<String>> dnsLookupTxt({required String host, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_String(host, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 3, port: port_);
+        var arg0 = cst_encode_String(host);
+        return wire.wire_dns_lookup_txt(port_, arg0);
       },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_list_String,
-        decodeErrorData: sse_decode_AnyhowException,
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_list_String,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta: kDnsLookupTxtConstMeta,
       argValues: [host],
@@ -154,18 +150,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_my_method(method, serializer);
-        sse_encode_String(url, serializer);
-        sse_encode_opt_Map_String_String(headers, serializer);
-        sse_encode_opt_list_prim_u_8_strict(inputData, serializer);
-        sse_encode_opt_String(withIpAddress, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 2, port: port_);
+        var arg0 = cst_encode_my_method(method);
+        var arg1 = cst_encode_String(url);
+        var arg2 = cst_encode_opt_Map_String_String(headers);
+        var arg3 = cst_encode_opt_list_prim_u_8_strict(inputData);
+        var arg4 = cst_encode_opt_String(withIpAddress);
+        return wire.wire_fetch(port_, arg0, arg1, arg2, arg3, arg4);
       },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_rust_http_response,
-        decodeErrorData: sse_decode_AnyhowException,
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_rust_http_response,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta: kFetchConstMeta,
       argValues: [method, url, headers, inputData, withIpAddress],
@@ -184,13 +178,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       {required Map<String, String> headers, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Map_String_String(headers, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 1, port: port_);
+        var arg0 = cst_encode_Map_String_String(headers);
+        return wire.wire_set_default_header(port_, arg0);
       },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_unit,
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
         decodeErrorData: null,
       ),
       constMeta: kSetDefaultHeaderConstMeta,
@@ -213,15 +205,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeStream(StreamTask(
       callFfi: (port_) {
-        final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_String(executable, serializer);
-        sse_encode_list_String(arguments, serializer);
-        sse_encode_String(workingDirectory, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 5, port: port_);
+        var arg0 = cst_encode_String(executable);
+        var arg1 = cst_encode_list_String(arguments);
+        var arg2 = cst_encode_String(workingDirectory);
+        return wire.wire_start_process(port_, arg0, arg1, arg2);
       },
-      codec: SseCodec(
-        decodeSuccessData: sse_decode_String,
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_String,
         decodeErrorData: null,
       ),
       constMeta: kStartProcessConstMeta,
@@ -556,6 +546,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  int cst_encode_i_32(int raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw;
+  }
+
+  @protected
+  int cst_encode_my_http_version(MyHttpVersion raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_i_32(raw.index);
+  }
+
+  @protected
+  int cst_encode_my_method(MyMethod raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_i_32(raw.index);
+  }
+
+  @protected
+  int cst_encode_u_16(int raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw;
+  }
+
+  @protected
+  int cst_encode_u_8(int raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw;
+  }
+
+  @protected
+  void cst_encode_unit(void raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw;
   }
 
   @protected

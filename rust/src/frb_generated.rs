@@ -26,9 +26,9 @@ use flutter_rust_bridge::{Handler, IntoIntoDart};
 // Section: boilerplate
 
 flutter_rust_bridge::frb_generated_boilerplate!(
-    default_stream_sink_codec = SseCodec,
-    default_rust_opaque = RustOpaqueMoi,
-    default_rust_auto_opaque = RustAutoOpaqueMoi,
+    default_stream_sink_codec = DcoCodec,
+    default_rust_opaque = RustOpaqueNom,
+    default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0-dev.28";
 
@@ -40,30 +40,18 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 fn wire_dns_lookup_ips_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
+    host: impl CstDecode<String>,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "dns_lookup_ips",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_host = <String>::sse_decode(&mut deserializer);
-            deserializer.end();
+            let api_host = host.cst_decode();
             move |context| async move {
-                transform_result_sse(
+                transform_result_dco(
                     (move || async move { crate::api::http_api::dns_lookup_ips(api_host).await })()
                         .await,
                 )
@@ -73,30 +61,18 @@ fn wire_dns_lookup_ips_impl(
 }
 fn wire_dns_lookup_txt_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
+    host: impl CstDecode<String>,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "dns_lookup_txt",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_host = <String>::sse_decode(&mut deserializer);
-            deserializer.end();
+            let api_host = host.cst_decode();
             move |context| async move {
-                transform_result_sse(
+                transform_result_dco(
                     (move || async move { crate::api::http_api::dns_lookup_txt(api_host).await })()
                         .await,
                 )
@@ -106,35 +82,26 @@ fn wire_dns_lookup_txt_impl(
 }
 fn wire_fetch_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
+    method: impl CstDecode<crate::api::http_api::MyMethod>,
+    url: impl CstDecode<String>,
+    headers: impl CstDecode<Option<std::collections::HashMap<String, String>>>,
+    input_data: impl CstDecode<Option<Vec<u8>>>,
+    with_ip_address: impl CstDecode<Option<String>>,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "fetch",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_method = <crate::api::http_api::MyMethod>::sse_decode(&mut deserializer);
-            let api_url = <String>::sse_decode(&mut deserializer);
-            let api_headers =
-                <Option<std::collections::HashMap<String, String>>>::sse_decode(&mut deserializer);
-            let api_input_data = <Option<Vec<u8>>>::sse_decode(&mut deserializer);
-            let api_with_ip_address = <Option<String>>::sse_decode(&mut deserializer);
-            deserializer.end();
+            let api_method = method.cst_decode();
+            let api_url = url.cst_decode();
+            let api_headers = headers.cst_decode();
+            let api_input_data = input_data.cst_decode();
+            let api_with_ip_address = with_ip_address.cst_decode();
             move |context| async move {
-                transform_result_sse(
+                transform_result_dco(
                     (move || async move {
                         crate::api::http_api::fetch(
                             api_method,
@@ -153,31 +120,18 @@ fn wire_fetch_impl(
 }
 fn wire_set_default_header_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
+    headers: impl CstDecode<std::collections::HashMap<String, String>>,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "set_default_header",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_headers =
-                <std::collections::HashMap<String, String>>::sse_decode(&mut deserializer);
-            deserializer.end();
+            let api_headers = headers.cst_decode();
             move |context| {
-                transform_result_sse((move || {
+                transform_result_dco((move || {
                     Result::<_, ()>::Ok(crate::api::http_api::set_default_header(api_headers))
                 })())
             }
@@ -186,32 +140,22 @@ fn wire_set_default_header_impl(
 }
 fn wire_start_process_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
+    executable: impl CstDecode<String>,
+    arguments: impl CstDecode<Vec<String>>,
+    working_directory: impl CstDecode<String>,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "start_process",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Stream,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_executable = <String>::sse_decode(&mut deserializer);
-            let api_arguments = <Vec<String>>::sse_decode(&mut deserializer);
-            let api_working_directory = <String>::sse_decode(&mut deserializer);
-            deserializer.end();
+            let api_executable = executable.cst_decode();
+            let api_arguments = arguments.cst_decode();
+            let api_working_directory = working_directory.cst_decode();
             move |context| async move {
-                transform_result_sse(
+                transform_result_dco(
                     (move || async move {
                         Result::<_, ()>::Ok(
                             crate::api::process_api::start_process(
@@ -234,6 +178,61 @@ fn wire_start_process_impl(
 
 // Section: dart2rust
 
+impl CstDecode<i32> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> i32 {
+        self
+    }
+}
+impl CstDecode<crate::http_package::MyHttpVersion> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::http_package::MyHttpVersion {
+        match self {
+            0 => crate::http_package::MyHttpVersion::HTTP_09,
+            1 => crate::http_package::MyHttpVersion::HTTP_10,
+            2 => crate::http_package::MyHttpVersion::HTTP_11,
+            3 => crate::http_package::MyHttpVersion::HTTP_2,
+            4 => crate::http_package::MyHttpVersion::HTTP_3,
+            5 => crate::http_package::MyHttpVersion::HTTP_UNKNOWN,
+            _ => unreachable!("Invalid variant for MyHttpVersion: {}", self),
+        }
+    }
+}
+impl CstDecode<crate::api::http_api::MyMethod> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::http_api::MyMethod {
+        match self {
+            0 => crate::api::http_api::MyMethod::Options,
+            1 => crate::api::http_api::MyMethod::Gets,
+            2 => crate::api::http_api::MyMethod::Post,
+            3 => crate::api::http_api::MyMethod::Put,
+            4 => crate::api::http_api::MyMethod::Delete,
+            5 => crate::api::http_api::MyMethod::Head,
+            6 => crate::api::http_api::MyMethod::Trace,
+            7 => crate::api::http_api::MyMethod::Connect,
+            8 => crate::api::http_api::MyMethod::Patch,
+            _ => unreachable!("Invalid variant for MyMethod: {}", self),
+        }
+    }
+}
+impl CstDecode<u16> for u16 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> u16 {
+        self
+    }
+}
+impl CstDecode<u64> for u64 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> u64 {
+        self
+    }
+}
+impl CstDecode<u8> for u8 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> u8 {
+        self
+    }
+}
 impl SseDecode for flutter_rust_bridge::for_generated::anyhow::Error {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -454,11 +453,6 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        4 => wire_dns_lookup_ips_impl(port, ptr, rust_vec_len, data_len),
-        3 => wire_dns_lookup_txt_impl(port, ptr, rust_vec_len, data_len),
-        2 => wire_fetch_impl(port, ptr, rust_vec_len, data_len),
-        1 => wire_set_default_header_impl(port, ptr, rust_vec_len, data_len),
-        5 => wire_start_process_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -755,10 +749,3 @@ impl SseEncode for bool {
 mod io;
 #[cfg(not(target_family = "wasm"))]
 pub use io::*;
-
-/// cbindgen:ignore
-#[cfg(target_family = "wasm")]
-#[path = "frb_generated.web.rs"]
-mod web;
-#[cfg(target_family = "wasm")]
-pub use web::*;
