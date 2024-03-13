@@ -212,7 +212,7 @@ class AboutUI extends HookConsumerWidget {
     const names = {
       "launch": "启动",
       "gameLaunch": "启动游戏",
-      "firstLaunch": "独立用户",
+      "firstLaunch": "累计用户",
       "install_localization": "汉化安装",
       "performance_apply": "性能调优",
       "p4k_download": "P4K分流"
