@@ -111,11 +111,11 @@ class ToolsUI extends HookConsumerWidget {
                                         borderRadius:
                                             BorderRadius.circular(1000)),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(12),
                                       child: item.icon,
                                     ),
                                   ),
-                                  const SizedBox(width: 12),
+                                  const SizedBox(width: 8),
                                   Expanded(
                                       child: Text(
                                     item.name,

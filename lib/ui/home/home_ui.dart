@@ -469,10 +469,10 @@ class HomeUI extends HookConsumerWidget {
                               color: Colors.white.withOpacity(.2),
                               borderRadius: BorderRadius.circular(1000)),
                           child: Padding(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(12),
                             child: Icon(
                               item.icon,
-                              size: 26,
+                              size: 24,
                             ),
                           ),
                         ),

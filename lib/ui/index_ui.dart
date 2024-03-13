@@ -96,20 +96,25 @@ class IndexUI extends HookConsumerWidget {
 
   List<NavigationPaneItem> getNavigationPaneItems(
       ValueNotifier<int> curIndexState) {
+    // width = 64
     return [
       for (final kv in pageMenus.entries)
         PaneItem(
           icon: Padding(
-            padding: const EdgeInsets.only(top: 6, bottom: 6, left: 4),
-            child: Column(
-              children: [
-                Icon(kv.key, size: 18),
-                const SizedBox(height: 3),
-                Text(
-                  kv.value,
-                  style: const TextStyle(fontSize: 11),
-                )
-              ],
+            padding: const EdgeInsets.only(top: 6, bottom: 6),
+            child: SizedBox(
+              width: 32,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(kv.key, size: 18),
+                  const SizedBox(height: 3),
+                  Text(
+                    kv.value,
+                    style: const TextStyle(fontSize: 11),
+                  )
+                ],
+              ),
             ),
           ),
           // title: Text(kv.value),

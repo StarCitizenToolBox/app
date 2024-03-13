@@ -73,35 +73,35 @@ class ToolsUIModel extends _$ToolsUIModel {
           "systemnfo",
           "查看系统信息",
           "查看系统关键信息，用于快速问诊 \n\n耗时操作，请耐心等待。",
-          const Icon(FluentIcons.system, size: 28),
+          const Icon(FluentIcons.system, size: 24),
           onTap: () => _showSystemInfo(context),
         ),
         ToolsItemData(
           "p4k_downloader",
           "P4K 分流下载 / 修复",
           "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n资源有限，请勿滥用。",
-          const Icon(FontAwesomeIcons.download, size: 28),
+          const Icon(FontAwesomeIcons.download, size: 24),
           onTap: () => _downloadP4k(context),
         ),
         ToolsItemData(
           "hosts_booster",
-          "Hosts 加速",
-          "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。",
-          const Icon(FluentIcons.virtual_network, size: 28),
+          "Hosts 加速（实验性）",
+          "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。",
+          const Icon(FluentIcons.virtual_network, size: 24),
           onTap: () => _doHostsBooster(context),
         ),
         ToolsItemData(
           "reinstall_eac",
           "重装 EasyAntiCheat 反作弊",
           "若您遇到 EAC 错误，且自动修复无效，请尝试使用此功能重装 EAC。",
-          const Icon(FluentIcons.game, size: 28),
+          const Icon(FluentIcons.game, size: 24),
           onTap: () => _reinstallEAC(context),
         ),
         ToolsItemData(
           "rsilauncher_admin_mode",
           "RSI Launcher 管理员模式",
           "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。",
-          const Icon(FluentIcons.admin, size: 28),
+          const Icon(FluentIcons.admin, size: 24),
           onTap: () => _adminRSILauncher(context),
         ),
       ];
@@ -138,7 +138,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         "rsilauncher_log_fix",
         "RSI Launcher Log 修复",
         "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${(logPathLen.toStringAsFixed(4))} MB",
-        const Icon(FontAwesomeIcons.bookBible, size: 28),
+        const Icon(FontAwesomeIcons.bookBible, size: 24),
         onTap: () => _rsiLogFix(context),
       ),
     ];
@@ -152,7 +152,7 @@ class ToolsUIModel extends _$ToolsUIModel {
           "remove_nvme_settings",
           "移除 nvme 注册表补丁",
           "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${(nvmePatchStatus) ? "已安装" : "未安装"}",
-          const Icon(FluentIcons.hard_drive, size: 28),
+          const Icon(FluentIcons.hard_drive, size: 24),
           onTap: nvmePatchStatus
               ? () async {
                   state = state.copyWith(working: true);
@@ -169,7 +169,7 @@ class ToolsUIModel extends _$ToolsUIModel {
           "add_nvme_settings",
           "写入 nvme 注册表补丁",
           "手动写入NVM补丁，该功能仅在您知道自己在作什么的情况下使用",
-          const Icon(FontAwesomeIcons.cashRegister, size: 28),
+          const Icon(FontAwesomeIcons.cashRegister, size: 24),
           onTap: () async {
             state = state.copyWith(working: true);
             final r = await SystemHelper.addNvmePatch();
@@ -196,7 +196,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：${((await SystemHelper.getDirLen(gameShaderCachePath ?? "", skipPath: [
                 "$gameShaderCachePath\\Crashes"
               ])) / 1024 / 1024).toStringAsFixed(4)} MB",
-      const Icon(FontAwesomeIcons.shapes, size: 28),
+      const Icon(FontAwesomeIcons.shapes, size: 24),
       onTap: () => _cleanShaderCache(context),
     );
   }
@@ -211,7 +211,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       isEnable
           ? "还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。"
           : "一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。",
-      const Icon(FontAwesomeIcons.camera, size: 28),
+      const Icon(FontAwesomeIcons.camera, size: 24),
       onTap: () => _onChangePhotographyMode(context, isEnable),
     );
   }
