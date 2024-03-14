@@ -12,11 +12,11 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 class HostsBoosterDialogUI extends HookConsumerWidget {
   const HostsBoosterDialogUI({super.key});
 
-  static const _hostsMap = {
+  static final _hostsMap = {
     "Recaptcha": ["www.recaptcha.net", "recaptcha.net"],
-    "RSI 官网": ["robertsspaceindustries.com"],
-    "RSI Zendesk 客服站": ["cloudimperiumservicesllc.zendesk.com"],
-    "RSI 客服站": ["support.robertsspaceindustries.com"],
+    S.current.tools_hosts_info_rsi_official_website: ["robertsspaceindustries.com"],
+    S.current.tools_hosts_info_rsi_zendesk: ["cloudimperiumservicesllc.zendesk.com"],
+    S.current.tools_hosts_info_rsi_customer_service: ["support.robertsspaceindustries.com"],
   };
 
   @override
@@ -37,12 +37,12 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
           checkedMap.value = Map.from(checkedMap.value);
         }
       }
-      workingText.value = "正在查询 DNS 并测试可访问性 请耐心等待...";
+      workingText.value = S.current.tools_hosts_info_dns_query_and_test;
       final ipsMap = await _doCheckDns(workingMap, checkedMap);
-      workingText.value = "正在写入 Hosts ...";
+      workingText.value = S.current.tools_hosts_info_writing_hosts;
       if (!context.mounted) return;
       await _doWriteHosts(ipsMap).unwrap(context: context);
-      workingText.value = "读取配置 ...";
+      workingText.value = S.current.tools_hosts_info_reading_config;
       await _readHostsState(workingMap, checkedMap);
       workingText.value = "";
     }
@@ -51,7 +51,7 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
       // 监听 Hosts 文件变更
       _readHostsState(workingMap, checkedMap);
       return null;
-    }, const []);
+    }, []);
 
     return ContentDialog(
       constraints:
@@ -66,17 +66,17 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
               onPressed:
                   workingText.value.isEmpty ? Navigator.of(context).pop : null),
           const SizedBox(width: 12),
-          const Text("Hosts 加速"),
+          Text(S.current.tools_hosts_info_hosts_acceleration),
           const Spacer(),
           Button(
               onPressed: () => _openHostsFile(context),
-              child: const Padding(
-                padding: EdgeInsets.all(3),
+              child: Padding(
+                padding: const EdgeInsets.all(3),
                 child: Row(
                   children: [
-                    Icon(FluentIcons.open_file),
-                    SizedBox(width: 6),
-                    Text("打开 Hosts 文件"),
+                    const Icon(FluentIcons.open_file),
+                    const SizedBox(width: 6),
+                    Text(S.current.tools_hosts_info_open_hosts_file),
                   ],
                 ),
               ))
@@ -88,15 +88,15 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 12),
-            const Row(
+            Row(
               children: [
-                SizedBox(width: 12),
-                Text("状态"),
-                SizedBox(width: 38),
-                Text("站点"),
-                Spacer(),
-                Text("是否启用"),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
+                Text(S.current.tools_hosts_info_status),
+                const SizedBox(width: 38),
+                Text(S.current.tools_hosts_info_site),
+                const Spacer(),
+                Text(S.current.tools_hosts_info_enable),
+                const SizedBox(width: 12),
               ],
             ),
             const SizedBox(height: 12),
@@ -163,10 +163,10 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
                 padding: const EdgeInsets.all(12),
                 child: FilledButton(
                   onPressed: () => doHost(context),
-                  child: const Padding(
+                  child: Padding(
                     padding:
-                        EdgeInsets.only(top: 3, bottom: 3, left: 12, right: 12),
-                    child: Text("一键加速"),
+                        const EdgeInsets.only(top: 3, bottom: 3, left: 12, right: 12),
+                    child: Text(S.current.tools_hosts_action_one_click_acceleration),
                   ),
                 ),
               ),
@@ -177,7 +177,7 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
   }
 
   Future<void> _openHostsFile(BuildContext context) async {
-    // 使用管理员权限调用记事本打开 Hosts 文件
+    // 使用管理员权限调用记事本${S.current.tools_hosts_info_open_hosts_file}
     Process.run(SystemHelper.powershellPath, [
       "-Command",
       "Start-Process notepad.exe -Verb runAs -ArgumentList ${SystemHelper.getHostsFilePath()}"

@@ -35,13 +35,14 @@ class LocalizationDialogUI extends HookConsumerWidget {
               AnimatedSize(
                 duration: const Duration(milliseconds: 130),
                 child: state.patchStatus?.key == true &&
-                        state.patchStatus?.value == "游戏内置"
+                        state.patchStatus?.value ==
+                            S.current.home_action_info_game_built_in
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: InfoBar(
-                          title: const Text("警告"),
-                          content: const Text(
-                              "您正在使用游戏内置文本，官方文本目前为机器翻译（截至3.21.0），建议您在下方安装社区汉化。"),
+                          title: Text(S.current.home_action_info_warning),
+                          content: Text(
+                              S.current.localization_info_machine_translation_warning),
                           severity: InfoBarSeverity.info,
                           style: InfoBarThemeData(decoration: (severity) {
                             return const BoxDecoration(
@@ -56,7 +57,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       ),
               ),
               makeListContainer(
-                  "汉化状态",
+                  S.current.localization_info_translation_status,
                   [
                     if (state.patchStatus == null)
                       makeLoading(context)
@@ -80,31 +81,34 @@ class LocalizationDialogUI extends HookConsumerWidget {
                         children: [
                           Text("已安装版本：${state.patchStatus?.value}"),
                           const Spacer(),
-                          if (state.patchStatus?.value != "游戏内置")
+                          if (state.patchStatus?.value !=
+                              S.current.home_action_info_game_built_in)
                             Row(
                               children: [
                                 Button(
                                     onPressed: model.goFeedback,
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(4),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4),
                                       child: Row(
                                         children: [
-                                          Icon(FluentIcons.feedback),
-                                          SizedBox(width: 6),
-                                          Text("汉化反馈"),
+                                          const Icon(FluentIcons.feedback),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                              S.current.localization_action_translation_feedback),
                                         ],
                                       ),
                                     )),
                                 const SizedBox(width: 16),
                                 Button(
                                     onPressed: model.doDelIniFile(),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(4),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4),
                                       child: Row(
                                         children: [
-                                          Icon(FluentIcons.delete),
-                                          SizedBox(width: 6),
-                                          Text("卸载汉化"),
+                                          const Icon(FluentIcons.delete),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                              S.current.localization_action_uninstall_translation),
                                         ],
                                       ),
                                     )),
@@ -130,9 +134,9 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          "备注：",
-                                          style: TextStyle(fontSize: 18),
+                                        Text(
+                                          S.current.localization_info_note,
+                                          style: const TextStyle(fontSize: 18),
                                         ),
                                         const SizedBox(height: 6),
                                         Text(
@@ -154,14 +158,14 @@ class LocalizationDialogUI extends HookConsumerWidget {
                   ],
                   context),
               makeListContainer(
-                  "社区汉化",
+                  S.current.localization_info_community_translation,
                   [
                     if (state.apiLocalizationData == null)
                       makeLoading(context)
                     else if (state.apiLocalizationData!.isEmpty)
                       Center(
                         child: Text(
-                          "该语言/版本 暂无可用汉化，敬请期待！",
+                          S.current.localization_info_no_translation_available,
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.white.withOpacity(.8)),
@@ -181,7 +185,8 @@ class LocalizationDialogUI extends HookConsumerWidget {
                           ? FluentIcons.chevron_up
                           : FluentIcons.chevron_down),
                       const SizedBox(width: 12),
-                      const Text("高级功能"),
+                      Text(
+                          S.current.localization_action_advanced_features),
                     ],
                   ),
                   onPressed: model.toggleCustomize),
@@ -192,14 +197,14 @@ class LocalizationDialogUI extends HookConsumerWidget {
                     const SizedBox(height: 12),
                     state.enableCustomize
                         ? makeListContainer(
-                            "自定义文本",
+                            S.current.localization_info_custom_text,
                             [
                               if (state.customizeList == null)
                                 makeLoading(context)
                               else if (state.customizeList!.isEmpty)
                                 Center(
                                   child: Text(
-                                    "暂无自定义文本",
+                                    S.current.localization_info_no_custom_text,
                                     style: TextStyle(
                                         fontSize: 13,
                                         color: Colors.white.withOpacity(.8)),
@@ -222,13 +227,14 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                         Button(
                                             onPressed:
                                                 model.doLocalInstall(file),
-                                            child: const Padding(
-                                              padding: EdgeInsets.only(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
                                                   left: 8,
                                                   right: 8,
                                                   top: 4,
                                                   bottom: 4),
-                                              child: Text("安装"),
+                                              child: Text(
+                                                  S.current.localization_action_install),
                                             ))
                                     ],
                                   )
@@ -238,13 +244,13 @@ class LocalizationDialogUI extends HookConsumerWidget {
                             actions: [
                               Button(
                                   onPressed: () => model.openDir(context),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(4),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4),
                                     child: Row(
                                       children: [
-                                        Icon(FluentIcons.folder_open),
-                                        SizedBox(width: 6),
-                                        Text("打开文件夹"),
+                                        const Icon(FluentIcons.folder_open),
+                                        const SizedBox(width: 6),
+                                        Text(S.current.action_open_folder),
                                       ],
                                     ),
                                   )),
@@ -324,8 +330,10 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                     : FluentIcons.disable_updates),
                           ),
                           Text(isInstalled
-                              ? "已安装"
-                              : ((item.value.enable ?? false) ? "安装" : "不可用")),
+                              ? S.current.localization_info_installed
+                              : ((item.value.enable ?? false)
+                                  ? "安装"
+                                  : S.current.localization_info_unavailable)),
                         ],
                       ),
                     )),
@@ -396,7 +404,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
             ),
             onPressed: model.onBack(context)),
         const SizedBox(width: 12),
-        const Text("汉化管理"),
+        Text(S.current.home_action_localization_management),
         const SizedBox(width: 24),
         Text(
           "${model.getScInstallPath()}",
@@ -407,9 +415,9 @@ class LocalizationDialogUI extends HookConsumerWidget {
           height: 36,
           child: Row(
             children: [
-              const Text(
-                "语言：   ",
-                style: TextStyle(fontSize: 16),
+              Text(
+                S.current.localization_info_language,
+                style: const TextStyle(fontSize: 16),
               ),
               ComboBox<String>(
                 value: state.selectedLanguage,

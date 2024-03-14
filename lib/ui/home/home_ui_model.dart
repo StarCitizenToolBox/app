@@ -77,7 +77,8 @@ class HomeUIModel extends _$HomeUIModel {
 
   Future<void> reScanPath() async {
     state = state.copyWith(
-        scInstalledPath: "not_install", lastScreenInfo: "正在扫描 ...");
+        scInstalledPath: "not_install",
+        lastScreenInfo: S.current.home_action_info_scanning);
     try {
       final listData = await SCLoggerHelper.getLauncherLogList();
       if (listData == null) {
@@ -97,10 +98,11 @@ class HomeUIModel extends _$HomeUIModel {
           lastScreenInfo: lastScreenInfo);
     } catch (e) {
       state = state.copyWith(
-          scInstalledPath: "not_install", lastScreenInfo: "解析 log 文件失败！");
+          scInstalledPath: "not_install",
+          lastScreenInfo: S.current.home_action_info_log_file_parse_fail);
       AnalyticsApi.touch("error_launchLogs");
       // showToast(context!,
-      //     "解析 log 文件失败！ \n请关闭游戏，退出RSI启动器后重试，若仍有问题，请使用工具箱中的 RSI Launcher log 修复。");
+      //     "${S.current.home_action_info_log_file_parse_fail} \n请关闭游戏，退出RSI启动器后重试，若仍有问题，请使用工具箱中的 RSI Launcher log 修复。");
     }
   }
 
@@ -138,7 +140,7 @@ class HomeUIModel extends _$HomeUIModel {
         if (!context.mounted) return;
         final ok = await showConfirmDialogs(
             context,
-            "星际公民网站汉化",
+            S.current.home_action_title_star_citizen_website_localization,
             const Text(
               "本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！"
               "\n\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。",
@@ -157,7 +159,8 @@ class HomeUIModel extends _$HomeUIModel {
     }
     if (!await WebviewWindow.isWebviewAvailable()) {
       if (!context.mounted) return;
-      showToast(context, "需要安装 WebView2 Runtime");
+      showToast(context,
+          S.current.home_login_action_title_need_webview2_runtime);
       launchUrlString(
           "https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
       return;
@@ -166,7 +169,10 @@ class HomeUIModel extends _$HomeUIModel {
     final webViewModel = WebViewModel(context,
         loginMode: loginMode, loginCallback: rsiLoginCallback);
     if (useLocalization) {
-      state = state.copyWith(isFixing: true, isFixingString: "正在初始化汉化资源...");
+      state = state.copyWith(
+          isFixing: true,
+          isFixingString:
+              S.current.home_action_info_initializing_resources);
       try {
         await webViewModel.initLocalization(state.webLocalizationVersionsData!);
       } catch (e) {
@@ -280,14 +286,14 @@ class HomeUIModel extends _$HomeUIModel {
       _appUpdateTimer?.cancel();
       _appUpdateTimer = null;
       // 发送通知
-      final toastNotifier =
-          ToastNotificationManager.createToastNotifierWithId("SC汉化盒子");
+      final toastNotifier = ToastNotificationManager.createToastNotifierWithId(
+          S.current.home_title_app_name);
       if (toastNotifier != null) {
         final toastContent = ToastNotificationManager.getTemplateContent(
             ToastTemplateType.toastText02);
         if (toastContent != null) {
           final xmlNodeList = toastContent.getElementsByTagName('text');
-          const title = '汉化有新版本！';
+          final title = S.current.home_localization_new_version_available;
           final content = '您在 ${updates.first} 安装的汉化有新版本啦！';
           xmlNodeList.item(0)?.appendChild(toastContent.createTextNode(title));
           xmlNodeList
@@ -304,7 +310,7 @@ class HomeUIModel extends _$HomeUIModel {
   // ignore: avoid_build_context_in_providers
   launchRSI(BuildContext context) async {
     if (state.scInstalledPath == "not_install") {
-      showToast(context, "该功能需要一个有效的安装位置");
+      showToast(context, S.current.home_info_valid_installation_required);
       return;
     }
 
@@ -322,11 +328,11 @@ class HomeUIModel extends _$HomeUIModel {
     } else {
       final ok = await showConfirmDialogs(
           context,
-          "一键启动功能提示",
+          S.current.home_info_one_click_launch_warning,
           const Text("为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。"
               "\n\n微软商店版由微软提供可靠的分发下载与数字签名，可有效防止软件被恶意篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。"),
-          confirm: "安装微软商店版本",
-          cancel: "取消");
+          confirm: S.current.home_action_install_microsoft_store_version,
+          cancel: S.current.home_action_cancel);
       if (ok == true) {
         await launchUrlString(
             "https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true");

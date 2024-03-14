@@ -136,7 +136,7 @@ class __$$HomeDownloaderUIStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeDownloaderUIStateImpl implements _HomeDownloaderUIState {
-  const _$HomeDownloaderUIStateImpl(
+  _$HomeDownloaderUIStateImpl(
       {final List<Aria2Task> tasks = const [],
       final List<Aria2Task> waitingTasks = const [],
       final List<Aria2Task> stoppedTasks = const [],
@@ -211,7 +211,7 @@ class _$HomeDownloaderUIStateImpl implements _HomeDownloaderUIState {
 }
 
 abstract class _HomeDownloaderUIState implements HomeDownloaderUIState {
-  const factory _HomeDownloaderUIState(
+  factory _HomeDownloaderUIState(
       {final List<Aria2Task> tasks,
       final List<Aria2Task> waitingTasks,
       final List<Aria2Task> stoppedTasks,

@@ -138,7 +138,7 @@ class __$$HomePerformanceUIStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomePerformanceUIStateImpl implements _HomePerformanceUIState {
-  const _$HomePerformanceUIStateImpl(
+  _$HomePerformanceUIStateImpl(
       {this.showGraphicsPerformanceTip = true,
       this.enabled = false,
       final Map<String, List<GamePerformanceData>>? performanceMap,
@@ -203,7 +203,7 @@ class _$HomePerformanceUIStateImpl implements _HomePerformanceUIState {
 }
 
 abstract class _HomePerformanceUIState implements HomePerformanceUIState {
-  const factory _HomePerformanceUIState(
+  factory _HomePerformanceUIState(
       {final bool showGraphicsPerformanceTip,
       final bool enabled,
       final Map<String, List<GamePerformanceData>>? performanceMap,

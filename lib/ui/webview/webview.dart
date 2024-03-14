@@ -101,7 +101,10 @@ class WebViewModel {
             if (url.startsWith(org) ||
                 url.startsWith(citizens) ||
                 url.startsWith(organization)) {
-              replaceWords.add({"word": 'members', "replacement": '名成员'});
+              replaceWords.add({
+                "word": 'members',
+                "replacement": S.current.webview_localization_name_member
+              });
               replaceWords.addAll(_getLocalizationResource("orgs"));
             }
 
@@ -111,9 +114,21 @@ class WebViewModel {
 
             if (url.startsWith(referral)) {
               replaceWords.addAll([
-                {"word": 'Total recruits: ', "replacement": '总邀请数：'},
-                {"word": 'Prospects ', "replacement": '未完成的邀请'},
-                {"word": 'Recruits', "replacement": '已完成的邀请'},
+                {
+                  "word": 'Total recruits: ',
+                  "replacement":
+                      S.current.webview_localization_total_invitations
+                },
+                {
+                  "word": 'Prospects ',
+                  "replacement":
+                      S.current.webview_localization_unfinished_invitations
+                },
+                {
+                  "word": 'Recruits',
+                  "replacement":
+                      S.current.webview_localization_finished_invitations
+                },
               ]);
             }
 
@@ -304,7 +319,9 @@ class WebViewModel {
       // send toast
       webview.evaluateJavaScript("SCTShowToast(\"请完成 Windows Hello 验证以填充密码\")");
       // decrypt
-      if (await localAuth.authenticate(localizedReason: "请输入设备PIN以自动登录RSI账户") !=
+      if (await localAuth.authenticate(
+              localizedReason:
+                  S.current.webview_localization_enter_device_pin) !=
           true) return;
       final kv = Win32Credentials.read("SCToolbox_RSI_Account_secret");
       if (kv == null || kv.key != email) return;

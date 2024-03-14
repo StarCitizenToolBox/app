@@ -160,7 +160,7 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LocalizationUIStateImpl implements _LocalizationUIState {
-  const _$LocalizationUIStateImpl(
+  _$LocalizationUIStateImpl(
       {this.selectedLanguage,
       final Map<String, ScLocalizationData>? apiLocalizationData,
       this.workingVersion = "",
@@ -245,7 +245,7 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
 }
 
 abstract class _LocalizationUIState implements LocalizationUIState {
-  const factory _LocalizationUIState(
+  factory _LocalizationUIState(
       {final String? selectedLanguage,
       final Map<String, ScLocalizationData>? apiLocalizationData,
       final String workingVersion,

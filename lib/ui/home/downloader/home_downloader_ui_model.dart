@@ -21,7 +21,7 @@ part 'home_downloader_ui_model.freezed.dart';
 
 @freezed
 class HomeDownloaderUIState with _$HomeDownloaderUIState {
-  const factory HomeDownloaderUIState({
+  factory HomeDownloaderUIState({
     @Default([]) List<Aria2Task> tasks,
     @Default([]) List<Aria2Task> waitingTasks,
     @Default([]) List<Aria2Task> stoppedTasks,
@@ -40,23 +40,23 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   bool _disposed = false;
 
   final statusMap = {
-    "active": "下载中...",
-    "waiting": "等待中",
-    "paused": "已暂停",
-    "error": "下载失败",
-    "complete": "下载完成",
-    "removed": "已删除",
+    "active": S.current.downloader_info_downloading_status,
+    "waiting": S.current.downloader_info_waiting,
+    "paused": S.current.downloader_info_paused,
+    "error": S.current.downloader_info_download_failed,
+    "complete": S.current.downloader_info_download_completed,
+    "removed": S.current.downloader_info_deleted,
   };
 
   final listHeaderStatusMap = {
-    "active": "下载中",
-    "waiting": "等待中",
-    "stopped": "已结束",
+    "active": S.current.downloader_title_downloading,
+    "waiting": S.current.downloader_info_waiting,
+    "stopped": S.current.downloader_title_ended,
   };
 
   @override
   HomeDownloaderUIState build() {
-    state = const HomeDownloaderUIState();
+    state = HomeDownloaderUIState();
     _listenDownloader();
     ref.onDispose(() {
       _disposed = true;
@@ -79,7 +79,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
         return;
       case "cancel_all":
         final userOK = await showConfirmDialogs(
-            context, "确认取消全部任务？", const Text("如果文件不再需要，你可能需要手动删除下载文件。"));
+            context, "确认取消全部任务？", Text(S.current.downloader_info_manual_file_deletion_note));
         if (userOK == true) {
           if (!aria2cState.isRunning) return;
           try {
@@ -170,7 +170,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     if (gid != null) {
       if (!context.mounted) return;
       final ok = await showConfirmDialogs(
-          context, "确认取消下载？", const Text("如果文件不再需要，你可能需要手动删除下载文件。"));
+          context, "确认取消下载？", Text(S.current.downloader_info_manual_file_deletion_note));
       if (ok == true) {
         final aria2c = ref.read(aria2cModelProvider).aria2c;
         await aria2c?.remove(gid);
@@ -242,22 +242,22 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     if (!context.mounted) return;
     final ok = await showConfirmDialogs(
         context,
-        "限速设置",
+        S.current.downloader_speed_limit_settings,
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "SC 汉化盒子使用 p2p 网络来加速文件下载，如果您流量有限，可在此处将上传带宽设置为 1(byte)。",
+              S.current.downloader_info_p2p_network_note,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.white.withOpacity(.6),
               ),
             ),
             const SizedBox(height: 24),
-            const Text("请输入下载单位，如：1、100k、10m， 0或留空为不限速。"),
+            Text(S.current.downloader_info_download_unit_input_prompt),
             const SizedBox(height: 12),
-            const Text("上传限速："),
+            Text(S.current.downloader_input_upload_speed_limit),
             const SizedBox(height: 6),
             TextFormBox(
               placeholder: "1、100k、10m、0",
@@ -266,7 +266,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
               inputFormatters: [ifr],
             ),
             const SizedBox(height: 12),
-            const Text("下载限速："),
+            Text(S.current.downloader_input_download_speed_limit),
             const SizedBox(height: 6),
             TextFormBox(
               placeholder: "1、100k、10m、0",
@@ -276,7 +276,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
             ),
             const SizedBox(height: 24),
             Text(
-              "* P2P 上传仅在下载文件时进行，下载完成后会关闭 p2p 连接。如您想参与做种，请通过关于页面联系我们。",
+              S.current.downloader_input_info_p2p_upload_note,
               style: TextStyle(
                 fontSize: 13,
                 color: Colors.white.withOpacity(.6),

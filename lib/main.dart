@@ -1,7 +1,9 @@
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app.dart';
 
@@ -38,10 +40,18 @@ class App extends HookConsumerWidget {
       title: "StarCitizenToolBox",
       restorationScopeId: "StarCitizenToolBox",
       themeMode: ThemeMode.dark,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        FluentLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       builder: (context, child) {
         return MediaQuery(
           data:
-              MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+          MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
           child: child ?? const SizedBox(),
         );
       },
@@ -55,10 +65,10 @@ class App extends HookConsumerWidget {
           micaBackgroundColor: appState.themeConf.micaColor,
           buttonTheme: ButtonThemeData(
               defaultButtonStyle: ButtonStyle(
-            shape: ButtonState.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-                side: BorderSide(color: Colors.white.withOpacity(.01)))),
-          ))),
+                shape: ButtonState.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    side: BorderSide(color: Colors.white.withOpacity(.01)))),
+              ))),
       debugShowCheckedModeBanner: false,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
@@ -98,10 +108,10 @@ Widget _defaultWebviewTitleBar(BuildContext context) {
           const SizedBox(width: 12),
           (state.isLoading)
               ? const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: ProgressRing(),
-                )
+            width: 24,
+            height: 24,
+            child: ProgressRing(),
+          )
               : const SizedBox(width: 24),
           const SizedBox(width: 12),
           SelectableText(state.url ?? ""),

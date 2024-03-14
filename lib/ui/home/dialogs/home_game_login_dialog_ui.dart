@@ -14,12 +14,12 @@ class HomeGameLoginDialogUI extends HookConsumerWidget {
     useEffect(() {
       ref.read(homeGameLoginUIModelProvider.notifier).launchWebLogin(context);
       return null;
-    }, const []);
+    }, []);
     return ContentDialog(
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * .56,
       ),
-      title: (loginState.loginStatus == 2) ? null : const Text("一键启动"),
+      title: (loginState.loginStatus == 2) ? null :  Text(S.current.home_action_one_click_launch),
       content: AnimatedSize(
         duration: const Duration(milliseconds: 230),
         child: Padding(
@@ -33,13 +33,13 @@ class HomeGameLoginDialogUI extends HookConsumerWidget {
                 Center(
                   child: Column(
                     children: [
-                      const Text("登录中..."),
+                       Text(S.current.home_title_logging_in),
                       const SizedBox(height: 12),
                       const ProgressRing(),
                       if (loginState.isDeviceSupportWinHello ?? false)
                         const SizedBox(height: 24),
                       Text(
-                        "* 若开启了自动填充，请留意弹出的 Windows Hello 窗口",
+                        S.current.home_info_auto_fill_notice,
                         style: TextStyle(
                             fontSize: 13, color: Colors.white.withOpacity(.6)),
                       )
@@ -52,9 +52,9 @@ class HomeGameLoginDialogUI extends HookConsumerWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 12),
-                      const Text(
-                        "欢迎回来！",
-                        style: TextStyle(fontSize: 20),
+                      Text(
+                        S.current.home_login_title_welcome_back,
+                        style: const TextStyle(fontSize: 20),
                       ),
                       const SizedBox(height: 24),
                       if (loginState.avatarUrl != null)
@@ -74,7 +74,7 @@ class HomeGameLoginDialogUI extends HookConsumerWidget {
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 32),
-                      const Text("正在为您启动游戏..."),
+                      Text(S.current.home_login_title_launching_game),
                       const SizedBox(height: 12),
                       const ProgressRing(),
                     ],

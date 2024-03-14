@@ -25,7 +25,7 @@ part 'home_game_login_dialog_ui_model.g.dart';
 
 @freezed
 class HomeGameLoginState with _$HomeGameLoginState {
-  const factory HomeGameLoginState({
+  factory HomeGameLoginState({
     required int loginStatus,
     String? nickname,
     String? avatarUrl,
@@ -41,7 +41,7 @@ class HomeGameLoginState with _$HomeGameLoginState {
 class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
   @override
   HomeGameLoginState build() {
-    return const HomeGameLoginState(loginStatus: 0);
+    return HomeGameLoginState(loginStatus: 0);
   }
 
   final LocalAuthentication _localAuth = LocalAuthentication();
@@ -53,9 +53,9 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     state = state.copyWith(isDeviceSupportWinHello: isDeviceSupportWinHello);
 
     if (!context.mounted) return;
-    goWebView(
-        context, "登录 RSI 账户", "https://robertsspaceindustries.com/connect",
-        loginMode: true, rsiLoginCallback: (message, ok) async {
+    goWebView(context, S.current.home_action_login_rsi_account,
+        "https://robertsspaceindustries.com/connect", loginMode: true,
+        rsiLoginCallback: (message, ok) async {
       // dPrint(
       //     "======rsiLoginCallback=== $ok ===== data==\n${json.encode(message)}");
       if (message == null || !ok) {
@@ -98,12 +98,13 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
             if (!context.mounted) return;
             final ok = await showConfirmDialogs(
                 context,
-                "是否开启自动密码填充？",
+                S.current.home_action_q_auto_password_fill_prompt,
                 const Text(
                     "盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。"));
             if (ok == true) {
               if (await _localAuth.authenticate(
-                      localizedReason: "输入PIN以启用加密") ==
+                      localizedReason:
+                          S.current.home_login_info_enter_pin_to_encrypt) ==
                   true) {
                 await _savePwd(inputEmail, inputPassword);
               }
@@ -129,12 +130,12 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
             if (!context.mounted) return;
             final ok = await showConfirmDialogs(
                 context,
-                "游戏版本过期",
+                S.current.home_login_info_game_version_outdated,
                 Text(
                     "RSI 服务器报告版本号：${releaseInfo?["versionLabel"]} \n\n本地版本号：${buildInfo["RequestedP4ChangeNum"]} \n\n建议使用 RSI Launcher 更新游戏！"),
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * .4),
-                cancel: "忽略");
+                cancel: S.current.home_login_info_action_ignore);
             if (ok == true) {
               if (!context.mounted) return;
               Navigator.pop(context);
@@ -163,7 +164,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
         if (!context.mounted) return;
         final ok = await showConfirmDialogs(
             context,
-            "盒子一键启动",
+            S.current.home_login_action_title_box_one_click_launch,
             const Text(
               "本功能可以帮您更加便利的启动游戏。\n\n为确保账户安全 ，本功能使用汉化浏览器保留登录状态，且不会保存您的密码信息（除非你启用了自动填充功能）。"
               "\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。",
@@ -182,7 +183,8 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     }
     if (!await WebviewWindow.isWebviewAvailable()) {
       if (!context.mounted) return;
-      await showToast(context, "需要安装 WebView2 Runtime");
+      await showToast(context,
+          S.current.home_login_action_title_need_webview2_runtime);
       if (!context.mounted) return;
       await launchUrlString(
           "https://developer.microsoft.com/en-us/microsoft-edge/webview2/");

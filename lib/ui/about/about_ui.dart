@@ -31,9 +31,9 @@ class AboutUI extends HookConsumerWidget {
           const SizedBox(height: 12),
           Button(
               onPressed: () => _onCheckUpdate(context, ref),
-              child: const Padding(
-                padding: EdgeInsets.all(4),
-                child: Text("检查更新"),
+              child:  Padding(
+                padding: const EdgeInsets.all(4),
+                child: Text(S.current.about_check_update),
               )),
           const SizedBox(height: 32),
           Container(
@@ -103,7 +103,7 @@ class AboutUI extends HookConsumerWidget {
               const Icon(FontAwesomeIcons.link),
               const SizedBox(width: 8),
               Text(
-                "在线反馈",
+                S.current.about_online_feedback,
                 style: TextStyle(
                     fontSize: 14, color: Colors.white.withOpacity(.6)),
               ),
@@ -120,7 +120,7 @@ class AboutUI extends HookConsumerWidget {
               const Icon(FontAwesomeIcons.qq),
               const SizedBox(width: 8),
               Text(
-                "QQ群: 940696487",
+                S.current.about_action_qq_group,
                 style: TextStyle(
                     fontSize: 14, color: Colors.white.withOpacity(.6)),
               ),
@@ -138,7 +138,7 @@ class AboutUI extends HookConsumerWidget {
               const Icon(FontAwesomeIcons.envelope),
               const SizedBox(width: 8),
               Text(
-                "邮箱: scbox@xkeyc.com",
+                S.current.about_action_email,
                 style: TextStyle(
                     fontSize: 14, color: Colors.white.withOpacity(.6)),
               ),
@@ -155,7 +155,7 @@ class AboutUI extends HookConsumerWidget {
               const Icon(FontAwesomeIcons.github),
               const SizedBox(width: 8),
               Text(
-                "开源",
+                S.current.about_action_open_source,
                 style: TextStyle(
                     fontSize: 14, color: Colors.white.withOpacity(.6)),
               ),
@@ -209,13 +209,13 @@ class AboutUI extends HookConsumerWidget {
       {required BuildContext context,
       required String name,
       required int value}) {
-    const names = {
-      "launch": "启动",
-      "gameLaunch": "启动游戏",
-      "firstLaunch": "累计用户",
-      "install_localization": "汉化安装",
-      "performance_apply": "性能调优",
-      "p4k_download": "P4K分流"
+    final names = {
+      "launch": S.current.about_analytics_launch,
+      "gameLaunch": S.current.about_analytics_launch_game,
+      "firstLaunch": S.current.about_analytics_total_users,
+      "install_localization": S.current.about_analytics_install_translation,
+      "performance_apply": S.current.about_analytics_performance_optimization,
+      "p4k_download": S.current.about_analytics_p4k_redirection
     };
     return Container(
       padding: const EdgeInsets.all(12),
@@ -256,7 +256,7 @@ class AboutUI extends HookConsumerWidget {
           await ref.read(appGlobalModelProvider.notifier).checkUpdate(context);
       if (!hasUpdate) {
         if (!context.mounted) return;
-        showToast(context, "已经是最新版本！");
+        showToast(context, S.current.about_info_latest_version);
       }
     }
   }

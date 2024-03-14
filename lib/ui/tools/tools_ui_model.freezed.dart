@@ -173,7 +173,7 @@ class __$$ToolsUIStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ToolsUIStateImpl implements _ToolsUIState {
-  const _$ToolsUIStateImpl(
+  _$ToolsUIStateImpl(
       {this.working = false,
       this.scInstalledPath = "",
       this.rsiLauncherInstalledPath = "",
@@ -270,7 +270,7 @@ class _$ToolsUIStateImpl implements _ToolsUIState {
 }
 
 abstract class _ToolsUIState implements ToolsUIState {
-  const factory _ToolsUIState(
+  factory _ToolsUIState(
       {final bool working,
       final String scInstalledPath,
       final String rsiLauncherInstalledPath,

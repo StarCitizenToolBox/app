@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:synchronized/synchronized.dart';
 
+export 'package:starcitizen_doctor/generated/l10n.dart';
+
 var _logLock = Lock();
 File? _logFile;
 

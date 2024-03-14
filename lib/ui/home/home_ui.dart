@@ -41,7 +41,7 @@ class HomeUI extends HookConsumerWidget {
                     action: homeState.appPlacardData?.link == null
                         ? null
                         : Button(
-                            child: const Text('查看详情'),
+                            child: Text(S.current.doctor_action_view_details),
                             onPressed: () => _showPlacard(context, homeState),
                           ),
                     onClose: homeState.appPlacardData?.alwaysShow == true
@@ -68,7 +68,7 @@ class HomeUI extends HookConsumerWidget {
                   const SizedBox(height: 12),
                   Text(homeState.isFixingString.isNotEmpty
                       ? homeState.isFixingString
-                      : "正在处理..."),
+                      : S.current.doctor_info_processing),
                 ],
               ),
             ),
@@ -79,7 +79,7 @@ class HomeUI extends HookConsumerWidget {
 
   List<Widget> makeIndex(BuildContext context, HomeUIModel model,
       HomeUIModelState homeState, WidgetRef ref) {
-    const double width = 280;
+    double width = 280;
     return [
       Stack(
         children: [
@@ -122,16 +122,16 @@ class HomeUI extends HookConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text("安装位置："),
+            Text(S.current.home_install_location),
             const SizedBox(width: 6),
             Expanded(
               child: ComboBox<String>(
                 value: homeState.scInstalledPath,
                 isExpanded: true,
                 items: [
-                  const ComboBoxItem(
+                  ComboBoxItem(
                     value: "not_install",
-                    child: Text("未安装 或 安装失败"),
+                    child: Text(S.current.home_not_installed_or_failed),
                   ),
                   for (final path in homeState.scInstallPaths)
                     ComboBoxItem(
@@ -207,10 +207,10 @@ class HomeUI extends HookConsumerWidget {
                           colorFilter: makeSvgColor(Colors.white),
                           height: 18,
                         ),
-                        name: "星际公民官网汉化",
-                        webTitle: "星际公民官网汉化",
+                        name: S.current.home_action_star_citizen_website_localization,
+                        webTitle: S.current.home_action_star_citizen_website_localization,
                         webURL: "https://robertsspaceindustries.com",
-                        info: "罗伯茨航天工业公司，万物的起源",
+                        info: S.current.home_action_info_roberts_space_industries_origin,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_rsi"),
@@ -225,10 +225,10 @@ class HomeUI extends HookConsumerWidget {
                             const SizedBox(width: 12),
                           ],
                         ),
-                        name: "UEX 汉化",
-                        webTitle: "UEX 汉化",
+                        name: S.current.home_action_uex_localization,
+                        webTitle: S.current.home_action_uex_localization,
                         webURL: "https://uexcorp.space/",
-                        info: "采矿、精炼、贸易计算器、价格、船信息",
+                        info: S.current.home_action_info_mining_refining_trade_calculator,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_uex"),
@@ -243,15 +243,15 @@ class HomeUI extends HookConsumerWidget {
                             const SizedBox(width: 12),
                           ],
                         ),
-                        name: "DPS计算器汉化",
-                        webTitle: "DPS计算器汉化",
+                        name: S.current.home_action_dps_calculator_localization,
+                        webTitle: S.current.home_action_dps_calculator_localization,
                         webURL: "https://www.erkul.games/live/calculator",
-                        info: "在线改船，查询伤害数值和配件购买地点",
+                        info: S.current.home_action_info_ship_upgrade_damage_value_query,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_dps"),
                     const SizedBox(height: 12),
-                    const Text("外部浏览器拓展："),
+                    Text(S.current.home_action_external_browser_extension),
                     const SizedBox(height: 12),
                     Row(
                       children: [
@@ -434,11 +434,11 @@ class HomeUI extends HookConsumerWidget {
   Widget makeIndexActionLists(BuildContext context, HomeUIModel model,
       HomeUIModelState homeState, WidgetRef ref) {
     final items = [
-      _HomeItemData("game_doctor", "一键诊断", "一键诊断星际公民常见问题",
+      _HomeItemData("game_doctor", "一键诊断", S.current.home_action_info_one_click_diagnosis_star_citizen,
           FluentIcons.auto_deploy_settings),
       _HomeItemData(
-          "localization", "汉化管理", "快捷安装汉化资源", FluentIcons.locale_language),
-      _HomeItemData("performance", "性能优化", "调整引擎配置文件，优化游戏性能",
+          "localization", "汉化管理", S.current.home_action_info_quick_install_localization_resources, FluentIcons.locale_language),
+      _HomeItemData("performance", "性能优化", S.current.home_action_info_engine_config_optimization,
           FluentIcons.process_meta_task),
     ];
     return Padding(
@@ -589,11 +589,11 @@ class HomeUI extends HookConsumerWidget {
 
   Widget makeGameStatusCard(BuildContext context, HomeUIModel model,
       double width, HomeUIModelState homeState) {
-    const statusCnName = {
-      "Platform": "平台",
-      "Persistent Universe": "持续宇宙",
-      "Electronic Access": "电子访问",
-      "Arena Commander": "竞技场指挥官"
+    final statusCnName = {
+      "Platform": S.current.home_action_rsi_status_platform,
+      "Persistent Universe": S.current.home_action_rsi_status_persistent_universe,
+      "Electronic Access": S.current.home_action_rsi_status_electronic_access,
+      "Arena Commander": S.current.home_action_rsi_status_arena_commander
     };
 
     return Tilt(
@@ -601,7 +601,7 @@ class HomeUI extends HookConsumerWidget {
       borderRadius: BorderRadius.circular(12),
       child: GestureDetector(
         onTap: () {
-          model.goWebView(context, "RSI 服务器状态",
+          model.goWebView(context, S.current.home_action_rsi_status_rsi_server_status,
               "https://status.robertsspaceindustries.com/",
               useLocalization: true);
         },
@@ -619,7 +619,7 @@ class HomeUI extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("状态："),
+                    Text(S.current.home_action_rsi_status_status),
                     for (final item in homeState.scServerStatus ?? [])
                       Row(
                         children: [
@@ -741,7 +741,7 @@ class HomeUI extends HookConsumerWidget {
             context: context,
             builder: (context) {
               return HomeMdContentDialogUI(
-                title: homeState.appPlacardData?.title ?? "公告详情",
+                title: homeState.appPlacardData?.title ?? S.current.home_announcement_details,
                 url: homeState.appPlacardData?.link,
               );
             });
@@ -756,7 +756,7 @@ class HomeUI extends HookConsumerWidget {
 
   _onMenuTap(BuildContext context, String key, HomeUIModelState homeState,
       WidgetRef ref) async {
-    const String gameInstallReqInfo =
+    String gameInstallReqInfo =
         "该功能需要一个有效的安装位置\n\n如果您的游戏未下载完成，请等待下载完毕后使用此功能。\n\n如果您的游戏已下载完毕但未识别，请启动一次游戏后重新打开盒子 或 在设置选项中手动设置安装位置。";
     switch (key) {
       case "localization":

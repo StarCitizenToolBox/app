@@ -59,12 +59,12 @@ class UpgradeDialogUI extends HookConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (description.value == null) ...[
-                      const Center(
+                      Center(
                         child: Column(
                           children: [
-                            ProgressRing(),
-                            SizedBox(height: 16),
-                            Text("正在获取新版本详情...")
+                            const ProgressRing(),
+                            const SizedBox(height: 16),
+                            Text(S.current.app_upgrade_info_getting_new_version_details)
                           ],
                         ),
                       )
@@ -85,7 +85,7 @@ class UpgradeDialogUI extends HookConsumerWidget {
                       color: Colors.white.withOpacity(.1),
                       borderRadius: BorderRadius.circular(7)),
                   child: Text(
-                    "提示：当前正在使用分流服务器进行更新，可能会出现下载速度下降，但有助于我们进行成本控制，若下载异常请点击这里跳转手动安装。",
+                    S.current.app_upgrade_info_update_server_tip,
                     style: TextStyle(
                         fontSize: 14, color: Colors.white.withOpacity(.7)),
                   ),
@@ -97,7 +97,7 @@ class UpgradeDialogUI extends HookConsumerWidget {
               Row(
                 children: [
                   Text(progress.value == 100
-                      ? "正在安装：   "
+                      ? S.current.app_upgrade_info_installing
                       : "正在下载： ${progress.value.toStringAsFixed(2)}%    "),
                   Expanded(
                       child: ProgressBar(
@@ -122,18 +122,18 @@ class UpgradeDialogUI extends HookConsumerWidget {
                           description,
                           isUsingDiversion,
                           progress),
-                      child: const Padding(
-                        padding: EdgeInsets.only(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
                             top: 4, bottom: 4, left: 8, right: 8),
-                        child: Text("立即更新"),
+                        child: Text(S.current.app_upgrade_action_update_now),
                       )),
                 if (ConstConf.appVersionCode >= (minVersionCode ?? 0))
                   Button(
                       onPressed: () => _doCancel(context),
-                      child: const Padding(
-                        padding: EdgeInsets.only(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
                             top: 4, bottom: 4, left: 8, right: 8),
-                        child: Text("下次吧"),
+                        child: Text(S.current.app_upgrade_action_next_time),
                       )),
               ],
       ),
@@ -240,7 +240,7 @@ class UpgradeDialogUI extends HookConsumerWidget {
       isUpgrading.value = false;
       progress.value = 0;
       if (!context.mounted) return;
-      showToast(context, "下载失败，请尝试手动安装！");
+      showToast(context, S.current.app_upgrade_info_download_failed);
       return;
     }
 
@@ -255,7 +255,7 @@ class UpgradeDialogUI extends HookConsumerWidget {
       isUpgrading.value = false;
       progress.value = 0;
       if (!context.mounted) return;
-      showToast(context, "运行失败，请尝试手动安装！");
+      showToast(context, S.current.app_upgrade_info_run_failed);
       Process.run(SystemHelper.powershellPath,
           ["explorer.exe", "/select,\"$fileName\""]);
     }

@@ -21,7 +21,7 @@ part 'settings_ui_model.freezed.dart';
 
 @freezed
 class SettingsUIState with _$SettingsUIState {
-  const factory SettingsUIState({
+  factory SettingsUIState({
     @Default(false) isDeviceSupportWinHello,
     @Default("-") String autoLoginEmail,
     @Default(false) bool isEnableAutoLogin,
@@ -38,7 +38,7 @@ class SettingsUIState with _$SettingsUIState {
 class SettingsUIModel extends _$SettingsUIModel {
   @override
   SettingsUIState build() {
-    state = const SettingsUIState();
+    state = SettingsUIState();
     _initState();
     return state;
   }
@@ -57,15 +57,15 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future<void> onResetAutoLogin(BuildContext context) async {
-    final ok = await showConfirmDialogs(context, "确认重置自动填充？",
-        const Text("这将会删除本地的账号记录，或在下次启动游戏时将自动填充选择 ‘否’ 以禁用自动填充。"));
+    final ok = await showConfirmDialogs(context, S.current.setting_action_info_confirm_reset_autofill,
+        Text(S.current.setting_action_info_delete_local_account_warning));
     if (ok) {
       final userBox = await Hive.openBox("rsi_account_data");
       await userBox.deleteFromDisk();
       Win32Credentials.delete("SCToolbox_RSI_Account_secret");
       if (!context.mounted) return;
 
-      showToast(context, "已清理自动填充数据");
+      showToast(context, S.current.setting_action_info_autofill_data_cleared);
       _initState();
     }
   }
@@ -89,7 +89,7 @@ class SettingsUIModel extends _$SettingsUIModel {
         userBox.get("gameLaunch_eCore_count", defaultValue: "0");
     if (!context.mounted) return;
     final input = await showInputDialogs(context,
-        title: "请输入要忽略的 CPU 核心数",
+        title: S.current.setting_action_info_enter_cpu_core_to_ignore,
         content:
             "Tip：您的设备拥有几个能效核心就输入几，非大小核设备请保持 0\n\n此功能适用于首页的盒子一键启动 或 工具中的 RSI启动器管理员模式，当为 0 时不启用此功能。",
         initialValue: defaultInput,
@@ -108,7 +108,7 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> setLauncherPath(BuildContext context) async {
     final r = await FilePicker.platform.pickFiles(
-        dialogTitle: "请选择RSI启动器位置（RSI Launcher.exe）",
+        dialogTitle: S.current.setting_action_info_select_rsi_launcher_location,
         type: FileType.custom,
         allowedExtensions: ["exe"]);
     if (r == null || r.files.firstOrNull?.path == null) return;
@@ -116,17 +116,17 @@ class SettingsUIModel extends _$SettingsUIModel {
     if (fileName.endsWith("\\RSI Launcher.exe")) {
       await _saveCustomPath("custom_launcher_path", fileName);
       if (!context.mounted) return;
-      showToast(context, "设置成功，在对应页面点击刷新即可扫描出新路径");
+      showToast(context, S.current.setting_action_info_setting_success);
       _initState();
     } else {
       if (!context.mounted) return;
-      showToast(context, "文件有误！");
+      showToast(context, S.current.setting_action_info_file_error);
     }
   }
 
   Future<void> setGamePath(BuildContext context) async {
     final r = await FilePicker.platform.pickFiles(
-        dialogTitle: "请选择游戏安装位置（StarCitizen.exe）",
+        dialogTitle: S.current.setting_action_info_select_game_install_location,
         type: FileType.custom,
         allowedExtensions: ["exe"]);
     if (r == null || r.files.firstOrNull?.path == null) return;
@@ -139,11 +139,11 @@ class SettingsUIModel extends _$SettingsUIModel {
       String extractedPath = fileName.replaceFirst(pathRegex, '');
       await _saveCustomPath("custom_game_path", extractedPath);
       if (!context.mounted) return;
-      showToast(context, "设置成功，在对应页面点击刷新即可扫描出新路径");
+      showToast(context, S.current.setting_action_info_setting_success);
       _initState();
     } else {
       if (!context.mounted) return;
-      showToast(context, "文件有误！");
+      showToast(context, S.current.setting_action_info_file_error);
     }
   }
 
@@ -175,7 +175,7 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> cleanLocationCache(BuildContext context) async {
     final ok = await showConfirmDialogs(
-        context, "确认清理汉化缓存？", const Text("这不会影响已安装的汉化。"));
+        context, "确认清理汉化缓存？", Text(S.current.setting_action_info_clear_cache_warning));
     if (ok == true) {
       final dir =
           Directory("${appGlobalState.applicationSupportDir}/Localizations");
@@ -187,7 +187,7 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> addShortCut(BuildContext context) async {
     if (ConstConf.isMSE) {
-      showToast(context, "因微软版功能限制，请在接下来打开的窗口中 手动将《SC汉化盒子》拖动到桌面，即可创建快捷方式。");
+      showToast(context, S.current.setting_action_info_microsoft_version_limitation);
       await Future.delayed(const Duration(seconds: 1));
       Process.run("explorer.exe", ["shell:AppsFolder"]);
       return;
@@ -208,7 +208,7 @@ class SettingsUIModel extends _$SettingsUIModel {
 """;
     await Process.run(SystemHelper.powershellPath, [script]);
     if (!context.mounted) return;
-    showToast(context, "创建完毕，请返回桌面查看");
+    showToast(context, S.current.setting_action_info_shortcut_created);
   }
 
   _loadToolSiteMirrorState() async {

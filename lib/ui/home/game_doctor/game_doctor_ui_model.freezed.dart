@@ -147,7 +147,7 @@ class __$$HomeGameDoctorStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeGameDoctorStateImpl implements _HomeGameDoctorState {
-  const _$HomeGameDoctorStateImpl(
+  _$HomeGameDoctorStateImpl(
       {this.isChecking = false,
       this.isFixing = false,
       this.lastScreenInfo = "",
@@ -217,7 +217,7 @@ class _$HomeGameDoctorStateImpl implements _HomeGameDoctorState {
 }
 
 abstract class _HomeGameDoctorState implements HomeGameDoctorState {
-  const factory _HomeGameDoctorState(
+  factory _HomeGameDoctorState(
           {final bool isChecking,
           final bool isFixing,
           final String lastScreenInfo,

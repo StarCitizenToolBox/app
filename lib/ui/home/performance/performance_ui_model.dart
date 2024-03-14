@@ -11,6 +11,7 @@ import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/data/game_performance_data.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 
 part 'performance_ui_model.freezed.dart';
@@ -19,7 +20,7 @@ part 'performance_ui_model.g.dart';
 
 @freezed
 class HomePerformanceUIState with _$HomePerformanceUIState {
-  const factory HomePerformanceUIState({
+  factory HomePerformanceUIState({
     @Default(true) bool showGraphicsPerformanceTip,
     @Default(false) bool enabled,
     Map<String, List<GamePerformanceData>>? performanceMap,
@@ -41,7 +42,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
 
   @override
   HomePerformanceUIState build() {
-    state = const HomePerformanceUIState();
+    state = HomePerformanceUIState();
     _init();
     return state;
   }
@@ -111,7 +112,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     switch (key) {
       case "low":
         state.performanceMap?.forEach((key, v) {
-          if (key.contains("图形")) {
+          if (key.contains(S.current.performance_info_graphics)) {
             for (var element in v) {
               element.value = element.min;
             }
@@ -120,7 +121,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
         break;
       case "medium":
         state.performanceMap?.forEach((key, v) {
-          if (key.contains("图形")) {
+          if (key.contains(S.current.performance_info_graphics)) {
             for (var element in v) {
               element.value = ((element.max ?? 0) ~/ 2);
             }
@@ -129,7 +130,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
         break;
       case "high":
         state.performanceMap?.forEach((key, v) {
-          if (key.contains("图形")) {
+          if (key.contains(S.current.performance_info_graphics)) {
             for (var element in v) {
               element.value = ((element.max ?? 0) / 1.5).ceil();
             }
@@ -138,7 +139,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
         break;
       case "ultra":
         state.performanceMap?.forEach((key, v) {
-          if (key.contains("图形")) {
+          if (key.contains(S.current.performance_info_graphics)) {
             for (var element in v) {
               element.value = element.max;
             }
@@ -154,14 +155,14 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   clean(BuildContext context) async {
-    state = state.copyWith(workingString: "删除配置文件...");
+    state = state.copyWith(workingString: S.current.performance_info_delete_config_file);
     if (await confFile.exists()) {
       await confFile.delete(recursive: true);
     }
-    state = state.copyWith(workingString: "清理着色器");
+    state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
     if (!context.mounted) return;
     await cleanShaderCache(context);
-    state = state.copyWith(workingString: "完成...");
+    state = state.copyWith(workingString: S.current.performance_info_done);
     await await Future.delayed(const Duration(milliseconds: 300));
     await _init();
     state = state.copyWith(workingString: "");
@@ -180,14 +181,14 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     }
     await Future.delayed(const Duration(milliseconds: 300));
     if (context != null && context.mounted) {
-      showToast(context, "清理着色器后首次进入游戏可能会出现卡顿，请耐心等待游戏初始化完毕。");
+      showToast(context, S.current.performance_info_shader_clearing_warning);
     }
   }
 
   applyProfile(bool cleanShader) async {
     if (state.performanceMap == null) return;
     AnalyticsApi.touch("performance_apply");
-    state = state.copyWith(workingString: "生成配置文件");
+    state = state.copyWith(workingString: S.current.performance_info_generate_config_file);
     String conf = "";
     for (var v in state.performanceMap!.entries) {
       for (var c in v.value) {
@@ -206,20 +207,20 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
         }
       }
     }
-    state = state.copyWith(workingString: "写出配置文件");
+    state = state.copyWith(workingString: S.current.performance_info_write_out_config_file);
     if (await confFile.exists()) {
       await confFile.delete();
     }
     await confFile.create();
     await confFile.writeAsString(conf);
     if (cleanShader) {
-      state = state.copyWith(workingString: "清理着色器");
+      state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
       await cleanShaderCache(null);
     }
-    state = state.copyWith(workingString: "完成...");
+    state = state.copyWith(workingString: S.current.performance_info_done);
     await await Future.delayed(const Duration(milliseconds: 300));
     await _init();
-    state = state.copyWith(workingString: "清理着色器");
+    state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
   }
 
   updateState() {

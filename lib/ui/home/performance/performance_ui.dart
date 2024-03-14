@@ -30,9 +30,10 @@ class HomePerformanceUI extends HookConsumerWidget {
                     children: [
                       if (state.showGraphicsPerformanceTip)
                         InfoBar(
-                          title: const Text("图形优化提示"),
-                          content: const Text(
-                            "该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起反效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。",
+                          title: Text(
+                              S.current.performance_info_graphic_optimization_hint),
+                          content: Text(
+                            S.current.performance_info_graphic_optimization_warning,
                           ),
                           onClose: () => model.closeTip(),
                         ),
@@ -44,15 +45,15 @@ class HomePerformanceUI extends HookConsumerWidget {
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(width: 32),
-                          const Text(
-                            "预设：",
-                            style: TextStyle(fontSize: 18),
+                          Text(
+                            S.current.performance_action_preset,
+                            style: const TextStyle(fontSize: 18),
                           ),
-                          for (final item in const {
-                            "low": "低",
-                            "medium": "中",
-                            "high": "高",
-                            "ultra": "超级"
+                          for (final item in {
+                            "low": S.current.performance_action_low,
+                            "medium": S.current.performance_action_medium,
+                            "high": S.current.performance_action_high,
+                            "ultra": S.current.performance_action_super
                           }.entries)
                             Padding(
                               padding: const EdgeInsets.only(left: 6, right: 6),
@@ -65,7 +66,8 @@ class HomePerformanceUI extends HookConsumerWidget {
                                   onPressed: () =>
                                       model.onChangePreProfile(item.key)),
                             ),
-                          const Text("（预设只修改图形设置）"),
+                          Text(
+                              S.current.performance_action_info_preset_only_changes_graphics),
                           const Spacer(),
                           Button(
                             onPressed: () => model.refresh(),
@@ -76,23 +78,23 @@ class HomePerformanceUI extends HookConsumerWidget {
                           ),
                           const SizedBox(width: 12),
                           Button(
-                              child: const Text(
-                                " 恢复默认 ",
-                                style: TextStyle(fontSize: 16),
+                              child: Text(
+                                S.current.performance_action_reset_to_default,
+                                style: const TextStyle(fontSize: 16),
                               ),
                               onPressed: () => model.clean(context)),
                           const SizedBox(width: 24),
                           Button(
-                              child: const Text(
-                                "应用",
-                                style: TextStyle(fontSize: 16),
+                              child: Text(
+                                S.current.performance_action_apply,
+                                style: const TextStyle(fontSize: 16),
                               ),
                               onPressed: () => model.applyProfile(false)),
                           const SizedBox(width: 6),
                           Button(
-                              child: const Text(
-                                "应用并清理着色器（推荐）",
-                                style: TextStyle(fontSize: 16),
+                              child: Text(
+                                S.current.performance_action_apply_and_clear_shaders,
+                                style: const TextStyle(fontSize: 16),
                               ),
                               onPressed: () => model.applyProfile(true)),
                         ],

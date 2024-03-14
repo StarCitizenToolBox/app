@@ -24,13 +24,13 @@ class HomeDownloaderUI extends HookConsumerWidget {
                 const SizedBox(width: 24),
                 const SizedBox(width: 12),
                 for (final item in <MapEntry<String, IconData>, String>{
-                  const MapEntry("settings", FluentIcons.settings): "限速设置",
+                  const MapEntry("settings", FluentIcons.settings): S.current.downloader_speed_limit_settings,
                   if (state.tasks.isNotEmpty)
-                    const MapEntry("pause_all", FluentIcons.pause): "全部暂停",
+                    const MapEntry("pause_all", FluentIcons.pause): S.current.downloader_action_pause_all,
                   if (state.waitingTasks.isNotEmpty)
-                    const MapEntry("resume_all", FluentIcons.download): "恢复全部",
+                    const MapEntry("resume_all", FluentIcons.download): S.current.downloader_action_resume_all,
                   if (state.tasks.isNotEmpty || state.waitingTasks.isNotEmpty)
-                    const MapEntry("cancel_all", FluentIcons.cancel): "全部取消",
+                    const MapEntry("cancel_all", FluentIcons.cancel): S.current.downloader_action_cancel_all,
                 }.entries)
                   Padding(
                     padding: const EdgeInsets.only(left: 6, right: 6),
@@ -52,9 +52,9 @@ class HomeDownloaderUI extends HookConsumerWidget {
               ],
             ),
             if (model.getTasksLen() == 0)
-              const Expanded(
+              Expanded(
                   child: Center(
-                child: Text("无下载任务"),
+                child: Text(S.current.downloader_info_no_download_tasks),
               ))
             else
               Expanded(
@@ -171,22 +171,22 @@ class HomeDownloaderUI extends HookConsumerWidget {
                             if (type != "stopped")
                               DropDownButton(
                                 closeAfterClick: false,
-                                title: const Padding(
-                                  padding: EdgeInsets.all(3),
-                                  child: Text('选项'),
+                                title: Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Text(S.current.downloader_action_options),
                                 ),
                                 items: [
                                   if (task.status == "paused")
                                     MenuFlyoutItem(
                                         leading:
                                             const Icon(FluentIcons.download),
-                                        text: const Text('继续下载'),
+                                        text: Text(S.current.downloader_action_continue_download),
                                         onPressed: () =>
                                             model.resumeTask(task.gid))
                                   else if (task.status == "active")
                                     MenuFlyoutItem(
                                         leading: const Icon(FluentIcons.pause),
-                                        text: const Text('暂停下载'),
+                                        text: Text(S.current.downloader_action_pause_download),
                                         onPressed: () =>
                                             model.pauseTask(task.gid)),
                                   const MenuFlyoutSeparator(),
@@ -195,7 +195,7 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                         FluentIcons.chrome_close,
                                         size: 14,
                                       ),
-                                      text: const Text('取消下载'),
+                                      text: Text(S.current.downloader_action_cancel_download),
                                       onPressed: () =>
                                           model.cancelTask(context, task.gid)),
                                   MenuFlyoutItem(
@@ -203,7 +203,7 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                         FluentIcons.folder_open,
                                         size: 14,
                                       ),
-                                      text: const Text('打开文件夹'),
+                                      text: Text(S.current.action_open_folder),
                                       onPressed: () => model.openFolder(task)),
                                 ],
                               ),

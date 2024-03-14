@@ -17,7 +17,7 @@ part 'game_doctor_ui_model.freezed.dart';
 
 @freezed
 class HomeGameDoctorState with _$HomeGameDoctorState {
-  const factory HomeGameDoctorState({
+  factory HomeGameDoctorState({
     @Default(false) bool isChecking,
     @Default(false) bool isFixing,
     @Default("") String lastScreenInfo,
@@ -30,7 +30,7 @@ class HomeGameDoctorState with _$HomeGameDoctorState {
 class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   @override
   HomeGameDoctorState build() {
-    state = const HomeGameDoctorState();
+    state = HomeGameDoctorState();
     return state;
   }
 
@@ -43,13 +43,13 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     state = state.copyWith(isFixing: true, isFixingString: "");
     switch (item.key) {
       case "unSupport_system":
-        showToast(context, "若您的硬件达标，请尝试安装最新的 Windows 系统。");
+        showToast(context, S.current.doctor_action_result_try_latest_windows);
         break;
       case "no_live_path":
         try {
           await Directory(item.value).create(recursive: true);
           if (!context.mounted) break;
-          showToast(context, "创建文件夹成功，请尝试继续下载游戏！");
+          showToast(context, S.current.doctor_action_result_create_folder_success);
           checkResult.remove(item);
           state = state.copyWith(checkResult: checkResult);
         } catch (e) {
@@ -61,7 +61,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         if (r == "") {
           if (!context.mounted) break;
           showToast(context,
-              "修复成功，请尝试重启后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。");
+              S.current.doctor_action_result_fix_success);
           checkResult.remove(item);
           state = state.copyWith(checkResult: checkResult);
         } else {
@@ -71,7 +71,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         break;
       case "eac_file_miss":
         showToast(
-            context, "未在 LIVE 文件夹找到 EasyAntiCheat 文件 或 文件不完整，请使用 RSI 启动器校验文件");
+            context, S.current.doctor_info_result_verify_files_with_rsi_launcher);
         break;
       case "eac_not_install":
         final eacJsonPath = "${item.value}\\Settings.json";
@@ -84,7 +84,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
           dPrint("${item.value}\\EasyAntiCheat_EOS_Setup.exe install $eacID");
           if (result.stderr == "") {
             if (!context.mounted) break;
-            showToast(context, "修复成功，请尝试启动游戏。（若问题无法解决，请使用工具箱的 《重装 EAC》）");
+            showToast(context, S.current.doctor_action_result_game_start_success);
             checkResult.remove(item);
             state = state.copyWith(checkResult: checkResult);
           } else {
@@ -97,13 +97,13 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         }
         break;
       case "cn_user_name":
-        showToast(context, "即将跳转，教程来自互联网，请谨慎操作...");
+        showToast(context, S.current.doctor_action_result_redirect_warning);
         await Future.delayed(const Duration(milliseconds: 300));
         launchUrlString(
             "https://btfy.eu.org/?q=5L+u5pS5d2luZG93c+eUqOaIt+WQjeS7juS4reaWh+WIsOiLseaWhw==");
         break;
       default:
-        showToast(context, "该问题暂不支持自动处理，请提供截图寻求帮助");
+        showToast(context, S.current.doctor_action_result_issue_not_supported);
         break;
     }
     state = state.copyWith(isFixing: false, isFixingString: "");
@@ -112,7 +112,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   // ignore: avoid_build_context_in_providers
   doCheck(BuildContext context) async {
     if (state.isChecking) return;
-    state = state.copyWith(isChecking: true, lastScreenInfo: "正在分析...");
+    state = state.copyWith(isChecking: true, lastScreenInfo: S.current.doctor_action_analyzing);
     dPrint("-------- start docker check -----");
     if (!context.mounted) return;
     await _statCheck(context);
@@ -126,9 +126,9 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
 
     final checkResult = <MapEntry<String, String>>[];
     // TODO for debug
-    // checkResult?.add(const MapEntry("unSupport_system", "android"));
-    // checkResult?.add(const MapEntry("nvme_PhysicalBytes", "C"));
-    // checkResult?.add(const MapEntry("no_live_path", ""));
+    // checkResult?.add(MapEntry("unSupport_system", "android"));
+    // checkResult?.add(MapEntry("nvme_PhysicalBytes", "C"));
+    // checkResult?.add(MapEntry("no_live_path", ""));
 
     await _checkPreInstall(context, scInstalledPath, checkResult);
     if (!context.mounted) return;
@@ -137,7 +137,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     await _checkGameRunningLog(context, scInstalledPath, checkResult);
 
     if (checkResult.isEmpty) {
-      const lastScreenInfo = "分析完毕，没有发现问题";
+      final lastScreenInfo = S.current.doctor_action_result_analysis_no_issue;
       state = state.copyWith(checkResult: null, lastScreenInfo: lastScreenInfo);
     } else {
       final lastScreenInfo = "分析完毕，发现 ${checkResult.length} 个问题";
@@ -147,7 +147,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
 
     if (scInstalledPath == "not_install" && (checkResult.isEmpty)) {
       if (!context.mounted) return;
-      showToast(context, "扫描完毕，没有发现问题，若仍然安装失败，请尝试使用工具箱中的 RSI启动器管理员模式。");
+      showToast(context, S.current.doctor_action_result_toast_scan_no_issue);
     }
   }
 
@@ -155,7 +155,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   Future _checkGameRunningLog(BuildContext context, String scInstalledPath,
       List<MapEntry<String, String>> checkResult) async {
     if (scInstalledPath == "not_install") return;
-    const lastScreenInfo = "正在检查：Game.log";
+    final lastScreenInfo = S.current.doctor_action_tip_checking_game_log;
     state = state.copyWith(lastScreenInfo: lastScreenInfo);
     final logs = await SCLoggerHelper.getGameRunningLogs(scInstalledPath);
     if (logs == null) return;
@@ -174,7 +174,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   Future _checkEAC(BuildContext context, String scInstalledPath,
       List<MapEntry<String, String>> checkResult) async {
     if (scInstalledPath == "not_install") return;
-    const lastScreenInfo = "正在检查：EAC";
+    final lastScreenInfo = S.current.doctor_action_info_checking_eac;
     state = state.copyWith(lastScreenInfo: lastScreenInfo);
 
     final eacPath = "$scInstalledPath\\EasyAntiCheat";
@@ -205,7 +205,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   // ignore: avoid_build_context_in_providers
   Future _checkPreInstall(BuildContext context, String scInstalledPath,
       List<MapEntry<String, String>> checkResult) async {
-    const lastScreenInfo = "正在检查：运行环境";
+    final lastScreenInfo = S.current.doctor_action_info_checking_runtime;
     state = state.copyWith(lastScreenInfo: lastScreenInfo);
 
     if (!(Platform.operatingSystemVersion.contains("Windows 10") ||
@@ -226,7 +226,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     if (ramSize < 16) {
       checkResult.add(MapEntry("low_ram", "$ramSize"));
     }
-    state = state.copyWith(lastScreenInfo: "正在检查：安装信息");
+    state = state.copyWith(lastScreenInfo: S.current.doctor_action_info_checking_install_info);
     // 检查安装分区
     try {
       final listData = await SCLoggerHelper.getGameInstallPath(

@@ -41,9 +41,17 @@ class AutoL10nTools {
     // read all dart File
     final dir = Directory('lib/ui');
     for (var entity in dir.listSync(recursive: true)) {
-      if (entity is File && entity.path.endsWith('.dart')) {
+      if (entity is File &&
+          entity.path.endsWith('.dart') &&
+          !(entity.path.endsWith(".g.dart") &&
+              entity.path.endsWith(".freezed.dart"))) {
         print('Processing ${entity.path}...');
-        _replaceDartFile(entity, jsonMap);
+        // sort map with value length
+        final newMap = Map.fromEntries(
+          jsonMap.entries.toList()
+            ..sort((a, b) => (b.value as String).length.compareTo((a.value as String).length)),
+        );
+        _replaceDartFile(entity, newMap);
       }
     }
   }
@@ -56,34 +64,51 @@ class AutoL10nTools {
   }
 
   void _replaceDartFile(File entity, jsonMap) {
-    final parseResult = parseFile(
-        path: entity.path, featureSet: FeatureSet.latestLanguageVersion());
-    final unit = parseResult.unit;
-    final visitor = ReplaceAstVisitor(jsonMap);
-    unit.accept(visitor);
-    final output = visitor.buffer.toString();
-    entity.writeAsStringSync(output);
+    for (var key in jsonMap.keys) {
+      if (key == "@@locale") continue;
+      final mapValue = jsonMap[key] as String;
+      if (mapValue.contains("{{") && mapValue.contains("}}")) {
+        print("skipping args value === $mapValue");
+        continue;
+      }
+      // 使用 CheckContainsVisitor.visitStringLiteral 获取是否有匹配的值 ,返回 true false
+      final parseResult = parseFile(
+          path: entity.path, featureSet: FeatureSet.latestLanguageVersion());
+      final unit = parseResult.unit;
+      final visitor = CheckContainsVisitor(mapValue);
+      unit.accept(visitor);
+      if (visitor.hasValue) {
+        // replaceDartFile with line
+        final lines = entity.readAsLinesSync();
+        final newLines = <String>[];
+        for (var line in lines) {
+          if (line.contains(mapValue) && !line.contains("\$")) {
+            line = line.replaceAll(mapValue, "\${S.current.$key}");
+          }
+          newLines.add(line);
+        }
+        entity.writeAsStringSync(newLines.join("\n"));
+      }
+    }
   }
 }
 
-class ReplaceAstVisitor extends GeneralizingAstVisitor {
-  final Map<String, String> jsonMap;
-  final buffer = StringBuffer();
+class CheckContainsVisitor extends GeneralizingAstVisitor {
+  final String mapValue;
 
-  ReplaceAstVisitor(this.jsonMap);
+  CheckContainsVisitor(this.mapValue);
+
+  bool hasValue = false;
 
   @override
-  visitSimpleStringLiteral(SimpleStringLiteral node) {
-    final value = node.value;
-    if (jsonMap.containsValue(value)) {
-      final key = jsonMap.keys.firstWhere((k) => jsonMap[k] == value);
-      buffer.write('S.current.$key');
-    } else {
-      buffer.write(value);
+  visitStringLiteral(StringLiteral node) {
+    final value = node.stringValue ?? "";
+    if (value == mapValue) {
+      print('Found->visitStringLiteral: $value');
+      hasValue = true;
     }
-    return super.visitSimpleStringLiteral(node);
+    return super.visitStringLiteral(node);
   }
-
 }
 
 class MyAstVisitor extends GeneralizingAstVisitor {

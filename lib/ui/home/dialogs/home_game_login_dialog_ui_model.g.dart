@@ -7,7 +7,7 @@ part of 'home_game_login_dialog_ui_model.dart';
 // **************************************************************************
 
 String _$homeGameLoginUIModelHash() =>
-    r'c26dfd89985ff9246104135c288b673b7f15acf0';
+    r'bcd5fc6d85345207797dd51253b2608035e1fc36';
 
 /// See also [HomeGameLoginUIModel].
 @ProviderFor(HomeGameLoginUIModel)

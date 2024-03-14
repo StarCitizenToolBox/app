@@ -87,11 +87,11 @@ class IndexUI extends HookConsumerWidget {
   }
 
   Map<IconData, String> get pageMenus => {
-        FluentIcons.home: "首页",
-        FluentIcons.game: "大厅",
-        FluentIcons.toolbox: "工具",
-        FluentIcons.settings: "设置",
-        FluentIcons.info: "关于",
+        FluentIcons.home: S.current.app_index_menu_home,
+        FluentIcons.game: S.current.app_index_menu_lobby,
+        FluentIcons.toolbox: S.current.app_index_menu_tools,
+        FluentIcons.settings: S.current.app_index_menu_settings,
+        FluentIcons.info: S.current.app_index_menu_about,
       };
 
   List<NavigationPaneItem> getNavigationPaneItems(

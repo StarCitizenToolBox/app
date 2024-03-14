@@ -55,14 +55,14 @@ class ToolsUI extends HookConsumerWidget {
             ),
             const SizedBox(height: 12),
             if (state.items.isEmpty)
-              const Expanded(
+              Expanded(
                 child: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ProgressRing(),
-                      SizedBox(height: 12),
-                      Text("正在扫描..."),
+                      const ProgressRing(),
+                      const SizedBox(height: 12),
+                      Text(S.current.tools_info_scanning),
                     ],
                   ),
                 ),
@@ -170,13 +170,13 @@ class ToolsUI extends HookConsumerWidget {
             decoration: BoxDecoration(
               color: Colors.black.withAlpha(150),
             ),
-            child: const Center(
+            child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ProgressRing(),
-                  SizedBox(height: 12),
-                  Text("正在处理..."),
+                  const ProgressRing(),
+                  const SizedBox(height: 12),
+                  Text(S.current.doctor_info_processing),
                 ],
               ),
             ),
@@ -190,7 +190,7 @@ class ToolsUI extends HookConsumerWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text("游戏安装位置：  "),
+        Text(S.current.tools_info_game_install_location),
         const SizedBox(width: 6),
         Expanded(
           child: SizedBox(
@@ -228,7 +228,7 @@ class ToolsUI extends HookConsumerWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text("RSI启动器位置："),
+        Text(S.current.tools_info_rsi_launcher_location),
         const SizedBox(width: 6),
         Expanded(
           child: SizedBox(

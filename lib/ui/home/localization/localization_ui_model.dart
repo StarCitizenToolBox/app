@@ -26,7 +26,7 @@ part 'localization_ui_model.freezed.dart';
 
 @freezed
 class LocalizationUIState with _$LocalizationUIState {
-  const factory LocalizationUIState({
+  factory LocalizationUIState({
     String? selectedLanguage,
     Map<String, ScLocalizationData>? apiLocalizationData,
     @Default("") String workingVersion,
@@ -38,7 +38,7 @@ class LocalizationUIState with _$LocalizationUIState {
 
 @riverpod
 class LocalizationUIModel extends _$LocalizationUIModel {
-  static const languageSupport = {
+  static const languageSupport =  {
     "chinese_(simplified)": "简体中文",
     "chinese_(traditional)": "繁體中文",
   };
@@ -122,7 +122,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         if (!context.mounted) return;
         final ok = await showConfirmDialogs(
             context,
-            "是否移除不兼容的汉化参数",
+            S.current.localization_info_remove_incompatible_translation_params,
             const Text(
                 "USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。"),
             constraints: BoxConstraints(
@@ -288,7 +288,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         // check file
         final globalIni = await compute(_readArchive, savePath.absolute.path);
         if (globalIni.isEmpty) {
-          throw "文件受损，请重新下载";
+          throw S.current.localization_info_corrupted_file;
         }
         await _installFormString(globalIni, value.versionName ?? "");
       } catch (e) {
@@ -371,7 +371,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   static Future<String> _getInstalledIniVersion(String iniPath) async {
     final iniFile = File(iniPath);
-    if (!await iniFile.exists()) return "游戏内置";
+    if (!await iniFile.exists()) return S.current.home_action_info_game_built_in;
     final iniStringSplit = (await iniFile.readAsString()).split("\n");
     for (var i = iniStringSplit.length - 1; i > 0; i--) {
       if (iniStringSplit[i]
@@ -382,7 +382,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         return v;
       }
     }
-    return "自定义文件";
+    return S.current.localization_info_custom_files;
   }
 
   Future<List<String>> checkLangUpdate({bool skipReload = false}) async {
@@ -408,7 +408,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           if (element.path.contains(lang)) {
             final installedVersion =
                 await _getInstalledIniVersion("${element.path}\\global.ini");
-            if (installedVersion == "游戏内置") continue;
+            if (installedVersion == S.current.home_action_info_game_built_in) continue;
             final curData = _allVersionLocalizationData[lang];
             dPrint("check Localization update $scInstallPath");
             if (!(curData?.keys.contains(installedVersion) ?? false)) {

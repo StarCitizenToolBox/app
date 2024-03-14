@@ -22,7 +22,7 @@ class SplashUI extends HookConsumerWidget {
       final appModel = ref.read(appGlobalModelProvider.notifier);
       _initApp(context, appModel, stepState, ref);
       return null;
-    }, const []);
+    }, []);
 
     return makeDefaultPage(context,
         content: Center(
@@ -33,9 +33,9 @@ class SplashUI extends HookConsumerWidget {
               const SizedBox(height: 32),
               const ProgressRing(),
               const SizedBox(height: 32),
-              if (step == 0) const Text("正在检测可用性，这可能需要一点时间..."),
-              if (step == 1) const Text("正在检查更新..."),
-              if (step == 2) const Text("即将完成..."),
+              if (step == 0) Text(S.current.app_splash_checking_availability),
+              if (step == 1) Text(S.current.app_splash_checking_for_updates),
+              if (step == 2) Text(S.current.app_splash_almost_done),
             ],
           ),
         ),

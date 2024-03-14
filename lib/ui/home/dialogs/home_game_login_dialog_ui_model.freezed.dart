@@ -185,7 +185,7 @@ class __$$LoginStatusImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoginStatusImpl implements _LoginStatus {
-  const _$LoginStatusImpl(
+  _$LoginStatusImpl(
       {required this.loginStatus,
       this.nickname,
       this.avatarUrl,
@@ -270,7 +270,7 @@ class _$LoginStatusImpl implements _LoginStatus {
 }
 
 abstract class _LoginStatus implements HomeGameLoginState {
-  const factory _LoginStatus(
+  factory _LoginStatus(
       {required final int loginStatus,
       final String? nickname,
       final String? avatarUrl,

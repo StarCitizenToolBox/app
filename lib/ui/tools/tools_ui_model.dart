@@ -41,7 +41,7 @@ class ToolsItemData {
 
 @freezed
 class ToolsUIState with _$ToolsUIState {
-  const factory ToolsUIState({
+  factory ToolsUIState({
     @Default(false) bool working,
     @Default("") String scInstalledPath,
     @Default("") String rsiLauncherInstalledPath,
@@ -56,7 +56,7 @@ class ToolsUIState with _$ToolsUIState {
 class ToolsUIModel extends _$ToolsUIModel {
   @override
   ToolsUIState build() {
-    state = const ToolsUIState();
+    state = ToolsUIState();
     return state;
   }
 
@@ -71,35 +71,35 @@ class ToolsUIModel extends _$ToolsUIModel {
       items = [
         ToolsItemData(
           "systemnfo",
-          "查看系统信息",
+          S.current.tools_action_view_system_info,
           "查看系统关键信息，用于快速问诊 \n\n耗时操作，请耐心等待。",
           const Icon(FluentIcons.system, size: 24),
           onTap: () => _showSystemInfo(context),
         ),
         ToolsItemData(
           "p4k_downloader",
-          "P4K 分流下载 / 修复",
+          S.current.tools_action_p4k_download_repair,
           "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n资源有限，请勿滥用。",
           const Icon(FontAwesomeIcons.download, size: 24),
           onTap: () => _downloadP4k(context),
         ),
         ToolsItemData(
           "hosts_booster",
-          "Hosts 加速（实验性）",
+          S.current.tools_action_hosts_acceleration_experimental,
           "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。",
           const Icon(FluentIcons.virtual_network, size: 24),
           onTap: () => _doHostsBooster(context),
         ),
         ToolsItemData(
           "reinstall_eac",
-          "重装 EasyAntiCheat 反作弊",
-          "若您遇到 EAC 错误，且自动修复无效，请尝试使用此功能重装 EAC。",
+          S.current.tools_action_reinstall_easyanticheat,
+          S.current.tools_action_info_reinstall_eac,
           const Icon(FluentIcons.game, size: 24),
           onTap: () => _reinstallEAC(context),
         ),
         ToolsItemData(
           "rsilauncher_admin_mode",
-          "RSI Launcher 管理员模式",
+          S.current.tools_action_rsi_launcher_admin_mode,
           "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。",
           const Icon(FluentIcons.admin, size: 24),
           onTap: () => _adminRSILauncher(context),
@@ -136,7 +136,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     return [
       ToolsItemData(
         "rsilauncher_log_fix",
-        "RSI Launcher Log 修复",
+        S.current.tools_action_rsi_launcher_log_fix,
         "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${(logPathLen.toStringAsFixed(4))} MB",
         const Icon(FontAwesomeIcons.bookBible, size: 24),
         onTap: () => _rsiLogFix(context),
@@ -150,7 +150,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (nvmePatchStatus)
         ToolsItemData(
           "remove_nvme_settings",
-          "移除 nvme 注册表补丁",
+          S.current.tools_action_remove_nvme_registry_patch,
           "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${(nvmePatchStatus) ? "已安装" : "未安装"}",
           const Icon(FluentIcons.hard_drive, size: 24),
           onTap: nvmePatchStatus
@@ -159,7 +159,7 @@ class ToolsUIModel extends _$ToolsUIModel {
                   await SystemHelper.doRemoveNvmePath();
                   state = state.copyWith(working: false);
                   if (!context.mounted) return;
-                  showToast(context, "已移除，重启电脑生效！");
+                  showToast(context, S.current.tools_action_info_removed_restart_effective);
                   loadToolsCard(context, skipPathScan: true);
                 }
               : null,
@@ -167,8 +167,8 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (!nvmePatchStatus)
         ToolsItemData(
           "add_nvme_settings",
-          "写入 nvme 注册表补丁",
-          "手动写入NVM补丁，该功能仅在您知道自己在作什么的情况下使用",
+          S.current.tools_action_write_nvme_registry_patch,
+          S.current.tools_action_info_manual_nvme_patch,
           const Icon(FontAwesomeIcons.cashRegister, size: 24),
           onTap: () async {
             state = state.copyWith(working: true);
@@ -176,7 +176,7 @@ class ToolsUIModel extends _$ToolsUIModel {
             if (r == "") {
               if (!context.mounted) return;
               showToast(context,
-                  "修复成功，请尝试重启电脑后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。");
+                  S.current.tools_action_info_fix_success_restart);
             } else {
               if (!context.mounted) return;
               showToast(context, "修复失败，$r");
@@ -192,7 +192,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
     return ToolsItemData(
       "clean_shaders",
-      "清理着色器缓存",
+      S.current.tools_action_clear_shader_cache,
       "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：${((await SystemHelper.getDirLen(gameShaderCachePath ?? "", skipPath: [
                 "$gameShaderCachePath\\Crashes"
               ])) / 1024 / 1024).toStringAsFixed(4)} MB",
@@ -207,10 +207,10 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     return ToolsItemData(
       "photography_mode",
-      isEnable ? "关闭摄影模式" : "开启摄影模式",
+      isEnable ? "关闭摄影模式" : S.current.tools_action_open_photography_mode,
       isEnable
           ? "还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。"
-          : "一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。",
+          : "一键${S.current.action_close}游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。",
       const Icon(FontAwesomeIcons.camera, size: 24),
       onTap: () => _onChangePhotographyMode(context, isEnable),
     );
@@ -260,18 +260,18 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     if (rsiLauncherInstalledPath == "") {
       if (!context.mounted) return;
-      showToast(context, "未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。");
+      showToast(context, S.current.tools_action_info_rsi_launcher_not_found);
     }
     if (scInstalledPath == "") {
       if (!context.mounted) return;
-      showToast(context, "未找到星际公民游戏安装位置，请至少完成一次游戏启动操作 或在设置中手动添加。");
+      showToast(context, S.current.tools_action_info_star_citizen_not_found);
     }
   }
 
   /// 重装EAC
   Future<void> _reinstallEAC(BuildContext context) async {
     if (state.scInstalledPath.isEmpty) {
-      showToast(context, "该功能需要一个有效的游戏安装目录");
+      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
       return;
     }
     state = state.copyWith(working: true);
@@ -302,7 +302,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       }
       if (!context.mounted) return;
       showToast(context,
-          "已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请您前往 SETTINGS -> VERIFY 重装 EAC。");
+          S.current.tools_action_info_eac_file_removed);
       _adminRSILauncher(context);
     } catch (e) {
       showToast(context, "出现错误：$e");
@@ -322,7 +322,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// 管理员模式运行 RSI 启动器
   Future _adminRSILauncher(BuildContext context) async {
     if (state.rsiLauncherInstalledPath == "") {
-      showToast(context, "未找到 RSI 启动器目录，请您尝试手动操作。");
+      showToast(context, S.current.tools_action_info_rsi_launcher_directory_not_found);
     }
     SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
   }
@@ -333,14 +333,14 @@ class ToolsUIModel extends _$ToolsUIModel {
     if (!await File(path!).exists()) {
       if (!context.mounted) return;
       showToast(
-          context, "日志文件不存在，请尝试进行一次游戏启动或游戏安装，并退出启动器，若无法解决问题，请尝试将启动器更新至最新版本！");
+          context, S.current.tools_action_info_log_file_not_exist);
       return;
     }
     try {
       SystemHelper.killRSILauncher();
       await File(path).delete(recursive: true);
       if (!context.mounted) return;
-      showToast(context, "清理完毕，请完成一次安装 / 游戏启动 操作。");
+      showToast(context, S.current.tools_action_info_cleanup_complete);
       SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
     } catch (_) {
       if (!context.mounted) return;
@@ -362,16 +362,16 @@ class ToolsUIModel extends _$ToolsUIModel {
     showDialog<String>(
       context: context,
       builder: (context) => ContentDialog(
-        title: const Text('系统信息'),
+        title: Text(S.current.tools_action_info_system_info_title),
         content: Text(systemInfo),
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width * .65,
         ),
         actions: [
           FilledButton(
-            child: const Padding(
-              padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
-              child: Text('关闭'),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+              child: Text(S.current.action_close),
             ),
             onPressed: () => Navigator.pop(context),
           ),
@@ -404,7 +404,7 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
-      showToast(context, "RSI启动器正在运行！请先关闭启动器再使用此功能！",
+      showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * .35));
       return;
@@ -413,7 +413,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     if (!context.mounted) return;
     await showToast(
         context,
-        "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。"
+        "${S.current.tools_action_info_p4k_file_description_part1}"
         "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
 
     try {
@@ -431,7 +431,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         final t = HomeDownloaderUIModel.getTaskTypeAndName(value);
         if (t.key == "torrent" && t.value.contains("Data.p4k")) {
           if (!context.mounted) return;
-          showToast(context, "已经有一个p4k下载任务正在进行中，请前往下载管理器查看！");
+          showToast(context, S.current.tools_action_info_p4k_download_in_progress);
           state = state.copyWith(working: false);
           return;
         }
@@ -447,7 +447,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (torrentUrl == "") {
         state = state.copyWith(working: false);
         if (!context.mounted) return;
-        showToast(context, "功能维护中，请稍后重试！");
+        showToast(context, S.current.tools_action_info_function_under_maintenance);
         return;
       }
 
@@ -496,7 +496,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   Future<bool> _checkPhotographyStatus(BuildContext context,
       {bool? setMode}) async {
     final scInstalledPath = state.scInstalledPath;
-    const keys = ["AudioShakeStrength", "CameraSpringMovement", "ShakeScale"];
+    final   keys = ["AudioShakeStrength", "CameraSpringMovement", "ShakeScale"];
     final attributesFile = File(
         "$scInstalledPath\\USER\\Client\\0\\Profiles\\default\\attributes.xml");
     if (setMode == null) {
@@ -522,7 +522,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     } else {
       if (!await attributesFile.exists()) {
         if (!context.mounted) return false;
-        showToast(context, "配置文件不存在，请尝试运行一次游戏");
+        showToast(context, S.current.tools_action_info_config_file_not_exist);
         return false;
       }
       final xmlFile = XmlDocument.parse(await attributesFile.readAsString());

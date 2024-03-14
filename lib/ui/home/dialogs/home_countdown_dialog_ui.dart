@@ -24,7 +24,7 @@ class HomeCountdownDialogUI extends HookConsumerWidget {
                 Navigator.of(context).pop();
               }),
           const SizedBox(width: 12),
-          const Text("节日倒计时"),
+           Text(S.current.home_holiday_countdown),
         ],
       ),
       content: homeState.countdownFestivalListData == null
@@ -85,7 +85,7 @@ class HomeCountdownDialogUI extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      "* 以上节日日期由人工收录、维护，可能存在错误，欢迎反馈！",
+                      S.current.home_holiday_countdown_disclaimer,
                       style: TextStyle(
                           fontSize: 13, color: Colors.white.withOpacity(.3)),
                     )

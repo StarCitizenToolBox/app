@@ -197,7 +197,7 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SettingsUIStateImpl implements _SettingsUIState {
-  const _$SettingsUIStateImpl(
+  _$SettingsUIStateImpl(
       {this.isDeviceSupportWinHello = false,
       this.autoLoginEmail = "-",
       this.isEnableAutoLogin = false,
@@ -287,7 +287,7 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
 }
 
 abstract class _SettingsUIState implements SettingsUIState {
-  const factory _SettingsUIState(
+  factory _SettingsUIState(
       {final dynamic isDeviceSupportWinHello,
       final String autoLoginEmail,
       final bool isEnableAutoLogin,
