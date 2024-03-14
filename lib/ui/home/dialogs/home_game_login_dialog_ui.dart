@@ -46,21 +46,6 @@ class HomeGameLoginDialogUI extends HookConsumerWidget {
                     ],
                   ),
                 ),
-              ] else if (loginState.loginStatus == 1) ...[
-                Text(
-                    "请输入RSI账户 [${loginState.nickname}] 的邮箱，以保存登录状态（输入错误会导致无法进入游戏！）"),
-                const SizedBox(height: 12),
-                TextFormBox(
-                    // controller: model.emailCtrl,
-                    ),
-                const SizedBox(height: 6),
-                Text(
-                  "*该操作同一账号只需执行一次，输入错误请在盒子设置中清理，切换账号请在汉化浏览器中操作。",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.white.withOpacity(.6),
-                  ),
-                )
               ] else if (loginState.loginStatus == 2 ||
                   loginState.loginStatus == 3) ...[
                 Center(

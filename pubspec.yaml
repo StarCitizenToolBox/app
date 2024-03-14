@@ -79,7 +79,7 @@ dependencies:
     path: rust_builder
   aria2:
     git: https://github.com/xkeyC/dart_aria2_rpc.git
-#    path: ../../xkeyC/dart_aria2_rpc
+  #    path: ../../xkeyC/dart_aria2_rpc
   intl: ^0.18.0
   synchronized: ^3.1.0+1
 dependency_overrides:
@@ -103,6 +103,8 @@ dev_dependencies:
   custom_lint: ^0.6.2
   riverpod_lint: ^2.3.9
   ffigen: ^11.0.0
+  sct_dev_tools:
+    path: ./packages/sct_dev_tools
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -159,3 +161,5 @@ msix_config:
   languages: zh-cn
   windows_build_args: --dart-define="MSE=true"
   store: true
+flutter_intl:
+  enabled: true

@@ -45,3 +45,4 @@ app.*.map.json
 /pubspec.lock
 /rust/target/
 /rust/Cargo.lock
+/lib/generated/l10_temp.json
