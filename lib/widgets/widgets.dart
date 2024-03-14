@@ -4,6 +4,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:markdown_widget/config/all.dart';
@@ -15,6 +16,7 @@ export 'src/cache_image.dart';
 export 'src/countdown_time_text.dart';
 export '../common/utils/async.dart';
 export '../common/utils/base_utils.dart';
+export 'package:starcitizen_doctor/generated/l10n.dart';
 
 Widget makeLoading(
   BuildContext context, {

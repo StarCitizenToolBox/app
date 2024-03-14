@@ -74,9 +74,7 @@ class HomeGameLoginDialogUI extends HookConsumerWidget {
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 32),
-                      Text(loginState.loginStatus == 2
-                          ? "正在为您启动游戏..."
-                          : "正在等待优化CPU参数..."),
+                      const Text("正在为您启动游戏..."),
                       const SizedBox(height: 12),
                       const ProgressRing(),
                     ],

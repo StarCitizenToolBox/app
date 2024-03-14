@@ -28,11 +28,24 @@ class AutoL10nTools {
       }
       // output to json
       final j = json.encode(outputMap);
-      File("./lib/generated/l10_temp.json").writeAsStringSync(j);
+      File("./lib/generated/l10n_temp.json").writeAsStringSync(j);
       print(
           "output to json file (length: ${outputMap.length}): ./lib/generated/l10n_temp.json");
     }
-    // output to json
+  }
+
+  void replaceL10nFiles() {
+    final l10nFile = File("./lib/l10n/intl_zh_CN.arb");
+    // readToJsonMap
+    final jsonMap = json.decode(l10nFile.readAsStringSync());
+    // read all dart File
+    final dir = Directory('lib/ui');
+    for (var entity in dir.listSync(recursive: true)) {
+      if (entity is File && entity.path.endsWith('.dart')) {
+        print('Processing ${entity.path}...');
+        _replaceDartFile(entity, jsonMap);
+      }
+    }
   }
 
   void _processDartFile(File file) {
@@ -41,6 +54,36 @@ class AutoL10nTools {
     final unit = parseResult.unit;
     unit.accept(MyAstVisitor());
   }
+
+  void _replaceDartFile(File entity, jsonMap) {
+    final parseResult = parseFile(
+        path: entity.path, featureSet: FeatureSet.latestLanguageVersion());
+    final unit = parseResult.unit;
+    final visitor = ReplaceAstVisitor(jsonMap);
+    unit.accept(visitor);
+    final output = visitor.buffer.toString();
+    entity.writeAsStringSync(output);
+  }
+}
+
+class ReplaceAstVisitor extends GeneralizingAstVisitor {
+  final Map<String, String> jsonMap;
+  final buffer = StringBuffer();
+
+  ReplaceAstVisitor(this.jsonMap);
+
+  @override
+  visitSimpleStringLiteral(SimpleStringLiteral node) {
+    final value = node.value;
+    if (jsonMap.containsValue(value)) {
+      final key = jsonMap.keys.firstWhere((k) => jsonMap[k] == value);
+      buffer.write('S.current.$key');
+    } else {
+      buffer.write(value);
+    }
+    return super.visitSimpleStringLiteral(node);
+  }
+
 }
 
 class MyAstVisitor extends GeneralizingAstVisitor {
@@ -66,7 +109,7 @@ class MyAstVisitor extends GeneralizingAstVisitor {
           if (element is InterpolationString) {
             result += element.value;
           } else if (element is InterpolationExpression) {
-            result += '{{${interpolationIndex++}}}';
+            result += '{{v${interpolationIndex++}}}';
           }
         }
       }
@@ -86,7 +129,7 @@ class MyAstVisitor extends GeneralizingAstVisitor {
       if (element is InterpolationString) {
         result += element.value;
       } else if (element is InterpolationExpression) {
-        result += '{{${interpolationIndex++}}}';
+        result += '{{v${interpolationIndex++}}}';
       }
     }
     if (containsChinese(result)) {
@@ -99,7 +142,7 @@ class MyAstVisitor extends GeneralizingAstVisitor {
   @override
   visitInterpolationExpression(InterpolationExpression node) {
     int interpolationIndex = 0;
-    final value = '{{${interpolationIndex++}}}';
+    final value = '{{v${interpolationIndex++}}}';
     if (containsChinese(value)) {
       print('Found->visitInterpolationExpression: $value');
       addStringResult(value);
