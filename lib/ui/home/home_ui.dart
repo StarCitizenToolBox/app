@@ -127,6 +127,7 @@ class HomeUI extends HookConsumerWidget {
             Expanded(
               child: ComboBox<String>(
                 value: homeState.scInstalledPath,
+                isExpanded: true,
                 items: [
                   const ComboBoxItem(
                     value: "not_install",
@@ -135,7 +136,9 @@ class HomeUI extends HookConsumerWidget {
                   for (final path in homeState.scInstallPaths)
                     ComboBoxItem(
                       value: path,
-                      child: Text(path),
+                      child: Row(
+                        children: [Text(path)],
+                      ),
                     )
                 ],
                 onChanged: model.onChangeInstallPath,

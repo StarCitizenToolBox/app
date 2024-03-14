@@ -196,6 +196,7 @@ class ToolsUI extends HookConsumerWidget {
           child: SizedBox(
             height: 36,
             child: ComboBox<String>(
+              isExpanded: true,
               value: state.scInstalledPath,
               items: [
                 for (final path in state.scInstallPaths)
@@ -233,6 +234,7 @@ class ToolsUI extends HookConsumerWidget {
           child: SizedBox(
             height: 36,
             child: ComboBox<String>(
+              isExpanded: true,
               value: state.rsiLauncherInstalledPath,
               items: [
                 for (final path in state.rsiLauncherInstallPaths)
