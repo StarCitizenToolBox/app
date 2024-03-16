@@ -50,13 +50,13 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `SC汉化盒子  V{{versionName}} {{versionCode}}`
-  String app_index_version_info(Object versionName, Object versionCode) {
+  /// `SC汉化盒子  V{v0} {v1}`
+  String app_index_version_info(Object v0, Object v1) {
     return Intl.message(
-      'SC汉化盒子  V{$versionName} {$versionCode}',
+      'SC汉化盒子  V$v0 $v1',
       name: 'app_index_version_info',
       desc: '',
-      args: [versionName, versionCode],
+      args: [v0, v1],
     );
   }
 
@@ -340,10 +340,10 @@ class S {
     );
   }
 
-  /// `RSI 服务器报告版本号：{{v1}} \n\n本地版本号：{{v2}} \n\n建议使用 RSI Launcher 更新游戏！`
+  /// `RSI 服务器报告版本号：{v1} \n\n本地版本号：{v2} \n\n建议使用 RSI Launcher 更新游戏！`
   String home_login_info_rsi_server_report(Object v1, Object v2) {
     return Intl.message(
-      'RSI 服务器报告版本号：{$v1} \n\n本地版本号：{$v2} \n\n建议使用 RSI Launcher 更新游戏！',
+      'RSI 服务器报告版本号：$v1 \n\n本地版本号：$v2 \n\n建议使用 RSI Launcher 更新游戏！',
       name: 'home_login_info_rsi_server_report',
       desc: '',
       args: [v1, v2],
@@ -450,60 +450,60 @@ class S {
     );
   }
 
-  /// `总大小：{{v1}}`
+  /// `总大小：{v1}`
   String downloader_info_total_size(Object v1) {
     return Intl.message(
-      '总大小：{$v1}',
+      '总大小：$v1',
       name: 'downloader_info_total_size',
       desc: '',
       args: [v1],
     );
   }
 
-  /// `校验中...（{{v2}}）`
+  /// `校验中...（{v2}）`
   String downloader_info_verifying(Object v2) {
     return Intl.message(
-      '校验中...（{$v2}）',
+      '校验中...（$v2）',
       name: 'downloader_info_verifying',
       desc: '',
       args: [v2],
     );
   }
 
-  /// `下载中... ({{0}}%)`
+  /// `下载中... ({0}%)`
   String get downloader_info_downloading {
     return Intl.message(
-      '下载中... ({{0}}%)',
+      '下载中... ({0}%)',
       name: 'downloader_info_downloading',
       desc: '',
       args: [],
     );
   }
 
-  /// `状态：{{v0}}`
+  /// `状态：{v0}`
   String downloader_info_status(Object v0) {
     return Intl.message(
-      '状态：{$v0}',
+      '状态：$v0',
       name: 'downloader_info_status',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `已上传：{{v0}}`
+  /// `已上传：{v0}`
   String downloader_info_uploaded(Object v0) {
     return Intl.message(
-      '已上传：{$v0}',
+      '已上传：$v0',
       name: 'downloader_info_uploaded',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `已下载：{{v0}}`
+  /// `已下载：{v0}`
   String downloader_info_downloaded(Object v0) {
     return Intl.message(
-      '已下载：{$v0}',
+      '已下载：$v0',
       name: 'downloader_info_downloaded',
       desc: '',
       args: [v0],
@@ -560,10 +560,10 @@ class S {
     );
   }
 
-  /// `下载： {{v0}}/s    上传：{{v1}}/s`
+  /// `下载： {v0}/s    上传：{v1}/s`
   String downloader_info_download_upload_speed(Object v0, Object v1) {
     return Intl.message(
-      '下载： {$v0}/s    上传：{$v1}/s',
+      '下载： $v0/s    上传：$v1/s',
       name: 'downloader_info_download_upload_speed',
       desc: '',
       args: [v0, v1],
@@ -730,10 +730,10 @@ class S {
     );
   }
 
-  /// `一键诊断 -> {{v0}}`
+  /// `一键诊断 -> {v0}`
   String doctor_title_one_click_diagnosis(Object v0) {
     return Intl.message(
-      '一键诊断 -> {$v0}',
+      '一键诊断 -> $v0',
       name: 'doctor_title_one_click_diagnosis',
       desc: '',
       args: [v0],
@@ -820,10 +820,10 @@ class S {
     );
   }
 
-  /// `请升级您的系统 ({{v0}})`
+  /// `请升级您的系统 ({v0})`
   String doctor_info_result_upgrade_system(Object v0) {
     return Intl.message(
-      '请升级您的系统 ({$v0})',
+      '请升级您的系统 ($v0)',
       name: 'doctor_info_result_upgrade_system',
       desc: '',
       args: [v0],
@@ -840,10 +840,10 @@ class S {
     );
   }
 
-  /// `点击修复为您创建 LIVE 文件夹，完成后重试安装。({{v0}})`
+  /// `点击修复为您创建 LIVE 文件夹，完成后重试安装。({v0})`
   String doctor_info_result_create_live_folder(Object v0) {
     return Intl.message(
-      '点击修复为您创建 LIVE 文件夹，完成后重试安装。({$v0})',
+      '点击修复为您创建 LIVE 文件夹，完成后重试安装。($v0)',
       name: 'doctor_info_result_create_live_folder',
       desc: '',
       args: [v0],
@@ -860,10 +860,10 @@ class S {
     );
   }
 
-  /// `为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({{0}})`
+  /// `为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({0})`
   String get doctor_info_result_add_registry_value {
     return Intl.message(
-      '为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({{0}})',
+      '为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({0})',
       name: 'doctor_info_result_add_registry_value',
       desc: '',
       args: [],
@@ -940,10 +940,10 @@ class S {
     );
   }
 
-  /// `中文安装路径！这可能会导致游戏 启动/安装 错误！（{{0}}），请在RSI启动器更换安装路径。`
+  /// `中文安装路径！这可能会导致游戏 启动/安装 错误！（{0}），请在RSI启动器更换安装路径。`
   String get doctor_info_result_chinese_install_path_error {
     return Intl.message(
-      '中文安装路径！这可能会导致游戏 启动/安装 错误！（{{0}}），请在RSI启动器更换安装路径。',
+      '中文安装路径！这可能会导致游戏 启动/安装 错误！（{0}），请在RSI启动器更换安装路径。',
       name: 'doctor_info_result_chinese_install_path_error',
       desc: '',
       args: [],
@@ -960,20 +960,20 @@ class S {
     );
   }
 
-  /// `您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：{{v0}}）`
+  /// `您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：{v0}）`
   String doctor_info_result_memory_requirement(Object v0) {
     return Intl.message(
-      '您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：{$v0}）',
+      '您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：$v0）',
       name: 'doctor_info_result_memory_requirement',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `修复建议： {{v0}}`
+  /// `修复建议： {v0}`
   String doctor_info_result_fix_suggestion(Object v0) {
     return Intl.message(
-      '修复建议： {$v0}',
+      '修复建议： $v0',
       name: 'doctor_info_result_fix_suggestion',
       desc: '',
       args: [v0],
@@ -1040,10 +1040,10 @@ class S {
     );
   }
 
-  /// `创建文件夹失败，请尝试手动创建。\n目录：{{v0}} \n错误：{{v1}}`
+  /// `创建文件夹失败，请尝试手动创建。\n目录：{v0} \n错误：{v1}`
   String doctor_action_result_create_folder_fail(Object v0, Object v1) {
     return Intl.message(
-      '创建文件夹失败，请尝试手动创建。\n目录：{$v0} \n错误：{$v1}',
+      '创建文件夹失败，请尝试手动创建。\n目录：$v0 \n错误：$v1',
       name: 'doctor_action_result_create_folder_fail',
       desc: '',
       args: [v0, v1],
@@ -1060,10 +1060,10 @@ class S {
     );
   }
 
-  /// `修复失败，{{v0}}`
+  /// `修复失败，{v0}`
   String doctor_action_result_fix_fail(Object v0) {
     return Intl.message(
-      '修复失败，{$v0}',
+      '修复失败，$v0',
       name: 'doctor_action_result_fix_fail',
       desc: '',
       args: [v0],
@@ -1120,10 +1120,10 @@ class S {
     );
   }
 
-  /// `分析完毕，发现 {{v0}} 个问题`
+  /// `分析完毕，发现 {v0} 个问题`
   String doctor_action_result_analysis_issues_found(Object v0) {
     return Intl.message(
-      '分析完毕，发现 {$v0} 个问题',
+      '分析完毕，发现 $v0 个问题',
       name: 'doctor_action_result_analysis_issues_found',
       desc: '',
       args: [v0],
@@ -1150,10 +1150,10 @@ class S {
     );
   }
 
-  /// `游戏异常退出：{{v0}}`
+  /// `游戏异常退出：{v0}`
   String doctor_action_info_game_abnormal_exit(Object v0) {
     return Intl.message(
-      '游戏异常退出：{$v0}',
+      '游戏异常退出：$v0',
       name: 'doctor_action_info_game_abnormal_exit',
       desc: '',
       args: [v0],
@@ -1170,10 +1170,10 @@ class S {
     );
   }
 
-  /// `info:{{v0}}，请点击右下角加群反馈。`
+  /// `info:{v0}，请点击右下角加群反馈。`
   String doctor_action_info_info_feedback(Object v0) {
     return Intl.message(
-      'info:{$v0}，请点击右下角加群反馈。',
+      'info:$v0，请点击右下角加群反馈。',
       name: 'doctor_action_info_info_feedback',
       desc: '',
       args: [v0],
@@ -1200,10 +1200,10 @@ class S {
     );
   }
 
-  /// `不支持的操作系统：{{v0}}`
+  /// `不支持的操作系统：{v0}`
   String doctor_action_result_info_unsupported_os(Object v0) {
     return Intl.message(
-      '不支持的操作系统：{$v0}',
+      '不支持的操作系统：$v0',
       name: 'doctor_action_result_info_unsupported_os',
       desc: '',
       args: [v0],
@@ -1470,10 +1470,10 @@ class S {
     );
   }
 
-  /// `扫描完毕，共找到 {{v0}} 个有效安装目录`
+  /// `扫描完毕，共找到 {v0} 个有效安装目录`
   String home_action_info_scan_complete_valid_directories_found(Object v0) {
     return Intl.message(
-      '扫描完毕，共找到 {$v0} 个有效安装目录',
+      '扫描完毕，共找到 $v0 个有效安装目录',
       name: 'home_action_info_scan_complete_valid_directories_found',
       desc: '',
       args: [v0],
@@ -1520,10 +1520,10 @@ class S {
     );
   }
 
-  /// `初始化网页汉化资源失败！{{v0}}`
+  /// `初始化网页汉化资源失败！{v0}`
   String home_action_info_initialization_failed(Object v0) {
     return Intl.message(
-      '初始化网页汉化资源失败！{$v0}',
+      '初始化网页汉化资源失败！$v0',
       name: 'home_action_info_initialization_failed',
       desc: '',
       args: [v0],
@@ -1550,10 +1550,10 @@ class S {
     );
   }
 
-  /// `您在 {{v0}} 安装的汉化有新版本啦！`
+  /// `您在 {v0} 安装的汉化有新版本啦！`
   String home_localization_new_version_installed(Object v0) {
     return Intl.message(
-      '您在 {$v0} 安装的汉化有新版本啦！',
+      '您在 $v0 安装的汉化有新版本啦！',
       name: 'home_localization_new_version_installed',
       desc: '',
       args: [v0],
@@ -1610,11 +1610,11 @@ class S {
     );
   }
 
-  /// `游戏非正常退出\nexitCode={{v0}}\nstdout={{v1}}\nstderr={{v2}}\n\n诊断信息：{{v3}} \n{{v4}}`
+  /// `游戏非正常退出\nexitCode={v0}\nstdout={v1}\nstderr={v2}\n\n诊断信息：{v3} \n{v4}`
   String home_action_info_abnormal_game_exit(
       Object v0, Object v1, Object v2, Object v3, Object v4) {
     return Intl.message(
-      '游戏非正常退出\nexitCode={$v0}\nstdout={$v1}\nstderr={$v2}\n\n诊断信息：{$v3} \n{$v4}',
+      '游戏非正常退出\nexitCode=$v0\nstdout=$v1\nstderr=$v2\n\n诊断信息：$v3 \n$v4',
       name: 'home_action_info_abnormal_game_exit',
       desc: '',
       args: [v0, v1, v2, v3, v4],
@@ -1681,20 +1681,20 @@ class S {
     );
   }
 
-  /// `启用（{{v0}}）：`
+  /// `启用（{v0}）：`
   String localization_info_enabled(Object v0) {
     return Intl.message(
-      '启用（{$v0}）：',
+      '启用（$v0）：',
       name: 'localization_info_enabled',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `已安装版本：{{v0}}`
+  /// `已安装版本：{v0}`
   String localization_info_installed_version(Object v0) {
     return Intl.message(
-      '已安装版本：{$v0}',
+      '已安装版本：$v0',
       name: 'localization_info_installed_version',
       desc: '',
       args: [v0],
@@ -1791,30 +1791,30 @@ class S {
     );
   }
 
-  /// `版本号：{{v0}}`
+  /// `版本号：{v0}`
   String localization_info_version_number(Object v0) {
     return Intl.message(
-      '版本号：{$v0}',
+      '版本号：$v0',
       name: 'localization_info_version_number',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `通道：{{v0}}`
+  /// `通道：{v0}`
   String localization_info_channel(Object v0) {
     return Intl.message(
-      '通道：{$v0}',
+      '通道：$v0',
       name: 'localization_info_channel',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `更新时间：{{v0}}`
+  /// `更新时间：{v0}`
   String localization_info_update_time(Object v0) {
     return Intl.message(
-      '更新时间：{$v0}',
+      '更新时间：$v0',
       name: 'localization_info_update_time',
       desc: '',
       args: [v0],
@@ -1871,10 +1871,10 @@ class S {
     );
   }
 
-  /// `自定义_{{v0}}`
+  /// `自定义_{v0}`
   String localization_info_custom_file(Object v0) {
     return Intl.message(
-      '自定义_{$v0}',
+      '自定义_$v0',
       name: 'localization_info_custom_file',
       desc: '',
       args: [v0],
@@ -1901,10 +1901,10 @@ class S {
     );
   }
 
-  /// `安装出错！\n\n {{v0}}`
+  /// `安装出错！\n\n {v0}`
   String localization_info_installation_error(Object v0) {
     return Intl.message(
-      '安装出错！\n\n {$v0}',
+      '安装出错！\n\n $v0',
       name: 'localization_info_installation_error',
       desc: '',
       args: [v0],
@@ -1941,10 +1941,10 @@ class S {
     );
   }
 
-  /// `当前状态：{{v0}}`
+  /// `当前状态：{v0}`
   String performance_info_current_status(Object v0) {
     return Intl.message(
-      '当前状态：{$v0}',
+      '当前状态：$v0',
       name: 'performance_info_current_status',
       desc: '',
       args: [v0],
@@ -2061,10 +2061,10 @@ class S {
     );
   }
 
-  /// `性能优化 -> {{v0}}`
+  /// `性能优化 -> {v0}`
   String performance_title_performance_optimization(Object v0) {
     return Intl.message(
-      '性能优化 -> {$v0}',
+      '性能优化 -> $v0',
       name: 'performance_title_performance_optimization',
       desc: '',
       args: [v0],
@@ -2081,10 +2081,10 @@ class S {
     );
   }
 
-  /// `{{v0}}    最小值: {{v1}} / 最大值: {{v2}}`
+  /// `{v0}    最小值: {v1} / 最大值: {v2}`
   String performance_info_min_max_values(Object v0, Object v1, Object v2) {
     return Intl.message(
-      '{$v0}    最小值: {$v1} / 最大值: {$v2}',
+      '$v0    最小值: $v1 / 最大值: $v2',
       name: 'performance_info_min_max_values',
       desc: '',
       args: [v0, v1, v2],
@@ -2271,11 +2271,11 @@ class S {
     );
   }
 
-  /// `启用：{{v0}}    设备支持：{{v1}}     邮箱：{{v2}}      密码：{{v3}}`
+  /// `启用：{v0}    设备支持：{v1}     邮箱：{v2}      密码：{v3}`
   String setting_action_info_device_support_info(
       Object v0, Object v1, Object v2, Object v3) {
     return Intl.message(
-      '启用：{$v0}    设备支持：{$v1}     邮箱：{$v2}      密码：{$v3}',
+      '启用：$v0    设备支持：$v1     邮箱：$v2      密码：$v3',
       name: 'setting_action_info_device_support_info',
       desc: '',
       args: [v0, v1, v2, v3],
@@ -2352,10 +2352,10 @@ class S {
     );
   }
 
-  /// `已设置的核心数量：{{v0}}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）`
+  /// `已设置的核心数量：{v0}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）`
   String setting_action_set_core_count(Object v0) {
     return Intl.message(
-      '已设置的核心数量：{$v0}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）',
+      '已设置的核心数量：$v0   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）',
       name: 'setting_action_set_core_count',
       desc: '',
       args: [v0],
@@ -2412,10 +2412,10 @@ class S {
     );
   }
 
-  /// `缓存大小 {{v0}}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化`
+  /// `缓存大小 {v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化`
   String setting_action_info_cache_clearing_info(Object v0) {
     return Intl.message(
-      '缓存大小 {$v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化',
+      '缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化',
       name: 'setting_action_info_cache_clearing_info',
       desc: '',
       args: [v0],
@@ -2592,10 +2592,10 @@ class S {
     );
   }
 
-  /// `发现新版本 -> {{v0}}`
+  /// `发现新版本 -> {v0}`
   String app_upgrade_title_new_version_found(Object v0) {
     return Intl.message(
-      '发现新版本 -> {$v0}',
+      '发现新版本 -> $v0',
       name: 'app_upgrade_title_new_version_found',
       desc: '',
       args: [v0],
@@ -2632,10 +2632,10 @@ class S {
     );
   }
 
-  /// `正在下载： {{v0}}%    `
+  /// `正在下载： {v0}%    `
   String app_upgrade_info_downloading(Object v0) {
     return Intl.message(
-      '正在下载： {$v0}%    ',
+      '正在下载： $v0%    ',
       name: 'app_upgrade_info_downloading',
       desc: '',
       args: [v0],
@@ -2842,10 +2842,10 @@ class S {
     );
   }
 
-  /// `处理失败！：{{v0}}`
+  /// `处理失败！：{v0}`
   String tools_info_processing_failed(Object v0) {
     return Intl.message(
-      '处理失败！：{$v0}',
+      '处理失败！：$v0',
       name: 'tools_info_processing_failed',
       desc: '',
       args: [v0],
@@ -2972,10 +2972,10 @@ class S {
     );
   }
 
-  /// `初始化失败，请截图报告给开发者。{{v0}}`
+  /// `初始化失败，请截图报告给开发者。{v0}`
   String tools_action_info_init_failed(Object v0) {
     return Intl.message(
-      '初始化失败，请截图报告给开发者。{$v0}',
+      '初始化失败，请截图报告给开发者。$v0',
       name: 'tools_action_info_init_failed',
       desc: '',
       args: [v0],
@@ -2992,10 +2992,10 @@ class S {
     );
   }
 
-  /// `在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{{0}} MB`
+  /// `在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{0} MB`
   String get tools_action_info_rsi_launcher_log_issue {
     return Intl.message(
-      '在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{{0}} MB',
+      '在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{0} MB',
       name: 'tools_action_info_rsi_launcher_log_issue',
       desc: '',
       args: [],
@@ -3012,10 +3012,10 @@ class S {
     );
   }
 
-  /// `若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：{{v0}}`
+  /// `若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：{v0}`
   String tools_action_info_nvme_patch_issue(Object v0) {
     return Intl.message(
-      '若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：{$v0}',
+      '若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：$v0',
       name: 'tools_action_info_nvme_patch_issue',
       desc: '',
       args: [v0],
@@ -3082,10 +3082,10 @@ class S {
     );
   }
 
-  /// `若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：{{v0}} MB`
+  /// `若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：{v0} MB`
   String tools_action_info_shader_cache_issue(Object v0) {
     return Intl.message(
-      '若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：{$v0} MB',
+      '若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：$v0 MB',
       name: 'tools_action_info_shader_cache_issue',
       desc: '',
       args: [v0],
@@ -3182,21 +3182,21 @@ class S {
     );
   }
 
-  /// `出现错误：{{v0}}`
+  /// `出现错误：{v0}`
   String tools_action_info_error_occurred(Object v0) {
     return Intl.message(
-      '出现错误：{$v0}',
+      '出现错误：$v0',
       name: 'tools_action_info_error_occurred',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `系统：{{v0}}\n\n处理器：{{v1}}\n\n内存大小：{{v2}}GB\n\n显卡信息：\n{{v3}}\n\n硬盘信息：\n{{v4}}\n\n`
+  /// `系统：{v0}\n\n处理器：{v1}\n\n内存大小：{v2}GB\n\n显卡信息：\n{v3}\n\n硬盘信息：\n{v4}\n\n`
   String tools_action_info_system_info_content(
       Object v0, Object v1, Object v2, Object v3, Object v4) {
     return Intl.message(
-      '系统：{$v0}\n\n处理器：{$v1}\n\n内存大小：{$v2}GB\n\n显卡信息：\n{$v3}\n\n硬盘信息：\n{$v4}\n\n',
+      '系统：$v0\n\n处理器：$v1\n\n内存大小：${v2}GB\n\n显卡信息：\n$v3\n\n硬盘信息：\n$v4\n\n',
       name: 'tools_action_info_system_info_content',
       desc: '',
       args: [v0, v1, v2, v3, v4],
@@ -3233,10 +3233,10 @@ class S {
     );
   }
 
-  /// `清理失败，请手动移除，文件位置：{{v0}}`
+  /// `清理失败，请手动移除，文件位置：{v0}`
   String tools_action_info_cleanup_failed(Object v0) {
     return Intl.message(
-      '清理失败，请手动移除，文件位置：{$v0}',
+      '清理失败，请手动移除，文件位置：$v0',
       name: 'tools_action_info_cleanup_failed',
       desc: '',
       args: [v0],
@@ -3363,10 +3363,10 @@ class S {
     );
   }
 
-  /// `初始化失败：{{v0}}`
+  /// `初始化失败：{v0}`
   String app_init_failed_with_reason(Object v0) {
     return Intl.message(
-      '初始化失败：{$v0}',
+      '初始化失败：$v0',
       name: 'app_init_failed_with_reason',
       desc: '',
       args: [v0],

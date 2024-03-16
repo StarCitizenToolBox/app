@@ -134,7 +134,7 @@ class MyAstVisitor extends GeneralizingAstVisitor {
           if (element is InterpolationString) {
             result += element.value;
           } else if (element is InterpolationExpression) {
-            result += '{{v${interpolationIndex++}}}';
+            result += '{v${interpolationIndex++}}';
           }
         }
       }
@@ -154,7 +154,7 @@ class MyAstVisitor extends GeneralizingAstVisitor {
       if (element is InterpolationString) {
         result += element.value;
       } else if (element is InterpolationExpression) {
-        result += '{{v${interpolationIndex++}}}';
+        result += '{v${interpolationIndex++}}';
       }
     }
     if (containsChinese(result)) {
@@ -167,7 +167,7 @@ class MyAstVisitor extends GeneralizingAstVisitor {
   @override
   visitInterpolationExpression(InterpolationExpression node) {
     int interpolationIndex = 0;
-    final value = '{{v${interpolationIndex++}}}';
+    final value = '{v${interpolationIndex++}}';
     if (containsChinese(value)) {
       print('Found->visitInterpolationExpression: $value');
       addStringResult(value);

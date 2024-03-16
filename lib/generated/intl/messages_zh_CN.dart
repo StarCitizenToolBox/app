@@ -20,105 +20,104 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
-  static String m0(versionName, versionCode) =>
-      "SC汉化盒子  V{${versionName}} {${versionCode}}";
+  static String m0(v0, v1) => "SC汉化盒子  V${v0} ${v1}";
 
-  static String m1(v0) => "初始化失败：{${v0}}";
+  static String m1(v0) => "初始化失败：${v0}";
 
-  static String m2(v0) => "正在下载： {${v0}}%    ";
+  static String m2(v0) => "正在下载： ${v0}%    ";
 
-  static String m3(v0) => "发现新版本 -> {${v0}}";
+  static String m3(v0) => "发现新版本 -> ${v0}";
 
-  static String m4(v0) => "游戏异常退出：{${v0}}";
+  static String m4(v0) => "游戏异常退出：${v0}";
 
-  static String m5(v0) => "info:{${v0}}，请点击右下角加群反馈。";
+  static String m5(v0) => "info:${v0}，请点击右下角加群反馈。";
 
-  static String m6(v0) => "分析完毕，发现 {${v0}} 个问题";
+  static String m6(v0) => "分析完毕，发现 ${v0} 个问题";
 
-  static String m7(v0, v1) => "创建文件夹失败，请尝试手动创建。\n目录：{${v0}} \n错误：{${v1}}";
+  static String m7(v0, v1) => "创建文件夹失败，请尝试手动创建。\n目录：${v0} \n错误：${v1}";
 
-  static String m8(v0) => "修复失败，{${v0}}";
+  static String m8(v0) => "修复失败，${v0}";
 
-  static String m9(v0) => "不支持的操作系统：{${v0}}";
+  static String m9(v0) => "不支持的操作系统：${v0}";
 
-  static String m10(v0) => "点击修复为您创建 LIVE 文件夹，完成后重试安装。({${v0}})";
+  static String m10(v0) => "点击修复为您创建 LIVE 文件夹，完成后重试安装。(${v0})";
 
-  static String m11(v0) => "修复建议： {${v0}}";
+  static String m11(v0) => "修复建议： ${v0}";
 
-  static String m12(v0) => "您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：{${v0}}）";
+  static String m12(v0) => "您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：${v0}）";
 
-  static String m13(v0) => "请升级您的系统 ({${v0}})";
+  static String m13(v0) => "请升级您的系统 (${v0})";
 
-  static String m14(v0) => "一键诊断 -> {${v0}}";
+  static String m14(v0) => "一键诊断 -> ${v0}";
 
-  static String m15(v0, v1) => "下载： {${v0}}/s    上传：{${v1}}/s";
+  static String m15(v0, v1) => "下载： ${v0}/s    上传：${v1}/s";
 
-  static String m16(v0) => "已下载：{${v0}}";
+  static String m16(v0) => "已下载：${v0}";
 
-  static String m17(v0) => "状态：{${v0}}";
+  static String m17(v0) => "状态：${v0}";
 
-  static String m18(v1) => "总大小：{${v1}}";
+  static String m18(v1) => "总大小：${v1}";
 
-  static String m19(v0) => "已上传：{${v0}}";
+  static String m19(v0) => "已上传：${v0}";
 
-  static String m20(v2) => "校验中...（{${v2}}）";
+  static String m20(v2) => "校验中...（${v2}）";
 
   static String m21(v0, v1, v2, v3, v4) =>
-      "游戏非正常退出\nexitCode={${v0}}\nstdout={${v1}}\nstderr={${v2}}\n\n诊断信息：{${v3}} \n{${v4}}";
+      "游戏非正常退出\nexitCode=${v0}\nstdout=${v1}\nstderr=${v2}\n\n诊断信息：${v3} \n${v4}";
 
-  static String m22(v0) => "初始化网页汉化资源失败！{${v0}}";
+  static String m22(v0) => "初始化网页汉化资源失败！${v0}";
 
-  static String m23(v0) => "扫描完毕，共找到 {${v0}} 个有效安装目录";
+  static String m23(v0) => "扫描完毕，共找到 ${v0} 个有效安装目录";
 
-  static String m24(v0) => "您在 {${v0}} 安装的汉化有新版本啦！";
+  static String m24(v0) => "您在 ${v0} 安装的汉化有新版本啦！";
 
   static String m25(v1, v2) =>
-      "RSI 服务器报告版本号：{${v1}} \n\n本地版本号：{${v2}} \n\n建议使用 RSI Launcher 更新游戏！";
+      "RSI 服务器报告版本号：${v1} \n\n本地版本号：${v2} \n\n建议使用 RSI Launcher 更新游戏！";
 
-  static String m26(v0) => "通道：{${v0}}";
+  static String m26(v0) => "通道：${v0}";
 
-  static String m27(v0) => "自定义_{${v0}}";
+  static String m27(v0) => "自定义_${v0}";
 
-  static String m28(v0) => "启用（{${v0}}）：";
+  static String m28(v0) => "启用（${v0}）：";
 
-  static String m29(v0) => "安装出错！\n\n {${v0}}";
+  static String m29(v0) => "安装出错！\n\n ${v0}";
 
-  static String m30(v0) => "已安装版本：{${v0}}";
+  static String m30(v0) => "已安装版本：${v0}";
 
-  static String m31(v0) => "更新时间：{${v0}}";
+  static String m31(v0) => "更新时间：${v0}";
 
-  static String m32(v0) => "版本号：{${v0}}";
+  static String m32(v0) => "版本号：${v0}";
 
-  static String m33(v0) => "当前状态：{${v0}}";
+  static String m33(v0) => "当前状态：${v0}";
 
-  static String m34(v0, v1, v2) => "{${v0}}    最小值: {${v1}} / 最大值: {${v2}}";
+  static String m34(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
 
-  static String m35(v0) => "性能优化 -> {${v0}}";
+  static String m35(v0) => "性能优化 -> ${v0}";
 
-  static String m36(v0) => "缓存大小 {${v0}}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化";
+  static String m36(v0) => "缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化";
 
   static String m37(v0, v1, v2, v3) =>
-      "启用：{${v0}}    设备支持：{${v1}}     邮箱：{${v2}}      密码：{${v3}}";
+      "启用：${v0}    设备支持：${v1}     邮箱：${v2}      密码：${v3}";
 
   static String m38(v0) =>
-      "已设置的核心数量：{${v0}}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）";
+      "已设置的核心数量：${v0}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）";
 
-  static String m39(v0) => "清理失败，请手动移除，文件位置：{${v0}}";
+  static String m39(v0) => "清理失败，请手动移除，文件位置：${v0}";
 
-  static String m40(v0) => "出现错误：{${v0}}";
+  static String m40(v0) => "出现错误：${v0}";
 
-  static String m41(v0) => "初始化失败，请截图报告给开发者。{${v0}}";
+  static String m41(v0) => "初始化失败，请截图报告给开发者。${v0}";
 
   static String m42(v0) =>
-      "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：{${v0}}";
+      "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${v0}";
 
   static String m43(v0) =>
-      "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：{${v0}} MB";
+      "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：${v0} MB";
 
   static String m44(v0, v1, v2, v3, v4) =>
-      "系统：{${v0}}\n\n处理器：{${v1}}\n\n内存大小：{${v2}}GB\n\n显卡信息：\n{${v3}}\n\n硬盘信息：\n{${v4}}\n\n";
+      "系统：${v0}\n\n处理器：${v1}\n\n内存大小：${v2}GB\n\n显卡信息：\n${v3}\n\n硬盘信息：\n${v4}\n\n";
 
-  static String m45(v0) => "处理失败！：{${v0}}";
+  static String m45(v0) => "处理失败！：${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -236,12 +235,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("正在处理..."),
         "doctor_info_result_add_registry_value":
             MessageLookupByLibrary.simpleMessage(
-                "为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({{0}})"),
+                "为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({0})"),
         "doctor_info_result_chinese_install_path":
             MessageLookupByLibrary.simpleMessage("中文安装路径！"),
         "doctor_info_result_chinese_install_path_error":
             MessageLookupByLibrary.simpleMessage(
-                "中文安装路径！这可能会导致游戏 启动/安装 错误！（{{0}}），请在RSI启动器更换安装路径。"),
+                "中文安装路径！这可能会导致游戏 启动/安装 错误！（{0}），请在RSI启动器更换安装路径。"),
         "doctor_info_result_chinese_username":
             MessageLookupByLibrary.simpleMessage("中文用户名！"),
         "doctor_info_result_chinese_username_error":
@@ -308,7 +307,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloader_info_download_upload_speed": m15,
         "downloader_info_downloaded": m16,
         "downloader_info_downloading":
-            MessageLookupByLibrary.simpleMessage("下载中... ({{0}}%)"),
+            MessageLookupByLibrary.simpleMessage("下载中... ({0}%)"),
         "downloader_info_downloading_status":
             MessageLookupByLibrary.simpleMessage("下载中..."),
         "downloader_info_manual_file_deletion_note":
@@ -680,7 +679,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器目录，请您尝试手动操作。"),
         "tools_action_info_rsi_launcher_log_issue":
             MessageLookupByLibrary.simpleMessage(
-                "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{{0}} MB"),
+                "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{0} MB"),
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。"),

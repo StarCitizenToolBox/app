@@ -41,8 +41,8 @@ class IndexUI extends HookConsumerWidget {
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(width: 12),
-                    const Text(
-                        "SC汉化盒子  V${ConstConf.appVersion} ${ConstConf.isMSE ? "" : " Dev"}")
+                    Text(S.current.app_index_version_info(
+                        ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
                   ],
                 ),
               ),
