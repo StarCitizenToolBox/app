@@ -217,7 +217,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
       state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
       await cleanShaderCache(null);
     }
-    state = state.copyWith(workingString: "");
+    state = state.copyWith(workingString: S.current.performance_info_done);
     await await Future.delayed(const Duration(milliseconds: 300));
     await _init();
     state = state.copyWith(workingString: "");
