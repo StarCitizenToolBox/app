@@ -199,7 +199,7 @@ class WebViewModel {
             .then((value) => {webview.setWebviewWindowVisibility(false)});
       }
     } catch (e) {
-      showToast(context, "初始化失败：$e");
+      showToast(context, S.current.app_init_failed_with_reason(e));
     }
   }
 
@@ -317,7 +317,9 @@ class WebViewModel {
     webview.evaluateJavaScript("RSIAutoLogin(\"$email\",\"\")");
     if (pwdE != "" && nonceStr != "" && macStr != "") {
       // send toast
-      webview.evaluateJavaScript("SCTShowToast(\"请完成 Windows Hello 验证以填充密码\")");
+      final toastMsg =
+          S.current.webview_localization_device_windows_hello_toast;
+      webview.evaluateJavaScript("SCTShowToast(\"$toastMsg\")");
       // decrypt
       if (await localAuth.authenticate(
               localizedReason:

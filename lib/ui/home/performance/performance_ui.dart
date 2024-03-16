@@ -30,10 +30,11 @@ class HomePerformanceUI extends HookConsumerWidget {
                     children: [
                       if (state.showGraphicsPerformanceTip)
                         InfoBar(
-                          title: Text(
-                              S.current.performance_info_graphic_optimization_hint),
+                          title: Text(S.current
+                              .performance_info_graphic_optimization_hint),
                           content: Text(
-                            S.current.performance_info_graphic_optimization_warning,
+                            S.current
+                                .performance_info_graphic_optimization_warning,
                           ),
                           onClose: () => model.closeTip(),
                         ),
@@ -41,7 +42,10 @@ class HomePerformanceUI extends HookConsumerWidget {
                       Row(
                         children: [
                           Text(
-                            "当前状态：${state.enabled ? "已应用" : "未应用"}",
+                            S.current.performance_info_current_status(
+                                state.enabled
+                                    ? S.current.performance_info_applied
+                                    : S.current.performance_info_not_applied),
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(width: 32),
@@ -66,8 +70,8 @@ class HomePerformanceUI extends HookConsumerWidget {
                                   onPressed: () =>
                                       model.onChangePreProfile(item.key)),
                             ),
-                          Text(
-                              S.current.performance_action_info_preset_only_changes_graphics),
+                          Text(S.current
+                              .performance_action_info_preset_only_changes_graphics),
                           const Spacer(),
                           Button(
                             onPressed: () => model.refresh(),
@@ -93,7 +97,8 @@ class HomePerformanceUI extends HookConsumerWidget {
                           const SizedBox(width: 6),
                           Button(
                               child: Text(
-                                S.current.performance_action_apply_and_clear_shaders,
+                                S.current
+                                    .performance_action_apply_and_clear_shaders,
                                 style: const TextStyle(fontSize: 16),
                               ),
                               onPressed: () => model.applyProfile(true)),
@@ -138,7 +143,8 @@ class HomePerformanceUI extends HookConsumerWidget {
     }
 
     return makeDefaultPage(context,
-        title: "性能优化 -> ${model.scPath}",
+        title:
+            S.current.performance_title_performance_optimization(model.scPath),
         useBodyContainer: true,
         content: content);
   }
@@ -246,8 +252,7 @@ class HomePerformanceUI extends HookConsumerWidget {
           else if (item.type == "customize")
             TextFormBox(
               maxLines: 10,
-              placeholder:
-                  "您可以在这里输入未收录进盒子的自定义参数。配置示例:\n\nr_displayinfo=0\nr_VSync=0",
+              placeholder: S.current.performance_action_custom_parameters_input,
               controller: model.customizeCtrl,
             ),
           if (item.info != null && item.info!.isNotEmpty) ...[
@@ -264,7 +269,8 @@ class HomePerformanceUI extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "${item.key}    最小值: ${item.min} / 最大值: ${item.max}",
+                  S.current.performance_info_min_max_values(
+                      item.key ?? "", item.min ?? "", item.max ?? ""),
                   style: TextStyle(color: Colors.white.withOpacity(.6)),
                 )
               ],

@@ -60,6 +60,16 @@ class S {
     );
   }
 
+  /// `SC汉化盒子DEV.lnk`
+  String get app_shortcut_name {
+    return Intl.message(
+      'SC汉化盒子DEV.lnk',
+      name: 'app_shortcut_name',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `检查更新`
   String get about_check_update {
     return Intl.message(
@@ -470,13 +480,13 @@ class S {
     );
   }
 
-  /// `下载中... ({0}%)`
-  String get downloader_info_downloading {
+  /// `下载中... ({v0}%)`
+  String downloader_info_downloading(Object v0) {
     return Intl.message(
-      '下载中... ({0}%)',
+      '下载中... ($v0%)',
       name: 'downloader_info_downloading',
       desc: '',
-      args: [],
+      args: [v0],
     );
   }
 
@@ -860,13 +870,13 @@ class S {
     );
   }
 
-  /// `为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({0})`
-  String get doctor_info_result_add_registry_value {
+  /// `为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({v0})`
+  String doctor_info_result_add_registry_value(Object v0) {
     return Intl.message(
-      '为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({0})',
+      '为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区($v0)',
       name: 'doctor_info_result_add_registry_value',
       desc: '',
-      args: [],
+      args: [v0],
     );
   }
 
@@ -940,13 +950,13 @@ class S {
     );
   }
 
-  /// `中文安装路径！这可能会导致游戏 启动/安装 错误！（{0}），请在RSI启动器更换安装路径。`
-  String get doctor_info_result_chinese_install_path_error {
+  /// `中文安装路径！这可能会导致游戏 启动/安装 错误！（{v0}），请在RSI启动器更换安装路径。`
+  String doctor_info_result_chinese_install_path_error(Object v0) {
     return Intl.message(
-      '中文安装路径！这可能会导致游戏 启动/安装 错误！（{0}），请在RSI启动器更换安装路径。',
+      '中文安装路径！这可能会导致游戏 启动/安装 错误！（$v0），请在RSI启动器更换安装路径。',
       name: 'doctor_info_result_chinese_install_path_error',
       desc: '',
-      args: [],
+      args: [v0],
     );
   }
 
@@ -2992,13 +3002,13 @@ class S {
     );
   }
 
-  /// `在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{0} MB`
-  String get tools_action_info_rsi_launcher_log_issue {
+  /// `在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{v0} MB`
+  String tools_action_info_rsi_launcher_log_issue(Object v0) {
     return Intl.message(
-      '在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{0} MB',
+      '在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：$v0 MB',
       name: 'tools_action_info_rsi_launcher_log_issue',
       desc: '',
-      args: [],
+      args: [v0],
     );
   }
 
@@ -3273,26 +3283,6 @@ class S {
     );
   }
 
-  /// `P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。`
-  String get tools_action_info_p4k_file_description_part1 {
-    return Intl.message(
-      'P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。',
-      name: 'tools_action_info_p4k_file_description_part1',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。`
-  String get tools_action_info_p4k_file_description_part2 {
-    return Intl.message(
-      '\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。',
-      name: 'tools_action_info_p4k_file_description_part2',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `已经有一个p4k下载任务正在进行中，请前往下载管理器查看！`
   String get tools_action_info_p4k_download_in_progress {
     return Intl.message(
@@ -3378,6 +3368,16 @@ class S {
     return Intl.message(
       '请输入设备PIN以自动登录RSI账户',
       name: 'webview_localization_enter_device_pin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `请完成 Windows Hello 验证以填充密码`
+  String get webview_localization_device_windows_hello_toast {
+    return Intl.message(
+      '请完成 Windows Hello 验证以填充密码',
+      name: 'webview_localization_device_windows_hello_toast',
       desc: '',
       args: [],
     );

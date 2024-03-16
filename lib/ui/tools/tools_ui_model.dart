@@ -72,21 +72,21 @@ class ToolsUIModel extends _$ToolsUIModel {
         ToolsItemData(
           "systemnfo",
           S.current.tools_action_view_system_info,
-          "查看系统关键信息，用于快速问诊 \n\n耗时操作，请耐心等待。",
+          S.current.tools_action_info_view_critical_system_info,
           const Icon(FluentIcons.system, size: 24),
           onTap: () => _showSystemInfo(context),
         ),
         ToolsItemData(
           "p4k_downloader",
           S.current.tools_action_p4k_download_repair,
-          "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n资源有限，请勿滥用。",
+          S.current.tools_action_info_p4k_download_repair_tip,
           const Icon(FontAwesomeIcons.download, size: 24),
           onTap: () => _downloadP4k(context),
         ),
         ToolsItemData(
           "hosts_booster",
           S.current.tools_action_hosts_acceleration_experimental,
-          "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。",
+          S.current.tools_action_info_hosts_acceleration_experimental_tip,
           const Icon(FluentIcons.virtual_network, size: 24),
           onTap: () => _doHostsBooster(context),
         ),
@@ -100,7 +100,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         ToolsItemData(
           "rsilauncher_admin_mode",
           S.current.tools_action_rsi_launcher_admin_mode,
-          "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。",
+          S.current.tools_action_info_run_rsi_as_admin,
           const Icon(FluentIcons.admin, size: 24),
           onTap: () => _adminRSILauncher(context),
         ),
@@ -121,7 +121,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       state = state.copyWith(items: items, isItemLoading: false);
     } catch (e) {
       if (!context.mounted) return;
-      showToast(context, "初始化失败，请截图报告给开发者。$e");
+      showToast(context, S.current.tools_action_info_init_failed(e));
     }
   }
 
@@ -137,7 +137,8 @@ class ToolsUIModel extends _$ToolsUIModel {
       ToolsItemData(
         "rsilauncher_log_fix",
         S.current.tools_action_rsi_launcher_log_fix,
-        "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${(logPathLen.toStringAsFixed(4))} MB",
+        S.current.tools_action_info_rsi_launcher_log_issue(
+            logPathLen.toStringAsFixed(4)),
         const Icon(FontAwesomeIcons.bookBible, size: 24),
         onTap: () => _rsiLogFix(context),
       ),
@@ -151,7 +152,9 @@ class ToolsUIModel extends _$ToolsUIModel {
         ToolsItemData(
           "remove_nvme_settings",
           S.current.tools_action_remove_nvme_registry_patch,
-          "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${(nvmePatchStatus) ? "已安装" : "未安装"}",
+          S.current.tools_action_info_nvme_patch_issue(nvmePatchStatus
+              ? S.current.localization_info_installed
+              : S.current.tools_action_info_not_installed),
           const Icon(FluentIcons.hard_drive, size: 24),
           onTap: nvmePatchStatus
               ? () async {
@@ -159,7 +162,8 @@ class ToolsUIModel extends _$ToolsUIModel {
                   await SystemHelper.doRemoveNvmePath();
                   state = state.copyWith(working: false);
                   if (!context.mounted) return;
-                  showToast(context, S.current.tools_action_info_removed_restart_effective);
+                  showToast(context,
+                      S.current.tools_action_info_removed_restart_effective);
                   loadToolsCard(context, skipPathScan: true);
                 }
               : null,
@@ -175,11 +179,11 @@ class ToolsUIModel extends _$ToolsUIModel {
             final r = await SystemHelper.addNvmePatch();
             if (r == "") {
               if (!context.mounted) return;
-              showToast(context,
-                  S.current.tools_action_info_fix_success_restart);
+              showToast(
+                  context, S.current.tools_action_info_fix_success_restart);
             } else {
               if (!context.mounted) return;
-              showToast(context, "修复失败，$r");
+              showToast(context, S.current.doctor_action_result_fix_fail(r));
             }
             state = state.copyWith(working: false);
             loadToolsCard(context, skipPathScan: true);
@@ -190,12 +194,15 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   Future<ToolsItemData> _addShaderCard(BuildContext context) async {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
+    final shaderSize = ((await SystemHelper.getDirLen(gameShaderCachePath ?? "",
+                skipPath: ["$gameShaderCachePath\\Crashes"])) /
+            1024 /
+            1024)
+        .toStringAsFixed(4);
     return ToolsItemData(
       "clean_shaders",
       S.current.tools_action_clear_shader_cache,
-      "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：${((await SystemHelper.getDirLen(gameShaderCachePath ?? "", skipPath: [
-                "$gameShaderCachePath\\Crashes"
-              ])) / 1024 / 1024).toStringAsFixed(4)} MB",
+      S.current.tools_action_info_shader_cache_issue(shaderSize),
       const Icon(FontAwesomeIcons.shapes, size: 24),
       onTap: () => _cleanShaderCache(context),
     );
@@ -207,10 +214,12 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     return ToolsItemData(
       "photography_mode",
-      isEnable ? "关闭摄影模式" : S.current.tools_action_open_photography_mode,
       isEnable
-          ? "还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。"
-          : "一键${S.current.action_close}游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。",
+          ? S.current.tools_action_close_photography_mode
+          : S.current.tools_action_open_photography_mode,
+      isEnable
+          ? S.current.tools_action_info_restore_lens_shake
+          : S.current.tools_action_info_one_key_close_lens_shake,
       const Icon(FontAwesomeIcons.camera, size: 24),
       onTap: () => _onChangePhotographyMode(context, isEnable),
     );
@@ -255,7 +264,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     } catch (e) {
       dPrint(e);
       if (!context.mounted) return;
-      showToast(context, "解析 log 文件失败！\n请尝试使用 RSI Launcher log 修复 工具！");
+      showToast(context, S.current.tools_action_info_log_file_parse_failed);
     }
 
     if (rsiLauncherInstalledPath == "") {
@@ -271,7 +280,8 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// 重装EAC
   Future<void> _reinstallEAC(BuildContext context) async {
     if (state.scInstalledPath.isEmpty) {
-      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
+      showToast(
+          context, S.current.tools_action_info_valid_game_directory_needed);
       return;
     }
     state = state.copyWith(working: true);
@@ -301,28 +311,29 @@ class ToolsUIModel extends _$ToolsUIModel {
         await eacLauncher.delete(recursive: true);
       }
       if (!context.mounted) return;
-      showToast(context,
-          S.current.tools_action_info_eac_file_removed);
+      showToast(context, S.current.tools_action_info_eac_file_removed);
       _adminRSILauncher(context);
     } catch (e) {
-      showToast(context, "出现错误：$e");
+      showToast(context, S.current.tools_action_info_error_occurred(e));
     }
     state = state.copyWith(working: false);
     loadToolsCard(context, skipPathScan: true);
   }
 
   Future<String> getSystemInfo() async {
-    return "系统：${await SystemHelper.getSystemName()}\n\n"
-        "处理器：${await SystemHelper.getCpuName()}\n\n"
-        "内存大小：${await SystemHelper.getSystemMemorySizeGB()}GB\n\n"
-        "显卡信息：\n${await SystemHelper.getGpuInfo()}\n\n"
-        "硬盘信息：\n${await SystemHelper.getDiskInfo()}\n\n";
+    return S.current.tools_action_info_system_info_content(
+        await SystemHelper.getSystemName(),
+        await SystemHelper.getCpuName(),
+        await SystemHelper.getSystemMemorySizeGB(),
+        await SystemHelper.getGpuInfo(),
+        await SystemHelper.getDiskInfo());
   }
 
   /// 管理员模式运行 RSI 启动器
   Future _adminRSILauncher(BuildContext context) async {
     if (state.rsiLauncherInstalledPath == "") {
-      showToast(context, S.current.tools_action_info_rsi_launcher_directory_not_found);
+      showToast(context,
+          S.current.tools_action_info_rsi_launcher_directory_not_found);
     }
     SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
   }
@@ -332,8 +343,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     final path = await SCLoggerHelper.getLogFilePath();
     if (!await File(path!).exists()) {
       if (!context.mounted) return;
-      showToast(
-          context, S.current.tools_action_info_log_file_not_exist);
+      showToast(context, S.current.tools_action_info_log_file_not_exist);
       return;
     }
     try {
@@ -344,7 +354,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
     } catch (_) {
       if (!context.mounted) return;
-      showToast(context, "清理失败，请手动移除，文件位置：$path");
+      showToast(context, S.current.tools_action_info_cleanup_failed(path));
     }
 
     state = state.copyWith(working: false);
@@ -370,7 +380,8 @@ class ToolsUIModel extends _$ToolsUIModel {
         actions: [
           FilledButton(
             child: Padding(
-              padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+              padding:
+                  const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
               child: Text(S.current.action_close),
             ),
             onPressed: () => Navigator.pop(context),
@@ -404,18 +415,15 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
+      showToast(
+          context, S.current.tools_action_info_rsi_launcher_running_warning,
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * .35));
       return;
     }
 
     if (!context.mounted) return;
-    await showToast(
-        context,
-        "${S.current.tools_action_info_p4k_file_description_part1}"
-        "\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。");
-
+    await showToast(context, S.current.tools_action_info_p4k_file_description);
     try {
       state = state.copyWith(working: true);
       final aria2cManager = ref.read(aria2cModelProvider.notifier);
@@ -431,7 +439,8 @@ class ToolsUIModel extends _$ToolsUIModel {
         final t = HomeDownloaderUIModel.getTaskTypeAndName(value);
         if (t.key == "torrent" && t.value.contains("Data.p4k")) {
           if (!context.mounted) return;
-          showToast(context, S.current.tools_action_info_p4k_download_in_progress);
+          showToast(
+              context, S.current.tools_action_info_p4k_download_in_progress);
           state = state.copyWith(working: false);
           return;
         }
@@ -447,7 +456,8 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (torrentUrl == "") {
         state = state.copyWith(working: false);
         if (!context.mounted) return;
-        showToast(context, S.current.tools_action_info_function_under_maintenance);
+        showToast(
+            context, S.current.tools_action_info_function_under_maintenance);
         return;
       }
 
@@ -486,7 +496,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     } catch (e) {
       state = state.copyWith(working: false);
       if (!context.mounted) return;
-      showToast(context, "初始化失败！: $e");
+      showToast(context, S.current.app_init_failed_with_reason(e));
     }
     await Future.delayed(const Duration(seconds: 3));
     launchUrlString(
@@ -496,7 +506,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   Future<bool> _checkPhotographyStatus(BuildContext context,
       {bool? setMode}) async {
     final scInstalledPath = state.scInstalledPath;
-    final   keys = ["AudioShakeStrength", "CameraSpringMovement", "ShakeScale"];
+    final keys = ["AudioShakeStrength", "CameraSpringMovement", "ShakeScale"];
     final attributesFile = File(
         "$scInstalledPath\\USER\\Client\\0\\Profiles\\default\\attributes.xml");
     if (setMode == null) {

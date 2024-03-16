@@ -18,57 +18,71 @@ class SettingsUI extends HookConsumerWidget {
       margin: const EdgeInsets.all(16),
       child: Column(
         children: [
-          makeSettingsItem(const Icon(FluentIcons.link, size: 20), S.current.setting_action_create_settings_shortcut,
-              subTitle: S.current.setting_action_create_desktop_shortcut, onTap: ()=> model.addShortCut(context)),
+          makeSettingsItem(const Icon(FluentIcons.link, size: 20),
+              S.current.setting_action_create_settings_shortcut,
+              subTitle: S.current.setting_action_create_desktop_shortcut,
+              onTap: () => model.addShortCut(context)),
           if (ConstConf.isMSE) ...[
             const SizedBox(height: 12),
-            makeSettingsItem(
-                const Icon(FluentIcons.reset_device, size: 20), S.current.setting_action_reset_auto_password_fill,
-                subTitle:
-                    "启用：${sate.isEnableAutoLogin ? "已启用" : "已禁用"}    设备支持：${sate.isDeviceSupportWinHello ? "支持" : "不支持"}     邮箱：${sate.autoLoginEmail}      密码：${sate.isEnableAutoLoginPwd ? "已加密保存" : "未保存"}",
-                onTap: ()=> model.onResetAutoLogin(context)),
+            makeSettingsItem(const Icon(FluentIcons.reset_device, size: 20),
+                S.current.setting_action_reset_auto_password_fill,
+                subTitle: S.current.setting_action_info_device_support_info(
+                    sate.isEnableAutoLogin
+                        ? S.current.setting_action_info_enabled
+                        : S.current.setting_action_info_disabled,
+                    sate.isDeviceSupportWinHello
+                        ? S.current.setting_action_info_support
+                        : S.current.setting_action_info_not_support,
+                    sate.autoLoginEmail,
+                    sate.isEnableAutoLoginPwd
+                        ? S.current.setting_action_info_encrypted_saved
+                        : S.current.setting_action_info_not_saved),
+                onTap: () => model.onResetAutoLogin(context)),
           ],
           const SizedBox(height: 12),
           makeSettingsItem(const Icon(FontAwesomeIcons.microchip, size: 20),
               S.current.setting_action_ignore_efficiency_cores_on_launch,
-              subTitle:
-                  "已设置的核心数量：${sate.inputGameLaunchECore}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）",
-              onTap:()=> model.setGameLaunchECore(context)),
+              subTitle: S.current
+                  .setting_action_set_core_count(sate.inputGameLaunchECore),
+              onTap: () => model.setGameLaunchECore(context)),
           const SizedBox(height: 12),
           makeSettingsItem(const Icon(FluentIcons.folder_open, size: 20),
               S.current.setting_action_set_launcher_file,
               subTitle: sate.customLauncherPath != null
                   ? "${sate.customLauncherPath}"
-                  : S.current.setting_action_info_manual_launcher_location_setting,
-              onTap: ()=> model.setLauncherPath(context), onDel: () {
-            model.delName("custom_launcher_path");
-          }),
+                  : S.current
+                      .setting_action_info_manual_launcher_location_setting,
+              onTap: () => model.setLauncherPath(context),
+              onDel: () {
+                model.delName("custom_launcher_path");
+              }),
           const SizedBox(height: 12),
           makeSettingsItem(const Icon(FluentIcons.game, size: 20),
               S.current.setting_action_set_game_file,
               subTitle: sate.customGamePath != null
                   ? "${sate.customGamePath}"
                   : S.current.setting_action_info_manual_game_location_setting,
-              onTap: ()=> model.setGamePath(context), onDel: () {
-            model.delName("custom_game_path");
-          }),
+              onTap: () => model.setGamePath(context),
+              onDel: () {
+                model.delName("custom_game_path");
+              }),
           const SizedBox(height: 12),
-          makeSettingsItem(const Icon(FluentIcons.delete, size: 20), S.current.setting_action_clear_translation_file_cache,
-              subTitle:
-                  "缓存大小 ${(sate.locationCacheSize / 1024 / 1024).toStringAsFixed(2)}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化",
-              onTap: ()=> model.cleanLocationCache(context)),
+          makeSettingsItem(const Icon(FluentIcons.delete, size: 20),
+              S.current.setting_action_clear_translation_file_cache,
+              subTitle: S.current.setting_action_info_cache_clearing_info(
+                  (sate.locationCacheSize / 1024 / 1024).toStringAsFixed(2)),
+              onTap: () => model.cleanLocationCache(context)),
           const SizedBox(height: 12),
-          makeSettingsItem(
-              const Icon(FluentIcons.speed_high, size: 20), S.current.setting_action_tool_site_access_acceleration,
+          makeSettingsItem(const Icon(FluentIcons.speed_high, size: 20),
+              S.current.setting_action_tool_site_access_acceleration,
               onTap: () =>
                   model.onChangeToolSiteMirror(!sate.isEnableToolSiteMirrors),
-              subTitle:
-                  S.current.setting_action_info_mirror_server_info,
+              subTitle: S.current.setting_action_info_mirror_server_info,
               onSwitch: model.onChangeToolSiteMirror,
               switchStatus: sate.isEnableToolSiteMirrors),
           const SizedBox(height: 12),
-          makeSettingsItem(
-              const Icon(FluentIcons.document_set, size: 20), S.current.setting_action_view_log,
+          makeSettingsItem(const Icon(FluentIcons.document_set, size: 20),
+              S.current.setting_action_view_log,
               onTap: () => model.showLogs(),
               subTitle: S.current.setting_action_info_view_log_file),
         ],

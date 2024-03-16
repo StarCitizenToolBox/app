@@ -144,8 +144,7 @@ class ToolsUI extends HookConsumerWidget {
                                                 try {
                                                   item.onTap?.call();
                                                 } catch (e) {
-                                                  showToast(
-                                                      context, "处理失败！：$e");
+                                                  showToast(context, S.current.tools_info_processing_failed(e));
                                                 }
                                               },
                                     child: const Padding(

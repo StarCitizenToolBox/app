@@ -30,7 +30,8 @@ class HomeGameDoctorUI extends HookConsumerWidget {
     }, []);
 
     return makeDefaultPage(context,
-        title: "一键诊断 -> ${homeState.scInstalledPath}",
+        title: S.current
+            .doctor_title_one_click_diagnosis(homeState.scInstalledPath ?? ""),
         useBodyContainer: true,
         content: Stack(
           children: [
@@ -40,7 +41,7 @@ class HomeGameDoctorUI extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    for (final item in  {
+                    for (final item in {
                       "rsi_log": S.current.doctor_action_rsi_launcher_log,
                       "game_log": S.current.doctor_action_game_run_log,
                     }.entries)
@@ -82,7 +83,8 @@ class HomeGameDoctorUI extends HookConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const SizedBox(height: 12),
-                        Text(S.current.doctor_info_scan_complete_no_issues, maxLines: 1),
+                        Text(S.current.doctor_info_scan_complete_no_issues,
+                            maxLines: 1),
                         const SizedBox(height: 64),
                       ],
                     ),
@@ -121,8 +123,8 @@ class HomeGameDoctorUI extends HookConsumerWidget {
   Widget makeRescueBanner(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await showToast(context,
-            S.current.doctor_info_game_rescue_service_note);
+        await showToast(
+            context, S.current.doctor_info_game_rescue_service_note);
         launchUrlString(
             "https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=-M4wEme_bCXbUGT4LFKLH0bAYTFt70Ad&authKey=vHVr0TNgRmKu%2BHwywoJV6EiLa7La2VX74Vkyixr05KA0H9TqB6qWlCdY%2B9jLQ4Ha&noverify=0&group_code=536454632");
       },
@@ -175,22 +177,26 @@ class HomeGameDoctorUI extends HookConsumerWidget {
   Widget makeResultItem(BuildContext context, MapEntry<String, String> item,
       HomeGameDoctorState state, HomeGameDoctorUIModel model) {
     final errorNames = {
-      "unSupport_system":
-          MapEntry("不支持的操作系统，游戏可能无法运行", "请升级您的系统 (${item.value})"),
+      "unSupport_system": MapEntry(S.current.doctor_info_result_unsupported_os,
+          S.current.doctor_info_result_upgrade_system(item.value)),
       "no_live_path": MapEntry(S.current.doctor_info_result_missing_live_folder,
-          "点击修复为您创建 LIVE 文件夹，完成后重试安装。(${item.value})"),
-      "nvme_PhysicalBytes": MapEntry(S.current.doctor_info_result_incompatible_nvme_device,
-          "为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区(${item.value})"),
-      "eac_file_miss": MapEntry(S.current.doctor_info_result_missing_easyanticheat_files,
+          S.current.doctor_info_result_create_live_folder(item.value)),
+      "nvme_PhysicalBytes": MapEntry(
+          S.current.doctor_info_result_incompatible_nvme_device,
+          S.current.doctor_info_result_add_registry_value(item.value)),
+      "eac_file_miss": MapEntry(
+          S.current.doctor_info_result_missing_easyanticheat_files,
           S.current.doctor_info_result_verify_files_with_rsi_launcher),
-      "eac_not_install": MapEntry(S.current.doctor_info_result_easyanticheat_not_installed,
+      "eac_not_install": MapEntry(
+          S.current.doctor_info_result_easyanticheat_not_installed,
           S.current.doctor_info_result_install_easyanticheat),
-      "cn_user_name":
-          MapEntry("中文用户名！", S.current.doctor_info_result_chinese_username_error),
-      "cn_install_path": MapEntry(S.current.doctor_info_result_chinese_install_path,
-          "中文安装路径！这可能会导致游戏 启动/安装 错误！（${item.value}），请在RSI启动器更换安装路径。"),
-      "low_ram": MapEntry(
-          "物理内存过低", "您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：${item.value}）"),
+      "cn_user_name": MapEntry(S.current.doctor_info_result_chinese_username,
+          S.current.doctor_info_result_chinese_username_error),
+      "cn_install_path": MapEntry(
+          S.current.doctor_info_result_chinese_install_path,
+          S.current.doctor_info_result_chinese_install_path_error(item.value)),
+      "low_ram": MapEntry(S.current.doctor_info_result_low_physical_memory,
+          S.current.doctor_info_result_memory_requirement(item.value)),
     };
     bool isCheckedError = errorNames.containsKey(item.key);
 
@@ -211,7 +217,9 @@ class HomeGameDoctorUI extends HookConsumerWidget {
               children: [
                 const SizedBox(height: 4),
                 Text(
-                  "修复建议： ${errorNames[item.key]?.value ?? "暂无解决方法，请截图反馈"}",
+                  S.current.doctor_info_result_fix_suggestion(
+                      errorNames[item.key]?.value ??
+                          S.current.doctor_info_result_no_solution),
                   style: TextStyle(
                       fontSize: 14, color: Colors.white.withOpacity(.7)),
                 ),
@@ -225,7 +233,8 @@ class HomeGameDoctorUI extends HookConsumerWidget {
                     await model.doFix(context, item);
                   },
             child: Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
               child: Text(S.current.doctor_info_action_fix),
             ),
           ),
@@ -263,8 +272,8 @@ class HomeGameDoctorUI extends HookConsumerWidget {
                   launchUrlString(item.value);
                 },
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),
+                  padding: const EdgeInsets.only(
+                      left: 8, right: 8, top: 4, bottom: 4),
                   child: Text(S.current.doctor_action_view_solution),
                 ),
               )

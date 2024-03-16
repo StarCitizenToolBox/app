@@ -79,7 +79,9 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
         return;
       case "cancel_all":
         final userOK = await showConfirmDialogs(
-            context, "确认取消全部任务？", Text(S.current.downloader_info_manual_file_deletion_note));
+            context,
+            S.current.downloader_action_confirm_cancel_all_tasks,
+            Text(S.current.downloader_info_manual_file_deletion_note));
         if (userOK == true) {
           if (!aria2cState.isRunning) return;
           try {
@@ -170,7 +172,9 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     if (gid != null) {
       if (!context.mounted) return;
       final ok = await showConfirmDialogs(
-          context, "确认取消下载？", Text(S.current.downloader_info_manual_file_deletion_note));
+          context,
+          S.current.downloader_action_confirm_cancel_download,
+          Text(S.current.downloader_info_manual_file_deletion_note));
       if (ok == true) {
         final aria2c = ref.read(aria2cModelProvider).aria2c;
         await aria2c?.remove(gid);

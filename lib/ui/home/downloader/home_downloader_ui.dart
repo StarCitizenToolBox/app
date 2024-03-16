@@ -24,13 +24,17 @@ class HomeDownloaderUI extends HookConsumerWidget {
                 const SizedBox(width: 24),
                 const SizedBox(width: 12),
                 for (final item in <MapEntry<String, IconData>, String>{
-                  const MapEntry("settings", FluentIcons.settings): S.current.downloader_speed_limit_settings,
+                  const MapEntry("settings", FluentIcons.settings):
+                      S.current.downloader_speed_limit_settings,
                   if (state.tasks.isNotEmpty)
-                    const MapEntry("pause_all", FluentIcons.pause): S.current.downloader_action_pause_all,
+                    const MapEntry("pause_all", FluentIcons.pause):
+                        S.current.downloader_action_pause_all,
                   if (state.waitingTasks.isNotEmpty)
-                    const MapEntry("resume_all", FluentIcons.download): S.current.downloader_action_resume_all,
+                    const MapEntry("resume_all", FluentIcons.download):
+                        S.current.downloader_action_resume_all,
                   if (state.tasks.isNotEmpty || state.waitingTasks.isNotEmpty)
-                    const MapEntry("cancel_all", FluentIcons.cancel): S.current.downloader_action_cancel_all,
+                    const MapEntry("cancel_all", FluentIcons.cancel):
+                        S.current.downloader_action_cancel_all,
                 }.entries)
                   Padding(
                     padding: const EdgeInsets.only(left: 6, right: 6),
@@ -119,7 +123,9 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      "总大小：${FileSize.getSize(task.totalLength ?? 0)}",
+                                      S.current.downloader_info_total_size(
+                                          FileSize.getSize(
+                                              task.totalLength ?? 0)),
                                       style: const TextStyle(fontSize: 14),
                                     ),
                                     const SizedBox(width: 12),
@@ -127,17 +133,22 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                         task.verifiedLength != null &&
                                         task.verifiedLength != 0)
                                       Text(
-                                        "校验中...（${FileSize.getSize(task.verifiedLength)}）",
+                                        S.current.downloader_info_verifying(
+                                            FileSize.getSize(
+                                                task.verifiedLength)),
                                         style: const TextStyle(fontSize: 14),
                                       )
                                     else if (task.status == "active")
-                                      Text(
-                                          "下载中... (${((task.completedLength ?? 0) * 100 / (task.totalLength ?? 1)).toStringAsFixed(4)}%)")
+                                      Text(S.current
+                                          .downloader_info_downloading(
+                                              ((task.completedLength ?? 0) *
+                                                      100 /
+                                                      (task.totalLength ?? 1))
+                                                  .toStringAsFixed(4)))
                                     else
-                                      Text(
-                                        "状态：${model.statusMap[task.status]}",
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
+                                      Text(S.current.downloader_info_status(
+                                          model.statusMap[task.status] ??
+                                              "Unknown")),
                                     const SizedBox(width: 24),
                                     if (task.status == "active" &&
                                         task.verifiedLength == null)
@@ -151,10 +162,10 @@ class HomeDownloaderUI extends HookConsumerWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                    "已上传：${FileSize.getSize(task.uploadLength)}"),
-                                Text(
-                                    "已下载：${FileSize.getSize(task.completedLength)}"),
+                                Text(S.current.downloader_info_uploaded(
+                                    FileSize.getSize(task.uploadLength))),
+                                Text(S.current.downloader_info_downloaded(
+                                    FileSize.getSize(task.completedLength))),
                               ],
                             ),
                             const SizedBox(width: 18),
@@ -173,20 +184,23 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                 closeAfterClick: false,
                                 title: Padding(
                                   padding: const EdgeInsets.all(3),
-                                  child: Text(S.current.downloader_action_options),
+                                  child:
+                                      Text(S.current.downloader_action_options),
                                 ),
                                 items: [
                                   if (task.status == "paused")
                                     MenuFlyoutItem(
                                         leading:
                                             const Icon(FluentIcons.download),
-                                        text: Text(S.current.downloader_action_continue_download),
+                                        text: Text(S.current
+                                            .downloader_action_continue_download),
                                         onPressed: () =>
                                             model.resumeTask(task.gid))
                                   else if (task.status == "active")
                                     MenuFlyoutItem(
                                         leading: const Icon(FluentIcons.pause),
-                                        text: Text(S.current.downloader_action_pause_download),
+                                        text: Text(S.current
+                                            .downloader_action_pause_download),
                                         onPressed: () =>
                                             model.pauseTask(task.gid)),
                                   const MenuFlyoutSeparator(),
@@ -195,7 +209,8 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                         FluentIcons.chrome_close,
                                         size: 14,
                                       ),
-                                      text: Text(S.current.downloader_action_cancel_download),
+                                      text: Text(S.current
+                                          .downloader_action_cancel_download),
                                       onPressed: () =>
                                           model.cancelTask(context, task.gid)),
                                   MenuFlyoutItem(
@@ -231,10 +246,9 @@ class HomeDownloaderUI extends HookConsumerWidget {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    Text(
-                      "下载： ${FileSize.getSize(state.globalStat?.downloadSpeed ?? 0)}/s    上传：${FileSize.getSize(state.globalStat?.uploadSpeed ?? 0)}/s",
-                      style: const TextStyle(fontSize: 12),
-                    )
+                    Text(S.current.downloader_info_download_upload_speed(
+                        FileSize.getSize(state.globalStat?.downloadSpeed ?? 0),
+                        FileSize.getSize(state.globalStat?.uploadSpeed ?? 0)))
                   ],
                 ),
               ),

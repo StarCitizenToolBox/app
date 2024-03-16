@@ -41,8 +41,8 @@ class LocalizationDialogUI extends HookConsumerWidget {
                         padding: const EdgeInsets.only(bottom: 12),
                         child: InfoBar(
                           title: Text(S.current.home_action_info_warning),
-                          content: Text(
-                              S.current.localization_info_machine_translation_warning),
+                          content: Text(S.current
+                              .localization_info_machine_translation_warning),
                           severity: InfoBarSeverity.info,
                           style: InfoBarThemeData(decoration: (severity) {
                             return const BoxDecoration(
@@ -66,8 +66,10 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       Row(
                         children: [
                           Center(
-                            child: Text(
-                                "启用（${LocalizationUIModel.languageSupport[state.selectedLanguage]}）："),
+                            child: Text(S.current.localization_info_enabled(
+                                LocalizationUIModel.languageSupport[
+                                        state.selectedLanguage] ??
+                                    "")),
                           ),
                           const Spacer(),
                           ToggleSwitch(
@@ -79,7 +81,8 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          Text("已安装版本：${state.patchStatus?.value}"),
+                          Text(S.current.localization_info_installed_version(
+                              state.patchStatus?.value ?? "")),
                           const Spacer(),
                           if (state.patchStatus?.value !=
                               S.current.home_action_info_game_built_in)
@@ -93,8 +96,8 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                         children: [
                                           const Icon(FluentIcons.feedback),
                                           const SizedBox(width: 6),
-                                          Text(
-                                              S.current.localization_action_translation_feedback),
+                                          Text(S.current
+                                              .localization_action_translation_feedback),
                                         ],
                                       ),
                                     )),
@@ -107,8 +110,8 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                         children: [
                                           const Icon(FluentIcons.delete),
                                           const SizedBox(width: 6),
-                                          Text(
-                                              S.current.localization_action_uninstall_translation),
+                                          Text(S.current
+                                              .localization_action_uninstall_translation),
                                         ],
                                       ),
                                     )),
@@ -185,8 +188,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                           ? FluentIcons.chevron_up
                           : FluentIcons.chevron_down),
                       const SizedBox(width: 12),
-                      Text(
-                          S.current.localization_action_advanced_features),
+                      Text(S.current.localization_action_advanced_features),
                     ],
                   ),
                   onPressed: model.toggleCustomize),
@@ -233,8 +235,8 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                                   right: 8,
                                                   top: 4,
                                                   bottom: 4),
-                                              child: Text(
-                                                  S.current.localization_action_install),
+                                              child: Text(S.current
+                                                  .localization_action_install),
                                             ))
                                     ],
                                   )
@@ -288,17 +290,20 @@ class LocalizationDialogUI extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "版本号：${item.value.versionName}",
+                    S.current.localization_info_version_number(
+                        item.value.versionName ?? ""),
                     style: TextStyle(color: Colors.white.withOpacity(.6)),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "通道：${item.value.gameChannel}",
+                    S.current.localization_info_channel(
+                        item.value.gameChannel ?? ""),
                     style: TextStyle(color: Colors.white.withOpacity(.6)),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "更新时间：${item.value.updateAt}",
+                    S.current.localization_info_update_time(
+                        item.value.updateAt ?? ""),
                     style: TextStyle(color: Colors.white.withOpacity(.6)),
                   ),
                 ],
@@ -332,7 +337,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                           Text(isInstalled
                               ? S.current.localization_info_installed
                               : ((item.value.enable ?? false)
-                                  ? "安装"
+                                  ? S.current.localization_action_install
                                   : S.current.localization_info_unavailable)),
                         ],
                       ),

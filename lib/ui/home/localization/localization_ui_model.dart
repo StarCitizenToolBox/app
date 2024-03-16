@@ -16,6 +16,7 @@ import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
+import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -38,9 +39,9 @@ class LocalizationUIState with _$LocalizationUIState {
 
 @riverpod
 class LocalizationUIModel extends _$LocalizationUIModel {
-  static const languageSupport =  {
-    "chinese_(simplified)": "简体中文",
-    "chinese_(traditional)": "繁體中文",
+  static const languageSupport = {
+    "chinese_(simplified)": NoL10n.langZHS,
+    "chinese_(traditional)": NoL10n.langZHT,
   };
 
   late final _downloadDir =
@@ -123,8 +124,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         final ok = await showConfirmDialogs(
             context,
             S.current.localization_info_remove_incompatible_translation_params,
-            const Text(
-                "USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。"),
+            Text(S.current
+                .localization_info_incompatible_translation_params_warning),
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * .35));
         if (ok == true) {
@@ -226,7 +227,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       state = state.copyWith(workingVersion: filePath);
       final str = await f.readAsString();
       await _installFormString(
-          StringBuffer(str), "自定义_${getCustomizeFileName(filePath)}");
+          StringBuffer(str),
+          S.current
+              .localization_info_custom_file(getCustomizeFileName(filePath)));
       state = state.copyWith(workingVersion: "");
     };
   }
@@ -256,8 +259,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   openDir(BuildContext context) async {
-    showToast(context,
-        "即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。");
+    showToast(context, S.current.localization_info_custom_file_instructions);
     await Process.run(SystemHelper.powershellPath,
         ["explorer.exe", "/select,\"${_customizeDir.absolute.path}\"\\"]);
   }
@@ -293,7 +295,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         await _installFormString(globalIni, value.versionName ?? "");
       } catch (e) {
         if (!context.mounted) return;
-        await showToast(context, "安装出错！\n\n $e");
+        await showToast(
+            context, S.current.localization_info_installation_error(e));
         if (await savePath.exists()) await savePath.delete();
       }
       state = state.copyWith(workingVersion: "");
@@ -371,7 +374,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   static Future<String> _getInstalledIniVersion(String iniPath) async {
     final iniFile = File(iniPath);
-    if (!await iniFile.exists()) return S.current.home_action_info_game_built_in;
+    if (!await iniFile.exists()) {
+      return S.current.home_action_info_game_built_in;
+    }
     final iniStringSplit = (await iniFile.readAsString()).split("\n");
     for (var i = iniStringSplit.length - 1; i > 0; i--) {
       if (iniStringSplit[i]
@@ -408,7 +413,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           if (element.path.contains(lang)) {
             final installedVersion =
                 await _getInstalledIniVersion("${element.path}\\global.ini");
-            if (installedVersion == S.current.home_action_info_game_built_in) continue;
+            if (installedVersion == S.current.home_action_info_game_built_in) {
+              continue;
+            }
             final curData = _allVersionLocalizationData[lang];
             dPrint("check Localization update $scInstallPath");
             if (!(curData?.keys.contains(installedVersion) ?? false)) {

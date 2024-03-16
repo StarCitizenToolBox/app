@@ -99,8 +99,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
             final ok = await showConfirmDialogs(
                 context,
                 S.current.home_action_q_auto_password_fill_prompt,
-                const Text(
-                    "盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。"));
+                Text(S.current.home_login_info_password_encryption_notice));
             if (ok == true) {
               if (await _localAuth.authenticate(
                       localizedReason:
@@ -131,8 +130,9 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
             final ok = await showConfirmDialogs(
                 context,
                 S.current.home_login_info_game_version_outdated,
-                Text(
-                    "RSI 服务器报告版本号：${releaseInfo?["versionLabel"]} \n\n本地版本号：${buildInfo["RequestedP4ChangeNum"]} \n\n建议使用 RSI Launcher 更新游戏！"),
+                Text(S.current.home_login_info_rsi_server_report(
+                    releaseInfo?["versionLabel"],
+                    buildInfo["RequestedP4ChangeNum"])),
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * .4),
                 cancel: S.current.home_login_info_action_ignore);
@@ -165,10 +165,9 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
         final ok = await showConfirmDialogs(
             context,
             S.current.home_login_action_title_box_one_click_launch,
-            const Text(
-              "本功能可以帮您更加便利的启动游戏。\n\n为确保账户安全 ，本功能使用汉化浏览器保留登录状态，且不会保存您的密码信息（除非你启用了自动填充功能）。"
-              "\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。",
-              style: TextStyle(fontSize: 16),
+            Text(
+              S.current.home_login_info_one_click_launch_description,
+              style: const TextStyle(fontSize: 16),
             ),
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * .6));
@@ -183,8 +182,8 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     }
     if (!await WebviewWindow.isWebviewAvailable()) {
       if (!context.mounted) return;
-      await showToast(context,
-          S.current.home_login_action_title_need_webview2_runtime);
+      await showToast(
+          context, S.current.home_login_action_title_need_webview2_runtime);
       if (!context.mounted) return;
       await launchUrlString(
           "https://developer.microsoft.com/en-us/microsoft-edge/webview2/");

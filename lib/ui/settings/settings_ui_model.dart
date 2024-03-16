@@ -57,7 +57,9 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future<void> onResetAutoLogin(BuildContext context) async {
-    final ok = await showConfirmDialogs(context, S.current.setting_action_info_confirm_reset_autofill,
+    final ok = await showConfirmDialogs(
+        context,
+        S.current.setting_action_info_confirm_reset_autofill,
         Text(S.current.setting_action_info_delete_local_account_warning));
     if (ok) {
       final userBox = await Hive.openBox("rsi_account_data");
@@ -90,8 +92,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     if (!context.mounted) return;
     final input = await showInputDialogs(context,
         title: S.current.setting_action_info_enter_cpu_core_to_ignore,
-        content:
-            "Tip：您的设备拥有几个能效核心就输入几，非大小核设备请保持 0\n\n此功能适用于首页的盒子一键启动 或 工具中的 RSI启动器管理员模式，当为 0 时不启用此功能。",
+        content: S.current.setting_action_info_cpu_core_tip,
         initialValue: defaultInput,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly]);
     if (input == null) return;
@@ -175,7 +176,9 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> cleanLocationCache(BuildContext context) async {
     final ok = await showConfirmDialogs(
-        context, "确认清理汉化缓存？", Text(S.current.setting_action_info_clear_cache_warning));
+        context,
+        S.current.setting_action_info_confirm_clear_cache,
+        Text(S.current.setting_action_info_clear_cache_warning));
     if (ok == true) {
       final dir =
           Directory("${appGlobalState.applicationSupportDir}/Localizations");
@@ -187,15 +190,17 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> addShortCut(BuildContext context) async {
     if (ConstConf.isMSE) {
-      showToast(context, S.current.setting_action_info_microsoft_version_limitation);
+      showToast(
+          context, S.current.setting_action_info_microsoft_version_limitation);
       await Future.delayed(const Duration(seconds: 1));
       Process.run("explorer.exe", ["shell:AppsFolder"]);
       return;
     }
     dPrint(Platform.resolvedExecutable);
+    final shortCuntName = S.current.app_shortcut_name;
     final script = """
     \$targetPath = "${Platform.resolvedExecutable}";
-    \$shortcutPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory), "SC汉化盒子DEV.lnk");
+    \$shortcutPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory), "$shortCuntName");
     \$shell = New-Object -ComObject WScript.Shell
     \$shortcut = \$shell.CreateShortcut(\$shortcutPath)
     if (\$shortcut -eq \$null) {

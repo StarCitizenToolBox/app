@@ -49,29 +49,30 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         try {
           await Directory(item.value).create(recursive: true);
           if (!context.mounted) break;
-          showToast(context, S.current.doctor_action_result_create_folder_success);
+          showToast(
+              context, S.current.doctor_action_result_create_folder_success);
           checkResult.remove(item);
           state = state.copyWith(checkResult: checkResult);
         } catch (e) {
-          showToast(context, "创建文件夹失败，请尝试手动创建。\n目录：${item.value} \n错误：$e");
+          showToast(context,
+              S.current.doctor_action_result_create_folder_fail(item.value, e));
         }
         break;
       case "nvme_PhysicalBytes":
         final r = await SystemHelper.addNvmePatch();
         if (r == "") {
           if (!context.mounted) break;
-          showToast(context,
-              S.current.doctor_action_result_fix_success);
+          showToast(context, S.current.doctor_action_result_fix_success);
           checkResult.remove(item);
           state = state.copyWith(checkResult: checkResult);
         } else {
           if (!context.mounted) break;
-          showToast(context, "修复失败，$r");
+          showToast(context, S.current.doctor_action_result_fix_fail(r));
         }
         break;
       case "eac_file_miss":
-        showToast(
-            context, S.current.doctor_info_result_verify_files_with_rsi_launcher);
+        showToast(context,
+            S.current.doctor_info_result_verify_files_with_rsi_launcher);
         break;
       case "eac_not_install":
         final eacJsonPath = "${item.value}\\Settings.json";
@@ -84,16 +85,18 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
           dPrint("${item.value}\\EasyAntiCheat_EOS_Setup.exe install $eacID");
           if (result.stderr == "") {
             if (!context.mounted) break;
-            showToast(context, S.current.doctor_action_result_game_start_success);
+            showToast(
+                context, S.current.doctor_action_result_game_start_success);
             checkResult.remove(item);
             state = state.copyWith(checkResult: checkResult);
           } else {
             if (!context.mounted) break;
-            showToast(context, "修复失败，${result.stderr}");
+            showToast(context,
+                S.current.doctor_action_result_fix_fail(result.stderr));
           }
         } catch (e) {
           if (!context.mounted) break;
-          showToast(context, "修复失败，$e");
+          showToast(context, S.current.doctor_action_result_fix_fail(e));
         }
         break;
       case "cn_user_name":
@@ -112,7 +115,8 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   // ignore: avoid_build_context_in_providers
   doCheck(BuildContext context) async {
     if (state.isChecking) return;
-    state = state.copyWith(isChecking: true, lastScreenInfo: S.current.doctor_action_analyzing);
+    state = state.copyWith(
+        isChecking: true, lastScreenInfo: S.current.doctor_action_analyzing);
     dPrint("-------- start docker check -----");
     if (!context.mounted) return;
     await _statCheck(context);
@@ -140,7 +144,9 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
       final lastScreenInfo = S.current.doctor_action_result_analysis_no_issue;
       state = state.copyWith(checkResult: null, lastScreenInfo: lastScreenInfo);
     } else {
-      final lastScreenInfo = "分析完毕，发现 ${checkResult.length} 个问题";
+      final lastScreenInfo = S.current
+          .doctor_action_result_analysis_issues_found(
+              checkResult.length.toString());
       state = state.copyWith(
           checkResult: checkResult, lastScreenInfo: lastScreenInfo);
     }
@@ -162,10 +168,13 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     final info = SCLoggerHelper.getGameRunningLogInfo(logs);
     if (info != null) {
       if (info.key != "_") {
-        checkResult.add(MapEntry("游戏异常退出：${info.key}", info.value));
+        checkResult.add(MapEntry(
+            S.current.doctor_action_info_game_abnormal_exit(info..key),
+            info.value));
       } else {
-        checkResult
-            .add(MapEntry("游戏异常退出：未知异常", "info:${info.value}，请点击右下角加群反馈。"));
+        checkResult.add(MapEntry(
+            S.current.doctor_action_info_game_abnormal_exit_unknown,
+            S.current.doctor_action_info_info_feedback(info.value)));
       }
     }
   }
@@ -212,7 +221,8 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         Platform.operatingSystemVersion.contains("Windows 11"))) {
       checkResult
           .add(MapEntry("unSupport_system", Platform.operatingSystemVersion));
-      final lastScreenInfo = "不支持的操作系统：${Platform.operatingSystemVersion}";
+      final lastScreenInfo = S.current.doctor_action_result_info_unsupported_os(
+          Platform.operatingSystemVersion);
       state = state.copyWith(lastScreenInfo: lastScreenInfo);
       await showToast(context, lastScreenInfo);
     }
@@ -226,7 +236,8 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     if (ramSize < 16) {
       checkResult.add(MapEntry("low_ram", "$ramSize"));
     }
-    state = state.copyWith(lastScreenInfo: S.current.doctor_action_info_checking_install_info);
+    state = state.copyWith(
+        lastScreenInfo: S.current.doctor_action_info_checking_install_info);
     // 检查安装分区
     try {
       final listData = await SCLoggerHelper.getGameInstallPath(

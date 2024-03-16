@@ -44,7 +44,8 @@ class UpgradeDialogUI extends HookConsumerWidget {
 
     return Material(
       child: ContentDialog(
-        title: Text("发现新版本 -> $targetVersion"),
+        title:
+            Text(S.current.app_upgrade_title_new_version_found(targetVersion)),
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55),
         content: Column(
@@ -64,7 +65,8 @@ class UpgradeDialogUI extends HookConsumerWidget {
                           children: [
                             const ProgressRing(),
                             const SizedBox(height: 16),
-                            Text(S.current.app_upgrade_info_getting_new_version_details)
+                            Text(S.current
+                                .app_upgrade_info_getting_new_version_details)
                           ],
                         ),
                       )
@@ -98,7 +100,8 @@ class UpgradeDialogUI extends HookConsumerWidget {
                 children: [
                   Text(progress.value == 100
                       ? S.current.app_upgrade_info_installing
-                      : "正在下载： ${progress.value.toStringAsFixed(2)}%    "),
+                      : S.current.app_upgrade_info_downloading(
+                          progress.value.toStringAsFixed(2))),
                   Expanded(
                       child: ProgressBar(
                     value: progress.value == 100 ? null : progress.value,

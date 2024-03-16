@@ -91,7 +91,9 @@ class HomeUIModel extends _$HomeUIModel {
       if (scInstallPaths.isNotEmpty) {
         scInstalledPath = scInstallPaths.first;
       }
-      final lastScreenInfo = "扫描完毕，共找到 ${scInstallPaths.length} 个有效安装目录";
+      final lastScreenInfo = S.current
+          .home_action_info_scan_complete_valid_directories_found(
+              scInstallPaths.length.toString());
       state = state.copyWith(
           scInstalledPath: scInstalledPath,
           scInstallPaths: scInstallPaths,
@@ -141,10 +143,9 @@ class HomeUIModel extends _$HomeUIModel {
         final ok = await showConfirmDialogs(
             context,
             S.current.home_action_title_star_citizen_website_localization,
-            const Text(
-              "本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！"
-              "\n\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。",
-              style: TextStyle(fontSize: 16),
+            Text(
+              S.current.home_action_info_web_localization_plugin_disclaimer,
+              style: const TextStyle(fontSize: 16),
             ),
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * .6));
@@ -159,8 +160,8 @@ class HomeUIModel extends _$HomeUIModel {
     }
     if (!await WebviewWindow.isWebviewAvailable()) {
       if (!context.mounted) return;
-      showToast(context,
-          S.current.home_login_action_title_need_webview2_runtime);
+      showToast(
+          context, S.current.home_login_action_title_need_webview2_runtime);
       launchUrlString(
           "https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
       return;
@@ -171,13 +172,12 @@ class HomeUIModel extends _$HomeUIModel {
     if (useLocalization) {
       state = state.copyWith(
           isFixing: true,
-          isFixingString:
-              S.current.home_action_info_initializing_resources);
+          isFixingString: S.current.home_action_info_initializing_resources);
       try {
         await webViewModel.initLocalization(state.webLocalizationVersionsData!);
       } catch (e) {
         if (!context.mounted) return;
-        showToast(context, "初始化网页汉化资源失败！$e");
+        showToast(context, S.current.home_action_info_initialization_failed(e));
       }
       state = state.copyWith(isFixingString: "", isFixing: false);
     }
@@ -294,7 +294,8 @@ class HomeUIModel extends _$HomeUIModel {
         if (toastContent != null) {
           final xmlNodeList = toastContent.getElementsByTagName('text');
           final title = S.current.home_localization_new_version_available;
-          final content = '您在 ${updates.first} 安装的汉化有新版本啦！';
+          final content =
+              S.current.home_localization_new_version_installed(updates.first);
           xmlNodeList.item(0)?.appendChild(toastContent.createTextNode(title));
           xmlNodeList
               .item(1)
@@ -329,8 +330,7 @@ class HomeUIModel extends _$HomeUIModel {
       final ok = await showConfirmDialogs(
           context,
           S.current.home_info_one_click_launch_warning,
-          const Text("为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。"
-              "\n\n微软商店版由微软提供可靠的分发下载与数字签名，可有效防止软件被恶意篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。"),
+          Text(S.current.home_info_account_security_warning),
           confirm: S.current.home_action_install_microsoft_store_version,
           cancel: S.current.home_action_cancel);
       if (ok == true) {
@@ -389,8 +389,21 @@ class HomeUIModel extends _$HomeUIModel {
           }
         }
         if (!context.mounted) return;
-        showToast(context,
-            "游戏非正常退出\nexitCode=${result.exitCode}\nstdout=${result.stdout ?? ""}\nstderr=${result.stderr ?? ""}\n\n诊断信息：${exitInfo == null ? "未知错误，请通过一键诊断加群反馈。" : exitInfo.key} \n${hasUrl ? "请查看弹出的网页链接获得详细信息。" : exitInfo?.value ?? ""}");
+        // showToast(context,
+        //     "游戏非正常退出\nexitCode=${result.exitCode}\nstdout=${result.stdout ?? ""}\nstderr=${result.stderr ?? ""}\n\n诊断信息：${exitInfo == null ? "未知错误，请通过一键诊断加群反馈。" : exitInfo.key} \n${hasUrl ? "请查看弹出的网页链接获得详细信息。" : exitInfo?.value ?? ""}");
+        // S.current.home_action_info_abnormal_game_exit
+        showToast(
+            context,
+            S.current.home_action_info_abnormal_game_exit(
+                result.exitCode.toString(),
+                result.stdout ?? "",
+                result.stderr ?? "",
+                exitInfo == null
+                    ? S.current.home_action_info_unknown_error
+                    : exitInfo.key,
+                hasUrl
+                    ? S.current.home_action_info_check_web_link
+                    : exitInfo?.value ?? ""));
         if (hasUrl) {
           await Future.delayed(const Duration(seconds: 3));
           launchUrlString(exitInfo!.value);

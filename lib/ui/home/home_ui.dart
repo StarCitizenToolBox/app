@@ -207,10 +207,13 @@ class HomeUI extends HookConsumerWidget {
                           colorFilter: makeSvgColor(Colors.white),
                           height: 18,
                         ),
-                        name: S.current.home_action_star_citizen_website_localization,
-                        webTitle: S.current.home_action_star_citizen_website_localization,
+                        name: S.current
+                            .home_action_star_citizen_website_localization,
+                        webTitle: S.current
+                            .home_action_star_citizen_website_localization,
                         webURL: "https://robertsspaceindustries.com",
-                        info: S.current.home_action_info_roberts_space_industries_origin,
+                        info: S.current
+                            .home_action_info_roberts_space_industries_origin,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_rsi"),
@@ -228,7 +231,8 @@ class HomeUI extends HookConsumerWidget {
                         name: S.current.home_action_uex_localization,
                         webTitle: S.current.home_action_uex_localization,
                         webURL: "https://uexcorp.space/",
-                        info: S.current.home_action_info_mining_refining_trade_calculator,
+                        info: S.current
+                            .home_action_info_mining_refining_trade_calculator,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_uex"),
@@ -244,9 +248,11 @@ class HomeUI extends HookConsumerWidget {
                           ],
                         ),
                         name: S.current.home_action_dps_calculator_localization,
-                        webTitle: S.current.home_action_dps_calculator_localization,
+                        webTitle:
+                            S.current.home_action_dps_calculator_localization,
                         webURL: "https://www.erkul.games/live/calculator",
-                        info: S.current.home_action_info_ship_upgrade_damage_value_query,
+                        info: S.current
+                            .home_action_info_ship_upgrade_damage_value_query,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_dps"),
@@ -434,11 +440,20 @@ class HomeUI extends HookConsumerWidget {
   Widget makeIndexActionLists(BuildContext context, HomeUIModel model,
       HomeUIModelState homeState, WidgetRef ref) {
     final items = [
-      _HomeItemData("game_doctor", "一键诊断", S.current.home_action_info_one_click_diagnosis_star_citizen,
+      _HomeItemData(
+          "game_doctor",
+          S.current.home_action_one_click_diagnosis,
+          S.current.home_action_info_one_click_diagnosis_star_citizen,
           FluentIcons.auto_deploy_settings),
       _HomeItemData(
-          "localization", "汉化管理", S.current.home_action_info_quick_install_localization_resources, FluentIcons.locale_language),
-      _HomeItemData("performance", "性能优化", S.current.home_action_info_engine_config_optimization,
+          "localization",
+          S.current.home_action_localization_management,
+          S.current.home_action_info_quick_install_localization_resources,
+          FluentIcons.locale_language),
+      _HomeItemData(
+          "performance",
+          S.current.home_action_performance_optimization,
+          S.current.home_action_info_engine_config_optimization,
           FluentIcons.process_meta_task),
     ];
     return Padding(
@@ -591,7 +606,8 @@ class HomeUI extends HookConsumerWidget {
       double width, HomeUIModelState homeState) {
     final statusCnName = {
       "Platform": S.current.home_action_rsi_status_platform,
-      "Persistent Universe": S.current.home_action_rsi_status_persistent_universe,
+      "Persistent Universe":
+          S.current.home_action_rsi_status_persistent_universe,
       "Electronic Access": S.current.home_action_rsi_status_electronic_access,
       "Arena Commander": S.current.home_action_rsi_status_arena_commander
     };
@@ -601,7 +617,9 @@ class HomeUI extends HookConsumerWidget {
       borderRadius: BorderRadius.circular(12),
       child: GestureDetector(
         onTap: () {
-          model.goWebView(context, S.current.home_action_rsi_status_rsi_server_status,
+          model.goWebView(
+              context,
+              S.current.home_action_rsi_status_rsi_server_status,
               "https://status.robertsspaceindustries.com/",
               useLocalization: true);
         },
@@ -741,7 +759,8 @@ class HomeUI extends HookConsumerWidget {
             context: context,
             builder: (context) {
               return HomeMdContentDialogUI(
-                title: homeState.appPlacardData?.title ?? S.current.home_announcement_details,
+                title: homeState.appPlacardData?.title ??
+                    S.current.home_announcement_details,
                 url: homeState.appPlacardData?.link,
               );
             });
@@ -757,7 +776,7 @@ class HomeUI extends HookConsumerWidget {
   _onMenuTap(BuildContext context, String key, HomeUIModelState homeState,
       WidgetRef ref) async {
     String gameInstallReqInfo =
-        "该功能需要一个有效的安装位置\n\n如果您的游戏未下载完成，请等待下载完毕后使用此功能。\n\n如果您的游戏已下载完毕但未识别，请启动一次游戏后重新打开盒子 或 在设置选项中手动设置安装位置。";
+        S.current.home_action_info_valid_install_location_required;
     switch (key) {
       case "localization":
         if (homeState.scInstalledPath == "not_install") {

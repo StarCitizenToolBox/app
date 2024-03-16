@@ -25,13 +25,14 @@ class AboutUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           Image.asset("assets/app_logo.png", width: 128, height: 128),
           const SizedBox(height: 6),
-          const Text(
-              "SC汉化盒子  V${ConstConf.appVersion} ${ConstConf.isMSE ? "" : " +Dev"}",
-              style: TextStyle(fontSize: 18)),
+          Text(
+              S.current.app_index_version_info(
+                  ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev"),
+              style: const TextStyle(fontSize: 18)),
           const SizedBox(height: 12),
           Button(
               onPressed: () => _onCheckUpdate(context, ref),
-              child:  Padding(
+              child: Padding(
                 padding: const EdgeInsets.all(4),
                 child: Text(S.current.about_check_update),
               )),
@@ -45,7 +46,7 @@ class AboutUI extends HookConsumerWidget {
               child: Column(
                 children: [
                   Text(
-                    "不仅仅是汉化！\n\nSC汉化盒子是你探索宇宙的好帮手，我们致力于为各位公民解决游戏中的常见问题，并为社区汉化、性能调优、常用网站汉化 等操作提供便利。",
+                    S.current.about_app_description,
                     style: TextStyle(
                         fontSize: 14, color: Colors.white.withOpacity(.9)),
                   ),
@@ -172,8 +173,7 @@ class AboutUI extends HookConsumerWidget {
   static const tipTextEN =
       "This is an unofficial Star Citizen fan-made tools, not affiliated with the Cloud Imperium group of companies. All content on this Software not authored by its host or users are property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.";
 
-  static const tipTextCN =
-      "这是一个非官方的星际公民工具，不隶属于 Cloud Imperium 公司集团。 本软件中非由其主机或用户创作的所有内容均为其各自所有者的财产。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的注册商标。";
+  static String get tipTextCN => S.current.about_disclaimer;
 
   Widget makeAnalyticsWidget(BuildContext context) {
     return LoadingWidget(
@@ -239,7 +239,8 @@ class AboutUI extends HookConsumerWidget {
                   fontSize: 20,
                 ),
               ),
-              Text(" ${name == "firstLaunch" ? "位" : "次"}")
+              Text(
+                  " ${name == "firstLaunch" ? S.current.about_analytics_units_user : S.current.about_analytics_units_times}"),
             ],
           ),
         ],
