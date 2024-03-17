@@ -10,7 +10,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
-            - name: Set up Flutter msbuild
+            - name: Set up MSbuild
               uses: microsoft/setup-msbuild@v2  
 
             - name: Set up Flutter
@@ -54,12 +54,12 @@ jobs:
                     cargo install cargo-expand 
                     cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'
 
-            - name: Rust bridge generate
+            - name: Flutter Rust bridge generate
               run: flutter_rust_bridge_codegen generate
             - name: flutter gen l10n
               run: | 
-                    flutter pub add intl_utils
-                    flutter pub run intl_utils:generate          
+                    flutter pub global activate intl_utils
+                    flutter pub global run intl_utils:generate
             - name: Flutter build Windows
               run: flutter build windows
 
