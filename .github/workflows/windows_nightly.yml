@@ -21,13 +21,17 @@ jobs:
             - name: Set up LLVM
               uses: KyleMayes/install-llvm-action@v1
               with:
-               version: "10.0"
-            - name: Set up Flutter rust bridge
-              run: cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'
+               version: "18.1.1"
+            - name: Clean Git Cache
+              run: rm -rf /c/Users/runneradmin/.pub-cache/git/*
             - name: Flutter pub get
               run: flutter pub get  
+            - name: Set up Flutter rust bridge
+              run: cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'  
             - name: Rust bridge generate
               run: flutter_rust_bridge_codegen generate
+            - name: flutter gen l10n
+              run: flutter pub run intl_utils:generate  
             - name: Flutter build Windows
               run: flutter build windows
             - name: Archive build
