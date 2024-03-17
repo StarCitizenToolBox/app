@@ -6,7 +6,7 @@ part of 'tools_ui_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolsUIModelHash() => r'5568cfd422f98a1aff9b8cb9d522c84565fcc289';
+String _$toolsUIModelHash() => r'6b4ab0195cc9606202ae5d0dce574735090f486f';
 
 /// See also [ToolsUIModel].
 @ProviderFor(ToolsUIModel)

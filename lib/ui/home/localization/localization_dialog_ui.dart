@@ -424,6 +424,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                 S.current.localization_info_language,
                 style: const TextStyle(fontSize: 16),
               ),
+              const SizedBox(width: 12),
               ComboBox<String>(
                 value: state.selectedLanguage,
                 items: [

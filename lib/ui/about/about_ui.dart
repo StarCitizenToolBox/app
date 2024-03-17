@@ -38,6 +38,7 @@ class AboutUI extends HookConsumerWidget {
               )),
           const SizedBox(height: 32),
           Container(
+            margin: const EdgeInsets.all(24),
             decoration: BoxDecoration(
                 color: FluentTheme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(12)),

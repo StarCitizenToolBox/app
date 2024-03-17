@@ -2,10 +2,10 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
-import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
@@ -23,6 +23,7 @@ class IndexUI extends HookConsumerWidget {
     // pre init child
     ref.watch(homeUIModelProvider.select((value) => null));
     ref.watch(settingsUIModelProvider.select((value) => null));
+    ref.watch(appGlobalModelProvider);
 
     final curIndex = useState(0);
     return NavigationView(
@@ -73,6 +74,7 @@ class IndexUI extends HookConsumerWidget {
             ],
           )),
       pane: NavigationPane(
+        key: Key("NavigationPane_${S.current.app_language_code}"),
         selected: curIndex.value,
         items: getNavigationPaneItems(curIndex),
         size: NavigationPaneSize(
@@ -89,7 +91,7 @@ class IndexUI extends HookConsumerWidget {
 
   Map<IconData, String> get pageMenus => {
         FluentIcons.home: S.current.app_index_menu_home,
-        FluentIcons.game: S.current.app_index_menu_lobby,
+        // FluentIcons.game: S.current.app_index_menu_lobby,
         FluentIcons.toolbox: S.current.app_index_menu_tools,
         FluentIcons.settings: S.current.app_index_menu_settings,
         FluentIcons.info: S.current.app_index_menu_about,
@@ -129,13 +131,13 @@ class IndexUI extends HookConsumerWidget {
     switch (value) {
       case 0:
         return const HomeUI();
+      // case 1:
+      //   return const PartyRoomUI();
       case 1:
-        return const PartyRoomUI();
-      case 2:
         return const ToolsUI();
-      case 3:
+      case 2:
         return const SettingsUI();
-      case 4:
+      case 3:
         return const AboutUI();
       default:
         return Center(

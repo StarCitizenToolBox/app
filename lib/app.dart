@@ -24,6 +24,7 @@ import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
 import 'data/app_version_data.dart';
+import 'generated/no_l10n_strings.dart';
 import 'ui/home/downloader/home_downloader_ui.dart';
 import 'ui/home/game_doctor/game_doctor_ui.dart';
 import 'ui/index_ui.dart';
@@ -32,6 +33,18 @@ import 'ui/settings/upgrade_dialog.dart';
 part 'app.g.dart';
 
 part 'app.freezed.dart';
+
+@freezed
+class AppGlobalState with _$AppGlobalState {
+  const factory AppGlobalState({
+    String? deviceUUID,
+    String? applicationSupportDir,
+    String? applicationBinaryModuleDir,
+    AppVersionData? networkVersionData,
+    @Default(ThemeConf()) ThemeConf themeConf,
+    Locale? appLocale,
+  }) = _AppGlobalState;
+}
 
 @riverpod
 GoRouter router(RouterRef ref) {
@@ -69,6 +82,13 @@ GoRouter router(RouterRef ref) {
 
 @riverpod
 class AppGlobalModel extends _$AppGlobalModel {
+  static final appLocaleSupport = {
+    const Locale("auto"): S.current.settings_app_language_auto,
+    const Locale("zh", "CN"): NoL10n.langZHS,
+    const Locale("zh", "TW"): NoL10n.langZHT,
+    const Locale("en"): NoL10n.langEn,
+  };
+
   @override
   AppGlobalState build() {
     return const AppGlobalState();
@@ -109,7 +129,17 @@ class AppGlobalModel extends _$AppGlobalModel {
         AnalyticsApi.touch("firstLaunch");
       }
       final deviceUUID = box.get("install_id", defaultValue: "");
-      state = state.copyWith(deviceUUID: deviceUUID);
+      final localeCode = box.get("app_locale", defaultValue: null);
+      Locale? locale;
+      if (localeCode != null) {
+        final localeSplit = localeCode.toString().split("_");
+        if (localeSplit.length == 2 && localeSplit[1].isNotEmpty) {
+          locale = Locale(localeSplit[0], localeSplit[1]);
+        } else {
+          locale = Locale(localeSplit[0]);
+        }
+      }
+      state = state.copyWith(deviceUUID: deviceUUID, appLocale: locale);
     } catch (e) {
       exit(1);
     }
@@ -185,8 +215,10 @@ class AppGlobalModel extends _$AppGlobalModel {
     await Future.delayed(const Duration(milliseconds: 100));
     if (state.networkVersionData == null) {
       if (!context.mounted) return false;
-      await showToast(context,
-          "网络异常！\n这可能是您的网络环境存在DNS污染，请尝试更换DNS。\n或服务器正在维护或遭受攻击，稍后再试。 \n进入离线模式... \n\n请谨慎在离线模式中使用。 \n当前版本构建日期：${ConstConf.appVersionDate}\n QQ群：940696487 \n错误信息：$checkUpdateError");
+      await showToast(
+          context,
+          S.current.app_common_network_error(
+              ConstConf.appVersionDate, checkUpdateError.toString()));
       return false;
     }
     final lastVersion = ConstConf.isMSE
@@ -203,7 +235,7 @@ class AppGlobalModel extends _$AppGlobalModel {
 
       if (r != true) {
         if (!context.mounted) return false;
-        await showToast(context, "获取更新信息失败，请稍后重试。");
+        await showToast(context, S.current.app_common_upgrade_info_error);
         return false;
       }
       return true;
@@ -256,17 +288,22 @@ class AppGlobalModel extends _$AppGlobalModel {
       );
     }
   }
-}
 
-@freezed
-class AppGlobalState with _$AppGlobalState {
-  const factory AppGlobalState({
-    String? deviceUUID,
-    String? applicationSupportDir,
-    String? applicationBinaryModuleDir,
-    AppVersionData? networkVersionData,
-    @Default(ThemeConf()) ThemeConf themeConf,
-  }) = _AppGlobalState;
+  void changeLocale(value) async {
+    final appConfBox = await Hive.openBox("app_conf");
+    if (value is Locale) {
+      if (value.languageCode == "auto") {
+        state = state.copyWith(appLocale: null);
+        await appConfBox.put("app_locale", null);
+        return;
+      }
+      final localeCode = value.countryCode != null
+          ? "${value.languageCode}_${value.countryCode ?? ""}"
+          : value.languageCode;
+      await appConfBox.put("app_locale", localeCode);
+      state = state.copyWith(appLocale: value);
+    }
+  }
 }
 
 @freezed

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 class CountdownTimeText extends StatefulWidget {
   final DateTime targetTime;
@@ -61,7 +62,7 @@ class _CountdownTimeTextState extends State<CountdownTimeText> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "$day天  ",
+          S.current.home_holiday_countdown_days(day),
           style: TextStyle(
               fontSize: 24, color: day < 30 ? Colors.red : Colors.white),
         ),
@@ -78,9 +79,9 @@ class _CountdownTimeTextState extends State<CountdownTimeText> {
   @override
   Widget build(BuildContext context) {
     if (stopTimer) {
-      return const Text(
-        "正在进行中",
-        style: TextStyle(
+      return Text(
+        S.current.home_holiday_countdown_in_progress,
+        style: const TextStyle(
             fontSize: 18,
             color: Color.fromRGBO(32, 220, 89, 1.0),
             fontWeight: FontWeight.bold),

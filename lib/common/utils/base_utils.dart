@@ -5,17 +5,19 @@ import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 Future showToast(BuildContext context, String msg,
     {BoxConstraints? constraints, String? title}) async {
   return showBaseDialog(context,
-      title: title ?? "提示",
+      title: title ?? S.current.app_common_tip,
       content: Text(msg),
       actions: [
         FilledButton(
-          child: const Padding(
-            padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
-            child: Text('我知道了'),
+          child: Padding(
+            padding:
+                const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+            child: Text(S.current.app_common_tip_i_know),
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -25,9 +27,12 @@ Future showToast(BuildContext context, String msg,
 
 Future<bool> showConfirmDialogs(
     BuildContext context, String title, Widget content,
-    {String confirm = "确认",
-    String cancel = "取消",
+    {String confirm = "",
+    String cancel = "",
     BoxConstraints? constraints}) async {
+  if (confirm.isEmpty) confirm = S.current.app_common_tip_confirm;
+  if (cancel.isEmpty) confirm = S.current.app_common_tip_cancel;
+
   final r = await showBaseDialog(context,
       title: title,
       content: content,

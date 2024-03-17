@@ -21,6 +21,7 @@ mixin _$AppGlobalState {
   String? get applicationBinaryModuleDir => throw _privateConstructorUsedError;
   AppVersionData? get networkVersionData => throw _privateConstructorUsedError;
   ThemeConf get themeConf => throw _privateConstructorUsedError;
+  Locale? get appLocale => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppGlobalStateCopyWith<AppGlobalState> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $AppGlobalStateCopyWith<$Res> {
       String? applicationSupportDir,
       String? applicationBinaryModuleDir,
       AppVersionData? networkVersionData,
-      ThemeConf themeConf});
+      ThemeConf themeConf,
+      Locale? appLocale});
 
   $ThemeConfCopyWith<$Res> get themeConf;
 }
@@ -61,6 +63,7 @@ class _$AppGlobalStateCopyWithImpl<$Res, $Val extends AppGlobalState>
     Object? applicationBinaryModuleDir = freezed,
     Object? networkVersionData = freezed,
     Object? themeConf = null,
+    Object? appLocale = freezed,
   }) {
     return _then(_value.copyWith(
       deviceUUID: freezed == deviceUUID
@@ -83,6 +86,10 @@ class _$AppGlobalStateCopyWithImpl<$Res, $Val extends AppGlobalState>
           ? _value.themeConf
           : themeConf // ignore: cast_nullable_to_non_nullable
               as ThemeConf,
+      appLocale: freezed == appLocale
+          ? _value.appLocale
+          : appLocale // ignore: cast_nullable_to_non_nullable
+              as Locale?,
     ) as $Val);
   }
 
@@ -108,7 +115,8 @@ abstract class _$$AppGlobalStateImplCopyWith<$Res>
       String? applicationSupportDir,
       String? applicationBinaryModuleDir,
       AppVersionData? networkVersionData,
-      ThemeConf themeConf});
+      ThemeConf themeConf,
+      Locale? appLocale});
 
   @override
   $ThemeConfCopyWith<$Res> get themeConf;
@@ -130,6 +138,7 @@ class __$$AppGlobalStateImplCopyWithImpl<$Res>
     Object? applicationBinaryModuleDir = freezed,
     Object? networkVersionData = freezed,
     Object? themeConf = null,
+    Object? appLocale = freezed,
   }) {
     return _then(_$AppGlobalStateImpl(
       deviceUUID: freezed == deviceUUID
@@ -152,6 +161,10 @@ class __$$AppGlobalStateImplCopyWithImpl<$Res>
           ? _value.themeConf
           : themeConf // ignore: cast_nullable_to_non_nullable
               as ThemeConf,
+      appLocale: freezed == appLocale
+          ? _value.appLocale
+          : appLocale // ignore: cast_nullable_to_non_nullable
+              as Locale?,
     ));
   }
 }
@@ -164,7 +177,8 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
       this.applicationSupportDir,
       this.applicationBinaryModuleDir,
       this.networkVersionData,
-      this.themeConf = const ThemeConf()});
+      this.themeConf = const ThemeConf(),
+      this.appLocale});
 
   @override
   final String? deviceUUID;
@@ -177,10 +191,12 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
   @override
   @JsonKey()
   final ThemeConf themeConf;
+  @override
+  final Locale? appLocale;
 
   @override
   String toString() {
-    return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf)';
+    return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale)';
   }
 
   @override
@@ -199,7 +215,9 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
             (identical(other.networkVersionData, networkVersionData) ||
                 other.networkVersionData == networkVersionData) &&
             (identical(other.themeConf, themeConf) ||
-                other.themeConf == themeConf));
+                other.themeConf == themeConf) &&
+            (identical(other.appLocale, appLocale) ||
+                other.appLocale == appLocale));
   }
 
   @override
@@ -209,7 +227,8 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
       applicationSupportDir,
       applicationBinaryModuleDir,
       networkVersionData,
-      themeConf);
+      themeConf,
+      appLocale);
 
   @JsonKey(ignore: true)
   @override
@@ -225,7 +244,8 @@ abstract class _AppGlobalState implements AppGlobalState {
       final String? applicationSupportDir,
       final String? applicationBinaryModuleDir,
       final AppVersionData? networkVersionData,
-      final ThemeConf themeConf}) = _$AppGlobalStateImpl;
+      final ThemeConf themeConf,
+      final Locale? appLocale}) = _$AppGlobalStateImpl;
 
   @override
   String? get deviceUUID;
@@ -237,6 +257,8 @@ abstract class _AppGlobalState implements AppGlobalState {
   AppVersionData? get networkVersionData;
   @override
   ThemeConf get themeConf;
+  @override
+  Locale? get appLocale;
   @override
   @JsonKey(ignore: true)
   _$$AppGlobalStateImplCopyWith<_$AppGlobalStateImpl> get copyWith =>

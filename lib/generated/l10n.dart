@@ -970,13 +970,13 @@ class S {
     );
   }
 
-  /// `No-English installation path! This may cause the game to start/install errors! ({V0}), please replace the installation path at the RSI starter.`
-  String doctor_info_result_chinese_install_path_error(Object V0) {
+  /// `No-English installation path! This may cause the game to start/install errors! ({v0}), please replace the installation path at the RSI starter.`
+  String doctor_info_result_chinese_install_path_error(Object v0) {
     return Intl.message(
-      'No-English installation path! This may cause the game to start/install errors! ($V0), please replace the installation path at the RSI starter.',
+      'No-English installation path! This may cause the game to start/install errors! ($v0), please replace the installation path at the RSI starter.',
       name: 'doctor_info_result_chinese_install_path_error',
       desc: '',
-      args: [V0],
+      args: [v0],
     );
   }
 
@@ -1370,10 +1370,10 @@ class S {
     );
   }
 
-  /// `Localization management`
+  /// `Localizations`
   String get home_action_localization_management {
     return Intl.message(
-      'Localization management',
+      'Localizations',
       name: 'home_action_localization_management',
       desc: '',
       args: [],
@@ -2872,13 +2872,13 @@ class S {
     );
   }
 
-  /// `Failure to handle! : {V0}`
-  String tools_info_processing_failed(Object V0) {
+  /// `Failure to handle! : {v0}`
+  String tools_info_processing_failed(Object v0) {
     return Intl.message(
-      'Failure to handle! : $V0',
+      'Failure to handle! : $v0',
       name: 'tools_info_processing_failed',
       desc: '',
-      args: [V0],
+      args: [v0],
     );
   }
 
@@ -3398,6 +3398,296 @@ class S {
     return Intl.message(
       'Please complete the Windows Hello verification to fill in the password',
       name: 'webview_localization_device_windows_hello_toast',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get settings_app_language {
+    return Intl.message(
+      'Language',
+      name: 'settings_app_language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Automatic`
+  String get settings_app_language_auto {
+    return Intl.message(
+      'Automatic',
+      name: 'settings_app_language_auto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Network anomaly!\nThis may be that your network environment has DNS pollution, please try to replace DNS.\nOr the server is being maintained or attacked and tried it later.\nEnter the offline mode ...\n\nPlease use it carefully in the offline mode.\nThe current version of the construction date: {v0}\n QQ group: 940696487\nError message: {v1}`
+  String app_common_network_error(Object v0, Object v1) {
+    return Intl.message(
+      'Network anomaly!\nThis may be that your network environment has DNS pollution, please try to replace DNS.\nOr the server is being maintained or attacked and tried it later.\nEnter the offline mode ...\n\nPlease use it carefully in the offline mode.\nThe current version of the construction date: $v0\n QQ group: 940696487\nError message: $v1',
+      name: 'app_common_network_error',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `If the update information fails, please try it later.`
+  String get app_common_upgrade_info_error {
+    return Intl.message(
+      'If the update information fails, please try it later.',
+      name: 'app_common_upgrade_info_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insufficient memory`
+  String get doctor_game_error_low_memory {
+    return Intl.message(
+      'Insufficient memory',
+      name: 'doctor_game_error_low_memory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try to increase virtual memory (under 1080P, physical available+virtual memory need> 64g)`
+  String get doctor_game_error_low_memory_info {
+    return Intl.message(
+      'Please try to increase virtual memory (under 1080P, physical available+virtual memory need> 64g)',
+      name: 'doctor_game_error_low_memory_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The game triggers the most extensive collapse problem, please check the barrier guide guide`
+  String get doctor_game_error_generic_info {
+    return Intl.message(
+      'The game triggers the most extensive collapse problem, please check the barrier guide guide',
+      name: 'doctor_game_error_generic_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your graphics card crashes! Please check the barrier guide`
+  String get doctor_game_error_gpu_crash {
+    return Intl.message(
+      'Your graphics card crashes! Please check the barrier guide',
+      name: 'doctor_game_error_gpu_crash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Detected SOCKET abnormalities`
+  String get doctor_game_error_socket_error {
+    return Intl.message(
+      'Detected SOCKET abnormalities',
+      name: 'doctor_game_error_socket_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you use the X black box accelerator, try to replace the acceleration mode`
+  String get doctor_game_error_socket_error_info {
+    return Intl.message(
+      'If you use the X black box accelerator, try to replace the acceleration mode',
+      name: 'doctor_game_error_socket_error_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insufficient permissions`
+  String get doctor_game_error_permissions_error {
+    return Intl.message(
+      'Insufficient permissions',
+      name: 'doctor_game_error_permissions_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try to run a starter at the administrator authority, or use the box (Microsoft Store version) to start.`
+  String get doctor_game_error_permissions_error_info {
+    return Intl.message(
+      'Please try to run a starter at the administrator authority, or use the box (Microsoft Store version) to start.',
+      name: 'doctor_game_error_permissions_error_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The game process is occupied`
+  String get doctor_game_error_game_process_error {
+    return Intl.message(
+      'The game process is occupied',
+      name: 'doctor_game_error_game_process_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try to restart the starter, or restart the computer directly`
+  String get doctor_game_error_game_process_error_info {
+    return Intl.message(
+      'Please try to restart the starter, or restart the computer directly',
+      name: 'doctor_game_error_game_process_error_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game program file damage`
+  String get doctor_game_error_game_damaged_file {
+    return Intl.message(
+      'Game program file damage',
+      name: 'doctor_game_error_game_damaged_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try to delete the Bin64 folder and check in the launcher.`
+  String get doctor_game_error_game_damaged_file_info {
+    return Intl.message(
+      'Please try to delete the Bin64 folder and check in the launcher.',
+      name: 'doctor_game_error_game_damaged_file_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `P4K file damage`
+  String get doctor_game_error_game_damaged_p4k_file {
+    return Intl.message(
+      'P4K file damage',
+      name: 'doctor_game_error_game_damaged_p4k_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try to delete the data.p4k file and check or use the box to divert in the promoter.`
+  String get doctor_game_error_game_damaged_p4k_file_info {
+    return Intl.message(
+      'Please try to delete the data.p4k file and check or use the box to divert in the promoter.',
+      name: 'doctor_game_error_game_damaged_p4k_file_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insufficient memory memory`
+  String get doctor_game_error_low_gpu_memory {
+    return Intl.message(
+      'Insufficient memory memory',
+      name: 'doctor_game_error_low_gpu_memory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please do not run the game/application occupied by other high graphics cards in the background, or change the graphics card.`
+  String get doctor_game_error_low_gpu_memory_info {
+    return Intl.message(
+      'Please do not run the game/application occupied by other high graphics cards in the background, or change the graphics card.',
+      name: 'doctor_game_error_low_gpu_memory_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error: {v0}`
+  String app_common_error_info(Object v0) {
+    return Intl.message(
+      'Error: $v0',
+      name: 'app_common_error_info',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Hint`
+  String get app_common_tip {
+    return Intl.message(
+      'Hint',
+      name: 'app_common_tip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I see`
+  String get app_common_tip_i_know {
+    return Intl.message(
+      'I see',
+      name: 'app_common_tip_i_know',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get app_common_tip_confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'app_common_tip_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get app_common_tip_cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'app_common_tip_cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Switch application Display language`
+  String get settings_app_language_switch_info {
+    return Intl.message(
+      'Switch application Display language',
+      name: 'settings_app_language_switch_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} Day`
+  String home_holiday_countdown_days(Object v0) {
+    return Intl.message(
+      '$v0 Day',
+      name: 'home_holiday_countdown_days',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `In progress`
+  String get home_holiday_countdown_in_progress {
+    return Intl.message(
+      'In progress',
+      name: 'home_holiday_countdown_in_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Load the picture ...`
+  String get app_common_loading_images {
+    return Intl.message(
+      'Load the picture ...',
+      name: 'app_common_loading_images',
       desc: '',
       args: [],
     );

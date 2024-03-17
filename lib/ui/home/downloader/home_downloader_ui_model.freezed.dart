@@ -190,8 +190,8 @@ class _$HomeDownloaderUIStateImpl implements _HomeDownloaderUIState {
                 .equals(other._waitingTasks, _waitingTasks) &&
             const DeepCollectionEquality()
                 .equals(other._stoppedTasks, _stoppedTasks) &&
-            (identical(other.globalStat, globalStat) ||
-                other.globalStat == globalStat));
+            const DeepCollectionEquality()
+                .equals(other.globalStat, globalStat));
   }
 
   @override
@@ -200,7 +200,7 @@ class _$HomeDownloaderUIStateImpl implements _HomeDownloaderUIState {
       const DeepCollectionEquality().hash(_tasks),
       const DeepCollectionEquality().hash(_waitingTasks),
       const DeepCollectionEquality().hash(_stoppedTasks),
-      globalStat);
+      const DeepCollectionEquality().hash(globalStat));
 
   @JsonKey(ignore: true)
   @override

@@ -4,6 +4,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:window_manager/window_manager.dart';
@@ -107,16 +108,14 @@ List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {
             loadStateChanged: (ExtendedImageState state) {
               switch (state.extendedImageLoadState) {
                 case LoadState.loading:
-                  return const Center(
+                  return Center(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          ProgressRing(),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text("加载图片...")
+                          const ProgressRing(),
+                          const SizedBox(height: 12),
+                          Text(S.current.app_common_loading_images)
                         ],
                       ),
                     ),

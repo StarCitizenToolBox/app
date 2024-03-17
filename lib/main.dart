@@ -69,6 +69,7 @@ class App extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(4),
                 side: BorderSide(color: Colors.white.withOpacity(.01)))),
           ))),
+      locale: appState.appLocale,
       debugShowCheckedModeBanner: false,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,

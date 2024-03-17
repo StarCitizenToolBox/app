@@ -9,7 +9,7 @@ extension AsyncError on Future {
     } catch (e) {
       dPrint("unwrap error:$e");
       if (context != null && context.mounted) {
-        showToast(context, "出现错误: $e");
+        showToast(context, S.current.app_common_error_info(e.toString()));
       }
       return null;
     }
