@@ -11,6 +11,7 @@ dependencies:
   # path: ^1.8.0
   analyzer: ^6.4.1
   uuid: ^4.3.3
+  translator: ^1.0.0
 
 dev_dependencies:
   lints: ^3.0.0

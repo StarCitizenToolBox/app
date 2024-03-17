@@ -1,5 +1,8 @@
 {
   "@@locale": "zh_CN",
+  "@auto_translate_locale": "zh-cn",
+  "app_language_name": "简体中文",
+  "app_language_code": "zh_CN",
   "app_index_version_info": "SC汉化盒子 V{v0} {v1}",
   "@app_index_version_info": {},
   "app_shortcut_name": "SC汉化盒子DEV.lnk",

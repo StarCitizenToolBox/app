@@ -20,739 +20,844 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(v0, v1) => "SC汉化盒子  V${v0} ${v1}";
+  static String m0(v0, v1) => "SCToolBox V ${v0} ${v1}";
 
-  static String m1(v0) => "初始化失败：${v0}";
+  static String m1(v0) => "Initialization failure: ${v0}";
 
-  static String m2(v0) => "正在下载： ${v0}%    ";
+  static String m2(v0) => "Downloading: ${v0}%";
 
-  static String m3(v0) => "发现新版本 -> ${v0}";
+  static String m3(v0) => "Discover the new version-> ${v0}";
 
-  static String m4(v0) => "游戏异常退出：${v0}";
+  static String m4(v0) => "Game abnormal exit: ${v0}";
 
-  static String m5(v0) => "info:${v0}，请点击右下角加群反馈。";
+  static String m5(v0) =>
+      "Info: ${v0}, please click to add group feedback in the lower right corner.";
 
-  static String m6(v0) => "分析完毕，发现 ${v0} 个问题";
+  static String m6(v0) => "After the analysis, I found that ${v0} questions";
 
-  static String m7(v0, v1) => "创建文件夹失败，请尝试手动创建。\n目录：${v0} \n错误：${v1}";
+  static String m7(v0, v1) =>
+      "Create a folder failed, please try to create manually.\nDirectory: ${v0}\nError: ${v1}";
 
-  static String m8(v0) => "修复失败，${v0}";
+  static String m8(v0) => "Failure to repair, ${v0}";
 
-  static String m9(v0) => "不支持的操作系统：${v0}";
+  static String m9(v0) => "Operating system that does not support: ${v0}";
 
   static String m10(v0) =>
-      "为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区(${v0})";
+      "Add ForcedPhysicalsectorsizeinbytes value to the registry item to simulate old devices. Hard disk partition (${v0})";
 
-  static String m11(v0) => "中文安装路径！这可能会导致游戏 启动/安装 错误！（${v0}），请在RSI启动器更换安装路径。";
+  static String m11(V0) =>
+      "No-English installation path! This may cause the game to start/install errors! (${V0}), please replace the installation path at the RSI starter.";
 
-  static String m12(v0) => "点击修复为您创建 LIVE 文件夹，完成后重试安装。(${v0})";
+  static String m12(v0) =>
+      "Click to fix the Live folder for you, and install it after completion. (${v0})";
 
-  static String m13(v0) => "修复建议： ${v0}";
+  static String m13(v0) => "Repair suggestions: ${v0}";
 
-  static String m14(v0) => "您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：${v0}）";
+  static String m14(v0) =>
+      "You need at least 16GB of physical memory (Memory) to run this game. (Current size: ${v0})";
 
-  static String m15(v0) => "请升级您的系统 (${v0})";
+  static String m15(v0) => "Please upgrade your system (${v0})";
 
-  static String m16(v0) => "一键诊断 -> ${v0}";
+  static String m16(v0) => "One -click diagnosis-> ${v0}";
 
-  static String m17(v0, v1) => "下载： ${v0}/s    上传：${v1}/s";
+  static String m17(v0, v1) => "Download: ${v0}/s Upload: ${v1}/s";
 
-  static String m18(v0) => "已下载：${v0}";
+  static String m18(v0) => "Downloaded: ${v0}";
 
-  static String m19(v0) => "下载中... (${v0}%)";
+  static String m19(v0) => "Download ... (${v0}%)";
 
-  static String m20(v0) => "状态：${v0}";
+  static String m20(v0) => "Status: ${v0}";
 
-  static String m21(v1) => "总大小：${v1}";
+  static String m21(v1) => "Total size: ${v1}";
 
-  static String m22(v0) => "已上传：${v0}";
+  static String m22(v0) => "Uploaded: ${v0}";
 
-  static String m23(v2) => "校验中...（${v2}）";
+  static String m23(v2) => "In the verification ... (${v2})";
 
   static String m24(v0, v1, v2, v3, v4) =>
-      "游戏非正常退出\nexitCode=${v0}\nstdout=${v1}\nstderr=${v2}\n\n诊断信息：${v3} \n${v4}";
+      "The game exits normally\nexitCode = ${v0}\nstdout = ${v1}\nstderr = ${v2}\n\nDiagnostic information: ${v3}\n${v4}";
 
-  static String m25(v0) => "初始化网页汉化资源失败！${v0}";
+  static String m25(v0) =>
+      "Initialized webpage Localization resources failed! ${v0}";
 
-  static String m26(v0) => "扫描完毕，共找到 ${v0} 个有效安装目录";
+  static String m26(v0) =>
+      "After scanning, find ${v0} a valid installation directory";
 
-  static String m27(v0) => "您在 ${v0} 安装的汉化有新版本啦！";
+  static String m27(v0) =>
+      "You have a new version of the Localization you installed in ${v0}!";
 
   static String m28(v1, v2) =>
-      "RSI 服务器报告版本号：${v1} \n\n本地版本号：${v2} \n\n建议使用 RSI Launcher 更新游戏！";
+      "RSI server report version number: ${v1}\n\nLocal version number: ${v2}\n\nIt is recommended to use RSI Launcher to update the game!";
 
-  static String m29(v0) => "通道：${v0}";
+  static String m29(v0) => "Channel: ${v0}";
 
-  static String m30(v0) => "自定义_${v0}";
+  static String m30(v0) => "Custom_ ${v0}";
 
-  static String m31(v0) => "启用（${v0}）：";
+  static String m31(v0) => "Enable (${v0}):";
 
-  static String m32(v0) => "安装出错！\n\n ${v0}";
+  static String m32(v0) => "Install an error!\n\n ${v0}";
 
-  static String m33(v0) => "已安装版本：${v0}";
+  static String m33(v0) => "The installed version: ${v0}";
 
-  static String m34(v0) => "更新时间：${v0}";
+  static String m34(v0) => "Update Time: ${v0}";
 
-  static String m35(v0) => "版本号：${v0}";
+  static String m35(v0) => "Version number: ${v0}";
 
-  static String m36(v0) => "当前状态：${v0}";
+  static String m36(v0) => "Current status: ${v0}";
 
-  static String m37(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
+  static String m37(v0, v1, v2) =>
+      "${v0} minimum value: ${v1} / maximum value: ${v2}";
 
-  static String m38(v0) => "性能优化 -> ${v0}";
+  static String m38(v0) => "Performance Optimization -> ${v0}";
 
-  static String m39(v0) => "缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化";
+  static String m39(v0) =>
+      "The cache size ${v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization";
 
   static String m40(v0, v1, v2, v3) =>
-      "启用：${v0}    设备支持：${v1}     邮箱：${v2}      密码：${v3}";
+      "Enable: ${v0} Device Support: ${v1} Email: ${v2} Password: ${v3}";
 
   static String m41(v0) =>
-      "已设置的核心数量：${v0}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）";
+      "Core quantity that has been set: ${v0} (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)";
 
-  static String m42(v0) => "清理失败，请手动移除，文件位置：${v0}";
+  static String m42(v0) =>
+      "Failure to clean up, please remove manually, file location: ${v0}";
 
-  static String m43(v0) => "出现错误：${v0}";
+  static String m43(v0) => "Error: ${v0}";
 
-  static String m44(v0) => "初始化失败，请截图报告给开发者。${v0}";
+  static String m44(v0) =>
+      "Initialization failed, please take a screenshot report to the developer. ${v0}";
 
   static String m45(v0) =>
-      "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${v0}";
+      "If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: ${v0}";
 
   static String m46(v0) =>
-      "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${v0} MB";
+      "In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: ${v0} MB";
 
   static String m47(v0) =>
-      "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：${v0} MB";
+      "If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: ${v0} MB";
 
   static String m48(v0, v1, v2, v3, v4) =>
-      "系统：${v0}\n\n处理器：${v1}\n\n内存大小：${v2}GB\n\n显卡信息：\n${v3}\n\n硬盘信息：\n${v4}\n\n";
+      "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nHard disk information:\n${v4}";
 
-  static String m49(v0) => "处理失败！：${v0}";
+  static String m49(V0) => "Failure to handle! : ${V0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_action_email":
-            MessageLookupByLibrary.simpleMessage("邮箱: scbox@xkeyc.com"),
-        "about_action_open_source": MessageLookupByLibrary.simpleMessage("开源"),
+            MessageLookupByLibrary.simpleMessage("Email: scbox@xkeyc.com"),
+        "about_action_open_source":
+            MessageLookupByLibrary.simpleMessage("Open source"),
         "about_action_qq_group":
-            MessageLookupByLibrary.simpleMessage("QQ群: 940696487"),
+            MessageLookupByLibrary.simpleMessage("QQ group: 940696487"),
         "about_analytics_install_translation":
-            MessageLookupByLibrary.simpleMessage("汉化安装"),
-        "about_analytics_launch": MessageLookupByLibrary.simpleMessage("启动"),
+            MessageLookupByLibrary.simpleMessage("Localization installation"),
+        "about_analytics_launch":
+            MessageLookupByLibrary.simpleMessage("Start up"),
         "about_analytics_launch_game":
-            MessageLookupByLibrary.simpleMessage("启动游戏"),
+            MessageLookupByLibrary.simpleMessage("Start the game"),
         "about_analytics_p4k_redirection":
-            MessageLookupByLibrary.simpleMessage("P4K分流"),
+            MessageLookupByLibrary.simpleMessage("P4k diversion"),
         "about_analytics_performance_optimization":
-            MessageLookupByLibrary.simpleMessage("性能调优"),
+            MessageLookupByLibrary.simpleMessage("Performance tuning"),
         "about_analytics_total_users":
-            MessageLookupByLibrary.simpleMessage("累计用户"),
+            MessageLookupByLibrary.simpleMessage("Cumulative users"),
         "about_analytics_units_times":
-            MessageLookupByLibrary.simpleMessage("次"),
-        "about_analytics_units_user": MessageLookupByLibrary.simpleMessage("位"),
+            MessageLookupByLibrary.simpleMessage("Second-rate"),
+        "about_analytics_units_user":
+            MessageLookupByLibrary.simpleMessage("Bit"),
         "about_app_description": MessageLookupByLibrary.simpleMessage(
-            "不仅仅是汉化！\n\nSC汉化盒子是你探索宇宙的好帮手，我们致力于为各位公民解决游戏中的常见问题，并为社区汉化、性能调优、常用网站汉化 等操作提供便利。"),
-        "about_check_update": MessageLookupByLibrary.simpleMessage("检查更新"),
+            "The SCToolBox is a good helper for your exploring the universe. We are committed to solving common problems in the game for citizens, and facilitate the operation of community localization, performance tuning, and commonly used website localization operations."),
+        "about_check_update":
+            MessageLookupByLibrary.simpleMessage("Check for updates"),
         "about_disclaimer": MessageLookupByLibrary.simpleMessage(
-            "这是一个非官方的星际公民工具，不隶属于 Cloud Imperium 公司集团。 本软件中非由其主机或用户创作的所有内容均为其各自所有者的财产。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的注册商标。"),
-        "about_info_latest_version":
-            MessageLookupByLibrary.simpleMessage("已经是最新版本！"),
-        "about_online_feedback": MessageLookupByLibrary.simpleMessage("在线反馈"),
-        "action_close": MessageLookupByLibrary.simpleMessage("关闭"),
-        "action_open_folder": MessageLookupByLibrary.simpleMessage("打开文件夹"),
-        "app_index_menu_about": MessageLookupByLibrary.simpleMessage("关于"),
-        "app_index_menu_home": MessageLookupByLibrary.simpleMessage("首页"),
-        "app_index_menu_lobby": MessageLookupByLibrary.simpleMessage("大厅"),
-        "app_index_menu_settings": MessageLookupByLibrary.simpleMessage("设置"),
-        "app_index_menu_tools": MessageLookupByLibrary.simpleMessage("工具"),
+            "This is an unofficial interstellar citizen tool that is not affiliated to Cloud Imperium Group. In this software, all the contents of their own owners or users are their own property.\nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are the registered trademarks of Cloud Imperium Rights LLC."),
+        "about_info_latest_version": MessageLookupByLibrary.simpleMessage(
+            "It is already the latest version!"),
+        "about_online_feedback":
+            MessageLookupByLibrary.simpleMessage("Online feedback"),
+        "action_close": MessageLookupByLibrary.simpleMessage("Closure"),
+        "action_open_folder":
+            MessageLookupByLibrary.simpleMessage("Open the folder"),
+        "app_index_menu_about": MessageLookupByLibrary.simpleMessage("About"),
+        "app_index_menu_home": MessageLookupByLibrary.simpleMessage("Index"),
+        "app_index_menu_lobby": MessageLookupByLibrary.simpleMessage("Hall"),
+        "app_index_menu_settings":
+            MessageLookupByLibrary.simpleMessage("Settings"),
+        "app_index_menu_tools": MessageLookupByLibrary.simpleMessage("Tool"),
         "app_index_version_info": m0,
         "app_init_failed_with_reason": m1,
+        "app_language_code": MessageLookupByLibrary.simpleMessage("en"),
+        "app_language_name": MessageLookupByLibrary.simpleMessage("English"),
         "app_shortcut_name":
-            MessageLookupByLibrary.simpleMessage("SC汉化盒子DEV.lnk"),
+            MessageLookupByLibrary.simpleMessage("SCToolBox.lnk"),
         "app_splash_almost_done":
-            MessageLookupByLibrary.simpleMessage("即将完成..."),
-        "app_splash_checking_availability":
-            MessageLookupByLibrary.simpleMessage("正在检测可用性，这可能需要一点时间..."),
+            MessageLookupByLibrary.simpleMessage("Finish quickly…"),
+        "app_splash_checking_availability": MessageLookupByLibrary.simpleMessage(
+            "It is detection availability, which may take a little time ..."),
         "app_splash_checking_for_updates":
-            MessageLookupByLibrary.simpleMessage("正在检查更新..."),
+            MessageLookupByLibrary.simpleMessage("Inspection and update ..."),
         "app_upgrade_action_next_time":
-            MessageLookupByLibrary.simpleMessage("下次吧"),
+            MessageLookupByLibrary.simpleMessage("Next time"),
         "app_upgrade_action_update_now":
-            MessageLookupByLibrary.simpleMessage("立即更新"),
+            MessageLookupByLibrary.simpleMessage("Update immediately"),
         "app_upgrade_info_download_failed":
-            MessageLookupByLibrary.simpleMessage("下载失败，请尝试手动安装！"),
+            MessageLookupByLibrary.simpleMessage(
+                "Failure to download, please try to install manually!"),
         "app_upgrade_info_downloading": m2,
         "app_upgrade_info_getting_new_version_details":
-            MessageLookupByLibrary.simpleMessage("正在获取新版本详情..."),
-        "app_upgrade_info_installing":
-            MessageLookupByLibrary.simpleMessage("正在安装：   "),
-        "app_upgrade_info_run_failed":
-            MessageLookupByLibrary.simpleMessage("运行失败，请尝试手动安装！"),
-        "app_upgrade_info_update_server_tip":
             MessageLookupByLibrary.simpleMessage(
-                "提示：当前正在使用分流服务器进行更新，可能会出现下载速度下降，但有助于我们进行成本控制，若下载异常请点击这里跳转手动安装。"),
+                "Get the new version details ..."),
+        "app_upgrade_info_installing":
+            MessageLookupByLibrary.simpleMessage("Installing:"),
+        "app_upgrade_info_run_failed": MessageLookupByLibrary.simpleMessage(
+            "Failure to run, try to install manually!"),
+        "app_upgrade_info_update_server_tip": MessageLookupByLibrary.simpleMessage(
+            "Tip: The current diversion server is updated, and the download speed may decline, but it will help us perform cost control. If you download the exception, please click here to jump and manually install it."),
         "app_upgrade_title_new_version_found": m3,
         "doctor_action_analyzing":
-            MessageLookupByLibrary.simpleMessage("正在分析..."),
+            MessageLookupByLibrary.simpleMessage("Analysing..."),
         "doctor_action_game_run_log":
-            MessageLookupByLibrary.simpleMessage("游戏运行log"),
+            MessageLookupByLibrary.simpleMessage("Game running log"),
         "doctor_action_info_checking_eac":
-            MessageLookupByLibrary.simpleMessage("正在检查：EAC"),
+            MessageLookupByLibrary.simpleMessage("Inspection: EAC"),
         "doctor_action_info_checking_install_info":
-            MessageLookupByLibrary.simpleMessage("正在检查：安装信息"),
+            MessageLookupByLibrary.simpleMessage(
+                "Inspection: Installation information"),
         "doctor_action_info_checking_runtime":
-            MessageLookupByLibrary.simpleMessage("正在检查：运行环境"),
+            MessageLookupByLibrary.simpleMessage(
+                "Inspection: operating environment"),
         "doctor_action_info_game_abnormal_exit": m4,
         "doctor_action_info_game_abnormal_exit_unknown":
-            MessageLookupByLibrary.simpleMessage("游戏异常退出：未知异常"),
+            MessageLookupByLibrary.simpleMessage(
+                "Game abnormal exit: unknown abnormalities"),
         "doctor_action_info_info_feedback": m5,
         "doctor_action_result_analysis_issues_found": m6,
         "doctor_action_result_analysis_no_issue":
-            MessageLookupByLibrary.simpleMessage("分析完毕，没有发现问题"),
+            MessageLookupByLibrary.simpleMessage(
+                "After the analysis, no problems are found"),
         "doctor_action_result_create_folder_fail": m7,
         "doctor_action_result_create_folder_success":
-            MessageLookupByLibrary.simpleMessage("创建文件夹成功，请尝试继续下载游戏！"),
+            MessageLookupByLibrary.simpleMessage(
+                "Create a folder success, try to continue download the game!"),
         "doctor_action_result_fix_fail": m8,
         "doctor_action_result_fix_success": MessageLookupByLibrary.simpleMessage(
-            "修复成功，请尝试重启后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。"),
+            "If the repair is successful, try to restart and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up."),
         "doctor_action_result_game_start_success":
             MessageLookupByLibrary.simpleMessage(
-                "修复成功，请尝试启动游戏。（若问题无法解决，请使用工具箱的 《重装 EAC》）"),
+                "If the repair is successful, try to start the game. (If the problem cannot be solved, please use the toolbox\'s \"Reinstall EAC\")"),
         "doctor_action_result_info_unsupported_os": m9,
         "doctor_action_result_issue_not_supported":
-            MessageLookupByLibrary.simpleMessage("该问题暂不支持自动处理，请提供截图寻求帮助"),
+            MessageLookupByLibrary.simpleMessage(
+                "This problem does not support automatic processing for the time being, please provide screenshots for help"),
         "doctor_action_result_redirect_warning":
-            MessageLookupByLibrary.simpleMessage("即将跳转，教程来自互联网，请谨慎操作..."),
+            MessageLookupByLibrary.simpleMessage(
+                "The tutorial is about to jump, the tutorial comes from the Internet, please operate carefully ..."),
         "doctor_action_result_toast_scan_no_issue":
             MessageLookupByLibrary.simpleMessage(
-                "扫描完毕，没有发现问题，若仍然安装失败，请尝试使用工具箱中的 RSI启动器管理员模式。"),
+                "After scanning, no problem is found. If you still fail, try to use the RSI starter administrator mode in the toolbox."),
         "doctor_action_result_try_latest_windows":
             MessageLookupByLibrary.simpleMessage(
-                "若您的硬件达标，请尝试安装最新的 Windows 系统。"),
+                "If your hardware meets the standard, try to install the latest Windows system."),
         "doctor_action_rsi_launcher_log":
-            MessageLookupByLibrary.simpleMessage("RSI启动器log"),
+            MessageLookupByLibrary.simpleMessage("RSI starter log"),
         "doctor_action_tip_checking_game_log":
-            MessageLookupByLibrary.simpleMessage("正在检查：Game.log"),
+            MessageLookupByLibrary.simpleMessage("Inspection: Game.log"),
         "doctor_action_view_details":
-            MessageLookupByLibrary.simpleMessage("查看详情"),
+            MessageLookupByLibrary.simpleMessage("Check the details"),
         "doctor_action_view_solution":
-            MessageLookupByLibrary.simpleMessage("查看解决方案"),
-        "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("修复"),
+            MessageLookupByLibrary.simpleMessage("View solution"),
+        "doctor_info_action_fix":
+            MessageLookupByLibrary.simpleMessage("Repair"),
         "doctor_info_game_rescue_service_note":
             MessageLookupByLibrary.simpleMessage(
-                "您即将前往由 深空治疗中心（QQ群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。"),
-        "doctor_info_need_help":
-            MessageLookupByLibrary.simpleMessage("需要帮助？ 点击加群寻求免费人工支援！"),
+                "You are about to go to the game abnormal rescue services provided by the Deep Space Treatment Center (QQ group number: 536454632), which mainly solve the failure and frequent flashback of game installation. If you are a gameplay problem, please do not add groups."),
+        "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
+            "Need help? Click to seek free artificial support!"),
         "doctor_info_processing":
-            MessageLookupByLibrary.simpleMessage("正在处理..."),
+            MessageLookupByLibrary.simpleMessage("Treatment ..."),
         "doctor_info_result_add_registry_value": m10,
         "doctor_info_result_chinese_install_path":
-            MessageLookupByLibrary.simpleMessage("中文安装路径！"),
+            MessageLookupByLibrary.simpleMessage(
+                "No-English installation path!"),
         "doctor_info_result_chinese_install_path_error": m11,
         "doctor_info_result_chinese_username":
-            MessageLookupByLibrary.simpleMessage("中文用户名！"),
+            MessageLookupByLibrary.simpleMessage("No-English username!"),
         "doctor_info_result_chinese_username_error":
             MessageLookupByLibrary.simpleMessage(
-                "中文用户名可能会导致游戏启动/安装错误！ 点击修复按钮查看修改教程！"),
+                "The No-English username may cause the game to start/install errors! Click the repair button to view the modification tutorial!"),
         "doctor_info_result_create_live_folder": m12,
         "doctor_info_result_easyanticheat_not_installed":
-            MessageLookupByLibrary.simpleMessage("EasyAntiCheat 未安装 或 未正常退出"),
+            MessageLookupByLibrary.simpleMessage(
+                "Easyanticheat is not installed or not withdrawn normally"),
         "doctor_info_result_fix_suggestion": m13,
         "doctor_info_result_incompatible_nvme_device":
             MessageLookupByLibrary.simpleMessage(
-                "新型 NVME 设备，与 RSI 启动器暂不兼容，可能导致安装失败"),
+                "The new NVME device is not compatible with the RSI starter for the time being, which may cause the installation to fail"),
         "doctor_info_result_install_easyanticheat":
             MessageLookupByLibrary.simpleMessage(
-                "EasyAntiCheat 未安装，请点击修复为您一键安装。（在游戏正常启动并结束前，该问题会一直出现，若您因为其他原因游戏闪退，可忽略此条目）"),
+                "Easyanticheat is not installed, please click to repair it for you one click. (Before the game starts normally and ends, the problem will always appear. If you retreat for other reasons, you can ignore this entry)"),
         "doctor_info_result_low_physical_memory":
-            MessageLookupByLibrary.simpleMessage("物理内存过低"),
+            MessageLookupByLibrary.simpleMessage("Paralying memory is too low"),
         "doctor_info_result_memory_requirement": m14,
         "doctor_info_result_missing_easyanticheat_files":
-            MessageLookupByLibrary.simpleMessage("EasyAntiCheat 文件丢失"),
+            MessageLookupByLibrary.simpleMessage("Easyanticheat file loss"),
         "doctor_info_result_missing_live_folder":
-            MessageLookupByLibrary.simpleMessage("安装目录缺少LIVE文件夹，可能导致安装失败"),
-        "doctor_info_result_no_solution":
-            MessageLookupByLibrary.simpleMessage("暂无解决方法，请截图反馈"),
-        "doctor_info_result_unsupported_os":
-            MessageLookupByLibrary.simpleMessage("不支持的操作系统，游戏可能无法运行"),
+            MessageLookupByLibrary.simpleMessage(
+                "The installation directory lacks a Live folder, which may cause the installation to fail"),
+        "doctor_info_result_no_solution": MessageLookupByLibrary.simpleMessage(
+            "No solution, please take screenshots feedback"),
+        "doctor_info_result_unsupported_os": MessageLookupByLibrary.simpleMessage(
+            "The operating system that does not support, the game may not be able to run"),
         "doctor_info_result_upgrade_system": m15,
         "doctor_info_result_verify_files_with_rsi_launcher":
             MessageLookupByLibrary.simpleMessage(
-                "未在 LIVE 文件夹找到 EasyAntiCheat 文件 或 文件不完整，请使用 RSI 启动器校验文件"),
+                "Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI starter to check the file"),
         "doctor_info_scan_complete_no_issues":
-            MessageLookupByLibrary.simpleMessage("扫描完毕，没有找到问题！"),
-        "doctor_info_tool_check_result_note":
             MessageLookupByLibrary.simpleMessage(
-                "注意：本工具检测结果仅供参考，若您不理解以下操作，请提供截图给有经验的玩家！"),
+                "After scanning, no problem was found!"),
+        "doctor_info_tool_check_result_note": MessageLookupByLibrary.simpleMessage(
+            "Note: The test results of this tool are for reference only. If you do not understand the following operations, please provide screenshots for experienced players!"),
         "doctor_tip_title_select_game_directory":
-            MessageLookupByLibrary.simpleMessage("请在首页选择游戏安装目录。"),
+            MessageLookupByLibrary.simpleMessage(
+                "Please select the game installation directory on the homepage."),
         "doctor_title_one_click_diagnosis": m16,
         "downloader_action_cancel_all":
-            MessageLookupByLibrary.simpleMessage("全部取消"),
+            MessageLookupByLibrary.simpleMessage("Cancel all of them"),
         "downloader_action_cancel_download":
-            MessageLookupByLibrary.simpleMessage("取消下载"),
+            MessageLookupByLibrary.simpleMessage("Cancel download"),
         "downloader_action_confirm_cancel_all_tasks":
-            MessageLookupByLibrary.simpleMessage("确认取消全部任务？"),
+            MessageLookupByLibrary.simpleMessage(
+                "Confirm the cancellation of all tasks?"),
         "downloader_action_confirm_cancel_download":
-            MessageLookupByLibrary.simpleMessage("确认取消下载？"),
+            MessageLookupByLibrary.simpleMessage(
+                "Confirm the cancellation download?"),
         "downloader_action_continue_download":
-            MessageLookupByLibrary.simpleMessage("继续下载"),
-        "downloader_action_options": MessageLookupByLibrary.simpleMessage("选项"),
+            MessageLookupByLibrary.simpleMessage("Continue download"),
+        "downloader_action_options":
+            MessageLookupByLibrary.simpleMessage("Option"),
         "downloader_action_pause_all":
-            MessageLookupByLibrary.simpleMessage("全部暂停"),
+            MessageLookupByLibrary.simpleMessage("All of the suspension"),
         "downloader_action_pause_download":
-            MessageLookupByLibrary.simpleMessage("暂停下载"),
+            MessageLookupByLibrary.simpleMessage("Paradse download"),
         "downloader_action_resume_all":
-            MessageLookupByLibrary.simpleMessage("恢复全部"),
-        "downloader_info_deleted": MessageLookupByLibrary.simpleMessage("已删除"),
+            MessageLookupByLibrary.simpleMessage("Restore all"),
+        "downloader_info_deleted":
+            MessageLookupByLibrary.simpleMessage("Deleted"),
         "downloader_info_download_completed":
-            MessageLookupByLibrary.simpleMessage("下载完成"),
+            MessageLookupByLibrary.simpleMessage("Download completed"),
         "downloader_info_download_failed":
-            MessageLookupByLibrary.simpleMessage("下载失败"),
+            MessageLookupByLibrary.simpleMessage("Download failed"),
         "downloader_info_download_unit_input_prompt":
             MessageLookupByLibrary.simpleMessage(
-                "请输入下载单位，如：1、100k、10m， 0或留空为不限速。"),
+                "Please enter the download unit."),
         "downloader_info_download_upload_speed": m17,
         "downloader_info_downloaded": m18,
         "downloader_info_downloading": m19,
         "downloader_info_downloading_status":
-            MessageLookupByLibrary.simpleMessage("下载中..."),
+            MessageLookupByLibrary.simpleMessage("Downloading..."),
         "downloader_info_manual_file_deletion_note":
-            MessageLookupByLibrary.simpleMessage("如果文件不再需要，你可能需要手动删除下载文件。"),
-        "downloader_info_no_download_tasks":
-            MessageLookupByLibrary.simpleMessage("无下载任务"),
-        "downloader_info_p2p_network_note":
             MessageLookupByLibrary.simpleMessage(
-                "SC 汉化盒子使用 p2p 网络来加速文件下载，如果您流量有限，可在此处将上传带宽设置为 1(byte)。"),
-        "downloader_info_paused": MessageLookupByLibrary.simpleMessage("已暂停"),
+                "If the file is no longer needed, you may need to delete the download file manually."),
+        "downloader_info_no_download_tasks":
+            MessageLookupByLibrary.simpleMessage("No download task"),
+        "downloader_info_p2p_network_note": MessageLookupByLibrary.simpleMessage(
+            "The SCToolBox uses the P2P network to accelerate file download. If you have limited traffic, you can set the upload bandwidth to 1 (byte) here."),
+        "downloader_info_paused":
+            MessageLookupByLibrary.simpleMessage("Paused"),
         "downloader_info_status": m20,
         "downloader_info_total_size": m21,
         "downloader_info_uploaded": m22,
         "downloader_info_verifying": m23,
-        "downloader_info_waiting": MessageLookupByLibrary.simpleMessage("等待中"),
+        "downloader_info_waiting":
+            MessageLookupByLibrary.simpleMessage("Waiting"),
         "downloader_input_download_speed_limit":
-            MessageLookupByLibrary.simpleMessage("下载限速："),
+            MessageLookupByLibrary.simpleMessage("Download speed limit:"),
         "downloader_input_info_p2p_upload_note":
             MessageLookupByLibrary.simpleMessage(
-                "* P2P 上传仅在下载文件时进行，下载完成后会关闭 p2p 连接。如您想参与做种，请通过关于页面联系我们。"),
+                "* P2P upload is only performed when downloading files, and the P2P connection will be turned off after downloading. If you want to participate in planting, please contact us about the page."),
         "downloader_input_upload_speed_limit":
-            MessageLookupByLibrary.simpleMessage("上传限速："),
+            MessageLookupByLibrary.simpleMessage("Upload speed limit:"),
         "downloader_speed_limit_settings":
-            MessageLookupByLibrary.simpleMessage("限速设置"),
+            MessageLookupByLibrary.simpleMessage("Speed limit setting"),
         "downloader_title_downloading":
-            MessageLookupByLibrary.simpleMessage("下载中"),
-        "downloader_title_ended": MessageLookupByLibrary.simpleMessage("已结束"),
-        "home_action_cancel": MessageLookupByLibrary.simpleMessage("取消"),
+            MessageLookupByLibrary.simpleMessage("Downloading"),
+        "downloader_title_ended": MessageLookupByLibrary.simpleMessage("Over"),
+        "home_action_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "home_action_dps_calculator_localization":
-            MessageLookupByLibrary.simpleMessage("DPS计算器汉化"),
+            MessageLookupByLibrary.simpleMessage("DPS calculator Localization"),
         "home_action_external_browser_extension":
-            MessageLookupByLibrary.simpleMessage("外部浏览器拓展："),
+            MessageLookupByLibrary.simpleMessage("External browser expansion:"),
         "home_action_info_abnormal_game_exit": m24,
-        "home_action_info_check_web_link":
-            MessageLookupByLibrary.simpleMessage("请查看弹出的网页链接获得详细信息。"),
+        "home_action_info_check_web_link": MessageLookupByLibrary.simpleMessage(
+            "Please check the pop -up web link to get detailed information."),
         "home_action_info_engine_config_optimization":
-            MessageLookupByLibrary.simpleMessage("调整引擎配置文件，优化游戏性能"),
+            MessageLookupByLibrary.simpleMessage(
+                "Adjust the engine configuration file to optimize the game performance"),
         "home_action_info_game_built_in":
-            MessageLookupByLibrary.simpleMessage("游戏内置"),
+            MessageLookupByLibrary.simpleMessage("Built -in game"),
         "home_action_info_initialization_failed": m25,
         "home_action_info_initializing_resources":
-            MessageLookupByLibrary.simpleMessage("正在初始化汉化资源..."),
+            MessageLookupByLibrary.simpleMessage(
+                "It is initialized Localization resources ..."),
         "home_action_info_log_file_parse_fail":
-            MessageLookupByLibrary.simpleMessage("解析 log 文件失败！"),
+            MessageLookupByLibrary.simpleMessage(
+                "Analysis of LOG files failed!"),
         "home_action_info_mining_refining_trade_calculator":
-            MessageLookupByLibrary.simpleMessage("采矿、精炼、贸易计算器、价格、船信息"),
+            MessageLookupByLibrary.simpleMessage(
+                "Mining, refining, trade calculator, price, ship information"),
         "home_action_info_one_click_diagnosis_star_citizen":
-            MessageLookupByLibrary.simpleMessage("一键诊断星际公民常见问题"),
+            MessageLookupByLibrary.simpleMessage(
+                "Auto scan diagnosis of common problems in interstellar citizens"),
         "home_action_info_quick_install_localization_resources":
-            MessageLookupByLibrary.simpleMessage("快捷安装汉化资源"),
+            MessageLookupByLibrary.simpleMessage(
+                "Fast installation of localization resources"),
         "home_action_info_roberts_space_industries_origin":
-            MessageLookupByLibrary.simpleMessage("罗伯茨航天工业公司，万物的起源"),
+            MessageLookupByLibrary.simpleMessage(
+                "Roberts Aerospace Industry Corporation, the origin of all things"),
         "home_action_info_scan_complete_valid_directories_found": m26,
         "home_action_info_scanning":
-            MessageLookupByLibrary.simpleMessage("正在扫描 ..."),
+            MessageLookupByLibrary.simpleMessage("Scanning ..."),
         "home_action_info_ship_upgrade_damage_value_query":
-            MessageLookupByLibrary.simpleMessage("在线改船，查询伤害数值和配件购买地点"),
-        "home_action_info_unknown_error":
-            MessageLookupByLibrary.simpleMessage("未知错误，请通过一键诊断加群反馈。"),
+            MessageLookupByLibrary.simpleMessage(
+                "Change the ship online, query the damage value and accessories location"),
+        "home_action_info_unknown_error": MessageLookupByLibrary.simpleMessage(
+            "Unknown errors, please use one -click diagnosis to add group feedback."),
         "home_action_info_valid_install_location_required":
             MessageLookupByLibrary.simpleMessage(
-                "该功能需要一个有效的安装位置\n\n如果您的游戏未下载完成，请等待下载完毕后使用此功能。\n\n如果您的游戏已下载完毕但未识别，请启动一次游戏后重新打开盒子 或 在设置选项中手动设置安装位置。"),
-        "home_action_info_warning": MessageLookupByLibrary.simpleMessage("警告"),
+                "This function requires an effective installation location\n\nIf your game is not downloaded, wait for the download after downloading.\n\nIf your game has been downloaded but not recognized, please reopen the box after starting the game or manually set the installation position in the setting option."),
+        "home_action_info_warning":
+            MessageLookupByLibrary.simpleMessage("Warn"),
         "home_action_info_web_localization_plugin_disclaimer":
             MessageLookupByLibrary.simpleMessage(
-                "本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！\n\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。"),
+                "This plug -in function is for general browsing, not responsible for any problems related to this function! Please pay attention to confirming the original content of the website before the account operation!\n\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source."),
         "home_action_install_microsoft_store_version":
-            MessageLookupByLibrary.simpleMessage("安装微软商店版本"),
-        "home_action_localization_management":
-            MessageLookupByLibrary.simpleMessage("汉化管理"),
-        "home_action_login_rsi_account":
-            MessageLookupByLibrary.simpleMessage("登录 RSI 账户"),
-        "home_action_one_click_diagnosis":
-            MessageLookupByLibrary.simpleMessage("一键诊断"),
-        "home_action_one_click_launch":
-            MessageLookupByLibrary.simpleMessage("一键启动"),
-        "home_action_performance_optimization":
-            MessageLookupByLibrary.simpleMessage("性能优化"),
-        "home_action_q_auto_password_fill_prompt":
-            MessageLookupByLibrary.simpleMessage("是否开启自动密码填充？"),
-        "home_action_rsi_status_arena_commander":
-            MessageLookupByLibrary.simpleMessage("竞技场指挥官"),
-        "home_action_rsi_status_electronic_access":
-            MessageLookupByLibrary.simpleMessage("电子访问"),
-        "home_action_rsi_status_persistent_universe":
-            MessageLookupByLibrary.simpleMessage("持续宇宙"),
-        "home_action_rsi_status_platform":
-            MessageLookupByLibrary.simpleMessage("平台"),
-        "home_action_rsi_status_rsi_server_status":
-            MessageLookupByLibrary.simpleMessage("RSI 服务器状态"),
-        "home_action_rsi_status_status":
-            MessageLookupByLibrary.simpleMessage("状态："),
-        "home_action_star_citizen_website_localization":
-            MessageLookupByLibrary.simpleMessage("星际公民官网汉化"),
-        "home_action_title_star_citizen_website_localization":
-            MessageLookupByLibrary.simpleMessage("星际公民网站汉化"),
-        "home_action_uex_localization":
-            MessageLookupByLibrary.simpleMessage("UEX 汉化"),
-        "home_announcement_details":
-            MessageLookupByLibrary.simpleMessage("公告详情"),
-        "home_holiday_countdown": MessageLookupByLibrary.simpleMessage("节日倒计时"),
-        "home_holiday_countdown_disclaimer":
             MessageLookupByLibrary.simpleMessage(
-                "* 以上节日日期由人工收录、维护，可能存在错误，欢迎反馈！"),
+                "Install Microsoft Store Version"),
+        "home_action_localization_management":
+            MessageLookupByLibrary.simpleMessage("Localization management"),
+        "home_action_login_rsi_account":
+            MessageLookupByLibrary.simpleMessage("Log in to RSI account"),
+        "home_action_one_click_diagnosis":
+            MessageLookupByLibrary.simpleMessage("Auto diagnosis"),
+        "home_action_one_click_launch":
+            MessageLookupByLibrary.simpleMessage("One-button start"),
+        "home_action_performance_optimization":
+            MessageLookupByLibrary.simpleMessage("Performance optimization"),
+        "home_action_q_auto_password_fill_prompt":
+            MessageLookupByLibrary.simpleMessage(
+                "Do you turn on the automatic password filling?"),
+        "home_action_rsi_status_arena_commander":
+            MessageLookupByLibrary.simpleMessage("AC"),
+        "home_action_rsi_status_electronic_access":
+            MessageLookupByLibrary.simpleMessage("EV"),
+        "home_action_rsi_status_persistent_universe":
+            MessageLookupByLibrary.simpleMessage("PU"),
+        "home_action_rsi_status_platform":
+            MessageLookupByLibrary.simpleMessage("Platform"),
+        "home_action_rsi_status_rsi_server_status":
+            MessageLookupByLibrary.simpleMessage("RSI server status"),
+        "home_action_rsi_status_status":
+            MessageLookupByLibrary.simpleMessage("State:"),
+        "home_action_star_citizen_website_localization":
+            MessageLookupByLibrary.simpleMessage("SC Official Localization"),
+        "home_action_title_star_citizen_website_localization":
+            MessageLookupByLibrary.simpleMessage(
+                "Star Citizen Website Sinicization"),
+        "home_action_uex_localization":
+            MessageLookupByLibrary.simpleMessage("UEX Localization"),
+        "home_announcement_details":
+            MessageLookupByLibrary.simpleMessage("Announcement details"),
+        "home_holiday_countdown":
+            MessageLookupByLibrary.simpleMessage("Countdown"),
+        "home_holiday_countdown_disclaimer": MessageLookupByLibrary.simpleMessage(
+            "* The above festival date is included in artificially and maintained. There may be errors. Welcome to feedback!"),
         "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
-            "为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。\n\n微软商店版由微软提供可靠的分发下载与数字签名，可有效防止软件被恶意篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。"),
+            "In order to ensure the security of the account, the one -click startup function has been disabled in the development version, and we will provide this feature in the Microsoft store version.\n\nThe Microsoft Store Edition is provided with a reliable distribution download and digital signature by Microsoft, which can effectively prevent software from being maliciously tampered with.\n\nTip: You can use Localization without using a box to start the game."),
         "home_info_auto_fill_notice": MessageLookupByLibrary.simpleMessage(
-            "* 若开启了自动填充，请留意弹出的 Windows Hello 窗口"),
+            "* If the automatic filling is turned on, please pay attention to the pop -up Windows Hello window"),
         "home_info_one_click_launch_warning":
-            MessageLookupByLibrary.simpleMessage("一键启动功能提示"),
+            MessageLookupByLibrary.simpleMessage(
+                "One -click start -up function prompt"),
         "home_info_valid_installation_required":
-            MessageLookupByLibrary.simpleMessage("该功能需要一个有效的安装位置"),
-        "home_install_location": MessageLookupByLibrary.simpleMessage("安装位置："),
+            MessageLookupByLibrary.simpleMessage(
+                "This function requires an effective installation location"),
+        "home_install_location":
+            MessageLookupByLibrary.simpleMessage("Installation location:"),
         "home_localization_new_version_available":
-            MessageLookupByLibrary.simpleMessage("汉化有新版本！"),
+            MessageLookupByLibrary.simpleMessage(
+                "Sinicization has a new version!"),
         "home_localization_new_version_installed": m27,
         "home_login_action_title_box_one_click_launch":
-            MessageLookupByLibrary.simpleMessage("盒子一键启动"),
+            MessageLookupByLibrary.simpleMessage("Box one -click start"),
         "home_login_action_title_need_webview2_runtime":
-            MessageLookupByLibrary.simpleMessage("需要安装 WebView2 Runtime"),
+            MessageLookupByLibrary.simpleMessage(
+                "Need to install WebView2 Runtime"),
         "home_login_info_action_ignore":
-            MessageLookupByLibrary.simpleMessage("忽略"),
+            MessageLookupByLibrary.simpleMessage("Neglect"),
         "home_login_info_enter_pin_to_encrypt":
-            MessageLookupByLibrary.simpleMessage("输入PIN以启用加密"),
+            MessageLookupByLibrary.simpleMessage(
+                "Enter PIN to enable encryption"),
         "home_login_info_game_version_outdated":
-            MessageLookupByLibrary.simpleMessage("游戏版本过期"),
+            MessageLookupByLibrary.simpleMessage("Game version expires"),
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
-                "本功能可以帮您更加便利的启动游戏。\n\n为确保账户安全 ，本功能使用汉化浏览器保留登录状态，且不会保存您的密码信息（除非你启用了自动填充功能）。\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。"),
+                "This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source."),
         "home_login_info_password_encryption_notice":
             MessageLookupByLibrary.simpleMessage(
-                "盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。"),
+                "The box will use the PIN and Windows credentials to save your password encryption, and the password is only stored in your device.\n\nWhen you need to enter a password for the next login, you only need to authorize PIN to automatically fill in the login."),
         "home_login_info_rsi_server_report": m28,
-        "home_login_title_launching_game":
-            MessageLookupByLibrary.simpleMessage("正在为您启动游戏..."),
+        "home_login_title_launching_game": MessageLookupByLibrary.simpleMessage(
+            "I\'m starting the game for you ..."),
         "home_login_title_welcome_back":
-            MessageLookupByLibrary.simpleMessage("欢迎回来！"),
-        "home_not_installed_or_failed":
-            MessageLookupByLibrary.simpleMessage("未安装 或 安装失败"),
-        "home_title_app_name": MessageLookupByLibrary.simpleMessage("SC汉化盒子"),
-        "home_title_logging_in": MessageLookupByLibrary.simpleMessage("登录中..."),
-        "lobby_invitation_to_participate":
-            MessageLookupByLibrary.simpleMessage("诚邀您参与 "),
-        "lobby_online_lobby_coming_soon":
-            MessageLookupByLibrary.simpleMessage("联机大厅，敬请期待 ！"),
-        "lobby_survey": MessageLookupByLibrary.simpleMessage("问卷调查。"),
+            MessageLookupByLibrary.simpleMessage("Welcome back!"),
+        "home_not_installed_or_failed": MessageLookupByLibrary.simpleMessage(
+            "Unpacking or installation failed"),
+        "home_title_app_name":
+            MessageLookupByLibrary.simpleMessage("SCToolBox"),
+        "home_title_logging_in":
+            MessageLookupByLibrary.simpleMessage("Logging in..."),
+        "lobby_invitation_to_participate": MessageLookupByLibrary.simpleMessage(
+            "Sincerely invite you to participate"),
+        "lobby_online_lobby_coming_soon": MessageLookupByLibrary.simpleMessage(
+            "The online lobby, so stay tuned!"),
+        "lobby_survey": MessageLookupByLibrary.simpleMessage("Questionnaire."),
         "localization_action_advanced_features":
-            MessageLookupByLibrary.simpleMessage("高级功能"),
+            MessageLookupByLibrary.simpleMessage("Advanced Features"),
         "localization_action_install":
-            MessageLookupByLibrary.simpleMessage("安装"),
+            MessageLookupByLibrary.simpleMessage("Install"),
         "localization_action_translation_feedback":
-            MessageLookupByLibrary.simpleMessage("汉化反馈"),
+            MessageLookupByLibrary.simpleMessage("Localization feedback"),
         "localization_action_uninstall_translation":
-            MessageLookupByLibrary.simpleMessage("卸载汉化"),
+            MessageLookupByLibrary.simpleMessage(
+                "Uninstallation of Localization"),
         "localization_info_channel": m29,
         "localization_info_community_translation":
-            MessageLookupByLibrary.simpleMessage("社区汉化"),
+            MessageLookupByLibrary.simpleMessage("Community Localization"),
         "localization_info_corrupted_file":
-            MessageLookupByLibrary.simpleMessage("文件受损，请重新下载"),
+            MessageLookupByLibrary.simpleMessage(
+                "The file is damaged, please download again"),
         "localization_info_custom_file": m30,
         "localization_info_custom_file_instructions":
             MessageLookupByLibrary.simpleMessage(
-                "即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。"),
+                "To open the localized folder, put the customized name .ini file in the Customize_ini folder.\n\nAfter adding a new file, you do not display the refresh button in the upper right corner.\n\nPlease make sure to choose the correct language during installation."),
         "localization_info_custom_files":
-            MessageLookupByLibrary.simpleMessage("自定义文件"),
+            MessageLookupByLibrary.simpleMessage("Custom file"),
         "localization_info_custom_text":
-            MessageLookupByLibrary.simpleMessage("自定义文本"),
+            MessageLookupByLibrary.simpleMessage("Custom text"),
         "localization_info_enabled": m31,
         "localization_info_incompatible_translation_params_warning":
             MessageLookupByLibrary.simpleMessage(
-                "USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。"),
+                "User.cfg contains incompatible Localization parameters, which may be the residual information of the previous Localization file.\n\nThis may lead to ineffective or garbled Localization, click to confirm that you are removed with one click (it will not affect other configuration)."),
         "localization_info_installation_error": m32,
         "localization_info_installed":
-            MessageLookupByLibrary.simpleMessage("已安装"),
+            MessageLookupByLibrary.simpleMessage("Installed"),
         "localization_info_installed_version": m33,
         "localization_info_language":
-            MessageLookupByLibrary.simpleMessage("语言：   "),
+            MessageLookupByLibrary.simpleMessage("Language:"),
         "localization_info_machine_translation_warning":
             MessageLookupByLibrary.simpleMessage(
-                "您正在使用游戏内置文本，官方文本目前为机器翻译（截至3.21.0），建议您在下方安装社区汉化。"),
+                "You are using the game built -in text. The official text is currently a machine translation (as of 3.21.0), and it is recommended that you install community Localization below."),
         "localization_info_no_custom_text":
-            MessageLookupByLibrary.simpleMessage("暂无自定义文本"),
+            MessageLookupByLibrary.simpleMessage("No custom text"),
         "localization_info_no_translation_available":
-            MessageLookupByLibrary.simpleMessage("该语言/版本 暂无可用汉化，敬请期待！"),
-        "localization_info_note": MessageLookupByLibrary.simpleMessage("备注："),
+            MessageLookupByLibrary.simpleMessage(
+                "This language/version is not available for Localization, so stay tuned!"),
+        "localization_info_note":
+            MessageLookupByLibrary.simpleMessage("Remark:"),
         "localization_info_remove_incompatible_translation_params":
-            MessageLookupByLibrary.simpleMessage("是否移除不兼容的汉化参数"),
+            MessageLookupByLibrary.simpleMessage(
+                "Whether to remove incompatible Localization parameters"),
         "localization_info_translation_status":
-            MessageLookupByLibrary.simpleMessage("汉化状态"),
+            MessageLookupByLibrary.simpleMessage("State"),
         "localization_info_unavailable":
-            MessageLookupByLibrary.simpleMessage("不可用"),
+            MessageLookupByLibrary.simpleMessage("Unavailable"),
         "localization_info_update_time": m34,
         "localization_info_version_number": m35,
-        "performance_action_apply": MessageLookupByLibrary.simpleMessage("应用"),
+        "performance_action_apply":
+            MessageLookupByLibrary.simpleMessage("Application"),
         "performance_action_apply_and_clear_shaders":
-            MessageLookupByLibrary.simpleMessage("应用并清理着色器（推荐）"),
+            MessageLookupByLibrary.simpleMessage(
+                "Apply and clean up the color device (recommended)"),
         "performance_action_clear_shaders":
-            MessageLookupByLibrary.simpleMessage("清理着色器"),
+            MessageLookupByLibrary.simpleMessage("Clean the color device"),
         "performance_action_custom_parameters_input":
             MessageLookupByLibrary.simpleMessage(
-                "您可以在这里输入未收录进盒子的自定义参数。配置示例:\n\nr_displayinfo=0\nr_VSync=0"),
-        "performance_action_high": MessageLookupByLibrary.simpleMessage("高"),
+                "You can enter the custom parameters that are not included in the box here. Configuration example:\n\nR_DISPLAYINFO = 0\nr_vsync = 0"),
+        "performance_action_high": MessageLookupByLibrary.simpleMessage("High"),
         "performance_action_info_preset_only_changes_graphics":
-            MessageLookupByLibrary.simpleMessage("（预设只修改图形设置）"),
-        "performance_action_low": MessageLookupByLibrary.simpleMessage("低"),
-        "performance_action_medium": MessageLookupByLibrary.simpleMessage("中"),
+            MessageLookupByLibrary.simpleMessage(
+                "(Preset only the graphic settings)"),
+        "performance_action_low": MessageLookupByLibrary.simpleMessage("Low"),
+        "performance_action_medium":
+            MessageLookupByLibrary.simpleMessage("Middle"),
         "performance_action_preset":
-            MessageLookupByLibrary.simpleMessage("预设："),
+            MessageLookupByLibrary.simpleMessage("Preset:"),
         "performance_action_reset_to_default":
-            MessageLookupByLibrary.simpleMessage(" 恢复默认 "),
-        "performance_action_super": MessageLookupByLibrary.simpleMessage("超级"),
-        "performance_info_applied": MessageLookupByLibrary.simpleMessage("已应用"),
+            MessageLookupByLibrary.simpleMessage("Reset"),
+        "performance_action_super":
+            MessageLookupByLibrary.simpleMessage("Super"),
+        "performance_info_applied":
+            MessageLookupByLibrary.simpleMessage("Applied"),
         "performance_info_current_status": m36,
         "performance_info_delete_config_file":
-            MessageLookupByLibrary.simpleMessage("删除配置文件..."),
-        "performance_info_done": MessageLookupByLibrary.simpleMessage("完成..."),
+            MessageLookupByLibrary.simpleMessage(
+                "Delete the configuration file ..."),
+        "performance_info_done":
+            MessageLookupByLibrary.simpleMessage("Finish..."),
         "performance_info_generate_config_file":
-            MessageLookupByLibrary.simpleMessage("生成配置文件"),
+            MessageLookupByLibrary.simpleMessage("Generate configuration file"),
         "performance_info_graphic_optimization_hint":
-            MessageLookupByLibrary.simpleMessage("图形优化提示"),
+            MessageLookupByLibrary.simpleMessage("Graph optimization tips"),
         "performance_info_graphic_optimization_warning":
             MessageLookupByLibrary.simpleMessage(
-                "该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起反效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。"),
-        "performance_info_graphics": MessageLookupByLibrary.simpleMessage("图形"),
+                "This function is very helpful for optimizing the bottleneck of the graphics card, but it may have a reverse effect on the CPU bottleneck. If your graphics card performance is strong, you can try to use better picture quality to obtain higher graphics card utilization."),
+        "performance_info_graphics":
+            MessageLookupByLibrary.simpleMessage("Graphic"),
         "performance_info_min_max_values": m37,
         "performance_info_not_applied":
-            MessageLookupByLibrary.simpleMessage("未应用"),
+            MessageLookupByLibrary.simpleMessage("Unused"),
         "performance_info_shader_clearing_warning":
             MessageLookupByLibrary.simpleMessage(
-                "清理着色器后首次进入游戏可能会出现卡顿，请耐心等待游戏初始化完毕。"),
+                "After cleaning up the color device, it may appear stutter when entering the game for the first time. Please wait patiently for the initialization of the game."),
         "performance_info_write_out_config_file":
-            MessageLookupByLibrary.simpleMessage("写出配置文件"),
+            MessageLookupByLibrary.simpleMessage(
+                "Write the configuration file"),
         "performance_title_performance_optimization": m38,
         "setting_action_clear_translation_file_cache":
-            MessageLookupByLibrary.simpleMessage("清理汉化文件缓存"),
+            MessageLookupByLibrary.simpleMessage(
+                "Clean up the Localization file cache"),
         "setting_action_create_desktop_shortcut":
-            MessageLookupByLibrary.simpleMessage("在桌面创建《SC汉化盒子》快捷方式"),
+            MessageLookupByLibrary.simpleMessage(
+                "Create \"SC Sinicization Box\" shortcut on the desktop"),
         "setting_action_create_settings_shortcut":
-            MessageLookupByLibrary.simpleMessage("创建设置快捷方式"),
+            MessageLookupByLibrary.simpleMessage("Create Settings Settings"),
         "setting_action_ignore_efficiency_cores_on_launch":
             MessageLookupByLibrary.simpleMessage(
-                "启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ）"),
+                "When starting the game, ignore the core of energy efficiency (suitable for Intel 12th+ processor)"),
         "setting_action_info_autofill_data_cleared":
-            MessageLookupByLibrary.simpleMessage("已清理自动填充数据"),
+            MessageLookupByLibrary.simpleMessage(
+                "Automatic filling data has been cleaned up"),
         "setting_action_info_cache_clearing_info": m39,
         "setting_action_info_clear_cache_warning":
-            MessageLookupByLibrary.simpleMessage("这不会影响已安装的汉化。"),
+            MessageLookupByLibrary.simpleMessage(
+                "This will not affect the installed Localization."),
         "setting_action_info_confirm_clear_cache":
-            MessageLookupByLibrary.simpleMessage("确认清理汉化缓存？"),
+            MessageLookupByLibrary.simpleMessage(
+                "Confirmation of cleaning the Localization cache?"),
         "setting_action_info_confirm_reset_autofill":
-            MessageLookupByLibrary.simpleMessage("确认重置自动填充？"),
+            MessageLookupByLibrary.simpleMessage(
+                "Confirm that resetting automatic filling?"),
         "setting_action_info_cpu_core_tip": MessageLookupByLibrary.simpleMessage(
-            "Tip：您的设备拥有几个能效核心就输入几，非大小核设备请保持 0\n\n此功能适用于首页的盒子一键启动 或 工具中的 RSI启动器管理员模式，当为 0 时不启用此功能。"),
+            "Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI starter mode in the box on the homepage. This function is not enabled when it is 0."),
         "setting_action_info_delete_local_account_warning":
             MessageLookupByLibrary.simpleMessage(
-                "这将会删除本地的账号记录，或在下次启动游戏时将自动填充选择 ‘否’ 以禁用自动填充。"),
+                "This will delete local account records, or it will automatically fill in the next time the game starts the game to disable automatic filling."),
         "setting_action_info_device_support_info": m40,
         "setting_action_info_disabled":
-            MessageLookupByLibrary.simpleMessage("已禁用"),
+            MessageLookupByLibrary.simpleMessage("Disabled"),
         "setting_action_info_enabled":
-            MessageLookupByLibrary.simpleMessage("已启用"),
+            MessageLookupByLibrary.simpleMessage("Activated"),
         "setting_action_info_encrypted_saved":
-            MessageLookupByLibrary.simpleMessage("已加密保存"),
+            MessageLookupByLibrary.simpleMessage("Has been encrypted"),
         "setting_action_info_enter_cpu_core_to_ignore":
-            MessageLookupByLibrary.simpleMessage("请输入要忽略的 CPU 核心数"),
+            MessageLookupByLibrary.simpleMessage(
+                "Please enter the core number of CPUs to be ignored"),
         "setting_action_info_file_error":
-            MessageLookupByLibrary.simpleMessage("文件有误！"),
+            MessageLookupByLibrary.simpleMessage("The file is wrong!"),
         "setting_action_info_manual_game_location_setting":
             MessageLookupByLibrary.simpleMessage(
-                "手动设置游戏安装位置，建议仅在无法自动扫描安装位置时使用"),
+                "Manually set the game installation location, it is recommended to use it only when the installation location cannot be automatically scanned"),
         "setting_action_info_manual_launcher_location_setting":
-            MessageLookupByLibrary.simpleMessage("手动设置启动器位置，建议仅在无法自动扫描安装位置时使用"),
+            MessageLookupByLibrary.simpleMessage(
+                "Set the position of the starter manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically"),
         "setting_action_info_microsoft_version_limitation":
             MessageLookupByLibrary.simpleMessage(
-                "因微软版功能限制，请在接下来打开的窗口中 手动将《SC汉化盒子》拖动到桌面，即可创建快捷方式。"),
+                "Due to Microsoft\'s version restrictions, manually drag the SCToolBox to the desktop in the next window to create a shortcut."),
         "setting_action_info_mirror_server_info":
             MessageLookupByLibrary.simpleMessage(
-                "使用镜像服务器加速访问 Dps Uex 等工具网站，若访问异常请关闭该功能。 为保护账户安全，任何情况下都不会加速RSI官网。"),
+                "Use a mirror server to accelerate access to tool websites such as DPS UEX. If you access abnormal access, please turn off the function. To protect the security of the account, the RSI official website will not be accelerated in any case."),
         "setting_action_info_not_saved":
-            MessageLookupByLibrary.simpleMessage("未保存"),
+            MessageLookupByLibrary.simpleMessage("Not preserved"),
         "setting_action_info_not_support":
-            MessageLookupByLibrary.simpleMessage("不支持"),
+            MessageLookupByLibrary.simpleMessage("Not support"),
         "setting_action_info_select_game_install_location":
-            MessageLookupByLibrary.simpleMessage("请选择游戏安装位置（StarCitizen.exe）"),
+            MessageLookupByLibrary.simpleMessage(
+                "Please select the game installation position (StarCitizen.exe)"),
         "setting_action_info_select_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage(
-                "请选择RSI启动器位置（RSI Launcher.exe）"),
-        "setting_action_info_setting_success":
-            MessageLookupByLibrary.simpleMessage("设置成功，在对应页面点击刷新即可扫描出新路径"),
+                "Please select the RSI starter position (RSI LAUNCHER.EXE)"),
+        "setting_action_info_setting_success": MessageLookupByLibrary.simpleMessage(
+            "Successfully set, click refresh on the corresponding page to scan the new path"),
         "setting_action_info_shortcut_created":
-            MessageLookupByLibrary.simpleMessage("创建完毕，请返回桌面查看"),
+            MessageLookupByLibrary.simpleMessage(
+                "After the creation, please return to the desktop to view"),
         "setting_action_info_support":
-            MessageLookupByLibrary.simpleMessage("支持"),
-        "setting_action_info_view_log_file":
-            MessageLookupByLibrary.simpleMessage("查看汉化盒子的 log 文件，以定位盒子的 bug"),
+            MessageLookupByLibrary.simpleMessage("Support"),
+        "setting_action_info_view_log_file": MessageLookupByLibrary.simpleMessage(
+            "Check the log file of the SCToolBox to locate the bug of the box"),
         "setting_action_reset_auto_password_fill":
-            MessageLookupByLibrary.simpleMessage("重置自动密码填充"),
+            MessageLookupByLibrary.simpleMessage(
+                "Reset automatic password filling"),
         "setting_action_set_core_count": m41,
-        "setting_action_set_game_file":
-            MessageLookupByLibrary.simpleMessage("设置游戏文件 （StarCitizen.exe）"),
+        "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
+            "Set the game file (StarCitizen.exe)"),
         "setting_action_set_launcher_file":
-            MessageLookupByLibrary.simpleMessage("设置启动器文件（RSI Launcher.exe）"),
+            MessageLookupByLibrary.simpleMessage(
+                "Set the promoter file (RSI Launcher.exe)"),
         "setting_action_tool_site_access_acceleration":
-            MessageLookupByLibrary.simpleMessage("工具站访问加速"),
+            MessageLookupByLibrary.simpleMessage(
+                "Tool station access acceleration"),
         "setting_action_view_log":
-            MessageLookupByLibrary.simpleMessage("查看log"),
-        "tools_action_clear_shader_cache":
-            MessageLookupByLibrary.simpleMessage("清理着色器缓存"),
+            MessageLookupByLibrary.simpleMessage("View log"),
+        "tools_action_clear_shader_cache": MessageLookupByLibrary.simpleMessage(
+            "Clean up the color device cache"),
         "tools_action_close_photography_mode":
-            MessageLookupByLibrary.simpleMessage("关闭摄影模式"),
+            MessageLookupByLibrary.simpleMessage(
+                "Turn off the photography mode"),
         "tools_action_hosts_acceleration_experimental":
-            MessageLookupByLibrary.simpleMessage("Hosts 加速（实验性）"),
-        "tools_action_info_cleanup_complete":
-            MessageLookupByLibrary.simpleMessage("清理完毕，请完成一次安装 / 游戏启动 操作。"),
+            MessageLookupByLibrary.simpleMessage(
+                "Hosts acceleration (experimental)"),
+        "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
+            "After cleaning up, complete the installation / game startup operation once."),
         "tools_action_info_cleanup_failed": m42,
         "tools_action_info_config_file_not_exist":
-            MessageLookupByLibrary.simpleMessage("配置文件不存在，请尝试运行一次游戏"),
-        "tools_action_info_eac_file_removed":
             MessageLookupByLibrary.simpleMessage(
-                "已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请您前往 SETTINGS -> VERIFY 重装 EAC。"),
+                "The configuration file does not exist, please try to run the game once"),
+        "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
+            "Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC."),
         "tools_action_info_error_occurred": m43,
         "tools_action_info_fix_success_restart":
             MessageLookupByLibrary.simpleMessage(
-                "修复成功，请尝试重启电脑后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。"),
+                "If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up."),
         "tools_action_info_function_under_maintenance":
-            MessageLookupByLibrary.simpleMessage("功能维护中，请稍后重试！"),
+            MessageLookupByLibrary.simpleMessage(
+                "During functional maintenance, please try it later!"),
         "tools_action_info_hosts_acceleration_experimental_tip":
             MessageLookupByLibrary.simpleMessage(
-                "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。"),
+                "Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems."),
         "tools_action_info_init_failed": m44,
         "tools_action_info_log_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
-                "日志文件不存在，请尝试进行一次游戏启动或游戏安装，并退出启动器，若无法解决问题，请尝试将启动器更新至最新版本！"),
+                "The log file does not exist, please try to start a game startup or game installation, and exit the starter. If the problem cannot be solved, try to update the launcher to the latest version!"),
         "tools_action_info_log_file_parse_failed":
             MessageLookupByLibrary.simpleMessage(
-                "解析 log 文件失败！\n请尝试使用 RSI Launcher log 修复 工具！"),
-        "tools_action_info_manual_nvme_patch":
-            MessageLookupByLibrary.simpleMessage(
-                "手动写入NVM补丁，该功能仅在您知道自己在作什么的情况下使用"),
+                "Analysis of LOG files failed!\nTry to use RSI Launcher Log repair tool!"),
+        "tools_action_info_manual_nvme_patch": MessageLookupByLibrary.simpleMessage(
+            "Manually write the NVM patch, this function is used only when you know what you do"),
         "tools_action_info_not_installed":
-            MessageLookupByLibrary.simpleMessage("未安装"),
+            MessageLookupByLibrary.simpleMessage("Not Installed"),
         "tools_action_info_nvme_patch_issue": m45,
         "tools_action_info_one_key_close_lens_shake":
             MessageLookupByLibrary.simpleMessage(
-                "一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。"),
+                "Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information."),
         "tools_action_info_p4k_download_in_progress":
             MessageLookupByLibrary.simpleMessage(
-                "已经有一个p4k下载任务正在进行中，请前往下载管理器查看！"),
+                "There is already a P4K download task in progress, please go to the download manager to view!"),
         "tools_action_info_p4k_download_repair_tip":
             MessageLookupByLibrary.simpleMessage(
-                "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n资源有限，请勿滥用。"),
+                "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nLimited resources, please do not abuse."),
         "tools_action_info_p4k_file_description":
             MessageLookupByLibrary.simpleMessage(
-                "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。"),
+                "P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the Star Citizen starter to check it."),
         "tools_action_info_reinstall_eac": MessageLookupByLibrary.simpleMessage(
-            "若您遇到 EAC 错误，且自动修复无效，请尝试使用此功能重装 EAC。"),
+            "If you encounter EAC errors and are invalid automatically, try using this feature to reinstall EAC."),
         "tools_action_info_removed_restart_effective":
-            MessageLookupByLibrary.simpleMessage("已移除，重启电脑生效！"),
+            MessageLookupByLibrary.simpleMessage(
+                "Remove the computer to take effect!"),
         "tools_action_info_restore_lens_shake":
             MessageLookupByLibrary.simpleMessage(
-                "还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。"),
+                "Restoring the lens shaking effect.\n\n@Lapernum offers parameter information."),
         "tools_action_info_rsi_launcher_directory_not_found":
-            MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器目录，请您尝试手动操作。"),
+            MessageLookupByLibrary.simpleMessage(
+                "If the RSI starter directory is not found, please try manually."),
         "tools_action_info_rsi_launcher_log_issue": m46,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
-                "未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。"),
+                "If the RSI label is not found, try to reinstall it or add it manually in the settings."),
         "tools_action_info_rsi_launcher_running_warning":
-            MessageLookupByLibrary.simpleMessage("RSI启动器正在运行！请先关闭启动器再使用此功能！"),
-        "tools_action_info_run_rsi_as_admin":
             MessageLookupByLibrary.simpleMessage(
-                "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。"),
+                "The RSI starter is running! Please turn off the label first and then use this feature!"),
+        "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
+            "Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here."),
         "tools_action_info_shader_cache_issue": m47,
         "tools_action_info_star_citizen_not_found":
             MessageLookupByLibrary.simpleMessage(
-                "未找到星际公民游戏安装位置，请至少完成一次游戏启动操作 或在设置中手动添加。"),
+                "If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings."),
         "tools_action_info_system_info_content": m48,
         "tools_action_info_system_info_title":
-            MessageLookupByLibrary.simpleMessage("系统信息"),
+            MessageLookupByLibrary.simpleMessage("System message"),
         "tools_action_info_valid_game_directory_needed":
-            MessageLookupByLibrary.simpleMessage("该功能需要一个有效的游戏安装目录"),
+            MessageLookupByLibrary.simpleMessage(
+                "This function requires an effective game installation directory"),
         "tools_action_info_view_critical_system_info":
             MessageLookupByLibrary.simpleMessage(
-                "查看系统关键信息，用于快速问诊 \n\n耗时操作，请耐心等待。"),
+                "Check the key information of the system for quick consultation\n\nTime -consuming operation, please wait patiently."),
         "tools_action_open_photography_mode":
-            MessageLookupByLibrary.simpleMessage("开启摄影模式"),
+            MessageLookupByLibrary.simpleMessage(
+                "Turn on the photography mode"),
         "tools_action_p4k_download_repair":
-            MessageLookupByLibrary.simpleMessage("P4K 分流下载 / 修复"),
+            MessageLookupByLibrary.simpleMessage(
+                "P4k diversion download / repair"),
         "tools_action_reinstall_easyanticheat":
-            MessageLookupByLibrary.simpleMessage("重装 EasyAntiCheat 反作弊"),
+            MessageLookupByLibrary.simpleMessage(
+                "Reinstall EasyAnticheat\'s anti -cheating"),
         "tools_action_remove_nvme_registry_patch":
-            MessageLookupByLibrary.simpleMessage("移除 nvme 注册表补丁"),
+            MessageLookupByLibrary.simpleMessage(
+                "Remove the NVMe registry patch"),
         "tools_action_rsi_launcher_admin_mode":
-            MessageLookupByLibrary.simpleMessage("RSI Launcher 管理员模式"),
+            MessageLookupByLibrary.simpleMessage(
+                "RSI Launcher administrator mode"),
         "tools_action_rsi_launcher_log_fix":
-            MessageLookupByLibrary.simpleMessage("RSI Launcher Log 修复"),
+            MessageLookupByLibrary.simpleMessage("RSI LAUNCHER LOG repair"),
         "tools_action_view_system_info":
-            MessageLookupByLibrary.simpleMessage("查看系统信息"),
+            MessageLookupByLibrary.simpleMessage("View system information"),
         "tools_action_write_nvme_registry_patch":
-            MessageLookupByLibrary.simpleMessage("写入 nvme 注册表补丁"),
+            MessageLookupByLibrary.simpleMessage(
+                "Write in the NVMe registry patch"),
         "tools_hosts_action_one_click_acceleration":
-            MessageLookupByLibrary.simpleMessage("一键加速"),
-        "tools_hosts_info_dns_query_and_test":
-            MessageLookupByLibrary.simpleMessage("正在查询 DNS 并测试可访问性 请耐心等待..."),
-        "tools_hosts_info_enable": MessageLookupByLibrary.simpleMessage("是否启用"),
+            MessageLookupByLibrary.simpleMessage("One -click acceleration"),
+        "tools_hosts_info_dns_query_and_test": MessageLookupByLibrary.simpleMessage(
+            "Inquiring about DNS and testing accessibility, please wait patiently ..."),
+        "tools_hosts_info_enable":
+            MessageLookupByLibrary.simpleMessage("Whether to enable"),
         "tools_hosts_info_hosts_acceleration":
-            MessageLookupByLibrary.simpleMessage("Hosts 加速"),
+            MessageLookupByLibrary.simpleMessage("Hosts accelerate"),
         "tools_hosts_info_open_hosts_file":
-            MessageLookupByLibrary.simpleMessage("打开 Hosts 文件"),
+            MessageLookupByLibrary.simpleMessage("Open the hosts file"),
         "tools_hosts_info_reading_config":
-            MessageLookupByLibrary.simpleMessage("读取配置 ..."),
+            MessageLookupByLibrary.simpleMessage("Read the configuration ..."),
         "tools_hosts_info_rsi_customer_service":
-            MessageLookupByLibrary.simpleMessage("RSI 客服站"),
+            MessageLookupByLibrary.simpleMessage(
+                "RSI customer service station"),
         "tools_hosts_info_rsi_official_website":
-            MessageLookupByLibrary.simpleMessage("RSI 官网"),
-        "tools_hosts_info_rsi_zendesk":
-            MessageLookupByLibrary.simpleMessage("RSI Zendesk 客服站"),
-        "tools_hosts_info_site": MessageLookupByLibrary.simpleMessage("站点"),
-        "tools_hosts_info_status": MessageLookupByLibrary.simpleMessage("状态"),
+            MessageLookupByLibrary.simpleMessage("RSI official website"),
+        "tools_hosts_info_rsi_zendesk": MessageLookupByLibrary.simpleMessage(
+            "RSI ZENDESK Customer Service Station"),
+        "tools_hosts_info_site": MessageLookupByLibrary.simpleMessage("Site"),
+        "tools_hosts_info_status":
+            MessageLookupByLibrary.simpleMessage("State"),
         "tools_hosts_info_writing_hosts":
-            MessageLookupByLibrary.simpleMessage("正在写入 Hosts ..."),
+            MessageLookupByLibrary.simpleMessage("I am writing Hosts ..."),
         "tools_info_game_install_location":
-            MessageLookupByLibrary.simpleMessage("游戏安装位置：  "),
+            MessageLookupByLibrary.simpleMessage("Game installation location:"),
         "tools_info_processing_failed": m49,
         "tools_info_rsi_launcher_location":
-            MessageLookupByLibrary.simpleMessage("RSI启动器位置："),
-        "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在扫描..."),
+            MessageLookupByLibrary.simpleMessage("RSI starter position:"),
+        "tools_info_scanning":
+            MessageLookupByLibrary.simpleMessage("Scanning..."),
         "webview_localization_device_windows_hello_toast":
-            MessageLookupByLibrary.simpleMessage("请完成 Windows Hello 验证以填充密码"),
+            MessageLookupByLibrary.simpleMessage(
+                "Please complete the Windows Hello verification to fill in the password"),
         "webview_localization_enter_device_pin":
-            MessageLookupByLibrary.simpleMessage("请输入设备PIN以自动登录RSI账户"),
+            MessageLookupByLibrary.simpleMessage(
+                "Please enter the device PIN to automatically log in to the RSI account"),
         "webview_localization_finished_invitations":
-            MessageLookupByLibrary.simpleMessage("已完成的邀请"),
+            MessageLookupByLibrary.simpleMessage("Completed invitations"),
         "webview_localization_name_member":
-            MessageLookupByLibrary.simpleMessage("名成员"),
+            MessageLookupByLibrary.simpleMessage("Member"),
         "webview_localization_total_invitations":
-            MessageLookupByLibrary.simpleMessage("总邀请数："),
+            MessageLookupByLibrary.simpleMessage("Total invitation:"),
         "webview_localization_unfinished_invitations":
-            MessageLookupByLibrary.simpleMessage("未完成的邀请")
+            MessageLookupByLibrary.simpleMessage("Undead invitation")
       };
 }

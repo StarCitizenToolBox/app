@@ -20,7 +20,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_TW';
 
-  static String m0(v0, v1) => "SC漢化盒子  V${v0} ${v1}";
+  static String m0(v0, v1) => "SC漢化盒子 V${v0} ${v1}";
 
   static String m1(v0) => "初始化失敗：${v0}";
 
@@ -43,7 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m10(v0) =>
       "為註冊表項添加 ForcedPhysicalSectorSizeInBytes 值 模擬舊設備。硬盤分區(${v0})";
 
-  static String m11(v0) => "中文安裝路徑！這可能會導致遊戲 啟動/安裝 錯誤！（${v0}），請在RSI啟動器更換安裝路徑。";
+  static String m11(V0) => "中文安裝路徑！這可能會導致遊戲 啟動/安裝 錯誤！（${V0}），請在RSI啟動器更換安裝路徑。";
 
   static String m12(v0) => "點擊修復為您創建 LIVE 文件夾，完成後重試安裝。(${v0})";
 
@@ -127,7 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m48(v0, v1, v2, v3, v4) =>
       "系統：${v0}\n\n處理器：${v1}\n\n內存大小：${v2}GB\n\n顯卡信息：\n${v3}\n\n硬盤信息：\n${v4}\n\n";
 
-  static String m49(v0) => "處理失敗！：${v0}";
+  static String m49(V0) => "處理失敗！：${V0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -167,10 +167,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_index_menu_tools": MessageLookupByLibrary.simpleMessage("工具"),
         "app_index_version_info": m0,
         "app_init_failed_with_reason": m1,
+        "app_language_code": MessageLookupByLibrary.simpleMessage("zh_TW"),
+        "app_language_name": MessageLookupByLibrary.simpleMessage("繁體中文"),
         "app_shortcut_name":
             MessageLookupByLibrary.simpleMessage("SC漢化盒子DEV.lnk"),
-        "app_splash_almost_done":
-            MessageLookupByLibrary.simpleMessage("即將完成..."),
+        "app_splash_almost_done": MessageLookupByLibrary.simpleMessage("即將完成…"),
         "app_splash_checking_availability":
             MessageLookupByLibrary.simpleMessage("正在檢測可用性，這可能需要一點時間..."),
         "app_splash_checking_for_updates":

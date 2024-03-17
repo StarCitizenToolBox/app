@@ -75,7 +75,8 @@ class IndexUI extends HookConsumerWidget {
       pane: NavigationPane(
         selected: curIndex.value,
         items: getNavigationPaneItems(curIndex),
-        size: const NavigationPaneSize(openWidth: 64),
+        size: NavigationPaneSize(
+            openWidth: S.current.app_language_code.startsWith("zh") ? 64 : 74),
       ),
       paneBodyBuilder: (item, child) {
         return FocusTraversalGroup(
@@ -103,7 +104,7 @@ class IndexUI extends HookConsumerWidget {
           icon: Padding(
             padding: const EdgeInsets.only(top: 6, bottom: 6),
             child: SizedBox(
-              width: 32,
+              width: S.current.app_language_code.startsWith("zh") ? 32 : 42,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

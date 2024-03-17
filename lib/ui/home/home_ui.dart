@@ -505,7 +505,12 @@ class HomeUI extends HookConsumerWidget {
                               style: const TextStyle(fontSize: 18),
                             ),
                             const SizedBox(height: 4),
-                            Text(item.infoString),
+                            Text(
+                              item.infoString,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white.withOpacity(.6)),
+                            ),
                           ],
                         )),
                         if (item.key == "localization" &&
@@ -580,6 +585,7 @@ class HomeUI extends HookConsumerWidget {
                           padding: const EdgeInsets.only(top: 4),
                           child: Text(
                             info,
+                            maxLines: 1,
                             style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.white.withOpacity(.6)),

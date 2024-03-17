@@ -50,3333 +50,3353 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `SC汉化盒子  V{v0} {v1}`
+  /// `English`
+  String get app_language_name {
+    return Intl.message(
+      'English',
+      name: 'app_language_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `en`
+  String get app_language_code {
+    return Intl.message(
+      'en',
+      name: 'app_language_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SCToolBox V {v0} {v1}`
   String app_index_version_info(Object v0, Object v1) {
     return Intl.message(
-      'SC汉化盒子  V$v0 $v1',
+      'SCToolBox V $v0 $v1',
       name: 'app_index_version_info',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `SC汉化盒子DEV.lnk`
+  /// `SCToolBox.lnk`
   String get app_shortcut_name {
     return Intl.message(
-      'SC汉化盒子DEV.lnk',
+      'SCToolBox.lnk',
       name: 'app_shortcut_name',
       desc: '',
       args: [],
     );
   }
 
-  /// `检查更新`
+  /// `Check for updates`
   String get about_check_update {
     return Intl.message(
-      '检查更新',
+      'Check for updates',
       name: 'about_check_update',
       desc: '',
       args: [],
     );
   }
 
-  /// `不仅仅是汉化！\n\nSC汉化盒子是你探索宇宙的好帮手，我们致力于为各位公民解决游戏中的常见问题，并为社区汉化、性能调优、常用网站汉化 等操作提供便利。`
+  /// `The SCToolBox is a good helper for your exploring the universe. We are committed to solving common problems in the game for citizens, and facilitate the operation of community localization, performance tuning, and commonly used website localization operations.`
   String get about_app_description {
     return Intl.message(
-      '不仅仅是汉化！\n\nSC汉化盒子是你探索宇宙的好帮手，我们致力于为各位公民解决游戏中的常见问题，并为社区汉化、性能调优、常用网站汉化 等操作提供便利。',
+      'The SCToolBox is a good helper for your exploring the universe. We are committed to solving common problems in the game for citizens, and facilitate the operation of community localization, performance tuning, and commonly used website localization operations.',
       name: 'about_app_description',
       desc: '',
       args: [],
     );
   }
 
-  /// `在线反馈`
+  /// `Online feedback`
   String get about_online_feedback {
     return Intl.message(
-      '在线反馈',
+      'Online feedback',
       name: 'about_online_feedback',
       desc: '',
       args: [],
     );
   }
 
-  /// `QQ群: 940696487`
+  /// `QQ group: 940696487`
   String get about_action_qq_group {
     return Intl.message(
-      'QQ群: 940696487',
+      'QQ group: 940696487',
       name: 'about_action_qq_group',
       desc: '',
       args: [],
     );
   }
 
-  /// `邮箱: scbox@xkeyc.com`
+  /// `Email: scbox@xkeyc.com`
   String get about_action_email {
     return Intl.message(
-      '邮箱: scbox@xkeyc.com',
+      'Email: scbox@xkeyc.com',
       name: 'about_action_email',
       desc: '',
       args: [],
     );
   }
 
-  /// `开源`
+  /// `Open source`
   String get about_action_open_source {
     return Intl.message(
-      '开源',
+      'Open source',
       name: 'about_action_open_source',
       desc: '',
       args: [],
     );
   }
 
-  /// `这是一个非官方的星际公民工具，不隶属于 Cloud Imperium 公司集团。 本软件中非由其主机或用户创作的所有内容均为其各自所有者的财产。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的注册商标。`
+  /// `This is an unofficial interstellar citizen tool that is not affiliated to Cloud Imperium Group. In this software, all the contents of their own owners or users are their own property.\nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are the registered trademarks of Cloud Imperium Rights LLC.`
   String get about_disclaimer {
     return Intl.message(
-      '这是一个非官方的星际公民工具，不隶属于 Cloud Imperium 公司集团。 本软件中非由其主机或用户创作的所有内容均为其各自所有者的财产。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的注册商标。',
+      'This is an unofficial interstellar citizen tool that is not affiliated to Cloud Imperium Group. In this software, all the contents of their own owners or users are their own property.\nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are the registered trademarks of Cloud Imperium Rights LLC.',
       name: 'about_disclaimer',
       desc: '',
       args: [],
     );
   }
 
-  /// `启动`
+  /// `Start up`
   String get about_analytics_launch {
     return Intl.message(
-      '启动',
+      'Start up',
       name: 'about_analytics_launch',
       desc: '',
       args: [],
     );
   }
 
-  /// `启动游戏`
+  /// `Start the game`
   String get about_analytics_launch_game {
     return Intl.message(
-      '启动游戏',
+      'Start the game',
       name: 'about_analytics_launch_game',
       desc: '',
       args: [],
     );
   }
 
-  /// `累计用户`
+  /// `Cumulative users`
   String get about_analytics_total_users {
     return Intl.message(
-      '累计用户',
+      'Cumulative users',
       name: 'about_analytics_total_users',
       desc: '',
       args: [],
     );
   }
 
-  /// `汉化安装`
+  /// `Localization installation`
   String get about_analytics_install_translation {
     return Intl.message(
-      '汉化安装',
+      'Localization installation',
       name: 'about_analytics_install_translation',
       desc: '',
       args: [],
     );
   }
 
-  /// `性能调优`
+  /// `Performance tuning`
   String get about_analytics_performance_optimization {
     return Intl.message(
-      '性能调优',
+      'Performance tuning',
       name: 'about_analytics_performance_optimization',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4K分流`
+  /// `P4k diversion`
   String get about_analytics_p4k_redirection {
     return Intl.message(
-      'P4K分流',
+      'P4k diversion',
       name: 'about_analytics_p4k_redirection',
       desc: '',
       args: [],
     );
   }
 
-  /// `位`
+  /// `Bit`
   String get about_analytics_units_user {
     return Intl.message(
-      '位',
+      'Bit',
       name: 'about_analytics_units_user',
       desc: '',
       args: [],
     );
   }
 
-  /// `次`
+  /// `Second-rate`
   String get about_analytics_units_times {
     return Intl.message(
-      '次',
+      'Second-rate',
       name: 'about_analytics_units_times',
       desc: '',
       args: [],
     );
   }
 
-  /// `已经是最新版本！`
+  /// `It is already the latest version!`
   String get about_info_latest_version {
     return Intl.message(
-      '已经是最新版本！',
+      'It is already the latest version!',
       name: 'about_info_latest_version',
       desc: '',
       args: [],
     );
   }
 
-  /// `节日倒计时`
+  /// `Countdown`
   String get home_holiday_countdown {
     return Intl.message(
-      '节日倒计时',
+      'Countdown',
       name: 'home_holiday_countdown',
       desc: '',
       args: [],
     );
   }
 
-  /// `* 以上节日日期由人工收录、维护，可能存在错误，欢迎反馈！`
+  /// `* The above festival date is included in artificially and maintained. There may be errors. Welcome to feedback!`
   String get home_holiday_countdown_disclaimer {
     return Intl.message(
-      '* 以上节日日期由人工收录、维护，可能存在错误，欢迎反馈！',
+      '* The above festival date is included in artificially and maintained. There may be errors. Welcome to feedback!',
       name: 'home_holiday_countdown_disclaimer',
       desc: '',
       args: [],
     );
   }
 
-  /// `一键启动`
+  /// `One-button start`
   String get home_action_one_click_launch {
     return Intl.message(
-      '一键启动',
+      'One-button start',
       name: 'home_action_one_click_launch',
       desc: '',
       args: [],
     );
   }
 
-  /// `登录中...`
+  /// `Logging in...`
   String get home_title_logging_in {
     return Intl.message(
-      '登录中...',
+      'Logging in...',
       name: 'home_title_logging_in',
       desc: '',
       args: [],
     );
   }
 
-  /// `* 若开启了自动填充，请留意弹出的 Windows Hello 窗口`
+  /// `* If the automatic filling is turned on, please pay attention to the pop -up Windows Hello window`
   String get home_info_auto_fill_notice {
     return Intl.message(
-      '* 若开启了自动填充，请留意弹出的 Windows Hello 窗口',
+      '* If the automatic filling is turned on, please pay attention to the pop -up Windows Hello window',
       name: 'home_info_auto_fill_notice',
       desc: '',
       args: [],
     );
   }
 
-  /// `欢迎回来！`
+  /// `Welcome back!`
   String get home_login_title_welcome_back {
     return Intl.message(
-      '欢迎回来！',
+      'Welcome back!',
       name: 'home_login_title_welcome_back',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在为您启动游戏...`
+  /// `I'm starting the game for you ...`
   String get home_login_title_launching_game {
     return Intl.message(
-      '正在为您启动游戏...',
+      'I\'m starting the game for you ...',
       name: 'home_login_title_launching_game',
       desc: '',
       args: [],
     );
   }
 
-  /// `登录 RSI 账户`
+  /// `Log in to RSI account`
   String get home_action_login_rsi_account {
     return Intl.message(
-      '登录 RSI 账户',
+      'Log in to RSI account',
       name: 'home_action_login_rsi_account',
       desc: '',
       args: [],
     );
   }
 
-  /// `是否开启自动密码填充？`
+  /// `Do you turn on the automatic password filling?`
   String get home_action_q_auto_password_fill_prompt {
     return Intl.message(
-      '是否开启自动密码填充？',
+      'Do you turn on the automatic password filling?',
       name: 'home_action_q_auto_password_fill_prompt',
       desc: '',
       args: [],
     );
   }
 
-  /// `盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。`
+  /// `The box will use the PIN and Windows credentials to save your password encryption, and the password is only stored in your device.\n\nWhen you need to enter a password for the next login, you only need to authorize PIN to automatically fill in the login.`
   String get home_login_info_password_encryption_notice {
     return Intl.message(
-      '盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。',
+      'The box will use the PIN and Windows credentials to save your password encryption, and the password is only stored in your device.\n\nWhen you need to enter a password for the next login, you only need to authorize PIN to automatically fill in the login.',
       name: 'home_login_info_password_encryption_notice',
       desc: '',
       args: [],
     );
   }
 
-  /// `输入PIN以启用加密`
+  /// `Enter PIN to enable encryption`
   String get home_login_info_enter_pin_to_encrypt {
     return Intl.message(
-      '输入PIN以启用加密',
+      'Enter PIN to enable encryption',
       name: 'home_login_info_enter_pin_to_encrypt',
       desc: '',
       args: [],
     );
   }
 
-  /// `游戏版本过期`
+  /// `Game version expires`
   String get home_login_info_game_version_outdated {
     return Intl.message(
-      '游戏版本过期',
+      'Game version expires',
       name: 'home_login_info_game_version_outdated',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI 服务器报告版本号：{v1} \n\n本地版本号：{v2} \n\n建议使用 RSI Launcher 更新游戏！`
+  /// `RSI server report version number: {v1}\n\nLocal version number: {v2}\n\nIt is recommended to use RSI Launcher to update the game!`
   String home_login_info_rsi_server_report(Object v1, Object v2) {
     return Intl.message(
-      'RSI 服务器报告版本号：$v1 \n\n本地版本号：$v2 \n\n建议使用 RSI Launcher 更新游戏！',
+      'RSI server report version number: $v1\n\nLocal version number: $v2\n\nIt is recommended to use RSI Launcher to update the game!',
       name: 'home_login_info_rsi_server_report',
       desc: '',
       args: [v1, v2],
     );
   }
 
-  /// `忽略`
+  /// `Neglect`
   String get home_login_info_action_ignore {
     return Intl.message(
-      '忽略',
+      'Neglect',
       name: 'home_login_info_action_ignore',
       desc: '',
       args: [],
     );
   }
 
-  /// `盒子一键启动`
+  /// `Box one -click start`
   String get home_login_action_title_box_one_click_launch {
     return Intl.message(
-      '盒子一键启动',
+      'Box one -click start',
       name: 'home_login_action_title_box_one_click_launch',
       desc: '',
       args: [],
     );
   }
 
-  /// `本功能可以帮您更加便利的启动游戏。\n\n为确保账户安全 ，本功能使用汉化浏览器保留登录状态，且不会保存您的密码信息（除非你启用了自动填充功能）。\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。`
+  /// `This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.`
   String get home_login_info_one_click_launch_description {
     return Intl.message(
-      '本功能可以帮您更加便利的启动游戏。\n\n为确保账户安全 ，本功能使用汉化浏览器保留登录状态，且不会保存您的密码信息（除非你启用了自动填充功能）。\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。',
+      'This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.',
       name: 'home_login_info_one_click_launch_description',
       desc: '',
       args: [],
     );
   }
 
-  /// `需要安装 WebView2 Runtime`
+  /// `Need to install WebView2 Runtime`
   String get home_login_action_title_need_webview2_runtime {
     return Intl.message(
-      '需要安装 WebView2 Runtime',
+      'Need to install WebView2 Runtime',
       name: 'home_login_action_title_need_webview2_runtime',
       desc: '',
       args: [],
     );
   }
 
-  /// `关闭`
+  /// `Closure`
   String get action_close {
     return Intl.message(
-      '关闭',
+      'Closure',
       name: 'action_close',
       desc: '',
       args: [],
     );
   }
 
-  /// `限速设置`
+  /// `Speed limit setting`
   String get downloader_speed_limit_settings {
     return Intl.message(
-      '限速设置',
+      'Speed limit setting',
       name: 'downloader_speed_limit_settings',
       desc: '',
       args: [],
     );
   }
 
-  /// `全部暂停`
+  /// `All of the suspension`
   String get downloader_action_pause_all {
     return Intl.message(
-      '全部暂停',
+      'All of the suspension',
       name: 'downloader_action_pause_all',
       desc: '',
       args: [],
     );
   }
 
-  /// `恢复全部`
+  /// `Restore all`
   String get downloader_action_resume_all {
     return Intl.message(
-      '恢复全部',
+      'Restore all',
       name: 'downloader_action_resume_all',
       desc: '',
       args: [],
     );
   }
 
-  /// `全部取消`
+  /// `Cancel all of them`
   String get downloader_action_cancel_all {
     return Intl.message(
-      '全部取消',
+      'Cancel all of them',
       name: 'downloader_action_cancel_all',
       desc: '',
       args: [],
     );
   }
 
-  /// `无下载任务`
+  /// `No download task`
   String get downloader_info_no_download_tasks {
     return Intl.message(
-      '无下载任务',
+      'No download task',
       name: 'downloader_info_no_download_tasks',
       desc: '',
       args: [],
     );
   }
 
-  /// `总大小：{v1}`
+  /// `Total size: {v1}`
   String downloader_info_total_size(Object v1) {
     return Intl.message(
-      '总大小：$v1',
+      'Total size: $v1',
       name: 'downloader_info_total_size',
       desc: '',
       args: [v1],
     );
   }
 
-  /// `校验中...（{v2}）`
+  /// `In the verification ... ({v2})`
   String downloader_info_verifying(Object v2) {
     return Intl.message(
-      '校验中...（$v2）',
+      'In the verification ... ($v2)',
       name: 'downloader_info_verifying',
       desc: '',
       args: [v2],
     );
   }
 
-  /// `下载中... ({v0}%)`
+  /// `Download ... ({v0}%)`
   String downloader_info_downloading(Object v0) {
     return Intl.message(
-      '下载中... ($v0%)',
+      'Download ... ($v0%)',
       name: 'downloader_info_downloading',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `状态：{v0}`
+  /// `Status: {v0}`
   String downloader_info_status(Object v0) {
     return Intl.message(
-      '状态：$v0',
+      'Status: $v0',
       name: 'downloader_info_status',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `已上传：{v0}`
+  /// `Uploaded: {v0}`
   String downloader_info_uploaded(Object v0) {
     return Intl.message(
-      '已上传：$v0',
+      'Uploaded: $v0',
       name: 'downloader_info_uploaded',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `已下载：{v0}`
+  /// `Downloaded: {v0}`
   String downloader_info_downloaded(Object v0) {
     return Intl.message(
-      '已下载：$v0',
+      'Downloaded: $v0',
       name: 'downloader_info_downloaded',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `选项`
+  /// `Option`
   String get downloader_action_options {
     return Intl.message(
-      '选项',
+      'Option',
       name: 'downloader_action_options',
       desc: '',
       args: [],
     );
   }
 
-  /// `继续下载`
+  /// `Continue download`
   String get downloader_action_continue_download {
     return Intl.message(
-      '继续下载',
+      'Continue download',
       name: 'downloader_action_continue_download',
       desc: '',
       args: [],
     );
   }
 
-  /// `暂停下载`
+  /// `Paradse download`
   String get downloader_action_pause_download {
     return Intl.message(
-      '暂停下载',
+      'Paradse download',
       name: 'downloader_action_pause_download',
       desc: '',
       args: [],
     );
   }
 
-  /// `取消下载`
+  /// `Cancel download`
   String get downloader_action_cancel_download {
     return Intl.message(
-      '取消下载',
+      'Cancel download',
       name: 'downloader_action_cancel_download',
       desc: '',
       args: [],
     );
   }
 
-  /// `打开文件夹`
+  /// `Open the folder`
   String get action_open_folder {
     return Intl.message(
-      '打开文件夹',
+      'Open the folder',
       name: 'action_open_folder',
       desc: '',
       args: [],
     );
   }
 
-  /// `下载： {v0}/s    上传：{v1}/s`
+  /// `Download: {v0}/s Upload: {v1}/s`
   String downloader_info_download_upload_speed(Object v0, Object v1) {
     return Intl.message(
-      '下载： $v0/s    上传：$v1/s',
+      'Download: $v0/s Upload: $v1/s',
       name: 'downloader_info_download_upload_speed',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `下载中...`
+  /// `Downloading...`
   String get downloader_info_downloading_status {
     return Intl.message(
-      '下载中...',
+      'Downloading...',
       name: 'downloader_info_downloading_status',
       desc: '',
       args: [],
     );
   }
 
-  /// `等待中`
+  /// `Waiting`
   String get downloader_info_waiting {
     return Intl.message(
-      '等待中',
+      'Waiting',
       name: 'downloader_info_waiting',
       desc: '',
       args: [],
     );
   }
 
-  /// `已暂停`
+  /// `Paused`
   String get downloader_info_paused {
     return Intl.message(
-      '已暂停',
+      'Paused',
       name: 'downloader_info_paused',
       desc: '',
       args: [],
     );
   }
 
-  /// `下载失败`
+  /// `Download failed`
   String get downloader_info_download_failed {
     return Intl.message(
-      '下载失败',
+      'Download failed',
       name: 'downloader_info_download_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `下载完成`
+  /// `Download completed`
   String get downloader_info_download_completed {
     return Intl.message(
-      '下载完成',
+      'Download completed',
       name: 'downloader_info_download_completed',
       desc: '',
       args: [],
     );
   }
 
-  /// `已删除`
+  /// `Deleted`
   String get downloader_info_deleted {
     return Intl.message(
-      '已删除',
+      'Deleted',
       name: 'downloader_info_deleted',
       desc: '',
       args: [],
     );
   }
 
-  /// `下载中`
+  /// `Downloading`
   String get downloader_title_downloading {
     return Intl.message(
-      '下载中',
+      'Downloading',
       name: 'downloader_title_downloading',
       desc: '',
       args: [],
     );
   }
 
-  /// `已结束`
+  /// `Over`
   String get downloader_title_ended {
     return Intl.message(
-      '已结束',
+      'Over',
       name: 'downloader_title_ended',
       desc: '',
       args: [],
     );
   }
 
-  /// `确认取消全部任务？`
+  /// `Confirm the cancellation of all tasks?`
   String get downloader_action_confirm_cancel_all_tasks {
     return Intl.message(
-      '确认取消全部任务？',
+      'Confirm the cancellation of all tasks?',
       name: 'downloader_action_confirm_cancel_all_tasks',
       desc: '',
       args: [],
     );
   }
 
-  /// `如果文件不再需要，你可能需要手动删除下载文件。`
+  /// `If the file is no longer needed, you may need to delete the download file manually.`
   String get downloader_info_manual_file_deletion_note {
     return Intl.message(
-      '如果文件不再需要，你可能需要手动删除下载文件。',
+      'If the file is no longer needed, you may need to delete the download file manually.',
       name: 'downloader_info_manual_file_deletion_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `确认取消下载？`
+  /// `Confirm the cancellation download?`
   String get downloader_action_confirm_cancel_download {
     return Intl.message(
-      '确认取消下载？',
+      'Confirm the cancellation download?',
       name: 'downloader_action_confirm_cancel_download',
       desc: '',
       args: [],
     );
   }
 
-  /// `SC 汉化盒子使用 p2p 网络来加速文件下载，如果您流量有限，可在此处将上传带宽设置为 1(byte)。`
+  /// `The SCToolBox uses the P2P network to accelerate file download. If you have limited traffic, you can set the upload bandwidth to 1 (byte) here.`
   String get downloader_info_p2p_network_note {
     return Intl.message(
-      'SC 汉化盒子使用 p2p 网络来加速文件下载，如果您流量有限，可在此处将上传带宽设置为 1(byte)。',
+      'The SCToolBox uses the P2P network to accelerate file download. If you have limited traffic, you can set the upload bandwidth to 1 (byte) here.',
       name: 'downloader_info_p2p_network_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `请输入下载单位，如：1、100k、10m， 0或留空为不限速。`
+  /// `Please enter the download unit.`
   String get downloader_info_download_unit_input_prompt {
     return Intl.message(
-      '请输入下载单位，如：1、100k、10m， 0或留空为不限速。',
+      'Please enter the download unit.',
       name: 'downloader_info_download_unit_input_prompt',
       desc: '',
       args: [],
     );
   }
 
-  /// `上传限速：`
+  /// `Upload speed limit:`
   String get downloader_input_upload_speed_limit {
     return Intl.message(
-      '上传限速：',
+      'Upload speed limit:',
       name: 'downloader_input_upload_speed_limit',
       desc: '',
       args: [],
     );
   }
 
-  /// `下载限速：`
+  /// `Download speed limit:`
   String get downloader_input_download_speed_limit {
     return Intl.message(
-      '下载限速：',
+      'Download speed limit:',
       name: 'downloader_input_download_speed_limit',
       desc: '',
       args: [],
     );
   }
 
-  /// `* P2P 上传仅在下载文件时进行，下载完成后会关闭 p2p 连接。如您想参与做种，请通过关于页面联系我们。`
+  /// `* P2P upload is only performed when downloading files, and the P2P connection will be turned off after downloading. If you want to participate in planting, please contact us about the page.`
   String get downloader_input_info_p2p_upload_note {
     return Intl.message(
-      '* P2P 上传仅在下载文件时进行，下载完成后会关闭 p2p 连接。如您想参与做种，请通过关于页面联系我们。',
+      '* P2P upload is only performed when downloading files, and the P2P connection will be turned off after downloading. If you want to participate in planting, please contact us about the page.',
       name: 'downloader_input_info_p2p_upload_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `一键诊断 -> {v0}`
+  /// `One -click diagnosis-> {v0}`
   String doctor_title_one_click_diagnosis(Object v0) {
     return Intl.message(
-      '一键诊断 -> $v0',
+      'One -click diagnosis-> $v0',
       name: 'doctor_title_one_click_diagnosis',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `RSI启动器log`
+  /// `RSI starter log`
   String get doctor_action_rsi_launcher_log {
     return Intl.message(
-      'RSI启动器log',
+      'RSI starter log',
       name: 'doctor_action_rsi_launcher_log',
       desc: '',
       args: [],
     );
   }
 
-  /// `游戏运行log`
+  /// `Game running log`
   String get doctor_action_game_run_log {
     return Intl.message(
-      '游戏运行log',
+      'Game running log',
       name: 'doctor_action_game_run_log',
       desc: '',
       args: [],
     );
   }
 
-  /// `扫描完毕，没有找到问题！`
+  /// `After scanning, no problem was found!`
   String get doctor_info_scan_complete_no_issues {
     return Intl.message(
-      '扫描完毕，没有找到问题！',
+      'After scanning, no problem was found!',
       name: 'doctor_info_scan_complete_no_issues',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在处理...`
+  /// `Treatment ...`
   String get doctor_info_processing {
     return Intl.message(
-      '正在处理...',
+      'Treatment ...',
       name: 'doctor_info_processing',
       desc: '',
       args: [],
     );
   }
 
-  /// `您即将前往由 深空治疗中心（QQ群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。`
+  /// `You are about to go to the game abnormal rescue services provided by the Deep Space Treatment Center (QQ group number: 536454632), which mainly solve the failure and frequent flashback of game installation. If you are a gameplay problem, please do not add groups.`
   String get doctor_info_game_rescue_service_note {
     return Intl.message(
-      '您即将前往由 深空治疗中心（QQ群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。',
+      'You are about to go to the game abnormal rescue services provided by the Deep Space Treatment Center (QQ group number: 536454632), which mainly solve the failure and frequent flashback of game installation. If you are a gameplay problem, please do not add groups.',
       name: 'doctor_info_game_rescue_service_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `需要帮助？ 点击加群寻求免费人工支援！`
+  /// `Need help? Click to seek free artificial support!`
   String get doctor_info_need_help {
     return Intl.message(
-      '需要帮助？ 点击加群寻求免费人工支援！',
+      'Need help? Click to seek free artificial support!',
       name: 'doctor_info_need_help',
       desc: '',
       args: [],
     );
   }
 
-  /// `注意：本工具检测结果仅供参考，若您不理解以下操作，请提供截图给有经验的玩家！`
+  /// `Note: The test results of this tool are for reference only. If you do not understand the following operations, please provide screenshots for experienced players!`
   String get doctor_info_tool_check_result_note {
     return Intl.message(
-      '注意：本工具检测结果仅供参考，若您不理解以下操作，请提供截图给有经验的玩家！',
+      'Note: The test results of this tool are for reference only. If you do not understand the following operations, please provide screenshots for experienced players!',
       name: 'doctor_info_tool_check_result_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `不支持的操作系统，游戏可能无法运行`
+  /// `The operating system that does not support, the game may not be able to run`
   String get doctor_info_result_unsupported_os {
     return Intl.message(
-      '不支持的操作系统，游戏可能无法运行',
+      'The operating system that does not support, the game may not be able to run',
       name: 'doctor_info_result_unsupported_os',
       desc: '',
       args: [],
     );
   }
 
-  /// `请升级您的系统 ({v0})`
+  /// `Please upgrade your system ({v0})`
   String doctor_info_result_upgrade_system(Object v0) {
     return Intl.message(
-      '请升级您的系统 ($v0)',
+      'Please upgrade your system ($v0)',
       name: 'doctor_info_result_upgrade_system',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `安装目录缺少LIVE文件夹，可能导致安装失败`
+  /// `The installation directory lacks a Live folder, which may cause the installation to fail`
   String get doctor_info_result_missing_live_folder {
     return Intl.message(
-      '安装目录缺少LIVE文件夹，可能导致安装失败',
+      'The installation directory lacks a Live folder, which may cause the installation to fail',
       name: 'doctor_info_result_missing_live_folder',
       desc: '',
       args: [],
     );
   }
 
-  /// `点击修复为您创建 LIVE 文件夹，完成后重试安装。({v0})`
+  /// `Click to fix the Live folder for you, and install it after completion. ({v0})`
   String doctor_info_result_create_live_folder(Object v0) {
     return Intl.message(
-      '点击修复为您创建 LIVE 文件夹，完成后重试安装。($v0)',
+      'Click to fix the Live folder for you, and install it after completion. ($v0)',
       name: 'doctor_info_result_create_live_folder',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `新型 NVME 设备，与 RSI 启动器暂不兼容，可能导致安装失败`
+  /// `The new NVME device is not compatible with the RSI starter for the time being, which may cause the installation to fail`
   String get doctor_info_result_incompatible_nvme_device {
     return Intl.message(
-      '新型 NVME 设备，与 RSI 启动器暂不兼容，可能导致安装失败',
+      'The new NVME device is not compatible with the RSI starter for the time being, which may cause the installation to fail',
       name: 'doctor_info_result_incompatible_nvme_device',
       desc: '',
       args: [],
     );
   }
 
-  /// `为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区({v0})`
+  /// `Add ForcedPhysicalsectorsizeinbytes value to the registry item to simulate old devices. Hard disk partition ({v0})`
   String doctor_info_result_add_registry_value(Object v0) {
     return Intl.message(
-      '为注册表项添加 ForcedPhysicalSectorSizeInBytes 值 模拟旧设备。硬盘分区($v0)',
+      'Add ForcedPhysicalsectorsizeinbytes value to the registry item to simulate old devices. Hard disk partition ($v0)',
       name: 'doctor_info_result_add_registry_value',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `EasyAntiCheat 文件丢失`
+  /// `Easyanticheat file loss`
   String get doctor_info_result_missing_easyanticheat_files {
     return Intl.message(
-      'EasyAntiCheat 文件丢失',
+      'Easyanticheat file loss',
       name: 'doctor_info_result_missing_easyanticheat_files',
       desc: '',
       args: [],
     );
   }
 
-  /// `未在 LIVE 文件夹找到 EasyAntiCheat 文件 或 文件不完整，请使用 RSI 启动器校验文件`
+  /// `Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI starter to check the file`
   String get doctor_info_result_verify_files_with_rsi_launcher {
     return Intl.message(
-      '未在 LIVE 文件夹找到 EasyAntiCheat 文件 或 文件不完整，请使用 RSI 启动器校验文件',
+      'Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI starter to check the file',
       name: 'doctor_info_result_verify_files_with_rsi_launcher',
       desc: '',
       args: [],
     );
   }
 
-  /// `EasyAntiCheat 未安装 或 未正常退出`
+  /// `Easyanticheat is not installed or not withdrawn normally`
   String get doctor_info_result_easyanticheat_not_installed {
     return Intl.message(
-      'EasyAntiCheat 未安装 或 未正常退出',
+      'Easyanticheat is not installed or not withdrawn normally',
       name: 'doctor_info_result_easyanticheat_not_installed',
       desc: '',
       args: [],
     );
   }
 
-  /// `EasyAntiCheat 未安装，请点击修复为您一键安装。（在游戏正常启动并结束前，该问题会一直出现，若您因为其他原因游戏闪退，可忽略此条目）`
+  /// `Easyanticheat is not installed, please click to repair it for you one click. (Before the game starts normally and ends, the problem will always appear. If you retreat for other reasons, you can ignore this entry)`
   String get doctor_info_result_install_easyanticheat {
     return Intl.message(
-      'EasyAntiCheat 未安装，请点击修复为您一键安装。（在游戏正常启动并结束前，该问题会一直出现，若您因为其他原因游戏闪退，可忽略此条目）',
+      'Easyanticheat is not installed, please click to repair it for you one click. (Before the game starts normally and ends, the problem will always appear. If you retreat for other reasons, you can ignore this entry)',
       name: 'doctor_info_result_install_easyanticheat',
       desc: '',
       args: [],
     );
   }
 
-  /// `中文用户名！`
+  /// `No-English username!`
   String get doctor_info_result_chinese_username {
     return Intl.message(
-      '中文用户名！',
+      'No-English username!',
       name: 'doctor_info_result_chinese_username',
       desc: '',
       args: [],
     );
   }
 
-  /// `中文用户名可能会导致游戏启动/安装错误！ 点击修复按钮查看修改教程！`
+  /// `The No-English username may cause the game to start/install errors! Click the repair button to view the modification tutorial!`
   String get doctor_info_result_chinese_username_error {
     return Intl.message(
-      '中文用户名可能会导致游戏启动/安装错误！ 点击修复按钮查看修改教程！',
+      'The No-English username may cause the game to start/install errors! Click the repair button to view the modification tutorial!',
       name: 'doctor_info_result_chinese_username_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `中文安装路径！`
+  /// `No-English installation path!`
   String get doctor_info_result_chinese_install_path {
     return Intl.message(
-      '中文安装路径！',
+      'No-English installation path!',
       name: 'doctor_info_result_chinese_install_path',
       desc: '',
       args: [],
     );
   }
 
-  /// `中文安装路径！这可能会导致游戏 启动/安装 错误！（{v0}），请在RSI启动器更换安装路径。`
-  String doctor_info_result_chinese_install_path_error(Object v0) {
+  /// `No-English installation path! This may cause the game to start/install errors! ({V0}), please replace the installation path at the RSI starter.`
+  String doctor_info_result_chinese_install_path_error(Object V0) {
     return Intl.message(
-      '中文安装路径！这可能会导致游戏 启动/安装 错误！（$v0），请在RSI启动器更换安装路径。',
+      'No-English installation path! This may cause the game to start/install errors! ($V0), please replace the installation path at the RSI starter.',
       name: 'doctor_info_result_chinese_install_path_error',
       desc: '',
-      args: [v0],
+      args: [V0],
     );
   }
 
-  /// `物理内存过低`
+  /// `Paralying memory is too low`
   String get doctor_info_result_low_physical_memory {
     return Intl.message(
-      '物理内存过低',
+      'Paralying memory is too low',
       name: 'doctor_info_result_low_physical_memory',
       desc: '',
       args: [],
     );
   }
 
-  /// `您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：{v0}）`
+  /// `You need at least 16GB of physical memory (Memory) to run this game. (Current size: {v0})`
   String doctor_info_result_memory_requirement(Object v0) {
     return Intl.message(
-      '您至少需要 16GB 的物理内存（Memory）才可运行此游戏。（当前大小：$v0）',
+      'You need at least 16GB of physical memory (Memory) to run this game. (Current size: $v0)',
       name: 'doctor_info_result_memory_requirement',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `修复建议： {v0}`
+  /// `Repair suggestions: {v0}`
   String doctor_info_result_fix_suggestion(Object v0) {
     return Intl.message(
-      '修复建议： $v0',
+      'Repair suggestions: $v0',
       name: 'doctor_info_result_fix_suggestion',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `暂无解决方法，请截图反馈`
+  /// `No solution, please take screenshots feedback`
   String get doctor_info_result_no_solution {
     return Intl.message(
-      '暂无解决方法，请截图反馈',
+      'No solution, please take screenshots feedback',
       name: 'doctor_info_result_no_solution',
       desc: '',
       args: [],
     );
   }
 
-  /// `修复`
+  /// `Repair`
   String get doctor_info_action_fix {
     return Intl.message(
-      '修复',
+      'Repair',
       name: 'doctor_info_action_fix',
       desc: '',
       args: [],
     );
   }
 
-  /// `查看解决方案`
+  /// `View solution`
   String get doctor_action_view_solution {
     return Intl.message(
-      '查看解决方案',
+      'View solution',
       name: 'doctor_action_view_solution',
       desc: '',
       args: [],
     );
   }
 
-  /// `请在首页选择游戏安装目录。`
+  /// `Please select the game installation directory on the homepage.`
   String get doctor_tip_title_select_game_directory {
     return Intl.message(
-      '请在首页选择游戏安装目录。',
+      'Please select the game installation directory on the homepage.',
       name: 'doctor_tip_title_select_game_directory',
       desc: '',
       args: [],
     );
   }
 
-  /// `若您的硬件达标，请尝试安装最新的 Windows 系统。`
+  /// `If your hardware meets the standard, try to install the latest Windows system.`
   String get doctor_action_result_try_latest_windows {
     return Intl.message(
-      '若您的硬件达标，请尝试安装最新的 Windows 系统。',
+      'If your hardware meets the standard, try to install the latest Windows system.',
       name: 'doctor_action_result_try_latest_windows',
       desc: '',
       args: [],
     );
   }
 
-  /// `创建文件夹成功，请尝试继续下载游戏！`
+  /// `Create a folder success, try to continue download the game!`
   String get doctor_action_result_create_folder_success {
     return Intl.message(
-      '创建文件夹成功，请尝试继续下载游戏！',
+      'Create a folder success, try to continue download the game!',
       name: 'doctor_action_result_create_folder_success',
       desc: '',
       args: [],
     );
   }
 
-  /// `创建文件夹失败，请尝试手动创建。\n目录：{v0} \n错误：{v1}`
+  /// `Create a folder failed, please try to create manually.\nDirectory: {v0}\nError: {v1}`
   String doctor_action_result_create_folder_fail(Object v0, Object v1) {
     return Intl.message(
-      '创建文件夹失败，请尝试手动创建。\n目录：$v0 \n错误：$v1',
+      'Create a folder failed, please try to create manually.\nDirectory: $v0\nError: $v1',
       name: 'doctor_action_result_create_folder_fail',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `修复成功，请尝试重启后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。`
+  /// `If the repair is successful, try to restart and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.`
   String get doctor_action_result_fix_success {
     return Intl.message(
-      '修复成功，请尝试重启后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。',
+      'If the repair is successful, try to restart and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.',
       name: 'doctor_action_result_fix_success',
       desc: '',
       args: [],
     );
   }
 
-  /// `修复失败，{v0}`
+  /// `Failure to repair, {v0}`
   String doctor_action_result_fix_fail(Object v0) {
     return Intl.message(
-      '修复失败，$v0',
+      'Failure to repair, $v0',
       name: 'doctor_action_result_fix_fail',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `修复成功，请尝试启动游戏。（若问题无法解决，请使用工具箱的 《重装 EAC》）`
+  /// `If the repair is successful, try to start the game. (If the problem cannot be solved, please use the toolbox's "Reinstall EAC")`
   String get doctor_action_result_game_start_success {
     return Intl.message(
-      '修复成功，请尝试启动游戏。（若问题无法解决，请使用工具箱的 《重装 EAC》）',
+      'If the repair is successful, try to start the game. (If the problem cannot be solved, please use the toolbox\'s "Reinstall EAC")',
       name: 'doctor_action_result_game_start_success',
       desc: '',
       args: [],
     );
   }
 
-  /// `即将跳转，教程来自互联网，请谨慎操作...`
+  /// `The tutorial is about to jump, the tutorial comes from the Internet, please operate carefully ...`
   String get doctor_action_result_redirect_warning {
     return Intl.message(
-      '即将跳转，教程来自互联网，请谨慎操作...',
+      'The tutorial is about to jump, the tutorial comes from the Internet, please operate carefully ...',
       name: 'doctor_action_result_redirect_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `该问题暂不支持自动处理，请提供截图寻求帮助`
+  /// `This problem does not support automatic processing for the time being, please provide screenshots for help`
   String get doctor_action_result_issue_not_supported {
     return Intl.message(
-      '该问题暂不支持自动处理，请提供截图寻求帮助',
+      'This problem does not support automatic processing for the time being, please provide screenshots for help',
       name: 'doctor_action_result_issue_not_supported',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在分析...`
+  /// `Analysing...`
   String get doctor_action_analyzing {
     return Intl.message(
-      '正在分析...',
+      'Analysing...',
       name: 'doctor_action_analyzing',
       desc: '',
       args: [],
     );
   }
 
-  /// `分析完毕，没有发现问题`
+  /// `After the analysis, no problems are found`
   String get doctor_action_result_analysis_no_issue {
     return Intl.message(
-      '分析完毕，没有发现问题',
+      'After the analysis, no problems are found',
       name: 'doctor_action_result_analysis_no_issue',
       desc: '',
       args: [],
     );
   }
 
-  /// `分析完毕，发现 {v0} 个问题`
+  /// `After the analysis, I found that {v0} questions`
   String doctor_action_result_analysis_issues_found(Object v0) {
     return Intl.message(
-      '分析完毕，发现 $v0 个问题',
+      'After the analysis, I found that $v0 questions',
       name: 'doctor_action_result_analysis_issues_found',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `扫描完毕，没有发现问题，若仍然安装失败，请尝试使用工具箱中的 RSI启动器管理员模式。`
+  /// `After scanning, no problem is found. If you still fail, try to use the RSI starter administrator mode in the toolbox.`
   String get doctor_action_result_toast_scan_no_issue {
     return Intl.message(
-      '扫描完毕，没有发现问题，若仍然安装失败，请尝试使用工具箱中的 RSI启动器管理员模式。',
+      'After scanning, no problem is found. If you still fail, try to use the RSI starter administrator mode in the toolbox.',
       name: 'doctor_action_result_toast_scan_no_issue',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在检查：Game.log`
+  /// `Inspection: Game.log`
   String get doctor_action_tip_checking_game_log {
     return Intl.message(
-      '正在检查：Game.log',
+      'Inspection: Game.log',
       name: 'doctor_action_tip_checking_game_log',
       desc: '',
       args: [],
     );
   }
 
-  /// `游戏异常退出：{v0}`
+  /// `Game abnormal exit: {v0}`
   String doctor_action_info_game_abnormal_exit(Object v0) {
     return Intl.message(
-      '游戏异常退出：$v0',
+      'Game abnormal exit: $v0',
       name: 'doctor_action_info_game_abnormal_exit',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `游戏异常退出：未知异常`
+  /// `Game abnormal exit: unknown abnormalities`
   String get doctor_action_info_game_abnormal_exit_unknown {
     return Intl.message(
-      '游戏异常退出：未知异常',
+      'Game abnormal exit: unknown abnormalities',
       name: 'doctor_action_info_game_abnormal_exit_unknown',
       desc: '',
       args: [],
     );
   }
 
-  /// `info:{v0}，请点击右下角加群反馈。`
+  /// `Info: {v0}, please click to add group feedback in the lower right corner.`
   String doctor_action_info_info_feedback(Object v0) {
     return Intl.message(
-      'info:$v0，请点击右下角加群反馈。',
+      'Info: $v0, please click to add group feedback in the lower right corner.',
       name: 'doctor_action_info_info_feedback',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `正在检查：EAC`
+  /// `Inspection: EAC`
   String get doctor_action_info_checking_eac {
     return Intl.message(
-      '正在检查：EAC',
+      'Inspection: EAC',
       name: 'doctor_action_info_checking_eac',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在检查：运行环境`
+  /// `Inspection: operating environment`
   String get doctor_action_info_checking_runtime {
     return Intl.message(
-      '正在检查：运行环境',
+      'Inspection: operating environment',
       name: 'doctor_action_info_checking_runtime',
       desc: '',
       args: [],
     );
   }
 
-  /// `不支持的操作系统：{v0}`
+  /// `Operating system that does not support: {v0}`
   String doctor_action_result_info_unsupported_os(Object v0) {
     return Intl.message(
-      '不支持的操作系统：$v0',
+      'Operating system that does not support: $v0',
       name: 'doctor_action_result_info_unsupported_os',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `正在检查：安装信息`
+  /// `Inspection: Installation information`
   String get doctor_action_info_checking_install_info {
     return Intl.message(
-      '正在检查：安装信息',
+      'Inspection: Installation information',
       name: 'doctor_action_info_checking_install_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `查看详情`
+  /// `Check the details`
   String get doctor_action_view_details {
     return Intl.message(
-      '查看详情',
+      'Check the details',
       name: 'doctor_action_view_details',
       desc: '',
       args: [],
     );
   }
 
-  /// `安装位置：`
+  /// `Installation location:`
   String get home_install_location {
     return Intl.message(
-      '安装位置：',
+      'Installation location:',
       name: 'home_install_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `未安装 或 安装失败`
+  /// `Unpacking or installation failed`
   String get home_not_installed_or_failed {
     return Intl.message(
-      '未安装 或 安装失败',
+      'Unpacking or installation failed',
       name: 'home_not_installed_or_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `星际公民官网汉化`
+  /// `SC Official Localization`
   String get home_action_star_citizen_website_localization {
     return Intl.message(
-      '星际公民官网汉化',
+      'SC Official Localization',
       name: 'home_action_star_citizen_website_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `罗伯茨航天工业公司，万物的起源`
+  /// `Roberts Aerospace Industry Corporation, the origin of all things`
   String get home_action_info_roberts_space_industries_origin {
     return Intl.message(
-      '罗伯茨航天工业公司，万物的起源',
+      'Roberts Aerospace Industry Corporation, the origin of all things',
       name: 'home_action_info_roberts_space_industries_origin',
       desc: '',
       args: [],
     );
   }
 
-  /// `UEX 汉化`
+  /// `UEX Localization`
   String get home_action_uex_localization {
     return Intl.message(
-      'UEX 汉化',
+      'UEX Localization',
       name: 'home_action_uex_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `采矿、精炼、贸易计算器、价格、船信息`
+  /// `Mining, refining, trade calculator, price, ship information`
   String get home_action_info_mining_refining_trade_calculator {
     return Intl.message(
-      '采矿、精炼、贸易计算器、价格、船信息',
+      'Mining, refining, trade calculator, price, ship information',
       name: 'home_action_info_mining_refining_trade_calculator',
       desc: '',
       args: [],
     );
   }
 
-  /// `DPS计算器汉化`
+  /// `DPS calculator Localization`
   String get home_action_dps_calculator_localization {
     return Intl.message(
-      'DPS计算器汉化',
+      'DPS calculator Localization',
       name: 'home_action_dps_calculator_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `在线改船，查询伤害数值和配件购买地点`
+  /// `Change the ship online, query the damage value and accessories location`
   String get home_action_info_ship_upgrade_damage_value_query {
     return Intl.message(
-      '在线改船，查询伤害数值和配件购买地点',
+      'Change the ship online, query the damage value and accessories location',
       name: 'home_action_info_ship_upgrade_damage_value_query',
       desc: '',
       args: [],
     );
   }
 
-  /// `外部浏览器拓展：`
+  /// `External browser expansion:`
   String get home_action_external_browser_extension {
     return Intl.message(
-      '外部浏览器拓展：',
+      'External browser expansion:',
       name: 'home_action_external_browser_extension',
       desc: '',
       args: [],
     );
   }
 
-  /// `一键诊断`
+  /// `Auto diagnosis`
   String get home_action_one_click_diagnosis {
     return Intl.message(
-      '一键诊断',
+      'Auto diagnosis',
       name: 'home_action_one_click_diagnosis',
       desc: '',
       args: [],
     );
   }
 
-  /// `一键诊断星际公民常见问题`
+  /// `Auto scan diagnosis of common problems in interstellar citizens`
   String get home_action_info_one_click_diagnosis_star_citizen {
     return Intl.message(
-      '一键诊断星际公民常见问题',
+      'Auto scan diagnosis of common problems in interstellar citizens',
       name: 'home_action_info_one_click_diagnosis_star_citizen',
       desc: '',
       args: [],
     );
   }
 
-  /// `汉化管理`
+  /// `Localization management`
   String get home_action_localization_management {
     return Intl.message(
-      '汉化管理',
+      'Localization management',
       name: 'home_action_localization_management',
       desc: '',
       args: [],
     );
   }
 
-  /// `快捷安装汉化资源`
+  /// `Fast installation of localization resources`
   String get home_action_info_quick_install_localization_resources {
     return Intl.message(
-      '快捷安装汉化资源',
+      'Fast installation of localization resources',
       name: 'home_action_info_quick_install_localization_resources',
       desc: '',
       args: [],
     );
   }
 
-  /// `性能优化`
+  /// `Performance optimization`
   String get home_action_performance_optimization {
     return Intl.message(
-      '性能优化',
+      'Performance optimization',
       name: 'home_action_performance_optimization',
       desc: '',
       args: [],
     );
   }
 
-  /// `调整引擎配置文件，优化游戏性能`
+  /// `Adjust the engine configuration file to optimize the game performance`
   String get home_action_info_engine_config_optimization {
     return Intl.message(
-      '调整引擎配置文件，优化游戏性能',
+      'Adjust the engine configuration file to optimize the game performance',
       name: 'home_action_info_engine_config_optimization',
       desc: '',
       args: [],
     );
   }
 
-  /// `平台`
+  /// `Platform`
   String get home_action_rsi_status_platform {
     return Intl.message(
-      '平台',
+      'Platform',
       name: 'home_action_rsi_status_platform',
       desc: '',
       args: [],
     );
   }
 
-  /// `持续宇宙`
+  /// `PU`
   String get home_action_rsi_status_persistent_universe {
     return Intl.message(
-      '持续宇宙',
+      'PU',
       name: 'home_action_rsi_status_persistent_universe',
       desc: '',
       args: [],
     );
   }
 
-  /// `电子访问`
+  /// `EV`
   String get home_action_rsi_status_electronic_access {
     return Intl.message(
-      '电子访问',
+      'EV',
       name: 'home_action_rsi_status_electronic_access',
       desc: '',
       args: [],
     );
   }
 
-  /// `竞技场指挥官`
+  /// `AC`
   String get home_action_rsi_status_arena_commander {
     return Intl.message(
-      '竞技场指挥官',
+      'AC',
       name: 'home_action_rsi_status_arena_commander',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI 服务器状态`
+  /// `RSI server status`
   String get home_action_rsi_status_rsi_server_status {
     return Intl.message(
-      'RSI 服务器状态',
+      'RSI server status',
       name: 'home_action_rsi_status_rsi_server_status',
       desc: '',
       args: [],
     );
   }
 
-  /// `状态：`
+  /// `State:`
   String get home_action_rsi_status_status {
     return Intl.message(
-      '状态：',
+      'State:',
       name: 'home_action_rsi_status_status',
       desc: '',
       args: [],
     );
   }
 
-  /// `公告详情`
+  /// `Announcement details`
   String get home_announcement_details {
     return Intl.message(
-      '公告详情',
+      'Announcement details',
       name: 'home_announcement_details',
       desc: '',
       args: [],
     );
   }
 
-  /// `该功能需要一个有效的安装位置\n\n如果您的游戏未下载完成，请等待下载完毕后使用此功能。\n\n如果您的游戏已下载完毕但未识别，请启动一次游戏后重新打开盒子 或 在设置选项中手动设置安装位置。`
+  /// `This function requires an effective installation location\n\nIf your game is not downloaded, wait for the download after downloading.\n\nIf your game has been downloaded but not recognized, please reopen the box after starting the game or manually set the installation position in the setting option.`
   String get home_action_info_valid_install_location_required {
     return Intl.message(
-      '该功能需要一个有效的安装位置\n\n如果您的游戏未下载完成，请等待下载完毕后使用此功能。\n\n如果您的游戏已下载完毕但未识别，请启动一次游戏后重新打开盒子 或 在设置选项中手动设置安装位置。',
+      'This function requires an effective installation location\n\nIf your game is not downloaded, wait for the download after downloading.\n\nIf your game has been downloaded but not recognized, please reopen the box after starting the game or manually set the installation position in the setting option.',
       name: 'home_action_info_valid_install_location_required',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在扫描 ...`
+  /// `Scanning ...`
   String get home_action_info_scanning {
     return Intl.message(
-      '正在扫描 ...',
+      'Scanning ...',
       name: 'home_action_info_scanning',
       desc: '',
       args: [],
     );
   }
 
-  /// `扫描完毕，共找到 {v0} 个有效安装目录`
+  /// `After scanning, find {v0} a valid installation directory`
   String home_action_info_scan_complete_valid_directories_found(Object v0) {
     return Intl.message(
-      '扫描完毕，共找到 $v0 个有效安装目录',
+      'After scanning, find $v0 a valid installation directory',
       name: 'home_action_info_scan_complete_valid_directories_found',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `解析 log 文件失败！`
+  /// `Analysis of LOG files failed!`
   String get home_action_info_log_file_parse_fail {
     return Intl.message(
-      '解析 log 文件失败！',
+      'Analysis of LOG files failed!',
       name: 'home_action_info_log_file_parse_fail',
       desc: '',
       args: [],
     );
   }
 
-  /// `星际公民网站汉化`
+  /// `Star Citizen Website Sinicization`
   String get home_action_title_star_citizen_website_localization {
     return Intl.message(
-      '星际公民网站汉化',
+      'Star Citizen Website Sinicization',
       name: 'home_action_title_star_citizen_website_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！\n\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。`
+  /// `This plug -in function is for general browsing, not responsible for any problems related to this function! Please pay attention to confirming the original content of the website before the account operation!\n\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.`
   String get home_action_info_web_localization_plugin_disclaimer {
     return Intl.message(
-      '本插功能件仅供大致浏览使用，不对任何有关本功能产生的问题负责！在涉及账号操作前请注意确认网站的原本内容！\n\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。',
+      'This plug -in function is for general browsing, not responsible for any problems related to this function! Please pay attention to confirming the original content of the website before the account operation!\n\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.',
       name: 'home_action_info_web_localization_plugin_disclaimer',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在初始化汉化资源...`
+  /// `It is initialized Localization resources ...`
   String get home_action_info_initializing_resources {
     return Intl.message(
-      '正在初始化汉化资源...',
+      'It is initialized Localization resources ...',
       name: 'home_action_info_initializing_resources',
       desc: '',
       args: [],
     );
   }
 
-  /// `初始化网页汉化资源失败！{v0}`
+  /// `Initialized webpage Localization resources failed! {v0}`
   String home_action_info_initialization_failed(Object v0) {
     return Intl.message(
-      '初始化网页汉化资源失败！$v0',
+      'Initialized webpage Localization resources failed! $v0',
       name: 'home_action_info_initialization_failed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `SC汉化盒子`
+  /// `SCToolBox`
   String get home_title_app_name {
     return Intl.message(
-      'SC汉化盒子',
+      'SCToolBox',
       name: 'home_title_app_name',
       desc: '',
       args: [],
     );
   }
 
-  /// `汉化有新版本！`
+  /// `Sinicization has a new version!`
   String get home_localization_new_version_available {
     return Intl.message(
-      '汉化有新版本！',
+      'Sinicization has a new version!',
       name: 'home_localization_new_version_available',
       desc: '',
       args: [],
     );
   }
 
-  /// `您在 {v0} 安装的汉化有新版本啦！`
+  /// `You have a new version of the Localization you installed in {v0}!`
   String home_localization_new_version_installed(Object v0) {
     return Intl.message(
-      '您在 $v0 安装的汉化有新版本啦！',
+      'You have a new version of the Localization you installed in $v0!',
       name: 'home_localization_new_version_installed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `该功能需要一个有效的安装位置`
+  /// `This function requires an effective installation location`
   String get home_info_valid_installation_required {
     return Intl.message(
-      '该功能需要一个有效的安装位置',
+      'This function requires an effective installation location',
       name: 'home_info_valid_installation_required',
       desc: '',
       args: [],
     );
   }
 
-  /// `一键启动功能提示`
+  /// `One -click start -up function prompt`
   String get home_info_one_click_launch_warning {
     return Intl.message(
-      '一键启动功能提示',
+      'One -click start -up function prompt',
       name: 'home_info_one_click_launch_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。\n\n微软商店版由微软提供可靠的分发下载与数字签名，可有效防止软件被恶意篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。`
+  /// `In order to ensure the security of the account, the one -click startup function has been disabled in the development version, and we will provide this feature in the Microsoft store version.\n\nThe Microsoft Store Edition is provided with a reliable distribution download and digital signature by Microsoft, which can effectively prevent software from being maliciously tampered with.\n\nTip: You can use Localization without using a box to start the game.`
   String get home_info_account_security_warning {
     return Intl.message(
-      '为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。\n\n微软商店版由微软提供可靠的分发下载与数字签名，可有效防止软件被恶意篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。',
+      'In order to ensure the security of the account, the one -click startup function has been disabled in the development version, and we will provide this feature in the Microsoft store version.\n\nThe Microsoft Store Edition is provided with a reliable distribution download and digital signature by Microsoft, which can effectively prevent software from being maliciously tampered with.\n\nTip: You can use Localization without using a box to start the game.',
       name: 'home_info_account_security_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `安装微软商店版本`
+  /// `Install Microsoft Store Version`
   String get home_action_install_microsoft_store_version {
     return Intl.message(
-      '安装微软商店版本',
+      'Install Microsoft Store Version',
       name: 'home_action_install_microsoft_store_version',
       desc: '',
       args: [],
     );
   }
 
-  /// `取消`
+  /// `Cancel`
   String get home_action_cancel {
     return Intl.message(
-      '取消',
+      'Cancel',
       name: 'home_action_cancel',
       desc: '',
       args: [],
     );
   }
 
-  /// `游戏非正常退出\nexitCode={v0}\nstdout={v1}\nstderr={v2}\n\n诊断信息：{v3} \n{v4}`
+  /// `The game exits normally\nexitCode = {v0}\nstdout = {v1}\nstderr = {v2}\n\nDiagnostic information: {v3}\n{v4}`
   String home_action_info_abnormal_game_exit(
       Object v0, Object v1, Object v2, Object v3, Object v4) {
     return Intl.message(
-      '游戏非正常退出\nexitCode=$v0\nstdout=$v1\nstderr=$v2\n\n诊断信息：$v3 \n$v4',
+      'The game exits normally\nexitCode = $v0\nstdout = $v1\nstderr = $v2\n\nDiagnostic information: $v3\n$v4',
       name: 'home_action_info_abnormal_game_exit',
       desc: '',
       args: [v0, v1, v2, v3, v4],
     );
   }
 
-  /// `未知错误，请通过一键诊断加群反馈。`
+  /// `Unknown errors, please use one -click diagnosis to add group feedback.`
   String get home_action_info_unknown_error {
     return Intl.message(
-      '未知错误，请通过一键诊断加群反馈。',
+      'Unknown errors, please use one -click diagnosis to add group feedback.',
       name: 'home_action_info_unknown_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `请查看弹出的网页链接获得详细信息。`
+  /// `Please check the pop -up web link to get detailed information.`
   String get home_action_info_check_web_link {
     return Intl.message(
-      '请查看弹出的网页链接获得详细信息。',
+      'Please check the pop -up web link to get detailed information.',
       name: 'home_action_info_check_web_link',
       desc: '',
       args: [],
     );
   }
 
-  /// `游戏内置`
+  /// `Built -in game`
   String get home_action_info_game_built_in {
     return Intl.message(
-      '游戏内置',
+      'Built -in game',
       name: 'home_action_info_game_built_in',
       desc: '',
       args: [],
     );
   }
 
-  /// `警告`
+  /// `Warn`
   String get home_action_info_warning {
     return Intl.message(
-      '警告',
+      'Warn',
       name: 'home_action_info_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `您正在使用游戏内置文本，官方文本目前为机器翻译（截至3.21.0），建议您在下方安装社区汉化。`
+  /// `You are using the game built -in text. The official text is currently a machine translation (as of 3.21.0), and it is recommended that you install community Localization below.`
   String get localization_info_machine_translation_warning {
     return Intl.message(
-      '您正在使用游戏内置文本，官方文本目前为机器翻译（截至3.21.0），建议您在下方安装社区汉化。',
+      'You are using the game built -in text. The official text is currently a machine translation (as of 3.21.0), and it is recommended that you install community Localization below.',
       name: 'localization_info_machine_translation_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `汉化状态`
+  /// `State`
   String get localization_info_translation_status {
     return Intl.message(
-      '汉化状态',
+      'State',
       name: 'localization_info_translation_status',
       desc: '',
       args: [],
     );
   }
 
-  /// `启用（{v0}）：`
+  /// `Enable ({v0}):`
   String localization_info_enabled(Object v0) {
     return Intl.message(
-      '启用（$v0）：',
+      'Enable ($v0):',
       name: 'localization_info_enabled',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `已安装版本：{v0}`
+  /// `The installed version: {v0}`
   String localization_info_installed_version(Object v0) {
     return Intl.message(
-      '已安装版本：$v0',
+      'The installed version: $v0',
       name: 'localization_info_installed_version',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `汉化反馈`
+  /// `Localization feedback`
   String get localization_action_translation_feedback {
     return Intl.message(
-      '汉化反馈',
+      'Localization feedback',
       name: 'localization_action_translation_feedback',
       desc: '',
       args: [],
     );
   }
 
-  /// `卸载汉化`
+  /// `Uninstallation of Localization`
   String get localization_action_uninstall_translation {
     return Intl.message(
-      '卸载汉化',
+      'Uninstallation of Localization',
       name: 'localization_action_uninstall_translation',
       desc: '',
       args: [],
     );
   }
 
-  /// `备注：`
+  /// `Remark:`
   String get localization_info_note {
     return Intl.message(
-      '备注：',
+      'Remark:',
       name: 'localization_info_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `社区汉化`
+  /// `Community Localization`
   String get localization_info_community_translation {
     return Intl.message(
-      '社区汉化',
+      'Community Localization',
       name: 'localization_info_community_translation',
       desc: '',
       args: [],
     );
   }
 
-  /// `该语言/版本 暂无可用汉化，敬请期待！`
+  /// `This language/version is not available for Localization, so stay tuned!`
   String get localization_info_no_translation_available {
     return Intl.message(
-      '该语言/版本 暂无可用汉化，敬请期待！',
+      'This language/version is not available for Localization, so stay tuned!',
       name: 'localization_info_no_translation_available',
       desc: '',
       args: [],
     );
   }
 
-  /// `高级功能`
+  /// `Advanced Features`
   String get localization_action_advanced_features {
     return Intl.message(
-      '高级功能',
+      'Advanced Features',
       name: 'localization_action_advanced_features',
       desc: '',
       args: [],
     );
   }
 
-  /// `自定义文本`
+  /// `Custom text`
   String get localization_info_custom_text {
     return Intl.message(
-      '自定义文本',
+      'Custom text',
       name: 'localization_info_custom_text',
       desc: '',
       args: [],
     );
   }
 
-  /// `暂无自定义文本`
+  /// `No custom text`
   String get localization_info_no_custom_text {
     return Intl.message(
-      '暂无自定义文本',
+      'No custom text',
       name: 'localization_info_no_custom_text',
       desc: '',
       args: [],
     );
   }
 
-  /// `安装`
+  /// `Install`
   String get localization_action_install {
     return Intl.message(
-      '安装',
+      'Install',
       name: 'localization_action_install',
       desc: '',
       args: [],
     );
   }
 
-  /// `版本号：{v0}`
+  /// `Version number: {v0}`
   String localization_info_version_number(Object v0) {
     return Intl.message(
-      '版本号：$v0',
+      'Version number: $v0',
       name: 'localization_info_version_number',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `通道：{v0}`
+  /// `Channel: {v0}`
   String localization_info_channel(Object v0) {
     return Intl.message(
-      '通道：$v0',
+      'Channel: $v0',
       name: 'localization_info_channel',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `更新时间：{v0}`
+  /// `Update Time: {v0}`
   String localization_info_update_time(Object v0) {
     return Intl.message(
-      '更新时间：$v0',
+      'Update Time: $v0',
       name: 'localization_info_update_time',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `已安装`
+  /// `Installed`
   String get localization_info_installed {
     return Intl.message(
-      '已安装',
+      'Installed',
       name: 'localization_info_installed',
       desc: '',
       args: [],
     );
   }
 
-  /// `不可用`
+  /// `Unavailable`
   String get localization_info_unavailable {
     return Intl.message(
-      '不可用',
+      'Unavailable',
       name: 'localization_info_unavailable',
       desc: '',
       args: [],
     );
   }
 
-  /// `语言：   `
+  /// `Language:`
   String get localization_info_language {
     return Intl.message(
-      '语言：   ',
+      'Language:',
       name: 'localization_info_language',
       desc: '',
       args: [],
     );
   }
 
-  /// `是否移除不兼容的汉化参数`
+  /// `Whether to remove incompatible Localization parameters`
   String get localization_info_remove_incompatible_translation_params {
     return Intl.message(
-      '是否移除不兼容的汉化参数',
+      'Whether to remove incompatible Localization parameters',
       name: 'localization_info_remove_incompatible_translation_params',
       desc: '',
       args: [],
     );
   }
 
-  /// `USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。`
+  /// `User.cfg contains incompatible Localization parameters, which may be the residual information of the previous Localization file.\n\nThis may lead to ineffective or garbled Localization, click to confirm that you are removed with one click (it will not affect other configuration).`
   String get localization_info_incompatible_translation_params_warning {
     return Intl.message(
-      'USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。',
+      'User.cfg contains incompatible Localization parameters, which may be the residual information of the previous Localization file.\n\nThis may lead to ineffective or garbled Localization, click to confirm that you are removed with one click (it will not affect other configuration).',
       name: 'localization_info_incompatible_translation_params_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `自定义_{v0}`
+  /// `Custom_ {v0}`
   String localization_info_custom_file(Object v0) {
     return Intl.message(
-      '自定义_$v0',
+      'Custom_ $v0',
       name: 'localization_info_custom_file',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。`
+  /// `To open the localized folder, put the customized name .ini file in the Customize_ini folder.\n\nAfter adding a new file, you do not display the refresh button in the upper right corner.\n\nPlease make sure to choose the correct language during installation.`
   String get localization_info_custom_file_instructions {
     return Intl.message(
-      '即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。',
+      'To open the localized folder, put the customized name .ini file in the Customize_ini folder.\n\nAfter adding a new file, you do not display the refresh button in the upper right corner.\n\nPlease make sure to choose the correct language during installation.',
       name: 'localization_info_custom_file_instructions',
       desc: '',
       args: [],
     );
   }
 
-  /// `文件受损，请重新下载`
+  /// `The file is damaged, please download again`
   String get localization_info_corrupted_file {
     return Intl.message(
-      '文件受损，请重新下载',
+      'The file is damaged, please download again',
       name: 'localization_info_corrupted_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `安装出错！\n\n {v0}`
+  /// `Install an error!\n\n {v0}`
   String localization_info_installation_error(Object v0) {
     return Intl.message(
-      '安装出错！\n\n $v0',
+      'Install an error!\n\n $v0',
       name: 'localization_info_installation_error',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `自定义文件`
+  /// `Custom file`
   String get localization_info_custom_files {
     return Intl.message(
-      '自定义文件',
+      'Custom file',
       name: 'localization_info_custom_files',
       desc: '',
       args: [],
     );
   }
 
-  /// `图形优化提示`
+  /// `Graph optimization tips`
   String get performance_info_graphic_optimization_hint {
     return Intl.message(
-      '图形优化提示',
+      'Graph optimization tips',
       name: 'performance_info_graphic_optimization_hint',
       desc: '',
       args: [],
     );
   }
 
-  /// `该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起反效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。`
+  /// `This function is very helpful for optimizing the bottleneck of the graphics card, but it may have a reverse effect on the CPU bottleneck. If your graphics card performance is strong, you can try to use better picture quality to obtain higher graphics card utilization.`
   String get performance_info_graphic_optimization_warning {
     return Intl.message(
-      '该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起反效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。',
+      'This function is very helpful for optimizing the bottleneck of the graphics card, but it may have a reverse effect on the CPU bottleneck. If your graphics card performance is strong, you can try to use better picture quality to obtain higher graphics card utilization.',
       name: 'performance_info_graphic_optimization_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `当前状态：{v0}`
+  /// `Current status: {v0}`
   String performance_info_current_status(Object v0) {
     return Intl.message(
-      '当前状态：$v0',
+      'Current status: $v0',
       name: 'performance_info_current_status',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `已应用`
+  /// `Applied`
   String get performance_info_applied {
     return Intl.message(
-      '已应用',
+      'Applied',
       name: 'performance_info_applied',
       desc: '',
       args: [],
     );
   }
 
-  /// `未应用`
+  /// `Unused`
   String get performance_info_not_applied {
     return Intl.message(
-      '未应用',
+      'Unused',
       name: 'performance_info_not_applied',
       desc: '',
       args: [],
     );
   }
 
-  /// `预设：`
+  /// `Preset:`
   String get performance_action_preset {
     return Intl.message(
-      '预设：',
+      'Preset:',
       name: 'performance_action_preset',
       desc: '',
       args: [],
     );
   }
 
-  /// `低`
+  /// `Low`
   String get performance_action_low {
     return Intl.message(
-      '低',
+      'Low',
       name: 'performance_action_low',
       desc: '',
       args: [],
     );
   }
 
-  /// `中`
+  /// `Middle`
   String get performance_action_medium {
     return Intl.message(
-      '中',
+      'Middle',
       name: 'performance_action_medium',
       desc: '',
       args: [],
     );
   }
 
-  /// `高`
+  /// `High`
   String get performance_action_high {
     return Intl.message(
-      '高',
+      'High',
       name: 'performance_action_high',
       desc: '',
       args: [],
     );
   }
 
-  /// `超级`
+  /// `Super`
   String get performance_action_super {
     return Intl.message(
-      '超级',
+      'Super',
       name: 'performance_action_super',
       desc: '',
       args: [],
     );
   }
 
-  /// `（预设只修改图形设置）`
+  /// `(Preset only the graphic settings)`
   String get performance_action_info_preset_only_changes_graphics {
     return Intl.message(
-      '（预设只修改图形设置）',
+      '(Preset only the graphic settings)',
       name: 'performance_action_info_preset_only_changes_graphics',
       desc: '',
       args: [],
     );
   }
 
-  /// ` 恢复默认 `
+  /// `Reset`
   String get performance_action_reset_to_default {
     return Intl.message(
-      ' 恢复默认 ',
+      'Reset',
       name: 'performance_action_reset_to_default',
       desc: '',
       args: [],
     );
   }
 
-  /// `应用`
+  /// `Application`
   String get performance_action_apply {
     return Intl.message(
-      '应用',
+      'Application',
       name: 'performance_action_apply',
       desc: '',
       args: [],
     );
   }
 
-  /// `应用并清理着色器（推荐）`
+  /// `Apply and clean up the color device (recommended)`
   String get performance_action_apply_and_clear_shaders {
     return Intl.message(
-      '应用并清理着色器（推荐）',
+      'Apply and clean up the color device (recommended)',
       name: 'performance_action_apply_and_clear_shaders',
       desc: '',
       args: [],
     );
   }
 
-  /// `性能优化 -> {v0}`
+  /// `Performance Optimization -> {v0}`
   String performance_title_performance_optimization(Object v0) {
     return Intl.message(
-      '性能优化 -> $v0',
+      'Performance Optimization -> $v0',
       name: 'performance_title_performance_optimization',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `您可以在这里输入未收录进盒子的自定义参数。配置示例:\n\nr_displayinfo=0\nr_VSync=0`
+  /// `You can enter the custom parameters that are not included in the box here. Configuration example:\n\nR_DISPLAYINFO = 0\nr_vsync = 0`
   String get performance_action_custom_parameters_input {
     return Intl.message(
-      '您可以在这里输入未收录进盒子的自定义参数。配置示例:\n\nr_displayinfo=0\nr_VSync=0',
+      'You can enter the custom parameters that are not included in the box here. Configuration example:\n\nR_DISPLAYINFO = 0\nr_vsync = 0',
       name: 'performance_action_custom_parameters_input',
       desc: '',
       args: [],
     );
   }
 
-  /// `{v0}    最小值: {v1} / 最大值: {v2}`
+  /// `{v0} minimum value: {v1} / maximum value: {v2}`
   String performance_info_min_max_values(Object v0, Object v1, Object v2) {
     return Intl.message(
-      '$v0    最小值: $v1 / 最大值: $v2',
+      '$v0 minimum value: $v1 / maximum value: $v2',
       name: 'performance_info_min_max_values',
       desc: '',
       args: [v0, v1, v2],
     );
   }
 
-  /// `图形`
+  /// `Graphic`
   String get performance_info_graphics {
     return Intl.message(
-      '图形',
+      'Graphic',
       name: 'performance_info_graphics',
       desc: '',
       args: [],
     );
   }
 
-  /// `删除配置文件...`
+  /// `Delete the configuration file ...`
   String get performance_info_delete_config_file {
     return Intl.message(
-      '删除配置文件...',
+      'Delete the configuration file ...',
       name: 'performance_info_delete_config_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `清理着色器`
+  /// `Clean the color device`
   String get performance_action_clear_shaders {
     return Intl.message(
-      '清理着色器',
+      'Clean the color device',
       name: 'performance_action_clear_shaders',
       desc: '',
       args: [],
     );
   }
 
-  /// `完成...`
+  /// `Finish...`
   String get performance_info_done {
     return Intl.message(
-      '完成...',
+      'Finish...',
       name: 'performance_info_done',
       desc: '',
       args: [],
     );
   }
 
-  /// `清理着色器后首次进入游戏可能会出现卡顿，请耐心等待游戏初始化完毕。`
+  /// `After cleaning up the color device, it may appear stutter when entering the game for the first time. Please wait patiently for the initialization of the game.`
   String get performance_info_shader_clearing_warning {
     return Intl.message(
-      '清理着色器后首次进入游戏可能会出现卡顿，请耐心等待游戏初始化完毕。',
+      'After cleaning up the color device, it may appear stutter when entering the game for the first time. Please wait patiently for the initialization of the game.',
       name: 'performance_info_shader_clearing_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `生成配置文件`
+  /// `Generate configuration file`
   String get performance_info_generate_config_file {
     return Intl.message(
-      '生成配置文件',
+      'Generate configuration file',
       name: 'performance_info_generate_config_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `写出配置文件`
+  /// `Write the configuration file`
   String get performance_info_write_out_config_file {
     return Intl.message(
-      '写出配置文件',
+      'Write the configuration file',
       name: 'performance_info_write_out_config_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `首页`
+  /// `Index`
   String get app_index_menu_home {
     return Intl.message(
-      '首页',
+      'Index',
       name: 'app_index_menu_home',
       desc: '',
       args: [],
     );
   }
 
-  /// `大厅`
+  /// `Hall`
   String get app_index_menu_lobby {
     return Intl.message(
-      '大厅',
+      'Hall',
       name: 'app_index_menu_lobby',
       desc: '',
       args: [],
     );
   }
 
-  /// `工具`
+  /// `Tool`
   String get app_index_menu_tools {
     return Intl.message(
-      '工具',
+      'Tool',
       name: 'app_index_menu_tools',
       desc: '',
       args: [],
     );
   }
 
-  /// `设置`
+  /// `Settings`
   String get app_index_menu_settings {
     return Intl.message(
-      '设置',
+      'Settings',
       name: 'app_index_menu_settings',
       desc: '',
       args: [],
     );
   }
 
-  /// `关于`
+  /// `About`
   String get app_index_menu_about {
     return Intl.message(
-      '关于',
+      'About',
       name: 'app_index_menu_about',
       desc: '',
       args: [],
     );
   }
 
-  /// `联机大厅，敬请期待 ！`
+  /// `The online lobby, so stay tuned!`
   String get lobby_online_lobby_coming_soon {
     return Intl.message(
-      '联机大厅，敬请期待 ！',
+      'The online lobby, so stay tuned!',
       name: 'lobby_online_lobby_coming_soon',
       desc: '',
       args: [],
     );
   }
 
-  /// `诚邀您参与 `
+  /// `Sincerely invite you to participate`
   String get lobby_invitation_to_participate {
     return Intl.message(
-      '诚邀您参与 ',
+      'Sincerely invite you to participate',
       name: 'lobby_invitation_to_participate',
       desc: '',
       args: [],
     );
   }
 
-  /// `问卷调查。`
+  /// `Questionnaire.`
   String get lobby_survey {
     return Intl.message(
-      '问卷调查。',
+      'Questionnaire.',
       name: 'lobby_survey',
       desc: '',
       args: [],
     );
   }
 
-  /// `创建设置快捷方式`
+  /// `Create Settings Settings`
   String get setting_action_create_settings_shortcut {
     return Intl.message(
-      '创建设置快捷方式',
+      'Create Settings Settings',
       name: 'setting_action_create_settings_shortcut',
       desc: '',
       args: [],
     );
   }
 
-  /// `在桌面创建《SC汉化盒子》快捷方式`
+  /// `Create "SC Sinicization Box" shortcut on the desktop`
   String get setting_action_create_desktop_shortcut {
     return Intl.message(
-      '在桌面创建《SC汉化盒子》快捷方式',
+      'Create "SC Sinicization Box" shortcut on the desktop',
       name: 'setting_action_create_desktop_shortcut',
       desc: '',
       args: [],
     );
   }
 
-  /// `重置自动密码填充`
+  /// `Reset automatic password filling`
   String get setting_action_reset_auto_password_fill {
     return Intl.message(
-      '重置自动密码填充',
+      'Reset automatic password filling',
       name: 'setting_action_reset_auto_password_fill',
       desc: '',
       args: [],
     );
   }
 
-  /// `启用：{v0}    设备支持：{v1}     邮箱：{v2}      密码：{v3}`
+  /// `Enable: {v0} Device Support: {v1} Email: {v2} Password: {v3}`
   String setting_action_info_device_support_info(
       Object v0, Object v1, Object v2, Object v3) {
     return Intl.message(
-      '启用：$v0    设备支持：$v1     邮箱：$v2      密码：$v3',
+      'Enable: $v0 Device Support: $v1 Email: $v2 Password: $v3',
       name: 'setting_action_info_device_support_info',
       desc: '',
       args: [v0, v1, v2, v3],
     );
   }
 
-  /// `已启用`
+  /// `Activated`
   String get setting_action_info_enabled {
     return Intl.message(
-      '已启用',
+      'Activated',
       name: 'setting_action_info_enabled',
       desc: '',
       args: [],
     );
   }
 
-  /// `已禁用`
+  /// `Disabled`
   String get setting_action_info_disabled {
     return Intl.message(
-      '已禁用',
+      'Disabled',
       name: 'setting_action_info_disabled',
       desc: '',
       args: [],
     );
   }
 
-  /// `支持`
+  /// `Support`
   String get setting_action_info_support {
     return Intl.message(
-      '支持',
+      'Support',
       name: 'setting_action_info_support',
       desc: '',
       args: [],
     );
   }
 
-  /// `不支持`
+  /// `Not support`
   String get setting_action_info_not_support {
     return Intl.message(
-      '不支持',
+      'Not support',
       name: 'setting_action_info_not_support',
       desc: '',
       args: [],
     );
   }
 
-  /// `已加密保存`
+  /// `Has been encrypted`
   String get setting_action_info_encrypted_saved {
     return Intl.message(
-      '已加密保存',
+      'Has been encrypted',
       name: 'setting_action_info_encrypted_saved',
       desc: '',
       args: [],
     );
   }
 
-  /// `未保存`
+  /// `Not preserved`
   String get setting_action_info_not_saved {
     return Intl.message(
-      '未保存',
+      'Not preserved',
       name: 'setting_action_info_not_saved',
       desc: '',
       args: [],
     );
   }
 
-  /// `启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ）`
+  /// `When starting the game, ignore the core of energy efficiency (suitable for Intel 12th+ processor)`
   String get setting_action_ignore_efficiency_cores_on_launch {
     return Intl.message(
-      '启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ）',
+      'When starting the game, ignore the core of energy efficiency (suitable for Intel 12th+ processor)',
       name: 'setting_action_ignore_efficiency_cores_on_launch',
       desc: '',
       args: [],
     );
   }
 
-  /// `已设置的核心数量：{v0}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）`
+  /// `Core quantity that has been set: {v0} (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)`
   String setting_action_set_core_count(Object v0) {
     return Intl.message(
-      '已设置的核心数量：$v0   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）',
+      'Core quantity that has been set: $v0 (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)',
       name: 'setting_action_set_core_count',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `设置启动器文件（RSI Launcher.exe）`
+  /// `Set the promoter file (RSI Launcher.exe)`
   String get setting_action_set_launcher_file {
     return Intl.message(
-      '设置启动器文件（RSI Launcher.exe）',
+      'Set the promoter file (RSI Launcher.exe)',
       name: 'setting_action_set_launcher_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `手动设置启动器位置，建议仅在无法自动扫描安装位置时使用`
+  /// `Set the position of the starter manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically`
   String get setting_action_info_manual_launcher_location_setting {
     return Intl.message(
-      '手动设置启动器位置，建议仅在无法自动扫描安装位置时使用',
+      'Set the position of the starter manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically',
       name: 'setting_action_info_manual_launcher_location_setting',
       desc: '',
       args: [],
     );
   }
 
-  /// `设置游戏文件 （StarCitizen.exe）`
+  /// `Set the game file (StarCitizen.exe)`
   String get setting_action_set_game_file {
     return Intl.message(
-      '设置游戏文件 （StarCitizen.exe）',
+      'Set the game file (StarCitizen.exe)',
       name: 'setting_action_set_game_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `手动设置游戏安装位置，建议仅在无法自动扫描安装位置时使用`
+  /// `Manually set the game installation location, it is recommended to use it only when the installation location cannot be automatically scanned`
   String get setting_action_info_manual_game_location_setting {
     return Intl.message(
-      '手动设置游戏安装位置，建议仅在无法自动扫描安装位置时使用',
+      'Manually set the game installation location, it is recommended to use it only when the installation location cannot be automatically scanned',
       name: 'setting_action_info_manual_game_location_setting',
       desc: '',
       args: [],
     );
   }
 
-  /// `清理汉化文件缓存`
+  /// `Clean up the Localization file cache`
   String get setting_action_clear_translation_file_cache {
     return Intl.message(
-      '清理汉化文件缓存',
+      'Clean up the Localization file cache',
       name: 'setting_action_clear_translation_file_cache',
       desc: '',
       args: [],
     );
   }
 
-  /// `缓存大小 {v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化`
+  /// `The cache size {v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization`
   String setting_action_info_cache_clearing_info(Object v0) {
     return Intl.message(
-      '缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化',
+      'The cache size $v0 MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization',
       name: 'setting_action_info_cache_clearing_info',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `工具站访问加速`
+  /// `Tool station access acceleration`
   String get setting_action_tool_site_access_acceleration {
     return Intl.message(
-      '工具站访问加速',
+      'Tool station access acceleration',
       name: 'setting_action_tool_site_access_acceleration',
       desc: '',
       args: [],
     );
   }
 
-  /// `使用镜像服务器加速访问 Dps Uex 等工具网站，若访问异常请关闭该功能。 为保护账户安全，任何情况下都不会加速RSI官网。`
+  /// `Use a mirror server to accelerate access to tool websites such as DPS UEX. If you access abnormal access, please turn off the function. To protect the security of the account, the RSI official website will not be accelerated in any case.`
   String get setting_action_info_mirror_server_info {
     return Intl.message(
-      '使用镜像服务器加速访问 Dps Uex 等工具网站，若访问异常请关闭该功能。 为保护账户安全，任何情况下都不会加速RSI官网。',
+      'Use a mirror server to accelerate access to tool websites such as DPS UEX. If you access abnormal access, please turn off the function. To protect the security of the account, the RSI official website will not be accelerated in any case.',
       name: 'setting_action_info_mirror_server_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `查看log`
+  /// `View log`
   String get setting_action_view_log {
     return Intl.message(
-      '查看log',
+      'View log',
       name: 'setting_action_view_log',
       desc: '',
       args: [],
     );
   }
 
-  /// `查看汉化盒子的 log 文件，以定位盒子的 bug`
+  /// `Check the log file of the SCToolBox to locate the bug of the box`
   String get setting_action_info_view_log_file {
     return Intl.message(
-      '查看汉化盒子的 log 文件，以定位盒子的 bug',
+      'Check the log file of the SCToolBox to locate the bug of the box',
       name: 'setting_action_info_view_log_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `确认重置自动填充？`
+  /// `Confirm that resetting automatic filling?`
   String get setting_action_info_confirm_reset_autofill {
     return Intl.message(
-      '确认重置自动填充？',
+      'Confirm that resetting automatic filling?',
       name: 'setting_action_info_confirm_reset_autofill',
       desc: '',
       args: [],
     );
   }
 
-  /// `这将会删除本地的账号记录，或在下次启动游戏时将自动填充选择 ‘否’ 以禁用自动填充。`
+  /// `This will delete local account records, or it will automatically fill in the next time the game starts the game to disable automatic filling.`
   String get setting_action_info_delete_local_account_warning {
     return Intl.message(
-      '这将会删除本地的账号记录，或在下次启动游戏时将自动填充选择 ‘否’ 以禁用自动填充。',
+      'This will delete local account records, or it will automatically fill in the next time the game starts the game to disable automatic filling.',
       name: 'setting_action_info_delete_local_account_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `已清理自动填充数据`
+  /// `Automatic filling data has been cleaned up`
   String get setting_action_info_autofill_data_cleared {
     return Intl.message(
-      '已清理自动填充数据',
+      'Automatic filling data has been cleaned up',
       name: 'setting_action_info_autofill_data_cleared',
       desc: '',
       args: [],
     );
   }
 
-  /// `请输入要忽略的 CPU 核心数`
+  /// `Please enter the core number of CPUs to be ignored`
   String get setting_action_info_enter_cpu_core_to_ignore {
     return Intl.message(
-      '请输入要忽略的 CPU 核心数',
+      'Please enter the core number of CPUs to be ignored',
       name: 'setting_action_info_enter_cpu_core_to_ignore',
       desc: '',
       args: [],
     );
   }
 
-  /// `Tip：您的设备拥有几个能效核心就输入几，非大小核设备请保持 0\n\n此功能适用于首页的盒子一键启动 或 工具中的 RSI启动器管理员模式，当为 0 时不启用此功能。`
+  /// `Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI starter mode in the box on the homepage. This function is not enabled when it is 0.`
   String get setting_action_info_cpu_core_tip {
     return Intl.message(
-      'Tip：您的设备拥有几个能效核心就输入几，非大小核设备请保持 0\n\n此功能适用于首页的盒子一键启动 或 工具中的 RSI启动器管理员模式，当为 0 时不启用此功能。',
+      'Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI starter mode in the box on the homepage. This function is not enabled when it is 0.',
       name: 'setting_action_info_cpu_core_tip',
       desc: '',
       args: [],
     );
   }
 
-  /// `请选择RSI启动器位置（RSI Launcher.exe）`
+  /// `Please select the RSI starter position (RSI LAUNCHER.EXE)`
   String get setting_action_info_select_rsi_launcher_location {
     return Intl.message(
-      '请选择RSI启动器位置（RSI Launcher.exe）',
+      'Please select the RSI starter position (RSI LAUNCHER.EXE)',
       name: 'setting_action_info_select_rsi_launcher_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `设置成功，在对应页面点击刷新即可扫描出新路径`
+  /// `Successfully set, click refresh on the corresponding page to scan the new path`
   String get setting_action_info_setting_success {
     return Intl.message(
-      '设置成功，在对应页面点击刷新即可扫描出新路径',
+      'Successfully set, click refresh on the corresponding page to scan the new path',
       name: 'setting_action_info_setting_success',
       desc: '',
       args: [],
     );
   }
 
-  /// `文件有误！`
+  /// `The file is wrong!`
   String get setting_action_info_file_error {
     return Intl.message(
-      '文件有误！',
+      'The file is wrong!',
       name: 'setting_action_info_file_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `请选择游戏安装位置（StarCitizen.exe）`
+  /// `Please select the game installation position (StarCitizen.exe)`
   String get setting_action_info_select_game_install_location {
     return Intl.message(
-      '请选择游戏安装位置（StarCitizen.exe）',
+      'Please select the game installation position (StarCitizen.exe)',
       name: 'setting_action_info_select_game_install_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `确认清理汉化缓存？`
+  /// `Confirmation of cleaning the Localization cache?`
   String get setting_action_info_confirm_clear_cache {
     return Intl.message(
-      '确认清理汉化缓存？',
+      'Confirmation of cleaning the Localization cache?',
       name: 'setting_action_info_confirm_clear_cache',
       desc: '',
       args: [],
     );
   }
 
-  /// `这不会影响已安装的汉化。`
+  /// `This will not affect the installed Localization.`
   String get setting_action_info_clear_cache_warning {
     return Intl.message(
-      '这不会影响已安装的汉化。',
+      'This will not affect the installed Localization.',
       name: 'setting_action_info_clear_cache_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `因微软版功能限制，请在接下来打开的窗口中 手动将《SC汉化盒子》拖动到桌面，即可创建快捷方式。`
+  /// `Due to Microsoft's version restrictions, manually drag the SCToolBox to the desktop in the next window to create a shortcut.`
   String get setting_action_info_microsoft_version_limitation {
     return Intl.message(
-      '因微软版功能限制，请在接下来打开的窗口中 手动将《SC汉化盒子》拖动到桌面，即可创建快捷方式。',
+      'Due to Microsoft\'s version restrictions, manually drag the SCToolBox to the desktop in the next window to create a shortcut.',
       name: 'setting_action_info_microsoft_version_limitation',
       desc: '',
       args: [],
     );
   }
 
-  /// `创建完毕，请返回桌面查看`
+  /// `After the creation, please return to the desktop to view`
   String get setting_action_info_shortcut_created {
     return Intl.message(
-      '创建完毕，请返回桌面查看',
+      'After the creation, please return to the desktop to view',
       name: 'setting_action_info_shortcut_created',
       desc: '',
       args: [],
     );
   }
 
-  /// `发现新版本 -> {v0}`
+  /// `Discover the new version-> {v0}`
   String app_upgrade_title_new_version_found(Object v0) {
     return Intl.message(
-      '发现新版本 -> $v0',
+      'Discover the new version-> $v0',
       name: 'app_upgrade_title_new_version_found',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `正在获取新版本详情...`
+  /// `Get the new version details ...`
   String get app_upgrade_info_getting_new_version_details {
     return Intl.message(
-      '正在获取新版本详情...',
+      'Get the new version details ...',
       name: 'app_upgrade_info_getting_new_version_details',
       desc: '',
       args: [],
     );
   }
 
-  /// `提示：当前正在使用分流服务器进行更新，可能会出现下载速度下降，但有助于我们进行成本控制，若下载异常请点击这里跳转手动安装。`
+  /// `Tip: The current diversion server is updated, and the download speed may decline, but it will help us perform cost control. If you download the exception, please click here to jump and manually install it.`
   String get app_upgrade_info_update_server_tip {
     return Intl.message(
-      '提示：当前正在使用分流服务器进行更新，可能会出现下载速度下降，但有助于我们进行成本控制，若下载异常请点击这里跳转手动安装。',
+      'Tip: The current diversion server is updated, and the download speed may decline, but it will help us perform cost control. If you download the exception, please click here to jump and manually install it.',
       name: 'app_upgrade_info_update_server_tip',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在安装：   `
+  /// `Installing:`
   String get app_upgrade_info_installing {
     return Intl.message(
-      '正在安装：   ',
+      'Installing:',
       name: 'app_upgrade_info_installing',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在下载： {v0}%    `
+  /// `Downloading: {v0}%`
   String app_upgrade_info_downloading(Object v0) {
     return Intl.message(
-      '正在下载： $v0%    ',
+      'Downloading: $v0%',
       name: 'app_upgrade_info_downloading',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `立即更新`
+  /// `Update immediately`
   String get app_upgrade_action_update_now {
     return Intl.message(
-      '立即更新',
+      'Update immediately',
       name: 'app_upgrade_action_update_now',
       desc: '',
       args: [],
     );
   }
 
-  /// `下次吧`
+  /// `Next time`
   String get app_upgrade_action_next_time {
     return Intl.message(
-      '下次吧',
+      'Next time',
       name: 'app_upgrade_action_next_time',
       desc: '',
       args: [],
     );
   }
 
-  /// `下载失败，请尝试手动安装！`
+  /// `Failure to download, please try to install manually!`
   String get app_upgrade_info_download_failed {
     return Intl.message(
-      '下载失败，请尝试手动安装！',
+      'Failure to download, please try to install manually!',
       name: 'app_upgrade_info_download_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `运行失败，请尝试手动安装！`
+  /// `Failure to run, try to install manually!`
   String get app_upgrade_info_run_failed {
     return Intl.message(
-      '运行失败，请尝试手动安装！',
+      'Failure to run, try to install manually!',
       name: 'app_upgrade_info_run_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在检测可用性，这可能需要一点时间...`
+  /// `It is detection availability, which may take a little time ...`
   String get app_splash_checking_availability {
     return Intl.message(
-      '正在检测可用性，这可能需要一点时间...',
+      'It is detection availability, which may take a little time ...',
       name: 'app_splash_checking_availability',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在检查更新...`
+  /// `Inspection and update ...`
   String get app_splash_checking_for_updates {
     return Intl.message(
-      '正在检查更新...',
+      'Inspection and update ...',
       name: 'app_splash_checking_for_updates',
       desc: '',
       args: [],
     );
   }
 
-  /// `即将完成...`
+  /// `Finish quickly…`
   String get app_splash_almost_done {
     return Intl.message(
-      '即将完成...',
+      'Finish quickly…',
       name: 'app_splash_almost_done',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI 官网`
+  /// `RSI official website`
   String get tools_hosts_info_rsi_official_website {
     return Intl.message(
-      'RSI 官网',
+      'RSI official website',
       name: 'tools_hosts_info_rsi_official_website',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI Zendesk 客服站`
+  /// `RSI ZENDESK Customer Service Station`
   String get tools_hosts_info_rsi_zendesk {
     return Intl.message(
-      'RSI Zendesk 客服站',
+      'RSI ZENDESK Customer Service Station',
       name: 'tools_hosts_info_rsi_zendesk',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI 客服站`
+  /// `RSI customer service station`
   String get tools_hosts_info_rsi_customer_service {
     return Intl.message(
-      'RSI 客服站',
+      'RSI customer service station',
       name: 'tools_hosts_info_rsi_customer_service',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在查询 DNS 并测试可访问性 请耐心等待...`
+  /// `Inquiring about DNS and testing accessibility, please wait patiently ...`
   String get tools_hosts_info_dns_query_and_test {
     return Intl.message(
-      '正在查询 DNS 并测试可访问性 请耐心等待...',
+      'Inquiring about DNS and testing accessibility, please wait patiently ...',
       name: 'tools_hosts_info_dns_query_and_test',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在写入 Hosts ...`
+  /// `I am writing Hosts ...`
   String get tools_hosts_info_writing_hosts {
     return Intl.message(
-      '正在写入 Hosts ...',
+      'I am writing Hosts ...',
       name: 'tools_hosts_info_writing_hosts',
       desc: '',
       args: [],
     );
   }
 
-  /// `读取配置 ...`
+  /// `Read the configuration ...`
   String get tools_hosts_info_reading_config {
     return Intl.message(
-      '读取配置 ...',
+      'Read the configuration ...',
       name: 'tools_hosts_info_reading_config',
       desc: '',
       args: [],
     );
   }
 
-  /// `Hosts 加速`
+  /// `Hosts accelerate`
   String get tools_hosts_info_hosts_acceleration {
     return Intl.message(
-      'Hosts 加速',
+      'Hosts accelerate',
       name: 'tools_hosts_info_hosts_acceleration',
       desc: '',
       args: [],
     );
   }
 
-  /// `打开 Hosts 文件`
+  /// `Open the hosts file`
   String get tools_hosts_info_open_hosts_file {
     return Intl.message(
-      '打开 Hosts 文件',
+      'Open the hosts file',
       name: 'tools_hosts_info_open_hosts_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `状态`
+  /// `State`
   String get tools_hosts_info_status {
     return Intl.message(
-      '状态',
+      'State',
       name: 'tools_hosts_info_status',
       desc: '',
       args: [],
     );
   }
 
-  /// `站点`
+  /// `Site`
   String get tools_hosts_info_site {
     return Intl.message(
-      '站点',
+      'Site',
       name: 'tools_hosts_info_site',
       desc: '',
       args: [],
     );
   }
 
-  /// `是否启用`
+  /// `Whether to enable`
   String get tools_hosts_info_enable {
     return Intl.message(
-      '是否启用',
+      'Whether to enable',
       name: 'tools_hosts_info_enable',
       desc: '',
       args: [],
     );
   }
 
-  /// `一键加速`
+  /// `One -click acceleration`
   String get tools_hosts_action_one_click_acceleration {
     return Intl.message(
-      '一键加速',
+      'One -click acceleration',
       name: 'tools_hosts_action_one_click_acceleration',
       desc: '',
       args: [],
     );
   }
 
-  /// `正在扫描...`
+  /// `Scanning...`
   String get tools_info_scanning {
     return Intl.message(
-      '正在扫描...',
+      'Scanning...',
       name: 'tools_info_scanning',
       desc: '',
       args: [],
     );
   }
 
-  /// `处理失败！：{v0}`
-  String tools_info_processing_failed(Object v0) {
+  /// `Failure to handle! : {V0}`
+  String tools_info_processing_failed(Object V0) {
     return Intl.message(
-      '处理失败！：$v0',
+      'Failure to handle! : $V0',
       name: 'tools_info_processing_failed',
       desc: '',
-      args: [v0],
+      args: [V0],
     );
   }
 
-  /// `游戏安装位置：  `
+  /// `Game installation location:`
   String get tools_info_game_install_location {
     return Intl.message(
-      '游戏安装位置：  ',
+      'Game installation location:',
       name: 'tools_info_game_install_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI启动器位置：`
+  /// `RSI starter position:`
   String get tools_info_rsi_launcher_location {
     return Intl.message(
-      'RSI启动器位置：',
+      'RSI starter position:',
       name: 'tools_info_rsi_launcher_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `查看系统信息`
+  /// `View system information`
   String get tools_action_view_system_info {
     return Intl.message(
-      '查看系统信息',
+      'View system information',
       name: 'tools_action_view_system_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `查看系统关键信息，用于快速问诊 \n\n耗时操作，请耐心等待。`
+  /// `Check the key information of the system for quick consultation\n\nTime -consuming operation, please wait patiently.`
   String get tools_action_info_view_critical_system_info {
     return Intl.message(
-      '查看系统关键信息，用于快速问诊 \n\n耗时操作，请耐心等待。',
+      'Check the key information of the system for quick consultation\n\nTime -consuming operation, please wait patiently.',
       name: 'tools_action_info_view_critical_system_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4K 分流下载 / 修复`
+  /// `P4k diversion download / repair`
   String get tools_action_p4k_download_repair {
     return Intl.message(
-      'P4K 分流下载 / 修复',
+      'P4k diversion download / repair',
       name: 'tools_action_p4k_download_repair',
       desc: '',
       args: [],
     );
   }
 
-  /// `使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n资源有限，请勿滥用。`
+  /// `The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nLimited resources, please do not abuse.`
   String get tools_action_info_p4k_download_repair_tip {
     return Intl.message(
-      '使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n资源有限，请勿滥用。',
+      'The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nLimited resources, please do not abuse.',
       name: 'tools_action_info_p4k_download_repair_tip',
       desc: '',
       args: [],
     );
   }
 
-  /// `Hosts 加速（实验性）`
+  /// `Hosts acceleration (experimental)`
   String get tools_action_hosts_acceleration_experimental {
     return Intl.message(
-      'Hosts 加速（实验性）',
+      'Hosts acceleration (experimental)',
       name: 'tools_action_hosts_acceleration_experimental',
       desc: '',
       args: [],
     );
   }
 
-  /// `将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。`
+  /// `Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems.`
   String get tools_action_info_hosts_acceleration_experimental_tip {
     return Intl.message(
-      '将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。',
+      'Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems.',
       name: 'tools_action_info_hosts_acceleration_experimental_tip',
       desc: '',
       args: [],
     );
   }
 
-  /// `重装 EasyAntiCheat 反作弊`
+  /// `Reinstall EasyAnticheat's anti -cheating`
   String get tools_action_reinstall_easyanticheat {
     return Intl.message(
-      '重装 EasyAntiCheat 反作弊',
+      'Reinstall EasyAnticheat\'s anti -cheating',
       name: 'tools_action_reinstall_easyanticheat',
       desc: '',
       args: [],
     );
   }
 
-  /// `若您遇到 EAC 错误，且自动修复无效，请尝试使用此功能重装 EAC。`
+  /// `If you encounter EAC errors and are invalid automatically, try using this feature to reinstall EAC.`
   String get tools_action_info_reinstall_eac {
     return Intl.message(
-      '若您遇到 EAC 错误，且自动修复无效，请尝试使用此功能重装 EAC。',
+      'If you encounter EAC errors and are invalid automatically, try using this feature to reinstall EAC.',
       name: 'tools_action_info_reinstall_eac',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI Launcher 管理员模式`
+  /// `RSI Launcher administrator mode`
   String get tools_action_rsi_launcher_admin_mode {
     return Intl.message(
-      'RSI Launcher 管理员模式',
+      'RSI Launcher administrator mode',
       name: 'tools_action_rsi_launcher_admin_mode',
       desc: '',
       args: [],
     );
   }
 
-  /// `以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。`
+  /// `Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here.`
   String get tools_action_info_run_rsi_as_admin {
     return Intl.message(
-      '以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。',
+      'Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here.',
       name: 'tools_action_info_run_rsi_as_admin',
       desc: '',
       args: [],
     );
   }
 
-  /// `初始化失败，请截图报告给开发者。{v0}`
+  /// `Initialization failed, please take a screenshot report to the developer. {v0}`
   String tools_action_info_init_failed(Object v0) {
     return Intl.message(
-      '初始化失败，请截图报告给开发者。$v0',
+      'Initialization failed, please take a screenshot report to the developer. $v0',
       name: 'tools_action_info_init_failed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `RSI Launcher Log 修复`
+  /// `RSI LAUNCHER LOG repair`
   String get tools_action_rsi_launcher_log_fix {
     return Intl.message(
-      'RSI Launcher Log 修复',
+      'RSI LAUNCHER LOG repair',
       name: 'tools_action_rsi_launcher_log_fix',
       desc: '',
       args: [],
     );
   }
 
-  /// `在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：{v0} MB`
+  /// `In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: {v0} MB`
   String tools_action_info_rsi_launcher_log_issue(Object v0) {
     return Intl.message(
-      '在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：$v0 MB',
+      'In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: $v0 MB',
       name: 'tools_action_info_rsi_launcher_log_issue',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `移除 nvme 注册表补丁`
+  /// `Remove the NVMe registry patch`
   String get tools_action_remove_nvme_registry_patch {
     return Intl.message(
-      '移除 nvme 注册表补丁',
+      'Remove the NVMe registry patch',
       name: 'tools_action_remove_nvme_registry_patch',
       desc: '',
       args: [],
     );
   }
 
-  /// `若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：{v0}`
+  /// `If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: {v0}`
   String tools_action_info_nvme_patch_issue(Object v0) {
     return Intl.message(
-      '若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：$v0',
+      'If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: $v0',
       name: 'tools_action_info_nvme_patch_issue',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `未安装`
+  /// `Not Installed`
   String get tools_action_info_not_installed {
     return Intl.message(
-      '未安装',
+      'Not Installed',
       name: 'tools_action_info_not_installed',
       desc: '',
       args: [],
     );
   }
 
-  /// `已移除，重启电脑生效！`
+  /// `Remove the computer to take effect!`
   String get tools_action_info_removed_restart_effective {
     return Intl.message(
-      '已移除，重启电脑生效！',
+      'Remove the computer to take effect!',
       name: 'tools_action_info_removed_restart_effective',
       desc: '',
       args: [],
     );
   }
 
-  /// `写入 nvme 注册表补丁`
+  /// `Write in the NVMe registry patch`
   String get tools_action_write_nvme_registry_patch {
     return Intl.message(
-      '写入 nvme 注册表补丁',
+      'Write in the NVMe registry patch',
       name: 'tools_action_write_nvme_registry_patch',
       desc: '',
       args: [],
     );
   }
 
-  /// `手动写入NVM补丁，该功能仅在您知道自己在作什么的情况下使用`
+  /// `Manually write the NVM patch, this function is used only when you know what you do`
   String get tools_action_info_manual_nvme_patch {
     return Intl.message(
-      '手动写入NVM补丁，该功能仅在您知道自己在作什么的情况下使用',
+      'Manually write the NVM patch, this function is used only when you know what you do',
       name: 'tools_action_info_manual_nvme_patch',
       desc: '',
       args: [],
     );
   }
 
-  /// `修复成功，请尝试重启电脑后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。`
+  /// `If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.`
   String get tools_action_info_fix_success_restart {
     return Intl.message(
-      '修复成功，请尝试重启电脑后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。',
+      'If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.',
       name: 'tools_action_info_fix_success_restart',
       desc: '',
       args: [],
     );
   }
 
-  /// `清理着色器缓存`
+  /// `Clean up the color device cache`
   String get tools_action_clear_shader_cache {
     return Intl.message(
-      '清理着色器缓存',
+      'Clean up the color device cache',
       name: 'tools_action_clear_shader_cache',
       desc: '',
       args: [],
     );
   }
 
-  /// `若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：{v0} MB`
+  /// `If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: {v0} MB`
   String tools_action_info_shader_cache_issue(Object v0) {
     return Intl.message(
-      '若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：$v0 MB',
+      'If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: $v0 MB',
       name: 'tools_action_info_shader_cache_issue',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `关闭摄影模式`
+  /// `Turn off the photography mode`
   String get tools_action_close_photography_mode {
     return Intl.message(
-      '关闭摄影模式',
+      'Turn off the photography mode',
       name: 'tools_action_close_photography_mode',
       desc: '',
       args: [],
     );
   }
 
-  /// `开启摄影模式`
+  /// `Turn on the photography mode`
   String get tools_action_open_photography_mode {
     return Intl.message(
-      '开启摄影模式',
+      'Turn on the photography mode',
       name: 'tools_action_open_photography_mode',
       desc: '',
       args: [],
     );
   }
 
-  /// `还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。`
+  /// `Restoring the lens shaking effect.\n\n@Lapernum offers parameter information.`
   String get tools_action_info_restore_lens_shake {
     return Intl.message(
-      '还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。',
+      'Restoring the lens shaking effect.\n\n@Lapernum offers parameter information.',
       name: 'tools_action_info_restore_lens_shake',
       desc: '',
       args: [],
     );
   }
 
-  /// `一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。`
+  /// `Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information.`
   String get tools_action_info_one_key_close_lens_shake {
     return Intl.message(
-      '一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。',
+      'Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information.',
       name: 'tools_action_info_one_key_close_lens_shake',
       desc: '',
       args: [],
     );
   }
 
-  /// `解析 log 文件失败！\n请尝试使用 RSI Launcher log 修复 工具！`
+  /// `Analysis of LOG files failed!\nTry to use RSI Launcher Log repair tool!`
   String get tools_action_info_log_file_parse_failed {
     return Intl.message(
-      '解析 log 文件失败！\n请尝试使用 RSI Launcher log 修复 工具！',
+      'Analysis of LOG files failed!\nTry to use RSI Launcher Log repair tool!',
       name: 'tools_action_info_log_file_parse_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。`
+  /// `If the RSI label is not found, try to reinstall it or add it manually in the settings.`
   String get tools_action_info_rsi_launcher_not_found {
     return Intl.message(
-      '未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。',
+      'If the RSI label is not found, try to reinstall it or add it manually in the settings.',
       name: 'tools_action_info_rsi_launcher_not_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `未找到星际公民游戏安装位置，请至少完成一次游戏启动操作 或在设置中手动添加。`
+  /// `If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings.`
   String get tools_action_info_star_citizen_not_found {
     return Intl.message(
-      '未找到星际公民游戏安装位置，请至少完成一次游戏启动操作 或在设置中手动添加。',
+      'If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings.',
       name: 'tools_action_info_star_citizen_not_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `该功能需要一个有效的游戏安装目录`
+  /// `This function requires an effective game installation directory`
   String get tools_action_info_valid_game_directory_needed {
     return Intl.message(
-      '该功能需要一个有效的游戏安装目录',
+      'This function requires an effective game installation directory',
       name: 'tools_action_info_valid_game_directory_needed',
       desc: '',
       args: [],
     );
   }
 
-  /// `已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请您前往 SETTINGS -> VERIFY 重装 EAC。`
+  /// `Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC.`
   String get tools_action_info_eac_file_removed {
     return Intl.message(
-      '已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请您前往 SETTINGS -> VERIFY 重装 EAC。',
+      'Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC.',
       name: 'tools_action_info_eac_file_removed',
       desc: '',
       args: [],
     );
   }
 
-  /// `出现错误：{v0}`
+  /// `Error: {v0}`
   String tools_action_info_error_occurred(Object v0) {
     return Intl.message(
-      '出现错误：$v0',
+      'Error: $v0',
       name: 'tools_action_info_error_occurred',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `系统：{v0}\n\n处理器：{v1}\n\n内存大小：{v2}GB\n\n显卡信息：\n{v3}\n\n硬盘信息：\n{v4}\n\n`
+  /// `System: {v0}\n\nProcessor: {v1}\n\nMemory size: {v2} gb\n\nGraphics card information:\n{v3}\n\nHard disk information:\n{v4}`
   String tools_action_info_system_info_content(
       Object v0, Object v1, Object v2, Object v3, Object v4) {
     return Intl.message(
-      '系统：$v0\n\n处理器：$v1\n\n内存大小：${v2}GB\n\n显卡信息：\n$v3\n\n硬盘信息：\n$v4\n\n',
+      'System: $v0\n\nProcessor: $v1\n\nMemory size: $v2 gb\n\nGraphics card information:\n$v3\n\nHard disk information:\n$v4',
       name: 'tools_action_info_system_info_content',
       desc: '',
       args: [v0, v1, v2, v3, v4],
     );
   }
 
-  /// `未找到 RSI 启动器目录，请您尝试手动操作。`
+  /// `If the RSI starter directory is not found, please try manually.`
   String get tools_action_info_rsi_launcher_directory_not_found {
     return Intl.message(
-      '未找到 RSI 启动器目录，请您尝试手动操作。',
+      'If the RSI starter directory is not found, please try manually.',
       name: 'tools_action_info_rsi_launcher_directory_not_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `日志文件不存在，请尝试进行一次游戏启动或游戏安装，并退出启动器，若无法解决问题，请尝试将启动器更新至最新版本！`
+  /// `The log file does not exist, please try to start a game startup or game installation, and exit the starter. If the problem cannot be solved, try to update the launcher to the latest version!`
   String get tools_action_info_log_file_not_exist {
     return Intl.message(
-      '日志文件不存在，请尝试进行一次游戏启动或游戏安装，并退出启动器，若无法解决问题，请尝试将启动器更新至最新版本！',
+      'The log file does not exist, please try to start a game startup or game installation, and exit the starter. If the problem cannot be solved, try to update the launcher to the latest version!',
       name: 'tools_action_info_log_file_not_exist',
       desc: '',
       args: [],
     );
   }
 
-  /// `清理完毕，请完成一次安装 / 游戏启动 操作。`
+  /// `After cleaning up, complete the installation / game startup operation once.`
   String get tools_action_info_cleanup_complete {
     return Intl.message(
-      '清理完毕，请完成一次安装 / 游戏启动 操作。',
+      'After cleaning up, complete the installation / game startup operation once.',
       name: 'tools_action_info_cleanup_complete',
       desc: '',
       args: [],
     );
   }
 
-  /// `清理失败，请手动移除，文件位置：{v0}`
+  /// `Failure to clean up, please remove manually, file location: {v0}`
   String tools_action_info_cleanup_failed(Object v0) {
     return Intl.message(
-      '清理失败，请手动移除，文件位置：$v0',
+      'Failure to clean up, please remove manually, file location: $v0',
       name: 'tools_action_info_cleanup_failed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `系统信息`
+  /// `System message`
   String get tools_action_info_system_info_title {
     return Intl.message(
-      '系统信息',
+      'System message',
       name: 'tools_action_info_system_info_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI启动器正在运行！请先关闭启动器再使用此功能！`
+  /// `The RSI starter is running! Please turn off the label first and then use this feature!`
   String get tools_action_info_rsi_launcher_running_warning {
     return Intl.message(
-      'RSI启动器正在运行！请先关闭启动器再使用此功能！',
+      'The RSI starter is running! Please turn off the label first and then use this feature!',
       name: 'tools_action_info_rsi_launcher_running_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。`
+  /// `P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the Star Citizen starter to check it.`
   String get tools_action_info_p4k_file_description {
     return Intl.message(
-      'P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。',
+      'P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the Star Citizen starter to check it.',
       name: 'tools_action_info_p4k_file_description',
       desc: '',
       args: [],
     );
   }
 
-  /// `已经有一个p4k下载任务正在进行中，请前往下载管理器查看！`
+  /// `There is already a P4K download task in progress, please go to the download manager to view!`
   String get tools_action_info_p4k_download_in_progress {
     return Intl.message(
-      '已经有一个p4k下载任务正在进行中，请前往下载管理器查看！',
+      'There is already a P4K download task in progress, please go to the download manager to view!',
       name: 'tools_action_info_p4k_download_in_progress',
       desc: '',
       args: [],
     );
   }
 
-  /// `功能维护中，请稍后重试！`
+  /// `During functional maintenance, please try it later!`
   String get tools_action_info_function_under_maintenance {
     return Intl.message(
-      '功能维护中，请稍后重试！',
+      'During functional maintenance, please try it later!',
       name: 'tools_action_info_function_under_maintenance',
       desc: '',
       args: [],
     );
   }
 
-  /// `配置文件不存在，请尝试运行一次游戏`
+  /// `The configuration file does not exist, please try to run the game once`
   String get tools_action_info_config_file_not_exist {
     return Intl.message(
-      '配置文件不存在，请尝试运行一次游戏',
+      'The configuration file does not exist, please try to run the game once',
       name: 'tools_action_info_config_file_not_exist',
       desc: '',
       args: [],
     );
   }
 
-  /// `名成员`
+  /// `Member`
   String get webview_localization_name_member {
     return Intl.message(
-      '名成员',
+      'Member',
       name: 'webview_localization_name_member',
       desc: '',
       args: [],
     );
   }
 
-  /// `总邀请数：`
+  /// `Total invitation:`
   String get webview_localization_total_invitations {
     return Intl.message(
-      '总邀请数：',
+      'Total invitation:',
       name: 'webview_localization_total_invitations',
       desc: '',
       args: [],
     );
   }
 
-  /// `未完成的邀请`
+  /// `Undead invitation`
   String get webview_localization_unfinished_invitations {
     return Intl.message(
-      '未完成的邀请',
+      'Undead invitation',
       name: 'webview_localization_unfinished_invitations',
       desc: '',
       args: [],
     );
   }
 
-  /// `已完成的邀请`
+  /// `Completed invitations`
   String get webview_localization_finished_invitations {
     return Intl.message(
-      '已完成的邀请',
+      'Completed invitations',
       name: 'webview_localization_finished_invitations',
       desc: '',
       args: [],
     );
   }
 
-  /// `初始化失败：{v0}`
+  /// `Initialization failure: {v0}`
   String app_init_failed_with_reason(Object v0) {
     return Intl.message(
-      '初始化失败：$v0',
+      'Initialization failure: $v0',
       name: 'app_init_failed_with_reason',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `请输入设备PIN以自动登录RSI账户`
+  /// `Please enter the device PIN to automatically log in to the RSI account`
   String get webview_localization_enter_device_pin {
     return Intl.message(
-      '请输入设备PIN以自动登录RSI账户',
+      'Please enter the device PIN to automatically log in to the RSI account',
       name: 'webview_localization_enter_device_pin',
       desc: '',
       args: [],
     );
   }
 
-  /// `请完成 Windows Hello 验证以填充密码`
+  /// `Please complete the Windows Hello verification to fill in the password`
   String get webview_localization_device_windows_hello_toast {
     return Intl.message(
-      '请完成 Windows Hello 验证以填充密码',
+      'Please complete the Windows Hello verification to fill in the password',
       name: 'webview_localization_device_windows_hello_toast',
       desc: '',
       args: [],

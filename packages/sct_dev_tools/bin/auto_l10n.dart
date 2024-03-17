@@ -4,6 +4,7 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:translator/translator.dart';
 import 'package:uuid/v4.dart';
 
 final stringResult = <String>[];
@@ -49,11 +50,58 @@ class AutoL10nTools {
         // sort map with value length
         final newMap = Map.fromEntries(
           jsonMap.entries.toList()
-            ..sort((a, b) => (b.value as String).length.compareTo((a.value as String).length)),
+            ..sort((a, b) => (b.value as String)
+                .length
+                .compareTo((a.value as String).length)),
         );
         _replaceDartFile(entity, newMap);
       }
     }
+  }
+
+  Future<void> autoTranslate({required String form, required String to}) async {
+    final formFile = File("./lib/l10n/intl_$form.arb");
+    final toFile = File("./lib/l10n/intl_$to.arb");
+    final translator = GoogleTranslator();
+    final formMap =
+        json.decode(formFile.readAsStringSync()) as Map<String, dynamic>;
+    final toMap =
+        json.decode(toFile.readAsStringSync()) as Map<String, dynamic>;
+
+    final formLocaleCode = formMap["@auto_translate_locale"] as String;
+    final toLocaleCode = toMap["@auto_translate_locale"] as String;
+    print("formLocaleCode: $formLocaleCode, toLocaleCode: $toLocaleCode");
+
+    final newMap = <String, dynamic>{};
+
+    try {
+      for (var key in formMap.keys) {
+        if (toMap.keys.contains(key)) {
+          newMap[key] = toMap[key];
+          continue;
+        }
+        if (key.toString().startsWith("@") || key == "locale_code") {
+          continue;
+        }
+        final value = formMap[key] as String;
+        final result = await translator.translate(value,
+            from: formLocaleCode, to: toLocaleCode);
+        var resultValue = result.text;
+        // 如果目标语言是英文，则首字母大写
+        if (toLocaleCode == "en") {
+          resultValue = resultValue[0].toUpperCase() + resultValue.substring(1);
+        }
+        print("translate $key: $value -> $resultValue");
+        newMap[key] = resultValue;
+        await Future.delayed(Duration(milliseconds: 500));
+      }
+    } catch (e) {
+      print(e);
+      toMap.addAll(newMap);
+      toFile.writeAsStringSync(json.encode(toMap));
+    }
+    toMap.addAll(newMap);
+    toFile.writeAsStringSync(json.encode(toMap));
   }
 
   void _processDartFile(File file) {
@@ -67,7 +115,7 @@ class AutoL10nTools {
     for (var key in jsonMap.keys) {
       if (key == "@@locale") continue;
       final mapValue = jsonMap[key] as String;
-      if (mapValue.contains("{{") && mapValue.contains("}}")) {
+      if (mapValue.contains("{") && mapValue.contains("}")) {
         print("skipping args value === $mapValue");
         continue;
       }

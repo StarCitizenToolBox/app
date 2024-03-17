@@ -51,7 +51,7 @@ class App extends HookConsumerWidget {
       builder: (context, child) {
         return MediaQuery(
           data:
-          MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+              MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
           child: child ?? const SizedBox(),
         );
       },
@@ -65,10 +65,10 @@ class App extends HookConsumerWidget {
           micaBackgroundColor: appState.themeConf.micaColor,
           buttonTheme: ButtonThemeData(
               defaultButtonStyle: ButtonStyle(
-                shape: ButtonState.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    side: BorderSide(color: Colors.white.withOpacity(.01)))),
-              ))),
+            shape: ButtonState.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+                side: BorderSide(color: Colors.white.withOpacity(.01)))),
+          ))),
       debugShowCheckedModeBanner: false,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
@@ -108,10 +108,10 @@ Widget _defaultWebviewTitleBar(BuildContext context) {
           const SizedBox(width: 12),
           (state.isLoading)
               ? const SizedBox(
-            width: 24,
-            height: 24,
-            child: ProgressRing(),
-          )
+                  width: 24,
+                  height: 24,
+                  child: ProgressRing(),
+                )
               : const SizedBox(width: 24),
           const SizedBox(width: 12),
           SelectableText(state.url ?? ""),
