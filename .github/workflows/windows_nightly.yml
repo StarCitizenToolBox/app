@@ -26,8 +26,10 @@ jobs:
             - name: Set up Rust
               uses: dtolnay/rust-toolchain@stable
 
-            - run: rustup --version  
-            - run: cargo --version
+            - name: Rust Version  
+              run: |
+                    rustup --version  
+                    cargo --version
             - name: Rust Cache
               uses: Swatinem/rust-cache@v2
               with:
@@ -41,7 +43,8 @@ jobs:
 
             - name: Flutter pub get
               run: flutter pub get  
-
+            - name: Flutter build runner
+              run: dart run build_runner build --delete-conflicting-outputs  
             - name: Rust cargo update
               run: cargo update  
               working-directory: rust
@@ -56,8 +59,7 @@ jobs:
             - name: flutter gen l10n
               run: | 
                     flutter pub add intl_utils
-                    flutter pub run intl_utils:generate  
-
+                    flutter pub run intl_utils:generate          
             - name: Flutter build Windows
               run: flutter build windows
 
