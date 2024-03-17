@@ -404,7 +404,7 @@
   "@performance_action_info_preset_only_changes_graphics": {},
   "performance_action_reset_to_default": " 恢復預設 ",
   "@performance_action_reset_to_default": {},
-  "performance_action_apply": 套用",
+  "performance_action_apply": "套用",
   "@performance_action_apply": {},
   "performance_action_apply_and_clear_shaders": "套用並清除著色器快取（推薦）",
   "@performance_action_apply_and_clear_shaders": {},

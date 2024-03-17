@@ -170,7 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_check_update":
             MessageLookupByLibrary.simpleMessage("Check for updates"),
         "about_disclaimer": MessageLookupByLibrary.simpleMessage(
-            "This is an unofficial interstellar citizen tool that is not affiliated to Cloud Imperium Group. In this software, all the contents of their own owners or users are their own property.\nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are the registered trademarks of Cloud Imperium Rights LLC."),
+            "This is an unofficial Star Citizen fan-made tools, not affiliated with the Cloud Imperium group of companies. All content on this Software not authored by its host or users are property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC."),
         "about_info_latest_version": MessageLookupByLibrary.simpleMessage(
             "It is already the latest version!"),
         "about_online_feedback":

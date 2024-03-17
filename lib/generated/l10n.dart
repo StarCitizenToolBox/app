@@ -150,10 +150,10 @@ class S {
     );
   }
 
-  /// `This is an unofficial interstellar citizen tool that is not affiliated to Cloud Imperium Group. In this software, all the contents of their own owners or users are their own property.\nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are the registered trademarks of Cloud Imperium Rights LLC.`
+  /// `This is an unofficial Star Citizen fan-made tools, not affiliated with the Cloud Imperium group of companies. All content on this Software not authored by its host or users are property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.`
   String get about_disclaimer {
     return Intl.message(
-      'This is an unofficial interstellar citizen tool that is not affiliated to Cloud Imperium Group. In this software, all the contents of their own owners or users are their own property.\nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are the registered trademarks of Cloud Imperium Rights LLC.',
+      'This is an unofficial Star Citizen fan-made tools, not affiliated with the Cloud Imperium group of companies. All content on this Software not authored by its host or users are property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.',
       name: 'about_disclaimer',
       desc: '',
       args: [],
