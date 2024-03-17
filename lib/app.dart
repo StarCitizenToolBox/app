@@ -82,12 +82,12 @@ GoRouter router(RouterRef ref) {
 
 @riverpod
 class AppGlobalModel extends _$AppGlobalModel {
-  static final appLocaleSupport = {
-    const Locale("auto"): S.current.settings_app_language_auto,
-    const Locale("zh", "CN"): NoL10n.langZHS,
-    const Locale("zh", "TW"): NoL10n.langZHT,
-    const Locale("en"): NoL10n.langEn,
-  };
+  static Map<Locale, String> get appLocaleSupport => {
+        const Locale("auto"): S.current.settings_app_language_auto,
+        const Locale("zh", "CN"): NoL10n.langZHS,
+        const Locale("zh", "TW"): NoL10n.langZHT,
+        const Locale("en"): NoL10n.langEn,
+      };
 
   @override
   AppGlobalState build() {

@@ -71,7 +71,7 @@ class ToolsUI extends HookConsumerWidget {
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
-                  child: AlignedGridView.count(
+                  child: MasonryGridView.count(
                     crossAxisCount: 3,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
@@ -93,7 +93,6 @@ class ToolsUI extends HookConsumerWidget {
                       final item = state.items[index];
                       return Container(
                         width: 300,
-                        height: 200,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color: FluentTheme.of(context).cardColor,
@@ -125,13 +124,13 @@ class ToolsUI extends HookConsumerWidget {
                                 ],
                               ),
                               const SizedBox(height: 12),
-                              Expanded(
-                                  child: Text(
+                              Text(
                                 item.infoString,
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white.withOpacity(.6)),
-                              )),
+                              ),
+                              const SizedBox(height: 12),
                               Row(
                                 children: [
                                   const Spacer(),
@@ -144,7 +143,11 @@ class ToolsUI extends HookConsumerWidget {
                                                 try {
                                                   item.onTap?.call();
                                                 } catch (e) {
-                                                  showToast(context, S.current.tools_info_processing_failed(e));
+                                                  showToast(
+                                                      context,
+                                                      S.current
+                                                          .tools_info_processing_failed(
+                                                              e));
                                                 }
                                               },
                                     child: const Padding(
