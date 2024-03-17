@@ -6,6 +6,7 @@ import 'package:archive/archive_io.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
@@ -80,6 +81,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       _customizeDirListenSub?.cancel();
       _customizeDirListenSub = null;
     });
+    final appConfBox = await Hive.openBox("app_conf");
+    final lang = await appConfBox.get("localization_selectedLanguage",
+        defaultValue: languageSupport.keys.first);
+    state = state.copyWith(selectedLanguage: lang);
     await _loadData();
   }
 
@@ -325,9 +330,11 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return ref.read(homeUIModelProvider).scInstalledPath;
   }
 
-  void selectLang(String v) {
+  void selectLang(String v) async {
     state = state.copyWith(selectedLanguage: v);
     _loadData();
+    final appConfBox = await Hive.openBox("app_conf");
+    await appConfBox.put("localization_selectedLanguage", v);
   }
 
   VoidCallback? onBack(BuildContext context) {

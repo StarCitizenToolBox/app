@@ -7,8 +7,7 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class AnalyticsApi {
   static touch(String key) async {
-    // debug 不统计
-    if (kDebugMode) return;
+    if (kDebugMode || kProfileMode) return;
     dPrint("AnalyticsApi.touch === $key start");
     try {
       final r = await RSHttp.postData(
@@ -20,7 +19,7 @@ class AnalyticsApi {
     }
   }
 
-  static Future<Map<String,dynamic>> getAnalyticsData() async {
+  static Future<Map<String, dynamic>> getAnalyticsData() async {
     final r = await RSHttp.get("${URLConf.analyticsApiHome}/analytics");
     if (r.data == null) return {};
     final jsonData = json.decode(utf8.decode(r.data!));
