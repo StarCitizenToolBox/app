@@ -87,9 +87,13 @@ class HomeUIModel extends _$HomeUIModel {
       }
       final scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
           withVersion: ["LIVE", "PTU", "EPTU"], checkExists: true);
-      String? scInstalledPath;
+
+      String scInstalledPath = "not_install";
+
       if (scInstallPaths.isNotEmpty) {
-        scInstalledPath = scInstallPaths.first;
+        if (scInstallPaths.first.isNotEmpty) {
+          scInstalledPath = scInstallPaths.first;
+        }
       }
       final lastScreenInfo = S.current
           .home_action_info_scan_complete_valid_directories_found(
