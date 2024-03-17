@@ -10,14 +10,12 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
             - name: Set up Flutter
-              uses: subosito/flutter-action@v2
+              uses: subosito/flutter-action@v2.12.0
               with:
                 channel: 'stable'
                 cache: true
                 cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
                 cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
-                pub-cache-key: 'flutter-pub:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache of dart pub get dependencies
-                pub-cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
             - run: flutter --version            
             - name: Set up Rust
               uses: dtolnay/rust-toolchain@stable
@@ -27,12 +25,6 @@ jobs:
               uses: KyleMayes/install-llvm-action@v1
               with:
                version: "17.0.2"
-            - name: Clean Pub Git Cache
-              run: |
-                 if (Test-Path "C:\Users\runneradmin\.pub-cache\git\") {
-                   Remove-Item -Path "C:\Users\runneradmin\.pub-cache\git\*" -Recurse -Force
-                 }
-              shell: powershell
             - name: Flutter pub get
               run: flutter pub get  
             - name: Set up Flutter rust bridge
