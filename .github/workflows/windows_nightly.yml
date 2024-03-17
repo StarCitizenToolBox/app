@@ -22,8 +22,9 @@ jobs:
               uses: KyleMayes/install-llvm-action@v1
               with:
                version: "17.0.2"
-            - name: Clean Git Cache
-              run: rm -rf /c/Users/runneradmin/.pub-cache/git/*
+            - name: Clean Pub Git Cache
+              run: Remove-Item -Path "C:\Users\runneradmin\.pub-cache\git\*" -Recurse -Force
+              shell: powershell
             - name: Flutter pub get
               run: flutter pub get  
             - name: Set up Flutter rust bridge
