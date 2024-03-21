@@ -277,7 +277,7 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
     for (var line in hostsFileLines) {
       if (line.contains("#StarCitizenToolBox")) {
         for (var host in _hostsMap.entries) {
-          if (line.contains(host.value.first)) {
+          if (line.contains(" ${host.value.first}")) {
             workingMap.value[host.key] = 1;
             workingMap.value = Map.from(workingMap.value);
             checkedMap.value[host.key] = true;
