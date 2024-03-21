@@ -265,8 +265,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   openDir(BuildContext context) async {
     showToast(context, S.current.localization_info_custom_file_instructions);
-    await Process.run(SystemHelper.powershellPath,
-        ["explorer.exe", "/select,\"${_customizeDir.absolute.path}\"\\"]);
+    SystemHelper.openDir("\"${_customizeDir.absolute.path}\"\\");
   }
 
   VoidCallback? doRemoteInstall(

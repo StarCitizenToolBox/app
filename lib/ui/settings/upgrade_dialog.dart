@@ -259,8 +259,7 @@ class UpgradeDialogUI extends HookConsumerWidget {
       progress.value = 0;
       if (!context.mounted) return;
       showToast(context, S.current.app_upgrade_info_run_failed);
-      Process.run(SystemHelper.powershellPath,
-          ["explorer.exe", "/select,\"$fileName\""]);
+      SystemHelper.openDir("\"$fileName\"");
     }
   }
 }

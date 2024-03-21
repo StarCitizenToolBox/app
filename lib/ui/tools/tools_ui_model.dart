@@ -361,8 +361,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   openDir(path) async {
-    await Process.run(
-        SystemHelper.powershellPath, ["explorer.exe", "/select,\"$path\""]);
+    SystemHelper.openDir("\"$path\"");
   }
 
   Future _showSystemInfo(BuildContext context) async {
