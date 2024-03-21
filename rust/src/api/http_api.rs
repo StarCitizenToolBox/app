@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use hyper::Method;
+use reqwest::Method;
 use crate::http_package;
 use crate::http_package::RustHttpResponse;
 

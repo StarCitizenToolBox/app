@@ -1,8 +1,7 @@
 use hickory_resolver::config::{NameServerConfigGroup, ResolverConfig, ResolverOpts};
 use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioAsyncResolver};
-use hyper::client::connect::dns::Name;
 use once_cell::sync::OnceCell;
-use reqwest::dns::{Addrs, Resolve, Resolving};
+use reqwest::dns::{Addrs, Name, Resolve, Resolving};
 use std::collections::HashMap;
 use std::io;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
@@ -29,8 +28,8 @@ struct SocketAddrs {
 impl Resolve for MyHickoryDnsResolver {
     fn resolve(&self, name: Name) -> Resolving {
         let my_hosts = MY_HOSTS_MAP.read().unwrap();
-        let name_str = name.to_string();
-        if let Some(ip) = my_hosts.get(name_str.as_str()) {
+        let name_str = name.as_str();
+        if let Some(ip) = my_hosts.get(name_str) {
             let addrs: Addrs = Box::new(std::iter::once(SocketAddr::new(*ip, 0)));
             println!("using host map === {:?}", name_str);
             return Box::pin(async move { Ok(addrs) });
@@ -89,7 +88,7 @@ fn new_resolver() -> io::Result<TokioAsyncResolver> {
             IpAddr::V4(Ipv4Addr::new(166, 111, 8, 28)),
             IpAddr::V4(Ipv4Addr::new(101, 226, 4, 6)),
             IpAddr::V4(Ipv4Addr::new(114, 114, 114, 114)),
-        ], 53, true,
+        ], 53, false,
     );
     let cfg = ResolverConfig::from_parts(None, vec![], group);
     let mut opts = ResolverOpts::default();

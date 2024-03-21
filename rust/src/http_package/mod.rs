@@ -2,13 +2,13 @@ pub mod dns;
 
 use scopeguard::defer;
 use lazy_static::lazy_static;
-use hyper::Uri;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use reqwest::{Method, RequestBuilder};
 use std::collections::HashMap;
 use std::str::FromStr;
 use std::sync::{Arc, RwLock};
 use std::time::Duration;
+use url::Url;
 
 #[derive(Debug)]
 #[allow(non_camel_case_types)]
@@ -88,7 +88,7 @@ pub async fn fetch(
     if address_clone.is_some() {
         let addr = std::net::IpAddr::from_str(with_ip_address.unwrap().as_str()).unwrap();
         let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
-        let url_host = Uri::from_str(url.as_str()).unwrap().host().unwrap().to_string();
+        let url_host = Url::from_str(url.as_str()).unwrap().host().unwrap().to_string();
         hosts.insert(url_host, addr);
     }
 
