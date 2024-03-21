@@ -170,10 +170,10 @@ class S {
     );
   }
 
-  /// `Start the game`
+  /// `Game launches`
   String get about_analytics_launch_game {
     return Intl.message(
-      'Start the game',
+      'Game launches',
       name: 'about_analytics_launch_game',
       desc: '',
       args: [],
@@ -190,10 +190,10 @@ class S {
     );
   }
 
-  /// `Localization installation`
+  /// `Localization installs`
   String get about_analytics_install_translation {
     return Intl.message(
-      'Localization installation',
+      'Localization installs',
       name: 'about_analytics_install_translation',
       desc: '',
       args: [],
@@ -220,10 +220,10 @@ class S {
     );
   }
 
-  /// `Bit`
+  /// `users`
   String get about_analytics_units_user {
     return Intl.message(
-      'Bit',
+      'users',
       name: 'about_analytics_units_user',
       desc: '',
       args: [],
@@ -270,10 +270,10 @@ class S {
     );
   }
 
-  /// `One-button start`
+  /// `One-click launch`
   String get home_action_one_click_launch {
     return Intl.message(
-      'One-button start',
+      'One-click launch',
       name: 'home_action_one_click_launch',
       desc: '',
       args: [],
@@ -290,10 +290,10 @@ class S {
     );
   }
 
-  /// `* If the automatic filling is turned on, please pay attention to the pop -up Windows Hello window`
+  /// `* If the automatic filling is turned on, please pay attention to the  Windows Hello pop-up`
   String get home_info_auto_fill_notice {
     return Intl.message(
-      '* If the automatic filling is turned on, please pay attention to the pop -up Windows Hello window',
+      '* If the automatic filling is turned on, please pay attention to the  Windows Hello pop-up',
       name: 'home_info_auto_fill_notice',
       desc: '',
       args: [],
@@ -310,10 +310,10 @@ class S {
     );
   }
 
-  /// `I'm starting the game for you ...`
+  /// `Launching game for you ...`
   String get home_login_title_launching_game {
     return Intl.message(
-      'I\'m starting the game for you ...',
+      'Launching game for you ...',
       name: 'home_login_title_launching_game',
       desc: '',
       args: [],
@@ -330,10 +330,10 @@ class S {
     );
   }
 
-  /// `Do you turn on the automatic password filling?`
+  /// `Turn on the automatic password filling?`
   String get home_action_q_auto_password_fill_prompt {
     return Intl.message(
-      'Do you turn on the automatic password filling?',
+      'Turn on the automatic password filling?',
       name: 'home_action_q_auto_password_fill_prompt',
       desc: '',
       args: [],
@@ -360,10 +360,10 @@ class S {
     );
   }
 
-  /// `Game version expires`
+  /// `Outdated game version`
   String get home_login_info_game_version_outdated {
     return Intl.message(
-      'Game version expires',
+      'Outdated game version',
       name: 'home_login_info_game_version_outdated',
       desc: '',
       args: [],
@@ -420,10 +420,10 @@ class S {
     );
   }
 
-  /// `Closure`
+  /// `Close`
   String get action_close {
     return Intl.message(
-      'Closure',
+      'Close',
       name: 'action_close',
       desc: '',
       args: [],
@@ -560,10 +560,10 @@ class S {
     );
   }
 
-  /// `Paradse download`
+  /// `Pause download`
   String get downloader_action_pause_download {
     return Intl.message(
-      'Paradse download',
+      'Pause download',
       name: 'downloader_action_pause_download',
       desc: '',
       args: [],
@@ -2191,30 +2191,30 @@ class S {
     );
   }
 
-  /// `Index`
+  /// `Home`
   String get app_index_menu_home {
     return Intl.message(
-      'Index',
+      'Home',
       name: 'app_index_menu_home',
       desc: '',
       args: [],
     );
   }
 
-  /// `Hall`
+  /// `Lobby`
   String get app_index_menu_lobby {
     return Intl.message(
-      'Hall',
+      'Lobby',
       name: 'app_index_menu_lobby',
       desc: '',
       args: [],
     );
   }
 
-  /// `Tool`
+  /// `Tools`
   String get app_index_menu_tools {
     return Intl.message(
-      'Tool',
+      'Tools',
       name: 'app_index_menu_tools',
       desc: '',
       args: [],
@@ -3623,10 +3623,10 @@ class S {
     );
   }
 
-  /// `I see`
+  /// `I understand`
   String get app_common_tip_i_know {
     return Intl.message(
-      'I see',
+      'I understand',
       name: 'app_common_tip_i_know',
       desc: '',
       args: [],
@@ -3683,10 +3683,10 @@ class S {
     );
   }
 
-  /// `Load the picture ...`
+  /// `Loading image ...`
   String get app_common_loading_images {
     return Intl.message(
-      'Load the picture ...',
+      'Loading image ...',
       name: 'app_common_loading_images',
       desc: '',
       args: [],

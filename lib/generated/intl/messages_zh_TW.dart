@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(v0) => "出現錯誤: ${v0}";
 
   static String m1(v0, v1) =>
-      "網絡異常！\n這可能是您的網絡環境存在DNS汙染，請嘗試更換DNS。\n或服務器正在維護或遭受攻擊，稍後再試。 \n進入離線模式... \n\n請謹慎在離線模式中使用。 \n當前版本構建日期：${v0}\n QQ群：940696487 \n錯誤信息：${v1}";
+      "網路錯誤！\n這可能是您的網路環境存在DNS汙染，請嘗試更換DNS。\n或伺服器正在維護或遭受攻擊，稍後再試。 \n進入離線模式... \n\n請謹慎在離線模式中使用。 \n當前版本構建日期：${v0}\n QQ群：940696487 \n錯誤資訊：${v1}";
 
   static String m2(v0, v1) => "SC漢化盒子 V${v0} ${v1}";
 
@@ -169,14 +169,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "action_open_folder": MessageLookupByLibrary.simpleMessage("打開文件夾"),
         "app_common_error_info": m0,
         "app_common_loading_images":
-            MessageLookupByLibrary.simpleMessage("加載圖片..."),
+            MessageLookupByLibrary.simpleMessage("載入圖片..."),
         "app_common_network_error": m1,
         "app_common_tip": MessageLookupByLibrary.simpleMessage("提示"),
         "app_common_tip_cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "app_common_tip_confirm": MessageLookupByLibrary.simpleMessage("確認"),
         "app_common_tip_i_know": MessageLookupByLibrary.simpleMessage("我知道了"),
         "app_common_upgrade_info_error":
-            MessageLookupByLibrary.simpleMessage("獲取更新信息失敗，請稍後重試。"),
+            MessageLookupByLibrary.simpleMessage("取得更新資訊失敗，請稍後重試。"),
         "app_index_menu_about": MessageLookupByLibrary.simpleMessage("關於"),
         "app_index_menu_home": MessageLookupByLibrary.simpleMessage("首頁"),
         "app_index_menu_lobby": MessageLookupByLibrary.simpleMessage("大廳"),
@@ -190,7 +190,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("SC漢化盒子DEV.lnk"),
         "app_splash_almost_done": MessageLookupByLibrary.simpleMessage("即將完成…"),
         "app_splash_checking_availability":
-            MessageLookupByLibrary.simpleMessage("正在檢測可用性，這可能需要一點時間..."),
+            MessageLookupByLibrary.simpleMessage("正在檢查可用性，這可能需要一點時間..."),
         "app_splash_checking_for_updates":
             MessageLookupByLibrary.simpleMessage("正在檢查更新..."),
         "app_upgrade_action_next_time":
@@ -205,7 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_upgrade_info_installing":
             MessageLookupByLibrary.simpleMessage("正在安裝：   "),
         "app_upgrade_info_run_failed":
-            MessageLookupByLibrary.simpleMessage("運行失敗，請嘗試手動安裝！"),
+            MessageLookupByLibrary.simpleMessage("執行失敗，請嘗試手動安裝！"),
         "app_upgrade_info_update_server_tip":
             MessageLookupByLibrary.simpleMessage(
                 "提示：當前正在使用分流伺服器進行更新，可能會出現下載速度下降，但有助於我們進行成本控制，若下載異常請點擊這裡跳轉手動安裝。"),
@@ -258,35 +258,35 @@ class MessageLookup extends MessageLookupByLibrary {
         "doctor_game_error_game_damaged_file":
             MessageLookupByLibrary.simpleMessage("遊戲程序文件損壞"),
         "doctor_game_error_game_damaged_file_info":
-            MessageLookupByLibrary.simpleMessage("請嘗試刪除 Bin64 文件夾 並在啟動器校驗。"),
+            MessageLookupByLibrary.simpleMessage("請嘗試刪除 Bin64 資料夾 並在啟動器校驗。"),
         "doctor_game_error_game_damaged_p4k_file":
             MessageLookupByLibrary.simpleMessage("P4K文件損壞"),
         "doctor_game_error_game_damaged_p4k_file_info":
             MessageLookupByLibrary.simpleMessage(
                 "請嘗試刪除 Data.p4k 文件 並在啟動器校驗 或 使用盒子分流。"),
         "doctor_game_error_game_process_error":
-            MessageLookupByLibrary.simpleMessage("遊戲進程被占用"),
+            MessageLookupByLibrary.simpleMessage("遊戲進程被佔用"),
         "doctor_game_error_game_process_error_info":
             MessageLookupByLibrary.simpleMessage("請嘗試重啟啟動器，或直接重啟電腦"),
         "doctor_game_error_generic_info":
-            MessageLookupByLibrary.simpleMessage("遊戲觸發了最為廣泛的崩潰問題，請查看排障指南"),
+            MessageLookupByLibrary.simpleMessage("遊戲觸發了最為廣泛的崩潰問題，請查看除錯指南"),
         "doctor_game_error_gpu_crash":
-            MessageLookupByLibrary.simpleMessage("您的顯卡崩潰啦！請查看排障指南"),
+            MessageLookupByLibrary.simpleMessage("您的顯卡崩潰啦！請查看除錯指南"),
         "doctor_game_error_low_gpu_memory":
-            MessageLookupByLibrary.simpleMessage("可用顯存不足"),
+            MessageLookupByLibrary.simpleMessage("可用 VRAM 不足"),
         "doctor_game_error_low_gpu_memory_info":
             MessageLookupByLibrary.simpleMessage(
-                "請不要在後台運行其他高顯卡占用的 遊戲/應用，或更換顯卡。"),
+                "請不要在背景執行其他高顯卡占用的 遊戲/應用程式，或更換顯示卡。"),
         "doctor_game_error_low_memory":
-            MessageLookupByLibrary.simpleMessage("可用內存不足"),
+            MessageLookupByLibrary.simpleMessage("可用記憶體不足"),
         "doctor_game_error_low_memory_info":
             MessageLookupByLibrary.simpleMessage(
-                "請嘗試增加虛擬內存（ 1080p 下， 物理可用+虛擬內存需 > 64G ）"),
+                "請嘗試增加虛擬記憶體 (1080p 下， 物理可用+虛擬記憶體需 > 64G)"),
         "doctor_game_error_permissions_error":
             MessageLookupByLibrary.simpleMessage("權限不足"),
         "doctor_game_error_permissions_error_info":
             MessageLookupByLibrary.simpleMessage(
-                "請嘗試以管理員權限運行啟動器，或使用盒子（微軟商店版）啟動。"),
+                "請嘗試以管理員權限運行啟動器，或使用盒子（Microsoft Store 版）啟動。"),
         "doctor_game_error_socket_error":
             MessageLookupByLibrary.simpleMessage("檢測到 socket 異常"),
         "doctor_game_error_socket_error_info":
@@ -400,7 +400,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_action_dps_calculator_localization":
             MessageLookupByLibrary.simpleMessage("DPS計算器 (中文)"),
         "home_action_external_browser_extension":
-            MessageLookupByLibrary.simpleMessage("外部瀏覽器拓展："),
+            MessageLookupByLibrary.simpleMessage("瀏覽器擴充套件："),
         "home_action_info_abnormal_game_exit": m26,
         "home_action_info_check_web_link":
             MessageLookupByLibrary.simpleMessage("請查看彈出的網頁連結獲得詳細信息。"),
@@ -414,7 +414,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_action_info_log_file_parse_fail":
             MessageLookupByLibrary.simpleMessage("解析 log 文件失敗！"),
         "home_action_info_mining_refining_trade_calculator":
-            MessageLookupByLibrary.simpleMessage("採礦、精煉、貿易計算器、價格、船信息"),
+            MessageLookupByLibrary.simpleMessage("採礦、精煉、貿易計算器、價格、載具資訊"),
         "home_action_info_one_click_diagnosis_star_citizen":
             MessageLookupByLibrary.simpleMessage("快速診斷星際公民常見問題"),
         "home_action_info_quick_install_localization_resources":
@@ -425,7 +425,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_action_info_scanning":
             MessageLookupByLibrary.simpleMessage("正在掃描 ..."),
         "home_action_info_ship_upgrade_damage_value_query":
-            MessageLookupByLibrary.simpleMessage("線上改船，查詢傷害數值和配件購買地點"),
+            MessageLookupByLibrary.simpleMessage("線上改裝，查詢傷害數值和配件購買地點"),
         "home_action_info_unknown_error":
             MessageLookupByLibrary.simpleMessage("未知錯誤，請通過疑難排解加入群組反饋。"),
         "home_action_info_valid_install_location_required":
@@ -442,7 +442,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_action_login_rsi_account":
             MessageLookupByLibrary.simpleMessage("登入 RSI 帳戶"),
         "home_action_one_click_diagnosis":
-            MessageLookupByLibrary.simpleMessage("一鍵診斷"),
+            MessageLookupByLibrary.simpleMessage("疑難排解"),
         "home_action_one_click_launch":
             MessageLookupByLibrary.simpleMessage("快速啟動"),
         "home_action_performance_optimization":
@@ -454,7 +454,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_action_rsi_status_electronic_access":
             MessageLookupByLibrary.simpleMessage("電子瀏覽"),
         "home_action_rsi_status_persistent_universe":
-            MessageLookupByLibrary.simpleMessage("持續宇宙"),
+            MessageLookupByLibrary.simpleMessage("恆久宇宙"),
         "home_action_rsi_status_platform":
             MessageLookupByLibrary.simpleMessage("平台"),
         "home_action_rsi_status_rsi_server_status":
@@ -555,7 +555,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "localization_info_no_custom_text":
             MessageLookupByLibrary.simpleMessage("暫無自訂翻譯文件"),
         "localization_info_no_translation_available":
-            MessageLookupByLibrary.simpleMessage("該語言/版本 暫無可用翻譯，敬請期待！"),
+            MessageLookupByLibrary.simpleMessage("該語言/版本 暫時沒有可用翻譯，敬請期待！"),
         "localization_info_note": MessageLookupByLibrary.simpleMessage("備註："),
         "localization_info_remove_incompatible_translation_params":
             MessageLookupByLibrary.simpleMessage("是否移除不相容的翻譯參數"),
@@ -591,7 +591,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "performance_info_generate_config_file":
             MessageLookupByLibrary.simpleMessage("生成配置文件"),
         "performance_info_graphic_optimization_hint":
-            MessageLookupByLibrary.simpleMessage("圖形改善提示"),
+            MessageLookupByLibrary.simpleMessage("畫面改善提示"),
         "performance_info_graphic_optimization_warning":
             MessageLookupByLibrary.simpleMessage(
                 "該功能對改善顯卡瓶頸有很大幫助，但對 CPU 瓶頸可能起反效果，如果您顯卡性能強勁，可以嘗試設定更高的畫質來獲得更高的顯卡使用率。"),
@@ -613,7 +613,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("新增桌面捷徑"),
         "setting_action_ignore_efficiency_cores_on_launch":
             MessageLookupByLibrary.simpleMessage(
-                "啟動遊戲時忽略能效核心（ 適用於Intel 12th+ 處理器 ）"),
+                "啟動遊戲時忽略 E-Core (適用於Intel 12th+ 處理器)"),
         "setting_action_info_autofill_data_cleared":
             MessageLookupByLibrary.simpleMessage("已清除自動輸入紀錄"),
         "setting_action_info_cache_clearing_info": m42,
@@ -624,7 +624,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_info_confirm_reset_autofill":
             MessageLookupByLibrary.simpleMessage("確認重置自動輸入？"),
         "setting_action_info_cpu_core_tip": MessageLookupByLibrary.simpleMessage(
-            "Tip：您的裝置擁有幾個能效核心就輸入幾，非大小核裝置請保持 0\n\n此功能適用於首頁的盒子快速啟動 或 工具中的 RSI啟動器管理員模式，當為 0 時不啟用此功能。"),
+            "Tip：您的處理器擁有幾個 E-Core 就輸入多少，非大小核處理器請保持 0\n\n此功能適用於首頁的盒子快速啟動 或 工具中的 RSI啟動器管理員模式，當為 0 時不啟用此功能。"),
         "setting_action_info_delete_local_account_warning":
             MessageLookupByLibrary.simpleMessage(
                 "這將會刪除本地的帳號記錄，或在下次啟動遊戲時將自動輸入選擇 ‘否’ 以停用自動輸入。"),
@@ -638,7 +638,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_info_enter_cpu_core_to_ignore":
             MessageLookupByLibrary.simpleMessage("請輸入要忽略的 CPU 核心數"),
         "setting_action_info_file_error":
-            MessageLookupByLibrary.simpleMessage("文件有誤！"),
+            MessageLookupByLibrary.simpleMessage("文件錯誤！"),
         "setting_action_info_manual_game_location_setting":
             MessageLookupByLibrary.simpleMessage("手動選擇遊戲安裝位置，建議在無法自動掃描安裝位置時使用"),
         "setting_action_info_manual_launcher_location_setting":
@@ -659,7 +659,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "請選擇RSI啟動器位置（RSI Launcher.exe）"),
         "setting_action_info_setting_success":
-            MessageLookupByLibrary.simpleMessage("設置成功，在對應頁面點擊刷新即可掃描出新路徑"),
+            MessageLookupByLibrary.simpleMessage("設置成功，在對應頁面點擊重新整理即可掃描出新路徑"),
         "setting_action_info_shortcut_created":
             MessageLookupByLibrary.simpleMessage("新增完畢，請返回桌面查看"),
         "setting_action_info_support":
@@ -681,7 +681,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "settings_app_language_auto":
             MessageLookupByLibrary.simpleMessage("自動"),
         "settings_app_language_switch_info":
-            MessageLookupByLibrary.simpleMessage("切換應用顯示語言"),
+            MessageLookupByLibrary.simpleMessage("切換應用程式語言"),
         "tools_action_clear_shader_cache":
             MessageLookupByLibrary.simpleMessage("清除著色器快取"),
         "tools_action_close_photography_mode":
@@ -713,7 +713,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "解析 log 文件失敗！\n請嘗試使用 RSI Launcher log 修復 工具！"),
         "tools_action_info_manual_nvme_patch":
             MessageLookupByLibrary.simpleMessage(
-                "手動寫入NVM補丁，該功能僅在您知道自己在做什麼的情況下使用"),
+                "手動寫入NVME補丁，該功能僅在您知道自己在做什麼的情況下使用"),
         "tools_action_info_not_installed":
             MessageLookupByLibrary.simpleMessage("未安裝"),
         "tools_action_info_nvme_patch_issue": m48,
@@ -764,7 +764,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_p4k_download_repair":
             MessageLookupByLibrary.simpleMessage("P4K 分流下載 / 修復"),
         "tools_action_reinstall_easyanticheat":
-            MessageLookupByLibrary.simpleMessage("重裝 EasyAntiCheat 反作弊"),
+            MessageLookupByLibrary.simpleMessage("重新安裝 EasyAntiCheat 反作弊"),
         "tools_action_remove_nvme_registry_patch":
             MessageLookupByLibrary.simpleMessage("移除 nvme 註冊表補丁"),
         "tools_action_rsi_launcher_admin_mode":

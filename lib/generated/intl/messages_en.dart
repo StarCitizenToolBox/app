@@ -157,11 +157,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_action_qq_group":
             MessageLookupByLibrary.simpleMessage("QQ group: 940696487"),
         "about_analytics_install_translation":
-            MessageLookupByLibrary.simpleMessage("Localization installation"),
+            MessageLookupByLibrary.simpleMessage("Localization installs"),
         "about_analytics_launch":
             MessageLookupByLibrary.simpleMessage("Start up"),
         "about_analytics_launch_game":
-            MessageLookupByLibrary.simpleMessage("Start the game"),
+            MessageLookupByLibrary.simpleMessage("Game launches"),
         "about_analytics_p4k_redirection":
             MessageLookupByLibrary.simpleMessage("P4k diversion"),
         "about_analytics_performance_optimization":
@@ -171,7 +171,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_analytics_units_times":
             MessageLookupByLibrary.simpleMessage("Second-rate"),
         "about_analytics_units_user":
-            MessageLookupByLibrary.simpleMessage("Bit"),
+            MessageLookupByLibrary.simpleMessage("users"),
         "about_app_description": MessageLookupByLibrary.simpleMessage(
             "The SCToolBox is a good helper for your exploring the universe. We are committed to solving common problems in the game for citizens, and facilitate the operation of community localization, performance tuning, and commonly used website localization operations."),
         "about_check_update":
@@ -182,26 +182,27 @@ class MessageLookup extends MessageLookupByLibrary {
             "It is already the latest version!"),
         "about_online_feedback":
             MessageLookupByLibrary.simpleMessage("Online feedback"),
-        "action_close": MessageLookupByLibrary.simpleMessage("Closure"),
+        "action_close": MessageLookupByLibrary.simpleMessage("Close"),
         "action_open_folder":
             MessageLookupByLibrary.simpleMessage("Open the folder"),
         "app_common_error_info": m0,
         "app_common_loading_images":
-            MessageLookupByLibrary.simpleMessage("Load the picture ..."),
+            MessageLookupByLibrary.simpleMessage("Loading image ..."),
         "app_common_network_error": m1,
         "app_common_tip": MessageLookupByLibrary.simpleMessage("Hint"),
         "app_common_tip_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "app_common_tip_confirm":
             MessageLookupByLibrary.simpleMessage("Confirm"),
-        "app_common_tip_i_know": MessageLookupByLibrary.simpleMessage("I see"),
+        "app_common_tip_i_know":
+            MessageLookupByLibrary.simpleMessage("I understand"),
         "app_common_upgrade_info_error": MessageLookupByLibrary.simpleMessage(
             "If the update information fails, please try it later."),
         "app_index_menu_about": MessageLookupByLibrary.simpleMessage("About"),
-        "app_index_menu_home": MessageLookupByLibrary.simpleMessage("Index"),
-        "app_index_menu_lobby": MessageLookupByLibrary.simpleMessage("Hall"),
+        "app_index_menu_home": MessageLookupByLibrary.simpleMessage("Home"),
+        "app_index_menu_lobby": MessageLookupByLibrary.simpleMessage("Lobby"),
         "app_index_menu_settings":
             MessageLookupByLibrary.simpleMessage("Settings"),
-        "app_index_menu_tools": MessageLookupByLibrary.simpleMessage("Tool"),
+        "app_index_menu_tools": MessageLookupByLibrary.simpleMessage("Tools"),
         "app_index_version_info": m2,
         "app_init_failed_with_reason": m3,
         "app_language_code": MessageLookupByLibrary.simpleMessage("en"),
@@ -394,7 +395,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloader_action_pause_all":
             MessageLookupByLibrary.simpleMessage("All of the suspension"),
         "downloader_action_pause_download":
-            MessageLookupByLibrary.simpleMessage("Paradse download"),
+            MessageLookupByLibrary.simpleMessage("Pause download"),
         "downloader_action_resume_all":
             MessageLookupByLibrary.simpleMessage("Restore all"),
         "downloader_info_deleted":
@@ -496,12 +497,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_action_one_click_diagnosis":
             MessageLookupByLibrary.simpleMessage("Auto diagnosis"),
         "home_action_one_click_launch":
-            MessageLookupByLibrary.simpleMessage("One-button start"),
+            MessageLookupByLibrary.simpleMessage("One-click launch"),
         "home_action_performance_optimization":
             MessageLookupByLibrary.simpleMessage("Performance optimization"),
         "home_action_q_auto_password_fill_prompt":
             MessageLookupByLibrary.simpleMessage(
-                "Do you turn on the automatic password filling?"),
+                "Turn on the automatic password filling?"),
         "home_action_rsi_status_arena_commander":
             MessageLookupByLibrary.simpleMessage("AC"),
         "home_action_rsi_status_electronic_access":
@@ -533,7 +534,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
             "In order to ensure the security of the account, the one -click startup function has been disabled in the development version, and we will provide this feature in the Microsoft store version.\n\nThe Microsoft Store Edition is provided with a reliable distribution download and digital signature by Microsoft, which can effectively prevent software from being maliciously tampered with.\n\nTip: You can use Localization without using a box to start the game."),
         "home_info_auto_fill_notice": MessageLookupByLibrary.simpleMessage(
-            "* If the automatic filling is turned on, please pay attention to the pop -up Windows Hello window"),
+            "* If the automatic filling is turned on, please pay attention to the  Windows Hello pop-up"),
         "home_info_one_click_launch_warning":
             MessageLookupByLibrary.simpleMessage(
                 "One -click start -up function prompt"),
@@ -557,7 +558,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Enter PIN to enable encryption"),
         "home_login_info_game_version_outdated":
-            MessageLookupByLibrary.simpleMessage("Game version expires"),
+            MessageLookupByLibrary.simpleMessage("Outdated game version"),
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
                 "This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source."),
@@ -565,8 +566,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "The box will use the PIN and Windows credentials to save your password encryption, and the password is only stored in your device.\n\nWhen you need to enter a password for the next login, you only need to authorize PIN to automatically fill in the login."),
         "home_login_info_rsi_server_report": m31,
-        "home_login_title_launching_game": MessageLookupByLibrary.simpleMessage(
-            "I\'m starting the game for you ..."),
+        "home_login_title_launching_game":
+            MessageLookupByLibrary.simpleMessage("Launching game for you ..."),
         "home_login_title_welcome_back":
             MessageLookupByLibrary.simpleMessage("Welcome back!"),
         "home_not_installed_or_failed": MessageLookupByLibrary.simpleMessage(
