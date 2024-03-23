@@ -69,8 +69,10 @@ class SplashUI extends HookConsumerWidget {
     }
     stepState.value = 1;
     if (!context.mounted) return;
+    dPrint("_initApp checkUpdate");
     await appModel.checkUpdate(context);
     stepState.value = 2;
+    dPrint("_initApp aria2cModelProvider");
     ref.read(aria2cModelProvider);
     if (!context.mounted) return;
     context.go("/index");

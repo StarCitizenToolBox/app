@@ -7,9 +7,13 @@ class SystemHelper {
   static String powershellPath = "powershell.exe";
 
   static initPowershellPath() async {
-    var result = await Process.run(powershellPath, ["echo", "ping"]);
-    if (!result.stdout.toString().startsWith("ping") &&
-        powershellPath == "powershell.exe") {
+    try {
+      var result = await Process.run(powershellPath, ["echo", "ping"]);
+      if (!result.stdout.toString().startsWith("ping") &&
+          powershellPath == "powershell.exe") {
+        throw "powershell check failed";
+      }
+    } catch (e) {
       Map<String, String> envVars = Platform.environment;
       final systemRoot = envVars["SYSTEMROOT"];
       if (systemRoot != null) {
@@ -17,7 +21,6 @@ class SystemHelper {
             "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
         dPrint("auto search powershell path === $autoSearchPath");
         powershellPath = autoSearchPath;
-        initPowershellPath();
       }
     }
   }

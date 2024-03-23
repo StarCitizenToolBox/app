@@ -120,6 +120,11 @@ class AppGlobalModel extends _$AppGlobalModel {
       applicationBinaryModuleDir: applicationBinaryModuleDir,
     );
 
+    // init Rust bridge
+    await RustLib.init();
+    await RSHttp.init();
+    dPrint("---- rust bridge init -----");
+
     // init Hive
     try {
       Hive.init("$applicationSupportDir/db");
@@ -144,13 +149,13 @@ class AppGlobalModel extends _$AppGlobalModel {
       exit(1);
     }
 
-    // init Rust bridge
-    await RustLib.init();
-    await RSHttp.init();
-    dPrint("---- rust bridge inited -----");
-
     // init powershell
-    await SystemHelper.initPowershellPath();
+    try {
+      await SystemHelper.initPowershellPath();
+      dPrint("---- Powershell init -----");
+    }catch (e){
+      dPrint("powershell init failed : $e");
+    }
 
     // get windows info
     WindowsDeviceInfo? windowsDeviceInfo;
@@ -177,6 +182,7 @@ class AppGlobalModel extends _$AppGlobalModel {
       }
     });
 
+    dPrint("---- Window init -----");
     _initialized = true;
     ref.keepAlive();
   }

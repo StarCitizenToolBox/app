@@ -12,11 +12,11 @@ void dPrint(src) async {
   if (kDebugMode) {
     print(src);
   }
-  try {
-    await _logLock.synchronized(() async {
+  await _logLock.synchronized(() async {
+    try {
       _logFile?.writeAsString("$src\n", mode: FileMode.append);
-    });
-  } catch (_) {}
+    } catch (_) {}
+  });
 }
 
 void setDPrintFile(File file) {
