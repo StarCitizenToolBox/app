@@ -31,7 +31,7 @@ Future<bool> showConfirmDialogs(
     String cancel = "",
     BoxConstraints? constraints}) async {
   if (confirm.isEmpty) confirm = S.current.app_common_tip_confirm;
-  if (cancel.isEmpty) confirm = S.current.app_common_tip_cancel;
+  if (cancel.isEmpty) cancel = S.current.app_common_tip_cancel;
 
   final r = await showBaseDialog(context,
       title: title,
