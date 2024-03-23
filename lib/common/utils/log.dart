@@ -14,7 +14,7 @@ void dPrint(src) async {
   }
   await _logLock.synchronized(() async {
     try {
-      _logFile?.writeAsString("$src\n", mode: FileMode.append);
+      await _logFile?.writeAsString("$src\n", mode: FileMode.append);
     } catch (_) {}
   });
 }
