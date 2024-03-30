@@ -149,24 +149,31 @@ class HomeUI extends HookConsumerWidget {
                 onPressed: homeState.webLocalizationVersionsData == null
                     ? null
                     : () => model.launchRSI(context),
+                style: homeState.isCurGameRunning
+                    ? null
+                    : ButtonStyle(
+                        backgroundColor:
+                            ButtonState.resolveWith(_getRunButtonColor),
+                      ),
                 child: Padding(
                   padding: const EdgeInsets.all(6),
                   child: Icon(
                     homeState.isCurGameRunning
                         ? FluentIcons.stop_solid
-                        : FluentIcons.play,
+                        : FluentIcons.play_solid,
                     color: homeState.isCurGameRunning
                         ? Colors.red.withOpacity(.8)
-                        : null,
+                        : Colors.white,
                   ),
                 )),
             const SizedBox(width: 12),
             Button(
+              onPressed: () =>
+                  SystemHelper.openDir("\"${homeState.scInstalledPath}\""),
               child: const Padding(
                 padding: EdgeInsets.all(6),
                 child: Icon(FluentIcons.folder_open),
               ),
-              onPressed: () => SystemHelper.openDir(homeState.scInstalledPath),
             ),
             const SizedBox(width: 12),
             Button(
@@ -800,6 +807,16 @@ class HomeUI extends HookConsumerWidget {
       default:
         context.push("/index/$key");
     }
+  }
+
+  Color? _getRunButtonColor(Set<ButtonStates> states) {
+    if (states.isPressing) {
+      return const Color.fromRGBO(49, 227, 88, .5);
+    }
+    if (states.isHovering) {
+      return const Color.fromRGBO(47, 213, 84, 1.0);
+    }
+    return const Color.fromRGBO(49, 227, 88, .8);
   }
 }
 

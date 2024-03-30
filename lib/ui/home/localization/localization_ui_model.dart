@@ -45,16 +45,16 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     "chinese_(traditional)": NoL10n.langZHT,
   };
 
-  late final _downloadDir =
+  Directory get _downloadDir =>
       Directory("${appGlobalState.applicationSupportDir}\\Localizations");
 
-  late final _customizeDir =
+  Directory get _customizeDir =>
       Directory("${_downloadDir.absolute.path}\\Customize_ini");
 
-  late final _scDataDir =
+  Directory get _scDataDir =>
       Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data");
 
-  late final _cfgFile = File("${_scDataDir.absolute.path}\\system.cfg");
+  File get _cfgFile => File("${_scDataDir.absolute.path}\\system.cfg");
 
   StreamSubscription? _customizeDirListenSub;
 
