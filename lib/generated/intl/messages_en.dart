@@ -151,7 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_action_email":
-            MessageLookupByLibrary.simpleMessage("Email: scbox@xkeyc.com"),
+            MessageLookupByLibrary.simpleMessage("Email: xkeyc@qq.com"),
         "about_action_open_source":
             MessageLookupByLibrary.simpleMessage("Open source"),
         "about_action_qq_group":
@@ -215,6 +215,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "It is detection availability, which may take a little time ..."),
         "app_splash_checking_for_updates":
             MessageLookupByLibrary.simpleMessage("Inspection and update ..."),
+        "app_splash_dialog_u_a_p_p": MessageLookupByLibrary.simpleMessage(
+            "User Agreement and Privacy Policy"),
+        "app_splash_dialog_u_a_p_p_content": MessageLookupByLibrary.simpleMessage(
+            "Thank you for choosing the SC Chinese box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [github.com/starCitizentoolBox/app] (https://github.com/starCitizantoolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us."),
         "app_upgrade_action_next_time":
             MessageLookupByLibrary.simpleMessage("Next time"),
         "app_upgrade_action_update_now":

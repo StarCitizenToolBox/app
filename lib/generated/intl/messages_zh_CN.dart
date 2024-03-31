@@ -139,7 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about_action_email":
-            MessageLookupByLibrary.simpleMessage("邮箱: scbox@xkeyc.com"),
+            MessageLookupByLibrary.simpleMessage("邮箱: xkeyc@qq.com"),
         "about_action_open_source": MessageLookupByLibrary.simpleMessage("开源"),
         "about_action_qq_group":
             MessageLookupByLibrary.simpleMessage("QQ群: 940696487"),
@@ -193,6 +193,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("正在检测可用性，这可能需要一点时间..."),
         "app_splash_checking_for_updates":
             MessageLookupByLibrary.simpleMessage("正在检查更新..."),
+        "app_splash_dialog_u_a_p_p":
+            MessageLookupByLibrary.simpleMessage("用户协议与隐私政策"),
+        "app_splash_dialog_u_a_p_p_content": MessageLookupByLibrary.simpleMessage(
+            "感谢您选择 SC汉化盒子 ，我们致力于为您提供 安全、便捷、可靠的使用体验，在您开始使用应用前，请先阅读并同意以下内容：\n\n 1. 本应用 为 GNU 通用公共许可证 v3.0 协议下的开源软件，您可以在遵守协议的前提下自由使用、修改、分发本软件。我们的源代码位于：[Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app)。 \n2. 本应用中的互联网内容（包括但不限于 本地化文件、工具网站、新闻、视频 等）版权由其作者创作所有，不属于 GPL 的一部分，请在遵守对应的授权协议下使用。\n3. 本应用的官方免费发布渠道为：[微软应用商店](https://apps.microsoft.com/detail/9NF3SWFWNKL1) 与 [星际公民汉化组官网](https://www.starcitizenzw.com/) ，若您从其他第三方处获得，请仔细甄别，以免遭受财产损失。\n4. 本应用在使用过程中会向我们的服务器发送匿名的统计数据，用于改进软件质量，我们不会收集您的任何个人隐私信息。 \n5. 本应用由社区提供支持，与 Cloud Imperium Games 或 其他第三方商业公司 无直接关联。\n6. 我们提供有限的社区支持，如有需要，请前往关于页面了解如何联系我们。"),
         "app_upgrade_action_next_time":
             MessageLookupByLibrary.simpleMessage("下次吧"),
         "app_upgrade_action_update_now":

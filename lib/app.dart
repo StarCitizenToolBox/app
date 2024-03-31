@@ -43,6 +43,7 @@ class AppGlobalState with _$AppGlobalState {
     AppVersionData? networkVersionData,
     @Default(ThemeConf()) ThemeConf themeConf,
     Locale? appLocale,
+    Box? appConfBox,
   }) = _AppGlobalState;
 }
 
@@ -129,6 +130,7 @@ class AppGlobalModel extends _$AppGlobalModel {
     try {
       Hive.init("$applicationSupportDir/db");
       final box = await Hive.openBox("app_conf");
+      state = state.copyWith(appConfBox: box);
       if (box.get("install_id", defaultValue: "") == "") {
         await box.put("install_id", const Uuid().v4());
         AnalyticsApi.touch("firstLaunch");
@@ -153,7 +155,7 @@ class AppGlobalModel extends _$AppGlobalModel {
     try {
       await SystemHelper.initPowershellPath();
       dPrint("---- Powershell init -----");
-    }catch (e){
+    } catch (e) {
       dPrint("powershell init failed : $e");
     }
 

@@ -147,7 +147,7 @@ class AboutUI extends HookConsumerWidget {
             ],
           ),
           onPressed: () {
-            launchUrlString("mailto:scbox@xkeyc.com");
+            launchUrlString("mailto:xkeyc@qq.com");
           },
         ),
         const SizedBox(width: 24),

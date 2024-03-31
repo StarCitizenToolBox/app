@@ -4,6 +4,7 @@
   "@app_language_name": {},
   "app_language_code": "zh_TW",
   "@app_language_code": {},
+  "@auto_translate_locale": "zh-tw",
   "app_index_version_info": "SC漢化盒子 V{v0} {v1}",
   "@app_index_version_info": {},
   "app_shortcut_name": "SC漢化盒子DEV.lnk",
@@ -16,7 +17,7 @@
   "@about_online_feedback": {},
   "about_action_qq_group": "QQ群: 940696487",
   "@about_action_qq_group": {},
-  "about_action_email": "郵箱: scbox@xkeyc.com",
+  "about_action_email": "郵箱: xkeyc@qq.com",
   "@about_action_email": {},
   "about_action_open_source": "開源",
   "@about_action_open_source": {},
@@ -727,5 +728,7 @@
   "home_holiday_countdown_in_progress": "正在進行中",
   "@home_holiday_countdown_in_progress": {},
   "app_common_loading_images": "載入圖片...",
-  "@app_common_loading_images": {}
+  "@app_common_loading_images": {},
+  "app_splash_dialog_u_a_p_p": "用戶協議與隱私政策",
+  "app_splash_dialog_u_a_p_p_content": "感謝您選擇 SC漢化盒子 ，我們致力於為您提供 安全、便捷、可靠的使用體驗，在您開始使用應用前，請先閱讀並同意以下內容：\n\n 1. 本應用 為 GNU 通用公共許可證 v3.0 協議下的開源軟件，您可以在遵守協議的前提下自由使用、修改、分發本軟件。我們的源代碼位於：[Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app)。\n2. 本應用中的互聯網內容（包括但不限於 本地化文件、工具網站、新聞、視頻 等）版權由其作者創作所有，不屬於 GPL 的一部分，請在遵守對應的授權協議下使用。\n3. 本應用的官方免費發布渠道為：[微軟應用商店](https://apps.microsoft.com/detail/9NF3SWFWNKL1) 與[星際公民漢化組官網](https://www.starcitizenzw.com/ ) ，若您從其他第三方處獲得，請仔細甄別，以免遭受財產損失。\n4. 本應用在使用過程中會向我們的服務器發送匿名的統計數據，用於改進軟件質量，我們不會收集您的任何個人隱私信息。\n5. 本應用由社區提供支持，與 Cloud Imperium Games 或 其他第三方商業公司 無直接關聯。\n6. 我們提供有限的社區支持，如有需要，請前往關於頁面了解如何联系我們。"
 }
