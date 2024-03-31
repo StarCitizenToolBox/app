@@ -231,6 +231,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   showLogs() async {
-    SystemHelper.openDir(getDPrintFile()?.absolute.path.replaceAll("/", "\\"));
+    SystemHelper.openDir(getDPrintFile()?.absolute.path.replaceAll("/", "\\"),
+        isFile: true);
   }
 }

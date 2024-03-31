@@ -255,10 +255,10 @@ foreach ($adapter in $adapterMemory) {
         .toUpperCase();
   }
 
-  static Future openDir(path) async {
+  static Future openDir(path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
     await Process.run(
-        SystemHelper.powershellPath, ["explorer.exe", "/select,\"\"$path\"\""]);
+        SystemHelper.powershellPath, ["explorer.exe", isFile ? "/select,${path}" : "/select,\"\"$path\"\""]);
   }
 
   static String getHostsFilePath() {
