@@ -259,12 +259,8 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
   String getChannelID(String installPath) {
     if (installPath.endsWith("\\LIVE")) {
       return "LIVE";
-    } else if (installPath.endsWith("\\PTU")) {
-      return "PTU";
-    } else if (installPath.endsWith("\\EPTU")) {
-      return "EPTU";
     }
-    return "LIVE";
+    return "PTU";
   }
 
   _savePwd(String inputEmail, String inputPassword) async {
