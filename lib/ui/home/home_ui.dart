@@ -356,7 +356,8 @@ class HomeUI extends HookConsumerWidget {
                               child: makeLoading(context),
                             )
                           : Swiper(
-                              itemCount: homeState.rssVideoItems?.length ?? 0,
+                              itemCount: getMinNumber(
+                                  [homeState.rssVideoItems?.length ?? 0, 6]),
                               itemBuilder: (context, index) {
                                 final item = homeState.rssVideoItems![index];
                                 return GestureDetector(
@@ -712,7 +713,8 @@ class HomeUI extends HookConsumerWidget {
                       width: width,
                       height: 62,
                       child: Swiper(
-                        itemCount: homeState.countdownFestivalListData!.length,
+                        itemCount: getMinNumber(
+                            [homeState.countdownFestivalListData!.length, 6]),
                         autoplay: true,
                         autoplayDelay: 5000,
                         itemBuilder: (context, index) {

@@ -135,3 +135,9 @@ Future<Uint8List?> widgetToPngImage(GlobalKey repaintBoundaryKey,
 
 double roundDoubleTo(double value, double precision) =>
     (value * precision).round() / precision;
+
+int getMinNumber(List<int> list) {
+  if (list.isEmpty) return 0;
+  list.sort((a, b) => a.compareTo(b));
+  return list.first;
+}
