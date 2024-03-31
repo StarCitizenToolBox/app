@@ -14,6 +14,7 @@ import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/common/win32/credentials.dart';
+import 'package:starcitizen_doctor/data/rsi_game_library_data.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/webview/webview.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -32,6 +33,7 @@ class HomeGameLoginState with _$HomeGameLoginState {
     String? authToken,
     String? webToken,
     Map? releaseInfo,
+    RsiGameLibraryData? libraryData,
     String? installPath,
     bool? isDeviceSupportWinHello,
   }) = _LoginStatus;
@@ -62,11 +64,13 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
         Navigator.pop(context);
         return;
       }
+      dPrint("web  message == $message");
       // final emailBox = await Hive.openBox("quick_login_email");
       final data = message["data"];
       final authToken = data["authToken"];
       final webToken = data["webToken"];
       final releaseInfo = data["releaseInfo"];
+      final libraryData = RsiGameLibraryData.fromJson(data["libraryData"]);
       final avatarUrl = data["avatar"]
           ?.toString()
           .replaceAll("url(\"", "")
@@ -87,6 +91,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
         authToken: authToken,
         webToken: webToken,
         releaseInfo: releaseInfo,
+        libraryData: libraryData,
       );
 
       if (isDeviceSupportWinHello) {
@@ -230,18 +235,16 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     };
     final executable = state.releaseInfo?["executable"];
     final launchOptions = state.releaseInfo?["launchOptions"];
-    dPrint("----------launch data ======  -----------\n$launchData");
-    dPrint(
-        "----------executable data ======  -----------\n${homeState.scInstalledPath}\\$executable $launchOptions");
+    // dPrint("----------launch data ======  -----------\n$launchData");
+    // dPrint(
+    //     "----------executable data ======  -----------\n${homeState.scInstalledPath}\\$executable $launchOptions");
+
     final launchFile = File("${homeState.scInstalledPath}\\loginData.json");
     if (await launchFile.exists()) {
       await launchFile.delete();
     }
     await launchFile.create();
     await launchFile.writeAsString(json.encode(launchData));
-    await Future.delayed(const Duration(seconds: 1));
-
-    await Future.delayed(const Duration(seconds: 3));
     final processorAffinity = await SystemHelper.getCpuAffinity();
     final homeUIModel = ref.read(homeUIModelProvider.notifier);
     if (!context.mounted) return;

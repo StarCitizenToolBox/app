@@ -286,11 +286,21 @@ async function getRSILauncherToken(channelId) {
     if (releaseR.status !== 200) return;
     let releaseDataJson = (await releaseR.json())['data'];
     console.log(releaseDataJson);
+    // get game library
+    let libraryR = await fetch("api/launcher/v3/games/library", {
+        method: 'POST', headers: {
+            'x-rsi-token': $.cookie('Rsi-Token'),
+        },
+        body: releaseFormData
+    });
+
+    let libraryData = (await libraryR.json())["data"]
+
     // get user avatar
     let $avatarElement = $(".c-account-sidebar__profile-metas-avatar");
     let avatarUrl = $avatarElement.css("background-image");
 
-    // post message
+    //post message
     window.chrome.webview.postMessage({
         action: 'webview_rsi_login_success', data: {
             'webToken': $.cookie('Rsi-Token'),
@@ -298,6 +308,7 @@ async function getRSILauncherToken(channelId) {
             'authToken': TokenData,
             'releaseInfo': releaseDataJson,
             "avatar": avatarUrl,
+            'libraryData': libraryData,
             "inputEmail": sessionStorage.getItem("inputEmail"),
             "inputPassword": sessionStorage.getItem("inputPassword")
         }
@@ -316,7 +327,7 @@ function RSIAutoLogin(email, pwd) {
         sessionStorage.setItem('inputPassword', '');
         if (email !== "" && pwd !== "") {
             $("#remember").prop("checked", true);
-            $('.c-form__submit-button-label').click();
+            $('.c-formLegacyEnlist__submit-button-label').click();
         }
     });
 }

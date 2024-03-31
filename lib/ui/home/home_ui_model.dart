@@ -329,7 +329,7 @@ class HomeUIModel extends _$HomeUIModel {
       showDialog(
           context: context,
           dismissWithEsc: false,
-          builder: (context) => const HomeGameLoginDialogUI());
+          builder: (context) => HomeGameLoginDialogUI(context));
     } else {
       final ok = await showConfirmDialogs(
           context,

@@ -22,6 +22,7 @@ mixin _$HomeGameLoginState {
   String? get authToken => throw _privateConstructorUsedError;
   String? get webToken => throw _privateConstructorUsedError;
   Map<dynamic, dynamic>? get releaseInfo => throw _privateConstructorUsedError;
+  RsiGameLibraryData? get libraryData => throw _privateConstructorUsedError;
   String? get installPath => throw _privateConstructorUsedError;
   bool? get isDeviceSupportWinHello => throw _privateConstructorUsedError;
 
@@ -43,6 +44,7 @@ abstract class $HomeGameLoginStateCopyWith<$Res> {
       String? authToken,
       String? webToken,
       Map<dynamic, dynamic>? releaseInfo,
+      RsiGameLibraryData? libraryData,
       String? installPath,
       bool? isDeviceSupportWinHello});
 }
@@ -66,6 +68,7 @@ class _$HomeGameLoginStateCopyWithImpl<$Res, $Val extends HomeGameLoginState>
     Object? authToken = freezed,
     Object? webToken = freezed,
     Object? releaseInfo = freezed,
+    Object? libraryData = freezed,
     Object? installPath = freezed,
     Object? isDeviceSupportWinHello = freezed,
   }) {
@@ -94,6 +97,10 @@ class _$HomeGameLoginStateCopyWithImpl<$Res, $Val extends HomeGameLoginState>
           ? _value.releaseInfo
           : releaseInfo // ignore: cast_nullable_to_non_nullable
               as Map<dynamic, dynamic>?,
+      libraryData: freezed == libraryData
+          ? _value.libraryData
+          : libraryData // ignore: cast_nullable_to_non_nullable
+              as RsiGameLibraryData?,
       installPath: freezed == installPath
           ? _value.installPath
           : installPath // ignore: cast_nullable_to_non_nullable
@@ -121,6 +128,7 @@ abstract class _$$LoginStatusImplCopyWith<$Res>
       String? authToken,
       String? webToken,
       Map<dynamic, dynamic>? releaseInfo,
+      RsiGameLibraryData? libraryData,
       String? installPath,
       bool? isDeviceSupportWinHello});
 }
@@ -142,6 +150,7 @@ class __$$LoginStatusImplCopyWithImpl<$Res>
     Object? authToken = freezed,
     Object? webToken = freezed,
     Object? releaseInfo = freezed,
+    Object? libraryData = freezed,
     Object? installPath = freezed,
     Object? isDeviceSupportWinHello = freezed,
   }) {
@@ -170,6 +179,10 @@ class __$$LoginStatusImplCopyWithImpl<$Res>
           ? _value._releaseInfo
           : releaseInfo // ignore: cast_nullable_to_non_nullable
               as Map<dynamic, dynamic>?,
+      libraryData: freezed == libraryData
+          ? _value.libraryData
+          : libraryData // ignore: cast_nullable_to_non_nullable
+              as RsiGameLibraryData?,
       installPath: freezed == installPath
           ? _value.installPath
           : installPath // ignore: cast_nullable_to_non_nullable
@@ -192,6 +205,7 @@ class _$LoginStatusImpl implements _LoginStatus {
       this.authToken,
       this.webToken,
       final Map<dynamic, dynamic>? releaseInfo,
+      this.libraryData,
       this.installPath,
       this.isDeviceSupportWinHello})
       : _releaseInfo = releaseInfo;
@@ -217,13 +231,15 @@ class _$LoginStatusImpl implements _LoginStatus {
   }
 
   @override
+  final RsiGameLibraryData? libraryData;
+  @override
   final String? installPath;
   @override
   final bool? isDeviceSupportWinHello;
 
   @override
   String toString() {
-    return 'HomeGameLoginState(loginStatus: $loginStatus, nickname: $nickname, avatarUrl: $avatarUrl, authToken: $authToken, webToken: $webToken, releaseInfo: $releaseInfo, installPath: $installPath, isDeviceSupportWinHello: $isDeviceSupportWinHello)';
+    return 'HomeGameLoginState(loginStatus: $loginStatus, nickname: $nickname, avatarUrl: $avatarUrl, authToken: $authToken, webToken: $webToken, releaseInfo: $releaseInfo, libraryData: $libraryData, installPath: $installPath, isDeviceSupportWinHello: $isDeviceSupportWinHello)';
   }
 
   @override
@@ -243,6 +259,8 @@ class _$LoginStatusImpl implements _LoginStatus {
                 other.webToken == webToken) &&
             const DeepCollectionEquality()
                 .equals(other._releaseInfo, _releaseInfo) &&
+            (identical(other.libraryData, libraryData) ||
+                other.libraryData == libraryData) &&
             (identical(other.installPath, installPath) ||
                 other.installPath == installPath) &&
             (identical(
@@ -259,6 +277,7 @@ class _$LoginStatusImpl implements _LoginStatus {
       authToken,
       webToken,
       const DeepCollectionEquality().hash(_releaseInfo),
+      libraryData,
       installPath,
       isDeviceSupportWinHello);
 
@@ -277,6 +296,7 @@ abstract class _LoginStatus implements HomeGameLoginState {
       final String? authToken,
       final String? webToken,
       final Map<dynamic, dynamic>? releaseInfo,
+      final RsiGameLibraryData? libraryData,
       final String? installPath,
       final bool? isDeviceSupportWinHello}) = _$LoginStatusImpl;
 
@@ -292,6 +312,8 @@ abstract class _LoginStatus implements HomeGameLoginState {
   String? get webToken;
   @override
   Map<dynamic, dynamic>? get releaseInfo;
+  @override
+  RsiGameLibraryData? get libraryData;
   @override
   String? get installPath;
   @override
