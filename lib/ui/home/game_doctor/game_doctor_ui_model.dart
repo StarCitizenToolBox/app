@@ -169,7 +169,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     if (info != null) {
       if (info.key != "_") {
         checkResult.add(MapEntry(
-            S.current.doctor_action_info_game_abnormal_exit(info..key),
+            S.current.doctor_action_info_game_abnormal_exit(info.key),
             info.value));
       } else {
         checkResult.add(MapEntry(
