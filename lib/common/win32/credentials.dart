@@ -11,7 +11,6 @@ import 'package:ffi/ffi.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:win32/win32.dart';
 
-
 class Win32Credentials {
   static void write(
       {required String credentialName,
@@ -21,9 +20,9 @@ class Win32Credentials {
     final blob = examplePassword.allocatePointer();
 
     final credential = calloc<CREDENTIAL>()
-      ..ref.Type = CRED_TYPE_GENERIC
+      ..ref.Type = CRED_TYPE.CRED_TYPE_GENERIC
       ..ref.TargetName = credentialName.toNativeUtf16()
-      ..ref.Persist = CRED_PERSIST_LOCAL_MACHINE
+      ..ref.Persist = CRED_PERSIST.CRED_PERSIST_LOCAL_MACHINE
       ..ref.UserName = userName.toNativeUtf16()
       ..ref.CredentialBlob = blob
       ..ref.CredentialBlobSize = examplePassword.length;
@@ -44,12 +43,12 @@ class Win32Credentials {
   static MapEntry<String, String>? read(String credentialName) {
     dPrint('Reading $credentialName ...');
     final credPointer = calloc<Pointer<CREDENTIAL>>();
-    final result = CredRead(
-        credentialName.toNativeUtf16(), CRED_TYPE_GENERIC, 0, credPointer);
+    final result = CredRead(credentialName.toNativeUtf16(),
+        CRED_TYPE.CRED_TYPE_GENERIC, 0, credPointer);
     if (result != TRUE) {
       final errorCode = GetLastError();
       var errorText = '$errorCode';
-      if (errorCode == ERROR_NOT_FOUND) {
+      if (errorCode == WIN32_ERROR.ERROR_NOT_FOUND) {
         errorText += ' Not found.';
       }
       dPrint('Error ($result): $errorText');
@@ -65,8 +64,8 @@ class Win32Credentials {
 
   static void delete(String credentialName) {
     dPrint('Deleting $credentialName');
-    final result =
-        CredDelete(credentialName.toNativeUtf16(), CRED_TYPE_GENERIC, 0);
+    final result = CredDelete(
+        credentialName.toNativeUtf16(), CRED_TYPE.CRED_TYPE_GENERIC, 0);
     if (result != TRUE) {
       final errorCode = GetLastError();
       dPrint('Error ($result): $errorCode');
