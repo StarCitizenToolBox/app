@@ -88,6 +88,7 @@ class AppGlobalModel extends _$AppGlobalModel {
         const Locale("zh", "CN"): NoL10n.langZHS,
         const Locale("zh", "TW"): NoL10n.langZHT,
         const Locale("en"): NoL10n.langEn,
+        const Locale("ja"): NoL10n.langJa,
       };
 
   @override
@@ -308,6 +309,7 @@ class AppGlobalModel extends _$AppGlobalModel {
       final localeCode = value.countryCode != null
           ? "${value.languageCode}_${value.countryCode ?? ""}"
           : value.languageCode;
+      dPrint("changeLocale == $value localeCode=== $localeCode");
       await appConfBox.put("app_locale", localeCode);
       state = state.copyWith(appLocale: value);
     }
