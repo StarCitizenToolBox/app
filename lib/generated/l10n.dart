@@ -100,10 +100,10 @@ class S {
     );
   }
 
-  /// `The SCToolBox is a good helper for your exploring the universe. We are committed to solving common problems in the game for citizens, and facilitate the operation of community localization, performance tuning, and commonly used website localization operations.`
+  /// `Not just about localization!\n\nThe SCToolBox is your helper to explore the verse. We are committed to solving common in-game problems for citizens, in addition to facilitating localization from the community, game performance tuning, and localization of some commonly used website.`
   String get about_app_description {
     return Intl.message(
-      'The SCToolBox is a good helper for your exploring the universe. We are committed to solving common problems in the game for citizens, and facilitate the operation of community localization, performance tuning, and commonly used website localization operations.',
+      'Not just about localization!\n\nThe SCToolBox is your helper to explore the verse. We are committed to solving common in-game problems for citizens, in addition to facilitating localization from the community, game performance tuning, and localization of some commonly used website.',
       name: 'about_app_description',
       desc: '',
       args: [],
@@ -260,10 +260,10 @@ class S {
     );
   }
 
-  /// `* The above festival date is included in artificially and maintained. There may be errors. Welcome to feedback!`
+  /// `* The above festival dates are added and maintained manually. There may be errors and we welcome any feedback!`
   String get home_holiday_countdown_disclaimer {
     return Intl.message(
-      '* The above festival date is included in artificially and maintained. There may be errors. Welcome to feedback!',
+      '* The above festival dates are added and maintained manually. There may be errors and we welcome any feedback!',
       name: 'home_holiday_countdown_disclaimer',
       desc: '',
       args: [],
@@ -1701,10 +1701,10 @@ class S {
     );
   }
 
-  /// `State`
+  /// `Localization status`
   String get localization_info_translation_status {
     return Intl.message(
-      'State',
+      'Localization status',
       name: 'localization_info_translation_status',
       desc: '',
       args: [],
@@ -1871,10 +1871,10 @@ class S {
     );
   }
 
-  /// `Language:`
+  /// `Language:   `
   String get localization_info_language {
     return Intl.message(
-      'Language:',
+      'Language:   ',
       name: 'localization_info_language',
       desc: '',
       args: [],
@@ -2061,10 +2061,10 @@ class S {
     );
   }
 
-  /// `Reset`
+  /// ` Reset to default `
   String get performance_action_reset_to_default {
     return Intl.message(
-      'Reset',
+      ' Reset to default ',
       name: 'performance_action_reset_to_default',
       desc: '',
       args: [],
@@ -2251,10 +2251,10 @@ class S {
     );
   }
 
-  /// `Sincerely invite you to participate`
+  /// `Sincerely invite you to participate `
   String get lobby_invitation_to_participate {
     return Intl.message(
-      'Sincerely invite you to participate',
+      'Sincerely invite you to participate ',
       name: 'lobby_invitation_to_participate',
       desc: '',
       args: [],
@@ -2271,10 +2271,10 @@ class S {
     );
   }
 
-  /// `Create Settings Settings`
+  /// `Create shortcut`
   String get setting_action_create_settings_shortcut {
     return Intl.message(
-      'Create Settings Settings',
+      'Create shortcut',
       name: 'setting_action_create_settings_shortcut',
       desc: '',
       args: [],
@@ -2652,20 +2652,20 @@ class S {
     );
   }
 
-  /// `Installing:`
+  /// `Installing:   `
   String get app_upgrade_info_installing {
     return Intl.message(
-      'Installing:',
+      'Installing:   ',
       name: 'app_upgrade_info_installing',
       desc: '',
       args: [],
     );
   }
 
-  /// `Downloading: {v0}%`
+  /// `Downloading: {v0}%    `
   String app_upgrade_info_downloading(Object v0) {
     return Intl.message(
-      'Downloading: $v0%',
+      'Downloading: $v0%    ',
       name: 'app_upgrade_info_downloading',
       desc: '',
       args: [v0],
@@ -2822,10 +2822,10 @@ class S {
     );
   }
 
-  /// `State`
+  /// `Status`
   String get tools_hosts_info_status {
     return Intl.message(
-      'State',
+      'Status',
       name: 'tools_hosts_info_status',
       desc: '',
       args: [],
@@ -2882,10 +2882,10 @@ class S {
     );
   }
 
-  /// `Game installation location:`
+  /// `Game installation location:  `
   String get tools_info_game_install_location {
     return Intl.message(
-      'Game installation location:',
+      'Game installation location:  ',
       name: 'tools_info_game_install_location',
       desc: '',
       args: [],
@@ -3222,11 +3222,11 @@ class S {
     );
   }
 
-  /// `System: {v0}\n\nProcessor: {v1}\n\nMemory size: {v2} gb\n\nGraphics card information:\n{v3}\n\nHard disk information:\n{v4}`
+  /// `System: {v0}\n\nProcessor: {v1}\n\nMemory size: {v2} gb\n\nGraphics card information:\n{v3}\n\nStorage information:\n{v4}\n\n`
   String tools_action_info_system_info_content(
       Object v0, Object v1, Object v2, Object v3, Object v4) {
     return Intl.message(
-      'System: $v0\n\nProcessor: $v1\n\nMemory size: $v2 gb\n\nGraphics card information:\n$v3\n\nHard disk information:\n$v4',
+      'System: $v0\n\nProcessor: $v1\n\nMemory size: $v2 gb\n\nGraphics card information:\n$v3\n\nStorage information:\n$v4\n\n',
       name: 'tools_action_info_system_info_content',
       desc: '',
       args: [v0, v1, v2, v3, v4],
@@ -3463,10 +3463,10 @@ class S {
     );
   }
 
-  /// `The game triggers the most extensive collapse problem, please check the barrier guide guide`
+  /// `The game triggered a generic crash, please check the trouble shooting guide`
   String get doctor_game_error_generic_info {
     return Intl.message(
-      'The game triggers the most extensive collapse problem, please check the barrier guide guide',
+      'The game triggered a generic crash, please check the trouble shooting guide',
       name: 'doctor_game_error_generic_info',
       desc: '',
       args: [],
@@ -3583,10 +3583,10 @@ class S {
     );
   }
 
-  /// `Insufficient memory memory`
+  /// `Insufficient VRAM`
   String get doctor_game_error_low_gpu_memory {
     return Intl.message(
-      'Insufficient memory memory',
+      'Insufficient VRAM',
       name: 'doctor_game_error_low_gpu_memory',
       desc: '',
       args: [],
@@ -3663,10 +3663,10 @@ class S {
     );
   }
 
-  /// `{v0} Day`
+  /// `{v0} Day  `
   String home_holiday_countdown_days(Object v0) {
     return Intl.message(
-      '$v0 Day',
+      '$v0 Day  ',
       name: 'home_holiday_countdown_days',
       desc: '',
       args: [v0],

@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(v0) => "Initialization failure: ${v0}";
 
-  static String m4(v0) => "Downloading: ${v0}%";
+  static String m4(v0) => "Downloading: ${v0}%    ";
 
   static String m5(v0) => "Discover the new version-> ${v0}";
 
@@ -88,7 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m28(v0) =>
       "After scanning, find ${v0} a valid installation directory";
 
-  static String m29(v0) => "${v0} Day";
+  static String m29(v0) => "${v0} Day  ";
 
   static String m30(v0) =>
       "You have a new version of the Localization you installed in ${v0}!";
@@ -144,7 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: ${v0} MB";
 
   static String m51(v0, v1, v2, v3, v4) =>
-      "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nHard disk information:\n${v4}";
+      "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nStorage information:\n${v4}\n\n";
 
   static String m52(v0) => "Failure to handle! : ${v0}";
 
@@ -173,7 +173,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_analytics_units_user":
             MessageLookupByLibrary.simpleMessage("users"),
         "about_app_description": MessageLookupByLibrary.simpleMessage(
-            "The SCToolBox is a good helper for your exploring the universe. We are committed to solving common problems in the game for citizens, and facilitate the operation of community localization, performance tuning, and commonly used website localization operations."),
+            "Not just about localization!\n\nThe SCToolBox is your helper to explore the verse. We are committed to solving common in-game problems for citizens, in addition to facilitating localization from the community, game performance tuning, and localization of some commonly used website."),
         "about_check_update":
             MessageLookupByLibrary.simpleMessage("Check for updates"),
         "about_disclaimer": MessageLookupByLibrary.simpleMessage(
@@ -231,7 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Get the new version details ..."),
         "app_upgrade_info_installing":
-            MessageLookupByLibrary.simpleMessage("Installing:"),
+            MessageLookupByLibrary.simpleMessage("Installing:   "),
         "app_upgrade_info_run_failed": MessageLookupByLibrary.simpleMessage(
             "Failure to run, try to install manually!"),
         "app_upgrade_info_update_server_tip": MessageLookupByLibrary.simpleMessage(
@@ -306,11 +306,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Please try to restart the starter, or restart the computer directly"),
         "doctor_game_error_generic_info": MessageLookupByLibrary.simpleMessage(
-            "The game triggers the most extensive collapse problem, please check the barrier guide guide"),
+            "The game triggered a generic crash, please check the trouble shooting guide"),
         "doctor_game_error_gpu_crash": MessageLookupByLibrary.simpleMessage(
             "Your graphics card crashes! Please check the barrier guide"),
         "doctor_game_error_low_gpu_memory":
-            MessageLookupByLibrary.simpleMessage("Insufficient memory memory"),
+            MessageLookupByLibrary.simpleMessage("Insufficient VRAM"),
         "doctor_game_error_low_gpu_memory_info":
             MessageLookupByLibrary.simpleMessage(
                 "Please do not run the game/application occupied by other high graphics cards in the background, or change the graphics card."),
@@ -532,7 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Countdown"),
         "home_holiday_countdown_days": m29,
         "home_holiday_countdown_disclaimer": MessageLookupByLibrary.simpleMessage(
-            "* The above festival date is included in artificially and maintained. There may be errors. Welcome to feedback!"),
+            "* The above festival dates are added and maintained manually. There may be errors and we welcome any feedback!"),
         "home_holiday_countdown_in_progress":
             MessageLookupByLibrary.simpleMessage("In progress"),
         "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
@@ -581,7 +581,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_title_logging_in":
             MessageLookupByLibrary.simpleMessage("Logging in..."),
         "lobby_invitation_to_participate": MessageLookupByLibrary.simpleMessage(
-            "Sincerely invite you to participate"),
+            "Sincerely invite you to participate "),
         "lobby_online_lobby_coming_soon": MessageLookupByLibrary.simpleMessage(
             "The online lobby, so stay tuned!"),
         "lobby_survey": MessageLookupByLibrary.simpleMessage("Questionnaire."),
@@ -617,7 +617,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Installed"),
         "localization_info_installed_version": m36,
         "localization_info_language":
-            MessageLookupByLibrary.simpleMessage("Language:"),
+            MessageLookupByLibrary.simpleMessage("Language:   "),
         "localization_info_machine_translation_warning":
             MessageLookupByLibrary.simpleMessage(
                 "You are using the game built -in text. The official text is currently a machine translation (as of 3.21.0), and it is recommended that you install community Localization below."),
@@ -632,7 +632,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Whether to remove incompatible Localization parameters"),
         "localization_info_translation_status":
-            MessageLookupByLibrary.simpleMessage("State"),
+            MessageLookupByLibrary.simpleMessage("Localization status"),
         "localization_info_unavailable":
             MessageLookupByLibrary.simpleMessage("Unavailable"),
         "localization_info_update_time": m37,
@@ -657,7 +657,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "performance_action_preset":
             MessageLookupByLibrary.simpleMessage("Preset:"),
         "performance_action_reset_to_default":
-            MessageLookupByLibrary.simpleMessage("Reset"),
+            MessageLookupByLibrary.simpleMessage(" Reset to default "),
         "performance_action_super":
             MessageLookupByLibrary.simpleMessage("Super"),
         "performance_info_applied":
@@ -694,7 +694,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Create \"SC Sinicization Box\" shortcut on the desktop"),
         "setting_action_create_settings_shortcut":
-            MessageLookupByLibrary.simpleMessage("Create Settings Settings"),
+            MessageLookupByLibrary.simpleMessage("Create shortcut"),
         "setting_action_ignore_efficiency_cores_on_launch":
             MessageLookupByLibrary.simpleMessage(
                 "When starting the game, ignore the core of energy efficiency (suitable for Intel 12th+ processor)"),
@@ -906,11 +906,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "RSI ZENDESK Customer Service Station"),
         "tools_hosts_info_site": MessageLookupByLibrary.simpleMessage("Site"),
         "tools_hosts_info_status":
-            MessageLookupByLibrary.simpleMessage("State"),
+            MessageLookupByLibrary.simpleMessage("Status"),
         "tools_hosts_info_writing_hosts":
             MessageLookupByLibrary.simpleMessage("I am writing Hosts ..."),
         "tools_info_game_install_location":
-            MessageLookupByLibrary.simpleMessage("Game installation location:"),
+            MessageLookupByLibrary.simpleMessage(
+                "Game installation location:  "),
         "tools_info_processing_failed": m52,
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI starter position:"),
