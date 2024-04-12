@@ -80,6 +80,9 @@ class SCLoggerHelper {
             if (info.contains("Installing Star Citizen $v")) {
               installPath = "${info.split(" at ")[1]}\\$v";
             }
+            if (info.contains("Verifying Star Citizen $v")) {
+              installPath = "${info.split(" at ")[1]}\\$v";
+            }
             if (info.contains("Launching Star Citizen $v from")) {
               installPath = info
                   .replaceAll("Launching Star Citizen $v from (", "")
