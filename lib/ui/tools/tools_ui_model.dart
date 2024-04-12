@@ -361,7 +361,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   openDir(path) async {
-    SystemHelper.openDir("\"$path\"");
+    SystemHelper.openDir(path);
   }
 
   Future _showSystemInfo(BuildContext context) async {

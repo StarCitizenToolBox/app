@@ -169,7 +169,7 @@ class HomeUI extends HookConsumerWidget {
             const SizedBox(width: 12),
             Button(
               onPressed: () =>
-                  SystemHelper.openDir("\"${homeState.scInstalledPath}\""),
+                  SystemHelper.openDir("${homeState.scInstalledPath}"),
               child: const Padding(
                 padding: EdgeInsets.all(6),
                 child: Icon(FluentIcons.folder_open),
