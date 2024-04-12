@@ -419,7 +419,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           if (element.path.contains(lang)) {
             final installedVersion =
                 await _getInstalledIniVersion("${element.path}\\global.ini");
-            if (installedVersion == S.current.home_action_info_game_built_in) {
+            if (installedVersion == S.current.home_action_info_game_built_in ||
+                installedVersion == S.current.localization_info_custom_files) {
               continue;
             }
             final curData = _allVersionLocalizationData[lang];
