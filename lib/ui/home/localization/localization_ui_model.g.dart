@@ -7,7 +7,7 @@ part of 'localization_ui_model.dart';
 // **************************************************************************
 
 String _$localizationUIModelHash() =>
-    r'87152654734d322cd20d62baf050918adc9fd11b';
+    r'da9d0a3ae28825fd9331dd2b6db3d094cf3c0eb9';
 
 /// See also [LocalizationUIModel].
 @ProviderFor(LocalizationUIModel)

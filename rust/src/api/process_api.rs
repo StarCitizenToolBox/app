@@ -1,7 +1,8 @@
 use std::sync::Arc;
-use tokio::io::{AsyncBufReadExt, BufReader};
-use crate::frb_generated::StreamSink;
 
+use tokio::io::{AsyncBufReadExt, BufReader};
+
+use crate::frb_generated::StreamSink;
 
 pub async fn start_process(
     executable: String,
@@ -37,12 +38,16 @@ pub async fn start_process(
         }
         let stdout = child.stdout.take().expect("Failed to open stdout");
         let stderr = child.stderr.take().expect("Failed to open stderr");
+        // let stdin = child.stdin.take().expect("Failed to open stderr");
+
         let output_task = tokio::spawn(process_output(stdout, stream_sink_arc.clone()));
         let error_task = tokio::spawn(process_error(stderr, stream_sink_arc.clone()));
+        // let input_task = tokio::spawn(process_input(stdin));
 
         tokio::select! {
             _ = output_task => (),
             _ = error_task => (),
+            // _ = input_task => (),
         }
 
         let exit_status = child.wait().await.expect("Failed to wait for child process");
@@ -83,4 +88,3 @@ async fn process_error<R>(stderr: R, stream_sink: Arc<StreamSink<String>>)
         stream_sink.add("error:".to_string() + &*line.trim().to_string()).unwrap();
     }
 }
-

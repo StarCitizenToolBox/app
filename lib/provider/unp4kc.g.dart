@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'aria2c.dart';
+part of 'unp4kc.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$aria2cModelHash() => r'5431c2d9667f17ff03d0794711af22b015feda0d';
+String _$unp4kCModelHash() => r'46b6ac12670a6ff6ffb9d5bc8a8d04c07c570a8c';
 
-/// See also [Aria2cModel].
-@ProviderFor(Aria2cModel)
-final aria2cModelProvider =
-    AutoDisposeNotifierProvider<Aria2cModel, Aria2cModelState>.internal(
-  Aria2cModel.new,
-  name: r'aria2cModelProvider',
+/// See also [Unp4kCModel].
+@ProviderFor(Unp4kCModel)
+final unp4kCModelProvider =
+    AutoDisposeNotifierProvider<Unp4kCModel, Unp4kcState>.internal(
+  Unp4kCModel.new,
+  name: r'unp4kCModelProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$aria2cModelHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$unp4kCModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Aria2cModel = AutoDisposeNotifier<Aria2cModelState>;
+typedef _$Unp4kCModel = AutoDisposeNotifier<Unp4kcState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

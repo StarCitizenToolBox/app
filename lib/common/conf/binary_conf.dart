@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:archive/archive.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class BinaryModuleConf {
   static const _modules = {
     "aria2c": "0",
+    "unp4kc": "0",
   };
 
   static Future extractModule(List<String> modules, String workingDir) async {
@@ -16,7 +18,8 @@ class BinaryModuleConf {
       final version = m.value;
       final dir = "$workingDir\\$name";
       final versionFile = File("$dir\\version");
-      if (await versionFile.exists() &&
+      if (kReleaseMode &&
+          await versionFile.exists() &&
           (await versionFile.readAsString()).trim() == version) {
         dPrint(
             "BinaryModuleConf.extractModule  skip $name version == $version");

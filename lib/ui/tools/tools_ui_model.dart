@@ -104,6 +104,13 @@ class ToolsUIModel extends _$ToolsUIModel {
           const Icon(FluentIcons.admin, size: 24),
           onTap: () => _adminRSILauncher(context),
         ),
+        ToolsItemData(
+          "unp4kc",
+          "P4K 查看器",
+          "解包星际公民 p4k 文件",
+          const Icon(FontAwesomeIcons.fileZipper, size: 24),
+          onTap: () => _unp4kc(context),
+        ),
       ];
 
       state = state.copyWith(items: items);
@@ -572,5 +579,9 @@ class ToolsUIModel extends _$ToolsUIModel {
     showDialog(
         context: context,
         builder: (BuildContext context) => const HostsBoosterDialogUI());
+  }
+
+  _unp4kc(BuildContext context) async {
+    context.push("/tools/unp4kc");
   }
 }

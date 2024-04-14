@@ -29,6 +29,7 @@ import 'ui/home/downloader/home_downloader_ui.dart';
 import 'ui/home/game_doctor/game_doctor_ui.dart';
 import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';
+import 'ui/tools/unp4kc/unp4kc_ui.dart';
 
 part 'app.g.dart';
 
@@ -77,6 +78,13 @@ GoRouter router(RouterRef ref) {
           ),
         ],
       ),
+      GoRoute(path: '/tools', builder: (_, __) => const SizedBox(), routes: [
+        GoRoute(
+          path: 'unp4kc',
+          pageBuilder: (context, state) =>
+              myPageBuilder(context, state, const UnP4kcUI()),
+        ),
+      ]),
     ],
   );
 }

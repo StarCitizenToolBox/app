@@ -6,7 +6,7 @@ part of 'settings_ui_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$settingsUIModelHash() => r'acc2a90f5bbfc6ba82b17454e73881ac32b30b6a';
+String _$settingsUIModelHash() => r'aab08176293b380f09c89e006f373fbfd7a7ba16';
 
 /// See also [SettingsUIModel].
 @ProviderFor(SettingsUIModel)
