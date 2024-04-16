@@ -98,7 +98,7 @@ class Aria2cModel extends _$Aria2cModel {
     dPrint("trackerList === $trackerList");
     dPrint("Aria2cManager .-----  aria2c start $port------");
 
-    final stream = await rs_process.startProcess(
+    final stream = rs_process.startProcess(
         executable: exePath,
         arguments: [
           "-V",
