@@ -1,15 +1,15 @@
 use hickory_resolver::config::{NameServerConfigGroup, ResolverConfig, ResolverOpts};
 use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioAsyncResolver};
+use lazy_static::lazy_static;
 use once_cell::sync::OnceCell;
 use reqwest::dns::{Addrs, Name, Resolve, Resolving};
 use std::collections::HashMap;
 use std::io;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::{Arc, RwLock};
-use lazy_static::lazy_static;
 
 lazy_static! {
-    pub static  ref MY_HOSTS_MAP: RwLock<HashMap<String, IpAddr>> = RwLock::from(HashMap::new());
+    pub static ref MY_HOSTS_MAP: RwLock<HashMap<String, IpAddr>> = RwLock::from(HashMap::new());
 }
 
 /// Wrapper around an `AsyncResolver`, which implements the `Resolve` trait.
@@ -60,10 +60,7 @@ impl MyHickoryDnsResolver {
     pub(crate) async fn lookup_ips(&self, name: String) -> anyhow::Result<Vec<String>> {
         let resolver = self.state.get_or_try_init(new_resolver)?;
         let ips = resolver.ipv4_lookup(name).await?;
-        let t = ips
-            .iter()
-            .map(|ip| ip.to_string())
-            .collect::<Vec<_>>();
+        let t = ips.iter().map(|ip| ip.to_string()).collect::<Vec<_>>();
         Ok(t)
     }
 }
@@ -88,7 +85,9 @@ fn new_resolver() -> io::Result<TokioAsyncResolver> {
             IpAddr::V4(Ipv4Addr::new(166, 111, 8, 28)),
             IpAddr::V4(Ipv4Addr::new(101, 226, 4, 6)),
             IpAddr::V4(Ipv4Addr::new(114, 114, 114, 114)),
-        ], 53, false,
+        ],
+        53,
+        false,
     );
     let cfg = ResolverConfig::from_parts(None, vec![], group);
     let mut opts = ResolverOpts::default();

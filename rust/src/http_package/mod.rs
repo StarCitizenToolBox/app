@@ -1,9 +1,9 @@
 pub mod dns;
 
-use scopeguard::defer;
 use lazy_static::lazy_static;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use reqwest::{Method, RequestBuilder};
+use scopeguard::defer;
 use std::collections::HashMap;
 use std::str::FromStr;
 use std::sync::{Arc, RwLock};
@@ -45,7 +45,8 @@ fn _hyper_version_to_my_version(v: reqwest::Version) -> MyHttpVersion {
 
 lazy_static! {
     static ref DEFAULT_HEADER: RwLock<HeaderMap> = RwLock::from(HeaderMap::new());
-    static ref DNS_CLIENT: Arc<dns::MyHickoryDnsResolver> = Arc::from(dns::MyHickoryDnsResolver::default());
+    static ref DNS_CLIENT: Arc<dns::MyHickoryDnsResolver> =
+        Arc::from(dns::MyHickoryDnsResolver::default());
     static ref HTTP_CLIENT: reqwest::Client = new_http_client(true);
 }
 
@@ -88,7 +89,11 @@ pub async fn fetch(
     if address_clone.is_some() {
         let addr = std::net::IpAddr::from_str(with_ip_address.unwrap().as_str()).unwrap();
         let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
-        let url_host = Url::from_str(url.as_str()).unwrap().host().unwrap().to_string();
+        let url_host = Url::from_str(url.as_str())
+            .unwrap()
+            .host()
+            .unwrap()
+            .to_string();
         hosts.insert(url_host, addr);
     }
 

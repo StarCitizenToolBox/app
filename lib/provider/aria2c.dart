@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/binary_conf.dart';
-import 'package:starcitizen_doctor/common/rust/api/process_api.dart'
-    as rs_process;
 import 'dart:io';
 import 'dart:math';
 import 'package:aria2/aria2.dart';
@@ -10,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rust/api/rs_process.dart';
 
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
@@ -98,7 +97,9 @@ class Aria2cModel extends _$Aria2cModel {
     dPrint("trackerList === $trackerList");
     dPrint("Aria2cManager .-----  aria2c start $port------");
 
-    final stream = rs_process.startProcess(
+    final rsp = RsProcess();
+
+    final stream = rsp.start(
         executable: exePath,
         arguments: [
           "-V",
@@ -122,16 +123,20 @@ class Aria2cModel extends _$Aria2cModel {
 
     stream.listen((event) {
       dPrint("Aria2cManager.rs_process event === $event");
-      if (event.startsWith("output:")) {
-        if (event.contains("IPv4 RPC: listening on TCP port")) {
-          _onLaunch(port, pwd, trackerList);
-        }
-      } else if (event.startsWith("error:")) {
-        state = state.copyWith(aria2c: null);
-        launchError = event;
-      } else if (event.startsWith("exit:")) {
-        state = state.copyWith(aria2c: null);
-        launchError = event;
+      switch (event.dataType) {
+        case RsProcessStreamDataType.output:
+          if (event.data.contains("IPv4 RPC: listening on TCP port")) {
+            _onLaunch(port, pwd, trackerList);
+          }
+          break;
+        case RsProcessStreamDataType.error:
+          launchError = event.data;
+          state = state.copyWith(aria2c: null);
+          break;
+        case RsProcessStreamDataType.exit:
+          launchError = event.data;
+          state = state.copyWith(aria2c: null);
+          break;
       }
     });
 

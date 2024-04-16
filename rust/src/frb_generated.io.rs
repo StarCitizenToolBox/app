@@ -4,6 +4,7 @@
 // Section: imports
 
 use super::*;
+use crate::api::rs_process::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::transform_result_dco;
 use flutter_rust_bridge::{Handler, IntoIntoDart};
@@ -22,6 +23,12 @@ impl CstDecode<flutter_rust_bridge::for_generated::anyhow::Error>
         unimplemented!()
     }
 }
+impl CstDecode<RsProcess> for usize {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> RsProcess {
+        CstDecode::<RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<RsProcess>>>::cst_decode(self).rust_auto_opaque_decode_owned()
+    }
+}
 impl CstDecode<std::collections::HashMap<String, String>>
     for *mut wire_cst_list_record_string_string
 {
@@ -31,11 +38,31 @@ impl CstDecode<std::collections::HashMap<String, String>>
         vec.into_iter().collect()
     }
 }
-impl CstDecode<StreamSink<String, flutter_rust_bridge::for_generated::DcoCodec>>
-    for *mut wire_cst_list_prim_u_8_strict
+impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<RsProcess>>>
+    for usize
 {
     // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> StreamSink<String, flutter_rust_bridge::for_generated::DcoCodec> {
+    fn cst_decode(
+        self,
+    ) -> RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<RsProcess>> {
+        unsafe { decode_rust_opaque_nom(self as _) }
+    }
+}
+impl
+    CstDecode<
+        StreamSink<
+            crate::api::rs_process::RsProcessStreamData,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        >,
+    > for *mut wire_cst_list_prim_u_8_strict
+{
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(
+        self,
+    ) -> StreamSink<
+        crate::api::rs_process::RsProcessStreamData,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    > {
         let raw: String = self.cst_decode();
         StreamSink::deserialize(raw)
     }
@@ -45,6 +72,12 @@ impl CstDecode<String> for *mut wire_cst_list_prim_u_8_strict {
     fn cst_decode(self) -> String {
         let vec: Vec<u8> = self.cst_decode();
         String::from_utf8(vec).unwrap()
+    }
+}
+impl CstDecode<u32> for *mut u32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> u32 {
+        unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
     }
 }
 impl CstDecode<u64> for *mut u64 {
@@ -88,6 +121,15 @@ impl CstDecode<(String, String)> for wire_cst_record_string_string {
         (self.field0.cst_decode(), self.field1.cst_decode())
     }
 }
+impl CstDecode<crate::api::rs_process::RsProcessStreamData> for wire_cst_rs_process_stream_data {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::rs_process::RsProcessStreamData {
+        crate::api::rs_process::RsProcessStreamData {
+            data_type: self.data_type.cst_decode(),
+            data: self.data.cst_decode(),
+        }
+    }
+}
 impl CstDecode<crate::http_package::RustHttpResponse> for wire_cst_rust_http_response {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::http_package::RustHttpResponse {
@@ -111,6 +153,19 @@ impl NewWithNullPtr for wire_cst_record_string_string {
     }
 }
 impl Default for wire_cst_record_string_string {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_rs_process_stream_data {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            data_type: Default::default(),
+            data: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_rs_process_stream_data {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -171,14 +226,67 @@ pub extern "C" fn frbgen_starcitizen_doctor_wire_set_default_header(
 }
 
 #[no_mangle]
-pub extern "C" fn frbgen_starcitizen_doctor_wire_start_process(
+pub extern "C" fn frbgen_starcitizen_doctor_wire_RsProcess_get_pid(
+    that: usize,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_RsProcess_get_pid_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_wire_RsProcess_new(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_RsProcess_new_impl()
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_wire_RsProcess_start(
     port_: i64,
+    that: usize,
     executable: *mut wire_cst_list_prim_u_8_strict,
     arguments: *mut wire_cst_list_String,
     working_directory: *mut wire_cst_list_prim_u_8_strict,
     stream_sink: *mut wire_cst_list_prim_u_8_strict,
 ) {
-    wire_start_process_impl(port_, executable, arguments, working_directory, stream_sink)
+    wire_RsProcess_start_impl(
+        port_,
+        that,
+        executable,
+        arguments,
+        working_directory,
+        stream_sink,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_wire_RsProcess_write(
+    port_: i64,
+    that: usize,
+    data: *mut wire_cst_list_prim_u_8_strict,
+) {
+    wire_RsProcess_write_impl(port_, that, data)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<flutter_rust_bridge::for_generated::rust_async::RwLock<RsProcess>>::increment_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        StdArc::<flutter_rust_bridge::for_generated::rust_async::RwLock<RsProcess>>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_u_32(value: u32) -> *mut u32 {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
 }
 
 #[no_mangle]
@@ -248,6 +356,12 @@ pub struct wire_cst_list_record_string_string {
 pub struct wire_cst_record_string_string {
     field0: *mut wire_cst_list_prim_u_8_strict,
     field1: *mut wire_cst_list_prim_u_8_strict,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_rs_process_stream_data {
+    data_type: i32,
+    data: *mut wire_cst_list_prim_u_8_strict,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
