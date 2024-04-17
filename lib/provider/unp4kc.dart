@@ -118,7 +118,7 @@ class Unp4kCModel extends _$Unp4kCModel {
           if (i == nextAwait) {
             state = state.copyWith(
                 endMessage: "正在处理文件 ($i/${p4kFiles.length}) ...");
-            await Future.delayed(const Duration(microseconds: 0));
+            await Future.delayed(Duration.zero);
             nextAwait += 20000;
           }
         }
