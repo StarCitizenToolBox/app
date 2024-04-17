@@ -56,9 +56,9 @@ class Unp4kCModel extends _$Unp4kCModel {
         executable: exec, arguments: [], workingDirectory: execDir);
 
     stream.listen((event) async {
-      _rsPid = event.rsPid;
       switch (event.dataType) {
         case RsProcessStreamDataType.output:
+          _rsPid = event.rsPid;
           try {
             final eventJson = await compute(json.decode, event.data);
             _handleMessage(eventJson, event.rsPid);
@@ -76,12 +76,15 @@ class Unp4kCModel extends _$Unp4kCModel {
     });
 
     ref.onDispose(() {
+      state = state.copyWith(fs: null);
       if (_rsPid != null) {
         Process.killPid(_rsPid!);
         dPrint("[unp4kc] kill ...");
       }
     });
   }
+
+  DateTime? _loadStartTime;
 
   void _handleMessage(Map<String, dynamic> eventJson, int rsPid) async {
     final action = eventJson["action"];
@@ -91,13 +94,20 @@ class Unp4kCModel extends _$Unp4kCModel {
     switch (action.toString().trim()) {
       case "info: startup":
         rs_process.write(rsPid: rsPid, data: "$gameP4kPath\n");
+        break;
+      case "info: Reading_p4k_file":
+        _loadStartTime = DateTime.now();
         state = state.copyWith(endMessage: "正在读取P4K 文件 ...");
+        break;
+      case "info: All Ready":
+        state = state.copyWith(endMessage: "正在处理文件 ...");
         break;
       case "data: P4K_Files":
         final p4kFiles = (data as List<dynamic>);
         final files = <String, AppUnp4kP4kItemData>{};
         final fs = MemoryFileSystem(style: FileSystemStyle.posix);
-        state = state.copyWith(endMessage: "正在处理文件 ...");
+
+        var nextAwait = 0;
         for (var i = 0; i < p4kFiles.length; i++) {
           final item = AppUnp4kP4kItemData.fromJson(p4kFiles[i]);
           item.name = "${item.name}";
@@ -105,9 +115,20 @@ class Unp4kCModel extends _$Unp4kCModel {
           await fs
               .file(item.name?.replaceAll("\\", "/") ?? "")
               .create(recursive: true);
+          if (i == nextAwait) {
+            state = state.copyWith(
+                endMessage: "正在处理文件 ($i/${p4kFiles.length}) ...");
+            await Future.delayed(const Duration(microseconds: 0));
+            nextAwait += 20000;
+          }
         }
+        final endTime = DateTime.now();
         state = state.copyWith(
-            files: files, fs: fs, endMessage: "加载完毕：${files.length} 个文件");
+            files: files,
+            fs: fs,
+            endMessage:
+                "加载完毕：${files.length} 个文件，用时：${endTime.difference(_loadStartTime!).inMilliseconds} ms");
+        _loadStartTime = null;
         break;
       case "info: Extracted_Open":
         final filePath = data.toString();
@@ -195,7 +216,7 @@ class Unp4kCModel extends _$Unp4kCModel {
     dPrint("extractFile .... $filePath");
     if (_rsPid != null) {
       rs_process.write(
-          rsPid: _rsPid!, data: "$mode<:,:>$filePath<:,:>$outputPath");
+          rsPid: _rsPid!, data: "$mode<:,:>$filePath<:,:>$outputPath\n");
     }
   }
 }
