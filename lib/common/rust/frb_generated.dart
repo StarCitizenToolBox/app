@@ -56,7 +56,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.0.0-dev.32';
 
   @override
-  int get rustContentHash => 333909092;
+  int get rustContentHash => 1270049297;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -82,27 +82,13 @@ abstract class RustLibApi extends BaseApi {
   Future<void> setDefaultHeader(
       {required Map<String, String> headers, dynamic hint});
 
-  int? rsProcessGetPid({required RsProcess that, dynamic hint});
-
-  RsProcess rsProcessNew({dynamic hint});
-
-  Stream<RsProcessStreamData> rsProcessStart(
-      {required RsProcess that,
-      required String executable,
+  Stream<RsProcessStreamData> start(
+      {required String executable,
       required List<String> arguments,
       required String workingDirectory,
       dynamic hint});
 
-  Future<void> rsProcessWrite(
-      {required RsProcess that, required String data, dynamic hint});
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_RsProcess;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_RsProcess;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RsProcessPtr;
+  Future<void> write({required int rsPid, required String data, dynamic hint});
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -217,129 +203,60 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  int? rsProcessGetPid({required RsProcess that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 =
-            cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-                that);
-        return wire.wire_RsProcess_get_pid(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_opt_box_autoadd_u_32,
-        decodeErrorData: null,
-      ),
-      constMeta: kRsProcessGetPidConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kRsProcessGetPidConstMeta => const TaskConstMeta(
-        debugName: "RsProcess_get_pid",
-        argNames: ["that"],
-      );
-
-  @override
-  RsProcess rsProcessNew({dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        return wire.wire_RsProcess_new();
-      },
-      codec: DcoCodec(
-        decodeSuccessData:
-            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess,
-        decodeErrorData: null,
-      ),
-      constMeta: kRsProcessNewConstMeta,
-      argValues: [],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kRsProcessNewConstMeta => const TaskConstMeta(
-        debugName: "RsProcess_new",
-        argNames: [],
-      );
-
-  @override
-  Stream<RsProcessStreamData> rsProcessStart(
-      {required RsProcess that,
-      required String executable,
+  Stream<RsProcessStreamData> start(
+      {required String executable,
       required List<String> arguments,
       required String workingDirectory,
       dynamic hint}) {
     final streamSink = RustStreamSink<RsProcessStreamData>();
     unawaited(handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-                that);
-        var arg1 = cst_encode_String(executable);
-        var arg2 = cst_encode_list_String(arguments);
-        var arg3 = cst_encode_String(workingDirectory);
-        var arg4 = cst_encode_StreamSink_rs_process_stream_data_Dco(streamSink);
-        return wire.wire_RsProcess_start(port_, arg0, arg1, arg2, arg3, arg4);
+        var arg0 = cst_encode_String(executable);
+        var arg1 = cst_encode_list_String(arguments);
+        var arg2 = cst_encode_String(workingDirectory);
+        var arg3 = cst_encode_StreamSink_rs_process_stream_data_Dco(streamSink);
+        return wire.wire_start(port_, arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
         decodeErrorData: null,
       ),
-      constMeta: kRsProcessStartConstMeta,
-      argValues: [that, executable, arguments, workingDirectory, streamSink],
+      constMeta: kStartConstMeta,
+      argValues: [executable, arguments, workingDirectory, streamSink],
       apiImpl: this,
       hint: hint,
     )));
     return streamSink.stream;
   }
 
-  TaskConstMeta get kRsProcessStartConstMeta => const TaskConstMeta(
-        debugName: "RsProcess_start",
-        argNames: [
-          "that",
-          "executable",
-          "arguments",
-          "workingDirectory",
-          "streamSink"
-        ],
+  TaskConstMeta get kStartConstMeta => const TaskConstMeta(
+        debugName: "start",
+        argNames: ["executable", "arguments", "workingDirectory", "streamSink"],
       );
 
   @override
-  Future<void> rsProcessWrite(
-      {required RsProcess that, required String data, dynamic hint}) {
+  Future<void> write({required int rsPid, required String data, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
-        var arg0 =
-            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-                that);
+        var arg0 = cst_encode_u_32(rsPid);
         var arg1 = cst_encode_String(data);
-        return wire.wire_RsProcess_write(port_, arg0, arg1);
+        return wire.wire_write(port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_unit,
         decodeErrorData: null,
       ),
-      constMeta: kRsProcessWriteConstMeta,
-      argValues: [that, data],
+      constMeta: kWriteConstMeta,
+      argValues: [rsPid, data],
       apiImpl: this,
       hint: hint,
     ));
   }
 
-  TaskConstMeta get kRsProcessWriteConstMeta => const TaskConstMeta(
-        debugName: "RsProcess_write",
-        argNames: ["that", "data"],
+  TaskConstMeta get kWriteConstMeta => const TaskConstMeta(
+        debugName: "write",
+        argNames: ["rsPid", "data"],
       );
-
-  RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_RsProcess => wire
-          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_RsProcess => wire
-          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess;
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
@@ -348,42 +265,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  RsProcess
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return RsProcess.dcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  RsProcess
-      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return RsProcess.dcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  RsProcess
-      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return RsProcess.dcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
   Map<String, String> dco_decode_Map_String_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return Map.fromEntries(dco_decode_list_record_string_string(raw)
         .map((e) => MapEntry(e.$1, e.$2)));
-  }
-
-  @protected
-  RsProcess
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return RsProcess.dcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -397,12 +282,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
-  }
-
-  @protected
-  int dco_decode_box_autoadd_u_32(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw as int;
   }
 
   @protected
@@ -460,12 +339,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
-  }
-
-  @protected
   int? dco_decode_opt_box_autoadd_u_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_u_64(raw);
@@ -494,11 +367,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RsProcessStreamData dco_decode_rs_process_stream_data(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 2)
-      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return RsProcessStreamData(
       dataType: dco_decode_rs_process_stream_data_type(arr[0]),
       data: dco_decode_String(arr[1]),
+      rsPid: dco_decode_u_32(arr[2]),
     );
   }
 
@@ -556,43 +430,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int dco_decode_usize(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dcoDecodeI64OrU64(raw);
-  }
-
-  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_String(deserializer);
     return AnyhowException(inner);
-  }
-
-  @protected
-  RsProcess
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return RsProcess.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  RsProcess
-      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return RsProcess.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  RsProcess
-      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return RsProcess.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
@@ -601,15 +442,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_record_string_string(deserializer);
     return Map.fromEntries(inner.map((e) => MapEntry(e.$1, e.$2)));
-  }
-
-  @protected
-  RsProcess
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return RsProcess.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
@@ -625,12 +457,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
-  }
-
-  @protected
-  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_u_32(deserializer));
   }
 
   @protected
@@ -715,17 +541,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_u_32(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
   int? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -762,7 +577,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_dataType = sse_decode_rs_process_stream_data_type(deserializer);
     var var_data = sse_decode_String(deserializer);
-    return RsProcessStreamData(dataType: var_dataType, data: var_data);
+    var var_rsPid = sse_decode_u_32(deserializer);
+    return RsProcessStreamData(
+        dataType: var_dataType, data: var_data, rsPid: var_rsPid);
   }
 
   @protected
@@ -823,47 +640,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int sse_decode_usize(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getUint64();
-  }
-
-  @protected
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
-  }
-
-  @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      RsProcess raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: true);
-  }
-
-  @protected
-  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      RsProcess raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: false);
-  }
-
-  @protected
-  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      RsProcess raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: false);
-  }
-
-  @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      RsProcess raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-// ignore: invalid_use_of_internal_member
-    return raw.cstEncode();
   }
 
   @protected
@@ -915,40 +694,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int cst_encode_usize(int raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return raw;
-  }
-
-  @protected
   void sse_encode_AnyhowException(
       AnyhowException self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     throw UnimplementedError('Unreachable ()');
-  }
-
-  @protected
-  void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          RsProcess self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(self.sseEncode(move: true), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          RsProcess self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(self.sseEncode(move: false), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          RsProcess self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(self.sseEncode(move: false), serializer);
   }
 
   @protected
@@ -957,14 +706,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_record_string_string(
         self.entries.map((e) => (e.key, e.value)).toList(), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          RsProcess self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(self.sseEncode(move: null), serializer);
   }
 
   @protected
@@ -983,12 +724,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_u_32(self, serializer);
   }
 
   @protected
@@ -1065,16 +800,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_u_32(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_opt_box_autoadd_u_64(int? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -1109,6 +834,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_rs_process_stream_data_type(self.dataType, serializer);
     sse_encode_String(self.data, serializer);
+    sse_encode_u_32(self.rsPid, serializer);
   }
 
   @protected
@@ -1158,12 +884,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_unit(void self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-  }
-
-  @protected
-  void sse_encode_usize(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putUint64(self);
   }
 
   @protected

@@ -20,34 +20,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     required super.portManager,
   });
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RsProcessPtr =>
-      wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcessPtr;
-
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
 
   @protected
-  RsProcess
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          dynamic raw);
-
-  @protected
-  RsProcess
-      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          dynamic raw);
-
-  @protected
-  RsProcess
-      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          dynamic raw);
-
-  @protected
   Map<String, String> dco_decode_Map_String_String(dynamic raw);
-
-  @protected
-  RsProcess
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          dynamic raw);
 
   @protected
   RustStreamSink<RsProcessStreamData>
@@ -55,9 +32,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String dco_decode_String(dynamic raw);
-
-  @protected
-  int dco_decode_box_autoadd_u_32(dynamic raw);
 
   @protected
   int dco_decode_box_autoadd_u_64(dynamic raw);
@@ -85,9 +59,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
-
-  @protected
-  int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
 
   @protected
   int? dco_decode_opt_box_autoadd_u_64(dynamic raw);
@@ -123,34 +94,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void dco_decode_unit(dynamic raw);
 
   @protected
-  int dco_decode_usize(dynamic raw);
-
-  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
-
-  @protected
-  RsProcess
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          SseDeserializer deserializer);
-
-  @protected
-  RsProcess
-      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          SseDeserializer deserializer);
-
-  @protected
-  RsProcess
-      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          SseDeserializer deserializer);
 
   @protected
   Map<String, String> sse_decode_Map_String_String(
       SseDeserializer deserializer);
-
-  @protected
-  RsProcess
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          SseDeserializer deserializer);
 
   @protected
   RustStreamSink<RsProcessStreamData>
@@ -159,9 +107,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
 
   @protected
   int sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
@@ -191,9 +136,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
-
-  @protected
-  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
 
   @protected
   int? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
@@ -232,9 +174,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_decode_unit(SseDeserializer deserializer);
 
   @protected
-  int sse_decode_usize(SseDeserializer deserializer);
-
-  @protected
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
@@ -267,12 +206,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_String(String raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_list_prim_u_8_strict(utf8.encoder.convert(raw));
-  }
-
-  @protected
-  ffi.Pointer<ffi.Uint32> cst_encode_box_autoadd_u_32(int raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return wire.cst_new_box_autoadd_u_32(cst_encode_u_32(raw));
   }
 
   @protected
@@ -326,12 +259,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<ffi.Uint32> cst_encode_opt_box_autoadd_u_32(int? raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_u_32(raw);
-  }
-
-  @protected
   ffi.Pointer<ffi.Uint64> cst_encode_opt_box_autoadd_u_64(int? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_u_64(raw);
@@ -362,6 +289,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       RsProcessStreamData apiObj, wire_cst_rs_process_stream_data wireObj) {
     wireObj.data_type = cst_encode_rs_process_stream_data_type(apiObj.dataType);
     wireObj.data = cst_encode_String(apiObj.data);
+    wireObj.rs_pid = cst_encode_u_32(apiObj.rsPid);
   }
 
   @protected
@@ -376,22 +304,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.remote_addr = cst_encode_String(apiObj.remoteAddr);
     wireObj.data = cst_encode_opt_list_prim_u_8_strict(apiObj.data);
   }
-
-  @protected
-  int cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      RsProcess raw);
-
-  @protected
-  int cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      RsProcess raw);
-
-  @protected
-  int cst_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      RsProcess raw);
-
-  @protected
-  int cst_encode_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      RsProcess raw);
 
   @protected
   int cst_encode_i_32(int raw);
@@ -418,35 +330,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void cst_encode_unit(void raw);
 
   @protected
-  int cst_encode_usize(int raw);
-
-  @protected
   void sse_encode_AnyhowException(
       AnyhowException self, SseSerializer serializer);
 
   @protected
-  void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          RsProcess self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          RsProcess self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          RsProcess self, SseSerializer serializer);
-
-  @protected
   void sse_encode_Map_String_String(
       Map<String, String> self, SseSerializer serializer);
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-          RsProcess self, SseSerializer serializer);
 
   @protected
   void sse_encode_StreamSink_rs_process_stream_data_Dco(
@@ -454,9 +343,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_u_64(int self, SseSerializer serializer);
@@ -487,9 +373,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(int? self, SseSerializer serializer);
@@ -528,9 +411,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_usize(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
@@ -668,41 +548,15 @@ class RustLibWire implements BaseWire {
   late final _wire_set_default_header = _wire_set_default_headerPtr.asFunction<
       void Function(int, ffi.Pointer<wire_cst_list_record_string_string>)>();
 
-  WireSyncRust2DartDco wire_RsProcess_get_pid(
-    int that,
-  ) {
-    return _wire_RsProcess_get_pid(
-      that,
-    );
-  }
-
-  late final _wire_RsProcess_get_pidPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
-          'frbgen_starcitizen_doctor_wire_RsProcess_get_pid');
-  late final _wire_RsProcess_get_pid = _wire_RsProcess_get_pidPtr
-      .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  WireSyncRust2DartDco wire_RsProcess_new() {
-    return _wire_RsProcess_new();
-  }
-
-  late final _wire_RsProcess_newPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
-          'frbgen_starcitizen_doctor_wire_RsProcess_new');
-  late final _wire_RsProcess_new =
-      _wire_RsProcess_newPtr.asFunction<WireSyncRust2DartDco Function()>();
-
-  void wire_RsProcess_start(
+  void wire_start(
     int port_,
-    int that,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> executable,
     ffi.Pointer<wire_cst_list_String> arguments,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> working_directory,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> stream_sink,
   ) {
-    return _wire_RsProcess_start(
+    return _wire_start(
       port_,
-      that,
       executable,
       arguments,
       working_directory,
@@ -710,90 +564,42 @@ class RustLibWire implements BaseWire {
     );
   }
 
-  late final _wire_RsProcess_startPtr = _lookup<
+  late final _wire_startPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(
                   ffi.Int64,
-                  ffi.UintPtr,
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                   ffi.Pointer<wire_cst_list_String>,
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire_RsProcess_start');
-  late final _wire_RsProcess_start = _wire_RsProcess_startPtr.asFunction<
+      'frbgen_starcitizen_doctor_wire_start');
+  late final _wire_start = _wire_startPtr.asFunction<
       void Function(
-          int,
           int,
           ffi.Pointer<wire_cst_list_prim_u_8_strict>,
           ffi.Pointer<wire_cst_list_String>,
           ffi.Pointer<wire_cst_list_prim_u_8_strict>,
           ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
 
-  void wire_RsProcess_write(
+  void wire_write(
     int port_,
-    int that,
+    int rs_pid,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> data,
   ) {
-    return _wire_RsProcess_write(
+    return _wire_write(
       port_,
-      that,
+      rs_pid,
       data,
     );
   }
 
-  late final _wire_RsProcess_writePtr = _lookup<
+  late final _wire_writePtr = _lookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.UintPtr,
+              ffi.Void Function(ffi.Int64, ffi.Uint32,
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire_RsProcess_write');
-  late final _wire_RsProcess_write = _wire_RsProcess_writePtr.asFunction<
+      'frbgen_starcitizen_doctor_wire_write');
+  late final _wire_write = _wire_writePtr.asFunction<
       void Function(int, int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
-
-  void
-      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcessPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'frbgen_starcitizen_doctor_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess');
-  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess =
-      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcessPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void
-      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcessPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'frbgen_starcitizen_doctor_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess');
-  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcess =
-      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockRsProcessPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  ffi.Pointer<ffi.Uint32> cst_new_box_autoadd_u_32(
-    int value,
-  ) {
-    return _cst_new_box_autoadd_u_32(
-      value,
-    );
-  }
-
-  late final _cst_new_box_autoadd_u_32Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Uint32> Function(ffi.Uint32)>>(
-          'frbgen_starcitizen_doctor_cst_new_box_autoadd_u_32');
-  late final _cst_new_box_autoadd_u_32 = _cst_new_box_autoadd_u_32Ptr
-      .asFunction<ffi.Pointer<ffi.Uint32> Function(int)>();
 
   ffi.Pointer<ffi.Uint64> cst_new_box_autoadd_u_64(
     int value,
@@ -909,6 +715,9 @@ final class wire_cst_rs_process_stream_data extends ffi.Struct {
   external int data_type;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
+
+  @ffi.Uint32()
+  external int rs_pid;
 }
 
 final class wire_cst_rust_http_response extends ffi.Struct {

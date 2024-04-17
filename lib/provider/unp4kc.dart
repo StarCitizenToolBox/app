@@ -11,6 +11,8 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
+import 'package:starcitizen_doctor/common/rust/api/rs_process.dart'
+    as rs_process;
 
 part 'unp4kc.freezed.dart';
 
@@ -30,7 +32,7 @@ class Unp4kcState with _$Unp4kcState {
 
 @riverpod
 class Unp4kCModel extends _$Unp4kCModel {
-  RsProcess? _process;
+  int? _rsPid;
 
   @override
   Unp4kcState build() {
@@ -49,20 +51,17 @@ class Unp4kCModel extends _$Unp4kCModel {
     await BinaryModuleConf.extractModule(
         ["unp4kc"], appGlobalState.applicationBinaryModuleDir!);
     final exec = "$execDir\\unp4kc.exe";
-    // final ps = await Process.start(exec, []);
-    // StringBuffer stringBuffer = StringBuffer();
 
-    _process = RsProcess();
-
-    final stream = _process?.start(
+    final stream = rs_process.start(
         executable: exec, arguments: [], workingDirectory: execDir);
 
-    stream?.listen((event) async {
+    stream.listen((event) async {
+      _rsPid = event.rsPid;
       switch (event.dataType) {
         case RsProcessStreamDataType.output:
           try {
             final eventJson = await compute(json.decode, event.data);
-            _handleMessage(eventJson);
+            _handleMessage(eventJson, event.rsPid);
           } catch (e) {
             dPrint("[unp4kc] json error: $e");
           }
@@ -77,22 +76,21 @@ class Unp4kCModel extends _$Unp4kCModel {
     });
 
     ref.onDispose(() {
-      final pid = _process?.getPid();
-      if (pid != null) {
-        Process.killPid(pid);
+      if (_rsPid != null) {
+        Process.killPid(_rsPid!);
         dPrint("[unp4kc] kill ...");
       }
     });
   }
 
-  void _handleMessage(Map<String, dynamic> eventJson) async {
+  void _handleMessage(Map<String, dynamic> eventJson, int rsPid) async {
     final action = eventJson["action"];
     final data = eventJson["data"];
     final gamePath = getGamePath();
     final gameP4kPath = "$gamePath\\Data.p4k";
     switch (action.toString().trim()) {
       case "info: startup":
-        _process?.write(data: "$gameP4kPath\n");
+        rs_process.write(rsPid: rsPid, data: "$gameP4kPath\n");
         state = state.copyWith(endMessage: "正在读取P4K 文件 ...");
         break;
       case "data: P4K_Files":
@@ -195,6 +193,9 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
     outputPath = "$outputPath$filePath";
     dPrint("extractFile .... $filePath");
-    _process?.write(data: "$mode<:,:>$filePath<:,:>$outputPath");
+    if (_rsPid != null) {
+      rs_process.write(
+          rsPid: _rsPid!, data: "$mode<:,:>$filePath<:,:>$outputPath");
+    }
   }
 }

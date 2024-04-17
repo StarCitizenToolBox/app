@@ -6,56 +6,36 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<RsProcess>>
-@sealed
-class RsProcess extends RustOpaque {
-  RsProcess.dcoDecode(List<dynamic> wire) : super.dcoDecode(wire, _kStaticData);
+// The type `RS_PROCESS_MAP` is not used by any `pub` functions, thus it is ignored.
+// The type `RsProcess` is not used by any `pub` functions, thus it is ignored.
 
-  RsProcess.sseDecode(int ptr, int externalSizeOnNative)
-      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
+Stream<RsProcessStreamData> start(
+        {required String executable,
+        required List<String> arguments,
+        required String workingDirectory,
+        dynamic hint}) =>
+    RustLib.instance.api.start(
+        executable: executable,
+        arguments: arguments,
+        workingDirectory: workingDirectory,
+        hint: hint);
 
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_RsProcess,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_RsProcess,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_RsProcessPtr,
-  );
-
-  int? getPid({dynamic hint}) =>
-      RustLib.instance.api.rsProcessGetPid(that: this, hint: hint);
-
-  factory RsProcess({dynamic hint}) =>
-      RustLib.instance.api.rsProcessNew(hint: hint);
-
-  Stream<RsProcessStreamData> start(
-          {required String executable,
-          required List<String> arguments,
-          required String workingDirectory,
-          dynamic hint}) =>
-      RustLib.instance.api.rsProcessStart(
-          that: this,
-          executable: executable,
-          arguments: arguments,
-          workingDirectory: workingDirectory,
-          hint: hint);
-
-  Future<void> write({required String data, dynamic hint}) =>
-      RustLib.instance.api.rsProcessWrite(that: this, data: data, hint: hint);
-}
+Future<void> write({required int rsPid, required String data, dynamic hint}) =>
+    RustLib.instance.api.write(rsPid: rsPid, data: data, hint: hint);
 
 class RsProcessStreamData {
   final RsProcessStreamDataType dataType;
   final String data;
+  final int rsPid;
 
   const RsProcessStreamData({
     required this.dataType,
     required this.data,
+    required this.rsPid,
   });
 
   @override
-  int get hashCode => dataType.hashCode ^ data.hashCode;
+  int get hashCode => dataType.hashCode ^ data.hashCode ^ rsPid.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -63,7 +43,8 @@ class RsProcessStreamData {
       other is RsProcessStreamData &&
           runtimeType == other.runtimeType &&
           dataType == other.dataType &&
-          data == other.data;
+          data == other.data &&
+          rsPid == other.rsPid;
 }
 
 enum RsProcessStreamDataType {

@@ -8,7 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
-import 'package:starcitizen_doctor/common/rust/api/rs_process.dart';
+import 'package:starcitizen_doctor/common/rust/api/rs_process.dart'
+    as rs_process;
 
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
@@ -97,9 +98,7 @@ class Aria2cModel extends _$Aria2cModel {
     dPrint("trackerList === $trackerList");
     dPrint("Aria2cManager .-----  aria2c start $port------");
 
-    final rsp = RsProcess();
-
-    final stream = rsp.start(
+    final stream = rs_process.start(
         executable: exePath,
         arguments: [
           "-V",
@@ -124,16 +123,16 @@ class Aria2cModel extends _$Aria2cModel {
     stream.listen((event) {
       dPrint("Aria2cManager.rs_process event === $event");
       switch (event.dataType) {
-        case RsProcessStreamDataType.output:
+        case rs_process.RsProcessStreamDataType.output:
           if (event.data.contains("IPv4 RPC: listening on TCP port")) {
             _onLaunch(port, pwd, trackerList);
           }
           break;
-        case RsProcessStreamDataType.error:
+        case rs_process.RsProcessStreamDataType.error:
           launchError = event.data;
           state = state.copyWith(aria2c: null);
           break;
-        case RsProcessStreamDataType.exit:
+        case rs_process.RsProcessStreamDataType.exit:
           launchError = event.data;
           state = state.copyWith(aria2c: null);
           break;
