@@ -451,8 +451,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("快速啟動"),
         "home_action_performance_optimization":
             MessageLookupByLibrary.simpleMessage("性能調整"),
-        "home_action_q_auto_password_fill_prompt":
-            MessageLookupByLibrary.simpleMessage("是否開啟自動密碼輸入？"),
         "home_action_rsi_status_arena_commander":
             MessageLookupByLibrary.simpleMessage("競技場指揮官"),
         "home_action_rsi_status_electronic_access":
@@ -482,8 +480,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("正在進行中"),
         "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
             "為確保帳戶安全，快速啟動功能已在開發版中禁用，我們將在 Microsoft Store 版本中提供此功能。\n\nMicrosoft Store 版由微軟提供可靠的分發下載與數字簽名，可有效防止軟件被惡意篡改。\n\n提示：您無需使用盒子啟動遊戲也可使用翻譯。"),
-        "home_info_auto_fill_notice": MessageLookupByLibrary.simpleMessage(
-            "* 若開啟了自動輸入，請留意彈出的 Windows Hello 窗口"),
         "home_info_one_click_launch_warning":
             MessageLookupByLibrary.simpleMessage("一鍵啟動功能提示"),
         "home_info_valid_installation_required":
@@ -498,16 +494,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("需要安裝 WebView2 Runtime"),
         "home_login_info_action_ignore":
             MessageLookupByLibrary.simpleMessage("忽略"),
-        "home_login_info_enter_pin_to_encrypt":
-            MessageLookupByLibrary.simpleMessage("輸入PIN以啟用加密"),
         "home_login_info_game_version_outdated":
             MessageLookupByLibrary.simpleMessage("遊戲版本過期"),
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
                 "此功能可以幫您更加便利的啟動遊戲。\n\n為確保帳戶安全 ，此功能使用漢化瀏覽器保留登入狀態，且不會保存您的密碼資訊（除非你啟用了自動輸入功能）。\n\n使用此功能登入帳號時請確保您的 SC漢化盒子 是從可信任的來源下載。"),
-        "home_login_info_password_encryption_notice":
-            MessageLookupByLibrary.simpleMessage(
-                "盒子將使用 PIN 與 Windows 憑據加密保存您的密碼，密碼只儲存在您的裝置中。\n\n當下次登入需要輸入密碼時，您只需授權PIN即可自動輸入登入。"),
         "home_login_info_rsi_server_report": m31,
         "home_login_title_launching_game":
             MessageLookupByLibrary.simpleMessage("正在為您啟動遊戲..."),
@@ -806,10 +797,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI啟動器位置："),
         "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在掃描..."),
-        "webview_localization_device_windows_hello_toast":
-            MessageLookupByLibrary.simpleMessage("請完成 Windows Hello 驗證以輸入密碼"),
-        "webview_localization_enter_device_pin":
-            MessageLookupByLibrary.simpleMessage("請輸入裝置PIN以自動登入RSI帳戶"),
         "webview_localization_finished_invitations":
             MessageLookupByLibrary.simpleMessage("已完成的邀請"),
         "webview_localization_name_member":

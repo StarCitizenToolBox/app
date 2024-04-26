@@ -42,13 +42,6 @@ class HomeGameLoginDialogUI extends HookConsumerWidget {
                       Text(S.current.home_title_logging_in),
                       const SizedBox(height: 12),
                       const ProgressRing(),
-                      if (loginState.isDeviceSupportWinHello ?? false)
-                        const SizedBox(height: 24),
-                      Text(
-                        S.current.home_info_auto_fill_notice,
-                        style: TextStyle(
-                            fontSize: 13, color: Colors.white.withOpacity(.6)),
-                      )
                     ],
                   ),
                 ),

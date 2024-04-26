@@ -504,9 +504,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("One-click launch"),
         "home_action_performance_optimization":
             MessageLookupByLibrary.simpleMessage("Performance optimization"),
-        "home_action_q_auto_password_fill_prompt":
-            MessageLookupByLibrary.simpleMessage(
-                "Turn on the automatic password filling?"),
         "home_action_rsi_status_arena_commander":
             MessageLookupByLibrary.simpleMessage("AC"),
         "home_action_rsi_status_electronic_access":
@@ -537,8 +534,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("In progress"),
         "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
             "In order to ensure the security of the account, the one -click startup function has been disabled in the development version, and we will provide this feature in the Microsoft store version.\n\nThe Microsoft Store Edition is provided with a reliable distribution download and digital signature by Microsoft, which can effectively prevent software from being maliciously tampered with.\n\nTip: You can use Localization without using a box to start the game."),
-        "home_info_auto_fill_notice": MessageLookupByLibrary.simpleMessage(
-            "* If the automatic filling is turned on, please pay attention to the  Windows Hello pop-up"),
         "home_info_one_click_launch_warning":
             MessageLookupByLibrary.simpleMessage(
                 "One -click start -up function prompt"),
@@ -558,17 +553,11 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Need to install WebView2 Runtime"),
         "home_login_info_action_ignore":
             MessageLookupByLibrary.simpleMessage("Neglect"),
-        "home_login_info_enter_pin_to_encrypt":
-            MessageLookupByLibrary.simpleMessage(
-                "Enter PIN to enable encryption"),
         "home_login_info_game_version_outdated":
             MessageLookupByLibrary.simpleMessage("Outdated game version"),
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
                 "This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source."),
-        "home_login_info_password_encryption_notice":
-            MessageLookupByLibrary.simpleMessage(
-                "The box will use the PIN and Windows credentials to save your password encryption, and the password is only stored in your device.\n\nWhen you need to enter a password for the next login, you only need to authorize PIN to automatically fill in the login."),
         "home_login_info_rsi_server_report": m31,
         "home_login_title_launching_game":
             MessageLookupByLibrary.simpleMessage("Launching game for you ..."),
@@ -917,12 +906,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("RSI starter position:"),
         "tools_info_scanning":
             MessageLookupByLibrary.simpleMessage("Scanning..."),
-        "webview_localization_device_windows_hello_toast":
-            MessageLookupByLibrary.simpleMessage(
-                "Please complete the Windows Hello verification to fill in the password"),
-        "webview_localization_enter_device_pin":
-            MessageLookupByLibrary.simpleMessage(
-                "Please enter the device PIN to automatically log in to the RSI account"),
         "webview_localization_finished_invitations":
             MessageLookupByLibrary.simpleMessage("Completed invitations"),
         "webview_localization_name_member":

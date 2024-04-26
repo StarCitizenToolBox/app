@@ -4,16 +4,13 @@ import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:cryptography/cryptography.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
-import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/data/rsi_game_library_data.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/webview/webview.dart';
@@ -46,25 +43,20 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     return HomeGameLoginState(loginStatus: 0);
   }
 
-  final LocalAuthentication _localAuth = LocalAuthentication();
-
   // ignore: avoid_build_context_in_providers
   Future<void> launchWebLogin(BuildContext context) async {
     final homeState = ref.read(homeUIModelProvider);
-    final isDeviceSupportWinHello = await _localAuth.isDeviceSupported();
-    state = state.copyWith(isDeviceSupportWinHello: isDeviceSupportWinHello);
-
     if (!context.mounted) return;
     goWebView(context, S.current.home_action_login_rsi_account,
-        "https://robertsspaceindustries.com/connect", loginMode: true,
-        rsiLoginCallback: (message, ok) async {
+        "https://robertsspaceindustries.com/connect?jumpto=/connect",
+        loginMode: true, rsiLoginCallback: (message, ok) async {
       // dPrint(
       //     "======rsiLoginCallback=== $ok ===== data==\n${json.encode(message)}");
       if (message == null || !ok) {
         Navigator.pop(context);
         return;
       }
-      dPrint("web  message == $message");
+
       // final emailBox = await Hive.openBox("quick_login_email");
       final data = message["data"];
       final authToken = data["authToken"];
@@ -78,13 +70,6 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
       final Map<String, dynamic> payload = Jwt.parseJwt(authToken!);
       final nickname = payload["nickname"] ?? "";
 
-      final inputEmail = data["inputEmail"];
-      final inputPassword = data["inputPassword"];
-
-      final userBox = await Hive.openBox("rsi_account_data");
-      if (inputEmail != null && inputEmail != "") {
-        await userBox.put("account_email", inputEmail);
-      }
       state = state.copyWith(
         nickname: nickname,
         avatarUrl: avatarUrl,
@@ -94,37 +79,11 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
         libraryData: libraryData,
       );
 
-      if (isDeviceSupportWinHello) {
-        if (await userBox.get("enable", defaultValue: true)) {
-          if (inputEmail != null &&
-              inputEmail != "" &&
-              inputPassword != null &&
-              inputPassword != "") {
-            if (!context.mounted) return;
-            final ok = await showConfirmDialogs(
-                context,
-                S.current.home_action_q_auto_password_fill_prompt,
-                Text(S.current.home_login_info_password_encryption_notice));
-            if (ok == true) {
-              if (await _localAuth.authenticate(
-                      localizedReason:
-                          S.current.home_login_info_enter_pin_to_encrypt) ==
-                  true) {
-                await _savePwd(inputEmail, inputPassword);
-              }
-            } else {
-              await userBox.put("enable", false);
-            }
-          }
-        }
-      }
-
       final buildInfoFile =
           File("${homeState.scInstalledPath}\\build_manifest.id");
       if (await buildInfoFile.exists()) {
         final buildInfo =
             json.decode(await buildInfoFile.readAsString())["Data"];
-        dPrint("buildInfo ======= $buildInfo");
 
         if (releaseInfo?["versionLabel"] != null &&
             buildInfo["RequestedP4ChangeNum"] != null) {
@@ -264,34 +223,5 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
       return "LIVE";
     }
     return "PTU";
-  }
-
-  _savePwd(String inputEmail, String inputPassword) async {
-    final algorithm = AesGcm.with256bits();
-    final secretKey = await algorithm.newSecretKey();
-    final nonce = algorithm.newNonce();
-
-    final secretBox = await algorithm.encrypt(utf8.encode(inputPassword),
-        secretKey: secretKey, nonce: nonce);
-
-    await algorithm.decrypt(
-        SecretBox(secretBox.cipherText,
-            nonce: secretBox.nonce, mac: secretBox.mac),
-        secretKey: secretKey);
-
-    final pwdEncrypted = base64.encode(secretBox.cipherText);
-
-    final userBox = await Hive.openBox("rsi_account_data");
-    await userBox.put("account_email", inputEmail);
-    await userBox.put("account_pwd_encrypted", pwdEncrypted);
-    await userBox.put("nonce", base64.encode(secretBox.nonce));
-    await userBox.put("mac", base64.encode(secretBox.mac.bytes));
-
-    final secretKeyStr = base64.encode((await secretKey.extractBytes()));
-
-    Win32Credentials.write(
-        credentialName: "SCToolbox_RSI_Account_secret",
-        userName: inputEmail,
-        password: secretKeyStr);
   }
 }

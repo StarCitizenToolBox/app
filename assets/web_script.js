@@ -221,19 +221,8 @@ InitWebLocalization();
 async function getRSILauncherToken(channelId) {
     if (!window.location.href.includes("robertsspaceindustries.com")) return;
 
-    if (window.location.href.startsWith("https://robertsspaceindustries.com/connect")) {
-        $(function () {
-            $('#email').on('input', function () {
-                let inputEmail = $('#email').val()
-                sessionStorage.setItem('inputEmail', inputEmail);
-            });
-            $('#password').on('input', function () {
-                let inputPassword = $('#password').val()
-                sessionStorage.setItem('inputPassword', inputPassword);
-            });
-        });
-    }
-
+    let loginBodyElement = $(".c-form.c-signIn");
+    loginBodyElement.hide();
     // check login
     let r = await fetch("api/launcher/v3/account/check", {
         method: 'POST', headers: {
@@ -241,6 +230,7 @@ async function getRSILauncherToken(channelId) {
         },
     });
     if (r.status !== 200) {
+        loginBodyElement.show();
         // wait login
         window.chrome.webview.postMessage({action: 'webview_rsi_login_show_window'});
         return;
@@ -309,25 +299,6 @@ async function getRSILauncherToken(channelId) {
             'releaseInfo': releaseDataJson,
             "avatar": avatarUrl,
             'libraryData': libraryData,
-            "inputEmail": sessionStorage.getItem("inputEmail"),
-            "inputPassword": sessionStorage.getItem("inputPassword")
-        }
-    });
-}
-
-function RSIAutoLogin(email, pwd) {
-    if (!window.location.href.includes("robertsspaceindustries.com")) return;
-    $(function () {
-        if (email !== "") {
-            $('#email').val(email)
-        }
-        if (pwd !== "") {
-            $('#password').val(pwd)
-        }
-        sessionStorage.setItem('inputPassword', '');
-        if (email !== "" && pwd !== "") {
-            $("#remember").prop("checked", true);
-            $('.c-formLegacyEnlist__submit-button-label').click();
         }
     });
 }
@@ -345,5 +316,4 @@ function SCTShowToast(message) {
             document.body.removeChild(m)
         }, d * 1000);
     }, 3500);
-
 }

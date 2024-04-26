@@ -6,13 +6,11 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
-import 'package:starcitizen_doctor/common/win32/credentials.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 part 'settings_ui_model.g.dart';
@@ -22,10 +20,6 @@ part 'settings_ui_model.freezed.dart';
 @freezed
 class SettingsUIState with _$SettingsUIState {
   factory SettingsUIState({
-    @Default(false) isDeviceSupportWinHello,
-    @Default("-") String autoLoginEmail,
-    @Default(false) bool isEnableAutoLogin,
-    @Default(false) bool isEnableAutoLoginPwd,
     @Default(false) bool isEnableToolSiteMirrors,
     @Default("0") String inputGameLaunchECore,
     String? customLauncherPath,
@@ -44,45 +38,10 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   void _initState() async {
-    final LocalAuthentication localAuth = LocalAuthentication();
-    final isDeviceSupportWinHello = await localAuth.isDeviceSupported();
-    state = state.copyWith(isDeviceSupportWinHello: isDeviceSupportWinHello);
     _updateGameLaunchECore();
-    if (ConstConf.isMSE) {
-      _updateAutoLoginAccount();
-    }
     _loadCustomPath();
     _loadLocationCacheSize();
     _loadToolSiteMirrorState();
-  }
-
-  Future<void> onResetAutoLogin(BuildContext context) async {
-    final ok = await showConfirmDialogs(
-        context,
-        S.current.setting_action_info_confirm_reset_autofill,
-        Text(S.current.setting_action_info_delete_local_account_warning));
-    if (ok) {
-      final userBox = await Hive.openBox("rsi_account_data");
-      await userBox.deleteFromDisk();
-      Win32Credentials.delete("SCToolbox_RSI_Account_secret");
-      if (!context.mounted) return;
-
-      showToast(context, S.current.setting_action_info_autofill_data_cleared);
-      _initState();
-    }
-  }
-
-  Future _updateAutoLoginAccount() async {
-    final userBox = await Hive.openBox("rsi_account_data");
-    final autoLoginEmail = userBox.get("account_email", defaultValue: "-");
-    final isEnableAutoLogin = userBox.get("enable", defaultValue: true);
-    final isEnableAutoLoginPwd =
-        userBox.get("account_pwd_encrypted", defaultValue: "") != "";
-
-    state = state.copyWith(
-        autoLoginEmail: autoLoginEmail,
-        isEnableAutoLogin: isEnableAutoLogin,
-        isEnableAutoLoginPwd: isEnableAutoLoginPwd);
   }
 
   Future<void> setGameLaunchECore(BuildContext context) async {

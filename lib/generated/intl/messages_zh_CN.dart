@@ -451,8 +451,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("一键启动"),
         "home_action_performance_optimization":
             MessageLookupByLibrary.simpleMessage("性能优化"),
-        "home_action_q_auto_password_fill_prompt":
-            MessageLookupByLibrary.simpleMessage("是否开启自动密码填充？"),
         "home_action_rsi_status_arena_commander":
             MessageLookupByLibrary.simpleMessage("竞技场指挥官"),
         "home_action_rsi_status_electronic_access":
@@ -482,8 +480,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("正在进行中"),
         "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
             "为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。\n\n微软商店版由微软提供可靠的分发下载与数字签名，可有效防止软件被恶意篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。"),
-        "home_info_auto_fill_notice": MessageLookupByLibrary.simpleMessage(
-            "* 若开启了自动填充，请留意弹出的 Windows Hello 窗口"),
         "home_info_one_click_launch_warning":
             MessageLookupByLibrary.simpleMessage("一键启动功能提示"),
         "home_info_valid_installation_required":
@@ -498,16 +494,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("需要安装 WebView2 Runtime"),
         "home_login_info_action_ignore":
             MessageLookupByLibrary.simpleMessage("忽略"),
-        "home_login_info_enter_pin_to_encrypt":
-            MessageLookupByLibrary.simpleMessage("输入PIN以启用加密"),
         "home_login_info_game_version_outdated":
             MessageLookupByLibrary.simpleMessage("游戏版本过期"),
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
                 "本功能可以帮您更加便利的启动游戏。\n\n为确保账户安全 ，本功能使用汉化浏览器保留登录状态，且不会保存您的密码信息（除非你启用了自动填充功能）。\n\n使用此功能登录账号时请确保您的 SC汉化盒子 是从可信任的来源下载。"),
-        "home_login_info_password_encryption_notice":
-            MessageLookupByLibrary.simpleMessage(
-                "盒子将使用 PIN 与 Windows 凭据加密保存您的密码，密码只存储在您的设备中。\n\n当下次登录需要输入密码时，您只需授权PIN即可自动填充登录。"),
         "home_login_info_rsi_server_report": m31,
         "home_login_title_launching_game":
             MessageLookupByLibrary.simpleMessage("正在为您启动游戏..."),
@@ -808,10 +799,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI启动器位置："),
         "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在扫描..."),
-        "webview_localization_device_windows_hello_toast":
-            MessageLookupByLibrary.simpleMessage("请完成 Windows Hello 验证以填充密码"),
-        "webview_localization_enter_device_pin":
-            MessageLookupByLibrary.simpleMessage("请输入设备PIN以自动登录RSI账户"),
         "webview_localization_finished_invitations":
             MessageLookupByLibrary.simpleMessage("已完成的邀请"),
         "webview_localization_name_member":

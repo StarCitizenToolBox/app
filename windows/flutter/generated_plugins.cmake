@@ -5,7 +5,6 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_webview_window
   flutter_acrylic
-  local_auth_windows
   screen_retriever
   url_launcher_windows
   window_manager

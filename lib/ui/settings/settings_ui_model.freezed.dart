@@ -17,9 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SettingsUIState {
   dynamic get isDeviceSupportWinHello => throw _privateConstructorUsedError;
-  String get autoLoginEmail => throw _privateConstructorUsedError;
-  bool get isEnableAutoLogin => throw _privateConstructorUsedError;
-  bool get isEnableAutoLoginPwd => throw _privateConstructorUsedError;
   bool get isEnableToolSiteMirrors => throw _privateConstructorUsedError;
   String get inputGameLaunchECore => throw _privateConstructorUsedError;
   String? get customLauncherPath => throw _privateConstructorUsedError;
@@ -39,9 +36,6 @@ abstract class $SettingsUIStateCopyWith<$Res> {
   @useResult
   $Res call(
       {dynamic isDeviceSupportWinHello,
-      String autoLoginEmail,
-      bool isEnableAutoLogin,
-      bool isEnableAutoLoginPwd,
       bool isEnableToolSiteMirrors,
       String inputGameLaunchECore,
       String? customLauncherPath,
@@ -63,9 +57,6 @@ class _$SettingsUIStateCopyWithImpl<$Res, $Val extends SettingsUIState>
   @override
   $Res call({
     Object? isDeviceSupportWinHello = freezed,
-    Object? autoLoginEmail = null,
-    Object? isEnableAutoLogin = null,
-    Object? isEnableAutoLoginPwd = null,
     Object? isEnableToolSiteMirrors = null,
     Object? inputGameLaunchECore = null,
     Object? customLauncherPath = freezed,
@@ -77,18 +68,6 @@ class _$SettingsUIStateCopyWithImpl<$Res, $Val extends SettingsUIState>
           ? _value.isDeviceSupportWinHello
           : isDeviceSupportWinHello // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      autoLoginEmail: null == autoLoginEmail
-          ? _value.autoLoginEmail
-          : autoLoginEmail // ignore: cast_nullable_to_non_nullable
-              as String,
-      isEnableAutoLogin: null == isEnableAutoLogin
-          ? _value.isEnableAutoLogin
-          : isEnableAutoLogin // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isEnableAutoLoginPwd: null == isEnableAutoLoginPwd
-          ? _value.isEnableAutoLoginPwd
-          : isEnableAutoLoginPwd // ignore: cast_nullable_to_non_nullable
-              as bool,
       isEnableToolSiteMirrors: null == isEnableToolSiteMirrors
           ? _value.isEnableToolSiteMirrors
           : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
@@ -123,9 +102,6 @@ abstract class _$$SettingsUIStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {dynamic isDeviceSupportWinHello,
-      String autoLoginEmail,
-      bool isEnableAutoLogin,
-      bool isEnableAutoLoginPwd,
       bool isEnableToolSiteMirrors,
       String inputGameLaunchECore,
       String? customLauncherPath,
@@ -145,9 +121,6 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isDeviceSupportWinHello = freezed,
-    Object? autoLoginEmail = null,
-    Object? isEnableAutoLogin = null,
-    Object? isEnableAutoLoginPwd = null,
     Object? isEnableToolSiteMirrors = null,
     Object? inputGameLaunchECore = null,
     Object? customLauncherPath = freezed,
@@ -158,18 +131,6 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
       isDeviceSupportWinHello: freezed == isDeviceSupportWinHello
           ? _value.isDeviceSupportWinHello!
           : isDeviceSupportWinHello,
-      autoLoginEmail: null == autoLoginEmail
-          ? _value.autoLoginEmail
-          : autoLoginEmail // ignore: cast_nullable_to_non_nullable
-              as String,
-      isEnableAutoLogin: null == isEnableAutoLogin
-          ? _value.isEnableAutoLogin
-          : isEnableAutoLogin // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isEnableAutoLoginPwd: null == isEnableAutoLoginPwd
-          ? _value.isEnableAutoLoginPwd
-          : isEnableAutoLoginPwd // ignore: cast_nullable_to_non_nullable
-              as bool,
       isEnableToolSiteMirrors: null == isEnableToolSiteMirrors
           ? _value.isEnableToolSiteMirrors
           : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
@@ -199,9 +160,6 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
 class _$SettingsUIStateImpl implements _SettingsUIState {
   _$SettingsUIStateImpl(
       {this.isDeviceSupportWinHello = false,
-      this.autoLoginEmail = "-",
-      this.isEnableAutoLogin = false,
-      this.isEnableAutoLoginPwd = false,
       this.isEnableToolSiteMirrors = false,
       this.inputGameLaunchECore = "0",
       this.customLauncherPath,
@@ -211,15 +169,6 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
   @override
   @JsonKey()
   final dynamic isDeviceSupportWinHello;
-  @override
-  @JsonKey()
-  final String autoLoginEmail;
-  @override
-  @JsonKey()
-  final bool isEnableAutoLogin;
-  @override
-  @JsonKey()
-  final bool isEnableAutoLoginPwd;
   @override
   @JsonKey()
   final bool isEnableToolSiteMirrors;
@@ -236,7 +185,7 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
 
   @override
   String toString() {
-    return 'SettingsUIState(isDeviceSupportWinHello: $isDeviceSupportWinHello, autoLoginEmail: $autoLoginEmail, isEnableAutoLogin: $isEnableAutoLogin, isEnableAutoLoginPwd: $isEnableAutoLoginPwd, isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize)';
+    return 'SettingsUIState(isDeviceSupportWinHello: $isDeviceSupportWinHello, isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize)';
   }
 
   @override
@@ -246,12 +195,6 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
             other is _$SettingsUIStateImpl &&
             const DeepCollectionEquality().equals(
                 other.isDeviceSupportWinHello, isDeviceSupportWinHello) &&
-            (identical(other.autoLoginEmail, autoLoginEmail) ||
-                other.autoLoginEmail == autoLoginEmail) &&
-            (identical(other.isEnableAutoLogin, isEnableAutoLogin) ||
-                other.isEnableAutoLogin == isEnableAutoLogin) &&
-            (identical(other.isEnableAutoLoginPwd, isEnableAutoLoginPwd) ||
-                other.isEnableAutoLoginPwd == isEnableAutoLoginPwd) &&
             (identical(
                     other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) ||
                 other.isEnableToolSiteMirrors == isEnableToolSiteMirrors) &&
@@ -269,9 +212,6 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isDeviceSupportWinHello),
-      autoLoginEmail,
-      isEnableAutoLogin,
-      isEnableAutoLoginPwd,
       isEnableToolSiteMirrors,
       inputGameLaunchECore,
       customLauncherPath,
@@ -289,9 +229,6 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
 abstract class _SettingsUIState implements SettingsUIState {
   factory _SettingsUIState(
       {final dynamic isDeviceSupportWinHello,
-      final String autoLoginEmail,
-      final bool isEnableAutoLogin,
-      final bool isEnableAutoLoginPwd,
       final bool isEnableToolSiteMirrors,
       final String inputGameLaunchECore,
       final String? customLauncherPath,
@@ -300,12 +237,6 @@ abstract class _SettingsUIState implements SettingsUIState {
 
   @override
   dynamic get isDeviceSupportWinHello;
-  @override
-  String get autoLoginEmail;
-  @override
-  bool get isEnableAutoLogin;
-  @override
-  bool get isEnableAutoLoginPwd;
   @override
   bool get isEnableToolSiteMirrors;
   @override

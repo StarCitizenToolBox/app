@@ -2,7 +2,6 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/app.dart';
-import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 
@@ -31,23 +30,6 @@ class SettingsUI extends HookConsumerWidget {
           S.current.setting_action_create_settings_shortcut,
           subTitle: S.current.setting_action_create_desktop_shortcut,
           onTap: () => model.addShortCut(context)),
-      if (ConstConf.isMSE) ...[
-        const SizedBox(height: 12),
-        makeSettingsItem(const Icon(FluentIcons.reset_device, size: 20),
-            S.current.setting_action_reset_auto_password_fill,
-            subTitle: S.current.setting_action_info_device_support_info(
-                sate.isEnableAutoLogin
-                    ? S.current.setting_action_info_enabled
-                    : S.current.setting_action_info_disabled,
-                sate.isDeviceSupportWinHello
-                    ? S.current.setting_action_info_support
-                    : S.current.setting_action_info_not_support,
-                sate.autoLoginEmail,
-                sate.isEnableAutoLoginPwd
-                    ? S.current.setting_action_info_encrypted_saved
-                    : S.current.setting_action_info_not_saved),
-            onTap: () => model.onResetAutoLogin(context)),
-      ],
       const SizedBox(height: 12),
       makeSettingsItem(const Icon(FontAwesomeIcons.microchip, size: 20),
           S.current.setting_action_ignore_efficiency_cores_on_launch,

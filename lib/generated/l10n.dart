@@ -290,16 +290,6 @@ class S {
     );
   }
 
-  /// `* If the automatic filling is turned on, please pay attention to the  Windows Hello pop-up`
-  String get home_info_auto_fill_notice {
-    return Intl.message(
-      '* If the automatic filling is turned on, please pay attention to the  Windows Hello pop-up',
-      name: 'home_info_auto_fill_notice',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Welcome back!`
   String get home_login_title_welcome_back {
     return Intl.message(
@@ -325,36 +315,6 @@ class S {
     return Intl.message(
       'Log in to RSI account',
       name: 'home_action_login_rsi_account',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Turn on the automatic password filling?`
-  String get home_action_q_auto_password_fill_prompt {
-    return Intl.message(
-      'Turn on the automatic password filling?',
-      name: 'home_action_q_auto_password_fill_prompt',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The box will use the PIN and Windows credentials to save your password encryption, and the password is only stored in your device.\n\nWhen you need to enter a password for the next login, you only need to authorize PIN to automatically fill in the login.`
-  String get home_login_info_password_encryption_notice {
-    return Intl.message(
-      'The box will use the PIN and Windows credentials to save your password encryption, and the password is only stored in your device.\n\nWhen you need to enter a password for the next login, you only need to authorize PIN to automatically fill in the login.',
-      name: 'home_login_info_password_encryption_notice',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter PIN to enable encryption`
-  String get home_login_info_enter_pin_to_encrypt {
-    return Intl.message(
-      'Enter PIN to enable encryption',
-      name: 'home_login_info_enter_pin_to_encrypt',
       desc: '',
       args: [],
     );
@@ -3380,26 +3340,6 @@ class S {
       name: 'app_init_failed_with_reason',
       desc: '',
       args: [v0],
-    );
-  }
-
-  /// `Please enter the device PIN to automatically log in to the RSI account`
-  String get webview_localization_enter_device_pin {
-    return Intl.message(
-      'Please enter the device PIN to automatically log in to the RSI account',
-      name: 'webview_localization_enter_device_pin',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please complete the Windows Hello verification to fill in the password`
-  String get webview_localization_device_windows_hello_toast {
-    return Intl.message(
-      'Please complete the Windows Hello verification to fill in the password',
-      name: 'webview_localization_device_windows_hello_toast',
-      desc: '',
-      args: [],
     );
   }
 

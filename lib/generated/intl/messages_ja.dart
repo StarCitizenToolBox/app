@@ -117,31 +117,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("RSI アカウントログイン"),
         "home_action_one_click_launch":
             MessageLookupByLibrary.simpleMessage("ワンクリック起動"),
-        "home_action_q_auto_password_fill_prompt":
-            MessageLookupByLibrary.simpleMessage("パスワードの自動入力はオンになっていますか？"),
         "home_holiday_countdown":
             MessageLookupByLibrary.simpleMessage("祝日カウントダウン"),
         "home_holiday_countdown_disclaimer":
             MessageLookupByLibrary.simpleMessage(
                 "* 上記の祝日は手作業で収集・管理されているため、誤りがある可能性があります、フィードバックは歓迎する！！"),
-        "home_info_auto_fill_notice": MessageLookupByLibrary.simpleMessage(
-            "* 自動入力がオンになっている場合は、Windows Hello のポップアップに注意してください"),
         "home_login_action_title_box_one_click_launch":
             MessageLookupByLibrary.simpleMessage("ボックスワンクリック起動"),
         "home_login_action_title_need_webview2_runtime":
             MessageLookupByLibrary.simpleMessage("WebView2 Runtime のインストールが必要"),
         "home_login_info_action_ignore":
             MessageLookupByLibrary.simpleMessage("無視する"),
-        "home_login_info_enter_pin_to_encrypt":
-            MessageLookupByLibrary.simpleMessage("PINを入力して暗号化を有効にする"),
         "home_login_info_game_version_outdated":
             MessageLookupByLibrary.simpleMessage("ゲームバージョンが古すぎる"),
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
                 "この機能は、ゲームをより便利に起動するのに役立ちます。\n\nアカウントのセキュリティを確保するため、この機能はローカライズブラウザを使用してログイン状態を保持し、パスワード情報を保存しません（自動入力オンの場合を除く）。\n\nこの機能を使用してアカウントにログインする際は、SCToolBox が信頼できるソースからダウンロードされていることを確認してください。"),
-        "home_login_info_password_encryption_notice":
-            MessageLookupByLibrary.simpleMessage(
-                "このツールには PIN と Windows 認証を使用して暗号化のパスワードが保存され、パスワードはローカルのみ保存されます。\n\n次回のログインでパスワードが必要になった場合、PIN だけてを許可する後、パスワードは自動的に入力して、ログインできます。"),
         "home_login_info_rsi_server_report": m31,
         "home_login_title_launching_game":
             MessageLookupByLibrary.simpleMessage("ゲーム起動中..."),
