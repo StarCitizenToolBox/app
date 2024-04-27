@@ -223,4 +223,23 @@ class Unp4kCModel extends _$Unp4kCModel {
           rsPid: _rsPid!, data: "$mode<:,:>$filePath<:,:>$outputPath\n");
     }
   }
+
+  static Future<Uint8List> unp4kTools(
+      String applicationBinaryModuleDir, List<String> args) async {
+    await BinaryModuleConf.extractModule(
+        ["unp4kc"], applicationBinaryModuleDir);
+    final execDir = "$applicationBinaryModuleDir\\unp4kc";
+    final exec = "$execDir\\unp4kc.exe";
+    final r = await Process.run(exec, args);
+    if (r.exitCode != 0) {
+      throw Exception(
+          "error: ${r.exitCode} , info= ${r.stdout} , err= ${r.stderr}");
+    }
+    final eventJson = await compute(json.decode, r.stdout.toString());
+    if (eventJson["action"] == "data: Uint8List") {
+      final data = eventJson["data"];
+      return Uint8List.fromList((data as List).cast<int>());
+    }
+    throw Exception("error: data error");
+  }
 }

@@ -6,7 +6,7 @@ part of 'unp4kc.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$unp4kCModelHash() => r'0f1bff187bbc4e043405f60e95c08af6e1159b57';
+String _$unp4kCModelHash() => r'69117c5857797683e2d080da9238bfecc5948898';
 
 /// See also [Unp4kCModel].
 @ProviderFor(Unp4kCModel)

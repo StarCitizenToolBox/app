@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingsUIState {
-  dynamic get isDeviceSupportWinHello => throw _privateConstructorUsedError;
   bool get isEnableToolSiteMirrors => throw _privateConstructorUsedError;
   String get inputGameLaunchECore => throw _privateConstructorUsedError;
   String? get customLauncherPath => throw _privateConstructorUsedError;
@@ -35,8 +34,7 @@ abstract class $SettingsUIStateCopyWith<$Res> {
       _$SettingsUIStateCopyWithImpl<$Res, SettingsUIState>;
   @useResult
   $Res call(
-      {dynamic isDeviceSupportWinHello,
-      bool isEnableToolSiteMirrors,
+      {bool isEnableToolSiteMirrors,
       String inputGameLaunchECore,
       String? customLauncherPath,
       String? customGamePath,
@@ -56,7 +54,6 @@ class _$SettingsUIStateCopyWithImpl<$Res, $Val extends SettingsUIState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isDeviceSupportWinHello = freezed,
     Object? isEnableToolSiteMirrors = null,
     Object? inputGameLaunchECore = null,
     Object? customLauncherPath = freezed,
@@ -64,10 +61,6 @@ class _$SettingsUIStateCopyWithImpl<$Res, $Val extends SettingsUIState>
     Object? locationCacheSize = null,
   }) {
     return _then(_value.copyWith(
-      isDeviceSupportWinHello: freezed == isDeviceSupportWinHello
-          ? _value.isDeviceSupportWinHello
-          : isDeviceSupportWinHello // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       isEnableToolSiteMirrors: null == isEnableToolSiteMirrors
           ? _value.isEnableToolSiteMirrors
           : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
@@ -101,8 +94,7 @@ abstract class _$$SettingsUIStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {dynamic isDeviceSupportWinHello,
-      bool isEnableToolSiteMirrors,
+      {bool isEnableToolSiteMirrors,
       String inputGameLaunchECore,
       String? customLauncherPath,
       String? customGamePath,
@@ -120,7 +112,6 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isDeviceSupportWinHello = freezed,
     Object? isEnableToolSiteMirrors = null,
     Object? inputGameLaunchECore = null,
     Object? customLauncherPath = freezed,
@@ -128,9 +119,6 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
     Object? locationCacheSize = null,
   }) {
     return _then(_$SettingsUIStateImpl(
-      isDeviceSupportWinHello: freezed == isDeviceSupportWinHello
-          ? _value.isDeviceSupportWinHello!
-          : isDeviceSupportWinHello,
       isEnableToolSiteMirrors: null == isEnableToolSiteMirrors
           ? _value.isEnableToolSiteMirrors
           : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
@@ -159,16 +147,12 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
 
 class _$SettingsUIStateImpl implements _SettingsUIState {
   _$SettingsUIStateImpl(
-      {this.isDeviceSupportWinHello = false,
-      this.isEnableToolSiteMirrors = false,
+      {this.isEnableToolSiteMirrors = false,
       this.inputGameLaunchECore = "0",
       this.customLauncherPath,
       this.customGamePath,
       this.locationCacheSize = 0});
 
-  @override
-  @JsonKey()
-  final dynamic isDeviceSupportWinHello;
   @override
   @JsonKey()
   final bool isEnableToolSiteMirrors;
@@ -185,7 +169,7 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
 
   @override
   String toString() {
-    return 'SettingsUIState(isDeviceSupportWinHello: $isDeviceSupportWinHello, isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize)';
+    return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize)';
   }
 
   @override
@@ -193,8 +177,6 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SettingsUIStateImpl &&
-            const DeepCollectionEquality().equals(
-                other.isDeviceSupportWinHello, isDeviceSupportWinHello) &&
             (identical(
                     other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) ||
                 other.isEnableToolSiteMirrors == isEnableToolSiteMirrors) &&
@@ -211,7 +193,6 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(isDeviceSupportWinHello),
       isEnableToolSiteMirrors,
       inputGameLaunchECore,
       customLauncherPath,
@@ -228,15 +209,12 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
 
 abstract class _SettingsUIState implements SettingsUIState {
   factory _SettingsUIState(
-      {final dynamic isDeviceSupportWinHello,
-      final bool isEnableToolSiteMirrors,
+      {final bool isEnableToolSiteMirrors,
       final String inputGameLaunchECore,
       final String? customLauncherPath,
       final String? customGamePath,
       final int locationCacheSize}) = _$SettingsUIStateImpl;
 
-  @override
-  dynamic get isDeviceSupportWinHello;
   @override
   bool get isEnableToolSiteMirrors;
   @override

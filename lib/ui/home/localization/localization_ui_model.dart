@@ -18,6 +18,7 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
+import 'package:starcitizen_doctor/provider/unp4kc.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -86,6 +87,17 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         defaultValue: languageSupport.keys.first);
     state = state.copyWith(selectedLanguage: lang);
     await _loadData();
+  }
+
+  readEnglishInI() async {
+    final data = await Unp4kCModel.unp4kTools(
+        appGlobalState.applicationBinaryModuleDir!, [
+      "extract_memory",
+      "$_scInstallPath\\Data.p4k",
+      "Data\\Localization\\english\\global.ini"
+    ]);
+    final iniData = String.fromCharCodes(data);
+    dPrint("read english ini => ${iniData.length}");
   }
 
   final Map<String, Map<String, ScLocalizationData>>
