@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:file/memory.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/binary_conf.dart';
+import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/rust/api/rs_process.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
@@ -199,7 +201,9 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   openFile(String filePath) async {
-    final tempPath = "${appGlobalState.applicationSupportDir}\\temp\\unp4k\\";
+    final tempDir = await getTemporaryDirectory();
+    final tempPath =
+        "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
     state = state.copyWith(
         tempOpenFile: const MapEntry("loading", ""),
         endMessage: "读取文件：$filePath ...");

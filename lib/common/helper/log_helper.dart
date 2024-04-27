@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hive/hive.dart';
+import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class SCLoggerHelper {
@@ -113,6 +114,15 @@ class SCLoggerHelper {
     }
 
     return scInstallPaths;
+  }
+
+  static String getGameChannelID(String installPath) {
+    for (var value in ConstConf.gameChannels) {
+      if (installPath.endsWith("\\$value")) {
+        return value;
+      }
+    }
+    return "UNKNOWN";
   }
 
   static Future<List<String>?> getGameRunningLogs(String gameDir) async {
