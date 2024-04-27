@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/http_api.dart';
+import 'api/notify_api.dart';
 import 'api/rs_process.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -547,6 +548,39 @@ class RustLibWire implements BaseWire {
       'frbgen_starcitizen_doctor_wire_set_default_header');
   late final _wire_set_default_header = _wire_set_default_headerPtr.asFunction<
       void Function(int, ffi.Pointer<wire_cst_list_record_string_string>)>();
+
+  void wire_send_notify(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> summary,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> body,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> app_name,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> app_id,
+  ) {
+    return _wire_send_notify(
+      port_,
+      summary,
+      body,
+      app_name,
+      app_id,
+    );
+  }
+
+  late final _wire_send_notifyPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_starcitizen_doctor_wire_send_notify');
+  late final _wire_send_notify = _wire_send_notifyPtr.asFunction<
+      void Function(
+          int,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
 
   void wire_start(
     int port_,

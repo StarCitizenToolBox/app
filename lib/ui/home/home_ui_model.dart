@@ -16,6 +16,8 @@ import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/rust/api/notify_api.dart'
+    as notify_api;
 import 'package:starcitizen_doctor/common/utils/async.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -27,7 +29,6 @@ import 'package:starcitizen_doctor/ui/home/dialogs/home_game_login_dialog_ui.dar
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
-import 'package:windows_ui/windows_ui.dart';
 
 import '../webview/webview.dart';
 import 'localization/localization_ui_model.dart';
@@ -290,25 +291,14 @@ class HomeUIModel extends _$HomeUIModel {
       _appUpdateTimer?.cancel();
       _appUpdateTimer = null;
       // 发送通知
-      final toastNotifier = ToastNotificationManager.createToastNotifierWithId(
-          S.current.home_title_app_name);
-      if (toastNotifier != null) {
-        final toastContent = ToastNotificationManager.getTemplateContent(
-            ToastTemplateType.toastText02);
-        if (toastContent != null) {
-          final xmlNodeList = toastContent.getElementsByTagName('text');
-          final title = S.current.home_localization_new_version_available;
-          final content =
-              S.current.home_localization_new_version_installed(updates.first);
-          xmlNodeList.item(0)?.appendChild(toastContent.createTextNode(title));
-          xmlNodeList
-              .item(1)
-              ?.appendChild(toastContent.createTextNode(content));
-          final toastNotification =
-              ToastNotification.createToastNotification(toastContent);
-          toastNotifier.show(toastNotification);
-        }
-      }
+      await notify_api.sendNotify(
+          summary: S.current.home_localization_new_version_available,
+          body:
+              S.current.home_localization_new_version_installed(updates.first),
+          appName: S.current.home_title_app_name,
+          appId: ConstConf.isMSE
+              ? "56575xkeyC.MSE_bsn1nexg8e4qe!starcitizendoctor"
+              : "{6D809377-6AF0-444B-8957-A3773F02200E}\\Starcitizen_Doctor\\starcitizen_doctor.exe");
     }
   }
 

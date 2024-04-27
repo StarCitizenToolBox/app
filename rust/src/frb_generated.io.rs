@@ -205,6 +205,17 @@ pub extern "C" fn frbgen_starcitizen_doctor_wire_set_default_header(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_wire_send_notify(
+    port_: i64,
+    summary: *mut wire_cst_list_prim_u_8_strict,
+    body: *mut wire_cst_list_prim_u_8_strict,
+    app_name: *mut wire_cst_list_prim_u_8_strict,
+    app_id: *mut wire_cst_list_prim_u_8_strict,
+) {
+    wire_send_notify_impl(port_, summary, body, app_name, app_id)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_starcitizen_doctor_wire_start(
     port_: i64,
     executable: *mut wire_cst_list_prim_u_8_strict,
