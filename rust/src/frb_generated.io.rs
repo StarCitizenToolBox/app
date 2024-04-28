@@ -216,6 +216,14 @@ pub extern "C" fn frbgen_starcitizen_doctor_wire_send_notify(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_wire_set_foreground_window(
+    port_: i64,
+    window_name: *mut wire_cst_list_prim_u_8_strict,
+) {
+    wire_set_foreground_window_impl(port_, window_name)
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_starcitizen_doctor_wire_start(
     port_: i64,
     executable: *mut wire_cst_list_prim_u_8_strict,

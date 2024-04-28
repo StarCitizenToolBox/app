@@ -31,7 +31,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0-dev.32";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1067953400;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1186168522;
 
 // Section: executor
 
@@ -170,6 +170,26 @@ fn wire_send_notify_impl(
         },
     )
 }
+fn wire_set_foreground_window_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    window_name: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "set_foreground_window",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_window_name = window_name.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::rs_process::set_foreground_window(&api_window_name)
+                })())
+            }
+        },
+    )
+}
 fn wire_start_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     executable: impl CstDecode<String>,
@@ -198,9 +218,9 @@ fn wire_start_impl(
                     (move || async move {
                         Result::<_, ()>::Ok(
                             crate::api::rs_process::start(
-                                api_executable,
+                                &api_executable,
                                 api_arguments,
-                                api_working_directory,
+                                &api_working_directory,
                                 api_stream_sink,
                             )
                             .await,
@@ -242,6 +262,12 @@ fn wire_write_impl(
 
 // Section: dart2rust
 
+impl CstDecode<bool> for bool {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> bool {
+        self
+    }
+}
 impl CstDecode<i32> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> i32 {
@@ -347,6 +373,13 @@ impl SseDecode for String {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <Vec<u8>>::sse_decode(deserializer);
         return String::from_utf8(inner).unwrap();
+    }
+}
+
+impl SseDecode for bool {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_u8().unwrap() != 0
     }
 }
 
@@ -566,13 +599,6 @@ impl SseDecode for () {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
 }
 
-impl SseDecode for bool {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_u8().unwrap() != 0
-    }
-}
-
 fn pde_ffi_dispatcher_primary_impl(
     func_id: i32,
     port: flutter_rust_bridge::for_generated::MessagePort,
@@ -751,6 +777,13 @@ impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.into_bytes(), serializer);
+    }
+}
+
+impl SseEncode for bool {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_u8(self as _).unwrap();
     }
 }
 
@@ -952,13 +985,6 @@ impl SseEncode for u8 {
 impl SseEncode for () {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
-}
-
-impl SseEncode for bool {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_u8(self as _).unwrap();
-    }
 }
 
 #[cfg(not(target_family = "wasm"))]

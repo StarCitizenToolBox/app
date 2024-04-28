@@ -23,6 +23,7 @@ import 'api/api.dart';
 import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
+import 'common/rust/api/rs_process.dart' as rs_process;
 import 'data/app_version_data.dart';
 import 'generated/no_l10n_strings.dart';
 import 'ui/home/downloader/home_downloader_ui.dart';
@@ -157,7 +158,9 @@ class AppGlobalModel extends _$AppGlobalModel {
       }
       state = state.copyWith(deviceUUID: deviceUUID, appLocale: locale);
     } catch (e) {
-      exit(1);
+      await rs_process.setForegroundWindow(windowName: "SCToolBox");
+      dPrint("exit: db is locking ...");
+      exit(0);
     }
 
     // init powershell

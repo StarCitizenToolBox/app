@@ -35,6 +35,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  bool dco_decode_bool(dynamic raw);
+
+  @protected
   int dco_decode_box_autoadd_u_64(dynamic raw);
 
   @protected
@@ -110,6 +113,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  bool sse_decode_bool(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
 
   @protected
@@ -173,9 +179,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_decode_unit(SseDeserializer deserializer);
-
-  @protected
-  bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_AnyhowException(
@@ -307,6 +310,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  bool cst_encode_bool(bool raw);
+
+  @protected
   int cst_encode_i_32(int raw);
 
   @protected
@@ -344,6 +350,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_u_64(int self, SseSerializer serializer);
@@ -412,9 +421,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_bool(bool self, SseSerializer serializer);
 }
 
 // Section: wire_class
@@ -581,6 +587,25 @@ class RustLibWire implements BaseWire {
           ffi.Pointer<wire_cst_list_prim_u_8_strict>,
           ffi.Pointer<wire_cst_list_prim_u_8_strict>,
           ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
+  void wire_set_foreground_window(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> window_name,
+  ) {
+    return _wire_set_foreground_window(
+      port_,
+      window_name,
+    );
+  }
+
+  late final _wire_set_foreground_windowPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_starcitizen_doctor_wire_set_foreground_window');
+  late final _wire_set_foreground_window =
+      _wire_set_foreground_windowPtr.asFunction<
+          void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
 
   void wire_start(
     int port_,

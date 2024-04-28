@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::sync::Arc;
-use async_std::task::block_on;
 
+use async_std::task::block_on;
 use lazy_static::lazy_static;
 use scopeguard::defer;
 use tokio::io::AsyncBufReadExt;
@@ -9,6 +9,9 @@ use tokio::io::AsyncWriteExt;
 use tokio::io::BufReader;
 use tokio::process::ChildStdin;
 use tokio::sync::Mutex;
+use windows::core::{HSTRING, PCWSTR};
+use windows::Win32::Foundation::HWND;
+use windows::Win32::UI::WindowsAndMessaging;
 
 use crate::frb_generated::StreamSink;
 
@@ -35,9 +38,9 @@ lazy_static! {
 }
 
 pub async fn start(
-    executable: String,
+    executable: &str,
     arguments: Vec<String>,
-    working_directory: String,
+    working_directory: &str,
     stream_sink: StreamSink<RsProcessStreamData>,
 ) {
     let stream_sink_arc = Arc::from(stream_sink);
@@ -160,4 +163,18 @@ async fn _process_output<R>(
         };
         stream_sink.add(message).unwrap();
     }
+}
+
+pub fn set_foreground_window(window_name: &str) -> anyhow::Result<bool> {
+    let window_name_p: PCWSTR = PCWSTR(HSTRING::from(window_name).as_ptr());
+    let h = unsafe { WindowsAndMessaging::FindWindowW(PCWSTR::null(), window_name_p) };
+    if h == HWND::default() {
+        return Ok(false);
+    }
+    let sr = unsafe { WindowsAndMessaging::ShowWindow(h, WindowsAndMessaging::SW_RESTORE) };
+    if !sr.as_bool() {
+        return Ok(false);
+    }
+    let r = unsafe { WindowsAndMessaging::SetForegroundWindow(h) };
+    Ok(r.as_bool())
 }

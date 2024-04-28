@@ -57,7 +57,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.0.0-dev.32';
 
   @override
-  int get rustContentHash => 1067953400;
+  int get rustContentHash => -1186168522;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -89,6 +89,8 @@ abstract class RustLibApi extends BaseApi {
       String? appName,
       String? appId,
       dynamic hint});
+
+  Future<bool> setForegroundWindow({required String windowName, dynamic hint});
 
   Stream<RsProcessStreamData> start(
       {required String executable,
@@ -242,6 +244,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<bool> setForegroundWindow({required String windowName, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_String(windowName);
+        return wire.wire_set_foreground_window(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSetForegroundWindowConstMeta,
+      argValues: [windowName],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSetForegroundWindowConstMeta => const TaskConstMeta(
+        debugName: "set_foreground_window",
+        argNames: ["windowName"],
+      );
+
+  @override
   Stream<RsProcessStreamData> start(
       {required String executable,
       required List<String> arguments,
@@ -321,6 +346,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
+  }
+
+  @protected
+  bool dco_decode_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as bool;
   }
 
   @protected
@@ -496,6 +527,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  bool sse_decode_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint8() != 0;
   }
 
   @protected
@@ -679,9 +716,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  bool sse_decode_bool(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getUint8() != 0;
+  bool cst_encode_bool(bool raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw;
   }
 
   @protected
@@ -763,6 +800,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_bool(bool self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint8(self ? 1 : 0);
   }
 
   @protected
@@ -923,11 +966,5 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_unit(void self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-  }
-
-  @protected
-  void sse_encode_bool(bool self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putUint8(self ? 1 : 0);
   }
 }
