@@ -23,7 +23,7 @@ import 'api/api.dart';
 import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
-import 'common/rust/api/rs_process.dart' as rs_process;
+import 'common/rust/api/win32_api.dart' as win32;
 import 'data/app_version_data.dart';
 import 'generated/no_l10n_strings.dart';
 import 'ui/home/downloader/home_downloader_ui.dart';
@@ -158,7 +158,7 @@ class AppGlobalModel extends _$AppGlobalModel {
       }
       state = state.copyWith(deviceUUID: deviceUUID, appLocale: locale);
     } catch (e) {
-      await rs_process.setForegroundWindow(windowName: "SCToolBox");
+      await win32.setForegroundWindow(windowName: "SCToolBox");
       dPrint("exit: db is locking ...");
       exit(0);
     }
@@ -183,6 +183,7 @@ class AppGlobalModel extends _$AppGlobalModel {
     // init windows
 
     windowManager.waitUntilReadyToShow().then((_) async {
+      await windowManager.setTitle("SCToolBox");
       await windowManager.setSize(const Size(1280, 810));
       await windowManager.setMinimumSize(const Size(1280, 810));
       await windowManager.setSkipTaskbar(false);

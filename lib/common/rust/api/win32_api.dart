@@ -18,3 +18,7 @@ Future<void> sendNotify(
         appName: appName,
         appId: appId,
         hint: hint);
+
+Future<bool> setForegroundWindow({required String windowName, dynamic hint}) =>
+    RustLib.instance.api
+        .setForegroundWindow(windowName: windowName, hint: hint);

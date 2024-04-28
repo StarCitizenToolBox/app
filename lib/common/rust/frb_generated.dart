@@ -4,8 +4,8 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/http_api.dart';
-import 'api/notify_api.dart';
 import 'api/rs_process.dart';
+import 'api/win32_api.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.io.dart' if (dart.library.html) 'frb_generated.web.dart';
@@ -57,7 +57,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.0.0-dev.32';
 
   @override
-  int get rustContentHash => -1186168522;
+  int get rustContentHash => 1453545208;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -83,6 +83,14 @@ abstract class RustLibApi extends BaseApi {
   Future<void> setDefaultHeader(
       {required Map<String, String> headers, dynamic hint});
 
+  Stream<RsProcessStreamData> start(
+      {required String executable,
+      required List<String> arguments,
+      required String workingDirectory,
+      dynamic hint});
+
+  Future<void> write({required int rsPid, required String data, dynamic hint});
+
   Future<void> sendNotify(
       {String? summary,
       String? body,
@@ -91,14 +99,6 @@ abstract class RustLibApi extends BaseApi {
       dynamic hint});
 
   Future<bool> setForegroundWindow({required String windowName, dynamic hint});
-
-  Stream<RsProcessStreamData> start(
-      {required String executable,
-      required List<String> arguments,
-      required String workingDirectory,
-      dynamic hint});
-
-  Future<void> write({required int rsPid, required String data, dynamic hint});
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -213,60 +213,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<void> sendNotify(
-      {String? summary,
-      String? body,
-      String? appName,
-      String? appId,
-      dynamic hint}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_opt_String(summary);
-        var arg1 = cst_encode_opt_String(body);
-        var arg2 = cst_encode_opt_String(appName);
-        var arg3 = cst_encode_opt_String(appId);
-        return wire.wire_send_notify(port_, arg0, arg1, arg2, arg3);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_unit,
-        decodeErrorData: dco_decode_AnyhowException,
-      ),
-      constMeta: kSendNotifyConstMeta,
-      argValues: [summary, body, appName, appId],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kSendNotifyConstMeta => const TaskConstMeta(
-        debugName: "send_notify",
-        argNames: ["summary", "body", "appName", "appId"],
-      );
-
-  @override
-  Future<bool> setForegroundWindow({required String windowName, dynamic hint}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
-        var arg0 = cst_encode_String(windowName);
-        return wire.wire_set_foreground_window(port_, arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_bool,
-        decodeErrorData: dco_decode_AnyhowException,
-      ),
-      constMeta: kSetForegroundWindowConstMeta,
-      argValues: [windowName],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kSetForegroundWindowConstMeta => const TaskConstMeta(
-        debugName: "set_foreground_window",
-        argNames: ["windowName"],
-      );
-
-  @override
   Stream<RsProcessStreamData> start(
       {required String executable,
       required List<String> arguments,
@@ -320,6 +266,60 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kWriteConstMeta => const TaskConstMeta(
         debugName: "write",
         argNames: ["rsPid", "data"],
+      );
+
+  @override
+  Future<void> sendNotify(
+      {String? summary,
+      String? body,
+      String? appName,
+      String? appId,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_opt_String(summary);
+        var arg1 = cst_encode_opt_String(body);
+        var arg2 = cst_encode_opt_String(appName);
+        var arg3 = cst_encode_opt_String(appId);
+        return wire.wire_send_notify(port_, arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSendNotifyConstMeta,
+      argValues: [summary, body, appName, appId],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSendNotifyConstMeta => const TaskConstMeta(
+        debugName: "send_notify",
+        argNames: ["summary", "body", "appName", "appId"],
+      );
+
+  @override
+  Future<bool> setForegroundWindow({required String windowName, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_String(windowName);
+        return wire.wire_set_foreground_window(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_bool,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSetForegroundWindowConstMeta,
+      argValues: [windowName],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSetForegroundWindowConstMeta => const TaskConstMeta(
+        debugName: "set_foreground_window",
+        argNames: ["windowName"],
       );
 
   @protected

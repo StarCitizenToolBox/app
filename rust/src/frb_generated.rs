@@ -31,7 +31,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0-dev.32";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1186168522;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1453545208;
 
 // Section: executor
 
@@ -139,57 +139,6 @@ fn wire_set_default_header_impl(
         },
     )
 }
-fn wire_send_notify_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    summary: impl CstDecode<Option<String>>,
-    body: impl CstDecode<Option<String>>,
-    app_name: impl CstDecode<Option<String>>,
-    app_id: impl CstDecode<Option<String>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "send_notify",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_summary = summary.cst_decode();
-            let api_body = body.cst_decode();
-            let api_app_name = app_name.cst_decode();
-            let api_app_id = app_id.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::notify_api::send_notify(
-                        api_summary,
-                        api_body,
-                        api_app_name,
-                        api_app_id,
-                    )
-                })())
-            }
-        },
-    )
-}
-fn wire_set_foreground_window_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    window_name: impl CstDecode<String>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "set_foreground_window",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_window_name = window_name.cst_decode();
-            move |context| {
-                transform_result_dco((move || {
-                    crate::api::rs_process::set_foreground_window(&api_window_name)
-                })())
-            }
-        },
-    )
-}
 fn wire_start_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     executable: impl CstDecode<String>,
@@ -255,6 +204,57 @@ fn wire_write_impl(
                     })()
                     .await,
                 )
+            }
+        },
+    )
+}
+fn wire_send_notify_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    summary: impl CstDecode<Option<String>>,
+    body: impl CstDecode<Option<String>>,
+    app_name: impl CstDecode<Option<String>>,
+    app_id: impl CstDecode<Option<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "send_notify",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_summary = summary.cst_decode();
+            let api_body = body.cst_decode();
+            let api_app_name = app_name.cst_decode();
+            let api_app_id = app_id.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::win32_api::send_notify(
+                        api_summary,
+                        api_body,
+                        api_app_name,
+                        api_app_id,
+                    )
+                })())
+            }
+        },
+    )
+}
+fn wire_set_foreground_window_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    window_name: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "set_foreground_window",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_window_name = window_name.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    crate::api::win32_api::set_foreground_window(&api_window_name)
+                })())
             }
         },
     )

@@ -23,10 +23,6 @@ Stream<RsProcessStreamData> start(
 Future<void> write({required int rsPid, required String data, dynamic hint}) =>
     RustLib.instance.api.write(rsPid: rsPid, data: data, hint: hint);
 
-Future<bool> setForegroundWindow({required String windowName, dynamic hint}) =>
-    RustLib.instance.api
-        .setForegroundWindow(windowName: windowName, hint: hint);
-
 class RsProcessStreamData {
   final RsProcessStreamDataType dataType;
   final String data;

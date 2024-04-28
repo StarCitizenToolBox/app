@@ -16,8 +16,7 @@ import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
-import 'package:starcitizen_doctor/common/rust/api/notify_api.dart'
-    as notify_api;
+import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 import 'package:starcitizen_doctor/common/utils/async.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -291,7 +290,7 @@ class HomeUIModel extends _$HomeUIModel {
       _appUpdateTimer?.cancel();
       _appUpdateTimer = null;
       // 发送通知
-      await notify_api.sendNotify(
+      await win32.sendNotify(
           summary: S.current.home_localization_new_version_available,
           body:
               S.current.home_localization_new_version_installed(updates.first),

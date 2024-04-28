@@ -4,4 +4,4 @@
 pub mod http_api;
 
 pub mod rs_process;
-pub mod notify_api;
+pub mod win32_api;
