@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use async_std::task::block_on;
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use scopeguard::defer;
 use tokio::io::AsyncBufReadExt;
 use tokio::io::AsyncWriteExt;
@@ -30,9 +30,7 @@ pub struct RsProcess {
     pub rs_pid: u32,
 }
 
-lazy_static! {
-    static ref RS_PROCESS_MAP: Mutex<HashMap<u32, RsProcess>> = Mutex::new(HashMap::new());
-}
+static RS_PROCESS_MAP: Lazy<Mutex<HashMap<u32, RsProcess>>> = Lazy::new(|| Mutex::new(HashMap::new()));
 
 pub async fn start(
     executable: &str,
@@ -69,7 +67,10 @@ pub async fn start(
             }
         }
 
-        let stdin = child.stdin.take().expect("[rs_process] Failed to open stdin");
+        let stdin = child
+            .stdin
+            .take()
+            .expect("[rs_process] Failed to open stdin");
         let pid = child.id().expect("[rs_process] Failed to get pid");
         {
             let mut map = RS_PROCESS_MAP.lock().await;
@@ -88,8 +89,14 @@ pub async fn start(
             println!("RS_PROCESS_MAP ..defer ..len() = {}", map.len());
         }
 
-        let stdout = child.stdout.take().expect("[rs_process] Failed to open stdout");
-        let stderr = child.stderr.take().expect("[rs_process] Failed to open stderr");
+        let stdout = child
+            .stdout
+            .take()
+            .expect("[rs_process] Failed to open stdout");
+        let stderr = child
+            .stderr
+            .take()
+            .expect("[rs_process] Failed to open stderr");
 
         let output_task = tokio::spawn(_process_output(
             stdout,
@@ -112,7 +119,10 @@ pub async fn start(
             .expect("[rs_process] Failed to wait for child process");
 
         if !exit_status.success() {
-            println!("[rs_process] Child process exited with an error: {:?}", exit_status);
+            println!(
+                "[rs_process] Child process exited with an error: {:?}",
+                exit_status
+            );
             let message = RsProcessStreamData {
                 data_type: RsProcessStreamDataType::Exit,
                 data: "exit".to_string(),

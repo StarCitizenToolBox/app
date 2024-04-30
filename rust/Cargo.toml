@@ -20,7 +20,6 @@ reqwest = { version = "0.12", features = ["rustls-tls-webpki-roots", "cookies", 
 hickory-resolver = { version = "0.24" }
 anyhow = "1.0"
 win32job = "2"
-lazy_static = "1.4"
 scopeguard = "1.2"
 notify-rust = "4"
 windows = { version = "0.56.0", features = ["Win32_UI_WindowsAndMessaging"] }

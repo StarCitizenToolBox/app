@@ -1,6 +1,6 @@
 pub mod dns;
 
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use reqwest::{Method, RequestBuilder};
 use scopeguard::defer;
@@ -43,12 +43,12 @@ fn _hyper_version_to_my_version(v: reqwest::Version) -> MyHttpVersion {
     }
 }
 
-lazy_static! {
-    static ref DEFAULT_HEADER: RwLock<HeaderMap> = RwLock::from(HeaderMap::new());
-    static ref DNS_CLIENT: Arc<dns::MyHickoryDnsResolver> =
-        Arc::from(dns::MyHickoryDnsResolver::default());
-    static ref HTTP_CLIENT: reqwest::Client = new_http_client(true);
-}
+static DEFAULT_HEADER: Lazy<RwLock<HeaderMap>> = Lazy::new(|| RwLock::from(HeaderMap::new()));
+
+static DNS_CLIENT: Lazy<Arc<dns::MyHickoryDnsResolver>> =
+    Lazy::new(|| Arc::from(dns::MyHickoryDnsResolver::default()));
+
+static HTTP_CLIENT: Lazy<reqwest::Client> = Lazy::new(|| new_http_client(true));
 
 fn new_http_client(keep_alive: bool) -> reqwest::Client {
     let mut c = reqwest::Client::builder()

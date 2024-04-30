@@ -1,16 +1,14 @@
 use hickory_resolver::config::{NameServerConfigGroup, ResolverConfig, ResolverOpts};
 use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioAsyncResolver};
-use lazy_static::lazy_static;
-use once_cell::sync::OnceCell;
+use once_cell::sync::{Lazy, OnceCell};
 use reqwest::dns::{Addrs, Name, Resolve, Resolving};
 use std::collections::HashMap;
 use std::io;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::{Arc, RwLock};
 
-lazy_static! {
-    pub static ref MY_HOSTS_MAP: RwLock<HashMap<String, IpAddr>> = RwLock::from(HashMap::new());
-}
+pub static MY_HOSTS_MAP: Lazy<RwLock<HashMap<String, IpAddr>>> =
+    Lazy::new(|| RwLock::from(HashMap::new()));
 
 /// Wrapper around an `AsyncResolver`, which implements the `Resolve` trait.
 #[derive(Debug, Default, Clone)]

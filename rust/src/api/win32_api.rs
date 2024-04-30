@@ -3,7 +3,12 @@ use windows::core::{HSTRING, PCWSTR};
 use windows::Win32::Foundation::HWND;
 use windows::Win32::UI::WindowsAndMessaging;
 
-pub fn send_notify(summary: Option<String>, body: Option<String>, app_name: Option<String>, app_id: Option<String>) -> anyhow::Result<()> {
+pub fn send_notify(
+    summary: Option<String>,
+    body: Option<String>,
+    app_name: Option<String>,
+    app_id: Option<String>,
+) -> anyhow::Result<()> {
     let mut n = Notification::new();
     if let Some(summary) = summary {
         n.summary(&summary);
