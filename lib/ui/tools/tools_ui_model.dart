@@ -594,6 +594,15 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   _rsiEnhance(BuildContext context) async {
+    if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
+      if (!context.mounted) return;
+      showToast(
+          context, S.current.tools_action_info_rsi_launcher_running_warning,
+          constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * .35));
+      return;
+    }
+    if (!context.mounted) return;
     showDialog(
         context: context,
         builder: (BuildContext context) => const RsiLauncherEnhanceDialogUI());

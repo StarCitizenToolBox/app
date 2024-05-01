@@ -61,6 +61,15 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
     }
 
     void doInstall() async {
+      if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
+        if (!context.mounted) return;
+        showToast(
+            context, S.current.tools_action_info_rsi_launcher_running_warning,
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * .35));
+        return;
+      }
+      if (!context.mounted) return;
       workingText.value = "生成补丁 ...";
       final newScript =
           await _genNewScript(assarState).unwrap(context: context);
