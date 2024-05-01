@@ -139,7 +139,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         const imgExt = [".png"];
         String openType = "unknown";
         for (var element in textExt) {
-          if (filePath.endsWith(element)) {
+          if (filePath.toLowerCase().endsWith(element)) {
             openType = "text";
           }
         }
