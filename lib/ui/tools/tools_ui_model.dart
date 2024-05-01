@@ -594,6 +594,22 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   _rsiEnhance(BuildContext context) async {
+    final userOK = await showConfirmDialogs(
+        context,
+        "RSI 启动器增强使用须知",
+        const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+                "RSI 启动器增强是一项社区功能，它会在您的电脑上解包 \"RSI Launcher\" 并加入额外的增强功能，具体使用哪些功能由您决定。"
+                "\n\n目前，官方（CIG）仅许可我们进行多语言操作，启动器下载增强是我们认为有用的额外功能，违反cig用户协议（https://robertsspaceindustries.com/eula）可能导致账号被封禁等严重后果，是否启用由您自己决定，我们不对可能产生的后果（游戏损坏，账号封禁等）承担任何责任。"
+                "\n\n对于启动器的修改内容，我们开源于：https://github.com/StarCitizenToolBox/RSILauncherEnhance，如有需要，您可自行查阅。"
+                "\n\n如果您因为任何原因需要取消此增强补丁，请直接覆盖安装官方启动器。"),
+          ],
+        ),
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55));
+    if (!userOK) return;
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
       showToast(
