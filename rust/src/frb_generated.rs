@@ -31,7 +31,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0-dev.32";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1453545208;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1832496273;
 
 // Section: executor
 
@@ -39,6 +39,58 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire_get_rsi_launcher_asar_data_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    asar_path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_rsi_launcher_asar_data",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_asar_path = asar_path.cst_decode();
+            move |context| async move {
+                transform_result_dco(
+                    (move || async move {
+                        crate::api::asar_api::get_rsi_launcher_asar_data(&api_asar_path).await
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire_rsi_launcher_asar_data_write_main_js_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<crate::api::asar_api::RsiLauncherAsarData>,
+    content: impl CstDecode<Vec<u8>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "rsi_launcher_asar_data_write_main_js",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_content = content.cst_decode();
+            move |context| async move {
+                transform_result_dco(
+                    (move || async move {
+                        crate::api::asar_api::RsiLauncherAsarData::write_main_js(
+                            &api_that,
+                            api_content,
+                        )
+                        .await
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire_dns_lookup_ips_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     host: impl CstDecode<String>,
@@ -544,6 +596,20 @@ impl SseDecode for crate::api::rs_process::RsProcessStreamDataType {
     }
 }
 
+impl SseDecode for crate::api::asar_api::RsiLauncherAsarData {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_asarPath = <String>::sse_decode(deserializer);
+        let mut var_mainJsPath = <String>::sse_decode(deserializer);
+        let mut var_mainJsContent = <Vec<u8>>::sse_decode(deserializer);
+        return crate::api::asar_api::RsiLauncherAsarData {
+            asar_path: var_asarPath,
+            main_js_path: var_mainJsPath,
+            main_js_content: var_mainJsContent,
+        };
+    }
+}
+
 impl SseDecode for crate::http_package::RustHttpResponse {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -717,6 +783,28 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::rs_process::RsProcessStreamDa
     for crate::api::rs_process::RsProcessStreamDataType
 {
     fn into_into_dart(self) -> crate::api::rs_process::RsProcessStreamDataType {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::asar_api::RsiLauncherAsarData {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.asar_path.into_into_dart().into_dart(),
+            self.main_js_path.into_into_dart().into_dart(),
+            self.main_js_content.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::asar_api::RsiLauncherAsarData
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::asar_api::RsiLauncherAsarData>
+    for crate::api::asar_api::RsiLauncherAsarData
+{
+    fn into_into_dart(self) -> crate::api::asar_api::RsiLauncherAsarData {
         self
     }
 }
@@ -938,6 +1026,15 @@ impl SseEncode for crate::api::rs_process::RsProcessStreamDataType {
             },
             serializer,
         );
+    }
+}
+
+impl SseEncode for crate::api::asar_api::RsiLauncherAsarData {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.asar_path, serializer);
+        <String>::sse_encode(self.main_js_path, serializer);
+        <Vec<u8>>::sse_encode(self.main_js_content, serializer);
     }
 }
 

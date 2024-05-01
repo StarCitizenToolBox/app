@@ -82,7 +82,7 @@ class SystemHelper {
   }
 
   /// 获取 RSI 启动器 目录
-  static Future<String> getRSILauncherPath() async {
+  static Future<String> getRSILauncherPath({bool skipEXE = false}) async {
     final confBox = await Hive.openBox("app_conf");
     final path = confBox.get("custom_launcher_path");
     if (path != null && path != "") {
@@ -102,6 +102,9 @@ class SystemHelper {
       ]);
       if (r.stdout.toString().contains("RSI Launcher.exe")) {
         final start = r.stdout.toString().split("RSI Launcher.exe");
+        if (skipEXE) {
+          return start[0];
+        }
         return "${start[0]}RSI Launcher.exe";
       }
     }
@@ -257,8 +260,8 @@ foreach ($adapter in $adapterMemory) {
 
   static Future openDir(path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
-    await Process.run(
-        SystemHelper.powershellPath, ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
+    await Process.run(SystemHelper.powershellPath,
+        ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
   }
 
   static String getHostsFilePath() {

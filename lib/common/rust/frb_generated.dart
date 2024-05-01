@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/asar_api.dart';
 import 'api/http_api.dart';
 import 'api/rs_process.dart';
 import 'api/win32_api.dart';
@@ -57,7 +58,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.0.0-dev.32';
 
   @override
-  int get rustContentHash => 1453545208;
+  int get rustContentHash => 1832496273;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -68,6 +69,14 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  Future<RsiLauncherAsarData> getRsiLauncherAsarData(
+      {required String asarPath, dynamic hint});
+
+  Future<void> rsiLauncherAsarDataWriteMainJs(
+      {required RsiLauncherAsarData that,
+      required List<int> content,
+      dynamic hint});
+
   Future<List<String>> dnsLookupIps({required String host, dynamic hint});
 
   Future<List<String>> dnsLookupTxt({required String host, dynamic hint});
@@ -108,6 +117,59 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required super.generalizedFrbRustBinding,
     required super.portManager,
   });
+
+  @override
+  Future<RsiLauncherAsarData> getRsiLauncherAsarData(
+      {required String asarPath, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_String(asarPath);
+        return wire.wire_get_rsi_launcher_asar_data(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_rsi_launcher_asar_data,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kGetRsiLauncherAsarDataConstMeta,
+      argValues: [asarPath],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kGetRsiLauncherAsarDataConstMeta => const TaskConstMeta(
+        debugName: "get_rsi_launcher_asar_data",
+        argNames: ["asarPath"],
+      );
+
+  @override
+  Future<void> rsiLauncherAsarDataWriteMainJs(
+      {required RsiLauncherAsarData that,
+      required List<int> content,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_box_autoadd_rsi_launcher_asar_data(that);
+        var arg1 = cst_encode_list_prim_u_8_loose(content);
+        return wire.wire_rsi_launcher_asar_data_write_main_js(
+            port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kRsiLauncherAsarDataWriteMainJsConstMeta,
+      argValues: [that, content],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kRsiLauncherAsarDataWriteMainJsConstMeta =>
+      const TaskConstMeta(
+        debugName: "rsi_launcher_asar_data_write_main_js",
+        argNames: ["that", "content"],
+      );
 
   @override
   Future<List<String>> dnsLookupIps({required String host, dynamic hint}) {
@@ -355,6 +417,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_rsi_launcher_asar_data(raw);
+  }
+
+  @protected
   int dco_decode_box_autoadd_u_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_u_64(raw);
@@ -370,6 +439,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<String> dco_decode_list_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_String).toList();
+  }
+
+  @protected
+  List<int> dco_decode_list_prim_u_8_loose(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as List<int>;
   }
 
   @protected
@@ -450,6 +525,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RsProcessStreamDataType dco_decode_rs_process_stream_data_type(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return RsProcessStreamDataType.values[raw as int];
+  }
+
+  @protected
+  RsiLauncherAsarData dco_decode_rsi_launcher_asar_data(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return RsiLauncherAsarData(
+      asarPath: dco_decode_String(arr[0]),
+      mainJsPath: dco_decode_String(arr[1]),
+      mainJsContent: dco_decode_list_prim_u_8_strict(arr[2]),
+    );
   }
 
   @protected
@@ -536,6 +624,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  RsiLauncherAsarData sse_decode_box_autoadd_rsi_launcher_asar_data(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_rsi_launcher_asar_data(deserializer));
+  }
+
+  @protected
   int sse_decode_box_autoadd_u_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_u_64(deserializer));
@@ -557,6 +652,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       ans_.add(sse_decode_String(deserializer));
     }
     return ans_;
+  }
+
+  @protected
+  List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint8List(len_);
   }
 
   @protected
@@ -664,6 +766,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
     return RsProcessStreamDataType.values[inner];
+  }
+
+  @protected
+  RsiLauncherAsarData sse_decode_rsi_launcher_asar_data(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_asarPath = sse_decode_String(deserializer);
+    var var_mainJsPath = sse_decode_String(deserializer);
+    var var_mainJsContent = sse_decode_list_prim_u_8_strict(deserializer);
+    return RsiLauncherAsarData(
+        asarPath: var_asarPath,
+        mainJsPath: var_mainJsPath,
+        mainJsContent: var_mainJsContent);
   }
 
   @protected
@@ -809,6 +924,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_rsi_launcher_asar_data(
+      RsiLauncherAsarData self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_rsi_launcher_asar_data(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_u_64(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_64(self, serializer);
@@ -827,6 +949,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     for (final item in self) {
       sse_encode_String(item, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_list_prim_u_8_loose(
+      List<int> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer
+        .putUint8List(self is Uint8List ? self : Uint8List.fromList(self));
   }
 
   @protected
@@ -924,6 +1055,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       RsProcessStreamDataType self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_rsi_launcher_asar_data(
+      RsiLauncherAsarData self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.asarPath, serializer);
+    sse_encode_String(self.mainJsPath, serializer);
+    sse_encode_list_prim_u_8_strict(self.mainJsContent, serializer);
   }
 
   @protected

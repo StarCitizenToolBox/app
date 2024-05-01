@@ -45,8 +45,6 @@ dependencies:
   flutter_rust_bridge: ^2.0.0-dev.32
   freezed_annotation: ^2.4.1
   meta: ^1.9.1
-  cryptography: ^2.7.0
-  cryptography_flutter: ^2.3.2
   hexcolor: ^3.0.1
   dart_rss: ^3.0.1
   html: ^0.15.4

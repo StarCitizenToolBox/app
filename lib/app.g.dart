@@ -20,7 +20,7 @@ final routerProvider = AutoDisposeProvider<GoRouter>.internal(
 );
 
 typedef RouterRef = AutoDisposeProviderRef<GoRouter>;
-String _$appGlobalModelHash() => r'a604c415d2d855ede8727dd75ef991ab2afcf234';
+String _$appGlobalModelHash() => r'11a172d5fb19ad6566f1025354c8f8d91fe85a84';
 
 /// See also [AppGlobalModel].
 @ProviderFor(AppGlobalModel)

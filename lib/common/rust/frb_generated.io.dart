@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/asar_api.dart';
 import 'api/http_api.dart';
 import 'api/rs_process.dart';
 import 'api/win32_api.dart';
@@ -38,6 +39,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool dco_decode_bool(dynamic raw);
 
   @protected
+  RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
+      dynamic raw);
+
+  @protected
   int dco_decode_box_autoadd_u_64(dynamic raw);
 
   @protected
@@ -45,6 +50,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> dco_decode_list_String(dynamic raw);
+
+  @protected
+  List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
 
   @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
@@ -78,6 +86,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RsProcessStreamDataType dco_decode_rs_process_stream_data_type(dynamic raw);
+
+  @protected
+  RsiLauncherAsarData dco_decode_rsi_launcher_asar_data(dynamic raw);
 
   @protected
   RustHttpResponse dco_decode_rust_http_response(dynamic raw);
@@ -116,6 +127,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
+  RsiLauncherAsarData sse_decode_box_autoadd_rsi_launcher_asar_data(
+      SseDeserializer deserializer);
+
+  @protected
   int sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
 
   @protected
@@ -123,6 +138,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
@@ -160,6 +178,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RsProcessStreamDataType sse_decode_rs_process_stream_data_type(
+      SseDeserializer deserializer);
+
+  @protected
+  RsiLauncherAsarData sse_decode_rsi_launcher_asar_data(
       SseDeserializer deserializer);
 
   @protected
@@ -213,6 +235,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_rsi_launcher_asar_data>
+      cst_encode_box_autoadd_rsi_launcher_asar_data(RsiLauncherAsarData raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_rsi_launcher_asar_data();
+    cst_api_fill_to_wire_rsi_launcher_asar_data(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<ffi.Uint64> cst_encode_box_autoadd_u_64(int raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return wire.cst_new_box_autoadd_u_64(cst_encode_u_64(raw));
@@ -225,6 +256,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     for (var i = 0; i < raw.length; ++i) {
       ans.ref.ptr[i] = cst_encode_String(raw[i]);
     }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_encode_list_prim_u_8_loose(
+      List<int> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_u_8_loose(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
     return ans;
   }
 
@@ -282,6 +322,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_box_autoadd_rsi_launcher_asar_data(
+      RsiLauncherAsarData apiObj,
+      ffi.Pointer<wire_cst_rsi_launcher_asar_data> wireObj) {
+    cst_api_fill_to_wire_rsi_launcher_asar_data(apiObj, wireObj.ref);
+  }
+
+  @protected
   void cst_api_fill_to_wire_record_string_string(
       (String, String) apiObj, wire_cst_record_string_string wireObj) {
     wireObj.field0 = cst_encode_String(apiObj.$1);
@@ -294,6 +341,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.data_type = cst_encode_rs_process_stream_data_type(apiObj.dataType);
     wireObj.data = cst_encode_String(apiObj.data);
     wireObj.rs_pid = cst_encode_u_32(apiObj.rsPid);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_rsi_launcher_asar_data(
+      RsiLauncherAsarData apiObj, wire_cst_rsi_launcher_asar_data wireObj) {
+    wireObj.asar_path = cst_encode_String(apiObj.asarPath);
+    wireObj.main_js_path = cst_encode_String(apiObj.mainJsPath);
+    wireObj.main_js_content =
+        cst_encode_list_prim_u_8_strict(apiObj.mainJsContent);
   }
 
   @protected
@@ -355,6 +411,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_rsi_launcher_asar_data(
+      RsiLauncherAsarData self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_u_64(int self, SseSerializer serializer);
 
   @protected
@@ -362,6 +422,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_strict(
@@ -402,6 +465,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_rs_process_stream_data_type(
       RsProcessStreamDataType self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_rsi_launcher_asar_data(
+      RsiLauncherAsarData self, SseSerializer serializer);
 
   @protected
   void sse_encode_rust_http_response(
@@ -463,6 +530,49 @@ class RustLibWire implements BaseWire {
           'store_dart_post_cobject');
   late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
       .asFunction<void Function(DartPostCObjectFnType)>();
+
+  void wire_get_rsi_launcher_asar_data(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path,
+  ) {
+    return _wire_get_rsi_launcher_asar_data(
+      port_,
+      asar_path,
+    );
+  }
+
+  late final _wire_get_rsi_launcher_asar_dataPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_starcitizen_doctor_wire_get_rsi_launcher_asar_data');
+  late final _wire_get_rsi_launcher_asar_data =
+      _wire_get_rsi_launcher_asar_dataPtr.asFunction<
+          void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
+  void wire_rsi_launcher_asar_data_write_main_js(
+    int port_,
+    ffi.Pointer<wire_cst_rsi_launcher_asar_data> that,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> content,
+  ) {
+    return _wire_rsi_launcher_asar_data_write_main_js(
+      port_,
+      that,
+      content,
+    );
+  }
+
+  late final _wire_rsi_launcher_asar_data_write_main_jsPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.Pointer<wire_cst_rsi_launcher_asar_data>,
+                  ffi.Pointer<wire_cst_list_prim_u_8_loose>)>>(
+      'frbgen_starcitizen_doctor_wire_rsi_launcher_asar_data_write_main_js');
+  late final _wire_rsi_launcher_asar_data_write_main_js =
+      _wire_rsi_launcher_asar_data_write_main_jsPtr.asFunction<
+          void Function(int, ffi.Pointer<wire_cst_rsi_launcher_asar_data>,
+              ffi.Pointer<wire_cst_list_prim_u_8_loose>)>();
 
   void wire_dns_lookup_ips(
     int port_,
@@ -660,6 +770,19 @@ class RustLibWire implements BaseWire {
       _wire_set_foreground_windowPtr.asFunction<
           void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
 
+  ffi.Pointer<wire_cst_rsi_launcher_asar_data>
+      cst_new_box_autoadd_rsi_launcher_asar_data() {
+    return _cst_new_box_autoadd_rsi_launcher_asar_data();
+  }
+
+  late final _cst_new_box_autoadd_rsi_launcher_asar_dataPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_rsi_launcher_asar_data> Function()>>(
+      'frbgen_starcitizen_doctor_cst_new_box_autoadd_rsi_launcher_asar_data');
+  late final _cst_new_box_autoadd_rsi_launcher_asar_data =
+      _cst_new_box_autoadd_rsi_launcher_asar_dataPtr.asFunction<
+          ffi.Pointer<wire_cst_rsi_launcher_asar_data> Function()>();
+
   ffi.Pointer<ffi.Uint64> cst_new_box_autoadd_u_64(
     int value,
   ) {
@@ -688,6 +811,21 @@ class RustLibWire implements BaseWire {
               ffi.Int32)>>('frbgen_starcitizen_doctor_cst_new_list_String');
   late final _cst_new_list_String = _cst_new_list_StringPtr
       .asFunction<ffi.Pointer<wire_cst_list_String> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_new_list_prim_u_8_loose(
+    int len,
+  ) {
+    return _cst_new_list_prim_u_8_loose(
+      len,
+    );
+  }
+
+  late final _cst_new_list_prim_u_8_loosePtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Pointer<wire_cst_list_prim_u_8_loose> Function(ffi.Int32)>>(
+      'frbgen_starcitizen_doctor_cst_new_list_prim_u_8_loose');
+  late final _cst_new_list_prim_u_8_loose = _cst_new_list_prim_u_8_loosePtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_u_8_loose> Function(int)>();
 
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_new_list_prim_u_8_strict(
     int len,
@@ -743,6 +881,21 @@ typedef DartPort = ffi.Int64;
 typedef DartDartPort = int;
 
 final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_rsi_launcher_asar_data extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> main_js_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> main_js_content;
+}
+
+final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
   external ffi.Pointer<ffi.Uint8> ptr;
 
   @ffi.Int32()

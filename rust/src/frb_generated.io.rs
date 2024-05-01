@@ -57,6 +57,13 @@ impl CstDecode<String> for *mut wire_cst_list_prim_u_8_strict {
         String::from_utf8(vec).unwrap()
     }
 }
+impl CstDecode<crate::api::asar_api::RsiLauncherAsarData> for *mut wire_cst_rsi_launcher_asar_data {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::asar_api::RsiLauncherAsarData {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::api::asar_api::RsiLauncherAsarData>::cst_decode(*wrap).into()
+    }
+}
 impl CstDecode<u64> for *mut u64 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> u64 {
@@ -71,6 +78,15 @@ impl CstDecode<Vec<String>> for *mut wire_cst_list_String {
             flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
         };
         vec.into_iter().map(CstDecode::cst_decode).collect()
+    }
+}
+impl CstDecode<Vec<u8>> for *mut wire_cst_list_prim_u_8_loose {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> Vec<u8> {
+        unsafe {
+            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        }
     }
 }
 impl CstDecode<Vec<u8>> for *mut wire_cst_list_prim_u_8_strict {
@@ -105,6 +121,16 @@ impl CstDecode<crate::api::rs_process::RsProcessStreamData> for wire_cst_rs_proc
             data_type: self.data_type.cst_decode(),
             data: self.data.cst_decode(),
             rs_pid: self.rs_pid.cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::api::asar_api::RsiLauncherAsarData> for wire_cst_rsi_launcher_asar_data {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::asar_api::RsiLauncherAsarData {
+        crate::api::asar_api::RsiLauncherAsarData {
+            asar_path: self.asar_path.cst_decode(),
+            main_js_path: self.main_js_path.cst_decode(),
+            main_js_content: self.main_js_content.cst_decode(),
         }
     }
 }
@@ -149,6 +175,20 @@ impl Default for wire_cst_rs_process_stream_data {
         Self::new_with_null_ptr()
     }
 }
+impl NewWithNullPtr for wire_cst_rsi_launcher_asar_data {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            asar_path: core::ptr::null_mut(),
+            main_js_path: core::ptr::null_mut(),
+            main_js_content: core::ptr::null_mut(),
+        }
+    }
+}
+impl Default for wire_cst_rsi_launcher_asar_data {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
 impl NewWithNullPtr for wire_cst_rust_http_response {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -166,6 +206,23 @@ impl Default for wire_cst_rust_http_response {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_wire_get_rsi_launcher_asar_data(
+    port_: i64,
+    asar_path: *mut wire_cst_list_prim_u_8_strict,
+) {
+    wire_get_rsi_launcher_asar_data_impl(port_, asar_path)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_wire_rsi_launcher_asar_data_write_main_js(
+    port_: i64,
+    that: *mut wire_cst_rsi_launcher_asar_data,
+    content: *mut wire_cst_list_prim_u_8_loose,
+) {
+    wire_rsi_launcher_asar_data_write_main_js_impl(port_, that, content)
 }
 
 #[no_mangle]
@@ -244,6 +301,14 @@ pub extern "C" fn frbgen_starcitizen_doctor_wire_set_foreground_window(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_rsi_launcher_asar_data(
+) -> *mut wire_cst_rsi_launcher_asar_data {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(
+        wire_cst_rsi_launcher_asar_data::new_with_null_ptr(),
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_u_64(value: u64) -> *mut u64 {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
 }
@@ -260,6 +325,17 @@ pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_String(
         len,
     };
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_u_8_loose(
+    len: i32,
+) -> *mut wire_cst_list_prim_u_8_loose {
+    let ans = wire_cst_list_prim_u_8_loose {
+        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
+        len,
+    };
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
 }
 
 #[no_mangle]
@@ -295,6 +371,12 @@ pub struct wire_cst_list_String {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_list_prim_u_8_loose {
+    ptr: *mut u8,
+    len: i32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_list_prim_u_8_strict {
     ptr: *mut u8,
     len: i32,
@@ -317,6 +399,13 @@ pub struct wire_cst_rs_process_stream_data {
     data_type: i32,
     data: *mut wire_cst_list_prim_u_8_strict,
     rs_pid: u32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_rsi_launcher_asar_data {
+    asar_path: *mut wire_cst_list_prim_u_8_strict,
+    main_js_path: *mut wire_cst_list_prim_u_8_strict,
+    main_js_content: *mut wire_cst_list_prim_u_8_strict,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]

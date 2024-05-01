@@ -6,7 +6,6 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// The type `RS_PROCESS_MAP` is not used by any `pub` functions, thus it is ignored.
 // The type `RsProcess` is not used by any `pub` functions, thus it is ignored.
 
 Stream<RsProcessStreamData> start(

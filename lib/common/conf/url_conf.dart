@@ -16,6 +16,9 @@ class URLConf {
   static String get gitlabLocalizationUrl =>
       "$gitApiHome/SCToolBox/LocalizationData";
 
+  static String get gitApiRSILauncherEnhanceUrl =>
+      "$gitApiHome/SCToolBox/RSILauncherEnhance";
+
   static String get apiRepoPath => "$gitApiHome/SCToolBox/api/raw/branch/main";
 
   static String get gitlabApiPath => "$gitApiHome/api/v1/";

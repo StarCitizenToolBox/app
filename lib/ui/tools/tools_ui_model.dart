@@ -23,6 +23,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:xml/xml.dart';
 
 import 'dialogs/hosts_booster_dialog_ui.dart';
+import 'dialogs/rsi_launcher_enhance_dialog_ui.dart';
 
 part 'tools_ui_model.g.dart';
 
@@ -89,6 +90,13 @@ class ToolsUIModel extends _$ToolsUIModel {
           S.current.tools_action_info_hosts_acceleration_experimental_tip,
           const Icon(FluentIcons.virtual_network, size: 24),
           onTap: () => _doHostsBooster(context),
+        ),
+        ToolsItemData(
+          "rsilauncher_enhance_mod",
+          "RSI 启动器增强",
+          "启动器汉化，下载线程增强",
+          const Icon(FluentIcons.c_plus_plus, size: 24),
+          onTap: () => _rsiEnhance(context),
         ),
         ToolsItemData(
           "reinstall_eac",
@@ -583,5 +591,11 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   _unp4kc(BuildContext context) async {
     context.push("/tools/unp4kc");
+  }
+
+  _rsiEnhance(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => const RsiLauncherEnhanceDialogUI());
   }
 }
