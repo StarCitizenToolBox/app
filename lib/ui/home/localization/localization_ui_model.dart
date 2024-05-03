@@ -17,7 +17,6 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
-import 'package:starcitizen_doctor/provider/unp4kc.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -48,6 +47,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   Directory get _downloadDir =>
       Directory("${appGlobalState.applicationSupportDir}\\Localizations");
 
+  Directory getDownloadDir() => _downloadDir;
+
   Directory get _scDataDir =>
       Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data");
 
@@ -77,17 +78,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         defaultValue: languageSupport.keys.first);
     state = state.copyWith(selectedLanguage: lang);
     await _loadData();
-  }
-
-  readEnglishInI() async {
-    final data = await Unp4kCModel.unp4kTools(
-        appGlobalState.applicationBinaryModuleDir!, [
-      "extract_memory",
-      "$_scInstallPath\\Data.p4k",
-      "Data\\Localization\\english\\global.ini"
-    ]);
-    final iniData = String.fromCharCodes(data);
-    dPrint("read english ini => ${iniData.length}");
   }
 
   final Map<String, Map<String, ScLocalizationData>>
@@ -268,27 +258,20 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       BuildContext context, ScLocalizationData value) {
     return () async {
       AnalyticsApi.touch("install_localization");
-      final downloadUrl =
-          "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
+
       final savePath =
           File("${_downloadDir.absolute.path}\\${value.versionName}.sclang");
       try {
         state = state.copyWith(workingVersion: value.versionName!);
         if (!await savePath.exists()) {
           // download
-          dPrint("downloading file to $savePath");
-          final r = await RSHttp.get(downloadUrl);
-          if (r.statusCode == 200 && r.data != null) {
-            await savePath.writeAsBytes(r.data!);
-          } else {
-            throw "statusCode Error : ${r.statusCode}";
-          }
+          await downloadLocalizationFile(savePath, value);
         } else {
           dPrint("use cache $savePath");
         }
         await Future.delayed(const Duration(milliseconds: 300));
         // check file
-        final globalIni = await compute(_readArchive, savePath.absolute.path);
+        final globalIni = await compute(readArchive, savePath.absolute.path);
         if (globalIni.isEmpty) {
           throw S.current.localization_info_corrupted_file;
         }
@@ -303,7 +286,20 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     };
   }
 
-  static StringBuffer _readArchive(String savePath) {
+  Future<void> downloadLocalizationFile(
+      File savePath, ScLocalizationData value) async {
+    dPrint("downloading file to $savePath");
+    final downloadUrl =
+        "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
+    final r = await RSHttp.get(downloadUrl);
+    if (r.statusCode == 200 && r.data != null) {
+      await savePath.writeAsBytes(r.data!);
+    } else {
+      throw "statusCode Error : ${r.statusCode}";
+    }
+  }
+
+  static StringBuffer readArchive(String savePath) {
     final inputStream = InputFileStream(savePath);
     final archive =
         TarDecoder().decodeBytes(GZipDecoder().decodeBuffer(inputStream));

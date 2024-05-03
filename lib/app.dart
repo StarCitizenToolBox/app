@@ -28,6 +28,7 @@ import 'data/app_version_data.dart';
 import 'generated/no_l10n_strings.dart';
 import 'ui/home/downloader/home_downloader_ui.dart';
 import 'ui/home/game_doctor/game_doctor_ui.dart';
+import 'ui/home/localization/advanced_localization_ui.dart';
 import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';
 import 'ui/tools/unp4kc/unp4kc_ui.dart';
@@ -77,6 +78,10 @@ GoRouter router(RouterRef ref) {
             pageBuilder: (context, state) =>
                 myPageBuilder(context, state, const HomePerformanceUI()),
           ),
+          GoRoute(
+              path: 'advanced_localization',
+              pageBuilder: (context, state) =>
+                  myPageBuilder(context, state, const AdvancedLocalizationUI()))
         ],
       ),
       GoRoute(path: '/tools', builder: (_, __) => const SizedBox(), routes: [

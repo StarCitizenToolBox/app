@@ -2,6 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
@@ -145,7 +146,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                   ],
                   context,
                   gridViewMode: true),
-              makeToolsListContainer(context, model),
+              makeToolsListContainer(context, model, state),
             ],
           ),
         ),
@@ -445,8 +446,8 @@ class LocalizationDialogUI extends HookConsumerWidget {
     }
   }
 
-  Widget makeToolsListContainer(
-      BuildContext context, LocalizationUIModel model) {
+  Widget makeToolsListContainer(BuildContext context, LocalizationUIModel model,
+      LocalizationUIState state) {
     final toolsMenu = {
       "launcher_mod": (
         const Icon(FluentIcons.c_plus_plus, size: 24),
@@ -462,21 +463,29 @@ class LocalizationDialogUI extends HookConsumerWidget {
       ),
     };
 
+    final enableTap = state.workingVersion.isEmpty;
+
     return makeListContainer(
         "汉化工具",
         [
           for (final item in toolsMenu.entries)
             Tilt(
+              disable: !enableTap,
               shadowConfig: const ShadowConfig(maxIntensity: .3),
               borderRadius: BorderRadius.circular(7),
               child: GestureDetector(
-                onTap: () async {
-                  switch (item.key) {
-                    case "launcher_mod":
-                      ToolsUIModel.rsiEnhance(context);
-                      break;
-                  }
-                },
+                onTap: enableTap
+                    ? () async {
+                        switch (item.key) {
+                          case "launcher_mod":
+                            ToolsUIModel.rsiEnhance(context);
+                            break;
+                          case "advanced":
+                            context.push("/index/advanced_localization");
+                            break;
+                        }
+                      }
+                    : null,
                 child: Container(
                   decoration: BoxDecoration(
                     color: FluentTheme.of(context).cardColor,

@@ -6,7 +6,7 @@ part of 'app.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'7ce5ef6a7a4f6f604a457dd050e04ee594c4760a';
+String _$routerHash() => r'4fb9802d06347972b530f17ea7d66724a6ded997';
 
 /// See also [router].
 @ProviderFor(router)
@@ -20,7 +20,7 @@ final routerProvider = AutoDisposeProvider<GoRouter>.internal(
 );
 
 typedef RouterRef = AutoDisposeProviderRef<GoRouter>;
-String _$appGlobalModelHash() => r'11a172d5fb19ad6566f1025354c8f8d91fe85a84';
+String _$appGlobalModelHash() => r'9dccbb898714695ef8b640a5b5dfb361783a0f45';
 
 /// See also [AppGlobalModel].
 @ProviderFor(AppGlobalModel)

@@ -11,6 +11,7 @@ File? _logFile;
 void dPrint(src) async {
   if (kDebugMode) {
     print(src);
+    return;
   }
   await _logLock.synchronized(() async {
     try {
