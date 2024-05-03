@@ -120,33 +120,30 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m42(v0) =>
       "The cache size ${v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization";
 
-  static String m43(v0, v1, v2, v3) =>
-      "Enable: ${v0} Device Support: ${v1} Email: ${v2} Password: ${v3}";
-
-  static String m44(v0) =>
+  static String m43(v0) =>
       "Core quantity that has been set: ${v0} (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)";
 
-  static String m45(v0) =>
+  static String m44(v0) =>
       "Failure to clean up, please remove manually, file location: ${v0}";
 
-  static String m46(v0) => "Error: ${v0}";
+  static String m45(v0) => "Error: ${v0}";
 
-  static String m47(v0) =>
+  static String m46(v0) =>
       "Initialization failed, please take a screenshot report to the developer. ${v0}";
 
-  static String m48(v0) =>
+  static String m47(v0) =>
       "If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: ${v0}";
 
-  static String m49(v0) =>
+  static String m48(v0) =>
       "In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: ${v0} MB";
 
-  static String m50(v0) =>
+  static String m49(v0) =>
       "If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: ${v0} MB";
 
-  static String m51(v0, v1, v2, v3, v4) =>
+  static String m50(v0, v1, v2, v3, v4) =>
       "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nStorage information:\n${v4}\n\n";
 
-  static String m52(v0) => "Failure to handle! : ${v0}";
+  static String m51(v0) => "Failure to handle! : ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -574,8 +571,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "lobby_online_lobby_coming_soon": MessageLookupByLibrary.simpleMessage(
             "The online lobby, so stay tuned!"),
         "lobby_survey": MessageLookupByLibrary.simpleMessage("Questionnaire."),
-        "localization_action_advanced_features":
-            MessageLookupByLibrary.simpleMessage("Advanced Features"),
         "localization_action_install":
             MessageLookupByLibrary.simpleMessage("Install"),
         "localization_action_translation_feedback":
@@ -590,13 +585,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "The file is damaged, please download again"),
         "localization_info_custom_file": m33,
-        "localization_info_custom_file_instructions":
-            MessageLookupByLibrary.simpleMessage(
-                "To open the localized folder, put the customized name .ini file in the Customize_ini folder.\n\nAfter adding a new file, you do not display the refresh button in the upper right corner.\n\nPlease make sure to choose the correct language during installation."),
         "localization_info_custom_files":
             MessageLookupByLibrary.simpleMessage("Custom file"),
-        "localization_info_custom_text":
-            MessageLookupByLibrary.simpleMessage("Custom text"),
         "localization_info_enabled": m34,
         "localization_info_incompatible_translation_params_warning":
             MessageLookupByLibrary.simpleMessage(
@@ -610,8 +600,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "localization_info_machine_translation_warning":
             MessageLookupByLibrary.simpleMessage(
                 "You are using the game built -in text. The official text is currently a machine translation (as of 3.21.0), and it is recommended that you install community Localization below."),
-        "localization_info_no_custom_text":
-            MessageLookupByLibrary.simpleMessage("No custom text"),
         "localization_info_no_translation_available":
             MessageLookupByLibrary.simpleMessage(
                 "This language/version is not available for Localization, so stay tuned!"),
@@ -705,13 +693,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_info_delete_local_account_warning":
             MessageLookupByLibrary.simpleMessage(
                 "This will delete local account records, or it will automatically fill in the next time the game starts the game to disable automatic filling."),
-        "setting_action_info_device_support_info": m43,
-        "setting_action_info_disabled":
-            MessageLookupByLibrary.simpleMessage("Disabled"),
-        "setting_action_info_enabled":
-            MessageLookupByLibrary.simpleMessage("Activated"),
-        "setting_action_info_encrypted_saved":
-            MessageLookupByLibrary.simpleMessage("Has been encrypted"),
         "setting_action_info_enter_cpu_core_to_ignore":
             MessageLookupByLibrary.simpleMessage(
                 "Please enter the core number of CPUs to be ignored"),
@@ -729,10 +710,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_info_mirror_server_info":
             MessageLookupByLibrary.simpleMessage(
                 "Use a mirror server to accelerate access to tool websites such as DPS UEX. If you access abnormal access, please turn off the function. To protect the security of the account, the RSI official website will not be accelerated in any case."),
-        "setting_action_info_not_saved":
-            MessageLookupByLibrary.simpleMessage("Not preserved"),
-        "setting_action_info_not_support":
-            MessageLookupByLibrary.simpleMessage("Not support"),
         "setting_action_info_select_game_install_location":
             MessageLookupByLibrary.simpleMessage(
                 "Please select the game installation position (StarCitizen.exe)"),
@@ -744,14 +721,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_info_shortcut_created":
             MessageLookupByLibrary.simpleMessage(
                 "After the creation, please return to the desktop to view"),
-        "setting_action_info_support":
-            MessageLookupByLibrary.simpleMessage("Support"),
         "setting_action_info_view_log_file": MessageLookupByLibrary.simpleMessage(
             "Check the log file of the SCToolBox to locate the bug of the box"),
         "setting_action_reset_auto_password_fill":
             MessageLookupByLibrary.simpleMessage(
                 "Reset automatic password filling"),
-        "setting_action_set_core_count": m44,
+        "setting_action_set_core_count": m43,
         "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
             "Set the game file (StarCitizen.exe)"),
         "setting_action_set_launcher_file":
@@ -779,13 +754,13 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Hosts acceleration (experimental)"),
         "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
             "After cleaning up, complete the installation / game startup operation once."),
-        "tools_action_info_cleanup_failed": m45,
+        "tools_action_info_cleanup_failed": m44,
         "tools_action_info_config_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
                 "The configuration file does not exist, please try to run the game once"),
         "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
             "Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC."),
-        "tools_action_info_error_occurred": m46,
+        "tools_action_info_error_occurred": m45,
         "tools_action_info_fix_success_restart":
             MessageLookupByLibrary.simpleMessage(
                 "If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up."),
@@ -795,7 +770,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_hosts_acceleration_experimental_tip":
             MessageLookupByLibrary.simpleMessage(
                 "Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems."),
-        "tools_action_info_init_failed": m47,
+        "tools_action_info_init_failed": m46,
         "tools_action_info_log_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
                 "The log file does not exist, please try to start a game startup or game installation, and exit the starter. If the problem cannot be solved, try to update the launcher to the latest version!"),
@@ -806,7 +781,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Manually write the NVM patch, this function is used only when you know what you do"),
         "tools_action_info_not_installed":
             MessageLookupByLibrary.simpleMessage("Not Installed"),
-        "tools_action_info_nvme_patch_issue": m48,
+        "tools_action_info_nvme_patch_issue": m47,
         "tools_action_info_one_key_close_lens_shake":
             MessageLookupByLibrary.simpleMessage(
                 "Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information."),
@@ -830,7 +805,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_rsi_launcher_directory_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the RSI starter directory is not found, please try manually."),
-        "tools_action_info_rsi_launcher_log_issue": m49,
+        "tools_action_info_rsi_launcher_log_issue": m48,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the RSI label is not found, try to reinstall it or add it manually in the settings."),
@@ -839,11 +814,11 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The RSI starter is running! Please turn off the label first and then use this feature!"),
         "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
             "Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here."),
-        "tools_action_info_shader_cache_issue": m50,
+        "tools_action_info_shader_cache_issue": m49,
         "tools_action_info_star_citizen_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings."),
-        "tools_action_info_system_info_content": m51,
+        "tools_action_info_system_info_content": m50,
         "tools_action_info_system_info_title":
             MessageLookupByLibrary.simpleMessage("System message"),
         "tools_action_info_valid_game_directory_needed":
@@ -901,7 +876,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_info_game_install_location":
             MessageLookupByLibrary.simpleMessage(
                 "Game installation location:  "),
-        "tools_info_processing_failed": m52,
+        "tools_info_processing_failed": m51,
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI starter position:"),
         "tools_info_scanning":

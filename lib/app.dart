@@ -114,10 +114,11 @@ class AppGlobalModel extends _$AppGlobalModel {
     final applicationSupportDir =
         (await getApplicationSupportDirectory()).absolute.path;
     String? applicationBinaryModuleDir;
-    final logFile = File(
-        "$applicationSupportDir\\logs\\${DateTime.now().millisecondsSinceEpoch}.log");
-    await logFile.create(recursive: true);
-    setDPrintFile(logFile);
+    try {
+      await initDPrintFile(applicationSupportDir);
+    } catch (e) {
+      dPrint("initDPrintFile Error: $e");
+    }
     if (ConstConf.isMSE && userProfileDir != null) {
       applicationBinaryModuleDir =
           "$userProfileDir\\AppData\\Local\\Temp\\SCToolbox\\modules";

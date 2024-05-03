@@ -1741,36 +1741,6 @@ class S {
     );
   }
 
-  /// `Advanced Features`
-  String get localization_action_advanced_features {
-    return Intl.message(
-      'Advanced Features',
-      name: 'localization_action_advanced_features',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Custom text`
-  String get localization_info_custom_text {
-    return Intl.message(
-      'Custom text',
-      name: 'localization_info_custom_text',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No custom text`
-  String get localization_info_no_custom_text {
-    return Intl.message(
-      'No custom text',
-      name: 'localization_info_no_custom_text',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Install`
   String get localization_action_install {
     return Intl.message(
@@ -1868,16 +1838,6 @@ class S {
       name: 'localization_info_custom_file',
       desc: '',
       args: [v0],
-    );
-  }
-
-  /// `To open the localized folder, put the customized name .ini file in the Customize_ini folder.\n\nAfter adding a new file, you do not display the refresh button in the upper right corner.\n\nPlease make sure to choose the correct language during installation.`
-  String get localization_info_custom_file_instructions {
-    return Intl.message(
-      'To open the localized folder, put the customized name .ini file in the Customize_ini folder.\n\nAfter adding a new file, you do not display the refresh button in the upper right corner.\n\nPlease make sure to choose the correct language during installation.',
-      name: 'localization_info_custom_file_instructions',
-      desc: '',
-      args: [],
     );
   }
 
@@ -2256,77 +2216,6 @@ class S {
     return Intl.message(
       'Reset automatic password filling',
       name: 'setting_action_reset_auto_password_fill',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enable: {v0} Device Support: {v1} Email: {v2} Password: {v3}`
-  String setting_action_info_device_support_info(
-      Object v0, Object v1, Object v2, Object v3) {
-    return Intl.message(
-      'Enable: $v0 Device Support: $v1 Email: $v2 Password: $v3',
-      name: 'setting_action_info_device_support_info',
-      desc: '',
-      args: [v0, v1, v2, v3],
-    );
-  }
-
-  /// `Activated`
-  String get setting_action_info_enabled {
-    return Intl.message(
-      'Activated',
-      name: 'setting_action_info_enabled',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Disabled`
-  String get setting_action_info_disabled {
-    return Intl.message(
-      'Disabled',
-      name: 'setting_action_info_disabled',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Support`
-  String get setting_action_info_support {
-    return Intl.message(
-      'Support',
-      name: 'setting_action_info_support',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Not support`
-  String get setting_action_info_not_support {
-    return Intl.message(
-      'Not support',
-      name: 'setting_action_info_not_support',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Has been encrypted`
-  String get setting_action_info_encrypted_saved {
-    return Intl.message(
-      'Has been encrypted',
-      name: 'setting_action_info_encrypted_saved',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Not preserved`
-  String get setting_action_info_not_saved {
-    return Intl.message(
-      'Not preserved',
-      name: 'setting_action_info_not_saved',
       desc: '',
       args: [],
     );

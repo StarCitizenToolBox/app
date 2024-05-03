@@ -110,31 +110,28 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m42(v0) => "缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化";
 
-  static String m43(v0, v1, v2, v3) =>
-      "启用：${v0}    设备支持：${v1}     邮箱：${v2}      密码：${v3}";
-
-  static String m44(v0) =>
+  static String m43(v0) =>
       "已设置的核心数量：${v0}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）";
 
-  static String m45(v0) => "清理失败，请手动移除，文件位置：${v0}";
+  static String m44(v0) => "清理失败，请手动移除，文件位置：${v0}";
 
-  static String m46(v0) => "出现错误：${v0}";
+  static String m45(v0) => "出现错误：${v0}";
 
-  static String m47(v0) => "初始化失败，请截图报告给开发者。${v0}";
+  static String m46(v0) => "初始化失败，请截图报告给开发者。${v0}";
 
-  static String m48(v0) =>
+  static String m47(v0) =>
       "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${v0}";
 
-  static String m49(v0) =>
+  static String m48(v0) =>
       "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${v0} MB";
 
-  static String m50(v0) =>
+  static String m49(v0) =>
       "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（当大于500M时，建议清理） \n\n缓存大小：${v0} MB";
 
-  static String m51(v0, v1, v2, v3, v4) =>
+  static String m50(v0, v1, v2, v3, v4) =>
       "系统：${v0}\n\n处理器：${v1}\n\n内存大小：${v2}GB\n\n显卡信息：\n${v3}\n\n硬盘信息：\n${v4}\n\n";
 
-  static String m52(v0) => "处理失败！：${v0}";
+  static String m51(v0) => "处理失败！：${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -513,8 +510,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "lobby_online_lobby_coming_soon":
             MessageLookupByLibrary.simpleMessage("联机大厅，敬请期待 ！"),
         "lobby_survey": MessageLookupByLibrary.simpleMessage("问卷调查。"),
-        "localization_action_advanced_features":
-            MessageLookupByLibrary.simpleMessage("高级功能"),
         "localization_action_install":
             MessageLookupByLibrary.simpleMessage("安装"),
         "localization_action_translation_feedback":
@@ -527,13 +522,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "localization_info_corrupted_file":
             MessageLookupByLibrary.simpleMessage("文件受损，请重新下载"),
         "localization_info_custom_file": m33,
-        "localization_info_custom_file_instructions":
-            MessageLookupByLibrary.simpleMessage(
-                "即将打开本地化文件夹，请将自定义的 任意名称.ini 文件放入 Customize_ini 文件夹。\n\n添加新文件后未显示请使用右上角刷新按钮。\n\n安装时请确保选择了正确的语言。"),
         "localization_info_custom_files":
             MessageLookupByLibrary.simpleMessage("自定义文件"),
-        "localization_info_custom_text":
-            MessageLookupByLibrary.simpleMessage("自定义文本"),
         "localization_info_enabled": m34,
         "localization_info_incompatible_translation_params_warning":
             MessageLookupByLibrary.simpleMessage(
@@ -547,8 +537,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "localization_info_machine_translation_warning":
             MessageLookupByLibrary.simpleMessage(
                 "您正在使用游戏内置文本，官方文本目前为机器翻译（截至3.21.0），建议您在下方安装社区汉化。"),
-        "localization_info_no_custom_text":
-            MessageLookupByLibrary.simpleMessage("暂无自定义文本"),
         "localization_info_no_translation_available":
             MessageLookupByLibrary.simpleMessage("该语言/版本 暂无可用汉化，敬请期待！"),
         "localization_info_note": MessageLookupByLibrary.simpleMessage("备注："),
@@ -623,13 +611,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_info_delete_local_account_warning":
             MessageLookupByLibrary.simpleMessage(
                 "这将会删除本地的账号记录，或在下次启动游戏时将自动填充选择 ‘否’ 以禁用自动填充。"),
-        "setting_action_info_device_support_info": m43,
-        "setting_action_info_disabled":
-            MessageLookupByLibrary.simpleMessage("已禁用"),
-        "setting_action_info_enabled":
-            MessageLookupByLibrary.simpleMessage("已启用"),
-        "setting_action_info_encrypted_saved":
-            MessageLookupByLibrary.simpleMessage("已加密保存"),
         "setting_action_info_enter_cpu_core_to_ignore":
             MessageLookupByLibrary.simpleMessage("请输入要忽略的 CPU 核心数"),
         "setting_action_info_file_error":
@@ -645,10 +626,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_info_mirror_server_info":
             MessageLookupByLibrary.simpleMessage(
                 "使用镜像服务器加速访问 Dps Uex 等工具网站，若访问异常请关闭该功能。 为保护账户安全，任何情况下都不会加速RSI官网。"),
-        "setting_action_info_not_saved":
-            MessageLookupByLibrary.simpleMessage("未保存"),
-        "setting_action_info_not_support":
-            MessageLookupByLibrary.simpleMessage("不支持"),
         "setting_action_info_select_game_install_location":
             MessageLookupByLibrary.simpleMessage("请选择游戏安装位置（StarCitizen.exe）"),
         "setting_action_info_select_rsi_launcher_location":
@@ -658,13 +635,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("设置成功，在对应页面点击刷新即可扫描出新路径"),
         "setting_action_info_shortcut_created":
             MessageLookupByLibrary.simpleMessage("创建完毕，请返回桌面查看"),
-        "setting_action_info_support":
-            MessageLookupByLibrary.simpleMessage("支持"),
         "setting_action_info_view_log_file":
             MessageLookupByLibrary.simpleMessage("查看汉化盒子的 log 文件，以定位盒子的 bug"),
         "setting_action_reset_auto_password_fill":
             MessageLookupByLibrary.simpleMessage("重置自动密码填充"),
-        "setting_action_set_core_count": m44,
+        "setting_action_set_core_count": m43,
         "setting_action_set_game_file":
             MessageLookupByLibrary.simpleMessage("设置游戏文件 （StarCitizen.exe）"),
         "setting_action_set_launcher_file":
@@ -686,13 +661,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Hosts 加速（实验性）"),
         "tools_action_info_cleanup_complete":
             MessageLookupByLibrary.simpleMessage("清理完毕，请完成一次安装 / 游戏启动 操作。"),
-        "tools_action_info_cleanup_failed": m45,
+        "tools_action_info_cleanup_failed": m44,
         "tools_action_info_config_file_not_exist":
             MessageLookupByLibrary.simpleMessage("配置文件不存在，请尝试运行一次游戏"),
         "tools_action_info_eac_file_removed":
             MessageLookupByLibrary.simpleMessage(
                 "已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请您前往 SETTINGS -> VERIFY 重装 EAC。"),
-        "tools_action_info_error_occurred": m46,
+        "tools_action_info_error_occurred": m45,
         "tools_action_info_fix_success_restart":
             MessageLookupByLibrary.simpleMessage(
                 "修复成功，请尝试重启电脑后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。"),
@@ -701,7 +676,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_hosts_acceleration_experimental_tip":
             MessageLookupByLibrary.simpleMessage(
                 "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。"),
-        "tools_action_info_init_failed": m47,
+        "tools_action_info_init_failed": m46,
         "tools_action_info_log_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
                 "日志文件不存在，请尝试进行一次游戏启动或游戏安装，并退出启动器，若无法解决问题，请尝试将启动器更新至最新版本！"),
@@ -713,7 +688,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "手动写入NVM补丁，该功能仅在您知道自己在作什么的情况下使用"),
         "tools_action_info_not_installed":
             MessageLookupByLibrary.simpleMessage("未安装"),
-        "tools_action_info_nvme_patch_issue": m48,
+        "tools_action_info_nvme_patch_issue": m47,
         "tools_action_info_one_key_close_lens_shake":
             MessageLookupByLibrary.simpleMessage(
                 "一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。"),
@@ -735,7 +710,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。"),
         "tools_action_info_rsi_launcher_directory_not_found":
             MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器目录，请您尝试手动操作。"),
-        "tools_action_info_rsi_launcher_log_issue": m49,
+        "tools_action_info_rsi_launcher_log_issue": m48,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。"),
@@ -744,11 +719,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_run_rsi_as_admin":
             MessageLookupByLibrary.simpleMessage(
                 "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。"),
-        "tools_action_info_shader_cache_issue": m50,
+        "tools_action_info_shader_cache_issue": m49,
         "tools_action_info_star_citizen_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到星际公民游戏安装位置，请至少完成一次游戏启动操作 或在设置中手动添加。"),
-        "tools_action_info_system_info_content": m51,
+        "tools_action_info_system_info_content": m50,
         "tools_action_info_system_info_title":
             MessageLookupByLibrary.simpleMessage("系统信息"),
         "tools_action_info_valid_game_directory_needed":
@@ -795,7 +770,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("正在写入 Hosts ..."),
         "tools_info_game_install_location":
             MessageLookupByLibrary.simpleMessage("游戏安装位置：  "),
-        "tools_info_processing_failed": m52,
+        "tools_info_processing_failed": m51,
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI启动器位置："),
         "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在扫描..."),

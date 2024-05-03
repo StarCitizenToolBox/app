@@ -12,7 +12,6 @@ import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
-import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
@@ -49,9 +48,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   Directory get _downloadDir =>
       Directory("${appGlobalState.applicationSupportDir}\\Localizations");
 
-  Directory get _customizeDir =>
-      Directory("${_downloadDir.absolute.path}\\Customize_ini");
-
   Directory get _scDataDir =>
       Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data");
 
@@ -72,12 +68,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if (_scInstallPath == "not_install") {
       return;
     }
-    if (!_customizeDir.existsSync()) {
-      await _customizeDir.create(recursive: true);
-    }
-    _customizeDirListenSub = _customizeDir.watch().listen((event) {
-      _scanCustomizeDir();
-    });
     ref.onDispose(() {
       _customizeDirListenSub?.cancel();
       _customizeDirListenSub = null;
@@ -106,7 +96,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   Future<void> _loadData() async {
     _allVersionLocalizationData.clear();
     await _updateStatus();
-    _scanCustomizeDir();
     for (var lang in languageSupport.keys) {
       final l = await Api.getScLocalizationData(lang).unwrap();
       if (l != null) {
@@ -275,11 +264,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     await _updateStatus();
   }
 
-  openDir(BuildContext context) async {
-    showToast(context, S.current.localization_info_custom_file_instructions);
-    SystemHelper.openDir(_customizeDir.absolute.path);
-  }
-
   VoidCallback? doRemoteInstall(
       BuildContext context, ScLocalizationData value) {
     return () async {
@@ -361,17 +345,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       state = state.copyWith(apiLocalizationData: null);
       _loadData();
     };
-  }
-
-  void _scanCustomizeDir() {
-    final fileList = _customizeDir.listSync();
-    final customizeList = <String>[];
-    for (var value in fileList) {
-      if (value is File && value.path.endsWith(".ini")) {
-        customizeList.add(value.absolute.path);
-      }
-    }
-    state = state.copyWith(customizeList: customizeList);
   }
 
   _updateStatus() async {
