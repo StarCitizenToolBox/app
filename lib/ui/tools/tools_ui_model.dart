@@ -96,7 +96,7 @@ class ToolsUIModel extends _$ToolsUIModel {
           "RSI 启动器增强",
           "启动器汉化，下载线程增强",
           const Icon(FluentIcons.c_plus_plus, size: 24),
-          onTap: () => _rsiEnhance(context),
+          onTap: () => rsiEnhance(context),
         ),
         ToolsItemData(
           "reinstall_eac",
@@ -593,7 +593,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     context.push("/tools/unp4kc");
   }
 
-  _rsiEnhance(BuildContext context) async {
+  static rsiEnhance(BuildContext context) async {
     final userOK = await showConfirmDialogs(
         context,
         "RSI 启动器增强使用须知",

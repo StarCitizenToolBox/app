@@ -1,7 +1,10 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
+import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 import 'localization_ui_model.dart';
@@ -13,7 +16,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(localizationUIModelProvider);
     final model = ref.read(localizationUIModelProvider.notifier);
-    final curInstallInfo = state.apiLocalizationData?[state.patchStatus?.value];
+    // final curInstallInfo = state.apiLocalizationData?[state.patchStatus?.value];
 
     useEffect(() {
       addPostFrameCallback(() {
@@ -119,44 +122,6 @@ class LocalizationDialogUI extends HookConsumerWidget {
                             ),
                         ],
                       ),
-                      AnimatedSize(
-                        duration: const Duration(milliseconds: 130),
-                        child: (curInstallInfo != null &&
-                                curInstallInfo.note != null &&
-                                curInstallInfo.note!.isNotEmpty)
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 12),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      color: FluentTheme.of(context).cardColor,
-                                      borderRadius: BorderRadius.circular(7)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          S.current.localization_info_note,
-                                          style: const TextStyle(fontSize: 18),
-                                        ),
-                                        const SizedBox(height: 6),
-                                        Text(
-                                          "${curInstallInfo.note}",
-                                          style: TextStyle(
-                                              color:
-                                                  Colors.white.withOpacity(.8)),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                      ),
                     ],
                   ],
                   context),
@@ -178,8 +143,9 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       for (final item in state.apiLocalizationData!.entries)
                         makeRemoteList(context, model, item, state),
                   ],
-                  context),
-              const SizedBox(height: 12),
+                  context,
+                  gridViewMode: true),
+              makeToolsListContainer(context, model),
             ],
           ),
         ),
@@ -192,88 +158,116 @@ class LocalizationDialogUI extends HookConsumerWidget {
     final isWorking = state.workingVersion.isNotEmpty;
     final isMineWorking = state.workingVersion == item.key;
     final isInstalled = state.patchStatus?.value == item.key;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        children: [
-          Row(
+    final isItemEnabled = ((item.value.enable ?? false));
+    final tapDisabled =
+        isInstalled || isWorking || !isItemEnabled || isMineWorking;
+    return Tilt(
+      shadowConfig: const ShadowConfig(maxIntensity: .3),
+      borderRadius: BorderRadius.circular(7),
+      disable: tapDisabled,
+      child: GestureDetector(
+        onTap:
+            tapDisabled ? null : () => doInsTall(context, model, item, state),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(tapDisabled ? .03 : .05),
+            borderRadius: BorderRadius.circular(7),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
-                  Text(
-                    "${item.value.info}",
-                    style: const TextStyle(fontSize: 19),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${item.value.info}",
+                          style: const TextStyle(fontSize: 19),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          S.current.localization_info_version_number(
+                              item.value.versionName ?? ""),
+                          style: TextStyle(color: Colors.white.withOpacity(.6)),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          S.current.localization_info_channel(
+                              item.value.gameChannel ?? ""),
+                          style: TextStyle(color: Colors.white.withOpacity(.6)),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          S.current.localization_info_update_time(
+                              item.value.updateAt ?? ""),
+                          style: TextStyle(color: Colors.white.withOpacity(.6)),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    S.current.localization_info_version_number(
-                        item.value.versionName ?? ""),
-                    style: TextStyle(color: Colors.white.withOpacity(.6)),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    S.current.localization_info_channel(
-                        item.value.gameChannel ?? ""),
-                    style: TextStyle(color: Colors.white.withOpacity(.6)),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    S.current.localization_info_update_time(
-                        item.value.updateAt ?? ""),
-                    style: TextStyle(color: Colors.white.withOpacity(.6)),
-                  ),
+                  if (isMineWorking)
+                    const Padding(
+                      padding: EdgeInsets.only(right: 12),
+                      child: ProgressRing(),
+                    )
+                  else ...[
+                    Icon(
+                      isInstalled
+                          ? FluentIcons.check_mark
+                          : isItemEnabled
+                              ? FluentIcons.download
+                              : FluentIcons.disable_updates,
+                      color: Colors.white.withOpacity(.8),
+                      size: 18,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      isInstalled
+                          ? S.current.localization_info_installed
+                          : (isItemEnabled
+                              ? S.current.localization_action_install
+                              : S.current.localization_info_unavailable),
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(.8),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    if ((!isInstalled) && isItemEnabled)
+                      Icon(
+                        FluentIcons.chevron_right,
+                        size: 14,
+                        color: Colors.white.withOpacity(.6),
+                      )
+                  ]
                 ],
               ),
-              const Spacer(),
-              if (isMineWorking)
-                const Padding(
-                  padding: EdgeInsets.only(right: 12),
-                  child: ProgressRing(),
-                )
-              else
-                Button(
-                    onPressed: ((item.value.enable == true &&
-                            !isWorking &&
-                            !isInstalled)
-                        ? model.doRemoteInstall(context, item.value)
-                        : null),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6),
-                            child: Icon(isInstalled
-                                ? FluentIcons.check_mark
-                                : (item.value.enable ?? false)
-                                    ? FluentIcons.download
-                                    : FluentIcons.disable_updates),
-                          ),
-                          Text(isInstalled
-                              ? S.current.localization_info_installed
-                              : ((item.value.enable ?? false)
-                                  ? S.current.localization_action_install
-                                  : S.current.localization_info_unavailable)),
-                        ],
-                      ),
-                    )),
+              if (item.value.note != null) ...[
+                const SizedBox(height: 6),
+                Text(
+                  "${item.value.note}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(.4),
+                    fontSize: 13,
+                  ),
+                ),
+              ],
             ],
           ),
-          const SizedBox(height: 6),
-          Container(
-            color: Colors.white.withOpacity(.05),
-            height: 1,
-          ),
-        ],
+        ),
       ),
     );
   }
 
   Widget makeListContainer(
       String title, List<Widget> children, BuildContext context,
-      {List<Widget> actions = const []}) {
+      {List<Widget> actions = const [],
+      bool gridViewMode = false,
+      int gridViewCrossAxisCount = 2}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: AnimatedSize(
@@ -306,7 +300,20 @@ class LocalizationDialogUI extends HookConsumerWidget {
                   height: 1,
                 ),
                 const SizedBox(height: 12),
-                ...children
+                if (gridViewMode)
+                  AlignedGridView.count(
+                    crossAxisCount: gridViewCrossAxisCount,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    itemBuilder: (BuildContext context, int index) {
+                      return children[index];
+                    },
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: children.length,
+                  )
+                else
+                  ...children
               ],
             ),
           ),
@@ -371,5 +378,131 @@ class LocalizationDialogUI extends HookConsumerWidget {
             )),
       ],
     );
+  }
+
+  doInsTall(
+      BuildContext context,
+      LocalizationUIModel model,
+      MapEntry<String, ScLocalizationData> item,
+      LocalizationUIState state) async {
+    final userOK = await showConfirmDialogs(
+      context,
+      "${item.value.info}",
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                S.current.localization_info_version_number(
+                    item.value.versionName ?? ""),
+                style: TextStyle(color: Colors.white.withOpacity(.6)),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                S.current
+                    .localization_info_channel(item.value.gameChannel ?? ""),
+                style: TextStyle(color: Colors.white.withOpacity(.6)),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                S.current
+                    .localization_info_update_time(item.value.updateAt ?? ""),
+                style: TextStyle(color: Colors.white.withOpacity(.6)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+                color: FluentTheme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(7)),
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    item.value.note ?? "该版本没有提供描述",
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      confirm: S.current.localization_action_install,
+      cancel: S.current.home_action_cancel,
+      constraints:
+          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .45),
+    );
+    if (userOK) {
+      if (!context.mounted) return;
+      model.doRemoteInstall(context, item.value)?.call();
+    }
+  }
+
+  Widget makeToolsListContainer(
+      BuildContext context, LocalizationUIModel model) {
+    final toolsMenu = {
+      "launcher_mod": (
+        const Icon(FluentIcons.c_plus_plus, size: 24),
+        "RSI 启动器汉化",
+      ),
+      "advanced": (
+        const Icon(FluentIcons.queue_advanced, size: 24),
+        "高级汉化",
+      ),
+      "custom_files": (
+        const Icon(FluentIcons.custom_activity, size: 24),
+        "安装自定义文件",
+      ),
+    };
+
+    return makeListContainer(
+        "汉化工具",
+        [
+          for (final item in toolsMenu.entries)
+            Tilt(
+              shadowConfig: const ShadowConfig(maxIntensity: .3),
+              borderRadius: BorderRadius.circular(7),
+              child: GestureDetector(
+                onTap: () async {
+                  switch (item.key) {
+                    case "launcher_mod":
+                      ToolsUIModel.rsiEnhance(context);
+                      break;
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: FluentTheme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      item.value.$1,
+                      const SizedBox(width: 12),
+                      Text(item.value.$2),
+                      const SizedBox(width: 12),
+                      const Spacer(),
+                      Icon(
+                        FluentIcons.chevron_right,
+                        size: 14,
+                        color: Colors.white.withOpacity(.6),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+        context,
+        gridViewMode: true,
+        gridViewCrossAxisCount: 4);
   }
 }
