@@ -2,6 +2,8 @@
 
 此工具為 星際公民玩家 提供 疑難排解，官網及工具網站中文化，遊戲翻譯，遊戲效能最佳化 等功能，帶給您更愉快的遊戲體驗。
 
+[![Windows Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml)
+
 [![](https://get.microsoft.com/images/zh-cn%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
 
 ### 語言
