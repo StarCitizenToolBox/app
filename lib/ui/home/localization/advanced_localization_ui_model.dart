@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -13,6 +11,7 @@ import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
 
 import '../home_ui_model.dart';
+import 'advanced_localization_ui.json.dart';
 import 'localization_ui_model.dart';
 
 part 'advanced_localization_ui_model.g.dart';
@@ -151,8 +150,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   }
 
   Future<AppAdvancedLocalizationData> _readClassJson() async {
-    final s = await rootBundle.loadString("assets/advanced_localization.json");
-    return AppAdvancedLocalizationData.fromJson(json.decode(s));
+    return AppAdvancedLocalizationData.fromJson(advancedLocalizationJsonData);
   }
 
   Future<(String, String)> _readIni(LocalizationUIState localizationUIState,

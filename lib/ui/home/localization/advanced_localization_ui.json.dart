@@ -1,4 +1,4 @@
-{
+final advancedLocalizationJsonData = {
   "class_keys": [
     {
       "id": "location_opt",
@@ -98,9 +98,7 @@
     {
       "class_name": "物品-常用",
       "id": "thing",
-      "keys": [
-        "item_Name.*"
-      ]
+      "keys": ["item_Name.*"]
     },
     {
       "class_name": "载具-其他",
@@ -115,9 +113,7 @@
     {
       "class_name": "载具-常用",
       "id": "vehicle",
-      "keys": [
-        "vehicle_Name.*"
-      ]
+      "keys": ["vehicle_Name.*"]
     },
     {
       "id": "mission",
@@ -562,4 +558,4 @@
       ]
     }
   ]
-}
+};

@@ -1,4 +1,4 @@
-[
+final performanceUIConfJsonData = [
   {
     "key": "r_ssdo",
     "name": "屏幕光线后处理",
@@ -319,4 +319,4 @@
     "value": 1,
     "group": "自定义"
   }
-]
+];

@@ -1,9 +1,7 @@
 // ignore_for_file: avoid_build_context_in_providers, avoid_public_notifier_properties
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,6 +11,8 @@ import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/data/game_performance_data.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
+
+import 'performance_ui.json.dart';
 
 part 'performance_ui_model.freezed.dart';
 
@@ -50,22 +50,16 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   Future<void> _init() async {
     customizeCtrl.clear();
     _inAppKeys.clear();
-    final String jsonString =
-        await rootBundle.loadString('assets/performance.json');
-    final list = json.decode(jsonString);
-
-    if (list is List) {
-      final performanceMap = <String, List<GamePerformanceData>>{};
-      for (var element in list) {
-        final item = GamePerformanceData.fromJson(element);
-        if (item.key != "customize") {
-          _inAppKeys.add(item.key ?? "");
-        }
-        performanceMap[item.group!] ??= [];
-        performanceMap[item.group]?.add(item);
+    final performanceMap = <String, List<GamePerformanceData>>{};
+    for (var element in performanceUIConfJsonData) {
+      final item = GamePerformanceData.fromJson(element);
+      if (item.key != "customize") {
+        _inAppKeys.add(item.key ?? "");
       }
-      state = state.copyWith(performanceMap: performanceMap);
+      performanceMap[item.group!] ??= [];
+      performanceMap[item.group]?.add(item);
     }
+    state = state.copyWith(performanceMap: performanceMap);
 
     if (await confFile.exists()) {
       await _readConf();
@@ -155,11 +149,13 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   clean(BuildContext context) async {
-    state = state.copyWith(workingString: S.current.performance_info_delete_config_file);
+    state = state.copyWith(
+        workingString: S.current.performance_info_delete_config_file);
     if (await confFile.exists()) {
       await confFile.delete(recursive: true);
     }
-    state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
+    state = state.copyWith(
+        workingString: S.current.performance_action_clear_shaders);
     if (!context.mounted) return;
     await cleanShaderCache(context);
     state = state.copyWith(workingString: S.current.performance_info_done);
@@ -188,7 +184,8 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   applyProfile(bool cleanShader) async {
     if (state.performanceMap == null) return;
     AnalyticsApi.touch("performance_apply");
-    state = state.copyWith(workingString: S.current.performance_info_generate_config_file);
+    state = state.copyWith(
+        workingString: S.current.performance_info_generate_config_file);
     String conf = "";
     for (var v in state.performanceMap!.entries) {
       for (var c in v.value) {
@@ -207,14 +204,16 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
         }
       }
     }
-    state = state.copyWith(workingString: S.current.performance_info_write_out_config_file);
+    state = state.copyWith(
+        workingString: S.current.performance_info_write_out_config_file);
     if (await confFile.exists()) {
       await confFile.delete();
     }
     await confFile.create();
     await confFile.writeAsString(conf);
     if (cleanShader) {
-      state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
+      state = state.copyWith(
+          workingString: S.current.performance_action_clear_shaders);
       await cleanShaderCache(null);
     }
     state = state.copyWith(workingString: S.current.performance_info_done);
