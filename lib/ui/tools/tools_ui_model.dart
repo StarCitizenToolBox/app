@@ -114,8 +114,8 @@ class ToolsUIModel extends _$ToolsUIModel {
         ),
         ToolsItemData(
           "unp4kc",
-          "${S.current.tools_action_unp4k}",
-          "${S.current.tools_action_unp4k_info}",
+          S.current.tools_action_unp4k,
+          S.current.tools_action_unp4k_info,
           const Icon(FontAwesomeIcons.fileZipper, size: 24),
           onTap: () => _unp4kc(context),
         ),
