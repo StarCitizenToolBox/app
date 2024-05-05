@@ -820,5 +820,8 @@
   "tools_action_unp4k_info": "Package Star Citizen P4K File",
   "tools_unp4k_title": "P4k viewer -> {v0}",
   "tools_unp4k_view_file": "Click the file to preview",
-  "tools_unp4k_msg_unknown_file_type": "Unknown file type\n{v0}"
+  "tools_unp4k_msg_unknown_file_type": "Unknown file type\n{v0}",
+  "home_localization_select_customize_file_ini": "Please select INI file",
+  "home_localization_select_customize_file": "Please select custom Localization file",
+  "home_localization_action_select_customize_file": "Click to select INI file"
 }

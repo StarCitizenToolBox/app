@@ -17,7 +17,7 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
     final isLoading = useState(false);
     void onSelectFile() async {
       final result = await FilePicker.platform.pickFiles(
-          dialogTitle: "请选择 ini 文件",
+          dialogTitle: S.current.home_localization_select_customize_file_ini,
           type: FileType.custom,
           allowedExtensions: ["ini"],
           allowMultiple: false,
@@ -57,13 +57,14 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
               ),
               onPressed: () => context.pop()),
           const SizedBox(width: 12),
-          const Text("请选择自定义汉化文件"),
+          Text(S.current.home_localization_select_customize_file),
           const Spacer(),
           if (selectedStringBuffer.value != null)
             FilledButton(
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                  child: Text("确认"),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                  child: Text(S.current.app_common_tip_confirm),
                 ),
                 onPressed: () {
                   Navigator.pop(context, selectedStringBuffer.value);
@@ -96,7 +97,8 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                             color: Colors.white.withOpacity(.6),
                           ),
                           const SizedBox(height: 12),
-                          const Text("点击选择 ini 文件")
+                          Text(S.current
+                              .home_localization_action_select_customize_file)
                         ],
                       ),
                     ),

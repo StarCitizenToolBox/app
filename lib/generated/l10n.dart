@@ -4753,6 +4753,36 @@ class S {
       args: [v0],
     );
   }
+
+  /// `Please select INI file`
+  String get home_localization_select_customize_file_ini {
+    return Intl.message(
+      'Please select INI file',
+      name: 'home_localization_select_customize_file_ini',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select custom Localization file`
+  String get home_localization_select_customize_file {
+    return Intl.message(
+      'Please select custom Localization file',
+      name: 'home_localization_select_customize_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click to select INI file`
+  String get home_localization_action_select_customize_file {
+    return Intl.message(
+      'Click to select INI file',
+      name: 'home_localization_action_select_customize_file',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

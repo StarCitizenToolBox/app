@@ -786,5 +786,8 @@
   "tools_action_unp4k_info": "解包星际公民 p4k 文件",
   "tools_unp4k_title": "P4K 查看器 -> {v0}",
   "tools_unp4k_view_file": "单击文件以预览",
-  "tools_unp4k_msg_unknown_file_type": "未知文件类型\n{v0}"
+  "tools_unp4k_msg_unknown_file_type": "未知文件类型\n{v0}",
+  "home_localization_select_customize_file_ini": "请选择 ini 文件",
+  "home_localization_select_customize_file": "请选择自定义汉化文件",
+  "home_localization_action_select_customize_file": "点击选择 ini 文件"
 }

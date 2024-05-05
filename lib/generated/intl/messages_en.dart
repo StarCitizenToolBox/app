@@ -570,6 +570,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Install custom file"),
         "home_localization_action_rsi_launcher_localization":
             MessageLookupByLibrary.simpleMessage("RSILauncher Localization"),
+        "home_localization_action_select_customize_file":
+            MessageLookupByLibrary.simpleMessage("Click to select INI file"),
         "home_localization_advanced_action_install":
             MessageLookupByLibrary.simpleMessage(
                 "Installation of Localization"),
@@ -632,6 +634,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Localization has a new version!"),
         "home_localization_new_version_installed": m34,
+        "home_localization_select_customize_file":
+            MessageLookupByLibrary.simpleMessage(
+                "Please select custom Localization file"),
+        "home_localization_select_customize_file_ini":
+            MessageLookupByLibrary.simpleMessage("Please select INI file"),
         "home_localization_title_localization_tools":
             MessageLookupByLibrary.simpleMessage("Localization tool"),
         "home_login_action_title_box_one_click_launch":

@@ -512,6 +512,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("安装自定义文件"),
         "home_localization_action_rsi_launcher_localization":
             MessageLookupByLibrary.simpleMessage("RSI 启动器汉化"),
+        "home_localization_action_select_customize_file":
+            MessageLookupByLibrary.simpleMessage("点击选择 ini 文件"),
         "home_localization_advanced_action_install":
             MessageLookupByLibrary.simpleMessage("安装汉化"),
         "home_localization_advanced_action_mod_change":
@@ -569,6 +571,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_localization_new_version_available":
             MessageLookupByLibrary.simpleMessage("汉化有新版本！"),
         "home_localization_new_version_installed": m34,
+        "home_localization_select_customize_file":
+            MessageLookupByLibrary.simpleMessage("请选择自定义汉化文件"),
+        "home_localization_select_customize_file_ini":
+            MessageLookupByLibrary.simpleMessage("请选择 ini 文件"),
         "home_localization_title_localization_tools":
             MessageLookupByLibrary.simpleMessage("汉化工具"),
         "home_login_action_title_box_one_click_launch":
