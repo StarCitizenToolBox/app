@@ -26,6 +26,7 @@ mixin _$AdvancedLocalizationUIState {
       throw _privateConstructorUsedError;
   int get p4kGlobalIniLines => throw _privateConstructorUsedError;
   int get serverGlobalIniLines => throw _privateConstructorUsedError;
+  String get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AdvancedLocalizationUIStateCopyWith<AdvancedLocalizationUIState>
@@ -48,7 +49,8 @@ abstract class $AdvancedLocalizationUIStateCopyWith<$Res> {
       String? customizeGlobalIni,
       ScLocalizationData? apiLocalizationData,
       int p4kGlobalIniLines,
-      int serverGlobalIniLines});
+      int serverGlobalIniLines,
+      String errorMessage});
 }
 
 /// @nodoc
@@ -73,6 +75,7 @@ class _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
     Object? apiLocalizationData = freezed,
     Object? p4kGlobalIniLines = null,
     Object? serverGlobalIniLines = null,
+    Object? errorMessage = null,
   }) {
     return _then(_value.copyWith(
       workingText: null == workingText
@@ -107,6 +110,10 @@ class _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
           ? _value.serverGlobalIniLines
           : serverGlobalIniLines // ignore: cast_nullable_to_non_nullable
               as int,
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -128,7 +135,8 @@ abstract class _$$AdvancedLocalizationUIStateImplCopyWith<$Res>
       String? customizeGlobalIni,
       ScLocalizationData? apiLocalizationData,
       int p4kGlobalIniLines,
-      int serverGlobalIniLines});
+      int serverGlobalIniLines,
+      String errorMessage});
 }
 
 /// @nodoc
@@ -152,6 +160,7 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
     Object? apiLocalizationData = freezed,
     Object? p4kGlobalIniLines = null,
     Object? serverGlobalIniLines = null,
+    Object? errorMessage = null,
   }) {
     return _then(_$AdvancedLocalizationUIStateImpl(
       workingText: null == workingText
@@ -186,6 +195,10 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
           ? _value.serverGlobalIniLines
           : serverGlobalIniLines // ignore: cast_nullable_to_non_nullable
               as int,
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -203,7 +216,8 @@ class _$AdvancedLocalizationUIStateImpl
       this.customizeGlobalIni,
       this.apiLocalizationData,
       this.p4kGlobalIniLines = 0,
-      this.serverGlobalIniLines = 0})
+      this.serverGlobalIniLines = 0,
+      this.errorMessage = ""})
       : _classMap = classMap;
 
   @override
@@ -233,10 +247,13 @@ class _$AdvancedLocalizationUIStateImpl
   @override
   @JsonKey()
   final int serverGlobalIniLines;
+  @override
+  @JsonKey()
+  final String errorMessage;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines)';
+    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines, errorMessage: $errorMessage)';
   }
 
   @override
@@ -251,7 +268,8 @@ class _$AdvancedLocalizationUIStateImpl
       ..add(DiagnosticsProperty('customizeGlobalIni', customizeGlobalIni))
       ..add(DiagnosticsProperty('apiLocalizationData', apiLocalizationData))
       ..add(DiagnosticsProperty('p4kGlobalIniLines', p4kGlobalIniLines))
-      ..add(DiagnosticsProperty('serverGlobalIniLines', serverGlobalIniLines));
+      ..add(DiagnosticsProperty('serverGlobalIniLines', serverGlobalIniLines))
+      ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
   @override
@@ -273,7 +291,9 @@ class _$AdvancedLocalizationUIStateImpl
             (identical(other.p4kGlobalIniLines, p4kGlobalIniLines) ||
                 other.p4kGlobalIniLines == p4kGlobalIniLines) &&
             (identical(other.serverGlobalIniLines, serverGlobalIniLines) ||
-                other.serverGlobalIniLines == serverGlobalIniLines));
+                other.serverGlobalIniLines == serverGlobalIniLines) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
@@ -286,7 +306,8 @@ class _$AdvancedLocalizationUIStateImpl
       customizeGlobalIni,
       apiLocalizationData,
       p4kGlobalIniLines,
-      serverGlobalIniLines);
+      serverGlobalIniLines,
+      errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -306,7 +327,8 @@ abstract class _AdvancedLocalizationUIState
       final String? customizeGlobalIni,
       final ScLocalizationData? apiLocalizationData,
       final int p4kGlobalIniLines,
-      final int serverGlobalIniLines}) = _$AdvancedLocalizationUIStateImpl;
+      final int serverGlobalIniLines,
+      final String errorMessage}) = _$AdvancedLocalizationUIStateImpl;
 
   @override
   String get workingText;
@@ -324,6 +346,8 @@ abstract class _AdvancedLocalizationUIState
   int get p4kGlobalIniLines;
   @override
   int get serverGlobalIniLines;
+  @override
+  String get errorMessage;
   @override
   @JsonKey(ignore: true)
   _$$AdvancedLocalizationUIStateImplCopyWith<_$AdvancedLocalizationUIStateImpl>

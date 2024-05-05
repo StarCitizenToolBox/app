@@ -634,6 +634,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Localization has a new version!"),
         "home_localization_new_version_installed": m34,
+        "home_localization_ptu_advanced_localization_tip_title":
+            MessageLookupByLibrary.simpleMessage(
+                "Recommended advanced localization"),
+        "home_localization_ptu_advanced_localization_tip_title_info":
+            MessageLookupByLibrary.simpleMessage(
+                "On PTU/EPTU and other test channels, the current localization text text may not be synchronized with the game, and the use of advanced localization can reduce garbled production."),
         "home_localization_select_customize_file":
             MessageLookupByLibrary.simpleMessage(
                 "Please select custom Localization file"),

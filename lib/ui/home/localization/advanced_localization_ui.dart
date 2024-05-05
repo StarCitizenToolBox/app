@@ -50,57 +50,68 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
               )
             : Column(
                 children: [
-                  Row(
-                    children: [
-                      const SizedBox(width: 12),
-                      Expanded(
-                          child: Row(
-                        children: [
-                          Text(
-                            S.current.home_localization_advanced_msg_version(
-                                state.apiLocalizationData?.versionName ?? "-"),
-                          ),
-                          const SizedBox(width: 12),
-                          Button(
-                              onPressed: onSwitchFile,
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 3),
-                                child: Icon(FluentIcons.switch_widget),
-                              )),
-                          if (state.customizeGlobalIni != null) ...[
+                  if (state.errorMessage.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: Center(
+                        child: Text(state.errorMessage),
+                      ),
+                    )
+                  else ...[
+                    Row(
+                      children: [
+                        const SizedBox(width: 12),
+                        Expanded(
+                            child: Row(
+                          children: [
+                            Text(
+                              S.current.home_localization_advanced_msg_version(
+                                  state.apiLocalizationData?.versionName ??
+                                      "-"),
+                            ),
                             const SizedBox(width: 12),
                             Button(
-                                onPressed: () {
-                                  model.setCustomizeGlobalIni(null);
-                                },
+                                onPressed: onSwitchFile,
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 6, vertical: 3),
-                                  child: Icon(FluentIcons.delete),
+                                  child: Icon(FluentIcons.switch_widget),
                                 )),
-                          ]
-                        ],
-                      )),
-                      Text(S.current.home_localization_advanced_title_msg(
-                          state.serverGlobalIniLines, state.p4kGlobalIniLines)),
-                      const SizedBox(width: 32),
-                      Button(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 12, right: 12, top: 4, bottom: 4),
-                            child: Text(S.current
-                                .home_localization_advanced_action_install),
-                          ),
-                          onPressed: () async {
-                            await model.doInstall().unwrap(context: context);
-                          }),
-                      const SizedBox(width: 12),
-                    ],
-                  ),
-                  Expanded(
-                      child:
-                          _makeBody(context, homeUIState, state, ref, model)),
+                            if (state.customizeGlobalIni != null) ...[
+                              const SizedBox(width: 12),
+                              Button(
+                                  onPressed: () {
+                                    model.setCustomizeGlobalIni(null);
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 3),
+                                    child: Icon(FluentIcons.delete),
+                                  )),
+                            ]
+                          ],
+                        )),
+                        Text(S.current.home_localization_advanced_title_msg(
+                            state.serverGlobalIniLines,
+                            state.p4kGlobalIniLines)),
+                        const SizedBox(width: 32),
+                        Button(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12, right: 12, top: 4, bottom: 4),
+                              child: Text(S.current
+                                  .home_localization_advanced_action_install),
+                            ),
+                            onPressed: () async {
+                              await model.doInstall().unwrap(context: context);
+                            }),
+                        const SizedBox(width: 12),
+                      ],
+                    ),
+                    Expanded(
+                        child:
+                            _makeBody(context, homeUIState, state, ref, model)),
+                  ]
                 ],
               ));
   }

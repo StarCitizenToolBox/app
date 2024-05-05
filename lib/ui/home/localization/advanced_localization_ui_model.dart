@@ -29,6 +29,7 @@ class AdvancedLocalizationUIState with _$AdvancedLocalizationUIState {
     ScLocalizationData? apiLocalizationData,
     @Default(0) int p4kGlobalIniLines,
     @Default(0) int serverGlobalIniLines,
+    @Default("") String errorMessage,
   }) = _AdvancedLocalizationUIState;
 }
 
@@ -215,23 +216,29 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   }
 
   Future<String> readEnglishInI(String gameDir) async {
-    var data = await Unp4kCModel.unp4kTools(
-        appGlobalState.applicationBinaryModuleDir!, [
-      "extract_memory",
-      "$gameDir\\Data.p4k",
-      "Data\\Localization\\english\\global.ini"
-    ]);
-
-    // remove bom
-    if (data.length > 3 &&
-        data[0] == 0xEF &&
-        data[1] == 0xBB &&
-        data[2] == 0xBF) {
-      data = data.sublist(3);
+    try {
+      var data = await Unp4kCModel.unp4kTools(
+          appGlobalState.applicationBinaryModuleDir!, [
+        "extract_memory",
+        "$gameDir\\Data.p4k",
+        "Data\\Localization\\english\\global.ini"
+      ]);
+      // remove bom
+      if (data.length > 3 &&
+          data[0] == 0xEF &&
+          data[1] == 0xBB &&
+          data[2] == 0xBF) {
+        data = data.sublist(3);
+      }
+      final iniData = String.fromCharCodes(data);
+      return iniData;
+    } catch (e) {
+      state = state.copyWith(
+        errorMessage: e.toString(),
+      );
+      // rethrow;
     }
-
-    final iniData = String.fromCharCodes(data);
-    return iniData;
+    return "";
   }
 
   onChangeMod(AppAdvancedLocalizationClassKeysData item,

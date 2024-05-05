@@ -823,5 +823,7 @@
   "tools_unp4k_msg_unknown_file_type": "Unknown file type\n{v0}",
   "home_localization_select_customize_file_ini": "Please select INI file",
   "home_localization_select_customize_file": "Please select custom Localization file",
-  "home_localization_action_select_customize_file": "Click to select INI file"
+  "home_localization_action_select_customize_file": "Click to select INI file",
+  "home_localization_ptu_advanced_localization_tip_title": "Recommended advanced localization",
+  "home_localization_ptu_advanced_localization_tip_title_info": "On PTU/EPTU and other test channels, the current localization text text may not be synchronized with the game, and the use of advanced localization can reduce garbled production."
 }

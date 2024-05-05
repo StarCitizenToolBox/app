@@ -4783,6 +4783,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Recommended advanced localization`
+  String get home_localization_ptu_advanced_localization_tip_title {
+    return Intl.message(
+      'Recommended advanced localization',
+      name: 'home_localization_ptu_advanced_localization_tip_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `On PTU/EPTU and other test channels, the current localization text text may not be synchronized with the game, and the use of advanced localization can reduce garbled production.`
+  String get home_localization_ptu_advanced_localization_tip_title_info {
+    return Intl.message(
+      'On PTU/EPTU and other test channels, the current localization text text may not be synchronized with the game, and the use of advanced localization can reduce garbled production.',
+      name: 'home_localization_ptu_advanced_localization_tip_title_info',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

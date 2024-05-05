@@ -571,6 +571,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_localization_new_version_available":
             MessageLookupByLibrary.simpleMessage("汉化有新版本！"),
         "home_localization_new_version_installed": m34,
+        "home_localization_ptu_advanced_localization_tip_title":
+            MessageLookupByLibrary.simpleMessage("推荐使用高级汉化"),
+        "home_localization_ptu_advanced_localization_tip_title_info":
+            MessageLookupByLibrary.simpleMessage(
+                "在 PTU/EPTU 等测试频道 ，当前汉化文本可能与游戏不同步，使用高级汉化可以减少乱码产生。"),
         "home_localization_select_customize_file":
             MessageLookupByLibrary.simpleMessage("请选择自定义汉化文件"),
         "home_localization_select_customize_file_ini":

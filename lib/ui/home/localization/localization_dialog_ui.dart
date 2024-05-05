@@ -61,6 +61,22 @@ class LocalizationDialogUI extends HookConsumerWidget {
                         width: MediaQuery.of(context).size.width,
                       ),
               ),
+              if (!(model.getScInstallPath() ?? "").contains("LIVE"))
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: InfoBar(
+                    title: Text(S.current
+                        .home_localization_ptu_advanced_localization_tip_title),
+                    content: Text(S.current
+                        .home_localization_ptu_advanced_localization_tip_title_info),
+                    severity: InfoBarSeverity.info,
+                    style: InfoBarThemeData(decoration: (severity) {
+                      return BoxDecoration(color: Colors.orange);
+                    }, iconColor: (severity) {
+                      return Colors.white;
+                    }),
+                  ),
+                ),
               makeListContainer(
                   S.current.localization_info_translation_status,
                   [

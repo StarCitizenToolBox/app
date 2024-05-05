@@ -789,5 +789,7 @@
   "tools_unp4k_msg_unknown_file_type": "未知文件类型\n{v0}",
   "home_localization_select_customize_file_ini": "请选择 ini 文件",
   "home_localization_select_customize_file": "请选择自定义汉化文件",
-  "home_localization_action_select_customize_file": "点击选择 ini 文件"
+  "home_localization_action_select_customize_file": "点击选择 ini 文件",
+  "home_localization_ptu_advanced_localization_tip_title": "推荐使用高级汉化",
+  "home_localization_ptu_advanced_localization_tip_title_info": "在 PTU/EPTU 等测试频道 ，当前汉化文本可能与游戏不同步，使用高级汉化可以减少乱码产生。"
 }
