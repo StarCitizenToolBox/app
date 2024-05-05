@@ -8,7 +8,7 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 class BinaryModuleConf {
   static const _modules = {
     "aria2c": "0",
-    "unp4kc": "0",
+    "unp4kc": "1",
   };
 
   static Future extractModule(List<String> modules, String workingDir) async {

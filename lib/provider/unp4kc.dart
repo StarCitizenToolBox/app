@@ -29,6 +29,7 @@ class Unp4kcState with _$Unp4kcState {
     required String curPath,
     String? endMessage,
     MapEntry<String, String>? tempOpenFile,
+    @Default("") String errorMessage,
   }) = _Unp4kcState;
 }
 
@@ -72,6 +73,12 @@ class Unp4kCModel extends _$Unp4kCModel {
           break;
         case RsProcessStreamDataType.error:
           dPrint("[unp4kc] stderr: ${event.data}");
+          if (state.errorMessage.isEmpty) {
+            state = state.copyWith(errorMessage: event.data);
+          } else {
+            state = state.copyWith(
+                errorMessage: "${state.errorMessage}\n${event.data}");
+          }
           break;
         case RsProcessStreamDataType.exit:
           dPrint("[unp4kc] exit: ${event.data}");
