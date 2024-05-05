@@ -47,13 +47,13 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
     final assarState = useState<RSILauncherStateData?>(null);
 
     Future<void> readState() async {
-      workingText.value = "读取启动器信息...";
+      workingText.value = S.current.tools_rsi_launcher_enhance_init_msg1;
       assarState.value = await _readState(context).unwrap(context: context);
       if (assarState.value == null) {
         workingText.value = "";
         return;
       }
-      workingText.value = "正在从网络获取增强数据...";
+      workingText.value = S.current.tools_rsi_launcher_enhance_init_msg2;
       if (!context.mounted) return;
       await _loadEnhanceData(context, ref, assarState)
           .unwrap(context: context)
@@ -71,10 +71,10 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
         return;
       }
       if (!context.mounted) return;
-      workingText.value = "生成补丁 ...";
+      workingText.value = S.current.tools_rsi_launcher_enhance_working_msg1;
       final newScript =
           await _genNewScript(assarState).unwrap(context: context);
-      workingText.value = "安装补丁，这需要一点时间，取决于您的计算机性能 ...";
+      workingText.value = S.current.tools_rsi_launcher_enhance_working_msg2;
       if (!context.mounted) return;
       await assarState.value?.data
           .writeMainJs(content: utf8.encode(newScript))
@@ -99,7 +99,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
             onPressed:
                 workingText.value.isEmpty ? Navigator.of(context).pop : null),
         const SizedBox(width: 12),
-        const Text("RSI 启动器增强"),
+        Text(S.current.tools_rsi_launcher_enhance_title),
       ]),
       content: AnimatedSize(
         duration: const Duration(milliseconds: 130),
@@ -126,14 +126,18 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "启动器内部版本信息：${assarState.value?.version}",
+                      S.current.tools_rsi_launcher_enhance_msg_version(
+                          assarState.value?.version ?? ""),
                       style: TextStyle(
                         color: Colors.white.withOpacity(.6),
                       ),
                     ),
                   ),
                   Text(
-                    "补丁状态：${(assarState.value?.isPatchInstalled ?? false) ? "已安装" : "未安装"}",
+                    S.current.tools_rsi_launcher_enhance_msg_patch_status(
+                        (assarState.value?.isPatchInstalled ?? false)
+                            ? S.current.localization_info_installed
+                            : S.current.tools_action_info_not_installed),
                     style: TextStyle(
                       color: Colors.white.withOpacity(.6),
                     ),
@@ -141,7 +145,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                 ],
               ),
               if (assarState.value?.serverData.isEmpty ?? true) ...[
-                const Text("获取增强数据失败，可能是网络问题或当前版本不支持"),
+                Text(S.current.tools_rsi_launcher_enhance_msg_error),
               ] else ...[
                 const SizedBox(height: 24),
                 if (assarState.value?.enabledLocalization != null)
@@ -158,10 +162,12 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("RSI 启动器本地化"),
+                              Text(S.current
+                                  .tools_rsi_launcher_enhance_title_localization),
                               const SizedBox(height: 3),
                               Text(
-                                "为 RSI 启动器增加多语言支持。",
+                                S.current
+                                    .tools_rsi_launcher_enhance_subtitle_localization,
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.white.withOpacity(.6),
@@ -198,10 +204,12 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("RSI 启动器下载增强"),
+                            Text(S.current
+                                .tools_rsi_launcher_enhance_title_download_booster),
                             const SizedBox(height: 3),
                             Text(
-                              "下载游戏时可使用更多线程以提升下载速度，启用后请在启动器设置修改线程数。",
+                              S.current
+                                  .tools_rsi_launcher_enhance_subtitle_download_booster,
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.white.withOpacity(.6),
@@ -222,15 +230,16 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                 Center(
                     child: FilledButton(
                         onPressed: doInstall,
-                        child: const Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                          child: Text("安装增强补丁"),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 6),
+                          child: Text(S.current
+                              .tools_rsi_launcher_enhance_action_install),
                         ))),
               ],
               const SizedBox(height: 16),
               Text(
-                "* 如需卸载增强补丁，请覆盖安装 RSI 启动器。",
+                S.current.tools_rsi_launcher_enhance_msg_uninstall,
                 style: TextStyle(
                     color: Colors.white.withOpacity(.6), fontSize: 13),
               ),
@@ -245,7 +254,8 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
     final lPath = await SystemHelper.getRSILauncherPath(skipEXE: true);
     if (lPath.isEmpty) {
       if (!context.mounted) return null;
-      showToast(context, "未找到 RSI 启动器");
+      showToast(context,
+          S.current.tools_rsi_launcher_enhance_msg_error_launcher_notfound);
       return null;
     }
     dPrint("[RsiLauncherEnhanceDialogUI] rsiLauncherPath ==== $lPath");
@@ -259,7 +269,10 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
           RegExp(r"main\.(\w+)\.js").firstMatch(data.mainJsPath)?.group(1);
       if (version == null) {
         if (!context.mounted) return null;
-        showToast(context, "读取启动器信息失败！");
+        showToast(
+            context,
+            S.current
+                .tools_rsi_launcher_enhance_msg_error_get_launcher_info_error);
         return null;
       }
       dPrint(
@@ -280,7 +293,8 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
       );
     } catch (e) {
       if (!context.mounted) return null;
-      showToast(context, "读取启动器信息失败：$e");
+      showToast(context,
+          S.current.tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(e));
       return null;
     }
   }

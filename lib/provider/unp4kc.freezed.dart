@@ -24,6 +24,7 @@ mixin _$Unp4kcState {
   String? get endMessage => throw _privateConstructorUsedError;
   MapEntry<String, String>? get tempOpenFile =>
       throw _privateConstructorUsedError;
+  String get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $Unp4kcStateCopyWith<Unp4kcState> get copyWith =>
@@ -42,7 +43,8 @@ abstract class $Unp4kcStateCopyWith<$Res> {
       MemoryFileSystem? fs,
       String curPath,
       String? endMessage,
-      MapEntry<String, String>? tempOpenFile});
+      MapEntry<String, String>? tempOpenFile,
+      String errorMessage});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$Unp4kcStateCopyWithImpl<$Res, $Val extends Unp4kcState>
     Object? curPath = null,
     Object? endMessage = freezed,
     Object? tempOpenFile = freezed,
+    Object? errorMessage = null,
   }) {
     return _then(_value.copyWith(
       startUp: null == startUp
@@ -90,6 +93,10 @@ class _$Unp4kcStateCopyWithImpl<$Res, $Val extends Unp4kcState>
           ? _value.tempOpenFile
           : tempOpenFile // ignore: cast_nullable_to_non_nullable
               as MapEntry<String, String>?,
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -108,7 +115,8 @@ abstract class _$$Unp4kcStateImplCopyWith<$Res>
       MemoryFileSystem? fs,
       String curPath,
       String? endMessage,
-      MapEntry<String, String>? tempOpenFile});
+      MapEntry<String, String>? tempOpenFile,
+      String errorMessage});
 }
 
 /// @nodoc
@@ -128,6 +136,7 @@ class __$$Unp4kcStateImplCopyWithImpl<$Res>
     Object? curPath = null,
     Object? endMessage = freezed,
     Object? tempOpenFile = freezed,
+    Object? errorMessage = null,
   }) {
     return _then(_$Unp4kcStateImpl(
       startUp: null == startUp
@@ -154,6 +163,10 @@ class __$$Unp4kcStateImplCopyWithImpl<$Res>
           ? _value.tempOpenFile
           : tempOpenFile // ignore: cast_nullable_to_non_nullable
               as MapEntry<String, String>?,
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -167,7 +180,8 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
       this.fs,
       required this.curPath,
       this.endMessage,
-      this.tempOpenFile})
+      this.tempOpenFile,
+      this.errorMessage = ""})
       : _files = files;
 
   @override
@@ -190,10 +204,13 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
   final String? endMessage;
   @override
   final MapEntry<String, String>? tempOpenFile;
+  @override
+  @JsonKey()
+  final String errorMessage;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Unp4kcState(startUp: $startUp, files: $files, fs: $fs, curPath: $curPath, endMessage: $endMessage, tempOpenFile: $tempOpenFile)';
+    return 'Unp4kcState(startUp: $startUp, files: $files, fs: $fs, curPath: $curPath, endMessage: $endMessage, tempOpenFile: $tempOpenFile, errorMessage: $errorMessage)';
   }
 
   @override
@@ -206,7 +223,8 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
       ..add(DiagnosticsProperty('fs', fs))
       ..add(DiagnosticsProperty('curPath', curPath))
       ..add(DiagnosticsProperty('endMessage', endMessage))
-      ..add(DiagnosticsProperty('tempOpenFile', tempOpenFile));
+      ..add(DiagnosticsProperty('tempOpenFile', tempOpenFile))
+      ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
   @override
@@ -221,7 +239,9 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
             (identical(other.endMessage, endMessage) ||
                 other.endMessage == endMessage) &&
             (identical(other.tempOpenFile, tempOpenFile) ||
-                other.tempOpenFile == tempOpenFile));
+                other.tempOpenFile == tempOpenFile) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
@@ -232,7 +252,8 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
       fs,
       curPath,
       endMessage,
-      tempOpenFile);
+      tempOpenFile,
+      errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -248,7 +269,8 @@ abstract class _Unp4kcState implements Unp4kcState {
       final MemoryFileSystem? fs,
       required final String curPath,
       final String? endMessage,
-      final MapEntry<String, String>? tempOpenFile}) = _$Unp4kcStateImpl;
+      final MapEntry<String, String>? tempOpenFile,
+      final String errorMessage}) = _$Unp4kcStateImpl;
 
   @override
   bool get startUp;
@@ -262,6 +284,8 @@ abstract class _Unp4kcState implements Unp4kcState {
   String? get endMessage;
   @override
   MapEntry<String, String>? get tempOpenFile;
+  @override
+  String get errorMessage;
   @override
   @JsonKey(ignore: true)
   _$$Unp4kcStateImplCopyWith<_$Unp4kcStateImpl> get copyWith =>

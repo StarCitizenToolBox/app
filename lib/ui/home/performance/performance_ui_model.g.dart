@@ -7,7 +7,7 @@ part of 'performance_ui_model.dart';
 // **************************************************************************
 
 String _$homePerformanceUIModelHash() =>
-    r'6ac9c9adc428120cb5ce71949221064c9e5d9385';
+    r'83fbdbbae287892dd0c67f5fd86d42a73d0ab91f';
 
 /// See also [HomePerformanceUIModel].
 @ProviderFor(HomePerformanceUIModel)

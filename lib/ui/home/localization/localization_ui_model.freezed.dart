@@ -21,6 +21,7 @@ mixin _$LocalizationUIState {
       throw _privateConstructorUsedError;
   String get workingVersion => throw _privateConstructorUsedError;
   MapEntry<bool, String>? get patchStatus => throw _privateConstructorUsedError;
+  bool? get isInstalledAdvanced => throw _privateConstructorUsedError;
   List<String>? get customizeList => throw _privateConstructorUsedError;
   bool get enableCustomize => throw _privateConstructorUsedError;
 
@@ -40,6 +41,7 @@ abstract class $LocalizationUIStateCopyWith<$Res> {
       Map<String, ScLocalizationData>? apiLocalizationData,
       String workingVersion,
       MapEntry<bool, String>? patchStatus,
+      bool? isInstalledAdvanced,
       List<String>? customizeList,
       bool enableCustomize});
 }
@@ -61,6 +63,7 @@ class _$LocalizationUIStateCopyWithImpl<$Res, $Val extends LocalizationUIState>
     Object? apiLocalizationData = freezed,
     Object? workingVersion = null,
     Object? patchStatus = freezed,
+    Object? isInstalledAdvanced = freezed,
     Object? customizeList = freezed,
     Object? enableCustomize = null,
   }) {
@@ -81,6 +84,10 @@ class _$LocalizationUIStateCopyWithImpl<$Res, $Val extends LocalizationUIState>
           ? _value.patchStatus
           : patchStatus // ignore: cast_nullable_to_non_nullable
               as MapEntry<bool, String>?,
+      isInstalledAdvanced: freezed == isInstalledAdvanced
+          ? _value.isInstalledAdvanced
+          : isInstalledAdvanced // ignore: cast_nullable_to_non_nullable
+              as bool?,
       customizeList: freezed == customizeList
           ? _value.customizeList
           : customizeList // ignore: cast_nullable_to_non_nullable
@@ -106,6 +113,7 @@ abstract class _$$LocalizationUIStateImplCopyWith<$Res>
       Map<String, ScLocalizationData>? apiLocalizationData,
       String workingVersion,
       MapEntry<bool, String>? patchStatus,
+      bool? isInstalledAdvanced,
       List<String>? customizeList,
       bool enableCustomize});
 }
@@ -125,6 +133,7 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
     Object? apiLocalizationData = freezed,
     Object? workingVersion = null,
     Object? patchStatus = freezed,
+    Object? isInstalledAdvanced = freezed,
     Object? customizeList = freezed,
     Object? enableCustomize = null,
   }) {
@@ -145,6 +154,10 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
           ? _value.patchStatus
           : patchStatus // ignore: cast_nullable_to_non_nullable
               as MapEntry<bool, String>?,
+      isInstalledAdvanced: freezed == isInstalledAdvanced
+          ? _value.isInstalledAdvanced
+          : isInstalledAdvanced // ignore: cast_nullable_to_non_nullable
+              as bool?,
       customizeList: freezed == customizeList
           ? _value._customizeList
           : customizeList // ignore: cast_nullable_to_non_nullable
@@ -165,6 +178,7 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
       final Map<String, ScLocalizationData>? apiLocalizationData,
       this.workingVersion = "",
       this.patchStatus,
+      this.isInstalledAdvanced,
       final List<String>? customizeList,
       this.enableCustomize = false})
       : _apiLocalizationData = apiLocalizationData,
@@ -188,6 +202,8 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
   final String workingVersion;
   @override
   final MapEntry<bool, String>? patchStatus;
+  @override
+  final bool? isInstalledAdvanced;
   final List<String>? _customizeList;
   @override
   List<String>? get customizeList {
@@ -204,7 +220,7 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
 
   @override
   String toString() {
-    return 'LocalizationUIState(selectedLanguage: $selectedLanguage, apiLocalizationData: $apiLocalizationData, workingVersion: $workingVersion, patchStatus: $patchStatus, customizeList: $customizeList, enableCustomize: $enableCustomize)';
+    return 'LocalizationUIState(selectedLanguage: $selectedLanguage, apiLocalizationData: $apiLocalizationData, workingVersion: $workingVersion, patchStatus: $patchStatus, isInstalledAdvanced: $isInstalledAdvanced, customizeList: $customizeList, enableCustomize: $enableCustomize)';
   }
 
   @override
@@ -220,6 +236,8 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
                 other.workingVersion == workingVersion) &&
             (identical(other.patchStatus, patchStatus) ||
                 other.patchStatus == patchStatus) &&
+            (identical(other.isInstalledAdvanced, isInstalledAdvanced) ||
+                other.isInstalledAdvanced == isInstalledAdvanced) &&
             const DeepCollectionEquality()
                 .equals(other._customizeList, _customizeList) &&
             (identical(other.enableCustomize, enableCustomize) ||
@@ -233,6 +251,7 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
       const DeepCollectionEquality().hash(_apiLocalizationData),
       workingVersion,
       patchStatus,
+      isInstalledAdvanced,
       const DeepCollectionEquality().hash(_customizeList),
       enableCustomize);
 
@@ -250,6 +269,7 @@ abstract class _LocalizationUIState implements LocalizationUIState {
       final Map<String, ScLocalizationData>? apiLocalizationData,
       final String workingVersion,
       final MapEntry<bool, String>? patchStatus,
+      final bool? isInstalledAdvanced,
       final List<String>? customizeList,
       final bool enableCustomize}) = _$LocalizationUIStateImpl;
 
@@ -261,6 +281,8 @@ abstract class _LocalizationUIState implements LocalizationUIState {
   String get workingVersion;
   @override
   MapEntry<bool, String>? get patchStatus;
+  @override
+  bool? get isInstalledAdvanced;
   @override
   List<String>? get customizeList;
   @override

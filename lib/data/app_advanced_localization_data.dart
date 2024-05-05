@@ -42,6 +42,8 @@ class AppAdvancedLocalizationClassKeysData {
   Map<String, String> valuesMap = {};
   AppAdvancedLocalizationClassKeysDataMode mode =
       AppAdvancedLocalizationClassKeysDataMode.localization;
+  bool lockMod = false;
+  bool isWorking = false;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -56,4 +58,5 @@ enum AppAdvancedLocalizationClassKeysDataMode {
   unLocalization,
   localization,
   mixed,
+  mixedNewline,
 }

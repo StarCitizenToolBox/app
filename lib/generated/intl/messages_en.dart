@@ -90,60 +90,87 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m29(v0) => "${v0} Day  ";
 
-  static String m30(v0) =>
+  static String m30(v0) => "Localization version has been loaded: ${v0}";
+
+  static String m31(v0) => "Advanced Localization -> ${v0}";
+
+  static String m32(v0, v1) =>
+      "Localization text lines: ${v0} P4K text lines: ${v1}";
+
+  static String m33(v0) => "Preview: ${v0}";
+
+  static String m34(v0) =>
       "You have a new version of the Localization you installed in ${v0}!";
 
-  static String m31(v1, v2) =>
+  static String m35(v1, v2) =>
       "RSI server report version number: ${v1}\n\nLocal version number: ${v2}\n\nIt is recommended to use RSI Launcher to update the game!";
 
-  static String m32(v0) => "Channel: ${v0}";
+  static String m36(v0) => "Channel: ${v0}";
 
-  static String m33(v0) => "Custom_ ${v0}";
+  static String m37(v0) => "Custom_ ${v0}";
 
-  static String m34(v0) => "Enable (${v0}):";
+  static String m38(v0) => "Enable (${v0}):";
 
-  static String m35(v0) => "Install an error!\n\n ${v0}";
+  static String m39(v0) => "Install an error!\n\n ${v0}";
 
-  static String m36(v0) => "The installed version: ${v0}";
+  static String m40(v0) => "The installed version: ${v0}";
 
-  static String m37(v0) => "Update Time: ${v0}";
+  static String m41(v0) => "Update Time: ${v0}";
 
-  static String m38(v0) => "Version number: ${v0}";
+  static String m42(v0) => "Version number: ${v0}";
 
-  static String m39(v0) => "Current status: ${v0}";
+  static String m43(v0) => "Current status: ${v0}";
 
-  static String m40(v0, v1, v2) =>
+  static String m44(v0, v1, v2) =>
       "${v0} minimum value: ${v1} / maximum value: ${v2}";
 
-  static String m41(v0) => "Performance Optimization -> ${v0}";
-
-  static String m42(v0) =>
-      "The cache size ${v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization";
-
-  static String m43(v0) =>
-      "Core quantity that has been set: ${v0} (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)";
-
-  static String m44(v0) =>
-      "Failure to clean up, please remove manually, file location: ${v0}";
-
-  static String m45(v0) => "Error: ${v0}";
+  static String m45(v0) => "Performance Optimization -> ${v0}";
 
   static String m46(v0) =>
-      "Initialization failed, please take a screenshot report to the developer. ${v0}";
+      "The cache size ${v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization";
 
   static String m47(v0) =>
-      "If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: ${v0}";
+      "Core quantity that has been set: ${v0} (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)";
 
   static String m48(v0) =>
+      "Failure to clean up, please remove manually, file location: ${v0}";
+
+  static String m49(v0) => "Error: ${v0}";
+
+  static String m50(v0) =>
+      "Initialization failed, please take a screenshot report to the developer. ${v0}";
+
+  static String m51(v0) =>
+      "If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: ${v0}";
+
+  static String m52(v0) =>
       "In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: ${v0} MB";
 
-  static String m49(v0) =>
+  static String m53(v0) =>
       "If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: ${v0} MB";
 
-  static String m50(v0, v1, v2, v3, v4) =>
+  static String m54(v0, v1, v2, v3, v4) =>
       "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nStorage information:\n${v4}\n\n";
 
-  static String m51(v0) => "Failure to handle! : ${v0}";
+  static String m55(v0) => "Failure to handle! : ${v0}";
+
+  static String m56(v0) => "Read the starter information failure: ${v0}";
+
+  static String m57(v0) => "Patch status: ${v0}";
+
+  static String m58(v0) => "Internal version information of the starter: ${v0}";
+
+  static String m59(v0) => "Open the file: ${v0}";
+
+  static String m60(v0, v1) => "After loading: ${v0} a file, time: ${v1} ms";
+
+  static String m61(v0) => "Read file: ${v0} ...";
+
+  static String m62(v0, v1) => "Processing files (${v0}/${v1}) ...";
+
+  static String m63(v0) => "Unknown file type\n${v0}";
+
+  static String m64(v0) => "P4k viewer -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -166,7 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_analytics_total_users":
             MessageLookupByLibrary.simpleMessage("Cumulative users"),
         "about_analytics_units_times":
-            MessageLookupByLibrary.simpleMessage("Second-rate"),
+            MessageLookupByLibrary.simpleMessage("Times"),
         "about_analytics_units_user":
             MessageLookupByLibrary.simpleMessage("users"),
         "about_app_description": MessageLookupByLibrary.simpleMessage(
@@ -215,7 +242,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_splash_dialog_u_a_p_p": MessageLookupByLibrary.simpleMessage(
             "User Agreement and Privacy Policy"),
         "app_splash_dialog_u_a_p_p_content": MessageLookupByLibrary.simpleMessage(
-            "Thank you for choosing the SC Chinese box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [github.com/starCitizentoolBox/app] (https://github.com/starCitizantoolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us."),
+            "Thank you for choosing the SCToolBox box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [github.com/starCitizentoolBox/app] (https://github.com/starCitizantoolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us."),
         "app_upgrade_action_next_time":
             MessageLookupByLibrary.simpleMessage("Next time"),
         "app_upgrade_action_update_now":
@@ -517,7 +544,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("SC Official Localization"),
         "home_action_title_star_citizen_website_localization":
             MessageLookupByLibrary.simpleMessage(
-                "Star Citizen Website Sinicization"),
+                "Star Citizen Website Localization"),
         "home_action_uex_localization":
             MessageLookupByLibrary.simpleMessage("UEX Localization"),
         "home_announcement_details":
@@ -539,10 +566,76 @@ class MessageLookup extends MessageLookupByLibrary {
                 "This function requires an effective installation location"),
         "home_install_location":
             MessageLookupByLibrary.simpleMessage("Installation location:"),
+        "home_localization_action_advanced":
+            MessageLookupByLibrary.simpleMessage("Advanced Localization"),
+        "home_localization_action_install_customize":
+            MessageLookupByLibrary.simpleMessage("Install custom file"),
+        "home_localization_action_rsi_launcher_localization":
+            MessageLookupByLibrary.simpleMessage("RSILauncher Localization"),
+        "home_localization_advanced_action_install":
+            MessageLookupByLibrary.simpleMessage(
+                "Installation of Localization"),
+        "home_localization_advanced_action_mod_change":
+            MessageLookupByLibrary.simpleMessage(
+                "The text is being re -generated ..."),
+        "home_localization_advanced_action_mod_change_localization":
+            MessageLookupByLibrary.simpleMessage("Localization"),
+        "home_localization_advanced_action_mod_change_mixed":
+            MessageLookupByLibrary.simpleMessage("Bilingual"),
+        "home_localization_advanced_action_mod_change_mixed_newline":
+            MessageLookupByLibrary.simpleMessage("Bilingual (newline)"),
+        "home_localization_advanced_action_mod_change_un_localization":
+            MessageLookupByLibrary.simpleMessage("Original English"),
+        "home_localization_advanced_action_mode":
+            MessageLookupByLibrary.simpleMessage("Model"),
+        "home_localization_advanced_json_text_location_other":
+            MessageLookupByLibrary.simpleMessage("Location-Other"),
+        "home_localization_advanced_json_text_location_used":
+            MessageLookupByLibrary.simpleMessage("Location-Commonly used"),
+        "home_localization_advanced_json_text_mission_or_logs":
+            MessageLookupByLibrary.simpleMessage("Mission/Log"),
+        "home_localization_advanced_json_text_others":
+            MessageLookupByLibrary.simpleMessage("Other"),
+        "home_localization_advanced_json_text_subtitle":
+            MessageLookupByLibrary.simpleMessage("Subtitle"),
+        "home_localization_advanced_json_text_things_other":
+            MessageLookupByLibrary.simpleMessage("Items-Other"),
+        "home_localization_advanced_json_text_things_used":
+            MessageLookupByLibrary.simpleMessage("Items-Commonly used"),
+        "home_localization_advanced_json_text_ui_or_hud_or_menu":
+            MessageLookupByLibrary.simpleMessage("UI/HUD/menu"),
+        "home_localization_advanced_json_text_un_localization":
+            MessageLookupByLibrary.simpleMessage("Unwaver"),
+        "home_localization_advanced_json_text_vehicle_other":
+            MessageLookupByLibrary.simpleMessage("Vehicle-Other"),
+        "home_localization_advanced_json_text_vehicle_used":
+            MessageLookupByLibrary.simpleMessage("Vehicle-Commonly used"),
+        "home_localization_advanced_msg_classifying":
+            MessageLookupByLibrary.simpleMessage("Classified ..."),
+        "home_localization_advanced_msg_gen_localization_install":
+            MessageLookupByLibrary.simpleMessage(
+                "Install Localization file ..."),
+        "home_localization_advanced_msg_gen_localization_text":
+            MessageLookupByLibrary.simpleMessage(
+                "Generate Localization file ..."),
+        "home_localization_advanced_msg_reading_p4k":
+            MessageLookupByLibrary.simpleMessage("Read p4k file ..."),
+        "home_localization_advanced_msg_reading_server_localization_text":
+            MessageLookupByLibrary.simpleMessage("Get Localization text ..."),
+        "home_localization_advanced_msg_version": m30,
+        "home_localization_advanced_title": m31,
+        "home_localization_advanced_title_msg": m32,
+        "home_localization_advanced_title_preview": m33,
+        "home_localization_msg_no_note": MessageLookupByLibrary.simpleMessage(
+            "This version does not provide a description"),
+        "home_localization_msg_version_advanced":
+            MessageLookupByLibrary.simpleMessage("(Advanced)"),
         "home_localization_new_version_available":
             MessageLookupByLibrary.simpleMessage(
-                "Sinicization has a new version!"),
-        "home_localization_new_version_installed": m30,
+                "Localization has a new version!"),
+        "home_localization_new_version_installed": m34,
+        "home_localization_title_localization_tools":
+            MessageLookupByLibrary.simpleMessage("Localization tool"),
         "home_login_action_title_box_one_click_launch":
             MessageLookupByLibrary.simpleMessage("Box one -click start"),
         "home_login_action_title_need_webview2_runtime":
@@ -555,7 +648,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
                 "This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source."),
-        "home_login_info_rsi_server_report": m31,
+        "home_login_info_rsi_server_report": m35,
         "home_login_title_launching_game":
             MessageLookupByLibrary.simpleMessage("Launching game for you ..."),
         "home_login_title_welcome_back":
@@ -574,27 +667,26 @@ class MessageLookup extends MessageLookupByLibrary {
         "localization_action_install":
             MessageLookupByLibrary.simpleMessage("Install"),
         "localization_action_translation_feedback":
-            MessageLookupByLibrary.simpleMessage("Localization feedback"),
+            MessageLookupByLibrary.simpleMessage("Feedback"),
         "localization_action_uninstall_translation":
-            MessageLookupByLibrary.simpleMessage(
-                "Uninstallation of Localization"),
-        "localization_info_channel": m32,
+            MessageLookupByLibrary.simpleMessage("Uninstall"),
+        "localization_info_channel": m36,
         "localization_info_community_translation":
             MessageLookupByLibrary.simpleMessage("Community Localization"),
         "localization_info_corrupted_file":
             MessageLookupByLibrary.simpleMessage(
                 "The file is damaged, please download again"),
-        "localization_info_custom_file": m33,
+        "localization_info_custom_file": m37,
         "localization_info_custom_files":
             MessageLookupByLibrary.simpleMessage("Custom file"),
-        "localization_info_enabled": m34,
+        "localization_info_enabled": m38,
         "localization_info_incompatible_translation_params_warning":
             MessageLookupByLibrary.simpleMessage(
                 "User.cfg contains incompatible Localization parameters, which may be the residual information of the previous Localization file.\n\nThis may lead to ineffective or garbled Localization, click to confirm that you are removed with one click (it will not affect other configuration)."),
-        "localization_info_installation_error": m35,
+        "localization_info_installation_error": m39,
         "localization_info_installed":
             MessageLookupByLibrary.simpleMessage("Installed"),
-        "localization_info_installed_version": m36,
+        "localization_info_installed_version": m40,
         "localization_info_language":
             MessageLookupByLibrary.simpleMessage("Language:   "),
         "localization_info_machine_translation_warning":
@@ -612,13 +704,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Localization status"),
         "localization_info_unavailable":
             MessageLookupByLibrary.simpleMessage("Unavailable"),
-        "localization_info_update_time": m37,
-        "localization_info_version_number": m38,
+        "localization_info_update_time": m41,
+        "localization_info_version_number": m42,
         "performance_action_apply":
-            MessageLookupByLibrary.simpleMessage("Application"),
+            MessageLookupByLibrary.simpleMessage("Apply"),
         "performance_action_apply_and_clear_shaders":
-            MessageLookupByLibrary.simpleMessage(
-                "Apply and clean up the color device (recommended)"),
+            MessageLookupByLibrary.simpleMessage("Apply and clean up"),
         "performance_action_clear_shaders":
             MessageLookupByLibrary.simpleMessage("Clean the color device"),
         "performance_action_custom_parameters_input":
@@ -626,20 +717,19 @@ class MessageLookup extends MessageLookupByLibrary {
                 "You can enter the custom parameters that are not included in the box here. Configuration example:\n\nR_DISPLAYINFO = 0\nr_vsync = 0"),
         "performance_action_high": MessageLookupByLibrary.simpleMessage("High"),
         "performance_action_info_preset_only_changes_graphics":
-            MessageLookupByLibrary.simpleMessage(
-                "(Preset only the graphic settings)"),
+            MessageLookupByLibrary.simpleMessage("(Only graphic)"),
         "performance_action_low": MessageLookupByLibrary.simpleMessage("Low"),
         "performance_action_medium":
             MessageLookupByLibrary.simpleMessage("Middle"),
         "performance_action_preset":
             MessageLookupByLibrary.simpleMessage("Preset:"),
         "performance_action_reset_to_default":
-            MessageLookupByLibrary.simpleMessage(" Reset to default "),
+            MessageLookupByLibrary.simpleMessage(" Reset"),
         "performance_action_super":
             MessageLookupByLibrary.simpleMessage("Super"),
         "performance_info_applied":
             MessageLookupByLibrary.simpleMessage("Applied"),
-        "performance_info_current_status": m39,
+        "performance_info_current_status": m43,
         "performance_info_delete_config_file":
             MessageLookupByLibrary.simpleMessage(
                 "Delete the configuration file ..."),
@@ -654,7 +744,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "This function is very helpful for optimizing the bottleneck of the graphics card, but it may have a reverse effect on the CPU bottleneck. If your graphics card performance is strong, you can try to use better picture quality to obtain higher graphics card utilization."),
         "performance_info_graphics":
             MessageLookupByLibrary.simpleMessage("Graphic"),
-        "performance_info_min_max_values": m40,
+        "performance_info_min_max_values": m44,
         "performance_info_not_applied":
             MessageLookupByLibrary.simpleMessage("Unused"),
         "performance_info_shader_clearing_warning":
@@ -663,13 +753,139 @@ class MessageLookup extends MessageLookupByLibrary {
         "performance_info_write_out_config_file":
             MessageLookupByLibrary.simpleMessage(
                 "Write the configuration file"),
-        "performance_title_performance_optimization": m41,
+        "performance_json_text_antialiasing":
+            MessageLookupByLibrary.simpleMessage("Anti -aliasing"),
+        "performance_json_text_antialiasing_info":
+            MessageLookupByLibrary.simpleMessage(
+                "0 Close, 1 SMAA, 2 time filter+SMAA, 3 time filtering and projection matrix shake SMAA"),
+        "performance_json_text_custom_parameters":
+            MessageLookupByLibrary.simpleMessage("Custom parameter"),
+        "performance_json_text_display_session":
+            MessageLookupByLibrary.simpleMessage("Display session information"),
+        "performance_json_text_display_session_info":
+            MessageLookupByLibrary.simpleMessage(
+                "After turning on, display a QR code on the screen to allow CIG to quickly locate related information when feedback"),
+        "performance_json_text_displayinfo":
+            MessageLookupByLibrary.simpleMessage(
+                "Screen information (display frame rate)"),
+        "performance_json_text_displayinfo_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Display frame rates, server information, etc. in the upper right corner of the screen"),
+        "performance_json_text_fov":
+            MessageLookupByLibrary.simpleMessage("Set viewing angle FOV"),
+        "performance_json_text_game_effects":
+            MessageLookupByLibrary.simpleMessage("Special effect level"),
+        "performance_json_text_game_effects_info":
+            MessageLookupByLibrary.simpleMessage("Game special effect level"),
+        "performance_json_text_max_fps":
+            MessageLookupByLibrary.simpleMessage("Maximum frame rate"),
+        "performance_json_text_max_fps_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Adjust the maximum frame rate of the game, 0 is not limited"),
+        "performance_json_text_motion_blur":
+            MessageLookupByLibrary.simpleMessage("Dynamic blur"),
+        "performance_json_text_motion_blur_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Open to improve the sense of movement, turn off and enhance the perception"),
+        "performance_json_text_object_detail":
+            MessageLookupByLibrary.simpleMessage("Object detail"),
+        "performance_json_text_object_detail_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Model object details, affect LOD, etc."),
+        "performance_json_text_particles":
+            MessageLookupByLibrary.simpleMessage("Particle details"),
+        "performance_json_text_particles_object_collisions":
+            MessageLookupByLibrary.simpleMessage("Particle collision"),
+        "performance_json_text_particles_object_collisions_info":
+            MessageLookupByLibrary.simpleMessage(
+                "1 Static particles 2 include dynamic particles"),
+        "performance_json_text_physics":
+            MessageLookupByLibrary.simpleMessage("Physical details"),
+        "performance_json_text_physics_info":
+            MessageLookupByLibrary.simpleMessage("Scope of physical effects"),
+        "performance_json_text_postprocessing":
+            MessageLookupByLibrary.simpleMessage("Post -processing details"),
+        "performance_json_text_postprocessing_info":
+            MessageLookupByLibrary.simpleMessage(
+                "After the color device, dynamic blur effect, etc."),
+        "performance_json_text_renderer":
+            MessageLookupByLibrary.simpleMessage("Rendering device quality"),
+        "performance_json_text_renderer_info":
+            MessageLookupByLibrary.simpleMessage("Cryengine rendereer quality"),
+        "performance_json_text_shader_decal":
+            MessageLookupByLibrary.simpleMessage("Quality"),
+        "performance_json_text_shader_decal_info":
+            MessageLookupByLibrary.simpleMessage("(LOGO, logo, etc.)"),
+        "performance_json_text_shader_fx":
+            MessageLookupByLibrary.simpleMessage("FX quality"),
+        "performance_json_text_shader_general":
+            MessageLookupByLibrary.simpleMessage("Conventional quality"),
+        "performance_json_text_shader_general_info":
+            MessageLookupByLibrary.simpleMessage("Overall model quality"),
+        "performance_json_text_shader_glass":
+            MessageLookupByLibrary.simpleMessage("Glass quality"),
+        "performance_json_text_shader_glass_info":
+            MessageLookupByLibrary.simpleMessage("Window, mirror, etc."),
+        "performance_json_text_shader_hdr":
+            MessageLookupByLibrary.simpleMessage("HDR quality"),
+        "performance_json_text_shader_hdr_info":
+            MessageLookupByLibrary.simpleMessage(
+                "HDR color difference, brightness level treatment, etc."),
+        "performance_json_text_shader_particle":
+            MessageLookupByLibrary.simpleMessage("Particle quality"),
+        "performance_json_text_shader_particle_info":
+            MessageLookupByLibrary.simpleMessage("Particle effect quality"),
+        "performance_json_text_shader_post_process":
+            MessageLookupByLibrary.simpleMessage("Color quality"),
+        "performance_json_text_shader_shadow":
+            MessageLookupByLibrary.simpleMessage("Shadow quality"),
+        "performance_json_text_shader_sky":
+            MessageLookupByLibrary.simpleMessage("Sky quality"),
+        "performance_json_text_shader_terrain":
+            MessageLookupByLibrary.simpleMessage("Ground quality"),
+        "performance_json_text_shading":
+            MessageLookupByLibrary.simpleMessage("Colorrhea details"),
+        "performance_json_text_shading_info":
+            MessageLookupByLibrary.simpleMessage("Coloror related"),
+        "performance_json_text_shadows":
+            MessageLookupByLibrary.simpleMessage("Shadow details"),
+        "performance_json_text_shadows_info":
+            MessageLookupByLibrary.simpleMessage("Shadow effect"),
+        "performance_json_text_ssdo": MessageLookupByLibrary.simpleMessage(
+            "Swip light after the screen light"),
+        "performance_json_text_ssdo_info": MessageLookupByLibrary.simpleMessage(
+            "After adjusting the light, processing level"),
+        "performance_json_text_texture":
+            MessageLookupByLibrary.simpleMessage("Grade"),
+        "performance_json_text_texture_info":
+            MessageLookupByLibrary.simpleMessage("Model texture details"),
+        "performance_json_text_title_custom":
+            MessageLookupByLibrary.simpleMessage("Customize"),
+        "performance_json_text_title_graphics":
+            MessageLookupByLibrary.simpleMessage("Graphic"),
+        "performance_json_text_ui_animation":
+            MessageLookupByLibrary.simpleMessage("UI fades into the animation"),
+        "performance_json_text_volumetric_effects":
+            MessageLookupByLibrary.simpleMessage("Volume effect"),
+        "performance_json_text_volumetric_effects_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Volume cloud, volume light, etc."),
+        "performance_json_text_vsync":
+            MessageLookupByLibrary.simpleMessage("Vertical sync"),
+        "performance_json_text_vsync_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Open to prevent tearing, turn off to increase the frame rate"),
+        "performance_json_text_water":
+            MessageLookupByLibrary.simpleMessage("Water effect"),
+        "performance_json_text_water_info":
+            MessageLookupByLibrary.simpleMessage("Grade of various water"),
+        "performance_title_performance_optimization": m45,
         "setting_action_clear_translation_file_cache":
             MessageLookupByLibrary.simpleMessage(
                 "Clean up the Localization file cache"),
         "setting_action_create_desktop_shortcut":
             MessageLookupByLibrary.simpleMessage(
-                "Create \"SC Sinicization Box\" shortcut on the desktop"),
+                "Create \"SC Localization Box\" shortcut on the desktop"),
         "setting_action_create_settings_shortcut":
             MessageLookupByLibrary.simpleMessage("Create shortcut"),
         "setting_action_ignore_efficiency_cores_on_launch":
@@ -678,7 +894,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_info_autofill_data_cleared":
             MessageLookupByLibrary.simpleMessage(
                 "Automatic filling data has been cleaned up"),
-        "setting_action_info_cache_clearing_info": m42,
+        "setting_action_info_cache_clearing_info": m46,
         "setting_action_info_clear_cache_warning":
             MessageLookupByLibrary.simpleMessage(
                 "This will not affect the installed Localization."),
@@ -726,7 +942,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setting_action_reset_auto_password_fill":
             MessageLookupByLibrary.simpleMessage(
                 "Reset automatic password filling"),
-        "setting_action_set_core_count": m43,
+        "setting_action_set_core_count": m47,
         "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
             "Set the game file (StarCitizen.exe)"),
         "setting_action_set_launcher_file":
@@ -754,13 +970,13 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Hosts acceleration (experimental)"),
         "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
             "After cleaning up, complete the installation / game startup operation once."),
-        "tools_action_info_cleanup_failed": m44,
+        "tools_action_info_cleanup_failed": m48,
         "tools_action_info_config_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
                 "The configuration file does not exist, please try to run the game once"),
         "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
             "Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC."),
-        "tools_action_info_error_occurred": m45,
+        "tools_action_info_error_occurred": m49,
         "tools_action_info_fix_success_restart":
             MessageLookupByLibrary.simpleMessage(
                 "If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up."),
@@ -770,7 +986,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_hosts_acceleration_experimental_tip":
             MessageLookupByLibrary.simpleMessage(
                 "Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems."),
-        "tools_action_info_init_failed": m46,
+        "tools_action_info_init_failed": m50,
         "tools_action_info_log_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
                 "The log file does not exist, please try to start a game startup or game installation, and exit the starter. If the problem cannot be solved, try to update the launcher to the latest version!"),
@@ -781,7 +997,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Manually write the NVM patch, this function is used only when you know what you do"),
         "tools_action_info_not_installed":
             MessageLookupByLibrary.simpleMessage("Not Installed"),
-        "tools_action_info_nvme_patch_issue": m47,
+        "tools_action_info_nvme_patch_issue": m51,
         "tools_action_info_one_key_close_lens_shake":
             MessageLookupByLibrary.simpleMessage(
                 "Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information."),
@@ -805,7 +1021,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_rsi_launcher_directory_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the RSI starter directory is not found, please try manually."),
-        "tools_action_info_rsi_launcher_log_issue": m48,
+        "tools_action_info_rsi_launcher_log_issue": m52,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the RSI label is not found, try to reinstall it or add it manually in the settings."),
@@ -814,11 +1030,11 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The RSI starter is running! Please turn off the label first and then use this feature!"),
         "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
             "Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here."),
-        "tools_action_info_shader_cache_issue": m49,
+        "tools_action_info_shader_cache_issue": m53,
         "tools_action_info_star_citizen_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings."),
-        "tools_action_info_system_info_content": m50,
+        "tools_action_info_system_info_content": m54,
         "tools_action_info_system_info_title":
             MessageLookupByLibrary.simpleMessage("System message"),
         "tools_action_info_valid_game_directory_needed":
@@ -834,16 +1050,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "P4k diversion download / repair"),
         "tools_action_reinstall_easyanticheat":
-            MessageLookupByLibrary.simpleMessage(
-                "Reinstall EasyAnticheat\'s anti -cheating"),
+            MessageLookupByLibrary.simpleMessage("Reinstall EasyAnticheat"),
         "tools_action_remove_nvme_registry_patch":
             MessageLookupByLibrary.simpleMessage(
                 "Remove the NVMe registry patch"),
         "tools_action_rsi_launcher_admin_mode":
             MessageLookupByLibrary.simpleMessage(
                 "RSI Launcher administrator mode"),
+        "tools_action_rsi_launcher_enhance_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Enhanced launcher Localization、 download thread"),
         "tools_action_rsi_launcher_log_fix":
             MessageLookupByLibrary.simpleMessage("RSI LAUNCHER LOG repair"),
+        "tools_action_unp4k":
+            MessageLookupByLibrary.simpleMessage("P4K viewer"),
+        "tools_action_unp4k_info": MessageLookupByLibrary.simpleMessage(
+            "Package Star Citizen P4K File"),
         "tools_action_view_system_info":
             MessageLookupByLibrary.simpleMessage("View system information"),
         "tools_action_write_nvme_registry_patch":
@@ -876,11 +1098,71 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_info_game_install_location":
             MessageLookupByLibrary.simpleMessage(
                 "Game installation location:  "),
-        "tools_info_processing_failed": m51,
+        "tools_info_processing_failed": m55,
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI starter position:"),
         "tools_info_scanning":
             MessageLookupByLibrary.simpleMessage("Scanning..."),
+        "tools_rsi_launcher_enhance_action_install":
+            MessageLookupByLibrary.simpleMessage("Installation enhanced patch"),
+        "tools_rsi_launcher_enhance_init_msg1":
+            MessageLookupByLibrary.simpleMessage(
+                "Read the starter information ..."),
+        "tools_rsi_launcher_enhance_init_msg2":
+            MessageLookupByLibrary.simpleMessage(
+                "Obtaining enhanced data from the Internet ..."),
+        "tools_rsi_launcher_enhance_msg_error":
+            MessageLookupByLibrary.simpleMessage(
+                "Obtaining enhanced data failure may be the network problem or the current version does not support"),
+        "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
+            MessageLookupByLibrary.simpleMessage(
+                "Reading the starter information failed!"),
+        "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
+            m56,
+        "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
+            MessageLookupByLibrary.simpleMessage("No RSI promoter was found"),
+        "tools_rsi_launcher_enhance_msg_patch_status": m57,
+        "tools_rsi_launcher_enhance_msg_uninstall":
+            MessageLookupByLibrary.simpleMessage(
+                "* If you need to uninstall the enhanced patch, cover the installation RSI promoter."),
+        "tools_rsi_launcher_enhance_msg_version": m58,
+        "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
+            "RSI starter enhancement is a community function. It will unpack \"RSI LAUNCHER\" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the starter, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official startup directly."),
+        "tools_rsi_launcher_enhance_note_title":
+            MessageLookupByLibrary.simpleMessage(
+                "Instructions for the use of RSI starter enhancement"),
+        "tools_rsi_launcher_enhance_subtitle_download_booster":
+            MessageLookupByLibrary.simpleMessage(
+                "When downloading the game, you can use more threads to increase the download speed."),
+        "tools_rsi_launcher_enhance_subtitle_localization":
+            MessageLookupByLibrary.simpleMessage(
+                "Add multi -language support to the RSI starter."),
+        "tools_rsi_launcher_enhance_title":
+            MessageLookupByLibrary.simpleMessage("RSI starter enhancement"),
+        "tools_rsi_launcher_enhance_title_download_booster":
+            MessageLookupByLibrary.simpleMessage(
+                "RSI starter download enhancement"),
+        "tools_rsi_launcher_enhance_title_localization":
+            MessageLookupByLibrary.simpleMessage("RSI startup localization"),
+        "tools_rsi_launcher_enhance_working_msg1":
+            MessageLookupByLibrary.simpleMessage("Generate patch ..."),
+        "tools_rsi_launcher_enhance_working_msg2":
+            MessageLookupByLibrary.simpleMessage(
+                "Installation patch takes a little time, depending on your computer performance ..."),
+        "tools_unp4k_msg_init":
+            MessageLookupByLibrary.simpleMessage("Initialization ..."),
+        "tools_unp4k_msg_open_file": m59,
+        "tools_unp4k_msg_read_completed": m60,
+        "tools_unp4k_msg_read_file": m61,
+        "tools_unp4k_msg_reading":
+            MessageLookupByLibrary.simpleMessage("Reading P4K file ..."),
+        "tools_unp4k_msg_reading2":
+            MessageLookupByLibrary.simpleMessage("Treatment files ..."),
+        "tools_unp4k_msg_reading3": m62,
+        "tools_unp4k_msg_unknown_file_type": m63,
+        "tools_unp4k_title": m64,
+        "tools_unp4k_view_file":
+            MessageLookupByLibrary.simpleMessage("Click the file to preview"),
         "webview_localization_finished_invitations":
             MessageLookupByLibrary.simpleMessage("Completed invitations"),
         "webview_localization_name_member":

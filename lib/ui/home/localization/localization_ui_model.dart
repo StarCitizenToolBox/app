@@ -32,6 +32,7 @@ class LocalizationUIState with _$LocalizationUIState {
     Map<String, ScLocalizationData>? apiLocalizationData,
     @Default("") String workingVersion,
     MapEntry<bool, String>? patchStatus,
+    bool? isInstalledAdvanced,
     List<String>? customizeList,
     @Default(false) bool enableCustomize,
   }) = _LocalizationUIState;
@@ -222,7 +223,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       if (!await f.exists()) return;
       state = state.copyWith(workingVersion: filePath);
       final str = await f.readAsString();
-      await _installFormString(
+      await installFormString(
           StringBuffer(str),
           S.current
               .localization_info_custom_file(getCustomizeFileName(filePath)));
@@ -230,14 +231,19 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     };
   }
 
-  _installFormString(StringBuffer globalIni, String versionName) async {
+  installFormString(StringBuffer globalIni, String versionName,
+      {bool? advanced}) async {
     final iniFile = File(
         "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
     if (versionName.isNotEmpty) {
       if (!globalIni.toString().endsWith("\n")) {
         globalIni.write("\n");
       }
-      globalIni.write("_starcitizen_doctor_localization_version=$versionName");
+      if (advanced ?? false) {
+        globalIni.write("_starcitizen_doctor_localization_advanced=true\n");
+      }
+      globalIni
+          .write("_starcitizen_doctor_localization_version=$versionName\n");
     }
 
     /// write cfg
@@ -275,7 +281,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         if (globalIni.isEmpty) {
           throw S.current.localization_info_corrupted_file;
         }
-        await _installFormString(globalIni, value.versionName ?? "");
+        await installFormString(globalIni, value.versionName ?? "");
       } catch (e) {
         if (!context.mounted) return;
         await showToast(
@@ -348,7 +354,19 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         await _getLangCfgEnableLang(lang: state.selectedLanguage!),
         await _getInstalledIniVersion(
             "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"));
-    state = state.copyWith(patchStatus: patchStatus);
+    final isInstalledAdvanced = await _checkAdvancedStatus(
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
+    state = state.copyWith(
+        patchStatus: patchStatus, isInstalledAdvanced: isInstalledAdvanced);
+  }
+
+  Future<bool> _checkAdvancedStatus(String path) async {
+    final iniFile = File(path);
+    if (!await iniFile.exists()) {
+      return false;
+    }
+    final iniString = (await iniFile.readAsString());
+    return iniString.contains("_starcitizen_doctor_localization_advanced=true");
   }
 
   Future<bool> _getLangCfgEnableLang({String lang = ""}) async {

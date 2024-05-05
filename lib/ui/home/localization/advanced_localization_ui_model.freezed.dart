@@ -21,6 +21,10 @@ mixin _$AdvancedLocalizationUIState {
       throw _privateConstructorUsedError;
   String? get p4kGlobalIni => throw _privateConstructorUsedError;
   String? get serverGlobalIni => throw _privateConstructorUsedError;
+  ScLocalizationData? get apiLocalizationData =>
+      throw _privateConstructorUsedError;
+  int get p4kGlobalIniLines => throw _privateConstructorUsedError;
+  int get serverGlobalIniLines => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AdvancedLocalizationUIStateCopyWith<AdvancedLocalizationUIState>
@@ -39,7 +43,10 @@ abstract class $AdvancedLocalizationUIStateCopyWith<$Res> {
       {String workingText,
       Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       String? p4kGlobalIni,
-      String? serverGlobalIni});
+      String? serverGlobalIni,
+      ScLocalizationData? apiLocalizationData,
+      int p4kGlobalIniLines,
+      int serverGlobalIniLines});
 }
 
 /// @nodoc
@@ -60,6 +67,9 @@ class _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
     Object? classMap = freezed,
     Object? p4kGlobalIni = freezed,
     Object? serverGlobalIni = freezed,
+    Object? apiLocalizationData = freezed,
+    Object? p4kGlobalIniLines = null,
+    Object? serverGlobalIniLines = null,
   }) {
     return _then(_value.copyWith(
       workingText: null == workingText
@@ -78,6 +88,18 @@ class _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
           ? _value.serverGlobalIni
           : serverGlobalIni // ignore: cast_nullable_to_non_nullable
               as String?,
+      apiLocalizationData: freezed == apiLocalizationData
+          ? _value.apiLocalizationData
+          : apiLocalizationData // ignore: cast_nullable_to_non_nullable
+              as ScLocalizationData?,
+      p4kGlobalIniLines: null == p4kGlobalIniLines
+          ? _value.p4kGlobalIniLines
+          : p4kGlobalIniLines // ignore: cast_nullable_to_non_nullable
+              as int,
+      serverGlobalIniLines: null == serverGlobalIniLines
+          ? _value.serverGlobalIniLines
+          : serverGlobalIniLines // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -95,7 +117,10 @@ abstract class _$$AdvancedLocalizationUIStateImplCopyWith<$Res>
       {String workingText,
       Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       String? p4kGlobalIni,
-      String? serverGlobalIni});
+      String? serverGlobalIni,
+      ScLocalizationData? apiLocalizationData,
+      int p4kGlobalIniLines,
+      int serverGlobalIniLines});
 }
 
 /// @nodoc
@@ -115,6 +140,9 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
     Object? classMap = freezed,
     Object? p4kGlobalIni = freezed,
     Object? serverGlobalIni = freezed,
+    Object? apiLocalizationData = freezed,
+    Object? p4kGlobalIniLines = null,
+    Object? serverGlobalIniLines = null,
   }) {
     return _then(_$AdvancedLocalizationUIStateImpl(
       workingText: null == workingText
@@ -133,6 +161,18 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
           ? _value.serverGlobalIni
           : serverGlobalIni // ignore: cast_nullable_to_non_nullable
               as String?,
+      apiLocalizationData: freezed == apiLocalizationData
+          ? _value.apiLocalizationData
+          : apiLocalizationData // ignore: cast_nullable_to_non_nullable
+              as ScLocalizationData?,
+      p4kGlobalIniLines: null == p4kGlobalIniLines
+          ? _value.p4kGlobalIniLines
+          : p4kGlobalIniLines // ignore: cast_nullable_to_non_nullable
+              as int,
+      serverGlobalIniLines: null == serverGlobalIniLines
+          ? _value.serverGlobalIniLines
+          : serverGlobalIniLines // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -146,7 +186,10 @@ class _$AdvancedLocalizationUIStateImpl
       {this.workingText = "",
       final Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       this.p4kGlobalIni,
-      this.serverGlobalIni})
+      this.serverGlobalIni,
+      this.apiLocalizationData,
+      this.p4kGlobalIniLines = 0,
+      this.serverGlobalIniLines = 0})
       : _classMap = classMap;
 
   @override
@@ -166,10 +209,18 @@ class _$AdvancedLocalizationUIStateImpl
   final String? p4kGlobalIni;
   @override
   final String? serverGlobalIni;
+  @override
+  final ScLocalizationData? apiLocalizationData;
+  @override
+  @JsonKey()
+  final int p4kGlobalIniLines;
+  @override
+  @JsonKey()
+  final int serverGlobalIniLines;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni)';
+    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines)';
   }
 
   @override
@@ -180,7 +231,10 @@ class _$AdvancedLocalizationUIStateImpl
       ..add(DiagnosticsProperty('workingText', workingText))
       ..add(DiagnosticsProperty('classMap', classMap))
       ..add(DiagnosticsProperty('p4kGlobalIni', p4kGlobalIni))
-      ..add(DiagnosticsProperty('serverGlobalIni', serverGlobalIni));
+      ..add(DiagnosticsProperty('serverGlobalIni', serverGlobalIni))
+      ..add(DiagnosticsProperty('apiLocalizationData', apiLocalizationData))
+      ..add(DiagnosticsProperty('p4kGlobalIniLines', p4kGlobalIniLines))
+      ..add(DiagnosticsProperty('serverGlobalIniLines', serverGlobalIniLines));
   }
 
   @override
@@ -194,7 +248,13 @@ class _$AdvancedLocalizationUIStateImpl
             (identical(other.p4kGlobalIni, p4kGlobalIni) ||
                 other.p4kGlobalIni == p4kGlobalIni) &&
             (identical(other.serverGlobalIni, serverGlobalIni) ||
-                other.serverGlobalIni == serverGlobalIni));
+                other.serverGlobalIni == serverGlobalIni) &&
+            (identical(other.apiLocalizationData, apiLocalizationData) ||
+                other.apiLocalizationData == apiLocalizationData) &&
+            (identical(other.p4kGlobalIniLines, p4kGlobalIniLines) ||
+                other.p4kGlobalIniLines == p4kGlobalIniLines) &&
+            (identical(other.serverGlobalIniLines, serverGlobalIniLines) ||
+                other.serverGlobalIniLines == serverGlobalIniLines));
   }
 
   @override
@@ -203,7 +263,10 @@ class _$AdvancedLocalizationUIStateImpl
       workingText,
       const DeepCollectionEquality().hash(_classMap),
       p4kGlobalIni,
-      serverGlobalIni);
+      serverGlobalIni,
+      apiLocalizationData,
+      p4kGlobalIniLines,
+      serverGlobalIniLines);
 
   @JsonKey(ignore: true)
   @override
@@ -219,7 +282,10 @@ abstract class _AdvancedLocalizationUIState
       {final String workingText,
       final Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       final String? p4kGlobalIni,
-      final String? serverGlobalIni}) = _$AdvancedLocalizationUIStateImpl;
+      final String? serverGlobalIni,
+      final ScLocalizationData? apiLocalizationData,
+      final int p4kGlobalIniLines,
+      final int serverGlobalIniLines}) = _$AdvancedLocalizationUIStateImpl;
 
   @override
   String get workingText;
@@ -229,6 +295,12 @@ abstract class _AdvancedLocalizationUIState
   String? get p4kGlobalIni;
   @override
   String? get serverGlobalIni;
+  @override
+  ScLocalizationData? get apiLocalizationData;
+  @override
+  int get p4kGlobalIniLines;
+  @override
+  int get serverGlobalIniLines;
   @override
   @JsonKey(ignore: true)
   _$$AdvancedLocalizationUIStateImplCopyWith<_$AdvancedLocalizationUIStateImpl>
