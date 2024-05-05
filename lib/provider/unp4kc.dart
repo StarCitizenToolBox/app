@@ -242,6 +242,7 @@ class Unp4kCModel extends _$Unp4kCModel {
     final exec = "$execDir\\unp4kc.exe";
     final r = await Process.run(exec, args);
     if (r.exitCode != 0) {
+      Process.killPid(r.pid);
       throw Exception(
           "error: ${r.exitCode} , info= ${r.stdout} , err= ${r.stderr}");
     }

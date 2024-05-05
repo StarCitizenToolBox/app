@@ -43,7 +43,7 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
     return ContentDialog(
       constraints: BoxConstraints(
         maxWidth: selectedStringBuffer.value == null
-            ? 420
+            ? MediaQuery.of(context).size.width * .5
             : MediaQuery.of(context).size.width * .75,
         maxHeight: MediaQuery.of(context).size.height * .8,
       ),
