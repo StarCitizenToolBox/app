@@ -86,7 +86,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       Row(
                         children: [
                           Text(S.current.localization_info_installed_version(
-                              state.patchStatus?.value ?? "")),
+                              "${state.patchStatus?.value ?? ""} ${(state.isInstalledAdvanced ?? false) ? " (高级汉化)" : ""}")),
                           const Spacer(),
                           if (state.patchStatus?.value !=
                               S.current.home_action_info_game_built_in)

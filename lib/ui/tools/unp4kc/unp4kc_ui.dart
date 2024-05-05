@@ -267,6 +267,7 @@ class _TextTempWidget extends HookConsumerWidget {
 
     return CodeEditor(
       controller: CodeLineEditingController.fromText('${textData.value}'),
+      readOnly: true,
     );
   }
 }
