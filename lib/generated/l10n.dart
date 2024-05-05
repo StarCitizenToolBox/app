@@ -230,10 +230,10 @@ class S {
     );
   }
 
-  /// `Second-rate`
+  /// `Times`
   String get about_analytics_units_times {
     return Intl.message(
-      'Second-rate',
+      'Times',
       name: 'about_analytics_units_times',
       desc: '',
       args: [],
@@ -1480,10 +1480,10 @@ class S {
     );
   }
 
-  /// `Star Citizen Website Sinicization`
+  /// `Star Citizen Website Localization`
   String get home_action_title_star_citizen_website_localization {
     return Intl.message(
-      'Star Citizen Website Sinicization',
+      'Star Citizen Website Localization',
       name: 'home_action_title_star_citizen_website_localization',
       desc: '',
       args: [],
@@ -1530,10 +1530,10 @@ class S {
     );
   }
 
-  /// `Sinicization has a new version!`
+  /// `Localization has a new version!`
   String get home_localization_new_version_available {
     return Intl.message(
-      'Sinicization has a new version!',
+      'Localization has a new version!',
       name: 'home_localization_new_version_available',
       desc: '',
       args: [],
@@ -1691,20 +1691,20 @@ class S {
     );
   }
 
-  /// `Localization feedback`
+  /// `Feedback`
   String get localization_action_translation_feedback {
     return Intl.message(
-      'Localization feedback',
+      'Feedback',
       name: 'localization_action_translation_feedback',
       desc: '',
       args: [],
     );
   }
 
-  /// `Uninstallation of Localization`
+  /// `Uninstall`
   String get localization_action_uninstall_translation {
     return Intl.message(
-      'Uninstallation of Localization',
+      'Uninstall',
       name: 'localization_action_uninstall_translation',
       desc: '',
       args: [],
@@ -1971,40 +1971,40 @@ class S {
     );
   }
 
-  /// `(Preset only the graphic settings)`
+  /// `(Only graphic)`
   String get performance_action_info_preset_only_changes_graphics {
     return Intl.message(
-      '(Preset only the graphic settings)',
+      '(Only graphic)',
       name: 'performance_action_info_preset_only_changes_graphics',
       desc: '',
       args: [],
     );
   }
 
-  /// ` Reset to default `
+  /// ` Reset`
   String get performance_action_reset_to_default {
     return Intl.message(
-      ' Reset to default ',
+      ' Reset',
       name: 'performance_action_reset_to_default',
       desc: '',
       args: [],
     );
   }
 
-  /// `Application`
+  /// `Apply`
   String get performance_action_apply {
     return Intl.message(
-      'Application',
+      'Apply',
       name: 'performance_action_apply',
       desc: '',
       args: [],
     );
   }
 
-  /// `Apply and clean up the color device (recommended)`
+  /// `Apply and clean up`
   String get performance_action_apply_and_clear_shaders {
     return Intl.message(
-      'Apply and clean up the color device (recommended)',
+      'Apply and clean up',
       name: 'performance_action_apply_and_clear_shaders',
       desc: '',
       args: [],
@@ -2201,10 +2201,10 @@ class S {
     );
   }
 
-  /// `Create "SC Sinicization Box" shortcut on the desktop`
+  /// `Create "SC Localization Box" shortcut on the desktop`
   String get setting_action_create_desktop_shortcut {
     return Intl.message(
-      'Create "SC Sinicization Box" shortcut on the desktop',
+      'Create "SC Localization Box" shortcut on the desktop',
       name: 'setting_action_create_desktop_shortcut',
       desc: '',
       args: [],
@@ -2811,10 +2811,10 @@ class S {
     );
   }
 
-  /// `Reinstall EasyAnticheat's anti -cheating`
+  /// `Reinstall EasyAnticheat`
   String get tools_action_reinstall_easyanticheat {
     return Intl.message(
-      'Reinstall EasyAnticheat\'s anti -cheating',
+      'Reinstall EasyAnticheat',
       name: 'tools_action_reinstall_easyanticheat',
       desc: '',
       args: [],
@@ -3532,13 +3532,1235 @@ class S {
     );
   }
 
-  /// `Thank you for choosing the SC Chinese box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [github.com/starCitizentoolBox/app] (https://github.com/starCitizantoolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us.`
+  /// `Thank you for choosing the SCToolBox box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [github.com/starCitizentoolBox/app] (https://github.com/starCitizantoolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us.`
   String get app_splash_dialog_u_a_p_p_content {
     return Intl.message(
-      'Thank you for choosing the SC Chinese box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [github.com/starCitizentoolBox/app] (https://github.com/starCitizantoolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us.',
+      'Thank you for choosing the SCToolBox box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [github.com/starCitizentoolBox/app] (https://github.com/starCitizantoolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us.',
       name: 'app_splash_dialog_u_a_p_p_content',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Initialization ...`
+  String get tools_unp4k_msg_init {
+    return Intl.message(
+      'Initialization ...',
+      name: 'tools_unp4k_msg_init',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reading P4K file ...`
+  String get tools_unp4k_msg_reading {
+    return Intl.message(
+      'Reading P4K file ...',
+      name: 'tools_unp4k_msg_reading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Treatment files ...`
+  String get tools_unp4k_msg_reading2 {
+    return Intl.message(
+      'Treatment files ...',
+      name: 'tools_unp4k_msg_reading2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Processing files ({v0}/{v1}) ...`
+  String tools_unp4k_msg_reading3(Object v0, Object v1) {
+    return Intl.message(
+      'Processing files ($v0/$v1) ...',
+      name: 'tools_unp4k_msg_reading3',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `After loading: {v0} a file, time: {v1} ms`
+  String tools_unp4k_msg_read_completed(Object v0, Object v1) {
+    return Intl.message(
+      'After loading: $v0 a file, time: $v1 ms',
+      name: 'tools_unp4k_msg_read_completed',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Open the file: {v0}`
+  String tools_unp4k_msg_open_file(Object v0) {
+    return Intl.message(
+      'Open the file: $v0',
+      name: 'tools_unp4k_msg_open_file',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Read file: {v0} ...`
+  String tools_unp4k_msg_read_file(Object v0) {
+    return Intl.message(
+      'Read file: $v0 ...',
+      name: 'tools_unp4k_msg_read_file',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Advanced Localization -> {v0}`
+  String home_localization_advanced_title(Object v0) {
+    return Intl.message(
+      'Advanced Localization -> $v0',
+      name: 'home_localization_advanced_title',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Localization version has been loaded: {v0}`
+  String home_localization_advanced_msg_version(Object v0) {
+    return Intl.message(
+      'Localization version has been loaded: $v0',
+      name: 'home_localization_advanced_msg_version',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Localization text lines: {v0} P4K text lines: {v1}`
+  String home_localization_advanced_title_msg(Object v0, Object v1) {
+    return Intl.message(
+      'Localization text lines: $v0 P4K text lines: $v1',
+      name: 'home_localization_advanced_title_msg',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Installation of Localization`
+  String get home_localization_advanced_action_install {
+    return Intl.message(
+      'Installation of Localization',
+      name: 'home_localization_advanced_action_install',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The text is being re -generated ...`
+  String get home_localization_advanced_action_mod_change {
+    return Intl.message(
+      'The text is being re -generated ...',
+      name: 'home_localization_advanced_action_mod_change',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Model`
+  String get home_localization_advanced_action_mode {
+    return Intl.message(
+      'Model',
+      name: 'home_localization_advanced_action_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preview: {v0}`
+  String home_localization_advanced_title_preview(Object v0) {
+    return Intl.message(
+      'Preview: $v0',
+      name: 'home_localization_advanced_title_preview',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Location-Other`
+  String get home_localization_advanced_json_text_location_other {
+    return Intl.message(
+      'Location-Other',
+      name: 'home_localization_advanced_json_text_location_other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location-Commonly used`
+  String get home_localization_advanced_json_text_location_used {
+    return Intl.message(
+      'Location-Commonly used',
+      name: 'home_localization_advanced_json_text_location_used',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Items-Other`
+  String get home_localization_advanced_json_text_things_other {
+    return Intl.message(
+      'Items-Other',
+      name: 'home_localization_advanced_json_text_things_other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Items-Commonly used`
+  String get home_localization_advanced_json_text_things_used {
+    return Intl.message(
+      'Items-Commonly used',
+      name: 'home_localization_advanced_json_text_things_used',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vehicle-Other`
+  String get home_localization_advanced_json_text_vehicle_other {
+    return Intl.message(
+      'Vehicle-Other',
+      name: 'home_localization_advanced_json_text_vehicle_other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vehicle-Commonly used`
+  String get home_localization_advanced_json_text_vehicle_used {
+    return Intl.message(
+      'Vehicle-Commonly used',
+      name: 'home_localization_advanced_json_text_vehicle_used',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mission/Log`
+  String get home_localization_advanced_json_text_mission_or_logs {
+    return Intl.message(
+      'Mission/Log',
+      name: 'home_localization_advanced_json_text_mission_or_logs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subtitle`
+  String get home_localization_advanced_json_text_subtitle {
+    return Intl.message(
+      'Subtitle',
+      name: 'home_localization_advanced_json_text_subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UI/HUD/menu`
+  String get home_localization_advanced_json_text_ui_or_hud_or_menu {
+    return Intl.message(
+      'UI/HUD/menu',
+      name: 'home_localization_advanced_json_text_ui_or_hud_or_menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unwaver`
+  String get home_localization_advanced_json_text_un_localization {
+    return Intl.message(
+      'Unwaver',
+      name: 'home_localization_advanced_json_text_un_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get home_localization_advanced_json_text_others {
+    return Intl.message(
+      'Other',
+      name: 'home_localization_advanced_json_text_others',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Localization`
+  String get home_localization_advanced_action_mod_change_localization {
+    return Intl.message(
+      'Localization',
+      name: 'home_localization_advanced_action_mod_change_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Original English`
+  String get home_localization_advanced_action_mod_change_un_localization {
+    return Intl.message(
+      'Original English',
+      name: 'home_localization_advanced_action_mod_change_un_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bilingual`
+  String get home_localization_advanced_action_mod_change_mixed {
+    return Intl.message(
+      'Bilingual',
+      name: 'home_localization_advanced_action_mod_change_mixed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bilingual (newline)`
+  String get home_localization_advanced_action_mod_change_mixed_newline {
+    return Intl.message(
+      'Bilingual (newline)',
+      name: 'home_localization_advanced_action_mod_change_mixed_newline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Classified ...`
+  String get home_localization_advanced_msg_classifying {
+    return Intl.message(
+      'Classified ...',
+      name: 'home_localization_advanced_msg_classifying',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Read p4k file ...`
+  String get home_localization_advanced_msg_reading_p4k {
+    return Intl.message(
+      'Read p4k file ...',
+      name: 'home_localization_advanced_msg_reading_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get Localization text ...`
+  String get home_localization_advanced_msg_reading_server_localization_text {
+    return Intl.message(
+      'Get Localization text ...',
+      name: 'home_localization_advanced_msg_reading_server_localization_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate Localization file ...`
+  String get home_localization_advanced_msg_gen_localization_text {
+    return Intl.message(
+      'Generate Localization file ...',
+      name: 'home_localization_advanced_msg_gen_localization_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Install Localization file ...`
+  String get home_localization_advanced_msg_gen_localization_install {
+    return Intl.message(
+      'Install Localization file ...',
+      name: 'home_localization_advanced_msg_gen_localization_install',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(Advanced)`
+  String get home_localization_msg_version_advanced {
+    return Intl.message(
+      '(Advanced)',
+      name: 'home_localization_msg_version_advanced',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This version does not provide a description`
+  String get home_localization_msg_no_note {
+    return Intl.message(
+      'This version does not provide a description',
+      name: 'home_localization_msg_no_note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RSILauncher Localization`
+  String get home_localization_action_rsi_launcher_localization {
+    return Intl.message(
+      'RSILauncher Localization',
+      name: 'home_localization_action_rsi_launcher_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advanced Localization`
+  String get home_localization_action_advanced {
+    return Intl.message(
+      'Advanced Localization',
+      name: 'home_localization_action_advanced',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Install custom file`
+  String get home_localization_action_install_customize {
+    return Intl.message(
+      'Install custom file',
+      name: 'home_localization_action_install_customize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Localization tool`
+  String get home_localization_title_localization_tools {
+    return Intl.message(
+      'Localization tool',
+      name: 'home_localization_title_localization_tools',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swip light after the screen light`
+  String get performance_json_text_ssdo {
+    return Intl.message(
+      'Swip light after the screen light',
+      name: 'performance_json_text_ssdo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After adjusting the light, processing level`
+  String get performance_json_text_ssdo_info {
+    return Intl.message(
+      'After adjusting the light, processing level',
+      name: 'performance_json_text_ssdo_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Graphic`
+  String get performance_json_text_title_graphics {
+    return Intl.message(
+      'Graphic',
+      name: 'performance_json_text_title_graphics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Anti -aliasing`
+  String get performance_json_text_antialiasing {
+    return Intl.message(
+      'Anti -aliasing',
+      name: 'performance_json_text_antialiasing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `0 Close, 1 SMAA, 2 time filter+SMAA, 3 time filtering and projection matrix shake SMAA`
+  String get performance_json_text_antialiasing_info {
+    return Intl.message(
+      '0 Close, 1 SMAA, 2 time filter+SMAA, 3 time filtering and projection matrix shake SMAA',
+      name: 'performance_json_text_antialiasing_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Special effect level`
+  String get performance_json_text_game_effects {
+    return Intl.message(
+      'Special effect level',
+      name: 'performance_json_text_game_effects',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game special effect level`
+  String get performance_json_text_game_effects_info {
+    return Intl.message(
+      'Game special effect level',
+      name: 'performance_json_text_game_effects_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grade`
+  String get performance_json_text_texture {
+    return Intl.message(
+      'Grade',
+      name: 'performance_json_text_texture',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Model texture details`
+  String get performance_json_text_texture_info {
+    return Intl.message(
+      'Model texture details',
+      name: 'performance_json_text_texture_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Volume effect`
+  String get performance_json_text_volumetric_effects {
+    return Intl.message(
+      'Volume effect',
+      name: 'performance_json_text_volumetric_effects',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Volume cloud, volume light, etc.`
+  String get performance_json_text_volumetric_effects_info {
+    return Intl.message(
+      'Volume cloud, volume light, etc.',
+      name: 'performance_json_text_volumetric_effects_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Water effect`
+  String get performance_json_text_water {
+    return Intl.message(
+      'Water effect',
+      name: 'performance_json_text_water',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grade of various water`
+  String get performance_json_text_water_info {
+    return Intl.message(
+      'Grade of various water',
+      name: 'performance_json_text_water_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Object detail`
+  String get performance_json_text_object_detail {
+    return Intl.message(
+      'Object detail',
+      name: 'performance_json_text_object_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Model object details, affect LOD, etc.`
+  String get performance_json_text_object_detail_info {
+    return Intl.message(
+      'Model object details, affect LOD, etc.',
+      name: 'performance_json_text_object_detail_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Particle details`
+  String get performance_json_text_particles {
+    return Intl.message(
+      'Particle details',
+      name: 'performance_json_text_particles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Physical details`
+  String get performance_json_text_physics {
+    return Intl.message(
+      'Physical details',
+      name: 'performance_json_text_physics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scope of physical effects`
+  String get performance_json_text_physics_info {
+    return Intl.message(
+      'Scope of physical effects',
+      name: 'performance_json_text_physics_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Colorrhea details`
+  String get performance_json_text_shading {
+    return Intl.message(
+      'Colorrhea details',
+      name: 'performance_json_text_shading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coloror related`
+  String get performance_json_text_shading_info {
+    return Intl.message(
+      'Coloror related',
+      name: 'performance_json_text_shading_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shadow details`
+  String get performance_json_text_shadows {
+    return Intl.message(
+      'Shadow details',
+      name: 'performance_json_text_shadows',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shadow effect`
+  String get performance_json_text_shadows_info {
+    return Intl.message(
+      'Shadow effect',
+      name: 'performance_json_text_shadows_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Post -processing details`
+  String get performance_json_text_postprocessing {
+    return Intl.message(
+      'Post -processing details',
+      name: 'performance_json_text_postprocessing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After the color device, dynamic blur effect, etc.`
+  String get performance_json_text_postprocessing_info {
+    return Intl.message(
+      'After the color device, dynamic blur effect, etc.',
+      name: 'performance_json_text_postprocessing_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rendering device quality`
+  String get performance_json_text_renderer {
+    return Intl.message(
+      'Rendering device quality',
+      name: 'performance_json_text_renderer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cryengine rendereer quality`
+  String get performance_json_text_renderer_info {
+    return Intl.message(
+      'Cryengine rendereer quality',
+      name: 'performance_json_text_renderer_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quality`
+  String get performance_json_text_shader_decal {
+    return Intl.message(
+      'Quality',
+      name: 'performance_json_text_shader_decal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(LOGO, logo, etc.)`
+  String get performance_json_text_shader_decal_info {
+    return Intl.message(
+      '(LOGO, logo, etc.)',
+      name: 'performance_json_text_shader_decal_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Color quality`
+  String get performance_json_text_shader_post_process {
+    return Intl.message(
+      'Color quality',
+      name: 'performance_json_text_shader_post_process',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FX quality`
+  String get performance_json_text_shader_fx {
+    return Intl.message(
+      'FX quality',
+      name: 'performance_json_text_shader_fx',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conventional quality`
+  String get performance_json_text_shader_general {
+    return Intl.message(
+      'Conventional quality',
+      name: 'performance_json_text_shader_general',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overall model quality`
+  String get performance_json_text_shader_general_info {
+    return Intl.message(
+      'Overall model quality',
+      name: 'performance_json_text_shader_general_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Glass quality`
+  String get performance_json_text_shader_glass {
+    return Intl.message(
+      'Glass quality',
+      name: 'performance_json_text_shader_glass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Window, mirror, etc.`
+  String get performance_json_text_shader_glass_info {
+    return Intl.message(
+      'Window, mirror, etc.',
+      name: 'performance_json_text_shader_glass_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `HDR quality`
+  String get performance_json_text_shader_hdr {
+    return Intl.message(
+      'HDR quality',
+      name: 'performance_json_text_shader_hdr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `HDR color difference, brightness level treatment, etc.`
+  String get performance_json_text_shader_hdr_info {
+    return Intl.message(
+      'HDR color difference, brightness level treatment, etc.',
+      name: 'performance_json_text_shader_hdr_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Particle quality`
+  String get performance_json_text_shader_particle {
+    return Intl.message(
+      'Particle quality',
+      name: 'performance_json_text_shader_particle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Particle effect quality`
+  String get performance_json_text_shader_particle_info {
+    return Intl.message(
+      'Particle effect quality',
+      name: 'performance_json_text_shader_particle_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ground quality`
+  String get performance_json_text_shader_terrain {
+    return Intl.message(
+      'Ground quality',
+      name: 'performance_json_text_shader_terrain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shadow quality`
+  String get performance_json_text_shader_shadow {
+    return Intl.message(
+      'Shadow quality',
+      name: 'performance_json_text_shader_shadow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sky quality`
+  String get performance_json_text_shader_sky {
+    return Intl.message(
+      'Sky quality',
+      name: 'performance_json_text_shader_sky',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Particle collision`
+  String get performance_json_text_particles_object_collisions {
+    return Intl.message(
+      'Particle collision',
+      name: 'performance_json_text_particles_object_collisions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 Static particles 2 include dynamic particles`
+  String get performance_json_text_particles_object_collisions_info {
+    return Intl.message(
+      '1 Static particles 2 include dynamic particles',
+      name: 'performance_json_text_particles_object_collisions_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Screen information (display frame rate)`
+  String get performance_json_text_displayinfo {
+    return Intl.message(
+      'Screen information (display frame rate)',
+      name: 'performance_json_text_displayinfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display frame rates, server information, etc. in the upper right corner of the screen`
+  String get performance_json_text_displayinfo_info {
+    return Intl.message(
+      'Display frame rates, server information, etc. in the upper right corner of the screen',
+      name: 'performance_json_text_displayinfo_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maximum frame rate`
+  String get performance_json_text_max_fps {
+    return Intl.message(
+      'Maximum frame rate',
+      name: 'performance_json_text_max_fps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adjust the maximum frame rate of the game, 0 is not limited`
+  String get performance_json_text_max_fps_info {
+    return Intl.message(
+      'Adjust the maximum frame rate of the game, 0 is not limited',
+      name: 'performance_json_text_max_fps_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display session information`
+  String get performance_json_text_display_session {
+    return Intl.message(
+      'Display session information',
+      name: 'performance_json_text_display_session',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After turning on, display a QR code on the screen to allow CIG to quickly locate related information when feedback`
+  String get performance_json_text_display_session_info {
+    return Intl.message(
+      'After turning on, display a QR code on the screen to allow CIG to quickly locate related information when feedback',
+      name: 'performance_json_text_display_session_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vertical sync`
+  String get performance_json_text_vsync {
+    return Intl.message(
+      'Vertical sync',
+      name: 'performance_json_text_vsync',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open to prevent tearing, turn off to increase the frame rate`
+  String get performance_json_text_vsync_info {
+    return Intl.message(
+      'Open to prevent tearing, turn off to increase the frame rate',
+      name: 'performance_json_text_vsync_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dynamic blur`
+  String get performance_json_text_motion_blur {
+    return Intl.message(
+      'Dynamic blur',
+      name: 'performance_json_text_motion_blur',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open to improve the sense of movement, turn off and enhance the perception`
+  String get performance_json_text_motion_blur_info {
+    return Intl.message(
+      'Open to improve the sense of movement, turn off and enhance the perception',
+      name: 'performance_json_text_motion_blur_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set viewing angle FOV`
+  String get performance_json_text_fov {
+    return Intl.message(
+      'Set viewing angle FOV',
+      name: 'performance_json_text_fov',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UI fades into the animation`
+  String get performance_json_text_ui_animation {
+    return Intl.message(
+      'UI fades into the animation',
+      name: 'performance_json_text_ui_animation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Custom parameter`
+  String get performance_json_text_custom_parameters {
+    return Intl.message(
+      'Custom parameter',
+      name: 'performance_json_text_custom_parameters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize`
+  String get performance_json_text_title_custom {
+    return Intl.message(
+      'Customize',
+      name: 'performance_json_text_title_custom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Read the starter information ...`
+  String get tools_rsi_launcher_enhance_init_msg1 {
+    return Intl.message(
+      'Read the starter information ...',
+      name: 'tools_rsi_launcher_enhance_init_msg1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Obtaining enhanced data from the Internet ...`
+  String get tools_rsi_launcher_enhance_init_msg2 {
+    return Intl.message(
+      'Obtaining enhanced data from the Internet ...',
+      name: 'tools_rsi_launcher_enhance_init_msg2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate patch ...`
+  String get tools_rsi_launcher_enhance_working_msg1 {
+    return Intl.message(
+      'Generate patch ...',
+      name: 'tools_rsi_launcher_enhance_working_msg1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Installation patch takes a little time, depending on your computer performance ...`
+  String get tools_rsi_launcher_enhance_working_msg2 {
+    return Intl.message(
+      'Installation patch takes a little time, depending on your computer performance ...',
+      name: 'tools_rsi_launcher_enhance_working_msg2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RSI starter enhancement`
+  String get tools_rsi_launcher_enhance_title {
+    return Intl.message(
+      'RSI starter enhancement',
+      name: 'tools_rsi_launcher_enhance_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internal version information of the starter: {v0}`
+  String tools_rsi_launcher_enhance_msg_version(Object v0) {
+    return Intl.message(
+      'Internal version information of the starter: $v0',
+      name: 'tools_rsi_launcher_enhance_msg_version',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Patch status: {v0}`
+  String tools_rsi_launcher_enhance_msg_patch_status(Object v0) {
+    return Intl.message(
+      'Patch status: $v0',
+      name: 'tools_rsi_launcher_enhance_msg_patch_status',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Obtaining enhanced data failure may be the network problem or the current version does not support`
+  String get tools_rsi_launcher_enhance_msg_error {
+    return Intl.message(
+      'Obtaining enhanced data failure may be the network problem or the current version does not support',
+      name: 'tools_rsi_launcher_enhance_msg_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RSI startup localization`
+  String get tools_rsi_launcher_enhance_title_localization {
+    return Intl.message(
+      'RSI startup localization',
+      name: 'tools_rsi_launcher_enhance_title_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add multi -language support to the RSI starter.`
+  String get tools_rsi_launcher_enhance_subtitle_localization {
+    return Intl.message(
+      'Add multi -language support to the RSI starter.',
+      name: 'tools_rsi_launcher_enhance_subtitle_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RSI starter download enhancement`
+  String get tools_rsi_launcher_enhance_title_download_booster {
+    return Intl.message(
+      'RSI starter download enhancement',
+      name: 'tools_rsi_launcher_enhance_title_download_booster',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `When downloading the game, you can use more threads to increase the download speed.`
+  String get tools_rsi_launcher_enhance_subtitle_download_booster {
+    return Intl.message(
+      'When downloading the game, you can use more threads to increase the download speed.',
+      name: 'tools_rsi_launcher_enhance_subtitle_download_booster',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Installation enhanced patch`
+  String get tools_rsi_launcher_enhance_action_install {
+    return Intl.message(
+      'Installation enhanced patch',
+      name: 'tools_rsi_launcher_enhance_action_install',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `* If you need to uninstall the enhanced patch, cover the installation RSI promoter.`
+  String get tools_rsi_launcher_enhance_msg_uninstall {
+    return Intl.message(
+      '* If you need to uninstall the enhanced patch, cover the installation RSI promoter.',
+      name: 'tools_rsi_launcher_enhance_msg_uninstall',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No RSI promoter was found`
+  String get tools_rsi_launcher_enhance_msg_error_launcher_notfound {
+    return Intl.message(
+      'No RSI promoter was found',
+      name: 'tools_rsi_launcher_enhance_msg_error_launcher_notfound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reading the starter information failed!`
+  String get tools_rsi_launcher_enhance_msg_error_get_launcher_info_error {
+    return Intl.message(
+      'Reading the starter information failed!',
+      name: 'tools_rsi_launcher_enhance_msg_error_get_launcher_info_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Read the starter information failure: {v0}`
+  String tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(
+      Object v0) {
+    return Intl.message(
+      'Read the starter information failure: $v0',
+      name:
+          'tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Enhanced launcher Localization、 download thread`
+  String get tools_action_rsi_launcher_enhance_info {
+    return Intl.message(
+      'Enhanced launcher Localization、 download thread',
+      name: 'tools_action_rsi_launcher_enhance_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instructions for the use of RSI starter enhancement`
+  String get tools_rsi_launcher_enhance_note_title {
+    return Intl.message(
+      'Instructions for the use of RSI starter enhancement',
+      name: 'tools_rsi_launcher_enhance_note_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RSI starter enhancement is a community function. It will unpack "RSI LAUNCHER" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the starter, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official startup directly.`
+  String get tools_rsi_launcher_enhance_note_msg {
+    return Intl.message(
+      'RSI starter enhancement is a community function. It will unpack "RSI LAUNCHER" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the starter, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official startup directly.',
+      name: 'tools_rsi_launcher_enhance_note_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `P4K viewer`
+  String get tools_action_unp4k {
+    return Intl.message(
+      'P4K viewer',
+      name: 'tools_action_unp4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Package Star Citizen P4K File`
+  String get tools_action_unp4k_info {
+    return Intl.message(
+      'Package Star Citizen P4K File',
+      name: 'tools_action_unp4k_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `P4k viewer -> {v0}`
+  String tools_unp4k_title(Object v0) {
+    return Intl.message(
+      'P4k viewer -> $v0',
+      name: 'tools_unp4k_title',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Click the file to preview`
+  String get tools_unp4k_view_file {
+    return Intl.message(
+      'Click the file to preview',
+      name: 'tools_unp4k_view_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown file type\n{v0}`
+  String tools_unp4k_msg_unknown_file_type(Object v0) {
+    return Intl.message(
+      'Unknown file type\n$v0',
+      name: 'tools_unp4k_msg_unknown_file_type',
+      desc: '',
+      args: [v0],
     );
   }
 }

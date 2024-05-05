@@ -86,7 +86,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       Row(
                         children: [
                           Text(S.current.localization_info_installed_version(
-                              "${state.patchStatus?.value ?? ""} ${(state.isInstalledAdvanced ?? false) ? " (高级汉化)" : ""}")),
+                              "${state.patchStatus?.value ?? ""} ${(state.isInstalledAdvanced ?? false) ? S.current.home_localization_msg_version_advanced : ""}")),
                           const Spacer(),
                           if (state.patchStatus?.value !=
                               S.current.home_action_info_game_built_in)
@@ -426,7 +426,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
               children: [
                 Expanded(
                   child: Text(
-                    item.value.note ?? "该版本没有提供描述",
+                    item.value.note ?? S.current.home_localization_msg_no_note,
                     style: const TextStyle(fontSize: 15),
                   ),
                 ),
@@ -451,22 +451,22 @@ class LocalizationDialogUI extends HookConsumerWidget {
     final toolsMenu = {
       "launcher_mod": (
         const Icon(FluentIcons.c_plus_plus, size: 24),
-        "RSI 启动器汉化",
+        (S.current.home_localization_action_rsi_launcher_localization),
       ),
       "advanced": (
         const Icon(FluentIcons.queue_advanced, size: 24),
-        "高级汉化",
+        (S.current.home_localization_action_advanced),
       ),
       "custom_files": (
         const Icon(FluentIcons.custom_activity, size: 24),
-        "安装自定义文件",
+        (S.current.home_localization_action_install_customize),
       ),
     };
 
     final enableTap = state.workingVersion.isEmpty;
 
     return makeListContainer(
-        "汉化工具",
+        S.current.home_localization_title_localization_tools,
         [
           for (final item in toolsMenu.entries)
             Tilt(
@@ -512,6 +512,6 @@ class LocalizationDialogUI extends HookConsumerWidget {
         ],
         context,
         gridViewMode: true,
-        gridViewCrossAxisCount: 4);
+        gridViewCrossAxisCount: 3);
   }
 }

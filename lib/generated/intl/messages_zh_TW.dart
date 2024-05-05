@@ -83,55 +83,55 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m29(v0) => "${v0}天  ";
 
-  static String m30(v0) => "您在 ${v0} 安裝的社群翻譯有新的版本";
+  static String m34(v0) => "您在 ${v0} 安裝的社群翻譯有新的版本";
 
-  static String m31(v1, v2) =>
+  static String m35(v1, v2) =>
       "RSI 伺服器報告版本號：${v1} \n\n本地版本號：${v2} \n\n建議使用 RSI Launcher 更新遊戲！";
 
-  static String m32(v0) => "遊戲通道：${v0}";
+  static String m36(v0) => "遊戲通道：${v0}";
 
-  static String m33(v0) => "自訂_${v0}";
+  static String m37(v0) => "自訂_${v0}";
 
-  static String m34(v0) => "啟用（${v0}）：";
+  static String m38(v0) => "啟用（${v0}）：";
 
-  static String m35(v0) => "安裝錯誤！\n\n ${v0}";
+  static String m39(v0) => "安裝錯誤！\n\n ${v0}";
 
-  static String m36(v0) => "已安裝：${v0}";
+  static String m40(v0) => "已安裝：${v0}";
 
-  static String m37(v0) => "更新時間：${v0}";
+  static String m41(v0) => "更新時間：${v0}";
 
-  static String m38(v0) => "版本：${v0}";
+  static String m42(v0) => "版本：${v0}";
 
-  static String m39(v0) => "當前狀態：${v0}";
+  static String m43(v0) => "當前狀態：${v0}";
 
-  static String m40(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
+  static String m44(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
 
-  static String m41(v0) => "畫面調整 -> ${v0}";
+  static String m45(v0) => "畫面調整 -> ${v0}";
 
-  static String m42(v0) => "快取大小 ${v0}MB，清除盒子下載的翻譯文件快取，不會影響已安裝的翻譯";
-
-  static String m43(v0) =>
-      "已設定的核心數量：${v0}   （此功能適用於首頁的盒子快速啟動 或 工具中的RSI啟動器管理員模式，當為 0 時不啟用此功能 ）";
-
-  static String m44(v0) => "清理失敗，請手動移除，文件位置：${v0}";
-
-  static String m45(v0) => "出現錯誤：${v0}";
-
-  static String m46(v0) => "初始化失敗，請截圖回報給開發者。${v0}";
+  static String m46(v0) => "快取大小 ${v0}MB，清除盒子下載的翻譯文件快取，不會影響已安裝的翻譯";
 
   static String m47(v0) =>
+      "已設定的核心數量：${v0}   （此功能適用於首頁的盒子快速啟動 或 工具中的RSI啟動器管理員模式，當為 0 時不啟用此功能 ）";
+
+  static String m48(v0) => "清理失敗，請手動移除，文件位置：${v0}";
+
+  static String m49(v0) => "出現錯誤：${v0}";
+
+  static String m50(v0) => "初始化失敗，請截圖回報給開發者。${v0}";
+
+  static String m51(v0) =>
       "若您使用 nvme 補丁出現問題，請執行此工具。（可能導致遊戲 安裝/更新 不可用。）\n\n當前補丁狀態：${v0}";
 
-  static String m48(v0) =>
+  static String m52(v0) =>
       "在某些情況下 RSI啟動器的 log 文件會損壞，導致無法完成問題掃描，使用此工具清除損壞的 log 文件。\n\n目前文件大小：${v0} MB";
 
-  static String m49(v0) =>
+  static String m53(v0) =>
       "若遊戲畫面出現異常或版本更新後可使用此工具清除著色器快取 \n\n建議清理：快取大於 500 MB\n快取大小：${v0} MB";
 
-  static String m50(v0, v1, v2, v3, v4) =>
+  static String m54(v0, v1, v2, v3, v4) =>
       "系統：${v0}\n\n處理器：${v1}\n\n記憶體大小：${v2}GB\n\n顯示卡：\n${v3}\n\n硬碟：\n${v4}\n\n";
 
-  static String m51(v0) => "處理失敗！：${v0}";
+  static String m55(v0) => "處理失敗！：${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -485,7 +485,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_install_location": MessageLookupByLibrary.simpleMessage("安裝位置："),
         "home_localization_new_version_available":
             MessageLookupByLibrary.simpleMessage("社群翻譯有新的版本！"),
-        "home_localization_new_version_installed": m30,
+        "home_localization_new_version_installed": m34,
         "home_login_action_title_box_one_click_launch":
             MessageLookupByLibrary.simpleMessage("盒子快速啟動"),
         "home_login_action_title_need_webview2_runtime":
@@ -497,7 +497,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
                 "此功能可以幫您更加便利的啟動遊戲。\n\n為確保帳戶安全 ，此功能使用漢化瀏覽器保留登入狀態，且不會保存您的密碼資訊（除非你啟用了自動輸入功能）。\n\n使用此功能登入帳號時請確保您的 SC漢化盒子 是從可信任的來源下載。"),
-        "home_login_info_rsi_server_report": m31,
+        "home_login_info_rsi_server_report": m35,
         "home_login_title_launching_game":
             MessageLookupByLibrary.simpleMessage("正在為您啟動遊戲..."),
         "home_login_title_welcome_back":
@@ -518,22 +518,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("意見反饋"),
         "localization_action_uninstall_translation":
             MessageLookupByLibrary.simpleMessage("解除安裝"),
-        "localization_info_channel": m32,
+        "localization_info_channel": m36,
         "localization_info_community_translation":
             MessageLookupByLibrary.simpleMessage("社群翻譯"),
         "localization_info_corrupted_file":
             MessageLookupByLibrary.simpleMessage("文件已損毀，請重新下載"),
-        "localization_info_custom_file": m33,
+        "localization_info_custom_file": m37,
         "localization_info_custom_files":
             MessageLookupByLibrary.simpleMessage("自訂文件"),
-        "localization_info_enabled": m34,
+        "localization_info_enabled": m38,
         "localization_info_incompatible_translation_params_warning":
             MessageLookupByLibrary.simpleMessage(
                 "USER.cfg 包含不相容的翻譯參數，這可能是以前的翻譯文件的殘留信息。\n\n這將可能導致翻譯無效或亂碼，點擊確認進行快速刪除（不會影響其他配置）。"),
-        "localization_info_installation_error": m35,
+        "localization_info_installation_error": m39,
         "localization_info_installed":
             MessageLookupByLibrary.simpleMessage("已安裝"),
-        "localization_info_installed_version": m36,
+        "localization_info_installed_version": m40,
         "localization_info_language":
             MessageLookupByLibrary.simpleMessage("語言：   "),
         "localization_info_machine_translation_warning":
@@ -549,8 +549,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("翻譯狀態"),
         "localization_info_unavailable":
             MessageLookupByLibrary.simpleMessage("無法使用"),
-        "localization_info_update_time": m37,
-        "localization_info_version_number": m38,
+        "localization_info_update_time": m41,
+        "localization_info_version_number": m42,
         "performance_action_apply":
             MessageLookupByLibrary.simpleMessage("套用設定"),
         "performance_action_apply_and_clear_shaders":
@@ -571,7 +571,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(" 恢復預設 "),
         "performance_action_super": MessageLookupByLibrary.simpleMessage("超高"),
         "performance_info_applied": MessageLookupByLibrary.simpleMessage("已套用"),
-        "performance_info_current_status": m39,
+        "performance_info_current_status": m43,
         "performance_info_delete_config_file":
             MessageLookupByLibrary.simpleMessage("刪除配置文件..."),
         "performance_info_done": MessageLookupByLibrary.simpleMessage("完成..."),
@@ -583,7 +583,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "此功能對改善因 GPU 造成的瓶頸，但對於因 CPU 造成瓶頸的裝置可能引發負面效果，如果您 GPU 性能強勁，可以嘗試更改為更高的畫質來獲得更高的 GPU 使用率並改善畫面表現。"),
         "performance_info_graphics": MessageLookupByLibrary.simpleMessage("圖形"),
-        "performance_info_min_max_values": m40,
+        "performance_info_min_max_values": m44,
         "performance_info_not_applied":
             MessageLookupByLibrary.simpleMessage("未套用"),
         "performance_info_shader_clearing_warning":
@@ -591,7 +591,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "清除著色器快取後首次進入遊戲可能會出現卡頓，請耐心等待著色器載入完畢。"),
         "performance_info_write_out_config_file":
             MessageLookupByLibrary.simpleMessage("寫出配置文件"),
-        "performance_title_performance_optimization": m41,
+        "performance_title_performance_optimization": m45,
         "setting_action_clear_translation_file_cache":
             MessageLookupByLibrary.simpleMessage("清除文件快取"),
         "setting_action_create_desktop_shortcut":
@@ -603,7 +603,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "啟動遊戲時忽略 E-Core (適用於Intel 12代以上的處理器)"),
         "setting_action_info_autofill_data_cleared":
             MessageLookupByLibrary.simpleMessage("已清除自動輸入紀錄"),
-        "setting_action_info_cache_clearing_info": m42,
+        "setting_action_info_cache_clearing_info": m46,
         "setting_action_info_clear_cache_warning":
             MessageLookupByLibrary.simpleMessage("這不會影響已安裝的翻譯文件。"),
         "setting_action_info_confirm_clear_cache":
@@ -642,7 +642,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("查看漢化盒子的 log 文件，用於定位盒子的 Bug"),
         "setting_action_reset_auto_password_fill":
             MessageLookupByLibrary.simpleMessage("重置自動密碼輸入"),
-        "setting_action_set_core_count": m43,
+        "setting_action_set_core_count": m47,
         "setting_action_set_game_file":
             MessageLookupByLibrary.simpleMessage("更改遊戲文件 （StarCitizen.exe）"),
         "setting_action_set_launcher_file":
@@ -664,12 +664,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Hosts 加速（Beta）"),
         "tools_action_info_cleanup_complete":
             MessageLookupByLibrary.simpleMessage("清理完畢，請完成一次安裝 / 遊戲啟動 操作。"),
-        "tools_action_info_cleanup_failed": m44,
+        "tools_action_info_cleanup_failed": m48,
         "tools_action_info_config_file_not_exist":
             MessageLookupByLibrary.simpleMessage("配置文件不存在，請嘗試運行一次遊戲"),
         "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
             "已為您移除 EAC 文件，接下來將為您打開 RSI 啟動器，請您前往 SETTINGS -> VERIFY 重新安裝 EAC。"),
-        "tools_action_info_error_occurred": m45,
+        "tools_action_info_error_occurred": m49,
         "tools_action_info_fix_success_restart":
             MessageLookupByLibrary.simpleMessage(
                 "修復成功，請嘗試重新啟動電腦後繼續安裝遊戲！ 若註冊表修改操作導致其他軟體出現相容問題，請使用 工具 中的 NVME 註冊表清理。"),
@@ -678,7 +678,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_hosts_acceleration_experimental_tip":
             MessageLookupByLibrary.simpleMessage(
                 "將 IP 資訊寫入 Hosts 文件，解決部分地區的 DNS 汙染導致無法登入官網等問題。\n該功能正在進行第一階段測試，遇到問題請及時反饋。"),
-        "tools_action_info_init_failed": m46,
+        "tools_action_info_init_failed": m50,
         "tools_action_info_log_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
                 "日誌文件不存在，請嘗試進行一次遊戲啟動或遊戲安裝，並退出啟動器，若無法解決問題，請嘗試將啟動器更新至最新版本！"),
@@ -690,7 +690,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "此功能將手動寫入NVME補丁，該功能僅在您知道自己在做什麼的情況下使用"),
         "tools_action_info_not_installed":
             MessageLookupByLibrary.simpleMessage("未安裝"),
-        "tools_action_info_nvme_patch_issue": m47,
+        "tools_action_info_nvme_patch_issue": m51,
         "tools_action_info_one_key_close_lens_shake":
             MessageLookupByLibrary.simpleMessage(
                 "關閉遊戲內鏡頭晃動效果以便進行攝影。\n\n @拉邦那 Lapernum 提供參數資訊。"),
@@ -712,7 +712,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "已開啟攝影模式，再次點擊來關閉並還原鏡頭晃動效果。\n\n@拉邦那 Lapernum 提供參數資訊。"),
         "tools_action_info_rsi_launcher_directory_not_found":
             MessageLookupByLibrary.simpleMessage("未找到 RSI 啟動器目錄，請您嘗試手動操作。"),
-        "tools_action_info_rsi_launcher_log_issue": m48,
+        "tools_action_info_rsi_launcher_log_issue": m52,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到 RSI 啟動器，請嘗試重新安裝，或在設定中手動添加。"),
@@ -721,11 +721,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_run_rsi_as_admin":
             MessageLookupByLibrary.simpleMessage(
                 "以管理員身份執行RSI啟動器，可能會解決一些問題。\n\n若設定了 E-Core 核心忽略參數，也會在此套用。"),
-        "tools_action_info_shader_cache_issue": m49,
+        "tools_action_info_shader_cache_issue": m53,
         "tools_action_info_star_citizen_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到星際公民遊戲安裝位置，請至少完成一次遊戲啟動操作 或在設定中手動新增。"),
-        "tools_action_info_system_info_content": m50,
+        "tools_action_info_system_info_content": m54,
         "tools_action_info_system_info_title":
             MessageLookupByLibrary.simpleMessage("系統資訊"),
         "tools_action_info_valid_game_directory_needed":
@@ -772,7 +772,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("正在寫入 Hosts ..."),
         "tools_info_game_install_location":
             MessageLookupByLibrary.simpleMessage("遊戲安裝位置：  "),
-        "tools_info_processing_failed": m51,
+        "tools_info_processing_failed": m55,
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI啟動器位置："),
         "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在掃描..."),

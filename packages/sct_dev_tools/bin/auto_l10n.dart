@@ -143,7 +143,7 @@ class AutoL10nTools {
       if (key == "@@locale") continue;
       final mapValue = jsonMap[key].toString();
       if (mapValue.contains("{") && mapValue.contains("}")) {
-        print("skipping args value === $mapValue");
+        // print("skipping args value === $mapValue");
         continue;
       }
       // 使用 CheckContainsVisitor.visitStringLiteral 获取是否有匹配的值 ,返回 true false

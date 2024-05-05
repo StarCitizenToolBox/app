@@ -38,8 +38,10 @@ class Unp4kCModel extends _$Unp4kCModel {
 
   @override
   Unp4kcState build() {
-    state =
-        const Unp4kcState(startUp: false, curPath: '\\', endMessage: "初始化中...");
+    state = Unp4kcState(
+        startUp: false,
+        curPath: '\\',
+        endMessage: S.current.tools_unp4k_msg_init);
     _init();
     return state;
   }
@@ -99,10 +101,10 @@ class Unp4kCModel extends _$Unp4kCModel {
         break;
       case "info: Reading_p4k_file":
         _loadStartTime = DateTime.now();
-        state = state.copyWith(endMessage: "正在读取P4K 文件 ...");
+        state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading);
         break;
       case "info: All Ready":
-        state = state.copyWith(endMessage: "正在处理文件 ...");
+        state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading2);
         break;
       case "data: P4K_Files":
         final p4kFiles = (data as List<dynamic>);
@@ -119,7 +121,8 @@ class Unp4kCModel extends _$Unp4kCModel {
               .create(recursive: true);
           if (i == nextAwait) {
             state = state.copyWith(
-                endMessage: "正在处理文件 ($i/${p4kFiles.length}) ...");
+                endMessage:
+                    S.current.tools_unp4k_msg_reading3(i, p4kFiles.length));
             await Future.delayed(Duration.zero);
             nextAwait += 20000;
           }
@@ -128,8 +131,8 @@ class Unp4kCModel extends _$Unp4kCModel {
         state = state.copyWith(
             files: files,
             fs: fs,
-            endMessage:
-                "加载完毕：${files.length} 个文件，用时：${endTime.difference(_loadStartTime!).inMilliseconds} ms");
+            endMessage: S.current.tools_unp4k_msg_read_completed(files.length,
+                endTime.difference(_loadStartTime!).inMilliseconds));
         _loadStartTime = null;
         break;
       case "info: Extracted_Open":
@@ -150,7 +153,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         }
         state = state.copyWith(
             tempOpenFile: MapEntry(openType, filePath),
-            endMessage: "打开文件：$filePath");
+            endMessage: S.current.tools_unp4k_msg_open_file(filePath));
         break;
       default:
         dPrint("[unp4kc] unknown action: $action");
@@ -206,7 +209,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
     state = state.copyWith(
         tempOpenFile: const MapEntry("loading", ""),
-        endMessage: "读取文件：$filePath ...");
+        endMessage: S.current.tools_unp4k_msg_open_file(filePath));
     extractFile(filePath, tempPath, mode: "extract_open");
   }
 

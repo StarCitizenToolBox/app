@@ -20,7 +20,7 @@ class UnP4kcUI extends HookConsumerWidget {
     final files = model.getFiles();
     final paths = state.curPath.trim().split("\\");
     return makeDefaultPage(context,
-        title: "P4K 查看器 -> ${model.getGamePath()}",
+        title: S.current.tools_unp4k_title(model.getGamePath()),
         useBodyContainer: false,
         content: state.files == null
             ? Column(
@@ -187,8 +187,9 @@ class UnP4kcUI extends HookConsumerWidget {
                       Expanded(
                           child: Container(
                         child: state.tempOpenFile == null
-                            ? const Center(
-                                child: Text("单击文件以预览"),
+                            ? Center(
+                                child:
+                                    Text(S.current.tools_unp4k_view_file),
                               )
                             : state.tempOpenFile?.key == "loading"
                                 ? makeLoading(context)
@@ -207,14 +208,19 @@ class UnP4kcUI extends HookConsumerWidget {
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Text(
-                                                      "未知文件类型\n${state.tempOpenFile?.value}"),
+                                                  Text(S.current
+                                                      .tools_unp4k_msg_unknown_file_type(
+                                                          state.tempOpenFile
+                                                                  ?.value ??
+                                                              "")),
                                                   const SizedBox(height: 32),
                                                   FilledButton(
-                                                      child: const Padding(
+                                                      child: Padding(
                                                         padding:
-                                                            EdgeInsets.all(4),
-                                                        child: Text("打开文件夹"),
+                                                            const EdgeInsets
+                                                                .all(4),
+                                                        child: Text(S.current
+                                                            .action_open_folder),
                                                       ),
                                                       onPressed: () {
                                                         SystemHelper.openDir(

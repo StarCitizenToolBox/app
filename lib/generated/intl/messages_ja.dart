@@ -36,7 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m25(v2) => "検証中...（${v2}）";
 
-  static String m31(v1, v2) =>
+  static String m35(v1, v2) =>
       "RSI サーバレポートのバージョン：${v1} \n\nローカルのバージョン：${v2} \n\nRSI Launcher を使ってゲームをアップデートしてください！";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -133,7 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_login_info_one_click_launch_description":
             MessageLookupByLibrary.simpleMessage(
                 "この機能は、ゲームをより便利に起動するのに役立ちます。\n\nアカウントのセキュリティを確保するため、この機能はローカライズブラウザを使用してログイン状態を保持し、パスワード情報を保存しません（自動入力オンの場合を除く）。\n\nこの機能を使用してアカウントにログインする際は、SCToolBox が信頼できるソースからダウンロードされていることを確認してください。"),
-        "home_login_info_rsi_server_report": m31,
+        "home_login_info_rsi_server_report": m35,
         "home_login_title_launching_game":
             MessageLookupByLibrary.simpleMessage("ゲーム起動中..."),
         "home_login_title_welcome_back":

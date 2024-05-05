@@ -1,8 +1,10 @@
+import 'package:starcitizen_doctor/generated/l10n.dart';
+
 final advancedLocalizationJsonData = {
   "class_keys": [
     {
       "id": "location_opt",
-      "class_name": "地点-其他",
+      "class_name": S.current.home_localization_advanced_json_text_location_other,
       "keys": [
         "ATC_.*",
         "Crus_HistMarker_.*",
@@ -58,7 +60,7 @@ final advancedLocalizationJsonData = {
     },
     {
       "id": "location",
-      "class_name": "地点-常用",
+      "class_name": S.current.home_localization_advanced_json_text_location_used,
       "keys": [
         "Bacchus(?!.*_Desc).*",
         "Cano(?!.*_Desc).*",
@@ -81,7 +83,7 @@ final advancedLocalizationJsonData = {
       ]
     },
     {
-      "class_name": "物品-其他",
+      "class_name": S.current.home_localization_advanced_json_text_things_other,
       "id": "thing_opt",
       "keys": [
         "BarMenu_.*",
@@ -96,12 +98,12 @@ final advancedLocalizationJsonData = {
       ]
     },
     {
-      "class_name": "物品-常用",
+      "class_name": S.current.home_localization_advanced_json_text_things_used,
       "id": "thing",
       "keys": ["item_Name.*"]
     },
     {
-      "class_name": "载具-其他",
+      "class_name": S.current.home_localization_advanced_json_text_vehicle_other,
       "id": "vehicle_name",
       "keys": [
         "vehicle_Desc.*",
@@ -111,13 +113,13 @@ final advancedLocalizationJsonData = {
       ]
     },
     {
-      "class_name": "载具-常用",
+      "class_name": S.current.home_localization_advanced_json_text_vehicle_used,
       "id": "vehicle",
       "keys": ["vehicle_Name.*"]
     },
     {
       "id": "mission",
-      "class_name": "任务/日志",
+      "class_name": S.current.home_localization_advanced_json_text_mission_or_logs,
       "keys": [
         "BasicSalvage_.*",
         "BitZeros_.*",
@@ -377,7 +379,7 @@ final advancedLocalizationJsonData = {
     },
     {
       "id": "subtitle",
-      "class_name": "字幕",
+      "class_name": S.current.home_localization_advanced_json_text_subtitle,
       "keys": [
         "DXSH_",
         "Dlg_SC_.*",
@@ -402,7 +404,7 @@ final advancedLocalizationJsonData = {
     },
     {
       "id": "ui",
-      "class_name": "UI/HUD/菜单",
+      "class_name": S.current.home_localization_advanced_json_text_ui_or_hud_or_menu,
       "keys": [
         ".*_RepUI_.*",
         "CharacterCustomizer_.*",

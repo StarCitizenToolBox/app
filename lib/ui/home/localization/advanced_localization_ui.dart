@@ -21,7 +21,8 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
     final model = ref.read(advancedLocalizationUIModelProvider.notifier);
     final homeUIState = ref.watch(homeUIModelProvider);
     return makeDefaultPage(
-        title: "高级汉化 -> ${homeUIState.scInstalledPath}",
+        title: S.current.home_localization_advanced_title(
+            homeUIState.scInstalledPath ?? "-"),
         context,
         content: state.workingText.isNotEmpty
             ? Center(
@@ -40,16 +41,19 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                     children: [
                       const SizedBox(width: 12),
                       Expanded(
-                          child: Text(
-                              '已加载汉化版本：${state.apiLocalizationData?.versionName}')),
-                      Text('汉化文本行数：${state.serverGlobalIniLines}'
-                          '  P4K文本行数：${state.p4kGlobalIniLines}'),
+                          child: Text(S.current
+                              .home_localization_advanced_msg_version(
+                                  state.apiLocalizationData?.versionName ??
+                                      "-"))),
+                      Text(S.current.home_localization_advanced_title_msg(
+                          state.serverGlobalIniLines, state.p4kGlobalIniLines)),
                       const SizedBox(width: 32),
                       Button(
-                          child: const Padding(
-                            padding: EdgeInsets.only(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
                                 left: 12, right: 12, top: 4, bottom: 4),
-                            child: Text("安装汉化"),
+                            child: Text(S.current
+                                .home_localization_advanced_action_install),
                           ),
                           onPressed: () async {
                             await model.doInstall().unwrap(context: context);
@@ -128,7 +132,8 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                   children: [
                     makeLoading(context),
                     const SizedBox(height: 6),
-                    const Text("正在重新生成文本..."),
+                    Text(
+                        S.current.home_localization_advanced_action_mod_change),
                   ],
                 )
               else ...[
@@ -136,7 +141,9 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                   padding: const EdgeInsets.only(left: 12, right: 12),
                   child: Row(
                     children: [
-                      const Expanded(child: Text("模式")),
+                      Expanded(
+                          child: Text(S
+                              .current.home_localization_advanced_action_mode)),
                       ComboBox(
                         value: item.mode,
                         items: [
@@ -222,7 +229,8 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                   const SizedBox(
                     width: 24,
                   ),
-                  Text("预览：${item.className}"),
+                  Text(S.current.home_localization_advanced_title_preview(
+                      item.className ?? "-")),
                 ],
               ),
               content: textData.value.isEmpty

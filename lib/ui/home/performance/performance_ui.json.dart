@@ -1,322 +1,324 @@
+import 'package:starcitizen_doctor/generated/l10n.dart';
+
 final performanceUIConfJsonData = [
   {
     "key": "r_ssdo",
-    "name": "屏幕光线后处理",
-    "info": "调整光线后处理等级",
+    "name": S.current.performance_json_text_ssdo,
+    "info": S.current.performance_json_text_ssdo_info,
     "type": "int",
     "max": 2,
     "min": 0,
     "value": 1,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "r_AntialiasingMode",
-    "name": "抗锯齿",
-    "info": "0 关闭，1 SMAA，2 时间过滤+SMAA，3 时间滤波和投影矩阵抖动的 SMAA",
+    "name": S.current.performance_json_text_antialiasing,
+    "info": S.current.performance_json_text_antialiasing_info,
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_gameeffects",
-    "name": "特效等级",
-    "info": "游戏特效等级",
+    "name": S.current.performance_json_text_game_effects,
+    "info": S.current.performance_json_text_game_effects_info,
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_texture",
-    "name": "纹理等级",
-    "info": "模型纹理细节",
+    "name": S.current.performance_json_text_texture,
+    "info": S.current.performance_json_text_texture_info,
     "type": "int",
     "max": 3,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_volumetriceffects",
-    "name": "体积效果",
-    "info": "体积云、体积光照等",
+    "name": S.current.performance_json_text_volumetric_effects,
+    "info": S.current.performance_json_text_volumetric_effects_info,
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_water",
-    "name": "水体效果",
-    "info": "各种水的等级",
+    "name": S.current.performance_json_text_water,
+    "info": S.current.performance_json_text_water_info,
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_objectdetail",
-    "name": "对象细节",
-    "info": "模型对象细节，影响LOD等..",
+    "name": S.current.performance_json_text_object_detail,
+    "info": S.current.performance_json_text_object_detail_info,
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_particles",
-    "name": "粒子细节",
+    "name": S.current.performance_json_text_particles,
     "info": "",
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_physics",
-    "name": "物理细节",
-    "info": "物理效果范围",
+    "name": S.current.performance_json_text_physics,
+    "info": S.current.performance_json_text_physics_info,
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_shading",
-    "name": "着色器细节",
-    "info": "着色器相关",
+    "name": S.current.performance_json_text_shading,
+    "info": S.current.performance_json_text_shading_info,
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_shadows",
-    "name": "阴影细节",
-    "info": "阴影效果",
+    "name": S.current.performance_json_text_shadows,
+    "info": S.current.performance_json_text_shadows_info,
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "sys_spec_postprocessing",
-    "name": "后处理细节",
-    "info": "后处理着色器，动态模糊效果 等",
+    "name": S.current.performance_json_text_postprocessing,
+    "info": S.current.performance_json_text_postprocessing_info,
     "type": "int",
     "max": 4,
     "min": 1,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_Renderer",
-    "name": "渲染器质量",
-    "info": "cryengine 渲染器质量",
+    "name": S.current.performance_json_text_renderer,
+    "info": S.current.performance_json_text_renderer_info,
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderDecal",
-    "name": "贴花质量",
-    "info": "（LOGO、标志等）",
+    "name": S.current.performance_json_text_shader_decal,
+    "info": S.current.performance_json_text_shader_decal_info,
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderPostProcess",
-    "name": "着色器质量",
+    "name": S.current.performance_json_text_shader_post_process,
     "info": "",
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 3,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderFX",
-    "name": "FX 质量",
+    "name": S.current.performance_json_text_shader_fx,
     "info": "",
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderGeneral",
-    "name": "常规质量",
-    "info": "整体模型质量",
+    "name": S.current.performance_json_text_shader_general,
+    "info": S.current.performance_json_text_shader_general_info,
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderGlass",
-    "name": "玻璃质量",
-    "info": "窗、镜子等",
+    "name": S.current.performance_json_text_shader_glass,
+    "info": S.current.performance_json_text_shader_glass_info,
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderHDR",
-    "name": "HDR质量",
-    "info": "HDR色差，亮度层级 处理 等",
+    "name": S.current.performance_json_text_shader_hdr,
+    "info": S.current.performance_json_text_shader_hdr_info,
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderParticle",
-    "name": "粒子质量",
-    "info": "粒子效果质量",
+    "name": S.current.performance_json_text_shader_particle,
+    "info": S.current.performance_json_text_shader_particle_info,
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderTerrain",
-    "name": "地面质量",
+    "name": S.current.performance_json_text_shader_terrain,
     "info": "",
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderShadow",
-    "name": "阴影质量",
+    "name": S.current.performance_json_text_shader_shadow,
     "info": "",
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "q_ShaderSky",
-    "name": "天空质量",
+    "name": S.current.performance_json_text_shader_sky,
     "info": "",
     "type": "int",
     "max": 3,
     "min": 0,
     "value": 2,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "e_ParticlesObjectCollisions",
-    "name": "粒子碰撞",
-    "info": "1 仅静态粒子 2 包括动态粒子",
+    "name": S.current.performance_json_text_particles_object_collisions,
+    "info": S.current.performance_json_text_particles_object_collisions_info,
     "type": "int",
     "max": 2,
     "min": 1,
     "value": 1,
-    "group": "图形（修改后建议清理着色器）"
+    "group": S.current.performance_json_text_title_graphics
   },
   {
     "key": "r_displayinfo",
-    "name": "屏幕信息（展示帧率）",
-    "info": "在屏幕右上角展示帧率，服务器信息等",
+    "name": S.current.performance_json_text_displayinfo,
+    "info": S.current.performance_json_text_displayinfo_info,
     "type": "int",
     "max": 4,
     "min": 0,
     "value": 1,
-    "group": "设置"
+    "group": S.current.app_index_menu_settings
   },
   {
     "key": "sys_maxFps",
-    "name": "最大帧率",
-    "info": "调整游戏最高帧率，0为不限制",
+    "name": S.current.performance_json_text_max_fps,
+    "info": S.current.performance_json_text_max_fps_info,
     "type": "int",
     "max": 300,
     "min": 0,
     "value": 0,
-    "group": "设置"
+    "group": S.current.app_index_menu_settings
   },
   {
     "key": "r_DisplaySessionInfo",
-    "name": "显示会话信息",
-    "info": "开启后在屏幕上显示一个二维码，用于反馈时让 CIG 快速定位相关信息",
+    "name": S.current.performance_json_text_display_session,
+    "info": S.current.performance_json_text_display_session_info,
     "type": "bool",
     "max": 1,
     "min": 0,
     "value": 0,
-    "group": "设置"
+    "group": S.current.app_index_menu_settings
   },
   {
     "key": "r_VSync",
-    "name": "垂直同步",
-    "info": "开启以防止撕裂，关闭以提高帧率",
+    "name": S.current.performance_json_text_vsync,
+    "info": S.current.performance_json_text_vsync_info,
     "type": "bool",
     "max": 1,
     "min": 0,
     "value": 0,
-    "group": "设置"
+    "group": S.current.app_index_menu_settings
   },
   {
     "key": "r_MotionBlur",
-    "name": "动态模糊",
-    "info": "开启以提高运动感，关闭提升观感",
+    "name": S.current.performance_json_text_motion_blur,
+    "info": S.current.performance_json_text_motion_blur_info,
     "type": "bool",
     "max": 1,
     "min": 0,
     "value": 0,
-    "group": "设置"
+    "group": S.current.app_index_menu_settings
   },
   {
     "key": "cl_fov",
     "name": "FOV",
-    "info": "设置视角FOV",
+    "info": S.current.performance_json_text_fov,
     "type": "int",
     "max": 160,
     "min": 25,
     "value": 90,
-    "group": "设置"
+    "group": S.current.app_index_menu_settings
   },
   {
     "key": "ui_disableScreenFade",
-    "name": "UI 淡入淡出动画",
+    "name": S.current.performance_json_text_ui_animation,
     "info": "",
     "type": "bool",
     "max": 1,
     "min": 0,
     "value": 1,
-    "group": "设置"
+    "group": S.current.app_index_menu_settings
   },
   {
     "key": "customize",
-    "name": "自定义参数",
+    "name": S.current.performance_json_text_custom_parameters,
     "info": "",
     "type": "customize",
     "max": 1,
     "min": 0,
     "value": 1,
-    "group": "自定义"
+    "group": S.current.performance_json_text_title_custom
   }
 ];

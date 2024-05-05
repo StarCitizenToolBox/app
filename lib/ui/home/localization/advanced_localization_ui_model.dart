@@ -33,10 +33,14 @@ class AdvancedLocalizationUIState with _$AdvancedLocalizationUIState {
 
 extension AdvancedLocalizationUIStateEx on AdvancedLocalizationUIState {
   Map<AppAdvancedLocalizationClassKeysDataMode, String> get typeNames => {
-        AppAdvancedLocalizationClassKeysDataMode.localization: "汉化",
-        AppAdvancedLocalizationClassKeysDataMode.unLocalization: "英文原文",
-        AppAdvancedLocalizationClassKeysDataMode.mixed: "双语",
-        AppAdvancedLocalizationClassKeysDataMode.mixedNewline: "双语(换行)",
+        AppAdvancedLocalizationClassKeysDataMode.localization:
+            S.current.home_localization_advanced_action_mod_change_localization,
+        AppAdvancedLocalizationClassKeysDataMode.unLocalization: S.current
+            .home_localization_advanced_action_mod_change_un_localization,
+        AppAdvancedLocalizationClassKeysDataMode.mixed:
+            S.current.home_localization_advanced_action_mod_change_mixed,
+        AppAdvancedLocalizationClassKeysDataMode.mixedNewline: S
+            .current.home_localization_advanced_action_mod_change_mixed_newline,
       };
 }
 
@@ -57,8 +61,15 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
         await _readIni(localizationUIState, localizationUIModel);
     final ald = await _readClassJson();
     if (ald.classKeys == null) return;
-    state = state.copyWith(workingText: "正在分类 ...");
-    final m = await compute(_doClassIni, (ald, p4kGlobalIni, serverGlobalIni));
+    state = state.copyWith(
+        workingText: S.current.home_localization_advanced_msg_classifying);
+    final m = await compute(_doClassIni, (
+      ald,
+      p4kGlobalIni,
+      serverGlobalIni,
+      S.current.home_localization_advanced_json_text_un_localization,
+      S.current.home_localization_advanced_json_text_others
+    ));
     final p4kGlobalIniLines = p4kGlobalIni.split("\n").length;
     final serverGlobalIniLines = serverGlobalIni.split("\n").length;
     state = state.copyWith(
@@ -74,24 +85,28 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     (
       AppAdvancedLocalizationData ald,
       String p4kGlobalIni,
-      String serverGlobalIni
+      String serverGlobalIni,
+      String unLocalizationClassName,
+      String othersClassName,
     ) v,
   ) {
     final (
       AppAdvancedLocalizationData ald,
       String p4kGlobalIni,
       String serverGlobalIni,
+      String unLocalizationClassName,
+      String othersClassName,
     ) = v;
     final unLocalization = AppAdvancedLocalizationClassKeysData(
       id: "un_localization",
-      className: "未汉化",
+      className: unLocalizationClassName,
       keys: [],
     )
       ..mode = AppAdvancedLocalizationClassKeysDataMode.unLocalization
       ..lockMod = true;
     final unClass = AppAdvancedLocalizationClassKeysData(
       id: "un_class",
-      className: "其他",
+      className: othersClassName,
       keys: [],
     );
     final classMap = <String, AppAdvancedLocalizationClassKeysData>{
@@ -158,10 +173,13 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     final homeUIState = ref.read(homeUIModelProvider);
     final gameDir = homeUIState.scInstalledPath;
     if (gameDir == null) return ("", "");
-    state = state.copyWith(workingText: "读取 p4k 文件 ...");
+    state = state.copyWith(
+        workingText: S.current.home_localization_advanced_msg_reading_p4k);
     final p4kGlobalIni = await readEnglishInI(gameDir);
     dPrint("read p4kGlobalIni => ${p4kGlobalIni.length}");
-    state = state.copyWith(workingText: "获取汉化文本 ...");
+    state = state.copyWith(
+        workingText: S.current
+            .home_localization_advanced_msg_reading_server_localization_text);
     final apiLocalizationData =
         localizationUIState.apiLocalizationData?.values.firstOrNull;
     if (apiLocalizationData == null) return ("", "");
@@ -239,7 +257,9 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   }
 
   Future<bool> doInstall() async {
-    state = state.copyWith(workingText: "生成汉化文件...");
+    state = state.copyWith(
+        workingText:
+            S.current.home_localization_advanced_msg_gen_localization_text);
     final classMap = state.classMap!;
     final globalIni = StringBuffer();
     for (var item in classMap.values) {
@@ -248,7 +268,9 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
         await Future.delayed(Duration.zero);
       }
     }
-    state = state.copyWith(workingText: "安装汉化文件...");
+    state = state.copyWith(
+        workingText:
+            S.current.home_localization_advanced_msg_gen_localization_install);
     final localizationUIModel = ref.read(localizationUIModelProvider.notifier);
     await localizationUIModel.installFormString(
         globalIni, state.apiLocalizationData?.versionName ?? "-",
