@@ -1831,16 +1831,6 @@ class S {
     );
   }
 
-  /// `Custom_ {v0}`
-  String localization_info_custom_file(Object v0) {
-    return Intl.message(
-      'Custom_ $v0',
-      name: 'localization_info_custom_file',
-      desc: '',
-      args: [v0],
-    );
-  }
-
   /// `The file is damaged, please download again`
   String get localization_info_corrupted_file {
     return Intl.message(

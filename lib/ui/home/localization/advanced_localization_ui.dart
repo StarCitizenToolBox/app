@@ -12,6 +12,8 @@ import 'package:starcitizen_doctor/ui/home/localization/advanced_localization_ui
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
+import 'localization_form_file_dialog_ui.dart';
+
 class AdvancedLocalizationUI extends HookConsumerWidget {
   const AdvancedLocalizationUI({super.key});
 
@@ -20,6 +22,17 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
     final state = ref.watch(advancedLocalizationUIModelProvider);
     final model = ref.read(advancedLocalizationUIModelProvider.notifier);
     final homeUIState = ref.watch(homeUIModelProvider);
+
+    onSwitchFile() async {
+      final sb = await showDialog(
+        context: context,
+        builder: (BuildContext context) => const LocalizationFromFileDialogUI(),
+      );
+      if (sb is StringBuffer) {
+        model.setCustomizeGlobalIni(sb.toString());
+      }
+    }
+
     return makeDefaultPage(
         title: S.current.home_localization_advanced_title(
             homeUIState.scInstalledPath ?? "-"),
@@ -41,10 +54,34 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                     children: [
                       const SizedBox(width: 12),
                       Expanded(
-                          child: Text(S.current
-                              .home_localization_advanced_msg_version(
-                                  state.apiLocalizationData?.versionName ??
-                                      "-"))),
+                          child: Row(
+                        children: [
+                          Text(
+                            S.current.home_localization_advanced_msg_version(
+                                state.apiLocalizationData?.versionName ?? "-"),
+                          ),
+                          const SizedBox(width: 12),
+                          Button(
+                              onPressed: onSwitchFile,
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 3),
+                                child: Icon(FluentIcons.switch_widget),
+                              )),
+                          if (state.customizeGlobalIni != null) ...[
+                            const SizedBox(width: 12),
+                            Button(
+                                onPressed: () {
+                                  model.setCustomizeGlobalIni(null);
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6, vertical: 3),
+                                  child: Icon(FluentIcons.delete),
+                                )),
+                          ]
+                        ],
+                      )),
                       Text(S.current.home_localization_advanced_title_msg(
                           state.serverGlobalIniLines, state.p4kGlobalIniLines)),
                       const SizedBox(width: 32),

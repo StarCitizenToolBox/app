@@ -359,8 +359,6 @@
   "@localization_info_remove_incompatible_translation_params": {},
   "localization_info_incompatible_translation_params_warning": "User.cfg contains incompatible Localization parameters, which may be the residual information of the previous Localization file.\n\nThis may lead to ineffective or garbled Localization, click to confirm that you are removed with one click (it will not affect other configuration).",
   "@localization_info_incompatible_translation_params_warning": {},
-  "localization_info_custom_file": "Custom_ {v0}",
-  "@localization_info_custom_file": {},
   "localization_info_corrupted_file": "The file is damaged, please download again",
   "@localization_info_corrupted_file": {},
   "localization_info_installation_error": "Install an error!\n\n {v0}",

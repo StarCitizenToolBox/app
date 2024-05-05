@@ -25,6 +25,7 @@ class AdvancedLocalizationUIState with _$AdvancedLocalizationUIState {
     Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
     String? p4kGlobalIni,
     String? serverGlobalIni,
+    String? customizeGlobalIni,
     ScLocalizationData? apiLocalizationData,
     @Default(0) int p4kGlobalIniLines,
     @Default(0) int serverGlobalIniLines,
@@ -79,6 +80,13 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
         p4kGlobalIniLines: p4kGlobalIniLines,
         serverGlobalIniLines: serverGlobalIniLines,
         classMap: m);
+  }
+
+  void setCustomizeGlobalIni(String? data) async {
+    state = state.copyWith(customizeGlobalIni: data);
+    final localizationUIState = ref.read(localizationUIModelProvider);
+    final localizationUIModel = ref.read(localizationUIModelProvider.notifier);
+    await _init(localizationUIState, localizationUIModel);
   }
 
   static Map<String, AppAdvancedLocalizationClassKeysData> _doClassIni(
@@ -180,21 +188,30 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     state = state.copyWith(
         workingText: S.current
             .home_localization_advanced_msg_reading_server_localization_text);
-    final apiLocalizationData =
-        localizationUIState.apiLocalizationData?.values.firstOrNull;
-    if (apiLocalizationData == null) return ("", "");
-    final file = File(
-        "${localizationUIModel.getDownloadDir().absolute.path}\\${apiLocalizationData.versionName}.sclang");
-    if (!await file.exists()) {
-      await localizationUIModel.downloadLocalizationFile(
-          file, apiLocalizationData);
+
+    if (state.customizeGlobalIni != null) {
+      final apiLocalizationData = ScLocalizationData(
+          versionName: S.current.localization_info_custom_files,
+          info: "Customize");
+      state = state.copyWith(apiLocalizationData: apiLocalizationData);
+      return (p4kGlobalIni, state.customizeGlobalIni!);
+    } else {
+      final apiLocalizationData =
+          localizationUIState.apiLocalizationData?.values.firstOrNull;
+      if (apiLocalizationData == null) return ("", "");
+      final file = File(
+          "${localizationUIModel.getDownloadDir().absolute.path}\\${apiLocalizationData.versionName}.sclang");
+      if (!await file.exists()) {
+        await localizationUIModel.downloadLocalizationFile(
+            file, apiLocalizationData);
+      }
+      state = state.copyWith(apiLocalizationData: apiLocalizationData);
+      final serverGlobalIni =
+          (await compute(LocalizationUIModel.readArchive, file.absolute.path))
+              .toString();
+      dPrint("read serverGlobalIni => ${serverGlobalIni.length}");
+      return (p4kGlobalIni, serverGlobalIni);
     }
-    state = state.copyWith(apiLocalizationData: apiLocalizationData);
-    final serverGlobalIni =
-        (await compute(LocalizationUIModel.readArchive, file.absolute.path))
-            .toString();
-    dPrint("read serverGlobalIni => ${serverGlobalIni.length}");
-    return (p4kGlobalIni, serverGlobalIni);
   }
 
   Future<String> readEnglishInI(String gameDir) async {

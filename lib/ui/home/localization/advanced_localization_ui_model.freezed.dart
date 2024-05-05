@@ -21,6 +21,7 @@ mixin _$AdvancedLocalizationUIState {
       throw _privateConstructorUsedError;
   String? get p4kGlobalIni => throw _privateConstructorUsedError;
   String? get serverGlobalIni => throw _privateConstructorUsedError;
+  String? get customizeGlobalIni => throw _privateConstructorUsedError;
   ScLocalizationData? get apiLocalizationData =>
       throw _privateConstructorUsedError;
   int get p4kGlobalIniLines => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $AdvancedLocalizationUIStateCopyWith<$Res> {
       Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       String? p4kGlobalIni,
       String? serverGlobalIni,
+      String? customizeGlobalIni,
       ScLocalizationData? apiLocalizationData,
       int p4kGlobalIniLines,
       int serverGlobalIniLines});
@@ -67,6 +69,7 @@ class _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
     Object? classMap = freezed,
     Object? p4kGlobalIni = freezed,
     Object? serverGlobalIni = freezed,
+    Object? customizeGlobalIni = freezed,
     Object? apiLocalizationData = freezed,
     Object? p4kGlobalIniLines = null,
     Object? serverGlobalIniLines = null,
@@ -87,6 +90,10 @@ class _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
       serverGlobalIni: freezed == serverGlobalIni
           ? _value.serverGlobalIni
           : serverGlobalIni // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customizeGlobalIni: freezed == customizeGlobalIni
+          ? _value.customizeGlobalIni
+          : customizeGlobalIni // ignore: cast_nullable_to_non_nullable
               as String?,
       apiLocalizationData: freezed == apiLocalizationData
           ? _value.apiLocalizationData
@@ -118,6 +125,7 @@ abstract class _$$AdvancedLocalizationUIStateImplCopyWith<$Res>
       Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       String? p4kGlobalIni,
       String? serverGlobalIni,
+      String? customizeGlobalIni,
       ScLocalizationData? apiLocalizationData,
       int p4kGlobalIniLines,
       int serverGlobalIniLines});
@@ -140,6 +148,7 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
     Object? classMap = freezed,
     Object? p4kGlobalIni = freezed,
     Object? serverGlobalIni = freezed,
+    Object? customizeGlobalIni = freezed,
     Object? apiLocalizationData = freezed,
     Object? p4kGlobalIniLines = null,
     Object? serverGlobalIniLines = null,
@@ -160,6 +169,10 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
       serverGlobalIni: freezed == serverGlobalIni
           ? _value.serverGlobalIni
           : serverGlobalIni // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customizeGlobalIni: freezed == customizeGlobalIni
+          ? _value.customizeGlobalIni
+          : customizeGlobalIni // ignore: cast_nullable_to_non_nullable
               as String?,
       apiLocalizationData: freezed == apiLocalizationData
           ? _value.apiLocalizationData
@@ -187,6 +200,7 @@ class _$AdvancedLocalizationUIStateImpl
       final Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       this.p4kGlobalIni,
       this.serverGlobalIni,
+      this.customizeGlobalIni,
       this.apiLocalizationData,
       this.p4kGlobalIniLines = 0,
       this.serverGlobalIniLines = 0})
@@ -210,6 +224,8 @@ class _$AdvancedLocalizationUIStateImpl
   @override
   final String? serverGlobalIni;
   @override
+  final String? customizeGlobalIni;
+  @override
   final ScLocalizationData? apiLocalizationData;
   @override
   @JsonKey()
@@ -220,7 +236,7 @@ class _$AdvancedLocalizationUIStateImpl
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines)';
+    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines)';
   }
 
   @override
@@ -232,6 +248,7 @@ class _$AdvancedLocalizationUIStateImpl
       ..add(DiagnosticsProperty('classMap', classMap))
       ..add(DiagnosticsProperty('p4kGlobalIni', p4kGlobalIni))
       ..add(DiagnosticsProperty('serverGlobalIni', serverGlobalIni))
+      ..add(DiagnosticsProperty('customizeGlobalIni', customizeGlobalIni))
       ..add(DiagnosticsProperty('apiLocalizationData', apiLocalizationData))
       ..add(DiagnosticsProperty('p4kGlobalIniLines', p4kGlobalIniLines))
       ..add(DiagnosticsProperty('serverGlobalIniLines', serverGlobalIniLines));
@@ -249,6 +266,8 @@ class _$AdvancedLocalizationUIStateImpl
                 other.p4kGlobalIni == p4kGlobalIni) &&
             (identical(other.serverGlobalIni, serverGlobalIni) ||
                 other.serverGlobalIni == serverGlobalIni) &&
+            (identical(other.customizeGlobalIni, customizeGlobalIni) ||
+                other.customizeGlobalIni == customizeGlobalIni) &&
             (identical(other.apiLocalizationData, apiLocalizationData) ||
                 other.apiLocalizationData == apiLocalizationData) &&
             (identical(other.p4kGlobalIniLines, p4kGlobalIniLines) ||
@@ -264,6 +283,7 @@ class _$AdvancedLocalizationUIStateImpl
       const DeepCollectionEquality().hash(_classMap),
       p4kGlobalIni,
       serverGlobalIni,
+      customizeGlobalIni,
       apiLocalizationData,
       p4kGlobalIniLines,
       serverGlobalIniLines);
@@ -283,6 +303,7 @@ abstract class _AdvancedLocalizationUIState
       final Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       final String? p4kGlobalIni,
       final String? serverGlobalIni,
+      final String? customizeGlobalIni,
       final ScLocalizationData? apiLocalizationData,
       final int p4kGlobalIniLines,
       final int serverGlobalIniLines}) = _$AdvancedLocalizationUIStateImpl;
@@ -295,6 +316,8 @@ abstract class _AdvancedLocalizationUIState
   String? get p4kGlobalIni;
   @override
   String? get serverGlobalIni;
+  @override
+  String? get customizeGlobalIni;
   @override
   ScLocalizationData? get apiLocalizationData;
   @override

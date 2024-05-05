@@ -34,7 +34,6 @@ class LocalizationUIState with _$LocalizationUIState {
     MapEntry<bool, String>? patchStatus,
     bool? isInstalledAdvanced,
     List<String>? customizeList,
-    @Default(false) bool enableCustomize,
   }) = _LocalizationUIState;
 }
 
@@ -208,31 +207,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     };
   }
 
-  void toggleCustomize() {
-    state = state.copyWith(enableCustomize: !state.enableCustomize);
-  }
-
   String getCustomizeFileName(String path) {
     return path.split("\\").last;
   }
 
-  VoidCallback? doLocalInstall(String filePath) {
-    if (state.workingVersion.isNotEmpty) return null;
-    return () async {
-      final f = File(filePath);
-      if (!await f.exists()) return;
-      state = state.copyWith(workingVersion: filePath);
-      final str = await f.readAsString();
-      await installFormString(
-          StringBuffer(str),
-          S.current
-              .localization_info_custom_file(getCustomizeFileName(filePath)));
-      state = state.copyWith(workingVersion: "");
-    };
-  }
-
   installFormString(StringBuffer globalIni, String versionName,
       {bool? advanced}) async {
+    dPrint("LocalizationUIModel -> installFormString $versionName");
     final iniFile = File(
         "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
     if (versionName.isNotEmpty) {

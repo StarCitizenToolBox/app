@@ -356,8 +356,6 @@
   "@localization_info_remove_incompatible_translation_params": {},
   "localization_info_incompatible_translation_params_warning": "USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。",
   "@localization_info_incompatible_translation_params_warning": {},
-  "localization_info_custom_file": "自定义_{v0}",
-  "@localization_info_custom_file": {},
   "localization_info_corrupted_file": "文件受损，请重新下载",
   "@localization_info_corrupted_file": {},
   "localization_info_installation_error": "安装出错！\n\n {v0}",

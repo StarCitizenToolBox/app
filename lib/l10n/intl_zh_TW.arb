@@ -357,8 +357,6 @@
   "@localization_info_remove_incompatible_translation_params": {},
   "localization_info_incompatible_translation_params_warning": "USER.cfg 包含不相容的翻譯參數，這可能是以前的翻譯文件的殘留信息。\n\n這將可能導致翻譯無效或亂碼，點擊確認進行快速刪除（不會影響其他配置）。",
   "@localization_info_incompatible_translation_params_warning": {},
-  "localization_info_custom_file": "自訂_{v0}",
-  "@localization_info_custom_file": {},
   "localization_info_corrupted_file": "文件已損毀，請重新下載",
   "@localization_info_corrupted_file": {},
   "localization_info_installation_error": "安裝錯誤！\n\n {v0}",

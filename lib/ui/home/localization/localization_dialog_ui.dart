@@ -8,6 +8,7 @@ import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
+import 'localization_form_file_dialog_ui.dart';
 import 'localization_ui_model.dart';
 
 class LocalizationDialogUI extends HookConsumerWidget {
@@ -482,6 +483,17 @@ class LocalizationDialogUI extends HookConsumerWidget {
                             break;
                           case "advanced":
                             context.push("/index/advanced_localization");
+                            break;
+                          case "custom_files":
+                            final sb = await showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  const LocalizationFromFileDialogUI(),
+                            );
+                            if (sb is StringBuffer) {
+                              await model.installFormString(
+                                  sb, S.current.localization_info_custom_files);
+                            }
                             break;
                         }
                       }
