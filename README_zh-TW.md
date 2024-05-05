@@ -2,7 +2,12 @@
 
 此工具為 星際公民玩家 提供 疑難排解，官網及工具網站中文化，遊戲翻譯，遊戲效能最佳化 等功能，帶給您更愉快的遊戲體驗。
 
-[![](https://get.microsoft.com/images/zh-cn%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
+[![Windows Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml)
+
+[![](https://get.microsoft.com/images/zh-tw%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
+
+### 語言
+[简体中文](https://github.com/everland-3769/app/blob/main/README.md) / [繁體中文](https://github.com/everland-3769/app/blob/main/README_zh-TW.md)
 
 ### ✨ 功能
 - 本地化管理：一鍵安裝社群翻譯，切換語言
@@ -13,12 +18,12 @@
 - 其他常用工具：包括 p4k分流下載，清除著色器快取，重新安裝EAC等多種功能在內的工具箱。
 
 ### 📸 螢幕截圖
-![1.png](https://s2.loli.net/2023/12/06/S7qc2MmnjBeVkPE.png)
-![2.png](https://s2.loli.net/2023/12/06/XuwBoWN7EhqL2Ie.png)
-![3.png](https://s2.loli.net/2023/12/06/uogbQMVe5Ufs6XG.png)
-![4.png](https://s2.loli.net/2023/12/06/y9sJqkUb1IOWj6m.png)
-![5.png](https://s2.loli.net/2023/12/06/yf9z4NrhEOiR5FP.png)
-![6.png](https://s2.loli.net/2023/12/06/AakZFw97cySI3UQ.png)
+![1.png](https://s2.loli.net/2024/05/04/6gToLXD9Iw3NhKi.png)
+![2.png](https://s2.loli.net/2024/05/04/Rk7GFc5CfseWIJM.png)
+![3.png](https://s2.loli.net/2024/05/04/fxZKr5ovDg3uWEJ.png)
+![4.png](https://s2.loli.net/2024/05/04/RCGls1pry6QIKOW.png)
+![5.png](https://s2.loli.net/2024/05/04/bS5REX7MnaLyGiZ.png)
+![6.png](https://s2.loli.net/2024/05/04/bZvTkNRzEL3tu9g.png)
 
 ### ❤️ 鳴謝
 ![jetbrains.svg](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)

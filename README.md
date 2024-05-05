@@ -6,6 +6,9 @@
 
 [![](https://get.microsoft.com/images/zh-cn%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
 
+### 语言
+[简体中文](https://github.com/everland-3769/app/blob/main/README.md) / [繁體中文](https://github.com/everland-3769/app/blob/main/README_zh-TW.md)
+
 ### ✨ 功能
 - 本地化管理：一键安装社区汉化，切换语言
 - 一键诊断：来自上百名小白鼠用户的日志文件，可处理星际公民常见问题
