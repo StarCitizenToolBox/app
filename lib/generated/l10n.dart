@@ -4803,6 +4803,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Put up the additional function`
+  String get tools_rsi_launcher_enhance_action_fold {
+    return Intl.message(
+      'Put up the additional function',
+      name: 'tools_rsi_launcher_enhance_action_fold',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expand additional features`
+  String get tools_rsi_launcher_enhance_action_expand {
+    return Intl.message(
+      'Expand additional features',
+      name: 'tools_rsi_launcher_enhance_action_expand',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lack of runtime`
+  String get tools_unp4k_missing_runtime {
+    return Intl.message(
+      'Lack of runtime',
+      name: 'tools_unp4k_missing_runtime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use this function to install the .NET8 runtime, please click the button below to download and install it. After the installation is successful, reopen this page to continue to use.`
+  String get tools_unp4k_missing_runtime_info {
+    return Intl.message(
+      'Use this function to install the .NET8 runtime, please click the button below to download and install it. After the installation is successful, reopen this page to continue to use.',
+      name: 'tools_unp4k_missing_runtime_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Install the runtime`
+  String get tools_unp4k_missing_runtime_action_install {
+    return Intl.message(
+      'Install the runtime',
+      name: 'tools_unp4k_missing_runtime_action_install',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

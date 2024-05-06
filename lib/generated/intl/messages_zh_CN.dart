@@ -991,6 +991,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI启动器位置："),
         "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在扫描..."),
+        "tools_rsi_launcher_enhance_action_expand":
+            MessageLookupByLibrary.simpleMessage("展开额外功能"),
+        "tools_rsi_launcher_enhance_action_fold":
+            MessageLookupByLibrary.simpleMessage("收起额外功能"),
         "tools_rsi_launcher_enhance_action_install":
             MessageLookupByLibrary.simpleMessage("安装增强补丁"),
         "tools_rsi_launcher_enhance_init_msg1":
@@ -1028,6 +1032,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("生成补丁 ..."),
         "tools_rsi_launcher_enhance_working_msg2":
             MessageLookupByLibrary.simpleMessage("安装补丁，这需要一点时间，取决于您的计算机性能 ..."),
+        "tools_unp4k_missing_runtime":
+            MessageLookupByLibrary.simpleMessage("缺少运行库"),
+        "tools_unp4k_missing_runtime_action_install":
+            MessageLookupByLibrary.simpleMessage("安装运行库"),
+        "tools_unp4k_missing_runtime_info":
+            MessageLookupByLibrary.simpleMessage(
+                "使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。"),
         "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
         "tools_unp4k_msg_open_file": m58,
         "tools_unp4k_msg_read_completed": m59,

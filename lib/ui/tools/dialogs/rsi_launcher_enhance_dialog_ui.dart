@@ -208,7 +208,11 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                                   ? FluentIcons.chevron_up
                                   : FluentIcons.chevron_down),
                               const SizedBox(width: 12),
-                              Text(expandEnhance.value ? "收起额外功能" : "展开额外功能"),
+                              Text(expandEnhance.value
+                                  ? S.current
+                                      .tools_rsi_launcher_enhance_action_fold
+                                  : S.current
+                                      .tools_rsi_launcher_enhance_action_expand),
                             ],
                           ))),
                         ],

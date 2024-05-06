@@ -791,5 +791,10 @@
   "home_localization_select_customize_file": "请选择自定义汉化文件",
   "home_localization_action_select_customize_file": "点击选择 ini 文件",
   "home_localization_ptu_advanced_localization_tip_title": "推荐使用高级汉化",
-  "home_localization_ptu_advanced_localization_tip_title_info": "在 PTU/EPTU 等测试频道 ，当前汉化文本可能与游戏不同步，使用高级汉化可以减少乱码产生。"
+  "home_localization_ptu_advanced_localization_tip_title_info": "在 PTU/EPTU 等测试频道 ，当前汉化文本可能与游戏不同步，使用高级汉化可以减少乱码产生。",
+  "tools_rsi_launcher_enhance_action_fold": "收起额外功能",
+  "tools_rsi_launcher_enhance_action_expand": "展开额外功能",
+  "tools_unp4k_missing_runtime": "缺少运行库",
+  "tools_unp4k_missing_runtime_info": "使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。",
+  "tools_unp4k_missing_runtime_action_install": "安装运行库"
 }

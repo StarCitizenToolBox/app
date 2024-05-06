@@ -299,17 +299,18 @@ class UnP4kErrorWidget extends StatelessWidget {
                     "You must install .NET to run this application") ||
                 errorMessage.contains(
                     "You must install or update .NET to run this application")) ...[
-              const Text(
-                "缺少运行库",
-                style: TextStyle(fontSize: 16),
+              Text(
+                S.current.tools_unp4k_missing_runtime,
+                style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 6),
-              const Text("使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。"),
+              Text(S.current.tools_unp4k_missing_runtime_info),
               const SizedBox(height: 16),
               FilledButton(
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-                    child: Text("安装运行库"),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                    child: Text(
+                        S.current.tools_unp4k_missing_runtime_action_install),
                   ),
                   onPressed: () {
                     launchUrlString(_downloadUrl);

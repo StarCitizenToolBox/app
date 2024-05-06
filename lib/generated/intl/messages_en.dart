@@ -1113,6 +1113,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("RSI starter position:"),
         "tools_info_scanning":
             MessageLookupByLibrary.simpleMessage("Scanning..."),
+        "tools_rsi_launcher_enhance_action_expand":
+            MessageLookupByLibrary.simpleMessage("Expand additional features"),
+        "tools_rsi_launcher_enhance_action_fold":
+            MessageLookupByLibrary.simpleMessage(
+                "Put up the additional function"),
         "tools_rsi_launcher_enhance_action_install":
             MessageLookupByLibrary.simpleMessage("Installation enhanced patch"),
         "tools_rsi_launcher_enhance_init_msg1":
@@ -1159,6 +1164,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_rsi_launcher_enhance_working_msg2":
             MessageLookupByLibrary.simpleMessage(
                 "Installation patch takes a little time, depending on your computer performance ..."),
+        "tools_unp4k_missing_runtime":
+            MessageLookupByLibrary.simpleMessage("Lack of runtime"),
+        "tools_unp4k_missing_runtime_action_install":
+            MessageLookupByLibrary.simpleMessage("Install the runtime"),
+        "tools_unp4k_missing_runtime_info": MessageLookupByLibrary.simpleMessage(
+            "Use this function to install the .NET8 runtime, please click the button below to download and install it. After the installation is successful, reopen this page to continue to use."),
         "tools_unp4k_msg_init":
             MessageLookupByLibrary.simpleMessage("Initialization ..."),
         "tools_unp4k_msg_open_file": m58,
