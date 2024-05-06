@@ -7,7 +7,7 @@ This tool provides Star Citizen players with one-click diagnosis, official websi
 
 [![](https://get.microsoft.com/images/en-us%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
 
-### ✨ feature
+### ✨ Feature
 - Localization management: install the localization of the community and switch languages with one click
 - One-click diagnosis: log files from hundreds of guinea pig users, which can handle common problems of Star Citizen
 - Website Chineseization: Provide manual translation for the Star Citizen official website and Star Citizen tool website (thanks to the Star Citizen Chinese Encyclopedia project), and also provide [Browser Extension (Github)] (https://github.com/xkeyC/StarCitizenBoxBrowserEx).
