@@ -1,13 +1,12 @@
-# SC 汉化盒子
+# SC汉化盒子 / SCToolBox
+ 
+[简体中文](https://github.com/StarCitizenToolBox/app/blob/main/README.md) / [繁體中文](https://github.com/StarCitizenToolBox/app/blob/main/README_zh-TW.md) / [English](https://github.com/StarCitizenToolBox/app/blob/main/README_en.md)
 
-该工具为 星际公民玩家 提供 一键诊断，官网及工具网站汉化，游戏汉化，游戏性能优化 等功能，给您带来更愉快的游戏体验。 
+该工具为 星际公民玩家 提供 一键诊断，官网及工具网站汉化，游戏汉化，游戏性能优化 等功能，致力于带来更愉快的游戏体验。 
 
 [![Windows Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml)
 
 [![](https://get.microsoft.com/images/zh-cn%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
-
-### 语言
-[简体中文](https://github.com/StarCitizenToolBox/app/blob/main/README.md) / [繁體中文](https://github.com/StarCitizenToolBox/app/blob/main/README_zh-TW.md)
 
 ### ✨ 功能
 - 本地化管理：一键安装社区汉化，切换语言

@@ -1,13 +1,13 @@
 # SC 工具箱
 
+[简体中文](https://github.com/StarCitizenToolBox/app/blob/main/README.md) / [繁體中文](https://github.com/StarCitizenToolBox/app/blob/main/README_zh-TW.md)
+
 此工具為星際公民玩家提供疑難排解、官網及工具網站中文翻譯、遊戲翻譯、效能最佳化/畫面改善等功能，帶給您更愉快的遊戲體驗。
 
 [![Windows Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml)
 
 [![](https://get.microsoft.com/images/zh-tw%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
 
-### 語言
-[简体中文](https://github.com/StarCitizenToolBox/app/blob/main/README.md) / [繁體中文](https://github.com/StarCitizenToolBox/app/blob/main/README_zh-TW.md)
 
 ### ✨ 功能
 - 本地化社群翻譯管理：一鍵快速安裝社群翻譯與切換遊戲語言
