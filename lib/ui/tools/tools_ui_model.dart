@@ -594,18 +594,6 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   static rsiEnhance(BuildContext context) async {
-    final userOK = await showConfirmDialogs(
-        context,
-        S.current.tools_rsi_launcher_enhance_note_title,
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(S.current.tools_rsi_launcher_enhance_note_msg),
-          ],
-        ),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55));
-    if (!userOK) return;
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
       showToast(

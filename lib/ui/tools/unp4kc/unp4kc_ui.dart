@@ -10,6 +10,7 @@ import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class UnP4kcUI extends HookConsumerWidget {
   const UnP4kcUI({super.key});
@@ -29,12 +30,7 @@ class UnP4kcUI extends HookConsumerWidget {
   Widget makeBody(BuildContext context, Unp4kcState state, Unp4kCModel model,
       List<AppUnp4kP4kItemData>? files, List<String> paths) {
     if (state.errorMessage.isNotEmpty) {
-      return Padding(
-        padding: const EdgeInsets.all(24),
-        child: Center(
-          child: Text(state.errorMessage),
-        ),
-      );
+      return UnP4kErrorWidget(errorMessage: state.errorMessage);
     }
     return state.files == null
         ? Column(
@@ -279,6 +275,50 @@ class _TextTempWidget extends HookConsumerWidget {
     return CodeEditor(
       controller: CodeLineEditingController.fromText('${textData.value}'),
       readOnly: true,
+    );
+  }
+}
+
+class UnP4kErrorWidget extends StatelessWidget {
+  final String errorMessage;
+
+  const UnP4kErrorWidget({super.key, required this.errorMessage});
+
+  static const _downloadUrl =
+      "https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win-x64&os=win10&apphost_version=8.0.0";
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (errorMessage.contains(
+                    "You must install .NET to run this application") ||
+                errorMessage.contains(
+                    "You must install or update .NET to run this application")) ...[
+              const Text(
+                "缺少运行库",
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 6),
+              const Text("使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。"),
+              const SizedBox(height: 16),
+              FilledButton(
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                    child: Text("安装运行库"),
+                  ),
+                  onPressed: () {
+                    launchUrlString(_downloadUrl);
+                  }),
+            ] else
+              Text(errorMessage),
+          ],
+        ),
+      ),
     );
   }
 }
