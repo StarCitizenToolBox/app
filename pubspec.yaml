@@ -42,7 +42,7 @@ dependencies:
   flutter_tilt: ^3.0.0
   card_swiper: ^3.0.1
   ffi: ^2.1.0
-  flutter_rust_bridge: ^2.0.0-dev.32
+  flutter_rust_bridge: 2.0.0-dev.33
   freezed_annotation: ^2.4.1
   meta: ^1.9.1
   hexcolor: ^3.0.1
