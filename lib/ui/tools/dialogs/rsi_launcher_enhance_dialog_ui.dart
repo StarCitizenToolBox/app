@@ -46,6 +46,8 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
 
     final assarState = useState<RSILauncherStateData?>(null);
 
+    final expandEnhance = useState(false);
+
     Future<void> readState() async {
       workingText.value = S.current.tools_rsi_launcher_enhance_init_msg1;
       assarState.value = await _readState(context).unwrap(context: context);
@@ -191,41 +193,83 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                         ],
                       )),
                 const SizedBox(height: 3),
-                if (assarState.value?.enableDownloaderBoost != null)
-                  Container(
-                      padding: const EdgeInsets.all(12),
-                      margin: const EdgeInsets.only(bottom: 12),
-                      decoration: BoxDecoration(
-                        color: FluentTheme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(12),
+                if (assarState.value?.enableDownloaderBoost != null) ...[
+                  IconButton(
+                    icon: Padding(
+                      padding: const EdgeInsets.only(top: 3, bottom: 3),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Center(
+                                  child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(expandEnhance.value
+                                  ? FluentIcons.chevron_up
+                                  : FluentIcons.chevron_down),
+                              const SizedBox(width: 12),
+                              Text(expandEnhance.value ? "收起额外功能" : "展开额外功能"),
+                            ],
+                          ))),
+                        ],
                       ),
-                      child: Row(children: [
-                        Expanded(
-                            child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(S.current
-                                .tools_rsi_launcher_enhance_title_download_booster),
-                            const SizedBox(height: 3),
-                            Text(
-                              S.current
-                                  .tools_rsi_launcher_enhance_subtitle_download_booster,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.white.withOpacity(.6),
-                              ),
+                    ),
+                    onPressed: () async {
+                      if (!expandEnhance.value) {
+                        final userOK = await showConfirmDialogs(
+                            context,
+                            S.current.tools_rsi_launcher_enhance_note_title,
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(S.current
+                                    .tools_rsi_launcher_enhance_note_msg),
+                              ],
                             ),
-                          ],
-                        )),
-                        ToggleSwitch(
-                          onChanged: (value) {
-                            assarState.value = assarState.value
-                                ?.copyWith(enableDownloaderBoost: value);
-                          },
-                          checked:
-                              assarState.value?.enableDownloaderBoost ?? false,
-                        )
-                      ])),
+                            constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * .55));
+                        if (!userOK) return;
+                      }
+                      expandEnhance.value = !expandEnhance.value;
+                    },
+                  ),
+                  if (expandEnhance.value)
+                    Container(
+                        padding: const EdgeInsets.all(12),
+                        margin: const EdgeInsets.only(bottom: 12),
+                        decoration: BoxDecoration(
+                          color: FluentTheme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(children: [
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(S.current
+                                  .tools_rsi_launcher_enhance_title_download_booster),
+                              const SizedBox(height: 3),
+                              Text(
+                                S.current
+                                    .tools_rsi_launcher_enhance_subtitle_download_booster,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white.withOpacity(.6),
+                                ),
+                              ),
+                            ],
+                          )),
+                          ToggleSwitch(
+                            onChanged: (value) {
+                              assarState.value = assarState.value
+                                  ?.copyWith(enableDownloaderBoost: value);
+                            },
+                            checked: assarState.value?.enableDownloaderBoost ??
+                                false,
+                          )
+                        ])),
+                ],
                 const SizedBox(height: 12),
                 Center(
                     child: FilledButton(
@@ -293,8 +337,11 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
       );
     } catch (e) {
       if (!context.mounted) return null;
-      showToast(context,
-          S.current.tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(e));
+      showToast(
+          context,
+          S.current
+              .tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(
+                  e));
       return null;
     }
   }
