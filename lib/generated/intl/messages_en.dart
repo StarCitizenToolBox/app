@@ -86,7 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Initialized webpage Localization resources failed! ${v0}";
 
   static String m28(v0) =>
-      "After scanning, find ${v0} a valid installation directory";
+      "Scan completed, find ${v0} valid installation directory";
 
   static String m29(v0) => "${v0} Day  ";
 

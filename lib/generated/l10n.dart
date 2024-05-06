@@ -1460,10 +1460,10 @@ class S {
     );
   }
 
-  /// `After scanning, find {v0} a valid installation directory`
+  /// `Scan completed, find {v0} valid installation directory`
   String home_action_info_scan_complete_valid_directories_found(Object v0) {
     return Intl.message(
-      'After scanning, find $v0 a valid installation directory',
+      'Scan completed, find $v0 valid installation directory',
       name: 'home_action_info_scan_complete_valid_directories_found',
       desc: '',
       args: [v0],
