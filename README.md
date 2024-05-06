@@ -17,13 +17,14 @@
 - 其他常用工具：包括 p4k分流下载，清理着色器，重装EAC等多种功能在内的工具箱。
 
 ### 📸 屏幕截图
-![1.png](https://s2.loli.net/2023/12/06/S7qc2MmnjBeVkPE.png)
-![2.png](https://s2.loli.net/2023/12/06/XuwBoWN7EhqL2Ie.png)
-![3.png](https://s2.loli.net/2023/12/06/uogbQMVe5Ufs6XG.png)
-![4.png](https://s2.loli.net/2023/12/06/y9sJqkUb1IOWj6m.png)
-![5.png](https://s2.loli.net/2023/12/06/yf9z4NrhEOiR5FP.png)
-![6.png](https://s2.loli.net/2023/12/06/AakZFw97cySI3UQ.png)
-
+![image.png](https://s2.loli.net/2024/05/06/kX2nxsCp3y71lo4.png)
+![image.png](https://s2.loli.net/2024/05/06/LIxt6D3WjJeXh5r.png)
+![image.png](https://s2.loli.net/2024/05/06/FDXgTIP9HaL5QiW.png)
+![image.png](https://s2.loli.net/2024/05/06/q6tSos41xCEAIju.png)
+![image.png](https://s2.loli.net/2024/05/06/JScI2sXTFea3tKY.png)
+![image.png](https://s2.loli.net/2024/05/06/kMXZrAunSV48YhK.png)
+![image.png](https://s2.loli.net/2024/05/06/CAvKrsXmtpRh8Iw.png)
+![image.png](https://s2.loli.net/2024/05/06/ZnYy7XpM69rboWP.png)
 ### ❤️ 鸣谢
 ![jetbrains.svg](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg) 
 

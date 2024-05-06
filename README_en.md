@@ -16,7 +16,15 @@ This tool provides Star Citizen players with one-click diagnosis, official websi
 - Other commonly used tools: a toolbox including p4k offload downloads, cleaning shaders, reinstalling EAC and other functions.
 
 ### 📸 Screenshot
-// TODO
+![image.png](https://s2.loli.net/2024/05/06/iHmsGd7htjE9uzy.png)
+![image.png](https://s2.loli.net/2024/05/06/yCD9hXMEz8gK6Gk.png)
+![image.png](https://s2.loli.net/2024/05/06/DVvyCFJBpjXWbd4.png)
+![image.png](https://s2.loli.net/2024/05/06/Ig6lVB3HW4fzQaY.png)
+![image.png](https://s2.loli.net/2024/05/06/Wnzfe6TNZPE4LyA.png)
+![image.png](https://s2.loli.net/2024/05/06/dINhbev63tYWlnq.png)
+![image.png](https://s2.loli.net/2024/05/06/BODvxVHN4RoAhpU.png)
+![image.png](https://s2.loli.net/2024/05/06/psXOKoCElFfaJMV.png)
+![image.png](https://s2.loli.net/2024/05/06/PCWgYFlnD156rxK.png)
 
 ### ❤️ Thanks
 ![jetbrains.svg](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)

@@ -18,12 +18,13 @@
 - 其他常用工具：包括 p4k分流下載，清除著色器快取，重新安裝EAC等多種功能在內的工具箱。
 
 ### 📸 螢幕截圖
-![1.png](https://s2.loli.net/2024/05/04/6gToLXD9Iw3NhKi.png)
-![2.png](https://s2.loli.net/2024/05/04/Rk7GFc5CfseWIJM.png)
-![3.png](https://s2.loli.net/2024/05/04/fxZKr5ovDg3uWEJ.png)
-![4.png](https://s2.loli.net/2024/05/04/RCGls1pry6QIKOW.png)
-![5.png](https://s2.loli.net/2024/05/04/bS5REX7MnaLyGiZ.png)
-![6.png](https://s2.loli.net/2024/05/04/bZvTkNRzEL3tu9g.png)
+![image.png](https://s2.loli.net/2024/05/06/FrMxJuh9AozfVc7.png)
+![image.png](https://s2.loli.net/2024/05/06/8GLnb2Ma7ojeZIl.png)
+![image.png](https://s2.loli.net/2024/05/06/IsCUlx7FH9SfAtY.png)
+![image.png](https://s2.loli.net/2024/05/06/8ksgbSKQEFWdj15.png)
+![image.png](https://s2.loli.net/2024/05/06/IAZeq97BzKV6tax.png)
+![image.png](https://s2.loli.net/2024/05/06/K9hPgzCB5SbomyQ.png)
+![image.png](https://s2.loli.net/2024/05/06/TlckzswguMUCjZe.png)
 
 ### ❤️ 鳴謝
 ![jetbrains.svg](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
