@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
@@ -75,7 +76,8 @@ class SplashUI extends HookConsumerWidget {
       await _showAlert(context, appConf);
     }
     try {
-      await URLConf.checkHost();
+      // crash on debug mode, why?
+      if (!kDebugMode) await URLConf.checkHost();
     } catch (e) {
       dPrint("checkHost Error:$e");
     }
