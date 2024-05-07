@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use std::sync::Arc;
-
-use async_std::task::block_on;
+use futures::executor::block_on;
 use once_cell::sync::Lazy;
 use scopeguard::defer;
 use tokio::io::AsyncBufReadExt;
