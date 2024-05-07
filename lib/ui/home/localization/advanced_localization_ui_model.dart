@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
@@ -233,8 +234,15 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       final iniData = String.fromCharCodes(data);
       return iniData;
     } catch (e) {
+      final errorMessage = e.toString();
+      if (errorMessage
+              .contains("You must install .NET to run this application") ||
+          errorMessage.contains(
+              "You must install or update .NET to run this application")) {
+        AnalyticsApi.touch("advanced_localization_no_runtime");
+      }
       state = state.copyWith(
-        errorMessage: e.toString(),
+        errorMessage: errorMessage,
       );
       // rethrow;
     }
@@ -281,6 +289,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   }
 
   Future<bool> doInstall() async {
+    AnalyticsApi.touch("advanced_localization_apply");
     state = state.copyWith(
         workingText:
             S.current.home_localization_advanced_msg_gen_localization_text);

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/conf/binary_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/rust/api/rs_process.dart';
@@ -51,6 +52,8 @@ class Unp4kCModel extends _$Unp4kCModel {
 
   String getGamePath() => _toolsState.scInstalledPath;
 
+  bool _hasUnp4kRunTimeError = false;
+
   void _init() async {
     final execDir = "${appGlobalState.applicationBinaryModuleDir}\\unp4kc";
     await BinaryModuleConf.extractModule(
@@ -78,6 +81,15 @@ class Unp4kCModel extends _$Unp4kCModel {
           } else {
             state = state.copyWith(
                 errorMessage: "${state.errorMessage}\n${event.data}");
+          }
+          if (!_hasUnp4kRunTimeError) {
+            if (state.errorMessage.contains(
+                    "You must install .NET to run this application") ||
+                state.errorMessage.contains(
+                    "You must install or update .NET to run this application")) {
+              _hasUnp4kRunTimeError = true;
+              AnalyticsApi.touch("unp4k_no_runtime");
+            }
           }
           break;
         case RsProcessStreamDataType.exit:

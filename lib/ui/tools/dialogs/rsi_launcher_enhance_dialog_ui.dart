@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -81,10 +82,12 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
       await assarState.value?.data
           .writeMainJs(content: utf8.encode(newScript))
           .unwrap(context: context);
+      AnalyticsApi.touch("rsi_launcher_mod_apply");
       await readState();
     }
 
     useEffect(() {
+      AnalyticsApi.touch("rsi_launcher_mod_launch");
       readState();
       return null;
     }, const []);

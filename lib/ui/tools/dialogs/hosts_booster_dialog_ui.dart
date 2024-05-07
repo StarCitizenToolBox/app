@@ -4,6 +4,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/async.dart';
@@ -14,9 +15,15 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
 
   static final _hostsMap = {
     "Recaptcha": ["www.recaptcha.net", "recaptcha.net"],
-    S.current.tools_hosts_info_rsi_official_website: ["robertsspaceindustries.com"],
-    S.current.tools_hosts_info_rsi_zendesk: ["cloudimperiumservicesllc.zendesk.com"],
-    S.current.tools_hosts_info_rsi_customer_service: ["support.robertsspaceindustries.com"],
+    S.current.tools_hosts_info_rsi_official_website: [
+      "robertsspaceindustries.com"
+    ],
+    S.current.tools_hosts_info_rsi_zendesk: [
+      "cloudimperiumservicesllc.zendesk.com"
+    ],
+    S.current.tools_hosts_info_rsi_customer_service: [
+      "support.robertsspaceindustries.com"
+    ],
   };
 
   @override
@@ -48,6 +55,7 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
     }
 
     useEffect(() {
+      AnalyticsApi.touch("host_dns_boost");
       // 监听 Hosts 文件变更
       _readHostsState(workingMap, checkedMap);
       return null;
@@ -164,9 +172,10 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
                 child: FilledButton(
                   onPressed: () => doHost(context),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 3, bottom: 3, left: 12, right: 12),
-                    child: Text(S.current.tools_hosts_action_one_click_acceleration),
+                    padding: const EdgeInsets.only(
+                        top: 3, bottom: 3, left: 12, right: 12),
+                    child: Text(
+                        S.current.tools_hosts_action_one_click_acceleration),
                   ),
                 ),
               ),

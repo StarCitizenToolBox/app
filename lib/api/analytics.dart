@@ -7,7 +7,10 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class AnalyticsApi {
   static touch(String key) async {
-    if (kDebugMode || kProfileMode) return;
+    if (kDebugMode || kProfileMode) {
+      dPrint("AnalyticsApi.touch === $key skip");
+      return;
+    }
     dPrint("AnalyticsApi.touch === $key start");
     try {
       final r = await RSHttp.postData(

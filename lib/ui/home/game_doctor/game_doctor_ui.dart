@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -22,6 +23,7 @@ class HomeGameDoctorUI extends HookConsumerWidget {
     final model = ref.read(homeGameDoctorUIModelProvider.notifier);
 
     useEffect(() {
+      AnalyticsApi.touch("auto_scan_issues");
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         dPrint("HomeGameDoctorUI useEffect doCheck timeStamp === $timeStamp");
         model.doCheck(context);

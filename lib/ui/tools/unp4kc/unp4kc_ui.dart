@@ -5,6 +5,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
@@ -21,6 +22,12 @@ class UnP4kcUI extends HookConsumerWidget {
     final model = ref.read(unp4kCModelProvider.notifier);
     final files = model.getFiles();
     final paths = state.curPath.trim().split("\\");
+
+    useEffect(() {
+      AnalyticsApi.touch("unp4k_launch");
+      return null;
+    }, const []);
+
     return makeDefaultPage(context,
         title: S.current.tools_unp4k_title(model.getGamePath()),
         useBodyContainer: false,
@@ -308,7 +315,8 @@ class UnP4kErrorWidget extends StatelessWidget {
               const SizedBox(height: 16),
               FilledButton(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                     child: Text(
                         S.current.tools_unp4k_missing_runtime_action_install),
                   ),

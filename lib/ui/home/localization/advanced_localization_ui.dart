@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
 import 'package:re_highlight/languages/ini.dart';
 import 'package:re_highlight/styles/vs2015.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/localization/advanced_localization_ui_model.dart';
@@ -33,6 +34,11 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
         model.setCustomizeGlobalIni(sb.toString());
       }
     }
+
+    useEffect(() {
+      AnalyticsApi.touch("advanced_localization_launch");
+      return null;
+    }, const []);
 
     return makeDefaultPage(
         title: S.current.home_localization_advanced_title(

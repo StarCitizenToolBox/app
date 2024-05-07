@@ -7,6 +7,7 @@ import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
@@ -206,6 +207,7 @@ class WebViewModel {
       for (var kv in appVersionData.webMirrors!.entries) {
         if (url.startsWith(kv.key)) {
           finalUrl = url.replaceFirst(kv.key, kv.value);
+          AnalyticsApi.touch("webLocalization_with_boost_mirror");
         }
       }
     }
