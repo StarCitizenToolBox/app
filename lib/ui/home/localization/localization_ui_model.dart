@@ -280,6 +280,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
     final r = await RSHttp.get(downloadUrl);
     if (r.statusCode == 200 && r.data != null) {
+      await savePath.create(recursive: true);
       await savePath.writeAsBytes(r.data!, flush: true);
     } else {
       throw "statusCode Error : ${r.statusCode}";
