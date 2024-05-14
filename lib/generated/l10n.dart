@@ -730,10 +730,10 @@ class S {
     );
   }
 
-  /// `RSI starter log`
+  /// `RSI Launcher log`
   String get doctor_action_rsi_launcher_log {
     return Intl.message(
-      'RSI starter log',
+      'RSI Launcher log',
       name: 'doctor_action_rsi_launcher_log',
       desc: '',
       args: [],
@@ -840,10 +840,10 @@ class S {
     );
   }
 
-  /// `The new NVME device is not compatible with the RSI starter for the time being, which may cause the installation to fail`
+  /// `The new NVME device is not compatible with the RSI Launcher for the time being, which may cause the installation to fail`
   String get doctor_info_result_incompatible_nvme_device {
     return Intl.message(
-      'The new NVME device is not compatible with the RSI starter for the time being, which may cause the installation to fail',
+      'The new NVME device is not compatible with the RSI Launcher for the time being, which may cause the installation to fail',
       name: 'doctor_info_result_incompatible_nvme_device',
       desc: '',
       args: [],
@@ -870,10 +870,10 @@ class S {
     );
   }
 
-  /// `Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI starter to check the file`
+  /// `Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI Launcher to check the file`
   String get doctor_info_result_verify_files_with_rsi_launcher {
     return Intl.message(
-      'Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI starter to check the file',
+      'Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI Launcher to check the file',
       name: 'doctor_info_result_verify_files_with_rsi_launcher',
       desc: '',
       args: [],
@@ -930,10 +930,10 @@ class S {
     );
   }
 
-  /// `No-English installation path! This may cause the game to start/install errors! ({v0}), please replace the installation path at the RSI starter.`
+  /// `No-English installation path! This may cause the game to start/install errors! ({v0}), please replace the installation path at the RSI Launcher.`
   String doctor_info_result_chinese_install_path_error(Object v0) {
     return Intl.message(
-      'No-English installation path! This may cause the game to start/install errors! ($v0), please replace the installation path at the RSI starter.',
+      'No-English installation path! This may cause the game to start/install errors! ($v0), please replace the installation path at the RSI Launcher.',
       name: 'doctor_info_result_chinese_install_path_error',
       desc: '',
       args: [v0],
@@ -1120,10 +1120,10 @@ class S {
     );
   }
 
-  /// `After scanning, no problem is found. If you still fail, try to use the RSI starter administrator mode in the toolbox.`
+  /// `After scanning, no problem is found. If you still fail, try to use the RSI Launcher administrator mode in the toolbox.`
   String get doctor_action_result_toast_scan_no_issue {
     return Intl.message(
-      'After scanning, no problem is found. If you still fail, try to use the RSI starter administrator mode in the toolbox.',
+      'After scanning, no problem is found. If you still fail, try to use the RSI Launcher administrator mode in the toolbox.',
       name: 'doctor_action_result_toast_scan_no_issue',
       desc: '',
       args: [],
@@ -2221,10 +2221,10 @@ class S {
     );
   }
 
-  /// `Core quantity that has been set: {v0} (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)`
+  /// `Core quantity that has been set: {v0} (This function is suitable for the box -click startup or RSI Launcher manager mode on the homepage, which is not enabled when it is 0)`
   String setting_action_set_core_count(Object v0) {
     return Intl.message(
-      'Core quantity that has been set: $v0 (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)',
+      'Core quantity that has been set: $v0 (This function is suitable for the box -click startup or RSI Launcher manager mode on the homepage, which is not enabled when it is 0)',
       name: 'setting_action_set_core_count',
       desc: '',
       args: [v0],
@@ -2241,10 +2241,10 @@ class S {
     );
   }
 
-  /// `Set the position of the starter manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically`
+  /// `Set the position of the RSI Launcher manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically`
   String get setting_action_info_manual_launcher_location_setting {
     return Intl.message(
-      'Set the position of the starter manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically',
+      'Set the position of the RSI Launcher manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically',
       name: 'setting_action_info_manual_launcher_location_setting',
       desc: '',
       args: [],
@@ -2371,20 +2371,20 @@ class S {
     );
   }
 
-  /// `Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI starter mode in the box on the homepage. This function is not enabled when it is 0.`
+  /// `Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI Launcher Admin mode in the box on the homepage. This function is not enabled when it is 0.`
   String get setting_action_info_cpu_core_tip {
     return Intl.message(
-      'Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI starter mode in the box on the homepage. This function is not enabled when it is 0.',
+      'Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI Launcher Admin mode in the box on the homepage. This function is not enabled when it is 0.',
       name: 'setting_action_info_cpu_core_tip',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please select the RSI starter position (RSI LAUNCHER.EXE)`
+  /// `Please select the RSI Launcher position (RSI LAUNCHER.EXE)`
   String get setting_action_info_select_rsi_launcher_location {
     return Intl.message(
-      'Please select the RSI starter position (RSI LAUNCHER.EXE)',
+      'Please select the RSI Launcher position (RSI LAUNCHER.EXE)',
       name: 'setting_action_info_select_rsi_launcher_location',
       desc: '',
       args: [],
@@ -2731,10 +2731,10 @@ class S {
     );
   }
 
-  /// `RSI starter position:`
+  /// `RSI Launcher position:`
   String get tools_info_rsi_launcher_location {
     return Intl.message(
-      'RSI starter position:',
+      'RSI Launcher position:',
       name: 'tools_info_rsi_launcher_location',
       desc: '',
       args: [],
@@ -3072,20 +3072,20 @@ class S {
     );
   }
 
-  /// `If the RSI starter directory is not found, please try manually.`
+  /// `If the RSI Launcher directory is not found, please try manually.`
   String get tools_action_info_rsi_launcher_directory_not_found {
     return Intl.message(
-      'If the RSI starter directory is not found, please try manually.',
+      'If the RSI Launcher directory is not found, please try manually.',
       name: 'tools_action_info_rsi_launcher_directory_not_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `The log file does not exist, please try to start a game startup or game installation, and exit the starter. If the problem cannot be solved, try to update the launcher to the latest version!`
+  /// `The log file does not exist, please try to start a game startup or game installation, and exit the RSI Launcher. If the problem cannot be solved, try to update the launcher to the latest version!`
   String get tools_action_info_log_file_not_exist {
     return Intl.message(
-      'The log file does not exist, please try to start a game startup or game installation, and exit the starter. If the problem cannot be solved, try to update the launcher to the latest version!',
+      'The log file does not exist, please try to start a game startup or game installation, and exit the RSI Launcher. If the problem cannot be solved, try to update the launcher to the latest version!',
       name: 'tools_action_info_log_file_not_exist',
       desc: '',
       args: [],
@@ -3122,20 +3122,20 @@ class S {
     );
   }
 
-  /// `The RSI starter is running! Please turn off the label first and then use this feature!`
+  /// `The RSI Launcher is running! Please turn off the label first and then use this feature!`
   String get tools_action_info_rsi_launcher_running_warning {
     return Intl.message(
-      'The RSI starter is running! Please turn off the label first and then use this feature!',
+      'The RSI Launcher is running! Please turn off the label first and then use this feature!',
       name: 'tools_action_info_rsi_launcher_running_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the Star Citizen starter to check it.`
+  /// `P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the RSI Launcher to check it.`
   String get tools_action_info_p4k_file_description {
     return Intl.message(
-      'P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the Star Citizen starter to check it.',
+      'P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the RSI Launcher to check it.',
       name: 'tools_action_info_p4k_file_description',
       desc: '',
       args: [],
@@ -3332,10 +3332,10 @@ class S {
     );
   }
 
-  /// `Please try to run a starter at the administrator authority, or use the box (Microsoft Store version) to start.`
+  /// `Please try to run a RSI Launcher at the administrator authority, or use the box (Microsoft Store version) to start.`
   String get doctor_game_error_permissions_error_info {
     return Intl.message(
-      'Please try to run a starter at the administrator authority, or use the box (Microsoft Store version) to start.',
+      'Please try to run a RSI Launcher at the administrator authority, or use the box (Microsoft Store version) to start.',
       name: 'doctor_game_error_permissions_error_info',
       desc: '',
       args: [],
@@ -3352,10 +3352,10 @@ class S {
     );
   }
 
-  /// `Please try to restart the starter, or restart the computer directly`
+  /// `Please try to restart the RSI Launcher, or restart the computer directly`
   String get doctor_game_error_game_process_error_info {
     return Intl.message(
-      'Please try to restart the starter, or restart the computer directly',
+      'Please try to restart the RSI Launcher, or restart the computer directly',
       name: 'doctor_game_error_game_process_error_info',
       desc: '',
       args: [],
@@ -4502,10 +4502,10 @@ class S {
     );
   }
 
-  /// `Read the starter information ...`
+  /// `Read the RSI Launcher information ...`
   String get tools_rsi_launcher_enhance_init_msg1 {
     return Intl.message(
-      'Read the starter information ...',
+      'Read the RSI Launcher information ...',
       name: 'tools_rsi_launcher_enhance_init_msg1',
       desc: '',
       args: [],
@@ -4542,20 +4542,20 @@ class S {
     );
   }
 
-  /// `RSI starter enhancement`
+  /// `RSI Launcher enhancement`
   String get tools_rsi_launcher_enhance_title {
     return Intl.message(
-      'RSI starter enhancement',
+      'RSI Launcher enhancement',
       name: 'tools_rsi_launcher_enhance_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Internal version information of the starter: {v0}`
+  /// `Internal version information of the RSI Launcher: {v0}`
   String tools_rsi_launcher_enhance_msg_version(Object v0) {
     return Intl.message(
-      'Internal version information of the starter: $v0',
+      'Internal version information of the RSI Launcher: $v0',
       name: 'tools_rsi_launcher_enhance_msg_version',
       desc: '',
       args: [v0],
@@ -4592,20 +4592,20 @@ class S {
     );
   }
 
-  /// `Add multi -language support to the RSI starter.`
+  /// `Add multi -language support to the RSI Launcher.`
   String get tools_rsi_launcher_enhance_subtitle_localization {
     return Intl.message(
-      'Add multi -language support to the RSI starter.',
+      'Add multi -language support to the RSI Launcher.',
       name: 'tools_rsi_launcher_enhance_subtitle_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI starter download enhancement`
+  /// `RSI Launcher download enhancement`
   String get tools_rsi_launcher_enhance_title_download_booster {
     return Intl.message(
-      'RSI starter download enhancement',
+      'RSI Launcher download enhancement',
       name: 'tools_rsi_launcher_enhance_title_download_booster',
       desc: '',
       args: [],
@@ -4652,21 +4652,21 @@ class S {
     );
   }
 
-  /// `Reading the starter information failed!`
+  /// `Reading the Launcher information failed!`
   String get tools_rsi_launcher_enhance_msg_error_get_launcher_info_error {
     return Intl.message(
-      'Reading the starter information failed!',
+      'Reading the Launcher information failed!',
       name: 'tools_rsi_launcher_enhance_msg_error_get_launcher_info_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `Read the starter information failure: {v0}`
+  /// `Read the RSI Launcher information failure: {v0}`
   String tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(
       Object v0) {
     return Intl.message(
-      'Read the starter information failure: $v0',
+      'Read the RSI Launcher information failure: $v0',
       name:
           'tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args',
       desc: '',
@@ -4684,20 +4684,20 @@ class S {
     );
   }
 
-  /// `Instructions for the use of RSI starter enhancement`
+  /// `Instructions for the use of RSI Launcher enhancement`
   String get tools_rsi_launcher_enhance_note_title {
     return Intl.message(
-      'Instructions for the use of RSI starter enhancement',
+      'Instructions for the use of RSI Launcher enhancement',
       name: 'tools_rsi_launcher_enhance_note_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI starter enhancement is a community function. It will unpack "RSI LAUNCHER" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the starter, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official startup directly.`
+  /// `RSI Launcher enhancement is a community function. It will unpack "RSI LAUNCHER" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the Launcher, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official RSI Launcher directly.`
   String get tools_rsi_launcher_enhance_note_msg {
     return Intl.message(
-      'RSI starter enhancement is a community function. It will unpack "RSI LAUNCHER" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the starter, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official startup directly.',
+      'RSI Launcher enhancement is a community function. It will unpack "RSI LAUNCHER" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the Launcher, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official RSI Launcher directly.',
       name: 'tools_rsi_launcher_enhance_note_msg',
       desc: '',
       args: [],

@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Add ForcedPhysicalsectorsizeinbytes value to the registry item to simulate old devices. Hard disk partition (${v0})";
 
   static String m13(v0) =>
-      "No-English installation path! This may cause the game to start/install errors! (${v0}), please replace the installation path at the RSI starter.";
+      "No-English installation path! This may cause the game to start/install errors! (${v0}), please replace the installation path at the RSI Launcher.";
 
   static String m14(v0) =>
       "Click to fix the Live folder for you, and install it after completion. (${v0})";
@@ -128,7 +128,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "The cache size ${v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization";
 
   static String m46(v0) =>
-      "Core quantity that has been set: ${v0} (This function is suitable for the box -click startup or RSI starter manager mode on the homepage, which is not enabled when it is 0)";
+      "Core quantity that has been set: ${v0} (This function is suitable for the box -click startup or RSI Launcher manager mode on the homepage, which is not enabled when it is 0)";
 
   static String m47(v0) =>
       "Failure to clean up, please remove manually, file location: ${v0}";
@@ -152,11 +152,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m54(v0) => "Failure to handle! : ${v0}";
 
-  static String m55(v0) => "Read the starter information failure: ${v0}";
+  static String m55(v0) => "Read the RSI Launcher information failure: ${v0}";
 
   static String m56(v0) => "Patch status: ${v0}";
 
-  static String m57(v0) => "Internal version information of the starter: ${v0}";
+  static String m57(v0) =>
+      "Internal version information of the RSI Launcher: ${v0}";
 
   static String m58(v0) => "Open the file: ${v0}";
 
@@ -299,12 +300,12 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The tutorial is about to jump, the tutorial comes from the Internet, please operate carefully ..."),
         "doctor_action_result_toast_scan_no_issue":
             MessageLookupByLibrary.simpleMessage(
-                "After scanning, no problem is found. If you still fail, try to use the RSI starter administrator mode in the toolbox."),
+                "After scanning, no problem is found. If you still fail, try to use the RSI Launcher administrator mode in the toolbox."),
         "doctor_action_result_try_latest_windows":
             MessageLookupByLibrary.simpleMessage(
                 "If your hardware meets the standard, try to install the latest Windows system."),
         "doctor_action_rsi_launcher_log":
-            MessageLookupByLibrary.simpleMessage("RSI starter log"),
+            MessageLookupByLibrary.simpleMessage("RSI Launcher log"),
         "doctor_action_tip_checking_game_log":
             MessageLookupByLibrary.simpleMessage("Inspection: Game.log"),
         "doctor_action_view_details":
@@ -326,7 +327,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The game process is occupied"),
         "doctor_game_error_game_process_error_info":
             MessageLookupByLibrary.simpleMessage(
-                "Please try to restart the starter, or restart the computer directly"),
+                "Please try to restart the RSI Launcher, or restart the computer directly"),
         "doctor_game_error_generic_info": MessageLookupByLibrary.simpleMessage(
             "The game triggered a generic crash, please check the trouble shooting guide"),
         "doctor_game_error_gpu_crash": MessageLookupByLibrary.simpleMessage(
@@ -344,7 +345,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Insufficient permissions"),
         "doctor_game_error_permissions_error_info":
             MessageLookupByLibrary.simpleMessage(
-                "Please try to run a starter at the administrator authority, or use the box (Microsoft Store version) to start."),
+                "Please try to run a RSI Launcher at the administrator authority, or use the box (Microsoft Store version) to start."),
         "doctor_game_error_socket_error": MessageLookupByLibrary.simpleMessage(
             "Detected SOCKET abnormalities"),
         "doctor_game_error_socket_error_info": MessageLookupByLibrary.simpleMessage(
@@ -375,7 +376,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "doctor_info_result_fix_suggestion": m15,
         "doctor_info_result_incompatible_nvme_device":
             MessageLookupByLibrary.simpleMessage(
-                "The new NVME device is not compatible with the RSI starter for the time being, which may cause the installation to fail"),
+                "The new NVME device is not compatible with the RSI Launcher for the time being, which may cause the installation to fail"),
         "doctor_info_result_install_easyanticheat":
             MessageLookupByLibrary.simpleMessage(
                 "Easyanticheat is not installed, please click to repair it for you one click. (Before the game starts normally and ends, the problem will always appear. If you retreat for other reasons, you can ignore this entry)"),
@@ -394,7 +395,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "doctor_info_result_upgrade_system": m17,
         "doctor_info_result_verify_files_with_rsi_launcher":
             MessageLookupByLibrary.simpleMessage(
-                "Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI starter to check the file"),
+                "Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI Launcher to check the file"),
         "doctor_info_scan_complete_no_issues":
             MessageLookupByLibrary.simpleMessage(
                 "After scanning, no problem was found!"),
@@ -915,7 +916,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Confirm that resetting automatic filling?"),
         "setting_action_info_cpu_core_tip": MessageLookupByLibrary.simpleMessage(
-            "Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI starter mode in the box on the homepage. This function is not enabled when it is 0."),
+            "Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI Launcher Admin mode in the box on the homepage. This function is not enabled when it is 0."),
         "setting_action_info_delete_local_account_warning":
             MessageLookupByLibrary.simpleMessage(
                 "This will delete local account records, or it will automatically fill in the next time the game starts the game to disable automatic filling."),
@@ -929,7 +930,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Manually set the game installation location, it is recommended to use it only when the installation location cannot be automatically scanned"),
         "setting_action_info_manual_launcher_location_setting":
             MessageLookupByLibrary.simpleMessage(
-                "Set the position of the starter manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically"),
+                "Set the position of the RSI Launcher manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically"),
         "setting_action_info_microsoft_version_limitation":
             MessageLookupByLibrary.simpleMessage(
                 "Due to Microsoft\'s version restrictions, manually drag the SCToolBox to the desktop in the next window to create a shortcut."),
@@ -941,7 +942,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Please select the game installation position (StarCitizen.exe)"),
         "setting_action_info_select_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage(
-                "Please select the RSI starter position (RSI LAUNCHER.EXE)"),
+                "Please select the RSI Launcher position (RSI LAUNCHER.EXE)"),
         "setting_action_info_setting_success": MessageLookupByLibrary.simpleMessage(
             "Successfully set, click refresh on the corresponding page to scan the new path"),
         "setting_action_info_shortcut_created":
@@ -999,7 +1000,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_init_failed": m49,
         "tools_action_info_log_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
-                "The log file does not exist, please try to start a game startup or game installation, and exit the starter. If the problem cannot be solved, try to update the launcher to the latest version!"),
+                "The log file does not exist, please try to start a game startup or game installation, and exit the RSI Launcher. If the problem cannot be solved, try to update the launcher to the latest version!"),
         "tools_action_info_log_file_parse_failed":
             MessageLookupByLibrary.simpleMessage(
                 "Analysis of LOG files failed!\nTry to use RSI Launcher Log repair tool!"),
@@ -1019,7 +1020,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nLimited resources, please do not abuse."),
         "tools_action_info_p4k_file_description":
             MessageLookupByLibrary.simpleMessage(
-                "P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the Star Citizen starter to check it."),
+                "P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the RSI Launcher to check it."),
         "tools_action_info_reinstall_eac": MessageLookupByLibrary.simpleMessage(
             "If you encounter EAC errors and are invalid automatically, try using this feature to reinstall EAC."),
         "tools_action_info_removed_restart_effective":
@@ -1030,14 +1031,14 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Restoring the lens shaking effect.\n\n@Lapernum offers parameter information."),
         "tools_action_info_rsi_launcher_directory_not_found":
             MessageLookupByLibrary.simpleMessage(
-                "If the RSI starter directory is not found, please try manually."),
+                "If the RSI Launcher directory is not found, please try manually."),
         "tools_action_info_rsi_launcher_log_issue": m51,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the RSI label is not found, try to reinstall it or add it manually in the settings."),
         "tools_action_info_rsi_launcher_running_warning":
             MessageLookupByLibrary.simpleMessage(
-                "The RSI starter is running! Please turn off the label first and then use this feature!"),
+                "The RSI Launcher is running! Please turn off the label first and then use this feature!"),
         "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
             "Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here."),
         "tools_action_info_shader_cache_issue": m52,
@@ -1110,7 +1111,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Game installation location:  "),
         "tools_info_processing_failed": m54,
         "tools_info_rsi_launcher_location":
-            MessageLookupByLibrary.simpleMessage("RSI starter position:"),
+            MessageLookupByLibrary.simpleMessage("RSI Launcher position:"),
         "tools_info_scanning":
             MessageLookupByLibrary.simpleMessage("Scanning..."),
         "tools_rsi_launcher_enhance_action_expand":
@@ -1122,7 +1123,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Installation enhanced patch"),
         "tools_rsi_launcher_enhance_init_msg1":
             MessageLookupByLibrary.simpleMessage(
-                "Read the starter information ..."),
+                "Read the RSI Launcher information ..."),
         "tools_rsi_launcher_enhance_init_msg2":
             MessageLookupByLibrary.simpleMessage(
                 "Obtaining enhanced data from the Internet ..."),
@@ -1131,7 +1132,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Obtaining enhanced data failure may be the network problem or the current version does not support"),
         "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
             MessageLookupByLibrary.simpleMessage(
-                "Reading the starter information failed!"),
+                "Reading the Launcher information failed!"),
         "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
             m55,
         "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
@@ -1142,21 +1143,21 @@ class MessageLookup extends MessageLookupByLibrary {
                 "* If you need to uninstall the enhanced patch, cover the installation RSI promoter."),
         "tools_rsi_launcher_enhance_msg_version": m57,
         "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
-            "RSI starter enhancement is a community function. It will unpack \"RSI LAUNCHER\" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the starter, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official startup directly."),
+            "RSI Launcher enhancement is a community function. It will unpack \"RSI LAUNCHER\" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the Launcher, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official RSI Launcher directly."),
         "tools_rsi_launcher_enhance_note_title":
             MessageLookupByLibrary.simpleMessage(
-                "Instructions for the use of RSI starter enhancement"),
+                "Instructions for the use of RSI Launcher enhancement"),
         "tools_rsi_launcher_enhance_subtitle_download_booster":
             MessageLookupByLibrary.simpleMessage(
                 "When downloading the game, you can use more threads to increase the download speed."),
         "tools_rsi_launcher_enhance_subtitle_localization":
             MessageLookupByLibrary.simpleMessage(
-                "Add multi -language support to the RSI starter."),
+                "Add multi -language support to the RSI Launcher."),
         "tools_rsi_launcher_enhance_title":
-            MessageLookupByLibrary.simpleMessage("RSI starter enhancement"),
+            MessageLookupByLibrary.simpleMessage("RSI Launcher enhancement"),
         "tools_rsi_launcher_enhance_title_download_booster":
             MessageLookupByLibrary.simpleMessage(
-                "RSI starter download enhancement"),
+                "RSI Launcher download enhancement"),
         "tools_rsi_launcher_enhance_title_localization":
             MessageLookupByLibrary.simpleMessage("RSI startup localization"),
         "tools_rsi_launcher_enhance_working_msg1":
