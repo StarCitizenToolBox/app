@@ -151,13 +151,13 @@ class _$Aria2cModelStateImpl
             (identical(other.aria2cDir, aria2cDir) ||
                 other.aria2cDir == aria2cDir) &&
             (identical(other.aria2c, aria2c) || other.aria2c == aria2c) &&
-            const DeepCollectionEquality()
-                .equals(other.aria2globalStat, aria2globalStat));
+            (identical(other.aria2globalStat, aria2globalStat) ||
+                other.aria2globalStat == aria2globalStat));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, aria2cDir, aria2c,
-      const DeepCollectionEquality().hash(aria2globalStat));
+  int get hashCode =>
+      Object.hash(runtimeType, aria2cDir, aria2c, aria2globalStat);
 
   @JsonKey(ignore: true)
   @override

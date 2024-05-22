@@ -103,7 +103,7 @@ class Aria2cModel extends _$Aria2cModel {
         arguments: [
           "-V",
           "-c",
-          "-x 10",
+          "-x 16",
           "--dir=${state.aria2cDir}\\downloads",
           "--disable-ipv6",
           "--enable-rpc",
