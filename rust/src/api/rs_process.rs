@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::sync::Arc;
+use flutter_rust_bridge::frb;
 use futures::executor::block_on;
 use once_cell::sync::Lazy;
 use scopeguard::defer;
@@ -24,6 +25,7 @@ pub struct RsProcessStreamData {
     pub rs_pid: u32,
 }
 
+#[frb(non_opaque)]
 pub struct RsProcess {
     pub child_stdin: ChildStdin,
     pub rs_pid: u32,
