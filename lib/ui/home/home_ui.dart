@@ -806,6 +806,13 @@ class HomeUI extends HookConsumerWidget {
             builder: (BuildContext context) => const LocalizationDialogUI());
         model.checkLocalizationUpdate(skipReload: true);
         break;
+      case "performance":
+        if (homeState.scInstalledPath == "not_install") {
+          showToast(context, gameInstallReqInfo);
+          break;
+        }
+        context.push("/index/$key");
+        break;
       default:
         context.push("/index/$key");
     }
