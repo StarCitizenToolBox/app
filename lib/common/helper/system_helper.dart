@@ -87,6 +87,9 @@ class SystemHelper {
     final path = confBox.get("custom_launcher_path");
     if (path != null && path != "") {
       if (await File(path).exists()) {
+        if (skipEXE) {
+          return "${path.toString().replaceAll("\\RSI Launcher.exe", "")}\\";
+        }
         return path;
       }
     }
