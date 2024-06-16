@@ -48,17 +48,23 @@ pub async fn start(
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
         .kill_on_drop(true);
-
+    #[cfg(target_os = "windows")]
     command.creation_flags(0x08000000);
 
+    #[cfg(target_os = "windows")]
     let job = win32job::Job::create().unwrap();
+    #[cfg(target_os = "windows")]
     let mut info = job.query_extended_limit_info().unwrap();
+    #[cfg(target_os = "windows")]
     info.limit_kill_on_job_close();
+    #[cfg(target_os = "windows")]
     job.set_extended_limit_info(&mut info).unwrap();
 
+    #[cfg(target_os = "windows")]
     let job_arc = Arc::from(job);
 
     if let Ok(mut child) = command.spawn() {
+        #[cfg(target_os = "windows")]
         {
             let raw_handle = child.raw_handle();
             if raw_handle.is_some() {
@@ -67,7 +73,6 @@ pub async fn start(
                     .unwrap();
             }
         }
-
         let stdin = child
             .stdin
             .take()
@@ -141,6 +146,7 @@ pub async fn start(
         stream_sink_arc.add(message).unwrap();
     }
 }
+
 
 pub async fn write(rs_pid: &u32, data: String) {
     let mut map = RS_PROCESS_MAP.lock().await;
