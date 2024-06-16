@@ -32,19 +32,24 @@ class SCLoggerHelper {
 
   static Future<List?> getLauncherLogList() async {
     if (!Platform.isWindows) return [];
-    final jsonLogPath = await getLogFilePath();
-    if (jsonLogPath == null) return null;
-    var jsonString = utf8.decode(await File(jsonLogPath).readAsBytes());
-    if (jsonString.endsWith("\n")) {
-      jsonString = jsonString.substring(0, jsonString.length - 3);
+    try {
+      final jsonLogPath = await getLogFilePath();
+      if (jsonLogPath == null) throw "no file path";
+      var jsonString = utf8.decode(await File(jsonLogPath).readAsBytes());
+      if (jsonString.endsWith("\n")) {
+        jsonString = jsonString.substring(0, jsonString.length - 3);
+      }
+      if (jsonString.endsWith(" ")) {
+        jsonString = jsonString.substring(0, jsonString.length - 3);
+      }
+      if (jsonString.endsWith(",")) {
+        jsonString = jsonString.substring(0, jsonString.length - 3);
+      }
+      return json.decode("[$jsonString]");
+    } catch (e) {
+      dPrint(e);
+      return [];
     }
-    if (jsonString.endsWith(" ")) {
-      jsonString = jsonString.substring(0, jsonString.length - 3);
-    }
-    if (jsonString.endsWith(",")) {
-      jsonString = jsonString.substring(0, jsonString.length - 3);
-    }
-    return json.decode("[$jsonString]");
   }
 
   static Future<List<String>> getGameInstallPath(List listData,
@@ -94,25 +99,25 @@ class SCLoggerHelper {
             await checkAndAddPath(installPath, checkExists);
           }
         }
-      }
-    } catch (e) {
-      dPrint(e);
-      if (scInstallPaths.isEmpty) rethrow;
-    }
 
-    if (scInstallPaths.isNotEmpty) {
-      // 动态检测更多位置
-      for (var v in withVersion) {
-        for (var fileName in List.from(scInstallPaths)) {
-          if (fileName.toString().endsWith(v)) {
-            for (var nv in withVersion) {
-              final nextName =
-                  "${fileName.toString().replaceAll("\\$v", "")}\\$nv";
-              await checkAndAddPath(nextName, true);
+        if (scInstallPaths.isNotEmpty) {
+          // 动态检测更多位置
+          for (var v in withVersion) {
+            for (var fileName in List.from(scInstallPaths)) {
+              if (fileName.toString().endsWith(v)) {
+                for (var nv in withVersion) {
+                  final nextName =
+                      "${fileName.toString().replaceAll("\\$v", "")}\\$nv";
+                  await checkAndAddPath(nextName, true);
+                }
+              }
             }
           }
         }
       }
+    } catch (e) {
+      dPrint(e);
+      if (scInstallPaths.isEmpty) rethrow;
     }
 
     return scInstallPaths;
