@@ -263,13 +263,18 @@ foreach ($adapter in $adapterMemory) {
 
   static Future openDir(path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
-    await Process.run(SystemHelper.powershellPath,
-        ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
+    if (Platform.isWindows) {
+      await Process.run(SystemHelper.powershellPath,
+          ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
+    }
   }
 
   static String getHostsFilePath() {
-    final envVars = Platform.environment;
-    final systemRoot = envVars["SYSTEMROOT"];
-    return "$systemRoot\\System32\\drivers\\etc\\hosts";
+    if (Platform.isWindows) {
+      final envVars = Platform.environment;
+      final systemRoot = envVars["SYSTEMROOT"];
+      return "$systemRoot\\System32\\drivers\\etc\\hosts";
+    }
+    return "/etc/hosts";
   }
 }

@@ -55,7 +55,7 @@ SPEC CHECKSUMS:
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   macos_window_utils: 933f91f64805e2eb91a5bd057cf97cd097276663
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  rust_builder: 00402adf154e18cc4598fc3c131257e884010a50
+  rust_builder: 4b521d57bf67224da65f32b529be8fab420fca32
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
   url_launcher_macos: 5f437abeda8c85500ceb03f5c1938a8c5a705399
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8

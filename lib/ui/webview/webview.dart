@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/services.dart';
@@ -63,7 +64,7 @@ class WebViewModel {
               windowWidth: loginMode ? 960 : 1920,
               windowHeight: loginMode ? 720 : 1080,
               userDataFolderWindows: "$applicationSupportDir/webview_data",
-              title: title));
+              title: Platform.isMacOS ? "" : title));
       // webview.openDevToolsWindow();
       webview.isNavigating.addListener(() async {
         if (!webview.isNavigating.value && localizationResource.isNotEmpty) {

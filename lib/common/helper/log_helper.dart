@@ -7,6 +7,7 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class SCLoggerHelper {
   static Future<String?> getLogFilePath() async {
+    if (!Platform.isWindows) return null;
     Map<String, String> envVars = Platform.environment;
     final appDataPath = envVars["appdata"];
     if (appDataPath == null) {
@@ -30,6 +31,7 @@ class SCLoggerHelper {
   }
 
   static Future<List?> getLauncherLogList() async {
+    if (!Platform.isWindows) return [];
     final jsonLogPath = await getLogFilePath();
     if (jsonLogPath == null) return null;
     var jsonString = utf8.decode(await File(jsonLogPath).readAsBytes());

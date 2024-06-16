@@ -115,27 +115,7 @@ class AppGlobalModel extends _$AppGlobalModel {
   Future<void> initApp() async {
     if (_initialized) return;
     // init Data
-    final userProfileDir = Platform.environment["USERPROFILE"];
-    final applicationSupportDir =
-        (await getApplicationSupportDirectory()).absolute.path;
-    String? applicationBinaryModuleDir;
-    try {
-      await initDPrintFile(applicationSupportDir);
-    } catch (e) {
-      dPrint("initDPrintFile Error: $e");
-    }
-    if (ConstConf.isMSE && userProfileDir != null) {
-      applicationBinaryModuleDir =
-          "$userProfileDir\\AppData\\Local\\Temp\\SCToolbox\\modules";
-    } else {
-      applicationBinaryModuleDir = "$applicationSupportDir\\modules";
-    }
-    dPrint("applicationSupportDir == $applicationSupportDir");
-    dPrint("applicationBinaryModuleDir == $applicationBinaryModuleDir");
-    state = state.copyWith(
-      applicationSupportDir: applicationSupportDir,
-      applicationBinaryModuleDir: applicationBinaryModuleDir,
-    );
+    final applicationSupportDir = await _initAppDir();
 
     // init Rust bridge
     await RustLib.init();
@@ -170,11 +150,13 @@ class AppGlobalModel extends _$AppGlobalModel {
     }
 
     // init powershell
-    try {
-      await SystemHelper.initPowershellPath();
-      dPrint("---- Powershell init -----");
-    } catch (e) {
-      dPrint("powershell init failed : $e");
+    if (Platform.isWindows) {
+      try {
+        await SystemHelper.initPowershellPath();
+        dPrint("---- Powershell init -----");
+      } catch (e) {
+        dPrint("powershell init failed : $e");
+      }
     }
 
     // get windows info
@@ -187,19 +169,20 @@ class AppGlobalModel extends _$AppGlobalModel {
     }
 
     // init windows
-
     windowManager.waitUntilReadyToShow().then((_) async {
       await windowManager.setTitle("SCToolBox");
       await windowManager.setSize(const Size(1280, 810));
       await windowManager.setMinimumSize(const Size(1280, 810));
       await windowManager.setSkipTaskbar(false);
       await windowManager.show();
-      await Window.initialize();
-      await Window.hideWindowControls();
-      if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
-        await Window.setEffect(
-          effect: WindowEffect.acrylic,
-        );
+      if (Platform.isWindows) {
+        await Window.initialize();
+        await Window.hideWindowControls();
+        if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
+          await Window.setEffect(
+            effect: WindowEffect.acrylic,
+          );
+        }
       }
     });
 
@@ -248,6 +231,7 @@ class AppGlobalModel extends _$AppGlobalModel {
               ConstConf.appVersionDate, checkUpdateError.toString()));
       return false;
     }
+    if (!Platform.isWindows) return false;
     final lastVersion = ConstConf.isMSE
         ? state.networkVersionData?.mSELastVersionCode
         : state.networkVersionData?.lastVersionCode;
@@ -330,6 +314,44 @@ class AppGlobalModel extends _$AppGlobalModel {
       dPrint("changeLocale == $value localeCode=== $localeCode");
       await appConfBox.put("app_locale", localeCode);
       state = state.copyWith(appLocale: value);
+    }
+  }
+
+  Future<String> _initAppDir() async {
+    if (Platform.isWindows) {
+      final userProfileDir = Platform.environment["USERPROFILE"];
+      final applicationSupportDir =
+          (await getApplicationSupportDirectory()).absolute.path;
+      String? applicationBinaryModuleDir;
+      try {
+        await initDPrintFile(applicationSupportDir);
+      } catch (e) {
+        dPrint("initDPrintFile Error: $e");
+      }
+      if (ConstConf.isMSE && userProfileDir != null) {
+        applicationBinaryModuleDir =
+            "$userProfileDir\\AppData\\Local\\Temp\\SCToolbox\\modules";
+      } else {
+        applicationBinaryModuleDir = "$applicationSupportDir\\modules";
+      }
+      dPrint("applicationSupportDir == $applicationSupportDir");
+      dPrint("applicationBinaryModuleDir == $applicationBinaryModuleDir");
+      state = state.copyWith(
+        applicationSupportDir: applicationSupportDir,
+        applicationBinaryModuleDir: applicationBinaryModuleDir,
+      );
+      return applicationSupportDir;
+    } else {
+      final applicationSupportDir =
+          (await getApplicationSupportDirectory()).absolute.path;
+      final applicationBinaryModuleDir = "$applicationSupportDir/modules";
+      dPrint("applicationSupportDir == $applicationSupportDir");
+      dPrint("applicationBinaryModuleDir == $applicationBinaryModuleDir");
+      state = state.copyWith(
+        applicationSupportDir: applicationSupportDir,
+        applicationBinaryModuleDir: applicationBinaryModuleDir,
+      );
+      return applicationSupportDir;
     }
   }
 }

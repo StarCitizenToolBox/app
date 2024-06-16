@@ -23,10 +23,10 @@ void dPrint(src) async {
 Future<void> initDPrintFile(String applicationSupportDir) async {
   final now = DateTime.now();
   final logFile =
-      File("$applicationSupportDir\\logs\\${now.millisecondsSinceEpoch}.log");
+      File("$applicationSupportDir/logs/${now.millisecondsSinceEpoch}.log");
   await logFile.create(recursive: true);
   _logFile = logFile;
-  final logsDir = Directory("$applicationSupportDir\\logs");
+  final logsDir = Directory("$applicationSupportDir/logs");
   await for (final files in logsDir.list()) {
     if (files is File) {
       final stat = await files.stat();

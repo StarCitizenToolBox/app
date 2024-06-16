@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -86,6 +87,7 @@ Widget _defaultWebviewTitleBar(BuildContext context) {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (Platform.isMacOS) const SizedBox(width: 96),
           IconButton(
             onPressed: !state.canGoBack ? null : controller.back,
             icon: const Icon(FluentIcons.chevron_left),
