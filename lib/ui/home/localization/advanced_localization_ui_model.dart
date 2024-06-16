@@ -235,10 +235,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       return iniData;
     } catch (e) {
       final errorMessage = e.toString();
-      if (errorMessage
-              .contains("You must install .NET to run this application") ||
-          errorMessage.contains(
-              "You must install or update .NET to run this application")) {
+      if (Unp4kCModel.checkRunTimeError(errorMessage)) {
         AnalyticsApi.touch("advanced_localization_no_runtime");
       }
       state = state.copyWith(

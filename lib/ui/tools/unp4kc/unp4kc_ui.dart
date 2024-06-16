@@ -302,10 +302,7 @@ class UnP4kErrorWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (errorMessage.contains(
-                    "You must install .NET to run this application") ||
-                errorMessage.contains(
-                    "You must install or update .NET to run this application")) ...[
+            if (Unp4kCModel.checkRunTimeError(errorMessage)) ...[
               Text(
                 S.current.tools_unp4k_missing_runtime,
                 style: const TextStyle(fontSize: 16),

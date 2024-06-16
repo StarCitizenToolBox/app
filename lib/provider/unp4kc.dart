@@ -83,10 +83,7 @@ class Unp4kCModel extends _$Unp4kCModel {
                 errorMessage: "${state.errorMessage}\n${event.data}");
           }
           if (!_hasUnp4kRunTimeError) {
-            if (state.errorMessage.contains(
-                    "You must install .NET to run this application") ||
-                state.errorMessage.contains(
-                    "You must install or update .NET to run this application")) {
+            if (checkRunTimeError(state.errorMessage)) {
               _hasUnp4kRunTimeError = true;
               AnalyticsApi.touch("unp4k_no_runtime");
             }
@@ -244,6 +241,19 @@ class Unp4kCModel extends _$Unp4kCModel {
       rs_process.write(
           rsPid: _rsPid!, data: "$mode<:,:>$filePath<:,:>$outputPath\n");
     }
+  }
+
+  static bool checkRunTimeError(String errorMessage) {
+    if (errorMessage
+            .contains("You must install .NET to run this application") ||
+        errorMessage.contains(
+            "You must install or update .NET to run this application") ||
+        errorMessage.contains(
+            "It was not possible to find any compatible framework version")) {
+      AnalyticsApi.touch("unp4k_no_runtime");
+      return true;
+    }
+    return false;
   }
 
   static Future<Uint8List> unp4kTools(
