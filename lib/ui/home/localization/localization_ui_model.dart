@@ -351,9 +351,14 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return iniString.contains("_starcitizen_doctor_localization_advanced=true");
   }
 
-  Future<bool> _getLangCfgEnableLang({String lang = ""}) async {
-    if (!await _cfgFile.exists()) return false;
-    final str = (await _cfgFile.readAsString()).replaceAll(" ", "");
+  Future<bool> _getLangCfgEnableLang(
+      {String lang = "", String gamePath = ""}) async {
+    if (gamePath.isEmpty) {
+      gamePath = _scInstallPath;
+    }
+    final cfgFile = File("${_scDataDir.absolute.path}\\system.cfg");
+    if (!await cfgFile.exists()) return false;
+    final str = (await cfgFile.readAsString()).replaceAll(" ", "");
     return str.contains("sys_languages=$lang") &&
         str.contains("g_language=$lang") &&
         str.contains("g_languageAudio=english");
@@ -397,7 +402,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       final dirList = await scDataDir.list().toList();
       for (var element in dirList) {
         for (var lang in languageSupport.keys) {
-          if (element.path.contains(lang)) {
+          if (element.path.contains(lang) &&
+              await _getLangCfgEnableLang(
+                  lang: lang, gamePath: scInstallPath)) {
             final installedVersion =
                 await _getInstalledIniVersion("${element.path}\\global.ini");
             if (installedVersion == S.current.home_action_info_game_built_in ||
