@@ -171,8 +171,6 @@ class AppGlobalModel extends _$AppGlobalModel {
     // init windows
     windowManager.waitUntilReadyToShow().then((_) async {
       await windowManager.setTitle("SCToolBox");
-      await windowManager.setSize(const Size(1280, 810));
-      await windowManager.setMinimumSize(const Size(1280, 810));
       await windowManager.setSkipTaskbar(false);
       await windowManager.show();
       if (Platform.isWindows) {
