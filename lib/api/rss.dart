@@ -12,11 +12,9 @@ class RSSApi {
   }
 
   static Future<List<RssItem>> getRssText() async {
-    final r1 = await RSHttp.getText(URLConf.rssTextUrl1);
-    final r1f = RssFeed.parse(r1);
     final r2 = await RSHttp.getText(URLConf.rssTextUrl2);
     final r2f = RssFeed.parse(r2);
-    final items = r1f.items..addAll(r2f.items);
+    final items = r2f.items;
     items.sort((a, b) {
       final aDate = HttpDate.parse(a.pubDate ?? "").millisecondsSinceEpoch;
       final bDate = HttpDate.parse(b.pubDate ?? "").millisecondsSinceEpoch;

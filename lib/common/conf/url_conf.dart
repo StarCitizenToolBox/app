@@ -29,8 +29,6 @@ class URLConf {
   static String get rssVideoUrl =>
       "$rssApiHome/bilibili/user/channel/27976358/290653";
 
-  static String get rssTextUrl1 => "$rssApiHome/bilibili/user/article/40102960";
-
   static String get rssTextUrl2 =>
       "$rssApiHome/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
 
