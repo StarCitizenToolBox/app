@@ -81,20 +81,28 @@ class IndexUI extends HookConsumerWidget {
             openWidth: S.current.app_language_code.startsWith("zh") ? 64 : 74),
       ),
       paneBodyBuilder: (item, child) {
-        return FocusTraversalGroup(
-          key: ValueKey('body_$curIndex'),
-          child: getPage(curIndex.value),
-        );
+        return item!.body;
       },
     );
   }
 
-  Map<IconData, String> get pageMenus => {
-        FluentIcons.home: S.current.app_index_menu_home,
-        // FluentIcons.game: S.current.app_index_menu_lobby,
-        FluentIcons.toolbox: S.current.app_index_menu_tools,
-        FluentIcons.settings: S.current.app_index_menu_settings,
-        FluentIcons.info: S.current.app_index_menu_about,
+  Map<IconData, (String, Widget)> get pageMenus => {
+        FluentIcons.home: (
+          S.current.app_index_menu_home,
+          const HomeUI(),
+        ),
+        FluentIcons.toolbox: (
+          S.current.app_index_menu_tools,
+          const ToolsUI(),
+        ),
+        FluentIcons.settings: (
+          S.current.app_index_menu_settings,
+          const SettingsUI()
+        ),
+        FluentIcons.info: (
+          S.current.app_index_menu_about,
+          const AboutUI(),
+        ),
       };
 
   List<NavigationPaneItem> getNavigationPaneItems(
@@ -113,7 +121,7 @@ class IndexUI extends HookConsumerWidget {
                   Icon(kv.key, size: 18),
                   const SizedBox(height: 3),
                   Text(
-                    kv.value,
+                    kv.value.$1,
                     style: const TextStyle(fontSize: 11),
                   )
                 ],
@@ -121,34 +129,15 @@ class IndexUI extends HookConsumerWidget {
             ),
           ),
           // title: Text(kv.value),
-          body: const SizedBox.shrink(),
-          onTap: () => _onTapIndexMenu(kv.value, curIndexState),
+          body: kv.value.$2,
+          onTap: () => _onTapIndexMenu(kv.value.$1, curIndexState),
         ),
     ];
   }
 
-  Widget getPage(int value) {
-    switch (value) {
-      case 0:
-        return const HomeUI();
-      // case 1:
-      //   return const PartyRoomUI();
-      case 1:
-        return const ToolsUI();
-      case 2:
-        return const SettingsUI();
-      case 3:
-        return const AboutUI();
-      default:
-        return Center(
-          child: Text("UnimplPage $value"),
-        );
-    }
-  }
-
   void _onTapIndexMenu(String value, ValueNotifier<int> curIndexState) {
     final pageIndex =
-        pageMenus.values.toList().indexWhere((element) => element == value);
+        pageMenus.values.toList().indexWhere((element) => element.$1 == value);
     curIndexState.value = pageIndex;
   }
 
