@@ -153,7 +153,7 @@ class HomeUI extends HookConsumerWidget {
                     ? null
                     : ButtonStyle(
                         backgroundColor:
-                            ButtonState.resolveWith(_getRunButtonColor),
+                            WidgetStateProperty.resolveWith(_getRunButtonColor),
                       ),
                 child: Padding(
                   padding: const EdgeInsets.all(6),
@@ -476,13 +476,13 @@ class HomeUI extends HookConsumerWidget {
             final item = items.elementAt(index);
             return HoverButton(
               onPressed: () => _onMenuTap(context, item.key, homeState, ref),
-              builder: (BuildContext context, Set<ButtonStates> states) {
+              builder: (BuildContext context, Set<WidgetState> states) {
                 return Container(
                   width: 300,
                   height: 120,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: states.isHovering
+                    color: states.isHovered
                         ? FluentTheme.of(context).cardColor.withOpacity(.1)
                         : FluentTheme.of(context).cardColor,
                   ),
@@ -818,11 +818,11 @@ class HomeUI extends HookConsumerWidget {
     }
   }
 
-  Color? _getRunButtonColor(Set<ButtonStates> states) {
-    if (states.isPressing) {
+  Color? _getRunButtonColor(Set<WidgetState> states) {
+    if (states.isPressed) {
       return const Color.fromRGBO(49, 227, 88, .5);
     }
-    if (states.isHovering) {
+    if (states.isPressed) {
       return const Color.fromRGBO(47, 213, 84, 1.0);
     }
     return const Color.fromRGBO(49, 227, 88, .8);

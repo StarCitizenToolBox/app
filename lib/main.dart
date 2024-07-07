@@ -68,7 +68,7 @@ class App extends HookConsumerWidget {
           micaBackgroundColor: appState.themeConf.micaColor,
           buttonTheme: ButtonThemeData(
               defaultButtonStyle: ButtonStyle(
-            shape: ButtonState.all(RoundedRectangleBorder(
+            shape: WidgetStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
                 side: BorderSide(color: Colors.white.withOpacity(.01)))),
           ))),
