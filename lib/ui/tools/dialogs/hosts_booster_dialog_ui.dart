@@ -18,9 +18,6 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
     S.current.tools_hosts_info_rsi_official_website: [
       "robertsspaceindustries.com"
     ],
-    S.current.tools_hosts_info_rsi_zendesk: [
-      "cloudimperiumservicesllc.zendesk.com"
-    ],
     S.current.tools_hosts_info_rsi_customer_service: [
       "support.robertsspaceindustries.com"
     ],

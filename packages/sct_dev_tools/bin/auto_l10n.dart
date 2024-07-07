@@ -95,8 +95,8 @@ class AutoL10nTools {
     final toMap =
     json.decode(toFile.readAsStringSync()) as Map<String, dynamic>;
 
-    final formLocaleCode = formMap["@auto_translate_locale"].toString();
-    final toLocaleCode = toMap["@auto_translate_locale"].toString();
+    final formLocaleCode = formMap["@@auto_translate_locale"].toString();
+    final toLocaleCode = toMap["@@auto_translate_locale"].toString();
     print("formLocaleCode: $formLocaleCode, toLocaleCode: $toLocaleCode");
 
     final newMap = <String, dynamic>{};

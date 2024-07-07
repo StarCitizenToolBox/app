@@ -33,7 +33,10 @@ class RSILauncherStateData with _$RSILauncherStateData {
 }
 
 class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
-  const RsiLauncherEnhanceDialogUI({super.key});
+  final bool showNotGameInstallMsg;
+
+  const RsiLauncherEnhanceDialogUI(
+      {super.key, this.showNotGameInstallMsg = false});
 
   static const supportLocalizationMap = {
     "en": NoL10n.langEn,
@@ -113,6 +116,23 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (showNotGameInstallMsg) ...[
+              InfoBar(
+                title: const SizedBox(),
+                content: Text(S.current
+                    .home_localization_action_rsi_launcher_no_game_path_msg),
+                style: InfoBarThemeData(decoration: (severity) {
+                  return BoxDecoration(
+                    color: Colors.orange,
+                  );
+                }, iconColor: (severity) {
+                  return Colors.white;
+                }),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+            ],
             if (workingText.value.isNotEmpty) ...[
               Center(
                 child: Column(

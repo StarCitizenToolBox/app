@@ -1,6 +1,6 @@
 {
   "@@locale": "zh_TW",
-  "@auto_translate_locale": "zh-cn",
+  "@@auto_translate_locale": "zh-tw",
   "app_language_name": "繁體中文",
   "@app_language_name": {},
   "app_language_code": "zh_TW",
@@ -508,8 +508,6 @@
   "@app_splash_almost_done": {},
   "tools_hosts_info_rsi_official_website": "RSI 官方網站",
   "@tools_hosts_info_rsi_official_website": {},
-  "tools_hosts_info_rsi_zendesk": "RSI Zendesk 客服站",
-  "@tools_hosts_info_rsi_zendesk": {},
   "tools_hosts_info_rsi_customer_service": "RSI 客服站",
   "@tools_hosts_info_rsi_customer_service": {},
   "tools_hosts_info_dns_query_and_test": "正在查詢 DNS 並測試可瀏覽性 請耐心等待...",
@@ -786,5 +784,16 @@
   "tools_action_unp4k_info": "解包星際公民 p4k 文件",
   "tools_unp4k_title": "P4K 查看器 -> {v0}",
   "tools_unp4k_view_file": "單擊文件以預覽",
-  "tools_unp4k_msg_unknown_file_type": "未知文件類型\n{v0}"
+  "tools_unp4k_msg_unknown_file_type": "未知文件類型\n{v0}",
+  "home_localization_action_rsi_launcher_no_game_path_msg": "您當前未安裝遊戲本體或未選擇遊戲安裝目錄，只可使用啟動器翻譯功能。請確保遊戲安裝完畢或在工具箱設置中添加遊戲安裝目錄後重試。",
+  "home_localization_select_customize_file_ini": "請選擇 ini 文件",
+  "home_localization_select_customize_file": "請選擇自定義翻譯文件",
+  "home_localization_action_select_customize_file": "點擊選擇 ini 文件",
+  "home_localization_ptu_advanced_localization_tip_title": "推薦使用高級翻譯",
+  "home_localization_ptu_advanced_localization_tip_title_info": "在 PTU/EPTU 等測試頻道 ，當前翻譯文本可能與遊戲不同步，使用高級翻譯可以減少亂碼產生。",
+  "tools_rsi_launcher_enhance_action_fold": "收起額外功能",
+  "tools_rsi_launcher_enhance_action_expand": "展開額外功能",
+  "tools_unp4k_missing_runtime": "缺少運行庫",
+  "tools_unp4k_missing_runtime_info": "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。",
+  "tools_unp4k_missing_runtime_action_install": "安裝運行庫"
 }

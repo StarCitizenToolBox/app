@@ -593,7 +593,8 @@ class ToolsUIModel extends _$ToolsUIModel {
     context.push("/tools/unp4kc");
   }
 
-  static rsiEnhance(BuildContext context) async {
+  static rsiEnhance(BuildContext context,
+      {bool showNotGameInstallMsg = false}) async {
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
       showToast(
@@ -605,6 +606,8 @@ class ToolsUIModel extends _$ToolsUIModel {
     if (!context.mounted) return;
     showDialog(
         context: context,
-        builder: (BuildContext context) => const RsiLauncherEnhanceDialogUI());
+        builder: (BuildContext context) => RsiLauncherEnhanceDialogUI(
+              showNotGameInstallMsg: showNotGameInstallMsg,
+            ));
   }
 }

@@ -571,6 +571,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Install custom file"),
         "home_localization_action_rsi_launcher_localization":
             MessageLookupByLibrary.simpleMessage("RSILauncher Localization"),
+        "home_localization_action_rsi_launcher_no_game_path_msg":
+            MessageLookupByLibrary.simpleMessage(
+                "You are not currently installed in the game body or the game installation directory is not selected, and you can only use the promoter Chinese function. Please make sure the game is installed or adds the game installation directory in the box settings."),
         "home_localization_action_select_customize_file":
             MessageLookupByLibrary.simpleMessage("Click to select INI file"),
         "home_localization_advanced_action_install":
@@ -1099,8 +1102,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "RSI customer service station"),
         "tools_hosts_info_rsi_official_website":
             MessageLookupByLibrary.simpleMessage("RSI official website"),
-        "tools_hosts_info_rsi_zendesk": MessageLookupByLibrary.simpleMessage(
-            "RSI ZENDESK Customer Service Station"),
         "tools_hosts_info_site": MessageLookupByLibrary.simpleMessage("Site"),
         "tools_hosts_info_status":
             MessageLookupByLibrary.simpleMessage("Status"),

@@ -1,5 +1,6 @@
 {
   "@@locale": "ja",
+  "@@auto_translate_locale": "ja",
   "app_language_name": "日本語",
   "@app_language_name": {},
   "app_language_code": "ja",

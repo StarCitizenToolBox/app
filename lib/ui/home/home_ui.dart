@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -795,15 +796,16 @@ class HomeUI extends HookConsumerWidget {
     switch (key) {
       case "localization":
         if (homeState.scInstalledPath == "not_install") {
-          showToast(context, gameInstallReqInfo);
+          ToolsUIModel.rsiEnhance(context, showNotGameInstallMsg: true);
           break;
         }
         final model = ref.watch(homeUIModelProvider.notifier);
         model.checkLocalizationUpdate();
         await showDialog(
-            context: context,
-            dismissWithEsc: false,
-            builder: (BuildContext context) => const LocalizationDialogUI());
+          context: context,
+          dismissWithEsc: false,
+          builder: (BuildContext context) => const LocalizationDialogUI(),
+        );
         model.checkLocalizationUpdate(skipReload: true);
         break;
       case "performance":

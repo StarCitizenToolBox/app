@@ -513,6 +513,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("安裝自訂文件"),
         "home_localization_action_rsi_launcher_localization":
             MessageLookupByLibrary.simpleMessage("RSI 啟動器翻譯"),
+        "home_localization_action_rsi_launcher_no_game_path_msg":
+            MessageLookupByLibrary.simpleMessage(
+                "您當前未安裝遊戲本體或未選擇遊戲安裝目錄，只可使用啟動器翻譯功能。請確保遊戲安裝完畢或在工具箱設置中添加遊戲安裝目錄後重試。"),
+        "home_localization_action_select_customize_file":
+            MessageLookupByLibrary.simpleMessage("點擊選擇 ini 文件"),
         "home_localization_advanced_action_install":
             MessageLookupByLibrary.simpleMessage("安裝翻譯"),
         "home_localization_advanced_action_mod_change":
@@ -570,6 +575,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_localization_new_version_available":
             MessageLookupByLibrary.simpleMessage("社群翻譯有新的版本"),
         "home_localization_new_version_installed": m34,
+        "home_localization_ptu_advanced_localization_tip_title":
+            MessageLookupByLibrary.simpleMessage("推薦使用高級翻譯"),
+        "home_localization_ptu_advanced_localization_tip_title_info":
+            MessageLookupByLibrary.simpleMessage(
+                "在 PTU/EPTU 等測試頻道 ，當前翻譯文本可能與遊戲不同步，使用高級翻譯可以減少亂碼產生。"),
+        "home_localization_select_customize_file":
+            MessageLookupByLibrary.simpleMessage("請選擇自定義翻譯文件"),
+        "home_localization_select_customize_file_ini":
+            MessageLookupByLibrary.simpleMessage("請選擇 ini 文件"),
         "home_localization_title_localization_tools":
             MessageLookupByLibrary.simpleMessage("翻譯工具"),
         "home_login_action_title_box_one_click_launch":
@@ -971,8 +985,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("RSI 客服站"),
         "tools_hosts_info_rsi_official_website":
             MessageLookupByLibrary.simpleMessage("RSI 官方網站"),
-        "tools_hosts_info_rsi_zendesk":
-            MessageLookupByLibrary.simpleMessage("RSI Zendesk 客服站"),
         "tools_hosts_info_site": MessageLookupByLibrary.simpleMessage("站點"),
         "tools_hosts_info_status": MessageLookupByLibrary.simpleMessage("狀態"),
         "tools_hosts_info_writing_hosts":
@@ -983,6 +995,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI啟動器位置："),
         "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在掃描..."),
+        "tools_rsi_launcher_enhance_action_expand":
+            MessageLookupByLibrary.simpleMessage("展開額外功能"),
+        "tools_rsi_launcher_enhance_action_fold":
+            MessageLookupByLibrary.simpleMessage("收起額外功能"),
         "tools_rsi_launcher_enhance_action_install":
             MessageLookupByLibrary.simpleMessage("安裝增強補丁"),
         "tools_rsi_launcher_enhance_init_msg1":
@@ -1020,6 +1036,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("生成補丁 ..."),
         "tools_rsi_launcher_enhance_working_msg2":
             MessageLookupByLibrary.simpleMessage("安裝補丁，這需要一點時間，取決於您的電腦性能 ..."),
+        "tools_unp4k_missing_runtime":
+            MessageLookupByLibrary.simpleMessage("缺少運行庫"),
+        "tools_unp4k_missing_runtime_action_install":
+            MessageLookupByLibrary.simpleMessage("安裝運行庫"),
+        "tools_unp4k_missing_runtime_info":
+            MessageLookupByLibrary.simpleMessage(
+                "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。"),
         "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
         "tools_unp4k_msg_open_file": m58,
         "tools_unp4k_msg_read_completed": m59,

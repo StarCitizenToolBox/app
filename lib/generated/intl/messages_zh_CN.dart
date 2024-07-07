@@ -512,6 +512,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("安装自定义文件"),
         "home_localization_action_rsi_launcher_localization":
             MessageLookupByLibrary.simpleMessage("RSI 启动器汉化"),
+        "home_localization_action_rsi_launcher_no_game_path_msg":
+            MessageLookupByLibrary.simpleMessage(
+                "您当前未安装游戏本体或未选择游戏安装目录，只可使用启动器汉化功能。请确保游戏安装完毕或在盒子设置中添加游戏安装目录后重试。"),
         "home_localization_action_select_customize_file":
             MessageLookupByLibrary.simpleMessage("点击选择 ini 文件"),
         "home_localization_advanced_action_install":
@@ -979,8 +982,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("RSI 客服站"),
         "tools_hosts_info_rsi_official_website":
             MessageLookupByLibrary.simpleMessage("RSI 官网"),
-        "tools_hosts_info_rsi_zendesk":
-            MessageLookupByLibrary.simpleMessage("RSI Zendesk 客服站"),
         "tools_hosts_info_site": MessageLookupByLibrary.simpleMessage("站点"),
         "tools_hosts_info_status": MessageLookupByLibrary.simpleMessage("状态"),
         "tools_hosts_info_writing_hosts":

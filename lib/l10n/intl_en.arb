@@ -1,5 +1,6 @@
 {
   "@@locale": "en",
+  "@@auto_translate_locale": "en",
   "app_language_name": "English",
   "@app_language_name": {},
   "app_language_code": "en",
@@ -508,8 +509,6 @@
   "@app_splash_almost_done": {},
   "tools_hosts_info_rsi_official_website": "RSI official website",
   "@tools_hosts_info_rsi_official_website": {},
-  "tools_hosts_info_rsi_zendesk": "RSI ZENDESK Customer Service Station",
-  "@tools_hosts_info_rsi_zendesk": {},
   "tools_hosts_info_rsi_customer_service": "RSI customer service station",
   "@tools_hosts_info_rsi_customer_service": {},
   "tools_hosts_info_dns_query_and_test": "Inquiring about DNS and testing accessibility, please wait patiently ...",
@@ -959,5 +958,6 @@
   "tools_unp4k_missing_runtime_info": "Use this function to install the .NET8 runtime, please click the button below to download and install it. After the installation is successful, reopen this page to continue to use.",
   "@tools_unp4k_missing_runtime_info": {},
   "tools_unp4k_missing_runtime_action_install": "Install the runtime",
-  "@tools_unp4k_missing_runtime_action_install": {}
+  "@tools_unp4k_missing_runtime_action_install": {},
+  "home_localization_action_rsi_launcher_no_game_path_msg": "You are not currently installed in the game body or the game installation directory is not selected, and you can only use the promoter Chinese function. Please make sure the game is installed or adds the game installation directory in the box settings."
 }

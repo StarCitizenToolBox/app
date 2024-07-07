@@ -2591,16 +2591,6 @@ class S {
     );
   }
 
-  /// `RSI ZENDESK Customer Service Station`
-  String get tools_hosts_info_rsi_zendesk {
-    return Intl.message(
-      'RSI ZENDESK Customer Service Station',
-      name: 'tools_hosts_info_rsi_zendesk',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `RSI customer service station`
   String get tools_hosts_info_rsi_customer_service {
     return Intl.message(
@@ -4849,6 +4839,16 @@ class S {
     return Intl.message(
       'Install the runtime',
       name: 'tools_unp4k_missing_runtime_action_install',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are not currently installed in the game body or the game installation directory is not selected, and you can only use the promoter Chinese function. Please make sure the game is installed or adds the game installation directory in the box settings.`
+  String get home_localization_action_rsi_launcher_no_game_path_msg {
+    return Intl.message(
+      'You are not currently installed in the game body or the game installation directory is not selected, and you can only use the promoter Chinese function. Please make sure the game is installed or adds the game installation directory in the box settings.',
+      name: 'home_localization_action_rsi_launcher_no_game_path_msg',
       desc: '',
       args: [],
     );
