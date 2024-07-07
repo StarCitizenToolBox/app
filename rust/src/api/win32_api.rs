@@ -33,7 +33,7 @@ pub fn set_foreground_window(window_name: &str) -> anyhow::Result<bool> {
     use windows::Win32::Foundation::HWND;
     use windows::Win32::UI::WindowsAndMessaging;
     let window_name_p: PCWSTR = PCWSTR(HSTRING::from(window_name).as_ptr());
-    let h = unsafe { WindowsAndMessaging::FindWindowW(PCWSTR::null(), window_name_p) };
+    let h = unsafe { WindowsAndMessaging::FindWindowW(PCWSTR::null(), window_name_p)? };
     if h == HWND::default() {
         return Ok(false);
     }
