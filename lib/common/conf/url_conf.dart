@@ -4,8 +4,8 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class URLConf {
   /// HOME API
-  static String gitApiHome = "https://git.sctoolbox.sccsgo.com";
-  static String rssApiHome = "https://rss.sctoolbox.sccsgo.com";
+  static String gitApiHome = "https://git.scbox.xkeyc.cn";
+  static String rssApiHome = "https://rss.scbox.xkeyc.cn";
   static const String analyticsApiHome = "https://scbox.org";
 
   static bool isUrlCheckPass = false;
