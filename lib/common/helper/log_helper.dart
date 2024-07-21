@@ -191,6 +191,11 @@ class SCLoggerHelper {
       return MapEntry(S.current.doctor_game_error_low_gpu_memory,
           S.current.doctor_game_error_low_gpu_memory_info);
     }
+    if (line.contains(
+        "try disabling with r_vulkanDisableLayers = 1 in your user.cfg")) {
+      return MapEntry(S.current.doctor_game_error_gpu_vulkan_crash,
+          S.current.doctor_game_error_gpu_vulkan_crash_info);
+    }
 
     /// Unknown
     if (line.contains("network.replicatedEntityHandle")) {

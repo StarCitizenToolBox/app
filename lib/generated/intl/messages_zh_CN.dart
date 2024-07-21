@@ -297,6 +297,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("游戏触发了最为广泛的崩溃问题，请查看排障指南"),
         "doctor_game_error_gpu_crash":
             MessageLookupByLibrary.simpleMessage("您的显卡崩溃啦！请查看排障指南"),
+        "doctor_game_error_gpu_vulkan_crash":
+            MessageLookupByLibrary.simpleMessage("GPU Vulkan 崩溃"),
+        "doctor_game_error_gpu_vulkan_crash_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Vulkan 崩溃！这可能是驱动版本或游戏引擎问题，请尝试更新 GPU 驱动 或 使用清理着色器功能为您回退到 DX11"),
         "doctor_game_error_low_gpu_memory":
             MessageLookupByLibrary.simpleMessage("可用显存不足"),
         "doctor_game_error_low_gpu_memory_info":

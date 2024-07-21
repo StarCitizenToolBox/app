@@ -332,6 +332,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "The game triggered a generic crash, please check the trouble shooting guide"),
         "doctor_game_error_gpu_crash": MessageLookupByLibrary.simpleMessage(
             "Your graphics card crashes! Please check the barrier guide"),
+        "doctor_game_error_gpu_vulkan_crash":
+            MessageLookupByLibrary.simpleMessage("GPU Vulkan Crash"),
+        "doctor_game_error_gpu_vulkan_crash_info":
+            MessageLookupByLibrary.simpleMessage(
+                "Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11"),
         "doctor_game_error_low_gpu_memory":
             MessageLookupByLibrary.simpleMessage("Insufficient VRAM"),
         "doctor_game_error_low_gpu_memory_info":

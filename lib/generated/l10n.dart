@@ -4853,6 +4853,26 @@ class S {
       args: [],
     );
   }
+
+  /// `GPU Vulkan Crash`
+  String get doctor_game_error_gpu_vulkan_crash {
+    return Intl.message(
+      'GPU Vulkan Crash',
+      name: 'doctor_game_error_gpu_vulkan_crash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11`
+  String get doctor_game_error_gpu_vulkan_crash_info {
+    return Intl.message(
+      'Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11',
+      name: 'doctor_game_error_gpu_vulkan_crash_info',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

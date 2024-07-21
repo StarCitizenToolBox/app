@@ -795,5 +795,7 @@
   "tools_rsi_launcher_enhance_action_expand": "展開額外功能",
   "tools_unp4k_missing_runtime": "缺少運行庫",
   "tools_unp4k_missing_runtime_info": "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。",
-  "tools_unp4k_missing_runtime_action_install": "安裝運行庫"
+  "tools_unp4k_missing_runtime_action_install": "安裝運行庫",
+  "doctor_game_error_gpu_vulkan_crash": "GPU Vulkan 崩潰",
+  "doctor_game_error_gpu_vulkan_crash_info": "Vulkan 崩潰！這可能是驅動版本或遊戲引擎問題，請嘗試更新 GPU 驅動 或 使用清理著色器功能為您回退到 DX11"
 }

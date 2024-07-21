@@ -652,6 +652,8 @@
   "doctor_game_error_game_damaged_p4k_file_info": "请尝试删除 Data.p4k 文件 并在启动器校验 或 使用盒子分流。",
   "doctor_game_error_low_gpu_memory": "可用显存不足",
   "doctor_game_error_low_gpu_memory_info": "请不要在后台运行其他高显卡占用的 游戏/应用，或更换显卡。",
+  "doctor_game_error_gpu_vulkan_crash": "GPU Vulkan 崩溃",
+  "doctor_game_error_gpu_vulkan_crash_info": "Vulkan 崩溃！这可能是驱动版本或游戏引擎问题，请尝试更新 GPU 驱动 或 使用清理着色器功能为您回退到 DX11",
   "app_common_error_info": "出现错误: {v0}",
   "app_common_tip": "提示",
   "app_common_tip_i_know": "我知道了",
