@@ -103,7 +103,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         showToast(context, S.current.doctor_action_result_redirect_warning);
         await Future.delayed(const Duration(milliseconds: 300));
         launchUrlString(
-            "https://btfy.eu.org/?q=5L+u5pS5d2luZG93c+eUqOaIt+WQjeS7juS4reaWh+WIsOiLseaWhw==");
+            "https://jingyan.baidu.com/article/59703552a318a08fc0074021.html");
         break;
       default:
         showToast(context, S.current.doctor_action_result_issue_not_supported);
