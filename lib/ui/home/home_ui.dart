@@ -115,6 +115,75 @@ class HomeUI extends HookConsumerWidget {
           ),
         ],
       ),
+      const SizedBox(height: 24),
+      Padding(
+        padding: const EdgeInsets.only(left: 24, right: 24),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(S.current.home_install_location),
+            const SizedBox(width: 6),
+            Expanded(
+              child: ComboBox<String>(
+                value: homeState.scInstalledPath,
+                isExpanded: true,
+                items: [
+                  ComboBoxItem(
+                    value: "not_install",
+                    child: Text(S.current.home_not_installed_or_failed),
+                  ),
+                  for (final path in homeState.scInstallPaths)
+                    ComboBoxItem(
+                      value: path,
+                      child: Row(
+                        children: [Text(path)],
+                      ),
+                    )
+                ],
+                onChanged: model.onChangeInstallPath,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Button(
+                onPressed: homeState.webLocalizationVersionsData == null
+                    ? null
+                    : () => model.launchRSI(context),
+                style: homeState.isCurGameRunning
+                    ? null
+                    : ButtonStyle(
+                        backgroundColor:
+                            WidgetStateProperty.resolveWith(_getRunButtonColor),
+                      ),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Icon(
+                    homeState.isCurGameRunning
+                        ? FluentIcons.stop_solid
+                        : FluentIcons.play_solid,
+                    color: homeState.isCurGameRunning
+                        ? Colors.red.withOpacity(.8)
+                        : Colors.white,
+                  ),
+                )),
+            const SizedBox(width: 12),
+            Button(
+              onPressed: ()  {},
+              child: const Padding(
+                padding: EdgeInsets.all(6),
+                child: Icon(FluentIcons.folder_open),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Button(
+              onPressed: model.reScanPath,
+              child: const Padding(
+                padding: EdgeInsets.all(6),
+                child: Icon(FluentIcons.refresh),
+              ),
+            ),
+          ],
+        ),
+      ),
       const SizedBox(height: 8),
       Text(homeState.lastScreenInfo, maxLines: 1),
       makeIndexActionLists(context, model, homeState, ref),

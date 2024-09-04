@@ -22,61 +22,62 @@ class IndexUI extends HookConsumerWidget {
     final globalState = ref.watch(appGlobalModelProvider);
 
     final curIndex = useState(0);
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image:
-              ExtendedAssetImageProvider(globalState.backgroundImageAssetsPath),
+    return Stack(
+      children: [
+        ExtendedImage.asset(
+          width: double.infinity,
+          height: double.infinity,
+          globalState.backgroundImageAssetsPath,
           fit: BoxFit.cover,
         ),
-      ),
-      child: Center(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: BlurOvalWidget(
-            child: Container(
-              constraints:
-                  const BoxConstraints(maxWidth: 1440, maxHeight: 1000),
-              child: NavigationView(
-                appBar: NavigationAppBar(
-                  automaticallyImplyLeading: false,
-                  title: () {
-                    return Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/app_logo_mini.png",
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.cover,
-                          ),
-                          const SizedBox(width: 12),
-                          Text(S.current.app_index_version_info(
-                              ConstConf.appVersion,
-                              ConstConf.isMSE ? "" : " Dev")),
-                        ],
-                      ),
-                    );
-                  }(),
+        Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BlurOvalWidget(
+              child: Container(
+                constraints:
+                    const BoxConstraints(maxWidth: 1440, maxHeight: 920),
+                child: NavigationView(
+                  appBar: NavigationAppBar(
+                    automaticallyImplyLeading: false,
+                    title: () {
+                      return Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "assets/app_logo_mini.png",
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(S.current.app_index_version_info(
+                                ConstConf.appVersion,
+                                ConstConf.isMSE ? "" : " Dev")),
+                          ],
+                        ),
+                      );
+                    }(),
+                  ),
+                  pane: NavigationPane(
+                    key: Key("NavigationPane_${S.current.app_language_code}"),
+                    selected: curIndex.value,
+                    items: getNavigationPaneItems(curIndex),
+                    size: NavigationPaneSize(
+                        openWidth: S.current.app_language_code.startsWith("zh")
+                            ? 64
+                            : 74),
+                  ),
+                  paneBodyBuilder: (item, child) {
+                    return item!.body;
+                  },
                 ),
-                pane: NavigationPane(
-                  key: Key("NavigationPane_${S.current.app_language_code}"),
-                  selected: curIndex.value,
-                  items: getNavigationPaneItems(curIndex),
-                  size: NavigationPaneSize(
-                      openWidth: S.current.app_language_code.startsWith("zh")
-                          ? 64
-                          : 74),
-                ),
-                paneBodyBuilder: (item, child) {
-                  return item!.body;
-                },
               ),
             ),
           ),
-        ),
-      ),
+        )
+      ],
     );
   }
 

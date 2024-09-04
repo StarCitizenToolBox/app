@@ -1230,10 +1230,10 @@ class S {
     );
   }
 
-  /// `Unpacking or installation failed`
+  /// `Your computer`
   String get home_not_installed_or_failed {
     return Intl.message(
-      'Unpacking or installation failed',
+      'Your computer',
       name: 'home_not_installed_or_failed',
       desc: '',
       args: [],

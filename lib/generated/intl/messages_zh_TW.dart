@@ -608,7 +608,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home_login_title_welcome_back":
             MessageLookupByLibrary.simpleMessage("歡迎回來！"),
         "home_not_installed_or_failed":
-            MessageLookupByLibrary.simpleMessage("未安裝 或 安裝失敗"),
+            MessageLookupByLibrary.simpleMessage("您的電腦"),
         "home_title_app_name": MessageLookupByLibrary.simpleMessage("SC工具箱"),
         "home_title_logging_in":
             MessageLookupByLibrary.simpleMessage("正在登入..."),

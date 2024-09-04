@@ -4,9 +4,10 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class URLConf {
   /// HOME API
-  static String gitApiHome = "https://git.scbox.xkeyc.cn";
-  static String rssApiHome = "https://rss.scbox.xkeyc.cn";
-  static const String analyticsApiHome = "https://scbox.org";
+  static String gitApiHome = "https://web-proxy.scbox.xkeyc.cn/git";
+  static String rssApiHome = "https://web-proxy.scbox.xkeyc.cn/rss";
+  static const String analyticsApiHome =
+      "https://web-proxy.scbox.xkeyc.cn/analytics/analytics";
 
   static bool isUrlCheckPass = false;
 
@@ -69,5 +70,4 @@ class URLConf {
       }
     }
   }
-
 }

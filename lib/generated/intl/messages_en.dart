@@ -673,8 +673,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Launching game for you ..."),
         "home_login_title_welcome_back":
             MessageLookupByLibrary.simpleMessage("Welcome back!"),
-        "home_not_installed_or_failed": MessageLookupByLibrary.simpleMessage(
-            "Unpacking or installation failed"),
+        "home_not_installed_or_failed":
+            MessageLookupByLibrary.simpleMessage("Your computer"),
         "home_title_app_name":
             MessageLookupByLibrary.simpleMessage("SCToolBox"),
         "home_title_logging_in":
