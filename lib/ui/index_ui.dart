@@ -52,9 +52,8 @@ class IndexUI extends HookConsumerWidget {
                               fit: BoxFit.cover,
                             ),
                             const SizedBox(width: 12),
-                            Text(S.current.app_index_version_info(
-                                ConstConf.appVersion,
-                                ConstConf.isMSE ? "" : " Dev")),
+                            Text(
+                                "${S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")} [PREVIEW]"),
                           ],
                         ),
                       );

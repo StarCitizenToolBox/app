@@ -20,8 +20,8 @@ class App extends HookConsumerWidget {
     final router = ref.watch(routerProvider);
     final appState = ref.watch(appGlobalModelProvider);
     return FluentApp.router(
-      title: "StarCitizenToolBox",
-      restorationScopeId: "StarCitizenToolBox",
+      title: "SCToolBox Lite",
+      restorationScopeId: "SCToolBox Lite",
       themeMode: ThemeMode.dark,
       localizationsDelegates: const [
         S.delegate,

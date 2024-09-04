@@ -70,7 +70,7 @@ class Api {
 
   static Future<List> getScServerStatus() async {
     final r = await RSHttp.getText(
-        "https://status.robertsspaceindustries.com/index.json");
+        "https:///web-proxy.scbox.xkeyc.cn/rsi_status/index.json");
     final map = json.decode(r);
     return map["systems"];
   }
