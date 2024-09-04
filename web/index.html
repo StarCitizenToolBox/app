@@ -48,8 +48,64 @@
 
     </script>
 
+    <style>
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #132431;
+            border-right: 16px solid #ffffff;
+            border-bottom: 16px solid #132431;
+            border-left: 16px solid #ffffff;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        body {
+            background-color: #132431;
+        }
+
+    </style>
+
 </head>
-<body>
-<script src="flutter_bootstrap.js" async></script>
+<body >
+
+<div class="loading">
+    <div class="loader"></div>
+</div>
+
+
+<!--<script src="flutter_bootstrap.js" async></script>-->
 </body>
 </html>
