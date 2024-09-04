@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -9,7 +8,6 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 
-import '../home_ui_model.dart';
 import 'advanced_localization_ui.json.dart';
 import 'localization_ui_model.dart';
 
@@ -178,40 +176,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
 
   Future<(String, String)> _readIni(LocalizationUIState localizationUIState,
       LocalizationUIModel localizationUIModel) async {
-    final homeUIState = ref.read(homeUIModelProvider);
-    final gameDir = homeUIState.scInstalledPath;
-    if (gameDir == null) return ("", "");
-    state = state.copyWith(
-        workingText: S.current.home_localization_advanced_msg_reading_p4k);
-    final p4kGlobalIni = await readEnglishInI(gameDir);
-    dPrint("read p4kGlobalIni => ${p4kGlobalIni.length}");
-    state = state.copyWith(
-        workingText: S.current
-            .home_localization_advanced_msg_reading_server_localization_text);
-
-    if (state.customizeGlobalIni != null) {
-      final apiLocalizationData = ScLocalizationData(
-          versionName: S.current.localization_info_custom_files,
-          info: "Customize");
-      state = state.copyWith(apiLocalizationData: apiLocalizationData);
-      return (p4kGlobalIni, state.customizeGlobalIni!);
-    } else {
-      final apiLocalizationData =
-          localizationUIState.apiLocalizationData?.values.firstOrNull;
-      if (apiLocalizationData == null) return ("", "");
-      final file = File(
-          "${localizationUIModel.getDownloadDir().absolute.path}\\${apiLocalizationData.versionName}.sclang");
-      if (!await file.exists()) {
-        await localizationUIModel.downloadLocalizationFile(
-            file, apiLocalizationData);
-      }
-      state = state.copyWith(apiLocalizationData: apiLocalizationData);
-      final serverGlobalIni =
-          (await compute(LocalizationUIModel.readArchive, file.absolute.path))
-              .toString();
-      dPrint("read serverGlobalIni => ${serverGlobalIni.length}");
-      return (p4kGlobalIni, serverGlobalIni);
-    }
+    return ("", "");
   }
 
   Future<String> readEnglishInI(String gameDir) async {

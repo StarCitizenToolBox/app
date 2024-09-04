@@ -21,127 +21,19 @@ class LocalizationDialogUI extends HookConsumerWidget {
 
     useEffect(() {
       addPostFrameCallback(() {
-        model.checkUserCfg(context);
+        // model.checkUserCfg(context);
       });
       return null;
     }, []);
 
     return ContentDialog(
       title: makeTitle(context, model, state),
-      constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * .7,
-          minHeight: MediaQuery.of(context).size.height * .9),
+      constraints: const BoxConstraints(maxWidth: 1080, minHeight: 920),
       content: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              AnimatedSize(
-                duration: const Duration(milliseconds: 130),
-                child: state.patchStatus?.key == true &&
-                        state.patchStatus?.value ==
-                            S.current.home_action_info_game_built_in
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: InfoBar(
-                          title: Text(S.current.home_action_info_warning),
-                          content: Text(S.current
-                              .localization_info_machine_translation_warning),
-                          severity: InfoBarSeverity.info,
-                          style: InfoBarThemeData(decoration: (severity) {
-                            return const BoxDecoration(
-                                color: Color.fromRGBO(155, 7, 7, 1.0));
-                          }, iconColor: (severity) {
-                            return Colors.white;
-                          }),
-                        ),
-                      )
-                    : SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                      ),
-              ),
-              if (!(model.getScInstallPath() ?? "").contains("LIVE"))
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: InfoBar(
-                    title: Text(S.current
-                        .home_localization_ptu_advanced_localization_tip_title),
-                    content: Text(S.current
-                        .home_localization_ptu_advanced_localization_tip_title_info),
-                    severity: InfoBarSeverity.info,
-                    style: InfoBarThemeData(decoration: (severity) {
-                      return BoxDecoration(color: Colors.orange);
-                    }, iconColor: (severity) {
-                      return Colors.white;
-                    }),
-                  ),
-                ),
-              makeListContainer(
-                  S.current.localization_info_translation_status,
-                  [
-                    if (state.patchStatus == null)
-                      makeLoading(context)
-                    else ...[
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          Center(
-                            child: Text(S.current.localization_info_enabled(
-                                LocalizationUIModel.languageSupport[
-                                        state.selectedLanguage] ??
-                                    "")),
-                          ),
-                          const Spacer(),
-                          ToggleSwitch(
-                            checked: state.patchStatus?.key == true,
-                            onChanged: model.updateLangCfg,
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Text(S.current.localization_info_installed_version(
-                              "${state.patchStatus?.value ?? ""} ${(state.isInstalledAdvanced ?? false) ? S.current.home_localization_msg_version_advanced : ""}")),
-                          const Spacer(),
-                          if (state.patchStatus?.value !=
-                              S.current.home_action_info_game_built_in)
-                            Row(
-                              children: [
-                                Button(
-                                    onPressed: model.goFeedback,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4),
-                                      child: Row(
-                                        children: [
-                                          const Icon(FluentIcons.feedback),
-                                          const SizedBox(width: 6),
-                                          Text(S.current
-                                              .localization_action_translation_feedback),
-                                        ],
-                                      ),
-                                    )),
-                                const SizedBox(width: 16),
-                                Button(
-                                    onPressed: model.doDelIniFile(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4),
-                                      child: Row(
-                                        children: [
-                                          const Icon(FluentIcons.delete),
-                                          const SizedBox(width: 6),
-                                          Text(S.current
-                                              .localization_action_uninstall_translation),
-                                        ],
-                                      ),
-                                    )),
-                              ],
-                            ),
-                        ],
-                      ),
-                    ],
-                  ],
-                  context),
               makeListContainer(
                   S.current.localization_info_community_translation,
                   [
@@ -352,15 +244,37 @@ class LocalizationDialogUI extends HookConsumerWidget {
         const SizedBox(width: 12),
         Text(S.current.home_action_localization_management),
         const SizedBox(width: 24),
-        Text(
-          "${model.getScInstallPath()}",
-          style: const TextStyle(fontSize: 13),
-        ),
+        // Text(
+        //   "${model.getScInstallPath()}",
+        //   style: const TextStyle(fontSize: 13),
+        // ),
         const Spacer(),
         SizedBox(
           height: 36,
           child: Row(
             children: [
+              Text(
+                S.current.localization_info_channel(""),
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(width: 12),
+              ComboBox<String>(
+                value: state.selectedChannel,
+                items: [
+                  for (final channel in ["LIVE", "PTU"])
+                    ComboBoxItem(
+                      value: channel,
+                      child: Text(channel),
+                    )
+                ],
+                onChanged: state.workingVersion.isNotEmpty
+                    ? null
+                    : (v) {
+                        if (v == null) return;
+                        model.selectChannel(v);
+                      },
+              ),
+              const SizedBox(width: 24),
               Text(
                 S.current.localization_info_language,
                 style: const TextStyle(fontSize: 16),
@@ -453,8 +367,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
       ),
       confirm: S.current.localization_action_install,
       cancel: S.current.home_action_cancel,
-      constraints:
-          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .45),
+      constraints: const BoxConstraints(maxWidth: 720),
     );
     if (userOK) {
       if (!context.mounted) return;

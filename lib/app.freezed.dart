@@ -215,7 +215,7 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
       this.appLocale,
       this.appConfBox,
       this.backgroundImageAssetsPath =
-          "assets/backgrounds/SC_01_Wallpaper_3840x2160.jpg"});
+          "assets/backgrounds/SC_01_Wallpaper_3840x2160.webp"});
 
   @override
   final String? deviceUUID;

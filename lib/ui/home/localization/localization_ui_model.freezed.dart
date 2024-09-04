@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LocalizationUIState {
   String? get selectedLanguage => throw _privateConstructorUsedError;
+  String get selectedChannel => throw _privateConstructorUsedError;
   Map<String, ScLocalizationData>? get apiLocalizationData =>
       throw _privateConstructorUsedError;
   String get workingVersion => throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $LocalizationUIStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String? selectedLanguage,
+      String selectedChannel,
       Map<String, ScLocalizationData>? apiLocalizationData,
       String workingVersion,
       MapEntry<bool, String>? patchStatus,
@@ -62,6 +64,7 @@ class _$LocalizationUIStateCopyWithImpl<$Res, $Val extends LocalizationUIState>
   @override
   $Res call({
     Object? selectedLanguage = freezed,
+    Object? selectedChannel = null,
     Object? apiLocalizationData = freezed,
     Object? workingVersion = null,
     Object? patchStatus = freezed,
@@ -73,6 +76,10 @@ class _$LocalizationUIStateCopyWithImpl<$Res, $Val extends LocalizationUIState>
           ? _value.selectedLanguage
           : selectedLanguage // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectedChannel: null == selectedChannel
+          ? _value.selectedChannel
+          : selectedChannel // ignore: cast_nullable_to_non_nullable
+              as String,
       apiLocalizationData: freezed == apiLocalizationData
           ? _value.apiLocalizationData
           : apiLocalizationData // ignore: cast_nullable_to_non_nullable
@@ -107,6 +114,7 @@ abstract class _$$LocalizationUIStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? selectedLanguage,
+      String selectedChannel,
       Map<String, ScLocalizationData>? apiLocalizationData,
       String workingVersion,
       MapEntry<bool, String>? patchStatus,
@@ -128,6 +136,7 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedLanguage = freezed,
+    Object? selectedChannel = null,
     Object? apiLocalizationData = freezed,
     Object? workingVersion = null,
     Object? patchStatus = freezed,
@@ -139,6 +148,10 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
           ? _value.selectedLanguage
           : selectedLanguage // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectedChannel: null == selectedChannel
+          ? _value.selectedChannel
+          : selectedChannel // ignore: cast_nullable_to_non_nullable
+              as String,
       apiLocalizationData: freezed == apiLocalizationData
           ? _value._apiLocalizationData
           : apiLocalizationData // ignore: cast_nullable_to_non_nullable
@@ -168,6 +181,7 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
 class _$LocalizationUIStateImpl implements _LocalizationUIState {
   _$LocalizationUIStateImpl(
       {this.selectedLanguage,
+      this.selectedChannel = "LIVE",
       final Map<String, ScLocalizationData>? apiLocalizationData,
       this.workingVersion = "",
       this.patchStatus,
@@ -178,6 +192,9 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
 
   @override
   final String? selectedLanguage;
+  @override
+  @JsonKey()
+  final String selectedChannel;
   final Map<String, ScLocalizationData>? _apiLocalizationData;
   @override
   Map<String, ScLocalizationData>? get apiLocalizationData {
@@ -208,7 +225,7 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
 
   @override
   String toString() {
-    return 'LocalizationUIState(selectedLanguage: $selectedLanguage, apiLocalizationData: $apiLocalizationData, workingVersion: $workingVersion, patchStatus: $patchStatus, isInstalledAdvanced: $isInstalledAdvanced, customizeList: $customizeList)';
+    return 'LocalizationUIState(selectedLanguage: $selectedLanguage, selectedChannel: $selectedChannel, apiLocalizationData: $apiLocalizationData, workingVersion: $workingVersion, patchStatus: $patchStatus, isInstalledAdvanced: $isInstalledAdvanced, customizeList: $customizeList)';
   }
 
   @override
@@ -218,6 +235,8 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
             other is _$LocalizationUIStateImpl &&
             (identical(other.selectedLanguage, selectedLanguage) ||
                 other.selectedLanguage == selectedLanguage) &&
+            (identical(other.selectedChannel, selectedChannel) ||
+                other.selectedChannel == selectedChannel) &&
             const DeepCollectionEquality()
                 .equals(other._apiLocalizationData, _apiLocalizationData) &&
             (identical(other.workingVersion, workingVersion) ||
@@ -234,6 +253,7 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
   int get hashCode => Object.hash(
       runtimeType,
       selectedLanguage,
+      selectedChannel,
       const DeepCollectionEquality().hash(_apiLocalizationData),
       workingVersion,
       patchStatus,
@@ -253,6 +273,7 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
 abstract class _LocalizationUIState implements LocalizationUIState {
   factory _LocalizationUIState(
       {final String? selectedLanguage,
+      final String selectedChannel,
       final Map<String, ScLocalizationData>? apiLocalizationData,
       final String workingVersion,
       final MapEntry<bool, String>? patchStatus,
@@ -261,6 +282,8 @@ abstract class _LocalizationUIState implements LocalizationUIState {
 
   @override
   String? get selectedLanguage;
+  @override
+  String get selectedChannel;
   @override
   Map<String, ScLocalizationData>? get apiLocalizationData;
   @override

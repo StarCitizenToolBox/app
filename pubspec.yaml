@@ -53,6 +53,8 @@ dependencies:
   super_sliver_list: ^0.4.1
   re_editor: ^0.3.0
   re_highlight: ^0.0.3
+  cross_file: ^0.3.4+2
+  web: ^1.0.0
 dependency_overrides:
   http: ^1.1.2
 

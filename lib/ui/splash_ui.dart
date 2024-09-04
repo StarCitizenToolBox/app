@@ -14,6 +14,8 @@ import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
+import 'package:web/web.dart' as web;
+
 class SplashUI extends HookConsumerWidget {
   const SplashUI({super.key});
 
@@ -102,7 +104,7 @@ class SplashUI extends HookConsumerWidget {
     if (userOk) {
       await appConf.put("splash_alert_info_version", _alertInfoVersion);
     } else {
-      exit(0);
+      web.window.close();
     }
   }
 }

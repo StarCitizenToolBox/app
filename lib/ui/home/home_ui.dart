@@ -167,7 +167,7 @@ class HomeUI extends HookConsumerWidget {
                 )),
             const SizedBox(width: 12),
             Button(
-              onPressed: ()  {},
+              onPressed: () {},
               child: const Padding(
                 padding: EdgeInsets.all(6),
                 child: Icon(FluentIcons.folder_open),
@@ -788,15 +788,10 @@ class HomeUI extends HookConsumerWidget {
 
   _onMenuTap(BuildContext context, String key, HomeUIModelState homeState,
       WidgetRef ref) async {
-    String gameInstallReqInfo =
-        S.current.home_action_info_valid_install_location_required;
+    // String gameInstallReqInfo =
+    //     S.current.home_action_info_valid_install_location_required;
     switch (key) {
       case "localization":
-        if (homeState.scInstalledPath == "not_install") {
-          // TODO
-          // ToolsUIModel.English(context, showNotGameInstallMsg: true);
-          break;
-        }
         final model = ref.watch(homeUIModelProvider.notifier);
         model.checkLocalizationUpdate();
         await showDialog(
@@ -807,14 +802,18 @@ class HomeUI extends HookConsumerWidget {
         model.checkLocalizationUpdate(skipReload: true);
         break;
       case "performance":
-        if (homeState.scInstalledPath == "not_install") {
-          showToast(context, gameInstallReqInfo);
-          break;
-        }
-        context.push("/index/$key");
-        break;
+        return;
+      // if (homeState.scInstalledPath == "not_install") {
+      //   showToast(context, gameInstallReqInfo);
+      //   break;
+      // }
+      // context.push("/index/$key");
+      // break;
+      case "game_doctor":
+        return;
       default:
-        context.push("/index/$key");
+        return;
+        // context.push("/index/$key");
     }
   }
 
