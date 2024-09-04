@@ -6,8 +6,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
-import 'package:starcitizen_doctor/common/helper/log_helper.dart';
-import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/data/game_performance_data.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
@@ -165,20 +163,20 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   cleanShaderCache(BuildContext? context) async {
-    final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
-    final l =
-        await Directory(gameShaderCachePath!).list(recursive: false).toList();
-    for (var value in l) {
-      if (value is Directory) {
-        if (!value.absolute.path.contains("Crashes")) {
-          await value.delete(recursive: true);
-        }
-      }
-    }
-    await Future.delayed(const Duration(milliseconds: 300));
-    if (context != null && context.mounted) {
-      showToast(context, S.current.performance_info_shader_clearing_warning);
-    }
+    // final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
+    // final l =
+    //     await Directory(gameShaderCachePath!).list(recursive: false).toList();
+    // for (var value in l) {
+    //   if (value is Directory) {
+    //     if (!value.absolute.path.contains("Crashes")) {
+    //       await value.delete(recursive: true);
+    //     }
+    //   }
+    // }
+    // await Future.delayed(const Duration(milliseconds: 300));
+    // if (context != null && context.mounted) {
+    //   showToast(context, S.current.performance_info_shader_clearing_warning);
+    // }
   }
 
   applyProfile(bool cleanShader) async {

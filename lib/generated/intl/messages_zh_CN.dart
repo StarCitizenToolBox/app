@@ -25,7 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(v0, v1) =>
       "网络异常！\n这可能是您的网络环境存在DNS污染，请尝试更换DNS。\n或服务器正在维护或遭受攻击，稍后再试。 \n进入离线模式... \n\n请谨慎在离线模式中使用。 \n当前版本构建日期：${v0}\n QQ群：940696487 \n错误信息：${v1}";
 
-  static String m2(v0, v1) => "SC汉化盒子 V${v0} ${v1}";
+  static String m2(v0, v1) => "SC汉化盒子 ${v0} ${v1}";
 
   static String m3(v0) => "初始化失败：${v0}";
 
@@ -180,7 +180,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_analytics_units_user": MessageLookupByLibrary.simpleMessage("位"),
         "about_app_description": MessageLookupByLibrary.simpleMessage(
             "不仅仅是汉化！\n\nSC汉化盒子是你探索宇宙的好帮手，我们致力于为各位公民解决游戏中的常见问题，并为社区汉化、性能调优、常用网站汉化 等操作提供便利。"),
-        "about_check_update": MessageLookupByLibrary.simpleMessage("检查更新"),
+        "about_check_update": MessageLookupByLibrary.simpleMessage("安装完整版"),
         "about_disclaimer": MessageLookupByLibrary.simpleMessage(
             "这是一个非官方的星际公民工具，不隶属于 Cloud Imperium 公司集团。 本软件中非由其主机或用户创作的所有内容均为其各自所有者的财产。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的注册商标。"),
         "about_info_latest_version":

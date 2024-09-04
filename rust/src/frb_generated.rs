@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.3.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1832496273;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -669496402;
 
 // Section: executor
 
@@ -45,117 +45,12 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
-fn wire__crate__api__asar_api__get_rsi_launcher_asar_data_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    asar_path: impl CstDecode<String>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "get_rsi_launcher_asar_data",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_asar_path = asar_path.cst_decode();
-            move |context| async move {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || async move {
-                        let output_ok =
-                            crate::api::asar_api::get_rsi_launcher_asar_data(&api_asar_path)
-                                .await?;
-                        Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
-fn wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    that: impl CstDecode<crate::api::asar_api::RsiLauncherAsarData>,
-    content: impl CstDecode<Vec<u8>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "rsi_launcher_asar_data_write_main_js",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.cst_decode();
-            let api_content = content.cst_decode();
-            move |context| async move {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || async move {
-                        let output_ok = crate::api::asar_api::RsiLauncherAsarData::write_main_js(
-                            &api_that,
-                            api_content,
-                        )
-                        .await?;
-                        Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
-fn wire__crate__api__http_api__dns_lookup_ips_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    host: impl CstDecode<String>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "dns_lookup_ips",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_host = host.cst_decode();
-            move |context| async move {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || async move {
-                        let output_ok = crate::api::http_api::dns_lookup_ips(api_host).await?;
-                        Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
-fn wire__crate__api__http_api__dns_lookup_txt_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    host: impl CstDecode<String>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "dns_lookup_txt",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_host = host.cst_decode();
-            move |context| async move {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || async move {
-                        let output_ok = crate::api::http_api::dns_lookup_txt(api_host).await?;
-                        Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
 fn wire__crate__api__http_api__fetch_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     method: impl CstDecode<crate::api::http_api::MyMethod>,
     url: impl CstDecode<String>,
     headers: impl CstDecode<Option<std::collections::HashMap<String, String>>>,
     input_data: impl CstDecode<Option<Vec<u8>>>,
-    with_ip_address: impl CstDecode<Option<String>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -168,7 +63,6 @@ fn wire__crate__api__http_api__fetch_impl(
             let api_url = url.cst_decode();
             let api_headers = headers.cst_decode();
             let api_input_data = input_data.cst_decode();
-            let api_with_ip_address = with_ip_address.cst_decode();
             move |context| async move {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
@@ -177,7 +71,6 @@ fn wire__crate__api__http_api__fetch_impl(
                             api_url,
                             api_headers,
                             api_input_data,
-                            api_with_ip_address,
                         )
                         .await?;
                         Ok(output_ok)
@@ -211,162 +104,13 @@ fn wire__crate__api__http_api__set_default_header_impl(
         },
     )
 }
-fn wire__crate__api__rs_process__start_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    executable: impl CstDecode<String>,
-    arguments: impl CstDecode<Vec<String>>,
-    working_directory: impl CstDecode<String>,
-    stream_sink: impl CstDecode<
-        StreamSink<
-            crate::api::rs_process::RsProcessStreamData,
-            flutter_rust_bridge::for_generated::DcoCodec,
-        >,
-    >,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "start",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_executable = executable.cst_decode();
-            let api_arguments = arguments.cst_decode();
-            let api_working_directory = working_directory.cst_decode();
-            let api_stream_sink = stream_sink.cst_decode();
-            move |context| async move {
-                transform_result_dco::<_, _, ()>(
-                    (move || async move {
-                        let output_ok = Result::<_, ()>::Ok({
-                            crate::api::rs_process::start(
-                                &api_executable,
-                                api_arguments,
-                                &api_working_directory,
-                                api_stream_sink,
-                            )
-                            .await;
-                        })?;
-                        Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
-fn wire__crate__api__rs_process__write_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    rs_pid: impl CstDecode<u32>,
-    data: impl CstDecode<String>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "write",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_rs_pid = rs_pid.cst_decode();
-            let api_data = data.cst_decode();
-            move |context| async move {
-                transform_result_dco::<_, _, ()>(
-                    (move || async move {
-                        let output_ok = Result::<_, ()>::Ok({
-                            crate::api::rs_process::write(&api_rs_pid, api_data).await;
-                        })?;
-                        Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
-fn wire__crate__api__win32_api__send_notify_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    summary: impl CstDecode<Option<String>>,
-    body: impl CstDecode<Option<String>>,
-    app_name: impl CstDecode<Option<String>>,
-    app_id: impl CstDecode<Option<String>>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "send_notify",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_summary = summary.cst_decode();
-            let api_body = body.cst_decode();
-            let api_app_name = app_name.cst_decode();
-            let api_app_id = app_id.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok = crate::api::win32_api::send_notify(
-                            api_summary,
-                            api_body,
-                            api_app_name,
-                            api_app_id,
-                        )?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
-fn wire__crate__api__win32_api__set_foreground_window_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    window_name: impl CstDecode<String>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "set_foreground_window",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_window_name = window_name.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok =
-                            crate::api::win32_api::set_foreground_window(&api_window_name)?;
-                        Ok(output_ok)
-                    })(),
-                )
-            }
-        },
-    )
-}
 
 // Section: dart2rust
 
-impl CstDecode<bool> for bool {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> bool {
-        self
-    }
-}
 impl CstDecode<i32> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> i32 {
         self
-    }
-}
-impl CstDecode<crate::http_package::MyHttpVersion> for i32 {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::http_package::MyHttpVersion {
-        match self {
-            0 => crate::http_package::MyHttpVersion::HTTP_09,
-            1 => crate::http_package::MyHttpVersion::HTTP_10,
-            2 => crate::http_package::MyHttpVersion::HTTP_11,
-            3 => crate::http_package::MyHttpVersion::HTTP_2,
-            4 => crate::http_package::MyHttpVersion::HTTP_3,
-            5 => crate::http_package::MyHttpVersion::HTTP_UNKNOWN,
-            _ => unreachable!("Invalid variant for MyHttpVersion: {}", self),
-        }
     }
 }
 impl CstDecode<crate::api::http_api::MyMethod> for i32 {
@@ -386,26 +130,9 @@ impl CstDecode<crate::api::http_api::MyMethod> for i32 {
         }
     }
 }
-impl CstDecode<crate::api::rs_process::RsProcessStreamDataType> for i32 {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> crate::api::rs_process::RsProcessStreamDataType {
-        match self {
-            0 => crate::api::rs_process::RsProcessStreamDataType::Output,
-            1 => crate::api::rs_process::RsProcessStreamDataType::Error,
-            2 => crate::api::rs_process::RsProcessStreamDataType::Exit,
-            _ => unreachable!("Invalid variant for RsProcessStreamDataType: {}", self),
-        }
-    }
-}
 impl CstDecode<u16> for u16 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> u16 {
-        self
-    }
-}
-impl CstDecode<u32> for u32 {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    fn cst_decode(self) -> u32 {
         self
     }
 }
@@ -437,19 +164,6 @@ impl SseDecode for std::collections::HashMap<String, String> {
     }
 }
 
-impl SseDecode
-    for StreamSink<
-        crate::api::rs_process::RsProcessStreamData,
-        flutter_rust_bridge::for_generated::DcoCodec,
-    >
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <String>::sse_decode(deserializer);
-        return StreamSink::deserialize(inner);
-    }
-}
-
 impl SseDecode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -458,29 +172,10 @@ impl SseDecode for String {
     }
 }
 
-impl SseDecode for bool {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_u8().unwrap() != 0
-    }
-}
-
 impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_i32::<NativeEndian>().unwrap()
-    }
-}
-
-impl SseDecode for Vec<String> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<String>::sse_decode(deserializer));
-        }
-        return ans_;
     }
 }
 
@@ -505,22 +200,6 @@ impl SseDecode for Vec<(String, String)> {
             ans_.push(<(String, String)>::sse_decode(deserializer));
         }
         return ans_;
-    }
-}
-
-impl SseDecode for crate::http_package::MyHttpVersion {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <i32>::sse_decode(deserializer);
-        return match inner {
-            0 => crate::http_package::MyHttpVersion::HTTP_09,
-            1 => crate::http_package::MyHttpVersion::HTTP_10,
-            2 => crate::http_package::MyHttpVersion::HTTP_11,
-            3 => crate::http_package::MyHttpVersion::HTTP_2,
-            4 => crate::http_package::MyHttpVersion::HTTP_3,
-            5 => crate::http_package::MyHttpVersion::HTTP_UNKNOWN,
-            _ => unreachable!("Invalid variant for MyHttpVersion: {}", inner),
-        };
     }
 }
 
@@ -550,17 +229,6 @@ impl SseDecode for Option<std::collections::HashMap<String, String>> {
             return Some(<std::collections::HashMap<String, String>>::sse_decode(
                 deserializer,
             ));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<String> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<String>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -598,48 +266,6 @@ impl SseDecode for (String, String) {
     }
 }
 
-impl SseDecode for crate::api::rs_process::RsProcessStreamData {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_dataType =
-            <crate::api::rs_process::RsProcessStreamDataType>::sse_decode(deserializer);
-        let mut var_data = <String>::sse_decode(deserializer);
-        let mut var_rsPid = <u32>::sse_decode(deserializer);
-        return crate::api::rs_process::RsProcessStreamData {
-            data_type: var_dataType,
-            data: var_data,
-            rs_pid: var_rsPid,
-        };
-    }
-}
-
-impl SseDecode for crate::api::rs_process::RsProcessStreamDataType {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <i32>::sse_decode(deserializer);
-        return match inner {
-            0 => crate::api::rs_process::RsProcessStreamDataType::Output,
-            1 => crate::api::rs_process::RsProcessStreamDataType::Error,
-            2 => crate::api::rs_process::RsProcessStreamDataType::Exit,
-            _ => unreachable!("Invalid variant for RsProcessStreamDataType: {}", inner),
-        };
-    }
-}
-
-impl SseDecode for crate::api::asar_api::RsiLauncherAsarData {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_asarPath = <String>::sse_decode(deserializer);
-        let mut var_mainJsPath = <String>::sse_decode(deserializer);
-        let mut var_mainJsContent = <Vec<u8>>::sse_decode(deserializer);
-        return crate::api::asar_api::RsiLauncherAsarData {
-            asar_path: var_asarPath,
-            main_js_path: var_mainJsPath,
-            main_js_content: var_mainJsContent,
-        };
-    }
-}
-
 impl SseDecode for crate::http_package::RustHttpResponse {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -647,16 +273,12 @@ impl SseDecode for crate::http_package::RustHttpResponse {
         let mut var_headers = <std::collections::HashMap<String, String>>::sse_decode(deserializer);
         let mut var_url = <String>::sse_decode(deserializer);
         let mut var_contentLength = <Option<u64>>::sse_decode(deserializer);
-        let mut var_version = <crate::http_package::MyHttpVersion>::sse_decode(deserializer);
-        let mut var_remoteAddr = <String>::sse_decode(deserializer);
         let mut var_data = <Option<Vec<u8>>>::sse_decode(deserializer);
         return crate::http_package::RustHttpResponse {
             status_code: var_statusCode,
             headers: var_headers,
             url: var_url,
             content_length: var_contentLength,
-            version: var_version,
-            remote_addr: var_remoteAddr,
             data: var_data,
         };
     }
@@ -666,13 +288,6 @@ impl SseDecode for u16 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_u16::<NativeEndian>().unwrap()
-    }
-}
-
-impl SseDecode for u32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_u32::<NativeEndian>().unwrap()
     }
 }
 
@@ -693,6 +308,13 @@ impl SseDecode for u8 {
 impl SseDecode for () {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
+}
+
+impl SseDecode for bool {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_u8().unwrap() != 0
+    }
 }
 
 fn pde_ffi_dispatcher_primary_impl(
@@ -723,31 +345,6 @@ fn pde_ffi_dispatcher_sync_impl(
 // Section: rust2dart
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::http_package::MyHttpVersion {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self {
-            Self::HTTP_09 => 0.into_dart(),
-            Self::HTTP_10 => 1.into_dart(),
-            Self::HTTP_11 => 2.into_dart(),
-            Self::HTTP_2 => 3.into_dart(),
-            Self::HTTP_3 => 4.into_dart(),
-            Self::HTTP_UNKNOWN => 5.into_dart(),
-            _ => unreachable!(),
-        }
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::http_package::MyHttpVersion
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::http_package::MyHttpVersion>
-    for crate::http_package::MyHttpVersion
-{
-    fn into_into_dart(self) -> crate::http_package::MyHttpVersion {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::http_api::MyMethod {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -776,72 +373,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::http_api::MyMethod>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::rs_process::RsProcessStreamData {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.data_type.into_into_dart().into_dart(),
-            self.data.into_into_dart().into_dart(),
-            self.rs_pid.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::rs_process::RsProcessStreamData
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::rs_process::RsProcessStreamData>
-    for crate::api::rs_process::RsProcessStreamData
-{
-    fn into_into_dart(self) -> crate::api::rs_process::RsProcessStreamData {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::rs_process::RsProcessStreamDataType {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self {
-            Self::Output => 0.into_dart(),
-            Self::Error => 1.into_dart(),
-            Self::Exit => 2.into_dart(),
-            _ => unreachable!(),
-        }
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::rs_process::RsProcessStreamDataType
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::rs_process::RsProcessStreamDataType>
-    for crate::api::rs_process::RsProcessStreamDataType
-{
-    fn into_into_dart(self) -> crate::api::rs_process::RsProcessStreamDataType {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::asar_api::RsiLauncherAsarData {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.asar_path.into_into_dart().into_dart(),
-            self.main_js_path.into_into_dart().into_dart(),
-            self.main_js_content.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::asar_api::RsiLauncherAsarData
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::asar_api::RsiLauncherAsarData>
-    for crate::api::asar_api::RsiLauncherAsarData
-{
-    fn into_into_dart(self) -> crate::api::asar_api::RsiLauncherAsarData {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::http_package::RustHttpResponse {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -849,8 +380,6 @@ impl flutter_rust_bridge::IntoDart for crate::http_package::RustHttpResponse {
             self.headers.into_into_dart().into_dart(),
             self.url.into_into_dart().into_dart(),
             self.content_length.into_into_dart().into_dart(),
-            self.version.into_into_dart().into_dart(),
-            self.remote_addr.into_into_dart().into_dart(),
             self.data.into_into_dart().into_dart(),
         ]
         .into_dart()
@@ -882,18 +411,6 @@ impl SseEncode for std::collections::HashMap<String, String> {
     }
 }
 
-impl SseEncode
-    for StreamSink<
-        crate::api::rs_process::RsProcessStreamData,
-        flutter_rust_bridge::for_generated::DcoCodec,
-    >
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        unimplemented!("")
-    }
-}
-
 impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -901,27 +418,10 @@ impl SseEncode for String {
     }
 }
 
-impl SseEncode for bool {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_u8(self as _).unwrap();
-    }
-}
-
 impl SseEncode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
-    }
-}
-
-impl SseEncode for Vec<String> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <String>::sse_encode(item, serializer);
-        }
     }
 }
 
@@ -942,26 +442,6 @@ impl SseEncode for Vec<(String, String)> {
         for item in self {
             <(String, String)>::sse_encode(item, serializer);
         }
-    }
-}
-
-impl SseEncode for crate::http_package::MyHttpVersion {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(
-            match self {
-                crate::http_package::MyHttpVersion::HTTP_09 => 0,
-                crate::http_package::MyHttpVersion::HTTP_10 => 1,
-                crate::http_package::MyHttpVersion::HTTP_11 => 2,
-                crate::http_package::MyHttpVersion::HTTP_2 => 3,
-                crate::http_package::MyHttpVersion::HTTP_3 => 4,
-                crate::http_package::MyHttpVersion::HTTP_UNKNOWN => 5,
-                _ => {
-                    unimplemented!("");
-                }
-            },
-            serializer,
-        );
     }
 }
 
@@ -998,16 +478,6 @@ impl SseEncode for Option<std::collections::HashMap<String, String>> {
     }
 }
 
-impl SseEncode for Option<String> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <String>::sse_encode(value, serializer);
-        }
-    }
-}
-
 impl SseEncode for Option<u64> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1036,41 +506,6 @@ impl SseEncode for (String, String) {
     }
 }
 
-impl SseEncode for crate::api::rs_process::RsProcessStreamData {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <crate::api::rs_process::RsProcessStreamDataType>::sse_encode(self.data_type, serializer);
-        <String>::sse_encode(self.data, serializer);
-        <u32>::sse_encode(self.rs_pid, serializer);
-    }
-}
-
-impl SseEncode for crate::api::rs_process::RsProcessStreamDataType {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(
-            match self {
-                crate::api::rs_process::RsProcessStreamDataType::Output => 0,
-                crate::api::rs_process::RsProcessStreamDataType::Error => 1,
-                crate::api::rs_process::RsProcessStreamDataType::Exit => 2,
-                _ => {
-                    unimplemented!("");
-                }
-            },
-            serializer,
-        );
-    }
-}
-
-impl SseEncode for crate::api::asar_api::RsiLauncherAsarData {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.asar_path, serializer);
-        <String>::sse_encode(self.main_js_path, serializer);
-        <Vec<u8>>::sse_encode(self.main_js_content, serializer);
-    }
-}
-
 impl SseEncode for crate::http_package::RustHttpResponse {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1078,8 +513,6 @@ impl SseEncode for crate::http_package::RustHttpResponse {
         <std::collections::HashMap<String, String>>::sse_encode(self.headers, serializer);
         <String>::sse_encode(self.url, serializer);
         <Option<u64>>::sse_encode(self.content_length, serializer);
-        <crate::http_package::MyHttpVersion>::sse_encode(self.version, serializer);
-        <String>::sse_encode(self.remote_addr, serializer);
         <Option<Vec<u8>>>::sse_encode(self.data, serializer);
     }
 }
@@ -1088,13 +521,6 @@ impl SseEncode for u16 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         serializer.cursor.write_u16::<NativeEndian>(self).unwrap();
-    }
-}
-
-impl SseEncode for u32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_u32::<NativeEndian>(self).unwrap();
     }
 }
 
@@ -1115,6 +541,13 @@ impl SseEncode for u8 {
 impl SseEncode for () {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
+}
+
+impl SseEncode for bool {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_u8(self as _).unwrap();
+    }
 }
 
 #[cfg(not(target_family = "wasm"))]
@@ -1154,25 +587,6 @@ mod io {
             vec.into_iter().collect()
         }
     }
-    impl
-        CstDecode<
-            StreamSink<
-                crate::api::rs_process::RsProcessStreamData,
-                flutter_rust_bridge::for_generated::DcoCodec,
-            >,
-        > for *mut wire_cst_list_prim_u_8_strict
-    {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(
-            self,
-        ) -> StreamSink<
-            crate::api::rs_process::RsProcessStreamData,
-            flutter_rust_bridge::for_generated::DcoCodec,
-        > {
-            let raw: String = self.cst_decode();
-            StreamSink::deserialize(raw)
-        }
-    }
     impl CstDecode<String> for *mut wire_cst_list_prim_u_8_strict {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> String {
@@ -1180,36 +594,10 @@ mod io {
             String::from_utf8(vec).unwrap()
         }
     }
-    impl CstDecode<crate::api::asar_api::RsiLauncherAsarData> for *mut wire_cst_rsi_launcher_asar_data {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::asar_api::RsiLauncherAsarData {
-            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-            CstDecode::<crate::api::asar_api::RsiLauncherAsarData>::cst_decode(*wrap).into()
-        }
-    }
     impl CstDecode<u64> for *mut u64 {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> u64 {
             unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
-        }
-    }
-    impl CstDecode<Vec<String>> for *mut wire_cst_list_String {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Vec<String> {
-            let vec = unsafe {
-                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-            };
-            vec.into_iter().map(CstDecode::cst_decode).collect()
-        }
-    }
-    impl CstDecode<Vec<u8>> for *mut wire_cst_list_prim_u_8_loose {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Vec<u8> {
-            unsafe {
-                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-            }
         }
     }
     impl CstDecode<Vec<u8>> for *mut wire_cst_list_prim_u_8_strict {
@@ -1237,26 +625,6 @@ mod io {
             (self.field0.cst_decode(), self.field1.cst_decode())
         }
     }
-    impl CstDecode<crate::api::rs_process::RsProcessStreamData> for wire_cst_rs_process_stream_data {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::rs_process::RsProcessStreamData {
-            crate::api::rs_process::RsProcessStreamData {
-                data_type: self.data_type.cst_decode(),
-                data: self.data.cst_decode(),
-                rs_pid: self.rs_pid.cst_decode(),
-            }
-        }
-    }
-    impl CstDecode<crate::api::asar_api::RsiLauncherAsarData> for wire_cst_rsi_launcher_asar_data {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::asar_api::RsiLauncherAsarData {
-            crate::api::asar_api::RsiLauncherAsarData {
-                asar_path: self.asar_path.cst_decode(),
-                main_js_path: self.main_js_path.cst_decode(),
-                main_js_content: self.main_js_content.cst_decode(),
-            }
-        }
-    }
     impl CstDecode<crate::http_package::RustHttpResponse> for wire_cst_rust_http_response {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::http_package::RustHttpResponse {
@@ -1265,8 +633,6 @@ mod io {
                 headers: self.headers.cst_decode(),
                 url: self.url.cst_decode(),
                 content_length: self.content_length.cst_decode(),
-                version: self.version.cst_decode(),
-                remote_addr: self.remote_addr.cst_decode(),
                 data: self.data.cst_decode(),
             }
         }
@@ -1284,34 +650,6 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
-    impl NewWithNullPtr for wire_cst_rs_process_stream_data {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                data_type: Default::default(),
-                data: core::ptr::null_mut(),
-                rs_pid: Default::default(),
-            }
-        }
-    }
-    impl Default for wire_cst_rs_process_stream_data {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
-    impl NewWithNullPtr for wire_cst_rsi_launcher_asar_data {
-        fn new_with_null_ptr() -> Self {
-            Self {
-                asar_path: core::ptr::null_mut(),
-                main_js_path: core::ptr::null_mut(),
-                main_js_content: core::ptr::null_mut(),
-            }
-        }
-    }
-    impl Default for wire_cst_rsi_launcher_asar_data {
-        fn default() -> Self {
-            Self::new_with_null_ptr()
-        }
-    }
     impl NewWithNullPtr for wire_cst_rust_http_response {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -1319,8 +657,6 @@ mod io {
                 headers: core::ptr::null_mut(),
                 url: core::ptr::null_mut(),
                 content_length: core::ptr::null_mut(),
-                version: Default::default(),
-                remote_addr: core::ptr::null_mut(),
                 data: core::ptr::null_mut(),
             }
         }
@@ -1332,55 +668,14 @@ mod io {
     }
 
     #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__asar_api__get_rsi_launcher_asar_data(
-        port_: i64,
-        asar_path: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__crate__api__asar_api__get_rsi_launcher_asar_data_impl(port_, asar_path)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js(
-        port_: i64,
-        that: *mut wire_cst_rsi_launcher_asar_data,
-        content: *mut wire_cst_list_prim_u_8_loose,
-    ) {
-        wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js_impl(port_, that, content)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__http_api__dns_lookup_ips(
-        port_: i64,
-        host: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__crate__api__http_api__dns_lookup_ips_impl(port_, host)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__http_api__dns_lookup_txt(
-        port_: i64,
-        host: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__crate__api__http_api__dns_lookup_txt_impl(port_, host)
-    }
-
-    #[no_mangle]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__http_api__fetch(
         port_: i64,
         method: i32,
         url: *mut wire_cst_list_prim_u_8_strict,
         headers: *mut wire_cst_list_record_string_string,
         input_data: *mut wire_cst_list_prim_u_8_strict,
-        with_ip_address: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__http_api__fetch_impl(
-            port_,
-            method,
-            url,
-            headers,
-            input_data,
-            with_ip_address,
-        )
+        wire__crate__api__http_api__fetch_impl(port_, method, url, headers, input_data)
     }
 
     #[no_mangle]
@@ -1392,86 +687,8 @@ mod io {
     }
 
     #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__rs_process__start(
-        port_: i64,
-        executable: *mut wire_cst_list_prim_u_8_strict,
-        arguments: *mut wire_cst_list_String,
-        working_directory: *mut wire_cst_list_prim_u_8_strict,
-        stream_sink: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__crate__api__rs_process__start_impl(
-            port_,
-            executable,
-            arguments,
-            working_directory,
-            stream_sink,
-        )
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__rs_process__write(
-        port_: i64,
-        rs_pid: u32,
-        data: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__crate__api__rs_process__write_impl(port_, rs_pid, data)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__send_notify(
-        port_: i64,
-        summary: *mut wire_cst_list_prim_u_8_strict,
-        body: *mut wire_cst_list_prim_u_8_strict,
-        app_name: *mut wire_cst_list_prim_u_8_strict,
-        app_id: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__crate__api__win32_api__send_notify_impl(port_, summary, body, app_name, app_id)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__set_foreground_window(
-        port_: i64,
-        window_name: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__crate__api__win32_api__set_foreground_window_impl(port_, window_name)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_rsi_launcher_asar_data(
-    ) -> *mut wire_cst_rsi_launcher_asar_data {
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(
-            wire_cst_rsi_launcher_asar_data::new_with_null_ptr(),
-        )
-    }
-
-    #[no_mangle]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_u_64(value: u64) -> *mut u64 {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_String(
-        len: i32,
-    ) -> *mut wire_cst_list_String {
-        let wrap = wire_cst_list_String {
-            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
-                <*mut wire_cst_list_prim_u_8_strict>::new_with_null_ptr(),
-                len,
-            ),
-            len,
-        };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_u_8_loose(
-        len: i32,
-    ) -> *mut wire_cst_list_prim_u_8_loose {
-        let ans = wire_cst_list_prim_u_8_loose {
-            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
-            len,
-        };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
     }
 
     #[no_mangle]
@@ -1501,18 +718,6 @@ mod io {
 
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_list_String {
-        ptr: *mut *mut wire_cst_list_prim_u_8_strict,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_list_prim_u_8_loose {
-        ptr: *mut u8,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
     pub struct wire_cst_list_prim_u_8_strict {
         ptr: *mut u8,
         len: i32,
@@ -1531,29 +736,196 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_rs_process_stream_data {
-        data_type: i32,
-        data: *mut wire_cst_list_prim_u_8_strict,
-        rs_pid: u32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
-    pub struct wire_cst_rsi_launcher_asar_data {
-        asar_path: *mut wire_cst_list_prim_u_8_strict,
-        main_js_path: *mut wire_cst_list_prim_u_8_strict,
-        main_js_content: *mut wire_cst_list_prim_u_8_strict,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
     pub struct wire_cst_rust_http_response {
         status_code: u16,
         headers: *mut wire_cst_list_record_string_string,
         url: *mut wire_cst_list_prim_u_8_strict,
         content_length: *mut u64,
-        version: i32,
-        remote_addr: *mut wire_cst_list_prim_u_8_strict,
         data: *mut wire_cst_list_prim_u_8_strict,
     }
 }
 #[cfg(not(target_family = "wasm"))]
 pub use io::*;
+
+/// cbindgen:ignore
+#[cfg(target_family = "wasm")]
+mod web {
+    // This file is automatically generated, so please do not edit it.
+    // Generated by `flutter_rust_bridge`@ 2.3.0.
+
+    // Section: imports
+
+    use super::*;
+    use flutter_rust_bridge::for_generated::byteorder::{
+        NativeEndian, ReadBytesExt, WriteBytesExt,
+    };
+    use flutter_rust_bridge::for_generated::wasm_bindgen;
+    use flutter_rust_bridge::for_generated::wasm_bindgen::prelude::*;
+    use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
+    use flutter_rust_bridge::{Handler, IntoIntoDart};
+
+    // Section: boilerplate
+
+    flutter_rust_bridge::frb_generated_boilerplate_web!();
+
+    // Section: dart2rust
+
+    impl CstDecode<flutter_rust_bridge::for_generated::anyhow::Error> for String {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> flutter_rust_bridge::for_generated::anyhow::Error {
+            unimplemented!()
+        }
+    }
+    impl CstDecode<String> for String {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> String {
+            self
+        }
+    }
+    impl CstDecode<Vec<u8>> for Box<[u8]> {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<u8> {
+            self.into_vec()
+        }
+    }
+    impl CstDecode<Vec<(String, String)>>
+        for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<(String, String)> {
+            self.dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+                .unwrap()
+                .iter()
+                .map(CstDecode::cst_decode)
+                .collect()
+        }
+    }
+    impl CstDecode<Option<Vec<u8>>> for Option<Box<[u8]>> {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Option<Vec<u8>> {
+            self.map(CstDecode::cst_decode)
+        }
+    }
+    impl CstDecode<(String, String)> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> (String, String) {
+            let self_ = self
+                .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+                .unwrap();
+            assert_eq!(
+                self_.length(),
+                2,
+                "Expected 2 elements, got {}",
+                self_.length()
+            );
+            (self_.get(0).cst_decode(), self_.get(1).cst_decode())
+        }
+    }
+    impl CstDecode<crate::http_package::RustHttpResponse>
+        for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::http_package::RustHttpResponse {
+            let self_ = self
+                .dyn_into::<flutter_rust_bridge::for_generated::js_sys::Array>()
+                .unwrap();
+            assert_eq!(
+                self_.length(),
+                5,
+                "Expected 5 elements, got {}",
+                self_.length()
+            );
+            crate::http_package::RustHttpResponse {
+                status_code: self_.get(0).cst_decode(),
+                headers: self_.get(1).cst_decode(),
+                url: self_.get(2).cst_decode(),
+                content_length: self_.get(3).cst_decode(),
+                data: self_.get(4).cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<flutter_rust_bridge::for_generated::anyhow::Error>
+        for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> flutter_rust_bridge::for_generated::anyhow::Error {
+            unimplemented!()
+        }
+    }
+    impl CstDecode<std::collections::HashMap<String, String>>
+        for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> std::collections::HashMap<String, String> {
+            let vec: Vec<(String, String)> = self.cst_decode();
+            vec.into_iter().collect()
+        }
+    }
+    impl CstDecode<String> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> String {
+            self.as_string().expect("non-UTF-8 string, or not a string")
+        }
+    }
+    impl CstDecode<i32> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> i32 {
+            self.unchecked_into_f64() as _
+        }
+    }
+    impl CstDecode<Vec<u8>> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<u8> {
+            self.unchecked_into::<flutter_rust_bridge::for_generated::js_sys::Uint8Array>()
+                .to_vec()
+                .into()
+        }
+    }
+    impl CstDecode<crate::api::http_api::MyMethod>
+        for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::http_api::MyMethod {
+            (self.unchecked_into_f64() as i32).cst_decode()
+        }
+    }
+    impl CstDecode<u16> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> u16 {
+            self.unchecked_into_f64() as _
+        }
+    }
+    impl CstDecode<u64> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> u64 {
+            ::std::convert::TryInto::<u64>::try_into(self).unwrap() as _
+        }
+    }
+    impl CstDecode<u8> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> u8 {
+            self.unchecked_into_f64() as _
+        }
+    }
+
+    #[wasm_bindgen]
+    pub fn wire__crate__api__http_api__fetch(
+        port_: flutter_rust_bridge::for_generated::MessagePort,
+        method: i32,
+        url: String,
+        headers: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+        input_data: Option<Box<[u8]>>,
+    ) {
+        wire__crate__api__http_api__fetch_impl(port_, method, url, headers, input_data)
+    }
+
+    #[wasm_bindgen]
+    pub fn wire__crate__api__http_api__set_default_header(
+        port_: flutter_rust_bridge::for_generated::MessagePort,
+        headers: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+    ) {
+        wire__crate__api__http_api__set_default_header_impl(port_, headers)
+    }
+}
+#[cfg(target_family = "wasm")]
+pub use web::*;

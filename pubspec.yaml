@@ -5,7 +5,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ^3.5.1
 
 dependencies:
   flutter:
@@ -18,23 +18,18 @@ dependencies:
   hooks_riverpod: ^2.4.10
   json_annotation: ^4.8.1
   go_router: ^14.0.1
-  window_manager: ^0.4.0
   fluent_ui: ^4.8.6
   flutter_staggered_grid_view: ^0.7.0
-  flutter_acrylic: ^1.1.4
   url_launcher: ^6.1.10
   font_awesome_flutter: ^10.5.0
   cupertino_icons: ^1.0.2
   hive: ^2.2.3
-  path_provider: ^2.1.1
   dio: ^5.3.3
   markdown: ^7.2.1
   markdown_widget: ^2.2.0
   extended_image: ^8.2.0
-  device_info_plus: ^10.0.1
   file_picker: ^8.0.0+1
   file_sizes: ^1.0.6
-  desktop_webview_window: ^0.2.3
   flutter_svg: ^2.0.7
   archive: ^3.4.4
   jwt_decode: ^0.3.1
@@ -50,17 +45,12 @@ dependencies:
   html: ^0.15.4
   xml: ^6.5.0
   fixnum: ^1.1.0
-  protobuf: ^3.1.0
-  grpc: ^4.0.0
   rust_builder:
     path: rust_builder
-  aria2:
-    git: https://github.com/xkeyC/dart_aria2_rpc.git
   #    path: ../../xkeyC/dart_aria2_rpc
   intl: ^0.19.0
   synchronized: ^3.1.0+1
   super_sliver_list: ^0.4.1
-  file: ^7.0.0
   re_editor: ^0.3.0
   re_highlight: ^0.0.3
 dependency_overrides:
@@ -87,24 +77,13 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - assets/binary/
     - assets/countdown/
+    - assets/backgrounds/
 
   fonts:
     - family: SourceHanSansCN-Regular
       fonts:
         - asset: assets/SourceHanSansCN-Regular.otf
 
-msix_config:
-  display_name: SC汉化盒子
-  publisher_display_name: xkeyC Studio
-  identity_name: 56575xkeyC.MSE
-  publisher: CN=B54C897B-C263-4680-B6AB-4913C603DF87
-  msix_version: 2.12.0.0
-  logo_path: ./assets/app_logo.png
-  capabilities: internetClient,allowElevation
-  languages: zh-cn
-  windows_build_args: --dart-define="MSE=true"
-  store: true
 flutter_intl:
   enabled: true

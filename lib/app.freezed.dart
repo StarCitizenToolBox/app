@@ -23,6 +23,7 @@ mixin _$AppGlobalState {
   ThemeConf get themeConf => throw _privateConstructorUsedError;
   Locale? get appLocale => throw _privateConstructorUsedError;
   Box<dynamic>? get appConfBox => throw _privateConstructorUsedError;
+  String get backgroundImageAssetsPath => throw _privateConstructorUsedError;
 
   /// Create a copy of AppGlobalState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +45,8 @@ abstract class $AppGlobalStateCopyWith<$Res> {
       AppVersionData? networkVersionData,
       ThemeConf themeConf,
       Locale? appLocale,
-      Box<dynamic>? appConfBox});
+      Box<dynamic>? appConfBox,
+      String backgroundImageAssetsPath});
 
   $ThemeConfCopyWith<$Res> get themeConf;
 }
@@ -71,6 +73,7 @@ class _$AppGlobalStateCopyWithImpl<$Res, $Val extends AppGlobalState>
     Object? themeConf = null,
     Object? appLocale = freezed,
     Object? appConfBox = freezed,
+    Object? backgroundImageAssetsPath = null,
   }) {
     return _then(_value.copyWith(
       deviceUUID: freezed == deviceUUID
@@ -101,6 +104,10 @@ class _$AppGlobalStateCopyWithImpl<$Res, $Val extends AppGlobalState>
           ? _value.appConfBox
           : appConfBox // ignore: cast_nullable_to_non_nullable
               as Box<dynamic>?,
+      backgroundImageAssetsPath: null == backgroundImageAssetsPath
+          ? _value.backgroundImageAssetsPath
+          : backgroundImageAssetsPath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -130,7 +137,8 @@ abstract class _$$AppGlobalStateImplCopyWith<$Res>
       AppVersionData? networkVersionData,
       ThemeConf themeConf,
       Locale? appLocale,
-      Box<dynamic>? appConfBox});
+      Box<dynamic>? appConfBox,
+      String backgroundImageAssetsPath});
 
   @override
   $ThemeConfCopyWith<$Res> get themeConf;
@@ -156,6 +164,7 @@ class __$$AppGlobalStateImplCopyWithImpl<$Res>
     Object? themeConf = null,
     Object? appLocale = freezed,
     Object? appConfBox = freezed,
+    Object? backgroundImageAssetsPath = null,
   }) {
     return _then(_$AppGlobalStateImpl(
       deviceUUID: freezed == deviceUUID
@@ -186,6 +195,10 @@ class __$$AppGlobalStateImplCopyWithImpl<$Res>
           ? _value.appConfBox
           : appConfBox // ignore: cast_nullable_to_non_nullable
               as Box<dynamic>?,
+      backgroundImageAssetsPath: null == backgroundImageAssetsPath
+          ? _value.backgroundImageAssetsPath
+          : backgroundImageAssetsPath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -200,7 +213,9 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
       this.networkVersionData,
       this.themeConf = const ThemeConf(),
       this.appLocale,
-      this.appConfBox});
+      this.appConfBox,
+      this.backgroundImageAssetsPath =
+          "assets/backgrounds/SC_01_Wallpaper_3840x2160.jpg"});
 
   @override
   final String? deviceUUID;
@@ -217,10 +232,13 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
   final Locale? appLocale;
   @override
   final Box<dynamic>? appConfBox;
+  @override
+  @JsonKey()
+  final String backgroundImageAssetsPath;
 
   @override
   String toString() {
-    return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox)';
+    return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox, backgroundImageAssetsPath: $backgroundImageAssetsPath)';
   }
 
   @override
@@ -243,7 +261,10 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
             (identical(other.appLocale, appLocale) ||
                 other.appLocale == appLocale) &&
             (identical(other.appConfBox, appConfBox) ||
-                other.appConfBox == appConfBox));
+                other.appConfBox == appConfBox) &&
+            (identical(other.backgroundImageAssetsPath,
+                    backgroundImageAssetsPath) ||
+                other.backgroundImageAssetsPath == backgroundImageAssetsPath));
   }
 
   @override
@@ -255,7 +276,8 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
       networkVersionData,
       themeConf,
       appLocale,
-      appConfBox);
+      appConfBox,
+      backgroundImageAssetsPath);
 
   /// Create a copy of AppGlobalState
   /// with the given fields replaced by the non-null parameter values.
@@ -275,7 +297,8 @@ abstract class _AppGlobalState implements AppGlobalState {
       final AppVersionData? networkVersionData,
       final ThemeConf themeConf,
       final Locale? appLocale,
-      final Box<dynamic>? appConfBox}) = _$AppGlobalStateImpl;
+      final Box<dynamic>? appConfBox,
+      final String backgroundImageAssetsPath}) = _$AppGlobalStateImpl;
 
   @override
   String? get deviceUUID;
@@ -291,6 +314,8 @@ abstract class _AppGlobalState implements AppGlobalState {
   Locale? get appLocale;
   @override
   Box<dynamic>? get appConfBox;
+  @override
+  String get backgroundImageAssetsPath;
 
   /// Create a copy of AppGlobalState
   /// with the given fields replaced by the non-null parameter values.

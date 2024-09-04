@@ -3,10 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'api/asar_api.dart';
 import 'api/http_api.dart';
-import 'api/rs_process.dart';
-import 'api/win32_api.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi' as ffi;
@@ -29,18 +26,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Map<String, String> dco_decode_Map_String_String(dynamic raw);
 
   @protected
-  RustStreamSink<RsProcessStreamData>
-      dco_decode_StreamSink_rs_process_stream_data_Dco(dynamic raw);
-
-  @protected
   String dco_decode_String(dynamic raw);
-
-  @protected
-  bool dco_decode_bool(dynamic raw);
-
-  @protected
-  RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
-      dynamic raw);
 
   @protected
   BigInt dco_decode_box_autoadd_u_64(dynamic raw);
@@ -49,28 +35,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_i_32(dynamic raw);
 
   @protected
-  List<String> dco_decode_list_String(dynamic raw);
-
-  @protected
-  List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
-
-  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
   List<(String, String)> dco_decode_list_record_string_string(dynamic raw);
 
   @protected
-  MyHttpVersion dco_decode_my_http_version(dynamic raw);
-
-  @protected
   MyMethod dco_decode_my_method(dynamic raw);
 
   @protected
   Map<String, String>? dco_decode_opt_Map_String_String(dynamic raw);
-
-  @protected
-  String? dco_decode_opt_String(dynamic raw);
 
   @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
@@ -82,22 +56,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   (String, String) dco_decode_record_string_string(dynamic raw);
 
   @protected
-  RsProcessStreamData dco_decode_rs_process_stream_data(dynamic raw);
-
-  @protected
-  RsProcessStreamDataType dco_decode_rs_process_stream_data_type(dynamic raw);
-
-  @protected
-  RsiLauncherAsarData dco_decode_rsi_launcher_asar_data(dynamic raw);
-
-  @protected
   RustHttpResponse dco_decode_rust_http_response(dynamic raw);
 
   @protected
   int dco_decode_u_16(dynamic raw);
-
-  @protected
-  int dco_decode_u_32(dynamic raw);
 
   @protected
   BigInt dco_decode_u_64(dynamic raw);
@@ -116,31 +78,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  RustStreamSink<RsProcessStreamData>
-      sse_decode_StreamSink_rs_process_stream_data_Dco(
-          SseDeserializer deserializer);
-
-  @protected
   String sse_decode_String(SseDeserializer deserializer);
-
-  @protected
-  bool sse_decode_bool(SseDeserializer deserializer);
-
-  @protected
-  RsiLauncherAsarData sse_decode_box_autoadd_rsi_launcher_asar_data(
-      SseDeserializer deserializer);
 
   @protected
   BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
 
   @protected
   int sse_decode_i_32(SseDeserializer deserializer);
-
-  @protected
-  List<String> sse_decode_list_String(SseDeserializer deserializer);
-
-  @protected
-  List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
@@ -150,17 +94,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  MyHttpVersion sse_decode_my_http_version(SseDeserializer deserializer);
-
-  @protected
   MyMethod sse_decode_my_method(SseDeserializer deserializer);
 
   @protected
   Map<String, String>? sse_decode_opt_Map_String_String(
       SseDeserializer deserializer);
-
-  @protected
-  String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
@@ -173,25 +111,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  RsProcessStreamData sse_decode_rs_process_stream_data(
-      SseDeserializer deserializer);
-
-  @protected
-  RsProcessStreamDataType sse_decode_rs_process_stream_data_type(
-      SseDeserializer deserializer);
-
-  @protected
-  RsiLauncherAsarData sse_decode_rsi_launcher_asar_data(
-      SseDeserializer deserializer);
-
-  @protected
   RustHttpResponse sse_decode_rust_http_response(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_16(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_u_32(SseDeserializer deserializer);
 
   @protected
   BigInt sse_decode_u_64(SseDeserializer deserializer);
@@ -201,6 +124,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_decode_unit(SseDeserializer deserializer);
+
+  @protected
+  bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_AnyhowException(
@@ -218,55 +144,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<wire_cst_list_prim_u_8_strict>
-      cst_encode_StreamSink_rs_process_stream_data_Dco(
-          RustStreamSink<RsProcessStreamData> raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return cst_encode_String(raw.setupAndSerialize(
-        codec: DcoCodec(
-      decodeSuccessData: dco_decode_rs_process_stream_data,
-      decodeErrorData: dco_decode_AnyhowException,
-    )));
-  }
-
-  @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_String(String raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_list_prim_u_8_strict(utf8.encoder.convert(raw));
   }
 
   @protected
-  ffi.Pointer<wire_cst_rsi_launcher_asar_data>
-      cst_encode_box_autoadd_rsi_launcher_asar_data(RsiLauncherAsarData raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    final ptr = wire.cst_new_box_autoadd_rsi_launcher_asar_data();
-    cst_api_fill_to_wire_rsi_launcher_asar_data(raw, ptr.ref);
-    return ptr;
-  }
-
-  @protected
   ffi.Pointer<ffi.Uint64> cst_encode_box_autoadd_u_64(BigInt raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return wire.cst_new_box_autoadd_u_64(cst_encode_u_64(raw));
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_String> cst_encode_list_String(List<String> raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    final ans = wire.cst_new_list_String(raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      ans.ref.ptr[i] = cst_encode_String(raw[i]);
-    }
-    return ans;
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_encode_list_prim_u_8_loose(
-      List<int> raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    final ans = wire.cst_new_list_prim_u_8_loose(raw.length);
-    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
-    return ans;
   }
 
   @protected
@@ -297,13 +183,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_opt_String(
-      String? raw) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    return raw == null ? ffi.nullptr : cst_encode_String(raw);
-  }
-
-  @protected
   ffi.Pointer<ffi.Uint64> cst_encode_opt_box_autoadd_u_64(BigInt? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_u_64(raw);
@@ -323,34 +202,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  void cst_api_fill_to_wire_box_autoadd_rsi_launcher_asar_data(
-      RsiLauncherAsarData apiObj,
-      ffi.Pointer<wire_cst_rsi_launcher_asar_data> wireObj) {
-    cst_api_fill_to_wire_rsi_launcher_asar_data(apiObj, wireObj.ref);
-  }
-
-  @protected
   void cst_api_fill_to_wire_record_string_string(
       (String, String) apiObj, wire_cst_record_string_string wireObj) {
     wireObj.field0 = cst_encode_String(apiObj.$1);
     wireObj.field1 = cst_encode_String(apiObj.$2);
-  }
-
-  @protected
-  void cst_api_fill_to_wire_rs_process_stream_data(
-      RsProcessStreamData apiObj, wire_cst_rs_process_stream_data wireObj) {
-    wireObj.data_type = cst_encode_rs_process_stream_data_type(apiObj.dataType);
-    wireObj.data = cst_encode_String(apiObj.data);
-    wireObj.rs_pid = cst_encode_u_32(apiObj.rsPid);
-  }
-
-  @protected
-  void cst_api_fill_to_wire_rsi_launcher_asar_data(
-      RsiLauncherAsarData apiObj, wire_cst_rsi_launcher_asar_data wireObj) {
-    wireObj.asar_path = cst_encode_String(apiObj.asarPath);
-    wireObj.main_js_path = cst_encode_String(apiObj.mainJsPath);
-    wireObj.main_js_content =
-        cst_encode_list_prim_u_8_strict(apiObj.mainJsContent);
   }
 
   @protected
@@ -361,31 +216,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.url = cst_encode_String(apiObj.url);
     wireObj.content_length =
         cst_encode_opt_box_autoadd_u_64(apiObj.contentLength);
-    wireObj.version = cst_encode_my_http_version(apiObj.version);
-    wireObj.remote_addr = cst_encode_String(apiObj.remoteAddr);
     wireObj.data = cst_encode_opt_list_prim_u_8_strict(apiObj.data);
   }
-
-  @protected
-  bool cst_encode_bool(bool raw);
 
   @protected
   int cst_encode_i_32(int raw);
 
   @protected
-  int cst_encode_my_http_version(MyHttpVersion raw);
-
-  @protected
   int cst_encode_my_method(MyMethod raw);
 
   @protected
-  int cst_encode_rs_process_stream_data_type(RsProcessStreamDataType raw);
-
-  @protected
   int cst_encode_u_16(int raw);
-
-  @protected
-  int cst_encode_u_32(int raw);
 
   @protected
   int cst_encode_u_8(int raw);
@@ -402,30 +243,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       Map<String, String> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_StreamSink_rs_process_stream_data_Dco(
-      RustStreamSink<RsProcessStreamData> self, SseSerializer serializer);
-
-  @protected
   void sse_encode_String(String self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_bool(bool self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_rsi_launcher_asar_data(
-      RsiLauncherAsarData self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer);
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_String(List<String> self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_strict(
@@ -436,17 +260,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       List<(String, String)> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_my_http_version(MyHttpVersion self, SseSerializer serializer);
-
-  @protected
   void sse_encode_my_method(MyMethod self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_Map_String_String(
       Map<String, String>? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
@@ -460,26 +278,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       (String, String) self, SseSerializer serializer);
 
   @protected
-  void sse_encode_rs_process_stream_data(
-      RsProcessStreamData self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_rs_process_stream_data_type(
-      RsProcessStreamDataType self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_rsi_launcher_asar_data(
-      RsiLauncherAsarData self, SseSerializer serializer);
-
-  @protected
   void sse_encode_rust_http_response(
       RustHttpResponse self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_16(int self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_u_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_64(BigInt self, SseSerializer serializer);
@@ -489,6 +292,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_bool(bool self, SseSerializer serializer);
 }
 
 // Section: wire_class
@@ -532,96 +338,12 @@ class RustLibWire implements BaseWire {
   late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
       .asFunction<void Function(DartPostCObjectFnType)>();
 
-  void wire__crate__api__asar_api__get_rsi_launcher_asar_data(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path,
-  ) {
-    return _wire__crate__api__asar_api__get_rsi_launcher_asar_data(
-      port_,
-      asar_path,
-    );
-  }
-
-  late final _wire__crate__api__asar_api__get_rsi_launcher_asar_dataPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire__crate__api__asar_api__get_rsi_launcher_asar_data');
-  late final _wire__crate__api__asar_api__get_rsi_launcher_asar_data =
-      _wire__crate__api__asar_api__get_rsi_launcher_asar_dataPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
-
-  void wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js(
-    int port_,
-    ffi.Pointer<wire_cst_rsi_launcher_asar_data> that,
-    ffi.Pointer<wire_cst_list_prim_u_8_loose> content,
-  ) {
-    return _wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js(
-      port_,
-      that,
-      content,
-    );
-  }
-
-  late final _wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_jsPtr =
-      _lookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Int64,
-                      ffi.Pointer<wire_cst_rsi_launcher_asar_data>,
-                      ffi.Pointer<wire_cst_list_prim_u_8_loose>)>>(
-          'frbgen_starcitizen_doctor_wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js');
-  late final _wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js =
-      _wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_jsPtr
-          .asFunction<
-              void Function(int, ffi.Pointer<wire_cst_rsi_launcher_asar_data>,
-                  ffi.Pointer<wire_cst_list_prim_u_8_loose>)>();
-
-  void wire__crate__api__http_api__dns_lookup_ips(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> host,
-  ) {
-    return _wire__crate__api__http_api__dns_lookup_ips(
-      port_,
-      host,
-    );
-  }
-
-  late final _wire__crate__api__http_api__dns_lookup_ipsPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire__crate__api__http_api__dns_lookup_ips');
-  late final _wire__crate__api__http_api__dns_lookup_ips =
-      _wire__crate__api__http_api__dns_lookup_ipsPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
-
-  void wire__crate__api__http_api__dns_lookup_txt(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> host,
-  ) {
-    return _wire__crate__api__http_api__dns_lookup_txt(
-      port_,
-      host,
-    );
-  }
-
-  late final _wire__crate__api__http_api__dns_lookup_txtPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire__crate__api__http_api__dns_lookup_txt');
-  late final _wire__crate__api__http_api__dns_lookup_txt =
-      _wire__crate__api__http_api__dns_lookup_txtPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
-
   void wire__crate__api__http_api__fetch(
     int port_,
     int method,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> url,
     ffi.Pointer<wire_cst_list_record_string_string> headers,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> input_data,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> with_ip_address,
   ) {
     return _wire__crate__api__http_api__fetch(
       port_,
@@ -629,7 +351,6 @@ class RustLibWire implements BaseWire {
       url,
       headers,
       input_data,
-      with_ip_address,
     );
   }
 
@@ -640,7 +361,6 @@ class RustLibWire implements BaseWire {
                   ffi.Int32,
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                   ffi.Pointer<wire_cst_list_record_string_string>,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
       'frbgen_starcitizen_doctor_wire__crate__api__http_api__fetch');
   late final _wire__crate__api__http_api__fetch =
@@ -650,7 +370,6 @@ class RustLibWire implements BaseWire {
               int,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<wire_cst_list_record_string_string>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
 
   void wire__crate__api__http_api__set_default_header(
@@ -673,128 +392,6 @@ class RustLibWire implements BaseWire {
           void Function(
               int, ffi.Pointer<wire_cst_list_record_string_string>)>();
 
-  void wire__crate__api__rs_process__start(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> executable,
-    ffi.Pointer<wire_cst_list_String> arguments,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> working_directory,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> stream_sink,
-  ) {
-    return _wire__crate__api__rs_process__start(
-      port_,
-      executable,
-      arguments,
-      working_directory,
-      stream_sink,
-    );
-  }
-
-  late final _wire__crate__api__rs_process__startPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Int64,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-                  ffi.Pointer<wire_cst_list_String>,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire__crate__api__rs_process__start');
-  late final _wire__crate__api__rs_process__start =
-      _wire__crate__api__rs_process__startPtr.asFunction<
-          void Function(
-              int,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-              ffi.Pointer<wire_cst_list_String>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
-
-  void wire__crate__api__rs_process__write(
-    int port_,
-    int rs_pid,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> data,
-  ) {
-    return _wire__crate__api__rs_process__write(
-      port_,
-      rs_pid,
-      data,
-    );
-  }
-
-  late final _wire__crate__api__rs_process__writePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Uint32,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire__crate__api__rs_process__write');
-  late final _wire__crate__api__rs_process__write =
-      _wire__crate__api__rs_process__writePtr.asFunction<
-          void Function(
-              int, int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
-
-  void wire__crate__api__win32_api__send_notify(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> summary,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> body,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> app_name,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> app_id,
-  ) {
-    return _wire__crate__api__win32_api__send_notify(
-      port_,
-      summary,
-      body,
-      app_name,
-      app_id,
-    );
-  }
-
-  late final _wire__crate__api__win32_api__send_notifyPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Int64,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire__crate__api__win32_api__send_notify');
-  late final _wire__crate__api__win32_api__send_notify =
-      _wire__crate__api__win32_api__send_notifyPtr.asFunction<
-          void Function(
-              int,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
-
-  void wire__crate__api__win32_api__set_foreground_window(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> window_name,
-  ) {
-    return _wire__crate__api__win32_api__set_foreground_window(
-      port_,
-      window_name,
-    );
-  }
-
-  late final _wire__crate__api__win32_api__set_foreground_windowPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
-      'frbgen_starcitizen_doctor_wire__crate__api__win32_api__set_foreground_window');
-  late final _wire__crate__api__win32_api__set_foreground_window =
-      _wire__crate__api__win32_api__set_foreground_windowPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
-
-  ffi.Pointer<wire_cst_rsi_launcher_asar_data>
-      cst_new_box_autoadd_rsi_launcher_asar_data() {
-    return _cst_new_box_autoadd_rsi_launcher_asar_data();
-  }
-
-  late final _cst_new_box_autoadd_rsi_launcher_asar_dataPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Pointer<wire_cst_rsi_launcher_asar_data> Function()>>(
-      'frbgen_starcitizen_doctor_cst_new_box_autoadd_rsi_launcher_asar_data');
-  late final _cst_new_box_autoadd_rsi_launcher_asar_data =
-      _cst_new_box_autoadd_rsi_launcher_asar_dataPtr.asFunction<
-          ffi.Pointer<wire_cst_rsi_launcher_asar_data> Function()>();
-
   ffi.Pointer<ffi.Uint64> cst_new_box_autoadd_u_64(
     int value,
   ) {
@@ -808,36 +405,6 @@ class RustLibWire implements BaseWire {
           'frbgen_starcitizen_doctor_cst_new_box_autoadd_u_64');
   late final _cst_new_box_autoadd_u_64 = _cst_new_box_autoadd_u_64Ptr
       .asFunction<ffi.Pointer<ffi.Uint64> Function(int)>();
-
-  ffi.Pointer<wire_cst_list_String> cst_new_list_String(
-    int len,
-  ) {
-    return _cst_new_list_String(
-      len,
-    );
-  }
-
-  late final _cst_new_list_StringPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_cst_list_String> Function(
-              ffi.Int32)>>('frbgen_starcitizen_doctor_cst_new_list_String');
-  late final _cst_new_list_String = _cst_new_list_StringPtr
-      .asFunction<ffi.Pointer<wire_cst_list_String> Function(int)>();
-
-  ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_new_list_prim_u_8_loose(
-    int len,
-  ) {
-    return _cst_new_list_prim_u_8_loose(
-      len,
-    );
-  }
-
-  late final _cst_new_list_prim_u_8_loosePtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Pointer<wire_cst_list_prim_u_8_loose> Function(ffi.Int32)>>(
-      'frbgen_starcitizen_doctor_cst_new_list_prim_u_8_loose');
-  late final _cst_new_list_prim_u_8_loose = _cst_new_list_prim_u_8_loosePtr
-      .asFunction<ffi.Pointer<wire_cst_list_prim_u_8_loose> Function(int)>();
 
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_new_list_prim_u_8_strict(
     int len,
@@ -899,21 +466,6 @@ final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
   external int len;
 }
 
-final class wire_cst_rsi_launcher_asar_data extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path;
-
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> main_js_path;
-
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> main_js_content;
-}
-
-final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
-  external ffi.Pointer<ffi.Uint8> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
 final class wire_cst_record_string_string extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
 
@@ -927,23 +479,6 @@ final class wire_cst_list_record_string_string extends ffi.Struct {
   external int len;
 }
 
-final class wire_cst_list_String extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_rs_process_stream_data extends ffi.Struct {
-  @ffi.Int32()
-  external int data_type;
-
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
-
-  @ffi.Uint32()
-  external int rs_pid;
-}
-
 final class wire_cst_rust_http_response extends ffi.Struct {
   @ffi.Uint16()
   external int status_code;
@@ -953,11 +488,6 @@ final class wire_cst_rust_http_response extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> url;
 
   external ffi.Pointer<ffi.Uint64> content_length;
-
-  @ffi.Int32()
-  external int version;
-
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> remote_addr;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
 }

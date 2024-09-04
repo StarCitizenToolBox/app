@@ -16,20 +16,9 @@ Future<RustHttpResponse> fetch(
         {required MyMethod method,
         required String url,
         Map<String, String>? headers,
-        Uint8List? inputData,
-        String? withIpAddress}) =>
+        Uint8List? inputData}) =>
     RustLib.instance.api.crateApiHttpApiFetch(
-        method: method,
-        url: url,
-        headers: headers,
-        inputData: inputData,
-        withIpAddress: withIpAddress);
-
-Future<List<String>> dnsLookupTxt({required String host}) =>
-    RustLib.instance.api.crateApiHttpApiDnsLookupTxt(host: host);
-
-Future<List<String>> dnsLookupIps({required String host}) =>
-    RustLib.instance.api.crateApiHttpApiDnsLookupIps(host: host);
+        method: method, url: url, headers: headers, inputData: inputData);
 
 enum MyMethod {
   options,

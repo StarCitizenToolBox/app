@@ -10,7 +10,6 @@ import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/localization/advanced_localization_ui_model.dart';
-import 'package:starcitizen_doctor/ui/tools/unp4kc/unp4kc_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
@@ -58,7 +57,7 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
             : Column(
                 children: [
                   if (state.errorMessage.isNotEmpty)
-                    UnP4kErrorWidget(
+                    ErrorMessageWidget(
                       errorMessage: state.errorMessage,
                     )
                   else ...[
@@ -310,6 +309,35 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
           },
         );
       },
+    );
+  }
+}
+
+class ErrorMessageWidget extends HookConsumerWidget {
+  final String errorMessage;
+
+  const ErrorMessageWidget({super.key, required this.errorMessage});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.red.withOpacity(.1),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        children: [
+          const Icon(FluentIcons.error),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              errorMessage,
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

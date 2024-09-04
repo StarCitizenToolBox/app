@@ -6,10 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
-import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
-import 'package:starcitizen_doctor/provider/unp4kc.dart';
 
 import '../home_ui_model.dart';
 import 'advanced_localization_ui.json.dart';
@@ -217,32 +215,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   }
 
   Future<String> readEnglishInI(String gameDir) async {
-    try {
-      var data = await Unp4kCModel.unp4kTools(
-          appGlobalState.applicationBinaryModuleDir!, [
-        "extract_memory",
-        "$gameDir\\Data.p4k",
-        "Data\\Localization\\english\\global.ini"
-      ]);
-      // remove bom
-      if (data.length > 3 &&
-          data[0] == 0xEF &&
-          data[1] == 0xBB &&
-          data[2] == 0xBF) {
-        data = data.sublist(3);
-      }
-      final iniData = String.fromCharCodes(data);
-      return iniData;
-    } catch (e) {
-      final errorMessage = e.toString();
-      if (Unp4kCModel.checkRunTimeError(errorMessage)) {
-        AnalyticsApi.touch("advanced_localization_no_runtime");
-      }
-      state = state.copyWith(
-        errorMessage: errorMessage,
-      );
-      // rethrow;
-    }
+    // TODO read English p4kGlobalIni
     return "";
   }
 

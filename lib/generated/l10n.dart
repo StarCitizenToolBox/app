@@ -70,10 +70,10 @@ class S {
     );
   }
 
-  /// `SCToolBox V {v0} {v1}`
+  /// `SCToolBox {v0} {v1}`
   String app_index_version_info(Object v0, Object v1) {
     return Intl.message(
-      'SCToolBox V $v0 $v1',
+      'SCToolBox $v0 $v1',
       name: 'app_index_version_info',
       desc: '',
       args: [v0, v1],
@@ -90,10 +90,10 @@ class S {
     );
   }
 
-  /// `Check for updates`
+  /// `Get the full version`
   String get about_check_update {
     return Intl.message(
-      'Check for updates',
+      'Get the full version',
       name: 'about_check_update',
       desc: '',
       args: [],

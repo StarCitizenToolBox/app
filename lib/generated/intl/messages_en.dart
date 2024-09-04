@@ -25,7 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(v0, v1) =>
       "Network anomaly!\nThis may be that your network environment has DNS pollution, please try to replace DNS.\nOr the server is being maintained or attacked and tried it later.\nEnter the offline mode ...\n\nPlease use it carefully in the offline mode.\nThe current version of the construction date: ${v0}\n QQ group: 940696487\nError message: ${v1}";
 
-  static String m2(v0, v1) => "SCToolBox V ${v0} ${v1}";
+  static String m2(v0, v1) => "SCToolBox ${v0} ${v1}";
 
   static String m3(v0) => "Initialization failure: ${v0}";
 
@@ -198,7 +198,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_app_description": MessageLookupByLibrary.simpleMessage(
             "Not just about localization!\n\nThe SCToolBox is your helper to explore the verse. We are committed to solving common in-game problems for citizens, in addition to facilitating localization from the community, game performance tuning, and localization of some commonly used website."),
         "about_check_update":
-            MessageLookupByLibrary.simpleMessage("Check for updates"),
+            MessageLookupByLibrary.simpleMessage("Get the full version"),
         "about_disclaimer": MessageLookupByLibrary.simpleMessage(
             "This is an unofficial Star Citizen fan-made tools, not affiliated with the Cloud Imperium group of companies. All content on this Software not authored by its host or users are property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC."),
         "about_info_latest_version": MessageLookupByLibrary.simpleMessage(

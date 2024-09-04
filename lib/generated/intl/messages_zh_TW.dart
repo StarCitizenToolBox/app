@@ -25,7 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(v0, v1) =>
       "網路異常！\n這可能是您的網路環境存在DNS汙染，請嘗試更換DNS。\n或伺服器正在維護或遭受攻擊，稍後再試。 \n進入離線模式... \n\n請謹慎在離線模式中使用。 \n目前版本構建日期：${v0}\n QQ群：940696487 \n錯誤資訊：${v1}";
 
-  static String m2(v0, v1) => "SC工具箱 V${v0} ${v1}";
+  static String m2(v0, v1) => "SC工具箱 ${v0} ${v1}";
 
   static String m3(v0) => "初始化失敗：${v0}";
 
@@ -179,7 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "about_analytics_units_user": MessageLookupByLibrary.simpleMessage("位"),
         "about_app_description": MessageLookupByLibrary.simpleMessage(
             "這個工具能做的不僅僅是翻譯！\n\nSC工具箱是你探索宇宙的好幫手，我們致力於為各位公民解決遊戲中的常見問題，並為社群翻譯、性能改善、常用網站翻譯 等操作提供便利。"),
-        "about_check_update": MessageLookupByLibrary.simpleMessage("檢查更新"),
+        "about_check_update": MessageLookupByLibrary.simpleMessage("安裝完整版"),
         "about_disclaimer": MessageLookupByLibrary.simpleMessage(
             "SC工具箱非官方的星際公民工具，不隸屬於 Cloud Imperium 公司集團。 本軟體中非由其主機或使用者創作的所有內容均為其各自所有者的財產。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的註冊商標。"),
         "about_info_latest_version":

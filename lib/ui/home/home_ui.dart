@@ -7,8 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
-import 'package:starcitizen_doctor/common/helper/system_helper.dart';
-import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -116,76 +114,6 @@ class HomeUI extends HookConsumerWidget {
             child: makeNewsCard(context, model, homeState),
           ),
         ],
-      ),
-      const SizedBox(height: 24),
-      Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(S.current.home_install_location),
-            const SizedBox(width: 6),
-            Expanded(
-              child: ComboBox<String>(
-                value: homeState.scInstalledPath,
-                isExpanded: true,
-                items: [
-                  ComboBoxItem(
-                    value: "not_install",
-                    child: Text(S.current.home_not_installed_or_failed),
-                  ),
-                  for (final path in homeState.scInstallPaths)
-                    ComboBoxItem(
-                      value: path,
-                      child: Row(
-                        children: [Text(path)],
-                      ),
-                    )
-                ],
-                onChanged: model.onChangeInstallPath,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Button(
-                onPressed: homeState.webLocalizationVersionsData == null
-                    ? null
-                    : () => model.launchRSI(context),
-                style: homeState.isCurGameRunning
-                    ? null
-                    : ButtonStyle(
-                        backgroundColor:
-                            WidgetStateProperty.resolveWith(_getRunButtonColor),
-                      ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Icon(
-                    homeState.isCurGameRunning
-                        ? FluentIcons.stop_solid
-                        : FluentIcons.play_solid,
-                    color: homeState.isCurGameRunning
-                        ? Colors.red.withOpacity(.8)
-                        : Colors.white,
-                  ),
-                )),
-            const SizedBox(width: 12),
-            Button(
-              onPressed: () =>
-                  SystemHelper.openDir("${homeState.scInstalledPath}"),
-              child: const Padding(
-                padding: EdgeInsets.all(6),
-                child: Icon(FluentIcons.folder_open),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Button(
-              onPressed: model.reScanPath,
-              child: const Padding(
-                padding: EdgeInsets.all(6),
-                child: Icon(FluentIcons.refresh),
-              ),
-            ),
-          ],
-        ),
       ),
       const SizedBox(height: 8),
       Text(homeState.lastScreenInfo, maxLines: 1),
@@ -796,7 +724,8 @@ class HomeUI extends HookConsumerWidget {
     switch (key) {
       case "localization":
         if (homeState.scInstalledPath == "not_install") {
-          ToolsUIModel.rsiEnhance(context, showNotGameInstallMsg: true);
+          // TODO
+          // ToolsUIModel.English(context, showNotGameInstallMsg: true);
           break;
         }
         final model = ref.watch(homeUIModelProvider.notifier);

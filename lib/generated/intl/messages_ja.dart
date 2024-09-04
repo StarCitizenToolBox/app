@@ -20,7 +20,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ja';
 
-  static String m2(v0, v1) => "SCToolBox V ${v0} ${v1}";
+  static String m2(v0, v1) => "SCToolBox ${v0} ${v1}";
 
   static String m19(v0, v1) => "ダウンロード： ${v0}/s    アップロード：${v1}/s";
 

@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:window_manager/window_manager.dart';
 import 'package:markdown_widget/config/all.dart';
 import 'package:markdown_widget/widget/all.dart';
 import 'package:extended_image/extended_image.dart';
@@ -43,51 +42,30 @@ Widget makeDefaultPage(BuildContext context,
   return NavigationView(
     appBar: NavigationAppBar(
         automaticallyImplyLeading: automaticallyImplyLeading,
-        title: DragToMoveArea(
-          child: titleRow ??
-              Column(
+        title: Column(
+          children: [
+            Expanded(
+              child: Row(
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Text(title),
-                      ],
-                    ),
-                  )
+                  Text(title),
                 ],
               ),
+            )
+          ],
         ),
         actions: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [...?actions, const WindowButtons()],
+          children: [...?actions],
         )),
     content: useBodyContainer
         ? Container(
             decoration: BoxDecoration(
-              color: FluentTheme.of(context).scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(9),
             ),
             child: content,
           )
         : content,
   );
-}
-
-class WindowButtons extends StatelessWidget {
-  const WindowButtons({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final FluentThemeData theme = FluentTheme.of(context);
-    return SizedBox(
-      width: 138,
-      height: 50,
-      child: WindowCaption(
-        brightness: theme.brightness,
-        backgroundColor: Colors.transparent,
-      ),
-    );
-  }
 }
 
 List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {

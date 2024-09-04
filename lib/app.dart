@@ -1,37 +1,27 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:math';
 
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/home/performance/performance_ui.dart';
 import 'package:starcitizen_doctor/ui/splash_ui.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:uuid/uuid.dart';
-import 'package:window_manager/window_manager.dart';
 
-import 'api/analytics.dart';
 import 'api/api.dart';
-import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
-import 'common/rust/api/win32_api.dart' as win32;
 import 'data/app_version_data.dart';
 import 'generated/no_l10n_strings.dart';
-import 'ui/home/downloader/home_downloader_ui.dart';
-import 'ui/home/game_doctor/game_doctor_ui.dart';
 import 'ui/home/localization/advanced_localization_ui.dart';
 import 'ui/index_ui.dart';
-import 'ui/settings/upgrade_dialog.dart';
-import 'ui/tools/unp4kc/unp4kc_ui.dart';
 
 part 'app.g.dart';
 
@@ -47,32 +37,26 @@ class AppGlobalState with _$AppGlobalState {
     @Default(ThemeConf()) ThemeConf themeConf,
     Locale? appLocale,
     Box? appConfBox,
+    @Default("assets/backgrounds/SC_01_Wallpaper_3840x2160.webp")
+    String backgroundImageAssetsPath,
   }) = _AppGlobalState;
 }
 
 @riverpod
 GoRouter router(RouterRef ref) {
   return GoRouter(
+    initialLocation: "/splash",
     routes: [
       GoRoute(
-        path: '/',
+        path: '/splash',
         pageBuilder: (context, state) =>
             myPageBuilder(context, state, const SplashUI()),
       ),
       GoRoute(
-        path: '/index',
+        path: '/',
         pageBuilder: (context, state) =>
             myPageBuilder(context, state, const IndexUI()),
         routes: [
-          GoRoute(
-              path: "downloader",
-              pageBuilder: (context, state) =>
-                  myPageBuilder(context, state, const HomeDownloaderUI())),
-          GoRoute(
-            path: 'game_doctor',
-            pageBuilder: (context, state) =>
-                myPageBuilder(context, state, const HomeGameDoctorUI()),
-          ),
           GoRoute(
             path: 'performance',
             pageBuilder: (context, state) =>
@@ -84,13 +68,7 @@ GoRouter router(RouterRef ref) {
                   myPageBuilder(context, state, const AdvancedLocalizationUI()))
         ],
       ),
-      GoRoute(path: '/tools', builder: (_, __) => const SizedBox(), routes: [
-        GoRoute(
-          path: 'unp4kc',
-          pageBuilder: (context, state) =>
-              myPageBuilder(context, state, const UnP4kcUI()),
-        ),
-      ]),
+      GoRoute(path: '/tools', builder: (_, __) => const SizedBox()),
     ],
   );
 }
@@ -115,7 +93,7 @@ class AppGlobalModel extends _$AppGlobalModel {
   Future<void> initApp() async {
     if (_initialized) return;
     // init Data
-    final applicationSupportDir = await _initAppDir();
+    // final applicationSupportDir = await _initAppDir();
 
     // init Rust bridge
     await RustLib.init();
@@ -124,12 +102,12 @@ class AppGlobalModel extends _$AppGlobalModel {
 
     // init Hive
     try {
-      Hive.init("$applicationSupportDir/db");
+      // Hive.init("$applicationSupportDir/db");
       final box = await Hive.openBox("app_conf");
       state = state.copyWith(appConfBox: box);
       if (box.get("install_id", defaultValue: "") == "") {
         await box.put("install_id", const Uuid().v4());
-        AnalyticsApi.touch("firstLaunch");
+        // AnalyticsApi.touch("firstLaunch");
       }
       final deviceUUID = box.get("install_id", defaultValue: "");
       final localeCode = box.get("app_locale", defaultValue: null);
@@ -144,49 +122,41 @@ class AppGlobalModel extends _$AppGlobalModel {
       }
       state = state.copyWith(deviceUUID: deviceUUID, appLocale: locale);
     } catch (e) {
-      await win32.setForegroundWindow(windowName: "SCToolBox");
+      // await win32.setForegroundWindow(windowName: "SCToolBox");
       dPrint("exit: db is locking ...");
-      exit(0);
+      // exit(0);
     }
-
-    // init powershell
-    if (Platform.isWindows) {
-      try {
-        await SystemHelper.initPowershellPath();
-        dPrint("---- Powershell init -----");
-      } catch (e) {
-        dPrint("powershell init failed : $e");
-      }
-    }
-
-    // get windows info
-    WindowsDeviceInfo? windowsDeviceInfo;
-    try {
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      windowsDeviceInfo = await deviceInfo.windowsInfo;
-    } catch (e) {
-      dPrint("DeviceInfo.windowsInfo error: $e");
-    }
-
-    // init windows
-    windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setTitle("SCToolBox");
-      await windowManager.setSkipTaskbar(false);
-      await windowManager.show();
-      if (Platform.isWindows) {
-        await Window.initialize();
-        await Window.hideWindowControls();
-        if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
-          await Window.setEffect(
-            effect: WindowEffect.acrylic,
-          );
-        }
-      }
-    });
 
     dPrint("---- Window init -----");
+    _startBackgroundLoop();
     _initialized = true;
     ref.keepAlive();
+  }
+
+  Timer? _loopTimer;
+
+  _startBackgroundLoop() async {
+    _loopTimer?.cancel();
+    _loopTimer = null;
+    final assetManifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+    final imageAssetsList = assetManifest
+        .listAssets()
+        .where((string) => string.startsWith("assets/backgrounds"))
+        .toList();
+
+    void rollImage() {
+      final random = Random();
+      final index = random.nextInt(imageAssetsList.length);
+      final image = imageAssetsList[index];
+      state = state.copyWith(backgroundImageAssetsPath: image);
+      dPrint("rollImage: [$index] $image");
+    }
+
+    rollImage();
+    // 使用 timer 每 30 秒 更换一次随机图片
+    _loopTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
+      rollImage();
+    });
   }
 
   String getUpgradePath() {
@@ -195,15 +165,7 @@ class AppGlobalModel extends _$AppGlobalModel {
 
   // ignore: avoid_build_context_in_providers
   Future<bool> checkUpdate(BuildContext context) async {
-    if (!ConstConf.isMSE) {
-      final dir = Directory(getUpgradePath());
-      if (await dir.exists()) {
-        dir.delete(recursive: true);
-      }
-    }
-
     dynamic checkUpdateError;
-
     try {
       final networkVersionData = await Api.getAppVersion();
       checkActivityThemeColor(networkVersionData);
@@ -228,26 +190,6 @@ class AppGlobalModel extends _$AppGlobalModel {
           S.current.app_common_network_error(
               ConstConf.appVersionDate, checkUpdateError.toString()));
       return false;
-    }
-    if (!Platform.isWindows) return false;
-    final lastVersion = ConstConf.isMSE
-        ? state.networkVersionData?.mSELastVersionCode
-        : state.networkVersionData?.lastVersionCode;
-    if ((lastVersion ?? 0) > ConstConf.appVersionCode) {
-      // need update
-      if (!context.mounted) return false;
-
-      final r = await showDialog(
-          dismissWithEsc: false,
-          context: context,
-          builder: (context) => const UpgradeDialogUI());
-
-      if (r != true) {
-        if (!context.mounted) return false;
-        await showToast(context, S.current.app_common_upgrade_info_error);
-        return false;
-      }
-      return true;
     }
     return false;
   }
@@ -312,44 +254,6 @@ class AppGlobalModel extends _$AppGlobalModel {
       dPrint("changeLocale == $value localeCode=== $localeCode");
       await appConfBox.put("app_locale", localeCode);
       state = state.copyWith(appLocale: value);
-    }
-  }
-
-  Future<String> _initAppDir() async {
-    if (Platform.isWindows) {
-      final userProfileDir = Platform.environment["USERPROFILE"];
-      final applicationSupportDir =
-          (await getApplicationSupportDirectory()).absolute.path;
-      String? applicationBinaryModuleDir;
-      try {
-        await initDPrintFile(applicationSupportDir);
-      } catch (e) {
-        dPrint("initDPrintFile Error: $e");
-      }
-      if (ConstConf.isMSE && userProfileDir != null) {
-        applicationBinaryModuleDir =
-            "$userProfileDir\\AppData\\Local\\Temp\\SCToolbox\\modules";
-      } else {
-        applicationBinaryModuleDir = "$applicationSupportDir\\modules";
-      }
-      dPrint("applicationSupportDir == $applicationSupportDir");
-      dPrint("applicationBinaryModuleDir == $applicationBinaryModuleDir");
-      state = state.copyWith(
-        applicationSupportDir: applicationSupportDir,
-        applicationBinaryModuleDir: applicationBinaryModuleDir,
-      );
-      return applicationSupportDir;
-    } else {
-      final applicationSupportDir =
-          (await getApplicationSupportDirectory()).absolute.path;
-      final applicationBinaryModuleDir = "$applicationSupportDir/modules";
-      dPrint("applicationSupportDir == $applicationSupportDir");
-      dPrint("applicationBinaryModuleDir == $applicationBinaryModuleDir");
-      state = state.copyWith(
-        applicationSupportDir: applicationSupportDir,
-        applicationBinaryModuleDir: applicationBinaryModuleDir,
-      );
-      return applicationSupportDir;
     }
   }
 }

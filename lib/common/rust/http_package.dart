@@ -6,23 +6,11 @@
 import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-enum MyHttpVersion {
-  http09,
-  http10,
-  http11,
-  http2,
-  http3,
-  httpUnknown,
-  ;
-}
-
 class RustHttpResponse {
   final int statusCode;
   final Map<String, String> headers;
   final String url;
   final BigInt? contentLength;
-  final MyHttpVersion version;
-  final String remoteAddr;
   final Uint8List? data;
 
   const RustHttpResponse({
@@ -30,8 +18,6 @@ class RustHttpResponse {
     required this.headers,
     required this.url,
     this.contentLength,
-    required this.version,
-    required this.remoteAddr,
     this.data,
   });
 
@@ -41,8 +27,6 @@ class RustHttpResponse {
       headers.hashCode ^
       url.hashCode ^
       contentLength.hashCode ^
-      version.hashCode ^
-      remoteAddr.hashCode ^
       data.hashCode;
 
   @override
@@ -54,7 +38,5 @@ class RustHttpResponse {
           headers == other.headers &&
           url == other.url &&
           contentLength == other.contentLength &&
-          version == other.version &&
-          remoteAddr == other.remoteAddr &&
           data == other.data;
 }

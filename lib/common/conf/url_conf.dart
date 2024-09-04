@@ -37,24 +37,7 @@ class URLConf {
   static String get devReleaseUrl => "$gitApiHome/SCToolBox/Release/releases";
 
   static Future<bool> checkHost() async {
-    // 使用 DNS 获取可用列表
-    final gitApiList =
-        _genFinalList(await RSHttp.dnsLookupTxt("git.dns.scbox.org"));
-    dPrint("DNS gitApiList ==== $gitApiList");
-    final fasterGit = await getFasterUrl(gitApiList);
-    dPrint("gitApiList.Faster ==== $fasterGit");
-    if (fasterGit != null) {
-      gitApiHome = fasterGit;
-    }
-    final rssApiList =
-        _genFinalList(await RSHttp.dnsLookupTxt("rss.dns.scbox.org"));
-    final fasterRss = await getFasterUrl(rssApiList);
-    dPrint("DNS rssApiList ==== $rssApiList");
-    dPrint("rssApiList.Faster ==== $fasterRss");
-    if (fasterRss != null) {
-      rssApiHome = fasterRss;
-    }
-    isUrlCheckPass = fasterGit != null && fasterRss != null;
+    isUrlCheckPass = true;
     return isUrlCheckPass;
   }
 
@@ -87,14 +70,4 @@ class URLConf {
     }
   }
 
-  static List<String> _genFinalList(List<String> sList) {
-    List<String> list = [];
-    for (var ll in sList) {
-      final ssList = ll.split(",");
-      for (var value in ssList) {
-        list.add(value);
-      }
-    }
-    return list;
-  }
 }

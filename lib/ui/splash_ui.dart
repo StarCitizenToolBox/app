@@ -12,7 +12,6 @@ import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
-import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 class SplashUI extends HookConsumerWidget {
@@ -86,17 +85,18 @@ class SplashUI extends HookConsumerWidget {
     dPrint("_initApp checkUpdate");
     await appModel.checkUpdate(context);
     stepState.value = 2;
-    dPrint("_initApp aria2cModelProvider");
-    ref.read(aria2cModelProvider);
     if (!context.mounted) return;
-    context.go("/index");
+    context.go("/");
   }
 
   _showAlert(BuildContext context, Box<dynamic> appConf) async {
     final userOk = await showConfirmDialogs(
         context,
         S.current.app_splash_dialog_u_a_p_p,
-        MarkdownWidget(data: S.current.app_splash_dialog_u_a_p_p_content),
+        MarkdownWidget(
+          data: S.current.app_splash_dialog_u_a_p_p_content,
+          shrinkWrap: true,
+        ),
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .5));
     if (userOk) {
