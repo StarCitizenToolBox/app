@@ -28,7 +28,9 @@ mixin _$AdvancedLocalizationUIState {
   int get serverGlobalIniLines => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AdvancedLocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AdvancedLocalizationUIStateCopyWith<AdvancedLocalizationUIState>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -64,6 +66,8 @@ class _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AdvancedLocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -149,6 +153,8 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
       $Res Function(_$AdvancedLocalizationUIStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AdvancedLocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -309,7 +315,9 @@ class _$AdvancedLocalizationUIStateImpl
       serverGlobalIniLines,
       errorMessage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AdvancedLocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AdvancedLocalizationUIStateImplCopyWith<_$AdvancedLocalizationUIStateImpl>
@@ -348,8 +356,11 @@ abstract class _AdvancedLocalizationUIState
   int get serverGlobalIniLines;
   @override
   String get errorMessage;
+
+  /// Create a copy of AdvancedLocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AdvancedLocalizationUIStateImplCopyWith<_$AdvancedLocalizationUIStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

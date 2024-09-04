@@ -23,7 +23,9 @@ mixin _$HomeGameDoctorState {
   List<MapEntry<String, String>>? get checkResult =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeGameDoctorState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HomeGameDoctorStateCopyWith<HomeGameDoctorState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +54,8 @@ class _$HomeGameDoctorStateCopyWithImpl<$Res, $Val extends HomeGameDoctorState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HomeGameDoctorState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,6 +114,8 @@ class __$$HomeGameDoctorStateImplCopyWithImpl<$Res>
       $Res Function(_$HomeGameDoctorStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeGameDoctorState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -208,7 +214,9 @@ class _$HomeGameDoctorStateImpl implements _HomeGameDoctorState {
       isFixingString,
       const DeepCollectionEquality().hash(_checkResult));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeGameDoctorState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HomeGameDoctorStateImplCopyWith<_$HomeGameDoctorStateImpl> get copyWith =>
@@ -235,8 +243,11 @@ abstract class _HomeGameDoctorState implements HomeGameDoctorState {
   String get isFixingString;
   @override
   List<MapEntry<String, String>>? get checkResult;
+
+  /// Create a copy of HomeGameDoctorState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HomeGameDoctorStateImplCopyWith<_$HomeGameDoctorStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

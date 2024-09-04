@@ -24,7 +24,9 @@ mixin _$LocalizationUIState {
   bool? get isInstalledAdvanced => throw _privateConstructorUsedError;
   List<String>? get customizeList => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LocalizationUIStateCopyWith<LocalizationUIState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +56,8 @@ class _$LocalizationUIStateCopyWithImpl<$Res, $Val extends LocalizationUIState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,6 +122,8 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
       $Res Function(_$LocalizationUIStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -234,7 +240,9 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
       isInstalledAdvanced,
       const DeepCollectionEquality().hash(_customizeList));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocalizationUIStateImplCopyWith<_$LocalizationUIStateImpl> get copyWith =>
@@ -263,8 +271,11 @@ abstract class _LocalizationUIState implements LocalizationUIState {
   bool? get isInstalledAdvanced;
   @override
   List<String>? get customizeList;
+
+  /// Create a copy of LocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocalizationUIStateImplCopyWith<_$LocalizationUIStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

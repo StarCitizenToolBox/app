@@ -24,7 +24,9 @@ mixin _$AppGlobalState {
   Locale? get appLocale => throw _privateConstructorUsedError;
   Box<dynamic>? get appConfBox => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppGlobalState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AppGlobalStateCopyWith<AppGlobalState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +59,8 @@ class _$AppGlobalStateCopyWithImpl<$Res, $Val extends AppGlobalState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AppGlobalState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -100,6 +104,8 @@ class _$AppGlobalStateCopyWithImpl<$Res, $Val extends AppGlobalState>
     ) as $Val);
   }
 
+  /// Create a copy of AppGlobalState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ThemeConfCopyWith<$Res> get themeConf {
@@ -138,6 +144,8 @@ class __$$AppGlobalStateImplCopyWithImpl<$Res>
       _$AppGlobalStateImpl _value, $Res Function(_$AppGlobalStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppGlobalState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -249,7 +257,9 @@ class _$AppGlobalStateImpl implements _AppGlobalState {
       appLocale,
       appConfBox);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppGlobalState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AppGlobalStateImplCopyWith<_$AppGlobalStateImpl> get copyWith =>
@@ -281,8 +291,11 @@ abstract class _AppGlobalState implements AppGlobalState {
   Locale? get appLocale;
   @override
   Box<dynamic>? get appConfBox;
+
+  /// Create a copy of AppGlobalState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AppGlobalStateImplCopyWith<_$AppGlobalStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -293,7 +306,9 @@ mixin _$ThemeConf {
   Color get menuColor => throw _privateConstructorUsedError;
   Color get micaColor => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ThemeConf
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ThemeConfCopyWith<ThemeConf> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -316,6 +331,8 @@ class _$ThemeConfCopyWithImpl<$Res, $Val extends ThemeConf>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ThemeConf
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -359,6 +376,8 @@ class __$$ThemeConfImplCopyWithImpl<$Res>
       _$ThemeConfImpl _value, $Res Function(_$ThemeConfImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ThemeConf
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -423,7 +442,9 @@ class _$ThemeConfImpl implements _ThemeConf {
   int get hashCode =>
       Object.hash(runtimeType, backgroundColor, menuColor, micaColor);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ThemeConf
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ThemeConfImplCopyWith<_$ThemeConfImpl> get copyWith =>
@@ -442,8 +463,11 @@ abstract class _ThemeConf implements ThemeConf {
   Color get menuColor;
   @override
   Color get micaColor;
+
+  /// Create a copy of ThemeConf
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ThemeConfImplCopyWith<_$ThemeConfImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

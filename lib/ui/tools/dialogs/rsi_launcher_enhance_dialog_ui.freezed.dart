@@ -23,7 +23,9 @@ mixin _$RSILauncherStateData {
   String? get enabledLocalization => throw _privateConstructorUsedError;
   bool? get enableDownloaderBoost => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RSILauncherStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RSILauncherStateDataCopyWith<RSILauncherStateData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +56,8 @@ class _$RSILauncherStateDataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RSILauncherStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,6 +122,8 @@ class __$$RSILauncherStateDataImplCopyWithImpl<$Res>
       $Res Function(_$RSILauncherStateDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RSILauncherStateData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -208,7 +214,9 @@ class _$RSILauncherStateDataImpl implements _RSILauncherStateData {
   int get hashCode => Object.hash(runtimeType, version, data, serverData,
       isPatchInstalled, enabledLocalization, enableDownloaderBoost);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RSILauncherStateData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RSILauncherStateDataImplCopyWith<_$RSILauncherStateDataImpl>
@@ -238,8 +246,11 @@ abstract class _RSILauncherStateData implements RSILauncherStateData {
   String? get enabledLocalization;
   @override
   bool? get enableDownloaderBoost;
+
+  /// Create a copy of RSILauncherStateData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RSILauncherStateDataImplCopyWith<_$RSILauncherStateDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

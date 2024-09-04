@@ -20,7 +20,9 @@ mixin _$Aria2cModelState {
   Aria2c? get aria2c => throw _privateConstructorUsedError;
   Aria2GlobalStat? get aria2globalStat => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Aria2cModelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $Aria2cModelStateCopyWith<Aria2cModelState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$Aria2cModelStateCopyWithImpl<$Res, $Val extends Aria2cModelState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Aria2cModelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +93,8 @@ class __$$Aria2cModelStateImplCopyWithImpl<$Res>
       $Res Function(_$Aria2cModelStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Aria2cModelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -159,7 +165,9 @@ class _$Aria2cModelStateImpl
   int get hashCode =>
       Object.hash(runtimeType, aria2cDir, aria2c, aria2globalStat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Aria2cModelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Aria2cModelStateImplCopyWith<_$Aria2cModelStateImpl> get copyWith =>
@@ -179,8 +187,11 @@ abstract class _Aria2cModelState implements Aria2cModelState {
   Aria2c? get aria2c;
   @override
   Aria2GlobalStat? get aria2globalStat;
+
+  /// Create a copy of Aria2cModelState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Aria2cModelStateImplCopyWith<_$Aria2cModelStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

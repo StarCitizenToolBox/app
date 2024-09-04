@@ -26,7 +26,9 @@ mixin _$HomeGameLoginState {
   String? get installPath => throw _privateConstructorUsedError;
   bool? get isDeviceSupportWinHello => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeGameLoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HomeGameLoginStateCopyWith<HomeGameLoginState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -59,6 +61,8 @@ class _$HomeGameLoginStateCopyWithImpl<$Res, $Val extends HomeGameLoginState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HomeGameLoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -141,6 +145,8 @@ class __$$LoginStatusImplCopyWithImpl<$Res>
       _$LoginStatusImpl _value, $Res Function(_$LoginStatusImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeGameLoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -281,7 +287,9 @@ class _$LoginStatusImpl implements _LoginStatus {
       installPath,
       isDeviceSupportWinHello);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeGameLoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LoginStatusImplCopyWith<_$LoginStatusImpl> get copyWith =>
@@ -318,8 +326,11 @@ abstract class _LoginStatus implements HomeGameLoginState {
   String? get installPath;
   @override
   bool? get isDeviceSupportWinHello;
+
+  /// Create a copy of HomeGameLoginState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoginStatusImplCopyWith<_$LoginStatusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

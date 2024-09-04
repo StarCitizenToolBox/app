@@ -25,7 +25,9 @@ mixin _$ToolsUIState {
   List<ToolsItemData> get items => throw _privateConstructorUsedError;
   bool get isItemLoading => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ToolsUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ToolsUIStateCopyWith<ToolsUIState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +58,8 @@ class _$ToolsUIStateCopyWithImpl<$Res, $Val extends ToolsUIState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ToolsUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -126,6 +130,8 @@ class __$$ToolsUIStateImplCopyWithImpl<$Res>
       _$ToolsUIStateImpl _value, $Res Function(_$ToolsUIStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ToolsUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,7 +268,9 @@ class _$ToolsUIStateImpl implements _ToolsUIState {
       const DeepCollectionEquality().hash(_items),
       isItemLoading);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ToolsUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ToolsUIStateImplCopyWith<_$ToolsUIStateImpl> get copyWith =>
@@ -293,8 +301,11 @@ abstract class _ToolsUIState implements ToolsUIState {
   List<ToolsItemData> get items;
   @override
   bool get isItemLoading;
+
+  /// Create a copy of ToolsUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ToolsUIStateImplCopyWith<_$ToolsUIStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

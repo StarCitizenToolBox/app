@@ -33,7 +33,9 @@ mixin _$HomeUIModelState {
       throw _privateConstructorUsedError;
   Map<String, bool> get isGameRunning => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeUIModelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HomeUIModelStateCopyWith<HomeUIModelState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -70,6 +72,8 @@ class _$HomeUIModelStateCopyWithImpl<$Res, $Val extends HomeUIModelState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HomeUIModelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -176,6 +180,8 @@ class __$$HomeUIModelStateImplCopyWithImpl<$Res>
       $Res Function(_$HomeUIModelStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeUIModelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -407,7 +413,9 @@ class _$HomeUIModelStateImpl implements _HomeUIModelState {
       const DeepCollectionEquality().hash(_countdownFestivalListData),
       const DeepCollectionEquality().hash(_isGameRunning));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeUIModelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HomeUIModelStateImplCopyWith<_$HomeUIModelStateImpl> get copyWith =>
@@ -457,8 +465,11 @@ abstract class _HomeUIModelState implements HomeUIModelState {
   List<CountdownFestivalItemData>? get countdownFestivalListData;
   @override
   Map<String, bool> get isGameRunning;
+
+  /// Create a copy of HomeUIModelState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HomeUIModelStateImplCopyWith<_$HomeUIModelStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

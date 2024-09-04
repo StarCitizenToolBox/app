@@ -26,7 +26,9 @@ mixin _$Unp4kcState {
       throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Unp4kcState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $Unp4kcStateCopyWith<Unp4kcState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +59,8 @@ class _$Unp4kcStateCopyWithImpl<$Res, $Val extends Unp4kcState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Unp4kcState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,6 +131,8 @@ class __$$Unp4kcStateImplCopyWithImpl<$Res>
       _$Unp4kcStateImpl _value, $Res Function(_$Unp4kcStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Unp4kcState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -255,7 +261,9 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
       tempOpenFile,
       errorMessage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Unp4kcState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$Unp4kcStateImplCopyWith<_$Unp4kcStateImpl> get copyWith =>
@@ -286,8 +294,11 @@ abstract class _Unp4kcState implements Unp4kcState {
   MapEntry<String, String>? get tempOpenFile;
   @override
   String get errorMessage;
+
+  /// Create a copy of Unp4kcState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Unp4kcStateImplCopyWith<_$Unp4kcStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

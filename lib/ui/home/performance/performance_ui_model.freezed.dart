@@ -22,7 +22,9 @@ mixin _$HomePerformanceUIState {
       throw _privateConstructorUsedError;
   String get workingString => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomePerformanceUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HomePerformanceUIStateCopyWith<HomePerformanceUIState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$HomePerformanceUIStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HomePerformanceUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -106,6 +110,8 @@ class __$$HomePerformanceUIStateImplCopyWithImpl<$Res>
       $Res Function(_$HomePerformanceUIStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomePerformanceUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -194,7 +200,9 @@ class _$HomePerformanceUIStateImpl implements _HomePerformanceUIState {
       const DeepCollectionEquality().hash(_performanceMap),
       workingString);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomePerformanceUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HomePerformanceUIStateImplCopyWith<_$HomePerformanceUIStateImpl>
@@ -217,8 +225,11 @@ abstract class _HomePerformanceUIState implements HomePerformanceUIState {
   Map<String, List<GamePerformanceData>>? get performanceMap;
   @override
   String get workingString;
+
+  /// Create a copy of HomePerformanceUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HomePerformanceUIStateImplCopyWith<_$HomePerformanceUIStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

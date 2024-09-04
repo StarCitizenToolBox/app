@@ -21,7 +21,9 @@ mixin _$HomeDownloaderUIState {
   List<Aria2Task> get stoppedTasks => throw _privateConstructorUsedError;
   Aria2GlobalStat? get globalStat => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeDownloaderUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HomeDownloaderUIStateCopyWith<HomeDownloaderUIState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +52,8 @@ class _$HomeDownloaderUIStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HomeDownloaderUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,6 +108,8 @@ class __$$HomeDownloaderUIStateImplCopyWithImpl<$Res>
       $Res Function(_$HomeDownloaderUIStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomeDownloaderUIState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -202,7 +208,9 @@ class _$HomeDownloaderUIStateImpl implements _HomeDownloaderUIState {
       const DeepCollectionEquality().hash(_stoppedTasks),
       globalStat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomeDownloaderUIState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HomeDownloaderUIStateImplCopyWith<_$HomeDownloaderUIStateImpl>
@@ -225,8 +233,11 @@ abstract class _HomeDownloaderUIState implements HomeDownloaderUIState {
   List<Aria2Task> get stoppedTasks;
   @override
   Aria2GlobalStat? get globalStat;
+
+  /// Create a copy of HomeDownloaderUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HomeDownloaderUIStateImplCopyWith<_$HomeDownloaderUIStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
