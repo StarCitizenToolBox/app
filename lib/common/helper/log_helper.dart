@@ -36,16 +36,7 @@ class SCLoggerHelper {
       final jsonLogPath = await getLogFilePath();
       if (jsonLogPath == null) throw "no file path";
       var jsonString = utf8.decode(await File(jsonLogPath).readAsBytes());
-      if (jsonString.endsWith("\n")) {
-        jsonString = jsonString.substring(0, jsonString.length - 3);
-      }
-      if (jsonString.endsWith(" ")) {
-        jsonString = jsonString.substring(0, jsonString.length - 3);
-      }
-      if (jsonString.endsWith(",")) {
-        jsonString = jsonString.substring(0, jsonString.length - 3);
-      }
-      return json.decode("[$jsonString]");
+      return jsonString.split("\n");
     } catch (e) {
       dPrint(e);
       return [];
@@ -58,6 +49,8 @@ class SCLoggerHelper {
     List<String> scInstallPaths = [];
 
     checkAndAddPath(String path, bool checkExists) async {
+      // 将所有连续的 \\ 替换为 \
+      path = path.replaceAll(RegExp(r'\\+'), "\\");
       if (path.isNotEmpty && !scInstallPaths.contains(path)) {
         if (!checkExists) {
           dPrint("find installPath == $path");
@@ -80,36 +73,27 @@ class SCLoggerHelper {
 
     try {
       for (var v in withVersion) {
+        String pattern =
+            r'([a-zA-Z]:\\\\[^\\\\]*\\\\[^\\\\]*\\\\StarCitizen\\\\' + v + r')';
+        RegExp regExp = RegExp(pattern, caseSensitive: false);
         for (var i = listData.length - 1; i > 0; i--) {
-          final m = listData[i];
-          final info = m["[browser][info] "];
-          if (info is String) {
-            String installPath = "";
-            if (info.contains("Installing Star Citizen $v")) {
-              installPath = "${info.split(" at ")[1]}\\$v";
-            }
-            if (info.contains("Verifying Star Citizen $v")) {
-              installPath = "${info.split(" at ")[1]}\\$v";
-            }
-            if (info.contains("Launching Star Citizen $v from")) {
-              installPath = info
-                  .replaceAll("Launching Star Citizen $v from (", "")
-                  .replaceAll(")", "");
-            }
-            await checkAndAddPath(installPath, checkExists);
+          final line = listData[i];
+          final matches = regExp.allMatches(line);
+          for (var match in matches) {
+            await checkAndAddPath(match.group(0)!, checkExists);
           }
         }
+      }
 
-        if (scInstallPaths.isNotEmpty) {
-          // 动态检测更多位置
+      if (scInstallPaths.isNotEmpty) {
+        // 动态检测更多位置
+        for (var fileName in List.from(scInstallPaths)) {
           for (var v in withVersion) {
-            for (var fileName in List.from(scInstallPaths)) {
-              if (fileName.toString().endsWith(v)) {
-                for (var nv in withVersion) {
-                  final nextName =
-                      "${fileName.toString().replaceAll("\\$v", "")}\\$nv";
-                  await checkAndAddPath(nextName, true);
-                }
+            if (fileName.toString().endsWith(v)) {
+              for (var nv in withVersion) {
+                final nextName =
+                    "${fileName.toString().replaceAll("\\$v", "")}\\$nv";
+                await checkAndAddPath(nextName, true);
               }
             }
           }

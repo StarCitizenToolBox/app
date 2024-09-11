@@ -129,35 +129,12 @@ class ToolsUIModel extends _$ToolsUIModel {
       items.add(await _addPhotographyCard(context));
       state = state.copyWith(items: items);
       if (!context.mounted) return;
-      items.addAll(await _addLogCard(context));
-      state = state.copyWith(items: items);
-      if (!context.mounted) return;
       items.addAll(await _addNvmePatchCard(context));
       state = state.copyWith(items: items, isItemLoading: false);
     } catch (e) {
       if (!context.mounted) return;
       showToast(context, S.current.tools_action_info_init_failed(e));
     }
-  }
-
-  Future<List<ToolsItemData>> _addLogCard(BuildContext context) async {
-    double logPathLen = 0;
-    try {
-      logPathLen =
-          (await File(await SCLoggerHelper.getLogFilePath() ?? "").length()) /
-              1024 /
-              1024;
-    } catch (_) {}
-    return [
-      ToolsItemData(
-        "rsilauncher_log_fix",
-        S.current.tools_action_rsi_launcher_log_fix,
-        S.current.tools_action_info_rsi_launcher_log_issue(
-            logPathLen.toStringAsFixed(4)),
-        const Icon(FontAwesomeIcons.bookBible, size: 24),
-        onTap: () => _rsiLogFix(context),
-      ),
-    ];
   }
 
   Future<List<ToolsItemData>> _addNvmePatchCard(BuildContext context) async {
@@ -351,28 +328,6 @@ class ToolsUIModel extends _$ToolsUIModel {
           S.current.tools_action_info_rsi_launcher_directory_not_found);
     }
     SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
-  }
-
-  Future<void> _rsiLogFix(BuildContext context) async {
-    state = state.copyWith(working: true);
-    final path = await SCLoggerHelper.getLogFilePath();
-    if (!await File(path!).exists()) {
-      if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_log_file_not_exist);
-      return;
-    }
-    try {
-      SystemHelper.killRSILauncher();
-      await File(path).delete(recursive: true);
-      if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_cleanup_complete);
-      SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
-    } catch (_) {
-      if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_cleanup_failed(path));
-    }
-
-    state = state.copyWith(working: false);
   }
 
   openDir(path) async {
