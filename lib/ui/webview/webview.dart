@@ -193,8 +193,6 @@ class WebViewModel {
             webview.close();
           }
         });
-        Future.delayed(const Duration(seconds: 1))
-            .then((value) => {webview.setWebviewWindowVisibility(false)});
       }
     } catch (e) {
       showToast(context, S.current.app_init_failed_with_reason(e));
