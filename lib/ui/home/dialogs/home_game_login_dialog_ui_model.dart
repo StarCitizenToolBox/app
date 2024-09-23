@@ -63,10 +63,13 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
       final webToken = data["webToken"];
       final releaseInfo = data["releaseInfo"];
       final libraryData = RsiGameLibraryData.fromJson(data["libraryData"]);
-      final avatarUrl = data["avatar"]
+      var avatarUrl = data["avatar"]
           ?.toString()
           .replaceAll("url(\"", "")
           .replaceAll("\")", "");
+      if (avatarUrl?.startsWith("/") ?? false) {
+        avatarUrl = "https://robertsspaceindustries.com$avatarUrl";
+      }
       final Map<String, dynamic> payload = Jwt.parseJwt(authToken!);
       final nickname = payload["nickname"] ?? "";
 

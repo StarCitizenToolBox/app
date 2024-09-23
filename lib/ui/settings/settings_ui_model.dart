@@ -92,8 +92,9 @@ class SettingsUIModel extends _$SettingsUIModel {
     if (r == null || r.files.firstOrNull?.path == null) return;
     final fileName = r.files.first.path!;
     dPrint(fileName);
-    final fileNameRegExp =
-        RegExp(r"^(.*\\StarCitizen\\.*\\)Bin64\\StarCitizen\.exe$");
+    final fileNameRegExp = RegExp(
+        r"^(.*\\StarCitizen\\.*\\)Bin64\\StarCitizen\.exe$",
+        caseSensitive: false);
     if (fileNameRegExp.hasMatch(fileName)) {
       RegExp pathRegex = RegExp(r"\\[^\\]+\\Bin64\\StarCitizen\.exe$");
       String extractedPath = fileName.replaceFirst(pathRegex, '');

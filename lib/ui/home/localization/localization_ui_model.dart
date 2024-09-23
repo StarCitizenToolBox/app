@@ -297,7 +297,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         for (var value
             in (element.rawContent?.readString() ?? "").split("\n")) {
           final tv = value.trim();
-          if (tv.isNotEmpty) globalIni.writeln(tv);
+          if (tv.isNotEmpty) globalIni.writeln(value);
         }
       }
     }

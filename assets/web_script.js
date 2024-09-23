@@ -287,8 +287,7 @@ async function getRSILauncherToken(channelId) {
     let libraryData = (await libraryR.json())["data"]
 
     // get user avatar
-    let $avatarElement = $(".c-account-sidebar__profile-metas-avatar");
-    let avatarUrl = $avatarElement.css("background-image");
+    let avatarUrl = $(".a-avatarButton__image").attr("src");
 
     //post message
     window.chrome.webview.postMessage({

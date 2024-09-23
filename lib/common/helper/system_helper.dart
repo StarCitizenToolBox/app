@@ -8,8 +8,8 @@ class SystemHelper {
 
   static initPowershellPath() async {
     try {
-      var result = await Process.run(powershellPath, ["echo", "ping"]);
-      if (!result.stdout.toString().startsWith("ping") &&
+      var result = await Process.run(powershellPath, ["echo", "pong"]);
+      if (!result.stdout.toString().startsWith("pong") &&
           powershellPath == "powershell.exe") {
         throw "powershell check failed";
       }
