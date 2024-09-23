@@ -77,8 +77,9 @@ class LocalizationDialogUI extends HookConsumerWidget {
                     }),
                   ),
                 ),
+              makeToolsListContainer(context, model, state),
               makeListContainer(
-                  S.current.localization_info_translation_status,
+                  S.current.localization_info_translation,
                   [
                     if (state.patchStatus == null)
                       makeLoading(context)
@@ -140,30 +141,41 @@ class LocalizationDialogUI extends HookConsumerWidget {
                             ),
                         ],
                       ),
+                      const SizedBox(height: 12),
+                      Container(
+                        color: Colors.white.withOpacity(.1),
+                        height: 1,
+                      ),
+                      const SizedBox(height: 12),
+                      if (state.apiLocalizationData == null)
+                        makeLoading(context)
+                      else if (state.apiLocalizationData!.isEmpty)
+                        Center(
+                          child: Text(
+                            S.current
+                                .localization_info_no_translation_available,
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.white.withOpacity(.8)),
+                          ),
+                        )
+                      else
+                        AlignedGridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          itemBuilder: (BuildContext context, int index) {
+                            final item = state.apiLocalizationData!.entries
+                                .elementAt(index);
+                            return makeRemoteList(context, model, item, state);
+                          },
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.apiLocalizationData?.length ?? 0,
+                        )
                     ],
                   ],
                   context),
-              makeListContainer(
-                  S.current.localization_info_community_translation,
-                  [
-                    if (state.apiLocalizationData == null)
-                      makeLoading(context)
-                    else if (state.apiLocalizationData!.isEmpty)
-                      Center(
-                        child: Text(
-                          S.current.localization_info_no_translation_available,
-                          style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.white.withOpacity(.8)),
-                        ),
-                      )
-                    else
-                      for (final item in state.apiLocalizationData!.entries)
-                        makeRemoteList(context, model, item, state),
-                  ],
-                  context,
-                  gridViewMode: true),
-              makeToolsListContainer(context, model, state),
             ],
           ),
         ),

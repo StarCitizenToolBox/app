@@ -646,8 +646,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "localization_info_note": MessageLookupByLibrary.simpleMessage("备注："),
         "localization_info_remove_incompatible_translation_params":
             MessageLookupByLibrary.simpleMessage("是否移除不兼容的汉化参数"),
-        "localization_info_translation_status":
-            MessageLookupByLibrary.simpleMessage("汉化状态"),
+        "localization_info_translation":
+            MessageLookupByLibrary.simpleMessage("游戏汉化"),
         "localization_info_unavailable":
             MessageLookupByLibrary.simpleMessage("不可用"),
         "localization_info_update_time": m40,

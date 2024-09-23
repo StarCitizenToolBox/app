@@ -1661,11 +1661,11 @@ class S {
     );
   }
 
-  /// `Localization status`
-  String get localization_info_translation_status {
+  /// `Game localization`
+  String get localization_info_translation {
     return Intl.message(
-      'Localization status',
-      name: 'localization_info_translation_status',
+      'Game localization',
+      name: 'localization_info_translation',
       desc: '',
       args: [],
     );

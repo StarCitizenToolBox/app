@@ -7,7 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
-import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -167,15 +166,6 @@ class HomeUI extends HookConsumerWidget {
                         : Colors.white,
                   ),
                 )),
-            const SizedBox(width: 12),
-            Button(
-              onPressed: () =>
-                  SystemHelper.openDir("${homeState.scInstalledPath}"),
-              child: const Padding(
-                padding: EdgeInsets.all(6),
-                child: Icon(FluentIcons.folder_open),
-              ),
-            ),
             const SizedBox(width: 12),
             Button(
               onPressed: model.reScanPath,

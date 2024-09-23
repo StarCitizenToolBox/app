@@ -220,7 +220,14 @@ class ToolsUI extends HookConsumerWidget {
               padding: EdgeInsets.all(6),
               child: Icon(FluentIcons.folder_open),
             ),
-            onPressed: () => model.openDir(state.scInstalledPath))
+            onPressed: () {
+              if (state.scInstalledPath.trim().isEmpty) {
+                showToast(context,
+                    S.current.tools_action_info_star_citizen_not_found);
+                return;
+              }
+              model.openDir(state.scInstalledPath);
+            })
       ],
     );
   }
@@ -258,7 +265,16 @@ class ToolsUI extends HookConsumerWidget {
               padding: EdgeInsets.all(6),
               child: Icon(FluentIcons.folder_open),
             ),
-            onPressed: () => model.openDir(state.rsiLauncherInstalledPath))
+            onPressed: () {
+              if (state.scInstalledPath.trim().isEmpty) {
+                showToast(
+                    context,
+                    S.current
+                        .tools_rsi_launcher_enhance_msg_error_launcher_notfound);
+                return;
+              }
+              model.openDir(state.rsiLauncherInstalledPath);
+            })
       ],
     );
   }

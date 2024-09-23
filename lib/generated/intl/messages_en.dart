@@ -719,8 +719,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "localization_info_remove_incompatible_translation_params":
             MessageLookupByLibrary.simpleMessage(
                 "Whether to remove incompatible Localization parameters"),
-        "localization_info_translation_status":
-            MessageLookupByLibrary.simpleMessage("Localization status"),
+        "localization_info_translation":
+            MessageLookupByLibrary.simpleMessage("Game localization"),
         "localization_info_unavailable":
             MessageLookupByLibrary.simpleMessage("Unavailable"),
         "localization_info_update_time": m40,
