@@ -197,8 +197,6 @@ function GetSCLocalizationTranslateString(txtSrc) {
     return txtSrc
 }
 
-InitWebLocalization();
-
 function ReportUnTranslate(k, v) {
 
     if (enable_webview_localization_capture) {

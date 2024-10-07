@@ -71,12 +71,7 @@ class WebViewModel {
           dPrint("webview Navigating url === $url");
           if (url.contains("robertsspaceindustries.com")) {
             // SC 官网
-            dPrint("load script");
-            await Future.delayed(const Duration(milliseconds: 100));
-            await webview.evaluateJavaScript(localizationScript);
-            dPrint("update replaceWords");
             final replaceWords = _getLocalizationResource("zh-CN");
-
             const org = "https://robertsspaceindustries.com/orgs";
             const citizens = "https://robertsspaceindustries.com/citizens";
             const organization =
@@ -90,12 +85,15 @@ class WebViewModel {
 
             const hangar = "https://robertsspaceindustries.com/account/pledges";
 
-            const spectrum =
-                "https://robertsspaceindustries.com/spectrum/community/";
+            const spectrum = "https://robertsspaceindustries.com/spectrum";
             // 跳过光谱论坛 https://github.com/StarCitizenToolBox/StarCitizenBoxBrowserEx/issues/1
             if (url.startsWith(spectrum)) {
               return;
             }
+
+            dPrint("load script");
+            await Future.delayed(const Duration(milliseconds: 100));
+            await webview.evaluateJavaScript(localizationScript);
 
             if (url.startsWith(org) ||
                 url.startsWith(citizens) ||
@@ -144,7 +142,9 @@ class WebViewModel {
               _curReplaceWords?[element["word"] ?? ""] =
                   element["replacement"] ?? "";
             }
+            await webview.evaluateJavaScript("InitWebLocalization()");
             await Future.delayed(const Duration(milliseconds: 100));
+            dPrint("update replaceWords");
             await webview.evaluateJavaScript(
                 "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
 
