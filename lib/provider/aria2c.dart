@@ -121,7 +121,8 @@ class Aria2cModel extends _$Aria2cModel {
     String launchError = "";
 
     stream.listen((event) {
-      dPrint("Aria2cManager.rs_process event === $event");
+      dPrint(
+          "Aria2cManager.rs_process event === [${event.rsPid}] ${event.dataType} >> ${event.data}");
       switch (event.dataType) {
         case rs_process.RsProcessStreamDataType.output:
           if (event.data.contains("IPv4 RPC: listening on TCP port")) {
