@@ -578,7 +578,7 @@
   "@tools_action_info_fix_success_restart": {},
   "tools_action_clear_shader_cache": "刪除著色器快取",
   "@tools_action_clear_shader_cache": {},
-  "tools_action_info_shader_cache_issue": "若遊戲畫面出現異常或版本更新後可使用此工具清除著色器快取 \n\n建議清理：快取大於 500 MB\n快取大小：{v0} MB",
+  "tools_action_info_shader_cache_issue": "若遊戲畫面出現異常或版本更新後可使用此工具清除著色器快取 \n\n（同時會將 Vulkan 還原為 DX11）\n快取大小：{v0} MB",
   "@tools_action_info_shader_cache_issue": {},
   "tools_action_close_photography_mode": "攝影模式",
   "@tools_action_close_photography_mode": {},
