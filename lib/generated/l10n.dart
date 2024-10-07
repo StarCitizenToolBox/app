@@ -2761,13 +2761,13 @@ class S {
     );
   }
 
-  /// `The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nLimited resources, please do not abuse.`
-  String get tools_action_info_p4k_download_repair_tip {
+  /// `The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:{v0}`
+  String tools_action_info_p4k_download_repair_tip(Object v0) {
     return Intl.message(
-      'The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nLimited resources, please do not abuse.',
+      'The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:$v0',
       name: 'tools_action_info_p4k_download_repair_tip',
       desc: '',
-      args: [],
+      args: [v0],
     );
   }
 

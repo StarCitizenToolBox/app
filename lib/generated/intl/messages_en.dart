@@ -142,34 +142,37 @@ class MessageLookup extends MessageLookupByLibrary {
       "If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: ${v0}";
 
   static String m51(v0) =>
-      "In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: ${v0} MB";
+      "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:${v0}";
 
   static String m52(v0) =>
+      "In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: ${v0} MB";
+
+  static String m53(v0) =>
       "If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: ${v0} MB";
 
-  static String m53(v0, v1, v2, v3, v4) =>
+  static String m54(v0, v1, v2, v3, v4) =>
       "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nStorage information:\n${v4}\n\n";
 
-  static String m54(v0) => "Failure to handle! : ${v0}";
+  static String m55(v0) => "Failure to handle! : ${v0}";
 
-  static String m55(v0) => "Read the RSI Launcher information failure: ${v0}";
+  static String m56(v0) => "Read the RSI Launcher information failure: ${v0}";
 
-  static String m56(v0) => "Patch status: ${v0}";
+  static String m57(v0) => "Patch status: ${v0}";
 
-  static String m57(v0) =>
+  static String m58(v0) =>
       "Internal version information of the RSI Launcher: ${v0}";
 
-  static String m58(v0) => "Open the file: ${v0}";
+  static String m59(v0) => "Open the file: ${v0}";
 
-  static String m59(v0, v1) => "After loading: ${v0} a file, time: ${v1} ms";
+  static String m60(v0, v1) => "After loading: ${v0} a file, time: ${v1} ms";
 
-  static String m60(v0) => "Read file: ${v0} ...";
+  static String m61(v0) => "Read file: ${v0} ...";
 
-  static String m61(v0, v1) => "Processing files (${v0}/${v1}) ...";
+  static String m62(v0, v1) => "Processing files (${v0}/${v1}) ...";
 
-  static String m62(v0) => "Unknown file type\n${v0}";
+  static String m63(v0) => "Unknown file type\n${v0}";
 
-  static String m63(v0) => "P4k viewer -> ${v0}";
+  static String m64(v0) => "P4k viewer -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1023,9 +1026,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_p4k_download_in_progress":
             MessageLookupByLibrary.simpleMessage(
                 "There is already a P4K download task in progress, please go to the download manager to view!"),
-        "tools_action_info_p4k_download_repair_tip":
-            MessageLookupByLibrary.simpleMessage(
-                "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nLimited resources, please do not abuse."),
+        "tools_action_info_p4k_download_repair_tip": m51,
         "tools_action_info_p4k_file_description":
             MessageLookupByLibrary.simpleMessage(
                 "P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the RSI Launcher to check it."),
@@ -1040,7 +1041,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_rsi_launcher_directory_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the RSI Launcher directory is not found, please try manually."),
-        "tools_action_info_rsi_launcher_log_issue": m51,
+        "tools_action_info_rsi_launcher_log_issue": m52,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the RSI label is not found, try to reinstall it or add it manually in the settings."),
@@ -1049,11 +1050,11 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The RSI Launcher is running! Please turn off the label first and then use this feature!"),
         "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
             "Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here."),
-        "tools_action_info_shader_cache_issue": m52,
+        "tools_action_info_shader_cache_issue": m53,
         "tools_action_info_star_citizen_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings."),
-        "tools_action_info_system_info_content": m53,
+        "tools_action_info_system_info_content": m54,
         "tools_action_info_system_info_title":
             MessageLookupByLibrary.simpleMessage("System message"),
         "tools_action_info_valid_game_directory_needed":
@@ -1115,7 +1116,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_info_game_install_location":
             MessageLookupByLibrary.simpleMessage(
                 "Game installation location:  "),
-        "tools_info_processing_failed": m54,
+        "tools_info_processing_failed": m55,
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI Launcher position:"),
         "tools_info_scanning":
@@ -1140,14 +1141,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Reading the Launcher information failed!"),
         "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-            m55,
+            m56,
         "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
             MessageLookupByLibrary.simpleMessage("No RSI promoter was found"),
-        "tools_rsi_launcher_enhance_msg_patch_status": m56,
+        "tools_rsi_launcher_enhance_msg_patch_status": m57,
         "tools_rsi_launcher_enhance_msg_uninstall":
             MessageLookupByLibrary.simpleMessage(
                 "* If you need to uninstall the enhanced patch, cover the installation RSI promoter."),
-        "tools_rsi_launcher_enhance_msg_version": m57,
+        "tools_rsi_launcher_enhance_msg_version": m58,
         "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
             "RSI Launcher enhancement is a community function. It will unpack \"RSI LAUNCHER\" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the Launcher, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official RSI Launcher directly."),
         "tools_rsi_launcher_enhance_note_title":
@@ -1179,16 +1180,16 @@ class MessageLookup extends MessageLookupByLibrary {
             "Use this function to install the .NET8 runtime, please click the button below to download and install it. After the installation is successful, reopen this page to continue to use."),
         "tools_unp4k_msg_init":
             MessageLookupByLibrary.simpleMessage("Initialization ..."),
-        "tools_unp4k_msg_open_file": m58,
-        "tools_unp4k_msg_read_completed": m59,
-        "tools_unp4k_msg_read_file": m60,
+        "tools_unp4k_msg_open_file": m59,
+        "tools_unp4k_msg_read_completed": m60,
+        "tools_unp4k_msg_read_file": m61,
         "tools_unp4k_msg_reading":
             MessageLookupByLibrary.simpleMessage("Reading P4K file ..."),
         "tools_unp4k_msg_reading2":
             MessageLookupByLibrary.simpleMessage("Treatment files ..."),
-        "tools_unp4k_msg_reading3": m61,
-        "tools_unp4k_msg_unknown_file_type": m62,
-        "tools_unp4k_title": m63,
+        "tools_unp4k_msg_reading3": m62,
+        "tools_unp4k_msg_unknown_file_type": m63,
+        "tools_unp4k_title": m64,
         "tools_unp4k_view_file":
             MessageLookupByLibrary.simpleMessage("Click the file to preview"),
         "webview_localization_finished_invitations":

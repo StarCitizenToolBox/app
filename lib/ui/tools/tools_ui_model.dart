@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
@@ -77,13 +78,11 @@ class ToolsUIModel extends _$ToolsUIModel {
           const Icon(FluentIcons.system, size: 24),
           onTap: () => _showSystemInfo(context),
         ),
-        ToolsItemData(
-          "p4k_downloader",
-          S.current.tools_action_p4k_download_repair,
-          S.current.tools_action_info_p4k_download_repair_tip,
-          const Icon(FontAwesomeIcons.download, size: 24),
-          onTap: () => _downloadP4k(context),
-        ),
+      ];
+
+      if (!context.mounted) return;
+      items.add(await _addP4kCard(context));
+      items.addAll([
         ToolsItemData(
           "hosts_booster",
           S.current.tools_action_hosts_acceleration_experimental,
@@ -119,7 +118,7 @@ class ToolsUIModel extends _$ToolsUIModel {
           const Icon(FontAwesomeIcons.fileZipper, size: 24),
           onTap: () => _unp4kc(context),
         ),
-      ];
+      ]);
 
       state = state.copyWith(items: items);
       if (!context.mounted) return;
@@ -135,6 +134,30 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (!context.mounted) return;
       showToast(context, S.current.tools_action_info_init_failed(e));
     }
+  }
+
+  Future<ToolsItemData> _addP4kCard(BuildContext context) async {
+    var torrentUrl = "";
+    var versionInfo = "";
+    try {
+      final l = await Api.getAppTorrentDataList();
+      for (var torrent in l) {
+        if (torrent.name == "Data.p4k") {
+          torrentUrl = torrent.url ?? "";
+          versionInfo = torrent.info ?? "";
+        }
+      }
+    } catch (e) {
+      dPrint("get torrent url failed: $e");
+    }
+
+    return ToolsItemData(
+      "p4k_downloader",
+      S.current.tools_action_p4k_download_repair,
+      S.current.tools_action_info_p4k_download_repair_tip(versionInfo),
+      const Icon(FontAwesomeIcons.download, size: 24),
+      onTap: () => _downloadP4k(context, torrentUrl),
+    );
   }
 
   Future<List<ToolsItemData>> _addNvmePatchCard(BuildContext context) async {
@@ -378,7 +401,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     state = state.copyWith(working: false);
   }
 
-  Future<void> _downloadP4k(BuildContext context) async {
+  Future<void> _downloadP4k(BuildContext context, String torrentUrl) async {
     String savePath = state.scInstalledPath;
     String fileName = "Data.p4k";
 
@@ -392,7 +415,12 @@ class ToolsUIModel extends _$ToolsUIModel {
     }
 
     if (!context.mounted) return;
-    await showToast(context, S.current.tools_action_info_p4k_file_description);
+    final ok = await showConfirmDialogs(
+      context,
+      S.current.tools_action_p4k_download_repair,
+      Text(S.current.tools_action_info_p4k_file_description),
+    );
+    if (!ok) return;
     try {
       state = state.copyWith(working: true);
       final aria2cManager = ref.read(aria2cModelProvider.notifier);
@@ -415,13 +443,6 @@ class ToolsUIModel extends _$ToolsUIModel {
         }
       }
 
-      var torrentUrl = "";
-      final l = await Api.getAppTorrentDataList();
-      for (var torrent in l) {
-        if (torrent.name == "Data.p4k") {
-          torrentUrl = torrent.url!;
-        }
-      }
       if (torrentUrl == "") {
         state = state.copyWith(working: false);
         if (!context.mounted) return;
@@ -469,7 +490,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     }
     await Future.delayed(const Duration(seconds: 3));
     launchUrlString(
-        "https://citizenwiki.cn/SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90#%E5%88%86%E6%B5%81%E4%B8%8B%E8%BD%BD%E6%95%99%E7%A8%8B");
+        "${URLConf.gitApiHome}/SCToolBox/Doc/src/branch/main/Tools/Pk4k_Downloads.md");
   }
 
   Future<bool> _checkPhotographyStatus(BuildContext context,

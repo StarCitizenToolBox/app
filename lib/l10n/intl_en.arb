@@ -543,7 +543,7 @@
   "@tools_action_info_view_critical_system_info": {},
   "tools_action_p4k_download_repair": "P4k diversion download / repair",
   "@tools_action_p4k_download_repair": {},
-  "tools_action_info_p4k_download_repair_tip": "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nLimited resources, please do not abuse.",
+  "tools_action_info_p4k_download_repair_tip": "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:{v0}",
   "@tools_action_info_p4k_download_repair_tip": {},
   "tools_action_hosts_acceleration_experimental": "Hosts acceleration (experimental)",
   "@tools_action_hosts_acceleration_experimental": {},

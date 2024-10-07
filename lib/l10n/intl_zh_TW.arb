@@ -542,7 +542,7 @@
   "@tools_action_info_view_critical_system_info": {},
   "tools_action_p4k_download_repair": "P4K 分流下載 / 修復",
   "@tools_action_p4k_download_repair": {},
-  "tools_action_info_p4k_download_repair_tip": "使用星際公民中文百科提供的分流下載服務，可用於下載或修復 p4k。 \n資源有限，請勿濫用。",
+  "tools_action_info_p4k_download_repair_tip": "使用星際公民中文百科提供的分流下載服務，可用於下載或修復 p4k。 \n版本資訊：{v0}",
   "@tools_action_info_p4k_download_repair_tip": {},
   "tools_action_hosts_acceleration_experimental": "Hosts 加速（Beta）",
   "@tools_action_hosts_acceleration_experimental": {},

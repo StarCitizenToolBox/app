@@ -128,34 +128,36 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m50(v0) =>
       "若您使用 nvme 補丁出現問題，請執行此工具。（可能導致遊戲 安裝/更新 無法使用。）\n\n目前補丁狀態：${v0}";
 
-  static String m51(v0) =>
-      "在某些情況下 RSI啟動器 的 log 文件會損壞，導致無法完成問題掃描，使用此工具清理損壞的 log 文件。\n\n目前日誌檔案大小：${v0} MB";
+  static String m51(v0) => "使用星際公民中文百科提供的分流下載服務，可用於下載或修復 p4k。 \n版本資訊：${v0}";
 
   static String m52(v0) =>
+      "在某些情況下 RSI啟動器 的 log 文件會損壞，導致無法完成問題掃描，使用此工具清理損壞的 log 文件。\n\n目前日誌檔案大小：${v0} MB";
+
+  static String m53(v0) =>
       "若遊戲畫面出現異常或版本更新後可使用此工具清除著色器快取 \n\n建議清理：快取大於 500 MB\n快取大小：${v0} MB";
 
-  static String m53(v0, v1, v2, v3, v4) =>
+  static String m54(v0, v1, v2, v3, v4) =>
       "系統：${v0}\n\n處理器：${v1}\n\n記憶體：${v2}GB\n\n顯示卡：\n${v3}\n\n硬碟：\n${v4}\n\n";
 
-  static String m54(v0) => "處理失敗！：${v0}";
+  static String m55(v0) => "處理失敗！：${v0}";
 
-  static String m55(v0) => "讀取啟動器資訊失敗：${v0}";
+  static String m56(v0) => "讀取啟動器資訊失敗：${v0}";
 
-  static String m56(v0) => "補丁狀態：${v0}";
+  static String m57(v0) => "補丁狀態：${v0}";
 
-  static String m57(v0) => "啟動器內部版本資訊：${v0}";
+  static String m58(v0) => "啟動器內部版本資訊：${v0}";
 
-  static String m58(v0) => "打開文件：${v0}";
+  static String m59(v0) => "打開文件：${v0}";
 
-  static String m59(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
+  static String m60(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
 
-  static String m60(v0) => "讀取文件：${v0} ...";
+  static String m61(v0) => "讀取文件：${v0} ...";
 
-  static String m61(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
+  static String m62(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
 
-  static String m62(v0) => "未知文件類型\n${v0}";
+  static String m63(v0) => "未知文件類型\n${v0}";
 
-  static String m63(v0) => "P4K 查看器 -> ${v0}";
+  static String m64(v0) => "P4K 查看器 -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -918,9 +920,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_p4k_download_in_progress":
             MessageLookupByLibrary.simpleMessage(
                 "已經有一個p4k下載任務正在進行中，請前往下載管理器查看！"),
-        "tools_action_info_p4k_download_repair_tip":
-            MessageLookupByLibrary.simpleMessage(
-                "使用星際公民中文百科提供的分流下載服務，可用於下載或修復 p4k。 \n資源有限，請勿濫用。"),
+        "tools_action_info_p4k_download_repair_tip": m51,
         "tools_action_info_p4k_file_description":
             MessageLookupByLibrary.simpleMessage(
                 "P4k 是星際公民的核心遊戲文件，高達 100GB+，工具箱提供的離線下載是為了幫助一些p4k文件下載慢到不行的使用者 或用於修復官方啟動器無法修復的 p4k 文件。\n\n接下來會跳出視窗詢問您儲存位置（可以選擇星際公民資料夾也可以選擇別處），下載完成後請確保 P4K 資料夾位於 LIVE 資料夾內，之後使用星際公民啟動器校驗更新即可。"),
@@ -933,7 +933,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "已開啟攝影模式，再次點擊來關閉並還原鏡頭晃動效果。\n\n@拉邦那 Lapernum 提供參數資訊。"),
         "tools_action_info_rsi_launcher_directory_not_found":
             MessageLookupByLibrary.simpleMessage("未找到 RSI 啟動器目錄，請您嘗試手動操作。"),
-        "tools_action_info_rsi_launcher_log_issue": m51,
+        "tools_action_info_rsi_launcher_log_issue": m52,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到 RSI 啟動器，請嘗試重新安裝，或在設定中手動新增。"),
@@ -942,11 +942,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_run_rsi_as_admin":
             MessageLookupByLibrary.simpleMessage(
                 "以管理員身份執行RSI啟動器，可能會解決一些問題。\n\n若設定了 E-Core 核心忽略參數，也會在此套用。"),
-        "tools_action_info_shader_cache_issue": m52,
+        "tools_action_info_shader_cache_issue": m53,
         "tools_action_info_star_citizen_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到星際公民遊戲安裝位置，請至少完成一次遊戲啟動操作 或在設定中手動新增。"),
-        "tools_action_info_system_info_content": m53,
+        "tools_action_info_system_info_content": m54,
         "tools_action_info_system_info_title":
             MessageLookupByLibrary.simpleMessage("系統資訊"),
         "tools_action_info_valid_game_directory_needed":
@@ -996,7 +996,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("正在寫入 Hosts ..."),
         "tools_info_game_install_location":
             MessageLookupByLibrary.simpleMessage("遊戲安裝位置：  "),
-        "tools_info_processing_failed": m54,
+        "tools_info_processing_failed": m55,
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI啟動器位置："),
         "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在掃描..."),
@@ -1015,13 +1015,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
             MessageLookupByLibrary.simpleMessage("讀取啟動器資訊失敗！"),
         "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-            m55,
+            m56,
         "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
             MessageLookupByLibrary.simpleMessage("未找到 RSI 啟動器"),
-        "tools_rsi_launcher_enhance_msg_patch_status": m56,
+        "tools_rsi_launcher_enhance_msg_patch_status": m57,
         "tools_rsi_launcher_enhance_msg_uninstall":
             MessageLookupByLibrary.simpleMessage("* 如需移除增強補丁，請覆蓋安裝 RSI 啟動器。"),
-        "tools_rsi_launcher_enhance_msg_version": m57,
+        "tools_rsi_launcher_enhance_msg_version": m58,
         "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
             "RSI 啟動器增強是一項社群功能，它會在您的電腦上解包 \"RSI Launcher\" 並加入額外的增強功能，具體使用哪些功能由您決定。\n\n目前，官方（CIG）僅許可我們進行多語言操作，啟動器下載增強是我們認為有用的額外功能，違反cig使用者協議（https://robertsspaceindustries.com/eula）可能導致帳號被封禁等嚴重後果，是否啟用由您自己決定，我們不對可能產生的後果（遊戲損壞，帳號封禁等）承擔任何責任。\n\n對於啟動器的修改內容，我們開源於：https://github.com/StarCitizenToolBox/RSILauncherEnhance，如有需要，您可自行查閱。\n\n如果您因為任何原因需要取消此增強補丁，請直接覆蓋安裝官方啟動器。"),
         "tools_rsi_launcher_enhance_note_title":
@@ -1049,16 +1049,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。"),
         "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-        "tools_unp4k_msg_open_file": m58,
-        "tools_unp4k_msg_read_completed": m59,
-        "tools_unp4k_msg_read_file": m60,
+        "tools_unp4k_msg_open_file": m59,
+        "tools_unp4k_msg_read_completed": m60,
+        "tools_unp4k_msg_read_file": m61,
         "tools_unp4k_msg_reading":
             MessageLookupByLibrary.simpleMessage("正在讀取P4K 文件 ..."),
         "tools_unp4k_msg_reading2":
             MessageLookupByLibrary.simpleMessage("正在處理文件 ..."),
-        "tools_unp4k_msg_reading3": m61,
-        "tools_unp4k_msg_unknown_file_type": m62,
-        "tools_unp4k_title": m63,
+        "tools_unp4k_msg_reading3": m62,
+        "tools_unp4k_msg_unknown_file_type": m63,
+        "tools_unp4k_title": m64,
         "tools_unp4k_view_file":
             MessageLookupByLibrary.simpleMessage("單擊文件以預覽"),
         "webview_localization_finished_invitations":
