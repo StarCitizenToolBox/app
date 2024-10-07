@@ -128,9 +128,11 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   _loadLocationCacheSize() async {
-    final len = await SystemHelper.getDirLen(
+    final len1 = await SystemHelper.getDirLen(
         "${appGlobalState.applicationSupportDir}/Localizations");
-    final locationCacheSize = len;
+    final len2 = await SystemHelper.getDirLen(
+        "${appGlobalState.applicationSupportDir}/launcher_enhance_data");
+    final locationCacheSize = len1 + len2;
     state = state.copyWith(locationCacheSize: locationCacheSize);
   }
 
@@ -140,10 +142,14 @@ class SettingsUIModel extends _$SettingsUIModel {
         S.current.setting_action_info_confirm_clear_cache,
         Text(S.current.setting_action_info_clear_cache_warning));
     if (ok == true) {
-      final dir =
+      final dir1 =
           Directory("${appGlobalState.applicationSupportDir}/Localizations");
+      final dir2 = Directory(
+          "${appGlobalState.applicationSupportDir}/launcher_enhance_data");
       if (!context.mounted) return;
-      await dir.delete(recursive: true).unwrap(context: context);
+      await dir1.delete(recursive: true).unwrap(context: context);
+      if (!context.mounted) return;
+      await dir2.delete(recursive: true).unwrap(context: context);
       _initState();
     }
   }
