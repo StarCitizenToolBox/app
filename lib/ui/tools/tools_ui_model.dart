@@ -19,8 +19,8 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/ui/home/downloader/home_downloader_ui_model.dart';
+import 'package:starcitizen_doctor/ui/webview/webview.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:xml/xml.dart';
 
 import 'dialogs/hosts_booster_dialog_ui.dart';
@@ -488,9 +488,16 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (!context.mounted) return;
       showToast(context, S.current.app_init_failed_with_reason(e));
     }
-    await Future.delayed(const Duration(seconds: 3));
-    launchUrlString(
-        "${URLConf.gitApiHome}/SCToolBox/Doc/src/branch/main/Tools/Pk4k_Downloads.md");
+
+    if (!context.mounted) return;
+    final webview = WebViewModel(context);
+    await webview.initWebView(
+        title: S.current.tools_action_p4k_download_repair,
+        applicationSupportDir: appGlobalState.applicationSupportDir!,
+        appVersionData: appGlobalState.networkVersionData!);
+    webview.launch(
+        "${URLConf.gitApiHome}/SCToolBox/Doc/src/branch/main/Tools/Pk4k_Downloads.md",
+        appGlobalState.networkVersionData!);
   }
 
   Future<bool> _checkPhotographyStatus(BuildContext context,

@@ -51,7 +51,7 @@ class WebViewModel {
 
   final RsiLoginCallback? loginCallback;
 
-  initWebView(
+  Future<void> initWebView(
       {String title = "",
       required String applicationSupportDir,
       required AppVersionData appVersionData}) async {
