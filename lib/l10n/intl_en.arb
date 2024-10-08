@@ -960,6 +960,9 @@
   "tools_unp4k_missing_runtime_action_install": "Install the runtime",
   "@tools_unp4k_missing_runtime_action_install": {},
   "home_localization_action_rsi_launcher_no_game_path_msg": "You are not currently installed in the game body or the game installation directory is not selected, and you can only use the promoter Chinese function. Please make sure the game is installed or adds the game installation directory in the box settings.",
+  "@home_localization_action_rsi_launcher_no_game_path_msg": {},
   "doctor_game_error_gpu_vulkan_crash": "GPU Vulkan Crash",
-  "doctor_game_error_gpu_vulkan_crash_info": "Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11"
+  "@doctor_game_error_gpu_vulkan_crash": {},
+  "doctor_game_error_gpu_vulkan_crash_info": "Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11",
+  "@doctor_game_error_gpu_vulkan_crash_info": {}
 }
