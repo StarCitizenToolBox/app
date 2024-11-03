@@ -1,3 +1,5 @@
+import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/common/io/doh_client.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/http_package.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -38,16 +40,14 @@ class URLConf {
 
   static Future<bool> checkHost() async {
     // 使用 DNS 获取可用列表
-    final gitApiList =
-        _genFinalList(await RSHttp.dnsLookupTxt("git.dns.scbox.org"));
+    final gitApiList = _genFinalList(await dnsLookupTxt("git.dns.scbox.org"));
     dPrint("DNS gitApiList ==== $gitApiList");
     final fasterGit = await getFasterUrl(gitApiList);
     dPrint("gitApiList.Faster ==== $fasterGit");
     if (fasterGit != null) {
       gitApiHome = fasterGit;
     }
-    final rssApiList =
-        _genFinalList(await RSHttp.dnsLookupTxt("rss.dns.scbox.org"));
+    final rssApiList = _genFinalList(await dnsLookupTxt("rss.dns.scbox.org"));
     final fasterRss = await getFasterUrl(rssApiList);
     dPrint("DNS rssApiList ==== $rssApiList");
     dPrint("rssApiList.Faster ==== $fasterRss");
@@ -56,6 +56,15 @@ class URLConf {
     }
     isUrlCheckPass = fasterGit != null && fasterRss != null;
     return isUrlCheckPass;
+  }
+
+  static Future<List<String>> dnsLookupTxt(String host) async {
+    if (await Api.isUseInternalDNS()) {
+      dPrint("[URLConf] use internal DNS LookupTxt $host");
+      return RSHttp.dnsLookupTxt(host);
+    }
+    dPrint("[URLConf] use DOH LookupTxt $host");
+    return (await DohClient.resolveTXT(host)) ?? [];
   }
 
   static Future<String?> getFasterUrl(List<String> urls) async {

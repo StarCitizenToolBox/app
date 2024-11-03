@@ -21,6 +21,7 @@ mixin _$SettingsUIState {
   String? get customLauncherPath => throw _privateConstructorUsedError;
   String? get customGamePath => throw _privateConstructorUsedError;
   int get locationCacheSize => throw _privateConstructorUsedError;
+  bool get isUseInternalDNS => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -40,7 +41,8 @@ abstract class $SettingsUIStateCopyWith<$Res> {
       String inputGameLaunchECore,
       String? customLauncherPath,
       String? customGamePath,
-      int locationCacheSize});
+      int locationCacheSize,
+      bool isUseInternalDNS});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$SettingsUIStateCopyWithImpl<$Res, $Val extends SettingsUIState>
     Object? customLauncherPath = freezed,
     Object? customGamePath = freezed,
     Object? locationCacheSize = null,
+    Object? isUseInternalDNS = null,
   }) {
     return _then(_value.copyWith(
       isEnableToolSiteMirrors: null == isEnableToolSiteMirrors
@@ -85,6 +88,10 @@ class _$SettingsUIStateCopyWithImpl<$Res, $Val extends SettingsUIState>
           ? _value.locationCacheSize
           : locationCacheSize // ignore: cast_nullable_to_non_nullable
               as int,
+      isUseInternalDNS: null == isUseInternalDNS
+          ? _value.isUseInternalDNS
+          : isUseInternalDNS // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$SettingsUIStateImplCopyWith<$Res>
       String inputGameLaunchECore,
       String? customLauncherPath,
       String? customGamePath,
-      int locationCacheSize});
+      int locationCacheSize,
+      bool isUseInternalDNS});
 }
 
 /// @nodoc
@@ -123,6 +131,7 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
     Object? customLauncherPath = freezed,
     Object? customGamePath = freezed,
     Object? locationCacheSize = null,
+    Object? isUseInternalDNS = null,
   }) {
     return _then(_$SettingsUIStateImpl(
       isEnableToolSiteMirrors: null == isEnableToolSiteMirrors
@@ -145,6 +154,10 @@ class __$$SettingsUIStateImplCopyWithImpl<$Res>
           ? _value.locationCacheSize
           : locationCacheSize // ignore: cast_nullable_to_non_nullable
               as int,
+      isUseInternalDNS: null == isUseInternalDNS
+          ? _value.isUseInternalDNS
+          : isUseInternalDNS // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -157,7 +170,8 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
       this.inputGameLaunchECore = "0",
       this.customLauncherPath,
       this.customGamePath,
-      this.locationCacheSize = 0});
+      this.locationCacheSize = 0,
+      this.isUseInternalDNS = false});
 
   @override
   @JsonKey()
@@ -172,10 +186,13 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
   @override
   @JsonKey()
   final int locationCacheSize;
+  @override
+  @JsonKey()
+  final bool isUseInternalDNS;
 
   @override
   String toString() {
-    return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize)';
+    return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS)';
   }
 
   @override
@@ -193,7 +210,9 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
             (identical(other.customGamePath, customGamePath) ||
                 other.customGamePath == customGamePath) &&
             (identical(other.locationCacheSize, locationCacheSize) ||
-                other.locationCacheSize == locationCacheSize));
+                other.locationCacheSize == locationCacheSize) &&
+            (identical(other.isUseInternalDNS, isUseInternalDNS) ||
+                other.isUseInternalDNS == isUseInternalDNS));
   }
 
   @override
@@ -203,7 +222,8 @@ class _$SettingsUIStateImpl implements _SettingsUIState {
       inputGameLaunchECore,
       customLauncherPath,
       customGamePath,
-      locationCacheSize);
+      locationCacheSize,
+      isUseInternalDNS);
 
   /// Create a copy of SettingsUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -221,7 +241,8 @@ abstract class _SettingsUIState implements SettingsUIState {
       final String inputGameLaunchECore,
       final String? customLauncherPath,
       final String? customGamePath,
-      final int locationCacheSize}) = _$SettingsUIStateImpl;
+      final int locationCacheSize,
+      final bool isUseInternalDNS}) = _$SettingsUIStateImpl;
 
   @override
   bool get isEnableToolSiteMirrors;
@@ -233,6 +254,8 @@ abstract class _SettingsUIState implements SettingsUIState {
   String? get customGamePath;
   @override
   int get locationCacheSize;
+  @override
+  bool get isUseInternalDNS;
 
   /// Create a copy of SettingsUIState
   /// with the given fields replaced by the non-null parameter values.

@@ -25,6 +25,7 @@ class SettingsUIState with _$SettingsUIState {
     String? customLauncherPath,
     String? customGamePath,
     @Default(0) int locationCacheSize,
+    @Default(false) bool isUseInternalDNS,
   }) = _SettingsUIState;
 }
 
@@ -38,10 +39,11 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   void _initState() async {
-    _updateGameLaunchECore();
-    _loadCustomPath();
-    _loadLocationCacheSize();
-    _loadToolSiteMirrorState();
+    await _updateGameLaunchECore();
+    await _loadCustomPath();
+    await _loadLocationCacheSize();
+    await _loadToolSiteMirrorState();
+    await _loadUseInternalDNS();
   }
 
   Future<void> setGameLaunchECore(BuildContext context) async {
@@ -113,7 +115,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     await confBox.put(pathKey, dir);
   }
 
-  _loadCustomPath() async {
+  Future _loadCustomPath() async {
     final confBox = await Hive.openBox("app_conf");
     final customLauncherPath = confBox.get("custom_launcher_path");
     final customGamePath = confBox.get("custom_game_path");
@@ -127,7 +129,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     _initState();
   }
 
-  _loadLocationCacheSize() async {
+  Future _loadLocationCacheSize() async {
     final len1 = await SystemHelper.getDirLen(
         "${appGlobalState.applicationSupportDir}/Localizations");
     final len2 = await SystemHelper.getDirLen(
@@ -182,7 +184,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     showToast(context, S.current.setting_action_info_shortcut_created);
   }
 
-  _loadToolSiteMirrorState() async {
+  Future _loadToolSiteMirrorState() async {
     final userBox = await Hive.openBox("app_conf");
     final isEnableToolSiteMirrors =
         userBox.get("isEnableToolSiteMirrors", defaultValue: false);
@@ -199,5 +201,17 @@ class SettingsUIModel extends _$SettingsUIModel {
   showLogs() async {
     SystemHelper.openDir(getDPrintFile()?.absolute.path.replaceAll("/", "\\"),
         isFile: true);
+  }
+
+  void onChangeUseInternalDNS(bool? b) {
+    final userBox = Hive.box("app_conf");
+    userBox.put("isUseInternalDNS", b ?? false);
+    _initState();
+  }
+
+  Future _loadUseInternalDNS() async {
+    final userBox = await Hive.openBox("app_conf");
+    final isUseInternalDNS = userBox.get("isUseInternalDNS", defaultValue: false);
+    state = state.copyWith(isUseInternalDNS: isUseInternalDNS);
   }
 }

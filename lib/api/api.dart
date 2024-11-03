@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
@@ -82,7 +83,13 @@ class Api {
   }
 
   static Future<String> getRepoData(String dir, String name) async {
-    final r = await RSHttp.getText("${URLConf.apiRepoPath}/$dir/$name");
+    final r = await RSHttp.getText("${URLConf.apiRepoPath}/$dir/$name",withCustomDns: await isUseInternalDNS());
     return r;
+  }
+
+  static Future<bool> isUseInternalDNS() async {
+    final userBox = await Hive.openBox("app_conf");
+    final isUseInternalDNS = userBox.get("isUseInternalDNS", defaultValue: false);
+    return isUseInternalDNS;
   }
 }

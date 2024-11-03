@@ -15,6 +15,12 @@ class SettingsUI extends HookConsumerWidget {
     final appGlobalState = ref.watch(appGlobalModelProvider);
     final appGlobalModel = ref.read(appGlobalModelProvider.notifier);
     return ListView(padding: const EdgeInsets.all(16), children: [
+      makeTitle("应用"),
+      makeSettingsItem(const Icon(FluentIcons.link, size: 20),
+          S.current.setting_action_create_settings_shortcut,
+          subTitle: S.current.setting_action_create_desktop_shortcut,
+          onTap: () => model.addShortCut(context)),
+      const SizedBox(height: 12),
       makeSettingsItem(
         const Icon(FontAwesomeIcons.language, size: 20),
         S.current.settings_app_language,
@@ -26,11 +32,32 @@ class SettingsUI extends HookConsumerWidget {
         showGoIcon: false,
       ),
       const SizedBox(height: 12),
-      makeSettingsItem(const Icon(FluentIcons.link, size: 20),
-          S.current.setting_action_create_settings_shortcut,
-          subTitle: S.current.setting_action_create_desktop_shortcut,
-          onTap: () => model.addShortCut(context)),
+      makeSettingsItem(
+          const Icon(FontAwesomeIcons.networkWired, size: 20), "使用内置 DNS",
+          subTitle: "开启后可能解决部分地区 DNS 污染的问题",
+          switchStatus: sate.isUseInternalDNS,
+          onSwitch: model.onChangeUseInternalDNS,
+          onTap: () => model.onChangeUseInternalDNS(!sate.isUseInternalDNS)),
       const SizedBox(height: 12),
+      makeSettingsItem(const Icon(FluentIcons.delete, size: 20),
+          S.current.setting_action_clear_translation_file_cache,
+          subTitle: S.current.setting_action_info_cache_clearing_info(
+              (sate.locationCacheSize / 1024 / 1024).toStringAsFixed(2)),
+          onTap: () => model.cleanLocationCache(context)),
+      const SizedBox(height: 12),
+      makeSettingsItem(const Icon(FluentIcons.speed_high, size: 20),
+          S.current.setting_action_tool_site_access_acceleration,
+          onTap: () =>
+              model.onChangeToolSiteMirror(!sate.isEnableToolSiteMirrors),
+          subTitle: S.current.setting_action_info_mirror_server_info,
+          onSwitch: model.onChangeToolSiteMirror,
+          switchStatus: sate.isEnableToolSiteMirrors),
+      const SizedBox(height: 12),
+      makeSettingsItem(const Icon(FluentIcons.document_set, size: 20),
+          S.current.setting_action_view_log,
+          onTap: () => model.showLogs(),
+          subTitle: S.current.setting_action_info_view_log_file),
+      makeTitle("功能"),
       makeSettingsItem(const Icon(FontAwesomeIcons.microchip, size: 20),
           S.current.setting_action_ignore_efficiency_cores_on_launch,
           subTitle: S.current
@@ -57,25 +84,17 @@ class SettingsUI extends HookConsumerWidget {
             model.delName("custom_game_path");
           }),
       const SizedBox(height: 12),
-      makeSettingsItem(const Icon(FluentIcons.delete, size: 20),
-          S.current.setting_action_clear_translation_file_cache,
-          subTitle: S.current.setting_action_info_cache_clearing_info(
-              (sate.locationCacheSize / 1024 / 1024).toStringAsFixed(2)),
-          onTap: () => model.cleanLocationCache(context)),
-      const SizedBox(height: 12),
-      makeSettingsItem(const Icon(FluentIcons.speed_high, size: 20),
-          S.current.setting_action_tool_site_access_acceleration,
-          onTap: () =>
-              model.onChangeToolSiteMirror(!sate.isEnableToolSiteMirrors),
-          subTitle: S.current.setting_action_info_mirror_server_info,
-          onSwitch: model.onChangeToolSiteMirror,
-          switchStatus: sate.isEnableToolSiteMirrors),
-      const SizedBox(height: 12),
-      makeSettingsItem(const Icon(FluentIcons.document_set, size: 20),
-          S.current.setting_action_view_log,
-          onTap: () => model.showLogs(),
-          subTitle: S.current.setting_action_info_view_log_file),
     ]);
+  }
+
+  Widget makeTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12, bottom: 12),
+      child: Text(
+        title,
+        style: TextStyle(fontSize: 24),
+      ),
+    );
   }
 
   Widget makeSettingsItem(
