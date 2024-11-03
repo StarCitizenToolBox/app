@@ -176,6 +176,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about_action_btn_faq":
+            MessageLookupByLibrary.simpleMessage("Common problem"),
         "about_action_email":
             MessageLookupByLibrary.simpleMessage("Email: xkeyc@qq.com"),
         "about_action_open_source":
@@ -474,6 +476,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloader_title_downloading":
             MessageLookupByLibrary.simpleMessage("Downloading"),
         "downloader_title_ended": MessageLookupByLibrary.simpleMessage("Over"),
+        "guide_action_complete_setup":
+            MessageLookupByLibrary.simpleMessage("Complete settings"),
+        "guide_action_get_help": MessageLookupByLibrary.simpleMessage("Help"),
+        "guide_action_info_no_game_path_warning":
+            MessageLookupByLibrary.simpleMessage(
+                "You have not chose the game installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate."),
+        "guide_action_info_no_launcher_path_warning":
+            MessageLookupByLibrary.simpleMessage(
+                "You have not chose the launcher installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate."),
+        "guide_dialog_confirm_complete_setup":
+            MessageLookupByLibrary.simpleMessage(
+                "Confirm the complete settings?"),
+        "guide_info_check_settings": MessageLookupByLibrary.simpleMessage(
+            "Please check whether the following settings are correct. If there is any error, please click on the right icon to correct it."),
+        "guide_info_game_download_note": MessageLookupByLibrary.simpleMessage(
+            "* If your game is being downloaded, start the game once after completing the download and click the refresh button. If you only use the starter to enhance the Chineseization, make sure that the starter path is correct and click to complete the settings."),
+        "guide_title_welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "home_action_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "home_action_dps_calculator_localization":
             MessageLookupByLibrary.simpleMessage("DPS calculator Localization"),
@@ -975,6 +994,11 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Tool station access acceleration"),
         "setting_action_view_log":
             MessageLookupByLibrary.simpleMessage("View log"),
+        "setting_toast_select_game_file": MessageLookupByLibrary.simpleMessage(
+            "Select the corresponding game file to: bin64/StarCitizen.exe"),
+        "setting_toast_select_launcher_exe":
+            MessageLookupByLibrary.simpleMessage(
+                "Select the starter EXE file: \"RSI LAUNCHER.EXE\""),
         "settings_app_language":
             MessageLookupByLibrary.simpleMessage("Language"),
         "settings_app_language_auto":

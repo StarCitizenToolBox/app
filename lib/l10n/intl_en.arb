@@ -968,5 +968,16 @@
   "settings_title_general": "Universal",
   "settings_item_dns": "Use built -in DNS",
   "settings_item_dns_info": "After opening, the problem of DNS pollution in some areas may be solved",
-  "settings_title_game": "Game"
+  "settings_title_game": "Game",
+  "about_action_btn_faq": "Common problem",
+  "guide_title_welcome": "Welcome",
+  "guide_info_check_settings": "Please check whether the following settings are correct. If there is any error, please click on the right icon to correct it.",
+  "guide_info_game_download_note": "* If your game is being downloaded, start the game once after completing the download and click the refresh button. If you only use the starter to enhance the Chineseization, make sure that the starter path is correct and click to complete the settings.",
+  "guide_action_get_help": "Help",
+  "guide_action_complete_setup": "Complete settings",
+  "guide_dialog_confirm_complete_setup": "Confirm the complete settings?",
+  "guide_action_info_no_launcher_path_warning": "You have not chose the launcher installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.",
+  "guide_action_info_no_game_path_warning": "You have not chose the game installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.",
+  "setting_toast_select_launcher_exe": "Select the starter EXE file: \"RSI LAUNCHER.EXE\"",
+  "setting_toast_select_game_file": "Select the corresponding game file to: bin64/StarCitizen.exe"
 }

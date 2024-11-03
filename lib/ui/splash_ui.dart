@@ -75,7 +75,7 @@ class SplashUI extends HookConsumerWidget {
       await _showAlert(context, appConf);
     }
     try {
-     await URLConf.checkHost();
+      await URLConf.checkHost();
     } catch (e) {
       dPrint("checkHost Error:$e");
     }

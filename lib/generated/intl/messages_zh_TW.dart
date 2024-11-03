@@ -161,6 +161,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about_action_btn_faq": MessageLookupByLibrary.simpleMessage("常見問題"),
         "about_action_email": MessageLookupByLibrary.simpleMessage("電子信箱"),
         "about_action_open_source":
             MessageLookupByLibrary.simpleMessage("專案開源 (Github)"),
@@ -427,6 +428,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "downloader_title_downloading":
             MessageLookupByLibrary.simpleMessage("下載中"),
         "downloader_title_ended": MessageLookupByLibrary.simpleMessage("已結束"),
+        "guide_action_complete_setup":
+            MessageLookupByLibrary.simpleMessage("完成設置"),
+        "guide_action_get_help": MessageLookupByLibrary.simpleMessage("獲取幫助"),
+        "guide_action_info_no_game_path_warning":
+            MessageLookupByLibrary.simpleMessage(
+                "您尚未選擇遊戲安裝路徑，是否確認完成設置？\n\n引導頁關閉後，需要您手動前往設置頁操作。"),
+        "guide_action_info_no_launcher_path_warning":
+            MessageLookupByLibrary.simpleMessage(
+                "您尚未選擇啟動器安裝路徑，是否確認完成設置？\n\n引導頁關閉後，需要您手動前往設置頁操作。"),
+        "guide_dialog_confirm_complete_setup":
+            MessageLookupByLibrary.simpleMessage("確認完成設置？"),
+        "guide_info_check_settings": MessageLookupByLibrary.simpleMessage(
+            "請檢查以下設置是否正確，如有錯誤請點擊右側圖標更正後繼續使用"),
+        "guide_info_game_download_note": MessageLookupByLibrary.simpleMessage(
+            "* 若您的遊戲正在下載，請在完成下載後啟動一次遊戲，並點擊刷新按鈕。若您只使用啟動器增強漢化，確保啟動器路徑正確後點擊完成設置即可"),
+        "guide_title_welcome": MessageLookupByLibrary.simpleMessage("歡迎"),
         "home_action_cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "home_action_dps_calculator_localization":
             MessageLookupByLibrary.simpleMessage("DPS計算器"),
@@ -874,6 +891,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("網站加速"),
         "setting_action_view_log":
             MessageLookupByLibrary.simpleMessage("查看log"),
+        "setting_toast_select_game_file": MessageLookupByLibrary.simpleMessage(
+            "選擇對應遊戲文件到： Bin64/StarCitizen.exe"),
+        "setting_toast_select_launcher_exe":
+            MessageLookupByLibrary.simpleMessage(
+                "選擇啟動器 exe 文件：“RSI Launcher.exe”"),
         "settings_app_language": MessageLookupByLibrary.simpleMessage("語言"),
         "settings_app_language_auto":
             MessageLookupByLibrary.simpleMessage("自動"),

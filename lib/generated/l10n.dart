@@ -4913,6 +4913,116 @@ class S {
       args: [],
     );
   }
+
+  /// `Common problem`
+  String get about_action_btn_faq {
+    return Intl.message(
+      'Common problem',
+      name: 'about_action_btn_faq',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome`
+  String get guide_title_welcome {
+    return Intl.message(
+      'Welcome',
+      name: 'guide_title_welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please check whether the following settings are correct. If there is any error, please click on the right icon to correct it.`
+  String get guide_info_check_settings {
+    return Intl.message(
+      'Please check whether the following settings are correct. If there is any error, please click on the right icon to correct it.',
+      name: 'guide_info_check_settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `* If your game is being downloaded, start the game once after completing the download and click the refresh button. If you only use the starter to enhance the Chineseization, make sure that the starter path is correct and click to complete the settings.`
+  String get guide_info_game_download_note {
+    return Intl.message(
+      '* If your game is being downloaded, start the game once after completing the download and click the refresh button. If you only use the starter to enhance the Chineseization, make sure that the starter path is correct and click to complete the settings.',
+      name: 'guide_info_game_download_note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Help`
+  String get guide_action_get_help {
+    return Intl.message(
+      'Help',
+      name: 'guide_action_get_help',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete settings`
+  String get guide_action_complete_setup {
+    return Intl.message(
+      'Complete settings',
+      name: 'guide_action_complete_setup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm the complete settings?`
+  String get guide_dialog_confirm_complete_setup {
+    return Intl.message(
+      'Confirm the complete settings?',
+      name: 'guide_dialog_confirm_complete_setup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have not chose the launcher installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.`
+  String get guide_action_info_no_launcher_path_warning {
+    return Intl.message(
+      'You have not chose the launcher installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.',
+      name: 'guide_action_info_no_launcher_path_warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have not chose the game installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.`
+  String get guide_action_info_no_game_path_warning {
+    return Intl.message(
+      'You have not chose the game installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.',
+      name: 'guide_action_info_no_game_path_warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the starter EXE file: "RSI LAUNCHER.EXE"`
+  String get setting_toast_select_launcher_exe {
+    return Intl.message(
+      'Select the starter EXE file: "RSI LAUNCHER.EXE"',
+      name: 'setting_toast_select_launcher_exe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the corresponding game file to: bin64/StarCitizen.exe`
+  String get setting_toast_select_game_file {
+    return Intl.message(
+      'Select the corresponding game file to: bin64/StarCitizen.exe',
+      name: 'setting_toast_select_game_file',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

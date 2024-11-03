@@ -208,8 +208,8 @@ class ToolsUI extends HookConsumerWidget {
                   )
               ],
               onChanged: (v) {
-                model.loadToolsCard(context, skipPathScan: true);
                 model.onChangeGamePath(v!);
+                model.loadToolsCard(context, skipPathScan: true);
               },
             ),
           ),
@@ -253,8 +253,8 @@ class ToolsUI extends HookConsumerWidget {
                   )
               ],
               onChanged: (v) {
-                model.loadToolsCard(context, skipPathScan: true);
                 model.onChangeLauncherPath(v!);
+                model.loadToolsCard(context, skipPathScan: true);
               },
             ),
           ),

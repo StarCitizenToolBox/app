@@ -1,12 +1,15 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
+import 'package:starcitizen_doctor/ui/guide/guide_ui.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -25,6 +28,12 @@ class HomeUI extends HookConsumerWidget {
     final homeState = ref.watch(homeUIModelProvider);
     final model = ref.watch(homeUIModelProvider.notifier);
     ref.watch(localizationUIModelProvider);
+
+    useEffect(() {
+      _checkGuide(context, model);
+      return null;
+    }, const []);
+
     return Stack(
       children: [
         Center(
@@ -818,6 +827,19 @@ class HomeUI extends HookConsumerWidget {
       return const Color.fromRGBO(47, 213, 84, 1.0);
     }
     return const Color.fromRGBO(49, 227, 88, .8);
+  }
+
+  Future _checkGuide(BuildContext context, HomeUIModel model) async {
+    final appConf = await Hive.openBox("app_conf");
+    final guideVersion = appConf.get("guide_version", defaultValue: 0);
+    if (guideVersion < GuideUI.version) {
+      await Future.delayed(Duration(milliseconds: 200));
+      if (!context.mounted) return;
+      await context.push("/guide");
+      await model.reScanPath();
+      await model.checkLocalizationUpdate();
+      return;
+    }
   }
 }
 

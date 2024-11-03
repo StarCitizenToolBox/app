@@ -16,11 +16,6 @@ class SettingsUI extends HookConsumerWidget {
     final appGlobalModel = ref.read(appGlobalModelProvider.notifier);
     return ListView(padding: const EdgeInsets.all(16), children: [
       makeTitle(S.current.settings_title_general),
-      makeSettingsItem(const Icon(FluentIcons.link, size: 20),
-          S.current.setting_action_create_settings_shortcut,
-          subTitle: S.current.setting_action_create_desktop_shortcut,
-          onTap: () => model.addShortCut(context)),
-      const SizedBox(height: 12),
       makeSettingsItem(
         const Icon(FontAwesomeIcons.language, size: 20),
         S.current.settings_app_language,
@@ -32,8 +27,13 @@ class SettingsUI extends HookConsumerWidget {
         showGoIcon: false,
       ),
       const SizedBox(height: 12),
-      makeSettingsItem(
-          const Icon(FontAwesomeIcons.networkWired, size: 20), S.current.settings_item_dns,
+      makeSettingsItem(const Icon(FluentIcons.link, size: 20),
+          S.current.setting_action_create_settings_shortcut,
+          subTitle: S.current.setting_action_create_desktop_shortcut,
+          onTap: () => model.addShortCut(context)),
+      const SizedBox(height: 12),
+      makeSettingsItem(const Icon(FontAwesomeIcons.networkWired, size: 20),
+          S.current.settings_item_dns,
           subTitle: S.current.settings_item_dns_info,
           switchStatus: sate.isUseInternalDNS,
           onSwitch: model.onChangeUseInternalDNS,

@@ -102,6 +102,23 @@ class AboutUI extends HookConsumerWidget {
         IconButton(
           icon: Row(
             children: [
+              const Icon(FontAwesomeIcons.question),
+              const SizedBox(width: 8),
+              Text(
+                S.current.about_action_btn_faq,
+                style: TextStyle(
+                    fontSize: 14, color: Colors.white.withOpacity(.6)),
+              ),
+            ],
+          ),
+          onPressed: () {
+            launchUrlString(URLConf.feedbackFAQUrl);
+          },
+        ),
+        const SizedBox(width: 24),
+        IconButton(
+          icon: Row(
+            children: [
               const Icon(FontAwesomeIcons.link),
               const SizedBox(width: 8),
               Text(

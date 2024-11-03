@@ -71,7 +71,7 @@ class AutoL10nTools {
       if (entity is File &&
           entity.path.endsWith('.dart') &&
           !(entity.path.endsWith(".g.dart") &&
-              entity.path.endsWith(".freezed.dart"))) {
+              !entity.path.endsWith(".freezed.dart"))) {
         print('Processing ${entity.path}...');
         // sort map with value length
         final newMap = Map<String, dynamic>.fromEntries(

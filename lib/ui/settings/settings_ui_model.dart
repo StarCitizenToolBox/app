@@ -69,10 +69,13 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future<void> setLauncherPath(BuildContext context) async {
+    await showToast(context, "${S.current.setting_toast_select_launcher_exe}");
     final r = await FilePicker.platform.pickFiles(
-        dialogTitle: S.current.setting_action_info_select_rsi_launcher_location,
-        type: FileType.custom,
-        allowedExtensions: ["exe"]);
+      dialogTitle: S.current.setting_action_info_select_rsi_launcher_location,
+      type: FileType.custom,
+      allowedExtensions: ["exe"],
+      lockParentWindow: true,
+    );
     if (r == null || r.files.firstOrNull?.path == null) return;
     final fileName = r.files.first.path!;
     if (fileName.endsWith("\\RSI Launcher.exe")) {
@@ -87,10 +90,13 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future<void> setGamePath(BuildContext context) async {
+    await showToast(context, "${S.current.setting_toast_select_game_file}");
     final r = await FilePicker.platform.pickFiles(
-        dialogTitle: S.current.setting_action_info_select_game_install_location,
-        type: FileType.custom,
-        allowedExtensions: ["exe"]);
+      dialogTitle: S.current.setting_action_info_select_game_install_location,
+      type: FileType.custom,
+      allowedExtensions: ["exe"],
+      lockParentWindow: true,
+    );
     if (r == null || r.files.firstOrNull?.path == null) return;
     final fileName = r.files.first.path!;
     dPrint(fileName);
@@ -211,7 +217,8 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future _loadUseInternalDNS() async {
     final userBox = await Hive.openBox("app_conf");
-    final isUseInternalDNS = userBox.get("isUseInternalDNS", defaultValue: false);
+    final isUseInternalDNS =
+        userBox.get("isUseInternalDNS", defaultValue: false);
     state = state.copyWith(isUseInternalDNS: isUseInternalDNS);
   }
 }

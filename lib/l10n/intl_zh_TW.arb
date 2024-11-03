@@ -801,5 +801,16 @@
   "settings_title_general": "通用",
   "settings_item_dns": "使用內置 DNS",
   "settings_item_dns_info": "開啟後可能解決部分地區 DNS 污染的問題",
-  "settings_title_game": "遊戲"
+  "settings_title_game": "遊戲",
+  "about_action_btn_faq": "常見問題",
+  "guide_title_welcome": "歡迎",
+  "guide_info_check_settings": "請檢查以下設置是否正確，如有錯誤請點擊右側圖標更正後繼續使用",
+  "guide_info_game_download_note": "* 若您的遊戲正在下載，請在完成下載後啟動一次遊戲，並點擊刷新按鈕。若您只使用啟動器增強漢化，確保啟動器路徑正確後點擊完成設置即可",
+  "guide_action_get_help": "獲取幫助",
+  "guide_action_complete_setup": "完成設置",
+  "guide_dialog_confirm_complete_setup": "確認完成設置？",
+  "guide_action_info_no_launcher_path_warning": "您尚未選擇啟動器安裝路徑，是否確認完成設置？\n\n引導頁關閉後，需要您手動前往設置頁操作。",
+  "guide_action_info_no_game_path_warning": "您尚未選擇遊戲安裝路徑，是否確認完成設置？\n\n引導頁關閉後，需要您手動前往設置頁操作。",
+  "setting_toast_select_launcher_exe": "選擇啟動器 exe 文件：“RSI Launcher.exe”",
+  "setting_toast_select_game_file": "選擇對應遊戲文件到： Bin64/StarCitizen.exe"
 }

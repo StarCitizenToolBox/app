@@ -35,6 +35,8 @@ class URLConf {
       "$rssApiHome/baidu/tieba/user/%E7%81%AC%E7%81%ACG%E7%81%AC%E7%81%AC&";
 
   static const feedbackUrl = "https://txc.qq.com/products/614843";
+  static const feedbackFAQUrl =
+      "https://support.qq.com/products/410309/faqs-more/?id=160084";
 
   static String get devReleaseUrl => "$gitApiHome/SCToolBox/Release/releases";
 

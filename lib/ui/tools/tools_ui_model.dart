@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -245,7 +246,8 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// -----------------------------------------------------------------------------------------
   /// -----------------------------------------------------------------------------------------
 
-  Future<void> reScanPath(BuildContext context) async {
+  Future<void> reScanPath(BuildContext context,
+      {bool checkActive = false, bool skipToast = false}) async {
     var scInstallPaths = <String>[];
     var rsiLauncherInstallPaths = <String>[];
     var scInstalledPath = "";
@@ -266,7 +268,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         return;
       }
       scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
-          checkExists: false, withVersion: ["LIVE", "PTU", "EPTU"]);
+          checkExists: checkActive, withVersion: ConstConf.gameChannels);
       if (scInstallPaths.isNotEmpty) {
         scInstalledPath = scInstallPaths.first;
       }
@@ -282,13 +284,15 @@ class ToolsUIModel extends _$ToolsUIModel {
       showToast(context, S.current.tools_action_info_log_file_parse_failed);
     }
 
-    if (rsiLauncherInstalledPath == "") {
-      if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_rsi_launcher_not_found);
-    }
-    if (scInstalledPath == "") {
-      if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_star_citizen_not_found);
+    if (!skipToast) {
+      if (rsiLauncherInstalledPath == "") {
+        if (!context.mounted) return;
+        showToast(context, S.current.tools_action_info_rsi_launcher_not_found);
+      }
+      if (scInstalledPath == "") {
+        if (!context.mounted) return;
+        showToast(context, S.current.tools_action_info_star_citizen_not_found);
+      }
     }
   }
 

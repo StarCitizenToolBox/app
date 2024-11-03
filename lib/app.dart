@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/ui/guide/guide_ui.dart';
 import 'package:starcitizen_doctor/ui/home/performance/performance_ui.dart';
 import 'package:starcitizen_doctor/ui/splash_ui.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -92,6 +93,10 @@ GoRouter router(Ref ref) {
               myPageBuilder(context, state, const UnP4kcUI()),
         ),
       ]),
+      GoRoute(
+          path: '/guide',
+          pageBuilder: (context, state) =>
+              myPageBuilder(context, state, const GuideUI()))
     ],
   );
 }
@@ -193,6 +198,8 @@ class AppGlobalModel extends _$AppGlobalModel {
   String getUpgradePath() {
     return "${state.applicationSupportDir}/._upgrade";
   }
+
+  bool isInOnlineMode() => state.networkVersionData != null;
 
   // ignore: avoid_build_context_in_providers
   Future<bool> checkUpdate(BuildContext context) async {
