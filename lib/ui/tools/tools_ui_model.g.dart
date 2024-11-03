@@ -6,7 +6,7 @@ part of 'tools_ui_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolsUIModelHash() => r'b61ae444063db4c550fbf71e724eddd0f7104dc5';
+String _$toolsUIModelHash() => r'cc75badc7ad810d2a8cef3d2a5188b1b68079aa3';
 
 /// See also [ToolsUIModel].
 @ProviderFor(ToolsUIModel)
@@ -22,4 +22,4 @@ final toolsUIModelProvider =
 
 typedef _$ToolsUIModel = AutoDisposeNotifier<ToolsUIState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

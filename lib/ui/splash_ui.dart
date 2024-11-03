@@ -76,8 +76,7 @@ class SplashUI extends HookConsumerWidget {
       await _showAlert(context, appConf);
     }
     try {
-      // crash on debug mode, why?
-      if (!kDebugMode) await URLConf.checkHost();
+     await URLConf.checkHost();
     } catch (e) {
       dPrint("checkHost Error:$e");
     }
