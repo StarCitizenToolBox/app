@@ -3232,10 +3232,10 @@ class S {
     );
   }
 
-  /// `Network anomaly!\nThis may be that your network environment has DNS pollution, please try to replace DNS.\nOr the server is being maintained or attacked and tried it later.\nEnter the offline mode ...\n\nPlease use it carefully in the offline mode.\nThe current version of the construction date: {v0}\n QQ group: 940696487\nError message: {v1}`
+  /// `Network connection failed! \nEntering offline mode... \n\nPlease check the network connection or get the latest information in the social forum. You can try to enable the built-in DNS mode in the application settings \nCurrent version build date: {v0}\nQQ group: 940696487 \nError message: {v1}`
   String app_common_network_error(Object v0, Object v1) {
     return Intl.message(
-      'Network anomaly!\nThis may be that your network environment has DNS pollution, please try to replace DNS.\nOr the server is being maintained or attacked and tried it later.\nEnter the offline mode ...\n\nPlease use it carefully in the offline mode.\nThe current version of the construction date: $v0\n QQ group: 940696487\nError message: $v1',
+      'Network connection failed! \nEntering offline mode... \n\nPlease check the network connection or get the latest information in the social forum. You can try to enable the built-in DNS mode in the application settings \nCurrent version build date: $v0\nQQ group: 940696487 \nError message: $v1',
       name: 'app_common_network_error',
       desc: '',
       args: [v0, v1],
@@ -4869,6 +4869,46 @@ class S {
     return Intl.message(
       'Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11',
       name: 'doctor_game_error_gpu_vulkan_crash_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Universal`
+  String get settings_title_general {
+    return Intl.message(
+      'Universal',
+      name: 'settings_title_general',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use built -in DNS`
+  String get settings_item_dns {
+    return Intl.message(
+      'Use built -in DNS',
+      name: 'settings_item_dns',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After opening, the problem of DNS pollution in some areas may be solved`
+  String get settings_item_dns_info {
+    return Intl.message(
+      'After opening, the problem of DNS pollution in some areas may be solved',
+      name: 'settings_item_dns_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game`
+  String get settings_title_game {
+    return Intl.message(
+      'Game',
+      name: 'settings_title_game',
       desc: '',
       args: [],
     );

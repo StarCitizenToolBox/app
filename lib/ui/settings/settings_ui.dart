@@ -15,7 +15,7 @@ class SettingsUI extends HookConsumerWidget {
     final appGlobalState = ref.watch(appGlobalModelProvider);
     final appGlobalModel = ref.read(appGlobalModelProvider.notifier);
     return ListView(padding: const EdgeInsets.all(16), children: [
-      makeTitle("应用"),
+      makeTitle(S.current.settings_title_general),
       makeSettingsItem(const Icon(FluentIcons.link, size: 20),
           S.current.setting_action_create_settings_shortcut,
           subTitle: S.current.setting_action_create_desktop_shortcut,
@@ -33,8 +33,8 @@ class SettingsUI extends HookConsumerWidget {
       ),
       const SizedBox(height: 12),
       makeSettingsItem(
-          const Icon(FontAwesomeIcons.networkWired, size: 20), "使用内置 DNS",
-          subTitle: "开启后可能解决部分地区 DNS 污染的问题",
+          const Icon(FontAwesomeIcons.networkWired, size: 20), S.current.settings_item_dns,
+          subTitle: S.current.settings_item_dns_info,
           switchStatus: sate.isUseInternalDNS,
           onSwitch: model.onChangeUseInternalDNS,
           onTap: () => model.onChangeUseInternalDNS(!sate.isUseInternalDNS)),
@@ -57,7 +57,7 @@ class SettingsUI extends HookConsumerWidget {
           S.current.setting_action_view_log,
           onTap: () => model.showLogs(),
           subTitle: S.current.setting_action_info_view_log_file),
-      makeTitle("功能"),
+      makeTitle(S.current.settings_title_game),
       makeSettingsItem(const Icon(FontAwesomeIcons.microchip, size: 20),
           S.current.setting_action_ignore_efficiency_cores_on_launch,
           subTitle: S.current

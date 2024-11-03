@@ -634,7 +634,7 @@
   "@app_init_failed_with_reason": {},
   "settings_app_language": "語言",
   "settings_app_language_auto": "自動",
-  "app_common_network_error": "網路異常！\n這可能是您的網路環境存在DNS汙染，請嘗試更換DNS。\n或伺服器正在維護或遭受攻擊，稍後再試。 \n進入離線模式... \n\n請謹慎在離線模式中使用。 \n目前版本構建日期：{v0}\n QQ群：940696487 \n錯誤資訊：{v1}",
+  "app_common_network_error": "網路連線失敗！\n進入離線模式... \n\n 請檢查網路連線或在社群論壇取得最新資訊，可嘗試在應用程式設定中方開啟內建DNS 模式\n目前版本建置日期： {v0}\n QQ群：940696487 \n錯誤訊息：{v1}",
   "app_common_upgrade_info_error": "獲取更新資訊失敗，請稍後重試。",
   "doctor_game_error_low_memory": "可用記憶體不足",
   "doctor_game_error_low_memory_info": "請嘗試增加虛擬記憶體（ 1080p 下， 物理可用+虛擬記憶體需 > 64G ）",
@@ -797,5 +797,9 @@
   "tools_unp4k_missing_runtime_info": "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。",
   "tools_unp4k_missing_runtime_action_install": "安裝運行庫",
   "doctor_game_error_gpu_vulkan_crash": "GPU Vulkan 崩潰",
-  "doctor_game_error_gpu_vulkan_crash_info": "Vulkan 崩潰！這可能是驅動版本或遊戲引擎問題，請嘗試更新 GPU 驅動 或 使用清理著色器功能為您回退到 DX11"
+  "doctor_game_error_gpu_vulkan_crash_info": "Vulkan 崩潰！這可能是驅動版本或遊戲引擎問題，請嘗試更新 GPU 驅動 或 使用清理著色器功能為您回退到 DX11",
+  "settings_title_general": "通用",
+  "settings_item_dns": "使用內置 DNS",
+  "settings_item_dns_info": "開啟後可能解決部分地區 DNS 污染的問題",
+  "settings_title_game": "遊戲"
 }

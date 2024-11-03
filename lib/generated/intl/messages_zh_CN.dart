@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(v0) => "出现错误: ${v0}";
 
   static String m1(v0, v1) =>
-      "网络异常！\n这可能是您的网络环境存在DNS污染，请尝试更换DNS。\n或服务器正在维护或遭受攻击，稍后再试。 \n进入离线模式... \n\n请谨慎在离线模式中使用。 \n当前版本构建日期：${v0}\n QQ群：940696487 \n错误信息：${v1}";
+      "网络连接失败！ \n进入离线模式... \n\n请检查网络连接或在社交论坛获取最新资讯，可尝试在应用设置中方开启内置 DNS 模式 \n当前版本构建日期：${v0}\n QQ群：940696487 \n错误信息：${v1}";
 
   static String m2(v0, v1) => "SC汉化盒子 V${v0} ${v1}";
 
@@ -875,6 +875,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("自动"),
         "settings_app_language_switch_info":
             MessageLookupByLibrary.simpleMessage("切换应用显示语言"),
+        "settings_item_dns": MessageLookupByLibrary.simpleMessage("使用内置 DNS"),
+        "settings_item_dns_info":
+            MessageLookupByLibrary.simpleMessage("开启后可能解决部分地区 DNS 污染的问题"),
+        "settings_title_game": MessageLookupByLibrary.simpleMessage("游戏"),
+        "settings_title_general": MessageLookupByLibrary.simpleMessage("通用"),
         "tools_action_clear_shader_cache":
             MessageLookupByLibrary.simpleMessage("清理着色器缓存"),
         "tools_action_close_photography_mode":

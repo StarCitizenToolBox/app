@@ -637,7 +637,7 @@
   "@settings_app_language": {},
   "settings_app_language_auto": "Automatic",
   "@settings_app_language_auto": {},
-  "app_common_network_error": "Network anomaly!\nThis may be that your network environment has DNS pollution, please try to replace DNS.\nOr the server is being maintained or attacked and tried it later.\nEnter the offline mode ...\n\nPlease use it carefully in the offline mode.\nThe current version of the construction date: {v0}\n QQ group: 940696487\nError message: {v1}",
+  "app_common_network_error": "Network connection failed! \nEntering offline mode... \n\nPlease check the network connection or get the latest information in the social forum. You can try to enable the built-in DNS mode in the application settings \nCurrent version build date: {v0}\nQQ group: 940696487 \nError message: {v1}",
   "@app_common_network_error": {},
   "app_common_upgrade_info_error": "If the update information fails, please try it later.",
   "@app_common_upgrade_info_error": {},
@@ -964,5 +964,9 @@
   "doctor_game_error_gpu_vulkan_crash": "GPU Vulkan Crash",
   "@doctor_game_error_gpu_vulkan_crash": {},
   "doctor_game_error_gpu_vulkan_crash_info": "Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11",
-  "@doctor_game_error_gpu_vulkan_crash_info": {}
+  "@doctor_game_error_gpu_vulkan_crash_info": {},
+  "settings_title_general": "Universal",
+  "settings_item_dns": "Use built -in DNS",
+  "settings_item_dns_info": "After opening, the problem of DNS pollution in some areas may be solved",
+  "settings_title_game": "Game"
 }

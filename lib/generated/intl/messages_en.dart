@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(v0) => "Error: ${v0}";
 
   static String m1(v0, v1) =>
-      "Network anomaly!\nThis may be that your network environment has DNS pollution, please try to replace DNS.\nOr the server is being maintained or attacked and tried it later.\nEnter the offline mode ...\n\nPlease use it carefully in the offline mode.\nThe current version of the construction date: ${v0}\n QQ group: 940696487\nError message: ${v1}";
+      "Network connection failed! \nEntering offline mode... \n\nPlease check the network connection or get the latest information in the social forum. You can try to enable the built-in DNS mode in the application settings \nCurrent version build date: ${v0}\nQQ group: 940696487 \nError message: ${v1}";
 
   static String m2(v0, v1) => "SCToolBox V ${v0} ${v1}";
 
@@ -982,6 +982,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "settings_app_language_switch_info":
             MessageLookupByLibrary.simpleMessage(
                 "Switch application Display language"),
+        "settings_item_dns":
+            MessageLookupByLibrary.simpleMessage("Use built -in DNS"),
+        "settings_item_dns_info": MessageLookupByLibrary.simpleMessage(
+            "After opening, the problem of DNS pollution in some areas may be solved"),
+        "settings_title_game": MessageLookupByLibrary.simpleMessage("Game"),
+        "settings_title_general":
+            MessageLookupByLibrary.simpleMessage("Universal"),
         "tools_action_clear_shader_cache": MessageLookupByLibrary.simpleMessage(
             "Clean up the color device cache"),
         "tools_action_close_photography_mode":

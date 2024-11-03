@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(v0) => "出現錯誤: ${v0}";
 
   static String m1(v0, v1) =>
-      "網路異常！\n這可能是您的網路環境存在DNS汙染，請嘗試更換DNS。\n或伺服器正在維護或遭受攻擊，稍後再試。 \n進入離線模式... \n\n請謹慎在離線模式中使用。 \n目前版本構建日期：${v0}\n QQ群：940696487 \n錯誤資訊：${v1}";
+      "網路連線失敗！\n進入離線模式... \n\n 請檢查網路連線或在社群論壇取得最新資訊，可嘗試在應用程式設定中方開啟內建DNS 模式\n目前版本建置日期： ${v0}\n QQ群：940696487 \n錯誤訊息：${v1}";
 
   static String m2(v0, v1) => "SC工具箱 V${v0} ${v1}";
 
@@ -879,6 +879,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("自動"),
         "settings_app_language_switch_info":
             MessageLookupByLibrary.simpleMessage("切換應用程式的顯示語言"),
+        "settings_item_dns": MessageLookupByLibrary.simpleMessage("使用內置 DNS"),
+        "settings_item_dns_info":
+            MessageLookupByLibrary.simpleMessage("開啟後可能解決部分地區 DNS 污染的問題"),
+        "settings_title_game": MessageLookupByLibrary.simpleMessage("遊戲"),
+        "settings_title_general": MessageLookupByLibrary.simpleMessage("通用"),
         "tools_action_clear_shader_cache":
             MessageLookupByLibrary.simpleMessage("刪除著色器快取"),
         "tools_action_close_photography_mode":
