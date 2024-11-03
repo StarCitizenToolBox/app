@@ -96,7 +96,8 @@ abstract class RustLibApi extends BaseApi {
       required String url,
       Map<String, String>? headers,
       Uint8List? inputData,
-      String? withIpAddress});
+      String? withIpAddress,
+      bool? withCustomDns});
 
   Future<void> crateApiHttpApiSetDefaultHeader(
       {required Map<String, String> headers});
@@ -228,7 +229,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       required String url,
       Map<String, String>? headers,
       Uint8List? inputData,
-      String? withIpAddress}) {
+      String? withIpAddress,
+      bool? withCustomDns}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 = cst_encode_my_method(method);
@@ -236,22 +238,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         var arg2 = cst_encode_opt_Map_String_String(headers);
         var arg3 = cst_encode_opt_list_prim_u_8_strict(inputData);
         var arg4 = cst_encode_opt_String(withIpAddress);
+        var arg5 = cst_encode_opt_box_autoadd_bool(withCustomDns);
         return wire.wire__crate__api__http_api__fetch(
-            port_, arg0, arg1, arg2, arg3, arg4);
+            port_, arg0, arg1, arg2, arg3, arg4, arg5);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_rust_http_response,
         decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta: kCrateApiHttpApiFetchConstMeta,
-      argValues: [method, url, headers, inputData, withIpAddress],
+      argValues: [
+        method,
+        url,
+        headers,
+        inputData,
+        withIpAddress,
+        withCustomDns
+      ],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta get kCrateApiHttpApiFetchConstMeta => const TaskConstMeta(
         debugName: "fetch",
-        argNames: ["method", "url", "headers", "inputData", "withIpAddress"],
+        argNames: [
+          "method",
+          "url",
+          "headers",
+          "inputData",
+          "withIpAddress",
+          "withCustomDns"
+        ],
       );
 
   @override
@@ -418,6 +435,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  bool dco_decode_box_autoadd_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as bool;
+  }
+
+  @protected
   RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -482,6 +505,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   String? dco_decode_opt_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_String(raw);
+  }
+
+  @protected
+  bool? dco_decode_opt_box_autoadd_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_bool(raw);
   }
 
   @protected
@@ -625,6 +654,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  bool sse_decode_box_autoadd_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_bool(deserializer));
+  }
+
+  @protected
   RsiLauncherAsarData sse_decode_box_autoadd_rsi_launcher_asar_data(
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -714,6 +749,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_String(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_bool(deserializer));
     } else {
       return null;
     }
@@ -926,6 +972,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_rsi_launcher_asar_data(
       RsiLauncherAsarData self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1011,6 +1063,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_String(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_bool(self, serializer);
     }
   }
 

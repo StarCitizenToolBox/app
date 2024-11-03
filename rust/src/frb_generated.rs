@@ -156,6 +156,7 @@ fn wire__crate__api__http_api__fetch_impl(
     headers: impl CstDecode<Option<std::collections::HashMap<String, String>>>,
     input_data: impl CstDecode<Option<Vec<u8>>>,
     with_ip_address: impl CstDecode<Option<String>>,
+    with_custom_dns: impl CstDecode<Option<bool>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -169,6 +170,7 @@ fn wire__crate__api__http_api__fetch_impl(
             let api_headers = headers.cst_decode();
             let api_input_data = input_data.cst_decode();
             let api_with_ip_address = with_ip_address.cst_decode();
+            let api_with_custom_dns = with_custom_dns.cst_decode();
             move |context| async move {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
@@ -178,6 +180,7 @@ fn wire__crate__api__http_api__fetch_impl(
                             api_headers,
                             api_input_data,
                             api_with_ip_address,
+                            api_with_custom_dns,
                         )
                         .await?;
                         Ok(output_ok)
@@ -561,6 +564,17 @@ impl SseDecode for Option<String> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<String>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<bool> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<bool>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -1008,6 +1022,16 @@ impl SseEncode for Option<String> {
     }
 }
 
+impl SseEncode for Option<bool> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <bool>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<u64> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1178,6 +1202,12 @@ mod io {
         fn cst_decode(self) -> String {
             let vec: Vec<u8> = self.cst_decode();
             String::from_utf8(vec).unwrap()
+        }
+    }
+    impl CstDecode<bool> for *mut bool {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> bool {
+            unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
         }
     }
     impl CstDecode<crate::api::asar_api::RsiLauncherAsarData> for *mut wire_cst_rsi_launcher_asar_data {
@@ -1372,6 +1402,7 @@ mod io {
         headers: *mut wire_cst_list_record_string_string,
         input_data: *mut wire_cst_list_prim_u_8_strict,
         with_ip_address: *mut wire_cst_list_prim_u_8_strict,
+        with_custom_dns: *mut bool,
     ) {
         wire__crate__api__http_api__fetch_impl(
             port_,
@@ -1380,6 +1411,7 @@ mod io {
             headers,
             input_data,
             with_ip_address,
+            with_custom_dns,
         )
     }
 
@@ -1434,6 +1466,11 @@ mod io {
         window_name: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__win32_api__set_foreground_window_impl(port_, window_name)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_bool(value: bool) -> *mut bool {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
     }
 
     #[no_mangle]

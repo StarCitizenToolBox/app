@@ -48,15 +48,19 @@ static DEFAULT_HEADER: Lazy<RwLock<HeaderMap>> = Lazy::new(|| RwLock::from(Heade
 static DNS_CLIENT: Lazy<Arc<dns::MyHickoryDnsResolver>> =
     Lazy::new(|| Arc::from(dns::MyHickoryDnsResolver::default()));
 
-static HTTP_CLIENT: Lazy<reqwest::Client> = Lazy::new(|| new_http_client(true));
+static HTTP_CLIENT: Lazy<reqwest::Client> = Lazy::new(|| new_http_client(true,true));
 
-fn new_http_client(keep_alive: bool) -> reqwest::Client {
+static HTTP_CLIENT_NO_CUSTOM_DNS: Lazy<reqwest::Client> = Lazy::new(|| new_http_client(true,false));
+
+fn new_http_client(keep_alive: bool,with_custom_dns: bool) -> reqwest::Client {
     let mut c = reqwest::Client::builder()
-        .dns_resolver(DNS_CLIENT.clone())
         .use_rustls_tls()
         .connect_timeout(Duration::from_secs(10))
         .gzip(true)
         .no_proxy();
+    if with_custom_dns {
+        c = c.dns_resolver(DNS_CLIENT.clone());
+    }
     if !keep_alive {
         c = c.tcp_keepalive(None);
     } else {
@@ -82,15 +86,15 @@ pub async fn fetch(
     headers: Option<HashMap<String, String>>,
     input_data: Option<Vec<u8>>,
     with_ip_address: Option<String>,
+    with_custom_dns: Option<bool>,
 ) -> anyhow::Result<RustHttpResponse> {
     let address_clone = with_ip_address.clone();
     let url_clone = url.clone();
 
     if address_clone.is_some() {
-        let addr = std::net::IpAddr::from_str(with_ip_address.unwrap().as_str()).unwrap();
+        let addr = std::net::IpAddr::from_str(with_ip_address.unwrap().as_str())?;
         let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
-        let url_host = Url::from_str(url.as_str())
-            .unwrap()
+        let url_host = Url::from_str(url.as_str())?
             .host()
             .unwrap()
             .to_string();
@@ -105,9 +109,13 @@ pub async fn fetch(
     }
 
     let mut req = if address_clone.is_some() {
-        _mix_header(new_http_client(false).request(method, url_clone), headers)
+        _mix_header(new_http_client(false,with_custom_dns.unwrap_or(false)).request(method, url_clone), headers)
     } else {
-        _mix_header(HTTP_CLIENT.request(method, url_clone), headers)
+        if with_custom_dns.unwrap_or(false) {
+            _mix_header(HTTP_CLIENT.request(method, url_clone), headers)
+        }else {
+            _mix_header(HTTP_CLIENT_NO_CUSTOM_DNS.request(method, url_clone), headers)
+        }
     };
     if input_data.is_some() {
         req = req.body(input_data.unwrap());

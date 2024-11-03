@@ -39,6 +39,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool dco_decode_bool(dynamic raw);
 
   @protected
+  bool dco_decode_box_autoadd_bool(dynamic raw);
+
+  @protected
   RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
       dynamic raw);
 
@@ -71,6 +74,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
+
+  @protected
+  bool? dco_decode_opt_box_autoadd_bool(dynamic raw);
 
   @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
@@ -127,6 +133,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
+  bool sse_decode_box_autoadd_bool(SseDeserializer deserializer);
+
+  @protected
   RsiLauncherAsarData sse_decode_box_autoadd_rsi_launcher_asar_data(
       SseDeserializer deserializer);
 
@@ -161,6 +170,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
+
+  @protected
+  bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer);
 
   @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
@@ -236,6 +248,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.Bool> cst_encode_box_autoadd_bool(bool raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return wire.cst_new_box_autoadd_bool(cst_encode_bool(raw));
+  }
+
+  @protected
   ffi.Pointer<wire_cst_rsi_launcher_asar_data>
       cst_encode_box_autoadd_rsi_launcher_asar_data(RsiLauncherAsarData raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -301,6 +319,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       String? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_String(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.Bool> cst_encode_opt_box_autoadd_bool(bool? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_bool(raw);
   }
 
   @protected
@@ -412,6 +436,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_rsi_launcher_asar_data(
       RsiLauncherAsarData self, SseSerializer serializer);
 
@@ -447,6 +474,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
@@ -622,6 +652,7 @@ class RustLibWire implements BaseWire {
     ffi.Pointer<wire_cst_list_record_string_string> headers,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> input_data,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> with_ip_address,
+    ffi.Pointer<ffi.Bool> with_custom_dns,
   ) {
     return _wire__crate__api__http_api__fetch(
       port_,
@@ -630,6 +661,7 @@ class RustLibWire implements BaseWire {
       headers,
       input_data,
       with_ip_address,
+      with_custom_dns,
     );
   }
 
@@ -641,7 +673,8 @@ class RustLibWire implements BaseWire {
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>,
                   ffi.Pointer<wire_cst_list_record_string_string>,
                   ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  ffi.Pointer<ffi.Bool>)>>(
       'frbgen_starcitizen_doctor_wire__crate__api__http_api__fetch');
   late final _wire__crate__api__http_api__fetch =
       _wire__crate__api__http_api__fetchPtr.asFunction<
@@ -651,7 +684,8 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<wire_cst_list_record_string_string>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<ffi.Bool>)>();
 
   void wire__crate__api__http_api__set_default_header(
     int port_,
@@ -781,6 +815,20 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__win32_api__set_foreground_window =
       _wire__crate__api__win32_api__set_foreground_windowPtr.asFunction<
           void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
+  ffi.Pointer<ffi.Bool> cst_new_box_autoadd_bool(
+    bool value,
+  ) {
+    return _cst_new_box_autoadd_bool(
+      value,
+    );
+  }
+
+  late final _cst_new_box_autoadd_boolPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Bool> Function(ffi.Bool)>>(
+          'frbgen_starcitizen_doctor_cst_new_box_autoadd_bool');
+  late final _cst_new_box_autoadd_bool = _cst_new_box_autoadd_boolPtr
+      .asFunction<ffi.Pointer<ffi.Bool> Function(bool)>();
 
   ffi.Pointer<wire_cst_rsi_launcher_asar_data>
       cst_new_box_autoadd_rsi_launcher_asar_data() {

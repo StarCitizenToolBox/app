@@ -17,13 +17,15 @@ Future<RustHttpResponse> fetch(
         required String url,
         Map<String, String>? headers,
         Uint8List? inputData,
-        String? withIpAddress}) =>
+        String? withIpAddress,
+        bool? withCustomDns}) =>
     RustLib.instance.api.crateApiHttpApiFetch(
         method: method,
         url: url,
         headers: headers,
         inputData: inputData,
-        withIpAddress: withIpAddress);
+        withIpAddress: withIpAddress,
+        withCustomDns: withCustomDns);
 
 Future<List<String>> dnsLookupTxt({required String host}) =>
     RustLib.instance.api.crateApiHttpApiDnsLookupTxt(host: host);
