@@ -15,6 +15,7 @@ import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
+import 'package:starcitizen_doctor/data/input_method_api_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
@@ -29,6 +30,8 @@ part 'localization_ui_model.freezed.dart';
 class LocalizationUIState with _$LocalizationUIState {
   factory LocalizationUIState({
     String? selectedLanguage,
+    String? installedCommunityInputMethodSupportVersion,
+    InputMethodApiLanguageData? communityInputMethodLanguageData,
     Map<String, ScLocalizationData>? apiLocalizationData,
     @Default("") String workingVersion,
     MapEntry<bool, String>? patchStatus,
@@ -83,9 +86,28 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   final Map<String, Map<String, ScLocalizationData>>
       _allVersionLocalizationData = {};
 
+  Future<void> _loadCommunityInputMethodData() async {
+    try {
+      final data = await Api.getCommunityInputMethodIndexData();
+      if (data.enable ?? false) {
+        final lang = state.selectedLanguage;
+        if (lang != null) {
+          final l = data.languages?[lang];
+          if (l != null) {
+            state = state.copyWith(communityInputMethodLanguageData: l);
+            dPrint("loadCommunityInputMethodData: ${l.toJson()}");
+          }
+        }
+      }
+    } catch (e) {
+      dPrint("loadCommunityInputMethodData error: $e");
+    }
+  }
+
   Future<void> _loadData() async {
     _allVersionLocalizationData.clear();
     await _updateStatus();
+    await _loadCommunityInputMethodData();
     for (var lang in languageSupport.keys) {
       final l = await Api.getScLocalizationData(lang).unwrap();
       if (l != null) {
@@ -211,8 +233,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return path.split("\\").last;
   }
 
-  installFormString(StringBuffer globalIni, String versionName,
-      {bool? advanced}) async {
+  installFormString(
+    StringBuffer globalIni,
+    String versionName, {
+    bool? advanced,
+    String? communityInputMethodVersion,
+    String? communityInputMethodSupportData,
+  }) async {
     dPrint("LocalizationUIModel -> installFormString $versionName");
     final iniFile = File(
         "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
@@ -222,6 +249,15 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       }
       if (advanced ?? false) {
         globalIni.write("_starcitizen_doctor_localization_advanced=true\n");
+      }
+      if (communityInputMethodVersion != null) {
+        globalIni.write(
+            "_starcitizen_doctor_localization_community_input_method_version=$communityInputMethodVersion\n");
+      }
+      if (communityInputMethodSupportData != null) {
+        for (var line in communityInputMethodSupportData.split("\n")) {
+          globalIni.write("$line\n");
+        }
       }
       globalIni
           .write("_starcitizen_doctor_localization_version=$versionName\n");
@@ -241,8 +277,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     await _updateStatus();
   }
 
-  VoidCallback? doRemoteInstall(
-      BuildContext context, ScLocalizationData value) {
+  VoidCallback? doRemoteInstall(BuildContext context, ScLocalizationData value,
+      {bool isEnableCommunityInputMethod = false}) {
     return () async {
       AnalyticsApi.touch("install_localization");
 
@@ -256,13 +292,33 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         } else {
           dPrint("use cache $savePath");
         }
+
+        final communityInputMethodData = state.communityInputMethodLanguageData;
+
+        String? communityInputMethodSupportData;
+
+        if (isEnableCommunityInputMethod && communityInputMethodData != null) {
+          final str = await downloadOrGetCachedCommunityInputMethodSupportFile(
+              communityInputMethodData);
+          if (str.trim().isNotEmpty) {
+            communityInputMethodSupportData = str;
+          }
+        }
+
         await Future.delayed(const Duration(milliseconds: 300));
         // check file
         final globalIni = await compute(readArchive, savePath.absolute.path);
         if (globalIni.isEmpty) {
           throw S.current.localization_info_corrupted_file;
         }
-        await installFormString(globalIni, value.versionName ?? "");
+        await installFormString(
+          globalIni,
+          value.versionName ?? "",
+          communityInputMethodSupportData: communityInputMethodSupportData,
+          communityInputMethodVersion: isEnableCommunityInputMethod
+              ? communityInputMethodData?.version
+              : null,
+        );
       } catch (e) {
         if (!context.mounted) return;
         await showToast(
@@ -271,6 +327,21 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       }
       state = state.copyWith(workingVersion: "");
     };
+  }
+
+  Future<String> downloadOrGetCachedCommunityInputMethodSupportFile(
+      InputMethodApiLanguageData communityInputMethodData) async {
+    final lang = state.selectedLanguage ?? "_";
+    final box = await Hive.openBox("community_input_method_data");
+    final cachedVersion = box.get("${lang}_version");
+
+    if (cachedVersion != communityInputMethodData.version) {
+      final data = await Api.getCommunityInputMethodData(
+          communityInputMethodData.file ?? "");
+      await box.put("${lang}_data", data);
+      return data;
+    }
+    return box.get("${lang}_data").toString();
   }
 
   Future<void> downloadLocalizationFile(
@@ -310,7 +381,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   void selectLang(String v) async {
-    state = state.copyWith(selectedLanguage: v);
+    state = state.copyWith(
+        selectedLanguage: v, communityInputMethodLanguageData: null);
     _loadData();
     final appConfBox = await Hive.openBox("app_conf");
     await appConfBox.put("localization_selectedLanguage", v);
@@ -332,14 +404,42 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   _updateStatus() async {
+    final iniPath =
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
     final patchStatus = MapEntry(
         await _getLangCfgEnableLang(lang: state.selectedLanguage!),
-        await _getInstalledIniVersion(
-            "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"));
-    final isInstalledAdvanced = await _checkAdvancedStatus(
-        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
+        await _getInstalledIniVersion(iniPath));
+    final isInstalledAdvanced = await _checkAdvancedStatus(iniPath);
+    final installedCommunityInputMethodSupportVersion =
+        await getInstalledCommunityInputMethodSupportVersion(iniPath);
+
+    dPrint(
+        "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion");
+
     state = state.copyWith(
-        patchStatus: patchStatus, isInstalledAdvanced: isInstalledAdvanced);
+      patchStatus: patchStatus,
+      isInstalledAdvanced: isInstalledAdvanced,
+      installedCommunityInputMethodSupportVersion:
+          installedCommunityInputMethodSupportVersion,
+    );
+  }
+
+  Future<String?> getInstalledCommunityInputMethodSupportVersion(
+      String path) async {
+    final iniFile = File(path);
+    if (!await iniFile.exists()) {
+      return null;
+    }
+    final iniStringSplit = (await iniFile.readAsString()).split("\n");
+    for (var i = iniStringSplit.length - 1; i > 0; i--) {
+      if (iniStringSplit[i].contains(
+          "_starcitizen_doctor_localization_community_input_method_version=")) {
+        final v = iniStringSplit[i].trim().split(
+            "_starcitizen_doctor_localization_community_input_method_version=")[1];
+        return v;
+      }
+    }
+    return null;
   }
 
   Future<bool> _checkAdvancedStatus(String path) async {

@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -103,9 +104,21 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          Text(S.current.localization_info_installed_version(
-                              "${state.patchStatus?.value ?? ""} ${(state.isInstalledAdvanced ?? false) ? S.current.home_localization_msg_version_advanced : ""}")),
-                          const Spacer(),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Text(S.current.localization_info_installed_version(
+                                    "${state.patchStatus?.value ?? ""} ${(state.isInstalledAdvanced ?? false) ? S.current.home_localization_msg_version_advanced : ""}")),
+                                SizedBox(width: 24),
+                                if (state
+                                        .installedCommunityInputMethodSupportVersion !=
+                                    null)
+                                  Text(
+                                    "社区输入法支持：${state.installedCommunityInputMethodSupportVersion}",
+                                  )
+                              ],
+                            ),
+                          ),
                           if (state.patchStatus?.value !=
                               S.current.home_action_info_game_built_in)
                             Row(
@@ -415,6 +428,8 @@ class LocalizationDialogUI extends HookConsumerWidget {
       LocalizationUIModel model,
       MapEntry<String, ScLocalizationData> item,
       LocalizationUIState state) async {
+    bool enableCommunityInputMethod =
+        state.communityInputMethodLanguageData != null;
     final userOK = await showConfirmDialogs(
       context,
       "${item.value.info}",
@@ -443,6 +458,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                     .localization_info_update_time(item.value.updateAt ?? ""),
                 style: TextStyle(color: Colors.white.withOpacity(.6)),
               ),
+              const SizedBox(height: 12),
             ],
           ),
           const SizedBox(height: 12),
@@ -462,6 +478,29 @@ class LocalizationDialogUI extends HookConsumerWidget {
               ],
             ),
           ),
+          SizedBox(height: 12),
+          Row(
+            children: [
+              Text(
+                "安装社区输入法支持",
+              ),
+              Spacer(),
+              StatefulBuilder(
+                builder: (BuildContext context,
+                    void Function(void Function()) setState) {
+                  return ToggleSwitch(
+                    checked: enableCommunityInputMethod,
+                    onChanged: state.communityInputMethodLanguageData == null
+                        ? null
+                        : (v) {
+                            enableCommunityInputMethod = v;
+                            setState(() {});
+                          },
+                  );
+                },
+              )
+            ],
+          )
         ],
       ),
       confirm: S.current.localization_action_install,
@@ -471,7 +510,11 @@ class LocalizationDialogUI extends HookConsumerWidget {
     );
     if (userOK) {
       if (!context.mounted) return;
-      model.doRemoteInstall(context, item.value)?.call();
+      dPrint("doRemoteInstall ${item.value} $enableCommunityInputMethod");
+      model
+          .doRemoteInstall(context, item.value,
+              isEnableCommunityInputMethod: enableCommunityInputMethod)
+          ?.call();
     }
   }
 

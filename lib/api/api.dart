@@ -7,6 +7,7 @@ import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/data/app_torrent_data.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
+import 'package:starcitizen_doctor/data/input_method_api_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 
 class Api {
@@ -52,6 +53,15 @@ class Api {
     return l;
   }
 
+  static Future<InputMethodApiData> getCommunityInputMethodIndexData() async {
+    final data = await getCommunityInputMethodData("index.json");
+    return InputMethodApiData.fromJson(json.decode(data));
+  }
+
+  static Future<String> getCommunityInputMethodData(String file) async {
+    return getRepoData("input_method", file);
+  }
+
   static Future<List<AppTorrentData>> getAppTorrentDataList() async {
     final data = await getRepoData("sc_doctor", "torrent.json");
     final dataJson = json.decode(data);
@@ -83,13 +93,15 @@ class Api {
   }
 
   static Future<String> getRepoData(String dir, String name) async {
-    final r = await RSHttp.getText("${URLConf.apiRepoPath}/$dir/$name",withCustomDns: await isUseInternalDNS());
+    final r = await RSHttp.getText("${URLConf.apiRepoPath}/$dir/$name",
+        withCustomDns: await isUseInternalDNS());
     return r;
   }
 
   static Future<bool> isUseInternalDNS() async {
     final userBox = await Hive.openBox("app_conf");
-    final isUseInternalDNS = userBox.get("isUseInternalDNS", defaultValue: false);
+    final isUseInternalDNS =
+        userBox.get("isUseInternalDNS", defaultValue: false);
     return isUseInternalDNS;
   }
 }
