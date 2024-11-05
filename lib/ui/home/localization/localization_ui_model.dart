@@ -247,9 +247,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       if (!globalIni.toString().endsWith("\n")) {
         globalIni.write("\n");
       }
-      if (advanced ?? false) {
-        globalIni.write("_starcitizen_doctor_localization_advanced=true\n");
-      }
       if (communityInputMethodVersion != null) {
         globalIni.write(
             "_starcitizen_doctor_localization_community_input_method_version=$communityInputMethodVersion\n");
@@ -258,6 +255,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         for (var line in communityInputMethodSupportData.split("\n")) {
           globalIni.write("$line\n");
         }
+      }
+      if (advanced ?? false) {
+        globalIni.write("_starcitizen_doctor_localization_advanced=true\n");
       }
       globalIni
           .write("_starcitizen_doctor_localization_version=$versionName\n");
@@ -275,6 +275,38 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         flush: true);
     await updateLangCfg(true);
     await _updateStatus();
+  }
+
+  Future<Map<String, String>?> getCommunityInputMethodSupportData() async {
+    final iniPath =
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
+    final iniFile = File(iniPath);
+    if (!await iniFile.exists()) {
+      return {};
+    }
+    final iniStringSplit = (await iniFile.readAsString()).split("\n");
+    final communityInputMethodSupportData = <String, String>{};
+    var b = false;
+    for (var i = 0; i < iniStringSplit.length; i++) {
+      final line = iniStringSplit[i];
+
+      if (line.trim().startsWith(
+          "_starcitizen_doctor_localization_community_input_method_version=")) {
+        b = true;
+        continue;
+      } else if (line
+          .trim()
+          .startsWith("_starcitizen_doctor_localization_version=")) {
+        b = false;
+        return communityInputMethodSupportData;
+      } else if (b) {
+        final kv = line.split("=");
+        if (kv.length == 2) {
+          communityInputMethodSupportData[kv[0]] = kv[1];
+        }
+      }
+    }
+    return null;
   }
 
   VoidCallback? doRemoteInstall(BuildContext context, ScLocalizationData value,
@@ -529,5 +561,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       }
     }
     return updates;
+  }
+
+  Future<void> onChangeGameInstallPath(String value) async {
+    await _loadData();
   }
 }

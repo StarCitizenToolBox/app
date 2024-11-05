@@ -17,6 +17,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'dialogs/home_countdown_dialog_ui.dart';
 import 'dialogs/home_md_content_dialog_ui.dart';
 import 'home_ui_model.dart';
+import 'input_method/input_method_dialog_ui.dart';
 import 'localization/localization_dialog_ui.dart';
 import 'localization/localization_ui_model.dart';
 
@@ -175,6 +176,19 @@ class HomeUI extends HookConsumerWidget {
                         : Colors.white,
                   ),
                 )),
+            const SizedBox(width: 12),
+            Button(
+              onPressed: () =>
+                  _checkAndGoInputMethod(context, homeState, model, ref),
+              style: ButtonStyle(
+                backgroundColor:
+                    WidgetStateProperty.resolveWith((_) => Colors.blue),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Icon(FluentIcons.keyboard_classic),
+              ),
+            ),
             const SizedBox(width: 12),
             Button(
               onPressed: model.reScanPath,
@@ -840,6 +854,30 @@ class HomeUI extends HookConsumerWidget {
       await model.checkLocalizationUpdate();
       return;
     }
+  }
+
+  void _checkAndGoInputMethod(BuildContext context, HomeUIModelState homeState,
+      HomeUIModel model, WidgetRef ref) async {
+    final localizationState = ref.read(localizationUIModelProvider);
+    if (localizationState.communityInputMethodLanguageData == null) {
+      showToast(context, "功能维护中，请稍后重试");
+      return;
+    }
+    if (localizationState.installedCommunityInputMethodSupportVersion == null) {
+      final userOK = await showConfirmDialogs(context, "未安装社区输入法支持",
+          Text("是否前往汉化管理安装？\n\n如已安装汉化，请卸载并在重新安装时打开社区输入法支持开关。"));
+      if (userOK) {
+        if (!context.mounted) return;
+        _onMenuTap(context, 'localization', homeState, ref);
+      }
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return InputMethodDialogUI();
+      },
+    );
   }
 }
 
