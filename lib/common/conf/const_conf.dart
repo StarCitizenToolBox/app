@@ -6,4 +6,5 @@ class ConstConf {
   static const isMSE =
       String.fromEnvironment("MSE", defaultValue: "false") == "true";
   static const dohAddress = "https://223.6.6.6/resolve";
+  static const inputMethodServerPort = 59399;
 }

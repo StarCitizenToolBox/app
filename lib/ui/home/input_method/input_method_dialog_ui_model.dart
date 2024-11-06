@@ -55,7 +55,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     state = state.copyWith(enableAutoCopy: value);
   }
 
-  String? onTextChange(String type, String str) {
+  String? onTextChange(String type, String str, {formWeb = false}) {
     if (state.keyMaps == null || state.worldMaps == null) return null;
     StringBuffer sb = StringBuffer();
     final r = RegExp(r'^[a-zA-Z0-9\p{P}\p{S}]+$');
@@ -93,7 +93,9 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
       return "";
     }
     final text = "[zh] ${sb.toString()}";
-    _handleAutoCopy(text);
+    if (!formWeb) {
+      _handleAutoCopy(text);
+    }
     return text;
   }
 
@@ -114,4 +116,26 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     });
   }
 
+  TextEditingController? _srcTextCtrl;
+  TextEditingController? _destTextCtrl;
+
+  void setUpController(
+      TextEditingController srcTextCtrl, TextEditingController destTextCtrl) {
+    _srcTextCtrl = srcTextCtrl;
+    _destTextCtrl = destTextCtrl;
+  }
+
+  Future<void> onSendText(
+    String text, {
+    bool autoCopy = false,
+    bool autoInput = false,
+  }) async {
+    debugPrint("[InputMethodDialogUIState] onSendText: $text");
+    _srcTextCtrl?.text = text;
+    _destTextCtrl?.text = onTextChange("src", text) ?? "";
+    if (_destTextCtrl?.text.isEmpty ?? true) return;
+    if (autoCopy) {
+      Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
+    }
+  }
 }

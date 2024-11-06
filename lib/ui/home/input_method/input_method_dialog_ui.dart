@@ -4,7 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/ui/home/input_method/input_method_dialog_ui_model.dart';
+import 'package:starcitizen_doctor/ui/home/input_method/server.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
+
+import 'server_qr_dialog_ui.dart';
 
 class InputMethodDialogUI extends HookConsumerWidget {
   const InputMethodDialogUI({super.key});
@@ -13,8 +16,15 @@ class InputMethodDialogUI extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(inputMethodDialogUIModelProvider);
     final model = ref.read(inputMethodDialogUIModelProvider.notifier);
+    final serverState = ref.watch(inputMethodServerProvider);
+    final serverModel = ref.read(inputMethodServerProvider.notifier);
     final srcTextCtrl = useTextEditingController();
     final destTextCtrl = useTextEditingController();
+
+    useEffect(() {
+      model.setUpController(srcTextCtrl, destTextCtrl);
+      return null;
+    }, const []);
 
     return ContentDialog(
       constraints: BoxConstraints(
@@ -67,7 +77,36 @@ class InputMethodDialogUI extends HookConsumerWidget {
                     // }
                   },
                 ),
-                SizedBox(height: 32),
+                SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("远程输入服务："),
+                    SizedBox(width: 6),
+                    if (serverState.isServerStartup)
+                      Button(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                ServerQrDialogUI(),
+                          );
+                        },
+                        child: Text(
+                          serverState.serverAddressText ?? "...",
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    SizedBox(width: 14),
+                    ToggleSwitch(
+                        checked: serverState.isServerStartup,
+                        onChanged: (b) =>
+                            _onSwitchServer(context, b, serverModel)),
+                  ],
+                ),
+                SizedBox(height: 24),
                 Row(
                   children: [
                     Expanded(
@@ -129,5 +168,28 @@ class InputMethodDialogUI extends HookConsumerWidget {
         )
       ],
     );
+  }
+
+  Future<void> _onSwitchServer(
+      BuildContext context, bool value, InputMethodServer serverModel) async {
+    if (value) {
+      final userOK = await showConfirmDialogs(
+        context,
+        "确认启用远程输入？",
+        Text(
+            "开启此功能后，可通过手机访问远程服务地址，快捷输入文字，省去切换窗口的麻烦，游戏流程不中断。\n\n若弹出防火墙提示，请展开弹窗，手动勾选所有网络类型并允许，否则可能无法正常访问此功能。"),
+      );
+      if (userOK) {
+        // ignore: use_build_context_synchronously
+        await serverModel.startServer().unwrap(context: context);
+        if (!context.mounted) return;
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => ServerQrDialogUI(),
+        );
+      }
+    } else {
+      await serverModel.stopServer().unwrap(context: context);
+    }
   }
 }

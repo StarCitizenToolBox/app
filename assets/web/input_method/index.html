@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+
+    <link rel="stylesheet" href="style/mdui2.css">
+    <link href="style/google_icons.css" rel="stylesheet">
+    <script src="js/mdui2.global.js"></script>
+    <script src="js/main.js"></script>
+    <title>SCToolBox Community Input Method Web</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<div class="mdui-theme-light" style="position: relative;overflow: hidden">
+    <mdui-top-app-bar
+            scroll-behavior="shrink"
+            scroll-threshold="30"
+            scroll-target=".scroll-behavior-shrink">
+
+        <mdui-top-app-bar-title>SC汉化盒子社区输入法</mdui-top-app-bar-title>
+        <div style="flex-grow: 1"></div>
+
+        <mdui-button-icon icon="help" onclick="onShowHelp()"></mdui-button-icon>
+
+
+    </mdui-top-app-bar>
+
+    <div class="scroll-behavior-shrink" style="overflow: auto;">
+
+        <mdui-text-field id="input_message" style="padding-top: 6pt;padding-bottom: 6pt" rows="6" variant="outlined"
+                         label="输入消息..."></mdui-text-field>
+
+        <div style="text-align: end">
+            <mdui-checkbox id="auto_copy" checked>自动复制</mdui-checkbox>
+        </div>
+
+        <mdui-button id="send_button" icon="send" onclick="onSendMessage()" full-width>发送</mdui-button>
+
+    </div>
+
+    <mdui-snackbar id="snackbar_message" auto-close-delay="1000">Text</mdui-snackbar>
+</div>
+
+<script>
+    init();
+</script>
+
+</body>
+</html>

@@ -63,6 +63,8 @@ dependencies:
   file: ^7.0.0
   re_editor: ^0.6.0
   re_highlight: ^0.0.3
+  shelf: ^1.4.1
+  qr_flutter: ^4.1.0
 dependency_overrides:
   http: ^1.1.2
 
@@ -89,6 +91,9 @@ flutter:
     - assets/
     - assets/binary/
     - assets/countdown/
+    - assets/web/input_method/
+    - assets/web/input_method/js/
+    - assets/web/input_method/style/
 
   fonts:
     - family: SourceHanSansCN-Regular

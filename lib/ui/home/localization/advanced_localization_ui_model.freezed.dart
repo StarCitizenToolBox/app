@@ -212,7 +212,6 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AdvancedLocalizationUIStateImpl
-    with DiagnosticableTreeMixin
     implements _AdvancedLocalizationUIState {
   _$AdvancedLocalizationUIStateImpl(
       {this.workingText = "",
@@ -258,24 +257,8 @@ class _$AdvancedLocalizationUIStateImpl
   final String errorMessage;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines, errorMessage: $errorMessage)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AdvancedLocalizationUIState'))
-      ..add(DiagnosticsProperty('workingText', workingText))
-      ..add(DiagnosticsProperty('classMap', classMap))
-      ..add(DiagnosticsProperty('p4kGlobalIni', p4kGlobalIni))
-      ..add(DiagnosticsProperty('serverGlobalIni', serverGlobalIni))
-      ..add(DiagnosticsProperty('customizeGlobalIni', customizeGlobalIni))
-      ..add(DiagnosticsProperty('apiLocalizationData', apiLocalizationData))
-      ..add(DiagnosticsProperty('p4kGlobalIniLines', p4kGlobalIniLines))
-      ..add(DiagnosticsProperty('serverGlobalIniLines', serverGlobalIniLines))
-      ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
   @override

@@ -1,28 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'input_method_dialog_ui_model.dart';
+part of 'server.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$inputMethodDialogUIModelHash() =>
-    r'93440d8f9c5372d5350ceaa8cb00a1b0d3b0046e';
+String _$inputMethodServerHash() => r'4ea07de4bca3268933b78335b670c09e6fac61bc';
 
-/// See also [InputMethodDialogUIModel].
-@ProviderFor(InputMethodDialogUIModel)
-final inputMethodDialogUIModelProvider = AutoDisposeNotifierProvider<
-    InputMethodDialogUIModel, InputMethodDialogUIState>.internal(
-  InputMethodDialogUIModel.new,
-  name: r'inputMethodDialogUIModelProvider',
+/// See also [InputMethodServer].
+@ProviderFor(InputMethodServer)
+final inputMethodServerProvider = AutoDisposeNotifierProvider<InputMethodServer,
+    InputMethodServerState>.internal(
+  InputMethodServer.new,
+  name: r'inputMethodServerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$inputMethodDialogUIModelHash,
+      : _$inputMethodServerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$InputMethodDialogUIModel
-    = AutoDisposeNotifier<InputMethodDialogUIState>;
+typedef _$InputMethodServer = AutoDisposeNotifier<InputMethodServerState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
