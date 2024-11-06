@@ -17,11 +17,10 @@ async function onSendMessage() {
     let send_button = document.getElementById("send_button");
     let input = document.getElementById("input_message");
     let isAutoCopy = document.getElementById("auto_copy").checked;
-    let isAutoSend = document.getElementById("auto_send").checked;
     let messageJson = {
         "text": input.value,
         "autoCopy": isAutoCopy,
-        "autoInput": isAutoSend
+        "autoInput": false
     };
     send_button.loading = true;
     try {
