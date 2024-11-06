@@ -28,10 +28,11 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
     onSwitchFile() async {
       final sb = await showDialog(
         context: context,
-        builder: (BuildContext context) => const LocalizationFromFileDialogUI(),
+        builder: (BuildContext context) =>
+            const LocalizationFromFileDialogUI(isInAdvancedMode: true),
       );
-      if (sb is StringBuffer) {
-        model.setCustomizeGlobalIni(sb.toString());
+      if (sb is (StringBuffer, bool)) {
+        model.setCustomizeGlobalIni(sb.$1.toString());
       }
     }
 
@@ -106,8 +107,8 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                               child: Text(S.current
                                   .home_localization_advanced_action_install),
                             ),
-                            onPressed: () async {
-                              await model.doInstall().unwrap(context: context);
+                            onPressed: () {
+                              model.onInstall(context);
                             }),
                         const SizedBox(width: 12),
                       ],

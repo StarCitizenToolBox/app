@@ -467,9 +467,12 @@ class LocalizationDialogUI extends HookConsumerWidget {
                               builder: (BuildContext context) =>
                                   const LocalizationFromFileDialogUI(),
                             );
-                            if (sb is StringBuffer) {
+                            if (sb is (StringBuffer, bool)) {
                               await model.installFormString(
-                                  sb, S.current.localization_info_custom_files);
+                                sb.$1,
+                                S.current.localization_info_custom_files,
+                                isEnableCommunityInputMethod: sb.$2,
+                              );
                             }
                             break;
                         }

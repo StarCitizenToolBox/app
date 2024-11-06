@@ -1,15 +1,24 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:re_editor/re_editor.dart';
+import 'package:re_highlight/languages/ini.dart';
+import 'package:re_highlight/styles/vs2015.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
+import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 import '../home_ui_model.dart';
 import 'advanced_localization_ui.json.dart';
@@ -285,7 +294,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     state = state.copyWith(classMap: classMap);
   }
 
-  Future<bool> doInstall() async {
+  Future<bool> doInstall({bool isEnableCommunityInputMethod = false}) async {
     AnalyticsApi.touch("advanced_localization_apply");
     state = state.copyWith(
         workingText:
@@ -302,10 +311,91 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
         workingText:
             S.current.home_localization_advanced_msg_gen_localization_install);
     final localizationUIModel = ref.read(localizationUIModelProvider.notifier);
+
     await localizationUIModel.installFormString(
         globalIni, state.apiLocalizationData?.versionName ?? "-",
-        advanced: true);
+        advanced: true,
+        isEnableCommunityInputMethod: isEnableCommunityInputMethod);
     state = state.copyWith(workingText: "");
     return true;
+  }
+
+  // ignore: avoid_build_context_in_providers
+  Future<void> onInstall(BuildContext context) async {
+    var isEnableCommunityInputMethod = true;
+    final userOK = await showConfirmDialogs(context, "确认安装高级汉化？", HookConsumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        final globalIni = useState<StringBuffer?>(null);
+        final enableCommunityInputMethod = useState(true);
+        final localizationState = ref.read(localizationUIModelProvider);
+        useEffect(() {
+          () async {
+            final classMap = state.classMap!;
+            final g = StringBuffer();
+            for (var item in classMap.values) {
+              for (var kv in item.valuesMap.entries) {
+                g.write("${kv.key}=${kv.value}\n");
+                await Future.delayed(Duration.zero);
+              }
+            }
+            globalIni.value = g;
+          }();
+          return null;
+        }, const []);
+        return Column(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: FluentTheme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(7),
+                ),
+                child: globalIni.value == null
+                    ? makeLoading(context)
+                    : CodeEditor(
+                        readOnly: true,
+                        controller: CodeLineEditingController.fromText(
+                            globalIni.value!.toString()),
+                        style: CodeEditorStyle(
+                          codeTheme: CodeHighlightTheme(
+                            languages: {
+                              'ini': CodeHighlightThemeMode(mode: langIni)
+                            },
+                            theme: vs2015Theme,
+                          ),
+                        ),
+                      ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                Text(
+                  "安装社区输入法支持",
+                ),
+                Spacer(),
+                ToggleSwitch(
+                  checked: enableCommunityInputMethod.value,
+                  onChanged:
+                      localizationState.communityInputMethodLanguageData == null
+                          ? null
+                          : (v) {
+                              isEnableCommunityInputMethod = v;
+                              enableCommunityInputMethod.value = v;
+                            },
+                )
+              ],
+            )
+          ],
+        );
+      },
+    ),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * .8,
+        ));
+    if (userOK) {
+      await doInstall(
+          isEnableCommunityInputMethod: isEnableCommunityInputMethod);
+    }
   }
 }

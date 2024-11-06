@@ -6,14 +6,19 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
+import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 class LocalizationFromFileDialogUI extends HookConsumerWidget {
-  const LocalizationFromFileDialogUI({super.key});
+  final bool isInAdvancedMode;
+
+  const LocalizationFromFileDialogUI(
+      {super.key, this.isInAdvancedMode = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedStringBuffer = useState<StringBuffer?>(null);
+    final enableCommunityInputMethod = useState(true);
     final isLoading = useState(false);
     void onSelectFile() async {
       final result = await FilePicker.platform.pickFiles(
@@ -39,6 +44,8 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
       addPostFrameCallback(() => onSelectFile());
       return null;
     }, const []);
+
+    final localizationState = ref.watch(localizationUIModelProvider);
 
     return ContentDialog(
       constraints: BoxConstraints(
@@ -67,7 +74,10 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                   child: Text(S.current.app_common_tip_confirm),
                 ),
                 onPressed: () {
-                  Navigator.pop(context, selectedStringBuffer.value);
+                  Navigator.pop(context, (
+                    selectedStringBuffer.value,
+                    enableCommunityInputMethod.value
+                  ));
                 })
         ],
       ),
@@ -123,6 +133,27 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                   ),
                 ),
               ),
+              if (!isInAdvancedMode) ...[
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    Text(
+                      "安装社区输入法支持",
+                    ),
+                    Spacer(),
+                    ToggleSwitch(
+                      checked: enableCommunityInputMethod.value,
+                      onChanged:
+                          localizationState.communityInputMethodLanguageData ==
+                                  null
+                              ? null
+                              : (v) {
+                                  enableCommunityInputMethod.value = v;
+                                },
+                    )
+                  ],
+                )
+              ],
             ],
           ],
         ),

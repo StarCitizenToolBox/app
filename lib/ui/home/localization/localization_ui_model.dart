@@ -237,8 +237,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     StringBuffer globalIni,
     String versionName, {
     bool? advanced,
-    String? communityInputMethodVersion,
-    String? communityInputMethodSupportData,
+    bool isEnableCommunityInputMethod = false,
   }) async {
     dPrint("LocalizationUIModel -> installFormString $versionName");
     final iniFile = File(
@@ -247,6 +246,21 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       if (!globalIni.toString().endsWith("\n")) {
         globalIni.write("\n");
       }
+      String? communityInputMethodVersion;
+      String? communityInputMethodSupportData;
+
+      if (isEnableCommunityInputMethod) {
+        final data = state.communityInputMethodLanguageData;
+        if (data != null) {
+          communityInputMethodVersion = data.version;
+          final str =
+              await downloadOrGetCachedCommunityInputMethodSupportFile(data);
+          if (str.trim().isNotEmpty) {
+            communityInputMethodSupportData = str;
+          }
+        }
+      }
+
       if (communityInputMethodVersion != null) {
         globalIni.write(
             "_starcitizen_doctor_localization_community_input_method_version=$communityInputMethodVersion\n");
@@ -324,18 +338,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         dPrint("use cache $savePath");
       }
 
-      final communityInputMethodData = state.communityInputMethodLanguageData;
-
-      String? communityInputMethodSupportData;
-
-      if (isEnableCommunityInputMethod && communityInputMethodData != null) {
-        final str = await downloadOrGetCachedCommunityInputMethodSupportFile(
-            communityInputMethodData);
-        if (str.trim().isNotEmpty) {
-          communityInputMethodSupportData = str;
-        }
-      }
-
       await Future.delayed(const Duration(milliseconds: 300));
       // check file
       final globalIni = await compute(readArchive, savePath.absolute.path);
@@ -345,10 +347,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       await installFormString(
         globalIni,
         value.versionName ?? "",
-        communityInputMethodSupportData: communityInputMethodSupportData,
-        communityInputMethodVersion: isEnableCommunityInputMethod
-            ? communityInputMethodData?.version
-            : null,
+        isEnableCommunityInputMethod: isEnableCommunityInputMethod,
       );
     } catch (e) {
       if (!context.mounted) return;
