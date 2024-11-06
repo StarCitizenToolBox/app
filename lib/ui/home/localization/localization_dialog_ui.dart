@@ -209,8 +209,9 @@ class LocalizationDialogUI extends HookConsumerWidget {
       borderRadius: BorderRadius.circular(7),
       disable: tapDisabled,
       child: GestureDetector(
-        onTap:
-            tapDisabled ? null : () => doInsTall(context, model, item, state),
+        onTap: tapDisabled
+            ? null
+            : () => model.onRemoteInsTall(context, item, state),
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -421,101 +422,6 @@ class LocalizationDialogUI extends HookConsumerWidget {
             )),
       ],
     );
-  }
-
-  doInsTall(
-      BuildContext context,
-      LocalizationUIModel model,
-      MapEntry<String, ScLocalizationData> item,
-      LocalizationUIState state) async {
-    bool enableCommunityInputMethod =
-        state.communityInputMethodLanguageData != null;
-    final userOK = await showConfirmDialogs(
-      context,
-      "${item.value.info}",
-      Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                S.current.localization_info_version_number(
-                    item.value.versionName ?? ""),
-                style: TextStyle(color: Colors.white.withOpacity(.6)),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                S.current
-                    .localization_info_channel(item.value.gameChannel ?? ""),
-                style: TextStyle(color: Colors.white.withOpacity(.6)),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                S.current
-                    .localization_info_update_time(item.value.updateAt ?? ""),
-                style: TextStyle(color: Colors.white.withOpacity(.6)),
-              ),
-              const SizedBox(height: 12),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Container(
-            decoration: BoxDecoration(
-                color: FluentTheme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(7)),
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    item.value.note ?? S.current.home_localization_msg_no_note,
-                    style: const TextStyle(fontSize: 15),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 12),
-          Row(
-            children: [
-              Text(
-                "安装社区输入法支持",
-              ),
-              Spacer(),
-              StatefulBuilder(
-                builder: (BuildContext context,
-                    void Function(void Function()) setState) {
-                  return ToggleSwitch(
-                    checked: enableCommunityInputMethod,
-                    onChanged: state.communityInputMethodLanguageData == null
-                        ? null
-                        : (v) {
-                            enableCommunityInputMethod = v;
-                            setState(() {});
-                          },
-                  );
-                },
-              )
-            ],
-          )
-        ],
-      ),
-      confirm: S.current.localization_action_install,
-      cancel: S.current.home_action_cancel,
-      constraints:
-          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .45),
-    );
-    if (userOK) {
-      if (!context.mounted) return;
-      dPrint("doRemoteInstall ${item.value} $enableCommunityInputMethod");
-      model
-          .doRemoteInstall(context, item.value,
-              isEnableCommunityInputMethod: enableCommunityInputMethod)
-          ?.call();
-    }
   }
 
   Widget makeToolsListContainer(BuildContext context, LocalizationUIModel model,

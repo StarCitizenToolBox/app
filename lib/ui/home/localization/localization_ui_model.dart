@@ -233,7 +233,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return path.split("\\").last;
   }
 
-  installFormString(
+  Future<void> installFormString(
     StringBuffer globalIni,
     String versionName, {
     bool? advanced,
@@ -309,56 +309,54 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return null;
   }
 
-  VoidCallback? doRemoteInstall(BuildContext context, ScLocalizationData value,
-      {bool isEnableCommunityInputMethod = false}) {
-    return () async {
-      AnalyticsApi.touch("install_localization");
+  Future? doRemoteInstall(BuildContext context, ScLocalizationData value,
+      {bool isEnableCommunityInputMethod = false}) async {
+    AnalyticsApi.touch("install_localization");
 
-      final savePath =
-          File("${_downloadDir.absolute.path}\\${value.versionName}.sclang");
-      try {
-        state = state.copyWith(workingVersion: value.versionName!);
-        if (!await savePath.exists()) {
-          // download
-          await downloadLocalizationFile(savePath, value);
-        } else {
-          dPrint("use cache $savePath");
-        }
-
-        final communityInputMethodData = state.communityInputMethodLanguageData;
-
-        String? communityInputMethodSupportData;
-
-        if (isEnableCommunityInputMethod && communityInputMethodData != null) {
-          final str = await downloadOrGetCachedCommunityInputMethodSupportFile(
-              communityInputMethodData);
-          if (str.trim().isNotEmpty) {
-            communityInputMethodSupportData = str;
-          }
-        }
-
-        await Future.delayed(const Duration(milliseconds: 300));
-        // check file
-        final globalIni = await compute(readArchive, savePath.absolute.path);
-        if (globalIni.isEmpty) {
-          throw S.current.localization_info_corrupted_file;
-        }
-        await installFormString(
-          globalIni,
-          value.versionName ?? "",
-          communityInputMethodSupportData: communityInputMethodSupportData,
-          communityInputMethodVersion: isEnableCommunityInputMethod
-              ? communityInputMethodData?.version
-              : null,
-        );
-      } catch (e) {
-        if (!context.mounted) return;
-        await showToast(
-            context, S.current.localization_info_installation_error(e));
-        if (await savePath.exists()) await savePath.delete();
+    final savePath =
+        File("${_downloadDir.absolute.path}\\${value.versionName}.sclang");
+    try {
+      state = state.copyWith(workingVersion: value.versionName!);
+      if (!await savePath.exists()) {
+        // download
+        await downloadLocalizationFile(savePath, value);
+      } else {
+        dPrint("use cache $savePath");
       }
-      state = state.copyWith(workingVersion: "");
-    };
+
+      final communityInputMethodData = state.communityInputMethodLanguageData;
+
+      String? communityInputMethodSupportData;
+
+      if (isEnableCommunityInputMethod && communityInputMethodData != null) {
+        final str = await downloadOrGetCachedCommunityInputMethodSupportFile(
+            communityInputMethodData);
+        if (str.trim().isNotEmpty) {
+          communityInputMethodSupportData = str;
+        }
+      }
+
+      await Future.delayed(const Duration(milliseconds: 300));
+      // check file
+      final globalIni = await compute(readArchive, savePath.absolute.path);
+      if (globalIni.isEmpty) {
+        throw S.current.localization_info_corrupted_file;
+      }
+      await installFormString(
+        globalIni,
+        value.versionName ?? "",
+        communityInputMethodSupportData: communityInputMethodSupportData,
+        communityInputMethodVersion: isEnableCommunityInputMethod
+            ? communityInputMethodData?.version
+            : null,
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      await showToast(
+          context, S.current.localization_info_installation_error(e));
+      if (await savePath.exists()) await savePath.delete();
+    }
+    state = state.copyWith(workingVersion: "");
   }
 
   Future<String> downloadOrGetCachedCommunityInputMethodSupportFile(
@@ -565,5 +563,110 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   Future<void> onChangeGameInstallPath(String value) async {
     await _loadData();
+  }
+
+  Future<void> onRemoteInsTall(
+      BuildContext context,
+      MapEntry<String, ScLocalizationData> item,
+      LocalizationUIState state) async {
+    bool enableCommunityInputMethod =
+        state.communityInputMethodLanguageData != null;
+    final userOK = await showConfirmDialogs(
+      context,
+      "${item.value.info}",
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                S.current.localization_info_version_number(
+                    item.value.versionName ?? ""),
+                style: TextStyle(color: Colors.white.withOpacity(.6)),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                S.current
+                    .localization_info_channel(item.value.gameChannel ?? ""),
+                style: TextStyle(color: Colors.white.withOpacity(.6)),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                S.current
+                    .localization_info_update_time(item.value.updateAt ?? ""),
+                style: TextStyle(color: Colors.white.withOpacity(.6)),
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+                color: FluentTheme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(7)),
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    item.value.note ?? S.current.home_localization_msg_no_note,
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 12),
+          Row(
+            children: [
+              Text(
+                "安装社区输入法支持",
+              ),
+              Spacer(),
+              StatefulBuilder(
+                builder: (BuildContext context,
+                    void Function(void Function()) setState) {
+                  return ToggleSwitch(
+                    checked: enableCommunityInputMethod,
+                    onChanged: state.communityInputMethodLanguageData == null
+                        ? null
+                        : (v) {
+                            enableCommunityInputMethod = v;
+                            setState(() {});
+                          },
+                  );
+                },
+              )
+            ],
+          )
+        ],
+      ),
+      confirm: S.current.localization_action_install,
+      cancel: S.current.home_action_cancel,
+      constraints:
+          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .45),
+    );
+    if (userOK) {
+      if (!context.mounted) return;
+      dPrint("doRemoteInstall ${item.value} $enableCommunityInputMethod");
+      await doRemoteInstall(context, item.value,
+          isEnableCommunityInputMethod: enableCommunityInputMethod);
+    }
+  }
+
+  Future<void> checkReinstall(BuildContext context) async {
+    final installedVersion = state.patchStatus?.value;
+    if (installedVersion == null) return;
+    final curData = state.apiLocalizationData;
+    if (curData == null) return;
+    if (curData.keys.contains(installedVersion)) {
+      final data = curData[installedVersion];
+      if (data != null) {
+        await onRemoteInsTall(context, MapEntry(installedVersion, data), state);
+      }
+    }
   }
 }

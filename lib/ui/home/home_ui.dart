@@ -802,8 +802,8 @@ class HomeUI extends HookConsumerWidget {
         context: context, builder: (context) => const HomeCountdownDialogUI());
   }
 
-  _onMenuTap(BuildContext context, String key, HomeUIModelState homeState,
-      WidgetRef ref) async {
+  Future<void> _onMenuTap(BuildContext context, String key,
+      HomeUIModelState homeState, WidgetRef ref) async {
     String gameInstallReqInfo =
         S.current.home_action_info_valid_install_location_required;
     switch (key) {
@@ -868,15 +868,32 @@ class HomeUI extends HookConsumerWidget {
           Text("是否前往汉化管理安装？\n\n如已安装汉化，请卸载并在重新安装时打开社区输入法支持开关。"));
       if (userOK) {
         if (!context.mounted) return;
-        _onMenuTap(context, 'localization', homeState, ref);
+        () async {
+          await _onMenuTap(context, 'localization', homeState, ref);
+          final localizationState = ref.read(localizationUIModelProvider);
+          if (localizationState.installedCommunityInputMethodSupportVersion != null) {
+            await Future.delayed(Duration(milliseconds: 300));
+            if (!context.mounted) return;
+            await _goInputMethod(context, model);
+            return;
+          }
+        }();
+
+        await Future.delayed(Duration(milliseconds: 300));
+        final localizationModel =
+            ref.read(localizationUIModelProvider.notifier);
+        if (!context.mounted) return;
+        localizationModel.checkReinstall(context);
       }
       return;
     }
-    showDialog(
+    await _goInputMethod(context, model);
+  }
+
+  Future<void> _goInputMethod(BuildContext context, HomeUIModel model) async {
+    await showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return InputMethodDialogUI();
-      },
+      builder: (context) => const InputMethodDialogUI(),
     );
   }
 }
