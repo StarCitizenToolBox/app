@@ -9,6 +9,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:starcitizen_doctor/common/conf/const_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/ui/home/input_method/server_qr_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
 
 import 'input_method_dialog_ui_model.dart';
@@ -57,7 +58,6 @@ class InputMethodServer extends _$InputMethodServer {
 
   Future<void> startServer() async {
     dPrint("[InputMethodServer] startServer");
-
     var handler =
         const Pipeline().addMiddleware(logRequests()).addHandler(_onHandler);
 
@@ -166,6 +166,10 @@ class InputMethodServer extends _$InputMethodServer {
   Future<Response> _onHandlerApi(Request request) async {
     final path = request.url.path;
     if (path == "api") {
+      if (ref.exists(serverQrStateProvider)) {
+        // ignore: avoid_manual_providers_as_generated_provider_dependency
+        ref.read(serverQrStateProvider.notifier).popDialog();
+      }
       return Response.ok(json.encode({
         "status": "ok",
         "appVersion": ConstConf.appVersion,

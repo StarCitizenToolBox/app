@@ -139,7 +139,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
               context.pop();
             }),
         const SizedBox(width: 12),
-        Text("社区输入法"),
+        Text("社区输入法（实验性）"),
         Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -183,7 +183,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
         // ignore: use_build_context_synchronously
         await serverModel.startServer().unwrap(context: context);
         if (!context.mounted) return;
-        showDialog(
+        await showDialog(
           context: context,
           builder: (BuildContext context) => ServerQrDialogUI(),
         );

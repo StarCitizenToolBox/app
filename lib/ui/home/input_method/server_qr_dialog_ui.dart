@@ -3,8 +3,31 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'server.dart';
+
+part 'server_qr_dialog_ui.g.dart';
+
+
+@riverpod
+class ServerQrState extends _$ServerQrState {
+  @override
+  bool build() {
+    return true;
+  }
+
+  BuildContext? _context;
+
+  // ignore: avoid_build_context_in_providers
+  void setupContext(BuildContext context) {
+    _context = context;
+  }
+
+  popDialog() {
+    _context?.pop();
+  }
+}
 
 class ServerQrDialogUI extends HookConsumerWidget {
   const ServerQrDialogUI({super.key});
@@ -18,6 +41,10 @@ class ServerQrDialogUI extends HookConsumerWidget {
     final hasMultipleUrls = urls.length > 1;
 
     final index = useState(0);
+
+    final model = ref.watch(serverQrStateProvider.notifier);
+
+    model.setupContext(context);
 
     return ContentDialog(
       constraints: BoxConstraints(
@@ -67,7 +94,7 @@ class ServerQrDialogUI extends HookConsumerWidget {
           SizedBox(height: 12),
           Text(
             hasMultipleUrls
-                ? "(${index.value + 1} / ${urls.length})"
+                ? "${urls[index.value]} (${index.value + 1} / ${urls.length})"
                 : urls[index.value],
             style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(.6)),
           ),

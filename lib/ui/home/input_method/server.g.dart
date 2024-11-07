@@ -6,7 +6,7 @@ part of 'server.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$inputMethodServerHash() => r'4ea07de4bca3268933b78335b670c09e6fac61bc';
+String _$inputMethodServerHash() => r'227e0e32cd7b8895f3b108505cd524680afc4126';
 
 /// See also [InputMethodServer].
 @ProviderFor(InputMethodServer)
