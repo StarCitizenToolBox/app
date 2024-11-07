@@ -96,7 +96,7 @@ class InputMethodServer extends _$InputMethodServer {
       list.removeWhere((element) => !element.contains('192.168.'));
     }
     if (list.isEmpty) {
-      list.add("获取地址失败，请手动查看电脑IP");
+      list.add(S.current.input_method_address_fetch_failed);
     }
     return list.join(", ");
   }
@@ -187,7 +187,7 @@ class InputMethodServer extends _$InputMethodServer {
         return Response.badRequest(
             body: json.encode({
           "result": "error",
-          "message": "文本不能为空！",
+          "message": S.current.input_method_text_cannot_be_empty,
         }));
       }
       final autoCopy = data["autoCopy"] ?? false;
@@ -200,7 +200,7 @@ class InputMethodServer extends _$InputMethodServer {
         );
         return Response.ok(json.encode({
           "result": "ok",
-          "message": "发送成功！",
+          "message": S.current.input_method_send_success,
         }));
       } catch (e) {
         return Response.internalServerError(

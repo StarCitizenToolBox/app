@@ -860,18 +860,21 @@ class HomeUI extends HookConsumerWidget {
       HomeUIModel model, WidgetRef ref) async {
     final localizationState = ref.read(localizationUIModelProvider);
     if (localizationState.communityInputMethodLanguageData == null) {
-      showToast(context, "功能维护中，请稍后重试");
+      showToast(context, S.current.input_method_feature_maintenance);
       return;
     }
     if (localizationState.installedCommunityInputMethodSupportVersion == null) {
-      final userOK = await showConfirmDialogs(context, "未安装社区输入法支持",
-          Text("是否前往汉化管理安装？\n\n如已安装汉化，请卸载并在重新安装时打开社区输入法支持开关。"));
+      final userOK = await showConfirmDialogs(
+          context,
+          S.current.input_method_community_input_method_not_installed,
+          Text(S.current.input_method_install_community_input_method_prompt));
       if (userOK) {
         if (!context.mounted) return;
         () async {
           await _onMenuTap(context, 'localization', homeState, ref);
           final localizationState = ref.read(localizationUIModelProvider);
-          if (localizationState.installedCommunityInputMethodSupportVersion != null) {
+          if (localizationState.installedCommunityInputMethodSupportVersion !=
+              null) {
             await Future.delayed(Duration(milliseconds: 300));
             if (!context.mounted) return;
             await _goInputMethod(context, model);

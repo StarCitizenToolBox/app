@@ -138,7 +138,7 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      "安装社区输入法支持",
+                      S.current.input_method_install_community_input_method_support,
                     ),
                     Spacer(),
                     ToggleSwitch(

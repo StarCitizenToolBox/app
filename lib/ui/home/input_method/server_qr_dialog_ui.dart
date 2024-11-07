@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 import 'server.dart';
 
@@ -57,10 +58,10 @@ class ServerQrDialogUI extends HookConsumerWidget {
         children: [
           SizedBox(width: double.infinity, height: 12),
           if (hasMultipleUrls) ...[
-            Text("我们没能找到合适的 ip 地址来访问服务，请您尝试以下地址（左右切换）"),
+            Text(S.current.input_method_ip_address_not_found),
           ] else
             Text(
-              "请使用您的移动设备扫描以下二维码，或手动访问连接",
+              S.current.input_method_scan_qr_code,
               style: TextStyle(color: Colors.white.withOpacity(.8)),
             ),
           SizedBox(height: 24),
@@ -115,7 +116,7 @@ class ServerQrDialogUI extends HookConsumerWidget {
               context.pop();
             }),
         const SizedBox(width: 12),
-        Text("服务二维码"),
+        Text(S.current.input_method_service_qr_code),
       ],
     );
   }

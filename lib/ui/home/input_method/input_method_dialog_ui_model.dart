@@ -30,12 +30,13 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     return state;
   }
 
-  _init() async {
-    final localizationState = ref.watch(localizationUIModelProvider);
+  _init({bool skipUpdate = false}) async {
+    final localizationState = ref.read(localizationUIModelProvider);
     final localizationModel = ref.read(localizationUIModelProvider.notifier);
     if (localizationState.installedCommunityInputMethodSupportVersion == null) {
       return;
     }
+    if (!skipUpdate) await localizationModel.checkCommunityInputMethodUpdate();
     final keyMaps =
         await localizationModel.getCommunityInputMethodSupportData();
     dPrint("[InputMethodDialogUIModel] keyMapsLen: ${keyMaps?.length}");

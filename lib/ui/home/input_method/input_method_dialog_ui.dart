@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/ui/home/input_method/input_method_dialog_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/input_method/server.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'server_qr_dialog_ui.dart';
 
@@ -38,13 +39,32 @@ class InputMethodDialogUI extends HookConsumerWidget {
               children: [
                 SizedBox(height: 12),
                 InfoBar(
-                  title: Text("使用说明"),
-                  content: Text(
-                      "在上方文本框中输入文字，并将下方转码后的文本复制到游戏的文本框中，即可在聊天频道中发送游戏不支持输入的文字。"),
+                  title: Text(S.current.input_method_usage_instructions),
+                  content: Text(S.current.input_method_input_text_instructions),
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                        child: Padding(
+                          padding: const EdgeInsets.all(3),
+                          child: Text(
+                            S.current.input_method_online_version_prompt,
+                            style: TextStyle(
+                              color: Color(0xff4ca0e0),
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          launchUrlString("https://ime.citizenwiki.cn/");
+                        }),
+                  ],
+                ),
+                SizedBox(height: 12),
                 TextFormBox(
-                  placeholder: "请输入文本...",
+                  placeholder: S.current.input_method_input_placeholder,
                   controller: srcTextCtrl,
                   maxLines: 5,
                   placeholderStyle:
@@ -63,7 +83,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
                 ),
                 SizedBox(height: 16),
                 TextFormBox(
-                  placeholder: "这里是转码后的文本...",
+                  placeholder: S.current.input_method_encoded_text_placeholder,
                   controller: destTextCtrl,
                   maxLines: 5,
                   placeholderStyle:
@@ -81,29 +101,33 @@ class InputMethodDialogUI extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("远程输入服务："),
-                    SizedBox(width: 6),
-                    if (serverState.isServerStartup)
-                      Button(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                ServerQrDialogUI(),
-                          );
-                        },
-                        child: Text(
-                          serverState.serverAddressText ?? "...",
-                          style: TextStyle(
-                            fontSize: 14,
+                    Row(
+                      children: [
+                        Text(S.current.input_method_remote_input_service),
+                        SizedBox(width: 6),
+                        if (serverState.isServerStartup)
+                          Button(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    ServerQrDialogUI(),
+                              );
+                            },
+                            child: Text(
+                              serverState.serverAddressText ?? "...",
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    SizedBox(width: 14),
-                    ToggleSwitch(
-                        checked: serverState.isServerStartup,
-                        onChanged: (b) =>
-                            _onSwitchServer(context, b, serverModel)),
+                        SizedBox(width: 14),
+                        ToggleSwitch(
+                            checked: serverState.isServerStartup,
+                            onChanged: (b) =>
+                                _onSwitchServer(context, b, serverModel)),
+                      ],
+                    ),
                   ],
                 ),
                 SizedBox(height: 24),
@@ -112,7 +136,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
                     Expanded(
                       child: Text(
                         textAlign: TextAlign.end,
-                        "*本功能建议仅在非公共频道中使用。若用户选择在公共频道中使用本功能，由此产生的任何后果（包括但不限于被其他玩家举报刷屏等），均由用户自行承担。\n*若该功能被滥用，我们将关闭该功能。",
+                        S.current.input_method_disclaimer,
                         style: TextStyle(
                           fontSize: 13,
                           color: Colors.white.withOpacity(.6),
@@ -139,13 +163,13 @@ class InputMethodDialogUI extends HookConsumerWidget {
               context.pop();
             }),
         const SizedBox(width: 12),
-        Text("社区输入法（实验性）"),
+        Text(S.current.input_method_experimental_input_method),
         Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              "自动复制",
+              S.current.input_method_auto_copy,
               style: TextStyle(fontSize: 14),
             ),
             SizedBox(width: 12),
@@ -174,11 +198,9 @@ class InputMethodDialogUI extends HookConsumerWidget {
       BuildContext context, bool value, InputMethodServer serverModel) async {
     if (value) {
       final userOK = await showConfirmDialogs(
-        context,
-        "确认启用远程输入？",
-        Text(
-            "开启此功能后，可通过手机访问远程服务地址，快捷输入文字，省去切换窗口的麻烦，游戏流程不中断。\n\n若弹出防火墙提示，请展开弹窗，手动勾选所有网络类型并允许，否则可能无法正常访问此功能。"),
-      );
+          context,
+          S.current.input_method_confirm_enable_remote_input,
+          Text(S.current.input_method_enable_remote_input_instructions));
       if (userOK) {
         // ignore: use_build_context_synchronously
         await serverModel.startServer().unwrap(context: context);

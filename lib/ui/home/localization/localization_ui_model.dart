@@ -22,6 +22,8 @@ import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
+
 part 'localization_ui_model.g.dart';
 
 part 'localization_ui_model.freezed.dart';
@@ -323,6 +325,36 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return null;
   }
 
+  Future<(String, String)>
+      getIniContentWithoutCommunityInputMethodSupportData() async {
+    final iniPath =
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
+    final iniFile = File(iniPath);
+    if (!await iniFile.exists()) {
+      return ("", "");
+    }
+    final iniStringSplit = (await iniFile.readAsString()).split("\n");
+    final sb = StringBuffer();
+    var b = false;
+    for (var i = 0; i < iniStringSplit.length; i++) {
+      final line = iniStringSplit[i];
+
+      if (line.trim().startsWith(
+          "_starcitizen_doctor_localization_community_input_method_version=")) {
+        b = true;
+        continue;
+      } else if (line
+          .trim()
+          .startsWith("_starcitizen_doctor_localization_version=")) {
+        b = false;
+        return (sb.toString(), line.split("=").last.trim());
+      } else if (!b) {
+        sb.writeln(line);
+      }
+    }
+    return ("", "");
+  }
+
   Future? doRemoteInstall(BuildContext context, ScLocalizationData value,
       {bool isEnableCommunityInputMethod = false}) async {
     AnalyticsApi.touch("install_localization");
@@ -557,7 +589,33 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         }
       }
     }
+    await checkCommunityInputMethodUpdate();
     return updates;
+  }
+
+  Future<void> checkCommunityInputMethodUpdate() async {
+    final cloudVersion = state.communityInputMethodLanguageData?.version;
+    final localVersion = state.installedCommunityInputMethodSupportVersion;
+    if (cloudVersion == null || localVersion == null) return;
+    if (localVersion != cloudVersion) {
+      // 版本不一致，自动检查更新
+      final (localIniString, versioName) =
+          await getIniContentWithoutCommunityInputMethodSupportData();
+      if (localIniString.trim().isEmpty) {
+        dPrint(
+            "[InputMethodDialogUIModel] check update Error localIniString is empty");
+        return;
+      }
+      await installFormString(StringBuffer(localIniString), versioName,
+          isEnableCommunityInputMethod: true);
+      await win32.sendNotify(
+          summary: S.current.input_method_support_updated,
+          body: S.current.input_method_support_updated_to_version(cloudVersion),
+          appName: S.current.home_title_app_name,
+          appId: ConstConf.isMSE
+              ? "56575xkeyC.MSE_bsn1nexg8e4qe!starcitizendoctor"
+              : "{6D809377-6AF0-444B-8957-A3773F02200E}\\Starcitizen_Doctor\\starcitizen_doctor.exe");
+    }
   }
 
   Future<void> onChangeGameInstallPath(String value) async {
@@ -622,7 +680,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           Row(
             children: [
               Text(
-                "安装社区输入法支持",
+                S.current.input_method_install_community_input_method_support,
               ),
               Spacer(),
               StatefulBuilder(

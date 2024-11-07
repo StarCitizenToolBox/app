@@ -321,7 +321,9 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   // ignore: avoid_build_context_in_providers
   Future<void> onInstall(BuildContext context) async {
     var isEnableCommunityInputMethod = true;
-    final userOK = await showConfirmDialogs(context, "确认安装高级汉化？", HookConsumer(
+    final userOK = await showConfirmDialogs(context,
+        S.current.input_method_confirm_install_advanced_localization,
+        HookConsumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final globalIni = useState<StringBuffer?>(null);
         final enableCommunityInputMethod = useState(true);
@@ -369,7 +371,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
             Row(
               children: [
                 Text(
-                  "安装社区输入法支持",
+                  S.current.input_method_install_community_input_method_support,
                 ),
                 Spacer(),
                 ToggleSwitch(

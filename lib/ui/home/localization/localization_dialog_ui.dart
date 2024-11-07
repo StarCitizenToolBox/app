@@ -113,7 +113,10 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                         .installedCommunityInputMethodSupportVersion !=
                                     null)
                                   Text(
-                                    "社区输入法支持：${state.installedCommunityInputMethodSupportVersion}",
+                                    S.current
+                                        .input_method_community_input_method_support_version(
+                                            state.installedCommunityInputMethodSupportVersion ??
+                                                "?"),
                                   )
                               ],
                             ),

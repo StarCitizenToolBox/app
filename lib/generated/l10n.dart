@@ -5023,6 +5023,256 @@ class S {
       args: [],
     );
   }
+
+  /// `During functional maintenance, please try again later`
+  String get input_method_feature_maintenance {
+    return Intl.message(
+      'During functional maintenance, please try again later',
+      name: 'input_method_feature_maintenance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Supporting community input method support`
+  String get input_method_community_input_method_not_installed {
+    return Intl.message(
+      'Supporting community input method support',
+      name: 'input_method_community_input_method_not_installed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you go to Sinicization Management installation?\n\nIf you have been installed, please uninstall and open the community input method to support the switch when reinstalling.`
+  String get input_method_install_community_input_method_prompt {
+    return Intl.message(
+      'Do you go to Sinicization Management installation?\n\nIf you have been installed, please uninstall and open the community input method to support the switch when reinstalling.',
+      name: 'input_method_install_community_input_method_prompt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instruction`
+  String get input_method_usage_instructions {
+    return Intl.message(
+      'Instruction',
+      name: 'input_method_usage_instructions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the text ...`
+  String get input_method_input_placeholder {
+    return Intl.message(
+      'Please enter the text ...',
+      name: 'input_method_input_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This is the text after the transcoding ...`
+  String get input_method_encoded_text_placeholder {
+    return Intl.message(
+      'This is the text after the transcoding ...',
+      name: 'input_method_encoded_text_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remote input service:`
+  String get input_method_remote_input_service {
+    return Intl.message(
+      'Remote input service:',
+      name: 'input_method_remote_input_service',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `*This function is recommended only in non -public channels. If the user chooses to use this function in the public channel, any consequences (including but not limited to the screenwriting screen by other players, etc.) will be borne by the user.\n*If this function is abused, we will close the function.`
+  String get input_method_disclaimer {
+    return Intl.message(
+      '*This function is recommended only in non -public channels. If the user chooses to use this function in the public channel, any consequences (including but not limited to the screenwriting screen by other players, etc.) will be borne by the user.\n*If this function is abused, we will close the function.',
+      name: 'input_method_disclaimer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community input method (experimental)`
+  String get input_method_experimental_input_method {
+    return Intl.message(
+      'Community input method (experimental)',
+      name: 'input_method_experimental_input_method',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Automatic replication`
+  String get input_method_auto_copy {
+    return Intl.message(
+      'Automatic replication',
+      name: 'input_method_auto_copy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm the opening remote input?`
+  String get input_method_confirm_enable_remote_input {
+    return Intl.message(
+      'Confirm the opening remote input?',
+      name: 'input_method_confirm_enable_remote_input',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After turning on this function, you can access the remote service address through your mobile phone, and quickly enter text, eliminating the trouble of switching the window, and the game process is not interrupted.\n\nIf the firewall is prompted, please open the pop -up window, manually check all network types and allow it, otherwise it may not be able to access this function normally.`
+  String get input_method_enable_remote_input_instructions {
+    return Intl.message(
+      'After turning on this function, you can access the remote service address through your mobile phone, and quickly enter text, eliminating the trouble of switching the window, and the game process is not interrupted.\n\nIf the firewall is prompted, please open the pop -up window, manually check all network types and allow it, otherwise it may not be able to access this function normally.',
+      name: 'input_method_enable_remote_input_instructions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If the address failed, please check the computer IP manually`
+  String get input_method_address_fetch_failed {
+    return Intl.message(
+      'If the address failed, please check the computer IP manually',
+      name: 'input_method_address_fetch_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The text cannot be empty!`
+  String get input_method_text_cannot_be_empty {
+    return Intl.message(
+      'The text cannot be empty!',
+      name: 'input_method_text_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successful sending!`
+  String get input_method_send_success {
+    return Intl.message(
+      'Successful sending!',
+      name: 'input_method_send_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We have not found the right IP address to access the service, please try the following address (switch on the left and right)`
+  String get input_method_ip_address_not_found {
+    return Intl.message(
+      'We have not found the right IP address to access the service, please try the following address (switch on the left and right)',
+      name: 'input_method_ip_address_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please use your mobile device to scan the following QR codes, or to access the connection manually`
+  String get input_method_scan_qr_code {
+    return Intl.message(
+      'Please use your mobile device to scan the following QR codes, or to access the connection manually',
+      name: 'input_method_scan_qr_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service QR code`
+  String get input_method_service_qr_code {
+    return Intl.message(
+      'Service QR code',
+      name: 'input_method_service_qr_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm the installation of advanced Chinese?`
+  String get input_method_confirm_install_advanced_localization {
+    return Intl.message(
+      'Confirm the installation of advanced Chinese?',
+      name: 'input_method_confirm_install_advanced_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support community input method support`
+  String get input_method_install_community_input_method_support {
+    return Intl.message(
+      'Support community input method support',
+      name: 'input_method_install_community_input_method_support',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community input method support: {v0}`
+  String input_method_community_input_method_support_version(Object v0) {
+    return Intl.message(
+      'Community input method support: $v0',
+      name: 'input_method_community_input_method_support_version',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Enter the text in the text box above and paste the text (Ctrl+V) to the text box of the game in the text box above the text box.`
+  String get input_method_input_text_instructions {
+    return Intl.message(
+      'Enter the text in the text box above and paste the text (Ctrl+V) to the text box of the game in the text box above the text box.',
+      name: 'input_method_input_text_instructions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This function provides another online independent version, click to visit>`
+  String get input_method_online_version_prompt {
+    return Intl.message(
+      'This function provides another online independent version, click to visit>',
+      name: 'input_method_online_version_prompt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community input method support has been updated`
+  String get input_method_support_updated {
+    return Intl.message(
+      'Community input method support has been updated',
+      name: 'input_method_support_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community input method support has been updated to: {v0}`
+  String input_method_support_updated_to_version(Object v0) {
+    return Intl.message(
+      'Community input method support has been updated to: $v0',
+      name: 'input_method_support_updated_to_version',
+      desc: '',
+      args: [v0],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

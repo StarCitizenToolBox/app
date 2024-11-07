@@ -96,68 +96,72 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m35(v1, v2) =>
       "RSI 服务器报告版本号：${v1} \n\n本地版本号：${v2} \n\n建议使用 RSI Launcher 更新游戏！";
 
-  static String m36(v0) => "通道：${v0}";
+  static String m36(v0) => "社区输入法支持：${v0}";
 
-  static String m37(v0) => "启用（${v0}）：";
+  static String m37(v0) => "社区输入法支持已更新到：${v0}";
 
-  static String m38(v0) => "安装出错！\n\n ${v0}";
+  static String m38(v0) => "通道：${v0}";
 
-  static String m39(v0) => "已安装版本：${v0}";
+  static String m39(v0) => "启用（${v0}）：";
 
-  static String m40(v0) => "更新时间：${v0}";
+  static String m40(v0) => "安装出错！\n\n ${v0}";
 
-  static String m41(v0) => "版本号：${v0}";
+  static String m41(v0) => "已安装版本：${v0}";
 
-  static String m42(v0) => "当前状态：${v0}";
+  static String m42(v0) => "更新时间：${v0}";
 
-  static String m43(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
+  static String m43(v0) => "版本号：${v0}";
 
-  static String m44(v0) => "性能优化 -> ${v0}";
+  static String m44(v0) => "当前状态：${v0}";
 
-  static String m45(v0) => "缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化";
+  static String m45(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
 
-  static String m46(v0) =>
+  static String m46(v0) => "性能优化 -> ${v0}";
+
+  static String m47(v0) => "缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化";
+
+  static String m48(v0) =>
       "已设置的核心数量：${v0}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）";
 
-  static String m47(v0) => "清理失败，请手动移除，文件位置：${v0}";
+  static String m49(v0) => "清理失败，请手动移除，文件位置：${v0}";
 
-  static String m48(v0) => "出现错误：${v0}";
+  static String m50(v0) => "出现错误：${v0}";
 
-  static String m49(v0) => "初始化失败，请截图报告给开发者。${v0}";
-
-  static String m50(v0) =>
-      "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${v0}";
-
-  static String m51(v0) => "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n版本信息：${v0}";
+  static String m51(v0) => "初始化失败，请截图报告给开发者。${v0}";
 
   static String m52(v0) =>
+      "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${v0}";
+
+  static String m53(v0) => "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n版本信息：${v0}";
+
+  static String m54(v0) =>
       "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${v0} MB";
 
-  static String m53(v0) =>
+  static String m55(v0) =>
       "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（同时会将 Vulkan 还原为 DX11） \n\n缓存大小：${v0} MB";
 
-  static String m54(v0, v1, v2, v3, v4) =>
+  static String m56(v0, v1, v2, v3, v4) =>
       "系统：${v0}\n\n处理器：${v1}\n\n内存大小：${v2}GB\n\n显卡信息：\n${v3}\n\n硬盘信息：\n${v4}\n\n";
 
-  static String m55(v0) => "处理失败！：${v0}";
+  static String m57(v0) => "处理失败！：${v0}";
 
-  static String m56(v0) => "读取启动器信息失败：${v0}";
+  static String m58(v0) => "读取启动器信息失败：${v0}";
 
-  static String m57(v0) => "补丁状态：${v0}";
+  static String m59(v0) => "补丁状态：${v0}";
 
-  static String m58(v0) => "启动器内部版本信息：${v0}";
+  static String m60(v0) => "启动器内部版本信息：${v0}";
 
-  static String m59(v0) => "打开文件：${v0}";
+  static String m61(v0) => "打开文件：${v0}";
 
-  static String m60(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
+  static String m62(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
 
-  static String m61(v0) => "读取文件：${v0} ...";
+  static String m63(v0) => "读取文件：${v0} ...";
 
-  static String m62(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
+  static String m64(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
 
-  static String m63(v0) => "未知文件类型\n${v0}";
+  static String m65(v0) => "未知文件类型\n${v0}";
 
-  static String m64(v0) => "P4K 查看器 -> ${v0}";
+  static String m66(v0) => "P4K 查看器 -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -629,6 +633,57 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("未安装 或 安装失败"),
         "home_title_app_name": MessageLookupByLibrary.simpleMessage("SC汉化盒子"),
         "home_title_logging_in": MessageLookupByLibrary.simpleMessage("登录中..."),
+        "input_method_address_fetch_failed":
+            MessageLookupByLibrary.simpleMessage("获取地址失败，请手动查看电脑IP"),
+        "input_method_auto_copy": MessageLookupByLibrary.simpleMessage("自动复制"),
+        "input_method_community_input_method_not_installed":
+            MessageLookupByLibrary.simpleMessage("未安装社区输入法支持"),
+        "input_method_community_input_method_support_version": m36,
+        "input_method_confirm_enable_remote_input":
+            MessageLookupByLibrary.simpleMessage("确认启用远程输入？"),
+        "input_method_confirm_install_advanced_localization":
+            MessageLookupByLibrary.simpleMessage("确认安装高级汉化？"),
+        "input_method_disclaimer": MessageLookupByLibrary.simpleMessage(
+            "*本功能建议仅在非公共频道中使用。若用户选择在公共频道中使用本功能，由此产生的任何后果（包括但不限于被其他玩家举报刷屏等），均由用户自行承担。\n*若该功能被滥用，我们将关闭该功能。"),
+        "input_method_enable_remote_input_instructions":
+            MessageLookupByLibrary.simpleMessage(
+                "开启此功能后，可通过手机访问远程服务地址，快捷输入文字，省去切换窗口的麻烦，游戏流程不中断。\n\n若弹出防火墙提示，请展开弹窗，手动勾选所有网络类型并允许，否则可能无法正常访问此功能。"),
+        "input_method_encoded_text_placeholder":
+            MessageLookupByLibrary.simpleMessage("这里是转码后的文本..."),
+        "input_method_experimental_input_method":
+            MessageLookupByLibrary.simpleMessage("社区输入法（实验性）"),
+        "input_method_feature_maintenance":
+            MessageLookupByLibrary.simpleMessage("功能维护中，请稍后重试"),
+        "input_method_input_placeholder":
+            MessageLookupByLibrary.simpleMessage("请输入文本..."),
+        "input_method_input_text_instructions":
+            MessageLookupByLibrary.simpleMessage(
+                "在上方文本框中输入文字，并将下方转码后的文本粘贴（ Ctrl+V ）到游戏的文本框中，即可在聊天频道中发送游戏不支持输入的文字。"),
+        "input_method_install_community_input_method_prompt":
+            MessageLookupByLibrary.simpleMessage(
+                "是否前往汉化管理安装？\n\n如已安装汉化，请卸载并在重新安装时打开社区输入法支持开关。"),
+        "input_method_install_community_input_method_support":
+            MessageLookupByLibrary.simpleMessage("安装社区输入法支持"),
+        "input_method_ip_address_not_found":
+            MessageLookupByLibrary.simpleMessage(
+                "我们没能找到合适的 ip 地址来访问服务，请您尝试以下地址（左右切换）"),
+        "input_method_online_version_prompt":
+            MessageLookupByLibrary.simpleMessage("本功能另有提供在线独立版，点击访问 >"),
+        "input_method_remote_input_service":
+            MessageLookupByLibrary.simpleMessage("远程输入服务："),
+        "input_method_scan_qr_code":
+            MessageLookupByLibrary.simpleMessage("请使用您的移动设备扫描以下二维码，或手动访问连接"),
+        "input_method_send_success":
+            MessageLookupByLibrary.simpleMessage("发送成功！"),
+        "input_method_service_qr_code":
+            MessageLookupByLibrary.simpleMessage("服务二维码"),
+        "input_method_support_updated":
+            MessageLookupByLibrary.simpleMessage("社区输入法支持已更新"),
+        "input_method_support_updated_to_version": m37,
+        "input_method_text_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("文本不能为空！"),
+        "input_method_usage_instructions":
+            MessageLookupByLibrary.simpleMessage("使用说明"),
         "lobby_invitation_to_participate":
             MessageLookupByLibrary.simpleMessage("诚邀您参与 "),
         "lobby_online_lobby_coming_soon":
@@ -640,21 +695,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("汉化反馈"),
         "localization_action_uninstall_translation":
             MessageLookupByLibrary.simpleMessage("卸载汉化"),
-        "localization_info_channel": m36,
+        "localization_info_channel": m38,
         "localization_info_community_translation":
             MessageLookupByLibrary.simpleMessage("社区汉化"),
         "localization_info_corrupted_file":
             MessageLookupByLibrary.simpleMessage("文件受损，请重新下载"),
         "localization_info_custom_files":
             MessageLookupByLibrary.simpleMessage("自定义文件"),
-        "localization_info_enabled": m37,
+        "localization_info_enabled": m39,
         "localization_info_incompatible_translation_params_warning":
             MessageLookupByLibrary.simpleMessage(
                 "USER.cfg 包含不兼容的汉化参数，这可能是以前的汉化文件的残留信息。\n\n这将可能导致汉化无效或乱码，点击确认为您一键移除（不会影响其他配置）。"),
-        "localization_info_installation_error": m38,
+        "localization_info_installation_error": m40,
         "localization_info_installed":
             MessageLookupByLibrary.simpleMessage("已安装"),
-        "localization_info_installed_version": m39,
+        "localization_info_installed_version": m41,
         "localization_info_language":
             MessageLookupByLibrary.simpleMessage("语言：   "),
         "localization_info_machine_translation_warning":
@@ -669,8 +724,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("游戏汉化"),
         "localization_info_unavailable":
             MessageLookupByLibrary.simpleMessage("不可用"),
-        "localization_info_update_time": m40,
-        "localization_info_version_number": m41,
+        "localization_info_update_time": m42,
+        "localization_info_version_number": m43,
         "performance_action_apply": MessageLookupByLibrary.simpleMessage("应用"),
         "performance_action_apply_and_clear_shaders":
             MessageLookupByLibrary.simpleMessage("应用并清理着色器（推荐）"),
@@ -690,7 +745,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(" 恢复默认 "),
         "performance_action_super": MessageLookupByLibrary.simpleMessage("超级"),
         "performance_info_applied": MessageLookupByLibrary.simpleMessage("已应用"),
-        "performance_info_current_status": m42,
+        "performance_info_current_status": m44,
         "performance_info_delete_config_file":
             MessageLookupByLibrary.simpleMessage("删除配置文件..."),
         "performance_info_done": MessageLookupByLibrary.simpleMessage("完成..."),
@@ -702,7 +757,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起反效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。"),
         "performance_info_graphics": MessageLookupByLibrary.simpleMessage("图形"),
-        "performance_info_min_max_values": m43,
+        "performance_info_min_max_values": m45,
         "performance_info_not_applied":
             MessageLookupByLibrary.simpleMessage("未应用"),
         "performance_info_shader_clearing_warning":
@@ -826,7 +881,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("水体效果"),
         "performance_json_text_water_info":
             MessageLookupByLibrary.simpleMessage("各种水的等级"),
-        "performance_title_performance_optimization": m44,
+        "performance_title_performance_optimization": m46,
         "setting_action_clear_translation_file_cache":
             MessageLookupByLibrary.simpleMessage("清理汉化文件缓存"),
         "setting_action_create_desktop_shortcut":
@@ -838,7 +893,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "启动游戏时忽略能效核心（ 适用于Intel 12th+ 处理器 ）"),
         "setting_action_info_autofill_data_cleared":
             MessageLookupByLibrary.simpleMessage("已清理自动填充数据"),
-        "setting_action_info_cache_clearing_info": m45,
+        "setting_action_info_cache_clearing_info": m47,
         "setting_action_info_clear_cache_warning":
             MessageLookupByLibrary.simpleMessage("这不会影响已安装的汉化。"),
         "setting_action_info_confirm_clear_cache":
@@ -878,7 +933,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("查看汉化盒子的 log 文件，以定位盒子的 bug"),
         "setting_action_reset_auto_password_fill":
             MessageLookupByLibrary.simpleMessage("重置自动密码填充"),
-        "setting_action_set_core_count": m46,
+        "setting_action_set_core_count": m48,
         "setting_action_set_game_file":
             MessageLookupByLibrary.simpleMessage("设置游戏文件 （StarCitizen.exe）"),
         "setting_action_set_launcher_file":
@@ -910,13 +965,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Hosts 加速（实验性）"),
         "tools_action_info_cleanup_complete":
             MessageLookupByLibrary.simpleMessage("清理完毕，请完成一次安装 / 游戏启动 操作。"),
-        "tools_action_info_cleanup_failed": m47,
+        "tools_action_info_cleanup_failed": m49,
         "tools_action_info_config_file_not_exist":
             MessageLookupByLibrary.simpleMessage("配置文件不存在，请尝试运行一次游戏"),
         "tools_action_info_eac_file_removed":
             MessageLookupByLibrary.simpleMessage(
                 "已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请您前往 SETTINGS -> VERIFY 重装 EAC。"),
-        "tools_action_info_error_occurred": m48,
+        "tools_action_info_error_occurred": m50,
         "tools_action_info_fix_success_restart":
             MessageLookupByLibrary.simpleMessage(
                 "修复成功，请尝试重启电脑后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。"),
@@ -925,7 +980,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_hosts_acceleration_experimental_tip":
             MessageLookupByLibrary.simpleMessage(
                 "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。"),
-        "tools_action_info_init_failed": m49,
+        "tools_action_info_init_failed": m51,
         "tools_action_info_log_file_not_exist":
             MessageLookupByLibrary.simpleMessage(
                 "日志文件不存在，请尝试进行一次游戏启动或游戏安装，并退出启动器，若无法解决问题，请尝试将启动器更新至最新版本！"),
@@ -937,14 +992,14 @@ class MessageLookup extends MessageLookupByLibrary {
                 "手动写入NVM补丁，该功能仅在您知道自己在作什么的情况下使用"),
         "tools_action_info_not_installed":
             MessageLookupByLibrary.simpleMessage("未安装"),
-        "tools_action_info_nvme_patch_issue": m50,
+        "tools_action_info_nvme_patch_issue": m52,
         "tools_action_info_one_key_close_lens_shake":
             MessageLookupByLibrary.simpleMessage(
                 "一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。"),
         "tools_action_info_p4k_download_in_progress":
             MessageLookupByLibrary.simpleMessage(
                 "已经有一个p4k下载任务正在进行中，请前往下载管理器查看！"),
-        "tools_action_info_p4k_download_repair_tip": m51,
+        "tools_action_info_p4k_download_repair_tip": m53,
         "tools_action_info_p4k_file_description":
             MessageLookupByLibrary.simpleMessage(
                 "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。"),
@@ -957,7 +1012,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "还原镜头摇晃效果。\n\n@拉邦那 Lapernum 提供参数信息。"),
         "tools_action_info_rsi_launcher_directory_not_found":
             MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器目录，请您尝试手动操作。"),
-        "tools_action_info_rsi_launcher_log_issue": m52,
+        "tools_action_info_rsi_launcher_log_issue": m54,
         "tools_action_info_rsi_launcher_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。"),
@@ -966,11 +1021,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_action_info_run_rsi_as_admin":
             MessageLookupByLibrary.simpleMessage(
                 "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。"),
-        "tools_action_info_shader_cache_issue": m53,
+        "tools_action_info_shader_cache_issue": m55,
         "tools_action_info_star_citizen_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "未找到星际公民游戏安装位置，请至少完成一次游戏启动操作 或在设置中手动添加。"),
-        "tools_action_info_system_info_content": m54,
+        "tools_action_info_system_info_content": m56,
         "tools_action_info_system_info_title":
             MessageLookupByLibrary.simpleMessage("系统信息"),
         "tools_action_info_valid_game_directory_needed":
@@ -1020,7 +1075,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("正在写入 Hosts ..."),
         "tools_info_game_install_location":
             MessageLookupByLibrary.simpleMessage("游戏安装位置：  "),
-        "tools_info_processing_failed": m55,
+        "tools_info_processing_failed": m57,
         "tools_info_rsi_launcher_location":
             MessageLookupByLibrary.simpleMessage("RSI启动器位置："),
         "tools_info_scanning": MessageLookupByLibrary.simpleMessage("正在扫描..."),
@@ -1039,13 +1094,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
             MessageLookupByLibrary.simpleMessage("读取启动器信息失败！"),
         "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-            m56,
+            m58,
         "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
             MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器"),
-        "tools_rsi_launcher_enhance_msg_patch_status": m57,
+        "tools_rsi_launcher_enhance_msg_patch_status": m59,
         "tools_rsi_launcher_enhance_msg_uninstall":
             MessageLookupByLibrary.simpleMessage("* 如需卸载增强补丁，请覆盖安装 RSI 启动器。"),
-        "tools_rsi_launcher_enhance_msg_version": m58,
+        "tools_rsi_launcher_enhance_msg_version": m60,
         "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
             "RSI 启动器增强是一项社区功能，它会在您的电脑上解包 \"RSI Launcher\" 并加入额外的增强功能，具体使用哪些功能由您决定。\n\n目前，官方（CIG）仅许可我们进行多语言操作，启动器下载增强是我们认为有用的额外功能，违反cig用户协议（https://robertsspaceindustries.com/eula）可能导致账号被封禁等严重后果，是否启用由您自己决定，我们不对可能产生的后果（游戏损坏，账号封禁等）承担任何责任。\n\n对于启动器的修改内容，我们开源于：https://github.com/StarCitizenToolBox/RSILauncherEnhance，如有需要，您可自行查阅。\n\n如果您因为任何原因需要取消此增强补丁，请直接覆盖安装官方启动器。"),
         "tools_rsi_launcher_enhance_note_title":
@@ -1073,16 +1128,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。"),
         "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-        "tools_unp4k_msg_open_file": m59,
-        "tools_unp4k_msg_read_completed": m60,
-        "tools_unp4k_msg_read_file": m61,
+        "tools_unp4k_msg_open_file": m61,
+        "tools_unp4k_msg_read_completed": m62,
+        "tools_unp4k_msg_read_file": m63,
         "tools_unp4k_msg_reading":
             MessageLookupByLibrary.simpleMessage("正在读取P4K 文件 ..."),
         "tools_unp4k_msg_reading2":
             MessageLookupByLibrary.simpleMessage("正在处理文件 ..."),
-        "tools_unp4k_msg_reading3": m62,
-        "tools_unp4k_msg_unknown_file_type": m63,
-        "tools_unp4k_title": m64,
+        "tools_unp4k_msg_reading3": m64,
+        "tools_unp4k_msg_unknown_file_type": m65,
+        "tools_unp4k_title": m66,
         "tools_unp4k_view_file":
             MessageLookupByLibrary.simpleMessage("单击文件以预览"),
         "webview_localization_finished_invitations":
