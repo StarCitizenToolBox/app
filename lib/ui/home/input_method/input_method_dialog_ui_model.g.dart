@@ -7,7 +7,7 @@ part of 'input_method_dialog_ui_model.dart';
 // **************************************************************************
 
 String _$inputMethodDialogUIModelHash() =>
-    r'1c7193891c609715b2c7ee1b34f67aa26b18d303';
+    r'8c703de14c98fb6b2f26dbae04c2c9c06f50eb8c';
 
 /// See also [InputMethodDialogUIModel].
 @ProviderFor(InputMethodDialogUIModel)
