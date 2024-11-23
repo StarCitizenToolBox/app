@@ -166,7 +166,8 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
       _translateTimer =
           Timer(Duration(milliseconds: webMessage ? 1 : 400), () async {
         try {
-          final r = await Api.doGoogleTranslate(sourceText);
+          final inputText = sourceText.replaceAll("\n", " ");
+          final r = await Api.doGoogleTranslate(inputText);
           if (r != null) {
             String resultText = r;
             // resultText 首字母大写
