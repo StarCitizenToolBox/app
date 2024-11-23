@@ -168,7 +168,14 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
         try {
           final r = await Api.doGoogleTranslate(sourceText);
           if (r != null) {
-            _destTextCtrl?.text = "$content\n[en] $r";
+            String resultText = r;
+            // resultText 首字母大写
+            if (content.isNotEmpty) {
+              final firstChar = resultText.characters.first;
+              resultText =
+                  resultText.replaceFirst(firstChar, firstChar.toUpperCase());
+            }
+            _destTextCtrl?.text = "$content\n[en] $resultText";
             if (state.enableAutoCopy || webMessage) {
               Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
             }
