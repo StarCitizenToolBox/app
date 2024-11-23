@@ -98,6 +98,23 @@ class Api {
     return r;
   }
 
+  static Future<String?> doGoogleTranslate(String input) async {
+    final out = await RSHttp.getText(
+        "${URLConf.googleTranslateApiUrl}/translate_a/single?client=gtx&dt=t&sl=auto&tl=en&q=${Uri.encodeComponent(input)}");
+    // [[["Hello","你好",null,null,10]],null,"zh-CN",null,null,null,1,[],[["zh-CN"],null,[1],["zh-CN"]]]
+    final list = json.decode(out);
+    if (list is List && list.isNotEmpty) {
+      final data = list.first;
+      if (data is List && data.isNotEmpty) {
+        final text = data.first;
+        if (text is List && text.isNotEmpty) {
+          return text.first;
+        }
+      }
+    }
+    return null;
+  }
+
   static Future<bool> isUseInternalDNS() async {
     final userBox = await Hive.openBox("app_conf");
     final isUseInternalDNS =

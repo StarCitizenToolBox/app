@@ -837,5 +837,8 @@
   "input_method_community_input_method_support_version": "社區輸入法支持：{v0}",
   "input_method_online_version_prompt": "本功能另有提供在線獨立版，點擊訪問 >",
   "input_method_support_updated": "社區輸入法支持已更新",
-  "input_method_support_updated_to_version": "社區輸入法支持已更新到：{v0}"
+  "input_method_support_updated_to_version": "社區輸入法支持已更新到：{v0}",
+  "input_method_auto_translate": "雙語翻譯：",
+  "input_method_auto_translate_dialog_title": "啟用雙語翻譯？",
+  "input_method_auto_translate_dialog_title_content": "啟用後，將使用 Google 翻譯服務為您的輸入內容增加英文副本，可能會導致響應滯後，若功能異常請關閉。 \n\n文本將轉發給 Google 服務器，請參閱 Google 的隱私政策。"
 }

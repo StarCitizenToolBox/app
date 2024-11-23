@@ -70,16 +70,28 @@ class InputMethodDialogUI extends HookConsumerWidget {
                   placeholderStyle:
                       TextStyle(color: Colors.white.withOpacity(.6)),
                   style: TextStyle(fontSize: 16, color: Colors.white),
-                  onChanged: (str) {
+                  onChanged: (str) async {
                     final text = model.onTextChange("src", str);
+                    destTextCtrl.text = text ?? "";
                     if (text != null) {
-                      destTextCtrl.text = text;
+                      model.checkAutoTranslate();
                     }
                   },
                 ),
                 SizedBox(height: 16),
                 Center(
-                  child: Icon(FluentIcons.down),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (state.isAutoTranslateWorking)
+                        SizedBox(width: 24, height: 24, child: ProgressRing())
+                      else
+                        SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: Icon(FluentIcons.down))
+                    ],
+                  ),
                 ),
                 SizedBox(height: 16),
                 TextFormBox(
@@ -101,6 +113,18 @@ class InputMethodDialogUI extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Row(
+                      children: [
+                        Text(S.current.input_method_auto_translate),
+                        SizedBox(width: 6),
+                        ToggleSwitch(
+                          checked: state.isEnableAutoTranslate,
+                          onChanged: (b) =>
+                              _onSwitchAutoTranslate(context, model, b),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 24),
                     Row(
                       children: [
                         Text(S.current.input_method_remote_input_service),
@@ -213,5 +237,17 @@ class InputMethodDialogUI extends HookConsumerWidget {
     } else {
       await serverModel.stopServer().unwrap(context: context);
     }
+  }
+
+  _onSwitchAutoTranslate(
+      BuildContext context, InputMethodDialogUIModel model, bool b) async {
+    if (b) {
+      final ok = await showConfirmDialogs(
+          context,
+          S.current.input_method_auto_translate_dialog_title,
+          Text(S.current.input_method_auto_translate_dialog_title_content));
+      if (ok != true) return;
+    }
+    model.toggleAutoTranslate(b);
   }
 }

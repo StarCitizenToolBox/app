@@ -837,5 +837,8 @@
   "input_method_community_input_method_support_version": "社区输入法支持：{v0}",
   "input_method_online_version_prompt": "本功能另有提供在线独立版，点击访问 >",
   "input_method_support_updated": "社区输入法支持已更新",
-  "input_method_support_updated_to_version": "社区输入法支持已更新到：{v0}"
+  "input_method_support_updated_to_version": "社区输入法支持已更新到：{v0}",
+  "input_method_auto_translate": "双语翻译：",
+  "input_method_auto_translate_dialog_title": "启用双语翻译？",
+  "input_method_auto_translate_dialog_title_content": "启用后，将使用 Google 翻译服务为您的输入内容增加英文副本，可能会导致响应滞后，若功能异常请关闭。\n\n文本将转发给 Google 服务器，请参阅 Google 的隐私政策。"
 }

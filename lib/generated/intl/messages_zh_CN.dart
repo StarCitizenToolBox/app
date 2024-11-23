@@ -636,6 +636,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "input_method_address_fetch_failed":
             MessageLookupByLibrary.simpleMessage("获取地址失败，请手动查看电脑IP"),
         "input_method_auto_copy": MessageLookupByLibrary.simpleMessage("自动复制"),
+        "input_method_auto_translate":
+            MessageLookupByLibrary.simpleMessage("双语翻译："),
+        "input_method_auto_translate_dialog_title":
+            MessageLookupByLibrary.simpleMessage("启用双语翻译？"),
+        "input_method_auto_translate_dialog_title_content":
+            MessageLookupByLibrary.simpleMessage(
+                "启用后，将使用 Google 翻译服务为您的输入内容增加英文副本，可能会导致响应滞后，若功能异常请关闭。\n\n文本将转发给 Google 服务器，请参阅 Google 的隐私政策。"),
         "input_method_community_input_method_not_installed":
             MessageLookupByLibrary.simpleMessage("未安装社区输入法支持"),
         "input_method_community_input_method_support_version": m36,

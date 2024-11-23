@@ -711,6 +711,14 @@ class MessageLookup extends MessageLookupByLibrary {
                 "If the address failed, please check the computer IP manually"),
         "input_method_auto_copy":
             MessageLookupByLibrary.simpleMessage("Automatic replication"),
+        "input_method_auto_translate":
+            MessageLookupByLibrary.simpleMessage("Bilingual translation:"),
+        "input_method_auto_translate_dialog_title":
+            MessageLookupByLibrary.simpleMessage(
+                "Enable bilingual translation?"),
+        "input_method_auto_translate_dialog_title_content":
+            MessageLookupByLibrary.simpleMessage(
+                "After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google\'s privacy policy."),
         "input_method_community_input_method_not_installed":
             MessageLookupByLibrary.simpleMessage(
                 "Supporting community input method support"),

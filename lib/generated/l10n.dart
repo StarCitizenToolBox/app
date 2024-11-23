@@ -5273,6 +5273,36 @@ class S {
       args: [v0],
     );
   }
+
+  /// `Bilingual translation:`
+  String get input_method_auto_translate {
+    return Intl.message(
+      'Bilingual translation:',
+      name: 'input_method_auto_translate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable bilingual translation?`
+  String get input_method_auto_translate_dialog_title {
+    return Intl.message(
+      'Enable bilingual translation?',
+      name: 'input_method_auto_translate_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google's privacy policy.`
+  String get input_method_auto_translate_dialog_title_content {
+    return Intl.message(
+      'After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google\'s privacy policy.',
+      name: 'input_method_auto_translate_dialog_title_content',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1004,5 +1004,8 @@
   "input_method_input_text_instructions": "Enter the text in the text box above and paste the text (Ctrl+V) to the text box of the game in the text box above the text box.",
   "input_method_online_version_prompt": "This function provides another online independent version, click to visit>",
   "input_method_support_updated": "Community input method support has been updated",
-  "input_method_support_updated_to_version": "Community input method support has been updated to: {v0}"
+  "input_method_support_updated_to_version": "Community input method support has been updated to: {v0}",
+  "input_method_auto_translate": "Bilingual translation:",
+  "input_method_auto_translate_dialog_title": "Enable bilingual translation?",
+  "input_method_auto_translate_dialog_title_content": "After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google's privacy policy."
 }

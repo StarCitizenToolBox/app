@@ -19,6 +19,8 @@ mixin _$InputMethodDialogUIState {
   Map<String, String>? get keyMaps => throw _privateConstructorUsedError;
   Map<String, String>? get worldMaps => throw _privateConstructorUsedError;
   bool get enableAutoCopy => throw _privateConstructorUsedError;
+  bool get isEnableAutoTranslate => throw _privateConstructorUsedError;
+  bool get isAutoTranslateWorking => throw _privateConstructorUsedError;
 
   /// Create a copy of InputMethodDialogUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,7 +38,9 @@ abstract class $InputMethodDialogUIStateCopyWith<$Res> {
   $Res call(
       {Map<String, String>? keyMaps,
       Map<String, String>? worldMaps,
-      bool enableAutoCopy});
+      bool enableAutoCopy,
+      bool isEnableAutoTranslate,
+      bool isAutoTranslateWorking});
 }
 
 /// @nodoc
@@ -58,6 +62,8 @@ class _$InputMethodDialogUIStateCopyWithImpl<$Res,
     Object? keyMaps = freezed,
     Object? worldMaps = freezed,
     Object? enableAutoCopy = null,
+    Object? isEnableAutoTranslate = null,
+    Object? isAutoTranslateWorking = null,
   }) {
     return _then(_value.copyWith(
       keyMaps: freezed == keyMaps
@@ -71,6 +77,14 @@ class _$InputMethodDialogUIStateCopyWithImpl<$Res,
       enableAutoCopy: null == enableAutoCopy
           ? _value.enableAutoCopy
           : enableAutoCopy // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isEnableAutoTranslate: null == isEnableAutoTranslate
+          ? _value.isEnableAutoTranslate
+          : isEnableAutoTranslate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAutoTranslateWorking: null == isAutoTranslateWorking
+          ? _value.isAutoTranslateWorking
+          : isAutoTranslateWorking // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -88,7 +102,9 @@ abstract class _$$InputMethodDialogUIStateImplCopyWith<$Res>
   $Res call(
       {Map<String, String>? keyMaps,
       Map<String, String>? worldMaps,
-      bool enableAutoCopy});
+      bool enableAutoCopy,
+      bool isEnableAutoTranslate,
+      bool isAutoTranslateWorking});
 }
 
 /// @nodoc
@@ -109,6 +125,8 @@ class __$$InputMethodDialogUIStateImplCopyWithImpl<$Res>
     Object? keyMaps = freezed,
     Object? worldMaps = freezed,
     Object? enableAutoCopy = null,
+    Object? isEnableAutoTranslate = null,
+    Object? isAutoTranslateWorking = null,
   }) {
     return _then(_$InputMethodDialogUIStateImpl(
       freezed == keyMaps
@@ -123,6 +141,14 @@ class __$$InputMethodDialogUIStateImplCopyWithImpl<$Res>
           ? _value.enableAutoCopy
           : enableAutoCopy // ignore: cast_nullable_to_non_nullable
               as bool,
+      isEnableAutoTranslate: null == isEnableAutoTranslate
+          ? _value.isEnableAutoTranslate
+          : isEnableAutoTranslate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAutoTranslateWorking: null == isAutoTranslateWorking
+          ? _value.isAutoTranslateWorking
+          : isAutoTranslateWorking // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -132,7 +158,9 @@ class __$$InputMethodDialogUIStateImplCopyWithImpl<$Res>
 class _$InputMethodDialogUIStateImpl implements _InputMethodDialogUIState {
   _$InputMethodDialogUIStateImpl(
       final Map<String, String>? keyMaps, final Map<String, String>? worldMaps,
-      {this.enableAutoCopy = false})
+      {this.enableAutoCopy = false,
+      this.isEnableAutoTranslate = false,
+      this.isAutoTranslateWorking = false})
       : _keyMaps = keyMaps,
         _worldMaps = worldMaps;
 
@@ -159,10 +187,16 @@ class _$InputMethodDialogUIStateImpl implements _InputMethodDialogUIState {
   @override
   @JsonKey()
   final bool enableAutoCopy;
+  @override
+  @JsonKey()
+  final bool isEnableAutoTranslate;
+  @override
+  @JsonKey()
+  final bool isAutoTranslateWorking;
 
   @override
   String toString() {
-    return 'InputMethodDialogUIState(keyMaps: $keyMaps, worldMaps: $worldMaps, enableAutoCopy: $enableAutoCopy)';
+    return 'InputMethodDialogUIState(keyMaps: $keyMaps, worldMaps: $worldMaps, enableAutoCopy: $enableAutoCopy, isEnableAutoTranslate: $isEnableAutoTranslate, isAutoTranslateWorking: $isAutoTranslateWorking)';
   }
 
   @override
@@ -174,7 +208,11 @@ class _$InputMethodDialogUIStateImpl implements _InputMethodDialogUIState {
             const DeepCollectionEquality()
                 .equals(other._worldMaps, _worldMaps) &&
             (identical(other.enableAutoCopy, enableAutoCopy) ||
-                other.enableAutoCopy == enableAutoCopy));
+                other.enableAutoCopy == enableAutoCopy) &&
+            (identical(other.isEnableAutoTranslate, isEnableAutoTranslate) ||
+                other.isEnableAutoTranslate == isEnableAutoTranslate) &&
+            (identical(other.isAutoTranslateWorking, isAutoTranslateWorking) ||
+                other.isAutoTranslateWorking == isAutoTranslateWorking));
   }
 
   @override
@@ -182,7 +220,9 @@ class _$InputMethodDialogUIStateImpl implements _InputMethodDialogUIState {
       runtimeType,
       const DeepCollectionEquality().hash(_keyMaps),
       const DeepCollectionEquality().hash(_worldMaps),
-      enableAutoCopy);
+      enableAutoCopy,
+      isEnableAutoTranslate,
+      isAutoTranslateWorking);
 
   /// Create a copy of InputMethodDialogUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -197,7 +237,9 @@ class _$InputMethodDialogUIStateImpl implements _InputMethodDialogUIState {
 abstract class _InputMethodDialogUIState implements InputMethodDialogUIState {
   factory _InputMethodDialogUIState(
       final Map<String, String>? keyMaps, final Map<String, String>? worldMaps,
-      {final bool enableAutoCopy}) = _$InputMethodDialogUIStateImpl;
+      {final bool enableAutoCopy,
+      final bool isEnableAutoTranslate,
+      final bool isAutoTranslateWorking}) = _$InputMethodDialogUIStateImpl;
 
   @override
   Map<String, String>? get keyMaps;
@@ -205,6 +247,10 @@ abstract class _InputMethodDialogUIState implements InputMethodDialogUIState {
   Map<String, String>? get worldMaps;
   @override
   bool get enableAutoCopy;
+  @override
+  bool get isEnableAutoTranslate;
+  @override
+  bool get isAutoTranslateWorking;
 
   /// Create a copy of InputMethodDialogUIState
   /// with the given fields replaced by the non-null parameter values.

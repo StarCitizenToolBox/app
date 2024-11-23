@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
 
@@ -18,6 +19,8 @@ class InputMethodDialogUIState with _$InputMethodDialogUIState {
     Map<String, String>? keyMaps,
     Map<String, String>? worldMaps, {
     @Default(false) bool enableAutoCopy,
+    @Default(false) bool isEnableAutoTranslate,
+    @Default(false) bool isAutoTranslateWorking,
   }) = _InputMethodDialogUIState;
 }
 
@@ -43,10 +46,13 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     final worldMaps = keyMaps?.map((key, value) => MapEntry(value.trim(), key));
     final appBox = await Hive.openBox("app_conf");
     final enableAutoCopy = appBox.get("enableAutoCopy", defaultValue: false);
+    final isEnableAutoTranslate =
+        appBox.get("isEnableAutoTranslate", defaultValue: false);
     state = state.copyWith(
       keyMaps: keyMaps,
       worldMaps: worldMaps,
       enableAutoCopy: enableAutoCopy,
+      isEnableAutoTranslate: isEnableAutoTranslate,
     );
   }
 
@@ -104,6 +110,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
 
   // 打字结束后的1秒后自动复制，避免频繁复制
   void _handleAutoCopy(String text) {
+    if (state.isEnableAutoTranslate) return;
     if (_autoCopyTimer != null) {
       _autoCopyTimer?.cancel();
       _autoCopyTimer = null;
@@ -135,8 +142,42 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     _srcTextCtrl?.text = text;
     _destTextCtrl?.text = onTextChange("src", text) ?? "";
     if (_destTextCtrl?.text.isEmpty ?? true) return;
-    if (autoCopy) {
+    checkAutoTranslate(webMessage: true);
+    if (autoCopy && !state.isAutoTranslateWorking) {
       Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
+    }
+  }
+
+  toggleAutoTranslate(bool b) async {
+    state = state.copyWith(isEnableAutoTranslate: b);
+    final appConf = await Hive.openBox("app_conf");
+    await appConf.put("isEnableAutoTranslate", b);
+  }
+
+  Timer? _translateTimer;
+
+  Future<void> checkAutoTranslate({bool webMessage = false}) async {
+    final sourceText = _srcTextCtrl?.text ?? "";
+    final content = _destTextCtrl?.text ?? "";
+    if (sourceText.trim().isEmpty) return;
+    if (state.isEnableAutoTranslate) {
+      if (_translateTimer != null) _translateTimer?.cancel();
+      state = state.copyWith(isAutoTranslateWorking: true);
+      _translateTimer =
+          Timer(Duration(milliseconds: webMessage ? 1 : 400), () async {
+        try {
+          final r = await Api.doGoogleTranslate(sourceText);
+          if (r != null) {
+            _destTextCtrl?.text = "$content\n[en] $r";
+            if (state.enableAutoCopy || webMessage) {
+              Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
+            }
+          }
+        } catch (e) {
+          dPrint("[InputMethodDialogUIModel] AutoTranslate error: $e");
+        }
+        state = state.copyWith(isAutoTranslateWorking: false);
+      });
     }
   }
 }
