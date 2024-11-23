@@ -176,7 +176,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
               resultText =
                   resultText.replaceFirst(firstChar, firstChar.toUpperCase());
             }
-            _destTextCtrl?.text = "$content\n[en] $resultText";
+            _destTextCtrl?.text = "$content \n[en] $resultText";
             if (state.enableAutoCopy || webMessage) {
               Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
             }

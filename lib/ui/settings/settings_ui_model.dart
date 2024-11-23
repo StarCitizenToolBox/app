@@ -155,9 +155,15 @@ class SettingsUIModel extends _$SettingsUIModel {
       final dir2 = Directory(
           "${appGlobalState.applicationSupportDir}/launcher_enhance_data");
       if (!context.mounted) return;
-      await dir1.delete(recursive: true).unwrap(context: context);
+      if (await dir1.exists()) {
+        if (!context.mounted) return;
+        await dir1.delete(recursive: true).unwrap(context: context);
+      }
       if (!context.mounted) return;
-      await dir2.delete(recursive: true).unwrap(context: context);
+      if (await dir2.exists()) {
+        if (!context.mounted) return;
+        await dir2.delete(recursive: true).unwrap(context: context);
+      }
       _initState();
     }
   }
