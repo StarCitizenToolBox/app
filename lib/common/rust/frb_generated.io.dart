@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/asar_api.dart';
+import 'api/go_api.dart';
 import 'api/http_api.dart';
 import 'api/rs_process.dart';
 import 'api/win32_api.dart';
@@ -661,6 +662,25 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__asar_api__get_rsi_launcher_asar_dataPtr.asFunction<
           void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
 
+  void wire__crate__api__go_api__ping_go(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> ping,
+  ) {
+    return _wire__crate__api__go_api__ping_go(
+      port_,
+      ping,
+    );
+  }
+
+  late final _wire__crate__api__go_api__ping_goPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_starcitizen_doctor_wire__crate__api__go_api__ping_go');
+  late final _wire__crate__api__go_api__ping_go =
+      _wire__crate__api__go_api__ping_goPtr.asFunction<
+          void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
   void wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js(
     int port_,
     ffi.Pointer<wire_cst_rsi_launcher_asar_data> that,
@@ -931,14 +951,14 @@ class RustLibWire implements BaseWire {
       _dummy_method_to_enforce_bundlingPtr.asFunction<int Function()>();
 }
 
-typedef DartPostCObjectFnType
-    = ffi.Pointer<ffi.NativeFunction<DartPostCObjectFnTypeFunction>>;
+typedef DartPort = ffi.Int64;
+typedef DartDartPort = int;
 typedef DartPostCObjectFnTypeFunction = ffi.Bool Function(
     DartPort port_id, ffi.Pointer<ffi.Void> message);
 typedef DartDartPostCObjectFnTypeFunction = bool Function(
     DartDartPort port_id, ffi.Pointer<ffi.Void> message);
-typedef DartPort = ffi.Int64;
-typedef DartDartPort = int;
+typedef DartPostCObjectFnType
+    = ffi.Pointer<ffi.NativeFunction<DartPostCObjectFnTypeFunction>>;
 
 final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
   external ffi.Pointer<ffi.Uint8> ptr;

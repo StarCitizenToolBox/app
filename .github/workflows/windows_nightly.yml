@@ -41,6 +41,11 @@ jobs:
               with:
                version: "18"
 
+            - name: Set up Golang
+              uses: actions/setup-go@v5
+              with:
+                go-version: 'stable'
+
             - name: Flutter pub get
               run: flutter pub get  
             - name: Flutter build runner
