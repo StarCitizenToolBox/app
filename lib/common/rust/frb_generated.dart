@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/asar_api.dart';
+import 'api/go_api.dart';
 import 'api/http_api.dart';
 import 'api/rs_process.dart';
 import 'api/win32_api.dart';
@@ -70,7 +71,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.6.0';
 
   @override
-  int get rustContentHash => 1832496273;
+  int get rustContentHash => -809105468;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -95,6 +96,8 @@ abstract class RustLibApi extends BaseApi {
 
   Future<RsiLauncherAsarData> crateApiAsarApiGetRsiLauncherAsarData(
       {required String asarPath});
+
+  Future<String> crateApiGoApiPingGo({required String ping});
 
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs(
       {required RsiLauncherAsarData that, required List<int> content});
@@ -242,6 +245,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "get_rsi_launcher_asar_data",
         argNames: ["asarPath"],
+      );
+
+  @override
+  Future<String> crateApiGoApiPingGo({required String ping}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_String(ping);
+        return wire.wire__crate__api__go_api__ping_go(port_, arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiGoApiPingGoConstMeta,
+      argValues: [ping],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiGoApiPingGoConstMeta => const TaskConstMeta(
+        debugName: "ping_go",
+        argNames: ["ping"],
       );
 
   @override
