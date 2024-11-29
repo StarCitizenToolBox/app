@@ -24,7 +24,6 @@ import 'api/analytics.dart';
 import 'api/api.dart';
 import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
-import 'common/rust/api/go_api.dart';
 import 'common/rust/frb_generated.dart';
 import 'common/rust/api/win32_api.dart' as win32;
 import 'data/app_version_data.dart';
@@ -128,9 +127,6 @@ class AppGlobalModel extends _$AppGlobalModel {
     await RustLib.init();
     await RSHttp.init();
     dPrint("---- rust bridge init -----");
-
-    final r = await pingGo(ping: "PING");
-    dPrint("pingGo == $r");
 
     // init Hive
     try {

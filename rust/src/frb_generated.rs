@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.6.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -809105468;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1832496273;
 
 // Section: executor
 
@@ -157,27 +157,6 @@ fn wire__crate__api__asar_api__get_rsi_launcher_asar_data_impl(
                     })()
                     .await,
                 )
-            }
-        },
-    )
-}
-fn wire__crate__api__go_api__ping_go_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ping: impl CstDecode<String>,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ping_go",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let api_ping = ping.cst_decode();
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(crate::api::go_api::ping_go(api_ping))?;
-                    Ok(output_ok)
-                })())
             }
         },
     )
@@ -1425,14 +1404,6 @@ mod io {
         asar_path: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__asar_api__get_rsi_launcher_asar_data_impl(port_, asar_path)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__go_api__ping_go(
-        port_: i64,
-        ping: *mut wire_cst_list_prim_u_8_strict,
-    ) {
-        wire__crate__api__go_api__ping_go_impl(port_, ping)
     }
 
     #[no_mangle]
