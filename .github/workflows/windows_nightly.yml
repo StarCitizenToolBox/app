@@ -53,9 +53,6 @@ jobs:
               run: |
                     cargo install cargo-expand 
                     cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'
-                
-            - name: setup rust2go-cli
-              run:  rust2go-cli --src rust/src/go/go_api.rs --dst rust/go/rs_gen.go 
 
             - name: Flutter Rust bridge generate
               run: flutter_rust_bridge_codegen generate
