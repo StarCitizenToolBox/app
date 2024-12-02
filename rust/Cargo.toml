@@ -19,15 +19,10 @@ once_cell = "1.20"
 reqwest = { version = "0.12", features = ["rustls-tls-webpki-roots", "cookies", "gzip", "json", "stream"] }
 hickory-resolver = { version = "0.24" }
 anyhow = "1.0"
+
 scopeguard = "1.2"
 notify-rust = "4"
 asar = "0.3.0"
-
-# golang support
-rust2go = {version = "0.3.17"}
-
-[build-dependencies]
-rust2go = { version = "0.3.17", features = ["build"] }
 
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.58.0", features = ["Win32_UI_WindowsAndMessaging"] }
