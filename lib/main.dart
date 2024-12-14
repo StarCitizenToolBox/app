@@ -70,7 +70,7 @@ class App extends HookConsumerWidget {
               defaultButtonStyle: ButtonStyle(
             shape: WidgetStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
-                side: BorderSide(color: Colors.white.withOpacity(.01)))),
+                side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
           ))),
       locale: appState.appLocale,
       debugShowCheckedModeBanner: false,

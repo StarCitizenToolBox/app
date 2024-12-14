@@ -158,7 +158,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 12),
                       Container(
-                        color: Colors.white.withOpacity(.1),
+                        color: Colors.white.withValues(alpha: .1),
                         height: 1,
                       ),
                       const SizedBox(height: 12),
@@ -171,7 +171,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                 .localization_info_no_translation_available,
                             style: TextStyle(
                                 fontSize: 13,
-                                color: Colors.white.withOpacity(.8)),
+                                color: Colors.white.withValues(alpha: .8)),
                           ),
                         )
                       else
@@ -217,7 +217,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(tapDisabled ? .03 : .05),
+            color: Colors.white.withValues(alpha: tapDisabled ? .03 : .05),
             borderRadius: BorderRadius.circular(7),
           ),
           child: Column(
@@ -237,19 +237,22 @@ class LocalizationDialogUI extends HookConsumerWidget {
                         Text(
                           S.current.localization_info_version_number(
                               item.value.versionName ?? ""),
-                          style: TextStyle(color: Colors.white.withOpacity(.6)),
+                          style: TextStyle(
+                              color: Colors.white.withValues(alpha: .6)),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           S.current.localization_info_channel(
                               item.value.gameChannel ?? ""),
-                          style: TextStyle(color: Colors.white.withOpacity(.6)),
+                          style: TextStyle(
+                              color: Colors.white.withValues(alpha: .6)),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           S.current.localization_info_update_time(
                               item.value.updateAt ?? ""),
-                          style: TextStyle(color: Colors.white.withOpacity(.6)),
+                          style: TextStyle(
+                              color: Colors.white.withValues(alpha: .6)),
                         ),
                       ],
                     ),
@@ -266,7 +269,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                           : isItemEnabled
                               ? FluentIcons.download
                               : FluentIcons.disable_updates,
-                      color: Colors.white.withOpacity(.8),
+                      color: Colors.white.withValues(alpha: .8),
                       size: 18,
                     ),
                     const SizedBox(width: 6),
@@ -277,7 +280,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                               ? S.current.localization_action_install
                               : S.current.localization_info_unavailable),
                       style: TextStyle(
-                        color: Colors.white.withOpacity(.8),
+                        color: Colors.white.withValues(alpha: .8),
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -285,7 +288,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       Icon(
                         FluentIcons.chevron_right,
                         size: 14,
-                        color: Colors.white.withOpacity(.6),
+                        color: Colors.white.withValues(alpha: .6),
                       )
                   ]
                 ],
@@ -297,7 +300,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(.4),
+                    color: Colors.white.withValues(alpha: .4),
                     fontSize: 13,
                   ),
                 ),
@@ -342,7 +345,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                   height: 6,
                 ),
                 Container(
-                  color: Colors.white.withOpacity(.1),
+                  color: Colors.white.withValues(alpha: .1),
                   height: 1,
                 ),
                 const SizedBox(height: 12),
@@ -496,7 +499,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       Icon(
                         FluentIcons.chevron_right,
                         size: 14,
-                        color: Colors.white.withOpacity(.6),
+                        color: Colors.white.withValues(alpha: .6),
                       )
                     ],
                   ),

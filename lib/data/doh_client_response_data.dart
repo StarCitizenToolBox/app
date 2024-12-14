@@ -85,7 +85,6 @@ class DohClientResponseAnswerData {
   }
 }
 
-
 class DohClientResponseQuestionData {
   DohClientResponseQuestionData({
     this.name,

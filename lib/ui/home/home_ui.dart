@@ -172,7 +172,7 @@ class HomeUI extends HookConsumerWidget {
                         ? FluentIcons.stop_solid
                         : FluentIcons.play_solid,
                     color: homeState.isCurGameRunning
-                        ? Colors.red.withOpacity(.8)
+                        ? Colors.red.withValues(alpha: .8)
                         : Colors.white,
                   ),
                 )),
@@ -215,7 +215,7 @@ class HomeUI extends HookConsumerWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: FluentTheme.of(context).cardColor.withOpacity(.03),
+                color: FluentTheme.of(context).cardColor.withValues(alpha: .03),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12),
@@ -331,7 +331,7 @@ class HomeUI extends HookConsumerWidget {
           Positioned.fill(
               child: Container(
             decoration: BoxDecoration(
-                color: Colors.black.withOpacity(.3),
+                color: Colors.black.withValues(alpha: .3),
                 borderRadius: BorderRadius.circular(12)),
             child: const Center(
               child: ProgressRing(),
@@ -349,7 +349,7 @@ class HomeUI extends HookConsumerWidget {
           width: 316,
           height: 386,
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.1),
+              color: Colors.white.withValues(alpha: .1),
               borderRadius: BorderRadius.circular(12)),
           child: SingleChildScrollView(
             child: Column(
@@ -366,7 +366,7 @@ class HomeUI extends HookConsumerWidget {
                       child: homeState.rssVideoItems == null
                           ? Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(.1)),
+                                  color: Colors.white.withValues(alpha: .1)),
                               child: makeLoading(context),
                             )
                           : Swiper(
@@ -427,7 +427,7 @@ class HomeUI extends HookConsumerWidget {
                                   Icon(
                                     FluentIcons.chevron_right,
                                     size: 12,
-                                    color: Colors.white.withOpacity(.4),
+                                    color: Colors.white.withValues(alpha: .4),
                                   )
                                 ],
                               ),
@@ -497,7 +497,9 @@ class HomeUI extends HookConsumerWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: states.isHovered
-                        ? FluentTheme.of(context).cardColor.withOpacity(.1)
+                        ? FluentTheme.of(context)
+                            .cardColor
+                            .withValues(alpha: .1)
                         : FluentTheme.of(context).cardColor,
                   ),
                   child: Padding(
@@ -506,7 +508,7 @@ class HomeUI extends HookConsumerWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(.2),
+                              color: Colors.white.withValues(alpha: .2),
                               borderRadius: BorderRadius.circular(1000)),
                           child: Padding(
                             padding: const EdgeInsets.all(12),
@@ -531,7 +533,7 @@ class HomeUI extends HookConsumerWidget {
                               item.infoString,
                               style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.white.withOpacity(.6)),
+                                  color: Colors.white.withValues(alpha: .6)),
                             ),
                           ],
                         )),
@@ -610,7 +612,7 @@ class HomeUI extends HookConsumerWidget {
                             maxLines: 1,
                             style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.white.withOpacity(.6)),
+                                color: Colors.white.withValues(alpha: .6)),
                           ),
                         )
                     ],
@@ -620,7 +622,7 @@ class HomeUI extends HookConsumerWidget {
                 Icon(
                   FluentIcons.chevron_right,
                   size: 14,
-                  color: Colors.white.withOpacity(.6),
+                  color: Colors.white.withValues(alpha: .6),
                 )
               ],
             ),
@@ -691,7 +693,7 @@ class HomeUI extends HookConsumerWidget {
                     Icon(
                       FluentIcons.chevron_right,
                       size: 12,
-                      color: Colors.white.withOpacity(.4),
+                      color: Colors.white.withValues(alpha: .4),
                     )
                   ],
                 )
@@ -766,7 +768,7 @@ class HomeUI extends HookConsumerWidget {
                               Icon(
                                 FluentIcons.chevron_right,
                                 size: 14,
-                                color: Colors.white.withOpacity(.6),
+                                color: Colors.white.withValues(alpha: .6),
                               )
                             ],
                           );

@@ -10,7 +10,6 @@ import 'server.dart';
 
 part 'server_qr_dialog_ui.g.dart';
 
-
 @riverpod
 class ServerQrState extends _$ServerQrState {
   @override
@@ -62,7 +61,7 @@ class ServerQrDialogUI extends HookConsumerWidget {
           ] else
             Text(
               S.current.input_method_scan_qr_code,
-              style: TextStyle(color: Colors.white.withOpacity(.8)),
+              style: TextStyle(color: Colors.white.withValues(alpha: .8)),
             ),
           SizedBox(height: 24),
           Row(
@@ -97,7 +96,8 @@ class ServerQrDialogUI extends HookConsumerWidget {
             hasMultipleUrls
                 ? "${urls[index.value]} (${index.value + 1} / ${urls.length})"
                 : urls[index.value],
-            style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(.6)),
+            style: TextStyle(
+                fontSize: 13, color: Colors.white.withValues(alpha: .6)),
           ),
         ],
       ),

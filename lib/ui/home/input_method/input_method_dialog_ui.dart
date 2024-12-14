@@ -68,7 +68,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
                   controller: srcTextCtrl,
                   maxLines: 5,
                   placeholderStyle:
-                      TextStyle(color: Colors.white.withOpacity(.6)),
+                      TextStyle(color: Colors.white.withValues(alpha: .6)),
                   style: TextStyle(fontSize: 16, color: Colors.white),
                   onChanged: (str) async {
                     final text = model.onTextChange("src", str);
@@ -99,7 +99,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
                   controller: destTextCtrl,
                   maxLines: 5,
                   placeholderStyle:
-                      TextStyle(color: Colors.white.withOpacity(.6)),
+                      TextStyle(color: Colors.white.withValues(alpha: .6)),
                   style: TextStyle(fontSize: 16, color: Colors.white),
                   enabled: true,
                   onChanged: (str) {
@@ -163,7 +163,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
                         S.current.input_method_disclaimer,
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.white.withOpacity(.6),
+                          color: Colors.white.withValues(alpha: .6),
                         ),
                       ),
                     )

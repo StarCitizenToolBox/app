@@ -35,10 +35,10 @@ class DohClient {
     // data demo: {"data":"\"https://git.scbox.xkeyc.cn,https://gitapi.scbox.org\""}
     if (data == null) return "";
     data = data.trim();
-    if (data.startsWith("\"")){
+    if (data.startsWith("\"")) {
       data = data.substring(1);
     }
-    if (data.endsWith("\"")){
+    if (data.endsWith("\"")) {
       data = data.substring(0, data.length - 1);
     }
     return data;

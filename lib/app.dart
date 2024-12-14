@@ -284,9 +284,10 @@ class AppGlobalModel extends _$AppGlobalModel {
       final colorCfg = networkVersionData.activityColors;
       state = state.copyWith(
         themeConf: ThemeConf(
-          backgroundColor:
-              HexColor(colorCfg?.background ?? "#132431").withOpacity(.75),
-          menuColor: HexColor(colorCfg?.menu ?? "#132431").withOpacity(.95),
+          backgroundColor: HexColor(colorCfg?.background ?? "#132431")
+              .withValues(alpha: .75),
+          menuColor:
+              HexColor(colorCfg?.menu ?? "#132431").withValues(alpha: .95),
           micaColor: HexColor(colorCfg?.mica ?? "#0A3142"),
         ),
       );
@@ -298,8 +299,8 @@ class AppGlobalModel extends _$AppGlobalModel {
       dPrint("reset Color ....");
       state = state.copyWith(
         themeConf: ThemeConf(
-          backgroundColor: HexColor("#132431").withOpacity(.75),
-          menuColor: HexColor("#132431").withOpacity(.95),
+          backgroundColor: HexColor("#132431").withValues(alpha: .75),
+          menuColor: HexColor("#132431").withValues(alpha: .95),
           micaColor: HexColor("#0A3142"),
         ),
       );

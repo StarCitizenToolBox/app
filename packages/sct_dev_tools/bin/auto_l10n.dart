@@ -48,8 +48,7 @@ class AutoL10nTools {
       final j = json.encode(outputMap);
       File("./lib/generated/l10n_temp.json").writeAsStringSync(j);
       print(
-          "output to json file (length: ${outputMap
-              .length}): ./lib/generated/l10n_temp.json");
+          "output to json file (length: ${outputMap.length}): ./lib/generated/l10n_temp.json");
     }
   }
 
@@ -76,10 +75,9 @@ class AutoL10nTools {
         // sort map with value length
         final newMap = Map<String, dynamic>.fromEntries(
           jsonMap.entries.toList()
-            ..sort((a, b) =>
-                (b.value.toString())
-                    .length
-                    .compareTo((a.value.toString()).length)),
+            ..sort((a, b) => (b.value.toString())
+                .length
+                .compareTo((a.value.toString()).length)),
         );
         _replaceDartFile(entity, newMap);
       }
@@ -91,9 +89,9 @@ class AutoL10nTools {
     final toFile = File("./lib/l10n/intl_$to.arb");
     final translator = GoogleTranslator();
     final formMap =
-    json.decode(formFile.readAsStringSync()) as Map<String, dynamic>;
+        json.decode(formFile.readAsStringSync()) as Map<String, dynamic>;
     final toMap =
-    json.decode(toFile.readAsStringSync()) as Map<String, dynamic>;
+        json.decode(toFile.readAsStringSync()) as Map<String, dynamic>;
 
     final formLocaleCode = formMap["@@auto_translate_locale"].toString();
     final toLocaleCode = toMap["@@auto_translate_locale"].toString();

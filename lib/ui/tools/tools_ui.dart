@@ -106,7 +106,8 @@ class ToolsUI extends HookConsumerWidget {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(.2),
+                                        color:
+                                            Colors.white.withValues(alpha: .2),
                                         borderRadius:
                                             BorderRadius.circular(1000)),
                                     child: Padding(
@@ -128,7 +129,7 @@ class ToolsUI extends HookConsumerWidget {
                                 item.infoString,
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.white.withOpacity(.6)),
+                                    color: Colors.white.withValues(alpha: .6)),
                               ),
                               const SizedBox(height: 12),
                               Row(

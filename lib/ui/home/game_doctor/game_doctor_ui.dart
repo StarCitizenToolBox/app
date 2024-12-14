@@ -223,7 +223,7 @@ class HomeGameDoctorUI extends HookConsumerWidget {
                       errorNames[item.key]?.value ??
                           S.current.doctor_info_result_no_solution),
                   style: TextStyle(
-                      fontSize: 14, color: Colors.white.withOpacity(.7)),
+                      fontSize: 14, color: Colors.white.withValues(alpha: .7)),
                 ),
               ],
             ),
@@ -264,7 +264,8 @@ class HomeGameDoctorUI extends HookConsumerWidget {
                   Text(
                     item.value,
                     style: TextStyle(
-                        fontSize: 14, color: Colors.white.withOpacity(.7)),
+                        fontSize: 14,
+                        color: Colors.white.withValues(alpha: .7)),
                   ),
                 ],
               ),

@@ -79,7 +79,7 @@ Future<String?> showInputDialogs(BuildContext context,
           if (content.isNotEmpty)
             Text(
               content,
-              style: TextStyle(color: Colors.white.withOpacity(.6)),
+              style: TextStyle(color: Colors.white.withValues(alpha: .6)),
             ),
           const SizedBox(height: 8),
           TextFormBox(

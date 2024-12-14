@@ -338,7 +338,9 @@ class HomeUIModel extends _$HomeUIModel {
   void onChangeInstallPath(String? value) {
     if (value == null) return;
     state = state.copyWith(scInstalledPath: value);
-    ref.read(localizationUIModelProvider.notifier).onChangeGameInstallPath(value);
+    ref
+        .read(localizationUIModelProvider.notifier)
+        .onChangeGameInstallPath(value);
   }
 
   doLaunchGame(

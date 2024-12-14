@@ -5,10 +5,11 @@
 
 class AppTorrentData {
   AppTorrentData({
-      this.name, 
-      this.updateAt, 
-      this.url, 
-      this.info,});
+    this.name,
+    this.updateAt,
+    this.url,
+    this.info,
+  });
 
   AppTorrentData.fromJson(dynamic json) {
     name = json['name'];
@@ -29,5 +30,4 @@ class AppTorrentData {
     map['info'] = info;
     return map;
   }
-
 }

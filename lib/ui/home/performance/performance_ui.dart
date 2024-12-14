@@ -171,7 +171,8 @@ class HomePerformanceUI extends HookConsumerWidget {
               ),
               const SizedBox(height: 6),
               Container(
-                  color: FluentTheme.of(context).cardColor.withOpacity(.2),
+                  color:
+                      FluentTheme.of(context).cardColor.withValues(alpha: .2),
                   height: 1),
               const SizedBox(height: 6),
               for (final item in group.value) makeItem(context, item, model)
@@ -259,8 +260,8 @@ class HomePerformanceUI extends HookConsumerWidget {
             const SizedBox(height: 12),
             Text(
               "${item.info}",
-              style:
-                  TextStyle(fontSize: 14, color: Colors.white.withOpacity(.6)),
+              style: TextStyle(
+                  fontSize: 14, color: Colors.white.withValues(alpha: .6)),
             ),
           ],
           const SizedBox(height: 12),
@@ -271,13 +272,13 @@ class HomePerformanceUI extends HookConsumerWidget {
                 Text(
                   S.current.performance_info_min_max_values(
                       item.key ?? "", item.min ?? "", item.max ?? ""),
-                  style: TextStyle(color: Colors.white.withOpacity(.6)),
+                  style: TextStyle(color: Colors.white.withValues(alpha: .6)),
                 )
               ],
             ),
           const SizedBox(height: 6),
           Container(
-              color: FluentTheme.of(context).cardColor.withOpacity(.1),
+              color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
               height: 1),
         ],
       ),

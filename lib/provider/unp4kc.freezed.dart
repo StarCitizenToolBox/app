@@ -240,7 +240,7 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
             other is _$Unp4kcStateImpl &&
             (identical(other.startUp, startUp) || other.startUp == startUp) &&
             const DeepCollectionEquality().equals(other._files, _files) &&
-            const DeepCollectionEquality().equals(other.fs, fs) &&
+            (identical(other.fs, fs) || other.fs == fs) &&
             (identical(other.curPath, curPath) || other.curPath == curPath) &&
             (identical(other.endMessage, endMessage) ||
                 other.endMessage == endMessage) &&
@@ -255,7 +255,7 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
       runtimeType,
       startUp,
       const DeepCollectionEquality().hash(_files),
-      const DeepCollectionEquality().hash(fs),
+      fs,
       curPath,
       endMessage,
       tempOpenFile,

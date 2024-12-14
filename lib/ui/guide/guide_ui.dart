@@ -101,7 +101,8 @@ class GuideUI extends HookConsumerWidget {
                     child: Text(
                       S.current.guide_info_game_download_note,
                       style: TextStyle(
-                          fontSize: 12, color: Colors.white.withOpacity(.6)),
+                          fontSize: 12,
+                          color: Colors.white.withValues(alpha: .6)),
                       textAlign: TextAlign.end,
                     ),
                   ),

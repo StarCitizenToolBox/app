@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: ^2.6.1
@@ -36,13 +37,13 @@ dependencies:
   file_sizes: ^1.0.6
   desktop_webview_window: ^0.2.3
   flutter_svg: ^2.0.7
-  archive: ^3.4.4
+  archive: ^4.0.1
   jwt_decode: ^0.3.1
   uuid: ^4.1.0
   flutter_tilt: ^3.0.0
   card_swiper: ^3.0.1
   ffi: ^2.1.0
-  flutter_rust_bridge: 2.6.0
+  flutter_rust_bridge: ^2.7.0
   freezed_annotation: ^2.4.1
   meta: ^1.9.1
   hexcolor: ^3.0.1
@@ -80,7 +81,7 @@ dev_dependencies:
   riverpod_generator: ^2.6.2
   custom_lint: ^0.7.0
   riverpod_lint: ^2.6.2
-  ffigen: ^15.0.0
+  ffigen: ^16.0.0
   sct_dev_tools:
     path: ./packages/sct_dev_tools
 

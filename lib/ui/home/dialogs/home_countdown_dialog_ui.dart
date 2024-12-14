@@ -24,7 +24,7 @@ class HomeCountdownDialogUI extends HookConsumerWidget {
                 Navigator.of(context).pop();
               }),
           const SizedBox(width: 12),
-           Text(S.current.home_holiday_countdown),
+          Text(S.current.home_holiday_countdown),
         ],
       ),
       content: homeState.countdownFestivalListData == null
@@ -87,7 +87,8 @@ class HomeCountdownDialogUI extends HookConsumerWidget {
                     Text(
                       S.current.home_holiday_countdown_disclaimer,
                       style: TextStyle(
-                          fontSize: 13, color: Colors.white.withOpacity(.3)),
+                          fontSize: 13,
+                          color: Colors.white.withValues(alpha: .3)),
                     )
                   ],
                 ),

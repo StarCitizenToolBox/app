@@ -137,7 +137,7 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
         return Container(
           padding: const EdgeInsets.only(top: 6, bottom: 12),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.05),
+            color: Colors.white.withValues(alpha: .05),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Column(
@@ -161,13 +161,13 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                         "${item.valuesMap.length}",
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.white.withOpacity(.6),
+                          color: Colors.white.withValues(alpha: .6),
                         ),
                       ),
                       const SizedBox(width: 6),
                       Icon(
                         FluentIcons.chevron_right,
-                        color: Colors.white.withOpacity(.6),
+                        color: Colors.white.withValues(alpha: .6),
                         size: 16,
                       ),
                     ],
@@ -178,7 +178,7 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                 margin: const EdgeInsets.only(top: 6, bottom: 12),
                 width: MediaQuery.of(context).size.width,
                 height: 1,
-                color: Colors.white.withOpacity(.1),
+                color: Colors.white.withValues(alpha: .1),
               ),
               if (item.isWorking)
                 Column(

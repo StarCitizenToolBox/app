@@ -136,7 +136,8 @@ class SettingsUI extends HookConsumerWidget {
                         subTitle,
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 12, color: Colors.white.withOpacity(.6)),
+                            fontSize: 12,
+                            color: Colors.white.withValues(alpha: .6)),
                       ),
                     ),
                   ]

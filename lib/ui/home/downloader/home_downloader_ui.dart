@@ -105,7 +105,7 @@ class HomeDownloaderUI extends HookConsumerWidget {
                         decoration: BoxDecoration(
                           color: FluentTheme.of(context)
                               .cardColor
-                              .withOpacity(.06),
+                              .withValues(alpha: .06),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: Row(
@@ -232,7 +232,7 @@ class HomeDownloaderUI extends HookConsumerWidget {
                 itemCount: model.getTasksLen(),
               )),
             Container(
-              color: FluentTheme.of(context).cardColor.withOpacity(.06),
+              color: FluentTheme.of(context).cardColor.withValues(alpha: .06),
               child: Padding(
                 padding: const EdgeInsets.only(left: 12, bottom: 3, top: 3),
                 child: Row(

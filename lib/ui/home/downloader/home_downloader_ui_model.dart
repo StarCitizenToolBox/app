@@ -255,7 +255,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
               S.current.downloader_info_p2p_network_note,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.white.withOpacity(.6),
+                color: Colors.white.withValues(alpha: .6),
               ),
             ),
             const SizedBox(height: 24),
@@ -266,7 +266,8 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
             TextFormBox(
               placeholder: "1、100k、10m、0",
               controller: upCtrl,
-              placeholderStyle: TextStyle(color: Colors.white.withOpacity(.6)),
+              placeholderStyle:
+                  TextStyle(color: Colors.white.withValues(alpha: .6)),
               inputFormatters: [ifr],
             ),
             const SizedBox(height: 12),
@@ -275,7 +276,8 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
             TextFormBox(
               placeholder: "1、100k、10m、0",
               controller: downCtrl,
-              placeholderStyle: TextStyle(color: Colors.white.withOpacity(.6)),
+              placeholderStyle:
+                  TextStyle(color: Colors.white.withValues(alpha: .6)),
               inputFormatters: [ifr],
             ),
             const SizedBox(height: 24),
@@ -283,7 +285,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
               S.current.downloader_input_info_p2p_upload_note,
               style: TextStyle(
                 fontSize: 13,
-                color: Colors.white.withOpacity(.6),
+                color: Colors.white.withValues(alpha: .6),
               ),
             )
           ],

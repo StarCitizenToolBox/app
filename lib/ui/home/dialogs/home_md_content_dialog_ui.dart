@@ -37,7 +37,8 @@ class HomeMdContentDialogUI extends HookConsumerWidget {
         actions: [
           FilledButton(
               child: Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
+                padding:
+                    const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
                 child: Text(S.current.action_close),
               ),
               onPressed: () {

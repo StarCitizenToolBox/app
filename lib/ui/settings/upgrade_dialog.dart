@@ -84,12 +84,13 @@ class UpgradeDialogUI extends HookConsumerWidget {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(.1),
+                      color: Colors.white.withValues(alpha: .1),
                       borderRadius: BorderRadius.circular(7)),
                   child: Text(
                     S.current.app_upgrade_info_update_server_tip,
                     style: TextStyle(
-                        fontSize: 14, color: Colors.white.withOpacity(.7)),
+                        fontSize: 14,
+                        color: Colors.white.withValues(alpha: .7)),
                   ),
                 ),
               ),

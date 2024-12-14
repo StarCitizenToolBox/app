@@ -60,7 +60,7 @@ class IndexUI extends HookConsumerWidget {
                       child: Icon(
                         FluentIcons.installation,
                         size: 22,
-                        color: Colors.white.withOpacity(.6),
+                        color: Colors.white.withValues(alpha: .6),
                       ),
                     ),
                     _makeAria2TaskNumWidget()

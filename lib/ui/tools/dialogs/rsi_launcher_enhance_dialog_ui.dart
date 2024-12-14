@@ -155,7 +155,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                       S.current.tools_rsi_launcher_enhance_msg_version(
                           assarState.value?.version ?? ""),
                       style: TextStyle(
-                        color: Colors.white.withOpacity(.6),
+                        color: Colors.white.withValues(alpha: .6),
                       ),
                     ),
                   ),
@@ -165,7 +165,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                             ? S.current.localization_info_installed
                             : S.current.tools_action_info_not_installed),
                     style: TextStyle(
-                      color: Colors.white.withOpacity(.6),
+                      color: Colors.white.withValues(alpha: .6),
                     ),
                   )
                 ],
@@ -196,7 +196,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                                     .tools_rsi_launcher_enhance_subtitle_localization,
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: Colors.white.withOpacity(.6),
+                                  color: Colors.white.withValues(alpha: .6),
                                 ),
                               ),
                             ],
@@ -283,7 +283,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                                     .tools_rsi_launcher_enhance_subtitle_download_booster,
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: Colors.white.withOpacity(.6),
+                                  color: Colors.white.withValues(alpha: .6),
                                 ),
                               ),
                             ],
@@ -313,7 +313,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
               Text(
                 S.current.tools_rsi_launcher_enhance_msg_uninstall,
                 style: TextStyle(
-                    color: Colors.white.withOpacity(.6), fontSize: 13),
+                    color: Colors.white.withValues(alpha: .6), fontSize: 13),
               ),
             ],
           ],
@@ -414,13 +414,14 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
 
   static StringBuffer _readArchive((String savePath, String fileName) data) {
     final inputStream = InputFileStream(data.$1);
-    final archive =
-        TarDecoder().decodeBytes(GZipDecoder().decodeBuffer(inputStream));
+    final output = GZipDecoder().decodeBytes(inputStream.toUint8List());
+    final archive = TarDecoder().decodeBytes(output);
     StringBuffer dataBuffer = StringBuffer("");
     for (var element in archive.files) {
+      if (element.rawContent == null) continue;
+      final stringContent = utf8.decode(element.rawContent!.readBytes());
       if (element.name.endsWith(data.$2)) {
-        for (var value
-            in (element.rawContent?.readString() ?? "").split("\n")) {
+        for (var value in (stringContent).split("\n")) {
           final tv = value;
           if (tv.isNotEmpty) dataBuffer.writeln(tv);
         }

@@ -49,7 +49,8 @@ class AboutUI extends HookConsumerWidget {
                   Text(
                     S.current.about_app_description,
                     style: TextStyle(
-                        fontSize: 14, color: Colors.white.withOpacity(.9)),
+                        fontSize: 14,
+                        color: Colors.white.withValues(alpha: .9)),
                   ),
                 ],
               ),
@@ -68,7 +69,9 @@ class AboutUI extends HookConsumerWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width * .35,
                   decoration: BoxDecoration(
-                      color: FluentTheme.of(context).cardColor.withOpacity(.06),
+                      color: FluentTheme.of(context)
+                          .cardColor
+                          .withValues(alpha: .06),
                       borderRadius: BorderRadius.circular(12)),
                   child: IconButton(
                     icon: Padding(
@@ -77,7 +80,8 @@ class AboutUI extends HookConsumerWidget {
                         isTipTextCn.value ? tipTextCN : tipTextEN,
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 12, color: Colors.white.withOpacity(.9)),
+                            fontSize: 12,
+                            color: Colors.white.withValues(alpha: .9)),
                       ),
                     ),
                     onPressed: () {
@@ -107,7 +111,7 @@ class AboutUI extends HookConsumerWidget {
               Text(
                 S.current.about_action_btn_faq,
                 style: TextStyle(
-                    fontSize: 14, color: Colors.white.withOpacity(.6)),
+                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -124,7 +128,7 @@ class AboutUI extends HookConsumerWidget {
               Text(
                 S.current.about_online_feedback,
                 style: TextStyle(
-                    fontSize: 14, color: Colors.white.withOpacity(.6)),
+                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -141,7 +145,7 @@ class AboutUI extends HookConsumerWidget {
               Text(
                 S.current.about_action_qq_group,
                 style: TextStyle(
-                    fontSize: 14, color: Colors.white.withOpacity(.6)),
+                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -159,7 +163,7 @@ class AboutUI extends HookConsumerWidget {
               Text(
                 S.current.about_action_email,
                 style: TextStyle(
-                    fontSize: 14, color: Colors.white.withOpacity(.6)),
+                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -176,7 +180,7 @@ class AboutUI extends HookConsumerWidget {
               Text(
                 S.current.about_action_open_source,
                 style: TextStyle(
-                    fontSize: 14, color: Colors.white.withOpacity(.6)),
+                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -239,13 +243,14 @@ class AboutUI extends HookConsumerWidget {
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(left: 18, right: 18),
       decoration: BoxDecoration(
-          color: FluentTheme.of(context).cardColor.withOpacity(.06),
+          color: FluentTheme.of(context).cardColor.withValues(alpha: .06),
           borderRadius: BorderRadius.circular(12)),
       child: Column(
         children: [
           Text(
             names[name] ?? name,
-            style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(.6)),
+            style: TextStyle(
+                fontSize: 13, color: Colors.white.withValues(alpha: .6)),
           ),
           const SizedBox(height: 4),
           Row(

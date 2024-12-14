@@ -59,7 +59,9 @@ class UnP4kcUI extends HookConsumerWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: FluentTheme.of(context).cardColor.withOpacity(.06)),
+                    color: FluentTheme.of(context)
+                        .cardColor
+                        .withValues(alpha: .06)),
                 height: 36,
                 padding: const EdgeInsets.only(left: 12, right: 12),
                 child: SuperListView.builder(
@@ -95,7 +97,9 @@ class UnP4kcUI extends HookConsumerWidget {
                   Container(
                     width: MediaQuery.of(context).size.width * .3,
                     decoration: BoxDecoration(
-                      color: FluentTheme.of(context).cardColor.withOpacity(.01),
+                      color: FluentTheme.of(context)
+                          .cardColor
+                          .withValues(alpha: .01),
                     ),
                     child: SuperListView.builder(
                       padding: const EdgeInsets.only(
@@ -110,7 +114,7 @@ class UnP4kcUI extends HookConsumerWidget {
                           decoration: BoxDecoration(
                             color: FluentTheme.of(context)
                                 .cardColor
-                                .withOpacity(.05),
+                                .withValues(alpha: .05),
                           ),
                           child: IconButton(
                             onPressed: () {
@@ -164,7 +168,7 @@ class UnP4kcUI extends HookConsumerWidget {
                                                 style: TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.white
-                                                        .withOpacity(.6)),
+                                                        .withValues(alpha: .6)),
                                               ),
                                               const SizedBox(width: 12),
                                               Text(
@@ -172,7 +176,7 @@ class UnP4kcUI extends HookConsumerWidget {
                                                 style: TextStyle(
                                                     fontSize: 10,
                                                     color: Colors.white
-                                                        .withOpacity(.6)),
+                                                        .withValues(alpha: .6)),
                                               ),
                                             ],
                                           ),
@@ -184,7 +188,7 @@ class UnP4kcUI extends HookConsumerWidget {
                                   Icon(
                                     FluentIcons.chevron_right,
                                     size: 14,
-                                    color: Colors.white.withOpacity(.6),
+                                    color: Colors.white.withValues(alpha: .6),
                                   )
                                 ],
                               ),

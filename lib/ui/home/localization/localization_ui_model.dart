@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_build_context_in_providers
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:archive/archive_io.dart';
@@ -421,13 +422,14 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   static StringBuffer readArchive(String savePath) {
     final inputStream = InputFileStream(savePath);
-    final archive =
-        TarDecoder().decodeBytes(GZipDecoder().decodeBuffer(inputStream));
+    final output = GZipDecoder().decodeBytes(inputStream.toUint8List());
+    final archive = TarDecoder().decodeBytes(output);
     StringBuffer globalIni = StringBuffer("");
     for (var element in archive.files) {
       if (element.name.contains("global.ini")) {
-        for (var value
-            in (element.rawContent?.readString() ?? "").split("\n")) {
+        if (element.rawContent == null) continue;
+        final stringContent = utf8.decode(element.rawContent!.readBytes());
+        for (var value in (stringContent).split("\n")) {
           final tv = value.trim();
           if (tv.isNotEmpty) globalIni.writeln(value);
         }
@@ -642,19 +644,19 @@ class LocalizationUIModel extends _$LocalizationUIModel {
               Text(
                 S.current.localization_info_version_number(
                     item.value.versionName ?? ""),
-                style: TextStyle(color: Colors.white.withOpacity(.6)),
+                style: TextStyle(color: Colors.white.withValues(alpha: .6)),
               ),
               const SizedBox(height: 4),
               Text(
                 S.current
                     .localization_info_channel(item.value.gameChannel ?? ""),
-                style: TextStyle(color: Colors.white.withOpacity(.6)),
+                style: TextStyle(color: Colors.white.withValues(alpha: .6)),
               ),
               const SizedBox(height: 4),
               Text(
                 S.current
                     .localization_info_update_time(item.value.updateAt ?? ""),
-                style: TextStyle(color: Colors.white.withOpacity(.6)),
+                style: TextStyle(color: Colors.white.withValues(alpha: .6)),
               ),
               const SizedBox(height: 12),
             ],

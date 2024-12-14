@@ -90,7 +90,7 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
               Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(.05),
+                    color: Colors.white.withValues(alpha: .05),
                     borderRadius: BorderRadius.circular(7),
                   ),
                   padding: const EdgeInsets.all(12),
@@ -104,7 +104,7 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                           Icon(
                             FluentIcons.file_code,
                             size: 32,
-                            color: Colors.white.withOpacity(.6),
+                            color: Colors.white.withValues(alpha: .6),
                           ),
                           const SizedBox(height: 12),
                           Text(S.current
@@ -122,7 +122,7 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(.05),
+                    color: Colors.white.withValues(alpha: .05),
                     borderRadius: BorderRadius.circular(7),
                   ),
                   padding: const EdgeInsets.all(6),
@@ -138,7 +138,8 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      S.current.input_method_install_community_input_method_support,
+                      S.current
+                          .input_method_install_community_input_method_support,
                     ),
                     Spacer(),
                     ToggleSwitch(
