@@ -86,7 +86,7 @@ class HomeUIModel extends _$HomeUIModel {
         return;
       }
       final scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
-          withVersion: ["LIVE", "PTU", "EPTU"], checkExists: true);
+          withVersion: AppConf.gameChannels, checkExists: true);
 
       String scInstalledPath = "not_install";
 
