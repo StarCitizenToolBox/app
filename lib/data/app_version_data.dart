@@ -30,6 +30,7 @@ class AppVersionData {
     activityColors = json['activityColors'] != null
         ? ActivityColors.fromJson(json['activityColors'])
         : null;
+    gameChannels = List.from(json["game_channels"]).cast<String>();
     webMirrors = json["web_mirrors"];
   }
 
@@ -41,6 +42,7 @@ class AppVersionData {
   num? mSEMinVersionCode;
   String? p4kDownloadUrl;
   ActivityColors? activityColors;
+  List<String>? gameChannels;
   Map? webMirrors;
 
   Map<String, dynamic> toJson() {
@@ -56,6 +58,7 @@ class AppVersionData {
       map['activityColors'] = activityColors?.toJson();
     }
     map["web_mirrors"] = webMirrors;
+    map["game_channels"] = gameChannels;
     return map;
   }
 }

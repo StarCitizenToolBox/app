@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:starcitizen_doctor/common/conf/const_conf.dart';
+import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/rust/api/http_api.dart' as rust_http;
 import 'package:starcitizen_doctor/common/rust/api/http_api.dart';
 import 'package:starcitizen_doctor/common/rust/http_package.dart';

@@ -8,7 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
-import 'package:starcitizen_doctor/common/conf/const_conf.dart';
+import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/home/input_method/server_qr_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';

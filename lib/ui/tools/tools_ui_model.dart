@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
-import 'package:starcitizen_doctor/common/conf/const_conf.dart';
+import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -268,7 +268,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         return;
       }
       scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
-          checkExists: checkActive, withVersion: ConstConf.gameChannels);
+          checkExists: checkActive, withVersion: AppConf.gameChannels);
       if (scInstallPaths.isNotEmpty) {
         scInstalledPath = scInstallPaths.first;
       }

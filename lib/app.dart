@@ -10,7 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:starcitizen_doctor/common/conf/const_conf.dart';
+import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/guide/guide_ui.dart';
 import 'package:starcitizen_doctor/ui/home/performance/performance_ui.dart';
@@ -214,6 +214,8 @@ class AppGlobalModel extends _$AppGlobalModel {
 
     try {
       final networkVersionData = await Api.getAppVersion();
+      dPrint("networkVersionData == ${networkVersionData.toJson()}");
+      AppConf.setNetworkChannels(networkVersionData.gameChannels);
       checkActivityThemeColor(networkVersionData);
       if (ConstConf.isMSE) {
         dPrint(

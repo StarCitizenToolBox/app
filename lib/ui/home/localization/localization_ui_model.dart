@@ -11,7 +11,7 @@ import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
-import 'package:starcitizen_doctor/common/conf/const_conf.dart';
+import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -578,7 +578,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
             dPrint("check Localization update $scInstallPath");
             if (!(curData?.keys.contains(installedVersion) ?? false)) {
               // has update
-              for (var channel in ConstConf.gameChannels) {
+              for (var channel in AppConf.gameChannels) {
                 if (scInstallPath.contains(channel)) {
                   dPrint("check Localization update: has update -> $channel");
                   updates.add(channel);

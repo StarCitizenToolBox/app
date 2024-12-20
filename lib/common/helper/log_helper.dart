@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hive/hive.dart';
-import 'package:starcitizen_doctor/common/conf/const_conf.dart';
+import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class SCLoggerHelper {
@@ -108,7 +108,7 @@ class SCLoggerHelper {
   }
 
   static String getGameChannelID(String installPath) {
-    for (var value in ConstConf.gameChannels) {
+    for (var value in AppConf.gameChannels) {
       if (installPath.endsWith("\\$value")) {
         return value;
       }
