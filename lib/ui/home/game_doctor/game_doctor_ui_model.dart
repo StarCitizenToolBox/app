@@ -129,7 +129,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     final scInstalledPath = homeState.scInstalledPath!;
 
     final checkResult = <MapEntry<String, String>>[];
-    // TODO for debug
+    // for debug
     // checkResult?.add(MapEntry("unSupport_system", "android"));
     // checkResult?.add(MapEntry("nvme_PhysicalBytes", "C"));
     // checkResult?.add(MapEntry("no_live_path", ""));

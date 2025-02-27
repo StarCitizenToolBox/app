@@ -7,7 +7,7 @@ part of 'home_downloader_ui_model.dart';
 // **************************************************************************
 
 String _$homeDownloaderUIModelHash() =>
-    r'ece2e6da4576b945ead5767aea2ccacf5e3e17aa';
+    r'24db9bc498a898750c5075e08a9a6c3af6ff9647';
 
 /// See also [HomeDownloaderUIModel].
 @ProviderFor(HomeDownloaderUIModel)
