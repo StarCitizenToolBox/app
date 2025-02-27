@@ -51,7 +51,7 @@ function WebLocalizationUpdateReplaceWords(w, b) {
     let replaceWords = w.sort(function (a, b) {
         return b.word.length - a.word.length;
     });
-    replaceWords.forEach(({word, replacement}) => {
+    replaceWords.forEach(({ word, replacement }) => {
         SCLocalizationReplaceLocalesMap[word] = replacement;
     });
     if (window.location.hostname.startsWith("issue-council.robertsspaceindustries.com")) {
@@ -207,7 +207,7 @@ function ReportUnTranslate(k, v) {
         const jsRegex = /(?:^|[^<])<script[^>]*>[\s\S]*?<\/script>(?:[^>]|$)/i;
         if (k.trim() !== "" && !cnPattern.test(k) && !htmlPattern.test(k) && !cssRegex.test(k) && !jsRegex.test(k)
             && enPattern.test(k) && !k.startsWith("http://") && !k.startsWith("https://")) {
-            window.chrome.webview.postMessage({action: 'webview_localization_capture', key: k, value: v});
+            window.chrome.webview.postMessage({ action: 'webview_localization_capture', key: k, value: v });
         }
     }
 }
@@ -220,35 +220,27 @@ async function getRSILauncherToken(channelId) {
     if (!window.location.href.includes("robertsspaceindustries.com")) return;
 
     let loginBodyElement = $(".c-form.c-signIn");
-    loginBodyElement.hide();
-    // check login
-    let r = await fetch("api/launcher/v3/account/check", {
-        method: 'POST', headers: {
-            'x-rsi-token': $.cookie('Rsi-Token'),
-        },
-    });
-    if (r.status !== 200) {
-        loginBodyElement.show();
-        // wait login
-        window.chrome.webview.postMessage({action: 'webview_rsi_login_show_window'});
-        return;
-    }
-
-    SCTShowToast("登录游戏中...");
+    loginBodyElement.show();
+    // wait login
+    window.chrome.webview.postMessage({ action: 'webview_rsi_login_show_window' });
 
     // get claims
-    let claimsR = await fetch("api/launcher/v3/games/claims", {
+    let claimsR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/claims", {
         method: 'POST', headers: {
             'x-rsi-token': $.cookie('Rsi-Token'),
         },
     });
     if (claimsR.status !== 200) return;
+
+    loginBodyElement.hide();
+    SCTShowToast("登录游戏中...");
+
     let claimsData = (await claimsR.json())["data"];
 
     let tokenFormData = new FormData();
     tokenFormData.append('claims', claimsData);
     tokenFormData.append('gameId', 'SC');
-    let tokenR = await fetch("api/launcher/v3/games/token", {
+    let tokenR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/token", {
         method: 'POST', headers: {
             'x-rsi-token': $.cookie('Rsi-Token'),
         },
@@ -265,7 +257,7 @@ async function getRSILauncherToken(channelId) {
     releaseFormData.append("claims", claimsData);
     releaseFormData.append("gameId", "SC");
     releaseFormData.append("platformId", "prod");
-    let releaseR = await fetch("api/launcher/v3/games/release", {
+    let releaseR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/release", {
         method: 'POST', headers: {
             'x-rsi-token': $.cookie('Rsi-Token'),
         },
@@ -275,7 +267,7 @@ async function getRSILauncherToken(channelId) {
     let releaseDataJson = (await releaseR.json())['data'];
     console.log(releaseDataJson);
     // get game library
-    let libraryR = await fetch("api/launcher/v3/games/library", {
+    let libraryR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/library", {
         method: 'POST', headers: {
             'x-rsi-token': $.cookie('Rsi-Token'),
         },
@@ -285,7 +277,7 @@ async function getRSILauncherToken(channelId) {
     let libraryData = (await libraryR.json())["data"]
 
     // get user avatar
-    let avatarUrl = $(".a-avatarButton__image").attr("src");
+    let avatarUrl = $(".orion-c-avatar__image").attr("src");
 
     //post message
     window.chrome.webview.postMessage({
