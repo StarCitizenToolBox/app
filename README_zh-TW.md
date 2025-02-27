@@ -27,6 +27,5 @@
 ![image.png](https://s2.loli.net/2024/05/06/TlckzswguMUCjZe.png)
 
 ### ❤️ 鳴謝
-![jetbrains.svg](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
 
-特別感謝 [JetBrains](https://www.jetbrains.com/?from=SCToolbox) 為開源專案提供免費的 IDE 授權。
+特別感謝 [Visual Studio Code](https://code.visualstudio.com/) 提供免費的開發工具。

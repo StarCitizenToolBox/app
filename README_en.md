@@ -27,6 +27,5 @@ This tool provides Star Citizen players with one-click diagnosis, official websi
 ![image.png](https://s2.loli.net/2024/05/06/PCWgYFlnD156rxK.png)
 
 ### ❤️ Thanks
-![jetbrains.svg](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
 
-Special thanks to [JetBrains](https://www.jetbrains.com/?from=SCToolbox) for providing free IDE licenses for open source projects.
+Special thanks to [Visual Studio Code](https://code.visualstudio.com/) for providing free development tools.
