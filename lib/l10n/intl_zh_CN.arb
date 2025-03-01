@@ -840,5 +840,20 @@
   "input_method_support_updated_to_version": "社区输入法支持已更新到：{v0}",
   "input_method_auto_translate": "双语翻译：",
   "input_method_auto_translate_dialog_title": "启用双语翻译？",
-  "input_method_auto_translate_dialog_title_content": "启用后，将使用 Google 翻译服务为您的输入内容增加英文副本，可能会导致响应滞后，若功能异常请关闭。\n\n文本将转发给 Google 服务器，请参阅 Google 的隐私政策。"
+  "input_method_auto_translate_dialog_title_content": "启用后，将使用 Google 翻译服务为您的输入内容增加英文副本，可能会导致响应滞后，若功能异常请关闭。\n\n文本将转发给 Google 服务器，请参阅 Google 的隐私政策。",
+  "support_dev_thanks_message": "感谢您使用 SC汉化盒子，我是其开发者 xkeyC\n汉化盒子致力于开放源代码并为各位玩家提供免费的服务，无偿的服务是一项充满挑战的工作，若您考虑给我送点饮料钱，我将不胜感激。\n捐赠的资金将用于服务器支出、新功能的开发，以及提高软件维护的积极性。",
+  "support_dev_referral_code_message": "如果您还没有注册游戏或填写邀请码，可以考虑我的： STAR-3YXS-SWTC ，感谢你看到这里",
+  "support_dev_title": "支持开发者",
+  "support_dev_github_star_message": "您也可以在 GitHub 上给我的项目点个 Star",
+  "support_dev_github_star_button": "Star 项目",
+  "support_dev_in_game_currency_title": "游戏内货币",
+  "support_dev_in_game_id": "游戏ID:  xkeyC",
+  "support_dev_in_game_id_copied": "游戏ID已复制",
+  "support_dev_copy_button": "复制",
+  "support_dev_in_game_currency_message": "您可以在游戏中向我发送 aUEC 作为支持，这将会帮助我在有限的时间里获得更好的游戏体验",
+  "support_dev_alipay": "支付宝",
+  "support_dev_wechat": "微信",
+  "support_dev_donation_disclaimer": "* 请注意：捐赠是无偿赠与，您不会在软件体验上获得额外好处。",
+  "support_dev_back_button": "返回",
+  "support_dev_scroll_hint": "下滑查看更多"
 }

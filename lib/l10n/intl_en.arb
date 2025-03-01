@@ -1007,5 +1007,22 @@
   "input_method_support_updated_to_version": "Community input method support has been updated to: {v0}",
   "input_method_auto_translate": "Bilingual translation:",
   "input_method_auto_translate_dialog_title": "Enable bilingual translation?",
-  "input_method_auto_translate_dialog_title_content": "After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google's privacy policy."
+  "input_method_auto_translate_dialog_title_content": "After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google's privacy policy.",
+  "support_dev_thanks_message": "Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players. Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.",
+  "support_dev_thanks_message_part1": "Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players.",
+  "support_dev_thanks_message_part2": "Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.",
+  "support_dev_referral_code_message": "If you haven't registered the game or filled in a referral code yet, please consider using mine: STAR-3YXS-SWTC. Thank you for reading this far.",
+  "support_dev_title": "Support the Developer",
+  "support_dev_github_star_message": "You can also star my project on GitHub",
+  "support_dev_github_star_button": "Star Project",
+  "support_dev_in_game_currency_title": "In-game Currency",
+  "support_dev_in_game_id": "Game ID: xkeyC",
+  "support_dev_in_game_id_copied": "Game ID copied",
+  "support_dev_copy_button": "Copy",
+  "support_dev_in_game_currency_message": "You can send me aUEC in the game as support, which will help me get a better gaming experience in limited time",
+  "support_dev_alipay": "Alipay",
+  "support_dev_wechat": "WeChat",
+  "support_dev_donation_disclaimer": "* Please note: Donations are voluntary gifts, and you will not receive any additional benefits in software experience.",
+  "support_dev_back_button": "Back",
+  "support_dev_scroll_hint": "Scroll down for more"
 }

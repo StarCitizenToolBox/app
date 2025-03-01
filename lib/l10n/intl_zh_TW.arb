@@ -840,5 +840,22 @@
   "input_method_support_updated_to_version": "社區輸入法支持已更新到：{v0}",
   "input_method_auto_translate": "雙語翻譯：",
   "input_method_auto_translate_dialog_title": "啟用雙語翻譯？",
-  "input_method_auto_translate_dialog_title_content": "啟用後，將使用 Google 翻譯服務為您的輸入內容增加英文副本，可能會導致響應滯後，若功能異常請關閉。 \n\n文本將轉發給 Google 服務器，請參閱 Google 的隱私政策。"
+  "input_method_auto_translate_dialog_title_content": "啟用後，將使用 Google 翻譯服務為您的輸入內容增加英文副本，可能會導致響應滯後，若功能異常請關閉。 \n\n文本將轉發給 Google 服務器，請參閱 Google 的隱私政策。",
+  "support_dev_thanks_message": "感謝您使用 SC工具箱，我是其開發者 xkeyC\n工具箱致力於開放原始碼並為各位玩家提供免費的服務，無償的服務是一項充滿挑戰的工作，若您考慮給我送點飲料錢，我將不勝感激。\n捐贈的資金將用於伺服器支出、新功能的開發，以及提高軟體維護的積極性。",
+  "support_dev_thanks_message_part1": "感謝您使用 SC工具箱，我是其開發者 xkeyC\n工具箱致力於開放原始碼並為各位玩家提供免費的服務，",
+  "support_dev_thanks_message_part2": "無償的服務是一項充滿挑戰的工作，若您考慮給我送點飲料錢，我將不勝感激。\n捐贈的資金將用於伺服器支出、新功能的開發，以及提高軟體維護的積極性。",
+  "support_dev_referral_code_message": "如果您還沒有註冊遊戲或填寫邀請碼，可以考慮我的： STAR-3YXS-SWTC ，感謝你看到這裡",
+  "support_dev_title": "支持開發者",
+  "support_dev_github_star_message": "您也可以在 GitHub 上給我的專案點個 Star",
+  "support_dev_github_star_button": "Star 專案",
+  "support_dev_in_game_currency_title": "遊戲內貨幣",
+  "support_dev_in_game_id": "遊戲ID:  xkeyC",
+  "support_dev_in_game_id_copied": "遊戲ID已複製",
+  "support_dev_copy_button": "複製",
+  "support_dev_in_game_currency_message": "您可以在遊戲中向我發送 aUEC 作為支持，這將會幫助我在有限的時間裡獲得更好的遊戲體驗",
+  "support_dev_alipay": "支付寶",
+  "support_dev_wechat": "微信",
+  "support_dev_donation_disclaimer": "* 請注意：捐贈是無償贈與，您不會在軟體體驗上獲得額外好處。",
+  "support_dev_back_button": "返回",
+  "support_dev_scroll_hint": "下滑查看更多"
 }

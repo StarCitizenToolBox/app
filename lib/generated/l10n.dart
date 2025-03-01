@@ -18,17 +18,20 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(
+      _current != null,
+      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
+    );
     return _current!;
   }
 
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name =
+        (locale.countryCode?.isEmpty ?? false)
+            ? locale.languageCode
+            : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -41,8 +44,10 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -62,12 +67,7 @@ class S {
 
   /// `en`
   String get app_language_code {
-    return Intl.message(
-      'en',
-      name: 'app_language_code',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('en', name: 'app_language_code', desc: '', args: []);
   }
 
   /// `SCToolBox V {v0} {v1}`
@@ -382,12 +382,7 @@ class S {
 
   /// `Close`
   String get action_close {
-    return Intl.message(
-      'Close',
-      name: 'action_close',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Close', name: 'action_close', desc: '', args: []);
   }
 
   /// `Speed limit setting`
@@ -1602,7 +1597,12 @@ class S {
 
   /// `The game exits normally\nexitCode = {v0}\nstdout = {v1}\nstderr = {v2}\n\nDiagnostic information: {v3}\n{v4}`
   String home_action_info_abnormal_game_exit(
-      Object v0, Object v1, Object v2, Object v3, Object v4) {
+    Object v0,
+    Object v1,
+    Object v2,
+    Object v3,
+    Object v4,
+  ) {
     return Intl.message(
       'The game exits normally\nexitCode = $v0\nstdout = $v1\nstderr = $v2\n\nDiagnostic information: $v3\n$v4',
       name: 'home_action_info_abnormal_game_exit',
@@ -3053,7 +3053,12 @@ class S {
 
   /// `System: {v0}\n\nProcessor: {v1}\n\nMemory size: {v2} gb\n\nGraphics card information:\n{v3}\n\nStorage information:\n{v4}\n\n`
   String tools_action_info_system_info_content(
-      Object v0, Object v1, Object v2, Object v3, Object v4) {
+    Object v0,
+    Object v1,
+    Object v2,
+    Object v3,
+    Object v4,
+  ) {
     return Intl.message(
       'System: $v0\n\nProcessor: $v1\n\nMemory size: $v2 gb\n\nGraphics card information:\n$v3\n\nStorage information:\n$v4\n\n',
       name: 'tools_action_info_system_info_content',
@@ -3424,12 +3429,7 @@ class S {
 
   /// `Hint`
   String get app_common_tip {
-    return Intl.message(
-      'Hint',
-      name: 'app_common_tip',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Hint', name: 'app_common_tip', desc: '', args: []);
   }
 
   /// `I understand`
@@ -4654,7 +4654,8 @@ class S {
 
   /// `Read the RSI Launcher information failure: {v0}`
   String tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(
-      Object v0) {
+    Object v0,
+  ) {
     return Intl.message(
       'Read the RSI Launcher information failure: $v0',
       name:
@@ -5299,6 +5300,176 @@ class S {
     return Intl.message(
       'After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google\'s privacy policy.',
       name: 'input_method_auto_translate_dialog_title_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players. Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.`
+  String get support_dev_thanks_message {
+    return Intl.message(
+      'Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players. Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.',
+      name: 'support_dev_thanks_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players.`
+  String get support_dev_thanks_message_part1 {
+    return Intl.message(
+      'Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players.',
+      name: 'support_dev_thanks_message_part1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.`
+  String get support_dev_thanks_message_part2 {
+    return Intl.message(
+      'Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.',
+      name: 'support_dev_thanks_message_part2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you haven't registered the game or filled in a referral code yet, please consider using mine: STAR-3YXS-SWTC. Thank you for reading this far.`
+  String get support_dev_referral_code_message {
+    return Intl.message(
+      'If you haven\'t registered the game or filled in a referral code yet, please consider using mine: STAR-3YXS-SWTC. Thank you for reading this far.',
+      name: 'support_dev_referral_code_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support the Developer`
+  String get support_dev_title {
+    return Intl.message(
+      'Support the Developer',
+      name: 'support_dev_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can also star my project on GitHub`
+  String get support_dev_github_star_message {
+    return Intl.message(
+      'You can also star my project on GitHub',
+      name: 'support_dev_github_star_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Star Project`
+  String get support_dev_github_star_button {
+    return Intl.message(
+      'Star Project',
+      name: 'support_dev_github_star_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In-game Currency`
+  String get support_dev_in_game_currency_title {
+    return Intl.message(
+      'In-game Currency',
+      name: 'support_dev_in_game_currency_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game ID: xkeyC`
+  String get support_dev_in_game_id {
+    return Intl.message(
+      'Game ID: xkeyC',
+      name: 'support_dev_in_game_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game ID copied`
+  String get support_dev_in_game_id_copied {
+    return Intl.message(
+      'Game ID copied',
+      name: 'support_dev_in_game_id_copied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy`
+  String get support_dev_copy_button {
+    return Intl.message(
+      'Copy',
+      name: 'support_dev_copy_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can send me aUEC in the game as support, which will help me get a better gaming experience in limited time`
+  String get support_dev_in_game_currency_message {
+    return Intl.message(
+      'You can send me aUEC in the game as support, which will help me get a better gaming experience in limited time',
+      name: 'support_dev_in_game_currency_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alipay`
+  String get support_dev_alipay {
+    return Intl.message(
+      'Alipay',
+      name: 'support_dev_alipay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `WeChat`
+  String get support_dev_wechat {
+    return Intl.message(
+      'WeChat',
+      name: 'support_dev_wechat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `* Please note: Donations are voluntary gifts, and you will not receive any additional benefits in software experience.`
+  String get support_dev_donation_disclaimer {
+    return Intl.message(
+      '* Please note: Donations are voluntary gifts, and you will not receive any additional benefits in software experience.',
+      name: 'support_dev_donation_disclaimer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back`
+  String get support_dev_back_button {
+    return Intl.message(
+      'Back',
+      name: 'support_dev_back_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scroll down for more`
+  String get support_dev_scroll_hint {
+    return Intl.message(
+      'Scroll down for more',
+      name: 'support_dev_scroll_hint',
       desc: '',
       args: [],
     );
