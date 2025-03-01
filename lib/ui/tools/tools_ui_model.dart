@@ -12,7 +12,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
-import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
@@ -20,8 +19,8 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/ui/home/downloader/home_downloader_ui_model.dart';
-import 'package:starcitizen_doctor/ui/webview/webview.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:xml/xml.dart';
 
 import 'dialogs/hosts_booster_dialog_ui.dart';
@@ -491,17 +490,11 @@ class ToolsUIModel extends _$ToolsUIModel {
       state = state.copyWith(working: false);
       if (!context.mounted) return;
       showToast(context, S.current.app_init_failed_with_reason(e));
+      rethrow;
     }
 
     if (!context.mounted) return;
-    final webview = WebViewModel(context);
-    await webview.initWebView(
-        title: S.current.tools_action_p4k_download_repair,
-        applicationSupportDir: appGlobalState.applicationSupportDir!,
-        appVersionData: appGlobalState.networkVersionData!);
-    webview.launch(
-        "${URLConf.gitApiHome}/SCToolBox/Doc/src/branch/main/Tools/Pk4k_Downloads.md",
-        appGlobalState.networkVersionData!);
+    launchUrlString("https://support.citizenwiki.cn/d/8");
   }
 
   Future<bool> _checkPhotographyStatus(BuildContext context,
