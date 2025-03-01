@@ -188,19 +188,19 @@ class AboutUI extends HookConsumerWidget {
             children: [
               _donationMethodButton(
                 context: context,
-                title: 'WeChat',
-                icon: FontAwesomeIcons.weixin,
-                isSelected: donationTypeNotifier.value == 'wechat',
-                color: const Color(0xFF07C160),
-                onTap: () => donationTypeNotifier.value = 'wechat',
-              ),
-              _donationMethodButton(
-                context: context,
                 title: 'AliPay',
                 icon: FontAwesomeIcons.alipay,
                 isSelected: donationTypeNotifier.value == 'alipay',
                 color: const Color(0xFF1677FF),
                 onTap: () => donationTypeNotifier.value = 'alipay',
+              ),
+              _donationMethodButton(
+                context: context,
+                title: 'WeChat',
+                icon: FontAwesomeIcons.weixin,
+                isSelected: donationTypeNotifier.value == 'wechat',
+                color: const Color(0xFF07C160),
+                onTap: () => donationTypeNotifier.value = 'wechat',
               ),
               _donationMethodButton(
                 context: context,
