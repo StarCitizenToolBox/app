@@ -703,6 +703,8 @@
   "home_localization_action_advanced": "進階翻譯",
   "home_localization_action_install_customize": "安裝自訂文件",
   "home_localization_title_localization_tools": "翻譯工具",
+  "performance_json_text_dof": "景深效果",
+  "performance_json_text_dof_info": "控製手環頁面等的景深效果",
   "performance_json_text_ssdo": "螢幕光線後處理",
   "performance_json_text_ssdo_info": "調整光線後處理等級",
   "performance_json_text_title_graphics": "圖形（修改後建議刪除著色器快取）",

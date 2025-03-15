@@ -3922,6 +3922,26 @@ class S {
     );
   }
 
+  /// `Depth of field effect`
+  String get performance_json_text_dof {
+    return Intl.message(
+      'Depth of field effect',
+      name: 'performance_json_text_dof',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Controls the depth of field effect on mobiGlass pages, etc.`
+  String get performance_json_text_dof_info {
+    return Intl.message(
+      'Controls the depth of field effect on mobiGlass pages, etc.',
+      name: 'performance_json_text_dof_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Swip light after the screen light`
   String get performance_json_text_ssdo {
     return Intl.message(

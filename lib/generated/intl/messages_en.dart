@@ -1027,6 +1027,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_displayinfo_info": MessageLookupByLibrary.simpleMessage(
       "Display frame rates, server information, etc. in the upper right corner of the screen",
     ),
+    "performance_json_text_dof": MessageLookupByLibrary.simpleMessage(
+      "Depth of field effect",
+    ),
+    "performance_json_text_dof_info": MessageLookupByLibrary.simpleMessage(
+      "Controls the depth of field effect on mobiGlass pages, etc.",
+    ),
     "performance_json_text_fov": MessageLookupByLibrary.simpleMessage(
       "Set viewing angle FOV",
     ),

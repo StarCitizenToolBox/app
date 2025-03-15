@@ -706,6 +706,8 @@
   "home_localization_action_advanced": "高级汉化",
   "home_localization_action_install_customize": "安装自定义文件",
   "home_localization_title_localization_tools": "汉化工具",
+  "performance_json_text_dof": "景深效果",
+  "performance_json_text_dof_info": "控制手环页面等的景深效果",
   "performance_json_text_ssdo": "屏幕光线后处理",
   "performance_json_text_ssdo_info": "调整光线后处理等级",
   "performance_json_text_title_graphics": "图形（修改后建议清理着色器）",

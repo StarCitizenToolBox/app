@@ -12,6 +12,16 @@ List get performanceUIConfJsonData => [
         "group": S.current.performance_json_text_title_graphics
       },
       {
+        "key": "r_DepthOfField",
+        "name": S.current.performance_json_text_dof,
+        "info": S.current.performance_json_text_dof_info,
+        "type": "int",
+        "max": 2,
+        "min": 0,
+        "value": 1,
+        "group": S.current.performance_json_text_title_graphics
+      },
+      {
         "key": "r_AntialiasingMode",
         "name": S.current.performance_json_text_antialiasing,
         "info": S.current.performance_json_text_antialiasing_info,

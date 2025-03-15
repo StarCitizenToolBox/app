@@ -888,6 +888,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_json_text_displayinfo_info":
         MessageLookupByLibrary.simpleMessage("在屏幕右上角展示帧率，服务器信息等"),
+    "performance_json_text_dof": MessageLookupByLibrary.simpleMessage("景深效果"),
+    "performance_json_text_dof_info": MessageLookupByLibrary.simpleMessage(
+      "控制手环页面等的景深效果",
+    ),
     "performance_json_text_fov": MessageLookupByLibrary.simpleMessage(
       "设置视角FOV",
     ),

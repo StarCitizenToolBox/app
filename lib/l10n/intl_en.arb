@@ -775,6 +775,8 @@
   "@home_localization_action_install_customize": {},
   "home_localization_title_localization_tools": "Localization tool",
   "@home_localization_title_localization_tools": {},
+  "performance_json_text_dof": "Depth of field effect",
+  "performance_json_text_dof_info": "Controls the depth of field effect on mobiGlass pages, etc.",
   "performance_json_text_ssdo": "Swip light after the screen light",
   "@performance_json_text_ssdo": {},
   "performance_json_text_ssdo_info": "After adjusting the light, processing level",
