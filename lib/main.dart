@@ -11,8 +11,7 @@ import 'app.dart';
 void main(List<String> args) async {
   // webview window
   if (runWebViewTitleBarWidget(args,
-      backgroundColor: const Color.fromRGBO(19, 36, 49, 1),
-      builder: _defaultWebviewTitleBar)) {
+      backgroundColor: const Color.fromRGBO(19, 36, 49, 1), builder: _defaultWebviewTitleBar)) {
     return;
   }
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,8 +52,7 @@ class App extends HookConsumerWidget {
       supportedLocales: S.delegate.supportedLocales,
       builder: (context, child) {
         return MediaQuery(
-          data:
-              MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+          data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
           child: child ?? const SizedBox(),
         );
       },
@@ -69,8 +67,7 @@ class App extends HookConsumerWidget {
           buttonTheme: ButtonThemeData(
               defaultButtonStyle: ButtonStyle(
             shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-                side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
+                borderRadius: BorderRadius.circular(4), side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
           ))),
       locale: appState.appLocale,
       debugShowCheckedModeBanner: false,
