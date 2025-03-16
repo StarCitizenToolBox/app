@@ -7,16 +7,14 @@ import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 
-Future showToast(BuildContext context, String msg,
-    {BoxConstraints? constraints, String? title}) async {
+Future showToast(BuildContext context, String msg, {BoxConstraints? constraints, String? title}) async {
   return showBaseDialog(context,
       title: title ?? S.current.app_common_tip,
       content: Text(msg),
       actions: [
         FilledButton(
           child: Padding(
-            padding:
-                const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+            padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
             child: Text(S.current.app_common_tip_i_know),
           ),
           onPressed: () => Navigator.pop(context),
@@ -25,11 +23,8 @@ Future showToast(BuildContext context, String msg,
       constraints: constraints);
 }
 
-Future<bool> showConfirmDialogs(
-    BuildContext context, String title, Widget content,
-    {String confirm = "",
-    String cancel = "",
-    BoxConstraints? constraints}) async {
+Future<bool> showConfirmDialogs(BuildContext context, String title, Widget content,
+    {String confirm = "", String cancel = "", BoxConstraints? constraints}) async {
   if (confirm.isEmpty) confirm = S.current.app_common_tip_confirm;
   if (cancel.isEmpty) cancel = S.current.app_common_tip_cancel;
 
@@ -40,8 +35,7 @@ Future<bool> showConfirmDialogs(
         if (confirm.isNotEmpty)
           FilledButton(
             child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+              padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
               child: Text(confirm),
             ),
             onPressed: () => Navigator.pop(context, true),
@@ -49,8 +43,7 @@ Future<bool> showConfirmDialogs(
         if (cancel.isNotEmpty)
           Button(
             child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+              padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
               child: Text(cancel),
             ),
             onPressed: () => Navigator.pop(context, false),
@@ -62,13 +55,15 @@ Future<bool> showConfirmDialogs(
 
 Future<String?> showInputDialogs(BuildContext context,
     {required String title,
-    required String content,
-    BoxConstraints? constraints,
-    String? initialValue,
-    List<TextInputFormatter>? inputFormatters}) async {
+      required String content,
+      BoxConstraints? constraints,
+      String? initialValue,
+      List<TextInputFormatter>? inputFormatters}) async {
   String? userInput;
-  constraints ??=
-      BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .38);
+  constraints ??= BoxConstraints(maxWidth: MediaQuery
+      .of(context)
+      .size
+      .width * .38);
   final ok = await showConfirmDialogs(
       context,
       title,
@@ -97,22 +92,20 @@ Future<String?> showInputDialogs(BuildContext context,
 }
 
 Future showBaseDialog(BuildContext context,
-    {required String title,
-    required Widget content,
-    List<Widget>? actions,
-    BoxConstraints? constraints}) async {
+    {required String title, required Widget content, List<Widget>? actions, BoxConstraints? constraints}) async {
   return await showDialog(
     context: context,
-    builder: (context) => ContentDialog(
-      title: Text(title),
-      content: content,
-      constraints: constraints ??
-          const BoxConstraints(
-            maxWidth: 512,
-            maxHeight: 756.0,
-          ),
-      actions: actions,
-    ),
+    builder: (context) =>
+        ContentDialog(
+          title: Text(title),
+          content: content,
+          constraints: constraints ??
+              const BoxConstraints(
+                maxWidth: 512,
+                maxHeight: 756.0,
+              ),
+          actions: actions,
+        ),
   );
 }
 
@@ -120,10 +113,8 @@ bool stringIsNotEmpty(String? s) {
   return s != null && (s.isNotEmpty);
 }
 
-Future<Uint8List?> widgetToPngImage(GlobalKey repaintBoundaryKey,
-    {double pixelRatio = 3.0}) async {
-  RenderRepaintBoundary? boundary = repaintBoundaryKey.currentContext
-      ?.findRenderObject() as RenderRepaintBoundary?;
+Future<Uint8List?> widgetToPngImage(GlobalKey repaintBoundaryKey, {double pixelRatio = 3.0}) async {
+  RenderRepaintBoundary? boundary = repaintBoundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
   if (boundary == null) return null;
 
   ui.Image image = await boundary.toImage(pixelRatio: pixelRatio);
@@ -133,11 +124,25 @@ Future<Uint8List?> widgetToPngImage(GlobalKey repaintBoundaryKey,
   return pngBytes;
 }
 
-double roundDoubleTo(double value, double precision) =>
-    (value * precision).round() / precision;
+double roundDoubleTo(double value, double precision) => (value * precision).round() / precision;
 
 int getMinNumber(List<int> list) {
   if (list.isEmpty) return 0;
   list.sort((a, b) => a.compareTo(b));
   return list.first;
+}
+
+String colorToHexCode(Color color, {ignoreTransparency = false}) {
+  final colorValue = color.toARGB32();
+  final colorAlpha = ((0xff000000 & colorValue) >> 24);
+  final r = ((0x00ff0000 & colorValue) >> 16).toRadixString(16).padLeft(2, '0');
+  final g = ((0x0000ff00 & colorValue) >> 8).toRadixString(16).padLeft(2, '0');
+  final b = ((0x000000ff & colorValue) >> 0).toRadixString(16).padLeft(2, '0');
+  final a = colorAlpha.toRadixString(16).padLeft(2, '0');
+
+  if (ignoreTransparency || colorAlpha == 255) {
+    return '#$r$g$b';
+  } else {
+    return '#$a$r$g$b';
+  }
 }

@@ -58,45 +58,35 @@ GoRouter router(Ref ref) {
     routes: [
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) =>
-            myPageBuilder(context, state, const SplashUI()),
+        pageBuilder: (context, state) => myPageBuilder(context, state, const SplashUI()),
       ),
       GoRoute(
         path: '/index',
-        pageBuilder: (context, state) =>
-            myPageBuilder(context, state, const IndexUI()),
+        pageBuilder: (context, state) => myPageBuilder(context, state, const IndexUI()),
         routes: [
           GoRoute(
               path: "downloader",
-              pageBuilder: (context, state) =>
-                  myPageBuilder(context, state, const HomeDownloaderUI())),
+              pageBuilder: (context, state) => myPageBuilder(context, state, const HomeDownloaderUI())),
           GoRoute(
             path: 'game_doctor',
-            pageBuilder: (context, state) =>
-                myPageBuilder(context, state, const HomeGameDoctorUI()),
+            pageBuilder: (context, state) => myPageBuilder(context, state, const HomeGameDoctorUI()),
           ),
           GoRoute(
             path: 'performance',
-            pageBuilder: (context, state) =>
-                myPageBuilder(context, state, const HomePerformanceUI()),
+            pageBuilder: (context, state) => myPageBuilder(context, state, const HomePerformanceUI()),
           ),
           GoRoute(
               path: 'advanced_localization',
-              pageBuilder: (context, state) =>
-                  myPageBuilder(context, state, const AdvancedLocalizationUI()))
+              pageBuilder: (context, state) => myPageBuilder(context, state, const AdvancedLocalizationUI()))
         ],
       ),
       GoRoute(path: '/tools', builder: (_, __) => const SizedBox(), routes: [
         GoRoute(
           path: 'unp4kc',
-          pageBuilder: (context, state) =>
-              myPageBuilder(context, state, const UnP4kcUI()),
+          pageBuilder: (context, state) => myPageBuilder(context, state, const UnP4kcUI()),
         ),
       ]),
-      GoRoute(
-          path: '/guide',
-          pageBuilder: (context, state) =>
-              myPageBuilder(context, state, const GuideUI()))
+      GoRoute(path: '/guide', pageBuilder: (context, state) => myPageBuilder(context, state, const GuideUI()))
     ],
   );
 }
@@ -218,11 +208,9 @@ class AppGlobalModel extends _$AppGlobalModel {
       AppConf.setNetworkChannels(networkVersionData.gameChannels);
       checkActivityThemeColor(networkVersionData);
       if (ConstConf.isMSE) {
-        dPrint(
-            "lastVersion=${networkVersionData.mSELastVersion}  ${networkVersionData.mSELastVersionCode}");
+        dPrint("lastVersion=${networkVersionData.mSELastVersion}  ${networkVersionData.mSELastVersionCode}");
       } else {
-        dPrint(
-            "lastVersion=${networkVersionData.lastVersion}  ${networkVersionData.lastVersionCode}");
+        dPrint("lastVersion=${networkVersionData.lastVersion}  ${networkVersionData.lastVersionCode}");
       }
       state = state.copyWith(networkVersionData: networkVersionData);
     } catch (e) {
@@ -234,23 +222,18 @@ class AppGlobalModel extends _$AppGlobalModel {
     if (state.networkVersionData == null) {
       if (!context.mounted) return false;
       await showToast(
-          context,
-          S.current.app_common_network_error(
-              ConstConf.appVersionDate, checkUpdateError.toString()));
+          context, S.current.app_common_network_error(ConstConf.appVersionDate, checkUpdateError.toString()));
       return false;
     }
     if (!Platform.isWindows) return false;
-    final lastVersion = ConstConf.isMSE
-        ? state.networkVersionData?.mSELastVersionCode
-        : state.networkVersionData?.lastVersionCode;
+    final lastVersion =
+        ConstConf.isMSE ? state.networkVersionData?.mSELastVersionCode : state.networkVersionData?.lastVersionCode;
     if ((lastVersion ?? 0) > ConstConf.appVersionCode) {
       // need update
       if (!context.mounted) return false;
 
-      final r = await showDialog(
-          dismissWithEsc: false,
-          context: context,
-          builder: (context) => const UpgradeDialogUI());
+      final r =
+          await showDialog(dismissWithEsc: false, context: context, builder: (context) => const UpgradeDialogUI());
 
       if (r != true) {
         if (!context.mounted) return false;
@@ -277,8 +260,8 @@ class AppGlobalModel extends _$AppGlobalModel {
 
     dPrint("now == $now  start == $startTime end == $endTime");
     if (now < startTime) {
-      _activityThemeColorTimer = Timer(Duration(milliseconds: startTime - now),
-          () => checkActivityThemeColor(networkVersionData));
+      _activityThemeColorTimer =
+          Timer(Duration(milliseconds: startTime - now), () => checkActivityThemeColor(networkVersionData));
       dPrint("start Timer ....");
     } else if (now >= startTime && now <= endTime) {
       dPrint("update Color ....");
@@ -286,17 +269,15 @@ class AppGlobalModel extends _$AppGlobalModel {
       final colorCfg = networkVersionData.activityColors;
       state = state.copyWith(
         themeConf: ThemeConf(
-          backgroundColor: HexColor(colorCfg?.background ?? "#132431")
-              .withValues(alpha: .75),
-          menuColor:
-              HexColor(colorCfg?.menu ?? "#132431").withValues(alpha: .95),
+          backgroundColor: HexColor(colorCfg?.background ?? "#132431").withValues(alpha: .75),
+          menuColor: HexColor(colorCfg?.menu ?? "#132431").withValues(alpha: .95),
           micaColor: HexColor(colorCfg?.mica ?? "#0A3142"),
         ),
       );
 
       // wait for end
-      _activityThemeColorTimer = Timer(Duration(milliseconds: endTime - now),
-          () => checkActivityThemeColor(networkVersionData));
+      _activityThemeColorTimer =
+          Timer(Duration(milliseconds: endTime - now), () => checkActivityThemeColor(networkVersionData));
     } else {
       dPrint("reset Color ....");
       state = state.copyWith(
@@ -317,9 +298,8 @@ class AppGlobalModel extends _$AppGlobalModel {
         await appConfBox.put("app_locale", null);
         return;
       }
-      final localeCode = value.countryCode != null
-          ? "${value.languageCode}_${value.countryCode ?? ""}"
-          : value.languageCode;
+      final localeCode =
+          value.countryCode != null ? "${value.languageCode}_${value.countryCode ?? ""}" : value.languageCode;
       dPrint("changeLocale == $value localeCode=== $localeCode");
       await appConfBox.put("app_locale", localeCode);
       state = state.copyWith(appLocale: value);
@@ -329,8 +309,7 @@ class AppGlobalModel extends _$AppGlobalModel {
   Future<String> _initAppDir() async {
     if (Platform.isWindows) {
       final userProfileDir = Platform.environment["USERPROFILE"];
-      final applicationSupportDir =
-          (await getApplicationSupportDirectory()).absolute.path;
+      final applicationSupportDir = (await getApplicationSupportDirectory()).absolute.path;
       String? applicationBinaryModuleDir;
       try {
         await initDPrintFile(applicationSupportDir);
@@ -338,8 +317,7 @@ class AppGlobalModel extends _$AppGlobalModel {
         dPrint("initDPrintFile Error: $e");
       }
       if (ConstConf.isMSE && userProfileDir != null) {
-        applicationBinaryModuleDir =
-            "$userProfileDir\\AppData\\Local\\Temp\\SCToolbox\\modules";
+        applicationBinaryModuleDir = "$userProfileDir\\AppData\\Local\\Temp\\SCToolbox\\modules";
       } else {
         applicationBinaryModuleDir = "$applicationSupportDir\\modules";
       }
@@ -351,8 +329,7 @@ class AppGlobalModel extends _$AppGlobalModel {
       );
       return applicationSupportDir;
     } else {
-      final applicationSupportDir =
-          (await getApplicationSupportDirectory()).absolute.path;
+      final applicationSupportDir = (await getApplicationSupportDirectory()).absolute.path;
       final applicationBinaryModuleDir = "$applicationSupportDir/modules";
       dPrint("applicationSupportDir == $applicationSupportDir");
       dPrint("applicationBinaryModuleDir == $applicationBinaryModuleDir");

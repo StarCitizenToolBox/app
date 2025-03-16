@@ -16,6 +16,7 @@ import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/common/utils/multi_window_manager.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/ui/home/downloader/home_downloader_ui_model.dart';
@@ -89,6 +90,13 @@ class ToolsUIModel extends _$ToolsUIModel {
           S.current.tools_action_info_hosts_acceleration_experimental_tip,
           const Icon(FluentIcons.virtual_network, size: 24),
           onTap: () => _doHostsBooster(context),
+        ),
+        ToolsItemData(
+          "log_analyze",
+          "log 分析器",
+          "分析您的游玩记录 （登录、死亡、击杀 等信息）",
+          Icon(FluentIcons.analytics_logo),
+          onTap: () => _showLogAnalyze(context),
         ),
         ToolsItemData(
           "rsilauncher_enhance_mod",
@@ -167,9 +175,8 @@ class ToolsUIModel extends _$ToolsUIModel {
         ToolsItemData(
           "remove_nvme_settings",
           S.current.tools_action_remove_nvme_registry_patch,
-          S.current.tools_action_info_nvme_patch_issue(nvmePatchStatus
-              ? S.current.localization_info_installed
-              : S.current.tools_action_info_not_installed),
+          S.current.tools_action_info_nvme_patch_issue(
+              nvmePatchStatus ? S.current.localization_info_installed : S.current.tools_action_info_not_installed),
           const Icon(FluentIcons.hard_drive, size: 24),
           onTap: nvmePatchStatus
               ? () async {
@@ -177,8 +184,7 @@ class ToolsUIModel extends _$ToolsUIModel {
                   await SystemHelper.doRemoveNvmePath();
                   state = state.copyWith(working: false);
                   if (!context.mounted) return;
-                  showToast(context,
-                      S.current.tools_action_info_removed_restart_effective);
+                  showToast(context, S.current.tools_action_info_removed_restart_effective);
                   loadToolsCard(context, skipPathScan: true);
                 }
               : null,
@@ -194,8 +200,7 @@ class ToolsUIModel extends _$ToolsUIModel {
             final r = await SystemHelper.addNvmePatch();
             if (r == "") {
               if (!context.mounted) return;
-              showToast(
-                  context, S.current.tools_action_info_fix_success_restart);
+              showToast(context, S.current.tools_action_info_fix_success_restart);
             } else {
               if (!context.mounted) return;
               showToast(context, S.current.doctor_action_result_fix_fail(r));
@@ -209,11 +214,11 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   Future<ToolsItemData> _addShaderCard(BuildContext context) async {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
-    final shaderSize = ((await SystemHelper.getDirLen(gameShaderCachePath ?? "",
-                skipPath: ["$gameShaderCachePath\\Crashes"])) /
-            1024 /
-            1024)
-        .toStringAsFixed(4);
+    final shaderSize =
+        ((await SystemHelper.getDirLen(gameShaderCachePath ?? "", skipPath: ["$gameShaderCachePath\\Crashes"])) /
+                1024 /
+                1024)
+            .toStringAsFixed(4);
     return ToolsItemData(
       "clean_shaders",
       S.current.tools_action_clear_shader_cache,
@@ -229,12 +234,8 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     return ToolsItemData(
       "photography_mode",
-      isEnable
-          ? S.current.tools_action_close_photography_mode
-          : S.current.tools_action_open_photography_mode,
-      isEnable
-          ? S.current.tools_action_info_restore_lens_shake
-          : S.current.tools_action_info_one_key_close_lens_shake,
+      isEnable ? S.current.tools_action_close_photography_mode : S.current.tools_action_open_photography_mode,
+      isEnable ? S.current.tools_action_info_restore_lens_shake : S.current.tools_action_info_one_key_close_lens_shake,
       const Icon(FontAwesomeIcons.camera, size: 24),
       onTap: () => _onChangePhotographyMode(context, isEnable),
     );
@@ -245,8 +246,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// -----------------------------------------------------------------------------------------
   /// -----------------------------------------------------------------------------------------
 
-  Future<void> reScanPath(BuildContext context,
-      {bool checkActive = false, bool skipToast = false}) async {
+  Future<void> reScanPath(BuildContext context, {bool checkActive = false, bool skipToast = false}) async {
     var scInstallPaths = <String>[];
     var rsiLauncherInstallPaths = <String>[];
     var scInstalledPath = "";
@@ -298,8 +298,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// 重装EAC
   Future<void> _reinstallEAC(BuildContext context) async {
     if (state.scInstalledPath.isEmpty) {
-      showToast(
-          context, S.current.tools_action_info_valid_game_directory_needed);
+      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
       return;
     }
     state = state.copyWith(working: true);
@@ -312,8 +311,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         final Map eacJson = json.decode(eacJsonData);
         final eacID = eacJson["productid"];
         if (eacID != null) {
-          final eacCacheDir =
-              Directory("${envVars["appdata"]}\\EasyAntiCheat\\$eacID");
+          final eacCacheDir = Directory("${envVars["appdata"]}\\EasyAntiCheat\\$eacID");
           if (await eacCacheDir.exists()) {
             await eacCacheDir.delete(recursive: true);
           }
@@ -323,8 +321,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (await dir.exists()) {
         await dir.delete(recursive: true);
       }
-      final eacLauncher =
-          File("${state.scInstalledPath}\\StarCitizen_Launcher.exe");
+      final eacLauncher = File("${state.scInstalledPath}\\StarCitizen_Launcher.exe");
       if (await eacLauncher.exists()) {
         await eacLauncher.delete(recursive: true);
       }
@@ -350,8 +347,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// 管理员模式运行 RSI 启动器
   Future _adminRSILauncher(BuildContext context) async {
     if (state.rsiLauncherInstalledPath == "") {
-      showToast(context,
-          S.current.tools_action_info_rsi_launcher_directory_not_found);
+      showToast(context, S.current.tools_action_info_rsi_launcher_directory_not_found);
     }
     SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
   }
@@ -375,8 +371,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         actions: [
           FilledButton(
             child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+              padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
               child: Text(S.current.action_close),
             ),
             onPressed: () => Navigator.pop(context),
@@ -390,8 +385,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   Future<void> _cleanShaderCache(BuildContext context) async {
     state = state.copyWith(working: true);
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
-    final l =
-        await Directory(gameShaderCachePath!).list(recursive: false).toList();
+    final l = await Directory(gameShaderCachePath!).list(recursive: false).toList();
     for (var value in l) {
       if (value is Directory) {
         if (!value.absolute.path.contains("Crashes")) {
@@ -410,10 +404,8 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
-      showToast(
-          context, S.current.tools_action_info_rsi_launcher_running_warning,
-          constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * .35));
+      showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
       return;
     }
 
@@ -427,20 +419,15 @@ class ToolsUIModel extends _$ToolsUIModel {
     try {
       state = state.copyWith(working: true);
       final aria2cManager = ref.read(aria2cModelProvider.notifier);
-      await aria2cManager
-          .launchDaemon(appGlobalState.applicationBinaryModuleDir!);
+      await aria2cManager.launchDaemon(appGlobalState.applicationBinaryModuleDir!);
       final aria2c = ref.read(aria2cModelProvider).aria2c!;
 
       // check download task list
-      for (var value in [
-        ...await aria2c.tellActive(),
-        ...await aria2c.tellWaiting(0, 100000)
-      ]) {
+      for (var value in [...await aria2c.tellActive(), ...await aria2c.tellWaiting(0, 100000)]) {
         final t = HomeDownloaderUIModel.getTaskTypeAndName(value);
         if (t.key == "torrent" && t.value.contains("Data.p4k")) {
           if (!context.mounted) return;
-          showToast(
-              context, S.current.tools_action_info_p4k_download_in_progress);
+          showToast(context, S.current.tools_action_info_p4k_download_in_progress);
           state = state.copyWith(working: false);
           return;
         }
@@ -449,15 +436,12 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (torrentUrl == "") {
         state = state.copyWith(working: false);
         if (!context.mounted) return;
-        showToast(
-            context, S.current.tools_action_info_function_under_maintenance);
+        showToast(context, S.current.tools_action_info_function_under_maintenance);
         return;
       }
 
-      final userSelect = await FilePicker.platform.saveFile(
-          initialDirectory: savePath,
-          fileName: fileName,
-          lockParentWindow: true);
+      final userSelect =
+          await FilePicker.platform.saveFile(initialDirectory: savePath, fileName: fileName, lockParentWindow: true);
       if (userSelect == null) {
         state = state.copyWith(working: false);
         return;
@@ -478,8 +462,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       }
       final b64Str = base64Encode(btData.data!);
 
-      final gid =
-          await aria2c.addTorrent(b64Str, extraParams: {"dir": savePath});
+      final gid = await aria2c.addTorrent(b64Str, extraParams: {"dir": savePath});
       state = state.copyWith(working: false);
       dPrint("Aria2cManager.aria2c.addUri resp === $gid");
       await aria2c.saveSession();
@@ -497,24 +480,19 @@ class ToolsUIModel extends _$ToolsUIModel {
     launchUrlString("https://support.citizenwiki.cn/d/8");
   }
 
-  Future<bool> _checkPhotographyStatus(BuildContext context,
-      {bool? setMode}) async {
+  Future<bool> _checkPhotographyStatus(BuildContext context, {bool? setMode}) async {
     final scInstalledPath = state.scInstalledPath;
     final keys = ["AudioShakeStrength", "CameraSpringMovement", "ShakeScale"];
-    final attributesFile = File(
-        "$scInstalledPath\\USER\\Client\\0\\Profiles\\default\\attributes.xml");
+    final attributesFile = File("$scInstalledPath\\USER\\Client\\0\\Profiles\\default\\attributes.xml");
     if (setMode == null) {
       bool isEnable = false;
       if (scInstalledPath.isNotEmpty) {
         if (await attributesFile.exists()) {
-          final xmlFile =
-              XmlDocument.parse(await attributesFile.readAsString());
+          final xmlFile = XmlDocument.parse(await attributesFile.readAsString());
           isEnable = true;
           for (var k in keys) {
             if (!isEnable) break;
-            final e = xmlFile.rootElement.children
-                .where((element) => element.getAttribute("name") == k)
-                .firstOrNull;
+            final e = xmlFile.rootElement.children.where((element) => element.getAttribute("name") == k).firstOrNull;
             if (e != null && e.getAttribute("value") == "0") {
             } else {
               isEnable = false;
@@ -531,8 +509,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       }
       final xmlFile = XmlDocument.parse(await attributesFile.readAsString());
       // clear all
-      xmlFile.rootElement.children.removeWhere(
-          (element) => keys.contains(element.getAttribute("name")));
+      xmlFile.rootElement.children.removeWhere((element) => keys.contains(element.getAttribute("name")));
       if (setMode) {
         for (var element in keys) {
           XmlElement newNode = XmlElement(XmlName('Attr'), [
@@ -550,8 +527,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   _onChangePhotographyMode(BuildContext context, bool isEnable) async {
-    _checkPhotographyStatus(context, setMode: !isEnable)
-        .unwrap(context: context);
+    _checkPhotographyStatus(context, setMode: !isEnable).unwrap(context: context);
     loadToolsCard(context, skipPathScan: true);
   }
 
@@ -564,23 +540,18 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   _doHostsBooster(BuildContext context) async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) => const HostsBoosterDialogUI());
+    showDialog(context: context, builder: (BuildContext context) => const HostsBoosterDialogUI());
   }
 
   _unp4kc(BuildContext context) async {
     context.push("/tools/unp4kc");
   }
 
-  static rsiEnhance(BuildContext context,
-      {bool showNotGameInstallMsg = false}) async {
+  static rsiEnhance(BuildContext context, {bool showNotGameInstallMsg = false}) async {
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
-      showToast(
-          context, S.current.tools_action_info_rsi_launcher_running_warning,
-          constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * .35));
+      showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
       return;
     }
     if (!context.mounted) return;
@@ -589,5 +560,14 @@ class ToolsUIModel extends _$ToolsUIModel {
         builder: (BuildContext context) => RsiLauncherEnhanceDialogUI(
               showNotGameInstallMsg: showNotGameInstallMsg,
             ));
+  }
+
+  _showLogAnalyze(BuildContext context) async {
+    if (state.scInstalledPath.isEmpty) {
+      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
+      return;
+    }
+    if (!context.mounted) return;
+    await MultiWindowManager.launchSubWindow("log_analyze", appGlobalState);
   }
 }

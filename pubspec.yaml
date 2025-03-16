@@ -66,6 +66,7 @@ dependencies:
   re_highlight: ^0.0.3
   shelf: ^1.4.1
   qr_flutter: ^4.1.0
+  desktop_multi_window: ^0.2.1
 dependency_overrides:
   http: ^1.1.2
 

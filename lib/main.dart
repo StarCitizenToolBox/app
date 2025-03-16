@@ -7,11 +7,16 @@ import 'package:window_manager/window_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app.dart';
+import 'common/utils/multi_window_manager.dart';
 
 void main(List<String> args) async {
   // webview window
   if (runWebViewTitleBarWidget(args,
       backgroundColor: const Color.fromRGBO(19, 36, 49, 1), builder: _defaultWebviewTitleBar)) {
+    return;
+  }
+  if (args.firstOrNull == 'multi_window') {
+    MultiWindowManager.runSubWindowApp(args);
     return;
   }
   WidgetsFlutterBinding.ensureInitialized();
