@@ -61,7 +61,7 @@ jobs:
                     flutter pub global activate intl_utils
                     flutter pub global run intl_utils:generate
             - name: Flutter build Windows
-              run: flutter build windows
+              run: flutter build windows -v
 
             - name: Archive build
               uses: actions/upload-artifact@v4
