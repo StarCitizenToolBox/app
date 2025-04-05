@@ -282,7 +282,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     if (match != null) {
       final dateTimeString = match.group(1);
       if (dateTimeString != null) {
-        return DateTime.parse(dateTimeString);
+        return DateTime.parse(dateTimeString).toLocal();
       }
     }
     return null;
