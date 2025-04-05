@@ -20,252 +20,245 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(v0) => "Error: ${v0}";
+  static String m0(v0) => "An error occurred: ${v0}";
 
   static String m1(v0, v1) =>
-      "Network connection failed! \nEntering offline mode... \n\nPlease check the network connection or get the latest information in the social forum. You can try to enable the built-in DNS mode in the application settings \nCurrent version build date: ${v0}\nQQ group: 940696487 \nError message: ${v1}";
+      "Network connection failed!\nEntering offline mode...\n\nPlease check your network connection or get the latest information on social forums. You can try enabling built-in DNS mode in the app settings\nCurrent version build date: ${v0}\nQQ group: 940696487\nError message: ${v1}";
 
-  static String m2(v0, v1) => "SCToolBox V ${v0} ${v1}";
+  static String m2(v0, v1) => "SCToolbox V${v0} ${v1}";
 
-  static String m3(v0) => "Initialization failure: ${v0}";
+  static String m3(v0) => "Initialization failed: ${v0}";
 
-  static String m4(v0) => "Downloading: ${v0}%    ";
+  static String m4(v0) => "Downloading: ${v0}% ";
 
-  static String m5(v0) => "Discover the new version-> ${v0}";
+  static String m5(v0) => "New version found -> ${v0}";
 
   static String m6(v0) => "Game abnormal exit: ${v0}";
 
   static String m7(v0) =>
-      "Info: ${v0}, please click to add group feedback in the lower right corner.";
+      "info:${v0}, please click the bottom right corner to join the group for feedback.";
 
-  static String m8(v0) => "After the analysis, I found that ${v0} questions";
+  static String m8(v0) => "Analysis complete, found ${v0} issues";
 
   static String m9(v0, v1) =>
-      "Create a folder failed, please try to create manually.\nDirectory: ${v0}\nError: ${v1}";
+      "Failed to create folder, please try to create it manually.\nDirectory: ${v0} \nError: ${v1}";
 
-  static String m10(v0) => "Failure to repair, ${v0}";
+  static String m10(v0) => "Fix failed, ${v0}";
 
-  static String m11(v0) => "Operating system that does not support: ${v0}";
+  static String m11(v0) => "Unsupported operating system: ${v0}";
 
   static String m12(v0) =>
-      "Add ForcedPhysicalsectorsizeinbytes value to the registry item to simulate old devices. Hard disk partition (${v0})";
+      "Add ForcedPhysicalSectorSizeInBytes value to registry to simulate old devices. Hard disk partition (${v0})";
 
   static String m13(v0) =>
-      "No-English installation path! This may cause the game to start/install errors! (${v0}), please replace the installation path at the RSI Launcher.";
+      "Chinese installation path! This may cause game startup/installation errors! (${v0}), please change the installation path in the RSI Launcher.";
 
   static String m14(v0) =>
-      "Click to fix the Live folder for you, and install it after completion. (${v0})";
+      "Click to fix and create LIVE folder for you, then retry installation. (${v0})";
 
-  static String m15(v0) => "Repair suggestions: ${v0}";
+  static String m15(v0) => "Fix suggestion: ${v0}";
 
   static String m16(v0) =>
-      "You need at least 16GB of physical memory (Memory) to run this game. (Current size: ${v0})";
+      "You need at least 16GB of physical memory (RAM) to run this game. (Current size: ${v0})";
 
   static String m17(v0) => "Please upgrade your system (${v0})";
 
-  static String m18(v0) => "One -click diagnosis-> ${v0}";
+  static String m18(v0) => "One-Click Diagnosis -> ${v0}";
 
-  static String m19(v0, v1) => "Download: ${v0}/s Upload: ${v1}/s";
+  static String m19(v0, v1) => "Download: ${v0}/s    Upload: ${v1}/s";
 
   static String m20(v0) => "Downloaded: ${v0}";
 
-  static String m21(v0) => "Download ... (${v0}%)";
+  static String m21(v0) => "Downloading... (${v0}%)";
 
   static String m22(v0) => "Status: ${v0}";
 
-  static String m23(v1) => "Total size: ${v1}";
+  static String m23(v1) => "Total Size: ${v1}";
 
   static String m24(v0) => "Uploaded: ${v0}";
 
-  static String m25(v2) => "In the verification ... (${v2})";
+  static String m25(v2) => "Verifying... (${v2})";
 
   static String m26(v0, v1, v2, v3, v4) =>
-      "The game exits normally\nexitCode = ${v0}\nstdout = ${v1}\nstderr = ${v2}\n\nDiagnostic information: ${v3}\n${v4}";
+      "Game exited abnormally\nexitCode=${v0}\nstdout=${v1}\nstderr=${v2}\n\nDiagnostic information: ${v3} \n${v4}";
 
   static String m27(v0) =>
-      "Initialized webpage Localization resources failed! ${v0}";
+      "Failed to initialize web localization resources! ${v0}";
 
   static String m28(v0) =>
-      "Scan completed, find ${v0} valid installation directory";
+      "Scan complete, found ${v0} valid installation directories";
 
-  static String m29(v0) => "${v0} Day  ";
+  static String m29(v0) => "${v0} days ";
 
-  static String m30(v0) => "Localization version has been loaded: ${v0}";
+  static String m30(v0) => "Loaded localization version: ${v0}";
 
   static String m31(v0) => "Advanced Localization -> ${v0}";
 
   static String m32(v0, v1) =>
-      "Localization text lines: ${v0} P4K text lines: ${v1}";
+      "Localization text lines: ${v0}  P4K text lines: ${v1}";
 
   static String m33(v0) => "Preview: ${v0}";
 
   static String m34(v0) =>
-      "You have a new version of the Localization you installed in ${v0}!";
+      "There\'s a new version of the localization you installed on ${v0}!";
 
   static String m35(v1, v2) =>
-      "RSI server report version number: ${v1}\n\nLocal version number: ${v2}\n\nIt is recommended to use RSI Launcher to update the game!";
+      "RSI Server reports version: ${v1} \n\nLocal version: ${v2} \n\nIt is recommended to use RSI Launcher to update the game!";
 
-  static String m36(v0) => "Community input method support: ${v0}";
+  static String m36(v0) => "Community Input Method Support: ${v0}";
 
-  static String m37(v0) =>
-      "Community input method support has been updated to: ${v0}";
+  static String m37(v0) => "Community input method support updated to: ${v0}";
 
   static String m38(v0) => "Channel: ${v0}";
 
-  static String m39(v0) => "Enable (${v0}):";
+  static String m39(v0) => "Enabled (${v0}):";
 
-  static String m40(v0) => "Install an error!\n\n ${v0}";
+  static String m40(v0) => "Installation error!\n\n ${v0}";
 
-  static String m41(v0) => "The installed version: ${v0}";
+  static String m41(v0) => "Installed version: ${v0}";
 
-  static String m42(v0) => "Update Time: ${v0}";
+  static String m42(v0) => "Update time: ${v0}";
 
   static String m43(v0) => "Version number: ${v0}";
 
   static String m44(v0, v1, v2, v3, v4) =>
-      "Area: ${v0}   Player Driving: ${v1}   Collision Entity: ${v2} \nCollision Vehicle: ${v3}   Collision Distance: ${v4} ";
+      "Area: ${v0}   Player driving: ${v1}   Collision entity: ${v2} \nCollision vehicle: ${v3}   Collision distance: ${v4} ";
 
   static String m45(v0, v1, v2, v3) =>
-      "Victim ID: ${v0}    Cause of Death: ${v1} \nKiller ID: ${v2}  \nArea: ${v3}";
+      "Victim ID: ${v0}    Cause of death: ${v1} \nKiller ID: ${v2}  \nArea: ${v3}";
 
-  static String m46(v0) => "Details: ${v0}";
+  static String m46(v0) => "Detailed information: ${v0}";
 
   static String m47(v0, v1, v2) =>
       "Kills: ${v0}   Deaths: ${v1}   Suicides: ${v2}";
 
-  static String m48(v0, v1) => "Mode: ${v0}   Time: ${v1} seconds";
+  static String m48(v0, v1) => "Mode: ${v0}   Time taken: ${v1} seconds";
 
   static String m49(v0, v1, v2) => "${v0} hours ${v1} minutes ${v2} seconds";
 
   static String m50(v0, v1) => "Player ID: ${v0}   Location: ${v1}";
 
-  static String m51(v0) => "Player ${v0} logged in ...";
+  static String m51(v0) => "Player ${v0} logged in...";
 
   static String m52(v0, v1, v2, v3, v4) =>
-      "Vehicle Model: ${v0}   \nArea: ${v1} \nDamage Level: ${v2} (${v3})   Responsible Party: ${v4}";
+      "Vehicle model: ${v0}   \nArea: ${v1} \nDamage level: ${v2} (${v3})   Responsible party: ${v4}";
 
   static String m53(v0) => "Current status: ${v0}";
 
   static String m54(v0, v1, v2) =>
-      "${v0} minimum value: ${v1} / maximum value: ${v2}";
+      "${v0}    Min value: ${v1} / Max value: ${v2}";
 
   static String m55(v0) => "Performance Optimization -> ${v0}";
 
   static String m56(v0) =>
-      "The cache size ${v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization";
+      "Cache size ${v0}MB, clears the localization file cache downloaded by SCToolbox, does not affect installed localizations";
 
   static String m57(v0) =>
-      "Core quantity that has been set: ${v0} (This function is suitable for the box -click startup or RSI Launcher manager mode on the homepage, which is not enabled when it is 0)";
+      "Number of cores set: ${v0} (This feature applies to SCToolbox one-click launch on the homepage or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled)";
 
   static String m58(v0) =>
-      "Failure to clean up, please remove manually, file location: ${v0}";
+      "Cleanup failed, please remove manually, file location: ${v0}";
 
-  static String m59(v0) => "Error: ${v0}";
+  static String m59(v0) => "An error occurred: ${v0}";
 
   static String m60(v0) =>
-      "Initialization failed, please take a screenshot report to the developer. ${v0}";
+      "Initialization failed, please take a screenshot to report to the developer. ${v0}";
 
   static String m61(v0) =>
-      "If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: ${v0}";
+      "If you have issues with the nvme patch, please run this tool. (May cause game installation/updates to be unavailable.)\n\nCurrent patch status: ${v0}";
 
   static String m62(v0) =>
-      "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:${v0}";
+      "Use the diversion download service provided by Star Citizen Chinese Wiki for downloading or repairing p4k.\nVersion info: ${v0}";
 
   static String m63(v0) =>
-      "In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: ${v0} MB";
+      "In some cases, the log file of the RSI Launcher may be corrupted, preventing problem scanning from completing. Use this tool to clean up corrupted log files.\n\nCurrent log file size: ${v0} MB";
 
   static String m64(v0) =>
-      "If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: ${v0} MB";
+      "If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders (also restores Vulkan to DX11)\n\nCache size: ${v0} MB";
 
   static String m65(v0, v1, v2, v3, v4) =>
-      "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nStorage information:\n${v4}\n\n";
+      "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2}GB\n\nGPU information:\n${v3}\n\nStorage information:\n${v4}\n\n";
 
-  static String m66(v0) => "Failure to handle! : ${v0}";
+  static String m66(v0) => "Processing failed!: ${v0}";
 
-  static String m67(v0) => "Read the RSI Launcher information failure: ${v0}";
+  static String m67(v0) => "Failed to read launcher information: ${v0}";
 
   static String m68(v0) => "Patch status: ${v0}";
 
-  static String m69(v0) =>
-      "Internal version information of the RSI Launcher: ${v0}";
+  static String m69(v0) => "Launcher internal version information: ${v0}";
 
-  static String m70(v0) => "Open the file: ${v0}";
+  static String m70(v0) => "Opening file: ${v0}";
 
-  static String m71(v0, v1) => "After loading: ${v0} a file, time: ${v1} ms";
+  static String m71(v0, v1) =>
+      "Loading complete: ${v0} files, time taken: ${v1} ms";
 
-  static String m72(v0) => "Read file: ${v0} ...";
+  static String m72(v0) => "Reading file: ${v0}...";
 
-  static String m73(v0, v1) => "Processing files (${v0}/${v1}) ...";
+  static String m73(v0, v1) => "Processing files (${v0}/${v1})...";
 
   static String m74(v0) => "Unknown file type\n${v0}";
 
-  static String m75(v0) => "P4k viewer -> ${v0}";
+  static String m75(v0) => "P4K Viewer -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "about_action_btn_faq": MessageLookupByLibrary.simpleMessage(
-      "Common problem",
-    ),
+    "about_action_btn_faq": MessageLookupByLibrary.simpleMessage("FAQ"),
     "about_action_email": MessageLookupByLibrary.simpleMessage(
       "Email: xkeyc@qq.com",
     ),
     "about_action_open_source": MessageLookupByLibrary.simpleMessage(
-      "Open source",
+      "Open Source",
     ),
     "about_action_qq_group": MessageLookupByLibrary.simpleMessage(
-      "QQ group: 940696487",
+      "QQ Group: 940696487",
     ),
     "about_analytics_install_translation": MessageLookupByLibrary.simpleMessage(
-      "Localization installs",
+      "Localization Installation",
     ),
-    "about_analytics_launch": MessageLookupByLibrary.simpleMessage("Start up"),
+    "about_analytics_launch": MessageLookupByLibrary.simpleMessage("Launch"),
     "about_analytics_launch_game": MessageLookupByLibrary.simpleMessage(
-      "Game launches",
+      "Launch Game",
     ),
     "about_analytics_p4k_redirection": MessageLookupByLibrary.simpleMessage(
-      "P4k diversion",
+      "P4K Redirection",
     ),
     "about_analytics_performance_optimization":
-        MessageLookupByLibrary.simpleMessage("Performance tuning"),
+        MessageLookupByLibrary.simpleMessage("Performance Optimization"),
     "about_analytics_total_users": MessageLookupByLibrary.simpleMessage(
-      "Cumulative users",
+      "Total Users",
     ),
     "about_analytics_units_times": MessageLookupByLibrary.simpleMessage(
-      "Times",
+      "times",
     ),
     "about_analytics_units_user": MessageLookupByLibrary.simpleMessage("users"),
     "about_app_description": MessageLookupByLibrary.simpleMessage(
-      "Not just about localization!\n\nThe SCToolBox is your helper to explore the verse. We are committed to solving common in-game problems for citizens, in addition to facilitating localization from the community, game performance tuning, and localization of some commonly used website.",
+      "Not just Localization!\n\nSCToolbox is your excellent companion for exploring the universe. We are dedicated to solving common in-game issues for citizens and facilitating community Localization, performance optimization, and Localization for popular websites.",
     ),
     "about_check_update": MessageLookupByLibrary.simpleMessage(
-      "Check for updates",
+      "Check for Updates",
     ),
     "about_disclaimer": MessageLookupByLibrary.simpleMessage(
-      "This is an unofficial Star Citizen fan-made tools, not affiliated with the Cloud Imperium group of companies. All content on this Software not authored by its host or users are property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.",
+      "This is an unofficial Star Citizen tool and is not affiliated with the Cloud Imperium Group. All content not created by its hosts or users remains the property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.",
     ),
     "about_info_latest_version": MessageLookupByLibrary.simpleMessage(
-      "It is already the latest version!",
+      "Already the latest version!",
     ),
     "about_online_feedback": MessageLookupByLibrary.simpleMessage(
-      "Online feedback",
+      "Online Feedback",
     ),
     "action_close": MessageLookupByLibrary.simpleMessage("Close"),
-    "action_open_folder": MessageLookupByLibrary.simpleMessage(
-      "Open the folder",
-    ),
+    "action_open_folder": MessageLookupByLibrary.simpleMessage("Open Folder"),
     "app_common_error_info": m0,
     "app_common_loading_images": MessageLookupByLibrary.simpleMessage(
-      "Loading image ...",
+      "Loading images...",
     ),
     "app_common_network_error": m1,
-    "app_common_tip": MessageLookupByLibrary.simpleMessage("Hint"),
+    "app_common_tip": MessageLookupByLibrary.simpleMessage("Tip"),
     "app_common_tip_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "app_common_tip_confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
-    "app_common_tip_i_know": MessageLookupByLibrary.simpleMessage(
-      "I understand",
-    ),
+    "app_common_tip_i_know": MessageLookupByLibrary.simpleMessage("I know"),
     "app_common_upgrade_info_error": MessageLookupByLibrary.simpleMessage(
-      "If the update information fails, please try it later.",
+      "Failed to get update information, please try again later.",
     ),
     "app_index_menu_about": MessageLookupByLibrary.simpleMessage("About"),
     "app_index_menu_home": MessageLookupByLibrary.simpleMessage("Home"),
@@ -276,267 +269,273 @@ class MessageLookup extends MessageLookupByLibrary {
     "app_init_failed_with_reason": m3,
     "app_language_code": MessageLookupByLibrary.simpleMessage("en"),
     "app_language_name": MessageLookupByLibrary.simpleMessage("English"),
-    "app_shortcut_name": MessageLookupByLibrary.simpleMessage("SCToolBox.lnk"),
+    "app_shortcut_name": MessageLookupByLibrary.simpleMessage(
+      "SCToolboxDEV.lnk",
+    ),
     "app_splash_almost_done": MessageLookupByLibrary.simpleMessage(
-      "Finish quickly…",
+      "Almost done...",
     ),
     "app_splash_checking_availability": MessageLookupByLibrary.simpleMessage(
-      "It is detection availability, which may take a little time ...",
+      "Checking availability, this may take a moment...",
     ),
     "app_splash_checking_for_updates": MessageLookupByLibrary.simpleMessage(
-      "Inspection and update ...",
+      "Checking for updates...",
     ),
     "app_splash_dialog_u_a_p_p": MessageLookupByLibrary.simpleMessage(
       "User Agreement and Privacy Policy",
     ),
     "app_splash_dialog_u_a_p_p_content": MessageLookupByLibrary.simpleMessage(
-      "Thank you for choosing the SCToolBox box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us.",
+      "Thank you for choosing SCToolbox. We are committed to providing you with a safe, convenient, and reliable user experience. Before you start using the application, please read and agree to the following content:\n\n1. This application is open source software under the GNU General Public License v3.0, which you can freely use, modify, and distribute in compliance with the license. Our source code is located at: [Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app).\n2. Internet content in this application (including but not limited to localization files, tool websites, news, videos, etc.) is copyrighted by its authors and is not part of the GPL. Please use it in compliance with the corresponding authorization agreements.\n3. The official free distribution channels for this application are: [Microsoft App Store](https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Star Citizen Chinese Localization Team Website](https://www.starcitizenzw.com/). If you obtained it from third parties, please carefully verify to avoid financial loss.\n4. This application sends anonymous statistical data to our servers during use to improve software quality. We do not collect any of your personal privacy information.\n5. This application is community-supported and has no direct affiliation with Cloud Imperium Games or other third-party commercial companies.\n6. We provide limited community support. If needed, please visit the About page to learn how to contact us.",
     ),
     "app_upgrade_action_next_time": MessageLookupByLibrary.simpleMessage(
-      "Next time",
+      "Next Time",
     ),
     "app_upgrade_action_update_now": MessageLookupByLibrary.simpleMessage(
-      "Update immediately",
+      "Update Now",
     ),
     "app_upgrade_info_download_failed": MessageLookupByLibrary.simpleMessage(
-      "Failure to download, please try to install manually!",
+      "Download failed, please try manual installation!",
     ),
     "app_upgrade_info_downloading": m4,
     "app_upgrade_info_getting_new_version_details":
-        MessageLookupByLibrary.simpleMessage("Get the new version details ..."),
+        MessageLookupByLibrary.simpleMessage("Getting new version details..."),
     "app_upgrade_info_installing": MessageLookupByLibrary.simpleMessage(
-      "Installing:   ",
+      "Installing: ",
     ),
     "app_upgrade_info_run_failed": MessageLookupByLibrary.simpleMessage(
-      "Failure to run, try to install manually!",
+      "Run failed, please try manual installation!",
     ),
     "app_upgrade_info_update_server_tip": MessageLookupByLibrary.simpleMessage(
-      "Tip: The current diversion server is updated, and the download speed may decline, but it will help us perform cost control. If you download the exception, please click here to jump and manually install it.",
+      "Note: Currently using diversion server for updates, which may result in decreased download speed but helps us with cost control. If the download is abnormal, please click here to switch to manual installation.",
     ),
     "app_upgrade_title_new_version_found": m5,
     "doctor_action_analyzing": MessageLookupByLibrary.simpleMessage(
-      "Analysing...",
+      "Analyzing...",
     ),
     "doctor_action_game_run_log": MessageLookupByLibrary.simpleMessage(
-      "Game running log",
+      "Game run log",
     ),
     "doctor_action_info_checking_eac": MessageLookupByLibrary.simpleMessage(
-      "Inspection: EAC",
+      "Checking: EAC",
     ),
     "doctor_action_info_checking_install_info":
         MessageLookupByLibrary.simpleMessage(
-          "Inspection: Installation information",
+          "Checking: Installation information",
         ),
     "doctor_action_info_checking_runtime": MessageLookupByLibrary.simpleMessage(
-      "Inspection: operating environment",
+      "Checking: Runtime environment",
     ),
     "doctor_action_info_game_abnormal_exit": m6,
     "doctor_action_info_game_abnormal_exit_unknown":
         MessageLookupByLibrary.simpleMessage(
-          "Game abnormal exit: unknown abnormalities",
+          "Game abnormal exit: Unknown exception",
         ),
     "doctor_action_info_info_feedback": m7,
     "doctor_action_result_analysis_issues_found": m8,
     "doctor_action_result_analysis_no_issue":
         MessageLookupByLibrary.simpleMessage(
-          "After the analysis, no problems are found",
+          "Analysis complete, no issues found",
         ),
     "doctor_action_result_create_folder_fail": m9,
     "doctor_action_result_create_folder_success":
         MessageLookupByLibrary.simpleMessage(
-          "Create a folder success, try to continue download the game!",
+          "Folder creation successful, please try to continue downloading the game!",
         ),
     "doctor_action_result_fix_fail": m10,
     "doctor_action_result_fix_success": MessageLookupByLibrary.simpleMessage(
-      "If the repair is successful, try to restart and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.",
+      "Fix successful, please try restarting and continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME registry cleaner in the Tools section.",
     ),
     "doctor_action_result_game_start_success": MessageLookupByLibrary.simpleMessage(
-      "If the repair is successful, try to start the game. (If the problem cannot be solved, please use the toolbox\'s \"Reinstall EAC\")",
+      "Fix successful, please try to start the game. (If the problem persists, please use the \'Reinstall EAC\' tool in the toolbox)",
     ),
     "doctor_action_result_info_unsupported_os": m11,
     "doctor_action_result_issue_not_supported":
         MessageLookupByLibrary.simpleMessage(
-          "This problem does not support automatic processing for the time being, please provide screenshots for help",
+          "This issue is not currently supported for automatic handling, please provide screenshots to seek help",
         ),
     "doctor_action_result_redirect_warning": MessageLookupByLibrary.simpleMessage(
-      "The tutorial is about to jump, the tutorial comes from the Internet, please operate carefully ...",
+      "About to redirect, the tutorial is from the internet, please proceed with caution...",
     ),
     "doctor_action_result_toast_scan_no_issue":
         MessageLookupByLibrary.simpleMessage(
-          "After scanning, no problem is found. If you still fail, try to use the RSI Launcher administrator mode in the toolbox.",
+          "Scan complete, no issues found. If installation still fails, please try using the RSI Launcher in administrator mode from the toolbox.",
         ),
     "doctor_action_result_try_latest_windows": MessageLookupByLibrary.simpleMessage(
-      "If your hardware meets the standard, try to install the latest Windows system.",
+      "If your hardware meets the requirements, please try installing the latest Windows system.",
     ),
     "doctor_action_rsi_launcher_log": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher log",
     ),
     "doctor_action_tip_checking_game_log": MessageLookupByLibrary.simpleMessage(
-      "Inspection: Game.log",
+      "Checking: Game.log",
     ),
     "doctor_action_view_details": MessageLookupByLibrary.simpleMessage(
-      "Check the details",
+      "View Details",
     ),
     "doctor_action_view_solution": MessageLookupByLibrary.simpleMessage(
-      "View solution",
+      "View Solution",
     ),
     "doctor_game_error_game_damaged_file": MessageLookupByLibrary.simpleMessage(
-      "Game program file damage",
+      "Game program files corrupted",
     ),
     "doctor_game_error_game_damaged_file_info":
         MessageLookupByLibrary.simpleMessage(
-          "Please try to delete the Bin64 folder and check in the launcher.",
+          "Please try deleting the Bin64 folder and verify in the launcher.",
         ),
     "doctor_game_error_game_damaged_p4k_file":
-        MessageLookupByLibrary.simpleMessage("P4K file damage"),
+        MessageLookupByLibrary.simpleMessage("P4K file corrupted"),
     "doctor_game_error_game_damaged_p4k_file_info":
         MessageLookupByLibrary.simpleMessage(
-          "Please try to delete the data.p4k file and check or use the box to divert in the promoter.",
+          "Please try deleting the Data.p4k file and verify in the launcher or use the diversion in SCToolbox.",
         ),
     "doctor_game_error_game_process_error":
-        MessageLookupByLibrary.simpleMessage("The game process is occupied"),
+        MessageLookupByLibrary.simpleMessage("Game process is in use"),
     "doctor_game_error_game_process_error_info":
         MessageLookupByLibrary.simpleMessage(
-          "Please try to restart the RSI Launcher, or restart the computer directly",
+          "Please try restarting the launcher or restarting your computer directly",
         ),
     "doctor_game_error_generic_info": MessageLookupByLibrary.simpleMessage(
-      "The game triggered a generic crash, please check the trouble shooting guide",
+      "The game triggered the most common crash issue, please check the troubleshooting guide",
     ),
     "doctor_game_error_gpu_crash": MessageLookupByLibrary.simpleMessage(
-      "Your graphics card crashes! Please check the barrier guide",
+      "Your GPU has crashed! Please check the troubleshooting guide",
     ),
     "doctor_game_error_gpu_vulkan_crash": MessageLookupByLibrary.simpleMessage(
-      "GPU Vulkan Crash",
+      "GPU Vulkan crash",
     ),
     "doctor_game_error_gpu_vulkan_crash_info": MessageLookupByLibrary.simpleMessage(
-      "Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11",
+      "Vulkan crash! This may be a driver version or game engine issue. Please try updating GPU drivers or use the clear shader feature to fall back to DX11",
     ),
     "doctor_game_error_low_gpu_memory": MessageLookupByLibrary.simpleMessage(
-      "Insufficient VRAM",
+      "Insufficient GPU memory",
     ),
     "doctor_game_error_low_gpu_memory_info": MessageLookupByLibrary.simpleMessage(
-      "Please do not run the game/application occupied by other high graphics cards in the background, or change the graphics card.",
+      "Please don\'t run other games/applications with high GPU usage in the background, or upgrade your GPU.",
     ),
     "doctor_game_error_low_memory": MessageLookupByLibrary.simpleMessage(
-      "Insufficient memory",
+      "Insufficient available memory",
     ),
     "doctor_game_error_low_memory_info": MessageLookupByLibrary.simpleMessage(
-      "Please try to increase virtual memory (under 1080P, physical available+virtual memory need> 64g)",
+      "Please try increasing virtual memory (at 1080p, physical available + virtual memory should be > 64GB)",
     ),
     "doctor_game_error_permissions_error": MessageLookupByLibrary.simpleMessage(
       "Insufficient permissions",
     ),
     "doctor_game_error_permissions_error_info":
         MessageLookupByLibrary.simpleMessage(
-          "Please try to run a RSI Launcher at the administrator authority, or use the box (Microsoft Store version) to start.",
+          "Please try running the launcher with administrator privileges or use SCToolbox (Microsoft Store version) to launch.",
         ),
     "doctor_game_error_socket_error": MessageLookupByLibrary.simpleMessage(
-      "Detected SOCKET abnormalities",
+      "Socket error detected",
     ),
     "doctor_game_error_socket_error_info": MessageLookupByLibrary.simpleMessage(
-      "If you use the X black box accelerator, try to replace the acceleration mode",
+      "If using X-Black Box accelerator, please try changing the acceleration mode",
     ),
-    "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("Repair"),
+    "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("Fix"),
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
-      "You are about to go to the game abnormal rescue services provided by the Deep Space Treatment Center (QQ group number: 536454632), which mainly solve the failure and frequent flashback of game installation. If you are a gameplay problem, please do not add groups.",
+      "You are about to access the game anomaly rescue service provided by Deep Space Treatment Center (QQ Group: 536454632), which mainly solves game installation failures and frequent crashes. Please do not join the group for gameplay issues.",
     ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
-      "Need help? Click to seek free artificial support!",
+      "Need help? Click to join the group for free human support!",
     ),
     "doctor_info_processing": MessageLookupByLibrary.simpleMessage(
-      "Treatment ...",
+      "Processing...",
     ),
     "doctor_info_result_add_registry_value": m12,
     "doctor_info_result_chinese_install_path":
-        MessageLookupByLibrary.simpleMessage("No-English installation path!"),
+        MessageLookupByLibrary.simpleMessage("Chinese installation path!"),
     "doctor_info_result_chinese_install_path_error": m13,
     "doctor_info_result_chinese_username": MessageLookupByLibrary.simpleMessage(
-      "No-English username!",
+      "Chinese username!",
     ),
     "doctor_info_result_chinese_username_error":
         MessageLookupByLibrary.simpleMessage(
-          "The No-English username may cause the game to start/install errors! Click the repair button to view the modification tutorial!",
+          "Chinese username may cause game startup/installation errors! Click the fix button to view the modification tutorial!",
         ),
     "doctor_info_result_create_live_folder": m14,
     "doctor_info_result_easyanticheat_not_installed":
         MessageLookupByLibrary.simpleMessage(
-          "Easyanticheat is not installed or not withdrawn normally",
+          "EasyAntiCheat not installed or abnormal exit",
         ),
     "doctor_info_result_fix_suggestion": m15,
     "doctor_info_result_incompatible_nvme_device":
         MessageLookupByLibrary.simpleMessage(
-          "The new NVME device is not compatible with the RSI Launcher for the time being, which may cause the installation to fail",
+          "New type NVME device, not compatible with RSI Launcher, may cause installation failure",
         ),
     "doctor_info_result_install_easyanticheat":
         MessageLookupByLibrary.simpleMessage(
-          "Easyanticheat is not installed, please click to repair it for you one click. (Before the game starts normally and ends, the problem will always appear. If you retreat for other reasons, you can ignore this entry)",
+          "EasyAntiCheat is not installed, please click fix to install it with one click. (This issue will persist until the game starts and exits normally. If your game crashes for other reasons, you can ignore this entry)",
         ),
     "doctor_info_result_low_physical_memory":
-        MessageLookupByLibrary.simpleMessage("Paralying memory is too low"),
+        MessageLookupByLibrary.simpleMessage("Low physical memory"),
     "doctor_info_result_memory_requirement": m16,
     "doctor_info_result_missing_easyanticheat_files":
-        MessageLookupByLibrary.simpleMessage("Easyanticheat file loss"),
+        MessageLookupByLibrary.simpleMessage("EasyAntiCheat files missing"),
     "doctor_info_result_missing_live_folder": MessageLookupByLibrary.simpleMessage(
-      "The installation directory lacks a Live folder, which may cause the installation to fail",
+      "Installation directory is missing LIVE folder, may cause installation failure",
     ),
     "doctor_info_result_no_solution": MessageLookupByLibrary.simpleMessage(
-      "No solution, please take screenshots feedback",
+      "No solution available yet, please take a screenshot and report feedback",
     ),
     "doctor_info_result_unsupported_os": MessageLookupByLibrary.simpleMessage(
-      "The operating system that does not support, the game may not be able to run",
+      "Unsupported operating system, the game may not run",
     ),
     "doctor_info_result_upgrade_system": m17,
     "doctor_info_result_verify_files_with_rsi_launcher":
         MessageLookupByLibrary.simpleMessage(
-          "Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI Launcher to check the file",
+          "EasyAntiCheat files not found in LIVE folder or files are incomplete, please use RSI Launcher to verify files",
         ),
     "doctor_info_scan_complete_no_issues": MessageLookupByLibrary.simpleMessage(
-      "After scanning, no problem was found!",
+      "Scan complete, no issues found!",
     ),
     "doctor_info_tool_check_result_note": MessageLookupByLibrary.simpleMessage(
-      "Note: The test results of this tool are for reference only. If you do not understand the following operations, please provide screenshots for experienced players!",
+      "Note: The detection results of this tool are for reference only. If you do not understand the following operations, please provide screenshots to experienced players!",
     ),
     "doctor_tip_title_select_game_directory":
         MessageLookupByLibrary.simpleMessage(
-          "Please select the game installation directory on the homepage.",
+          "Please select the game installation directory on the home page.",
         ),
     "doctor_title_one_click_diagnosis": m18,
     "downloader_action_cancel_all": MessageLookupByLibrary.simpleMessage(
-      "Cancel all of them",
+      "Cancel All",
     ),
     "downloader_action_cancel_download": MessageLookupByLibrary.simpleMessage(
-      "Cancel download",
+      "Cancel Download",
     ),
     "downloader_action_confirm_cancel_all_tasks":
         MessageLookupByLibrary.simpleMessage(
-          "Confirm the cancellation of all tasks?",
+          "Confirm cancellation of all tasks?",
         ),
     "downloader_action_confirm_cancel_download":
         MessageLookupByLibrary.simpleMessage(
-          "Confirm the cancellation download?",
+          "Confirm cancellation of download?",
         ),
     "downloader_action_continue_download": MessageLookupByLibrary.simpleMessage(
-      "Continue download",
+      "Continue Download",
     ),
-    "downloader_action_options": MessageLookupByLibrary.simpleMessage("Option"),
+    "downloader_action_options": MessageLookupByLibrary.simpleMessage(
+      "Options",
+    ),
     "downloader_action_pause_all": MessageLookupByLibrary.simpleMessage(
-      "All of the suspension",
+      "Pause All",
     ),
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
-      "Pause download",
+      "Pause Download",
     ),
     "downloader_action_resume_all": MessageLookupByLibrary.simpleMessage(
-      "Restore all",
+      "Resume All",
     ),
     "downloader_info_deleted": MessageLookupByLibrary.simpleMessage("Deleted"),
     "downloader_info_download_completed": MessageLookupByLibrary.simpleMessage(
-      "Download completed",
+      "Download Completed",
     ),
     "downloader_info_download_failed": MessageLookupByLibrary.simpleMessage(
-      "Download failed",
+      "Download Failed",
     ),
     "downloader_info_download_unit_input_prompt":
-        MessageLookupByLibrary.simpleMessage("Please enter the download unit."),
+        MessageLookupByLibrary.simpleMessage(
+          "Please enter download units, e.g.: 1, 100k, 10m. Enter 0 or leave blank for unlimited speed.",
+        ),
     "downloader_info_download_upload_speed": m19,
     "downloader_info_downloaded": m20,
     "downloader_info_downloading": m21,
@@ -545,13 +544,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "downloader_info_manual_file_deletion_note":
         MessageLookupByLibrary.simpleMessage(
-          "If the file is no longer needed, you may need to delete the download file manually.",
+          "If the file is no longer needed, you may need to manually delete the downloaded files.",
         ),
     "downloader_info_no_download_tasks": MessageLookupByLibrary.simpleMessage(
-      "No download task",
+      "No download tasks",
     ),
     "downloader_info_p2p_network_note": MessageLookupByLibrary.simpleMessage(
-      "The SCToolBox uses the P2P network to accelerate file download. If you have limited traffic, you can set the upload bandwidth to 1 (byte) here.",
+      "SCToolbox uses p2p network to accelerate file downloads. If you have limited bandwidth, you can set the upload bandwidth to 1(byte) here.",
     ),
     "downloader_info_paused": MessageLookupByLibrary.simpleMessage("Paused"),
     "downloader_info_status": m22,
@@ -560,79 +559,79 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_info_verifying": m25,
     "downloader_info_waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
     "downloader_input_download_speed_limit":
-        MessageLookupByLibrary.simpleMessage("Download speed limit:"),
+        MessageLookupByLibrary.simpleMessage("Download Speed Limit:"),
     "downloader_input_info_p2p_upload_note": MessageLookupByLibrary.simpleMessage(
-      "* P2P upload is only performed when downloading files, and the P2P connection will be turned off after downloading. If you want to participate in planting, please contact us about the page.",
+      "* P2P upload only occurs when downloading files and will close p2p connections after download completion. If you want to participate in seeding, please contact us through the About page.",
     ),
     "downloader_input_upload_speed_limit": MessageLookupByLibrary.simpleMessage(
-      "Upload speed limit:",
+      "Upload Speed Limit:",
     ),
     "downloader_speed_limit_settings": MessageLookupByLibrary.simpleMessage(
-      "Speed limit setting",
+      "Speed Limit Settings",
     ),
     "downloader_title_downloading": MessageLookupByLibrary.simpleMessage(
       "Downloading",
     ),
-    "downloader_title_ended": MessageLookupByLibrary.simpleMessage("Over"),
+    "downloader_title_ended": MessageLookupByLibrary.simpleMessage("Ended"),
     "guide_action_complete_setup": MessageLookupByLibrary.simpleMessage(
-      "Complete settings",
+      "Complete Setup",
     ),
-    "guide_action_get_help": MessageLookupByLibrary.simpleMessage("Help"),
+    "guide_action_get_help": MessageLookupByLibrary.simpleMessage("Get Help"),
     "guide_action_info_no_game_path_warning": MessageLookupByLibrary.simpleMessage(
-      "You have not chose the game installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.",
+      "You have not selected a game installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.",
     ),
     "guide_action_info_no_launcher_path_warning":
         MessageLookupByLibrary.simpleMessage(
-          "You have not chose the launcher installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.",
+          "You have not selected a launcher installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.",
         ),
     "guide_dialog_confirm_complete_setup": MessageLookupByLibrary.simpleMessage(
-      "Confirm the complete settings?",
+      "Confirm complete setup?",
     ),
     "guide_info_check_settings": MessageLookupByLibrary.simpleMessage(
-      "Please check whether the following settings are correct. If there is any error, please click on the right icon to correct it.",
+      "Please check if the following settings are correct. If there are errors, click the icon on the right to correct them before continuing",
     ),
     "guide_info_game_download_note": MessageLookupByLibrary.simpleMessage(
-      "* If your game is being downloaded, start the game once after completing the download and click the refresh button. If you only use the starter to enhance the Chineseization, make sure that the starter path is correct and click to complete the settings.",
+      "* If your game is currently downloading, please launch the game once after the download is complete and click the refresh button. If you only want to use launcher enhancement localization, make sure the launcher path is correct and click Complete Setup",
     ),
     "guide_title_welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
     "home_action_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "home_action_dps_calculator_localization":
-        MessageLookupByLibrary.simpleMessage("DPS calculator Localization"),
+        MessageLookupByLibrary.simpleMessage("DPS Calculator Localization"),
     "home_action_external_browser_extension":
-        MessageLookupByLibrary.simpleMessage("External browser expansion:"),
+        MessageLookupByLibrary.simpleMessage("External Browser Extension:"),
     "home_action_info_abnormal_game_exit": m26,
     "home_action_info_check_web_link": MessageLookupByLibrary.simpleMessage(
-      "Please check the pop -up web link to get detailed information.",
+      "Please check the popup web link for detailed information.",
     ),
     "home_action_info_engine_config_optimization":
         MessageLookupByLibrary.simpleMessage(
-          "Adjust the engine configuration file to optimize the game performance",
+          "Adjust engine configuration files to optimize game performance",
         ),
     "home_action_info_game_built_in": MessageLookupByLibrary.simpleMessage(
-      "Built -in game",
+      "Game built-in",
     ),
     "home_action_info_initialization_failed": m27,
     "home_action_info_initializing_resources":
         MessageLookupByLibrary.simpleMessage(
-          "It is initialized Localization resources ...",
+          "Initializing localization resources...",
         ),
     "home_action_info_log_file_parse_fail":
-        MessageLookupByLibrary.simpleMessage("Analysis of LOG files failed!"),
+        MessageLookupByLibrary.simpleMessage("Failed to parse log file!"),
     "home_action_info_mining_refining_trade_calculator":
         MessageLookupByLibrary.simpleMessage(
-          "Mining, refining, trade calculator, price, ship information",
+          "Mining, refining, trade calculator, prices, ship information",
         ),
     "home_action_info_one_click_diagnosis_star_citizen":
         MessageLookupByLibrary.simpleMessage(
-          "Auto scan diagnosis of common problems in interstellar citizens",
+          "One-click diagnosis of common Star Citizen issues",
         ),
     "home_action_info_quick_install_localization_resources":
         MessageLookupByLibrary.simpleMessage(
-          "Fast installation of localization resources",
+          "Quick installation of Localization resources",
         ),
     "home_action_info_roberts_space_industries_origin":
         MessageLookupByLibrary.simpleMessage(
-          "Roberts Aerospace Industry Corporation, the origin of all things",
+          "Roberts Space Industries, the origin of everything",
         ),
     "home_action_info_scan_complete_valid_directories_found": m28,
     "home_action_info_scanning": MessageLookupByLibrary.simpleMessage(
@@ -640,144 +639,142 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "home_action_info_ship_upgrade_damage_value_query":
         MessageLookupByLibrary.simpleMessage(
-          "Change the ship online, query the damage value and accessories location",
+          "Online ship modification, damage value query and equipment purchase location",
         ),
     "home_action_info_unknown_error": MessageLookupByLibrary.simpleMessage(
-      "Unknown errors, please use one -click diagnosis to add group feedback.",
+      "Unknown error, please use the one-click diagnosis to join the group for feedback.",
     ),
     "home_action_info_valid_install_location_required":
         MessageLookupByLibrary.simpleMessage(
-          "This function requires an effective installation location\n\nIf your game is not downloaded, wait for the download after downloading.\n\nIf your game has been downloaded but not recognized, please reopen the box after starting the game or manually set the installation position in the setting option.",
+          "This feature requires a valid installation location\n\nIf your game is not fully downloaded, please wait for the download to complete before using this feature.\n\nIf your game has been completely downloaded but isn\'t recognized, please launch the game once and then reopen SCToolbox or manually set the installation location in settings.",
         ),
-    "home_action_info_warning": MessageLookupByLibrary.simpleMessage("Warn"),
+    "home_action_info_warning": MessageLookupByLibrary.simpleMessage("Warning"),
     "home_action_info_web_localization_plugin_disclaimer":
         MessageLookupByLibrary.simpleMessage(
-          "This plug -in function is for general browsing, not responsible for any problems related to this function! Please pay attention to confirming the original content of the website before the account operation!\n\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.",
+          "This plugin is for general browsing purposes only and is not responsible for any issues that may arise from its use! Please verify the original content of the website before performing any account operations!\n\n\nWhen logging into your account with this feature, please ensure your SCToolbox is downloaded from a trusted source.",
         ),
     "home_action_install_microsoft_store_version":
         MessageLookupByLibrary.simpleMessage("Install Microsoft Store Version"),
     "home_action_localization_management": MessageLookupByLibrary.simpleMessage(
-      "Localizations",
+      "Localization Management",
     ),
     "home_action_login_rsi_account": MessageLookupByLibrary.simpleMessage(
-      "Log in to RSI account",
+      "Login to RSI Account",
     ),
     "home_action_one_click_diagnosis": MessageLookupByLibrary.simpleMessage(
-      "Auto diagnosis",
+      "One-Click Diagnosis",
     ),
     "home_action_one_click_launch": MessageLookupByLibrary.simpleMessage(
-      "One-click launch",
+      "One-Click Launch",
     ),
     "home_action_performance_optimization":
-        MessageLookupByLibrary.simpleMessage("Performance optimization"),
+        MessageLookupByLibrary.simpleMessage("Performance Optimization"),
     "home_action_rsi_status_arena_commander":
         MessageLookupByLibrary.simpleMessage("AC"),
     "home_action_rsi_status_electronic_access":
-        MessageLookupByLibrary.simpleMessage("EV"),
+        MessageLookupByLibrary.simpleMessage("EA"),
     "home_action_rsi_status_persistent_universe":
         MessageLookupByLibrary.simpleMessage("PU"),
     "home_action_rsi_status_platform": MessageLookupByLibrary.simpleMessage(
       "Platform",
     ),
     "home_action_rsi_status_rsi_server_status":
-        MessageLookupByLibrary.simpleMessage("RSI server status"),
+        MessageLookupByLibrary.simpleMessage("Server Status"),
     "home_action_rsi_status_status": MessageLookupByLibrary.simpleMessage(
-      "State:",
+      "Status:",
     ),
     "home_action_star_citizen_website_localization":
-        MessageLookupByLibrary.simpleMessage("SC Official Localization"),
+        MessageLookupByLibrary.simpleMessage("SC Website Localization"),
     "home_action_title_star_citizen_website_localization":
-        MessageLookupByLibrary.simpleMessage(
-          "Star Citizen Website Localization",
-        ),
+        MessageLookupByLibrary.simpleMessage("SC Site Localization"),
     "home_action_uex_localization": MessageLookupByLibrary.simpleMessage(
       "UEX Localization",
     ),
     "home_announcement_details": MessageLookupByLibrary.simpleMessage(
-      "Announcement details",
+      "Announcement Details",
     ),
-    "home_holiday_countdown": MessageLookupByLibrary.simpleMessage("Countdown"),
+    "home_holiday_countdown": MessageLookupByLibrary.simpleMessage(
+      "Holiday Countdown",
+    ),
     "home_holiday_countdown_days": m29,
     "home_holiday_countdown_disclaimer": MessageLookupByLibrary.simpleMessage(
-      "* The above festival dates are added and maintained manually. There may be errors and we welcome any feedback!",
+      "* The holiday dates above are manually collected and maintained, and may contain errors. Feedback is welcome!",
     ),
     "home_holiday_countdown_in_progress": MessageLookupByLibrary.simpleMessage(
       "In progress",
     ),
     "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
-      "In order to ensure the security of the account, the one -click startup function has been disabled in the development version, and we will provide this feature in the Microsoft store version.\n\nThe Microsoft Store Edition is provided with a reliable distribution download and digital signature by Microsoft, which can effectively prevent software from being maliciously tampered with.\n\nTip: You can use Localization without using a box to start the game.",
+      "To ensure account security, the one-click launch feature has been disabled in the development version. We will provide this feature in the Microsoft Store version.\n\nThe Microsoft Store version provides reliable distribution downloads and digital signatures from Microsoft, which can effectively prevent malicious tampering of the software.\n\nNote: You don\'t need to use SCToolbox to launch the game to use localization.",
     ),
     "home_info_one_click_launch_warning": MessageLookupByLibrary.simpleMessage(
-      "One -click start -up function prompt",
+      "One-click launch feature notice",
     ),
     "home_info_valid_installation_required":
         MessageLookupByLibrary.simpleMessage(
-          "This function requires an effective installation location",
+          "This feature requires a valid installation location",
         ),
     "home_install_location": MessageLookupByLibrary.simpleMessage(
-      "Installation location:",
+      "Installation Location:",
     ),
     "home_localization_action_advanced": MessageLookupByLibrary.simpleMessage(
       "Advanced Localization",
     ),
     "home_localization_action_install_customize":
-        MessageLookupByLibrary.simpleMessage("Install custom file"),
+        MessageLookupByLibrary.simpleMessage("Install Custom Files"),
     "home_localization_action_rsi_launcher_localization":
-        MessageLookupByLibrary.simpleMessage("RSILauncher Localization"),
+        MessageLookupByLibrary.simpleMessage("RSI Launcher Localization"),
     "home_localization_action_rsi_launcher_no_game_path_msg":
         MessageLookupByLibrary.simpleMessage(
-          "You are not currently installed in the game body or the game installation directory is not selected, and you can only use the promoter Chinese function. Please make sure the game is installed or adds the game installation directory in the box settings.",
+          "You currently don\'t have the game installed or haven\'t selected a game installation directory. You can only use the launcher localization feature. Please make sure the game is installed or add the game installation directory in the SCToolbox settings and try again.",
         ),
     "home_localization_action_select_customize_file":
-        MessageLookupByLibrary.simpleMessage("Click to select INI file"),
+        MessageLookupByLibrary.simpleMessage("Click to select ini file"),
     "home_localization_advanced_action_install":
-        MessageLookupByLibrary.simpleMessage("Installation of Localization"),
+        MessageLookupByLibrary.simpleMessage("Install Localization"),
     "home_localization_advanced_action_mod_change":
-        MessageLookupByLibrary.simpleMessage(
-          "The text is being re -generated ...",
-        ),
+        MessageLookupByLibrary.simpleMessage("Regenerating text..."),
     "home_localization_advanced_action_mod_change_localization":
-        MessageLookupByLibrary.simpleMessage("Localization"),
+        MessageLookupByLibrary.simpleMessage("Localized"),
     "home_localization_advanced_action_mod_change_mixed":
         MessageLookupByLibrary.simpleMessage("Bilingual"),
     "home_localization_advanced_action_mod_change_mixed_newline":
-        MessageLookupByLibrary.simpleMessage("Bilingual (newline)"),
+        MessageLookupByLibrary.simpleMessage("Bilingual (New Line)"),
     "home_localization_advanced_action_mod_change_un_localization":
         MessageLookupByLibrary.simpleMessage("Original English"),
     "home_localization_advanced_action_mode":
-        MessageLookupByLibrary.simpleMessage("Model"),
+        MessageLookupByLibrary.simpleMessage("Mode"),
     "home_localization_advanced_json_text_location_other":
-        MessageLookupByLibrary.simpleMessage("Location-Other"),
+        MessageLookupByLibrary.simpleMessage("Locations-Other"),
     "home_localization_advanced_json_text_location_used":
-        MessageLookupByLibrary.simpleMessage("Location-Commonly used"),
+        MessageLookupByLibrary.simpleMessage("Locations-Common"),
     "home_localization_advanced_json_text_mission_or_logs":
-        MessageLookupByLibrary.simpleMessage("Mission/Log"),
+        MessageLookupByLibrary.simpleMessage("Missions/Logs"),
     "home_localization_advanced_json_text_others":
-        MessageLookupByLibrary.simpleMessage("Other"),
+        MessageLookupByLibrary.simpleMessage("Others"),
     "home_localization_advanced_json_text_subtitle":
-        MessageLookupByLibrary.simpleMessage("Subtitle"),
+        MessageLookupByLibrary.simpleMessage("Subtitles"),
     "home_localization_advanced_json_text_things_other":
         MessageLookupByLibrary.simpleMessage("Items-Other"),
     "home_localization_advanced_json_text_things_used":
-        MessageLookupByLibrary.simpleMessage("Items-Commonly used"),
+        MessageLookupByLibrary.simpleMessage("Items-Common"),
     "home_localization_advanced_json_text_ui_or_hud_or_menu":
-        MessageLookupByLibrary.simpleMessage("UI/HUD/menu"),
+        MessageLookupByLibrary.simpleMessage("UI/HUD/Menu"),
     "home_localization_advanced_json_text_un_localization":
-        MessageLookupByLibrary.simpleMessage("Unwaver"),
+        MessageLookupByLibrary.simpleMessage("Not Localized"),
     "home_localization_advanced_json_text_vehicle_other":
-        MessageLookupByLibrary.simpleMessage("Vehicle-Other"),
+        MessageLookupByLibrary.simpleMessage("Vehicles-Other"),
     "home_localization_advanced_json_text_vehicle_used":
-        MessageLookupByLibrary.simpleMessage("Vehicle-Commonly used"),
+        MessageLookupByLibrary.simpleMessage("Vehicles-Common"),
     "home_localization_advanced_msg_classifying":
-        MessageLookupByLibrary.simpleMessage("Classified ..."),
+        MessageLookupByLibrary.simpleMessage("Classifying..."),
     "home_localization_advanced_msg_gen_localization_install":
-        MessageLookupByLibrary.simpleMessage("Install Localization file ..."),
+        MessageLookupByLibrary.simpleMessage("Installing localization file..."),
     "home_localization_advanced_msg_gen_localization_text":
-        MessageLookupByLibrary.simpleMessage("Generate Localization file ..."),
+        MessageLookupByLibrary.simpleMessage("Generating localization file..."),
     "home_localization_advanced_msg_reading_p4k":
-        MessageLookupByLibrary.simpleMessage("Read p4k file ..."),
+        MessageLookupByLibrary.simpleMessage("Reading p4k file..."),
     "home_localization_advanced_msg_reading_server_localization_text":
-        MessageLookupByLibrary.simpleMessage("Get Localization text ..."),
+        MessageLookupByLibrary.simpleMessage("Getting localization text..."),
     "home_localization_advanced_msg_version": m30,
     "home_localization_advanced_title": m31,
     "home_localization_advanced_title_msg": m32,
@@ -786,170 +783,166 @@ class MessageLookup extends MessageLookupByLibrary {
       "This version does not provide a description",
     ),
     "home_localization_msg_version_advanced":
-        MessageLookupByLibrary.simpleMessage("(Advanced)"),
+        MessageLookupByLibrary.simpleMessage(" (Advanced Localization)"),
     "home_localization_new_version_available":
-        MessageLookupByLibrary.simpleMessage("Localization has a new version!"),
+        MessageLookupByLibrary.simpleMessage(
+          "New localization version available!",
+        ),
     "home_localization_new_version_installed": m34,
     "home_localization_ptu_advanced_localization_tip_title":
         MessageLookupByLibrary.simpleMessage(
-          "Recommended advanced localization",
+          "Advanced Localization Recommended",
         ),
     "home_localization_ptu_advanced_localization_tip_title_info":
         MessageLookupByLibrary.simpleMessage(
-          "On PTU/EPTU and other test channels, the current localization text text may not be synchronized with the game, and the use of advanced localization can reduce garbled production.",
+          "In PTU/EPTU and other test channels, current localization text may not be synchronized with the game. Using advanced localization can reduce the occurrence of garbled text.",
         ),
     "home_localization_select_customize_file":
         MessageLookupByLibrary.simpleMessage(
-          "Please select custom Localization file",
+          "Please select custom localization file",
         ),
     "home_localization_select_customize_file_ini":
-        MessageLookupByLibrary.simpleMessage("Please select INI file"),
+        MessageLookupByLibrary.simpleMessage("Please select ini file"),
     "home_localization_title_localization_tools":
-        MessageLookupByLibrary.simpleMessage("Localization tool"),
+        MessageLookupByLibrary.simpleMessage("Localization Tools"),
     "home_login_action_title_box_one_click_launch":
-        MessageLookupByLibrary.simpleMessage("Box one -click start"),
+        MessageLookupByLibrary.simpleMessage("Toolbox One-Click Launch"),
     "home_login_action_title_need_webview2_runtime":
-        MessageLookupByLibrary.simpleMessage(
-          "Need to install WebView2 Runtime",
-        ),
+        MessageLookupByLibrary.simpleMessage("WebView2 Runtime Required"),
     "home_login_info_action_ignore": MessageLookupByLibrary.simpleMessage(
-      "Neglect",
+      "Ignore",
     ),
     "home_login_info_game_version_outdated":
-        MessageLookupByLibrary.simpleMessage("Outdated game version"),
+        MessageLookupByLibrary.simpleMessage("Game version outdated"),
     "home_login_info_one_click_launch_description":
         MessageLookupByLibrary.simpleMessage(
-          "This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.",
+          "This feature helps you launch the game more conveniently.\n\nTo ensure account safety, this feature uses a localized browser to maintain login status and will not save your password information (unless you enable the auto-fill feature).\n\nWhen using this feature to login, please ensure that your SCToolbox is downloaded from a trusted source.",
         ),
     "home_login_info_rsi_server_report": m35,
     "home_login_title_launching_game": MessageLookupByLibrary.simpleMessage(
-      "Launching game for you ...",
+      "Launching the game for you...",
     ),
     "home_login_title_welcome_back": MessageLookupByLibrary.simpleMessage(
-      "Welcome back!",
+      "Welcome Back!",
     ),
     "home_not_installed_or_failed": MessageLookupByLibrary.simpleMessage(
-      "Unpacking or installation failed",
+      "Not Installed or Installation Failed",
     ),
-    "home_title_app_name": MessageLookupByLibrary.simpleMessage("SCToolBox"),
+    "home_title_app_name": MessageLookupByLibrary.simpleMessage("SCToolbox"),
     "home_title_logging_in": MessageLookupByLibrary.simpleMessage(
       "Logging in...",
     ),
     "input_method_address_fetch_failed": MessageLookupByLibrary.simpleMessage(
-      "If the address failed, please check the computer IP manually",
+      "Failed to fetch address, please check computer IP manually",
     ),
-    "input_method_auto_copy": MessageLookupByLibrary.simpleMessage(
-      "Automatic replication",
-    ),
+    "input_method_auto_copy": MessageLookupByLibrary.simpleMessage("Auto Copy"),
     "input_method_auto_translate": MessageLookupByLibrary.simpleMessage(
-      "Bilingual translation:",
+      "Bilingual Translation:",
     ),
     "input_method_auto_translate_dialog_title":
         MessageLookupByLibrary.simpleMessage("Enable bilingual translation?"),
     "input_method_auto_translate_dialog_title_content":
         MessageLookupByLibrary.simpleMessage(
-          "After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google\'s privacy policy.",
+          "When enabled, Google Translate service will be used to add English subtitles to your input content, which may cause response lag. If the feature is abnormal, please turn it off.\n\nText will be forwarded to Google servers, please refer to Google\'s privacy policy.",
         ),
     "input_method_community_input_method_not_installed":
         MessageLookupByLibrary.simpleMessage(
-          "Supporting community input method support",
+          "Community input method support not installed",
         ),
     "input_method_community_input_method_support_version": m36,
     "input_method_confirm_enable_remote_input":
-        MessageLookupByLibrary.simpleMessage(
-          "Confirm the opening remote input?",
-        ),
+        MessageLookupByLibrary.simpleMessage("Confirm enable remote input?"),
     "input_method_confirm_install_advanced_localization":
         MessageLookupByLibrary.simpleMessage(
-          "Confirm the installation of advanced Chinese?",
+          "Confirm install advanced localization?",
         ),
     "input_method_disclaimer": MessageLookupByLibrary.simpleMessage(
-      "*This function is recommended only in non -public channels. If the user chooses to use this function in the public channel, any consequences (including but not limited to the screenwriting screen by other players, etc.) will be borne by the user.\n*If this function is abused, we will close the function.",
+      "*This feature is recommended for use only in non-public channels. If users choose to use this feature in public channels, any consequences (including but not limited to being reported by other players for spam, etc.) are the user\'s sole responsibility.\n*If this feature is abused, we will disable it.",
     ),
     "input_method_enable_remote_input_instructions":
         MessageLookupByLibrary.simpleMessage(
-          "After turning on this function, you can access the remote service address through your mobile phone, and quickly enter text, eliminating the trouble of switching the window, and the game process is not interrupted.\n\nIf the firewall is prompted, please open the pop -up window, manually check all network types and allow it, otherwise it may not be able to access this function normally.",
+          "After enabling this feature, you can access the remote service address via mobile phone for quick text input, saving the hassle of switching windows and not interrupting game flow.\n\nIf a firewall prompt appears, please expand the dialog, manually check all network types and allow, otherwise you may not be able to access this feature normally.",
         ),
     "input_method_encoded_text_placeholder":
         MessageLookupByLibrary.simpleMessage(
-          "This is the text after the transcoding ...",
+          "Encoded text will appear here...",
         ),
     "input_method_experimental_input_method":
         MessageLookupByLibrary.simpleMessage(
-          "Community input method (experimental)",
+          "Community Input Method (Experimental)",
         ),
     "input_method_feature_maintenance": MessageLookupByLibrary.simpleMessage(
-      "During functional maintenance, please try again later",
+      "Feature under maintenance, please try again later",
     ),
     "input_method_input_placeholder": MessageLookupByLibrary.simpleMessage(
-      "Please enter the text ...",
+      "Please enter text...",
     ),
     "input_method_input_text_instructions": MessageLookupByLibrary.simpleMessage(
-      "Enter the text in the text box above and paste the text (Ctrl+V) to the text box of the game in the text box above the text box.",
+      "Enter text in the text box above, and paste (Ctrl+V) the encoded text below into the game\'s text box to send characters that the game doesn\'t support input for in chat channels.",
     ),
     "input_method_install_community_input_method_prompt":
         MessageLookupByLibrary.simpleMessage(
-          "Do you go to Sinicization Management installation?\n\nIf you have been installed, please uninstall and open the community input method to support the switch when reinstalling.",
+          "Do you want to go to Localization Management to install?\n\nIf you have already installed localization, please uninstall it and enable the community input method support switch when reinstalling.",
         ),
     "input_method_install_community_input_method_support":
         MessageLookupByLibrary.simpleMessage(
-          "Support community input method support",
+          "Install Community Input Method Support",
         ),
     "input_method_ip_address_not_found": MessageLookupByLibrary.simpleMessage(
-      "We have not found the right IP address to access the service, please try the following address (switch on the left and right)",
+      "We couldn\'t find an appropriate IP address to access the service. Please try the following addresses (swipe left/right)",
     ),
     "input_method_online_version_prompt": MessageLookupByLibrary.simpleMessage(
-      "This function provides another online independent version, click to visit>",
+      "An online standalone version of this feature is also available. Click to visit >",
     ),
     "input_method_remote_input_service": MessageLookupByLibrary.simpleMessage(
-      "Remote input service:",
+      "Remote Input Service:",
     ),
     "input_method_scan_qr_code": MessageLookupByLibrary.simpleMessage(
-      "Please use your mobile device to scan the following QR codes, or to access the connection manually",
+      "Please scan the QR code below with your mobile device, or manually visit the link",
     ),
     "input_method_send_success": MessageLookupByLibrary.simpleMessage(
-      "Successful sending!",
+      "Sent successfully!",
     ),
     "input_method_service_qr_code": MessageLookupByLibrary.simpleMessage(
-      "Service QR code",
+      "Service QR Code",
     ),
     "input_method_support_updated": MessageLookupByLibrary.simpleMessage(
-      "Community input method support has been updated",
+      "Community input method support updated",
     ),
     "input_method_support_updated_to_version": m37,
     "input_method_text_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
-      "The text cannot be empty!",
+      "Text cannot be empty!",
     ),
     "input_method_usage_instructions": MessageLookupByLibrary.simpleMessage(
-      "Instruction",
+      "Instructions",
     ),
     "lobby_invitation_to_participate": MessageLookupByLibrary.simpleMessage(
-      "Sincerely invite you to participate ",
+      "You are invited to participate in ",
     ),
     "lobby_online_lobby_coming_soon": MessageLookupByLibrary.simpleMessage(
-      "The online lobby, so stay tuned!",
+      "Online lobby, coming soon!",
     ),
-    "lobby_survey": MessageLookupByLibrary.simpleMessage("Questionnaire."),
+    "lobby_survey": MessageLookupByLibrary.simpleMessage("a survey."),
     "localization_action_install": MessageLookupByLibrary.simpleMessage(
       "Install",
     ),
     "localization_action_translation_feedback":
-        MessageLookupByLibrary.simpleMessage("Feedback"),
+        MessageLookupByLibrary.simpleMessage("Localization Feedback"),
     "localization_action_uninstall_translation":
-        MessageLookupByLibrary.simpleMessage("Uninstall"),
+        MessageLookupByLibrary.simpleMessage("Uninstall Localization"),
     "localization_info_channel": m38,
     "localization_info_community_translation":
         MessageLookupByLibrary.simpleMessage("Community Localization"),
     "localization_info_corrupted_file": MessageLookupByLibrary.simpleMessage(
-      "The file is damaged, please download again",
+      "File corrupted, please download again",
     ),
     "localization_info_custom_files": MessageLookupByLibrary.simpleMessage(
-      "Custom file",
+      "Custom Files",
     ),
     "localization_info_enabled": m39,
     "localization_info_incompatible_translation_params_warning":
         MessageLookupByLibrary.simpleMessage(
-          "User.cfg contains incompatible Localization parameters, which may be the residual information of the previous Localization file.\n\nThis may lead to ineffective or garbled Localization, click to confirm that you are removed with one click (it will not affect other configuration).",
+          "USER.cfg contains incompatible localization parameters, which may be residual information from previous localization files.\n\nThis may cause the localization to be invalid or display garbled characters. Click confirm to remove these with one click (will not affect other configurations).",
         ),
     "localization_info_installation_error": m40,
     "localization_info_installed": MessageLookupByLibrary.simpleMessage(
@@ -957,23 +950,23 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "localization_info_installed_version": m41,
     "localization_info_language": MessageLookupByLibrary.simpleMessage(
-      "Language:   ",
+      "Language: ",
     ),
     "localization_info_machine_translation_warning":
         MessageLookupByLibrary.simpleMessage(
-          "You are using the game built -in text. The official text is currently a machine translation (as of 3.21.0), and it is recommended that you install community Localization below.",
+          "You are using the game\'s built-in text. The official text is currently machine-translated (as of 3.21.0). We recommend you install the community localization below.",
         ),
     "localization_info_no_translation_available":
         MessageLookupByLibrary.simpleMessage(
-          "This language/version is not available for Localization, so stay tuned!",
+          "No localization available for this language/version, please stay tuned!",
         ),
-    "localization_info_note": MessageLookupByLibrary.simpleMessage("Remark:"),
+    "localization_info_note": MessageLookupByLibrary.simpleMessage("Note:"),
     "localization_info_remove_incompatible_translation_params":
         MessageLookupByLibrary.simpleMessage(
-          "Whether to remove incompatible Localization parameters",
+          "Remove incompatible localization parameters",
         ),
     "localization_info_translation": MessageLookupByLibrary.simpleMessage(
-      "Game localization",
+      "Game Localization",
     ),
     "localization_info_unavailable": MessageLookupByLibrary.simpleMessage(
       "Unavailable",
@@ -983,7 +976,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_collision_details": m44,
     "log_analyzer_death_details": m45,
     "log_analyzer_description": MessageLookupByLibrary.simpleMessage(
-      "Analyze your gameplay records (logins, deaths, kills and other information)",
+      "Analyze your gameplay records (login, death, kills, and other information)",
     ),
     "log_analyzer_details_info": m46,
     "log_analyzer_disintegration": MessageLookupByLibrary.simpleMessage(
@@ -994,7 +987,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "log_analyzer_filter_all": MessageLookupByLibrary.simpleMessage("All"),
     "log_analyzer_filter_basic_info": MessageLookupByLibrary.simpleMessage(
-      "Basic Information",
+      "Basic Info",
     ),
     "log_analyzer_filter_character_death": MessageLookupByLibrary.simpleMessage(
       "Character Death",
@@ -1012,7 +1005,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Statistics",
     ),
     "log_analyzer_filter_vehicle_damaged": MessageLookupByLibrary.simpleMessage(
-      "Vehicle Damage",
+      "Vehicle Damaged",
     ),
     "log_analyzer_game_close": MessageLookupByLibrary.simpleMessage(
       "Game Close",
@@ -1042,9 +1035,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "log_analyzer_one_click_diagnosis_header":
         MessageLookupByLibrary.simpleMessage(
-          "----- SCToolBox One-click Diagnosis -----",
+          "----- SCToolbox One-Click Diagnosis -----",
         ),
-    "log_analyzer_play_time": MessageLookupByLibrary.simpleMessage("Playtime"),
+    "log_analyzer_play_time": MessageLookupByLibrary.simpleMessage("Play Time"),
     "log_analyzer_play_time_format": m49,
     "log_analyzer_player_location": m50,
     "log_analyzer_player_login": m51,
@@ -1063,355 +1056,350 @@ class MessageLookup extends MessageLookupByLibrary {
       "View Local Inventory",
     ),
     "log_analyzer_window_title": MessageLookupByLibrary.simpleMessage(
-      "SCToolBox: Log Analyzer",
+      "SCToolbox: Log Analyzer",
     ),
     "performance_action_apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "performance_action_apply_and_clear_shaders":
-        MessageLookupByLibrary.simpleMessage("Apply and clean up"),
+        MessageLookupByLibrary.simpleMessage(
+          "Apply and Clear Shaders (Recommended)",
+        ),
     "performance_action_clear_shaders": MessageLookupByLibrary.simpleMessage(
-      "Clean the color device",
+      "Clear Shaders",
     ),
     "performance_action_custom_parameters_input":
         MessageLookupByLibrary.simpleMessage(
-          "You can enter the custom parameters that are not included in the box here. Configuration example:\n\nR_DISPLAYINFO = 0\nr_vsync = 0",
+          "You can enter custom parameters not included in SCToolbox here. Configuration example:\n\nr_displayinfo=0\nr_VSync=0",
         ),
     "performance_action_high": MessageLookupByLibrary.simpleMessage("High"),
     "performance_action_info_preset_only_changes_graphics":
-        MessageLookupByLibrary.simpleMessage("(Only graphic)"),
+        MessageLookupByLibrary.simpleMessage(
+          "(Preset only changes graphics settings)",
+        ),
     "performance_action_low": MessageLookupByLibrary.simpleMessage("Low"),
-    "performance_action_medium": MessageLookupByLibrary.simpleMessage("Middle"),
+    "performance_action_medium": MessageLookupByLibrary.simpleMessage("Medium"),
     "performance_action_preset": MessageLookupByLibrary.simpleMessage(
       "Preset:",
     ),
     "performance_action_reset_to_default": MessageLookupByLibrary.simpleMessage(
-      " Reset",
+      " Reset to Default ",
     ),
     "performance_action_super": MessageLookupByLibrary.simpleMessage("Super"),
     "performance_info_applied": MessageLookupByLibrary.simpleMessage("Applied"),
     "performance_info_current_status": m53,
     "performance_info_delete_config_file": MessageLookupByLibrary.simpleMessage(
-      "Delete the configuration file ...",
+      "Deleting config file...",
     ),
-    "performance_info_done": MessageLookupByLibrary.simpleMessage("Finish..."),
+    "performance_info_done": MessageLookupByLibrary.simpleMessage("Done..."),
     "performance_info_generate_config_file":
-        MessageLookupByLibrary.simpleMessage("Generate configuration file"),
+        MessageLookupByLibrary.simpleMessage("Generate Config File"),
     "performance_info_graphic_optimization_hint":
-        MessageLookupByLibrary.simpleMessage("Graph optimization tips"),
+        MessageLookupByLibrary.simpleMessage("Graphics Optimization Tips"),
     "performance_info_graphic_optimization_warning":
         MessageLookupByLibrary.simpleMessage(
-          "This function is very helpful for optimizing the bottleneck of the graphics card, but it may have a reverse effect on the CPU bottleneck. If your graphics card performance is strong, you can try to use better picture quality to obtain higher graphics card utilization.",
+          "This feature helps significantly with GPU bottlenecks but may have the opposite effect for CPU bottlenecks. If you have a powerful GPU, you can try using better quality settings to achieve higher GPU utilization.",
         ),
     "performance_info_graphics": MessageLookupByLibrary.simpleMessage(
-      "Graphic",
+      "Graphics",
     ),
     "performance_info_min_max_values": m54,
     "performance_info_not_applied": MessageLookupByLibrary.simpleMessage(
-      "Unused",
+      "Not applied",
     ),
     "performance_info_shader_clearing_warning":
         MessageLookupByLibrary.simpleMessage(
-          "After cleaning up the color device, it may appear stutter when entering the game for the first time. Please wait patiently for the initialization of the game.",
+          "After clearing shaders, the game may stutter when you first enter it. Please wait patiently for the game to complete initialization.",
         ),
     "performance_info_write_out_config_file":
-        MessageLookupByLibrary.simpleMessage("Write the configuration file"),
+        MessageLookupByLibrary.simpleMessage("Write Out Config File"),
     "performance_json_text_antialiasing": MessageLookupByLibrary.simpleMessage(
-      "Anti -aliasing",
+      "Anti-aliasing",
     ),
     "performance_json_text_antialiasing_info": MessageLookupByLibrary.simpleMessage(
-      "0 Close, 1 SMAA, 2 time filter+SMAA, 3 time filtering and projection matrix shake SMAA",
+      "0 off, 1 SMAA, 2 temporal filter + SMAA, 3 SMAA with temporal filtering and projection matrix jitter",
     ),
     "performance_json_text_custom_parameters":
-        MessageLookupByLibrary.simpleMessage("Custom parameter"),
+        MessageLookupByLibrary.simpleMessage("Custom Parameters"),
     "performance_json_text_display_session":
-        MessageLookupByLibrary.simpleMessage("Display session information"),
+        MessageLookupByLibrary.simpleMessage("Display Session Info"),
     "performance_json_text_display_session_info":
         MessageLookupByLibrary.simpleMessage(
-          "After turning on, display a QR code on the screen to allow CIG to quickly locate related information when feedback",
+          "When enabled, displays a QR code on screen for quickly locating relevant information when providing feedback to CIG",
         ),
     "performance_json_text_displayinfo": MessageLookupByLibrary.simpleMessage(
-      "Screen information (display frame rate)",
+      "Screen Info (Show FPS)",
     ),
     "performance_json_text_displayinfo_info": MessageLookupByLibrary.simpleMessage(
-      "Display frame rates, server information, etc. in the upper right corner of the screen",
+      "Display FPS, server information, etc. in the upper right corner of the screen",
     ),
     "performance_json_text_dof": MessageLookupByLibrary.simpleMessage(
-      "Depth of field effect",
+      "Depth of Field Effect",
     ),
     "performance_json_text_dof_info": MessageLookupByLibrary.simpleMessage(
-      "Controls the depth of field effect on mobiGlass pages, etc.",
+      "Controls depth of field effect for mobiglas pages, etc.",
     ),
     "performance_json_text_fov": MessageLookupByLibrary.simpleMessage(
-      "Set viewing angle FOV",
+      "Set FOV",
     ),
     "performance_json_text_game_effects": MessageLookupByLibrary.simpleMessage(
-      "Special effect level",
+      "Effects Level",
     ),
     "performance_json_text_game_effects_info":
-        MessageLookupByLibrary.simpleMessage("Game special effect level"),
+        MessageLookupByLibrary.simpleMessage("Game effects level"),
     "performance_json_text_max_fps": MessageLookupByLibrary.simpleMessage(
-      "Maximum frame rate",
+      "Maximum FPS",
     ),
     "performance_json_text_max_fps_info": MessageLookupByLibrary.simpleMessage(
-      "Adjust the maximum frame rate of the game, 0 is not limited",
+      "Adjust the game\'s maximum frame rate, 0 for unlimited",
     ),
     "performance_json_text_motion_blur": MessageLookupByLibrary.simpleMessage(
-      "Dynamic blur",
+      "Motion Blur",
     ),
-    "performance_json_text_motion_blur_info": MessageLookupByLibrary.simpleMessage(
-      "Open to improve the sense of movement, turn off and enhance the perception",
-    ),
+    "performance_json_text_motion_blur_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Enable for enhanced motion feel, disable for improved visuals",
+        ),
     "performance_json_text_object_detail": MessageLookupByLibrary.simpleMessage(
-      "Object detail",
+      "Object Detail",
     ),
     "performance_json_text_object_detail_info":
         MessageLookupByLibrary.simpleMessage(
-          "Model object details, affect LOD, etc.",
+          "Model object detail, affects LOD, etc.",
         ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
-      "Particle details",
+      "Particle Detail",
     ),
     "performance_json_text_particles_object_collisions":
-        MessageLookupByLibrary.simpleMessage("Particle collision"),
+        MessageLookupByLibrary.simpleMessage("Particle Collisions"),
     "performance_json_text_particles_object_collisions_info":
         MessageLookupByLibrary.simpleMessage(
-          "1 Static particles 2 include dynamic particles",
+          "1 static particles only, 2 includes dynamic particles",
         ),
     "performance_json_text_physics": MessageLookupByLibrary.simpleMessage(
-      "Physical details",
+      "Physics Detail",
     ),
     "performance_json_text_physics_info": MessageLookupByLibrary.simpleMessage(
-      "Scope of physical effects",
+      "Physics effect range",
     ),
     "performance_json_text_postprocessing":
-        MessageLookupByLibrary.simpleMessage("Post -processing details"),
+        MessageLookupByLibrary.simpleMessage("Post-processing Detail"),
     "performance_json_text_postprocessing_info":
         MessageLookupByLibrary.simpleMessage(
-          "After the color device, dynamic blur effect, etc.",
+          "Post-processing shaders, motion blur effects, etc.",
         ),
     "performance_json_text_renderer": MessageLookupByLibrary.simpleMessage(
-      "Rendering device quality",
+      "Renderer Quality",
     ),
     "performance_json_text_renderer_info": MessageLookupByLibrary.simpleMessage(
-      "Cryengine rendereer quality",
+      "CryEngine renderer quality",
     ),
     "performance_json_text_shader_decal": MessageLookupByLibrary.simpleMessage(
-      "Quality",
+      "Decal Quality",
     ),
     "performance_json_text_shader_decal_info":
-        MessageLookupByLibrary.simpleMessage("(LOGO, logo, etc.)"),
+        MessageLookupByLibrary.simpleMessage("(Logos, symbols, etc.)"),
     "performance_json_text_shader_fx": MessageLookupByLibrary.simpleMessage(
-      "FX quality",
+      "FX Quality",
     ),
     "performance_json_text_shader_general":
-        MessageLookupByLibrary.simpleMessage("Conventional quality"),
+        MessageLookupByLibrary.simpleMessage("General Quality"),
     "performance_json_text_shader_general_info":
         MessageLookupByLibrary.simpleMessage("Overall model quality"),
     "performance_json_text_shader_glass": MessageLookupByLibrary.simpleMessage(
-      "Glass quality",
+      "Glass Quality",
     ),
     "performance_json_text_shader_glass_info":
-        MessageLookupByLibrary.simpleMessage("Window, mirror, etc."),
+        MessageLookupByLibrary.simpleMessage("Windows, mirrors, etc."),
     "performance_json_text_shader_hdr": MessageLookupByLibrary.simpleMessage(
-      "HDR quality",
+      "HDR Quality",
     ),
     "performance_json_text_shader_hdr_info":
         MessageLookupByLibrary.simpleMessage(
-          "HDR color difference, brightness level treatment, etc.",
+          "HDR color difference, brightness level processing, etc.",
         ),
     "performance_json_text_shader_particle":
-        MessageLookupByLibrary.simpleMessage("Particle quality"),
+        MessageLookupByLibrary.simpleMessage("Particle Quality"),
     "performance_json_text_shader_particle_info":
         MessageLookupByLibrary.simpleMessage("Particle effect quality"),
     "performance_json_text_shader_post_process":
-        MessageLookupByLibrary.simpleMessage("Color quality"),
+        MessageLookupByLibrary.simpleMessage("Shader Quality"),
     "performance_json_text_shader_shadow": MessageLookupByLibrary.simpleMessage(
-      "Shadow quality",
+      "Shadow Quality",
     ),
     "performance_json_text_shader_sky": MessageLookupByLibrary.simpleMessage(
-      "Sky quality",
+      "Sky Quality",
     ),
     "performance_json_text_shader_terrain":
-        MessageLookupByLibrary.simpleMessage("Ground quality"),
+        MessageLookupByLibrary.simpleMessage("Terrain Quality"),
     "performance_json_text_shading": MessageLookupByLibrary.simpleMessage(
-      "Colorrhea details",
+      "Shader Detail",
     ),
     "performance_json_text_shading_info": MessageLookupByLibrary.simpleMessage(
-      "Coloror related",
+      "Shader related",
     ),
     "performance_json_text_shadows": MessageLookupByLibrary.simpleMessage(
-      "Shadow details",
+      "Shadow Detail",
     ),
     "performance_json_text_shadows_info": MessageLookupByLibrary.simpleMessage(
-      "Shadow effect",
+      "Shadow effects",
     ),
     "performance_json_text_ssdo": MessageLookupByLibrary.simpleMessage(
-      "Swip light after the screen light",
+      "Screen Light Post-processing",
     ),
     "performance_json_text_ssdo_info": MessageLookupByLibrary.simpleMessage(
-      "After adjusting the light, processing level",
+      "Adjusts light post-processing level",
     ),
     "performance_json_text_texture": MessageLookupByLibrary.simpleMessage(
-      "Grade",
+      "Texture Level",
     ),
     "performance_json_text_texture_info": MessageLookupByLibrary.simpleMessage(
-      "Model texture details",
+      "Model texture detail",
     ),
     "performance_json_text_title_custom": MessageLookupByLibrary.simpleMessage(
-      "Customize",
+      "Custom",
     ),
     "performance_json_text_title_graphics":
-        MessageLookupByLibrary.simpleMessage("Graphic"),
+        MessageLookupByLibrary.simpleMessage(
+          "Graphics (Shader cleaning recommended after modifications)",
+        ),
     "performance_json_text_ui_animation": MessageLookupByLibrary.simpleMessage(
-      "UI fades into the animation",
+      "UI Fade Animation",
     ),
     "performance_json_text_volumetric_effects":
-        MessageLookupByLibrary.simpleMessage("Volume effect"),
+        MessageLookupByLibrary.simpleMessage("Volumetric Effects"),
     "performance_json_text_volumetric_effects_info":
         MessageLookupByLibrary.simpleMessage(
-          "Volume cloud, volume light, etc.",
+          "Volumetric clouds, volumetric lighting, etc.",
         ),
     "performance_json_text_vsync": MessageLookupByLibrary.simpleMessage(
-      "Vertical sync",
+      "V-Sync",
     ),
     "performance_json_text_vsync_info": MessageLookupByLibrary.simpleMessage(
-      "Open to prevent tearing, turn off to increase the frame rate",
+      "Enable to prevent tearing, disable to increase frame rate",
     ),
     "performance_json_text_water": MessageLookupByLibrary.simpleMessage(
-      "Water effect",
+      "Water Effects",
     ),
     "performance_json_text_water_info": MessageLookupByLibrary.simpleMessage(
-      "Grade of various water",
+      "Various water level effects",
     ),
     "performance_title_performance_optimization": m55,
     "setting_action_clear_translation_file_cache":
-        MessageLookupByLibrary.simpleMessage(
-          "Clean up the Localization file cache",
-        ),
+        MessageLookupByLibrary.simpleMessage("Clear Localization File Cache"),
     "setting_action_create_desktop_shortcut":
         MessageLookupByLibrary.simpleMessage(
-          "Create \"SC Localization Box\" shortcut on the desktop",
+          "Create SCToolbox shortcut on desktop",
         ),
     "setting_action_create_settings_shortcut":
-        MessageLookupByLibrary.simpleMessage("Create shortcut"),
+        MessageLookupByLibrary.simpleMessage("Create Settings Shortcut"),
     "setting_action_ignore_efficiency_cores_on_launch":
         MessageLookupByLibrary.simpleMessage(
-          "When starting the game, ignore the core of energy efficiency (suitable for Intel 12th+ processor)",
+          "Ignore efficiency cores when launching game (For Intel 12th+ processors)",
         ),
     "setting_action_info_autofill_data_cleared":
-        MessageLookupByLibrary.simpleMessage(
-          "Automatic filling data has been cleaned up",
-        ),
+        MessageLookupByLibrary.simpleMessage("Auto-fill data cleared"),
     "setting_action_info_cache_clearing_info": m56,
     "setting_action_info_clear_cache_warning":
         MessageLookupByLibrary.simpleMessage(
-          "This will not affect the installed Localization.",
+          "This will not affect installed localizations.",
         ),
     "setting_action_info_confirm_clear_cache":
         MessageLookupByLibrary.simpleMessage(
-          "Confirmation of cleaning the Localization cache?",
+          "Confirm clearing localization cache?",
         ),
     "setting_action_info_confirm_reset_autofill":
-        MessageLookupByLibrary.simpleMessage(
-          "Confirm that resetting automatic filling?",
-        ),
+        MessageLookupByLibrary.simpleMessage("Confirm reset auto-fill?"),
     "setting_action_info_cpu_core_tip": MessageLookupByLibrary.simpleMessage(
-      "Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI Launcher Admin mode in the box on the homepage. This function is not enabled when it is 0.",
+      "Tip: Enter how many efficiency cores your device has, keep 0 for non-big.LITTLE devices\n\nThis feature applies to SCToolbox one-click launch on the home page or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled.",
     ),
     "setting_action_info_delete_local_account_warning":
         MessageLookupByLibrary.simpleMessage(
-          "This will delete local account records, or it will automatically fill in the next time the game starts the game to disable automatic filling.",
+          "This will delete the local account record, or select \'no\' for auto-fill the next time you launch the game to disable auto-fill.",
         ),
     "setting_action_info_enter_cpu_core_to_ignore":
         MessageLookupByLibrary.simpleMessage(
-          "Please enter the core number of CPUs to be ignored",
+          "Please enter the number of CPU cores to ignore",
         ),
     "setting_action_info_file_error": MessageLookupByLibrary.simpleMessage(
-      "The file is wrong!",
+      "File error!",
     ),
     "setting_action_info_manual_game_location_setting":
         MessageLookupByLibrary.simpleMessage(
-          "Manually set the game installation location, it is recommended to use it only when the installation location cannot be automatically scanned",
+          "Manually set game installation location, recommended only when automatic installation location scanning is not available",
         ),
     "setting_action_info_manual_launcher_location_setting":
         MessageLookupByLibrary.simpleMessage(
-          "Set the position of the RSI Launcher manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically",
+          "Manually set launcher location, recommended only when automatic installation location scanning is not available",
         ),
     "setting_action_info_microsoft_version_limitation":
         MessageLookupByLibrary.simpleMessage(
-          "Due to Microsoft\'s version restrictions, manually drag the SCToolBox to the desktop in the next window to create a shortcut.",
+          "Due to Microsoft version feature limitations, please manually drag SCToolbox to the desktop in the window that opens next to create a shortcut.",
         ),
     "setting_action_info_mirror_server_info": MessageLookupByLibrary.simpleMessage(
-      "Use a mirror server to accelerate access to tool websites such as DPS UEX. If you access abnormal access, please turn off the function. To protect the security of the account, the RSI official website will not be accelerated in any case.",
+      "Use mirror server to accelerate access to tool websites such as Dps, Uex, etc. If access is abnormal, please turn off this feature. To protect account security, the RSI official website will never be accelerated under any circumstances.",
     ),
     "setting_action_info_select_game_install_location":
         MessageLookupByLibrary.simpleMessage(
-          "Please select the game installation position (StarCitizen.exe)",
+          "Please select game installation location (StarCitizen.exe)",
         ),
     "setting_action_info_select_rsi_launcher_location":
         MessageLookupByLibrary.simpleMessage(
-          "Please select the RSI Launcher position (RSI LAUNCHER.EXE)",
+          "Please select RSI launcher location (RSI Launcher.exe)",
         ),
     "setting_action_info_setting_success": MessageLookupByLibrary.simpleMessage(
-      "Successfully set, click refresh on the corresponding page to scan the new path",
+      "Setting successful, click refresh on the corresponding page to scan for the new path",
     ),
     "setting_action_info_shortcut_created":
         MessageLookupByLibrary.simpleMessage(
-          "After the creation, please return to the desktop to view",
+          "Creation complete, please check your desktop",
         ),
     "setting_action_info_view_log_file": MessageLookupByLibrary.simpleMessage(
-      "Check the log file of the SCToolBox to locate the bug of the box",
+      "View the log file of SCToolbox to locate bugs in the box",
     ),
     "setting_action_reset_auto_password_fill":
-        MessageLookupByLibrary.simpleMessage(
-          "Reset automatic password filling",
-        ),
+        MessageLookupByLibrary.simpleMessage("Reset Auto Password Fill"),
     "setting_action_set_core_count": m57,
     "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
-      "Set the game file (StarCitizen.exe)",
+      "Set Game File (StarCitizen.exe)",
     ),
     "setting_action_set_launcher_file": MessageLookupByLibrary.simpleMessage(
-      "Set the promoter file (RSI Launcher.exe)",
+      "Set Launcher File (RSI Launcher.exe)",
     ),
     "setting_action_tool_site_access_acceleration":
-        MessageLookupByLibrary.simpleMessage(
-          "Tool station access acceleration",
-        ),
+        MessageLookupByLibrary.simpleMessage("Tool Site Access Acceleration"),
     "setting_action_view_log": MessageLookupByLibrary.simpleMessage("View log"),
     "setting_toast_select_game_file": MessageLookupByLibrary.simpleMessage(
-      "Select the corresponding game file to: bin64/StarCitizen.exe",
+      "Select the corresponding game file to: Bin64/StarCitizen.exe",
     ),
     "setting_toast_select_launcher_exe": MessageLookupByLibrary.simpleMessage(
-      "Select the starter EXE file: \"RSI LAUNCHER.EXE\"",
+      "Select launcher exe file: \"RSI Launcher.exe\"",
     ),
     "settings_app_language": MessageLookupByLibrary.simpleMessage("Language"),
-    "settings_app_language_auto": MessageLookupByLibrary.simpleMessage(
-      "Automatic",
-    ),
+    "settings_app_language_auto": MessageLookupByLibrary.simpleMessage("Auto"),
     "settings_app_language_switch_info": MessageLookupByLibrary.simpleMessage(
-      "Switch application Display language",
+      "Switch application display language",
     ),
     "settings_item_dns": MessageLookupByLibrary.simpleMessage(
-      "Use built -in DNS",
+      "Use Built-in DNS",
     ),
     "settings_item_dns_info": MessageLookupByLibrary.simpleMessage(
-      "After opening, the problem of DNS pollution in some areas may be solved",
+      "When enabled, may solve DNS pollution issues in some regions",
     ),
     "settings_title_game": MessageLookupByLibrary.simpleMessage("Game"),
-    "settings_title_general": MessageLookupByLibrary.simpleMessage("Universal"),
+    "settings_title_general": MessageLookupByLibrary.simpleMessage("General"),
     "support_dev_alipay": MessageLookupByLibrary.simpleMessage("Alipay"),
     "support_dev_back_button": MessageLookupByLibrary.simpleMessage("Back"),
     "support_dev_copy_button": MessageLookupByLibrary.simpleMessage("Copy"),
     "support_dev_donation_disclaimer": MessageLookupByLibrary.simpleMessage(
-      "* Please note: Donations are voluntary gifts, and you will not receive any additional benefits in software experience.",
+      "* Please note: Donation is a gratuitous gift, you will not receive additional benefits in software experience.",
     ),
     "support_dev_github_star_button": MessageLookupByLibrary.simpleMessage(
       "Star Project",
     ),
     "support_dev_github_star_message": MessageLookupByLibrary.simpleMessage(
-      "You can also star my project on GitHub",
+      "You can also give my project a Star on GitHub",
     ),
     "support_dev_in_game_currency_message": MessageLookupByLibrary.simpleMessage(
-      "You can send me aUEC in the game as support, which will help me get a better gaming experience in limited time",
+      "You can send aUEC to me in the game as support, which will help me get a better gaming experience in limited time",
     ),
     "support_dev_in_game_currency_title": MessageLookupByLibrary.simpleMessage(
       "In-game Currency",
@@ -1423,284 +1411,272 @@ class MessageLookup extends MessageLookupByLibrary {
       "Game ID copied",
     ),
     "support_dev_referral_code_message": MessageLookupByLibrary.simpleMessage(
-      "If you haven\'t registered the game or filled in a referral code yet, please consider using mine: STAR-3YXS-SWTC. Thank you for reading this far.",
+      "If you haven\'t registered for the game or entered a referral code yet, you can consider mine: STAR-3YXS-SWTC. Thanks for reading this far",
     ),
     "support_dev_scroll_hint": MessageLookupByLibrary.simpleMessage(
       "Scroll down for more",
     ),
     "support_dev_thanks_message": MessageLookupByLibrary.simpleMessage(
-      "Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players. Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.",
-    ),
-    "support_dev_thanks_message_part1": MessageLookupByLibrary.simpleMessage(
-      "Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players.",
-    ),
-    "support_dev_thanks_message_part2": MessageLookupByLibrary.simpleMessage(
-      "Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.",
+      "Thank you for using SCToolbox, I\'m its developer xkeyC\nSCToolbox is committed to open source and providing free services to players. Free service is a challenging job, and if you consider buying me a drink, I would be very grateful.\nDonated funds will be used for server expenses, new feature development, and increasing motivation for software maintenance.",
     ),
     "support_dev_title": MessageLookupByLibrary.simpleMessage(
-      "Support the Developer",
+      "Support Developer",
     ),
     "support_dev_wechat": MessageLookupByLibrary.simpleMessage("WeChat"),
     "tools_action_clear_shader_cache": MessageLookupByLibrary.simpleMessage(
-      "Clean up the color device cache",
+      "Clear Shader Cache",
     ),
     "tools_action_close_photography_mode": MessageLookupByLibrary.simpleMessage(
-      "Turn off the photography mode",
+      "Close Photography Mode",
     ),
     "tools_action_hosts_acceleration_experimental":
         MessageLookupByLibrary.simpleMessage(
-          "Hosts acceleration (experimental)",
+          "Hosts Acceleration (Experimental)",
         ),
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
-      "After cleaning up, complete the installation / game startup operation once.",
+      "Cleanup complete, please complete one installation / game launch operation.",
     ),
     "tools_action_info_cleanup_failed": m58,
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage(
-          "The configuration file does not exist, please try to run the game once",
+          "Configuration file does not exist, please try running the game once",
         ),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
-      "Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC.",
+      "EAC files have been removed for you. Next, we\'ll open the RSI launcher for you. Please go to SETTINGS -> VERIFY to reinstall EAC.",
     ),
     "tools_action_info_error_occurred": m59,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
-      "If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.",
+      "Fixed successfully, please try restarting your computer and then continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME Registry Cleanup in Tools.",
     ),
     "tools_action_info_function_under_maintenance":
         MessageLookupByLibrary.simpleMessage(
-          "During functional maintenance, please try it later!",
+          "Function under maintenance, please try again later!",
         ),
     "tools_action_info_hosts_acceleration_experimental_tip":
         MessageLookupByLibrary.simpleMessage(
-          "Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems.",
+          "Write IP information to the Hosts file to solve issues such as DNS pollution in some regions that prevent logging in to the official website.\nThis feature is in its first testing phase, please provide feedback if you encounter any issues.",
         ),
     "tools_action_info_init_failed": m60,
     "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
-      "The log file does not exist, please try to start a game startup or game installation, and exit the RSI Launcher. If the problem cannot be solved, try to update the launcher to the latest version!",
+      "Log file does not exist. Please try launching the game or installing the game once and then exit the launcher. If the problem persists, please try updating the launcher to the latest version!",
     ),
     "tools_action_info_log_file_parse_failed": MessageLookupByLibrary.simpleMessage(
-      "Analysis of LOG files failed!\nTry to use RSI Launcher Log repair tool!",
+      "Failed to parse log file!\nPlease try using the RSI Launcher Log Fix tool!",
     ),
     "tools_action_info_manual_nvme_patch": MessageLookupByLibrary.simpleMessage(
-      "Manually write the NVM patch, this function is used only when you know what you do",
+      "Manually write NVM patch, only use this feature if you know what you\'re doing",
     ),
     "tools_action_info_not_installed": MessageLookupByLibrary.simpleMessage(
-      "Not Installed",
+      "Not installed",
     ),
     "tools_action_info_nvme_patch_issue": m61,
     "tools_action_info_one_key_close_lens_shake":
         MessageLookupByLibrary.simpleMessage(
-          "Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information.",
+          "One-click disable in-game lens shake for better photography operations.\n\n@Lapernum provides parameter information.",
         ),
     "tools_action_info_p4k_download_in_progress":
         MessageLookupByLibrary.simpleMessage(
-          "There is already a P4K download task in progress, please go to the download manager to view!",
+          "A p4k download task is already in progress, please check the download manager!",
         ),
     "tools_action_info_p4k_download_repair_tip": m62,
     "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
-      "P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the RSI Launcher to check it.",
+      "P4k is Star Citizen\'s core game file, over 100GB+. The offline download provided by SCToolbox is to help users who have extremely slow p4k file downloads or to repair p4k files that the official launcher cannot fix.\n\nNext, a dialog will ask for your save location (you can choose the Star Citizen folder or elsewhere). After downloading, please make sure the P4K file is placed in the LIVE folder, then verify and update using the Star Citizen launcher.",
     ),
     "tools_action_info_reinstall_eac": MessageLookupByLibrary.simpleMessage(
-      "If you encounter EAC errors and are invalid automatically, try using this feature to reinstall EAC.",
+      "If you encounter EAC errors and automatic repair is ineffective, please try using this feature to reinstall EAC.",
     ),
     "tools_action_info_removed_restart_effective":
         MessageLookupByLibrary.simpleMessage(
-          "Remove the computer to take effect!",
+          "Removed, restart computer for changes to take effect!",
         ),
     "tools_action_info_restore_lens_shake": MessageLookupByLibrary.simpleMessage(
-      "Restoring the lens shaking effect.\n\n@Lapernum offers parameter information.",
+      "Restore lens shake effect.\n\n@Lapernum provides parameter information.",
     ),
     "tools_action_info_rsi_launcher_directory_not_found":
         MessageLookupByLibrary.simpleMessage(
-          "If the RSI Launcher directory is not found, please try manually.",
+          "RSI launcher directory not found, please try manual operation.",
         ),
     "tools_action_info_rsi_launcher_log_issue": m63,
     "tools_action_info_rsi_launcher_not_found":
         MessageLookupByLibrary.simpleMessage(
-          "If the RSI label is not found, try to reinstall it or add it manually in the settings.",
+          "RSI launcher not found, please try reinstalling or manually adding it in settings.",
         ),
     "tools_action_info_rsi_launcher_running_warning":
         MessageLookupByLibrary.simpleMessage(
-          "The RSI Launcher is running! Please turn off the label first and then use this feature!",
+          "RSI Launcher is running! Please close the launcher before using this feature!",
         ),
     "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
-      "Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here.",
+      "Run the RSI launcher as administrator, which may solve some issues.\n\nIf efficiency core blocking parameters are set, they will also be applied here.",
     ),
     "tools_action_info_shader_cache_issue": m64,
     "tools_action_info_star_citizen_not_found":
         MessageLookupByLibrary.simpleMessage(
-          "If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings.",
+          "Star Citizen game installation location not found, please complete at least one game launch operation or manually add it in settings.",
         ),
     "tools_action_info_system_info_content": m65,
     "tools_action_info_system_info_title": MessageLookupByLibrary.simpleMessage(
-      "System message",
+      "System Information",
     ),
     "tools_action_info_valid_game_directory_needed":
         MessageLookupByLibrary.simpleMessage(
-          "This function requires an effective game installation directory",
+          "This feature requires a valid game installation directory",
         ),
     "tools_action_info_view_critical_system_info":
         MessageLookupByLibrary.simpleMessage(
-          "Check the key information of the system for quick consultation\n\nTime -consuming operation, please wait patiently.",
+          "View critical system information for quick diagnosis\n\nThis operation takes time, please wait patiently.",
         ),
     "tools_action_open_photography_mode": MessageLookupByLibrary.simpleMessage(
-      "Turn on the photography mode",
+      "Open Photography Mode",
     ),
     "tools_action_p4k_download_repair": MessageLookupByLibrary.simpleMessage(
-      "P4k diversion download / repair",
+      "P4K Diversion Download / Repair",
     ),
     "tools_action_reinstall_easyanticheat":
-        MessageLookupByLibrary.simpleMessage("Reinstall EasyAnticheat"),
+        MessageLookupByLibrary.simpleMessage("Reinstall EasyAntiCheat"),
     "tools_action_remove_nvme_registry_patch":
-        MessageLookupByLibrary.simpleMessage("Remove the NVMe registry patch"),
+        MessageLookupByLibrary.simpleMessage("Remove NVME Registry Patch"),
     "tools_action_rsi_launcher_admin_mode":
-        MessageLookupByLibrary.simpleMessage("RSI Launcher administrator mode"),
+        MessageLookupByLibrary.simpleMessage("RSI Launcher Admin Mode"),
     "tools_action_rsi_launcher_enhance_info":
         MessageLookupByLibrary.simpleMessage(
-          "Enhanced launcher Localization、 download thread",
+          "Launcher localization, download thread enhancement",
         ),
     "tools_action_rsi_launcher_log_fix": MessageLookupByLibrary.simpleMessage(
-      "RSI LAUNCHER LOG repair",
+      "RSI Launcher Log Fix",
     ),
-    "tools_action_unp4k": MessageLookupByLibrary.simpleMessage("P4K viewer"),
+    "tools_action_unp4k": MessageLookupByLibrary.simpleMessage("P4K Viewer"),
     "tools_action_unp4k_info": MessageLookupByLibrary.simpleMessage(
-      "Package Star Citizen P4K File",
+      "Unpack Star Citizen p4k files",
     ),
     "tools_action_view_system_info": MessageLookupByLibrary.simpleMessage(
-      "View system information",
+      "View System Info",
     ),
     "tools_action_write_nvme_registry_patch":
-        MessageLookupByLibrary.simpleMessage(
-          "Write in the NVMe registry patch",
-        ),
+        MessageLookupByLibrary.simpleMessage("Write NVME Registry Patch"),
     "tools_hosts_action_one_click_acceleration":
-        MessageLookupByLibrary.simpleMessage("One -click acceleration"),
+        MessageLookupByLibrary.simpleMessage("One-Click Acceleration"),
     "tools_hosts_info_dns_query_and_test": MessageLookupByLibrary.simpleMessage(
-      "Inquiring about DNS and testing accessibility, please wait patiently ...",
+      "Querying DNS and testing accessibility, please wait patiently...",
     ),
-    "tools_hosts_info_enable": MessageLookupByLibrary.simpleMessage(
-      "Whether to enable",
-    ),
+    "tools_hosts_info_enable": MessageLookupByLibrary.simpleMessage("Enable"),
     "tools_hosts_info_hosts_acceleration": MessageLookupByLibrary.simpleMessage(
-      "Hosts accelerate",
+      "Hosts Acceleration",
     ),
     "tools_hosts_info_open_hosts_file": MessageLookupByLibrary.simpleMessage(
-      "Open the hosts file",
+      "Open Hosts File",
     ),
     "tools_hosts_info_reading_config": MessageLookupByLibrary.simpleMessage(
-      "Read the configuration ...",
+      "Reading configuration...",
     ),
     "tools_hosts_info_rsi_customer_service":
-        MessageLookupByLibrary.simpleMessage("RSI customer service station"),
+        MessageLookupByLibrary.simpleMessage("RSI Customer Service"),
     "tools_hosts_info_rsi_official_website":
-        MessageLookupByLibrary.simpleMessage("RSI official website"),
+        MessageLookupByLibrary.simpleMessage("RSI Official Website"),
     "tools_hosts_info_site": MessageLookupByLibrary.simpleMessage("Site"),
     "tools_hosts_info_status": MessageLookupByLibrary.simpleMessage("Status"),
     "tools_hosts_info_writing_hosts": MessageLookupByLibrary.simpleMessage(
-      "I am writing Hosts ...",
+      "Writing to Hosts...",
     ),
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
-      "Game installation location:  ",
+      "Game installation location: ",
     ),
     "tools_info_processing_failed": m66,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
-      "RSI Launcher position:",
+      "RSI Launcher location:",
     ),
     "tools_info_scanning": MessageLookupByLibrary.simpleMessage("Scanning..."),
     "tools_rsi_launcher_enhance_action_expand":
-        MessageLookupByLibrary.simpleMessage("Expand additional features"),
+        MessageLookupByLibrary.simpleMessage("Expand Additional Features"),
     "tools_rsi_launcher_enhance_action_fold":
-        MessageLookupByLibrary.simpleMessage("Put up the additional function"),
+        MessageLookupByLibrary.simpleMessage("Collapse Additional Features"),
     "tools_rsi_launcher_enhance_action_install":
-        MessageLookupByLibrary.simpleMessage("Installation enhanced patch"),
+        MessageLookupByLibrary.simpleMessage("Install Enhancement Patch"),
     "tools_rsi_launcher_enhance_init_msg1":
-        MessageLookupByLibrary.simpleMessage(
-          "Read the RSI Launcher information ...",
-        ),
+        MessageLookupByLibrary.simpleMessage("Reading launcher information..."),
     "tools_rsi_launcher_enhance_init_msg2":
         MessageLookupByLibrary.simpleMessage(
-          "Obtaining enhanced data from the Internet ...",
+          "Getting enhancement data from network...",
         ),
     "tools_rsi_launcher_enhance_msg_error": MessageLookupByLibrary.simpleMessage(
-      "Obtaining enhanced data failure may be the network problem or the current version does not support",
+      "Failed to get enhancement data, possibly due to network issues or the current version is not supported",
     ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage(
-          "Reading the Launcher information failed!",
+          "Failed to read launcher information!",
         ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
         m67,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
-        MessageLookupByLibrary.simpleMessage("No RSI promoter was found"),
+        MessageLookupByLibrary.simpleMessage("RSI launcher not found"),
     "tools_rsi_launcher_enhance_msg_patch_status": m68,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
-          "* If you need to uninstall the enhanced patch, cover the installation RSI promoter.",
+          "* To uninstall the enhancement patch, please reinstall the RSI launcher.",
         ),
     "tools_rsi_launcher_enhance_msg_version": m69,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
-      "RSI Launcher enhancement is a community function. It will unpack \"RSI LAUNCHER\" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the Launcher, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official RSI Launcher directly.",
+      "RSI Launcher Enhancement is a community feature that unpacks the \"RSI Launcher\" on your computer and adds additional enhancement features. Which features to use is up to you.\n\nCurrently, only multi-language operations are officially permitted by CIG. Launcher download enhancement is an extra feature we consider useful, but violating the CIG user agreement (https://robertsspaceindustries.com/eula) may result in serious consequences such as account banning. Whether to enable it is your decision, and we are not responsible for any consequences (game damage, account banning, etc.) that may arise.\n\nThe modifications to the launcher are open-sourced at: https://github.com/StarCitizenToolBox/RSILauncherEnhance, which you can check if needed.\n\nIf for any reason you need to cancel this enhancement patch, please directly reinstall the official launcher.",
     ),
     "tools_rsi_launcher_enhance_note_title":
         MessageLookupByLibrary.simpleMessage(
-          "Instructions for the use of RSI Launcher enhancement",
+          "RSI Launcher Enhancement Usage Notice",
         ),
     "tools_rsi_launcher_enhance_subtitle_download_booster":
         MessageLookupByLibrary.simpleMessage(
-          "When downloading the game, you can use more threads to increase the download speed.",
+          "Use more threads to improve download speed when downloading the game. After enabling, please modify the number of threads in the launcher settings.",
         ),
     "tools_rsi_launcher_enhance_subtitle_localization":
         MessageLookupByLibrary.simpleMessage(
-          "Add multi -language support to the RSI Launcher.",
+          "Add multi-language support to RSI Launcher.",
         ),
     "tools_rsi_launcher_enhance_title": MessageLookupByLibrary.simpleMessage(
-      "RSI Launcher enhancement",
+      "RSI Launcher Enhancement",
     ),
     "tools_rsi_launcher_enhance_title_download_booster":
         MessageLookupByLibrary.simpleMessage(
-          "RSI Launcher download enhancement",
+          "RSI Launcher Download Enhancement",
         ),
     "tools_rsi_launcher_enhance_title_localization":
-        MessageLookupByLibrary.simpleMessage("RSI startup localization"),
+        MessageLookupByLibrary.simpleMessage("RSI Launcher Localization"),
     "tools_rsi_launcher_enhance_working_msg1":
-        MessageLookupByLibrary.simpleMessage("Generate patch ..."),
+        MessageLookupByLibrary.simpleMessage("Generating patch..."),
     "tools_rsi_launcher_enhance_working_msg2": MessageLookupByLibrary.simpleMessage(
-      "Installation patch takes a little time, depending on your computer performance ...",
+      "Installing patch, this will take some time depending on your computer\'s performance...",
     ),
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
-      "Lack of runtime",
+      "Missing Runtime",
     ),
     "tools_unp4k_missing_runtime_action_install":
-        MessageLookupByLibrary.simpleMessage("Install the runtime"),
+        MessageLookupByLibrary.simpleMessage("Install Runtime"),
     "tools_unp4k_missing_runtime_info": MessageLookupByLibrary.simpleMessage(
-      "Use this function to install the .NET8 runtime, please click the button below to download and install it. After the installation is successful, reopen this page to continue to use.",
+      "Using this feature requires .NET8 runtime. Please click the button below to download and install it. After successful installation, reopen this page to continue using.",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
-      "Initialization ...",
+      "Initializing...",
     ),
     "tools_unp4k_msg_open_file": m70,
     "tools_unp4k_msg_read_completed": m71,
     "tools_unp4k_msg_read_file": m72,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
-      "Reading P4K file ...",
+      "Reading P4K file...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
-      "Treatment files ...",
+      "Processing files...",
     ),
     "tools_unp4k_msg_reading3": m73,
     "tools_unp4k_msg_unknown_file_type": m74,
     "tools_unp4k_title": m75,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
-      "Click the file to preview",
+      "Click file to preview",
     ),
     "webview_localization_finished_invitations":
-        MessageLookupByLibrary.simpleMessage("Completed invitations"),
+        MessageLookupByLibrary.simpleMessage("Finished invitations"),
     "webview_localization_name_member": MessageLookupByLibrary.simpleMessage(
       "Member",
     ),
     "webview_localization_total_invitations":
-        MessageLookupByLibrary.simpleMessage("Total invitation:"),
+        MessageLookupByLibrary.simpleMessage("Total invitations:"),
     "webview_localization_unfinished_invitations":
-        MessageLookupByLibrary.simpleMessage("Undead invitation"),
+        MessageLookupByLibrary.simpleMessage("Unfinished invitations"),
   };
 }

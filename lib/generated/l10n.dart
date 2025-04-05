@@ -70,60 +70,60 @@ class S {
     return Intl.message('en', name: 'app_language_code', desc: '', args: []);
   }
 
-  /// `SCToolBox V {v0} {v1}`
+  /// `SCToolbox V{v0} {v1}`
   String app_index_version_info(Object v0, Object v1) {
     return Intl.message(
-      'SCToolBox V $v0 $v1',
+      'SCToolbox V$v0 $v1',
       name: 'app_index_version_info',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `SCToolBox.lnk`
+  /// `SCToolboxDEV.lnk`
   String get app_shortcut_name {
     return Intl.message(
-      'SCToolBox.lnk',
+      'SCToolboxDEV.lnk',
       name: 'app_shortcut_name',
       desc: '',
       args: [],
     );
   }
 
-  /// `Check for updates`
+  /// `Check for Updates`
   String get about_check_update {
     return Intl.message(
-      'Check for updates',
+      'Check for Updates',
       name: 'about_check_update',
       desc: '',
       args: [],
     );
   }
 
-  /// `Not just about localization!\n\nThe SCToolBox is your helper to explore the verse. We are committed to solving common in-game problems for citizens, in addition to facilitating localization from the community, game performance tuning, and localization of some commonly used website.`
+  /// `Not just Localization!\n\nSCToolbox is your excellent companion for exploring the universe. We are dedicated to solving common in-game issues for citizens and facilitating community Localization, performance optimization, and Localization for popular websites.`
   String get about_app_description {
     return Intl.message(
-      'Not just about localization!\n\nThe SCToolBox is your helper to explore the verse. We are committed to solving common in-game problems for citizens, in addition to facilitating localization from the community, game performance tuning, and localization of some commonly used website.',
+      'Not just Localization!\n\nSCToolbox is your excellent companion for exploring the universe. We are dedicated to solving common in-game issues for citizens and facilitating community Localization, performance optimization, and Localization for popular websites.',
       name: 'about_app_description',
       desc: '',
       args: [],
     );
   }
 
-  /// `Online feedback`
+  /// `Online Feedback`
   String get about_online_feedback {
     return Intl.message(
-      'Online feedback',
+      'Online Feedback',
       name: 'about_online_feedback',
       desc: '',
       args: [],
     );
   }
 
-  /// `QQ group: 940696487`
+  /// `QQ Group: 940696487`
   String get about_action_qq_group {
     return Intl.message(
-      'QQ group: 940696487',
+      'QQ Group: 940696487',
       name: 'about_action_qq_group',
       desc: '',
       args: [],
@@ -140,80 +140,80 @@ class S {
     );
   }
 
-  /// `Open source`
+  /// `Open Source`
   String get about_action_open_source {
     return Intl.message(
-      'Open source',
+      'Open Source',
       name: 'about_action_open_source',
       desc: '',
       args: [],
     );
   }
 
-  /// `This is an unofficial Star Citizen fan-made tools, not affiliated with the Cloud Imperium group of companies. All content on this Software not authored by its host or users are property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.`
+  /// `This is an unofficial Star Citizen tool and is not affiliated with the Cloud Imperium Group. All content not created by its hosts or users remains the property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.`
   String get about_disclaimer {
     return Intl.message(
-      'This is an unofficial Star Citizen fan-made tools, not affiliated with the Cloud Imperium group of companies. All content on this Software not authored by its host or users are property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.',
+      'This is an unofficial Star Citizen tool and is not affiliated with the Cloud Imperium Group. All content not created by its hosts or users remains the property of their respective owners. \nStar Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.',
       name: 'about_disclaimer',
       desc: '',
       args: [],
     );
   }
 
-  /// `Start up`
+  /// `Launch`
   String get about_analytics_launch {
     return Intl.message(
-      'Start up',
+      'Launch',
       name: 'about_analytics_launch',
       desc: '',
       args: [],
     );
   }
 
-  /// `Game launches`
+  /// `Launch Game`
   String get about_analytics_launch_game {
     return Intl.message(
-      'Game launches',
+      'Launch Game',
       name: 'about_analytics_launch_game',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cumulative users`
+  /// `Total Users`
   String get about_analytics_total_users {
     return Intl.message(
-      'Cumulative users',
+      'Total Users',
       name: 'about_analytics_total_users',
       desc: '',
       args: [],
     );
   }
 
-  /// `Localization installs`
+  /// `Localization Installation`
   String get about_analytics_install_translation {
     return Intl.message(
-      'Localization installs',
+      'Localization Installation',
       name: 'about_analytics_install_translation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Performance tuning`
+  /// `Performance Optimization`
   String get about_analytics_performance_optimization {
     return Intl.message(
-      'Performance tuning',
+      'Performance Optimization',
       name: 'about_analytics_performance_optimization',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4k diversion`
+  /// `P4K Redirection`
   String get about_analytics_p4k_redirection {
     return Intl.message(
-      'P4k diversion',
+      'P4K Redirection',
       name: 'about_analytics_p4k_redirection',
       desc: '',
       args: [],
@@ -230,50 +230,50 @@ class S {
     );
   }
 
-  /// `Times`
+  /// `times`
   String get about_analytics_units_times {
     return Intl.message(
-      'Times',
+      'times',
       name: 'about_analytics_units_times',
       desc: '',
       args: [],
     );
   }
 
-  /// `It is already the latest version!`
+  /// `Already the latest version!`
   String get about_info_latest_version {
     return Intl.message(
-      'It is already the latest version!',
+      'Already the latest version!',
       name: 'about_info_latest_version',
       desc: '',
       args: [],
     );
   }
 
-  /// `Countdown`
+  /// `Holiday Countdown`
   String get home_holiday_countdown {
     return Intl.message(
-      'Countdown',
+      'Holiday Countdown',
       name: 'home_holiday_countdown',
       desc: '',
       args: [],
     );
   }
 
-  /// `* The above festival dates are added and maintained manually. There may be errors and we welcome any feedback!`
+  /// `* The holiday dates above are manually collected and maintained, and may contain errors. Feedback is welcome!`
   String get home_holiday_countdown_disclaimer {
     return Intl.message(
-      '* The above festival dates are added and maintained manually. There may be errors and we welcome any feedback!',
+      '* The holiday dates above are manually collected and maintained, and may contain errors. Feedback is welcome!',
       name: 'home_holiday_countdown_disclaimer',
       desc: '',
       args: [],
     );
   }
 
-  /// `One-click launch`
+  /// `One-Click Launch`
   String get home_action_one_click_launch {
     return Intl.message(
-      'One-click launch',
+      'One-Click Launch',
       name: 'home_action_one_click_launch',
       desc: '',
       args: [],
@@ -290,90 +290,90 @@ class S {
     );
   }
 
-  /// `Welcome back!`
+  /// `Welcome Back!`
   String get home_login_title_welcome_back {
     return Intl.message(
-      'Welcome back!',
+      'Welcome Back!',
       name: 'home_login_title_welcome_back',
       desc: '',
       args: [],
     );
   }
 
-  /// `Launching game for you ...`
+  /// `Launching the game for you...`
   String get home_login_title_launching_game {
     return Intl.message(
-      'Launching game for you ...',
+      'Launching the game for you...',
       name: 'home_login_title_launching_game',
       desc: '',
       args: [],
     );
   }
 
-  /// `Log in to RSI account`
+  /// `Login to RSI Account`
   String get home_action_login_rsi_account {
     return Intl.message(
-      'Log in to RSI account',
+      'Login to RSI Account',
       name: 'home_action_login_rsi_account',
       desc: '',
       args: [],
     );
   }
 
-  /// `Outdated game version`
+  /// `Game version outdated`
   String get home_login_info_game_version_outdated {
     return Intl.message(
-      'Outdated game version',
+      'Game version outdated',
       name: 'home_login_info_game_version_outdated',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI server report version number: {v1}\n\nLocal version number: {v2}\n\nIt is recommended to use RSI Launcher to update the game!`
+  /// `RSI Server reports version: {v1} \n\nLocal version: {v2} \n\nIt is recommended to use RSI Launcher to update the game!`
   String home_login_info_rsi_server_report(Object v1, Object v2) {
     return Intl.message(
-      'RSI server report version number: $v1\n\nLocal version number: $v2\n\nIt is recommended to use RSI Launcher to update the game!',
+      'RSI Server reports version: $v1 \n\nLocal version: $v2 \n\nIt is recommended to use RSI Launcher to update the game!',
       name: 'home_login_info_rsi_server_report',
       desc: '',
       args: [v1, v2],
     );
   }
 
-  /// `Neglect`
+  /// `Ignore`
   String get home_login_info_action_ignore {
     return Intl.message(
-      'Neglect',
+      'Ignore',
       name: 'home_login_info_action_ignore',
       desc: '',
       args: [],
     );
   }
 
-  /// `Box one -click start`
+  /// `Toolbox One-Click Launch`
   String get home_login_action_title_box_one_click_launch {
     return Intl.message(
-      'Box one -click start',
+      'Toolbox One-Click Launch',
       name: 'home_login_action_title_box_one_click_launch',
       desc: '',
       args: [],
     );
   }
 
-  /// `This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.`
+  /// `This feature helps you launch the game more conveniently.\n\nTo ensure account safety, this feature uses a localized browser to maintain login status and will not save your password information (unless you enable the auto-fill feature).\n\nWhen using this feature to login, please ensure that your SCToolbox is downloaded from a trusted source.`
   String get home_login_info_one_click_launch_description {
     return Intl.message(
-      'This feature can help you start the game more conveniently.\n\nTo ensure the security of the account, this function uses the Localization browser to retain the login status and will not save your password information (unless you enable the automatic filling function).\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.',
+      'This feature helps you launch the game more conveniently.\n\nTo ensure account safety, this feature uses a localized browser to maintain login status and will not save your password information (unless you enable the auto-fill feature).\n\nWhen using this feature to login, please ensure that your SCToolbox is downloaded from a trusted source.',
       name: 'home_login_info_one_click_launch_description',
       desc: '',
       args: [],
     );
   }
 
-  /// `Need to install WebView2 Runtime`
+  /// `WebView2 Runtime Required`
   String get home_login_action_title_need_webview2_runtime {
     return Intl.message(
-      'Need to install WebView2 Runtime',
+      'WebView2 Runtime Required',
       name: 'home_login_action_title_need_webview2_runtime',
       desc: '',
       args: [],
@@ -385,80 +385,80 @@ class S {
     return Intl.message('Close', name: 'action_close', desc: '', args: []);
   }
 
-  /// `Speed limit setting`
+  /// `Speed Limit Settings`
   String get downloader_speed_limit_settings {
     return Intl.message(
-      'Speed limit setting',
+      'Speed Limit Settings',
       name: 'downloader_speed_limit_settings',
       desc: '',
       args: [],
     );
   }
 
-  /// `All of the suspension`
+  /// `Pause All`
   String get downloader_action_pause_all {
     return Intl.message(
-      'All of the suspension',
+      'Pause All',
       name: 'downloader_action_pause_all',
       desc: '',
       args: [],
     );
   }
 
-  /// `Restore all`
+  /// `Resume All`
   String get downloader_action_resume_all {
     return Intl.message(
-      'Restore all',
+      'Resume All',
       name: 'downloader_action_resume_all',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cancel all of them`
+  /// `Cancel All`
   String get downloader_action_cancel_all {
     return Intl.message(
-      'Cancel all of them',
+      'Cancel All',
       name: 'downloader_action_cancel_all',
       desc: '',
       args: [],
     );
   }
 
-  /// `No download task`
+  /// `No download tasks`
   String get downloader_info_no_download_tasks {
     return Intl.message(
-      'No download task',
+      'No download tasks',
       name: 'downloader_info_no_download_tasks',
       desc: '',
       args: [],
     );
   }
 
-  /// `Total size: {v1}`
+  /// `Total Size: {v1}`
   String downloader_info_total_size(Object v1) {
     return Intl.message(
-      'Total size: $v1',
+      'Total Size: $v1',
       name: 'downloader_info_total_size',
       desc: '',
       args: [v1],
     );
   }
 
-  /// `In the verification ... ({v2})`
+  /// `Verifying... ({v2})`
   String downloader_info_verifying(Object v2) {
     return Intl.message(
-      'In the verification ... ($v2)',
+      'Verifying... ($v2)',
       name: 'downloader_info_verifying',
       desc: '',
       args: [v2],
     );
   }
 
-  /// `Download ... ({v0}%)`
+  /// `Downloading... ({v0}%)`
   String downloader_info_downloading(Object v0) {
     return Intl.message(
-      'Download ... ($v0%)',
+      'Downloading... ($v0%)',
       name: 'downloader_info_downloading',
       desc: '',
       args: [v0],
@@ -495,60 +495,60 @@ class S {
     );
   }
 
-  /// `Option`
+  /// `Options`
   String get downloader_action_options {
     return Intl.message(
-      'Option',
+      'Options',
       name: 'downloader_action_options',
       desc: '',
       args: [],
     );
   }
 
-  /// `Continue download`
+  /// `Continue Download`
   String get downloader_action_continue_download {
     return Intl.message(
-      'Continue download',
+      'Continue Download',
       name: 'downloader_action_continue_download',
       desc: '',
       args: [],
     );
   }
 
-  /// `Pause download`
+  /// `Pause Download`
   String get downloader_action_pause_download {
     return Intl.message(
-      'Pause download',
+      'Pause Download',
       name: 'downloader_action_pause_download',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cancel download`
+  /// `Cancel Download`
   String get downloader_action_cancel_download {
     return Intl.message(
-      'Cancel download',
+      'Cancel Download',
       name: 'downloader_action_cancel_download',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open the folder`
+  /// `Open Folder`
   String get action_open_folder {
     return Intl.message(
-      'Open the folder',
+      'Open Folder',
       name: 'action_open_folder',
       desc: '',
       args: [],
     );
   }
 
-  /// `Download: {v0}/s Upload: {v1}/s`
+  /// `Download: {v0}/s    Upload: {v1}/s`
   String downloader_info_download_upload_speed(Object v0, Object v1) {
     return Intl.message(
-      'Download: $v0/s Upload: $v1/s',
+      'Download: $v0/s    Upload: $v1/s',
       name: 'downloader_info_download_upload_speed',
       desc: '',
       args: [v0, v1],
@@ -585,20 +585,20 @@ class S {
     );
   }
 
-  /// `Download failed`
+  /// `Download Failed`
   String get downloader_info_download_failed {
     return Intl.message(
-      'Download failed',
+      'Download Failed',
       name: 'downloader_info_download_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Download completed`
+  /// `Download Completed`
   String get downloader_info_download_completed {
     return Intl.message(
-      'Download completed',
+      'Download Completed',
       name: 'downloader_info_download_completed',
       desc: '',
       args: [],
@@ -625,100 +625,100 @@ class S {
     );
   }
 
-  /// `Over`
+  /// `Ended`
   String get downloader_title_ended {
     return Intl.message(
-      'Over',
+      'Ended',
       name: 'downloader_title_ended',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirm the cancellation of all tasks?`
+  /// `Confirm cancellation of all tasks?`
   String get downloader_action_confirm_cancel_all_tasks {
     return Intl.message(
-      'Confirm the cancellation of all tasks?',
+      'Confirm cancellation of all tasks?',
       name: 'downloader_action_confirm_cancel_all_tasks',
       desc: '',
       args: [],
     );
   }
 
-  /// `If the file is no longer needed, you may need to delete the download file manually.`
+  /// `If the file is no longer needed, you may need to manually delete the downloaded files.`
   String get downloader_info_manual_file_deletion_note {
     return Intl.message(
-      'If the file is no longer needed, you may need to delete the download file manually.',
+      'If the file is no longer needed, you may need to manually delete the downloaded files.',
       name: 'downloader_info_manual_file_deletion_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirm the cancellation download?`
+  /// `Confirm cancellation of download?`
   String get downloader_action_confirm_cancel_download {
     return Intl.message(
-      'Confirm the cancellation download?',
+      'Confirm cancellation of download?',
       name: 'downloader_action_confirm_cancel_download',
       desc: '',
       args: [],
     );
   }
 
-  /// `The SCToolBox uses the P2P network to accelerate file download. If you have limited traffic, you can set the upload bandwidth to 1 (byte) here.`
+  /// `SCToolbox uses p2p network to accelerate file downloads. If you have limited bandwidth, you can set the upload bandwidth to 1(byte) here.`
   String get downloader_info_p2p_network_note {
     return Intl.message(
-      'The SCToolBox uses the P2P network to accelerate file download. If you have limited traffic, you can set the upload bandwidth to 1 (byte) here.',
+      'SCToolbox uses p2p network to accelerate file downloads. If you have limited bandwidth, you can set the upload bandwidth to 1(byte) here.',
       name: 'downloader_info_p2p_network_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter the download unit.`
+  /// `Please enter download units, e.g.: 1, 100k, 10m. Enter 0 or leave blank for unlimited speed.`
   String get downloader_info_download_unit_input_prompt {
     return Intl.message(
-      'Please enter the download unit.',
+      'Please enter download units, e.g.: 1, 100k, 10m. Enter 0 or leave blank for unlimited speed.',
       name: 'downloader_info_download_unit_input_prompt',
       desc: '',
       args: [],
     );
   }
 
-  /// `Upload speed limit:`
+  /// `Upload Speed Limit:`
   String get downloader_input_upload_speed_limit {
     return Intl.message(
-      'Upload speed limit:',
+      'Upload Speed Limit:',
       name: 'downloader_input_upload_speed_limit',
       desc: '',
       args: [],
     );
   }
 
-  /// `Download speed limit:`
+  /// `Download Speed Limit:`
   String get downloader_input_download_speed_limit {
     return Intl.message(
-      'Download speed limit:',
+      'Download Speed Limit:',
       name: 'downloader_input_download_speed_limit',
       desc: '',
       args: [],
     );
   }
 
-  /// `* P2P upload is only performed when downloading files, and the P2P connection will be turned off after downloading. If you want to participate in planting, please contact us about the page.`
+  /// `* P2P upload only occurs when downloading files and will close p2p connections after download completion. If you want to participate in seeding, please contact us through the About page.`
   String get downloader_input_info_p2p_upload_note {
     return Intl.message(
-      '* P2P upload is only performed when downloading files, and the P2P connection will be turned off after downloading. If you want to participate in planting, please contact us about the page.',
+      '* P2P upload only occurs when downloading files and will close p2p connections after download completion. If you want to participate in seeding, please contact us through the About page.',
       name: 'downloader_input_info_p2p_upload_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `One -click diagnosis-> {v0}`
+  /// `One-Click Diagnosis -> {v0}`
   String doctor_title_one_click_diagnosis(Object v0) {
     return Intl.message(
-      'One -click diagnosis-> $v0',
+      'One-Click Diagnosis -> $v0',
       name: 'doctor_title_one_click_diagnosis',
       desc: '',
       args: [v0],
@@ -735,70 +735,70 @@ class S {
     );
   }
 
-  /// `Game running log`
+  /// `Game run log`
   String get doctor_action_game_run_log {
     return Intl.message(
-      'Game running log',
+      'Game run log',
       name: 'doctor_action_game_run_log',
       desc: '',
       args: [],
     );
   }
 
-  /// `After scanning, no problem was found!`
+  /// `Scan complete, no issues found!`
   String get doctor_info_scan_complete_no_issues {
     return Intl.message(
-      'After scanning, no problem was found!',
+      'Scan complete, no issues found!',
       name: 'doctor_info_scan_complete_no_issues',
       desc: '',
       args: [],
     );
   }
 
-  /// `Treatment ...`
+  /// `Processing...`
   String get doctor_info_processing {
     return Intl.message(
-      'Treatment ...',
+      'Processing...',
       name: 'doctor_info_processing',
       desc: '',
       args: [],
     );
   }
 
-  /// `You are about to go to the game abnormal rescue services provided by the Deep Space Treatment Center (QQ group number: 536454632), which mainly solve the failure and frequent flashback of game installation. If you are a gameplay problem, please do not add groups.`
+  /// `You are about to access the game anomaly rescue service provided by Deep Space Treatment Center (QQ Group: 536454632), which mainly solves game installation failures and frequent crashes. Please do not join the group for gameplay issues.`
   String get doctor_info_game_rescue_service_note {
     return Intl.message(
-      'You are about to go to the game abnormal rescue services provided by the Deep Space Treatment Center (QQ group number: 536454632), which mainly solve the failure and frequent flashback of game installation. If you are a gameplay problem, please do not add groups.',
+      'You are about to access the game anomaly rescue service provided by Deep Space Treatment Center (QQ Group: 536454632), which mainly solves game installation failures and frequent crashes. Please do not join the group for gameplay issues.',
       name: 'doctor_info_game_rescue_service_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `Need help? Click to seek free artificial support!`
+  /// `Need help? Click to join the group for free human support!`
   String get doctor_info_need_help {
     return Intl.message(
-      'Need help? Click to seek free artificial support!',
+      'Need help? Click to join the group for free human support!',
       name: 'doctor_info_need_help',
       desc: '',
       args: [],
     );
   }
 
-  /// `Note: The test results of this tool are for reference only. If you do not understand the following operations, please provide screenshots for experienced players!`
+  /// `Note: The detection results of this tool are for reference only. If you do not understand the following operations, please provide screenshots to experienced players!`
   String get doctor_info_tool_check_result_note {
     return Intl.message(
-      'Note: The test results of this tool are for reference only. If you do not understand the following operations, please provide screenshots for experienced players!',
+      'Note: The detection results of this tool are for reference only. If you do not understand the following operations, please provide screenshots to experienced players!',
       name: 'doctor_info_tool_check_result_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `The operating system that does not support, the game may not be able to run`
+  /// `Unsupported operating system, the game may not run`
   String get doctor_info_result_unsupported_os {
     return Intl.message(
-      'The operating system that does not support, the game may not be able to run',
+      'Unsupported operating system, the game may not run',
       name: 'doctor_info_result_unsupported_os',
       desc: '',
       args: [],
@@ -815,320 +815,320 @@ class S {
     );
   }
 
-  /// `The installation directory lacks a Live folder, which may cause the installation to fail`
+  /// `Installation directory is missing LIVE folder, may cause installation failure`
   String get doctor_info_result_missing_live_folder {
     return Intl.message(
-      'The installation directory lacks a Live folder, which may cause the installation to fail',
+      'Installation directory is missing LIVE folder, may cause installation failure',
       name: 'doctor_info_result_missing_live_folder',
       desc: '',
       args: [],
     );
   }
 
-  /// `Click to fix the Live folder for you, and install it after completion. ({v0})`
+  /// `Click to fix and create LIVE folder for you, then retry installation. ({v0})`
   String doctor_info_result_create_live_folder(Object v0) {
     return Intl.message(
-      'Click to fix the Live folder for you, and install it after completion. ($v0)',
+      'Click to fix and create LIVE folder for you, then retry installation. ($v0)',
       name: 'doctor_info_result_create_live_folder',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `The new NVME device is not compatible with the RSI Launcher for the time being, which may cause the installation to fail`
+  /// `New type NVME device, not compatible with RSI Launcher, may cause installation failure`
   String get doctor_info_result_incompatible_nvme_device {
     return Intl.message(
-      'The new NVME device is not compatible with the RSI Launcher for the time being, which may cause the installation to fail',
+      'New type NVME device, not compatible with RSI Launcher, may cause installation failure',
       name: 'doctor_info_result_incompatible_nvme_device',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add ForcedPhysicalsectorsizeinbytes value to the registry item to simulate old devices. Hard disk partition ({v0})`
+  /// `Add ForcedPhysicalSectorSizeInBytes value to registry to simulate old devices. Hard disk partition ({v0})`
   String doctor_info_result_add_registry_value(Object v0) {
     return Intl.message(
-      'Add ForcedPhysicalsectorsizeinbytes value to the registry item to simulate old devices. Hard disk partition ($v0)',
+      'Add ForcedPhysicalSectorSizeInBytes value to registry to simulate old devices. Hard disk partition ($v0)',
       name: 'doctor_info_result_add_registry_value',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Easyanticheat file loss`
+  /// `EasyAntiCheat files missing`
   String get doctor_info_result_missing_easyanticheat_files {
     return Intl.message(
-      'Easyanticheat file loss',
+      'EasyAntiCheat files missing',
       name: 'doctor_info_result_missing_easyanticheat_files',
       desc: '',
       args: [],
     );
   }
 
-  /// `Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI Launcher to check the file`
+  /// `EasyAntiCheat files not found in LIVE folder or files are incomplete, please use RSI Launcher to verify files`
   String get doctor_info_result_verify_files_with_rsi_launcher {
     return Intl.message(
-      'Not found the EasyAnticheat file or file incomplete in the Live folder, please use the RSI Launcher to check the file',
+      'EasyAntiCheat files not found in LIVE folder or files are incomplete, please use RSI Launcher to verify files',
       name: 'doctor_info_result_verify_files_with_rsi_launcher',
       desc: '',
       args: [],
     );
   }
 
-  /// `Easyanticheat is not installed or not withdrawn normally`
+  /// `EasyAntiCheat not installed or abnormal exit`
   String get doctor_info_result_easyanticheat_not_installed {
     return Intl.message(
-      'Easyanticheat is not installed or not withdrawn normally',
+      'EasyAntiCheat not installed or abnormal exit',
       name: 'doctor_info_result_easyanticheat_not_installed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Easyanticheat is not installed, please click to repair it for you one click. (Before the game starts normally and ends, the problem will always appear. If you retreat for other reasons, you can ignore this entry)`
+  /// `EasyAntiCheat is not installed, please click fix to install it with one click. (This issue will persist until the game starts and exits normally. If your game crashes for other reasons, you can ignore this entry)`
   String get doctor_info_result_install_easyanticheat {
     return Intl.message(
-      'Easyanticheat is not installed, please click to repair it for you one click. (Before the game starts normally and ends, the problem will always appear. If you retreat for other reasons, you can ignore this entry)',
+      'EasyAntiCheat is not installed, please click fix to install it with one click. (This issue will persist until the game starts and exits normally. If your game crashes for other reasons, you can ignore this entry)',
       name: 'doctor_info_result_install_easyanticheat',
       desc: '',
       args: [],
     );
   }
 
-  /// `No-English username!`
+  /// `Chinese username!`
   String get doctor_info_result_chinese_username {
     return Intl.message(
-      'No-English username!',
+      'Chinese username!',
       name: 'doctor_info_result_chinese_username',
       desc: '',
       args: [],
     );
   }
 
-  /// `The No-English username may cause the game to start/install errors! Click the repair button to view the modification tutorial!`
+  /// `Chinese username may cause game startup/installation errors! Click the fix button to view the modification tutorial!`
   String get doctor_info_result_chinese_username_error {
     return Intl.message(
-      'The No-English username may cause the game to start/install errors! Click the repair button to view the modification tutorial!',
+      'Chinese username may cause game startup/installation errors! Click the fix button to view the modification tutorial!',
       name: 'doctor_info_result_chinese_username_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `No-English installation path!`
+  /// `Chinese installation path!`
   String get doctor_info_result_chinese_install_path {
     return Intl.message(
-      'No-English installation path!',
+      'Chinese installation path!',
       name: 'doctor_info_result_chinese_install_path',
       desc: '',
       args: [],
     );
   }
 
-  /// `No-English installation path! This may cause the game to start/install errors! ({v0}), please replace the installation path at the RSI Launcher.`
+  /// `Chinese installation path! This may cause game startup/installation errors! ({v0}), please change the installation path in the RSI Launcher.`
   String doctor_info_result_chinese_install_path_error(Object v0) {
     return Intl.message(
-      'No-English installation path! This may cause the game to start/install errors! ($v0), please replace the installation path at the RSI Launcher.',
+      'Chinese installation path! This may cause game startup/installation errors! ($v0), please change the installation path in the RSI Launcher.',
       name: 'doctor_info_result_chinese_install_path_error',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Paralying memory is too low`
+  /// `Low physical memory`
   String get doctor_info_result_low_physical_memory {
     return Intl.message(
-      'Paralying memory is too low',
+      'Low physical memory',
       name: 'doctor_info_result_low_physical_memory',
       desc: '',
       args: [],
     );
   }
 
-  /// `You need at least 16GB of physical memory (Memory) to run this game. (Current size: {v0})`
+  /// `You need at least 16GB of physical memory (RAM) to run this game. (Current size: {v0})`
   String doctor_info_result_memory_requirement(Object v0) {
     return Intl.message(
-      'You need at least 16GB of physical memory (Memory) to run this game. (Current size: $v0)',
+      'You need at least 16GB of physical memory (RAM) to run this game. (Current size: $v0)',
       name: 'doctor_info_result_memory_requirement',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Repair suggestions: {v0}`
+  /// `Fix suggestion: {v0}`
   String doctor_info_result_fix_suggestion(Object v0) {
     return Intl.message(
-      'Repair suggestions: $v0',
+      'Fix suggestion: $v0',
       name: 'doctor_info_result_fix_suggestion',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `No solution, please take screenshots feedback`
+  /// `No solution available yet, please take a screenshot and report feedback`
   String get doctor_info_result_no_solution {
     return Intl.message(
-      'No solution, please take screenshots feedback',
+      'No solution available yet, please take a screenshot and report feedback',
       name: 'doctor_info_result_no_solution',
       desc: '',
       args: [],
     );
   }
 
-  /// `Repair`
+  /// `Fix`
   String get doctor_info_action_fix {
     return Intl.message(
-      'Repair',
+      'Fix',
       name: 'doctor_info_action_fix',
       desc: '',
       args: [],
     );
   }
 
-  /// `View solution`
+  /// `View Solution`
   String get doctor_action_view_solution {
     return Intl.message(
-      'View solution',
+      'View Solution',
       name: 'doctor_action_view_solution',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please select the game installation directory on the homepage.`
+  /// `Please select the game installation directory on the home page.`
   String get doctor_tip_title_select_game_directory {
     return Intl.message(
-      'Please select the game installation directory on the homepage.',
+      'Please select the game installation directory on the home page.',
       name: 'doctor_tip_title_select_game_directory',
       desc: '',
       args: [],
     );
   }
 
-  /// `If your hardware meets the standard, try to install the latest Windows system.`
+  /// `If your hardware meets the requirements, please try installing the latest Windows system.`
   String get doctor_action_result_try_latest_windows {
     return Intl.message(
-      'If your hardware meets the standard, try to install the latest Windows system.',
+      'If your hardware meets the requirements, please try installing the latest Windows system.',
       name: 'doctor_action_result_try_latest_windows',
       desc: '',
       args: [],
     );
   }
 
-  /// `Create a folder success, try to continue download the game!`
+  /// `Folder creation successful, please try to continue downloading the game!`
   String get doctor_action_result_create_folder_success {
     return Intl.message(
-      'Create a folder success, try to continue download the game!',
+      'Folder creation successful, please try to continue downloading the game!',
       name: 'doctor_action_result_create_folder_success',
       desc: '',
       args: [],
     );
   }
 
-  /// `Create a folder failed, please try to create manually.\nDirectory: {v0}\nError: {v1}`
+  /// `Failed to create folder, please try to create it manually.\nDirectory: {v0} \nError: {v1}`
   String doctor_action_result_create_folder_fail(Object v0, Object v1) {
     return Intl.message(
-      'Create a folder failed, please try to create manually.\nDirectory: $v0\nError: $v1',
+      'Failed to create folder, please try to create it manually.\nDirectory: $v0 \nError: $v1',
       name: 'doctor_action_result_create_folder_fail',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `If the repair is successful, try to restart and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.`
+  /// `Fix successful, please try restarting and continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME registry cleaner in the Tools section.`
   String get doctor_action_result_fix_success {
     return Intl.message(
-      'If the repair is successful, try to restart and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.',
+      'Fix successful, please try restarting and continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME registry cleaner in the Tools section.',
       name: 'doctor_action_result_fix_success',
       desc: '',
       args: [],
     );
   }
 
-  /// `Failure to repair, {v0}`
+  /// `Fix failed, {v0}`
   String doctor_action_result_fix_fail(Object v0) {
     return Intl.message(
-      'Failure to repair, $v0',
+      'Fix failed, $v0',
       name: 'doctor_action_result_fix_fail',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `If the repair is successful, try to start the game. (If the problem cannot be solved, please use the toolbox's "Reinstall EAC")`
+  /// `Fix successful, please try to start the game. (If the problem persists, please use the 'Reinstall EAC' tool in the toolbox)`
   String get doctor_action_result_game_start_success {
     return Intl.message(
-      'If the repair is successful, try to start the game. (If the problem cannot be solved, please use the toolbox\'s "Reinstall EAC")',
+      'Fix successful, please try to start the game. (If the problem persists, please use the \'Reinstall EAC\' tool in the toolbox)',
       name: 'doctor_action_result_game_start_success',
       desc: '',
       args: [],
     );
   }
 
-  /// `The tutorial is about to jump, the tutorial comes from the Internet, please operate carefully ...`
+  /// `About to redirect, the tutorial is from the internet, please proceed with caution...`
   String get doctor_action_result_redirect_warning {
     return Intl.message(
-      'The tutorial is about to jump, the tutorial comes from the Internet, please operate carefully ...',
+      'About to redirect, the tutorial is from the internet, please proceed with caution...',
       name: 'doctor_action_result_redirect_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `This problem does not support automatic processing for the time being, please provide screenshots for help`
+  /// `This issue is not currently supported for automatic handling, please provide screenshots to seek help`
   String get doctor_action_result_issue_not_supported {
     return Intl.message(
-      'This problem does not support automatic processing for the time being, please provide screenshots for help',
+      'This issue is not currently supported for automatic handling, please provide screenshots to seek help',
       name: 'doctor_action_result_issue_not_supported',
       desc: '',
       args: [],
     );
   }
 
-  /// `Analysing...`
+  /// `Analyzing...`
   String get doctor_action_analyzing {
     return Intl.message(
-      'Analysing...',
+      'Analyzing...',
       name: 'doctor_action_analyzing',
       desc: '',
       args: [],
     );
   }
 
-  /// `After the analysis, no problems are found`
+  /// `Analysis complete, no issues found`
   String get doctor_action_result_analysis_no_issue {
     return Intl.message(
-      'After the analysis, no problems are found',
+      'Analysis complete, no issues found',
       name: 'doctor_action_result_analysis_no_issue',
       desc: '',
       args: [],
     );
   }
 
-  /// `After the analysis, I found that {v0} questions`
+  /// `Analysis complete, found {v0} issues`
   String doctor_action_result_analysis_issues_found(Object v0) {
     return Intl.message(
-      'After the analysis, I found that $v0 questions',
+      'Analysis complete, found $v0 issues',
       name: 'doctor_action_result_analysis_issues_found',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `After scanning, no problem is found. If you still fail, try to use the RSI Launcher administrator mode in the toolbox.`
+  /// `Scan complete, no issues found. If installation still fails, please try using the RSI Launcher in administrator mode from the toolbox.`
   String get doctor_action_result_toast_scan_no_issue {
     return Intl.message(
-      'After scanning, no problem is found. If you still fail, try to use the RSI Launcher administrator mode in the toolbox.',
+      'Scan complete, no issues found. If installation still fails, please try using the RSI Launcher in administrator mode from the toolbox.',
       name: 'doctor_action_result_toast_scan_no_issue',
       desc: '',
       args: [],
     );
   }
 
-  /// `Inspection: Game.log`
+  /// `Checking: Game.log`
   String get doctor_action_tip_checking_game_log {
     return Intl.message(
-      'Inspection: Game.log',
+      'Checking: Game.log',
       name: 'doctor_action_tip_checking_game_log',
       desc: '',
       args: [],
@@ -1145,110 +1145,110 @@ class S {
     );
   }
 
-  /// `Game abnormal exit: unknown abnormalities`
+  /// `Game abnormal exit: Unknown exception`
   String get doctor_action_info_game_abnormal_exit_unknown {
     return Intl.message(
-      'Game abnormal exit: unknown abnormalities',
+      'Game abnormal exit: Unknown exception',
       name: 'doctor_action_info_game_abnormal_exit_unknown',
       desc: '',
       args: [],
     );
   }
 
-  /// `Info: {v0}, please click to add group feedback in the lower right corner.`
+  /// `info:{v0}, please click the bottom right corner to join the group for feedback.`
   String doctor_action_info_info_feedback(Object v0) {
     return Intl.message(
-      'Info: $v0, please click to add group feedback in the lower right corner.',
+      'info:$v0, please click the bottom right corner to join the group for feedback.',
       name: 'doctor_action_info_info_feedback',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Inspection: EAC`
+  /// `Checking: EAC`
   String get doctor_action_info_checking_eac {
     return Intl.message(
-      'Inspection: EAC',
+      'Checking: EAC',
       name: 'doctor_action_info_checking_eac',
       desc: '',
       args: [],
     );
   }
 
-  /// `Inspection: operating environment`
+  /// `Checking: Runtime environment`
   String get doctor_action_info_checking_runtime {
     return Intl.message(
-      'Inspection: operating environment',
+      'Checking: Runtime environment',
       name: 'doctor_action_info_checking_runtime',
       desc: '',
       args: [],
     );
   }
 
-  /// `Operating system that does not support: {v0}`
+  /// `Unsupported operating system: {v0}`
   String doctor_action_result_info_unsupported_os(Object v0) {
     return Intl.message(
-      'Operating system that does not support: $v0',
+      'Unsupported operating system: $v0',
       name: 'doctor_action_result_info_unsupported_os',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Inspection: Installation information`
+  /// `Checking: Installation information`
   String get doctor_action_info_checking_install_info {
     return Intl.message(
-      'Inspection: Installation information',
+      'Checking: Installation information',
       name: 'doctor_action_info_checking_install_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Check the details`
+  /// `View Details`
   String get doctor_action_view_details {
     return Intl.message(
-      'Check the details',
+      'View Details',
       name: 'doctor_action_view_details',
       desc: '',
       args: [],
     );
   }
 
-  /// `Installation location:`
+  /// `Installation Location:`
   String get home_install_location {
     return Intl.message(
-      'Installation location:',
+      'Installation Location:',
       name: 'home_install_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `Unpacking or installation failed`
+  /// `Not Installed or Installation Failed`
   String get home_not_installed_or_failed {
     return Intl.message(
-      'Unpacking or installation failed',
+      'Not Installed or Installation Failed',
       name: 'home_not_installed_or_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `SC Official Localization`
+  /// `SC Website Localization`
   String get home_action_star_citizen_website_localization {
     return Intl.message(
-      'SC Official Localization',
+      'SC Website Localization',
       name: 'home_action_star_citizen_website_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `Roberts Aerospace Industry Corporation, the origin of all things`
+  /// `Roberts Space Industries, the origin of everything`
   String get home_action_info_roberts_space_industries_origin {
     return Intl.message(
-      'Roberts Aerospace Industry Corporation, the origin of all things',
+      'Roberts Space Industries, the origin of everything',
       name: 'home_action_info_roberts_space_industries_origin',
       desc: '',
       args: [],
@@ -1265,100 +1265,100 @@ class S {
     );
   }
 
-  /// `Mining, refining, trade calculator, price, ship information`
+  /// `Mining, refining, trade calculator, prices, ship information`
   String get home_action_info_mining_refining_trade_calculator {
     return Intl.message(
-      'Mining, refining, trade calculator, price, ship information',
+      'Mining, refining, trade calculator, prices, ship information',
       name: 'home_action_info_mining_refining_trade_calculator',
       desc: '',
       args: [],
     );
   }
 
-  /// `DPS calculator Localization`
+  /// `DPS Calculator Localization`
   String get home_action_dps_calculator_localization {
     return Intl.message(
-      'DPS calculator Localization',
+      'DPS Calculator Localization',
       name: 'home_action_dps_calculator_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `Change the ship online, query the damage value and accessories location`
+  /// `Online ship modification, damage value query and equipment purchase location`
   String get home_action_info_ship_upgrade_damage_value_query {
     return Intl.message(
-      'Change the ship online, query the damage value and accessories location',
+      'Online ship modification, damage value query and equipment purchase location',
       name: 'home_action_info_ship_upgrade_damage_value_query',
       desc: '',
       args: [],
     );
   }
 
-  /// `External browser expansion:`
+  /// `External Browser Extension:`
   String get home_action_external_browser_extension {
     return Intl.message(
-      'External browser expansion:',
+      'External Browser Extension:',
       name: 'home_action_external_browser_extension',
       desc: '',
       args: [],
     );
   }
 
-  /// `Auto diagnosis`
+  /// `One-Click Diagnosis`
   String get home_action_one_click_diagnosis {
     return Intl.message(
-      'Auto diagnosis',
+      'One-Click Diagnosis',
       name: 'home_action_one_click_diagnosis',
       desc: '',
       args: [],
     );
   }
 
-  /// `Auto scan diagnosis of common problems in interstellar citizens`
+  /// `One-click diagnosis of common Star Citizen issues`
   String get home_action_info_one_click_diagnosis_star_citizen {
     return Intl.message(
-      'Auto scan diagnosis of common problems in interstellar citizens',
+      'One-click diagnosis of common Star Citizen issues',
       name: 'home_action_info_one_click_diagnosis_star_citizen',
       desc: '',
       args: [],
     );
   }
 
-  /// `Localizations`
+  /// `Localization Management`
   String get home_action_localization_management {
     return Intl.message(
-      'Localizations',
+      'Localization Management',
       name: 'home_action_localization_management',
       desc: '',
       args: [],
     );
   }
 
-  /// `Fast installation of localization resources`
+  /// `Quick installation of Localization resources`
   String get home_action_info_quick_install_localization_resources {
     return Intl.message(
-      'Fast installation of localization resources',
+      'Quick installation of Localization resources',
       name: 'home_action_info_quick_install_localization_resources',
       desc: '',
       args: [],
     );
   }
 
-  /// `Performance optimization`
+  /// `Performance Optimization`
   String get home_action_performance_optimization {
     return Intl.message(
-      'Performance optimization',
+      'Performance Optimization',
       name: 'home_action_performance_optimization',
       desc: '',
       args: [],
     );
   }
 
-  /// `Adjust the engine configuration file to optimize the game performance`
+  /// `Adjust engine configuration files to optimize game performance`
   String get home_action_info_engine_config_optimization {
     return Intl.message(
-      'Adjust the engine configuration file to optimize the game performance',
+      'Adjust engine configuration files to optimize game performance',
       name: 'home_action_info_engine_config_optimization',
       desc: '',
       args: [],
@@ -1385,10 +1385,10 @@ class S {
     );
   }
 
-  /// `EV`
+  /// `EA`
   String get home_action_rsi_status_electronic_access {
     return Intl.message(
-      'EV',
+      'EA',
       name: 'home_action_rsi_status_electronic_access',
       desc: '',
       args: [],
@@ -1405,40 +1405,40 @@ class S {
     );
   }
 
-  /// `RSI server status`
+  /// `Server Status`
   String get home_action_rsi_status_rsi_server_status {
     return Intl.message(
-      'RSI server status',
+      'Server Status',
       name: 'home_action_rsi_status_rsi_server_status',
       desc: '',
       args: [],
     );
   }
 
-  /// `State:`
+  /// `Status:`
   String get home_action_rsi_status_status {
     return Intl.message(
-      'State:',
+      'Status:',
       name: 'home_action_rsi_status_status',
       desc: '',
       args: [],
     );
   }
 
-  /// `Announcement details`
+  /// `Announcement Details`
   String get home_announcement_details {
     return Intl.message(
-      'Announcement details',
+      'Announcement Details',
       name: 'home_announcement_details',
       desc: '',
       args: [],
     );
   }
 
-  /// `This function requires an effective installation location\n\nIf your game is not downloaded, wait for the download after downloading.\n\nIf your game has been downloaded but not recognized, please reopen the box after starting the game or manually set the installation position in the setting option.`
+  /// `This feature requires a valid installation location\n\nIf your game is not fully downloaded, please wait for the download to complete before using this feature.\n\nIf your game has been completely downloaded but isn't recognized, please launch the game once and then reopen SCToolbox or manually set the installation location in settings.`
   String get home_action_info_valid_install_location_required {
     return Intl.message(
-      'This function requires an effective installation location\n\nIf your game is not downloaded, wait for the download after downloading.\n\nIf your game has been downloaded but not recognized, please reopen the box after starting the game or manually set the installation position in the setting option.',
+      'This feature requires a valid installation location\n\nIf your game is not fully downloaded, please wait for the download to complete before using this feature.\n\nIf your game has been completely downloaded but isn\'t recognized, please launch the game once and then reopen SCToolbox or manually set the installation location in settings.',
       name: 'home_action_info_valid_install_location_required',
       desc: '',
       args: [],
@@ -1455,120 +1455,120 @@ class S {
     );
   }
 
-  /// `Scan completed, find {v0} valid installation directory`
+  /// `Scan complete, found {v0} valid installation directories`
   String home_action_info_scan_complete_valid_directories_found(Object v0) {
     return Intl.message(
-      'Scan completed, find $v0 valid installation directory',
+      'Scan complete, found $v0 valid installation directories',
       name: 'home_action_info_scan_complete_valid_directories_found',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Analysis of LOG files failed!`
+  /// `Failed to parse log file!`
   String get home_action_info_log_file_parse_fail {
     return Intl.message(
-      'Analysis of LOG files failed!',
+      'Failed to parse log file!',
       name: 'home_action_info_log_file_parse_fail',
       desc: '',
       args: [],
     );
   }
 
-  /// `Star Citizen Website Localization`
+  /// `SC Site Localization`
   String get home_action_title_star_citizen_website_localization {
     return Intl.message(
-      'Star Citizen Website Localization',
+      'SC Site Localization',
       name: 'home_action_title_star_citizen_website_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `This plug -in function is for general browsing, not responsible for any problems related to this function! Please pay attention to confirming the original content of the website before the account operation!\n\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.`
+  /// `This plugin is for general browsing purposes only and is not responsible for any issues that may arise from its use! Please verify the original content of the website before performing any account operations!\n\n\nWhen logging into your account with this feature, please ensure your SCToolbox is downloaded from a trusted source.`
   String get home_action_info_web_localization_plugin_disclaimer {
     return Intl.message(
-      'This plug -in function is for general browsing, not responsible for any problems related to this function! Please pay attention to confirming the original content of the website before the account operation!\n\n\nWhen logging in to the account, please make sure your SCToolBox is downloaded from a trusted source.',
+      'This plugin is for general browsing purposes only and is not responsible for any issues that may arise from its use! Please verify the original content of the website before performing any account operations!\n\n\nWhen logging into your account with this feature, please ensure your SCToolbox is downloaded from a trusted source.',
       name: 'home_action_info_web_localization_plugin_disclaimer',
       desc: '',
       args: [],
     );
   }
 
-  /// `It is initialized Localization resources ...`
+  /// `Initializing localization resources...`
   String get home_action_info_initializing_resources {
     return Intl.message(
-      'It is initialized Localization resources ...',
+      'Initializing localization resources...',
       name: 'home_action_info_initializing_resources',
       desc: '',
       args: [],
     );
   }
 
-  /// `Initialized webpage Localization resources failed! {v0}`
+  /// `Failed to initialize web localization resources! {v0}`
   String home_action_info_initialization_failed(Object v0) {
     return Intl.message(
-      'Initialized webpage Localization resources failed! $v0',
+      'Failed to initialize web localization resources! $v0',
       name: 'home_action_info_initialization_failed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `SCToolBox`
+  /// `SCToolbox`
   String get home_title_app_name {
     return Intl.message(
-      'SCToolBox',
+      'SCToolbox',
       name: 'home_title_app_name',
       desc: '',
       args: [],
     );
   }
 
-  /// `Localization has a new version!`
+  /// `New localization version available!`
   String get home_localization_new_version_available {
     return Intl.message(
-      'Localization has a new version!',
+      'New localization version available!',
       name: 'home_localization_new_version_available',
       desc: '',
       args: [],
     );
   }
 
-  /// `You have a new version of the Localization you installed in {v0}!`
+  /// `There's a new version of the localization you installed on {v0}!`
   String home_localization_new_version_installed(Object v0) {
     return Intl.message(
-      'You have a new version of the Localization you installed in $v0!',
+      'There\'s a new version of the localization you installed on $v0!',
       name: 'home_localization_new_version_installed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `This function requires an effective installation location`
+  /// `This feature requires a valid installation location`
   String get home_info_valid_installation_required {
     return Intl.message(
-      'This function requires an effective installation location',
+      'This feature requires a valid installation location',
       name: 'home_info_valid_installation_required',
       desc: '',
       args: [],
     );
   }
 
-  /// `One -click start -up function prompt`
+  /// `One-click launch feature notice`
   String get home_info_one_click_launch_warning {
     return Intl.message(
-      'One -click start -up function prompt',
+      'One-click launch feature notice',
       name: 'home_info_one_click_launch_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `In order to ensure the security of the account, the one -click startup function has been disabled in the development version, and we will provide this feature in the Microsoft store version.\n\nThe Microsoft Store Edition is provided with a reliable distribution download and digital signature by Microsoft, which can effectively prevent software from being maliciously tampered with.\n\nTip: You can use Localization without using a box to start the game.`
+  /// `To ensure account security, the one-click launch feature has been disabled in the development version. We will provide this feature in the Microsoft Store version.\n\nThe Microsoft Store version provides reliable distribution downloads and digital signatures from Microsoft, which can effectively prevent malicious tampering of the software.\n\nNote: You don't need to use SCToolbox to launch the game to use localization.`
   String get home_info_account_security_warning {
     return Intl.message(
-      'In order to ensure the security of the account, the one -click startup function has been disabled in the development version, and we will provide this feature in the Microsoft store version.\n\nThe Microsoft Store Edition is provided with a reliable distribution download and digital signature by Microsoft, which can effectively prevent software from being maliciously tampered with.\n\nTip: You can use Localization without using a box to start the game.',
+      'To ensure account security, the one-click launch feature has been disabled in the development version. We will provide this feature in the Microsoft Store version.\n\nThe Microsoft Store version provides reliable distribution downloads and digital signatures from Microsoft, which can effectively prevent malicious tampering of the software.\n\nNote: You don\'t need to use SCToolbox to launch the game to use localization.',
       name: 'home_info_account_security_warning',
       desc: '',
       args: [],
@@ -1595,7 +1595,7 @@ class S {
     );
   }
 
-  /// `The game exits normally\nexitCode = {v0}\nstdout = {v1}\nstderr = {v2}\n\nDiagnostic information: {v3}\n{v4}`
+  /// `Game exited abnormally\nexitCode={v0}\nstdout={v1}\nstderr={v2}\n\nDiagnostic information: {v3} \n{v4}`
   String home_action_info_abnormal_game_exit(
     Object v0,
     Object v1,
@@ -1604,117 +1604,117 @@ class S {
     Object v4,
   ) {
     return Intl.message(
-      'The game exits normally\nexitCode = $v0\nstdout = $v1\nstderr = $v2\n\nDiagnostic information: $v3\n$v4',
+      'Game exited abnormally\nexitCode=$v0\nstdout=$v1\nstderr=$v2\n\nDiagnostic information: $v3 \n$v4',
       name: 'home_action_info_abnormal_game_exit',
       desc: '',
       args: [v0, v1, v2, v3, v4],
     );
   }
 
-  /// `Unknown errors, please use one -click diagnosis to add group feedback.`
+  /// `Unknown error, please use the one-click diagnosis to join the group for feedback.`
   String get home_action_info_unknown_error {
     return Intl.message(
-      'Unknown errors, please use one -click diagnosis to add group feedback.',
+      'Unknown error, please use the one-click diagnosis to join the group for feedback.',
       name: 'home_action_info_unknown_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please check the pop -up web link to get detailed information.`
+  /// `Please check the popup web link for detailed information.`
   String get home_action_info_check_web_link {
     return Intl.message(
-      'Please check the pop -up web link to get detailed information.',
+      'Please check the popup web link for detailed information.',
       name: 'home_action_info_check_web_link',
       desc: '',
       args: [],
     );
   }
 
-  /// `Built -in game`
+  /// `Game built-in`
   String get home_action_info_game_built_in {
     return Intl.message(
-      'Built -in game',
+      'Game built-in',
       name: 'home_action_info_game_built_in',
       desc: '',
       args: [],
     );
   }
 
-  /// `Warn`
+  /// `Warning`
   String get home_action_info_warning {
     return Intl.message(
-      'Warn',
+      'Warning',
       name: 'home_action_info_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `You are using the game built -in text. The official text is currently a machine translation (as of 3.21.0), and it is recommended that you install community Localization below.`
+  /// `You are using the game's built-in text. The official text is currently machine-translated (as of 3.21.0). We recommend you install the community localization below.`
   String get localization_info_machine_translation_warning {
     return Intl.message(
-      'You are using the game built -in text. The official text is currently a machine translation (as of 3.21.0), and it is recommended that you install community Localization below.',
+      'You are using the game\'s built-in text. The official text is currently machine-translated (as of 3.21.0). We recommend you install the community localization below.',
       name: 'localization_info_machine_translation_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `Game localization`
+  /// `Game Localization`
   String get localization_info_translation {
     return Intl.message(
-      'Game localization',
+      'Game Localization',
       name: 'localization_info_translation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enable ({v0}):`
+  /// `Enabled ({v0}):`
   String localization_info_enabled(Object v0) {
     return Intl.message(
-      'Enable ($v0):',
+      'Enabled ($v0):',
       name: 'localization_info_enabled',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `The installed version: {v0}`
+  /// `Installed version: {v0}`
   String localization_info_installed_version(Object v0) {
     return Intl.message(
-      'The installed version: $v0',
+      'Installed version: $v0',
       name: 'localization_info_installed_version',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Feedback`
+  /// `Localization Feedback`
   String get localization_action_translation_feedback {
     return Intl.message(
-      'Feedback',
+      'Localization Feedback',
       name: 'localization_action_translation_feedback',
       desc: '',
       args: [],
     );
   }
 
-  /// `Uninstall`
+  /// `Uninstall Localization`
   String get localization_action_uninstall_translation {
     return Intl.message(
-      'Uninstall',
+      'Uninstall Localization',
       name: 'localization_action_uninstall_translation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Remark:`
+  /// `Note:`
   String get localization_info_note {
     return Intl.message(
-      'Remark:',
+      'Note:',
       name: 'localization_info_note',
       desc: '',
       args: [],
@@ -1731,10 +1731,10 @@ class S {
     );
   }
 
-  /// `This language/version is not available for Localization, so stay tuned!`
+  /// `No localization available for this language/version, please stay tuned!`
   String get localization_info_no_translation_available {
     return Intl.message(
-      'This language/version is not available for Localization, so stay tuned!',
+      'No localization available for this language/version, please stay tuned!',
       name: 'localization_info_no_translation_available',
       desc: '',
       args: [],
@@ -1771,10 +1771,10 @@ class S {
     );
   }
 
-  /// `Update Time: {v0}`
+  /// `Update time: {v0}`
   String localization_info_update_time(Object v0) {
     return Intl.message(
-      'Update Time: $v0',
+      'Update time: $v0',
       name: 'localization_info_update_time',
       desc: '',
       args: [v0],
@@ -1801,80 +1801,80 @@ class S {
     );
   }
 
-  /// `Language:   `
+  /// `Language: `
   String get localization_info_language {
     return Intl.message(
-      'Language:   ',
+      'Language: ',
       name: 'localization_info_language',
       desc: '',
       args: [],
     );
   }
 
-  /// `Whether to remove incompatible Localization parameters`
+  /// `Remove incompatible localization parameters`
   String get localization_info_remove_incompatible_translation_params {
     return Intl.message(
-      'Whether to remove incompatible Localization parameters',
+      'Remove incompatible localization parameters',
       name: 'localization_info_remove_incompatible_translation_params',
       desc: '',
       args: [],
     );
   }
 
-  /// `User.cfg contains incompatible Localization parameters, which may be the residual information of the previous Localization file.\n\nThis may lead to ineffective or garbled Localization, click to confirm that you are removed with one click (it will not affect other configuration).`
+  /// `USER.cfg contains incompatible localization parameters, which may be residual information from previous localization files.\n\nThis may cause the localization to be invalid or display garbled characters. Click confirm to remove these with one click (will not affect other configurations).`
   String get localization_info_incompatible_translation_params_warning {
     return Intl.message(
-      'User.cfg contains incompatible Localization parameters, which may be the residual information of the previous Localization file.\n\nThis may lead to ineffective or garbled Localization, click to confirm that you are removed with one click (it will not affect other configuration).',
+      'USER.cfg contains incompatible localization parameters, which may be residual information from previous localization files.\n\nThis may cause the localization to be invalid or display garbled characters. Click confirm to remove these with one click (will not affect other configurations).',
       name: 'localization_info_incompatible_translation_params_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `The file is damaged, please download again`
+  /// `File corrupted, please download again`
   String get localization_info_corrupted_file {
     return Intl.message(
-      'The file is damaged, please download again',
+      'File corrupted, please download again',
       name: 'localization_info_corrupted_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Install an error!\n\n {v0}`
+  /// `Installation error!\n\n {v0}`
   String localization_info_installation_error(Object v0) {
     return Intl.message(
-      'Install an error!\n\n $v0',
+      'Installation error!\n\n $v0',
       name: 'localization_info_installation_error',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Custom file`
+  /// `Custom Files`
   String get localization_info_custom_files {
     return Intl.message(
-      'Custom file',
+      'Custom Files',
       name: 'localization_info_custom_files',
       desc: '',
       args: [],
     );
   }
 
-  /// `Graph optimization tips`
+  /// `Graphics Optimization Tips`
   String get performance_info_graphic_optimization_hint {
     return Intl.message(
-      'Graph optimization tips',
+      'Graphics Optimization Tips',
       name: 'performance_info_graphic_optimization_hint',
       desc: '',
       args: [],
     );
   }
 
-  /// `This function is very helpful for optimizing the bottleneck of the graphics card, but it may have a reverse effect on the CPU bottleneck. If your graphics card performance is strong, you can try to use better picture quality to obtain higher graphics card utilization.`
+  /// `This feature helps significantly with GPU bottlenecks but may have the opposite effect for CPU bottlenecks. If you have a powerful GPU, you can try using better quality settings to achieve higher GPU utilization.`
   String get performance_info_graphic_optimization_warning {
     return Intl.message(
-      'This function is very helpful for optimizing the bottleneck of the graphics card, but it may have a reverse effect on the CPU bottleneck. If your graphics card performance is strong, you can try to use better picture quality to obtain higher graphics card utilization.',
+      'This feature helps significantly with GPU bottlenecks but may have the opposite effect for CPU bottlenecks. If you have a powerful GPU, you can try using better quality settings to achieve higher GPU utilization.',
       name: 'performance_info_graphic_optimization_warning',
       desc: '',
       args: [],
@@ -1901,10 +1901,10 @@ class S {
     );
   }
 
-  /// `Unused`
+  /// `Not applied`
   String get performance_info_not_applied {
     return Intl.message(
-      'Unused',
+      'Not applied',
       name: 'performance_info_not_applied',
       desc: '',
       args: [],
@@ -1931,10 +1931,10 @@ class S {
     );
   }
 
-  /// `Middle`
+  /// `Medium`
   String get performance_action_medium {
     return Intl.message(
-      'Middle',
+      'Medium',
       name: 'performance_action_medium',
       desc: '',
       args: [],
@@ -1961,20 +1961,20 @@ class S {
     );
   }
 
-  /// `(Only graphic)`
+  /// `(Preset only changes graphics settings)`
   String get performance_action_info_preset_only_changes_graphics {
     return Intl.message(
-      '(Only graphic)',
+      '(Preset only changes graphics settings)',
       name: 'performance_action_info_preset_only_changes_graphics',
       desc: '',
       args: [],
     );
   }
 
-  /// ` Reset`
+  /// ` Reset to Default `
   String get performance_action_reset_to_default {
     return Intl.message(
-      ' Reset',
+      ' Reset to Default ',
       name: 'performance_action_reset_to_default',
       desc: '',
       args: [],
@@ -1991,10 +1991,10 @@ class S {
     );
   }
 
-  /// `Apply and clean up`
+  /// `Apply and Clear Shaders (Recommended)`
   String get performance_action_apply_and_clear_shaders {
     return Intl.message(
-      'Apply and clean up',
+      'Apply and Clear Shaders (Recommended)',
       name: 'performance_action_apply_and_clear_shaders',
       desc: '',
       args: [],
@@ -2011,90 +2011,90 @@ class S {
     );
   }
 
-  /// `You can enter the custom parameters that are not included in the box here. Configuration example:\n\nR_DISPLAYINFO = 0\nr_vsync = 0`
+  /// `You can enter custom parameters not included in SCToolbox here. Configuration example:\n\nr_displayinfo=0\nr_VSync=0`
   String get performance_action_custom_parameters_input {
     return Intl.message(
-      'You can enter the custom parameters that are not included in the box here. Configuration example:\n\nR_DISPLAYINFO = 0\nr_vsync = 0',
+      'You can enter custom parameters not included in SCToolbox here. Configuration example:\n\nr_displayinfo=0\nr_VSync=0',
       name: 'performance_action_custom_parameters_input',
       desc: '',
       args: [],
     );
   }
 
-  /// `{v0} minimum value: {v1} / maximum value: {v2}`
+  /// `{v0}    Min value: {v1} / Max value: {v2}`
   String performance_info_min_max_values(Object v0, Object v1, Object v2) {
     return Intl.message(
-      '$v0 minimum value: $v1 / maximum value: $v2',
+      '$v0    Min value: $v1 / Max value: $v2',
       name: 'performance_info_min_max_values',
       desc: '',
       args: [v0, v1, v2],
     );
   }
 
-  /// `Graphic`
+  /// `Graphics`
   String get performance_info_graphics {
     return Intl.message(
-      'Graphic',
+      'Graphics',
       name: 'performance_info_graphics',
       desc: '',
       args: [],
     );
   }
 
-  /// `Delete the configuration file ...`
+  /// `Deleting config file...`
   String get performance_info_delete_config_file {
     return Intl.message(
-      'Delete the configuration file ...',
+      'Deleting config file...',
       name: 'performance_info_delete_config_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Clean the color device`
+  /// `Clear Shaders`
   String get performance_action_clear_shaders {
     return Intl.message(
-      'Clean the color device',
+      'Clear Shaders',
       name: 'performance_action_clear_shaders',
       desc: '',
       args: [],
     );
   }
 
-  /// `Finish...`
+  /// `Done...`
   String get performance_info_done {
     return Intl.message(
-      'Finish...',
+      'Done...',
       name: 'performance_info_done',
       desc: '',
       args: [],
     );
   }
 
-  /// `After cleaning up the color device, it may appear stutter when entering the game for the first time. Please wait patiently for the initialization of the game.`
+  /// `After clearing shaders, the game may stutter when you first enter it. Please wait patiently for the game to complete initialization.`
   String get performance_info_shader_clearing_warning {
     return Intl.message(
-      'After cleaning up the color device, it may appear stutter when entering the game for the first time. Please wait patiently for the initialization of the game.',
+      'After clearing shaders, the game may stutter when you first enter it. Please wait patiently for the game to complete initialization.',
       name: 'performance_info_shader_clearing_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `Generate configuration file`
+  /// `Generate Config File`
   String get performance_info_generate_config_file {
     return Intl.message(
-      'Generate configuration file',
+      'Generate Config File',
       name: 'performance_info_generate_config_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Write the configuration file`
+  /// `Write Out Config File`
   String get performance_info_write_out_config_file {
     return Intl.message(
-      'Write the configuration file',
+      'Write Out Config File',
       name: 'performance_info_write_out_config_file',
       desc: '',
       args: [],
@@ -2151,160 +2151,155 @@ class S {
     );
   }
 
-  /// `The online lobby, so stay tuned!`
+  /// `Online lobby, coming soon!`
   String get lobby_online_lobby_coming_soon {
     return Intl.message(
-      'The online lobby, so stay tuned!',
+      'Online lobby, coming soon!',
       name: 'lobby_online_lobby_coming_soon',
       desc: '',
       args: [],
     );
   }
 
-  /// `Sincerely invite you to participate `
+  /// `You are invited to participate in `
   String get lobby_invitation_to_participate {
     return Intl.message(
-      'Sincerely invite you to participate ',
+      'You are invited to participate in ',
       name: 'lobby_invitation_to_participate',
       desc: '',
       args: [],
     );
   }
 
-  /// `Questionnaire.`
+  /// `a survey.`
   String get lobby_survey {
-    return Intl.message(
-      'Questionnaire.',
-      name: 'lobby_survey',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('a survey.', name: 'lobby_survey', desc: '', args: []);
   }
 
-  /// `Create shortcut`
+  /// `Create Settings Shortcut`
   String get setting_action_create_settings_shortcut {
     return Intl.message(
-      'Create shortcut',
+      'Create Settings Shortcut',
       name: 'setting_action_create_settings_shortcut',
       desc: '',
       args: [],
     );
   }
 
-  /// `Create "SC Localization Box" shortcut on the desktop`
+  /// `Create SCToolbox shortcut on desktop`
   String get setting_action_create_desktop_shortcut {
     return Intl.message(
-      'Create "SC Localization Box" shortcut on the desktop',
+      'Create SCToolbox shortcut on desktop',
       name: 'setting_action_create_desktop_shortcut',
       desc: '',
       args: [],
     );
   }
 
-  /// `Reset automatic password filling`
+  /// `Reset Auto Password Fill`
   String get setting_action_reset_auto_password_fill {
     return Intl.message(
-      'Reset automatic password filling',
+      'Reset Auto Password Fill',
       name: 'setting_action_reset_auto_password_fill',
       desc: '',
       args: [],
     );
   }
 
-  /// `When starting the game, ignore the core of energy efficiency (suitable for Intel 12th+ processor)`
+  /// `Ignore efficiency cores when launching game (For Intel 12th+ processors)`
   String get setting_action_ignore_efficiency_cores_on_launch {
     return Intl.message(
-      'When starting the game, ignore the core of energy efficiency (suitable for Intel 12th+ processor)',
+      'Ignore efficiency cores when launching game (For Intel 12th+ processors)',
       name: 'setting_action_ignore_efficiency_cores_on_launch',
       desc: '',
       args: [],
     );
   }
 
-  /// `Core quantity that has been set: {v0} (This function is suitable for the box -click startup or RSI Launcher manager mode on the homepage, which is not enabled when it is 0)`
+  /// `Number of cores set: {v0} (This feature applies to SCToolbox one-click launch on the homepage or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled)`
   String setting_action_set_core_count(Object v0) {
     return Intl.message(
-      'Core quantity that has been set: $v0 (This function is suitable for the box -click startup or RSI Launcher manager mode on the homepage, which is not enabled when it is 0)',
+      'Number of cores set: $v0 (This feature applies to SCToolbox one-click launch on the homepage or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled)',
       name: 'setting_action_set_core_count',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Set the promoter file (RSI Launcher.exe)`
+  /// `Set Launcher File (RSI Launcher.exe)`
   String get setting_action_set_launcher_file {
     return Intl.message(
-      'Set the promoter file (RSI Launcher.exe)',
+      'Set Launcher File (RSI Launcher.exe)',
       name: 'setting_action_set_launcher_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Set the position of the RSI Launcher manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically`
+  /// `Manually set launcher location, recommended only when automatic installation location scanning is not available`
   String get setting_action_info_manual_launcher_location_setting {
     return Intl.message(
-      'Set the position of the RSI Launcher manually, it is recommended to use it only when the installation position cannot be automatically scanned automatically',
+      'Manually set launcher location, recommended only when automatic installation location scanning is not available',
       name: 'setting_action_info_manual_launcher_location_setting',
       desc: '',
       args: [],
     );
   }
 
-  /// `Set the game file (StarCitizen.exe)`
+  /// `Set Game File (StarCitizen.exe)`
   String get setting_action_set_game_file {
     return Intl.message(
-      'Set the game file (StarCitizen.exe)',
+      'Set Game File (StarCitizen.exe)',
       name: 'setting_action_set_game_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Manually set the game installation location, it is recommended to use it only when the installation location cannot be automatically scanned`
+  /// `Manually set game installation location, recommended only when automatic installation location scanning is not available`
   String get setting_action_info_manual_game_location_setting {
     return Intl.message(
-      'Manually set the game installation location, it is recommended to use it only when the installation location cannot be automatically scanned',
+      'Manually set game installation location, recommended only when automatic installation location scanning is not available',
       name: 'setting_action_info_manual_game_location_setting',
       desc: '',
       args: [],
     );
   }
 
-  /// `Clean up the Localization file cache`
+  /// `Clear Localization File Cache`
   String get setting_action_clear_translation_file_cache {
     return Intl.message(
-      'Clean up the Localization file cache',
+      'Clear Localization File Cache',
       name: 'setting_action_clear_translation_file_cache',
       desc: '',
       args: [],
     );
   }
 
-  /// `The cache size {v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization`
+  /// `Cache size {v0}MB, clears the localization file cache downloaded by SCToolbox, does not affect installed localizations`
   String setting_action_info_cache_clearing_info(Object v0) {
     return Intl.message(
-      'The cache size $v0 MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization',
+      'Cache size ${v0}MB, clears the localization file cache downloaded by SCToolbox, does not affect installed localizations',
       name: 'setting_action_info_cache_clearing_info',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Tool station access acceleration`
+  /// `Tool Site Access Acceleration`
   String get setting_action_tool_site_access_acceleration {
     return Intl.message(
-      'Tool station access acceleration',
+      'Tool Site Access Acceleration',
       name: 'setting_action_tool_site_access_acceleration',
       desc: '',
       args: [],
     );
   }
 
-  /// `Use a mirror server to accelerate access to tool websites such as DPS UEX. If you access abnormal access, please turn off the function. To protect the security of the account, the RSI official website will not be accelerated in any case.`
+  /// `Use mirror server to accelerate access to tool websites such as Dps, Uex, etc. If access is abnormal, please turn off this feature. To protect account security, the RSI official website will never be accelerated under any circumstances.`
   String get setting_action_info_mirror_server_info {
     return Intl.message(
-      'Use a mirror server to accelerate access to tool websites such as DPS UEX. If you access abnormal access, please turn off the function. To protect the security of the account, the RSI official website will not be accelerated in any case.',
+      'Use mirror server to accelerate access to tool websites such as Dps, Uex, etc. If access is abnormal, please turn off this feature. To protect account security, the RSI official website will never be accelerated under any circumstances.',
       name: 'setting_action_info_mirror_server_info',
       desc: '',
       args: [],
@@ -2321,330 +2316,330 @@ class S {
     );
   }
 
-  /// `Check the log file of the SCToolBox to locate the bug of the box`
+  /// `View the log file of SCToolbox to locate bugs in the box`
   String get setting_action_info_view_log_file {
     return Intl.message(
-      'Check the log file of the SCToolBox to locate the bug of the box',
+      'View the log file of SCToolbox to locate bugs in the box',
       name: 'setting_action_info_view_log_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirm that resetting automatic filling?`
+  /// `Confirm reset auto-fill?`
   String get setting_action_info_confirm_reset_autofill {
     return Intl.message(
-      'Confirm that resetting automatic filling?',
+      'Confirm reset auto-fill?',
       name: 'setting_action_info_confirm_reset_autofill',
       desc: '',
       args: [],
     );
   }
 
-  /// `This will delete local account records, or it will automatically fill in the next time the game starts the game to disable automatic filling.`
+  /// `This will delete the local account record, or select 'no' for auto-fill the next time you launch the game to disable auto-fill.`
   String get setting_action_info_delete_local_account_warning {
     return Intl.message(
-      'This will delete local account records, or it will automatically fill in the next time the game starts the game to disable automatic filling.',
+      'This will delete the local account record, or select \'no\' for auto-fill the next time you launch the game to disable auto-fill.',
       name: 'setting_action_info_delete_local_account_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `Automatic filling data has been cleaned up`
+  /// `Auto-fill data cleared`
   String get setting_action_info_autofill_data_cleared {
     return Intl.message(
-      'Automatic filling data has been cleaned up',
+      'Auto-fill data cleared',
       name: 'setting_action_info_autofill_data_cleared',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter the core number of CPUs to be ignored`
+  /// `Please enter the number of CPU cores to ignore`
   String get setting_action_info_enter_cpu_core_to_ignore {
     return Intl.message(
-      'Please enter the core number of CPUs to be ignored',
+      'Please enter the number of CPU cores to ignore',
       name: 'setting_action_info_enter_cpu_core_to_ignore',
       desc: '',
       args: [],
     );
   }
 
-  /// `Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI Launcher Admin mode in the box on the homepage. This function is not enabled when it is 0.`
+  /// `Tip: Enter how many efficiency cores your device has, keep 0 for non-big.LITTLE devices\n\nThis feature applies to SCToolbox one-click launch on the home page or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled.`
   String get setting_action_info_cpu_core_tip {
     return Intl.message(
-      'Tip: Input a few of your equipment with a few energy efficiency cores, please keep 0 non -large and small nuclear equipment 0\n\nThis function is suitable for the box of one -click startup or the RSI Launcher Admin mode in the box on the homepage. This function is not enabled when it is 0.',
+      'Tip: Enter how many efficiency cores your device has, keep 0 for non-big.LITTLE devices\n\nThis feature applies to SCToolbox one-click launch on the home page or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled.',
       name: 'setting_action_info_cpu_core_tip',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please select the RSI Launcher position (RSI LAUNCHER.EXE)`
+  /// `Please select RSI launcher location (RSI Launcher.exe)`
   String get setting_action_info_select_rsi_launcher_location {
     return Intl.message(
-      'Please select the RSI Launcher position (RSI LAUNCHER.EXE)',
+      'Please select RSI launcher location (RSI Launcher.exe)',
       name: 'setting_action_info_select_rsi_launcher_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `Successfully set, click refresh on the corresponding page to scan the new path`
+  /// `Setting successful, click refresh on the corresponding page to scan for the new path`
   String get setting_action_info_setting_success {
     return Intl.message(
-      'Successfully set, click refresh on the corresponding page to scan the new path',
+      'Setting successful, click refresh on the corresponding page to scan for the new path',
       name: 'setting_action_info_setting_success',
       desc: '',
       args: [],
     );
   }
 
-  /// `The file is wrong!`
+  /// `File error!`
   String get setting_action_info_file_error {
     return Intl.message(
-      'The file is wrong!',
+      'File error!',
       name: 'setting_action_info_file_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please select the game installation position (StarCitizen.exe)`
+  /// `Please select game installation location (StarCitizen.exe)`
   String get setting_action_info_select_game_install_location {
     return Intl.message(
-      'Please select the game installation position (StarCitizen.exe)',
+      'Please select game installation location (StarCitizen.exe)',
       name: 'setting_action_info_select_game_install_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirmation of cleaning the Localization cache?`
+  /// `Confirm clearing localization cache?`
   String get setting_action_info_confirm_clear_cache {
     return Intl.message(
-      'Confirmation of cleaning the Localization cache?',
+      'Confirm clearing localization cache?',
       name: 'setting_action_info_confirm_clear_cache',
       desc: '',
       args: [],
     );
   }
 
-  /// `This will not affect the installed Localization.`
+  /// `This will not affect installed localizations.`
   String get setting_action_info_clear_cache_warning {
     return Intl.message(
-      'This will not affect the installed Localization.',
+      'This will not affect installed localizations.',
       name: 'setting_action_info_clear_cache_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `Due to Microsoft's version restrictions, manually drag the SCToolBox to the desktop in the next window to create a shortcut.`
+  /// `Due to Microsoft version feature limitations, please manually drag SCToolbox to the desktop in the window that opens next to create a shortcut.`
   String get setting_action_info_microsoft_version_limitation {
     return Intl.message(
-      'Due to Microsoft\'s version restrictions, manually drag the SCToolBox to the desktop in the next window to create a shortcut.',
+      'Due to Microsoft version feature limitations, please manually drag SCToolbox to the desktop in the window that opens next to create a shortcut.',
       name: 'setting_action_info_microsoft_version_limitation',
       desc: '',
       args: [],
     );
   }
 
-  /// `After the creation, please return to the desktop to view`
+  /// `Creation complete, please check your desktop`
   String get setting_action_info_shortcut_created {
     return Intl.message(
-      'After the creation, please return to the desktop to view',
+      'Creation complete, please check your desktop',
       name: 'setting_action_info_shortcut_created',
       desc: '',
       args: [],
     );
   }
 
-  /// `Discover the new version-> {v0}`
+  /// `New version found -> {v0}`
   String app_upgrade_title_new_version_found(Object v0) {
     return Intl.message(
-      'Discover the new version-> $v0',
+      'New version found -> $v0',
       name: 'app_upgrade_title_new_version_found',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Get the new version details ...`
+  /// `Getting new version details...`
   String get app_upgrade_info_getting_new_version_details {
     return Intl.message(
-      'Get the new version details ...',
+      'Getting new version details...',
       name: 'app_upgrade_info_getting_new_version_details',
       desc: '',
       args: [],
     );
   }
 
-  /// `Tip: The current diversion server is updated, and the download speed may decline, but it will help us perform cost control. If you download the exception, please click here to jump and manually install it.`
+  /// `Note: Currently using diversion server for updates, which may result in decreased download speed but helps us with cost control. If the download is abnormal, please click here to switch to manual installation.`
   String get app_upgrade_info_update_server_tip {
     return Intl.message(
-      'Tip: The current diversion server is updated, and the download speed may decline, but it will help us perform cost control. If you download the exception, please click here to jump and manually install it.',
+      'Note: Currently using diversion server for updates, which may result in decreased download speed but helps us with cost control. If the download is abnormal, please click here to switch to manual installation.',
       name: 'app_upgrade_info_update_server_tip',
       desc: '',
       args: [],
     );
   }
 
-  /// `Installing:   `
+  /// `Installing: `
   String get app_upgrade_info_installing {
     return Intl.message(
-      'Installing:   ',
+      'Installing: ',
       name: 'app_upgrade_info_installing',
       desc: '',
       args: [],
     );
   }
 
-  /// `Downloading: {v0}%    `
+  /// `Downloading: {v0}% `
   String app_upgrade_info_downloading(Object v0) {
     return Intl.message(
-      'Downloading: $v0%    ',
+      'Downloading: $v0% ',
       name: 'app_upgrade_info_downloading',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Update immediately`
+  /// `Update Now`
   String get app_upgrade_action_update_now {
     return Intl.message(
-      'Update immediately',
+      'Update Now',
       name: 'app_upgrade_action_update_now',
       desc: '',
       args: [],
     );
   }
 
-  /// `Next time`
+  /// `Next Time`
   String get app_upgrade_action_next_time {
     return Intl.message(
-      'Next time',
+      'Next Time',
       name: 'app_upgrade_action_next_time',
       desc: '',
       args: [],
     );
   }
 
-  /// `Failure to download, please try to install manually!`
+  /// `Download failed, please try manual installation!`
   String get app_upgrade_info_download_failed {
     return Intl.message(
-      'Failure to download, please try to install manually!',
+      'Download failed, please try manual installation!',
       name: 'app_upgrade_info_download_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Failure to run, try to install manually!`
+  /// `Run failed, please try manual installation!`
   String get app_upgrade_info_run_failed {
     return Intl.message(
-      'Failure to run, try to install manually!',
+      'Run failed, please try manual installation!',
       name: 'app_upgrade_info_run_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `It is detection availability, which may take a little time ...`
+  /// `Checking availability, this may take a moment...`
   String get app_splash_checking_availability {
     return Intl.message(
-      'It is detection availability, which may take a little time ...',
+      'Checking availability, this may take a moment...',
       name: 'app_splash_checking_availability',
       desc: '',
       args: [],
     );
   }
 
-  /// `Inspection and update ...`
+  /// `Checking for updates...`
   String get app_splash_checking_for_updates {
     return Intl.message(
-      'Inspection and update ...',
+      'Checking for updates...',
       name: 'app_splash_checking_for_updates',
       desc: '',
       args: [],
     );
   }
 
-  /// `Finish quickly…`
+  /// `Almost done...`
   String get app_splash_almost_done {
     return Intl.message(
-      'Finish quickly…',
+      'Almost done...',
       name: 'app_splash_almost_done',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI official website`
+  /// `RSI Official Website`
   String get tools_hosts_info_rsi_official_website {
     return Intl.message(
-      'RSI official website',
+      'RSI Official Website',
       name: 'tools_hosts_info_rsi_official_website',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI customer service station`
+  /// `RSI Customer Service`
   String get tools_hosts_info_rsi_customer_service {
     return Intl.message(
-      'RSI customer service station',
+      'RSI Customer Service',
       name: 'tools_hosts_info_rsi_customer_service',
       desc: '',
       args: [],
     );
   }
 
-  /// `Inquiring about DNS and testing accessibility, please wait patiently ...`
+  /// `Querying DNS and testing accessibility, please wait patiently...`
   String get tools_hosts_info_dns_query_and_test {
     return Intl.message(
-      'Inquiring about DNS and testing accessibility, please wait patiently ...',
+      'Querying DNS and testing accessibility, please wait patiently...',
       name: 'tools_hosts_info_dns_query_and_test',
       desc: '',
       args: [],
     );
   }
 
-  /// `I am writing Hosts ...`
+  /// `Writing to Hosts...`
   String get tools_hosts_info_writing_hosts {
     return Intl.message(
-      'I am writing Hosts ...',
+      'Writing to Hosts...',
       name: 'tools_hosts_info_writing_hosts',
       desc: '',
       args: [],
     );
   }
 
-  /// `Read the configuration ...`
+  /// `Reading configuration...`
   String get tools_hosts_info_reading_config {
     return Intl.message(
-      'Read the configuration ...',
+      'Reading configuration...',
       name: 'tools_hosts_info_reading_config',
       desc: '',
       args: [],
     );
   }
 
-  /// `Hosts accelerate`
+  /// `Hosts Acceleration`
   String get tools_hosts_info_hosts_acceleration {
     return Intl.message(
-      'Hosts accelerate',
+      'Hosts Acceleration',
       name: 'tools_hosts_info_hosts_acceleration',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open the hosts file`
+  /// `Open Hosts File`
   String get tools_hosts_info_open_hosts_file {
     return Intl.message(
-      'Open the hosts file',
+      'Open Hosts File',
       name: 'tools_hosts_info_open_hosts_file',
       desc: '',
       args: [],
@@ -2671,20 +2666,20 @@ class S {
     );
   }
 
-  /// `Whether to enable`
+  /// `Enable`
   String get tools_hosts_info_enable {
     return Intl.message(
-      'Whether to enable',
+      'Enable',
       name: 'tools_hosts_info_enable',
       desc: '',
       args: [],
     );
   }
 
-  /// `One -click acceleration`
+  /// `One-Click Acceleration`
   String get tools_hosts_action_one_click_acceleration {
     return Intl.message(
-      'One -click acceleration',
+      'One-Click Acceleration',
       name: 'tools_hosts_action_one_click_acceleration',
       desc: '',
       args: [],
@@ -2701,357 +2696,357 @@ class S {
     );
   }
 
-  /// `Failure to handle! : {v0}`
+  /// `Processing failed!: {v0}`
   String tools_info_processing_failed(Object v0) {
     return Intl.message(
-      'Failure to handle! : $v0',
+      'Processing failed!: $v0',
       name: 'tools_info_processing_failed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Game installation location:  `
+  /// `Game installation location: `
   String get tools_info_game_install_location {
     return Intl.message(
-      'Game installation location:  ',
+      'Game installation location: ',
       name: 'tools_info_game_install_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI Launcher position:`
+  /// `RSI Launcher location:`
   String get tools_info_rsi_launcher_location {
     return Intl.message(
-      'RSI Launcher position:',
+      'RSI Launcher location:',
       name: 'tools_info_rsi_launcher_location',
       desc: '',
       args: [],
     );
   }
 
-  /// `View system information`
+  /// `View System Info`
   String get tools_action_view_system_info {
     return Intl.message(
-      'View system information',
+      'View System Info',
       name: 'tools_action_view_system_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Check the key information of the system for quick consultation\n\nTime -consuming operation, please wait patiently.`
+  /// `View critical system information for quick diagnosis\n\nThis operation takes time, please wait patiently.`
   String get tools_action_info_view_critical_system_info {
     return Intl.message(
-      'Check the key information of the system for quick consultation\n\nTime -consuming operation, please wait patiently.',
+      'View critical system information for quick diagnosis\n\nThis operation takes time, please wait patiently.',
       name: 'tools_action_info_view_critical_system_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4k diversion download / repair`
+  /// `P4K Diversion Download / Repair`
   String get tools_action_p4k_download_repair {
     return Intl.message(
-      'P4k diversion download / repair',
+      'P4K Diversion Download / Repair',
       name: 'tools_action_p4k_download_repair',
       desc: '',
       args: [],
     );
   }
 
-  /// `The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:{v0}`
+  /// `Use the diversion download service provided by Star Citizen Chinese Wiki for downloading or repairing p4k.\nVersion info: {v0}`
   String tools_action_info_p4k_download_repair_tip(Object v0) {
     return Intl.message(
-      'The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:$v0',
+      'Use the diversion download service provided by Star Citizen Chinese Wiki for downloading or repairing p4k.\nVersion info: $v0',
       name: 'tools_action_info_p4k_download_repair_tip',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Hosts acceleration (experimental)`
+  /// `Hosts Acceleration (Experimental)`
   String get tools_action_hosts_acceleration_experimental {
     return Intl.message(
-      'Hosts acceleration (experimental)',
+      'Hosts Acceleration (Experimental)',
       name: 'tools_action_hosts_acceleration_experimental',
       desc: '',
       args: [],
     );
   }
 
-  /// `Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems.`
+  /// `Write IP information to the Hosts file to solve issues such as DNS pollution in some regions that prevent logging in to the official website.\nThis feature is in its first testing phase, please provide feedback if you encounter any issues.`
   String get tools_action_info_hosts_acceleration_experimental_tip {
     return Intl.message(
-      'Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems.',
+      'Write IP information to the Hosts file to solve issues such as DNS pollution in some regions that prevent logging in to the official website.\nThis feature is in its first testing phase, please provide feedback if you encounter any issues.',
       name: 'tools_action_info_hosts_acceleration_experimental_tip',
       desc: '',
       args: [],
     );
   }
 
-  /// `Reinstall EasyAnticheat`
+  /// `Reinstall EasyAntiCheat`
   String get tools_action_reinstall_easyanticheat {
     return Intl.message(
-      'Reinstall EasyAnticheat',
+      'Reinstall EasyAntiCheat',
       name: 'tools_action_reinstall_easyanticheat',
       desc: '',
       args: [],
     );
   }
 
-  /// `If you encounter EAC errors and are invalid automatically, try using this feature to reinstall EAC.`
+  /// `If you encounter EAC errors and automatic repair is ineffective, please try using this feature to reinstall EAC.`
   String get tools_action_info_reinstall_eac {
     return Intl.message(
-      'If you encounter EAC errors and are invalid automatically, try using this feature to reinstall EAC.',
+      'If you encounter EAC errors and automatic repair is ineffective, please try using this feature to reinstall EAC.',
       name: 'tools_action_info_reinstall_eac',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI Launcher administrator mode`
+  /// `RSI Launcher Admin Mode`
   String get tools_action_rsi_launcher_admin_mode {
     return Intl.message(
-      'RSI Launcher administrator mode',
+      'RSI Launcher Admin Mode',
       name: 'tools_action_rsi_launcher_admin_mode',
       desc: '',
       args: [],
     );
   }
 
-  /// `Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here.`
+  /// `Run the RSI launcher as administrator, which may solve some issues.\n\nIf efficiency core blocking parameters are set, they will also be applied here.`
   String get tools_action_info_run_rsi_as_admin {
     return Intl.message(
-      'Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here.',
+      'Run the RSI launcher as administrator, which may solve some issues.\n\nIf efficiency core blocking parameters are set, they will also be applied here.',
       name: 'tools_action_info_run_rsi_as_admin',
       desc: '',
       args: [],
     );
   }
 
-  /// `Initialization failed, please take a screenshot report to the developer. {v0}`
+  /// `Initialization failed, please take a screenshot to report to the developer. {v0}`
   String tools_action_info_init_failed(Object v0) {
     return Intl.message(
-      'Initialization failed, please take a screenshot report to the developer. $v0',
+      'Initialization failed, please take a screenshot to report to the developer. $v0',
       name: 'tools_action_info_init_failed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `RSI LAUNCHER LOG repair`
+  /// `RSI Launcher Log Fix`
   String get tools_action_rsi_launcher_log_fix {
     return Intl.message(
-      'RSI LAUNCHER LOG repair',
+      'RSI Launcher Log Fix',
       name: 'tools_action_rsi_launcher_log_fix',
       desc: '',
       args: [],
     );
   }
 
-  /// `In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: {v0} MB`
+  /// `In some cases, the log file of the RSI Launcher may be corrupted, preventing problem scanning from completing. Use this tool to clean up corrupted log files.\n\nCurrent log file size: {v0} MB`
   String tools_action_info_rsi_launcher_log_issue(Object v0) {
     return Intl.message(
-      'In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: $v0 MB',
+      'In some cases, the log file of the RSI Launcher may be corrupted, preventing problem scanning from completing. Use this tool to clean up corrupted log files.\n\nCurrent log file size: $v0 MB',
       name: 'tools_action_info_rsi_launcher_log_issue',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Remove the NVMe registry patch`
+  /// `Remove NVME Registry Patch`
   String get tools_action_remove_nvme_registry_patch {
     return Intl.message(
-      'Remove the NVMe registry patch',
+      'Remove NVME Registry Patch',
       name: 'tools_action_remove_nvme_registry_patch',
       desc: '',
       args: [],
     );
   }
 
-  /// `If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: {v0}`
+  /// `If you have issues with the nvme patch, please run this tool. (May cause game installation/updates to be unavailable.)\n\nCurrent patch status: {v0}`
   String tools_action_info_nvme_patch_issue(Object v0) {
     return Intl.message(
-      'If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: $v0',
+      'If you have issues with the nvme patch, please run this tool. (May cause game installation/updates to be unavailable.)\n\nCurrent patch status: $v0',
       name: 'tools_action_info_nvme_patch_issue',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Not Installed`
+  /// `Not installed`
   String get tools_action_info_not_installed {
     return Intl.message(
-      'Not Installed',
+      'Not installed',
       name: 'tools_action_info_not_installed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Remove the computer to take effect!`
+  /// `Removed, restart computer for changes to take effect!`
   String get tools_action_info_removed_restart_effective {
     return Intl.message(
-      'Remove the computer to take effect!',
+      'Removed, restart computer for changes to take effect!',
       name: 'tools_action_info_removed_restart_effective',
       desc: '',
       args: [],
     );
   }
 
-  /// `Write in the NVMe registry patch`
+  /// `Write NVME Registry Patch`
   String get tools_action_write_nvme_registry_patch {
     return Intl.message(
-      'Write in the NVMe registry patch',
+      'Write NVME Registry Patch',
       name: 'tools_action_write_nvme_registry_patch',
       desc: '',
       args: [],
     );
   }
 
-  /// `Manually write the NVM patch, this function is used only when you know what you do`
+  /// `Manually write NVM patch, only use this feature if you know what you're doing`
   String get tools_action_info_manual_nvme_patch {
     return Intl.message(
-      'Manually write the NVM patch, this function is used only when you know what you do',
+      'Manually write NVM patch, only use this feature if you know what you\'re doing',
       name: 'tools_action_info_manual_nvme_patch',
       desc: '',
       args: [],
     );
   }
 
-  /// `If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.`
+  /// `Fixed successfully, please try restarting your computer and then continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME Registry Cleanup in Tools.`
   String get tools_action_info_fix_success_restart {
     return Intl.message(
-      'If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.',
+      'Fixed successfully, please try restarting your computer and then continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME Registry Cleanup in Tools.',
       name: 'tools_action_info_fix_success_restart',
       desc: '',
       args: [],
     );
   }
 
-  /// `Clean up the color device cache`
+  /// `Clear Shader Cache`
   String get tools_action_clear_shader_cache {
     return Intl.message(
-      'Clean up the color device cache',
+      'Clear Shader Cache',
       name: 'tools_action_clear_shader_cache',
       desc: '',
       args: [],
     );
   }
 
-  /// `If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: {v0} MB`
+  /// `If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders (also restores Vulkan to DX11)\n\nCache size: {v0} MB`
   String tools_action_info_shader_cache_issue(Object v0) {
     return Intl.message(
-      'If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: $v0 MB',
+      'If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders (also restores Vulkan to DX11)\n\nCache size: $v0 MB',
       name: 'tools_action_info_shader_cache_issue',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Turn off the photography mode`
+  /// `Close Photography Mode`
   String get tools_action_close_photography_mode {
     return Intl.message(
-      'Turn off the photography mode',
+      'Close Photography Mode',
       name: 'tools_action_close_photography_mode',
       desc: '',
       args: [],
     );
   }
 
-  /// `Turn on the photography mode`
+  /// `Open Photography Mode`
   String get tools_action_open_photography_mode {
     return Intl.message(
-      'Turn on the photography mode',
+      'Open Photography Mode',
       name: 'tools_action_open_photography_mode',
       desc: '',
       args: [],
     );
   }
 
-  /// `Restoring the lens shaking effect.\n\n@Lapernum offers parameter information.`
+  /// `Restore lens shake effect.\n\n@Lapernum provides parameter information.`
   String get tools_action_info_restore_lens_shake {
     return Intl.message(
-      'Restoring the lens shaking effect.\n\n@Lapernum offers parameter information.',
+      'Restore lens shake effect.\n\n@Lapernum provides parameter information.',
       name: 'tools_action_info_restore_lens_shake',
       desc: '',
       args: [],
     );
   }
 
-  /// `Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information.`
+  /// `One-click disable in-game lens shake for better photography operations.\n\n@Lapernum provides parameter information.`
   String get tools_action_info_one_key_close_lens_shake {
     return Intl.message(
-      'Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information.',
+      'One-click disable in-game lens shake for better photography operations.\n\n@Lapernum provides parameter information.',
       name: 'tools_action_info_one_key_close_lens_shake',
       desc: '',
       args: [],
     );
   }
 
-  /// `Analysis of LOG files failed!\nTry to use RSI Launcher Log repair tool!`
+  /// `Failed to parse log file!\nPlease try using the RSI Launcher Log Fix tool!`
   String get tools_action_info_log_file_parse_failed {
     return Intl.message(
-      'Analysis of LOG files failed!\nTry to use RSI Launcher Log repair tool!',
+      'Failed to parse log file!\nPlease try using the RSI Launcher Log Fix tool!',
       name: 'tools_action_info_log_file_parse_failed',
       desc: '',
       args: [],
     );
   }
 
-  /// `If the RSI label is not found, try to reinstall it or add it manually in the settings.`
+  /// `RSI launcher not found, please try reinstalling or manually adding it in settings.`
   String get tools_action_info_rsi_launcher_not_found {
     return Intl.message(
-      'If the RSI label is not found, try to reinstall it or add it manually in the settings.',
+      'RSI launcher not found, please try reinstalling or manually adding it in settings.',
       name: 'tools_action_info_rsi_launcher_not_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings.`
+  /// `Star Citizen game installation location not found, please complete at least one game launch operation or manually add it in settings.`
   String get tools_action_info_star_citizen_not_found {
     return Intl.message(
-      'If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings.',
+      'Star Citizen game installation location not found, please complete at least one game launch operation or manually add it in settings.',
       name: 'tools_action_info_star_citizen_not_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `This function requires an effective game installation directory`
+  /// `This feature requires a valid game installation directory`
   String get tools_action_info_valid_game_directory_needed {
     return Intl.message(
-      'This function requires an effective game installation directory',
+      'This feature requires a valid game installation directory',
       name: 'tools_action_info_valid_game_directory_needed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC.`
+  /// `EAC files have been removed for you. Next, we'll open the RSI launcher for you. Please go to SETTINGS -> VERIFY to reinstall EAC.`
   String get tools_action_info_eac_file_removed {
     return Intl.message(
-      'Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC.',
+      'EAC files have been removed for you. Next, we\'ll open the RSI launcher for you. Please go to SETTINGS -> VERIFY to reinstall EAC.',
       name: 'tools_action_info_eac_file_removed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Error: {v0}`
+  /// `An error occurred: {v0}`
   String tools_action_info_error_occurred(Object v0) {
     return Intl.message(
-      'Error: $v0',
+      'An error occurred: $v0',
       name: 'tools_action_info_error_occurred',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `System: {v0}\n\nProcessor: {v1}\n\nMemory size: {v2} gb\n\nGraphics card information:\n{v3}\n\nStorage information:\n{v4}\n\n`
+  /// `System: {v0}\n\nProcessor: {v1}\n\nMemory size: {v2}GB\n\nGPU information:\n{v3}\n\nStorage information:\n{v4}\n\n`
   String tools_action_info_system_info_content(
     Object v0,
     Object v1,
@@ -3060,107 +3055,107 @@ class S {
     Object v4,
   ) {
     return Intl.message(
-      'System: $v0\n\nProcessor: $v1\n\nMemory size: $v2 gb\n\nGraphics card information:\n$v3\n\nStorage information:\n$v4\n\n',
+      'System: $v0\n\nProcessor: $v1\n\nMemory size: ${v2}GB\n\nGPU information:\n$v3\n\nStorage information:\n$v4\n\n',
       name: 'tools_action_info_system_info_content',
       desc: '',
       args: [v0, v1, v2, v3, v4],
     );
   }
 
-  /// `If the RSI Launcher directory is not found, please try manually.`
+  /// `RSI launcher directory not found, please try manual operation.`
   String get tools_action_info_rsi_launcher_directory_not_found {
     return Intl.message(
-      'If the RSI Launcher directory is not found, please try manually.',
+      'RSI launcher directory not found, please try manual operation.',
       name: 'tools_action_info_rsi_launcher_directory_not_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `The log file does not exist, please try to start a game startup or game installation, and exit the RSI Launcher. If the problem cannot be solved, try to update the launcher to the latest version!`
+  /// `Log file does not exist. Please try launching the game or installing the game once and then exit the launcher. If the problem persists, please try updating the launcher to the latest version!`
   String get tools_action_info_log_file_not_exist {
     return Intl.message(
-      'The log file does not exist, please try to start a game startup or game installation, and exit the RSI Launcher. If the problem cannot be solved, try to update the launcher to the latest version!',
+      'Log file does not exist. Please try launching the game or installing the game once and then exit the launcher. If the problem persists, please try updating the launcher to the latest version!',
       name: 'tools_action_info_log_file_not_exist',
       desc: '',
       args: [],
     );
   }
 
-  /// `After cleaning up, complete the installation / game startup operation once.`
+  /// `Cleanup complete, please complete one installation / game launch operation.`
   String get tools_action_info_cleanup_complete {
     return Intl.message(
-      'After cleaning up, complete the installation / game startup operation once.',
+      'Cleanup complete, please complete one installation / game launch operation.',
       name: 'tools_action_info_cleanup_complete',
       desc: '',
       args: [],
     );
   }
 
-  /// `Failure to clean up, please remove manually, file location: {v0}`
+  /// `Cleanup failed, please remove manually, file location: {v0}`
   String tools_action_info_cleanup_failed(Object v0) {
     return Intl.message(
-      'Failure to clean up, please remove manually, file location: $v0',
+      'Cleanup failed, please remove manually, file location: $v0',
       name: 'tools_action_info_cleanup_failed',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `System message`
+  /// `System Information`
   String get tools_action_info_system_info_title {
     return Intl.message(
-      'System message',
+      'System Information',
       name: 'tools_action_info_system_info_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `The RSI Launcher is running! Please turn off the label first and then use this feature!`
+  /// `RSI Launcher is running! Please close the launcher before using this feature!`
   String get tools_action_info_rsi_launcher_running_warning {
     return Intl.message(
-      'The RSI Launcher is running! Please turn off the label first and then use this feature!',
+      'RSI Launcher is running! Please close the launcher before using this feature!',
       name: 'tools_action_info_rsi_launcher_running_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the RSI Launcher to check it.`
+  /// `P4k is Star Citizen's core game file, over 100GB+. The offline download provided by SCToolbox is to help users who have extremely slow p4k file downloads or to repair p4k files that the official launcher cannot fix.\n\nNext, a dialog will ask for your save location (you can choose the Star Citizen folder or elsewhere). After downloading, please make sure the P4K file is placed in the LIVE folder, then verify and update using the Star Citizen launcher.`
   String get tools_action_info_p4k_file_description {
     return Intl.message(
-      'P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the RSI Launcher to check it.',
+      'P4k is Star Citizen\'s core game file, over 100GB+. The offline download provided by SCToolbox is to help users who have extremely slow p4k file downloads or to repair p4k files that the official launcher cannot fix.\n\nNext, a dialog will ask for your save location (you can choose the Star Citizen folder or elsewhere). After downloading, please make sure the P4K file is placed in the LIVE folder, then verify and update using the Star Citizen launcher.',
       name: 'tools_action_info_p4k_file_description',
       desc: '',
       args: [],
     );
   }
 
-  /// `There is already a P4K download task in progress, please go to the download manager to view!`
+  /// `A p4k download task is already in progress, please check the download manager!`
   String get tools_action_info_p4k_download_in_progress {
     return Intl.message(
-      'There is already a P4K download task in progress, please go to the download manager to view!',
+      'A p4k download task is already in progress, please check the download manager!',
       name: 'tools_action_info_p4k_download_in_progress',
       desc: '',
       args: [],
     );
   }
 
-  /// `During functional maintenance, please try it later!`
+  /// `Function under maintenance, please try again later!`
   String get tools_action_info_function_under_maintenance {
     return Intl.message(
-      'During functional maintenance, please try it later!',
+      'Function under maintenance, please try again later!',
       name: 'tools_action_info_function_under_maintenance',
       desc: '',
       args: [],
     );
   }
 
-  /// `The configuration file does not exist, please try to run the game once`
+  /// `Configuration file does not exist, please try running the game once`
   String get tools_action_info_config_file_not_exist {
     return Intl.message(
-      'The configuration file does not exist, please try to run the game once',
+      'Configuration file does not exist, please try running the game once',
       name: 'tools_action_info_config_file_not_exist',
       desc: '',
       args: [],
@@ -3177,40 +3172,40 @@ class S {
     );
   }
 
-  /// `Total invitation:`
+  /// `Total invitations:`
   String get webview_localization_total_invitations {
     return Intl.message(
-      'Total invitation:',
+      'Total invitations:',
       name: 'webview_localization_total_invitations',
       desc: '',
       args: [],
     );
   }
 
-  /// `Undead invitation`
+  /// `Unfinished invitations`
   String get webview_localization_unfinished_invitations {
     return Intl.message(
-      'Undead invitation',
+      'Unfinished invitations',
       name: 'webview_localization_unfinished_invitations',
       desc: '',
       args: [],
     );
   }
 
-  /// `Completed invitations`
+  /// `Finished invitations`
   String get webview_localization_finished_invitations {
     return Intl.message(
-      'Completed invitations',
+      'Finished invitations',
       name: 'webview_localization_finished_invitations',
       desc: '',
       args: [],
     );
   }
 
-  /// `Initialization failure: {v0}`
+  /// `Initialization failed: {v0}`
   String app_init_failed_with_reason(Object v0) {
     return Intl.message(
-      'Initialization failure: $v0',
+      'Initialization failed: $v0',
       name: 'app_init_failed_with_reason',
       desc: '',
       args: [v0],
@@ -3227,90 +3222,90 @@ class S {
     );
   }
 
-  /// `Automatic`
+  /// `Auto`
   String get settings_app_language_auto {
     return Intl.message(
-      'Automatic',
+      'Auto',
       name: 'settings_app_language_auto',
       desc: '',
       args: [],
     );
   }
 
-  /// `Network connection failed! \nEntering offline mode... \n\nPlease check the network connection or get the latest information in the social forum. You can try to enable the built-in DNS mode in the application settings \nCurrent version build date: {v0}\nQQ group: 940696487 \nError message: {v1}`
+  /// `Network connection failed!\nEntering offline mode...\n\nPlease check your network connection or get the latest information on social forums. You can try enabling built-in DNS mode in the app settings\nCurrent version build date: {v0}\nQQ group: 940696487\nError message: {v1}`
   String app_common_network_error(Object v0, Object v1) {
     return Intl.message(
-      'Network connection failed! \nEntering offline mode... \n\nPlease check the network connection or get the latest information in the social forum. You can try to enable the built-in DNS mode in the application settings \nCurrent version build date: $v0\nQQ group: 940696487 \nError message: $v1',
+      'Network connection failed!\nEntering offline mode...\n\nPlease check your network connection or get the latest information on social forums. You can try enabling built-in DNS mode in the app settings\nCurrent version build date: $v0\nQQ group: 940696487\nError message: $v1',
       name: 'app_common_network_error',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `If the update information fails, please try it later.`
+  /// `Failed to get update information, please try again later.`
   String get app_common_upgrade_info_error {
     return Intl.message(
-      'If the update information fails, please try it later.',
+      'Failed to get update information, please try again later.',
       name: 'app_common_upgrade_info_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `Insufficient memory`
+  /// `Insufficient available memory`
   String get doctor_game_error_low_memory {
     return Intl.message(
-      'Insufficient memory',
+      'Insufficient available memory',
       name: 'doctor_game_error_low_memory',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please try to increase virtual memory (under 1080P, physical available+virtual memory need> 64g)`
+  /// `Please try increasing virtual memory (at 1080p, physical available + virtual memory should be > 64GB)`
   String get doctor_game_error_low_memory_info {
     return Intl.message(
-      'Please try to increase virtual memory (under 1080P, physical available+virtual memory need> 64g)',
+      'Please try increasing virtual memory (at 1080p, physical available + virtual memory should be > 64GB)',
       name: 'doctor_game_error_low_memory_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `The game triggered a generic crash, please check the trouble shooting guide`
+  /// `The game triggered the most common crash issue, please check the troubleshooting guide`
   String get doctor_game_error_generic_info {
     return Intl.message(
-      'The game triggered a generic crash, please check the trouble shooting guide',
+      'The game triggered the most common crash issue, please check the troubleshooting guide',
       name: 'doctor_game_error_generic_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your graphics card crashes! Please check the barrier guide`
+  /// `Your GPU has crashed! Please check the troubleshooting guide`
   String get doctor_game_error_gpu_crash {
     return Intl.message(
-      'Your graphics card crashes! Please check the barrier guide',
+      'Your GPU has crashed! Please check the troubleshooting guide',
       name: 'doctor_game_error_gpu_crash',
       desc: '',
       args: [],
     );
   }
 
-  /// `Detected SOCKET abnormalities`
+  /// `Socket error detected`
   String get doctor_game_error_socket_error {
     return Intl.message(
-      'Detected SOCKET abnormalities',
+      'Socket error detected',
       name: 'doctor_game_error_socket_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `If you use the X black box accelerator, try to replace the acceleration mode`
+  /// `If using X-Black Box accelerator, please try changing the acceleration mode`
   String get doctor_game_error_socket_error_info {
     return Intl.message(
-      'If you use the X black box accelerator, try to replace the acceleration mode',
+      'If using X-Black Box accelerator, please try changing the acceleration mode',
       name: 'doctor_game_error_socket_error_info',
       desc: '',
       args: [],
@@ -3327,115 +3322,135 @@ class S {
     );
   }
 
-  /// `Please try to run a RSI Launcher at the administrator authority, or use the box (Microsoft Store version) to start.`
+  /// `Please try running the launcher with administrator privileges or use SCToolbox (Microsoft Store version) to launch.`
   String get doctor_game_error_permissions_error_info {
     return Intl.message(
-      'Please try to run a RSI Launcher at the administrator authority, or use the box (Microsoft Store version) to start.',
+      'Please try running the launcher with administrator privileges or use SCToolbox (Microsoft Store version) to launch.',
       name: 'doctor_game_error_permissions_error_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `The game process is occupied`
+  /// `Game process is in use`
   String get doctor_game_error_game_process_error {
     return Intl.message(
-      'The game process is occupied',
+      'Game process is in use',
       name: 'doctor_game_error_game_process_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please try to restart the RSI Launcher, or restart the computer directly`
+  /// `Please try restarting the launcher or restarting your computer directly`
   String get doctor_game_error_game_process_error_info {
     return Intl.message(
-      'Please try to restart the RSI Launcher, or restart the computer directly',
+      'Please try restarting the launcher or restarting your computer directly',
       name: 'doctor_game_error_game_process_error_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Game program file damage`
+  /// `Game program files corrupted`
   String get doctor_game_error_game_damaged_file {
     return Intl.message(
-      'Game program file damage',
+      'Game program files corrupted',
       name: 'doctor_game_error_game_damaged_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please try to delete the Bin64 folder and check in the launcher.`
+  /// `Please try deleting the Bin64 folder and verify in the launcher.`
   String get doctor_game_error_game_damaged_file_info {
     return Intl.message(
-      'Please try to delete the Bin64 folder and check in the launcher.',
+      'Please try deleting the Bin64 folder and verify in the launcher.',
       name: 'doctor_game_error_game_damaged_file_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4K file damage`
+  /// `P4K file corrupted`
   String get doctor_game_error_game_damaged_p4k_file {
     return Intl.message(
-      'P4K file damage',
+      'P4K file corrupted',
       name: 'doctor_game_error_game_damaged_p4k_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please try to delete the data.p4k file and check or use the box to divert in the promoter.`
+  /// `Please try deleting the Data.p4k file and verify in the launcher or use the diversion in SCToolbox.`
   String get doctor_game_error_game_damaged_p4k_file_info {
     return Intl.message(
-      'Please try to delete the data.p4k file and check or use the box to divert in the promoter.',
+      'Please try deleting the Data.p4k file and verify in the launcher or use the diversion in SCToolbox.',
       name: 'doctor_game_error_game_damaged_p4k_file_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Insufficient VRAM`
+  /// `Insufficient GPU memory`
   String get doctor_game_error_low_gpu_memory {
     return Intl.message(
-      'Insufficient VRAM',
+      'Insufficient GPU memory',
       name: 'doctor_game_error_low_gpu_memory',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please do not run the game/application occupied by other high graphics cards in the background, or change the graphics card.`
+  /// `Please don't run other games/applications with high GPU usage in the background, or upgrade your GPU.`
   String get doctor_game_error_low_gpu_memory_info {
     return Intl.message(
-      'Please do not run the game/application occupied by other high graphics cards in the background, or change the graphics card.',
+      'Please don\'t run other games/applications with high GPU usage in the background, or upgrade your GPU.',
       name: 'doctor_game_error_low_gpu_memory_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Error: {v0}`
+  /// `GPU Vulkan crash`
+  String get doctor_game_error_gpu_vulkan_crash {
+    return Intl.message(
+      'GPU Vulkan crash',
+      name: 'doctor_game_error_gpu_vulkan_crash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vulkan crash! This may be a driver version or game engine issue. Please try updating GPU drivers or use the clear shader feature to fall back to DX11`
+  String get doctor_game_error_gpu_vulkan_crash_info {
+    return Intl.message(
+      'Vulkan crash! This may be a driver version or game engine issue. Please try updating GPU drivers or use the clear shader feature to fall back to DX11',
+      name: 'doctor_game_error_gpu_vulkan_crash_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred: {v0}`
   String app_common_error_info(Object v0) {
     return Intl.message(
-      'Error: $v0',
+      'An error occurred: $v0',
       name: 'app_common_error_info',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Hint`
+  /// `Tip`
   String get app_common_tip {
-    return Intl.message('Hint', name: 'app_common_tip', desc: '', args: []);
+    return Intl.message('Tip', name: 'app_common_tip', desc: '', args: []);
   }
 
-  /// `I understand`
+  /// `I know`
   String get app_common_tip_i_know {
     return Intl.message(
-      'I understand',
+      'I know',
       name: 'app_common_tip_i_know',
       desc: '',
       args: [],
@@ -3462,20 +3477,20 @@ class S {
     );
   }
 
-  /// `Switch application Display language`
+  /// `Switch application display language`
   String get settings_app_language_switch_info {
     return Intl.message(
-      'Switch application Display language',
+      'Switch application display language',
       name: 'settings_app_language_switch_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `{v0} Day  `
+  /// `{v0} days `
   String home_holiday_countdown_days(Object v0) {
     return Intl.message(
-      '$v0 Day  ',
+      '$v0 days ',
       name: 'home_holiday_countdown_days',
       desc: '',
       args: [v0],
@@ -3492,10 +3507,10 @@ class S {
     );
   }
 
-  /// `Loading image ...`
+  /// `Loading images...`
   String get app_common_loading_images {
     return Intl.message(
-      'Loading image ...',
+      'Loading images...',
       name: 'app_common_loading_images',
       desc: '',
       args: [],
@@ -3512,80 +3527,80 @@ class S {
     );
   }
 
-  /// `Thank you for choosing the SCToolBox box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us.`
+  /// `Thank you for choosing SCToolbox. We are committed to providing you with a safe, convenient, and reliable user experience. Before you start using the application, please read and agree to the following content:\n\n1. This application is open source software under the GNU General Public License v3.0, which you can freely use, modify, and distribute in compliance with the license. Our source code is located at: [Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app).\n2. Internet content in this application (including but not limited to localization files, tool websites, news, videos, etc.) is copyrighted by its authors and is not part of the GPL. Please use it in compliance with the corresponding authorization agreements.\n3. The official free distribution channels for this application are: [Microsoft App Store](https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Star Citizen Chinese Localization Team Website](https://www.starcitizenzw.com/). If you obtained it from third parties, please carefully verify to avoid financial loss.\n4. This application sends anonymous statistical data to our servers during use to improve software quality. We do not collect any of your personal privacy information.\n5. This application is community-supported and has no direct affiliation with Cloud Imperium Games or other third-party commercial companies.\n6. We provide limited community support. If needed, please visit the About page to learn how to contact us.`
   String get app_splash_dialog_u_a_p_p_content {
     return Intl.message(
-      'Thank you for choosing the SCToolBox box. We are committed to providing you with a safe, convenient and reliable experience. Before you start using your application, please read and agree to the following:\n\n 1. This application is an open source software under the GNU General Public License V3.0 protocol. You can use, modify, and distribute this software freely under the premise of obeying the agreement. Our source code is located at: [Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app).\n2. The copyright of the Internet content in this application (including but not limited to localized documents, tool websites, news, videos, etc.) is created by its authors and is not part of GPL. Please use it under the corresponding authorization agreement.\n3. The official free release channels for this application are: [Microsoft App Store] (https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Official Website of Star Citizen Chinese] ), If you get from other third parties, please identify it carefully to avoid suffering from property losses.\n4. This application will send anonymous statistics to our server during use to improve software quality, and we will not collect any personal privacy information of your personal privacy.\n5. This application is supported by the community and has no direct connection with Cloud Imperium Games or other third -party commercial companies.\n6. We provide limited community support. If necessary, please go to the page to learn how to contact us.',
+      'Thank you for choosing SCToolbox. We are committed to providing you with a safe, convenient, and reliable user experience. Before you start using the application, please read and agree to the following content:\n\n1. This application is open source software under the GNU General Public License v3.0, which you can freely use, modify, and distribute in compliance with the license. Our source code is located at: [Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app).\n2. Internet content in this application (including but not limited to localization files, tool websites, news, videos, etc.) is copyrighted by its authors and is not part of the GPL. Please use it in compliance with the corresponding authorization agreements.\n3. The official free distribution channels for this application are: [Microsoft App Store](https://apps.microsoft.com/detail/9NF3SWFWNKL1) and [Star Citizen Chinese Localization Team Website](https://www.starcitizenzw.com/). If you obtained it from third parties, please carefully verify to avoid financial loss.\n4. This application sends anonymous statistical data to our servers during use to improve software quality. We do not collect any of your personal privacy information.\n5. This application is community-supported and has no direct affiliation with Cloud Imperium Games or other third-party commercial companies.\n6. We provide limited community support. If needed, please visit the About page to learn how to contact us.',
       name: 'app_splash_dialog_u_a_p_p_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Initialization ...`
+  /// `Initializing...`
   String get tools_unp4k_msg_init {
     return Intl.message(
-      'Initialization ...',
+      'Initializing...',
       name: 'tools_unp4k_msg_init',
       desc: '',
       args: [],
     );
   }
 
-  /// `Reading P4K file ...`
+  /// `Reading P4K file...`
   String get tools_unp4k_msg_reading {
     return Intl.message(
-      'Reading P4K file ...',
+      'Reading P4K file...',
       name: 'tools_unp4k_msg_reading',
       desc: '',
       args: [],
     );
   }
 
-  /// `Treatment files ...`
+  /// `Processing files...`
   String get tools_unp4k_msg_reading2 {
     return Intl.message(
-      'Treatment files ...',
+      'Processing files...',
       name: 'tools_unp4k_msg_reading2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Processing files ({v0}/{v1}) ...`
+  /// `Processing files ({v0}/{v1})...`
   String tools_unp4k_msg_reading3(Object v0, Object v1) {
     return Intl.message(
-      'Processing files ($v0/$v1) ...',
+      'Processing files ($v0/$v1)...',
       name: 'tools_unp4k_msg_reading3',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `After loading: {v0} a file, time: {v1} ms`
+  /// `Loading complete: {v0} files, time taken: {v1} ms`
   String tools_unp4k_msg_read_completed(Object v0, Object v1) {
     return Intl.message(
-      'After loading: $v0 a file, time: $v1 ms',
+      'Loading complete: $v0 files, time taken: $v1 ms',
       name: 'tools_unp4k_msg_read_completed',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `Open the file: {v0}`
+  /// `Opening file: {v0}`
   String tools_unp4k_msg_open_file(Object v0) {
     return Intl.message(
-      'Open the file: $v0',
+      'Opening file: $v0',
       name: 'tools_unp4k_msg_open_file',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Read file: {v0} ...`
+  /// `Reading file: {v0}...`
   String tools_unp4k_msg_read_file(Object v0) {
     return Intl.message(
-      'Read file: $v0 ...',
+      'Reading file: $v0...',
       name: 'tools_unp4k_msg_read_file',
       desc: '',
       args: [v0],
@@ -3602,50 +3617,50 @@ class S {
     );
   }
 
-  /// `Localization version has been loaded: {v0}`
+  /// `Loaded localization version: {v0}`
   String home_localization_advanced_msg_version(Object v0) {
     return Intl.message(
-      'Localization version has been loaded: $v0',
+      'Loaded localization version: $v0',
       name: 'home_localization_advanced_msg_version',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Localization text lines: {v0} P4K text lines: {v1}`
+  /// `Localization text lines: {v0}  P4K text lines: {v1}`
   String home_localization_advanced_title_msg(Object v0, Object v1) {
     return Intl.message(
-      'Localization text lines: $v0 P4K text lines: $v1',
+      'Localization text lines: $v0  P4K text lines: $v1',
       name: 'home_localization_advanced_title_msg',
       desc: '',
       args: [v0, v1],
     );
   }
 
-  /// `Installation of Localization`
+  /// `Install Localization`
   String get home_localization_advanced_action_install {
     return Intl.message(
-      'Installation of Localization',
+      'Install Localization',
       name: 'home_localization_advanced_action_install',
       desc: '',
       args: [],
     );
   }
 
-  /// `The text is being re -generated ...`
+  /// `Regenerating text...`
   String get home_localization_advanced_action_mod_change {
     return Intl.message(
-      'The text is being re -generated ...',
+      'Regenerating text...',
       name: 'home_localization_advanced_action_mod_change',
       desc: '',
       args: [],
     );
   }
 
-  /// `Model`
+  /// `Mode`
   String get home_localization_advanced_action_mode {
     return Intl.message(
-      'Model',
+      'Mode',
       name: 'home_localization_advanced_action_mode',
       desc: '',
       args: [],
@@ -3662,20 +3677,20 @@ class S {
     );
   }
 
-  /// `Location-Other`
+  /// `Locations-Other`
   String get home_localization_advanced_json_text_location_other {
     return Intl.message(
-      'Location-Other',
+      'Locations-Other',
       name: 'home_localization_advanced_json_text_location_other',
       desc: '',
       args: [],
     );
   }
 
-  /// `Location-Commonly used`
+  /// `Locations-Common`
   String get home_localization_advanced_json_text_location_used {
     return Intl.message(
-      'Location-Commonly used',
+      'Locations-Common',
       name: 'home_localization_advanced_json_text_location_used',
       desc: '',
       args: [],
@@ -3692,90 +3707,90 @@ class S {
     );
   }
 
-  /// `Items-Commonly used`
+  /// `Items-Common`
   String get home_localization_advanced_json_text_things_used {
     return Intl.message(
-      'Items-Commonly used',
+      'Items-Common',
       name: 'home_localization_advanced_json_text_things_used',
       desc: '',
       args: [],
     );
   }
 
-  /// `Vehicle-Other`
+  /// `Vehicles-Other`
   String get home_localization_advanced_json_text_vehicle_other {
     return Intl.message(
-      'Vehicle-Other',
+      'Vehicles-Other',
       name: 'home_localization_advanced_json_text_vehicle_other',
       desc: '',
       args: [],
     );
   }
 
-  /// `Vehicle-Commonly used`
+  /// `Vehicles-Common`
   String get home_localization_advanced_json_text_vehicle_used {
     return Intl.message(
-      'Vehicle-Commonly used',
+      'Vehicles-Common',
       name: 'home_localization_advanced_json_text_vehicle_used',
       desc: '',
       args: [],
     );
   }
 
-  /// `Mission/Log`
+  /// `Missions/Logs`
   String get home_localization_advanced_json_text_mission_or_logs {
     return Intl.message(
-      'Mission/Log',
+      'Missions/Logs',
       name: 'home_localization_advanced_json_text_mission_or_logs',
       desc: '',
       args: [],
     );
   }
 
-  /// `Subtitle`
+  /// `Subtitles`
   String get home_localization_advanced_json_text_subtitle {
     return Intl.message(
-      'Subtitle',
+      'Subtitles',
       name: 'home_localization_advanced_json_text_subtitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `UI/HUD/menu`
+  /// `UI/HUD/Menu`
   String get home_localization_advanced_json_text_ui_or_hud_or_menu {
     return Intl.message(
-      'UI/HUD/menu',
+      'UI/HUD/Menu',
       name: 'home_localization_advanced_json_text_ui_or_hud_or_menu',
       desc: '',
       args: [],
     );
   }
 
-  /// `Unwaver`
+  /// `Not Localized`
   String get home_localization_advanced_json_text_un_localization {
     return Intl.message(
-      'Unwaver',
+      'Not Localized',
       name: 'home_localization_advanced_json_text_un_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `Other`
+  /// `Others`
   String get home_localization_advanced_json_text_others {
     return Intl.message(
-      'Other',
+      'Others',
       name: 'home_localization_advanced_json_text_others',
       desc: '',
       args: [],
     );
   }
 
-  /// `Localization`
+  /// `Localized`
   String get home_localization_advanced_action_mod_change_localization {
     return Intl.message(
-      'Localization',
+      'Localized',
       name: 'home_localization_advanced_action_mod_change_localization',
       desc: '',
       args: [],
@@ -3802,70 +3817,70 @@ class S {
     );
   }
 
-  /// `Bilingual (newline)`
+  /// `Bilingual (New Line)`
   String get home_localization_advanced_action_mod_change_mixed_newline {
     return Intl.message(
-      'Bilingual (newline)',
+      'Bilingual (New Line)',
       name: 'home_localization_advanced_action_mod_change_mixed_newline',
       desc: '',
       args: [],
     );
   }
 
-  /// `Classified ...`
+  /// `Classifying...`
   String get home_localization_advanced_msg_classifying {
     return Intl.message(
-      'Classified ...',
+      'Classifying...',
       name: 'home_localization_advanced_msg_classifying',
       desc: '',
       args: [],
     );
   }
 
-  /// `Read p4k file ...`
+  /// `Reading p4k file...`
   String get home_localization_advanced_msg_reading_p4k {
     return Intl.message(
-      'Read p4k file ...',
+      'Reading p4k file...',
       name: 'home_localization_advanced_msg_reading_p4k',
       desc: '',
       args: [],
     );
   }
 
-  /// `Get Localization text ...`
+  /// `Getting localization text...`
   String get home_localization_advanced_msg_reading_server_localization_text {
     return Intl.message(
-      'Get Localization text ...',
+      'Getting localization text...',
       name: 'home_localization_advanced_msg_reading_server_localization_text',
       desc: '',
       args: [],
     );
   }
 
-  /// `Generate Localization file ...`
+  /// `Generating localization file...`
   String get home_localization_advanced_msg_gen_localization_text {
     return Intl.message(
-      'Generate Localization file ...',
+      'Generating localization file...',
       name: 'home_localization_advanced_msg_gen_localization_text',
       desc: '',
       args: [],
     );
   }
 
-  /// `Install Localization file ...`
+  /// `Installing localization file...`
   String get home_localization_advanced_msg_gen_localization_install {
     return Intl.message(
-      'Install Localization file ...',
+      'Installing localization file...',
       name: 'home_localization_advanced_msg_gen_localization_install',
       desc: '',
       args: [],
     );
   }
 
-  /// `(Advanced)`
+  /// ` (Advanced Localization)`
   String get home_localization_msg_version_advanced {
     return Intl.message(
-      '(Advanced)',
+      ' (Advanced Localization)',
       name: 'home_localization_msg_version_advanced',
       desc: '',
       args: [],
@@ -3882,11 +3897,21 @@ class S {
     );
   }
 
-  /// `RSILauncher Localization`
+  /// `RSI Launcher Localization`
   String get home_localization_action_rsi_launcher_localization {
     return Intl.message(
-      'RSILauncher Localization',
+      'RSI Launcher Localization',
       name: 'home_localization_action_rsi_launcher_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You currently don't have the game installed or haven't selected a game installation directory. You can only use the launcher localization feature. Please make sure the game is installed or add the game installation directory in the SCToolbox settings and try again.`
+  String get home_localization_action_rsi_launcher_no_game_path_msg {
+    return Intl.message(
+      'You currently don\'t have the game installed or haven\'t selected a game installation directory. You can only use the launcher localization feature. Please make sure the game is installed or add the game installation directory in the SCToolbox settings and try again.',
+      name: 'home_localization_action_rsi_launcher_no_game_path_msg',
       desc: '',
       args: [],
     );
@@ -3902,350 +3927,350 @@ class S {
     );
   }
 
-  /// `Install custom file`
+  /// `Install Custom Files`
   String get home_localization_action_install_customize {
     return Intl.message(
-      'Install custom file',
+      'Install Custom Files',
       name: 'home_localization_action_install_customize',
       desc: '',
       args: [],
     );
   }
 
-  /// `Localization tool`
+  /// `Localization Tools`
   String get home_localization_title_localization_tools {
     return Intl.message(
-      'Localization tool',
+      'Localization Tools',
       name: 'home_localization_title_localization_tools',
       desc: '',
       args: [],
     );
   }
 
-  /// `Depth of field effect`
+  /// `Depth of Field Effect`
   String get performance_json_text_dof {
     return Intl.message(
-      'Depth of field effect',
+      'Depth of Field Effect',
       name: 'performance_json_text_dof',
       desc: '',
       args: [],
     );
   }
 
-  /// `Controls the depth of field effect on mobiGlass pages, etc.`
+  /// `Controls depth of field effect for mobiglas pages, etc.`
   String get performance_json_text_dof_info {
     return Intl.message(
-      'Controls the depth of field effect on mobiGlass pages, etc.',
+      'Controls depth of field effect for mobiglas pages, etc.',
       name: 'performance_json_text_dof_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Swip light after the screen light`
+  /// `Screen Light Post-processing`
   String get performance_json_text_ssdo {
     return Intl.message(
-      'Swip light after the screen light',
+      'Screen Light Post-processing',
       name: 'performance_json_text_ssdo',
       desc: '',
       args: [],
     );
   }
 
-  /// `After adjusting the light, processing level`
+  /// `Adjusts light post-processing level`
   String get performance_json_text_ssdo_info {
     return Intl.message(
-      'After adjusting the light, processing level',
+      'Adjusts light post-processing level',
       name: 'performance_json_text_ssdo_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Graphic`
+  /// `Graphics (Shader cleaning recommended after modifications)`
   String get performance_json_text_title_graphics {
     return Intl.message(
-      'Graphic',
+      'Graphics (Shader cleaning recommended after modifications)',
       name: 'performance_json_text_title_graphics',
       desc: '',
       args: [],
     );
   }
 
-  /// `Anti -aliasing`
+  /// `Anti-aliasing`
   String get performance_json_text_antialiasing {
     return Intl.message(
-      'Anti -aliasing',
+      'Anti-aliasing',
       name: 'performance_json_text_antialiasing',
       desc: '',
       args: [],
     );
   }
 
-  /// `0 Close, 1 SMAA, 2 time filter+SMAA, 3 time filtering and projection matrix shake SMAA`
+  /// `0 off, 1 SMAA, 2 temporal filter + SMAA, 3 SMAA with temporal filtering and projection matrix jitter`
   String get performance_json_text_antialiasing_info {
     return Intl.message(
-      '0 Close, 1 SMAA, 2 time filter+SMAA, 3 time filtering and projection matrix shake SMAA',
+      '0 off, 1 SMAA, 2 temporal filter + SMAA, 3 SMAA with temporal filtering and projection matrix jitter',
       name: 'performance_json_text_antialiasing_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Special effect level`
+  /// `Effects Level`
   String get performance_json_text_game_effects {
     return Intl.message(
-      'Special effect level',
+      'Effects Level',
       name: 'performance_json_text_game_effects',
       desc: '',
       args: [],
     );
   }
 
-  /// `Game special effect level`
+  /// `Game effects level`
   String get performance_json_text_game_effects_info {
     return Intl.message(
-      'Game special effect level',
+      'Game effects level',
       name: 'performance_json_text_game_effects_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Grade`
+  /// `Texture Level`
   String get performance_json_text_texture {
     return Intl.message(
-      'Grade',
+      'Texture Level',
       name: 'performance_json_text_texture',
       desc: '',
       args: [],
     );
   }
 
-  /// `Model texture details`
+  /// `Model texture detail`
   String get performance_json_text_texture_info {
     return Intl.message(
-      'Model texture details',
+      'Model texture detail',
       name: 'performance_json_text_texture_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Volume effect`
+  /// `Volumetric Effects`
   String get performance_json_text_volumetric_effects {
     return Intl.message(
-      'Volume effect',
+      'Volumetric Effects',
       name: 'performance_json_text_volumetric_effects',
       desc: '',
       args: [],
     );
   }
 
-  /// `Volume cloud, volume light, etc.`
+  /// `Volumetric clouds, volumetric lighting, etc.`
   String get performance_json_text_volumetric_effects_info {
     return Intl.message(
-      'Volume cloud, volume light, etc.',
+      'Volumetric clouds, volumetric lighting, etc.',
       name: 'performance_json_text_volumetric_effects_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Water effect`
+  /// `Water Effects`
   String get performance_json_text_water {
     return Intl.message(
-      'Water effect',
+      'Water Effects',
       name: 'performance_json_text_water',
       desc: '',
       args: [],
     );
   }
 
-  /// `Grade of various water`
+  /// `Various water level effects`
   String get performance_json_text_water_info {
     return Intl.message(
-      'Grade of various water',
+      'Various water level effects',
       name: 'performance_json_text_water_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Object detail`
+  /// `Object Detail`
   String get performance_json_text_object_detail {
     return Intl.message(
-      'Object detail',
+      'Object Detail',
       name: 'performance_json_text_object_detail',
       desc: '',
       args: [],
     );
   }
 
-  /// `Model object details, affect LOD, etc.`
+  /// `Model object detail, affects LOD, etc.`
   String get performance_json_text_object_detail_info {
     return Intl.message(
-      'Model object details, affect LOD, etc.',
+      'Model object detail, affects LOD, etc.',
       name: 'performance_json_text_object_detail_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Particle details`
+  /// `Particle Detail`
   String get performance_json_text_particles {
     return Intl.message(
-      'Particle details',
+      'Particle Detail',
       name: 'performance_json_text_particles',
       desc: '',
       args: [],
     );
   }
 
-  /// `Physical details`
+  /// `Physics Detail`
   String get performance_json_text_physics {
     return Intl.message(
-      'Physical details',
+      'Physics Detail',
       name: 'performance_json_text_physics',
       desc: '',
       args: [],
     );
   }
 
-  /// `Scope of physical effects`
+  /// `Physics effect range`
   String get performance_json_text_physics_info {
     return Intl.message(
-      'Scope of physical effects',
+      'Physics effect range',
       name: 'performance_json_text_physics_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Colorrhea details`
+  /// `Shader Detail`
   String get performance_json_text_shading {
     return Intl.message(
-      'Colorrhea details',
+      'Shader Detail',
       name: 'performance_json_text_shading',
       desc: '',
       args: [],
     );
   }
 
-  /// `Coloror related`
+  /// `Shader related`
   String get performance_json_text_shading_info {
     return Intl.message(
-      'Coloror related',
+      'Shader related',
       name: 'performance_json_text_shading_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Shadow details`
+  /// `Shadow Detail`
   String get performance_json_text_shadows {
     return Intl.message(
-      'Shadow details',
+      'Shadow Detail',
       name: 'performance_json_text_shadows',
       desc: '',
       args: [],
     );
   }
 
-  /// `Shadow effect`
+  /// `Shadow effects`
   String get performance_json_text_shadows_info {
     return Intl.message(
-      'Shadow effect',
+      'Shadow effects',
       name: 'performance_json_text_shadows_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Post -processing details`
+  /// `Post-processing Detail`
   String get performance_json_text_postprocessing {
     return Intl.message(
-      'Post -processing details',
+      'Post-processing Detail',
       name: 'performance_json_text_postprocessing',
       desc: '',
       args: [],
     );
   }
 
-  /// `After the color device, dynamic blur effect, etc.`
+  /// `Post-processing shaders, motion blur effects, etc.`
   String get performance_json_text_postprocessing_info {
     return Intl.message(
-      'After the color device, dynamic blur effect, etc.',
+      'Post-processing shaders, motion blur effects, etc.',
       name: 'performance_json_text_postprocessing_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Rendering device quality`
+  /// `Renderer Quality`
   String get performance_json_text_renderer {
     return Intl.message(
-      'Rendering device quality',
+      'Renderer Quality',
       name: 'performance_json_text_renderer',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cryengine rendereer quality`
+  /// `CryEngine renderer quality`
   String get performance_json_text_renderer_info {
     return Intl.message(
-      'Cryengine rendereer quality',
+      'CryEngine renderer quality',
       name: 'performance_json_text_renderer_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Quality`
+  /// `Decal Quality`
   String get performance_json_text_shader_decal {
     return Intl.message(
-      'Quality',
+      'Decal Quality',
       name: 'performance_json_text_shader_decal',
       desc: '',
       args: [],
     );
   }
 
-  /// `(LOGO, logo, etc.)`
+  /// `(Logos, symbols, etc.)`
   String get performance_json_text_shader_decal_info {
     return Intl.message(
-      '(LOGO, logo, etc.)',
+      '(Logos, symbols, etc.)',
       name: 'performance_json_text_shader_decal_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Color quality`
+  /// `Shader Quality`
   String get performance_json_text_shader_post_process {
     return Intl.message(
-      'Color quality',
+      'Shader Quality',
       name: 'performance_json_text_shader_post_process',
       desc: '',
       args: [],
     );
   }
 
-  /// `FX quality`
+  /// `FX Quality`
   String get performance_json_text_shader_fx {
     return Intl.message(
-      'FX quality',
+      'FX Quality',
       name: 'performance_json_text_shader_fx',
       desc: '',
       args: [],
     );
   }
 
-  /// `Conventional quality`
+  /// `General Quality`
   String get performance_json_text_shader_general {
     return Intl.message(
-      'Conventional quality',
+      'General Quality',
       name: 'performance_json_text_shader_general',
       desc: '',
       args: [],
@@ -4262,50 +4287,50 @@ class S {
     );
   }
 
-  /// `Glass quality`
+  /// `Glass Quality`
   String get performance_json_text_shader_glass {
     return Intl.message(
-      'Glass quality',
+      'Glass Quality',
       name: 'performance_json_text_shader_glass',
       desc: '',
       args: [],
     );
   }
 
-  /// `Window, mirror, etc.`
+  /// `Windows, mirrors, etc.`
   String get performance_json_text_shader_glass_info {
     return Intl.message(
-      'Window, mirror, etc.',
+      'Windows, mirrors, etc.',
       name: 'performance_json_text_shader_glass_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `HDR quality`
+  /// `HDR Quality`
   String get performance_json_text_shader_hdr {
     return Intl.message(
-      'HDR quality',
+      'HDR Quality',
       name: 'performance_json_text_shader_hdr',
       desc: '',
       args: [],
     );
   }
 
-  /// `HDR color difference, brightness level treatment, etc.`
+  /// `HDR color difference, brightness level processing, etc.`
   String get performance_json_text_shader_hdr_info {
     return Intl.message(
-      'HDR color difference, brightness level treatment, etc.',
+      'HDR color difference, brightness level processing, etc.',
       name: 'performance_json_text_shader_hdr_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Particle quality`
+  /// `Particle Quality`
   String get performance_json_text_shader_particle {
     return Intl.message(
-      'Particle quality',
+      'Particle Quality',
       name: 'performance_json_text_shader_particle',
       desc: '',
       args: [],
@@ -4322,250 +4347,250 @@ class S {
     );
   }
 
-  /// `Ground quality`
+  /// `Terrain Quality`
   String get performance_json_text_shader_terrain {
     return Intl.message(
-      'Ground quality',
+      'Terrain Quality',
       name: 'performance_json_text_shader_terrain',
       desc: '',
       args: [],
     );
   }
 
-  /// `Shadow quality`
+  /// `Shadow Quality`
   String get performance_json_text_shader_shadow {
     return Intl.message(
-      'Shadow quality',
+      'Shadow Quality',
       name: 'performance_json_text_shader_shadow',
       desc: '',
       args: [],
     );
   }
 
-  /// `Sky quality`
+  /// `Sky Quality`
   String get performance_json_text_shader_sky {
     return Intl.message(
-      'Sky quality',
+      'Sky Quality',
       name: 'performance_json_text_shader_sky',
       desc: '',
       args: [],
     );
   }
 
-  /// `Particle collision`
+  /// `Particle Collisions`
   String get performance_json_text_particles_object_collisions {
     return Intl.message(
-      'Particle collision',
+      'Particle Collisions',
       name: 'performance_json_text_particles_object_collisions',
       desc: '',
       args: [],
     );
   }
 
-  /// `1 Static particles 2 include dynamic particles`
+  /// `1 static particles only, 2 includes dynamic particles`
   String get performance_json_text_particles_object_collisions_info {
     return Intl.message(
-      '1 Static particles 2 include dynamic particles',
+      '1 static particles only, 2 includes dynamic particles',
       name: 'performance_json_text_particles_object_collisions_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Screen information (display frame rate)`
+  /// `Screen Info (Show FPS)`
   String get performance_json_text_displayinfo {
     return Intl.message(
-      'Screen information (display frame rate)',
+      'Screen Info (Show FPS)',
       name: 'performance_json_text_displayinfo',
       desc: '',
       args: [],
     );
   }
 
-  /// `Display frame rates, server information, etc. in the upper right corner of the screen`
+  /// `Display FPS, server information, etc. in the upper right corner of the screen`
   String get performance_json_text_displayinfo_info {
     return Intl.message(
-      'Display frame rates, server information, etc. in the upper right corner of the screen',
+      'Display FPS, server information, etc. in the upper right corner of the screen',
       name: 'performance_json_text_displayinfo_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Maximum frame rate`
+  /// `Maximum FPS`
   String get performance_json_text_max_fps {
     return Intl.message(
-      'Maximum frame rate',
+      'Maximum FPS',
       name: 'performance_json_text_max_fps',
       desc: '',
       args: [],
     );
   }
 
-  /// `Adjust the maximum frame rate of the game, 0 is not limited`
+  /// `Adjust the game's maximum frame rate, 0 for unlimited`
   String get performance_json_text_max_fps_info {
     return Intl.message(
-      'Adjust the maximum frame rate of the game, 0 is not limited',
+      'Adjust the game\'s maximum frame rate, 0 for unlimited',
       name: 'performance_json_text_max_fps_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Display session information`
+  /// `Display Session Info`
   String get performance_json_text_display_session {
     return Intl.message(
-      'Display session information',
+      'Display Session Info',
       name: 'performance_json_text_display_session',
       desc: '',
       args: [],
     );
   }
 
-  /// `After turning on, display a QR code on the screen to allow CIG to quickly locate related information when feedback`
+  /// `When enabled, displays a QR code on screen for quickly locating relevant information when providing feedback to CIG`
   String get performance_json_text_display_session_info {
     return Intl.message(
-      'After turning on, display a QR code on the screen to allow CIG to quickly locate related information when feedback',
+      'When enabled, displays a QR code on screen for quickly locating relevant information when providing feedback to CIG',
       name: 'performance_json_text_display_session_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Vertical sync`
+  /// `V-Sync`
   String get performance_json_text_vsync {
     return Intl.message(
-      'Vertical sync',
+      'V-Sync',
       name: 'performance_json_text_vsync',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open to prevent tearing, turn off to increase the frame rate`
+  /// `Enable to prevent tearing, disable to increase frame rate`
   String get performance_json_text_vsync_info {
     return Intl.message(
-      'Open to prevent tearing, turn off to increase the frame rate',
+      'Enable to prevent tearing, disable to increase frame rate',
       name: 'performance_json_text_vsync_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Dynamic blur`
+  /// `Motion Blur`
   String get performance_json_text_motion_blur {
     return Intl.message(
-      'Dynamic blur',
+      'Motion Blur',
       name: 'performance_json_text_motion_blur',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open to improve the sense of movement, turn off and enhance the perception`
+  /// `Enable for enhanced motion feel, disable for improved visuals`
   String get performance_json_text_motion_blur_info {
     return Intl.message(
-      'Open to improve the sense of movement, turn off and enhance the perception',
+      'Enable for enhanced motion feel, disable for improved visuals',
       name: 'performance_json_text_motion_blur_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Set viewing angle FOV`
+  /// `Set FOV`
   String get performance_json_text_fov {
     return Intl.message(
-      'Set viewing angle FOV',
+      'Set FOV',
       name: 'performance_json_text_fov',
       desc: '',
       args: [],
     );
   }
 
-  /// `UI fades into the animation`
+  /// `UI Fade Animation`
   String get performance_json_text_ui_animation {
     return Intl.message(
-      'UI fades into the animation',
+      'UI Fade Animation',
       name: 'performance_json_text_ui_animation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Custom parameter`
+  /// `Custom Parameters`
   String get performance_json_text_custom_parameters {
     return Intl.message(
-      'Custom parameter',
+      'Custom Parameters',
       name: 'performance_json_text_custom_parameters',
       desc: '',
       args: [],
     );
   }
 
-  /// `Customize`
+  /// `Custom`
   String get performance_json_text_title_custom {
     return Intl.message(
-      'Customize',
+      'Custom',
       name: 'performance_json_text_title_custom',
       desc: '',
       args: [],
     );
   }
 
-  /// `Read the RSI Launcher information ...`
+  /// `Reading launcher information...`
   String get tools_rsi_launcher_enhance_init_msg1 {
     return Intl.message(
-      'Read the RSI Launcher information ...',
+      'Reading launcher information...',
       name: 'tools_rsi_launcher_enhance_init_msg1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Obtaining enhanced data from the Internet ...`
+  /// `Getting enhancement data from network...`
   String get tools_rsi_launcher_enhance_init_msg2 {
     return Intl.message(
-      'Obtaining enhanced data from the Internet ...',
+      'Getting enhancement data from network...',
       name: 'tools_rsi_launcher_enhance_init_msg2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Generate patch ...`
+  /// `Generating patch...`
   String get tools_rsi_launcher_enhance_working_msg1 {
     return Intl.message(
-      'Generate patch ...',
+      'Generating patch...',
       name: 'tools_rsi_launcher_enhance_working_msg1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Installation patch takes a little time, depending on your computer performance ...`
+  /// `Installing patch, this will take some time depending on your computer's performance...`
   String get tools_rsi_launcher_enhance_working_msg2 {
     return Intl.message(
-      'Installation patch takes a little time, depending on your computer performance ...',
+      'Installing patch, this will take some time depending on your computer\'s performance...',
       name: 'tools_rsi_launcher_enhance_working_msg2',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI Launcher enhancement`
+  /// `RSI Launcher Enhancement`
   String get tools_rsi_launcher_enhance_title {
     return Intl.message(
-      'RSI Launcher enhancement',
+      'RSI Launcher Enhancement',
       name: 'tools_rsi_launcher_enhance_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Internal version information of the RSI Launcher: {v0}`
+  /// `Launcher internal version information: {v0}`
   String tools_rsi_launcher_enhance_msg_version(Object v0) {
     return Intl.message(
-      'Internal version information of the RSI Launcher: $v0',
+      'Launcher internal version information: $v0',
       name: 'tools_rsi_launcher_enhance_msg_version',
       desc: '',
       args: [v0],
@@ -4582,102 +4607,102 @@ class S {
     );
   }
 
-  /// `Obtaining enhanced data failure may be the network problem or the current version does not support`
+  /// `Failed to get enhancement data, possibly due to network issues or the current version is not supported`
   String get tools_rsi_launcher_enhance_msg_error {
     return Intl.message(
-      'Obtaining enhanced data failure may be the network problem or the current version does not support',
+      'Failed to get enhancement data, possibly due to network issues or the current version is not supported',
       name: 'tools_rsi_launcher_enhance_msg_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI startup localization`
+  /// `RSI Launcher Localization`
   String get tools_rsi_launcher_enhance_title_localization {
     return Intl.message(
-      'RSI startup localization',
+      'RSI Launcher Localization',
       name: 'tools_rsi_launcher_enhance_title_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add multi -language support to the RSI Launcher.`
+  /// `Add multi-language support to RSI Launcher.`
   String get tools_rsi_launcher_enhance_subtitle_localization {
     return Intl.message(
-      'Add multi -language support to the RSI Launcher.',
+      'Add multi-language support to RSI Launcher.',
       name: 'tools_rsi_launcher_enhance_subtitle_localization',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI Launcher download enhancement`
+  /// `RSI Launcher Download Enhancement`
   String get tools_rsi_launcher_enhance_title_download_booster {
     return Intl.message(
-      'RSI Launcher download enhancement',
+      'RSI Launcher Download Enhancement',
       name: 'tools_rsi_launcher_enhance_title_download_booster',
       desc: '',
       args: [],
     );
   }
 
-  /// `When downloading the game, you can use more threads to increase the download speed.`
+  /// `Use more threads to improve download speed when downloading the game. After enabling, please modify the number of threads in the launcher settings.`
   String get tools_rsi_launcher_enhance_subtitle_download_booster {
     return Intl.message(
-      'When downloading the game, you can use more threads to increase the download speed.',
+      'Use more threads to improve download speed when downloading the game. After enabling, please modify the number of threads in the launcher settings.',
       name: 'tools_rsi_launcher_enhance_subtitle_download_booster',
       desc: '',
       args: [],
     );
   }
 
-  /// `Installation enhanced patch`
+  /// `Install Enhancement Patch`
   String get tools_rsi_launcher_enhance_action_install {
     return Intl.message(
-      'Installation enhanced patch',
+      'Install Enhancement Patch',
       name: 'tools_rsi_launcher_enhance_action_install',
       desc: '',
       args: [],
     );
   }
 
-  /// `* If you need to uninstall the enhanced patch, cover the installation RSI promoter.`
+  /// `* To uninstall the enhancement patch, please reinstall the RSI launcher.`
   String get tools_rsi_launcher_enhance_msg_uninstall {
     return Intl.message(
-      '* If you need to uninstall the enhanced patch, cover the installation RSI promoter.',
+      '* To uninstall the enhancement patch, please reinstall the RSI launcher.',
       name: 'tools_rsi_launcher_enhance_msg_uninstall',
       desc: '',
       args: [],
     );
   }
 
-  /// `No RSI promoter was found`
+  /// `RSI launcher not found`
   String get tools_rsi_launcher_enhance_msg_error_launcher_notfound {
     return Intl.message(
-      'No RSI promoter was found',
+      'RSI launcher not found',
       name: 'tools_rsi_launcher_enhance_msg_error_launcher_notfound',
       desc: '',
       args: [],
     );
   }
 
-  /// `Reading the Launcher information failed!`
+  /// `Failed to read launcher information!`
   String get tools_rsi_launcher_enhance_msg_error_get_launcher_info_error {
     return Intl.message(
-      'Reading the Launcher information failed!',
+      'Failed to read launcher information!',
       name: 'tools_rsi_launcher_enhance_msg_error_get_launcher_info_error',
       desc: '',
       args: [],
     );
   }
 
-  /// `Read the RSI Launcher information failure: {v0}`
+  /// `Failed to read launcher information: {v0}`
   String tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(
     Object v0,
   ) {
     return Intl.message(
-      'Read the RSI Launcher information failure: $v0',
+      'Failed to read launcher information: $v0',
       name:
           'tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args',
       desc: '',
@@ -4685,70 +4710,70 @@ class S {
     );
   }
 
-  /// `Enhanced launcher Localization、 download thread`
+  /// `Launcher localization, download thread enhancement`
   String get tools_action_rsi_launcher_enhance_info {
     return Intl.message(
-      'Enhanced launcher Localization、 download thread',
+      'Launcher localization, download thread enhancement',
       name: 'tools_action_rsi_launcher_enhance_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Instructions for the use of RSI Launcher enhancement`
+  /// `RSI Launcher Enhancement Usage Notice`
   String get tools_rsi_launcher_enhance_note_title {
     return Intl.message(
-      'Instructions for the use of RSI Launcher enhancement',
+      'RSI Launcher Enhancement Usage Notice',
       name: 'tools_rsi_launcher_enhance_note_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `RSI Launcher enhancement is a community function. It will unpack "RSI LAUNCHER" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the Launcher, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official RSI Launcher directly.`
+  /// `RSI Launcher Enhancement is a community feature that unpacks the "RSI Launcher" on your computer and adds additional enhancement features. Which features to use is up to you.\n\nCurrently, only multi-language operations are officially permitted by CIG. Launcher download enhancement is an extra feature we consider useful, but violating the CIG user agreement (https://robertsspaceindustries.com/eula) may result in serious consequences such as account banning. Whether to enable it is your decision, and we are not responsible for any consequences (game damage, account banning, etc.) that may arise.\n\nThe modifications to the launcher are open-sourced at: https://github.com/StarCitizenToolBox/RSILauncherEnhance, which you can check if needed.\n\nIf for any reason you need to cancel this enhancement patch, please directly reinstall the official launcher.`
   String get tools_rsi_launcher_enhance_note_msg {
     return Intl.message(
-      'RSI Launcher enhancement is a community function. It will unpack "RSI LAUNCHER" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the Launcher, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official RSI Launcher directly.',
+      'RSI Launcher Enhancement is a community feature that unpacks the "RSI Launcher" on your computer and adds additional enhancement features. Which features to use is up to you.\n\nCurrently, only multi-language operations are officially permitted by CIG. Launcher download enhancement is an extra feature we consider useful, but violating the CIG user agreement (https://robertsspaceindustries.com/eula) may result in serious consequences such as account banning. Whether to enable it is your decision, and we are not responsible for any consequences (game damage, account banning, etc.) that may arise.\n\nThe modifications to the launcher are open-sourced at: https://github.com/StarCitizenToolBox/RSILauncherEnhance, which you can check if needed.\n\nIf for any reason you need to cancel this enhancement patch, please directly reinstall the official launcher.',
       name: 'tools_rsi_launcher_enhance_note_msg',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4K viewer`
+  /// `P4K Viewer`
   String get tools_action_unp4k {
     return Intl.message(
-      'P4K viewer',
+      'P4K Viewer',
       name: 'tools_action_unp4k',
       desc: '',
       args: [],
     );
   }
 
-  /// `Package Star Citizen P4K File`
+  /// `Unpack Star Citizen p4k files`
   String get tools_action_unp4k_info {
     return Intl.message(
-      'Package Star Citizen P4K File',
+      'Unpack Star Citizen p4k files',
       name: 'tools_action_unp4k_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `P4k viewer -> {v0}`
+  /// `P4K Viewer -> {v0}`
   String tools_unp4k_title(Object v0) {
     return Intl.message(
-      'P4k viewer -> $v0',
+      'P4K Viewer -> $v0',
       name: 'tools_unp4k_title',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Click the file to preview`
+  /// `Click file to preview`
   String get tools_unp4k_view_file {
     return Intl.message(
-      'Click the file to preview',
+      'Click file to preview',
       name: 'tools_unp4k_view_file',
       desc: '',
       args: [],
@@ -4765,160 +4790,130 @@ class S {
     );
   }
 
-  /// `Please select INI file`
+  /// `Please select ini file`
   String get home_localization_select_customize_file_ini {
     return Intl.message(
-      'Please select INI file',
+      'Please select ini file',
       name: 'home_localization_select_customize_file_ini',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please select custom Localization file`
+  /// `Please select custom localization file`
   String get home_localization_select_customize_file {
     return Intl.message(
-      'Please select custom Localization file',
+      'Please select custom localization file',
       name: 'home_localization_select_customize_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Click to select INI file`
+  /// `Click to select ini file`
   String get home_localization_action_select_customize_file {
     return Intl.message(
-      'Click to select INI file',
+      'Click to select ini file',
       name: 'home_localization_action_select_customize_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `Recommended advanced localization`
+  /// `Advanced Localization Recommended`
   String get home_localization_ptu_advanced_localization_tip_title {
     return Intl.message(
-      'Recommended advanced localization',
+      'Advanced Localization Recommended',
       name: 'home_localization_ptu_advanced_localization_tip_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `On PTU/EPTU and other test channels, the current localization text text may not be synchronized with the game, and the use of advanced localization can reduce garbled production.`
+  /// `In PTU/EPTU and other test channels, current localization text may not be synchronized with the game. Using advanced localization can reduce the occurrence of garbled text.`
   String get home_localization_ptu_advanced_localization_tip_title_info {
     return Intl.message(
-      'On PTU/EPTU and other test channels, the current localization text text may not be synchronized with the game, and the use of advanced localization can reduce garbled production.',
+      'In PTU/EPTU and other test channels, current localization text may not be synchronized with the game. Using advanced localization can reduce the occurrence of garbled text.',
       name: 'home_localization_ptu_advanced_localization_tip_title_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Put up the additional function`
+  /// `Collapse Additional Features`
   String get tools_rsi_launcher_enhance_action_fold {
     return Intl.message(
-      'Put up the additional function',
+      'Collapse Additional Features',
       name: 'tools_rsi_launcher_enhance_action_fold',
       desc: '',
       args: [],
     );
   }
 
-  /// `Expand additional features`
+  /// `Expand Additional Features`
   String get tools_rsi_launcher_enhance_action_expand {
     return Intl.message(
-      'Expand additional features',
+      'Expand Additional Features',
       name: 'tools_rsi_launcher_enhance_action_expand',
       desc: '',
       args: [],
     );
   }
 
-  /// `Lack of runtime`
+  /// `Missing Runtime`
   String get tools_unp4k_missing_runtime {
     return Intl.message(
-      'Lack of runtime',
+      'Missing Runtime',
       name: 'tools_unp4k_missing_runtime',
       desc: '',
       args: [],
     );
   }
 
-  /// `Use this function to install the .NET8 runtime, please click the button below to download and install it. After the installation is successful, reopen this page to continue to use.`
+  /// `Using this feature requires .NET8 runtime. Please click the button below to download and install it. After successful installation, reopen this page to continue using.`
   String get tools_unp4k_missing_runtime_info {
     return Intl.message(
-      'Use this function to install the .NET8 runtime, please click the button below to download and install it. After the installation is successful, reopen this page to continue to use.',
+      'Using this feature requires .NET8 runtime. Please click the button below to download and install it. After successful installation, reopen this page to continue using.',
       name: 'tools_unp4k_missing_runtime_info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Install the runtime`
+  /// `Install Runtime`
   String get tools_unp4k_missing_runtime_action_install {
     return Intl.message(
-      'Install the runtime',
+      'Install Runtime',
       name: 'tools_unp4k_missing_runtime_action_install',
       desc: '',
       args: [],
     );
   }
 
-  /// `You are not currently installed in the game body or the game installation directory is not selected, and you can only use the promoter Chinese function. Please make sure the game is installed or adds the game installation directory in the box settings.`
-  String get home_localization_action_rsi_launcher_no_game_path_msg {
-    return Intl.message(
-      'You are not currently installed in the game body or the game installation directory is not selected, and you can only use the promoter Chinese function. Please make sure the game is installed or adds the game installation directory in the box settings.',
-      name: 'home_localization_action_rsi_launcher_no_game_path_msg',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `GPU Vulkan Crash`
-  String get doctor_game_error_gpu_vulkan_crash {
-    return Intl.message(
-      'GPU Vulkan Crash',
-      name: 'doctor_game_error_gpu_vulkan_crash',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11`
-  String get doctor_game_error_gpu_vulkan_crash_info {
-    return Intl.message(
-      'Vulkan Crash! This may be the problem of driving version or game engine, please try to update the GPU driver or use the color cleaner function to return to DX11',
-      name: 'doctor_game_error_gpu_vulkan_crash_info',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Universal`
+  /// `General`
   String get settings_title_general {
     return Intl.message(
-      'Universal',
+      'General',
       name: 'settings_title_general',
       desc: '',
       args: [],
     );
   }
 
-  /// `Use built -in DNS`
+  /// `Use Built-in DNS`
   String get settings_item_dns {
     return Intl.message(
-      'Use built -in DNS',
+      'Use Built-in DNS',
       name: 'settings_item_dns',
       desc: '',
       args: [],
     );
   }
 
-  /// `After opening, the problem of DNS pollution in some areas may be solved`
+  /// `When enabled, may solve DNS pollution issues in some regions`
   String get settings_item_dns_info {
     return Intl.message(
-      'After opening, the problem of DNS pollution in some areas may be solved',
+      'When enabled, may solve DNS pollution issues in some regions',
       name: 'settings_item_dns_info',
       desc: '',
       args: [],
@@ -4935,10 +4930,10 @@ class S {
     );
   }
 
-  /// `Common problem`
+  /// `FAQ`
   String get about_action_btn_faq {
     return Intl.message(
-      'Common problem',
+      'FAQ',
       name: 'about_action_btn_faq',
       desc: '',
       args: [],
@@ -4955,350 +4950,350 @@ class S {
     );
   }
 
-  /// `Please check whether the following settings are correct. If there is any error, please click on the right icon to correct it.`
+  /// `Please check if the following settings are correct. If there are errors, click the icon on the right to correct them before continuing`
   String get guide_info_check_settings {
     return Intl.message(
-      'Please check whether the following settings are correct. If there is any error, please click on the right icon to correct it.',
+      'Please check if the following settings are correct. If there are errors, click the icon on the right to correct them before continuing',
       name: 'guide_info_check_settings',
       desc: '',
       args: [],
     );
   }
 
-  /// `* If your game is being downloaded, start the game once after completing the download and click the refresh button. If you only use the starter to enhance the Chineseization, make sure that the starter path is correct and click to complete the settings.`
+  /// `* If your game is currently downloading, please launch the game once after the download is complete and click the refresh button. If you only want to use launcher enhancement localization, make sure the launcher path is correct and click Complete Setup`
   String get guide_info_game_download_note {
     return Intl.message(
-      '* If your game is being downloaded, start the game once after completing the download and click the refresh button. If you only use the starter to enhance the Chineseization, make sure that the starter path is correct and click to complete the settings.',
+      '* If your game is currently downloading, please launch the game once after the download is complete and click the refresh button. If you only want to use launcher enhancement localization, make sure the launcher path is correct and click Complete Setup',
       name: 'guide_info_game_download_note',
       desc: '',
       args: [],
     );
   }
 
-  /// `Help`
+  /// `Get Help`
   String get guide_action_get_help {
     return Intl.message(
-      'Help',
+      'Get Help',
       name: 'guide_action_get_help',
       desc: '',
       args: [],
     );
   }
 
-  /// `Complete settings`
+  /// `Complete Setup`
   String get guide_action_complete_setup {
     return Intl.message(
-      'Complete settings',
+      'Complete Setup',
       name: 'guide_action_complete_setup',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirm the complete settings?`
+  /// `Confirm complete setup?`
   String get guide_dialog_confirm_complete_setup {
     return Intl.message(
-      'Confirm the complete settings?',
+      'Confirm complete setup?',
       name: 'guide_dialog_confirm_complete_setup',
       desc: '',
       args: [],
     );
   }
 
-  /// `You have not chose the launcher installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.`
+  /// `You have not selected a launcher installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.`
   String get guide_action_info_no_launcher_path_warning {
     return Intl.message(
-      'You have not chose the launcher installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.',
+      'You have not selected a launcher installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.',
       name: 'guide_action_info_no_launcher_path_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `You have not chose the game installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.`
+  /// `You have not selected a game installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.`
   String get guide_action_info_no_game_path_warning {
     return Intl.message(
-      'You have not chose the game installation path, do you confirm the complete settings?\n\nAfter the guidance page is turned off, you need to manually go to the setting page to operate.',
+      'You have not selected a game installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.',
       name: 'guide_action_info_no_game_path_warning',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select the starter EXE file: "RSI LAUNCHER.EXE"`
+  /// `Select launcher exe file: "RSI Launcher.exe"`
   String get setting_toast_select_launcher_exe {
     return Intl.message(
-      'Select the starter EXE file: "RSI LAUNCHER.EXE"',
+      'Select launcher exe file: "RSI Launcher.exe"',
       name: 'setting_toast_select_launcher_exe',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select the corresponding game file to: bin64/StarCitizen.exe`
+  /// `Select the corresponding game file to: Bin64/StarCitizen.exe`
   String get setting_toast_select_game_file {
     return Intl.message(
-      'Select the corresponding game file to: bin64/StarCitizen.exe',
+      'Select the corresponding game file to: Bin64/StarCitizen.exe',
       name: 'setting_toast_select_game_file',
       desc: '',
       args: [],
     );
   }
 
-  /// `During functional maintenance, please try again later`
+  /// `Feature under maintenance, please try again later`
   String get input_method_feature_maintenance {
     return Intl.message(
-      'During functional maintenance, please try again later',
+      'Feature under maintenance, please try again later',
       name: 'input_method_feature_maintenance',
       desc: '',
       args: [],
     );
   }
 
-  /// `Supporting community input method support`
+  /// `Community input method support not installed`
   String get input_method_community_input_method_not_installed {
     return Intl.message(
-      'Supporting community input method support',
+      'Community input method support not installed',
       name: 'input_method_community_input_method_not_installed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Do you go to Sinicization Management installation?\n\nIf you have been installed, please uninstall and open the community input method to support the switch when reinstalling.`
+  /// `Do you want to go to Localization Management to install?\n\nIf you have already installed localization, please uninstall it and enable the community input method support switch when reinstalling.`
   String get input_method_install_community_input_method_prompt {
     return Intl.message(
-      'Do you go to Sinicization Management installation?\n\nIf you have been installed, please uninstall and open the community input method to support the switch when reinstalling.',
+      'Do you want to go to Localization Management to install?\n\nIf you have already installed localization, please uninstall it and enable the community input method support switch when reinstalling.',
       name: 'input_method_install_community_input_method_prompt',
       desc: '',
       args: [],
     );
   }
 
-  /// `Instruction`
+  /// `Instructions`
   String get input_method_usage_instructions {
     return Intl.message(
-      'Instruction',
+      'Instructions',
       name: 'input_method_usage_instructions',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter the text ...`
-  String get input_method_input_placeholder {
-    return Intl.message(
-      'Please enter the text ...',
-      name: 'input_method_input_placeholder',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `This is the text after the transcoding ...`
-  String get input_method_encoded_text_placeholder {
-    return Intl.message(
-      'This is the text after the transcoding ...',
-      name: 'input_method_encoded_text_placeholder',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Remote input service:`
-  String get input_method_remote_input_service {
-    return Intl.message(
-      'Remote input service:',
-      name: 'input_method_remote_input_service',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `*This function is recommended only in non -public channels. If the user chooses to use this function in the public channel, any consequences (including but not limited to the screenwriting screen by other players, etc.) will be borne by the user.\n*If this function is abused, we will close the function.`
-  String get input_method_disclaimer {
-    return Intl.message(
-      '*This function is recommended only in non -public channels. If the user chooses to use this function in the public channel, any consequences (including but not limited to the screenwriting screen by other players, etc.) will be borne by the user.\n*If this function is abused, we will close the function.',
-      name: 'input_method_disclaimer',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Community input method (experimental)`
-  String get input_method_experimental_input_method {
-    return Intl.message(
-      'Community input method (experimental)',
-      name: 'input_method_experimental_input_method',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Automatic replication`
-  String get input_method_auto_copy {
-    return Intl.message(
-      'Automatic replication',
-      name: 'input_method_auto_copy',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm the opening remote input?`
-  String get input_method_confirm_enable_remote_input {
-    return Intl.message(
-      'Confirm the opening remote input?',
-      name: 'input_method_confirm_enable_remote_input',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `After turning on this function, you can access the remote service address through your mobile phone, and quickly enter text, eliminating the trouble of switching the window, and the game process is not interrupted.\n\nIf the firewall is prompted, please open the pop -up window, manually check all network types and allow it, otherwise it may not be able to access this function normally.`
-  String get input_method_enable_remote_input_instructions {
-    return Intl.message(
-      'After turning on this function, you can access the remote service address through your mobile phone, and quickly enter text, eliminating the trouble of switching the window, and the game process is not interrupted.\n\nIf the firewall is prompted, please open the pop -up window, manually check all network types and allow it, otherwise it may not be able to access this function normally.',
-      name: 'input_method_enable_remote_input_instructions',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `If the address failed, please check the computer IP manually`
-  String get input_method_address_fetch_failed {
-    return Intl.message(
-      'If the address failed, please check the computer IP manually',
-      name: 'input_method_address_fetch_failed',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The text cannot be empty!`
-  String get input_method_text_cannot_be_empty {
-    return Intl.message(
-      'The text cannot be empty!',
-      name: 'input_method_text_cannot_be_empty',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Successful sending!`
-  String get input_method_send_success {
-    return Intl.message(
-      'Successful sending!',
-      name: 'input_method_send_success',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We have not found the right IP address to access the service, please try the following address (switch on the left and right)`
-  String get input_method_ip_address_not_found {
-    return Intl.message(
-      'We have not found the right IP address to access the service, please try the following address (switch on the left and right)',
-      name: 'input_method_ip_address_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please use your mobile device to scan the following QR codes, or to access the connection manually`
-  String get input_method_scan_qr_code {
-    return Intl.message(
-      'Please use your mobile device to scan the following QR codes, or to access the connection manually',
-      name: 'input_method_scan_qr_code',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Service QR code`
-  String get input_method_service_qr_code {
-    return Intl.message(
-      'Service QR code',
-      name: 'input_method_service_qr_code',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm the installation of advanced Chinese?`
-  String get input_method_confirm_install_advanced_localization {
-    return Intl.message(
-      'Confirm the installation of advanced Chinese?',
-      name: 'input_method_confirm_install_advanced_localization',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Support community input method support`
-  String get input_method_install_community_input_method_support {
-    return Intl.message(
-      'Support community input method support',
-      name: 'input_method_install_community_input_method_support',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Community input method support: {v0}`
-  String input_method_community_input_method_support_version(Object v0) {
-    return Intl.message(
-      'Community input method support: $v0',
-      name: 'input_method_community_input_method_support_version',
-      desc: '',
-      args: [v0],
-    );
-  }
-
-  /// `Enter the text in the text box above and paste the text (Ctrl+V) to the text box of the game in the text box above the text box.`
+  /// `Enter text in the text box above, and paste (Ctrl+V) the encoded text below into the game's text box to send characters that the game doesn't support input for in chat channels.`
   String get input_method_input_text_instructions {
     return Intl.message(
-      'Enter the text in the text box above and paste the text (Ctrl+V) to the text box of the game in the text box above the text box.',
+      'Enter text in the text box above, and paste (Ctrl+V) the encoded text below into the game\'s text box to send characters that the game doesn\'t support input for in chat channels.',
       name: 'input_method_input_text_instructions',
       desc: '',
       args: [],
     );
   }
 
-  /// `This function provides another online independent version, click to visit>`
+  /// `Please enter text...`
+  String get input_method_input_placeholder {
+    return Intl.message(
+      'Please enter text...',
+      name: 'input_method_input_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Encoded text will appear here...`
+  String get input_method_encoded_text_placeholder {
+    return Intl.message(
+      'Encoded text will appear here...',
+      name: 'input_method_encoded_text_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remote Input Service:`
+  String get input_method_remote_input_service {
+    return Intl.message(
+      'Remote Input Service:',
+      name: 'input_method_remote_input_service',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `*This feature is recommended for use only in non-public channels. If users choose to use this feature in public channels, any consequences (including but not limited to being reported by other players for spam, etc.) are the user's sole responsibility.\n*If this feature is abused, we will disable it.`
+  String get input_method_disclaimer {
+    return Intl.message(
+      '*This feature is recommended for use only in non-public channels. If users choose to use this feature in public channels, any consequences (including but not limited to being reported by other players for spam, etc.) are the user\'s sole responsibility.\n*If this feature is abused, we will disable it.',
+      name: 'input_method_disclaimer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Input Method (Experimental)`
+  String get input_method_experimental_input_method {
+    return Intl.message(
+      'Community Input Method (Experimental)',
+      name: 'input_method_experimental_input_method',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Auto Copy`
+  String get input_method_auto_copy {
+    return Intl.message(
+      'Auto Copy',
+      name: 'input_method_auto_copy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm enable remote input?`
+  String get input_method_confirm_enable_remote_input {
+    return Intl.message(
+      'Confirm enable remote input?',
+      name: 'input_method_confirm_enable_remote_input',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After enabling this feature, you can access the remote service address via mobile phone for quick text input, saving the hassle of switching windows and not interrupting game flow.\n\nIf a firewall prompt appears, please expand the dialog, manually check all network types and allow, otherwise you may not be able to access this feature normally.`
+  String get input_method_enable_remote_input_instructions {
+    return Intl.message(
+      'After enabling this feature, you can access the remote service address via mobile phone for quick text input, saving the hassle of switching windows and not interrupting game flow.\n\nIf a firewall prompt appears, please expand the dialog, manually check all network types and allow, otherwise you may not be able to access this feature normally.',
+      name: 'input_method_enable_remote_input_instructions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to fetch address, please check computer IP manually`
+  String get input_method_address_fetch_failed {
+    return Intl.message(
+      'Failed to fetch address, please check computer IP manually',
+      name: 'input_method_address_fetch_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Text cannot be empty!`
+  String get input_method_text_cannot_be_empty {
+    return Intl.message(
+      'Text cannot be empty!',
+      name: 'input_method_text_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sent successfully!`
+  String get input_method_send_success {
+    return Intl.message(
+      'Sent successfully!',
+      name: 'input_method_send_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We couldn't find an appropriate IP address to access the service. Please try the following addresses (swipe left/right)`
+  String get input_method_ip_address_not_found {
+    return Intl.message(
+      'We couldn\'t find an appropriate IP address to access the service. Please try the following addresses (swipe left/right)',
+      name: 'input_method_ip_address_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please scan the QR code below with your mobile device, or manually visit the link`
+  String get input_method_scan_qr_code {
+    return Intl.message(
+      'Please scan the QR code below with your mobile device, or manually visit the link',
+      name: 'input_method_scan_qr_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service QR Code`
+  String get input_method_service_qr_code {
+    return Intl.message(
+      'Service QR Code',
+      name: 'input_method_service_qr_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm install advanced localization?`
+  String get input_method_confirm_install_advanced_localization {
+    return Intl.message(
+      'Confirm install advanced localization?',
+      name: 'input_method_confirm_install_advanced_localization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Install Community Input Method Support`
+  String get input_method_install_community_input_method_support {
+    return Intl.message(
+      'Install Community Input Method Support',
+      name: 'input_method_install_community_input_method_support',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Input Method Support: {v0}`
+  String input_method_community_input_method_support_version(Object v0) {
+    return Intl.message(
+      'Community Input Method Support: $v0',
+      name: 'input_method_community_input_method_support_version',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `An online standalone version of this feature is also available. Click to visit >`
   String get input_method_online_version_prompt {
     return Intl.message(
-      'This function provides another online independent version, click to visit>',
+      'An online standalone version of this feature is also available. Click to visit >',
       name: 'input_method_online_version_prompt',
       desc: '',
       args: [],
     );
   }
 
-  /// `Community input method support has been updated`
+  /// `Community input method support updated`
   String get input_method_support_updated {
     return Intl.message(
-      'Community input method support has been updated',
+      'Community input method support updated',
       name: 'input_method_support_updated',
       desc: '',
       args: [],
     );
   }
 
-  /// `Community input method support has been updated to: {v0}`
+  /// `Community input method support updated to: {v0}`
   String input_method_support_updated_to_version(Object v0) {
     return Intl.message(
-      'Community input method support has been updated to: $v0',
+      'Community input method support updated to: $v0',
       name: 'input_method_support_updated_to_version',
       desc: '',
       args: [v0],
     );
   }
 
-  /// `Bilingual translation:`
+  /// `Bilingual Translation:`
   String get input_method_auto_translate {
     return Intl.message(
-      'Bilingual translation:',
+      'Bilingual Translation:',
       name: 'input_method_auto_translate',
       desc: '',
       args: [],
@@ -5315,70 +5310,50 @@ class S {
     );
   }
 
-  /// `After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google's privacy policy.`
+  /// `When enabled, Google Translate service will be used to add English subtitles to your input content, which may cause response lag. If the feature is abnormal, please turn it off.\n\nText will be forwarded to Google servers, please refer to Google's privacy policy.`
   String get input_method_auto_translate_dialog_title_content {
     return Intl.message(
-      'After use, you will use Google translation service to add English copies to your input content, which may lead to lagging response. If the function is abnormal, please close it. \n\nThe text will be forwarded to Google server, please refer to Google\'s privacy policy.',
+      'When enabled, Google Translate service will be used to add English subtitles to your input content, which may cause response lag. If the feature is abnormal, please turn it off.\n\nText will be forwarded to Google servers, please refer to Google\'s privacy policy.',
       name: 'input_method_auto_translate_dialog_title_content',
       desc: '',
       args: [],
     );
   }
 
-  /// `Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players. Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.`
+  /// `Thank you for using SCToolbox, I'm its developer xkeyC\nSCToolbox is committed to open source and providing free services to players. Free service is a challenging job, and if you consider buying me a drink, I would be very grateful.\nDonated funds will be used for server expenses, new feature development, and increasing motivation for software maintenance.`
   String get support_dev_thanks_message {
     return Intl.message(
-      'Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players. Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.',
+      'Thank you for using SCToolbox, I\'m its developer xkeyC\nSCToolbox is committed to open source and providing free services to players. Free service is a challenging job, and if you consider buying me a drink, I would be very grateful.\nDonated funds will be used for server expenses, new feature development, and increasing motivation for software maintenance.',
       name: 'support_dev_thanks_message',
       desc: '',
       args: [],
     );
   }
 
-  /// `Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players.`
-  String get support_dev_thanks_message_part1 {
-    return Intl.message(
-      'Thank you for using SC Toolbox, I am its developer xkeyC.\nThe toolbox is committed to open source and providing free services to all players.',
-      name: 'support_dev_thanks_message_part1',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.`
-  String get support_dev_thanks_message_part2 {
-    return Intl.message(
-      'Providing free services is a challenging task, and I would be grateful if you consider buying me a drink.\nThe donated funds will be used for server expenses, development of new features, and improving the motivation for software maintenance.',
-      name: 'support_dev_thanks_message_part2',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `If you haven't registered the game or filled in a referral code yet, please consider using mine: STAR-3YXS-SWTC. Thank you for reading this far.`
+  /// `If you haven't registered for the game or entered a referral code yet, you can consider mine: STAR-3YXS-SWTC. Thanks for reading this far`
   String get support_dev_referral_code_message {
     return Intl.message(
-      'If you haven\'t registered the game or filled in a referral code yet, please consider using mine: STAR-3YXS-SWTC. Thank you for reading this far.',
+      'If you haven\'t registered for the game or entered a referral code yet, you can consider mine: STAR-3YXS-SWTC. Thanks for reading this far',
       name: 'support_dev_referral_code_message',
       desc: '',
       args: [],
     );
   }
 
-  /// `Support the Developer`
+  /// `Support Developer`
   String get support_dev_title {
     return Intl.message(
-      'Support the Developer',
+      'Support Developer',
       name: 'support_dev_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `You can also star my project on GitHub`
+  /// `You can also give my project a Star on GitHub`
   String get support_dev_github_star_message {
     return Intl.message(
-      'You can also star my project on GitHub',
+      'You can also give my project a Star on GitHub',
       name: 'support_dev_github_star_message',
       desc: '',
       args: [],
@@ -5435,10 +5410,10 @@ class S {
     );
   }
 
-  /// `You can send me aUEC in the game as support, which will help me get a better gaming experience in limited time`
+  /// `You can send aUEC to me in the game as support, which will help me get a better gaming experience in limited time`
   String get support_dev_in_game_currency_message {
     return Intl.message(
-      'You can send me aUEC in the game as support, which will help me get a better gaming experience in limited time',
+      'You can send aUEC to me in the game as support, which will help me get a better gaming experience in limited time',
       name: 'support_dev_in_game_currency_message',
       desc: '',
       args: [],
@@ -5465,10 +5440,10 @@ class S {
     );
   }
 
-  /// `* Please note: Donations are voluntary gifts, and you will not receive any additional benefits in software experience.`
+  /// `* Please note: Donation is a gratuitous gift, you will not receive additional benefits in software experience.`
   String get support_dev_donation_disclaimer {
     return Intl.message(
-      '* Please note: Donations are voluntary gifts, and you will not receive any additional benefits in software experience.',
+      '* Please note: Donation is a gratuitous gift, you will not receive additional benefits in software experience.',
       name: 'support_dev_donation_disclaimer',
       desc: '',
       args: [],
@@ -5505,10 +5480,10 @@ class S {
     );
   }
 
-  /// `Basic Information`
+  /// `Basic Info`
   String get log_analyzer_filter_basic_info {
     return Intl.message(
-      'Basic Information',
+      'Basic Info',
       name: 'log_analyzer_filter_basic_info',
       desc: '',
       args: [],
@@ -5535,10 +5510,10 @@ class S {
     );
   }
 
-  /// `Vehicle Damage`
+  /// `Vehicle Damaged`
   String get log_analyzer_filter_vehicle_damaged {
     return Intl.message(
-      'Vehicle Damage',
+      'Vehicle Damaged',
       name: 'log_analyzer_filter_vehicle_damaged',
       desc: '',
       args: [],
@@ -5595,20 +5570,20 @@ class S {
     );
   }
 
-  /// `----- SCToolBox One-click Diagnosis -----`
+  /// `----- SCToolbox One-Click Diagnosis -----`
   String get log_analyzer_one_click_diagnosis_header {
     return Intl.message(
-      '----- SCToolBox One-click Diagnosis -----',
+      '----- SCToolbox One-Click Diagnosis -----',
       name: 'log_analyzer_one_click_diagnosis_header',
       desc: '',
       args: [],
     );
   }
 
-  /// `Details: {v0}`
+  /// `Detailed information: {v0}`
   String log_analyzer_details_info(Object v0) {
     return Intl.message(
-      'Details: $v0',
+      'Detailed information: $v0',
       name: 'log_analyzer_details_info',
       desc: '',
       args: [v0],
@@ -5659,10 +5634,10 @@ class S {
     );
   }
 
-  /// `Playtime`
+  /// `Play Time`
   String get log_analyzer_play_time {
     return Intl.message(
-      'Playtime',
+      'Play Time',
       name: 'log_analyzer_play_time',
       desc: '',
       args: [],
@@ -5699,10 +5674,10 @@ class S {
     );
   }
 
-  /// `Mode: {v0}   Time: {v1} seconds`
+  /// `Mode: {v0}   Time taken: {v1} seconds`
   String log_analyzer_mode_loading_time(Object v0, Object v1) {
     return Intl.message(
-      'Mode: $v0   Time: $v1 seconds',
+      'Mode: $v0   Time taken: $v1 seconds',
       name: 'log_analyzer_mode_loading_time',
       desc: '',
       args: [v0, v1],
@@ -5719,7 +5694,7 @@ class S {
     );
   }
 
-  /// `Area: {v0}   Player Driving: {v1}   Collision Entity: {v2} \nCollision Vehicle: {v3}   Collision Distance: {v4} `
+  /// `Area: {v0}   Player driving: {v1}   Collision entity: {v2} \nCollision vehicle: {v3}   Collision distance: {v4} `
   String log_analyzer_collision_details(
     Object v0,
     Object v1,
@@ -5728,7 +5703,7 @@ class S {
     Object v4,
   ) {
     return Intl.message(
-      'Area: $v0   Player Driving: $v1   Collision Entity: $v2 \nCollision Vehicle: $v3   Collision Distance: $v4 ',
+      'Area: $v0   Player driving: $v1   Collision entity: $v2 \nCollision vehicle: $v3   Collision distance: $v4 ',
       name: 'log_analyzer_collision_details',
       desc: '',
       args: [v0, v1, v2, v3, v4],
@@ -5755,7 +5730,7 @@ class S {
     );
   }
 
-  /// `Vehicle Model: {v0}   \nArea: {v1} \nDamage Level: {v2} ({v3})   Responsible Party: {v4}`
+  /// `Vehicle model: {v0}   \nArea: {v1} \nDamage level: {v2} ({v3})   Responsible party: {v4}`
   String log_analyzer_vehicle_damage_details(
     Object v0,
     Object v1,
@@ -5764,14 +5739,14 @@ class S {
     Object v4,
   ) {
     return Intl.message(
-      'Vehicle Model: $v0   \nArea: $v1 \nDamage Level: $v2 ($v3)   Responsible Party: $v4',
+      'Vehicle model: $v0   \nArea: $v1 \nDamage level: $v2 ($v3)   Responsible party: $v4',
       name: 'log_analyzer_vehicle_damage_details',
       desc: '',
       args: [v0, v1, v2, v3, v4],
     );
   }
 
-  /// `Victim ID: {v0}    Cause of Death: {v1} \nKiller ID: {v2}  \nArea: {v3}`
+  /// `Victim ID: {v0}    Cause of death: {v1} \nKiller ID: {v2}  \nArea: {v3}`
   String log_analyzer_death_details(
     Object v0,
     Object v1,
@@ -5779,17 +5754,17 @@ class S {
     Object v3,
   ) {
     return Intl.message(
-      'Victim ID: $v0    Cause of Death: $v1 \nKiller ID: $v2  \nArea: $v3',
+      'Victim ID: $v0    Cause of death: $v1 \nKiller ID: $v2  \nArea: $v3',
       name: 'log_analyzer_death_details',
       desc: '',
       args: [v0, v1, v2, v3],
     );
   }
 
-  /// `Player {v0} logged in ...`
+  /// `Player {v0} logged in...`
   String log_analyzer_player_login(Object v0) {
     return Intl.message(
-      'Player $v0 logged in ...',
+      'Player $v0 logged in...',
       name: 'log_analyzer_player_login',
       desc: '',
       args: [v0],
@@ -5856,20 +5831,20 @@ class S {
     );
   }
 
-  /// `Analyze your gameplay records (logins, deaths, kills and other information)`
+  /// `Analyze your gameplay records (login, death, kills, and other information)`
   String get log_analyzer_description {
     return Intl.message(
-      'Analyze your gameplay records (logins, deaths, kills and other information)',
+      'Analyze your gameplay records (login, death, kills, and other information)',
       name: 'log_analyzer_description',
       desc: '',
       args: [],
     );
   }
 
-  /// `SCToolBox: Log Analyzer`
+  /// `SCToolbox: Log Analyzer`
   String get log_analyzer_window_title {
     return Intl.message(
-      'SCToolBox: Log Analyzer',
+      'SCToolbox: Log Analyzer',
       name: 'log_analyzer_window_title',
       desc: '',
       args: [],

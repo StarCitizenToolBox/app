@@ -1232,12 +1232,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "support_dev_thanks_message": MessageLookupByLibrary.simpleMessage(
       "感謝您使用 SC工具箱，我是其開發者 xkeyC\n工具箱致力於開放原始碼並為各位玩家提供免費的服務，無償的服務是一項充滿挑戰的工作，若您考慮給我送點飲料錢，我將不勝感激。\n捐贈的資金將用於伺服器支出、新功能的開發，以及提高軟體維護的積極性。",
     ),
-    "support_dev_thanks_message_part1": MessageLookupByLibrary.simpleMessage(
-      "感謝您使用 SC工具箱，我是其開發者 xkeyC\n工具箱致力於開放原始碼並為各位玩家提供免費的服務，",
-    ),
-    "support_dev_thanks_message_part2": MessageLookupByLibrary.simpleMessage(
-      "無償的服務是一項充滿挑戰的工作，若您考慮給我送點飲料錢，我將不勝感激。\n捐贈的資金將用於伺服器支出、新功能的開發，以及提高軟體維護的積極性。",
-    ),
     "support_dev_title": MessageLookupByLibrary.simpleMessage("支持開發者"),
     "support_dev_wechat": MessageLookupByLibrary.simpleMessage("微信"),
     "tools_action_clear_shader_cache": MessageLookupByLibrary.simpleMessage(
