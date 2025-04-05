@@ -7,22 +7,23 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:watcher/watcher.dart';
 
 part 'log_analyze_provider.g.dart';
 
 part 'log_analyze_provider.freezed.dart';
 
-const Map<String?, String> logAnalyzeSearchTypeMap = {
-  null: "全部",
-  "info": "基础信息",
-  "player_login": "账户相关",
-  "fatal_collision": "致命碰撞",
-  "vehicle_destruction": "载具损毁",
-  "actor_death": "角色死亡",
-  "statistics": "统计信息",
-  "game_crash": "游戏崩溃",
-  "request_location_inventory": "本地库存",
+final Map<String?, String> logAnalyzeSearchTypeMap = {
+  null: S.current.log_analyzer_filter_all,
+  "info": S.current.log_analyzer_filter_basic_info,
+  "player_login": S.current.log_analyzer_filter_account_related,
+  "fatal_collision": S.current.log_analyzer_filter_fatal_collision,
+  "vehicle_destruction": S.current.log_analyzer_filter_vehicle_damaged,
+  "actor_death": S.current.log_analyzer_filter_character_death,
+  "statistics": S.current.log_analyzer_filter_statistics,
+  "game_crash": S.current.log_analyzer_filter_game_crash,
+  "request_location_inventory": S.current.log_analyzer_filter_local_inventory,
 };
 
 @freezed
@@ -45,7 +46,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       return [
         LogAnalyzeLineData(
           type: "error",
-          title: "未找到 log 文件",
+          title: S.current.log_analyzer_no_log_file,
         )
       ];
     }
@@ -59,7 +60,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
   int _deathCount = 0; // 记录被击杀次数
   int _selfKillCount = 0; // 记录自杀次数
   DateTime? _gameStartTime; // 记录游戏开始时间
-  int _gameCrashLineNumber = -1; // 记录游戏崩溃行号
+  int _gameCrashLineNumber = -1; // 记录${S.current.log_analyzer_filter_game_crash}行号
   int _currentLineNumber = 0; // 当前行号
 
   void _launchLogAnalyze(File logFile, {int startLine = 0}) async {
@@ -93,46 +94,54 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     final lastLineDateTime =
         _gameStartTime != null ? _getLogLineDateTime(logLines.lastWhere((e) => e.startsWith("<20"))) : null;
 
-    // 检查游戏崩溃行号
+    // 检查${S.current.log_analyzer_filter_game_crash}行号
     if (_gameCrashLineNumber > 0) {
       // crashInfo 从 logLines _gameCrashLineNumber 开始到最后一行
       final crashInfo = logLines.sublist(_gameCrashLineNumber);
       // 运行一键诊断
       final info = SCLoggerHelper.getGameRunningLogInfo(crashInfo);
-      crashInfo.add("----- 汉化盒子一键诊断 -----");
+      crashInfo.add(S.current.log_analyzer_one_click_diagnosis_header);
       if (info != null) {
         crashInfo.add(info.key);
         if (info.value.isNotEmpty) {
-          crashInfo.add("详细信息：${info.value}");
+          crashInfo.add(S.current.log_analyzer_details_info(info.value));
         }
       } else {
-        crashInfo.add("未检测到游戏崩溃信息");
+        crashInfo.add(S.current.log_analyzer_no_crash_detected);
       }
       _appendResult(LogAnalyzeLineData(
         type: "game_crash",
-        title: "游戏崩溃 ",
+        title: S.current.log_analyzer_game_crash,
         data: crashInfo.join("\n"),
         dateTime: lastLineDateTime != null ? _dateTimeFormatter.format(lastLineDateTime) : null,
       ));
     }
 
-    // 击杀总结
+    // ${S.current.log_analyzer_kill_summary}
     if (_killCount > 0 || _deathCount > 0) {
       _appendResult(LogAnalyzeLineData(
         type: "statistics",
-        title: "击杀总结",
-        data: "击杀次数：$_killCount   死亡次数：$_deathCount   自杀次数：$_selfKillCount",
+        title: S.current.log_analyzer_kill_summary,
+        data: S.current.log_analyzer_kill_death_suicide_count(
+          _killCount,
+          _deathCount,
+          _selfKillCount,
+        ),
       ));
     }
 
-    // 统计游玩时长，_gameStartTime 减去 最后一行的时间
+    // 统计${S.current.log_analyzer_play_time}，_gameStartTime 减去 最后一行的时间
     if (_gameStartTime != null) {
       if (lastLineDateTime != null) {
         final duration = lastLineDateTime.difference(_gameStartTime!);
         _appendResult(LogAnalyzeLineData(
           type: "statistics",
-          title: "游玩时长",
-          data: "${duration.inHours} 小时 ${duration.inMinutes.remainder(60)} 分钟 ${duration.inSeconds.remainder(60)} 秒",
+          title: S.current.log_analyzer_play_time,
+          data: S.current.log_analyzer_play_time_format(
+            duration.inHours,
+            duration.inMinutes.remainder(60),
+            duration.inSeconds.remainder(60),
+          ),
         ));
       }
     }
@@ -155,7 +164,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       debugPrint("[ToolsLogAnalyze] logFile change: ${change.type}");
       switch (change.type) {
         case ChangeType.MODIFY:
-          // 移除统计信息
+          // 移除${S.current.log_analyzer_filter_statistics}
           final newList = state.value?.where((e) => e.type != "statistics").toList();
           state = AsyncData(newList ?? []);
           return _launchLogAnalyze(logFile, startLine: _currentLineNumber);
@@ -176,17 +185,20 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       _gameStartTime = _getLogLineDateTime(line);
       return LogAnalyzeLineData(
         type: "info",
-        title: "游戏启动",
+        title: S.current.log_analyzer_game_start,
         dateTime: _getLogLineDateTimeString(line),
       );
     }
-    // 读取游戏加载时间
+    // 读取${S.current.log_analyzer_game_loading}时间
     final gameLoading = _logGetGameLoading(line);
     if (gameLoading != null) {
       return LogAnalyzeLineData(
         type: "info",
-        title: "游戏加载",
-        data: "模式：${gameLoading.$1}   用时：${gameLoading.$2} 秒",
+        title: S.current.log_analyzer_game_loading,
+        data: S.current.log_analyzer_mode_loading_time(
+          gameLoading.$1,
+          gameLoading.$2,
+        ),
         dateTime: _getLogLineDateTimeString(line),
       );
     }
@@ -199,16 +211,16 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
           // 角色登录
           return _logGetCharacterName(line);
         case "FatalCollision":
-          // 载具致命碰撞
+          // 载具${S.current.log_analyzer_filter_fatal_collision}
           return _logGetFatalCollision(line);
         case "Vehicle Destruction":
-          // 载具损毁
+          // ${S.current.log_analyzer_filter_vehicle_damaged}
           return _logGetVehicleDestruction(line);
         case "Actor Death":
-          // 角色死亡
+          // ${S.current.log_analyzer_filter_character_death}
           return _logGetActorDeath(line);
         case "RequestLocationInventory":
-          // 请求本地库存
+          // 请求${S.current.log_analyzer_filter_local_inventory}
           return _logGetRequestLocationInventory(line);
       }
     }
@@ -216,7 +228,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     if (line.contains("[CIG] CCIGBroker::FastShutdown")) {
       return LogAnalyzeLineData(
         type: "info",
-        title: "游戏关闭",
+        title: S.current.log_analyzer_game_close,
         dateTime: _getLogLineDateTimeString(line),
       );
     }
@@ -305,8 +317,15 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
 
     return LogAnalyzeLineData(
       type: "fatal_collision",
-      title: "致命碰撞",
-      data: "区域：$zone   玩家驾驶：${playerPilot ? '✅' : '❌'}   碰撞实体：$hitEntity \n碰撞载具: $hitEntityVehicle   碰撞距离：$distance ",
+      title: S.current.log_analyzer_filter_fatal_collision,
+      // data: "区域：$zone   玩家驾驶：${playerPilot ? '✅' : '❌'}   碰撞实体：$hitEntity \n碰撞载具: $hitEntityVehicle   碰撞距离：$distance ",
+      data: S.current.log_analyzer_collision_details(
+        zone,
+        playerPilot ? '✅' : '❌',
+        hitEntity,
+        hitEntityVehicle,
+        distance.toStringAsFixed(2),
+      ),
       dateTime: _getLogLineDateTimeString(line),
     );
   }
@@ -324,13 +343,18 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       final destructionLevel = int.tryParse(match.group(3) ?? '') ?? 0;
       final causedBy = match.group(4) ?? 'Unknown';
 
-      const destructionLevelMap = {1: "软死亡", 2: "解体"};
+      final destructionLevelMap = {1: S.current.log_analyzer_soft_death, 2: S.current.log_analyzer_disintegration};
 
       return LogAnalyzeLineData(
         type: "vehicle_destruction",
-        title: "载具损毁",
-        data:
-            "载具型号：$vehicleModel   \n区域：$zone \n损毁等级：$destructionLevel （${destructionLevelMap[destructionLevel]}）   责任方：$causedBy",
+        title: S.current.log_analyzer_filter_vehicle_damaged,
+        data: S.current.log_analyzer_vehicle_damage_details(
+          vehicleModel,
+          zone,
+          destructionLevel.toString(),
+          destructionLevelMap[destructionLevel] ?? "Unknown",
+          causedBy,
+        ),
         dateTime: _getLogLineDateTimeString(line),
       );
     }
@@ -365,8 +389,13 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
 
       return LogAnalyzeLineData(
         type: "actor_death",
-        title: "角色死亡",
-        data: "受害者ID：$victimId    死因：$damageType \n击杀者ID：$killerId  \n区域：$zone",
+        title: S.current.log_analyzer_filter_character_death,
+        data: S.current.log_analyzer_death_details(
+          victimId,
+          damageType,
+          killerId,
+          zone,
+        ),
         dateTime: _getLogLineDateTimeString(line),
       );
     }
@@ -382,7 +411,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       _playerName = characterName.trim(); // 更新玩家名称
       return LogAnalyzeLineData(
         type: "player_login",
-        title: "玩家 $characterName 登录 ...",
+        title: S.current.log_analyzer_player_login(characterName),
         dateTime: _getLogLineDateTimeString(line),
       );
     }
@@ -398,8 +427,8 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
 
       return LogAnalyzeLineData(
         type: "request_location_inventory",
-        title: "查看本地库存",
-        data: "玩家ID：$playerId   位置：$location",
+        title: S.current.log_analyzer_view_local_inventory,
+        data: S.current.log_analyzer_player_location(playerId, location),
         dateTime: _getLogLineDateTimeString(line),
       );
     }

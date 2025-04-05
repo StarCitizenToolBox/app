@@ -5494,6 +5494,387 @@ class S {
       args: [],
     );
   }
+
+  /// `All`
+  String get log_analyzer_filter_all {
+    return Intl.message(
+      'All',
+      name: 'log_analyzer_filter_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Basic Information`
+  String get log_analyzer_filter_basic_info {
+    return Intl.message(
+      'Basic Information',
+      name: 'log_analyzer_filter_basic_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account Related`
+  String get log_analyzer_filter_account_related {
+    return Intl.message(
+      'Account Related',
+      name: 'log_analyzer_filter_account_related',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fatal Collision`
+  String get log_analyzer_filter_fatal_collision {
+    return Intl.message(
+      'Fatal Collision',
+      name: 'log_analyzer_filter_fatal_collision',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vehicle Damage`
+  String get log_analyzer_filter_vehicle_damaged {
+    return Intl.message(
+      'Vehicle Damage',
+      name: 'log_analyzer_filter_vehicle_damaged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Character Death`
+  String get log_analyzer_filter_character_death {
+    return Intl.message(
+      'Character Death',
+      name: 'log_analyzer_filter_character_death',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Statistics`
+  String get log_analyzer_filter_statistics {
+    return Intl.message(
+      'Statistics',
+      name: 'log_analyzer_filter_statistics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game Crash`
+  String get log_analyzer_filter_game_crash {
+    return Intl.message(
+      'Game Crash',
+      name: 'log_analyzer_filter_game_crash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Local Inventory`
+  String get log_analyzer_filter_local_inventory {
+    return Intl.message(
+      'Local Inventory',
+      name: 'log_analyzer_filter_local_inventory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log file not found`
+  String get log_analyzer_no_log_file {
+    return Intl.message(
+      'Log file not found',
+      name: 'log_analyzer_no_log_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `----- SCToolBox One-click Diagnosis -----`
+  String get log_analyzer_one_click_diagnosis_header {
+    return Intl.message(
+      '----- SCToolBox One-click Diagnosis -----',
+      name: 'log_analyzer_one_click_diagnosis_header',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details: {v0}`
+  String log_analyzer_details_info(Object v0) {
+    return Intl.message(
+      'Details: $v0',
+      name: 'log_analyzer_details_info',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `No game crash information detected`
+  String get log_analyzer_no_crash_detected {
+    return Intl.message(
+      'No game crash information detected',
+      name: 'log_analyzer_no_crash_detected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game Crash `
+  String get log_analyzer_game_crash {
+    return Intl.message(
+      'Game Crash ',
+      name: 'log_analyzer_game_crash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kill Summary`
+  String get log_analyzer_kill_summary {
+    return Intl.message(
+      'Kill Summary',
+      name: 'log_analyzer_kill_summary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kills: {v0}   Deaths: {v1}   Suicides: {v2}`
+  String log_analyzer_kill_death_suicide_count(
+    Object v0,
+    Object v1,
+    Object v2,
+  ) {
+    return Intl.message(
+      'Kills: $v0   Deaths: $v1   Suicides: $v2',
+      name: 'log_analyzer_kill_death_suicide_count',
+      desc: '',
+      args: [v0, v1, v2],
+    );
+  }
+
+  /// `Playtime`
+  String get log_analyzer_play_time {
+    return Intl.message(
+      'Playtime',
+      name: 'log_analyzer_play_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} hours {v1} minutes {v2} seconds`
+  String log_analyzer_play_time_format(Object v0, Object v1, Object v2) {
+    return Intl.message(
+      '$v0 hours $v1 minutes $v2 seconds',
+      name: 'log_analyzer_play_time_format',
+      desc: '',
+      args: [v0, v1, v2],
+    );
+  }
+
+  /// `Game Start`
+  String get log_analyzer_game_start {
+    return Intl.message(
+      'Game Start',
+      name: 'log_analyzer_game_start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game Loading`
+  String get log_analyzer_game_loading {
+    return Intl.message(
+      'Game Loading',
+      name: 'log_analyzer_game_loading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mode: {v0}   Time: {v1} seconds`
+  String log_analyzer_mode_loading_time(Object v0, Object v1) {
+    return Intl.message(
+      'Mode: $v0   Time: $v1 seconds',
+      name: 'log_analyzer_mode_loading_time',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Game Close`
+  String get log_analyzer_game_close {
+    return Intl.message(
+      'Game Close',
+      name: 'log_analyzer_game_close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Area: {v0}   Player Driving: {v1}   Collision Entity: {v2} \nCollision Vehicle: {v3}   Collision Distance: {v4} `
+  String log_analyzer_collision_details(
+    Object v0,
+    Object v1,
+    Object v2,
+    Object v3,
+    Object v4,
+  ) {
+    return Intl.message(
+      'Area: $v0   Player Driving: $v1   Collision Entity: $v2 \nCollision Vehicle: $v3   Collision Distance: $v4 ',
+      name: 'log_analyzer_collision_details',
+      desc: '',
+      args: [v0, v1, v2, v3, v4],
+    );
+  }
+
+  /// `Soft Death`
+  String get log_analyzer_soft_death {
+    return Intl.message(
+      'Soft Death',
+      name: 'log_analyzer_soft_death',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disintegration`
+  String get log_analyzer_disintegration {
+    return Intl.message(
+      'Disintegration',
+      name: 'log_analyzer_disintegration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vehicle Model: {v0}   \nArea: {v1} \nDamage Level: {v2} ({v3})   Responsible Party: {v4}`
+  String log_analyzer_vehicle_damage_details(
+    Object v0,
+    Object v1,
+    Object v2,
+    Object v3,
+    Object v4,
+  ) {
+    return Intl.message(
+      'Vehicle Model: $v0   \nArea: $v1 \nDamage Level: $v2 ($v3)   Responsible Party: $v4',
+      name: 'log_analyzer_vehicle_damage_details',
+      desc: '',
+      args: [v0, v1, v2, v3, v4],
+    );
+  }
+
+  /// `Victim ID: {v0}    Cause of Death: {v1} \nKiller ID: {v2}  \nArea: {v3}`
+  String log_analyzer_death_details(
+    Object v0,
+    Object v1,
+    Object v2,
+    Object v3,
+  ) {
+    return Intl.message(
+      'Victim ID: $v0    Cause of Death: $v1 \nKiller ID: $v2  \nArea: $v3',
+      name: 'log_analyzer_death_details',
+      desc: '',
+      args: [v0, v1, v2, v3],
+    );
+  }
+
+  /// `Player {v0} logged in ...`
+  String log_analyzer_player_login(Object v0) {
+    return Intl.message(
+      'Player $v0 logged in ...',
+      name: 'log_analyzer_player_login',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `View Local Inventory`
+  String get log_analyzer_view_local_inventory {
+    return Intl.message(
+      'View Local Inventory',
+      name: 'log_analyzer_view_local_inventory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Player ID: {v0}   Location: {v1}`
+  String log_analyzer_player_location(Object v0, Object v1) {
+    return Intl.message(
+      'Player ID: $v0   Location: $v1',
+      name: 'log_analyzer_player_location',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Game Installation Path`
+  String get log_analyzer_game_installation_path {
+    return Intl.message(
+      'Game Installation Path',
+      name: 'log_analyzer_game_installation_path',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select game installation path`
+  String get log_analyzer_select_game_path {
+    return Intl.message(
+      'Please select game installation path',
+      name: 'log_analyzer_select_game_path',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter keywords to search content`
+  String get log_analyzer_search_placeholder {
+    return Intl.message(
+      'Enter keywords to search content',
+      name: 'log_analyzer_search_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log Analyzer`
+  String get log_analyzer_title {
+    return Intl.message(
+      'Log Analyzer',
+      name: 'log_analyzer_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Analyze your gameplay records (logins, deaths, kills and other information)`
+  String get log_analyzer_description {
+    return Intl.message(
+      'Analyze your gameplay records (logins, deaths, kills and other information)',
+      name: 'log_analyzer_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SCToolBox: Log Analyzer`
+  String get log_analyzer_window_title {
+    return Intl.message(
+      'SCToolBox: Log Analyzer',
+      name: 'log_analyzer_window_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

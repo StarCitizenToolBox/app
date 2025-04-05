@@ -93,8 +93,8 @@ class ToolsUIModel extends _$ToolsUIModel {
         ),
         ToolsItemData(
           "log_analyze",
-          "log 分析器",
-          "分析您的游玩记录 （登录、死亡、击杀 等信息）",
+          S.current.log_analyzer_title,
+          S.current.log_analyzer_description,
           Icon(FluentIcons.analytics_logo),
           onTap: () => _showLogAnalyze(context),
         ),
@@ -568,6 +568,6 @@ class ToolsUIModel extends _$ToolsUIModel {
       return;
     }
     if (!context.mounted) return;
-    await MultiWindowManager.launchSubWindow("log_analyze", "SC汉化盒子: log 分析器", appGlobalState);
+    await MultiWindowManager.launchSubWindow("log_analyze", S.current.log_analyzer_window_title, appGlobalState);
   }
 }

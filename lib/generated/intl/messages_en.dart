@@ -122,62 +122,84 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m43(v0) => "Version number: ${v0}";
 
-  static String m44(v0) => "Current status: ${v0}";
+  static String m44(v0, v1, v2, v3, v4) =>
+      "Area: ${v0}   Player Driving: ${v1}   Collision Entity: ${v2} \nCollision Vehicle: ${v3}   Collision Distance: ${v4} ";
 
-  static String m45(v0, v1, v2) =>
+  static String m45(v0, v1, v2, v3) =>
+      "Victim ID: ${v0}    Cause of Death: ${v1} \nKiller ID: ${v2}  \nArea: ${v3}";
+
+  static String m46(v0) => "Details: ${v0}";
+
+  static String m47(v0, v1, v2) =>
+      "Kills: ${v0}   Deaths: ${v1}   Suicides: ${v2}";
+
+  static String m48(v0, v1) => "Mode: ${v0}   Time: ${v1} seconds";
+
+  static String m49(v0, v1, v2) => "${v0} hours ${v1} minutes ${v2} seconds";
+
+  static String m50(v0, v1) => "Player ID: ${v0}   Location: ${v1}";
+
+  static String m51(v0) => "Player ${v0} logged in ...";
+
+  static String m52(v0, v1, v2, v3, v4) =>
+      "Vehicle Model: ${v0}   \nArea: ${v1} \nDamage Level: ${v2} (${v3})   Responsible Party: ${v4}";
+
+  static String m53(v0) => "Current status: ${v0}";
+
+  static String m54(v0, v1, v2) =>
       "${v0} minimum value: ${v1} / maximum value: ${v2}";
 
-  static String m46(v0) => "Performance Optimization -> ${v0}";
+  static String m55(v0) => "Performance Optimization -> ${v0}";
 
-  static String m47(v0) =>
+  static String m56(v0) =>
       "The cache size ${v0} MB, clean up the Localization -based file cache of the download of the box, will not affect the installed Localization";
 
-  static String m48(v0) =>
+  static String m57(v0) =>
       "Core quantity that has been set: ${v0} (This function is suitable for the box -click startup or RSI Launcher manager mode on the homepage, which is not enabled when it is 0)";
 
-  static String m49(v0) =>
+  static String m58(v0) =>
       "Failure to clean up, please remove manually, file location: ${v0}";
 
-  static String m50(v0) => "Error: ${v0}";
-
-  static String m51(v0) =>
-      "Initialization failed, please take a screenshot report to the developer. ${v0}";
-
-  static String m52(v0) =>
-      "If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: ${v0}";
-
-  static String m53(v0) =>
-      "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:${v0}";
-
-  static String m54(v0) =>
-      "In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: ${v0} MB";
-
-  static String m55(v0) =>
-      "If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: ${v0} MB";
-
-  static String m56(v0, v1, v2, v3, v4) =>
-      "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nStorage information:\n${v4}\n\n";
-
-  static String m57(v0) => "Failure to handle! : ${v0}";
-
-  static String m58(v0) => "Read the RSI Launcher information failure: ${v0}";
-
-  static String m59(v0) => "Patch status: ${v0}";
+  static String m59(v0) => "Error: ${v0}";
 
   static String m60(v0) =>
+      "Initialization failed, please take a screenshot report to the developer. ${v0}";
+
+  static String m61(v0) =>
+      "If you have a problem with the NVME patch, run this tool. (It may cause game installation/update to be unavailable.)\n\nCurrent patch status: ${v0}";
+
+  static String m62(v0) =>
+      "The diversion download service provided by citizenwiki.cn can be used to download or fix P4K.\nVersion info:${v0}";
+
+  static String m63(v0) =>
+      "In some cases, the LOG file of the RSI promoter will be damaged, causing the problem to be scanned, and using this tool to clean up the damaged log file.\n\nCurrent log file size: ${v0} MB";
+
+  static String m64(v0) =>
+      "If the game screen appears abnormal or the version is updated, you can use the tool to clean the expired color (when it is greater than 500m, it is recommended to clean it)\n\nCache size: ${v0} MB";
+
+  static String m65(v0, v1, v2, v3, v4) =>
+      "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2} gb\n\nGraphics card information:\n${v3}\n\nStorage information:\n${v4}\n\n";
+
+  static String m66(v0) => "Failure to handle! : ${v0}";
+
+  static String m67(v0) => "Read the RSI Launcher information failure: ${v0}";
+
+  static String m68(v0) => "Patch status: ${v0}";
+
+  static String m69(v0) =>
       "Internal version information of the RSI Launcher: ${v0}";
 
-  static String m61(v0) => "Open the file: ${v0}";
+  static String m70(v0) => "Open the file: ${v0}";
 
-  static String m62(v0, v1) => "After loading: ${v0} a file, time: ${v1} ms";
+  static String m71(v0, v1) => "After loading: ${v0} a file, time: ${v1} ms";
 
-  static String m63(v0) => "Read file: ${v0} ...";
+  static String m72(v0) => "Read file: ${v0} ...";
 
-  static String m64(v0, v1) => "Processing files (${v0}/${v1}) ...";
+  static String m73(v0, v1) => "Processing files (${v0}/${v1}) ...";
 
-  static String m65(v0) => "Unknown file type\n${v0}";
+  static String m74(v0) => "Unknown file type\n${v0}";
 
-  static String m66(v0) => "P4k viewer -> ${v0}";
+  static String m75(v0) => "P4k viewer -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -958,6 +980,91 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "localization_info_update_time": m42,
     "localization_info_version_number": m43,
+    "log_analyzer_collision_details": m44,
+    "log_analyzer_death_details": m45,
+    "log_analyzer_description": MessageLookupByLibrary.simpleMessage(
+      "Analyze your gameplay records (logins, deaths, kills and other information)",
+    ),
+    "log_analyzer_details_info": m46,
+    "log_analyzer_disintegration": MessageLookupByLibrary.simpleMessage(
+      "Disintegration",
+    ),
+    "log_analyzer_filter_account_related": MessageLookupByLibrary.simpleMessage(
+      "Account Related",
+    ),
+    "log_analyzer_filter_all": MessageLookupByLibrary.simpleMessage("All"),
+    "log_analyzer_filter_basic_info": MessageLookupByLibrary.simpleMessage(
+      "Basic Information",
+    ),
+    "log_analyzer_filter_character_death": MessageLookupByLibrary.simpleMessage(
+      "Character Death",
+    ),
+    "log_analyzer_filter_fatal_collision": MessageLookupByLibrary.simpleMessage(
+      "Fatal Collision",
+    ),
+    "log_analyzer_filter_game_crash": MessageLookupByLibrary.simpleMessage(
+      "Game Crash",
+    ),
+    "log_analyzer_filter_local_inventory": MessageLookupByLibrary.simpleMessage(
+      "Local Inventory",
+    ),
+    "log_analyzer_filter_statistics": MessageLookupByLibrary.simpleMessage(
+      "Statistics",
+    ),
+    "log_analyzer_filter_vehicle_damaged": MessageLookupByLibrary.simpleMessage(
+      "Vehicle Damage",
+    ),
+    "log_analyzer_game_close": MessageLookupByLibrary.simpleMessage(
+      "Game Close",
+    ),
+    "log_analyzer_game_crash": MessageLookupByLibrary.simpleMessage(
+      "Game Crash ",
+    ),
+    "log_analyzer_game_installation_path": MessageLookupByLibrary.simpleMessage(
+      "Game Installation Path",
+    ),
+    "log_analyzer_game_loading": MessageLookupByLibrary.simpleMessage(
+      "Game Loading",
+    ),
+    "log_analyzer_game_start": MessageLookupByLibrary.simpleMessage(
+      "Game Start",
+    ),
+    "log_analyzer_kill_death_suicide_count": m47,
+    "log_analyzer_kill_summary": MessageLookupByLibrary.simpleMessage(
+      "Kill Summary",
+    ),
+    "log_analyzer_mode_loading_time": m48,
+    "log_analyzer_no_crash_detected": MessageLookupByLibrary.simpleMessage(
+      "No game crash information detected",
+    ),
+    "log_analyzer_no_log_file": MessageLookupByLibrary.simpleMessage(
+      "Log file not found",
+    ),
+    "log_analyzer_one_click_diagnosis_header":
+        MessageLookupByLibrary.simpleMessage(
+          "----- SCToolBox One-click Diagnosis -----",
+        ),
+    "log_analyzer_play_time": MessageLookupByLibrary.simpleMessage("Playtime"),
+    "log_analyzer_play_time_format": m49,
+    "log_analyzer_player_location": m50,
+    "log_analyzer_player_login": m51,
+    "log_analyzer_search_placeholder": MessageLookupByLibrary.simpleMessage(
+      "Enter keywords to search content",
+    ),
+    "log_analyzer_select_game_path": MessageLookupByLibrary.simpleMessage(
+      "Please select game installation path",
+    ),
+    "log_analyzer_soft_death": MessageLookupByLibrary.simpleMessage(
+      "Soft Death",
+    ),
+    "log_analyzer_title": MessageLookupByLibrary.simpleMessage("Log Analyzer"),
+    "log_analyzer_vehicle_damage_details": m52,
+    "log_analyzer_view_local_inventory": MessageLookupByLibrary.simpleMessage(
+      "View Local Inventory",
+    ),
+    "log_analyzer_window_title": MessageLookupByLibrary.simpleMessage(
+      "SCToolBox: Log Analyzer",
+    ),
     "performance_action_apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "performance_action_apply_and_clear_shaders":
         MessageLookupByLibrary.simpleMessage("Apply and clean up"),
@@ -981,7 +1088,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_action_super": MessageLookupByLibrary.simpleMessage("Super"),
     "performance_info_applied": MessageLookupByLibrary.simpleMessage("Applied"),
-    "performance_info_current_status": m44,
+    "performance_info_current_status": m53,
     "performance_info_delete_config_file": MessageLookupByLibrary.simpleMessage(
       "Delete the configuration file ...",
     ),
@@ -997,7 +1104,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_info_graphics": MessageLookupByLibrary.simpleMessage(
       "Graphic",
     ),
-    "performance_info_min_max_values": m45,
+    "performance_info_min_max_values": m54,
     "performance_info_not_applied": MessageLookupByLibrary.simpleMessage(
       "Unused",
     ),
@@ -1175,7 +1282,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_water_info": MessageLookupByLibrary.simpleMessage(
       "Grade of various water",
     ),
-    "performance_title_performance_optimization": m46,
+    "performance_title_performance_optimization": m55,
     "setting_action_clear_translation_file_cache":
         MessageLookupByLibrary.simpleMessage(
           "Clean up the Localization file cache",
@@ -1194,7 +1301,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Automatic filling data has been cleaned up",
         ),
-    "setting_action_info_cache_clearing_info": m47,
+    "setting_action_info_cache_clearing_info": m56,
     "setting_action_info_clear_cache_warning":
         MessageLookupByLibrary.simpleMessage(
           "This will not affect the installed Localization.",
@@ -1258,7 +1365,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Reset automatic password filling",
         ),
-    "setting_action_set_core_count": m48,
+    "setting_action_set_core_count": m57,
     "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
       "Set the game file (StarCitizen.exe)",
     ),
@@ -1347,7 +1454,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "After cleaning up, complete the installation / game startup operation once.",
     ),
-    "tools_action_info_cleanup_failed": m49,
+    "tools_action_info_cleanup_failed": m58,
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage(
           "The configuration file does not exist, please try to run the game once",
@@ -1355,7 +1462,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
       "Remove the EAC file for you, and then open the RSI startup for you. Please go to Settings-> Verify to reinstall EAC.",
     ),
-    "tools_action_info_error_occurred": m50,
+    "tools_action_info_error_occurred": m59,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
       "If the repair is successful, please try to restart the computer and continue to install the game! If the registry modification operation causes compatibility problems with other software, please use the NVMe registry in the tool to clean up.",
     ),
@@ -1367,7 +1474,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Write the IP information into the hosts file to solve problems such as DNS pollution in some regions that cannot log in to the official website.\nThis function is undergoing the first stage of testing. Please report it in time when you encounter problems.",
         ),
-    "tools_action_info_init_failed": m51,
+    "tools_action_info_init_failed": m60,
     "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
       "The log file does not exist, please try to start a game startup or game installation, and exit the RSI Launcher. If the problem cannot be solved, try to update the launcher to the latest version!",
     ),
@@ -1380,7 +1487,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_not_installed": MessageLookupByLibrary.simpleMessage(
       "Not Installed",
     ),
-    "tools_action_info_nvme_patch_issue": m52,
+    "tools_action_info_nvme_patch_issue": m61,
     "tools_action_info_one_key_close_lens_shake":
         MessageLookupByLibrary.simpleMessage(
           "Close the game endoscope shaking to facilitate photography operations.\n\n @Lapernum offers parameter information.",
@@ -1389,7 +1496,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "There is already a P4K download task in progress, please go to the download manager to view!",
         ),
-    "tools_action_info_p4k_download_repair_tip": m53,
+    "tools_action_info_p4k_download_repair_tip": m62,
     "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
       "P4K is the core game file of interstellar citizens, as high as 100GB+. The offline download provided by the box is to help some P4K files download super slow users or to repair the P4K file that the official launch cannot be repaired.\n\nNext, you will pop up the window and ask you to save the position (you can choose the Star Citizens Folder or you can choose elsewhere). After downloading, please make sure that the P4K folder is located in the LIVE folder, and then use the RSI Launcher to check it.",
     ),
@@ -1407,7 +1514,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "If the RSI Launcher directory is not found, please try manually.",
         ),
-    "tools_action_info_rsi_launcher_log_issue": m54,
+    "tools_action_info_rsi_launcher_log_issue": m63,
     "tools_action_info_rsi_launcher_not_found":
         MessageLookupByLibrary.simpleMessage(
           "If the RSI label is not found, try to reinstall it or add it manually in the settings.",
@@ -1419,12 +1526,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
       "Run RSI startups as an administrator may solve some problems.\n\nIf the energy efficiency core shielding parameters are set, it will also be applied here.",
     ),
-    "tools_action_info_shader_cache_issue": m55,
+    "tools_action_info_shader_cache_issue": m64,
     "tools_action_info_star_citizen_not_found":
         MessageLookupByLibrary.simpleMessage(
           "If the interstellar game installation location is not found, please complete the game startup operation at least once or add it manually in the settings.",
         ),
-    "tools_action_info_system_info_content": m56,
+    "tools_action_info_system_info_content": m65,
     "tools_action_info_system_info_title": MessageLookupByLibrary.simpleMessage(
       "System message",
     ),
@@ -1495,7 +1602,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "Game installation location:  ",
     ),
-    "tools_info_processing_failed": m57,
+    "tools_info_processing_failed": m66,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher position:",
     ),
@@ -1522,15 +1629,15 @@ class MessageLookup extends MessageLookupByLibrary {
           "Reading the Launcher information failed!",
         ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m58,
+        m67,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("No RSI promoter was found"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m59,
+    "tools_rsi_launcher_enhance_msg_patch_status": m68,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
           "* If you need to uninstall the enhanced patch, cover the installation RSI promoter.",
         ),
-    "tools_rsi_launcher_enhance_msg_version": m60,
+    "tools_rsi_launcher_enhance_msg_version": m69,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher enhancement is a community function. It will unpack \"RSI LAUNCHER\" on your computer and add additional enhancement functions. What functions are determined by you.\n\nAt present, the official (CIG) only permits us to perform multi -language operations. The launch of the booter download enhancement is an extra function we think of it. Violation of the CIG user protocol (https://robertsspaceindustries.com/eula) may cause serious consequences such as accounts. Whether or not you are determined by yourself, we are not responsible for the possible consequences (game damage, account ban, etc.).\n\nFor the modified content of the Launcher, we are open from: https://github.com/starcitizentoolbox/rsilauncherenhance. If necessary, you can check it yourself.\n\nIf you need to cancel this enhanced patch for any reason, cover the installation of the official RSI Launcher directly.",
     ),
@@ -1571,18 +1678,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Initialization ...",
     ),
-    "tools_unp4k_msg_open_file": m61,
-    "tools_unp4k_msg_read_completed": m62,
-    "tools_unp4k_msg_read_file": m63,
+    "tools_unp4k_msg_open_file": m70,
+    "tools_unp4k_msg_read_completed": m71,
+    "tools_unp4k_msg_read_file": m72,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Reading P4K file ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Treatment files ...",
     ),
-    "tools_unp4k_msg_reading3": m64,
-    "tools_unp4k_msg_unknown_file_type": m65,
-    "tools_unp4k_title": m66,
+    "tools_unp4k_msg_reading3": m73,
+    "tools_unp4k_msg_unknown_file_type": m74,
+    "tools_unp4k_title": m75,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Click the file to preview",
     ),

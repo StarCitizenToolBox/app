@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/utils/multi_window_manager.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 import 'log_analyze_provider.dart';
 
@@ -30,7 +31,7 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Row(
               children: [
-                const Text("游戏安装路径"),
+                Text(S.current.log_analyzer_game_installation_path),
                 const SizedBox(width: 10),
                 Expanded(
                   child: ComboBox<String>(
@@ -44,7 +45,7 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                         ),
                     ],
                     onChanged: (value) => selectedPath.value = value,
-                    placeholder: const Text("请选择游戏安装路径"),
+                    placeholder: Text(S.current.log_analyzer_select_game_path),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -74,7 +75,7 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                       padding: const EdgeInsets.only(left: 12),
                       child: Icon(FluentIcons.search),
                     ),
-                    placeholder: "输入关键字搜索内容",
+                    placeholder: S.current.log_analyzer_search_placeholder,
                     onChanged: (value) {
                       searchText.value = value.trim();
                     },
@@ -85,7 +86,7 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                 ComboBox<String>(
                   isExpanded: false,
                   value: searchType.value,
-                  placeholder: const Text("全部"),
+                  placeholder: Text(S.current.log_analyzer_filter_all),
                   items: logAnalyzeSearchTypeMap.entries
                       .map((e) => ComboBoxItem<String>(
                             value: e.key,
