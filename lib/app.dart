@@ -99,6 +99,7 @@ class AppGlobalModel extends _$AppGlobalModel {
         const Locale("zh", "TW"): NoL10n.langZHT,
         const Locale("en"): NoL10n.langEn,
         const Locale("ja"): NoL10n.langJa,
+        const Locale("ru"): NoL10n.langRU,
       };
 
   @override

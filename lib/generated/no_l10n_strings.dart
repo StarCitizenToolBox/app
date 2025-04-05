@@ -4,4 +4,5 @@ class NoL10n {
   static const String langEn = 'English';
   static const String langJa = '日本語';
   static const String langFR = 'Français';
+  static const String langRU = 'Русский';
 }
