@@ -83,6 +83,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     final lang = await appConfBox.get("localization_selectedLanguage",
         defaultValue: languageSupport.keys.first);
     state = state.copyWith(selectedLanguage: lang);
+    // fix for ui performance
+    await Future.delayed(Duration(milliseconds: 250));
     await _loadData();
   }
 
