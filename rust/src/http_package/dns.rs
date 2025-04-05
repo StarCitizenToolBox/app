@@ -1,5 +1,6 @@
 use hickory_resolver::config::{NameServerConfigGroup, ResolverConfig, ResolverOpts};
-use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioAsyncResolver};
+use hickory_resolver::name_server::TokioConnectionProvider;
+use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioResolver};
 use once_cell::sync::{Lazy, OnceCell};
 use reqwest::dns::{Addrs, Name, Resolve, Resolving};
 use std::collections::HashMap;
@@ -16,7 +17,7 @@ pub(crate) struct MyHickoryDnsResolver {
     /// Since we might not have been called in the context of a
     /// Tokio Runtime in initialization, so we must delay the actual
     /// construction of the resolver.
-    state: Arc<OnceCell<TokioAsyncResolver>>,
+    state: Arc<OnceCell<TokioResolver>>,
 }
 
 struct SocketAddrs {
@@ -71,7 +72,7 @@ impl Iterator for SocketAddrs {
     }
 }
 
-fn new_resolver() -> io::Result<TokioAsyncResolver> {
+fn new_resolver() -> io::Result<TokioResolver> {
     let group = NameServerConfigGroup::from_ips_clear(
         &[
             IpAddr::V4(Ipv4Addr::new(119, 29, 29, 29)),
@@ -94,5 +95,8 @@ fn new_resolver() -> io::Result<TokioAsyncResolver> {
     opts.try_tcp_on_error = true;
     opts.ip_strategy = hickory_resolver::config::LookupIpStrategy::Ipv4thenIpv6;
     opts.num_concurrent_reqs = 3;
-    Ok(TokioAsyncResolver::tokio(cfg, opts))
+    let provider = TokioConnectionProvider::default();
+    let mut builder = TokioResolver::builder_with_config(cfg, provider);
+    *builder.options_mut() = opts;
+    Ok(builder.build())
 }
