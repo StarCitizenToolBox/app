@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:starcitizen_doctor/app.dart';
+import 'package:starcitizen_doctor/common/helper/log_helper.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/tools/log_analyze_ui/log_analyze_ui.dart';
 
 import 'base_utils.dart';
@@ -21,6 +23,7 @@ class MultiWindowAppState with _$MultiWindowAppState {
     required String backgroundColor,
     required String menuColor,
     required String micaColor,
+    required List<String> gameInstallPaths,
     String? languageCode,
     String? countryCode,
   }) = _MultiWindowAppState;
@@ -29,12 +32,17 @@ class MultiWindowAppState with _$MultiWindowAppState {
 }
 
 class MultiWindowManager {
-  static Future<void> launchSubWindow(String type, AppGlobalState appGlobalState) async {
+  static Future<void> launchSubWindow(String type, String title, AppGlobalState appGlobalState) async {
+    final gameInstallPaths = await SCLoggerHelper.getGameInstallPath(await SCLoggerHelper.getLauncherLogList() ?? []);
     final window = await DesktopMultiWindow.createWindow(jsonEncode({
       'window_type': type,
-      'app_state': _appStateToWindowState(appGlobalState).toJson(),
+      'app_state': _appStateToWindowState(
+        appGlobalState,
+        gameInstallPaths: gameInstallPaths,
+      ).toJson(),
     }));
-    window.setTitle("Log 分析器");
+    window.setFrame(const Rect.fromLTWH(0, 0, 900, 1200));
+    window.setTitle(title);
     await window.center();
     await window.show();
     // sendAppStateBroadcast(appGlobalState);
@@ -48,29 +56,28 @@ class MultiWindowManager {
     );
   }
 
-  static MultiWindowAppState _appStateToWindowState(AppGlobalState appGlobalState) {
+  static MultiWindowAppState _appStateToWindowState(AppGlobalState appGlobalState, {List<String>? gameInstallPaths}) {
     return MultiWindowAppState(
       backgroundColor: colorToHexCode(appGlobalState.themeConf.backgroundColor),
       menuColor: colorToHexCode(appGlobalState.themeConf.menuColor),
       micaColor: colorToHexCode(appGlobalState.themeConf.micaColor),
       languageCode: appGlobalState.appLocale?.languageCode,
       countryCode: appGlobalState.appLocale?.countryCode,
+      gameInstallPaths: gameInstallPaths ?? [],
     );
   }
 
   static void runSubWindowApp(List<String> args) {
     final argument = args[2].isEmpty ? const {} : jsonDecode(args[2]) as Map<String, dynamic>;
+    final windowAppState = MultiWindowAppState.fromJson(argument['app_state'] ?? {});
     Widget? windowWidget;
     switch (argument["window_type"]) {
       case "log_analyze":
-        windowWidget = const ToolsLogAnalyzeDialogUI();
+        windowWidget = ToolsLogAnalyzeDialogUI(appState: windowAppState);
         break;
       default:
         throw Exception('Unknown window type');
     }
-
-    final windowAppState = MultiWindowAppState.fromJson(argument['app_state'] ?? {});
-
     return runApp(ProviderScope(
       child: FluentApp(
         title: "StarCitizenToolBox",
@@ -81,8 +88,9 @@ class MultiWindowManager {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           FluentLocalizations.delegate,
+          S.delegate,
         ],
-        supportedLocales: const [Locale('en', 'US')],
+        supportedLocales: S.delegate.supportedLocales,
         home: windowWidget,
         theme: FluentThemeData(
             brightness: Brightness.dark,
@@ -94,10 +102,10 @@ class MultiWindowManager {
             micaBackgroundColor: HexColor(windowAppState.micaColor),
             buttonTheme: ButtonThemeData(
                 defaultButtonStyle: ButtonStyle(
-              shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
-            ))),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
+                ))),
         locale: windowAppState.languageCode != null
             ? Locale(windowAppState.languageCode!, windowAppState.countryCode)
             : null,

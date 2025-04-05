@@ -568,6 +568,6 @@ class ToolsUIModel extends _$ToolsUIModel {
       return;
     }
     if (!context.mounted) return;
-    await MultiWindowManager.launchSubWindow("log_analyze", appGlobalState);
+    await MultiWindowManager.launchSubWindow("log_analyze", "SC汉化盒子: log 分析器", appGlobalState);
   }
 }

@@ -12,6 +12,9 @@ _$MultiWindowAppStateImpl _$$MultiWindowAppStateImplFromJson(
       backgroundColor: json['backgroundColor'] as String,
       menuColor: json['menuColor'] as String,
       micaColor: json['micaColor'] as String,
+      gameInstallPaths: (json['gameInstallPaths'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       languageCode: json['languageCode'] as String?,
       countryCode: json['countryCode'] as String?,
     );
@@ -22,6 +25,7 @@ Map<String, dynamic> _$$MultiWindowAppStateImplToJson(
       'backgroundColor': instance.backgroundColor,
       'menuColor': instance.menuColor,
       'micaColor': instance.micaColor,
+      'gameInstallPaths': instance.gameInstallPaths,
       'languageCode': instance.languageCode,
       'countryCode': instance.countryCode,
     };

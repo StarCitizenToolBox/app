@@ -23,6 +23,7 @@ mixin _$MultiWindowAppState {
   String get backgroundColor => throw _privateConstructorUsedError;
   String get menuColor => throw _privateConstructorUsedError;
   String get micaColor => throw _privateConstructorUsedError;
+  List<String> get gameInstallPaths => throw _privateConstructorUsedError;
   String? get languageCode => throw _privateConstructorUsedError;
   String? get countryCode => throw _privateConstructorUsedError;
 
@@ -46,6 +47,7 @@ abstract class $MultiWindowAppStateCopyWith<$Res> {
       {String backgroundColor,
       String menuColor,
       String micaColor,
+      List<String> gameInstallPaths,
       String? languageCode,
       String? countryCode});
 }
@@ -68,6 +70,7 @@ class _$MultiWindowAppStateCopyWithImpl<$Res, $Val extends MultiWindowAppState>
     Object? backgroundColor = null,
     Object? menuColor = null,
     Object? micaColor = null,
+    Object? gameInstallPaths = null,
     Object? languageCode = freezed,
     Object? countryCode = freezed,
   }) {
@@ -84,6 +87,10 @@ class _$MultiWindowAppStateCopyWithImpl<$Res, $Val extends MultiWindowAppState>
           ? _value.micaColor
           : micaColor // ignore: cast_nullable_to_non_nullable
               as String,
+      gameInstallPaths: null == gameInstallPaths
+          ? _value.gameInstallPaths
+          : gameInstallPaths // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       languageCode: freezed == languageCode
           ? _value.languageCode
           : languageCode // ignore: cast_nullable_to_non_nullable
@@ -108,6 +115,7 @@ abstract class _$$MultiWindowAppStateImplCopyWith<$Res>
       {String backgroundColor,
       String menuColor,
       String micaColor,
+      List<String> gameInstallPaths,
       String? languageCode,
       String? countryCode});
 }
@@ -128,6 +136,7 @@ class __$$MultiWindowAppStateImplCopyWithImpl<$Res>
     Object? backgroundColor = null,
     Object? menuColor = null,
     Object? micaColor = null,
+    Object? gameInstallPaths = null,
     Object? languageCode = freezed,
     Object? countryCode = freezed,
   }) {
@@ -144,6 +153,10 @@ class __$$MultiWindowAppStateImplCopyWithImpl<$Res>
           ? _value.micaColor
           : micaColor // ignore: cast_nullable_to_non_nullable
               as String,
+      gameInstallPaths: null == gameInstallPaths
+          ? _value._gameInstallPaths
+          : gameInstallPaths // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       languageCode: freezed == languageCode
           ? _value.languageCode
           : languageCode // ignore: cast_nullable_to_non_nullable
@@ -163,8 +176,10 @@ class _$MultiWindowAppStateImpl implements _MultiWindowAppState {
       {required this.backgroundColor,
       required this.menuColor,
       required this.micaColor,
+      required final List<String> gameInstallPaths,
       this.languageCode,
-      this.countryCode});
+      this.countryCode})
+      : _gameInstallPaths = gameInstallPaths;
 
   factory _$MultiWindowAppStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$MultiWindowAppStateImplFromJson(json);
@@ -175,6 +190,15 @@ class _$MultiWindowAppStateImpl implements _MultiWindowAppState {
   final String menuColor;
   @override
   final String micaColor;
+  final List<String> _gameInstallPaths;
+  @override
+  List<String> get gameInstallPaths {
+    if (_gameInstallPaths is EqualUnmodifiableListView)
+      return _gameInstallPaths;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_gameInstallPaths);
+  }
+
   @override
   final String? languageCode;
   @override
@@ -182,7 +206,7 @@ class _$MultiWindowAppStateImpl implements _MultiWindowAppState {
 
   @override
   String toString() {
-    return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, languageCode: $languageCode, countryCode: $countryCode)';
+    return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, gameInstallPaths: $gameInstallPaths, languageCode: $languageCode, countryCode: $countryCode)';
   }
 
   @override
@@ -196,6 +220,8 @@ class _$MultiWindowAppStateImpl implements _MultiWindowAppState {
                 other.menuColor == menuColor) &&
             (identical(other.micaColor, micaColor) ||
                 other.micaColor == micaColor) &&
+            const DeepCollectionEquality()
+                .equals(other._gameInstallPaths, _gameInstallPaths) &&
             (identical(other.languageCode, languageCode) ||
                 other.languageCode == languageCode) &&
             (identical(other.countryCode, countryCode) ||
@@ -204,8 +230,14 @@ class _$MultiWindowAppStateImpl implements _MultiWindowAppState {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, backgroundColor, menuColor,
-      micaColor, languageCode, countryCode);
+  int get hashCode => Object.hash(
+      runtimeType,
+      backgroundColor,
+      menuColor,
+      micaColor,
+      const DeepCollectionEquality().hash(_gameInstallPaths),
+      languageCode,
+      countryCode);
 
   /// Create a copy of MultiWindowAppState
   /// with the given fields replaced by the non-null parameter values.
@@ -229,6 +261,7 @@ abstract class _MultiWindowAppState implements MultiWindowAppState {
       {required final String backgroundColor,
       required final String menuColor,
       required final String micaColor,
+      required final List<String> gameInstallPaths,
       final String? languageCode,
       final String? countryCode}) = _$MultiWindowAppStateImpl;
 
@@ -241,6 +274,8 @@ abstract class _MultiWindowAppState implements MultiWindowAppState {
   String get menuColor;
   @override
   String get micaColor;
+  @override
+  List<String> get gameInstallPaths;
   @override
   String? get languageCode;
   @override
