@@ -120,7 +120,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m46(v0) => "詳細資訊：${v0}";
 
-  static String m47(v0, v1, v2) => "擊殺次數：${v0}   死亡次數：${v1}   自殺次數：${v2}";
+  static String m47(v0, v1, v2, v3, v4) =>
+      "擊殺次數：${v0}   死亡次數：${v1}   自殺次數：${v2}  \n載具損壞（軟死亡）：${v3}   載具損壞（解體）：${v4}";
 
   static String m48(v0, v1) => "模式：${v0}   用時：${v1} 秒";
 

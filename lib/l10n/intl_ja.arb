@@ -872,7 +872,7 @@
   "log_analyzer_no_crash_detected": "ゲームクラッシュ情報は検出されませんでした",
   "log_analyzer_game_crash": "ゲームクラッシュ ",
   "log_analyzer_kill_summary": "キル概要",
-  "log_analyzer_kill_death_suicide_count": "キル数：{v0}   死亡数：{v1}   自殺数：{v2}",
+  "log_analyzer_kill_death_suicide_count": "キル数：{v0}   デス数：{v1}   自殺回数：{v2}  \n機体破壊（ソフトデス）：{v3}   機体破壊（解体）：{v4}",
   "log_analyzer_play_time": "プレイ時間",
   "log_analyzer_play_time_format": "{v0}時間{v1}分{v2}秒",
   "log_analyzer_game_start": "ゲーム起動",

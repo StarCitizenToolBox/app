@@ -873,7 +873,7 @@
   "log_analyzer_no_crash_detected": "No game crash information detected",
   "log_analyzer_game_crash": "Game Crash ",
   "log_analyzer_kill_summary": "Kill Summary",
-  "log_analyzer_kill_death_suicide_count": "Kills: {v0}   Deaths: {v1}   Suicides: {v2}",
+  "log_analyzer_kill_death_suicide_count": "Kills: {v0}   Deaths: {v1}   Suicides: {v2}  \nVehicle Destruction (Soft Death): {v3}   Vehicle Destruction (Disintegration): {v4}",
   "log_analyzer_play_time": "Play Time",
   "log_analyzer_play_time_format": "{v0} hours {v1} minutes {v2} seconds",
   "log_analyzer_game_start": "Game Start",

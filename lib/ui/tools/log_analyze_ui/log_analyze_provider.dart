@@ -59,6 +59,8 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
   int _killCount = 0; // 记录击杀其他实体次数
   int _deathCount = 0; // 记录被击杀次数
   int _selfKillCount = 0; // 记录自杀次数
+  int _vehicleDestructionCount = 0; // 记录载具损毁次数 （软死亡）
+  int _vehicleDestructionCountHard = 0; // 记录载具损毁次数 （解体）
   DateTime? _gameStartTime; // 记录游戏开始时间
   int _gameCrashLineNumber = -1; // 记录${S.current.log_analyzer_filter_game_crash}行号
   int _currentLineNumber = 0; // 当前行号
@@ -70,6 +72,8 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       _killCount = 0;
       _deathCount = 0;
       _selfKillCount = 0;
+      _vehicleDestructionCount = 0;
+      _vehicleDestructionCountHard = 0;
       _gameStartTime = null;
       _gameCrashLineNumber = -1;
     } else if (startLine > logLines.length) {
@@ -126,6 +130,8 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
           _killCount,
           _deathCount,
           _selfKillCount,
+          _vehicleDestructionCount,
+          _vehicleDestructionCountHard,
         ),
       ));
     }
@@ -314,11 +320,9 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     final hitEntity = safeExtract(patterns['hit_entity']!, line) ?? 'Unknown';
     final hitEntityVehicle = safeExtract(patterns['hit_entity_vehicle']!, line) ?? 'Unknown Vehicle';
     final distance = double.tryParse(safeExtract(patterns['distance']!, line) ?? '') ?? 0.0;
-
     return LogAnalyzeLineData(
       type: "fatal_collision",
       title: S.current.log_analyzer_filter_fatal_collision,
-      // data: "区域：$zone   玩家驾驶：${playerPilot ? '✅' : '❌'}   碰撞实体：$hitEntity \n碰撞载具: $hitEntityVehicle   碰撞距离：$distance ",
       data: S.current.log_analyzer_collision_details(
         zone,
         playerPilot ? '✅' : '❌',
@@ -344,6 +348,14 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       final causedBy = match.group(4) ?? 'Unknown';
 
       final destructionLevelMap = {1: S.current.log_analyzer_soft_death, 2: S.current.log_analyzer_disintegration};
+
+      if (causedBy.trim() == _playerName) {
+        if (destructionLevel == 1) {
+          _vehicleDestructionCount++;
+        } else if (destructionLevel == 2) {
+          _vehicleDestructionCountHard++;
+        }
+      }
 
       return LogAnalyzeLineData(
         type: "vehicle_destruction",

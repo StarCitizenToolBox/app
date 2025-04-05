@@ -5620,17 +5620,19 @@ class S {
     );
   }
 
-  /// `Kills: {v0}   Deaths: {v1}   Suicides: {v2}`
+  /// `Kills: {v0}   Deaths: {v1}   Suicides: {v2}  \nVehicle Destruction (Soft Death): {v3}   Vehicle Destruction (Disintegration): {v4}`
   String log_analyzer_kill_death_suicide_count(
     Object v0,
     Object v1,
     Object v2,
+    Object v3,
+    Object v4,
   ) {
     return Intl.message(
-      'Kills: $v0   Deaths: $v1   Suicides: $v2',
+      'Kills: $v0   Deaths: $v1   Suicides: $v2  \nVehicle Destruction (Soft Death): $v3   Vehicle Destruction (Disintegration): $v4',
       name: 'log_analyzer_kill_death_suicide_count',
       desc: '',
-      args: [v0, v1, v2],
+      args: [v0, v1, v2, v3, v4],
     );
   }
 

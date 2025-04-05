@@ -875,7 +875,7 @@
   "log_analyzer_no_crash_detected": "未檢測到遊戲崩潰資訊",
   "log_analyzer_game_crash": "遊戲崩潰 ",
   "log_analyzer_kill_summary": "擊殺總結",
-  "log_analyzer_kill_death_suicide_count": "擊殺次數：{v0}   死亡次數：{v1}   自殺次數：{v2}",
+  "log_analyzer_kill_death_suicide_count": "擊殺次數：{v0}   死亡次數：{v1}   自殺次數：{v2}  \n載具損壞（軟死亡）：{v3}   載具損壞（解體）：{v4}",
   "log_analyzer_play_time": "遊玩時長",
   "log_analyzer_play_time_format": "{v0} 小時 {v1} 分鐘 {v2} 秒",
   "log_analyzer_game_start": "遊戲啟動",

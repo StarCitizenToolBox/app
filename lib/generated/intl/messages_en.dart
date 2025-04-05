@@ -129,8 +129,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m46(v0) => "Detailed information: ${v0}";
 
-  static String m47(v0, v1, v2) =>
-      "Kills: ${v0}   Deaths: ${v1}   Suicides: ${v2}";
+  static String m47(v0, v1, v2, v3, v4) =>
+      "Kills: ${v0}   Deaths: ${v1}   Suicides: ${v2}  \nVehicle Destruction (Soft Death): ${v3}   Vehicle Destruction (Disintegration): ${v4}";
 
   static String m48(v0, v1) => "Mode: ${v0}   Time taken: ${v1} seconds";
 

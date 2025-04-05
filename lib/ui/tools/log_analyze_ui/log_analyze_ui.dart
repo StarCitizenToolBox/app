@@ -233,18 +233,21 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
       if (lastListSize.value == 0) {
         lastListSize.value = logResp.value?.length ?? 0;
       } else {
-        // 判断当前列表是否在底部
-        if (listCtrl.position.pixels >= listCtrl.position.maxScrollExtent) {
-          // 如果在底部，判断数据是否有变化
-          if ((logResp.value?.length ?? 0) > lastListSize.value) {
-            Future.delayed(Duration(milliseconds: 100)).then((_) {
-              listCtrl.jumpTo(listCtrl.position.maxScrollExtent);
-            });
-            lastListSize.value = logResp.value?.length ?? 0;
-          } else {
-            // 回顶部
-            if (listCtrl.position.pixels > 0) {
-              listCtrl.jumpTo(0);
+        // 判断当前内容是否大于一页
+        if (listCtrl.position.maxScrollExtent > listCtrl.position.viewportDimension) {
+          // 判断当前列表是否在底部
+          if (listCtrl.position.pixels >= listCtrl.position.maxScrollExtent) {
+            // 如果在底部，判断数据是否有变化
+            if ((logResp.value?.length ?? 0) > lastListSize.value) {
+              Future.delayed(Duration(milliseconds: 100)).then((_) {
+                listCtrl.jumpTo(listCtrl.position.maxScrollExtent);
+              });
+              lastListSize.value = logResp.value?.length ?? 0;
+            } else {
+              // 回顶部
+              if (listCtrl.position.pixels > 0) {
+                listCtrl.jumpTo(0);
+              }
             }
           }
         }

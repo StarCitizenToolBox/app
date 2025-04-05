@@ -873,7 +873,7 @@
   "log_analyzer_no_crash_detected": "未检测到游戏崩溃信息",
   "log_analyzer_game_crash": "游戏崩溃 ",
   "log_analyzer_kill_summary": "击杀总结",
-  "log_analyzer_kill_death_suicide_count": "击杀次数：{v0}   死亡次数：{v1}   自杀次数：{v2}",
+  "log_analyzer_kill_death_suicide_count": "击杀次数：{v0}   死亡次数：{v1}   自杀次数：{v2}  \n载具损毁（软死亡）：{v3}   载具损毁（解体）：{v4}",
   "log_analyzer_play_time": "游玩时长",
   "log_analyzer_play_time_format": "{v0} 小时 {v1} 分钟 {v2} 秒",
   "log_analyzer_game_start": "游戏启动",

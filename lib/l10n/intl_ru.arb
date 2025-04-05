@@ -873,7 +873,7 @@
   "log_analyzer_no_crash_detected": "Сбои игры не обнаружены",
   "log_analyzer_game_crash": "Сбой игры ",
   "log_analyzer_kill_summary": "Сводка убийств",
-  "log_analyzer_kill_death_suicide_count": "Убийств: {v0}   Смертей: {v1}   Самоубийств: {v2}",
+  "log_analyzer_kill_death_suicide_count": "Убийства: {v0}   Смерти: {v1}   Самоубийства: {v2}  \nУничтожение техники (Мягкая смерть): {v3}   Уничтожение техники (Распад): {v4}",
   "log_analyzer_play_time": "Время игры",
   "log_analyzer_play_time_format": "{v0} часов {v1} минут {v2} секунд",
   "log_analyzer_game_start": "Запуск игры",
