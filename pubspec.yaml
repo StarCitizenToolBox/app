@@ -51,7 +51,7 @@ dependencies:
   html: ^0.15.4
   xml: ^6.5.0
   fixnum: ^1.1.0
-  protobuf: ^3.1.0
+  protobuf: ^4.0.0
   grpc: ^4.0.0
   rust_builder:
     path: rust_builder
