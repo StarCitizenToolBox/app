@@ -1,4 +1,4 @@
-# SC 工具箱
+# SC 工具箱 / SCToolBox
 
 [简体中文](https://github.com/StarCitizenToolBox/app/blob/main/README.md) / [繁體中文](https://github.com/StarCitizenToolBox/app/blob/main/README_zh-TW.md) / [English](https://github.com/StarCitizenToolBox/app/blob/main/README_en.md)
 
