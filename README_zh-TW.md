@@ -4,7 +4,7 @@
 
 這個工具能為星際公民玩家提供疑難排解、官方網站及工具網站的中文翻譯、遊戲文本在地化翻譯、效能最佳化/畫面改善等功能，讓您獲得更愉快的遊戲體驗。
 
-[![Windows Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml) [![Crowdin](https://badges.crowdin.net/scct_zh-tw/localized.svg)](https://crowdin.com/project/scct_zh-tw)
+[![Windows Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml) [![Translate](http://translate.42kit.com/widget/sctoolbox/CoreApp/svg-badge.svg)](http://translate.42kit.com/engage/sctoolbox/)   
 
 [![](https://get.microsoft.com/images/zh-tw%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
 
