@@ -15,6 +15,9 @@ import 'dart:ui' as ui;
 
 export 'src/cache_image.dart';
 export 'src/countdown_time_text.dart';
+export 'src/cache_svg_image.dart';
+export 'src/grid_item_animator.dart';
+
 export '../common/utils/async.dart';
 export '../common/utils/base_utils.dart';
 export 'package:starcitizen_doctor/generated/l10n.dart';
@@ -137,14 +140,13 @@ ColorFilter makeSvgColor(Color color) {
   return ui.ColorFilter.mode(color, ui.BlendMode.srcIn);
 }
 
-CustomTransitionPage<T> myPageBuilder<T>(
-    BuildContext context, GoRouterState state, Widget child) {
+CustomTransitionPage<T> myPageBuilder<T>(BuildContext context, GoRouterState state, Widget child) {
   return CustomTransitionPage(
       child: child,
       transitionDuration: const Duration(milliseconds: 150),
       reverseTransitionDuration: const Duration(milliseconds: 150),
-      transitionsBuilder: (BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation, Widget child) {
+      transitionsBuilder:
+          (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
         return SlideTransition(
           position: Tween<Offset>(
             begin: const Offset(0.0, 1.0),
@@ -164,12 +166,7 @@ class LoadingWidget<T> extends HookConsumerWidget {
   final Widget Function(BuildContext context, T data) childBuilder;
   final Duration? autoRefreshDuration;
 
-  const LoadingWidget(
-      {super.key,
-      this.data,
-      required this.childBuilder,
-      this.onLoadData,
-      this.autoRefreshDuration});
+  const LoadingWidget({super.key, this.data, required this.childBuilder, this.onLoadData, this.autoRefreshDuration});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -204,8 +201,7 @@ class LoadingWidget<T> extends HookConsumerWidget {
     return childBuilder(context, (data ?? dataState.value) as T);
   }
 
-  void _loadData(
-      ValueNotifier<T?> dataState, ValueNotifier<String> errorMsg) async {
+  void _loadData(ValueNotifier<T?> dataState, ValueNotifier<String> errorMsg) async {
     errorMsg.value = "";
     try {
       final r = await onLoadData!();

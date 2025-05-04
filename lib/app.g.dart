@@ -22,7 +22,7 @@ final routerProvider = AutoDisposeProvider<GoRouter>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef RouterRef = AutoDisposeProviderRef<GoRouter>;
-String _$appGlobalModelHash() => r'8aa468bda409c425a76e3ef9e7739ca4ed055d2b';
+String _$appGlobalModelHash() => r'eb06413ab3a70f26712d897cee745ee62e89e75e';
 
 /// See also [AppGlobalModel].
 @ProviderFor(AppGlobalModel)

@@ -1,25 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tools_ui_model.dart';
+part of 'nav_state.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolsUIModelHash() => r'c8830e26df6c0ee572dd5e78c4ccef3317f8b4e6';
+String _$navHash() => r'2019b3f675fbaec4be794049d900bf2dcc8d5e37';
 
-/// See also [ToolsUIModel].
-@ProviderFor(ToolsUIModel)
-final toolsUIModelProvider =
-    AutoDisposeNotifierProvider<ToolsUIModel, ToolsUIState>.internal(
-  ToolsUIModel.new,
-  name: r'toolsUIModelProvider',
+/// See also [Nav].
+@ProviderFor(Nav)
+final navProvider = AutoDisposeNotifierProvider<Nav, NavState>.internal(
+  Nav.new,
+  name: r'navProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$toolsUIModelHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$navHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ToolsUIModel = AutoDisposeNotifier<ToolsUIState>;
+typedef _$Nav = AutoDisposeNotifier<NavState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -40,13 +40,9 @@ class ToolsUI extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 12),
                   Button(
-                    onPressed: state.working
-                        ? null
-                        : () =>
-                            model.loadToolsCard(context, skipPathScan: false),
+                    onPressed: state.working ? null : () => model.loadToolsCard(context, skipPathScan: false),
                     child: const Padding(
-                      padding: EdgeInsets.only(
-                          top: 30, bottom: 30, left: 12, right: 12),
+                      padding: EdgeInsets.only(top: 30, bottom: 30, left: 12, right: 12),
                       child: Icon(FluentIcons.refresh),
                     ),
                   ),
@@ -75,90 +71,86 @@ class ToolsUI extends HookConsumerWidget {
                     crossAxisCount: 3,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
-                    itemCount: (state.isItemLoading)
-                        ? state.items.length + 1
-                        : state.items.length,
+                    itemCount: (state.isItemLoading) ? state.items.length + 1 : state.items.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       if (index == state.items.length) {
-                        return Container(
-                            width: 300,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: FluentTheme.of(context).cardColor,
-                            ),
-                            child: makeLoading(context));
+                        return GridItemAnimator(
+                          index: index,
+                          child: Container(
+                              width: 300,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: FluentTheme.of(context).cardColor,
+                              ),
+                              child: makeLoading(context)),
+                        );
                       }
                       final item = state.items[index];
-                      return Container(
-                        width: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: FluentTheme.of(context).cardColor,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Colors.white.withValues(alpha: .2),
-                                        borderRadius:
-                                            BorderRadius.circular(1000)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: item.icon,
+                      return GridItemAnimator(
+                        index: index,
+                        child: Container(
+                          width: 300,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: FluentTheme.of(context).cardColor,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white.withValues(alpha: .2),
+                                          borderRadius: BorderRadius.circular(1000)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: item.icon,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                      child: Text(
-                                    item.name,
-                                    style: const TextStyle(fontSize: 16),
-                                  )),
-                                  const SizedBox(width: 12),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                item.infoString,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white.withValues(alpha: .6)),
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  const Spacer(),
-                                  Button(
-                                    onPressed: state.working
-                                        ? null
-                                        : item.onTap == null
-                                            ? null
-                                            : () {
-                                                try {
-                                                  item.onTap?.call();
-                                                } catch (e) {
-                                                  showToast(
-                                                      context,
-                                                      S.current
-                                                          .tools_info_processing_failed(
-                                                              e));
-                                                }
-                                              },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(6),
-                                      child: Icon(FluentIcons.play),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                        child: Text(
+                                      item.name,
+                                      style: const TextStyle(fontSize: 16),
+                                    )),
+                                    const SizedBox(width: 12),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  item.infoString,
+                                  style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                                ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  children: [
+                                    const Spacer(),
+                                    Button(
+                                      onPressed: state.working
+                                          ? null
+                                          : item.onTap == null
+                                              ? null
+                                              : () {
+                                                  try {
+                                                    item.onTap?.call();
+                                                  } catch (e) {
+                                                    showToast(context, S.current.tools_info_processing_failed(e));
+                                                  }
+                                                },
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(6),
+                                        child: Icon(FluentIcons.play),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -188,8 +180,7 @@ class ToolsUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeGamePathSelect(
-      BuildContext context, ToolsUIModel model, ToolsUIState state) {
+  Widget makeGamePathSelect(BuildContext context, ToolsUIModel model, ToolsUIState state) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -223,8 +214,7 @@ class ToolsUI extends HookConsumerWidget {
             ),
             onPressed: () {
               if (state.scInstalledPath.trim().isEmpty) {
-                showToast(context,
-                    S.current.tools_action_info_star_citizen_not_found);
+                showToast(context, S.current.tools_action_info_star_citizen_not_found);
                 return;
               }
               model.openDir(state.scInstalledPath);
@@ -233,8 +223,7 @@ class ToolsUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeGameLauncherPathSelect(
-      BuildContext context, ToolsUIModel model, ToolsUIState state) {
+  Widget makeGameLauncherPathSelect(BuildContext context, ToolsUIModel model, ToolsUIState state) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -268,10 +257,7 @@ class ToolsUI extends HookConsumerWidget {
             ),
             onPressed: () {
               if (state.scInstalledPath.trim().isEmpty) {
-                showToast(
-                    context,
-                    S.current
-                        .tools_rsi_launcher_enhance_msg_error_launcher_notfound);
+                showToast(context, S.current.tools_rsi_launcher_enhance_msg_error_launcher_notfound);
                 return;
               }
               model.openDir(state.rsiLauncherInstalledPath);

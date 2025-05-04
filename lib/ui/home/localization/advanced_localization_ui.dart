@@ -28,8 +28,7 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
     onSwitchFile() async {
       final sb = await showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            const LocalizationFromFileDialogUI(isInAdvancedMode: true),
+        builder: (BuildContext context) => const LocalizationFromFileDialogUI(isInAdvancedMode: true),
       );
       if (sb is (StringBuffer, bool)) {
         model.setCustomizeGlobalIni(sb.$1.toString());
@@ -42,8 +41,7 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
     }, const []);
 
     return makeDefaultPage(
-        title: S.current.home_localization_advanced_title(
-            homeUIState.scInstalledPath ?? "-"),
+        title: S.current.home_localization_advanced_title(homeUIState.scInstalledPath ?? "-"),
         context,
         content: state.workingText.isNotEmpty
             ? Center(
@@ -71,15 +69,13 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                           children: [
                             Text(
                               S.current.home_localization_advanced_msg_version(
-                                  state.apiLocalizationData?.versionName ??
-                                      "-"),
+                                  state.apiLocalizationData?.versionName ?? "-"),
                             ),
                             const SizedBox(width: 12),
                             Button(
                                 onPressed: onSwitchFile,
                                 child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 3),
+                                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                                   child: Icon(FluentIcons.switch_widget),
                                 )),
                             if (state.customizeGlobalIni != null) ...[
@@ -89,23 +85,19 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                                     model.setCustomizeGlobalIni(null);
                                   },
                                   child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 6, vertical: 3),
+                                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                                     child: Icon(FluentIcons.delete),
                                   )),
                             ]
                           ],
                         )),
-                        Text(S.current.home_localization_advanced_title_msg(
-                            state.serverGlobalIniLines,
-                            state.p4kGlobalIniLines)),
+                        Text(S.current
+                            .home_localization_advanced_title_msg(state.serverGlobalIniLines, state.p4kGlobalIniLines)),
                         const SizedBox(width: 32),
                         Button(
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12, right: 12, top: 4, bottom: 4),
-                              child: Text(S.current
-                                  .home_localization_advanced_action_install),
+                              padding: const EdgeInsets.only(left: 12, right: 12, top: 4, bottom: 4),
+                              child: Text(S.current.home_localization_advanced_action_install),
                             ),
                             onPressed: () {
                               model.onInstall(context);
@@ -113,19 +105,13 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                         const SizedBox(width: 12),
                       ],
                     ),
-                    Expanded(
-                        child:
-                            _makeBody(context, homeUIState, state, ref, model)),
+                    Expanded(child: _makeBody(context, homeUIState, state, ref, model)),
                   ]
                 ],
               ));
   }
 
-  Widget _makeBody(
-      BuildContext context,
-      HomeUIModelState homeUIState,
-      AdvancedLocalizationUIState state,
-      WidgetRef ref,
+  Widget _makeBody(BuildContext context, HomeUIModelState homeUIState, AdvancedLocalizationUIState state, WidgetRef ref,
       AdvancedLocalizationUIModel model) {
     return AlignedGridView.count(
       crossAxisCount: 4,
@@ -134,109 +120,104 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
       padding: const EdgeInsets.all(12),
       itemBuilder: (BuildContext context, int index) {
         final item = state.classMap!.values.elementAt(index);
-        return Container(
-          padding: const EdgeInsets.only(top: 6, bottom: 12),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: .05),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                onPressed:
-                    item.isWorking ? null : () => _showContent(context, item),
-                icon: Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Text(
-                        "${item.className}",
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.start,
-                      )),
-                      Text(
-                        "${item.valuesMap.length}",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withValues(alpha: .6),
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Icon(
-                        FluentIcons.chevron_right,
-                        color: Colors.white.withValues(alpha: .6),
-                        size: 16,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 6, bottom: 12),
-                width: MediaQuery.of(context).size.width,
-                height: 1,
-                color: Colors.white.withValues(alpha: .1),
-              ),
-              if (item.isWorking)
-                Column(
-                  children: [
-                    makeLoading(context),
-                    const SizedBox(height: 6),
-                    Text(
-                        S.current.home_localization_advanced_action_mod_change),
-                  ],
-                )
-              else ...[
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Text(S
-                              .current.home_localization_advanced_action_mode)),
-                      ComboBox(
-                        value: item.mode,
-                        items: [
-                          for (final type
-                              in AppAdvancedLocalizationClassKeysDataMode
-                                  .values)
-                            ComboBoxItem(
-                              value: type,
-                              child: Text(state.typeNames[type] ?? "-"),
-                            ),
-                        ],
-                        onChanged: item.lockMod
-                            ? null
-                            : (v) => model.onChangeMod(item,
-                                v as AppAdvancedLocalizationClassKeysDataMode),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 6),
-                SizedBox(
-                  height: 180,
-                  child: SuperListView.builder(
-                    itemCount: item.valuesMap.length,
+        return GridItemAnimator(
+          index: index,
+          child: Container(
+            padding: const EdgeInsets.only(top: 6, bottom: 12),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: .05),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: item.isWorking ? null : () => _showContent(context, item),
+                  icon: Padding(
                     padding: const EdgeInsets.only(left: 12, right: 12),
-                    itemBuilder: (BuildContext context, int index) {
-                      final itemKey = item.valuesMap.keys.elementAt(index);
-                      return Text(
-                        "${item.valuesMap[itemKey]}",
-                        maxLines: 1,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          overflow: TextOverflow.ellipsis,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Text(
+                          "${item.className}",
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.start,
+                        )),
+                        Text(
+                          "${item.valuesMap.length}",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white.withValues(alpha: .6),
+                          ),
                         ),
-                      );
-                    },
+                        const SizedBox(width: 6),
+                        Icon(
+                          FluentIcons.chevron_right,
+                          color: Colors.white.withValues(alpha: .6),
+                          size: 16,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                Container(
+                  margin: const EdgeInsets.only(top: 6, bottom: 12),
+                  width: MediaQuery.of(context).size.width,
+                  height: 1,
+                  color: Colors.white.withValues(alpha: .1),
+                ),
+                if (item.isWorking)
+                  Column(
+                    children: [
+                      makeLoading(context),
+                      const SizedBox(height: 6),
+                      Text(S.current.home_localization_advanced_action_mod_change),
+                    ],
+                  )
+                else ...[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(S.current.home_localization_advanced_action_mode)),
+                        ComboBox(
+                          value: item.mode,
+                          items: [
+                            for (final type in AppAdvancedLocalizationClassKeysDataMode.values)
+                              ComboBoxItem(
+                                value: type,
+                                child: Text(state.typeNames[type] ?? "-"),
+                              ),
+                          ],
+                          onChanged: item.lockMod
+                              ? null
+                              : (v) => model.onChangeMod(item, v as AppAdvancedLocalizationClassKeysDataMode),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    height: 180,
+                    child: SuperListView.builder(
+                      itemCount: item.valuesMap.length,
+                      padding: const EdgeInsets.only(left: 12, right: 12),
+                      itemBuilder: (BuildContext context, int index) {
+                        final itemKey = item.valuesMap.keys.elementAt(index);
+                        return Text(
+                          "${item.valuesMap[itemKey]}",
+                          maxLines: 1,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         );
       },
@@ -244,8 +225,7 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
     );
   }
 
-  _showContent(
-      BuildContext context, AppAdvancedLocalizationClassKeysData item) {
+  _showContent(BuildContext context, AppAdvancedLocalizationClassKeysData item) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -282,8 +262,7 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                   const SizedBox(
                     width: 24,
                   ),
-                  Text(S.current.home_localization_advanced_title_preview(
-                      item.className ?? "-")),
+                  Text(S.current.home_localization_advanced_title_preview(item.className ?? "-")),
                 ],
               ),
               content: textData.value.isEmpty
@@ -295,13 +274,10 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
                       ),
                       child: CodeEditor(
                         readOnly: true,
-                        controller:
-                            CodeLineEditingController.fromText(textData.value),
+                        controller: CodeLineEditingController.fromText(textData.value),
                         style: CodeEditorStyle(
                           codeTheme: CodeHighlightTheme(
-                            languages: {
-                              'ini': CodeHighlightThemeMode(mode: langIni)
-                            },
+                            languages: {'ini': CodeHighlightThemeMode(mode: langIni)},
                             theme: vs2015Theme,
                           ),
                         ),

@@ -12,6 +12,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'about/about_ui.dart';
 import 'home/home_ui.dart';
+import 'nav/nav_ui.dart';
 import 'settings/settings_ui.dart';
 import 'tools/tools_ui.dart';
 
@@ -42,8 +43,7 @@ class IndexUI extends HookConsumerWidget {
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(width: 12),
-                    Text(S.current.app_index_version_info(
-                        ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
+                    Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
                   ],
                 ),
               ),
@@ -77,8 +77,7 @@ class IndexUI extends HookConsumerWidget {
         key: Key("NavigationPane_${S.current.app_language_code}"),
         selected: curIndex.value,
         items: getNavigationPaneItems(curIndex),
-        size: NavigationPaneSize(
-            openWidth: S.current.app_language_code.startsWith("zh") ? 64 : 74),
+        size: NavigationPaneSize(openWidth: S.current.app_language_code.startsWith("zh") ? 64 : 74),
       ),
       paneBodyBuilder: (item, child) {
         return item!.body;
@@ -95,18 +94,15 @@ class IndexUI extends HookConsumerWidget {
           S.current.app_index_menu_tools,
           const ToolsUI(),
         ),
-        FluentIcons.settings: (
-          S.current.app_index_menu_settings,
-          const SettingsUI()
-        ),
+        FluentIcons.power_apps: ("导航", const NavUI()),
+        FluentIcons.settings: (S.current.app_index_menu_settings, const SettingsUI()),
         FluentIcons.info: (
           S.current.app_index_menu_about,
           const AboutUI(),
         ),
       };
 
-  List<NavigationPaneItem> getNavigationPaneItems(
-      ValueNotifier<int> curIndexState) {
+  List<NavigationPaneItem> getNavigationPaneItems(ValueNotifier<int> curIndexState) {
     // width = 64
     return [
       for (final kv in pageMenus.entries)
@@ -136,8 +132,7 @@ class IndexUI extends HookConsumerWidget {
   }
 
   void _onTapIndexMenu(String value, ValueNotifier<int> curIndexState) {
-    final pageIndex =
-        pageMenus.values.toList().indexWhere((element) => element.$1 == value);
+    final pageIndex = pageMenus.values.toList().indexWhere((element) => element.$1 == value);
     curIndexState.value = pageIndex;
   }
 
@@ -156,8 +151,7 @@ class IndexUI extends HookConsumerWidget {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(12),
               ),
-              padding: const EdgeInsets.only(
-                  left: 6, right: 6, bottom: 1.5, top: 1.5),
+              padding: const EdgeInsets.only(left: 6, right: 6, bottom: 1.5, top: 1.5),
               child: Text(
                 "${aria2cState.aria2TotalTaskNum}",
                 style: const TextStyle(

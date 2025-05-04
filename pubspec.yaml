@@ -68,6 +68,8 @@ dependencies:
   qr_flutter: ^4.1.0
   desktop_multi_window: ^0.2.1
   watcher: ^1.1.1
+  path: ^1.9.1
+  crypto: ^3.0.6
 dependency_overrides:
   http: ^1.1.2
 

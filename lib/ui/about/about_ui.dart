@@ -30,8 +30,7 @@ class AboutUI extends HookConsumerWidget {
     );
   }
 
-  Widget _makeAbout(BuildContext context, WidgetRef ref,
-      ValueNotifier<bool> isTipTextCn, PageController pageCtrl) {
+  Widget _makeAbout(BuildContext context, WidgetRef ref, ValueNotifier<bool> isTipTextCn, PageController pageCtrl) {
     return Stack(
       children: [
         Center(
@@ -42,9 +41,7 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(height: 32),
               Image.asset("assets/app_logo.png", width: 128, height: 128),
               const SizedBox(height: 6),
-              Text(
-                  S.current.app_index_version_info(
-                      ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev"),
+              Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev"),
                   style: const TextStyle(fontSize: 18)),
               const SizedBox(height: 12),
               Button(
@@ -56,18 +53,15 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(height: 32),
               Container(
                 margin: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                    color: FluentTheme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(12)),
+                decoration:
+                    BoxDecoration(color: FluentTheme.of(context).cardColor, borderRadius: BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
                     children: [
                       Text(
                         S.current.about_app_description,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white.withValues(alpha: .9)),
+                        style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
                       ),
                     ],
                   ),
@@ -86,9 +80,7 @@ class AboutUI extends HookConsumerWidget {
                     child: Container(
                       width: MediaQuery.of(context).size.width * .35,
                       decoration: BoxDecoration(
-                          color: FluentTheme.of(context)
-                              .cardColor
-                              .withValues(alpha: .06),
+                          color: FluentTheme.of(context).cardColor.withValues(alpha: .06),
                           borderRadius: BorderRadius.circular(12)),
                       child: IconButton(
                         icon: Padding(
@@ -96,9 +88,7 @@ class AboutUI extends HookConsumerWidget {
                           child: Text(
                             isTipTextCn.value ? tipTextCN : tipTextEN,
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white.withValues(alpha: .9)),
+                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .9)),
                           ),
                         ),
                         onPressed: () {
@@ -126,8 +116,7 @@ class AboutUI extends HookConsumerWidget {
     );
   }
 
-  Widget _makeDonate(
-      BuildContext context, WidgetRef ref, PageController pageCtrl) {
+  Widget _makeDonate(BuildContext context, WidgetRef ref, PageController pageCtrl) {
     final donationTypeNotifier = useState('alipay');
     final bubbleMessages = [
       S.current.support_dev_thanks_message,
@@ -171,8 +160,7 @@ class AboutUI extends HookConsumerWidget {
                     for (var i = 0; i < bubbleMessages.length; i++)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: SelectionArea(
-                            child: ChatBubble(message: bubbleMessages[i])),
+                        child: SelectionArea(child: ChatBubble(message: bubbleMessages[i])),
                       ),
                   ],
                 ),
@@ -261,14 +249,10 @@ class AboutUI extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Button(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith((states) =>
-              isSelected
-                  ? ButtonThemeData.buttonColor(context, states)
-                      .withAlpha((255.0 * 0.08).round())
-                  : ButtonThemeData.buttonColor(context, states)
-                      .withAlpha((255.0 * 0.005).round())),
-          padding: WidgetStateProperty.all(
-              EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
+          backgroundColor: WidgetStateProperty.resolveWith((states) => isSelected
+              ? ButtonThemeData.buttonColor(context, states).withAlpha((255.0 * 0.08).round())
+              : ButtonThemeData.buttonColor(context, states).withAlpha((255.0 * 0.005).round())),
+          padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
         ),
         onPressed: onTap,
         child: Column(
@@ -328,16 +312,13 @@ class AboutUI extends HookConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: FluentTheme.of(context)
-                  .cardColor
-                  .withAlpha((255 * .1).round()),
+              color: FluentTheme.of(context).cardColor.withAlpha((255 * .1).round()),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(S.current.support_dev_in_game_id,
-                    style: TextStyle(fontSize: 16)),
+                Text(S.current.support_dev_in_game_id, style: TextStyle(fontSize: 16)),
                 const SizedBox(width: 12),
                 Button(
                   onPressed: () {
@@ -386,8 +367,7 @@ class AboutUI extends HookConsumerWidget {
     return Column(
       key: ValueKey(type),
       children: [
-        Text(title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
         Container(
           width: 200,
@@ -413,19 +393,13 @@ class AboutUI extends HookConsumerWidget {
       icon: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-              pageIndex == 0
-                  ? FluentIcons.chevron_up
-                  : FluentIcons.chevron_down,
-              size: 12),
+          Icon(pageIndex == 0 ? FluentIcons.chevron_up : FluentIcons.chevron_down, size: 12),
           SizedBox(width: 8),
-          Text(pageIndex == 0
-              ? S.current.support_dev_back_button
-              : S.current.support_dev_scroll_hint),
+          Text(pageIndex == 0 ? S.current.support_dev_back_button : S.current.support_dev_scroll_hint),
         ],
       ),
-      onPressed: () => pageCtrl.animateToPage(pageIndex,
-          duration: const Duration(milliseconds: 300), curve: Curves.ease),
+      onPressed: () =>
+          pageCtrl.animateToPage(pageIndex, duration: const Duration(milliseconds: 300), curve: Curves.ease),
     );
   }
 
@@ -440,8 +414,7 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 S.current.about_action_btn_faq,
-                style: TextStyle(
-                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -457,8 +430,7 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 S.current.about_online_feedback,
-                style: TextStyle(
-                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -474,8 +446,7 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 S.current.about_action_qq_group,
-                style: TextStyle(
-                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -492,8 +463,7 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 S.current.about_action_email,
-                style: TextStyle(
-                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -509,8 +479,7 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(width: 8),
               Text(
                 S.current.about_action_open_source,
-                style: TextStyle(
-                    fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
               ),
             ],
           ),
@@ -528,6 +497,7 @@ class AboutUI extends HookConsumerWidget {
   static String get tipTextCN => S.current.about_disclaimer;
 
   Widget makeAnalyticsWidget(BuildContext context) {
+    var buildIndex = 0;
     return LoadingWidget(
       onLoadData: AnalyticsApi.getAnalyticsData,
       autoRefreshDuration: const Duration(seconds: 60),
@@ -547,20 +517,18 @@ class AboutUI extends HookConsumerWidget {
                     "performance_apply",
                     "p4k_download",
                   ].contains(item["Type"]))
-                    makeAnalyticsItem(
-                        context: context,
-                        name: item["Type"] as String,
-                        value: item["Count"] as int)
+                    GridItemAnimator(
+                      index: buildIndex++,
+                      child: makeAnalyticsItem(
+                          context: context, name: item["Type"] as String, value: item["Count"] as int),
+                    )
           ],
         );
       },
     );
   }
 
-  Widget makeAnalyticsItem(
-      {required BuildContext context,
-      required String name,
-      required int value}) {
+  Widget makeAnalyticsItem({required BuildContext context, required String name, required int value}) {
     final names = {
       "launch": S.current.about_analytics_launch,
       "gameLaunch": S.current.about_analytics_launch_game,
@@ -573,14 +541,12 @@ class AboutUI extends HookConsumerWidget {
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(left: 18, right: 18),
       decoration: BoxDecoration(
-          color: FluentTheme.of(context).cardColor.withValues(alpha: .06),
-          borderRadius: BorderRadius.circular(12)),
+          color: FluentTheme.of(context).cardColor.withValues(alpha: .06), borderRadius: BorderRadius.circular(12)),
       child: Column(
         children: [
           Text(
             names[name] ?? name,
-            style: TextStyle(
-                fontSize: 13, color: Colors.white.withValues(alpha: .6)),
+            style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .6)),
           ),
           const SizedBox(height: 4),
           Row(
@@ -606,8 +572,7 @@ class AboutUI extends HookConsumerWidget {
       launchUrlString("ms-windows-store://pdp/?productid=9NF3SWFWNKL1");
       return;
     } else {
-      final hasUpdate =
-          await ref.read(appGlobalModelProvider.notifier).checkUpdate(context);
+      final hasUpdate = await ref.read(appGlobalModelProvider.notifier).checkUpdate(context);
       if (!hasUpdate) {
         if (!context.mounted) return;
         showToast(context, S.current.about_info_latest_version);
@@ -626,8 +591,7 @@ class ChatBubble extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color:
-            FluentTheme.of(context).accentColor.withAlpha((255.0 * .2).round()),
+        color: FluentTheme.of(context).accentColor.withAlpha((255.0 * .2).round()),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(4),
           topRight: Radius.circular(18),
@@ -645,8 +609,7 @@ class ChatBubble extends StatelessWidget {
 
 class DonationQrCodeData {
   static const alipay = "https://qr.alipay.com/tsx16308c4uai0ticmz4j96";
-  static const wechat =
-      "wxp://f2f0J40rTCX7Vt79yooWNbiqH3U6UmwGJkqjcAYnrv9OZVzKyS5_W6trp8mo3KP-CTQ5";
+  static const wechat = "wxp://f2f0J40rTCX7Vt79yooWNbiqH3U6UmwGJkqjcAYnrv9OZVzKyS5_W6trp8mo3KP-CTQ5";
   static const qq =
       "https://i.qianbao.qq.com/wallet/sqrcode.htm?m=tenpay&f=wallet&a=1&u=3334969096&n=xkeyC&ac=CAEQiK6etgwY8ZuKvgYyGOa1geWKqOaRiuS9jee7j-iQpeaUtuasvjgBQiAzY2Y4NWY3MDI1MWUxYWEwMGYyN2Q0OTM4Y2U2ODFlMw%3D%3D_xxx_sign";
 }
