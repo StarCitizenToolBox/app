@@ -42,9 +42,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-/pubspec.lock
 /rust/target/
-/rust/Cargo.lock
 /lib/generated/l10n_temp.json
 /lib/generated/l10n_temp_fix.json
 
