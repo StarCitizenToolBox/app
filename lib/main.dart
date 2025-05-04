@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:window_manager/window_manager.dart';
@@ -36,13 +38,22 @@ _initWindow() async {
   await windowManager.center(animate: true);
 }
 
-class App extends HookConsumerWidget {
+class App extends HookConsumerWidget with WindowListener {
   const App({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final appState = ref.watch(appGlobalModelProvider);
+
+    useEffect(() {
+      windowManager.addListener(this);
+      windowManager.setPreventClose(true);
+      return () async {
+        windowManager.removeListener(this);
+      };
+    }, const []);
+
     return FluentApp.router(
       title: "StarCitizenToolBox",
       restorationScopeId: "StarCitizenToolBox",
@@ -80,6 +91,20 @@ class App extends HookConsumerWidget {
       routerDelegate: router.routerDelegate,
       routeInformationProvider: router.routeInformationProvider,
     );
+  }
+
+  @override
+  Future<void> onWindowClose() async {
+    debugPrint("onWindowClose");
+    if (await windowManager.isPreventClose()) {
+      final windows = await DesktopMultiWindow.getAllSubWindowIds();
+      for (final id in windows) {
+        await WindowController.fromWindowId(id).close();
+      }
+      await windowManager.destroy();
+      exit(0);
+    }
+    super.onWindowClose();
   }
 }
 
