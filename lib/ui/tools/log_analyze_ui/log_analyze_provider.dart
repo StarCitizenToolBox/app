@@ -38,6 +38,9 @@ class LogAnalyzeLineData with _$LogAnalyzeLineData {
 
 @riverpod
 class ToolsLogAnalyze extends _$ToolsLogAnalyze {
+  
+  static const String unknownValue = "<Unknown>";
+  
   @override
   Future<List<LogAnalyzeLineData>> build(String gameInstallPath) async {
     final logFile = File("$gameInstallPath/Game.log");
@@ -96,7 +99,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     }
 
     final lastLineDateTime =
-        _gameStartTime != null ? _getLogLineDateTime(logLines.lastWhere((e) => e.startsWith("<20"))) : null;
+    _gameStartTime != null ? _getLogLineDateTime(logLines.lastWhere((e) => e.startsWith("<20"))) : null;
 
     // 检查${S.current.log_analyzer_filter_game_crash}行号
     if (_gameCrashLineNumber > 0) {
@@ -170,7 +173,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       debugPrint("[ToolsLogAnalyze] logFile change: ${change.type}");
       switch (change.type) {
         case ChangeType.MODIFY:
-          // 移除${S.current.log_analyzer_filter_statistics}
+        // 移除${S.current.log_analyzer_filter_statistics}
           final newList = state.value?.where((e) => e.type != "statistics").toList();
           state = AsyncData(newList ?? []);
           return _launchLogAnalyze(logFile, startLine: _currentLineNumber);
@@ -214,19 +217,19 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     if (baseEvent != null) {
       switch (baseEvent) {
         case "AccountLoginCharacterStatus_Character":
-          // 角色登录
+        // 角色登录
           return _logGetCharacterName(line);
         case "FatalCollision":
-          // 载具${S.current.log_analyzer_filter_fatal_collision}
+        // 载具${S.current.log_analyzer_filter_fatal_collision}
           return _logGetFatalCollision(line);
         case "Vehicle Destruction":
-          // ${S.current.log_analyzer_filter_vehicle_damaged}
+        // ${S.current.log_analyzer_filter_vehicle_damaged}
           return _logGetVehicleDestruction(line);
         case "Actor Death":
-          // ${S.current.log_analyzer_filter_character_death}
+        // ${S.current.log_analyzer_filter_character_death}
           return _logGetActorDeath(line);
         case "RequestLocationInventory":
-          // 请求${S.current.log_analyzer_filter_local_inventory}
+        // 请求${S.current.log_analyzer_filter_local_inventory}
           return _logGetRequestLocationInventory(line);
       }
     }
@@ -269,7 +272,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
   }
 
   final _gameLoadingRegExp =
-      RegExp(r'<[^>]+>\s+Loading screen for\s+(\w+)\s+:\s+SC_Frontend closed after\s+(\d+\.\d+)\s+seconds');
+  RegExp(r'<[^>]+>\s+Loading screen for\s+(\w+)\s+:\s+SC_Frontend closed after\s+(\d+\.\d+)\s+seconds');
 
   (String, String)? _logGetGameLoading(String line) {
     final match = _gameLoadingRegExp.firstMatch(line);
@@ -315,10 +318,10 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       'distance': RegExp(r'Distance:\s*([\d.]+)')
     };
 
-    final zone = safeExtract(patterns['zone']!, line) ?? 'Unknown';
+    final zone = safeExtract(patterns['zone']!, line) ?? unknownValue;
     final playerPilot = (safeExtract(patterns['player_pilot']!, line) ?? '0') == '1';
-    final hitEntity = safeExtract(patterns['hit_entity']!, line) ?? 'Unknown';
-    final hitEntityVehicle = safeExtract(patterns['hit_entity_vehicle']!, line) ?? 'Unknown Vehicle';
+    final hitEntity = safeExtract(patterns['hit_entity']!, line) ?? unknownValue;
+    final hitEntityVehicle = safeExtract(patterns['hit_entity_vehicle']!, line) ?? unknownValue;
     final distance = double.tryParse(safeExtract(patterns['distance']!, line) ?? '') ?? 0.0;
     return LogAnalyzeLineData(
       type: "fatal_collision",
@@ -336,16 +339,16 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
 
   LogAnalyzeLineData? _logGetVehicleDestruction(String line) {
     final pattern = RegExp(r"Vehicle\s+'([^']+)'.*?" // 载具型号
-        r"in zone\s+'([^']+)'.*?" // Zone
-        r"destroy level \d+ to (\d+).*?" // 损毁等级
-        r"caused by\s+'([^']+)'" // 责任方
-        );
+    r"in zone\s+'([^']+)'.*?" // Zone
+    r"destroy level \d+ to (\d+).*?" // 损毁等级
+    r"caused by\s+'([^']+)'" // 责任方
+    );
     final match = pattern.firstMatch(line);
     if (match != null) {
-      final vehicleModel = match.group(1) ?? 'Unknown';
-      final zone = match.group(2) ?? 'Unknown';
+      final vehicleModel = match.group(1) ?? unknownValue;
+      final zone = match.group(2) ?? unknownValue;
       final destructionLevel = int.tryParse(match.group(3) ?? '') ?? 0;
-      final causedBy = match.group(4) ?? 'Unknown';
+      final causedBy = match.group(4) ?? unknownValue;
 
       final destructionLevelMap = {1: S.current.log_analyzer_soft_death, 2: S.current.log_analyzer_disintegration};
 
@@ -364,7 +367,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
           vehicleModel,
           zone,
           destructionLevel.toString(),
-          destructionLevelMap[destructionLevel] ?? "Unknown",
+          destructionLevelMap[destructionLevel] ?? unknownValue,
           causedBy,
         ),
         dateTime: _getLogLineDateTimeString(line),
@@ -375,17 +378,17 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
 
   LogAnalyzeLineData? _logGetActorDeath(String line) {
     final pattern = RegExp(r"CActor::Kill: '([^']+)'.*?" // 受害者ID
-        r"in zone '([^']+)'.*?" // 死亡位置区域
-        r"killed by '([^']+)'.*?" // 击杀者ID
-        r"with damage type '([^']+)'" // 伤害类型
-        );
+    r"in zone '([^']+)'.*?" // 死亡位置区域
+    r"killed by '([^']+)'.*?" // 击杀者ID
+    r"with damage type '([^']+)'" // 伤害类型
+    );
 
     final match = pattern.firstMatch(line);
     if (match != null) {
-      final victimId = match.group(1) ?? 'Unknown';
-      final zone = match.group(2) ?? 'Unknown';
-      final killerId = match.group(3) ?? 'Unknown';
-      final damageType = match.group(4) ?? 'Unknown';
+      final victimId = match.group(1) ?? unknownValue;
+      final zone = match.group(2) ?? unknownValue;
+      final killerId = match.group(3) ?? unknownValue;
+      final damageType = match.group(4) ?? unknownValue;
 
       if (victimId.trim() == killerId.trim()) {
         // 自杀
@@ -419,7 +422,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     final pattern = RegExp(r"name\s+([^-]+)");
     final match = pattern.firstMatch(line);
     if (match != null) {
-      final characterName = match.group(1)?.trim() ?? 'Unknown';
+      final characterName = match.group(1)?.trim() ?? unknownValue;
       _playerName = characterName.trim(); // 更新玩家名称
       return LogAnalyzeLineData(
         type: "player_login",
@@ -434,8 +437,8 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     final pattern = RegExp(r"Player\[([^\]]+)\].*?Location\[([^\]]+)\]");
     final match = pattern.firstMatch(line);
     if (match != null) {
-      final playerId = match.group(1) ?? 'Unknown';
-      final location = match.group(2) ?? 'Unknown';
+      final playerId = match.group(1) ?? unknownValue;
+      final location = match.group(2) ?? unknownValue;
 
       return LogAnalyzeLineData(
         type: "request_location_inventory",
