@@ -54,9 +54,7 @@ class HomeUI extends HookConsumerWidget {
                             child: Text(S.current.doctor_action_view_details),
                             onPressed: () => _showPlacard(context, homeState),
                           ),
-                    onClose: homeState.appPlacardData?.alwaysShow == true
-                        ? null
-                        : () => model.closePlacard(),
+                    onClose: homeState.appPlacardData?.alwaysShow == true ? null : () => model.closePlacard(),
                   ),
                   const SizedBox(height: 6),
                 ],
@@ -87,8 +85,7 @@ class HomeUI extends HookConsumerWidget {
     );
   }
 
-  List<Widget> makeIndex(BuildContext context, HomeUIModel model,
-      HomeUIModelState homeState, WidgetRef ref) {
+  List<Widget> makeIndex(BuildContext context, HomeUIModel model, HomeUIModelState homeState, WidgetRef ref) {
     double width = 280;
     return [
       Stack(
@@ -154,35 +151,28 @@ class HomeUI extends HookConsumerWidget {
                 onChanged: model.onChangeInstallPath,
               ),
             ),
+            if (S.current.app_language_code == "zh_CN") ...[
+              const SizedBox(width: 12),
+              Button(
+                  onPressed: homeState.webLocalizationVersionsData == null ? null : () => model.launchRSI(context),
+                  style: homeState.isCurGameRunning
+                      ? null
+                      : ButtonStyle(
+                          backgroundColor: WidgetStateProperty.resolveWith(_getRunButtonColor),
+                        ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Icon(
+                      homeState.isCurGameRunning ? FluentIcons.stop_solid : FluentIcons.play_solid,
+                      color: homeState.isCurGameRunning ? Colors.red.withValues(alpha: .8) : Colors.white,
+                    ),
+                  )),
+            ],
             const SizedBox(width: 12),
             Button(
-                onPressed: homeState.webLocalizationVersionsData == null
-                    ? null
-                    : () => model.launchRSI(context),
-                style: homeState.isCurGameRunning
-                    ? null
-                    : ButtonStyle(
-                        backgroundColor:
-                            WidgetStateProperty.resolveWith(_getRunButtonColor),
-                      ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Icon(
-                    homeState.isCurGameRunning
-                        ? FluentIcons.stop_solid
-                        : FluentIcons.play_solid,
-                    color: homeState.isCurGameRunning
-                        ? Colors.red.withValues(alpha: .8)
-                        : Colors.white,
-                  ),
-                )),
-            const SizedBox(width: 12),
-            Button(
-              onPressed: () =>
-                  _checkAndGoInputMethod(context, homeState, model, ref),
+              onPressed: () => _checkAndGoInputMethod(context, homeState, model, ref),
               style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.resolveWith((_) => Colors.blue),
+                backgroundColor: WidgetStateProperty.resolveWith((_) => Colors.blue),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(6),
@@ -206,8 +196,7 @@ class HomeUI extends HookConsumerWidget {
     ];
   }
 
-  Widget makeLeftColumn(BuildContext context, HomeUIModel model, double width,
-      HomeUIModelState homeState) {
+  Widget makeLeftColumn(BuildContext context, HomeUIModel model, double width, HomeUIModelState homeState) {
     return Stack(
       children: [
         Column(
@@ -228,13 +217,10 @@ class HomeUI extends HookConsumerWidget {
                           colorFilter: makeSvgColor(Colors.white),
                           height: 18,
                         ),
-                        name: S.current
-                            .home_action_star_citizen_website_localization,
-                        webTitle: S.current
-                            .home_action_star_citizen_website_localization,
+                        name: S.current.home_action_star_citizen_website_localization,
+                        webTitle: S.current.home_action_star_citizen_website_localization,
                         webURL: "https://robertsspaceindustries.com",
-                        info: S.current
-                            .home_action_info_roberts_space_industries_origin,
+                        info: S.current.home_action_info_roberts_space_industries_origin,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_rsi"),
@@ -252,8 +238,7 @@ class HomeUI extends HookConsumerWidget {
                         name: S.current.home_action_uex_localization,
                         webTitle: S.current.home_action_uex_localization,
                         webURL: "https://uexcorp.space/",
-                        info: S.current
-                            .home_action_info_mining_refining_trade_calculator,
+                        info: S.current.home_action_info_mining_refining_trade_calculator,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_uex"),
@@ -269,11 +254,9 @@ class HomeUI extends HookConsumerWidget {
                           ],
                         ),
                         name: S.current.home_action_dps_calculator_localization,
-                        webTitle:
-                            S.current.home_action_dps_calculator_localization,
+                        webTitle: S.current.home_action_dps_calculator_localization,
                         webURL: "https://www.erkul.games/live/calculator",
-                        info: S.current
-                            .home_action_info_ship_upgrade_damage_value_query,
+                        info: S.current.home_action_info_ship_upgrade_damage_value_query,
                         useLocalization: true,
                         width: width,
                         touchKey: "webLocalization_dps"),
@@ -283,8 +266,7 @@ class HomeUI extends HookConsumerWidget {
                     Row(
                       children: [
                         Button(
-                          child:
-                              const FaIcon(FontAwesomeIcons.chrome, size: 18),
+                          child: const FaIcon(FontAwesomeIcons.chrome, size: 18),
                           onPressed: () {
                             launchUrlString(
                                 "https://chrome.google.com/webstore/detail/gocnjckojmledijgmadmacoikibcggja?authuser=0&hl=zh-CN");
@@ -300,21 +282,17 @@ class HomeUI extends HookConsumerWidget {
                         ),
                         const SizedBox(width: 12),
                         Button(
-                          child: const FaIcon(FontAwesomeIcons.firefoxBrowser,
-                              size: 18),
+                          child: const FaIcon(FontAwesomeIcons.firefoxBrowser, size: 18),
                           onPressed: () {
-                            launchUrlString(
-                                "https://addons.mozilla.org/zh-CN/firefox/"
+                            launchUrlString("https://addons.mozilla.org/zh-CN/firefox/"
                                 "addon/%E6%98%9F%E9%99%85%E5%85%AC%E6%B0%91%E7%9B%92%E5%AD%90%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8B%93%E5%B1%95/");
                           },
                         ),
                         const SizedBox(width: 12),
                         Button(
-                          child:
-                              const FaIcon(FontAwesomeIcons.github, size: 18),
+                          child: const FaIcon(FontAwesomeIcons.github, size: 18),
                           onPressed: () {
-                            launchUrlString(
-                                "https://github.com/StarCitizenToolBox/StarCitizenBoxBrowserEx");
+                            launchUrlString("https://github.com/StarCitizenToolBox/StarCitizenBoxBrowserEx");
                           },
                         ),
                       ],
@@ -330,9 +308,8 @@ class HomeUI extends HookConsumerWidget {
         if (homeState.webLocalizationVersionsData == null)
           Positioned.fill(
               child: Container(
-            decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: .3),
-                borderRadius: BorderRadius.circular(12)),
+            decoration:
+                BoxDecoration(color: Colors.black.withValues(alpha: .3), borderRadius: BorderRadius.circular(12)),
             child: const Center(
               child: ProgressRing(),
             ),
@@ -341,16 +318,13 @@ class HomeUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeNewsCard(
-      BuildContext context, HomeUIModel model, HomeUIModelState homeState) {
+  Widget makeNewsCard(BuildContext context, HomeUIModel model, HomeUIModelState homeState) {
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
       child: Container(
           width: 316,
           height: 386,
-          decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: .1),
-              borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(color: Colors.white.withValues(alpha: .1), borderRadius: BorderRadius.circular(12)),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -365,13 +339,11 @@ class HomeUI extends HookConsumerWidget {
                       ),
                       child: homeState.rssVideoItems == null
                           ? Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: .1)),
+                              decoration: BoxDecoration(color: Colors.white.withValues(alpha: .1)),
                               child: makeLoading(context),
                             )
                           : Swiper(
-                              itemCount: getMinNumber(
-                                  [homeState.rssVideoItems?.length ?? 0, 6]),
+                              itemCount: getMinNumber([homeState.rssVideoItems?.length ?? 0, 6]),
                               itemBuilder: (context, index) {
                                 final item = homeState.rssVideoItems![index];
                                 return GestureDetector(
@@ -408,8 +380,7 @@ class HomeUI extends HookConsumerWidget {
                               }
                             },
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12, right: 12, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 12, right: 12, top: 4, bottom: 4),
                               child: Row(
                                 children: [
                                   getRssIcon(item.link ?? ""),
@@ -459,24 +430,14 @@ class HomeUI extends HookConsumerWidget {
     return const FaIcon(FontAwesomeIcons.rss, size: 14);
   }
 
-  Widget makeIndexActionLists(BuildContext context, HomeUIModel model,
-      HomeUIModelState homeState, WidgetRef ref) {
+  Widget makeIndexActionLists(BuildContext context, HomeUIModel model, HomeUIModelState homeState, WidgetRef ref) {
     final items = [
-      _HomeItemData(
-          "game_doctor",
-          S.current.home_action_one_click_diagnosis,
-          S.current.home_action_info_one_click_diagnosis_star_citizen,
-          FluentIcons.auto_deploy_settings),
-      _HomeItemData(
-          "localization",
-          S.current.home_action_localization_management,
-          S.current.home_action_info_quick_install_localization_resources,
-          FluentIcons.locale_language),
-      _HomeItemData(
-          "performance",
-          S.current.home_action_performance_optimization,
-          S.current.home_action_info_engine_config_optimization,
-          FluentIcons.process_meta_task),
+      _HomeItemData("game_doctor", S.current.home_action_one_click_diagnosis,
+          S.current.home_action_info_one_click_diagnosis_star_citizen, FluentIcons.auto_deploy_settings),
+      _HomeItemData("localization", S.current.home_action_localization_management,
+          S.current.home_action_info_quick_install_localization_resources, FluentIcons.locale_language),
+      _HomeItemData("performance", S.current.home_action_performance_optimization,
+          S.current.home_action_info_engine_config_optimization, FluentIcons.process_meta_task),
     ];
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -497,9 +458,7 @@ class HomeUI extends HookConsumerWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: states.isHovered
-                        ? FluentTheme.of(context)
-                            .cardColor
-                            .withValues(alpha: .1)
+                        ? FluentTheme.of(context).cardColor.withValues(alpha: .1)
                         : FluentTheme.of(context).cardColor,
                   ),
                   child: Padding(
@@ -508,8 +467,7 @@ class HomeUI extends HookConsumerWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: .2),
-                              borderRadius: BorderRadius.circular(1000)),
+                              color: Colors.white.withValues(alpha: .2), borderRadius: BorderRadius.circular(1000)),
                           child: Padding(
                             padding: const EdgeInsets.all(12),
                             child: Icon(
@@ -531,22 +489,15 @@ class HomeUI extends HookConsumerWidget {
                             const SizedBox(height: 4),
                             Text(
                               item.infoString,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white.withValues(alpha: .6)),
+                              style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
                             ),
                           ],
                         )),
-                        if (item.key == "localization" &&
-                            homeState.localizationUpdateInfo != null)
+                        if (item.key == "localization" && homeState.localizationUpdateInfo != null)
                           Container(
-                            padding: const EdgeInsets.only(
-                                top: 3, bottom: 3, left: 8, right: 8),
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Text(
-                                homeState.localizationUpdateInfo?.key ?? " "),
+                            padding: const EdgeInsets.only(top: 3, bottom: 3, left: 8, right: 8),
+                            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)),
+                            child: Text(homeState.localizationUpdateInfo?.key ?? " "),
                           ),
                         const SizedBox(width: 12),
                         const Icon(
@@ -610,9 +561,7 @@ class HomeUI extends HookConsumerWidget {
                           child: Text(
                             info,
                             maxLines: 1,
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white.withValues(alpha: .6)),
+                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
                           ),
                         )
                     ],
@@ -632,12 +581,10 @@ class HomeUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeGameStatusCard(BuildContext context, HomeUIModel model,
-      double width, HomeUIModelState homeState) {
+  Widget makeGameStatusCard(BuildContext context, HomeUIModel model, double width, HomeUIModelState homeState) {
     final statusCnName = {
       "Platform": S.current.home_action_rsi_status_platform,
-      "Persistent Universe":
-          S.current.home_action_rsi_status_persistent_universe,
+      "Persistent Universe": S.current.home_action_rsi_status_persistent_universe,
       "Electronic Access": S.current.home_action_rsi_status_electronic_access,
       "Arena Commander": S.current.home_action_rsi_status_arena_commander
     };
@@ -648,9 +595,7 @@ class HomeUI extends HookConsumerWidget {
       child: GestureDetector(
         onTap: () {
           model.goWebView(
-              context,
-              S.current.home_action_rsi_status_rsi_server_status,
-              "https://status.robertsspaceindustries.com/",
+              context, S.current.home_action_rsi_status_rsi_server_status, "https://status.robertsspaceindustries.com/",
               useLocalization: true);
         },
         child: Container(
@@ -676,9 +621,7 @@ class HomeUI extends HookConsumerWidget {
                             child: Center(
                               child: Icon(
                                 FontAwesomeIcons.solidCircle,
-                                color: model.isRSIServerStatusOK(item)
-                                    ? Colors.green
-                                    : Colors.red,
+                                color: model.isRSIServerStatusOK(item) ? Colors.green : Colors.red,
                                 size: 12,
                               ),
                             ),
@@ -704,8 +647,7 @@ class HomeUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeActivityBanner(BuildContext context, HomeUIModel model,
-      double width, HomeUIModelState homeState) {
+  Widget makeActivityBanner(BuildContext context, HomeUIModel model, double width, HomeUIModelState homeState) {
     return Tilt(
       borderRadius: BorderRadius.circular(12),
       shadowConfig: const ShadowConfig(disable: true),
@@ -715,8 +657,7 @@ class HomeUI extends HookConsumerWidget {
             width: width + 24,
             decoration: BoxDecoration(color: FluentTheme.of(context).cardColor),
             child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
+              padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
               child: (homeState.countdownFestivalListData == null)
                   ? SizedBox(
                       width: width,
@@ -729,13 +670,11 @@ class HomeUI extends HookConsumerWidget {
                       width: width,
                       height: 62,
                       child: Swiper(
-                        itemCount: getMinNumber(
-                            [homeState.countdownFestivalListData!.length, 6]),
+                        itemCount: getMinNumber([homeState.countdownFestivalListData!.length, 6]),
                         autoplay: true,
                         autoplayDelay: 5000,
                         itemBuilder: (context, index) {
-                          final item =
-                              homeState.countdownFestivalListData![index];
+                          final item = homeState.countdownFestivalListData![index];
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -758,9 +697,7 @@ class HomeUI extends HookConsumerWidget {
                                   ),
                                   const SizedBox(height: 3),
                                   CountdownTimeText(
-                                    targetTime:
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                            item.time ?? 0),
+                                    targetTime: DateTime.fromMillisecondsSinceEpoch(item.time ?? 0),
                                   ),
                                 ],
                               ),
@@ -790,8 +727,7 @@ class HomeUI extends HookConsumerWidget {
             context: context,
             builder: (context) {
               return HomeMdContentDialogUI(
-                title: homeState.appPlacardData?.title ??
-                    S.current.home_announcement_details,
+                title: homeState.appPlacardData?.title ?? S.current.home_announcement_details,
                 url: homeState.appPlacardData?.link,
               );
             });
@@ -800,14 +736,11 @@ class HomeUI extends HookConsumerWidget {
   }
 
   _onTapFestival(BuildContext context) {
-    showDialog(
-        context: context, builder: (context) => const HomeCountdownDialogUI());
+    showDialog(context: context, builder: (context) => const HomeCountdownDialogUI());
   }
 
-  Future<void> _onMenuTap(BuildContext context, String key,
-      HomeUIModelState homeState, WidgetRef ref) async {
-    String gameInstallReqInfo =
-        S.current.home_action_info_valid_install_location_required;
+  Future<void> _onMenuTap(BuildContext context, String key, HomeUIModelState homeState, WidgetRef ref) async {
+    String gameInstallReqInfo = S.current.home_action_info_valid_install_location_required;
     switch (key) {
       case "localization":
         if (homeState.scInstalledPath == "not_install") {
@@ -858,25 +791,22 @@ class HomeUI extends HookConsumerWidget {
     }
   }
 
-  void _checkAndGoInputMethod(BuildContext context, HomeUIModelState homeState,
-      HomeUIModel model, WidgetRef ref) async {
+  void _checkAndGoInputMethod(
+      BuildContext context, HomeUIModelState homeState, HomeUIModel model, WidgetRef ref) async {
     final localizationState = ref.read(localizationUIModelProvider);
     if (localizationState.communityInputMethodLanguageData == null) {
       showToast(context, S.current.input_method_feature_maintenance);
       return;
     }
     if (localizationState.installedCommunityInputMethodSupportVersion == null) {
-      final userOK = await showConfirmDialogs(
-          context,
-          S.current.input_method_community_input_method_not_installed,
+      final userOK = await showConfirmDialogs(context, S.current.input_method_community_input_method_not_installed,
           Text(S.current.input_method_install_community_input_method_prompt));
       if (userOK) {
         if (!context.mounted) return;
         () async {
           await _onMenuTap(context, 'localization', homeState, ref);
           final localizationState = ref.read(localizationUIModelProvider);
-          if (localizationState.installedCommunityInputMethodSupportVersion !=
-              null) {
+          if (localizationState.installedCommunityInputMethodSupportVersion != null) {
             await Future.delayed(Duration(milliseconds: 300));
             if (!context.mounted) return;
             await _goInputMethod(context, model);
@@ -885,8 +815,7 @@ class HomeUI extends HookConsumerWidget {
         }();
 
         await Future.delayed(Duration(milliseconds: 300));
-        final localizationModel =
-            ref.read(localizationUIModelProvider.notifier);
+        final localizationModel = ref.read(localizationUIModelProvider.notifier);
         if (!context.mounted) return;
         localizationModel.checkReinstall(context);
       }
