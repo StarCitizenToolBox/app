@@ -7,7 +7,7 @@ import 'package:archive/archive_io.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';

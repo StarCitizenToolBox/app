@@ -1,7 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';

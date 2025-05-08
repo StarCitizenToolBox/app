@@ -1,6 +1,5 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'cache_svg_image.dart';
 

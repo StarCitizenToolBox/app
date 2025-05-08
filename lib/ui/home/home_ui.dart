@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/ui/guide/guide_ui.dart';

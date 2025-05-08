@@ -5,7 +5,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:aria2/aria2.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/rust/api/rs_process.dart'

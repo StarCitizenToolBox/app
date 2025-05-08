@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
