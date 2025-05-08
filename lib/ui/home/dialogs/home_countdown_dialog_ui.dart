@@ -43,41 +43,44 @@ class HomeCountdownDialogUI extends HookConsumerWidget {
                       itemBuilder: (BuildContext context, int index) {
                         final item =
                             homeState.countdownFestivalListData![index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: FluentTheme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Row(
-                              children: [
-                                if (item.icon != null && item.icon != "") ...[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(1000),
-                                    child: Image.asset(
-                                      "assets/countdown/${item.icon}",
-                                      width: 38,
-                                      height: 38,
+                        return GridItemAnimator(
+                          index: index,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: FluentTheme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Row(
+                                children: [
+                                  if (item.icon != null && item.icon != "") ...[
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(1000),
+                                      child: Image.asset(
+                                        "assets/countdown/${item.icon}",
+                                        width: 38,
+                                        height: 38,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                ] else
-                                  const SizedBox(width: 50),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${item.name}",
-                                    ),
-                                    CountdownTimeText(
-                                      targetTime:
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                              item.time ?? 0),
-                                    )
-                                  ],
-                                )
-                              ],
+                                    const SizedBox(width: 12),
+                                  ] else
+                                    const SizedBox(width: 50),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${item.name}",
+                                      ),
+                                      CountdownTimeText(
+                                        targetTime:
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                item.time ?? 0),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );

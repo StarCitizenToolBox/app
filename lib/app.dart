@@ -22,6 +22,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'api/analytics.dart';
 import 'api/api.dart';
+import 'common/conf/url_conf.dart';
 import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
@@ -214,6 +215,9 @@ class AppGlobalModel extends _$AppGlobalModel {
         dPrint("lastVersion=${networkVersionData.lastVersion}  ${networkVersionData.lastVersionCode}");
       }
       state = state.copyWith(networkVersionData: networkVersionData);
+      if (networkVersionData.nav42KitUrl != null) {
+        URLConf.nav42KitUrl = networkVersionData.nav42KitUrl!;
+      }
     } catch (e) {
       checkUpdateError = e;
       dPrint("_checkUpdate Error:$e");

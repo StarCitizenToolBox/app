@@ -39,6 +39,7 @@ class URLConf {
 
   static const feedbackUrl = "https://support.citizenwiki.cn/all";
   static const feedbackFAQUrl = "https://support.citizenwiki.cn/t/sc-toolbox";
+  static String nav42KitUrl = "https://payload.citizenwiki.cn/api/community-navs?sort=is_sponsored&depth=2&page=1&limit=1000";
 
   static String get devReleaseUrl => "$gitApiHome/SCToolBox/Release/releases";
 

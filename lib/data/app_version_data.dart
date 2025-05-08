@@ -17,6 +17,9 @@ class AppVersionData {
     this.mSEMinVersionCode,
     this.p4kDownloadUrl,
     this.activityColors,
+    this.nav42KitUrl,
+    this.gameChannels,
+    this.webMirrors,
   });
 
   AppVersionData.fromJson(dynamic json) {
@@ -27,11 +30,10 @@ class AppVersionData {
     mSELastVersionCode = json['MSE_lastVersionCode'];
     mSEMinVersionCode = json['MSE_minVersionCode'];
     p4kDownloadUrl = json['p4kDownloadUrl'];
-    activityColors = json['activityColors'] != null
-        ? ActivityColors.fromJson(json['activityColors'])
-        : null;
+    activityColors = json['activityColors'] != null ? ActivityColors.fromJson(json['activityColors']) : null;
     gameChannels = List.from(json["game_channels"]).cast<String>();
     webMirrors = json["web_mirrors"];
+    nav42KitUrl = json['nav_42kit_url'];
   }
 
   String? lastVersion;
@@ -44,6 +46,7 @@ class AppVersionData {
   ActivityColors? activityColors;
   List<String>? gameChannels;
   Map? webMirrors;
+  String? nav42KitUrl;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -59,6 +62,7 @@ class AppVersionData {
     }
     map["web_mirrors"] = webMirrors;
     map["game_channels"] = gameChannels;
+    map["nav_42kit_url"] = nav42KitUrl;
     return map;
   }
 }
