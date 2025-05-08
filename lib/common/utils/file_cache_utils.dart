@@ -95,7 +95,7 @@ class FileCacheUtils {
         await cacheDir.create();
       }
     } catch (e) {
-      debugPrint('清除缓存失败: $e');
+      debugPrint('clear All Cache Error: $e');
     }
   }
 }

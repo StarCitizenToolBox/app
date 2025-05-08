@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
+import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
 import 'package:starcitizen_doctor/ui/guide/guide_ui.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -151,7 +152,7 @@ class HomeUI extends HookConsumerWidget {
                 onChanged: model.onChangeInstallPath,
               ),
             ),
-            if (S.current.app_language_code == "zh_CN") ...[
+            if (S.current.app_language_code == NoL10n.langCodeZhCn) ...[
               const SizedBox(width: 12),
               Button(
                   onPressed: homeState.webLocalizationVersionsData == null ? null : () => model.launchRSI(context),

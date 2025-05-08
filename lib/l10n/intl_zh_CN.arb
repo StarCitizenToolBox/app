@@ -893,5 +893,10 @@
   "log_analyzer_search_placeholder": "输入关键字搜索内容",
   "log_analyzer_title": "log 分析器",
   "log_analyzer_description": "分析您的游玩记录 （登录、死亡、击杀 等信息）",
-  "log_analyzer_window_title": "SC汉化盒子: log 分析器"
+  "log_analyzer_window_title": "SC汉化盒子: log 分析器",
+  "nav_title": "导航",
+  "nav_third_party_service_disclaimer": "*对应链接指向的服务由第三方提供，我们不对其做任何担保，请用户自行判断使用风险    |   ",
+  "nav_website_navigation_data_provided_by": "网站导航数据由",
+  "nav_provided_by": "提供",
+  "nav_fetching_data": "正在获取数据..."
 }

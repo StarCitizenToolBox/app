@@ -40,7 +40,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
 
   static const supportLocalizationMap = {
     "en": NoL10n.langEn,
-    "zh_CN": NoL10n.langZHS,
+    NoL10n.langCodeZhCn: NoL10n.langZHS,
     "zh_TW": NoL10n.langZHT,
     "fr": NoL10n.langFR,
   };

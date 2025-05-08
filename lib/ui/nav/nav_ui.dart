@@ -28,8 +28,8 @@ class NavUI extends HookConsumerWidget {
             children: [
               Text.rich(
                 TextSpan(children: [
-                  TextSpan(text: "*对应链接指向的服务由第三方提供，我们不对其做任何担保，请用户自行判断使用风险    |   "),
-                  TextSpan(text: "网站导航数据由"),
+                  TextSpan(text: S.current.nav_third_party_service_disclaimer),
+                  TextSpan(text: S.current.nav_website_navigation_data_provided_by),
                   TextSpan(
                     text: " 42kit ",
                     style: TextStyle(
@@ -41,7 +41,7 @@ class NavUI extends HookConsumerWidget {
                         launchUrlString("https://42kit.citizenwiki.cn/nav");
                       },
                   ),
-                  TextSpan(text: "提供"),
+                  TextSpan(text: S.current.nav_provided_by),
                 ]),
                 style: TextStyle(
                   fontSize: 13,
@@ -67,13 +67,13 @@ class NavUI extends HookConsumerWidget {
       );
     }
     if (data.items == null) {
-      return const Center(
+      return Center(
           child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           ProgressRing(),
           SizedBox(height: 12),
-          Text("正在获取数据..."),
+          Text(S.current.nav_fetching_data),
         ],
       ));
     }

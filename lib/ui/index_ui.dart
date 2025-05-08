@@ -94,7 +94,7 @@ class IndexUI extends HookConsumerWidget {
           S.current.app_index_menu_tools,
           const ToolsUI(),
         ),
-        FluentIcons.power_apps: ("导航", const NavUI()),
+        FluentIcons.power_apps: ((S.current.nav_title), const NavUI()),
         FluentIcons.settings: (S.current.app_index_menu_settings, const SettingsUI()),
         FluentIcons.info: (
           S.current.app_index_menu_about,

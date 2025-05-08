@@ -893,5 +893,10 @@
   "log_analyzer_search_placeholder": "Enter keywords to search content",
   "log_analyzer_title": "Log Analyzer",
   "log_analyzer_description": "Analyze your gameplay records (login, death, kills, and other information)",
-  "log_analyzer_window_title": "SCToolbox: Log Analyzer"
+  "log_analyzer_window_title": "SCToolbox: Log Analyzer",
+  "nav_title": "Navigation",
+  "nav_third_party_service_disclaimer": "*The services linked correspond to third-party providers. We do not make any guarantees and users should assess the risks of using them.    |   ",
+  "nav_website_navigation_data_provided_by": "Website navigation data provided by",
+  "nav_provided_by": "",
+  "nav_fetching_data": "Fetching data..."
 }

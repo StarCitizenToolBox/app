@@ -5852,6 +5852,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Navigation`
+  String get nav_title {
+    return Intl.message('Navigation', name: 'nav_title', desc: '', args: []);
+  }
+
+  /// `*The services linked correspond to third-party providers. We do not make any guarantees and users should assess the risks of using them.    |   `
+  String get nav_third_party_service_disclaimer {
+    return Intl.message(
+      '*The services linked correspond to third-party providers. We do not make any guarantees and users should assess the risks of using them.    |   ',
+      name: 'nav_third_party_service_disclaimer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Website navigation data provided by`
+  String get nav_website_navigation_data_provided_by {
+    return Intl.message(
+      'Website navigation data provided by',
+      name: 'nav_website_navigation_data_provided_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ``
+  String get nav_provided_by {
+    return Intl.message('', name: 'nav_provided_by', desc: '', args: []);
+  }
+
+  /// `Fetching data...`
+  String get nav_fetching_data {
+    return Intl.message(
+      'Fetching data...',
+      name: 'nav_fetching_data',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

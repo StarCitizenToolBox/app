@@ -916,6 +916,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_window_title": MessageLookupByLibrary.simpleMessage(
       "SC汉化盒子: log 分析器",
     ),
+    "nav_fetching_data": MessageLookupByLibrary.simpleMessage("正在获取数据..."),
+    "nav_provided_by": MessageLookupByLibrary.simpleMessage("提供"),
+    "nav_third_party_service_disclaimer": MessageLookupByLibrary.simpleMessage(
+      "*对应链接指向的服务由第三方提供，我们不对其做任何担保，请用户自行判断使用风险    |   ",
+    ),
+    "nav_title": MessageLookupByLibrary.simpleMessage("导航"),
+    "nav_website_navigation_data_provided_by":
+        MessageLookupByLibrary.simpleMessage("网站导航数据由"),
     "performance_action_apply": MessageLookupByLibrary.simpleMessage("应用"),
     "performance_action_apply_and_clear_shaders":
         MessageLookupByLibrary.simpleMessage("应用并清理着色器（推荐）"),

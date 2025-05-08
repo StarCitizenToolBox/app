@@ -1058,6 +1058,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_window_title": MessageLookupByLibrary.simpleMessage(
       "SCToolbox: Log Analyzer",
     ),
+    "nav_fetching_data": MessageLookupByLibrary.simpleMessage(
+      "Fetching data...",
+    ),
+    "nav_provided_by": MessageLookupByLibrary.simpleMessage(""),
+    "nav_third_party_service_disclaimer": MessageLookupByLibrary.simpleMessage(
+      "*The services linked correspond to third-party providers. We do not make any guarantees and users should assess the risks of using them.    |   ",
+    ),
+    "nav_title": MessageLookupByLibrary.simpleMessage("Navigation"),
+    "nav_website_navigation_data_provided_by":
+        MessageLookupByLibrary.simpleMessage(
+          "Website navigation data provided by",
+        ),
     "performance_action_apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "performance_action_apply_and_clear_shaders":
         MessageLookupByLibrary.simpleMessage(

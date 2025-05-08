@@ -922,6 +922,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_window_title": MessageLookupByLibrary.simpleMessage(
       "SC工具箱: log 分析器",
     ),
+    "nav_fetching_data": MessageLookupByLibrary.simpleMessage("正在獲取數據..."),
+    "nav_provided_by": MessageLookupByLibrary.simpleMessage("提供"),
+    "nav_third_party_service_disclaimer": MessageLookupByLibrary.simpleMessage(
+      "*對應鏈接指向的服務由第三方提供，我們不對其做任何擔保，請用戶自行判斷使用風險    |   ",
+    ),
+    "nav_title": MessageLookupByLibrary.simpleMessage("導航"),
+    "nav_website_navigation_data_provided_by":
+        MessageLookupByLibrary.simpleMessage("網站導航數據由"),
     "performance_action_apply": MessageLookupByLibrary.simpleMessage("套用設定"),
     "performance_action_apply_and_clear_shaders":
         MessageLookupByLibrary.simpleMessage("套用設定並清除著色器快取（建議）"),

@@ -895,5 +895,10 @@
   "log_analyzer_search_placeholder": "輸入關鍵字搜索內容",
   "log_analyzer_title": "log 分析器",
   "log_analyzer_description": "分析您的遊玩記錄 （登入、死亡、擊殺 等資訊）",
-  "log_analyzer_window_title": "SC工具箱: log 分析器"
+  "log_analyzer_window_title": "SC工具箱: log 分析器",
+  "nav_title": "導航",
+  "nav_third_party_service_disclaimer": "*對應鏈接指向的服務由第三方提供，我們不對其做任何擔保，請用戶自行判斷使用風險    |   ",
+  "nav_website_navigation_data_provided_by": "網站導航數據由",
+  "nav_provided_by": "提供",
+  "nav_fetching_data": "正在獲取數據..."
 }

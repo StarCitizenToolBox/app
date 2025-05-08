@@ -5,4 +5,5 @@ class NoL10n {
   static const String langJa = '日本語';
   static const String langFR = 'Français';
   static const String langRU = 'Русский';
+  static const String langCodeZhCn = 'zh_CN';
 }
