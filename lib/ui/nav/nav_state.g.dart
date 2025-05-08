@@ -6,7 +6,7 @@ part of 'nav_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$navHash() => r'2019b3f675fbaec4be794049d900bf2dcc8d5e37';
+String _$navHash() => r'00c4da8fdd37214cda179a81ece3676add7aab53';
 
 /// See also [Nav].
 @ProviderFor(Nav)

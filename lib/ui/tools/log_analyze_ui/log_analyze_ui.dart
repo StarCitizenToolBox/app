@@ -15,14 +15,13 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedPath = useState<String?>(appState.gameInstallPaths.firstOrNull);
-    final logResp = ref.watch(toolsLogAnalyzeProvider(selectedPath.value ?? ""));
+    final listSortReverse = useState<bool>(false);
+    final provider = toolsLogAnalyzeProvider(selectedPath.value ?? "", listSortReverse.value);
+    final logResp = ref.watch(provider);
     final searchText = useState<String>("");
     final searchType = useState<String?>(null);
-    final lastListSize = useState<int>(0);
-
     final listCtrl = useScrollController();
 
-    _diffData(logResp, lastListSize, listCtrl);
     return ScaffoldPage(
       content: Column(
         children: [
@@ -56,7 +55,7 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                     child: const Icon(FluentIcons.refresh),
                   ),
                   onPressed: () {
-                    ref.invalidate(toolsLogAnalyzeProvider(selectedPath.value ?? ""));
+                    ref.invalidate(provider);
                   },
                 ),
               ],
@@ -81,6 +80,7 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                     },
                   ),
                 ),
+
                 SizedBox(width: 6),
                 // 筛选 ComboBox
                 ComboBox<String>(
@@ -95,6 +95,18 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                       .toList(),
                   onChanged: (value) {
                     searchType.value = value;
+                  },
+                ),
+                const SizedBox(width: 6),
+                // 倒序 Icon
+                Button(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+                    child: Transform.rotate(
+                        angle: listSortReverse.value ? 3.14 : 0, child: const Icon(FluentIcons.sort_lines)),
+                  ),
+                  onPressed: () {
+                    listSortReverse.value = !listSortReverse.value;
                   },
                 ),
               ],
@@ -225,33 +237,5 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
       default:
         return Colors.white.withValues(alpha: .06);
     }
-  }
-
-  void _diffData(
-      AsyncValue<List<LogAnalyzeLineData>> logResp, ValueNotifier<int> lastListSize, ScrollController listCtrl) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (lastListSize.value == 0) {
-        lastListSize.value = logResp.value?.length ?? 0;
-      } else {
-        // 判断当前内容是否大于一页
-        if (listCtrl.position.maxScrollExtent > listCtrl.position.viewportDimension) {
-          // 判断当前列表是否在底部
-          if (listCtrl.position.pixels >= listCtrl.position.maxScrollExtent) {
-            // 如果在底部，判断数据是否有变化
-            if ((logResp.value?.length ?? 0) > lastListSize.value) {
-              Future.delayed(Duration(milliseconds: 100)).then((_) {
-                listCtrl.jumpTo(listCtrl.position.maxScrollExtent);
-              });
-              lastListSize.value = logResp.value?.length ?? 0;
-            } else {
-              // 回顶部
-              if (listCtrl.position.pixels > 0) {
-                listCtrl.jumpTo(0);
-              }
-            }
-          }
-        }
-      }
-    });
   }
 }

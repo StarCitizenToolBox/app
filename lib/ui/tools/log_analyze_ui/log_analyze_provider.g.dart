@@ -6,7 +6,7 @@ part of 'log_analyze_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolsLogAnalyzeHash() => r'cc8aed5b4eeb6c8feb35c59ef484dc61c92a5549';
+String _$toolsLogAnalyzeHash() => r'5666c3f882e22e2192593629164bc53f8ce4aabe';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,9 +32,11 @@ class _SystemHash {
 abstract class _$ToolsLogAnalyze
     extends BuildlessAutoDisposeAsyncNotifier<List<LogAnalyzeLineData>> {
   late final String gameInstallPath;
+  late final bool listSortReverse;
 
   FutureOr<List<LogAnalyzeLineData>> build(
     String gameInstallPath,
+    bool listSortReverse,
   );
 }
 
@@ -51,9 +53,11 @@ class ToolsLogAnalyzeFamily
   /// See also [ToolsLogAnalyze].
   ToolsLogAnalyzeProvider call(
     String gameInstallPath,
+    bool listSortReverse,
   ) {
     return ToolsLogAnalyzeProvider(
       gameInstallPath,
+      listSortReverse,
     );
   }
 
@@ -63,6 +67,7 @@ class ToolsLogAnalyzeFamily
   ) {
     return call(
       provider.gameInstallPath,
+      provider.listSortReverse,
     );
   }
 
@@ -87,8 +92,11 @@ class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
   /// See also [ToolsLogAnalyze].
   ToolsLogAnalyzeProvider(
     String gameInstallPath,
+    bool listSortReverse,
   ) : this._internal(
-          () => ToolsLogAnalyze()..gameInstallPath = gameInstallPath,
+          () => ToolsLogAnalyze()
+            ..gameInstallPath = gameInstallPath
+            ..listSortReverse = listSortReverse,
           from: toolsLogAnalyzeProvider,
           name: r'toolsLogAnalyzeProvider',
           debugGetCreateSourceHash:
@@ -99,6 +107,7 @@ class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
           allTransitiveDependencies:
               ToolsLogAnalyzeFamily._allTransitiveDependencies,
           gameInstallPath: gameInstallPath,
+          listSortReverse: listSortReverse,
         );
 
   ToolsLogAnalyzeProvider._internal(
@@ -109,9 +118,11 @@ class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.gameInstallPath,
+    required this.listSortReverse,
   }) : super.internal();
 
   final String gameInstallPath;
+  final bool listSortReverse;
 
   @override
   FutureOr<List<LogAnalyzeLineData>> runNotifierBuild(
@@ -119,6 +130,7 @@ class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
   ) {
     return notifier.build(
       gameInstallPath,
+      listSortReverse,
     );
   }
 
@@ -127,13 +139,16 @@ class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
     return ProviderOverride(
       origin: this,
       override: ToolsLogAnalyzeProvider._internal(
-        () => create()..gameInstallPath = gameInstallPath,
+        () => create()
+          ..gameInstallPath = gameInstallPath
+          ..listSortReverse = listSortReverse,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         gameInstallPath: gameInstallPath,
+        listSortReverse: listSortReverse,
       ),
     );
   }
@@ -147,13 +162,15 @@ class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
   @override
   bool operator ==(Object other) {
     return other is ToolsLogAnalyzeProvider &&
-        other.gameInstallPath == gameInstallPath;
+        other.gameInstallPath == gameInstallPath &&
+        other.listSortReverse == listSortReverse;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, gameInstallPath.hashCode);
+    hash = _SystemHash.combine(hash, listSortReverse.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -165,6 +182,9 @@ mixin ToolsLogAnalyzeRef
     on AutoDisposeAsyncNotifierProviderRef<List<LogAnalyzeLineData>> {
   /// The parameter `gameInstallPath` of this provider.
   String get gameInstallPath;
+
+  /// The parameter `listSortReverse` of this provider.
+  bool get listSortReverse;
 }
 
 class _ToolsLogAnalyzeProviderElement
@@ -175,6 +195,9 @@ class _ToolsLogAnalyzeProviderElement
   @override
   String get gameInstallPath =>
       (origin as ToolsLogAnalyzeProvider).gameInstallPath;
+  @override
+  bool get listSortReverse =>
+      (origin as ToolsLogAnalyzeProvider).listSortReverse;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
