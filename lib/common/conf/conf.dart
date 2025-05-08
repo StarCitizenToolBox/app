@@ -1,17 +1,16 @@
 class ConstConf {
-  static const String appVersion = "2.14.0";
-  static const int appVersionCode = 64;
-  static const String appVersionDate = "2025-04-06";
+  static const String appVersion = "2.14.1";
+  static const int appVersionCode = 65;
+  static const String appVersionDate = "2025-05-08";
   static const _gameChannels = [
     "LIVE",
     "4.0_PREVIEW",
     "PTU",
     "EPTU",
     "TECH-PREVIEW",
-    "HOTFIX"
+    "HOTFIX",
   ];
-  static const isMSE =
-      String.fromEnvironment("MSE", defaultValue: "false") == "true";
+  static const isMSE = String.fromEnvironment("MSE", defaultValue: "false") == "true";
   static const dohAddress = "https://223.6.6.6/resolve";
   static const inputMethodServerPort = 59399;
 }
@@ -23,6 +22,5 @@ class AppConf {
     _networkGameChannels = channels;
   }
 
-  static List<String> get gameChannels =>
-      _networkGameChannels ?? ConstConf._gameChannels;
+  static List<String> get gameChannels => _networkGameChannels ?? ConstConf._gameChannels;
 }
