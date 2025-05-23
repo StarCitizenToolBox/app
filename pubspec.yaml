@@ -58,7 +58,7 @@ dependencies:
   aria2:
     git: https://github.com/xkeyC/dart_aria2_rpc.git
   #    path: ../../xkeyC/dart_aria2_rpc
-  intl: ^0.19.0
+  intl: any
   synchronized: ^3.1.0+1
   super_sliver_list: ^0.4.1
   file: ^7.0.0
