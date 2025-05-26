@@ -72,6 +72,7 @@ dependencies:
   crypto: ^3.0.6
 dependency_overrides:
   http: ^1.1.2
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
