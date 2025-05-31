@@ -18,7 +18,7 @@ part 'multi_window_manager.freezed.dart';
 part 'multi_window_manager.g.dart';
 
 @freezed
-class MultiWindowAppState with _$MultiWindowAppState {
+abstract class MultiWindowAppState with _$MultiWindowAppState {
   const factory MultiWindowAppState({
     required String backgroundColor,
     required String menuColor,

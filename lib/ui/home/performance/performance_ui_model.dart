@@ -19,7 +19,7 @@ part 'performance_ui_model.freezed.dart';
 part 'performance_ui_model.g.dart';
 
 @freezed
-class HomePerformanceUIState with _$HomePerformanceUIState {
+abstract class HomePerformanceUIState with _$HomePerformanceUIState {
   factory HomePerformanceUIState({
     @Default(true) bool showGraphicsPerformanceTip,
     @Default(false) bool enabled,

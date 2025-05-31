@@ -20,7 +20,7 @@ part 'home_downloader_ui_model.g.dart';
 part 'home_downloader_ui_model.freezed.dart';
 
 @freezed
-class HomeDownloaderUIState with _$HomeDownloaderUIState {
+abstract class HomeDownloaderUIState with _$HomeDownloaderUIState {
   factory HomeDownloaderUIState({
     @Default([]) List<Aria2Task> tasks,
     @Default([]) List<Aria2Task> waitingTasks,

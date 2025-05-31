@@ -19,7 +19,7 @@ dependencies:
   hooks_riverpod: ^2.6.1
   json_annotation: ^4.9.0
   go_router: ^15.1.2
-  window_manager: ^0.4.0
+  window_manager: ^0.5.0
   fluent_ui: ^4.11.5
   flutter_staggered_grid_view: ^0.7.0
   flutter_acrylic: ^1.1.4
@@ -43,8 +43,8 @@ dependencies:
   flutter_tilt: ^3.0.0
   card_swiper: ^3.0.1
   ffi: ^2.1.0
-  flutter_rust_bridge: 2.10.0
-  freezed_annotation: ^2.4.1
+  flutter_rust_bridge: 2.9.0
+  freezed_annotation: ^3.0.0
   meta: ^1.9.1
   hexcolor: ^3.0.1
   dart_rss: ^3.0.1
@@ -77,16 +77,15 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   msix: ^3.16.4
   build_runner: ^2.4.8
-  freezed: ^2.4.5
+  freezed: ^3.0.6
   json_serializable: ^6.7.1
   riverpod_generator: ^2.6.2
   custom_lint: ^0.7.0
   riverpod_lint: ^2.6.2
-  ffigen: ^16.0.0
+  ffigen: ^19.0.0
   sct_dev_tools:
     path: ./packages/sct_dev_tools
 

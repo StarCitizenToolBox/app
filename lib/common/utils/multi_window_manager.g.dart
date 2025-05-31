@@ -6,9 +6,8 @@ part of 'multi_window_manager.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MultiWindowAppStateImpl _$$MultiWindowAppStateImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MultiWindowAppStateImpl(
+_MultiWindowAppState _$MultiWindowAppStateFromJson(Map<String, dynamic> json) =>
+    _MultiWindowAppState(
       backgroundColor: json['backgroundColor'] as String,
       menuColor: json['menuColor'] as String,
       micaColor: json['micaColor'] as String,
@@ -19,8 +18,8 @@ _$MultiWindowAppStateImpl _$$MultiWindowAppStateImplFromJson(
       countryCode: json['countryCode'] as String?,
     );
 
-Map<String, dynamic> _$$MultiWindowAppStateImplToJson(
-        _$MultiWindowAppStateImpl instance) =>
+Map<String, dynamic> _$MultiWindowAppStateToJson(
+        _MultiWindowAppState instance) =>
     <String, dynamic>{
       'backgroundColor': instance.backgroundColor,
       'menuColor': instance.menuColor,

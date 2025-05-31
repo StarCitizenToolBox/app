@@ -20,7 +20,7 @@ part 'server.g.dart';
 part 'server.freezed.dart';
 
 @freezed
-class InputMethodServerState with _$InputMethodServerState {
+abstract class InputMethodServerState with _$InputMethodServerState {
   const factory InputMethodServerState({
     @Default(false) bool isServerStartup,
     String? serverAddressText,

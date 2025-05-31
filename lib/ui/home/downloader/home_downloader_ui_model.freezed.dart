@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,88 +10,57 @@ part of 'home_downloader_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$HomeDownloaderUIState {
-  List<Aria2Task> get tasks => throw _privateConstructorUsedError;
-  List<Aria2Task> get waitingTasks => throw _privateConstructorUsedError;
-  List<Aria2Task> get stoppedTasks => throw _privateConstructorUsedError;
-  Aria2GlobalStat? get globalStat => throw _privateConstructorUsedError;
+  List<Aria2Task> get tasks;
+  List<Aria2Task> get waitingTasks;
+  List<Aria2Task> get stoppedTasks;
+  Aria2GlobalStat? get globalStat;
 
   /// Create a copy of HomeDownloaderUIState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $HomeDownloaderUIStateCopyWith<HomeDownloaderUIState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $HomeDownloaderUIStateCopyWith<$Res> {
-  factory $HomeDownloaderUIStateCopyWith(HomeDownloaderUIState value,
-          $Res Function(HomeDownloaderUIState) then) =
-      _$HomeDownloaderUIStateCopyWithImpl<$Res, HomeDownloaderUIState>;
-  @useResult
-  $Res call(
-      {List<Aria2Task> tasks,
-      List<Aria2Task> waitingTasks,
-      List<Aria2Task> stoppedTasks,
-      Aria2GlobalStat? globalStat});
-}
-
-/// @nodoc
-class _$HomeDownloaderUIStateCopyWithImpl<$Res,
-        $Val extends HomeDownloaderUIState>
-    implements $HomeDownloaderUIStateCopyWith<$Res> {
-  _$HomeDownloaderUIStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of HomeDownloaderUIState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $HomeDownloaderUIStateCopyWith<HomeDownloaderUIState> get copyWith =>
+      _$HomeDownloaderUIStateCopyWithImpl<HomeDownloaderUIState>(
+          this as HomeDownloaderUIState, _$identity);
+
   @override
-  $Res call({
-    Object? tasks = null,
-    Object? waitingTasks = null,
-    Object? stoppedTasks = null,
-    Object? globalStat = freezed,
-  }) {
-    return _then(_value.copyWith(
-      tasks: null == tasks
-          ? _value.tasks
-          : tasks // ignore: cast_nullable_to_non_nullable
-              as List<Aria2Task>,
-      waitingTasks: null == waitingTasks
-          ? _value.waitingTasks
-          : waitingTasks // ignore: cast_nullable_to_non_nullable
-              as List<Aria2Task>,
-      stoppedTasks: null == stoppedTasks
-          ? _value.stoppedTasks
-          : stoppedTasks // ignore: cast_nullable_to_non_nullable
-              as List<Aria2Task>,
-      globalStat: freezed == globalStat
-          ? _value.globalStat
-          : globalStat // ignore: cast_nullable_to_non_nullable
-              as Aria2GlobalStat?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is HomeDownloaderUIState &&
+            const DeepCollectionEquality().equals(other.tasks, tasks) &&
+            const DeepCollectionEquality()
+                .equals(other.waitingTasks, waitingTasks) &&
+            const DeepCollectionEquality()
+                .equals(other.stoppedTasks, stoppedTasks) &&
+            (identical(other.globalStat, globalStat) ||
+                other.globalStat == globalStat));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(tasks),
+      const DeepCollectionEquality().hash(waitingTasks),
+      const DeepCollectionEquality().hash(stoppedTasks),
+      globalStat);
+
+  @override
+  String toString() {
+    return 'HomeDownloaderUIState(tasks: $tasks, waitingTasks: $waitingTasks, stoppedTasks: $stoppedTasks, globalStat: $globalStat)';
   }
 }
 
 /// @nodoc
-abstract class _$$HomeDownloaderUIStateImplCopyWith<$Res>
-    implements $HomeDownloaderUIStateCopyWith<$Res> {
-  factory _$$HomeDownloaderUIStateImplCopyWith(
-          _$HomeDownloaderUIStateImpl value,
-          $Res Function(_$HomeDownloaderUIStateImpl) then) =
-      __$$HomeDownloaderUIStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $HomeDownloaderUIStateCopyWith<$Res> {
+  factory $HomeDownloaderUIStateCopyWith(HomeDownloaderUIState value,
+          $Res Function(HomeDownloaderUIState) _then) =
+      _$HomeDownloaderUIStateCopyWithImpl;
   @useResult
   $Res call(
       {List<Aria2Task> tasks,
@@ -100,13 +70,12 @@ abstract class _$$HomeDownloaderUIStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$HomeDownloaderUIStateImplCopyWithImpl<$Res>
-    extends _$HomeDownloaderUIStateCopyWithImpl<$Res,
-        _$HomeDownloaderUIStateImpl>
-    implements _$$HomeDownloaderUIStateImplCopyWith<$Res> {
-  __$$HomeDownloaderUIStateImplCopyWithImpl(_$HomeDownloaderUIStateImpl _value,
-      $Res Function(_$HomeDownloaderUIStateImpl) _then)
-      : super(_value, _then);
+class _$HomeDownloaderUIStateCopyWithImpl<$Res>
+    implements $HomeDownloaderUIStateCopyWith<$Res> {
+  _$HomeDownloaderUIStateCopyWithImpl(this._self, this._then);
+
+  final HomeDownloaderUIState _self;
+  final $Res Function(HomeDownloaderUIState) _then;
 
   /// Create a copy of HomeDownloaderUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -118,21 +87,21 @@ class __$$HomeDownloaderUIStateImplCopyWithImpl<$Res>
     Object? stoppedTasks = null,
     Object? globalStat = freezed,
   }) {
-    return _then(_$HomeDownloaderUIStateImpl(
+    return _then(_self.copyWith(
       tasks: null == tasks
-          ? _value._tasks
+          ? _self.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<Aria2Task>,
       waitingTasks: null == waitingTasks
-          ? _value._waitingTasks
+          ? _self.waitingTasks
           : waitingTasks // ignore: cast_nullable_to_non_nullable
               as List<Aria2Task>,
       stoppedTasks: null == stoppedTasks
-          ? _value._stoppedTasks
+          ? _self.stoppedTasks
           : stoppedTasks // ignore: cast_nullable_to_non_nullable
               as List<Aria2Task>,
       globalStat: freezed == globalStat
-          ? _value.globalStat
+          ? _self.globalStat
           : globalStat // ignore: cast_nullable_to_non_nullable
               as Aria2GlobalStat?,
     ));
@@ -141,8 +110,8 @@ class __$$HomeDownloaderUIStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$HomeDownloaderUIStateImpl implements _HomeDownloaderUIState {
-  _$HomeDownloaderUIStateImpl(
+class _HomeDownloaderUIState implements HomeDownloaderUIState {
+  _HomeDownloaderUIState(
       {final List<Aria2Task> tasks = const [],
       final List<Aria2Task> waitingTasks = const [],
       final List<Aria2Task> stoppedTasks = const [],
@@ -181,16 +150,20 @@ class _$HomeDownloaderUIStateImpl implements _HomeDownloaderUIState {
   @override
   final Aria2GlobalStat? globalStat;
 
+  /// Create a copy of HomeDownloaderUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'HomeDownloaderUIState(tasks: $tasks, waitingTasks: $waitingTasks, stoppedTasks: $stoppedTasks, globalStat: $globalStat)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$HomeDownloaderUIStateCopyWith<_HomeDownloaderUIState> get copyWith =>
+      __$HomeDownloaderUIStateCopyWithImpl<_HomeDownloaderUIState>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HomeDownloaderUIStateImpl &&
+            other is _HomeDownloaderUIState &&
             const DeepCollectionEquality().equals(other._tasks, _tasks) &&
             const DeepCollectionEquality()
                 .equals(other._waitingTasks, _waitingTasks) &&
@@ -208,36 +181,64 @@ class _$HomeDownloaderUIStateImpl implements _HomeDownloaderUIState {
       const DeepCollectionEquality().hash(_stoppedTasks),
       globalStat);
 
+  @override
+  String toString() {
+    return 'HomeDownloaderUIState(tasks: $tasks, waitingTasks: $waitingTasks, stoppedTasks: $stoppedTasks, globalStat: $globalStat)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$HomeDownloaderUIStateCopyWith<$Res>
+    implements $HomeDownloaderUIStateCopyWith<$Res> {
+  factory _$HomeDownloaderUIStateCopyWith(_HomeDownloaderUIState value,
+          $Res Function(_HomeDownloaderUIState) _then) =
+      __$HomeDownloaderUIStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<Aria2Task> tasks,
+      List<Aria2Task> waitingTasks,
+      List<Aria2Task> stoppedTasks,
+      Aria2GlobalStat? globalStat});
+}
+
+/// @nodoc
+class __$HomeDownloaderUIStateCopyWithImpl<$Res>
+    implements _$HomeDownloaderUIStateCopyWith<$Res> {
+  __$HomeDownloaderUIStateCopyWithImpl(this._self, this._then);
+
+  final _HomeDownloaderUIState _self;
+  final $Res Function(_HomeDownloaderUIState) _then;
+
   /// Create a copy of HomeDownloaderUIState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$HomeDownloaderUIStateImplCopyWith<_$HomeDownloaderUIStateImpl>
-      get copyWith => __$$HomeDownloaderUIStateImplCopyWithImpl<
-          _$HomeDownloaderUIStateImpl>(this, _$identity);
+  $Res call({
+    Object? tasks = null,
+    Object? waitingTasks = null,
+    Object? stoppedTasks = null,
+    Object? globalStat = freezed,
+  }) {
+    return _then(_HomeDownloaderUIState(
+      tasks: null == tasks
+          ? _self._tasks
+          : tasks // ignore: cast_nullable_to_non_nullable
+              as List<Aria2Task>,
+      waitingTasks: null == waitingTasks
+          ? _self._waitingTasks
+          : waitingTasks // ignore: cast_nullable_to_non_nullable
+              as List<Aria2Task>,
+      stoppedTasks: null == stoppedTasks
+          ? _self._stoppedTasks
+          : stoppedTasks // ignore: cast_nullable_to_non_nullable
+              as List<Aria2Task>,
+      globalStat: freezed == globalStat
+          ? _self.globalStat
+          : globalStat // ignore: cast_nullable_to_non_nullable
+              as Aria2GlobalStat?,
+    ));
+  }
 }
 
-abstract class _HomeDownloaderUIState implements HomeDownloaderUIState {
-  factory _HomeDownloaderUIState(
-      {final List<Aria2Task> tasks,
-      final List<Aria2Task> waitingTasks,
-      final List<Aria2Task> stoppedTasks,
-      final Aria2GlobalStat? globalStat}) = _$HomeDownloaderUIStateImpl;
-
-  @override
-  List<Aria2Task> get tasks;
-  @override
-  List<Aria2Task> get waitingTasks;
-  @override
-  List<Aria2Task> get stoppedTasks;
-  @override
-  Aria2GlobalStat? get globalStat;
-
-  /// Create a copy of HomeDownloaderUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HomeDownloaderUIStateImplCopyWith<_$HomeDownloaderUIStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

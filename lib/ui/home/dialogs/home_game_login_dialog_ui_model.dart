@@ -22,7 +22,7 @@ part 'home_game_login_dialog_ui_model.freezed.dart';
 part 'home_game_login_dialog_ui_model.g.dart';
 
 @freezed
-class HomeGameLoginState with _$HomeGameLoginState {
+abstract class HomeGameLoginState with _$HomeGameLoginState {
   factory HomeGameLoginState({
     required int loginStatus,
     String? nickname,

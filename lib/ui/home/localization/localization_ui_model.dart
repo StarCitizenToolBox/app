@@ -30,7 +30,7 @@ part 'localization_ui_model.g.dart';
 part 'localization_ui_model.freezed.dart';
 
 @freezed
-class LocalizationUIState with _$LocalizationUIState {
+abstract class LocalizationUIState with _$LocalizationUIState {
   factory LocalizationUIState({
     String? selectedLanguage,
     String? installedCommunityInputMethodSupportVersion,

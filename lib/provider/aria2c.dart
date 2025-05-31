@@ -19,7 +19,7 @@ part 'aria2c.g.dart';
 part 'aria2c.freezed.dart';
 
 @freezed
-class Aria2cModelState with _$Aria2cModelState {
+abstract class Aria2cModelState with _$Aria2cModelState {
   const factory Aria2cModelState({
     required String aria2cDir,
     Aria2c? aria2c,

@@ -43,7 +43,7 @@ class ToolsItemData {
 }
 
 @freezed
-class ToolsUIState with _$ToolsUIState {
+abstract class ToolsUIState with _$ToolsUIState {
   factory ToolsUIState({
     @Default(false) bool working,
     @Default("") String scInstalledPath,

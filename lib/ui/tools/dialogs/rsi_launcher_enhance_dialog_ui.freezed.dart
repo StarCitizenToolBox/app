@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,101 +10,58 @@ part of 'rsi_launcher_enhance_dialog_ui.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$RSILauncherStateData {
-  String get version => throw _privateConstructorUsedError;
-  asar_api.RsiLauncherAsarData get data => throw _privateConstructorUsedError;
-  String get serverData => throw _privateConstructorUsedError;
-  bool get isPatchInstalled => throw _privateConstructorUsedError;
-  String? get enabledLocalization => throw _privateConstructorUsedError;
-  bool? get enableDownloaderBoost => throw _privateConstructorUsedError;
+  String get version;
+  asar_api.RsiLauncherAsarData get data;
+  String get serverData;
+  bool get isPatchInstalled;
+  String? get enabledLocalization;
+  bool? get enableDownloaderBoost;
 
   /// Create a copy of RSILauncherStateData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $RSILauncherStateDataCopyWith<RSILauncherStateData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $RSILauncherStateDataCopyWith<$Res> {
-  factory $RSILauncherStateDataCopyWith(RSILauncherStateData value,
-          $Res Function(RSILauncherStateData) then) =
-      _$RSILauncherStateDataCopyWithImpl<$Res, RSILauncherStateData>;
-  @useResult
-  $Res call(
-      {String version,
-      asar_api.RsiLauncherAsarData data,
-      String serverData,
-      bool isPatchInstalled,
-      String? enabledLocalization,
-      bool? enableDownloaderBoost});
-}
-
-/// @nodoc
-class _$RSILauncherStateDataCopyWithImpl<$Res,
-        $Val extends RSILauncherStateData>
-    implements $RSILauncherStateDataCopyWith<$Res> {
-  _$RSILauncherStateDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of RSILauncherStateData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $RSILauncherStateDataCopyWith<RSILauncherStateData> get copyWith =>
+      _$RSILauncherStateDataCopyWithImpl<RSILauncherStateData>(
+          this as RSILauncherStateData, _$identity);
+
   @override
-  $Res call({
-    Object? version = null,
-    Object? data = null,
-    Object? serverData = null,
-    Object? isPatchInstalled = null,
-    Object? enabledLocalization = freezed,
-    Object? enableDownloaderBoost = freezed,
-  }) {
-    return _then(_value.copyWith(
-      version: null == version
-          ? _value.version
-          : version // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as asar_api.RsiLauncherAsarData,
-      serverData: null == serverData
-          ? _value.serverData
-          : serverData // ignore: cast_nullable_to_non_nullable
-              as String,
-      isPatchInstalled: null == isPatchInstalled
-          ? _value.isPatchInstalled
-          : isPatchInstalled // ignore: cast_nullable_to_non_nullable
-              as bool,
-      enabledLocalization: freezed == enabledLocalization
-          ? _value.enabledLocalization
-          : enabledLocalization // ignore: cast_nullable_to_non_nullable
-              as String?,
-      enableDownloaderBoost: freezed == enableDownloaderBoost
-          ? _value.enableDownloaderBoost
-          : enableDownloaderBoost // ignore: cast_nullable_to_non_nullable
-              as bool?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is RSILauncherStateData &&
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.serverData, serverData) ||
+                other.serverData == serverData) &&
+            (identical(other.isPatchInstalled, isPatchInstalled) ||
+                other.isPatchInstalled == isPatchInstalled) &&
+            (identical(other.enabledLocalization, enabledLocalization) ||
+                other.enabledLocalization == enabledLocalization) &&
+            (identical(other.enableDownloaderBoost, enableDownloaderBoost) ||
+                other.enableDownloaderBoost == enableDownloaderBoost));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, version, data, serverData,
+      isPatchInstalled, enabledLocalization, enableDownloaderBoost);
+
+  @override
+  String toString() {
+    return 'RSILauncherStateData(version: $version, data: $data, serverData: $serverData, isPatchInstalled: $isPatchInstalled, enabledLocalization: $enabledLocalization, enableDownloaderBoost: $enableDownloaderBoost)';
   }
 }
 
 /// @nodoc
-abstract class _$$RSILauncherStateDataImplCopyWith<$Res>
-    implements $RSILauncherStateDataCopyWith<$Res> {
-  factory _$$RSILauncherStateDataImplCopyWith(_$RSILauncherStateDataImpl value,
-          $Res Function(_$RSILauncherStateDataImpl) then) =
-      __$$RSILauncherStateDataImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $RSILauncherStateDataCopyWith<$Res> {
+  factory $RSILauncherStateDataCopyWith(RSILauncherStateData value,
+          $Res Function(RSILauncherStateData) _then) =
+      _$RSILauncherStateDataCopyWithImpl;
   @useResult
   $Res call(
       {String version,
@@ -115,12 +73,12 @@ abstract class _$$RSILauncherStateDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$RSILauncherStateDataImplCopyWithImpl<$Res>
-    extends _$RSILauncherStateDataCopyWithImpl<$Res, _$RSILauncherStateDataImpl>
-    implements _$$RSILauncherStateDataImplCopyWith<$Res> {
-  __$$RSILauncherStateDataImplCopyWithImpl(_$RSILauncherStateDataImpl _value,
-      $Res Function(_$RSILauncherStateDataImpl) _then)
-      : super(_value, _then);
+class _$RSILauncherStateDataCopyWithImpl<$Res>
+    implements $RSILauncherStateDataCopyWith<$Res> {
+  _$RSILauncherStateDataCopyWithImpl(this._self, this._then);
+
+  final RSILauncherStateData _self;
+  final $Res Function(RSILauncherStateData) _then;
 
   /// Create a copy of RSILauncherStateData
   /// with the given fields replaced by the non-null parameter values.
@@ -134,29 +92,29 @@ class __$$RSILauncherStateDataImplCopyWithImpl<$Res>
     Object? enabledLocalization = freezed,
     Object? enableDownloaderBoost = freezed,
   }) {
-    return _then(_$RSILauncherStateDataImpl(
+    return _then(_self.copyWith(
       version: null == version
-          ? _value.version
+          ? _self.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
       data: null == data
-          ? _value.data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as asar_api.RsiLauncherAsarData,
       serverData: null == serverData
-          ? _value.serverData
+          ? _self.serverData
           : serverData // ignore: cast_nullable_to_non_nullable
               as String,
       isPatchInstalled: null == isPatchInstalled
-          ? _value.isPatchInstalled
+          ? _self.isPatchInstalled
           : isPatchInstalled // ignore: cast_nullable_to_non_nullable
               as bool,
       enabledLocalization: freezed == enabledLocalization
-          ? _value.enabledLocalization
+          ? _self.enabledLocalization
           : enabledLocalization // ignore: cast_nullable_to_non_nullable
               as String?,
       enableDownloaderBoost: freezed == enableDownloaderBoost
-          ? _value.enableDownloaderBoost
+          ? _self.enableDownloaderBoost
           : enableDownloaderBoost // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
@@ -165,8 +123,8 @@ class __$$RSILauncherStateDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RSILauncherStateDataImpl implements _RSILauncherStateData {
-  const _$RSILauncherStateDataImpl(
+class _RSILauncherStateData implements RSILauncherStateData {
+  const _RSILauncherStateData(
       {required this.version,
       required this.data,
       required this.serverData,
@@ -188,16 +146,20 @@ class _$RSILauncherStateDataImpl implements _RSILauncherStateData {
   @override
   final bool? enableDownloaderBoost;
 
+  /// Create a copy of RSILauncherStateData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'RSILauncherStateData(version: $version, data: $data, serverData: $serverData, isPatchInstalled: $isPatchInstalled, enabledLocalization: $enabledLocalization, enableDownloaderBoost: $enableDownloaderBoost)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$RSILauncherStateDataCopyWith<_RSILauncherStateData> get copyWith =>
+      __$RSILauncherStateDataCopyWithImpl<_RSILauncherStateData>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RSILauncherStateDataImpl &&
+            other is _RSILauncherStateData &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.serverData, serverData) ||
@@ -214,43 +176,76 @@ class _$RSILauncherStateDataImpl implements _RSILauncherStateData {
   int get hashCode => Object.hash(runtimeType, version, data, serverData,
       isPatchInstalled, enabledLocalization, enableDownloaderBoost);
 
+  @override
+  String toString() {
+    return 'RSILauncherStateData(version: $version, data: $data, serverData: $serverData, isPatchInstalled: $isPatchInstalled, enabledLocalization: $enabledLocalization, enableDownloaderBoost: $enableDownloaderBoost)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$RSILauncherStateDataCopyWith<$Res>
+    implements $RSILauncherStateDataCopyWith<$Res> {
+  factory _$RSILauncherStateDataCopyWith(_RSILauncherStateData value,
+          $Res Function(_RSILauncherStateData) _then) =
+      __$RSILauncherStateDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String version,
+      asar_api.RsiLauncherAsarData data,
+      String serverData,
+      bool isPatchInstalled,
+      String? enabledLocalization,
+      bool? enableDownloaderBoost});
+}
+
+/// @nodoc
+class __$RSILauncherStateDataCopyWithImpl<$Res>
+    implements _$RSILauncherStateDataCopyWith<$Res> {
+  __$RSILauncherStateDataCopyWithImpl(this._self, this._then);
+
+  final _RSILauncherStateData _self;
+  final $Res Function(_RSILauncherStateData) _then;
+
   /// Create a copy of RSILauncherStateData
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RSILauncherStateDataImplCopyWith<_$RSILauncherStateDataImpl>
-      get copyWith =>
-          __$$RSILauncherStateDataImplCopyWithImpl<_$RSILauncherStateDataImpl>(
-              this, _$identity);
+  $Res call({
+    Object? version = null,
+    Object? data = null,
+    Object? serverData = null,
+    Object? isPatchInstalled = null,
+    Object? enabledLocalization = freezed,
+    Object? enableDownloaderBoost = freezed,
+  }) {
+    return _then(_RSILauncherStateData(
+      version: null == version
+          ? _self.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _self.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as asar_api.RsiLauncherAsarData,
+      serverData: null == serverData
+          ? _self.serverData
+          : serverData // ignore: cast_nullable_to_non_nullable
+              as String,
+      isPatchInstalled: null == isPatchInstalled
+          ? _self.isPatchInstalled
+          : isPatchInstalled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enabledLocalization: freezed == enabledLocalization
+          ? _self.enabledLocalization
+          : enabledLocalization // ignore: cast_nullable_to_non_nullable
+              as String?,
+      enableDownloaderBoost: freezed == enableDownloaderBoost
+          ? _self.enableDownloaderBoost
+          : enableDownloaderBoost // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
 }
 
-abstract class _RSILauncherStateData implements RSILauncherStateData {
-  const factory _RSILauncherStateData(
-      {required final String version,
-      required final asar_api.RsiLauncherAsarData data,
-      required final String serverData,
-      final bool isPatchInstalled,
-      final String? enabledLocalization,
-      final bool? enableDownloaderBoost}) = _$RSILauncherStateDataImpl;
-
-  @override
-  String get version;
-  @override
-  asar_api.RsiLauncherAsarData get data;
-  @override
-  String get serverData;
-  @override
-  bool get isPatchInstalled;
-  @override
-  String? get enabledLocalization;
-  @override
-  bool? get enableDownloaderBoost;
-
-  /// Create a copy of RSILauncherStateData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RSILauncherStateDataImplCopyWith<_$RSILauncherStateDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

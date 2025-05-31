@@ -9,7 +9,7 @@ environment:
 # Add regular dependencies here.
 dependencies:
   # path: ^1.8.0
-  analyzer: ^6.4.1
+  analyzer: any
   uuid: ^4.3.3
   translator: ^1.0.0
 

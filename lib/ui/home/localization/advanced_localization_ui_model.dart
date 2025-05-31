@@ -27,7 +27,7 @@ part 'advanced_localization_ui_model.g.dart';
 part 'advanced_localization_ui_model.freezed.dart';
 
 @freezed
-class AdvancedLocalizationUIState with _$AdvancedLocalizationUIState {
+abstract class AdvancedLocalizationUIState with _$AdvancedLocalizationUIState {
   factory AdvancedLocalizationUIState({
     @Default("") String workingText,
     Map<String, AppAdvancedLocalizationClassKeysData>? classMap,

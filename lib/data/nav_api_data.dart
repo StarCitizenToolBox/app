@@ -5,7 +5,7 @@ part 'nav_api_data.freezed.dart';
 part 'nav_api_data.g.dart';
 
 @freezed
-class NavApiDocsItemData with _$NavApiDocsItemData {
+abstract class NavApiDocsItemData with _$NavApiDocsItemData {
   const factory NavApiDocsItemData({
     @Default('') @JsonKey(name: 'id') String id,
     @Default('') @JsonKey(name: 'name') String name,
@@ -31,7 +31,7 @@ class NavApiDocsItemData with _$NavApiDocsItemData {
 }
 
 @freezed
-class NavApiDocsItemImageData with _$NavApiDocsItemImageData {
+abstract class NavApiDocsItemImageData with _$NavApiDocsItemImageData {
   const factory NavApiDocsItemImageData({
     @Default('') @JsonKey(name: 'id') String id,
     @Default(NavApiDocsItemImageCreatedByData())
@@ -63,7 +63,7 @@ class NavApiDocsItemImageData with _$NavApiDocsItemImageData {
 }
 
 @freezed
-class NavApiDocsItemImageCreatedByData with _$NavApiDocsItemImageCreatedByData {
+abstract class NavApiDocsItemImageCreatedByData with _$NavApiDocsItemImageCreatedByData {
   const factory NavApiDocsItemImageCreatedByData({
     @Default('') @JsonKey(name: 'id') String id,
     @Default('') @JsonKey(name: 'sub') String sub,
@@ -87,7 +87,7 @@ class NavApiDocsItemImageCreatedByData with _$NavApiDocsItemImageCreatedByData {
 }
 
 @freezed
-class NavApiDocsItemImageSizesThumbnailData
+abstract class NavApiDocsItemImageSizesThumbnailData
     with _$NavApiDocsItemImageSizesThumbnailData {
   const factory NavApiDocsItemImageSizesThumbnailData({
     @Default('') @JsonKey(name: 'url') String url,
@@ -106,7 +106,7 @@ class NavApiDocsItemImageSizesThumbnailData
 }
 
 @freezed
-class NavApiDocsItemImageSizesData with _$NavApiDocsItemImageSizesData {
+abstract class NavApiDocsItemImageSizesData with _$NavApiDocsItemImageSizesData {
   const factory NavApiDocsItemImageSizesData({
     @Default(NavApiDocsItemImageSizesThumbnailData())
     @JsonKey(name: 'thumbnail')
@@ -132,7 +132,7 @@ class NavApiDocsItemImageSizesData with _$NavApiDocsItemImageSizesData {
 }
 
 @freezed
-class NavApiDocsItemImageSizesPreloadData
+abstract class NavApiDocsItemImageSizesPreloadData
     with _$NavApiDocsItemImageSizesPreloadData {
   const factory NavApiDocsItemImageSizesPreloadData({
     @JsonKey(name: 'url') dynamic url,
@@ -151,7 +151,7 @@ class NavApiDocsItemImageSizesPreloadData
 }
 
 @freezed
-class NavApiDocsItemImageSizesCardData with _$NavApiDocsItemImageSizesCardData {
+abstract class NavApiDocsItemImageSizesCardData with _$NavApiDocsItemImageSizesCardData {
   const factory NavApiDocsItemImageSizesCardData({
     @Default('') @JsonKey(name: 'url') String url,
     @Default(0) @JsonKey(name: 'width') int width,
@@ -169,7 +169,7 @@ class NavApiDocsItemImageSizesCardData with _$NavApiDocsItemImageSizesCardData {
 }
 
 @freezed
-class NavApiDocsItemImageSizesTabletData
+abstract class NavApiDocsItemImageSizesTabletData
     with _$NavApiDocsItemImageSizesTabletData {
   const factory NavApiDocsItemImageSizesTabletData({
     @Default('') @JsonKey(name: 'url') String url,
@@ -188,7 +188,7 @@ class NavApiDocsItemImageSizesTabletData
 }
 
 @freezed
-class NavApiDocsItemImageSizesAvatarData
+abstract class NavApiDocsItemImageSizesAvatarData
     with _$NavApiDocsItemImageSizesAvatarData {
   const factory NavApiDocsItemImageSizesAvatarData({
     @Default('') @JsonKey(name: 'url') String url,
@@ -207,7 +207,7 @@ class NavApiDocsItemImageSizesAvatarData
 }
 
 @freezed
-class NavApiDocsItemTagsItemData with _$NavApiDocsItemTagsItemData {
+abstract class NavApiDocsItemTagsItemData with _$NavApiDocsItemTagsItemData {
   const factory NavApiDocsItemTagsItemData({
     @Default('') @JsonKey(name: 'id') String id,
     @Default('') @JsonKey(name: 'name') String name,
@@ -223,7 +223,7 @@ class NavApiDocsItemTagsItemData with _$NavApiDocsItemTagsItemData {
 }
 
 @freezed
-class NavApiData with _$NavApiData {
+abstract class NavApiData with _$NavApiData {
   const factory NavApiData({
     @Default(<NavApiDocsItemData>[])
     @JsonKey(name: 'docs')

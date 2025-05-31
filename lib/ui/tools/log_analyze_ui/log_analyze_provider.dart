@@ -27,7 +27,7 @@ final Map<String?, String> logAnalyzeSearchTypeMap = {
 };
 
 @freezed
-class LogAnalyzeLineData with _$LogAnalyzeLineData {
+abstract class LogAnalyzeLineData with _$LogAnalyzeLineData {
   const factory LogAnalyzeLineData({
     required String type,
     required String title,

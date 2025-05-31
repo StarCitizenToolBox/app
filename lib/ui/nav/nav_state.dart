@@ -8,7 +8,7 @@ part 'nav_state.freezed.dart';
 part 'nav_state.g.dart';
 
 @freezed
-class NavState with _$NavState {
+abstract class NavState with _$NavState {
   const factory NavState({
     List<NavApiDocsItemData>? items,
     @Default("") String errorInfo,

@@ -14,7 +14,7 @@ part 'input_method_dialog_ui_model.g.dart';
 part 'input_method_dialog_ui_model.freezed.dart';
 
 @freezed
-class InputMethodDialogUIState with _$InputMethodDialogUIState {
+abstract class InputMethodDialogUIState with _$InputMethodDialogUIState {
   factory InputMethodDialogUIState(
     Map<String, String>? keyMaps,
     Map<String, String>? worldMaps, {

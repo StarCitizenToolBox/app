@@ -21,7 +21,7 @@ import 'package:starcitizen_doctor/widgets/widgets.dart';
 part 'rsi_launcher_enhance_dialog_ui.freezed.dart';
 
 @freezed
-class RSILauncherStateData with _$RSILauncherStateData {
+abstract class RSILauncherStateData with _$RSILauncherStateData {
   const factory RSILauncherStateData({
     required String version,
     required asar_api.RsiLauncherAsarData data,
@@ -35,8 +35,7 @@ class RSILauncherStateData with _$RSILauncherStateData {
 class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
   final bool showNotGameInstallMsg;
 
-  const RsiLauncherEnhanceDialogUI(
-      {super.key, this.showNotGameInstallMsg = false});
+  const RsiLauncherEnhanceDialogUI({super.key, this.showNotGameInstallMsg = false});
 
   static const supportLocalizationMap = {
     "en": NoL10n.langEn,
@@ -62,30 +61,25 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
       }
       workingText.value = S.current.tools_rsi_launcher_enhance_init_msg2;
       if (!context.mounted) return;
-      await _loadEnhanceData(context, ref, assarState)
-          .unwrap(context: context)
-          .unwrap(context: context);
+      await _loadEnhanceData(context, ref, assarState).unwrap(context: context).unwrap(context: context);
       workingText.value = "";
     }
 
     void doInstall() async {
+      if (!context.mounted) return;
+      workingText.value = S.current.tools_rsi_launcher_enhance_working_msg1;
       if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
         if (!context.mounted) return;
-        showToast(
-            context, S.current.tools_action_info_rsi_launcher_running_warning,
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * .35));
+        showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
+        workingText.value = "";
         return;
       }
       if (!context.mounted) return;
-      workingText.value = S.current.tools_rsi_launcher_enhance_working_msg1;
-      final newScript =
-          await _genNewScript(assarState).unwrap(context: context);
+      final newScript = await _genNewScript(assarState).unwrap(context: context);
       workingText.value = S.current.tools_rsi_launcher_enhance_working_msg2;
       if (!context.mounted) return;
-      await assarState.value?.data
-          .writeMainJs(content: utf8.encode(newScript))
-          .unwrap(context: context);
+      await assarState.value?.data.writeMainJs(content: utf8.encode(newScript)).unwrap(context: context);
       AnalyticsApi.touch("rsi_launcher_mod_apply");
       await readState();
     }
@@ -97,16 +91,14 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
     }, const []);
 
     return ContentDialog(
-      constraints:
-          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .48),
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .48),
       title: Row(children: [
         IconButton(
             icon: const Icon(
               FluentIcons.back,
               size: 22,
             ),
-            onPressed:
-                workingText.value.isEmpty ? Navigator.of(context).pop : null),
+            onPressed: workingText.value.isEmpty ? Navigator.of(context).pop : null),
         const SizedBox(width: 12),
         Text(S.current.tools_rsi_launcher_enhance_title),
       ]),
@@ -119,8 +111,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
             if (showNotGameInstallMsg) ...[
               InfoBar(
                 title: const SizedBox(),
-                content: Text(S.current
-                    .home_localization_action_rsi_launcher_no_game_path_msg),
+                content: Text(S.current.home_localization_action_rsi_launcher_no_game_path_msg),
                 style: InfoBarThemeData(decoration: (severity) {
                   return BoxDecoration(
                     color: Colors.orange,
@@ -152,18 +143,16 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      S.current.tools_rsi_launcher_enhance_msg_version(
-                          assarState.value?.version ?? ""),
+                      S.current.tools_rsi_launcher_enhance_msg_version(assarState.value?.version ?? ""),
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: .6),
                       ),
                     ),
                   ),
                   Text(
-                    S.current.tools_rsi_launcher_enhance_msg_patch_status(
-                        (assarState.value?.isPatchInstalled ?? false)
-                            ? S.current.localization_info_installed
-                            : S.current.tools_action_info_not_installed),
+                    S.current.tools_rsi_launcher_enhance_msg_patch_status((assarState.value?.isPatchInstalled ?? false)
+                        ? S.current.localization_info_installed
+                        : S.current.tools_action_info_not_installed),
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: .6),
                     ),
@@ -188,12 +177,10 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(S.current
-                                  .tools_rsi_launcher_enhance_title_localization),
+                              Text(S.current.tools_rsi_launcher_enhance_title_localization),
                               const SizedBox(height: 3),
                               Text(
-                                S.current
-                                    .tools_rsi_launcher_enhance_subtitle_localization,
+                                S.current.tools_rsi_launcher_enhance_subtitle_localization,
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.white.withValues(alpha: .6),
@@ -204,14 +191,11 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                           ComboBox(
                             items: [
                               for (final key in supportLocalizationMap.keys)
-                                ComboBoxItem(
-                                    value: key,
-                                    child: Text(supportLocalizationMap[key]!))
+                                ComboBoxItem(value: key, child: Text(supportLocalizationMap[key]!))
                             ],
                             value: assarState.value?.enabledLocalization,
                             onChanged: (v) {
-                              assarState.value = assarState.value!
-                                  .copyWith(enabledLocalization: v);
+                              assarState.value = assarState.value!.copyWith(enabledLocalization: v);
                             },
                           ),
                         ],
@@ -228,15 +212,11 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                                   child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(expandEnhance.value
-                                  ? FluentIcons.chevron_up
-                                  : FluentIcons.chevron_down),
+                              Icon(expandEnhance.value ? FluentIcons.chevron_up : FluentIcons.chevron_down),
                               const SizedBox(width: 12),
                               Text(expandEnhance.value
-                                  ? S.current
-                                      .tools_rsi_launcher_enhance_action_fold
-                                  : S.current
-                                      .tools_rsi_launcher_enhance_action_expand),
+                                  ? S.current.tools_rsi_launcher_enhance_action_fold
+                                  : S.current.tools_rsi_launcher_enhance_action_expand),
                             ],
                           ))),
                         ],
@@ -250,13 +230,10 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(S.current
-                                    .tools_rsi_launcher_enhance_note_msg),
+                                Text(S.current.tools_rsi_launcher_enhance_note_msg),
                               ],
                             ),
-                            constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * .55));
+                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55));
                         if (!userOK) return;
                       }
                       expandEnhance.value = !expandEnhance.value;
@@ -275,12 +252,10 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(S.current
-                                  .tools_rsi_launcher_enhance_title_download_booster),
+                              Text(S.current.tools_rsi_launcher_enhance_title_download_booster),
                               const SizedBox(height: 3),
                               Text(
-                                S.current
-                                    .tools_rsi_launcher_enhance_subtitle_download_booster,
+                                S.current.tools_rsi_launcher_enhance_subtitle_download_booster,
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.white.withValues(alpha: .6),
@@ -290,11 +265,9 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                           )),
                           ToggleSwitch(
                             onChanged: (value) {
-                              assarState.value = assarState.value
-                                  ?.copyWith(enableDownloaderBoost: value);
+                              assarState.value = assarState.value?.copyWith(enableDownloaderBoost: value);
                             },
-                            checked: assarState.value?.enableDownloaderBoost ??
-                                false,
+                            checked: assarState.value?.enableDownloaderBoost ?? false,
                           )
                         ])),
                 ],
@@ -303,17 +276,14 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
                     child: FilledButton(
                         onPressed: doInstall,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 6),
-                          child: Text(S.current
-                              .tools_rsi_launcher_enhance_action_install),
+                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                          child: Text(S.current.tools_rsi_launcher_enhance_action_install),
                         ))),
               ],
               const SizedBox(height: 16),
               Text(
                 S.current.tools_rsi_launcher_enhance_msg_uninstall,
-                style: TextStyle(
-                    color: Colors.white.withValues(alpha: .6), fontSize: 13),
+                style: TextStyle(color: Colors.white.withValues(alpha: .6), fontSize: 13),
               ),
             ],
           ],
@@ -326,8 +296,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
     final lPath = await SystemHelper.getRSILauncherPath(skipEXE: true);
     if (lPath.isEmpty) {
       if (!context.mounted) return null;
-      showToast(context,
-          S.current.tools_rsi_launcher_enhance_msg_error_launcher_notfound);
+      showToast(context, S.current.tools_rsi_launcher_enhance_msg_error_launcher_notfound);
       return null;
     }
     dPrint("[RsiLauncherEnhanceDialogUI] rsiLauncherPath ==== $lPath");
@@ -335,25 +304,18 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
     dPrint("[RsiLauncherEnhanceDialogUI] rsiLauncherDataPath ==== $dataPath");
     try {
       final data = await asar_api.getRsiLauncherAsarData(asarPath: dataPath);
-      dPrint(
-          "[RsiLauncherEnhanceDialogUI] rsiLauncherPath main.js path == ${data.mainJsPath}");
-      final version =
-          RegExp(r"main\.(\w+)\.js").firstMatch(data.mainJsPath)?.group(1);
+      dPrint("[RsiLauncherEnhanceDialogUI] rsiLauncherPath main.js path == ${data.mainJsPath}");
+      final version = RegExp(r"main\.(\w+)\.js").firstMatch(data.mainJsPath)?.group(1);
       if (version == null) {
         if (!context.mounted) return null;
-        showToast(
-            context,
-            S.current
-                .tools_rsi_launcher_enhance_msg_error_get_launcher_info_error);
+        showToast(context, S.current.tools_rsi_launcher_enhance_msg_error_get_launcher_info_error);
         return null;
       }
-      dPrint(
-          "[RsiLauncherEnhanceDialogUI] rsiLauncherPath main.js version == $version");
+      dPrint("[RsiLauncherEnhanceDialogUI] rsiLauncherPath main.js version == $version");
 
       final mainJsString = String.fromCharCodes(data.mainJsContent);
 
-      final (enabledLocalization, enableDownloaderBoost) =
-          _readScriptState(mainJsString);
+      final (enabledLocalization, enableDownloaderBoost) = _readScriptState(mainJsString);
 
       return RSILauncherStateData(
         version: version,
@@ -365,25 +327,26 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
       );
     } catch (e) {
       if (!context.mounted) return null;
-      showToast(
-          context,
-          S.current
-              .tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(
-                  e));
+      showToast(context, S.current.tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args(e));
       return null;
     }
   }
 
-  Future<String> _loadEnhanceData(BuildContext context, WidgetRef ref,
-      ValueNotifier<RSILauncherStateData?> assarState) async {
+  Future<String> _loadEnhanceData(
+      BuildContext context, WidgetRef ref, ValueNotifier<RSILauncherStateData?> assarState) async {
     final globalModel = ref.read(appGlobalModelProvider);
-    final enhancePath =
-        "${globalModel.applicationSupportDir}/launcher_enhance_data";
-    final enhanceFile =
-        File("$enhancePath/${assarState.value?.version}.tar.gz");
+    final enhancePath = "${globalModel.applicationSupportDir}/launcher_enhance_data";
+
+    /// For debug
+    final debugFile = File("$enhancePath/main.js");
+    if (await debugFile.exists()) {
+      final debugContent = await debugFile.readAsString();
+      await _loadDebugData(debugContent, assarState);
+      return debugContent;
+    }
+    final enhanceFile = File("$enhancePath/${assarState.value?.version}.tar.gz");
     if (!await enhanceFile.exists()) {
-      final downloadUrl =
-          "${URLConf.gitApiRSILauncherEnhanceUrl}/archive/${assarState.value?.version}.tar.gz";
+      final downloadUrl = "${URLConf.gitApiRSILauncherEnhanceUrl}/archive/${assarState.value?.version}.tar.gz";
       final r = await RSHttp.get(downloadUrl).unwrap();
       if (r.statusCode != 200 || r.data == null) {
         return "";
@@ -391,24 +354,18 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
       await enhanceFile.create(recursive: true);
       await enhanceFile.writeAsBytes(r.data!, flush: true);
     }
-    final severMainJS =
-        await compute(_readArchive, (enhanceFile.path, "main.js"));
+    final severMainJS = await compute(_readArchive, (enhanceFile.path, "main.js"));
     final serverMainJSString = severMainJS.toString();
     final scriptState = _readScriptState(serverMainJSString);
     if (assarState.value?.enabledLocalization == null) {
-      assarState.value =
-          assarState.value?.copyWith(enabledLocalization: scriptState.$1);
-      dPrint(
-          "[RsiLauncherEnhanceDialogUI] _loadEnhanceData enabledLocalization == ${scriptState.$1}");
+      assarState.value = assarState.value?.copyWith(enabledLocalization: scriptState.$1);
+      dPrint("[RsiLauncherEnhanceDialogUI] _loadEnhanceData enabledLocalization == ${scriptState.$1}");
     }
     if (assarState.value?.enableDownloaderBoost == null) {
-      assarState.value =
-          assarState.value?.copyWith(enableDownloaderBoost: scriptState.$2);
-      dPrint(
-          "[RsiLauncherEnhanceDialogUI] _loadEnhanceData enableDownloaderBoost == ${scriptState.$2}");
+      assarState.value = assarState.value?.copyWith(enableDownloaderBoost: scriptState.$2);
+      dPrint("[RsiLauncherEnhanceDialogUI] _loadEnhanceData enableDownloaderBoost == ${scriptState.$2}");
     }
-    assarState.value =
-        assarState.value?.copyWith(serverData: serverMainJSString);
+    assarState.value = assarState.value?.copyWith(serverData: serverMainJSString);
     return serverMainJSString;
   }
 
@@ -432,12 +389,10 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
   }
 
   // ignore: constant_identifier_names
-  static const SC_TOOLBOX_ENABLED_LOCALIZATION_SCRIPT_START =
-      "const SC_TOOLBOX_ENABLED_LOCALIZATION = ";
+  static const SC_TOOLBOX_ENABLED_LOCALIZATION_SCRIPT_START = "const SC_TOOLBOX_ENABLED_LOCALIZATION = ";
 
   // ignore: constant_identifier_names
-  static const SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START =
-      "const SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST = ";
+  static const SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START = "const SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST = ";
 
   (String?, bool?) _readScriptState(String mainJsString) {
     String? enabledLocalization;
@@ -449,35 +404,44 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
             .substring(SC_TOOLBOX_ENABLED_LOCALIZATION_SCRIPT_START.length)
             .replaceAll("\"", "")
             .replaceAll(";", "");
-      } else if (lineTrim
-          .startsWith(SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START)) {
-        enableDownloaderBoost = lineTrim
-                .substring(
-                    SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START.length)
-                .toLowerCase() ==
-            "true;";
+      } else if (lineTrim.startsWith(SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START)) {
+        enableDownloaderBoost =
+            lineTrim.substring(SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START.length).toLowerCase() == "true;";
       }
     }
     return (enabledLocalization, enableDownloaderBoost);
   }
 
-  Future<String> _genNewScript(
-      ValueNotifier<RSILauncherStateData?> assarState) async {
+  Future<String> _genNewScript(ValueNotifier<RSILauncherStateData?> assarState) async {
     final serverScriptLines = assarState.value!.serverData.split("\n");
     final StringBuffer scriptBuffer = StringBuffer("");
     for (final line in serverScriptLines) {
       final lineTrim = line.trim();
       if (lineTrim.startsWith(SC_TOOLBOX_ENABLED_LOCALIZATION_SCRIPT_START)) {
-        scriptBuffer.writeln(
-            "$SC_TOOLBOX_ENABLED_LOCALIZATION_SCRIPT_START\"${assarState.value!.enabledLocalization}\";");
-      } else if (lineTrim
-          .startsWith(SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START)) {
-        scriptBuffer.writeln(
-            "$SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START${assarState.value!.enableDownloaderBoost};");
+        scriptBuffer
+            .writeln("$SC_TOOLBOX_ENABLED_LOCALIZATION_SCRIPT_START\"${assarState.value!.enabledLocalization}\";");
+      } else if (lineTrim.startsWith(SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START)) {
+        scriptBuffer
+            .writeln("$SC_TOOLBOX_ENABLE_DOWNLOADER_BOOST_SCRIPT_START${assarState.value!.enableDownloaderBoost};");
       } else {
         scriptBuffer.writeln(line);
       }
     }
     return scriptBuffer.toString();
+  }
+
+  Future<void> _loadDebugData(String debugContent, ValueNotifier<RSILauncherStateData?> assarState) async {
+    assarState.value = assarState.value?.copyWith(serverData: debugContent);
+    dPrint("[RsiLauncherEnhanceDialogUI] _loadEnhanceData from debug file");
+    final scriptState = _readScriptState(debugContent);
+    if (assarState.value?.enabledLocalization == null) {
+      assarState.value = assarState.value?.copyWith(enabledLocalization: scriptState.$1);
+      dPrint("[RsiLauncherEnhanceDialogUI] _loadEnhanceData enabledLocalization == ${scriptState.$1}");
+    }
+    if (assarState.value?.enableDownloaderBoost == null) {
+      assarState.value = assarState.value?.copyWith(enableDownloaderBoost: scriptState.$2);
+      dPrint("[RsiLauncherEnhanceDialogUI] _loadEnhanceData enableDownloaderBoost == ${scriptState.$2}");
+    }
+    assarState.value = assarState.value?.copyWith(serverData: debugContent);
   }
 }

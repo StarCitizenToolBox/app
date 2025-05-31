@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,121 +10,79 @@ part of 'home_game_login_dialog_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$HomeGameLoginState {
-  int get loginStatus => throw _privateConstructorUsedError;
-  String? get nickname => throw _privateConstructorUsedError;
-  String? get avatarUrl => throw _privateConstructorUsedError;
-  String? get authToken => throw _privateConstructorUsedError;
-  String? get webToken => throw _privateConstructorUsedError;
-  Map<dynamic, dynamic>? get releaseInfo => throw _privateConstructorUsedError;
-  RsiGameLibraryData? get libraryData => throw _privateConstructorUsedError;
-  String? get installPath => throw _privateConstructorUsedError;
-  bool? get isDeviceSupportWinHello => throw _privateConstructorUsedError;
+  int get loginStatus;
+  String? get nickname;
+  String? get avatarUrl;
+  String? get authToken;
+  String? get webToken;
+  Map? get releaseInfo;
+  RsiGameLibraryData? get libraryData;
+  String? get installPath;
+  bool? get isDeviceSupportWinHello;
 
   /// Create a copy of HomeGameLoginState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $HomeGameLoginStateCopyWith<HomeGameLoginState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $HomeGameLoginStateCopyWith<$Res> {
-  factory $HomeGameLoginStateCopyWith(
-          HomeGameLoginState value, $Res Function(HomeGameLoginState) then) =
-      _$HomeGameLoginStateCopyWithImpl<$Res, HomeGameLoginState>;
-  @useResult
-  $Res call(
-      {int loginStatus,
-      String? nickname,
-      String? avatarUrl,
-      String? authToken,
-      String? webToken,
-      Map<dynamic, dynamic>? releaseInfo,
-      RsiGameLibraryData? libraryData,
-      String? installPath,
-      bool? isDeviceSupportWinHello});
-}
-
-/// @nodoc
-class _$HomeGameLoginStateCopyWithImpl<$Res, $Val extends HomeGameLoginState>
-    implements $HomeGameLoginStateCopyWith<$Res> {
-  _$HomeGameLoginStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of HomeGameLoginState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $HomeGameLoginStateCopyWith<HomeGameLoginState> get copyWith =>
+      _$HomeGameLoginStateCopyWithImpl<HomeGameLoginState>(
+          this as HomeGameLoginState, _$identity);
+
   @override
-  $Res call({
-    Object? loginStatus = null,
-    Object? nickname = freezed,
-    Object? avatarUrl = freezed,
-    Object? authToken = freezed,
-    Object? webToken = freezed,
-    Object? releaseInfo = freezed,
-    Object? libraryData = freezed,
-    Object? installPath = freezed,
-    Object? isDeviceSupportWinHello = freezed,
-  }) {
-    return _then(_value.copyWith(
-      loginStatus: null == loginStatus
-          ? _value.loginStatus
-          : loginStatus // ignore: cast_nullable_to_non_nullable
-              as int,
-      nickname: freezed == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      authToken: freezed == authToken
-          ? _value.authToken
-          : authToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      webToken: freezed == webToken
-          ? _value.webToken
-          : webToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      releaseInfo: freezed == releaseInfo
-          ? _value.releaseInfo
-          : releaseInfo // ignore: cast_nullable_to_non_nullable
-              as Map<dynamic, dynamic>?,
-      libraryData: freezed == libraryData
-          ? _value.libraryData
-          : libraryData // ignore: cast_nullable_to_non_nullable
-              as RsiGameLibraryData?,
-      installPath: freezed == installPath
-          ? _value.installPath
-          : installPath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isDeviceSupportWinHello: freezed == isDeviceSupportWinHello
-          ? _value.isDeviceSupportWinHello
-          : isDeviceSupportWinHello // ignore: cast_nullable_to_non_nullable
-              as bool?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is HomeGameLoginState &&
+            (identical(other.loginStatus, loginStatus) ||
+                other.loginStatus == loginStatus) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                other.avatarUrl == avatarUrl) &&
+            (identical(other.authToken, authToken) ||
+                other.authToken == authToken) &&
+            (identical(other.webToken, webToken) ||
+                other.webToken == webToken) &&
+            const DeepCollectionEquality()
+                .equals(other.releaseInfo, releaseInfo) &&
+            (identical(other.libraryData, libraryData) ||
+                other.libraryData == libraryData) &&
+            (identical(other.installPath, installPath) ||
+                other.installPath == installPath) &&
+            (identical(
+                    other.isDeviceSupportWinHello, isDeviceSupportWinHello) ||
+                other.isDeviceSupportWinHello == isDeviceSupportWinHello));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      loginStatus,
+      nickname,
+      avatarUrl,
+      authToken,
+      webToken,
+      const DeepCollectionEquality().hash(releaseInfo),
+      libraryData,
+      installPath,
+      isDeviceSupportWinHello);
+
+  @override
+  String toString() {
+    return 'HomeGameLoginState(loginStatus: $loginStatus, nickname: $nickname, avatarUrl: $avatarUrl, authToken: $authToken, webToken: $webToken, releaseInfo: $releaseInfo, libraryData: $libraryData, installPath: $installPath, isDeviceSupportWinHello: $isDeviceSupportWinHello)';
   }
 }
 
 /// @nodoc
-abstract class _$$LoginStatusImplCopyWith<$Res>
-    implements $HomeGameLoginStateCopyWith<$Res> {
-  factory _$$LoginStatusImplCopyWith(
-          _$LoginStatusImpl value, $Res Function(_$LoginStatusImpl) then) =
-      __$$LoginStatusImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $HomeGameLoginStateCopyWith<$Res> {
+  factory $HomeGameLoginStateCopyWith(
+          HomeGameLoginState value, $Res Function(HomeGameLoginState) _then) =
+      _$HomeGameLoginStateCopyWithImpl;
   @useResult
   $Res call(
       {int loginStatus,
@@ -131,19 +90,19 @@ abstract class _$$LoginStatusImplCopyWith<$Res>
       String? avatarUrl,
       String? authToken,
       String? webToken,
-      Map<dynamic, dynamic>? releaseInfo,
+      Map? releaseInfo,
       RsiGameLibraryData? libraryData,
       String? installPath,
       bool? isDeviceSupportWinHello});
 }
 
 /// @nodoc
-class __$$LoginStatusImplCopyWithImpl<$Res>
-    extends _$HomeGameLoginStateCopyWithImpl<$Res, _$LoginStatusImpl>
-    implements _$$LoginStatusImplCopyWith<$Res> {
-  __$$LoginStatusImplCopyWithImpl(
-      _$LoginStatusImpl _value, $Res Function(_$LoginStatusImpl) _then)
-      : super(_value, _then);
+class _$HomeGameLoginStateCopyWithImpl<$Res>
+    implements $HomeGameLoginStateCopyWith<$Res> {
+  _$HomeGameLoginStateCopyWithImpl(this._self, this._then);
+
+  final HomeGameLoginState _self;
+  final $Res Function(HomeGameLoginState) _then;
 
   /// Create a copy of HomeGameLoginState
   /// with the given fields replaced by the non-null parameter values.
@@ -160,41 +119,41 @@ class __$$LoginStatusImplCopyWithImpl<$Res>
     Object? installPath = freezed,
     Object? isDeviceSupportWinHello = freezed,
   }) {
-    return _then(_$LoginStatusImpl(
+    return _then(_self.copyWith(
       loginStatus: null == loginStatus
-          ? _value.loginStatus
+          ? _self.loginStatus
           : loginStatus // ignore: cast_nullable_to_non_nullable
               as int,
       nickname: freezed == nickname
-          ? _value.nickname
+          ? _self.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String?,
       avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
+          ? _self.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       authToken: freezed == authToken
-          ? _value.authToken
+          ? _self.authToken
           : authToken // ignore: cast_nullable_to_non_nullable
               as String?,
       webToken: freezed == webToken
-          ? _value.webToken
+          ? _self.webToken
           : webToken // ignore: cast_nullable_to_non_nullable
               as String?,
       releaseInfo: freezed == releaseInfo
-          ? _value._releaseInfo
+          ? _self.releaseInfo
           : releaseInfo // ignore: cast_nullable_to_non_nullable
-              as Map<dynamic, dynamic>?,
+              as Map?,
       libraryData: freezed == libraryData
-          ? _value.libraryData
+          ? _self.libraryData
           : libraryData // ignore: cast_nullable_to_non_nullable
               as RsiGameLibraryData?,
       installPath: freezed == installPath
-          ? _value.installPath
+          ? _self.installPath
           : installPath // ignore: cast_nullable_to_non_nullable
               as String?,
       isDeviceSupportWinHello: freezed == isDeviceSupportWinHello
-          ? _value.isDeviceSupportWinHello
+          ? _self.isDeviceSupportWinHello
           : isDeviceSupportWinHello // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
@@ -203,14 +162,14 @@ class __$$LoginStatusImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoginStatusImpl implements _LoginStatus {
-  _$LoginStatusImpl(
+class _LoginStatus implements HomeGameLoginState {
+  _LoginStatus(
       {required this.loginStatus,
       this.nickname,
       this.avatarUrl,
       this.authToken,
       this.webToken,
-      final Map<dynamic, dynamic>? releaseInfo,
+      final Map? releaseInfo,
       this.libraryData,
       this.installPath,
       this.isDeviceSupportWinHello})
@@ -226,9 +185,9 @@ class _$LoginStatusImpl implements _LoginStatus {
   final String? authToken;
   @override
   final String? webToken;
-  final Map<dynamic, dynamic>? _releaseInfo;
+  final Map? _releaseInfo;
   @override
-  Map<dynamic, dynamic>? get releaseInfo {
+  Map? get releaseInfo {
     final value = _releaseInfo;
     if (value == null) return null;
     if (_releaseInfo is EqualUnmodifiableMapView) return _releaseInfo;
@@ -243,16 +202,19 @@ class _$LoginStatusImpl implements _LoginStatus {
   @override
   final bool? isDeviceSupportWinHello;
 
+  /// Create a copy of HomeGameLoginState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'HomeGameLoginState(loginStatus: $loginStatus, nickname: $nickname, avatarUrl: $avatarUrl, authToken: $authToken, webToken: $webToken, releaseInfo: $releaseInfo, libraryData: $libraryData, installPath: $installPath, isDeviceSupportWinHello: $isDeviceSupportWinHello)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoginStatusCopyWith<_LoginStatus> get copyWith =>
+      __$LoginStatusCopyWithImpl<_LoginStatus>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoginStatusImpl &&
+            other is _LoginStatus &&
             (identical(other.loginStatus, loginStatus) ||
                 other.loginStatus == loginStatus) &&
             (identical(other.nickname, nickname) ||
@@ -287,50 +249,93 @@ class _$LoginStatusImpl implements _LoginStatus {
       installPath,
       isDeviceSupportWinHello);
 
+  @override
+  String toString() {
+    return 'HomeGameLoginState(loginStatus: $loginStatus, nickname: $nickname, avatarUrl: $avatarUrl, authToken: $authToken, webToken: $webToken, releaseInfo: $releaseInfo, libraryData: $libraryData, installPath: $installPath, isDeviceSupportWinHello: $isDeviceSupportWinHello)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoginStatusCopyWith<$Res>
+    implements $HomeGameLoginStateCopyWith<$Res> {
+  factory _$LoginStatusCopyWith(
+          _LoginStatus value, $Res Function(_LoginStatus) _then) =
+      __$LoginStatusCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int loginStatus,
+      String? nickname,
+      String? avatarUrl,
+      String? authToken,
+      String? webToken,
+      Map? releaseInfo,
+      RsiGameLibraryData? libraryData,
+      String? installPath,
+      bool? isDeviceSupportWinHello});
+}
+
+/// @nodoc
+class __$LoginStatusCopyWithImpl<$Res> implements _$LoginStatusCopyWith<$Res> {
+  __$LoginStatusCopyWithImpl(this._self, this._then);
+
+  final _LoginStatus _self;
+  final $Res Function(_LoginStatus) _then;
+
   /// Create a copy of HomeGameLoginState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoginStatusImplCopyWith<_$LoginStatusImpl> get copyWith =>
-      __$$LoginStatusImplCopyWithImpl<_$LoginStatusImpl>(this, _$identity);
+  $Res call({
+    Object? loginStatus = null,
+    Object? nickname = freezed,
+    Object? avatarUrl = freezed,
+    Object? authToken = freezed,
+    Object? webToken = freezed,
+    Object? releaseInfo = freezed,
+    Object? libraryData = freezed,
+    Object? installPath = freezed,
+    Object? isDeviceSupportWinHello = freezed,
+  }) {
+    return _then(_LoginStatus(
+      loginStatus: null == loginStatus
+          ? _self.loginStatus
+          : loginStatus // ignore: cast_nullable_to_non_nullable
+              as int,
+      nickname: freezed == nickname
+          ? _self.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatarUrl: freezed == avatarUrl
+          ? _self.avatarUrl
+          : avatarUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      authToken: freezed == authToken
+          ? _self.authToken
+          : authToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      webToken: freezed == webToken
+          ? _self.webToken
+          : webToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      releaseInfo: freezed == releaseInfo
+          ? _self._releaseInfo
+          : releaseInfo // ignore: cast_nullable_to_non_nullable
+              as Map?,
+      libraryData: freezed == libraryData
+          ? _self.libraryData
+          : libraryData // ignore: cast_nullable_to_non_nullable
+              as RsiGameLibraryData?,
+      installPath: freezed == installPath
+          ? _self.installPath
+          : installPath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isDeviceSupportWinHello: freezed == isDeviceSupportWinHello
+          ? _self.isDeviceSupportWinHello
+          : isDeviceSupportWinHello // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
 }
 
-abstract class _LoginStatus implements HomeGameLoginState {
-  factory _LoginStatus(
-      {required final int loginStatus,
-      final String? nickname,
-      final String? avatarUrl,
-      final String? authToken,
-      final String? webToken,
-      final Map<dynamic, dynamic>? releaseInfo,
-      final RsiGameLibraryData? libraryData,
-      final String? installPath,
-      final bool? isDeviceSupportWinHello}) = _$LoginStatusImpl;
-
-  @override
-  int get loginStatus;
-  @override
-  String? get nickname;
-  @override
-  String? get avatarUrl;
-  @override
-  String? get authToken;
-  @override
-  String? get webToken;
-  @override
-  Map<dynamic, dynamic>? get releaseInfo;
-  @override
-  RsiGameLibraryData? get libraryData;
-  @override
-  String? get installPath;
-  @override
-  bool? get isDeviceSupportWinHello;
-
-  /// Create a copy of HomeGameLoginState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoginStatusImplCopyWith<_$LoginStatusImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

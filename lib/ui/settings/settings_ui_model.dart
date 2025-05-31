@@ -18,7 +18,7 @@ part 'settings_ui_model.g.dart';
 part 'settings_ui_model.freezed.dart';
 
 @freezed
-class SettingsUIState with _$SettingsUIState {
+abstract class SettingsUIState with _$SettingsUIState {
   factory SettingsUIState({
     @Default(false) bool isEnableToolSiteMirrors,
     @Default("0") String inputGameLaunchECore,

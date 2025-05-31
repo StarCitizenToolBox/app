@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,109 +10,78 @@ part of 'unp4kc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
-mixin _$Unp4kcState {
-  bool get startUp => throw _privateConstructorUsedError;
-  Map<String, AppUnp4kP4kItemData>? get files =>
-      throw _privateConstructorUsedError;
-  MemoryFileSystem? get fs => throw _privateConstructorUsedError;
-  String get curPath => throw _privateConstructorUsedError;
-  String? get endMessage => throw _privateConstructorUsedError;
-  MapEntry<String, String>? get tempOpenFile =>
-      throw _privateConstructorUsedError;
-  String get errorMessage => throw _privateConstructorUsedError;
+mixin _$Unp4kcState implements DiagnosticableTreeMixin {
+  bool get startUp;
+  Map<String, AppUnp4kP4kItemData>? get files;
+  MemoryFileSystem? get fs;
+  String get curPath;
+  String? get endMessage;
+  MapEntry<String, String>? get tempOpenFile;
+  String get errorMessage;
 
   /// Create a copy of Unp4kcState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $Unp4kcStateCopyWith<Unp4kcState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $Unp4kcStateCopyWith<$Res> {
-  factory $Unp4kcStateCopyWith(
-          Unp4kcState value, $Res Function(Unp4kcState) then) =
-      _$Unp4kcStateCopyWithImpl<$Res, Unp4kcState>;
-  @useResult
-  $Res call(
-      {bool startUp,
-      Map<String, AppUnp4kP4kItemData>? files,
-      MemoryFileSystem? fs,
-      String curPath,
-      String? endMessage,
-      MapEntry<String, String>? tempOpenFile,
-      String errorMessage});
-}
-
-/// @nodoc
-class _$Unp4kcStateCopyWithImpl<$Res, $Val extends Unp4kcState>
-    implements $Unp4kcStateCopyWith<$Res> {
-  _$Unp4kcStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Unp4kcState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $Unp4kcStateCopyWith<Unp4kcState> get copyWith =>
+      _$Unp4kcStateCopyWithImpl<Unp4kcState>(this as Unp4kcState, _$identity);
+
   @override
-  $Res call({
-    Object? startUp = null,
-    Object? files = freezed,
-    Object? fs = freezed,
-    Object? curPath = null,
-    Object? endMessage = freezed,
-    Object? tempOpenFile = freezed,
-    Object? errorMessage = null,
-  }) {
-    return _then(_value.copyWith(
-      startUp: null == startUp
-          ? _value.startUp
-          : startUp // ignore: cast_nullable_to_non_nullable
-              as bool,
-      files: freezed == files
-          ? _value.files
-          : files // ignore: cast_nullable_to_non_nullable
-              as Map<String, AppUnp4kP4kItemData>?,
-      fs: freezed == fs
-          ? _value.fs
-          : fs // ignore: cast_nullable_to_non_nullable
-              as MemoryFileSystem?,
-      curPath: null == curPath
-          ? _value.curPath
-          : curPath // ignore: cast_nullable_to_non_nullable
-              as String,
-      endMessage: freezed == endMessage
-          ? _value.endMessage
-          : endMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      tempOpenFile: freezed == tempOpenFile
-          ? _value.tempOpenFile
-          : tempOpenFile // ignore: cast_nullable_to_non_nullable
-              as MapEntry<String, String>?,
-      errorMessage: null == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Unp4kcState'))
+      ..add(DiagnosticsProperty('startUp', startUp))
+      ..add(DiagnosticsProperty('files', files))
+      ..add(DiagnosticsProperty('fs', fs))
+      ..add(DiagnosticsProperty('curPath', curPath))
+      ..add(DiagnosticsProperty('endMessage', endMessage))
+      ..add(DiagnosticsProperty('tempOpenFile', tempOpenFile))
+      ..add(DiagnosticsProperty('errorMessage', errorMessage));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Unp4kcState &&
+            (identical(other.startUp, startUp) || other.startUp == startUp) &&
+            const DeepCollectionEquality().equals(other.files, files) &&
+            (identical(other.fs, fs) || other.fs == fs) &&
+            (identical(other.curPath, curPath) || other.curPath == curPath) &&
+            (identical(other.endMessage, endMessage) ||
+                other.endMessage == endMessage) &&
+            (identical(other.tempOpenFile, tempOpenFile) ||
+                other.tempOpenFile == tempOpenFile) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      startUp,
+      const DeepCollectionEquality().hash(files),
+      fs,
+      curPath,
+      endMessage,
+      tempOpenFile,
+      errorMessage);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Unp4kcState(startUp: $startUp, files: $files, fs: $fs, curPath: $curPath, endMessage: $endMessage, tempOpenFile: $tempOpenFile, errorMessage: $errorMessage)';
   }
 }
 
 /// @nodoc
-abstract class _$$Unp4kcStateImplCopyWith<$Res>
-    implements $Unp4kcStateCopyWith<$Res> {
-  factory _$$Unp4kcStateImplCopyWith(
-          _$Unp4kcStateImpl value, $Res Function(_$Unp4kcStateImpl) then) =
-      __$$Unp4kcStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $Unp4kcStateCopyWith<$Res> {
+  factory $Unp4kcStateCopyWith(
+          Unp4kcState value, $Res Function(Unp4kcState) _then) =
+      _$Unp4kcStateCopyWithImpl;
   @useResult
   $Res call(
       {bool startUp,
@@ -124,12 +94,11 @@ abstract class _$$Unp4kcStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$Unp4kcStateImplCopyWithImpl<$Res>
-    extends _$Unp4kcStateCopyWithImpl<$Res, _$Unp4kcStateImpl>
-    implements _$$Unp4kcStateImplCopyWith<$Res> {
-  __$$Unp4kcStateImplCopyWithImpl(
-      _$Unp4kcStateImpl _value, $Res Function(_$Unp4kcStateImpl) _then)
-      : super(_value, _then);
+class _$Unp4kcStateCopyWithImpl<$Res> implements $Unp4kcStateCopyWith<$Res> {
+  _$Unp4kcStateCopyWithImpl(this._self, this._then);
+
+  final Unp4kcState _self;
+  final $Res Function(Unp4kcState) _then;
 
   /// Create a copy of Unp4kcState
   /// with the given fields replaced by the non-null parameter values.
@@ -144,33 +113,33 @@ class __$$Unp4kcStateImplCopyWithImpl<$Res>
     Object? tempOpenFile = freezed,
     Object? errorMessage = null,
   }) {
-    return _then(_$Unp4kcStateImpl(
+    return _then(_self.copyWith(
       startUp: null == startUp
-          ? _value.startUp
+          ? _self.startUp
           : startUp // ignore: cast_nullable_to_non_nullable
               as bool,
       files: freezed == files
-          ? _value._files
+          ? _self.files
           : files // ignore: cast_nullable_to_non_nullable
               as Map<String, AppUnp4kP4kItemData>?,
       fs: freezed == fs
-          ? _value.fs
+          ? _self.fs
           : fs // ignore: cast_nullable_to_non_nullable
               as MemoryFileSystem?,
       curPath: null == curPath
-          ? _value.curPath
+          ? _self.curPath
           : curPath // ignore: cast_nullable_to_non_nullable
               as String,
       endMessage: freezed == endMessage
-          ? _value.endMessage
+          ? _self.endMessage
           : endMessage // ignore: cast_nullable_to_non_nullable
               as String?,
       tempOpenFile: freezed == tempOpenFile
-          ? _value.tempOpenFile
+          ? _self.tempOpenFile
           : tempOpenFile // ignore: cast_nullable_to_non_nullable
               as MapEntry<String, String>?,
       errorMessage: null == errorMessage
-          ? _value.errorMessage
+          ? _self.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -179,8 +148,8 @@ class __$$Unp4kcStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
-  const _$Unp4kcStateImpl(
+class _Unp4kcState with DiagnosticableTreeMixin implements Unp4kcState {
+  const _Unp4kcState(
       {required this.startUp,
       final Map<String, AppUnp4kP4kItemData>? files,
       this.fs,
@@ -214,14 +183,16 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
   @JsonKey()
   final String errorMessage;
 
+  /// Create a copy of Unp4kcState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Unp4kcState(startUp: $startUp, files: $files, fs: $fs, curPath: $curPath, endMessage: $endMessage, tempOpenFile: $tempOpenFile, errorMessage: $errorMessage)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$Unp4kcStateCopyWith<_Unp4kcState> get copyWith =>
+      __$Unp4kcStateCopyWithImpl<_Unp4kcState>(this, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Unp4kcState'))
       ..add(DiagnosticsProperty('startUp', startUp))
@@ -237,7 +208,7 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Unp4kcStateImpl &&
+            other is _Unp4kcState &&
             (identical(other.startUp, startUp) || other.startUp == startUp) &&
             const DeepCollectionEquality().equals(other._files, _files) &&
             (identical(other.fs, fs) || other.fs == fs) &&
@@ -261,44 +232,81 @@ class _$Unp4kcStateImpl with DiagnosticableTreeMixin implements _Unp4kcState {
       tempOpenFile,
       errorMessage);
 
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Unp4kcState(startUp: $startUp, files: $files, fs: $fs, curPath: $curPath, endMessage: $endMessage, tempOpenFile: $tempOpenFile, errorMessage: $errorMessage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$Unp4kcStateCopyWith<$Res>
+    implements $Unp4kcStateCopyWith<$Res> {
+  factory _$Unp4kcStateCopyWith(
+          _Unp4kcState value, $Res Function(_Unp4kcState) _then) =
+      __$Unp4kcStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {bool startUp,
+      Map<String, AppUnp4kP4kItemData>? files,
+      MemoryFileSystem? fs,
+      String curPath,
+      String? endMessage,
+      MapEntry<String, String>? tempOpenFile,
+      String errorMessage});
+}
+
+/// @nodoc
+class __$Unp4kcStateCopyWithImpl<$Res> implements _$Unp4kcStateCopyWith<$Res> {
+  __$Unp4kcStateCopyWithImpl(this._self, this._then);
+
+  final _Unp4kcState _self;
+  final $Res Function(_Unp4kcState) _then;
+
   /// Create a copy of Unp4kcState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$Unp4kcStateImplCopyWith<_$Unp4kcStateImpl> get copyWith =>
-      __$$Unp4kcStateImplCopyWithImpl<_$Unp4kcStateImpl>(this, _$identity);
+  $Res call({
+    Object? startUp = null,
+    Object? files = freezed,
+    Object? fs = freezed,
+    Object? curPath = null,
+    Object? endMessage = freezed,
+    Object? tempOpenFile = freezed,
+    Object? errorMessage = null,
+  }) {
+    return _then(_Unp4kcState(
+      startUp: null == startUp
+          ? _self.startUp
+          : startUp // ignore: cast_nullable_to_non_nullable
+              as bool,
+      files: freezed == files
+          ? _self._files
+          : files // ignore: cast_nullable_to_non_nullable
+              as Map<String, AppUnp4kP4kItemData>?,
+      fs: freezed == fs
+          ? _self.fs
+          : fs // ignore: cast_nullable_to_non_nullable
+              as MemoryFileSystem?,
+      curPath: null == curPath
+          ? _self.curPath
+          : curPath // ignore: cast_nullable_to_non_nullable
+              as String,
+      endMessage: freezed == endMessage
+          ? _self.endMessage
+          : endMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tempOpenFile: freezed == tempOpenFile
+          ? _self.tempOpenFile
+          : tempOpenFile // ignore: cast_nullable_to_non_nullable
+              as MapEntry<String, String>?,
+      errorMessage: null == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
-abstract class _Unp4kcState implements Unp4kcState {
-  const factory _Unp4kcState(
-      {required final bool startUp,
-      final Map<String, AppUnp4kP4kItemData>? files,
-      final MemoryFileSystem? fs,
-      required final String curPath,
-      final String? endMessage,
-      final MapEntry<String, String>? tempOpenFile,
-      final String errorMessage}) = _$Unp4kcStateImpl;
-
-  @override
-  bool get startUp;
-  @override
-  Map<String, AppUnp4kP4kItemData>? get files;
-  @override
-  MemoryFileSystem? get fs;
-  @override
-  String get curPath;
-  @override
-  String? get endMessage;
-  @override
-  MapEntry<String, String>? get tempOpenFile;
-  @override
-  String get errorMessage;
-
-  /// Create a copy of Unp4kcState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$Unp4kcStateImplCopyWith<_$Unp4kcStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

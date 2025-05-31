@@ -16,7 +16,7 @@ part 'game_doctor_ui_model.g.dart';
 part 'game_doctor_ui_model.freezed.dart';
 
 @freezed
-class HomeGameDoctorState with _$HomeGameDoctorState {
+abstract class HomeGameDoctorState with _$HomeGameDoctorState {
   factory HomeGameDoctorState({
     @Default(false) bool isChecking,
     @Default(false) bool isFixing,

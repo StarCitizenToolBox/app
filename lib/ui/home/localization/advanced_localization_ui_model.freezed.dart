@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,127 +10,79 @@ part of 'advanced_localization_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AdvancedLocalizationUIState {
-  String get workingText => throw _privateConstructorUsedError;
-  Map<String, AppAdvancedLocalizationClassKeysData>? get classMap =>
-      throw _privateConstructorUsedError;
-  String? get p4kGlobalIni => throw _privateConstructorUsedError;
-  String? get serverGlobalIni => throw _privateConstructorUsedError;
-  String? get customizeGlobalIni => throw _privateConstructorUsedError;
-  ScLocalizationData? get apiLocalizationData =>
-      throw _privateConstructorUsedError;
-  int get p4kGlobalIniLines => throw _privateConstructorUsedError;
-  int get serverGlobalIniLines => throw _privateConstructorUsedError;
-  String get errorMessage => throw _privateConstructorUsedError;
+  String get workingText;
+  Map<String, AppAdvancedLocalizationClassKeysData>? get classMap;
+  String? get p4kGlobalIni;
+  String? get serverGlobalIni;
+  String? get customizeGlobalIni;
+  ScLocalizationData? get apiLocalizationData;
+  int get p4kGlobalIniLines;
+  int get serverGlobalIniLines;
+  String get errorMessage;
 
   /// Create a copy of AdvancedLocalizationUIState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AdvancedLocalizationUIStateCopyWith<AdvancedLocalizationUIState>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AdvancedLocalizationUIStateCopyWith<$Res> {
-  factory $AdvancedLocalizationUIStateCopyWith(
-          AdvancedLocalizationUIState value,
-          $Res Function(AdvancedLocalizationUIState) then) =
-      _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
-          AdvancedLocalizationUIState>;
-  @useResult
-  $Res call(
-      {String workingText,
-      Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
-      String? p4kGlobalIni,
-      String? serverGlobalIni,
-      String? customizeGlobalIni,
-      ScLocalizationData? apiLocalizationData,
-      int p4kGlobalIniLines,
-      int serverGlobalIniLines,
-      String errorMessage});
-}
-
-/// @nodoc
-class _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
-        $Val extends AdvancedLocalizationUIState>
-    implements $AdvancedLocalizationUIStateCopyWith<$Res> {
-  _$AdvancedLocalizationUIStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AdvancedLocalizationUIState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $AdvancedLocalizationUIStateCopyWith<AdvancedLocalizationUIState>
+      get copyWith => _$AdvancedLocalizationUIStateCopyWithImpl<
+              AdvancedLocalizationUIState>(
+          this as AdvancedLocalizationUIState, _$identity);
+
   @override
-  $Res call({
-    Object? workingText = null,
-    Object? classMap = freezed,
-    Object? p4kGlobalIni = freezed,
-    Object? serverGlobalIni = freezed,
-    Object? customizeGlobalIni = freezed,
-    Object? apiLocalizationData = freezed,
-    Object? p4kGlobalIniLines = null,
-    Object? serverGlobalIniLines = null,
-    Object? errorMessage = null,
-  }) {
-    return _then(_value.copyWith(
-      workingText: null == workingText
-          ? _value.workingText
-          : workingText // ignore: cast_nullable_to_non_nullable
-              as String,
-      classMap: freezed == classMap
-          ? _value.classMap
-          : classMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, AppAdvancedLocalizationClassKeysData>?,
-      p4kGlobalIni: freezed == p4kGlobalIni
-          ? _value.p4kGlobalIni
-          : p4kGlobalIni // ignore: cast_nullable_to_non_nullable
-              as String?,
-      serverGlobalIni: freezed == serverGlobalIni
-          ? _value.serverGlobalIni
-          : serverGlobalIni // ignore: cast_nullable_to_non_nullable
-              as String?,
-      customizeGlobalIni: freezed == customizeGlobalIni
-          ? _value.customizeGlobalIni
-          : customizeGlobalIni // ignore: cast_nullable_to_non_nullable
-              as String?,
-      apiLocalizationData: freezed == apiLocalizationData
-          ? _value.apiLocalizationData
-          : apiLocalizationData // ignore: cast_nullable_to_non_nullable
-              as ScLocalizationData?,
-      p4kGlobalIniLines: null == p4kGlobalIniLines
-          ? _value.p4kGlobalIniLines
-          : p4kGlobalIniLines // ignore: cast_nullable_to_non_nullable
-              as int,
-      serverGlobalIniLines: null == serverGlobalIniLines
-          ? _value.serverGlobalIniLines
-          : serverGlobalIniLines // ignore: cast_nullable_to_non_nullable
-              as int,
-      errorMessage: null == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AdvancedLocalizationUIState &&
+            (identical(other.workingText, workingText) ||
+                other.workingText == workingText) &&
+            const DeepCollectionEquality().equals(other.classMap, classMap) &&
+            (identical(other.p4kGlobalIni, p4kGlobalIni) ||
+                other.p4kGlobalIni == p4kGlobalIni) &&
+            (identical(other.serverGlobalIni, serverGlobalIni) ||
+                other.serverGlobalIni == serverGlobalIni) &&
+            (identical(other.customizeGlobalIni, customizeGlobalIni) ||
+                other.customizeGlobalIni == customizeGlobalIni) &&
+            (identical(other.apiLocalizationData, apiLocalizationData) ||
+                other.apiLocalizationData == apiLocalizationData) &&
+            (identical(other.p4kGlobalIniLines, p4kGlobalIniLines) ||
+                other.p4kGlobalIniLines == p4kGlobalIniLines) &&
+            (identical(other.serverGlobalIniLines, serverGlobalIniLines) ||
+                other.serverGlobalIniLines == serverGlobalIniLines) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      workingText,
+      const DeepCollectionEquality().hash(classMap),
+      p4kGlobalIni,
+      serverGlobalIni,
+      customizeGlobalIni,
+      apiLocalizationData,
+      p4kGlobalIniLines,
+      serverGlobalIniLines,
+      errorMessage);
+
+  @override
+  String toString() {
+    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines, errorMessage: $errorMessage)';
   }
 }
 
 /// @nodoc
-abstract class _$$AdvancedLocalizationUIStateImplCopyWith<$Res>
-    implements $AdvancedLocalizationUIStateCopyWith<$Res> {
-  factory _$$AdvancedLocalizationUIStateImplCopyWith(
-          _$AdvancedLocalizationUIStateImpl value,
-          $Res Function(_$AdvancedLocalizationUIStateImpl) then) =
-      __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $AdvancedLocalizationUIStateCopyWith<$Res> {
+  factory $AdvancedLocalizationUIStateCopyWith(
+          AdvancedLocalizationUIState value,
+          $Res Function(AdvancedLocalizationUIState) _then) =
+      _$AdvancedLocalizationUIStateCopyWithImpl;
   @useResult
   $Res call(
       {String workingText,
@@ -144,14 +97,12 @@ abstract class _$$AdvancedLocalizationUIStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
-    extends _$AdvancedLocalizationUIStateCopyWithImpl<$Res,
-        _$AdvancedLocalizationUIStateImpl>
-    implements _$$AdvancedLocalizationUIStateImplCopyWith<$Res> {
-  __$$AdvancedLocalizationUIStateImplCopyWithImpl(
-      _$AdvancedLocalizationUIStateImpl _value,
-      $Res Function(_$AdvancedLocalizationUIStateImpl) _then)
-      : super(_value, _then);
+class _$AdvancedLocalizationUIStateCopyWithImpl<$Res>
+    implements $AdvancedLocalizationUIStateCopyWith<$Res> {
+  _$AdvancedLocalizationUIStateCopyWithImpl(this._self, this._then);
+
+  final AdvancedLocalizationUIState _self;
+  final $Res Function(AdvancedLocalizationUIState) _then;
 
   /// Create a copy of AdvancedLocalizationUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -168,41 +119,41 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
     Object? serverGlobalIniLines = null,
     Object? errorMessage = null,
   }) {
-    return _then(_$AdvancedLocalizationUIStateImpl(
+    return _then(_self.copyWith(
       workingText: null == workingText
-          ? _value.workingText
+          ? _self.workingText
           : workingText // ignore: cast_nullable_to_non_nullable
               as String,
       classMap: freezed == classMap
-          ? _value._classMap
+          ? _self.classMap
           : classMap // ignore: cast_nullable_to_non_nullable
               as Map<String, AppAdvancedLocalizationClassKeysData>?,
       p4kGlobalIni: freezed == p4kGlobalIni
-          ? _value.p4kGlobalIni
+          ? _self.p4kGlobalIni
           : p4kGlobalIni // ignore: cast_nullable_to_non_nullable
               as String?,
       serverGlobalIni: freezed == serverGlobalIni
-          ? _value.serverGlobalIni
+          ? _self.serverGlobalIni
           : serverGlobalIni // ignore: cast_nullable_to_non_nullable
               as String?,
       customizeGlobalIni: freezed == customizeGlobalIni
-          ? _value.customizeGlobalIni
+          ? _self.customizeGlobalIni
           : customizeGlobalIni // ignore: cast_nullable_to_non_nullable
               as String?,
       apiLocalizationData: freezed == apiLocalizationData
-          ? _value.apiLocalizationData
+          ? _self.apiLocalizationData
           : apiLocalizationData // ignore: cast_nullable_to_non_nullable
               as ScLocalizationData?,
       p4kGlobalIniLines: null == p4kGlobalIniLines
-          ? _value.p4kGlobalIniLines
+          ? _self.p4kGlobalIniLines
           : p4kGlobalIniLines // ignore: cast_nullable_to_non_nullable
               as int,
       serverGlobalIniLines: null == serverGlobalIniLines
-          ? _value.serverGlobalIniLines
+          ? _self.serverGlobalIniLines
           : serverGlobalIniLines // ignore: cast_nullable_to_non_nullable
               as int,
       errorMessage: null == errorMessage
-          ? _value.errorMessage
+          ? _self.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -211,9 +162,8 @@ class __$$AdvancedLocalizationUIStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AdvancedLocalizationUIStateImpl
-    implements _AdvancedLocalizationUIState {
-  _$AdvancedLocalizationUIStateImpl(
+class _AdvancedLocalizationUIState implements AdvancedLocalizationUIState {
+  _AdvancedLocalizationUIState(
       {this.workingText = "",
       final Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
       this.p4kGlobalIni,
@@ -256,16 +206,20 @@ class _$AdvancedLocalizationUIStateImpl
   @JsonKey()
   final String errorMessage;
 
+  /// Create a copy of AdvancedLocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines, errorMessage: $errorMessage)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AdvancedLocalizationUIStateCopyWith<_AdvancedLocalizationUIState>
+      get copyWith => __$AdvancedLocalizationUIStateCopyWithImpl<
+          _AdvancedLocalizationUIState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AdvancedLocalizationUIStateImpl &&
+            other is _AdvancedLocalizationUIState &&
             (identical(other.workingText, workingText) ||
                 other.workingText == workingText) &&
             const DeepCollectionEquality().equals(other._classMap, _classMap) &&
@@ -298,52 +252,95 @@ class _$AdvancedLocalizationUIStateImpl
       serverGlobalIniLines,
       errorMessage);
 
+  @override
+  String toString() {
+    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines, errorMessage: $errorMessage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$AdvancedLocalizationUIStateCopyWith<$Res>
+    implements $AdvancedLocalizationUIStateCopyWith<$Res> {
+  factory _$AdvancedLocalizationUIStateCopyWith(
+          _AdvancedLocalizationUIState value,
+          $Res Function(_AdvancedLocalizationUIState) _then) =
+      __$AdvancedLocalizationUIStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String workingText,
+      Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
+      String? p4kGlobalIni,
+      String? serverGlobalIni,
+      String? customizeGlobalIni,
+      ScLocalizationData? apiLocalizationData,
+      int p4kGlobalIniLines,
+      int serverGlobalIniLines,
+      String errorMessage});
+}
+
+/// @nodoc
+class __$AdvancedLocalizationUIStateCopyWithImpl<$Res>
+    implements _$AdvancedLocalizationUIStateCopyWith<$Res> {
+  __$AdvancedLocalizationUIStateCopyWithImpl(this._self, this._then);
+
+  final _AdvancedLocalizationUIState _self;
+  final $Res Function(_AdvancedLocalizationUIState) _then;
+
   /// Create a copy of AdvancedLocalizationUIState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AdvancedLocalizationUIStateImplCopyWith<_$AdvancedLocalizationUIStateImpl>
-      get copyWith => __$$AdvancedLocalizationUIStateImplCopyWithImpl<
-          _$AdvancedLocalizationUIStateImpl>(this, _$identity);
+  $Res call({
+    Object? workingText = null,
+    Object? classMap = freezed,
+    Object? p4kGlobalIni = freezed,
+    Object? serverGlobalIni = freezed,
+    Object? customizeGlobalIni = freezed,
+    Object? apiLocalizationData = freezed,
+    Object? p4kGlobalIniLines = null,
+    Object? serverGlobalIniLines = null,
+    Object? errorMessage = null,
+  }) {
+    return _then(_AdvancedLocalizationUIState(
+      workingText: null == workingText
+          ? _self.workingText
+          : workingText // ignore: cast_nullable_to_non_nullable
+              as String,
+      classMap: freezed == classMap
+          ? _self._classMap
+          : classMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, AppAdvancedLocalizationClassKeysData>?,
+      p4kGlobalIni: freezed == p4kGlobalIni
+          ? _self.p4kGlobalIni
+          : p4kGlobalIni // ignore: cast_nullable_to_non_nullable
+              as String?,
+      serverGlobalIni: freezed == serverGlobalIni
+          ? _self.serverGlobalIni
+          : serverGlobalIni // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customizeGlobalIni: freezed == customizeGlobalIni
+          ? _self.customizeGlobalIni
+          : customizeGlobalIni // ignore: cast_nullable_to_non_nullable
+              as String?,
+      apiLocalizationData: freezed == apiLocalizationData
+          ? _self.apiLocalizationData
+          : apiLocalizationData // ignore: cast_nullable_to_non_nullable
+              as ScLocalizationData?,
+      p4kGlobalIniLines: null == p4kGlobalIniLines
+          ? _self.p4kGlobalIniLines
+          : p4kGlobalIniLines // ignore: cast_nullable_to_non_nullable
+              as int,
+      serverGlobalIniLines: null == serverGlobalIniLines
+          ? _self.serverGlobalIniLines
+          : serverGlobalIniLines // ignore: cast_nullable_to_non_nullable
+              as int,
+      errorMessage: null == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
-abstract class _AdvancedLocalizationUIState
-    implements AdvancedLocalizationUIState {
-  factory _AdvancedLocalizationUIState(
-      {final String workingText,
-      final Map<String, AppAdvancedLocalizationClassKeysData>? classMap,
-      final String? p4kGlobalIni,
-      final String? serverGlobalIni,
-      final String? customizeGlobalIni,
-      final ScLocalizationData? apiLocalizationData,
-      final int p4kGlobalIniLines,
-      final int serverGlobalIniLines,
-      final String errorMessage}) = _$AdvancedLocalizationUIStateImpl;
-
-  @override
-  String get workingText;
-  @override
-  Map<String, AppAdvancedLocalizationClassKeysData>? get classMap;
-  @override
-  String? get p4kGlobalIni;
-  @override
-  String? get serverGlobalIni;
-  @override
-  String? get customizeGlobalIni;
-  @override
-  ScLocalizationData? get apiLocalizationData;
-  @override
-  int get p4kGlobalIniLines;
-  @override
-  int get serverGlobalIniLines;
-  @override
-  String get errorMessage;
-
-  /// Create a copy of AdvancedLocalizationUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AdvancedLocalizationUIStateImplCopyWith<_$AdvancedLocalizationUIStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

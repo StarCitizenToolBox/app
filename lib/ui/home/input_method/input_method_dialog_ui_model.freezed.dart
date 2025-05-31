@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,95 +10,60 @@ part of 'input_method_dialog_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$InputMethodDialogUIState {
-  Map<String, String>? get keyMaps => throw _privateConstructorUsedError;
-  Map<String, String>? get worldMaps => throw _privateConstructorUsedError;
-  bool get enableAutoCopy => throw _privateConstructorUsedError;
-  bool get isEnableAutoTranslate => throw _privateConstructorUsedError;
-  bool get isAutoTranslateWorking => throw _privateConstructorUsedError;
+  Map<String, String>? get keyMaps;
+  Map<String, String>? get worldMaps;
+  bool get enableAutoCopy;
+  bool get isEnableAutoTranslate;
+  bool get isAutoTranslateWorking;
 
   /// Create a copy of InputMethodDialogUIState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $InputMethodDialogUIStateCopyWith<InputMethodDialogUIState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $InputMethodDialogUIStateCopyWith<$Res> {
-  factory $InputMethodDialogUIStateCopyWith(InputMethodDialogUIState value,
-          $Res Function(InputMethodDialogUIState) then) =
-      _$InputMethodDialogUIStateCopyWithImpl<$Res, InputMethodDialogUIState>;
-  @useResult
-  $Res call(
-      {Map<String, String>? keyMaps,
-      Map<String, String>? worldMaps,
-      bool enableAutoCopy,
-      bool isEnableAutoTranslate,
-      bool isAutoTranslateWorking});
-}
-
-/// @nodoc
-class _$InputMethodDialogUIStateCopyWithImpl<$Res,
-        $Val extends InputMethodDialogUIState>
-    implements $InputMethodDialogUIStateCopyWith<$Res> {
-  _$InputMethodDialogUIStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of InputMethodDialogUIState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $InputMethodDialogUIStateCopyWith<InputMethodDialogUIState> get copyWith =>
+      _$InputMethodDialogUIStateCopyWithImpl<InputMethodDialogUIState>(
+          this as InputMethodDialogUIState, _$identity);
+
   @override
-  $Res call({
-    Object? keyMaps = freezed,
-    Object? worldMaps = freezed,
-    Object? enableAutoCopy = null,
-    Object? isEnableAutoTranslate = null,
-    Object? isAutoTranslateWorking = null,
-  }) {
-    return _then(_value.copyWith(
-      keyMaps: freezed == keyMaps
-          ? _value.keyMaps
-          : keyMaps // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>?,
-      worldMaps: freezed == worldMaps
-          ? _value.worldMaps
-          : worldMaps // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>?,
-      enableAutoCopy: null == enableAutoCopy
-          ? _value.enableAutoCopy
-          : enableAutoCopy // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isEnableAutoTranslate: null == isEnableAutoTranslate
-          ? _value.isEnableAutoTranslate
-          : isEnableAutoTranslate // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isAutoTranslateWorking: null == isAutoTranslateWorking
-          ? _value.isAutoTranslateWorking
-          : isAutoTranslateWorking // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is InputMethodDialogUIState &&
+            const DeepCollectionEquality().equals(other.keyMaps, keyMaps) &&
+            const DeepCollectionEquality().equals(other.worldMaps, worldMaps) &&
+            (identical(other.enableAutoCopy, enableAutoCopy) ||
+                other.enableAutoCopy == enableAutoCopy) &&
+            (identical(other.isEnableAutoTranslate, isEnableAutoTranslate) ||
+                other.isEnableAutoTranslate == isEnableAutoTranslate) &&
+            (identical(other.isAutoTranslateWorking, isAutoTranslateWorking) ||
+                other.isAutoTranslateWorking == isAutoTranslateWorking));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(keyMaps),
+      const DeepCollectionEquality().hash(worldMaps),
+      enableAutoCopy,
+      isEnableAutoTranslate,
+      isAutoTranslateWorking);
+
+  @override
+  String toString() {
+    return 'InputMethodDialogUIState(keyMaps: $keyMaps, worldMaps: $worldMaps, enableAutoCopy: $enableAutoCopy, isEnableAutoTranslate: $isEnableAutoTranslate, isAutoTranslateWorking: $isAutoTranslateWorking)';
   }
 }
 
 /// @nodoc
-abstract class _$$InputMethodDialogUIStateImplCopyWith<$Res>
-    implements $InputMethodDialogUIStateCopyWith<$Res> {
-  factory _$$InputMethodDialogUIStateImplCopyWith(
-          _$InputMethodDialogUIStateImpl value,
-          $Res Function(_$InputMethodDialogUIStateImpl) then) =
-      __$$InputMethodDialogUIStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $InputMethodDialogUIStateCopyWith<$Res> {
+  factory $InputMethodDialogUIStateCopyWith(InputMethodDialogUIState value,
+          $Res Function(InputMethodDialogUIState) _then) =
+      _$InputMethodDialogUIStateCopyWithImpl;
   @useResult
   $Res call(
       {Map<String, String>? keyMaps,
@@ -108,14 +74,12 @@ abstract class _$$InputMethodDialogUIStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$InputMethodDialogUIStateImplCopyWithImpl<$Res>
-    extends _$InputMethodDialogUIStateCopyWithImpl<$Res,
-        _$InputMethodDialogUIStateImpl>
-    implements _$$InputMethodDialogUIStateImplCopyWith<$Res> {
-  __$$InputMethodDialogUIStateImplCopyWithImpl(
-      _$InputMethodDialogUIStateImpl _value,
-      $Res Function(_$InputMethodDialogUIStateImpl) _then)
-      : super(_value, _then);
+class _$InputMethodDialogUIStateCopyWithImpl<$Res>
+    implements $InputMethodDialogUIStateCopyWith<$Res> {
+  _$InputMethodDialogUIStateCopyWithImpl(this._self, this._then);
+
+  final InputMethodDialogUIState _self;
+  final $Res Function(InputMethodDialogUIState) _then;
 
   /// Create a copy of InputMethodDialogUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -128,25 +92,25 @@ class __$$InputMethodDialogUIStateImplCopyWithImpl<$Res>
     Object? isEnableAutoTranslate = null,
     Object? isAutoTranslateWorking = null,
   }) {
-    return _then(_$InputMethodDialogUIStateImpl(
-      freezed == keyMaps
-          ? _value._keyMaps
+    return _then(_self.copyWith(
+      keyMaps: freezed == keyMaps
+          ? _self.keyMaps
           : keyMaps // ignore: cast_nullable_to_non_nullable
               as Map<String, String>?,
-      freezed == worldMaps
-          ? _value._worldMaps
+      worldMaps: freezed == worldMaps
+          ? _self.worldMaps
           : worldMaps // ignore: cast_nullable_to_non_nullable
               as Map<String, String>?,
       enableAutoCopy: null == enableAutoCopy
-          ? _value.enableAutoCopy
+          ? _self.enableAutoCopy
           : enableAutoCopy // ignore: cast_nullable_to_non_nullable
               as bool,
       isEnableAutoTranslate: null == isEnableAutoTranslate
-          ? _value.isEnableAutoTranslate
+          ? _self.isEnableAutoTranslate
           : isEnableAutoTranslate // ignore: cast_nullable_to_non_nullable
               as bool,
       isAutoTranslateWorking: null == isAutoTranslateWorking
-          ? _value.isAutoTranslateWorking
+          ? _self.isAutoTranslateWorking
           : isAutoTranslateWorking // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
@@ -155,8 +119,8 @@ class __$$InputMethodDialogUIStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InputMethodDialogUIStateImpl implements _InputMethodDialogUIState {
-  _$InputMethodDialogUIStateImpl(
+class _InputMethodDialogUIState implements InputMethodDialogUIState {
+  _InputMethodDialogUIState(
       final Map<String, String>? keyMaps, final Map<String, String>? worldMaps,
       {this.enableAutoCopy = false,
       this.isEnableAutoTranslate = false,
@@ -194,16 +158,20 @@ class _$InputMethodDialogUIStateImpl implements _InputMethodDialogUIState {
   @JsonKey()
   final bool isAutoTranslateWorking;
 
+  /// Create a copy of InputMethodDialogUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'InputMethodDialogUIState(keyMaps: $keyMaps, worldMaps: $worldMaps, enableAutoCopy: $enableAutoCopy, isEnableAutoTranslate: $isEnableAutoTranslate, isAutoTranslateWorking: $isAutoTranslateWorking)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$InputMethodDialogUIStateCopyWith<_InputMethodDialogUIState> get copyWith =>
+      __$InputMethodDialogUIStateCopyWithImpl<_InputMethodDialogUIState>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$InputMethodDialogUIStateImpl &&
+            other is _InputMethodDialogUIState &&
             const DeepCollectionEquality().equals(other._keyMaps, _keyMaps) &&
             const DeepCollectionEquality()
                 .equals(other._worldMaps, _worldMaps) &&
@@ -224,38 +192,70 @@ class _$InputMethodDialogUIStateImpl implements _InputMethodDialogUIState {
       isEnableAutoTranslate,
       isAutoTranslateWorking);
 
+  @override
+  String toString() {
+    return 'InputMethodDialogUIState(keyMaps: $keyMaps, worldMaps: $worldMaps, enableAutoCopy: $enableAutoCopy, isEnableAutoTranslate: $isEnableAutoTranslate, isAutoTranslateWorking: $isAutoTranslateWorking)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$InputMethodDialogUIStateCopyWith<$Res>
+    implements $InputMethodDialogUIStateCopyWith<$Res> {
+  factory _$InputMethodDialogUIStateCopyWith(_InputMethodDialogUIState value,
+          $Res Function(_InputMethodDialogUIState) _then) =
+      __$InputMethodDialogUIStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {Map<String, String>? keyMaps,
+      Map<String, String>? worldMaps,
+      bool enableAutoCopy,
+      bool isEnableAutoTranslate,
+      bool isAutoTranslateWorking});
+}
+
+/// @nodoc
+class __$InputMethodDialogUIStateCopyWithImpl<$Res>
+    implements _$InputMethodDialogUIStateCopyWith<$Res> {
+  __$InputMethodDialogUIStateCopyWithImpl(this._self, this._then);
+
+  final _InputMethodDialogUIState _self;
+  final $Res Function(_InputMethodDialogUIState) _then;
+
   /// Create a copy of InputMethodDialogUIState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$InputMethodDialogUIStateImplCopyWith<_$InputMethodDialogUIStateImpl>
-      get copyWith => __$$InputMethodDialogUIStateImplCopyWithImpl<
-          _$InputMethodDialogUIStateImpl>(this, _$identity);
+  $Res call({
+    Object? keyMaps = freezed,
+    Object? worldMaps = freezed,
+    Object? enableAutoCopy = null,
+    Object? isEnableAutoTranslate = null,
+    Object? isAutoTranslateWorking = null,
+  }) {
+    return _then(_InputMethodDialogUIState(
+      freezed == keyMaps
+          ? _self._keyMaps
+          : keyMaps // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+      freezed == worldMaps
+          ? _self._worldMaps
+          : worldMaps // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+      enableAutoCopy: null == enableAutoCopy
+          ? _self.enableAutoCopy
+          : enableAutoCopy // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isEnableAutoTranslate: null == isEnableAutoTranslate
+          ? _self.isEnableAutoTranslate
+          : isEnableAutoTranslate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAutoTranslateWorking: null == isAutoTranslateWorking
+          ? _self.isAutoTranslateWorking
+          : isAutoTranslateWorking // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
-abstract class _InputMethodDialogUIState implements InputMethodDialogUIState {
-  factory _InputMethodDialogUIState(
-      final Map<String, String>? keyMaps, final Map<String, String>? worldMaps,
-      {final bool enableAutoCopy,
-      final bool isEnableAutoTranslate,
-      final bool isAutoTranslateWorking}) = _$InputMethodDialogUIStateImpl;
-
-  @override
-  Map<String, String>? get keyMaps;
-  @override
-  Map<String, String>? get worldMaps;
-  @override
-  bool get enableAutoCopy;
-  @override
-  bool get isEnableAutoTranslate;
-  @override
-  bool get isAutoTranslateWorking;
-
-  /// Create a copy of InputMethodDialogUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$InputMethodDialogUIStateImplCopyWith<_$InputMethodDialogUIStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

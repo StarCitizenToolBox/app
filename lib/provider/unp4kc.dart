@@ -22,7 +22,7 @@ part 'unp4kc.freezed.dart';
 part 'unp4kc.g.dart';
 
 @freezed
-class Unp4kcState with _$Unp4kcState {
+abstract class Unp4kcState with _$Unp4kcState {
   const factory Unp4kcState({
     required bool startUp,
     Map<String, AppUnp4kP4kItemData>? files,

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,119 +10,78 @@ part of 'localization_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$LocalizationUIState {
-  String? get selectedLanguage => throw _privateConstructorUsedError;
-  String? get installedCommunityInputMethodSupportVersion =>
-      throw _privateConstructorUsedError;
-  InputMethodApiLanguageData? get communityInputMethodLanguageData =>
-      throw _privateConstructorUsedError;
-  Map<String, ScLocalizationData>? get apiLocalizationData =>
-      throw _privateConstructorUsedError;
-  String get workingVersion => throw _privateConstructorUsedError;
-  MapEntry<bool, String>? get patchStatus => throw _privateConstructorUsedError;
-  bool? get isInstalledAdvanced => throw _privateConstructorUsedError;
-  List<String>? get customizeList => throw _privateConstructorUsedError;
+  String? get selectedLanguage;
+  String? get installedCommunityInputMethodSupportVersion;
+  InputMethodApiLanguageData? get communityInputMethodLanguageData;
+  Map<String, ScLocalizationData>? get apiLocalizationData;
+  String get workingVersion;
+  MapEntry<bool, String>? get patchStatus;
+  bool? get isInstalledAdvanced;
+  List<String>? get customizeList;
 
   /// Create a copy of LocalizationUIState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LocalizationUIStateCopyWith<LocalizationUIState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $LocalizationUIStateCopyWith<$Res> {
-  factory $LocalizationUIStateCopyWith(
-          LocalizationUIState value, $Res Function(LocalizationUIState) then) =
-      _$LocalizationUIStateCopyWithImpl<$Res, LocalizationUIState>;
-  @useResult
-  $Res call(
-      {String? selectedLanguage,
-      String? installedCommunityInputMethodSupportVersion,
-      InputMethodApiLanguageData? communityInputMethodLanguageData,
-      Map<String, ScLocalizationData>? apiLocalizationData,
-      String workingVersion,
-      MapEntry<bool, String>? patchStatus,
-      bool? isInstalledAdvanced,
-      List<String>? customizeList});
-}
-
-/// @nodoc
-class _$LocalizationUIStateCopyWithImpl<$Res, $Val extends LocalizationUIState>
-    implements $LocalizationUIStateCopyWith<$Res> {
-  _$LocalizationUIStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of LocalizationUIState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $LocalizationUIStateCopyWith<LocalizationUIState> get copyWith =>
+      _$LocalizationUIStateCopyWithImpl<LocalizationUIState>(
+          this as LocalizationUIState, _$identity);
+
   @override
-  $Res call({
-    Object? selectedLanguage = freezed,
-    Object? installedCommunityInputMethodSupportVersion = freezed,
-    Object? communityInputMethodLanguageData = freezed,
-    Object? apiLocalizationData = freezed,
-    Object? workingVersion = null,
-    Object? patchStatus = freezed,
-    Object? isInstalledAdvanced = freezed,
-    Object? customizeList = freezed,
-  }) {
-    return _then(_value.copyWith(
-      selectedLanguage: freezed == selectedLanguage
-          ? _value.selectedLanguage
-          : selectedLanguage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      installedCommunityInputMethodSupportVersion: freezed ==
-              installedCommunityInputMethodSupportVersion
-          ? _value.installedCommunityInputMethodSupportVersion
-          : installedCommunityInputMethodSupportVersion // ignore: cast_nullable_to_non_nullable
-              as String?,
-      communityInputMethodLanguageData: freezed ==
-              communityInputMethodLanguageData
-          ? _value.communityInputMethodLanguageData
-          : communityInputMethodLanguageData // ignore: cast_nullable_to_non_nullable
-              as InputMethodApiLanguageData?,
-      apiLocalizationData: freezed == apiLocalizationData
-          ? _value.apiLocalizationData
-          : apiLocalizationData // ignore: cast_nullable_to_non_nullable
-              as Map<String, ScLocalizationData>?,
-      workingVersion: null == workingVersion
-          ? _value.workingVersion
-          : workingVersion // ignore: cast_nullable_to_non_nullable
-              as String,
-      patchStatus: freezed == patchStatus
-          ? _value.patchStatus
-          : patchStatus // ignore: cast_nullable_to_non_nullable
-              as MapEntry<bool, String>?,
-      isInstalledAdvanced: freezed == isInstalledAdvanced
-          ? _value.isInstalledAdvanced
-          : isInstalledAdvanced // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      customizeList: freezed == customizeList
-          ? _value.customizeList
-          : customizeList // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is LocalizationUIState &&
+            (identical(other.selectedLanguage, selectedLanguage) ||
+                other.selectedLanguage == selectedLanguage) &&
+            (identical(other.installedCommunityInputMethodSupportVersion,
+                    installedCommunityInputMethodSupportVersion) ||
+                other.installedCommunityInputMethodSupportVersion ==
+                    installedCommunityInputMethodSupportVersion) &&
+            (identical(other.communityInputMethodLanguageData,
+                    communityInputMethodLanguageData) ||
+                other.communityInputMethodLanguageData ==
+                    communityInputMethodLanguageData) &&
+            const DeepCollectionEquality()
+                .equals(other.apiLocalizationData, apiLocalizationData) &&
+            (identical(other.workingVersion, workingVersion) ||
+                other.workingVersion == workingVersion) &&
+            (identical(other.patchStatus, patchStatus) ||
+                other.patchStatus == patchStatus) &&
+            (identical(other.isInstalledAdvanced, isInstalledAdvanced) ||
+                other.isInstalledAdvanced == isInstalledAdvanced) &&
+            const DeepCollectionEquality()
+                .equals(other.customizeList, customizeList));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      selectedLanguage,
+      installedCommunityInputMethodSupportVersion,
+      communityInputMethodLanguageData,
+      const DeepCollectionEquality().hash(apiLocalizationData),
+      workingVersion,
+      patchStatus,
+      isInstalledAdvanced,
+      const DeepCollectionEquality().hash(customizeList));
+
+  @override
+  String toString() {
+    return 'LocalizationUIState(selectedLanguage: $selectedLanguage, installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion, communityInputMethodLanguageData: $communityInputMethodLanguageData, apiLocalizationData: $apiLocalizationData, workingVersion: $workingVersion, patchStatus: $patchStatus, isInstalledAdvanced: $isInstalledAdvanced, customizeList: $customizeList)';
   }
 }
 
 /// @nodoc
-abstract class _$$LocalizationUIStateImplCopyWith<$Res>
-    implements $LocalizationUIStateCopyWith<$Res> {
-  factory _$$LocalizationUIStateImplCopyWith(_$LocalizationUIStateImpl value,
-          $Res Function(_$LocalizationUIStateImpl) then) =
-      __$$LocalizationUIStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $LocalizationUIStateCopyWith<$Res> {
+  factory $LocalizationUIStateCopyWith(
+          LocalizationUIState value, $Res Function(LocalizationUIState) _then) =
+      _$LocalizationUIStateCopyWithImpl;
   @useResult
   $Res call(
       {String? selectedLanguage,
@@ -135,12 +95,12 @@ abstract class _$$LocalizationUIStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$LocalizationUIStateImplCopyWithImpl<$Res>
-    extends _$LocalizationUIStateCopyWithImpl<$Res, _$LocalizationUIStateImpl>
-    implements _$$LocalizationUIStateImplCopyWith<$Res> {
-  __$$LocalizationUIStateImplCopyWithImpl(_$LocalizationUIStateImpl _value,
-      $Res Function(_$LocalizationUIStateImpl) _then)
-      : super(_value, _then);
+class _$LocalizationUIStateCopyWithImpl<$Res>
+    implements $LocalizationUIStateCopyWith<$Res> {
+  _$LocalizationUIStateCopyWithImpl(this._self, this._then);
+
+  final LocalizationUIState _self;
+  final $Res Function(LocalizationUIState) _then;
 
   /// Create a copy of LocalizationUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -156,39 +116,39 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
     Object? isInstalledAdvanced = freezed,
     Object? customizeList = freezed,
   }) {
-    return _then(_$LocalizationUIStateImpl(
+    return _then(_self.copyWith(
       selectedLanguage: freezed == selectedLanguage
-          ? _value.selectedLanguage
+          ? _self.selectedLanguage
           : selectedLanguage // ignore: cast_nullable_to_non_nullable
               as String?,
       installedCommunityInputMethodSupportVersion: freezed ==
               installedCommunityInputMethodSupportVersion
-          ? _value.installedCommunityInputMethodSupportVersion
+          ? _self.installedCommunityInputMethodSupportVersion
           : installedCommunityInputMethodSupportVersion // ignore: cast_nullable_to_non_nullable
               as String?,
       communityInputMethodLanguageData: freezed ==
               communityInputMethodLanguageData
-          ? _value.communityInputMethodLanguageData
+          ? _self.communityInputMethodLanguageData
           : communityInputMethodLanguageData // ignore: cast_nullable_to_non_nullable
               as InputMethodApiLanguageData?,
       apiLocalizationData: freezed == apiLocalizationData
-          ? _value._apiLocalizationData
+          ? _self.apiLocalizationData
           : apiLocalizationData // ignore: cast_nullable_to_non_nullable
               as Map<String, ScLocalizationData>?,
       workingVersion: null == workingVersion
-          ? _value.workingVersion
+          ? _self.workingVersion
           : workingVersion // ignore: cast_nullable_to_non_nullable
               as String,
       patchStatus: freezed == patchStatus
-          ? _value.patchStatus
+          ? _self.patchStatus
           : patchStatus // ignore: cast_nullable_to_non_nullable
               as MapEntry<bool, String>?,
       isInstalledAdvanced: freezed == isInstalledAdvanced
-          ? _value.isInstalledAdvanced
+          ? _self.isInstalledAdvanced
           : isInstalledAdvanced // ignore: cast_nullable_to_non_nullable
               as bool?,
       customizeList: freezed == customizeList
-          ? _value._customizeList
+          ? _self.customizeList
           : customizeList // ignore: cast_nullable_to_non_nullable
               as List<String>?,
     ));
@@ -197,8 +157,8 @@ class __$$LocalizationUIStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LocalizationUIStateImpl implements _LocalizationUIState {
-  _$LocalizationUIStateImpl(
+class _LocalizationUIState implements LocalizationUIState {
+  _LocalizationUIState(
       {this.selectedLanguage,
       this.installedCommunityInputMethodSupportVersion,
       this.communityInputMethodLanguageData,
@@ -244,16 +204,20 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Create a copy of LocalizationUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'LocalizationUIState(selectedLanguage: $selectedLanguage, installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion, communityInputMethodLanguageData: $communityInputMethodLanguageData, apiLocalizationData: $apiLocalizationData, workingVersion: $workingVersion, patchStatus: $patchStatus, isInstalledAdvanced: $isInstalledAdvanced, customizeList: $customizeList)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LocalizationUIStateCopyWith<_LocalizationUIState> get copyWith =>
+      __$LocalizationUIStateCopyWithImpl<_LocalizationUIState>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LocalizationUIStateImpl &&
+            other is _LocalizationUIState &&
             (identical(other.selectedLanguage, selectedLanguage) ||
                 other.selectedLanguage == selectedLanguage) &&
             (identical(other.installedCommunityInputMethodSupportVersion,
@@ -288,48 +252,90 @@ class _$LocalizationUIStateImpl implements _LocalizationUIState {
       isInstalledAdvanced,
       const DeepCollectionEquality().hash(_customizeList));
 
+  @override
+  String toString() {
+    return 'LocalizationUIState(selectedLanguage: $selectedLanguage, installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion, communityInputMethodLanguageData: $communityInputMethodLanguageData, apiLocalizationData: $apiLocalizationData, workingVersion: $workingVersion, patchStatus: $patchStatus, isInstalledAdvanced: $isInstalledAdvanced, customizeList: $customizeList)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LocalizationUIStateCopyWith<$Res>
+    implements $LocalizationUIStateCopyWith<$Res> {
+  factory _$LocalizationUIStateCopyWith(_LocalizationUIState value,
+          $Res Function(_LocalizationUIState) _then) =
+      __$LocalizationUIStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String? selectedLanguage,
+      String? installedCommunityInputMethodSupportVersion,
+      InputMethodApiLanguageData? communityInputMethodLanguageData,
+      Map<String, ScLocalizationData>? apiLocalizationData,
+      String workingVersion,
+      MapEntry<bool, String>? patchStatus,
+      bool? isInstalledAdvanced,
+      List<String>? customizeList});
+}
+
+/// @nodoc
+class __$LocalizationUIStateCopyWithImpl<$Res>
+    implements _$LocalizationUIStateCopyWith<$Res> {
+  __$LocalizationUIStateCopyWithImpl(this._self, this._then);
+
+  final _LocalizationUIState _self;
+  final $Res Function(_LocalizationUIState) _then;
+
   /// Create a copy of LocalizationUIState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LocalizationUIStateImplCopyWith<_$LocalizationUIStateImpl> get copyWith =>
-      __$$LocalizationUIStateImplCopyWithImpl<_$LocalizationUIStateImpl>(
-          this, _$identity);
+  $Res call({
+    Object? selectedLanguage = freezed,
+    Object? installedCommunityInputMethodSupportVersion = freezed,
+    Object? communityInputMethodLanguageData = freezed,
+    Object? apiLocalizationData = freezed,
+    Object? workingVersion = null,
+    Object? patchStatus = freezed,
+    Object? isInstalledAdvanced = freezed,
+    Object? customizeList = freezed,
+  }) {
+    return _then(_LocalizationUIState(
+      selectedLanguage: freezed == selectedLanguage
+          ? _self.selectedLanguage
+          : selectedLanguage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      installedCommunityInputMethodSupportVersion: freezed ==
+              installedCommunityInputMethodSupportVersion
+          ? _self.installedCommunityInputMethodSupportVersion
+          : installedCommunityInputMethodSupportVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
+      communityInputMethodLanguageData: freezed ==
+              communityInputMethodLanguageData
+          ? _self.communityInputMethodLanguageData
+          : communityInputMethodLanguageData // ignore: cast_nullable_to_non_nullable
+              as InputMethodApiLanguageData?,
+      apiLocalizationData: freezed == apiLocalizationData
+          ? _self._apiLocalizationData
+          : apiLocalizationData // ignore: cast_nullable_to_non_nullable
+              as Map<String, ScLocalizationData>?,
+      workingVersion: null == workingVersion
+          ? _self.workingVersion
+          : workingVersion // ignore: cast_nullable_to_non_nullable
+              as String,
+      patchStatus: freezed == patchStatus
+          ? _self.patchStatus
+          : patchStatus // ignore: cast_nullable_to_non_nullable
+              as MapEntry<bool, String>?,
+      isInstalledAdvanced: freezed == isInstalledAdvanced
+          ? _self.isInstalledAdvanced
+          : isInstalledAdvanced // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      customizeList: freezed == customizeList
+          ? _self._customizeList
+          : customizeList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ));
+  }
 }
 
-abstract class _LocalizationUIState implements LocalizationUIState {
-  factory _LocalizationUIState(
-      {final String? selectedLanguage,
-      final String? installedCommunityInputMethodSupportVersion,
-      final InputMethodApiLanguageData? communityInputMethodLanguageData,
-      final Map<String, ScLocalizationData>? apiLocalizationData,
-      final String workingVersion,
-      final MapEntry<bool, String>? patchStatus,
-      final bool? isInstalledAdvanced,
-      final List<String>? customizeList}) = _$LocalizationUIStateImpl;
-
-  @override
-  String? get selectedLanguage;
-  @override
-  String? get installedCommunityInputMethodSupportVersion;
-  @override
-  InputMethodApiLanguageData? get communityInputMethodLanguageData;
-  @override
-  Map<String, ScLocalizationData>? get apiLocalizationData;
-  @override
-  String get workingVersion;
-  @override
-  MapEntry<bool, String>? get patchStatus;
-  @override
-  bool? get isInstalledAdvanced;
-  @override
-  List<String>? get customizeList;
-
-  /// Create a copy of LocalizationUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LocalizationUIStateImplCopyWith<_$LocalizationUIStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

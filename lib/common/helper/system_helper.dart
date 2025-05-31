@@ -9,16 +9,14 @@ class SystemHelper {
   static initPowershellPath() async {
     try {
       var result = await Process.run(powershellPath, ["echo", "pong"]);
-      if (!result.stdout.toString().startsWith("pong") &&
-          powershellPath == "powershell.exe") {
+      if (!result.stdout.toString().startsWith("pong") && powershellPath == "powershell.exe") {
         throw "powershell check failed";
       }
     } catch (e) {
       Map<String, String> envVars = Platform.environment;
       final systemRoot = envVars["SYSTEMROOT"];
       if (systemRoot != null) {
-        final autoSearchPath =
-            "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
+        final autoSearchPath = "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
         dPrint("auto search powershell path === $autoSearchPath");
         powershellPath = autoSearchPath;
       }
@@ -35,8 +33,7 @@ class SystemHelper {
         "\"ForcedPhysicalSectorSizeInBytes\""
       ]);
       dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
-      if (result.stderr == "" &&
-          result.stdout.toString().contains("{* 4095}")) {
+      if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
         return true;
       } else {
         return false;
@@ -100,9 +97,8 @@ class SystemHelper {
         "$programDataPath\\Microsoft\\Windows\\Start Menu\\Programs\\Roberts Space Industries\\RSI Launcher.lnk";
     final rsiLinkFile = File(rsiFilePath);
     if (await rsiLinkFile.exists()) {
-      final r = await Process.run(SystemHelper.powershellPath, [
-        "(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath"
-      ]);
+      final r = await Process.run(SystemHelper.powershellPath,
+          ["(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath"]);
       if (r.stdout.toString().contains("RSI Launcher.exe")) {
         final start = r.stdout.toString().split("RSI Launcher.exe");
         if (skipEXE) {
@@ -115,8 +111,7 @@ class SystemHelper {
   }
 
   static killRSILauncher() async {
-    var psr = await Process.run(
-        powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
+    var psr = await Process.run(powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
     if (psr.stderr == "") {
       for (var value in (psr.stdout ?? "").toString().split("\n")) {
         dPrint(value);
@@ -128,11 +123,20 @@ class SystemHelper {
   }
 
   static Future<List<String>> getPID(String name) async {
-    final r = await Process.run(powershellPath, ["(ps $name).Id"]);
-    final str = r.stdout.toString().trim();
-    dPrint(str);
-    if (str.isEmpty) return [];
-    return str.split("\n");
+    try {
+      final r = await Process.run(powershellPath, ["(ps $name).Id"]);
+      if (r.stderr.toString().trim().isNotEmpty) {
+        dPrint("getPID Error: ${r.stderr}");
+        return [];
+      }
+      final str = r.stdout.toString().trim();
+      dPrint("getPID result: $str");
+      if (str.isEmpty) return [];
+      return str.split("\n");
+    } catch (e) {
+      dPrint("getPID Error: $e");
+      return [];
+    }
   }
 
   static checkAndLaunchRSILauncher(String path) async {
@@ -157,28 +161,23 @@ class SystemHelper {
   }
 
   static Future<int> getSystemMemorySizeGB() async {
-    final r = await Process.run(powershellPath, [
-      "(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"
-    ]);
+    final r = await Process.run(
+        powershellPath, ["(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"]);
     return int.tryParse(r.stdout.toString().trim()) ?? 0;
   }
 
-  static Future<String> getSystemCimInstance(String win32InstanceName,
-      {pathName = "Name"}) async {
-    final r = await Process.run(
-        powershellPath, ["(Get-CimInstance $win32InstanceName).$pathName"]);
+  static Future<String> getSystemCimInstance(String win32InstanceName, {pathName = "Name"}) async {
+    final r = await Process.run(powershellPath, ["(Get-CimInstance $win32InstanceName).$pathName"]);
     return r.stdout.toString().trim();
   }
 
   static Future<String> getSystemName() async {
-    final r = await Process.run(
-        powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
+    final r = await Process.run(powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
     return r.stdout.toString().trim();
   }
 
   static Future<String> getCpuName() async {
-    final r = await Process.run(
-        powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
+    final r = await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
     return r.stdout.toString().trim();
   }
 
@@ -197,8 +196,7 @@ foreach ($adapter in $adapterMemory) {
   }
 
   static Future<String> getDiskInfo() async {
-    return (await Process.run(powershellPath,
-            ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
+    return (await Process.run(powershellPath, ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
         .stdout
         .toString()
         .trim();
@@ -228,17 +226,15 @@ foreach ($adapter in $adapterMemory) {
   }
 
   static Future<int> getNumberOfLogicalProcessors() async {
-    final cpuNumberResult = await Process.run(powershellPath,
-        ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
+    final cpuNumberResult =
+        await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
     if (cpuNumberResult.exitCode != 0) return 0;
     return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
   }
 
   static Future<String?> getCpuAffinity() async {
     final confBox = await Hive.openBox("app_conf");
-    final eCoreCount = int.tryParse(
-            confBox.get("gameLaunch_eCore_count", defaultValue: "0")) ??
-        0;
+    final eCoreCount = int.tryParse(confBox.get("gameLaunch_eCore_count", defaultValue: "0")) ?? 0;
     final cpuNumber = await getNumberOfLogicalProcessors();
     if (cpuNumber == 0 || eCoreCount == 0 || eCoreCount > cpuNumber) {
       return null;
@@ -255,17 +251,14 @@ foreach ($adapter in $adapterMemory) {
     final binaryString = sb.toString();
     int hexDigits = (binaryString.length / 4).ceil();
     dPrint("Affinity sb ==== $sb");
-    return int.parse(binaryString, radix: 2)
-        .toRadixString(16)
-        .padLeft(hexDigits, '0')
-        .toUpperCase();
+    return int.parse(binaryString, radix: 2).toRadixString(16).padLeft(hexDigits, '0').toUpperCase();
   }
 
   static Future openDir(path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
     if (Platform.isWindows) {
-      await Process.run(SystemHelper.powershellPath,
-          ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
+      await Process.run(
+          SystemHelper.powershellPath, ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
     }
   }
 

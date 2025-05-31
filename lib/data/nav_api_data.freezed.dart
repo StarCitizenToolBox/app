@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,56 +10,95 @@ part of 'nav_api_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-NavApiDocsItemData _$NavApiDocsItemDataFromJson(Map<String, dynamic> json) {
-  return _NavApiDocsItemData.fromJson(json);
-}
 
 /// @nodoc
 mixin _$NavApiDocsItemData {
   @JsonKey(name: 'id')
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @JsonKey(name: 'name')
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @JsonKey(name: 'slug')
-  String get slug => throw _privateConstructorUsedError;
+  String get slug;
   @JsonKey(name: 'abstract')
-  String get abstract_ => throw _privateConstructorUsedError;
+  String get abstract_;
   @JsonKey(name: 'description')
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @JsonKey(name: 'image')
-  NavApiDocsItemImageData get image => throw _privateConstructorUsedError;
+  NavApiDocsItemImageData get image;
   @JsonKey(name: 'link')
-  String get link => throw _privateConstructorUsedError;
+  String get link;
   @JsonKey(name: 'is_sponsored')
-  bool get isSponsored => throw _privateConstructorUsedError;
+  bool get isSponsored;
   @JsonKey(name: 'tags')
-  List<NavApiDocsItemTagsItemData> get tags =>
-      throw _privateConstructorUsedError;
+  List<NavApiDocsItemTagsItemData> get tags;
   @JsonKey(name: 'updatedAt')
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
   @JsonKey(name: 'createdAt')
-  String get createdAt => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get createdAt;
 
   /// Create a copy of NavApiDocsItemData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NavApiDocsItemDataCopyWith<NavApiDocsItemData> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$NavApiDocsItemDataCopyWithImpl<NavApiDocsItemData>(
+          this as NavApiDocsItemData, _$identity);
+
+  /// Serializes this NavApiDocsItemData to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.abstract_, abstract_) ||
+                other.abstract_ == abstract_) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.link, link) || other.link == link) &&
+            (identical(other.isSponsored, isSponsored) ||
+                other.isSponsored == isSponsored) &&
+            const DeepCollectionEquality().equals(other.tags, tags) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      slug,
+      abstract_,
+      description,
+      image,
+      link,
+      isSponsored,
+      const DeepCollectionEquality().hash(tags),
+      updatedAt,
+      createdAt);
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemData(id: $id, name: $name, slug: $slug, abstract_: $abstract_, description: $description, image: $image, link: $link, isSponsored: $isSponsored, tags: $tags, updatedAt: $updatedAt, createdAt: $createdAt)';
+  }
 }
 
 /// @nodoc
-abstract class $NavApiDocsItemDataCopyWith<$Res> {
+abstract mixin class $NavApiDocsItemDataCopyWith<$Res> {
   factory $NavApiDocsItemDataCopyWith(
-          NavApiDocsItemData value, $Res Function(NavApiDocsItemData) then) =
-      _$NavApiDocsItemDataCopyWithImpl<$Res, NavApiDocsItemData>;
+          NavApiDocsItemData value, $Res Function(NavApiDocsItemData) _then) =
+      _$NavApiDocsItemDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') String id,
@@ -77,14 +117,12 @@ abstract class $NavApiDocsItemDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NavApiDocsItemDataCopyWithImpl<$Res, $Val extends NavApiDocsItemData>
+class _$NavApiDocsItemDataCopyWithImpl<$Res>
     implements $NavApiDocsItemDataCopyWith<$Res> {
-  _$NavApiDocsItemDataCopyWithImpl(this._value, this._then);
+  _$NavApiDocsItemDataCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NavApiDocsItemData _self;
+  final $Res Function(NavApiDocsItemData) _then;
 
   /// Create a copy of NavApiDocsItemData
   /// with the given fields replaced by the non-null parameter values.
@@ -103,52 +141,52 @@ class _$NavApiDocsItemDataCopyWithImpl<$Res, $Val extends NavApiDocsItemData>
     Object? updatedAt = null,
     Object? createdAt = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       slug: null == slug
-          ? _value.slug
+          ? _self.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String,
       abstract_: null == abstract_
-          ? _value.abstract_
+          ? _self.abstract_
           : abstract_ // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
-          ? _value.image
+          ? _self.image
           : image // ignore: cast_nullable_to_non_nullable
               as NavApiDocsItemImageData,
       link: null == link
-          ? _value.link
+          ? _self.link
           : link // ignore: cast_nullable_to_non_nullable
               as String,
       isSponsored: null == isSponsored
-          ? _value.isSponsored
+          ? _self.isSponsored
           : isSponsored // ignore: cast_nullable_to_non_nullable
               as bool,
       tags: null == tags
-          ? _value.tags
+          ? _self.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<NavApiDocsItemTagsItemData>,
       updatedAt: null == updatedAt
-          ? _value.updatedAt
+          ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
-          ? _value.createdAt
+          ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of NavApiDocsItemData
@@ -156,115 +194,16 @@ class _$NavApiDocsItemDataCopyWithImpl<$Res, $Val extends NavApiDocsItemData>
   @override
   @pragma('vm:prefer-inline')
   $NavApiDocsItemImageDataCopyWith<$Res> get image {
-    return $NavApiDocsItemImageDataCopyWith<$Res>(_value.image, (value) {
-      return _then(_value.copyWith(image: value) as $Val);
+    return $NavApiDocsItemImageDataCopyWith<$Res>(_self.image, (value) {
+      return _then(_self.copyWith(image: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$NavApiDocsItemDataImplCopyWith<$Res>
-    implements $NavApiDocsItemDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemDataImplCopyWith(_$NavApiDocsItemDataImpl value,
-          $Res Function(_$NavApiDocsItemDataImpl) then) =
-      __$$NavApiDocsItemDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'id') String id,
-      @JsonKey(name: 'name') String name,
-      @JsonKey(name: 'slug') String slug,
-      @JsonKey(name: 'abstract') String abstract_,
-      @JsonKey(name: 'description') String description,
-      @JsonKey(name: 'image') NavApiDocsItemImageData image,
-      @JsonKey(name: 'link') String link,
-      @JsonKey(name: 'is_sponsored') bool isSponsored,
-      @JsonKey(name: 'tags') List<NavApiDocsItemTagsItemData> tags,
-      @JsonKey(name: 'updatedAt') String updatedAt,
-      @JsonKey(name: 'createdAt') String createdAt});
-
-  @override
-  $NavApiDocsItemImageDataCopyWith<$Res> get image;
-}
-
-/// @nodoc
-class __$$NavApiDocsItemDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemDataCopyWithImpl<$Res, _$NavApiDocsItemDataImpl>
-    implements _$$NavApiDocsItemDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemDataImplCopyWithImpl(_$NavApiDocsItemDataImpl _value,
-      $Res Function(_$NavApiDocsItemDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NavApiDocsItemData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? slug = null,
-    Object? abstract_ = null,
-    Object? description = null,
-    Object? image = null,
-    Object? link = null,
-    Object? isSponsored = null,
-    Object? tags = null,
-    Object? updatedAt = null,
-    Object? createdAt = null,
-  }) {
-    return _then(_$NavApiDocsItemDataImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      slug: null == slug
-          ? _value.slug
-          : slug // ignore: cast_nullable_to_non_nullable
-              as String,
-      abstract_: null == abstract_
-          ? _value.abstract_
-          : abstract_ // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as NavApiDocsItemImageData,
-      link: null == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String,
-      isSponsored: null == isSponsored
-          ? _value.isSponsored
-          : isSponsored // ignore: cast_nullable_to_non_nullable
-              as bool,
-      tags: null == tags
-          ? _value._tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as List<NavApiDocsItemTagsItemData>,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$NavApiDocsItemDataImpl extends _NavApiDocsItemData {
-  const _$NavApiDocsItemDataImpl(
+class _NavApiDocsItemData extends NavApiDocsItemData {
+  const _NavApiDocsItemData(
       {@JsonKey(name: 'id') this.id = '',
       @JsonKey(name: 'name') this.name = '',
       @JsonKey(name: 'slug') this.slug = '',
@@ -279,9 +218,8 @@ class _$NavApiDocsItemDataImpl extends _NavApiDocsItemData {
       @JsonKey(name: 'createdAt') this.createdAt = ''})
       : _tags = tags,
         super._();
-
-  factory _$NavApiDocsItemDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NavApiDocsItemDataImplFromJson(json);
+  factory _NavApiDocsItemData.fromJson(Map<String, dynamic> json) =>
+      _$NavApiDocsItemDataFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -323,16 +261,26 @@ class _$NavApiDocsItemDataImpl extends _NavApiDocsItemData {
   @JsonKey(name: 'createdAt')
   final String createdAt;
 
+  /// Create a copy of NavApiDocsItemData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiDocsItemData(id: $id, name: $name, slug: $slug, abstract_: $abstract_, description: $description, image: $image, link: $link, isSponsored: $isSponsored, tags: $tags, updatedAt: $updatedAt, createdAt: $createdAt)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemDataCopyWith<_NavApiDocsItemData> get copyWith =>
+      __$NavApiDocsItemDataCopyWithImpl<_NavApiDocsItemData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemDataImpl &&
+            other is _NavApiDocsItemData &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.slug, slug) || other.slug == slug) &&
@@ -367,142 +315,233 @@ class _$NavApiDocsItemDataImpl extends _NavApiDocsItemData {
       updatedAt,
       createdAt);
 
-  /// Create a copy of NavApiDocsItemData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemDataImplCopyWith<_$NavApiDocsItemDataImpl> get copyWith =>
-      __$$NavApiDocsItemDataImplCopyWithImpl<_$NavApiDocsItemDataImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemData(id: $id, name: $name, slug: $slug, abstract_: $abstract_, description: $description, image: $image, link: $link, isSponsored: $isSponsored, tags: $tags, updatedAt: $updatedAt, createdAt: $createdAt)';
   }
 }
 
-abstract class _NavApiDocsItemData extends NavApiDocsItemData {
-  const factory _NavApiDocsItemData(
-          {@JsonKey(name: 'id') final String id,
-          @JsonKey(name: 'name') final String name,
-          @JsonKey(name: 'slug') final String slug,
-          @JsonKey(name: 'abstract') final String abstract_,
-          @JsonKey(name: 'description') final String description,
-          @JsonKey(name: 'image') final NavApiDocsItemImageData image,
-          @JsonKey(name: 'link') final String link,
-          @JsonKey(name: 'is_sponsored') final bool isSponsored,
-          @JsonKey(name: 'tags') final List<NavApiDocsItemTagsItemData> tags,
-          @JsonKey(name: 'updatedAt') final String updatedAt,
-          @JsonKey(name: 'createdAt') final String createdAt}) =
-      _$NavApiDocsItemDataImpl;
-  const _NavApiDocsItemData._() : super._();
+/// @nodoc
+abstract mixin class _$NavApiDocsItemDataCopyWith<$Res>
+    implements $NavApiDocsItemDataCopyWith<$Res> {
+  factory _$NavApiDocsItemDataCopyWith(
+          _NavApiDocsItemData value, $Res Function(_NavApiDocsItemData) _then) =
+      __$NavApiDocsItemDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') String id,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'slug') String slug,
+      @JsonKey(name: 'abstract') String abstract_,
+      @JsonKey(name: 'description') String description,
+      @JsonKey(name: 'image') NavApiDocsItemImageData image,
+      @JsonKey(name: 'link') String link,
+      @JsonKey(name: 'is_sponsored') bool isSponsored,
+      @JsonKey(name: 'tags') List<NavApiDocsItemTagsItemData> tags,
+      @JsonKey(name: 'updatedAt') String updatedAt,
+      @JsonKey(name: 'createdAt') String createdAt});
 
-  factory _NavApiDocsItemData.fromJson(Map<String, dynamic> json) =
-      _$NavApiDocsItemDataImpl.fromJson;
+  @override
+  $NavApiDocsItemImageDataCopyWith<$Res> get image;
+}
 
-  @override
-  @JsonKey(name: 'id')
-  String get id;
-  @override
-  @JsonKey(name: 'name')
-  String get name;
-  @override
-  @JsonKey(name: 'slug')
-  String get slug;
-  @override
-  @JsonKey(name: 'abstract')
-  String get abstract_;
-  @override
-  @JsonKey(name: 'description')
-  String get description;
-  @override
-  @JsonKey(name: 'image')
-  NavApiDocsItemImageData get image;
-  @override
-  @JsonKey(name: 'link')
-  String get link;
-  @override
-  @JsonKey(name: 'is_sponsored')
-  bool get isSponsored;
-  @override
-  @JsonKey(name: 'tags')
-  List<NavApiDocsItemTagsItemData> get tags;
-  @override
-  @JsonKey(name: 'updatedAt')
-  String get updatedAt;
-  @override
-  @JsonKey(name: 'createdAt')
-  String get createdAt;
+/// @nodoc
+class __$NavApiDocsItemDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemDataCopyWith<$Res> {
+  __$NavApiDocsItemDataCopyWithImpl(this._self, this._then);
+
+  final _NavApiDocsItemData _self;
+  final $Res Function(_NavApiDocsItemData) _then;
 
   /// Create a copy of NavApiDocsItemData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemDataImplCopyWith<_$NavApiDocsItemDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? abstract_ = null,
+    Object? description = null,
+    Object? image = null,
+    Object? link = null,
+    Object? isSponsored = null,
+    Object? tags = null,
+    Object? updatedAt = null,
+    Object? createdAt = null,
+  }) {
+    return _then(_NavApiDocsItemData(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      abstract_: null == abstract_
+          ? _self.abstract_
+          : abstract_ // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _self.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as NavApiDocsItemImageData,
+      link: null == link
+          ? _self.link
+          : link // ignore: cast_nullable_to_non_nullable
+              as String,
+      isSponsored: null == isSponsored
+          ? _self.isSponsored
+          : isSponsored // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tags: null == tags
+          ? _self._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<NavApiDocsItemTagsItemData>,
+      updatedAt: null == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 
-NavApiDocsItemImageData _$NavApiDocsItemImageDataFromJson(
-    Map<String, dynamic> json) {
-  return _NavApiDocsItemImageData.fromJson(json);
+  /// Create a copy of NavApiDocsItemData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageDataCopyWith<$Res> get image {
+    return $NavApiDocsItemImageDataCopyWith<$Res>(_self.image, (value) {
+      return _then(_self.copyWith(image: value));
+    });
+  }
 }
 
 /// @nodoc
 mixin _$NavApiDocsItemImageData {
   @JsonKey(name: 'id')
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @JsonKey(name: 'createdBy')
-  NavApiDocsItemImageCreatedByData get createdBy =>
-      throw _privateConstructorUsedError;
+  NavApiDocsItemImageCreatedByData get createdBy;
   @JsonKey(name: 'title')
-  String get title => throw _privateConstructorUsedError;
+  String get title;
   @JsonKey(name: 'original')
-  bool get original => throw _privateConstructorUsedError;
+  bool get original;
   @JsonKey(name: 'credit')
-  String get credit => throw _privateConstructorUsedError;
+  String get credit;
   @JsonKey(name: 'source')
-  String get source => throw _privateConstructorUsedError;
+  String get source;
   @JsonKey(name: 'license')
-  String get license => throw _privateConstructorUsedError;
+  String get license;
   @JsonKey(name: 'caption')
-  dynamic get caption => throw _privateConstructorUsedError;
+  dynamic get caption;
   @JsonKey(name: 'updatedAt')
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
   @JsonKey(name: 'createdAt')
-  String get createdAt => throw _privateConstructorUsedError;
+  String get createdAt;
   @JsonKey(name: 'url')
-  String get url => throw _privateConstructorUsedError;
+  String get url;
   @JsonKey(name: 'filename')
-  String get filename => throw _privateConstructorUsedError;
+  String get filename;
   @JsonKey(name: 'mimeType')
-  String get mimeType => throw _privateConstructorUsedError;
+  String get mimeType;
   @JsonKey(name: 'filesize')
-  int get filesize => throw _privateConstructorUsedError;
+  int get filesize;
   @JsonKey(name: 'width')
-  int get width => throw _privateConstructorUsedError;
+  int get width;
   @JsonKey(name: 'height')
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @JsonKey(name: 'sizes')
-  NavApiDocsItemImageSizesData get sizes => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemImageData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  NavApiDocsItemImageSizesData get sizes;
 
   /// Create a copy of NavApiDocsItemImageData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NavApiDocsItemImageDataCopyWith<NavApiDocsItemImageData> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$NavApiDocsItemImageDataCopyWithImpl<NavApiDocsItemImageData>(
+          this as NavApiDocsItemImageData, _$identity);
+
+  /// Serializes this NavApiDocsItemImageData to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemImageData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.createdBy, createdBy) ||
+                other.createdBy == createdBy) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.original, original) ||
+                other.original == original) &&
+            (identical(other.credit, credit) || other.credit == credit) &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.license, license) || other.license == license) &&
+            const DeepCollectionEquality().equals(other.caption, caption) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType) &&
+            (identical(other.filesize, filesize) ||
+                other.filesize == filesize) &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.sizes, sizes) || other.sizes == sizes));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      createdBy,
+      title,
+      original,
+      credit,
+      source,
+      license,
+      const DeepCollectionEquality().hash(caption),
+      updatedAt,
+      createdAt,
+      url,
+      filename,
+      mimeType,
+      filesize,
+      width,
+      height,
+      sizes);
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemImageData(id: $id, createdBy: $createdBy, title: $title, original: $original, credit: $credit, source: $source, license: $license, caption: $caption, updatedAt: $updatedAt, createdAt: $createdAt, url: $url, filename: $filename, mimeType: $mimeType, filesize: $filesize, width: $width, height: $height, sizes: $sizes)';
+  }
 }
 
 /// @nodoc
-abstract class $NavApiDocsItemImageDataCopyWith<$Res> {
+abstract mixin class $NavApiDocsItemImageDataCopyWith<$Res> {
   factory $NavApiDocsItemImageDataCopyWith(NavApiDocsItemImageData value,
-          $Res Function(NavApiDocsItemImageData) then) =
-      _$NavApiDocsItemImageDataCopyWithImpl<$Res, NavApiDocsItemImageData>;
+          $Res Function(NavApiDocsItemImageData) _then) =
+      _$NavApiDocsItemImageDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') String id,
@@ -528,15 +567,12 @@ abstract class $NavApiDocsItemImageDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NavApiDocsItemImageDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemImageData>
+class _$NavApiDocsItemImageDataCopyWithImpl<$Res>
     implements $NavApiDocsItemImageDataCopyWith<$Res> {
-  _$NavApiDocsItemImageDataCopyWithImpl(this._value, this._then);
+  _$NavApiDocsItemImageDataCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NavApiDocsItemImageData _self;
+  final $Res Function(NavApiDocsItemImageData) _then;
 
   /// Create a copy of NavApiDocsItemImageData
   /// with the given fields replaced by the non-null parameter values.
@@ -561,76 +597,76 @@ class _$NavApiDocsItemImageDataCopyWithImpl<$Res,
     Object? height = null,
     Object? sizes = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       createdBy: null == createdBy
-          ? _value.createdBy
+          ? _self.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
               as NavApiDocsItemImageCreatedByData,
       title: null == title
-          ? _value.title
+          ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
       original: null == original
-          ? _value.original
+          ? _self.original
           : original // ignore: cast_nullable_to_non_nullable
               as bool,
       credit: null == credit
-          ? _value.credit
+          ? _self.credit
           : credit // ignore: cast_nullable_to_non_nullable
               as String,
       source: null == source
-          ? _value.source
+          ? _self.source
           : source // ignore: cast_nullable_to_non_nullable
               as String,
       license: null == license
-          ? _value.license
+          ? _self.license
           : license // ignore: cast_nullable_to_non_nullable
               as String,
       caption: freezed == caption
-          ? _value.caption
+          ? _self.caption
           : caption // ignore: cast_nullable_to_non_nullable
               as dynamic,
       updatedAt: null == updatedAt
-          ? _value.updatedAt
+          ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
-          ? _value.createdAt
+          ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
       url: null == url
-          ? _value.url
+          ? _self.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
       filename: null == filename
-          ? _value.filename
+          ? _self.filename
           : filename // ignore: cast_nullable_to_non_nullable
               as String,
       mimeType: null == mimeType
-          ? _value.mimeType
+          ? _self.mimeType
           : mimeType // ignore: cast_nullable_to_non_nullable
               as String,
       filesize: null == filesize
-          ? _value.filesize
+          ? _self.filesize
           : filesize // ignore: cast_nullable_to_non_nullable
               as int,
       width: null == width
-          ? _value.width
+          ? _self.width
           : width // ignore: cast_nullable_to_non_nullable
               as int,
       height: null == height
-          ? _value.height
+          ? _self.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
       sizes: null == sizes
-          ? _value.sizes
+          ? _self.sizes
           : sizes // ignore: cast_nullable_to_non_nullable
               as NavApiDocsItemImageSizesData,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of NavApiDocsItemImageData
@@ -638,9 +674,9 @@ class _$NavApiDocsItemImageDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NavApiDocsItemImageCreatedByDataCopyWith<$Res> get createdBy {
-    return $NavApiDocsItemImageCreatedByDataCopyWith<$Res>(_value.createdBy,
+    return $NavApiDocsItemImageCreatedByDataCopyWith<$Res>(_self.createdBy,
         (value) {
-      return _then(_value.copyWith(createdBy: value) as $Val);
+      return _then(_self.copyWith(createdBy: value));
     });
   }
 
@@ -649,156 +685,16 @@ class _$NavApiDocsItemImageDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesDataCopyWith<$Res> get sizes {
-    return $NavApiDocsItemImageSizesDataCopyWith<$Res>(_value.sizes, (value) {
-      return _then(_value.copyWith(sizes: value) as $Val);
+    return $NavApiDocsItemImageSizesDataCopyWith<$Res>(_self.sizes, (value) {
+      return _then(_self.copyWith(sizes: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$NavApiDocsItemImageDataImplCopyWith<$Res>
-    implements $NavApiDocsItemImageDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemImageDataImplCopyWith(
-          _$NavApiDocsItemImageDataImpl value,
-          $Res Function(_$NavApiDocsItemImageDataImpl) then) =
-      __$$NavApiDocsItemImageDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'id') String id,
-      @JsonKey(name: 'createdBy') NavApiDocsItemImageCreatedByData createdBy,
-      @JsonKey(name: 'title') String title,
-      @JsonKey(name: 'original') bool original,
-      @JsonKey(name: 'credit') String credit,
-      @JsonKey(name: 'source') String source,
-      @JsonKey(name: 'license') String license,
-      @JsonKey(name: 'caption') dynamic caption,
-      @JsonKey(name: 'updatedAt') String updatedAt,
-      @JsonKey(name: 'createdAt') String createdAt,
-      @JsonKey(name: 'url') String url,
-      @JsonKey(name: 'filename') String filename,
-      @JsonKey(name: 'mimeType') String mimeType,
-      @JsonKey(name: 'filesize') int filesize,
-      @JsonKey(name: 'width') int width,
-      @JsonKey(name: 'height') int height,
-      @JsonKey(name: 'sizes') NavApiDocsItemImageSizesData sizes});
-
-  @override
-  $NavApiDocsItemImageCreatedByDataCopyWith<$Res> get createdBy;
-  @override
-  $NavApiDocsItemImageSizesDataCopyWith<$Res> get sizes;
-}
-
-/// @nodoc
-class __$$NavApiDocsItemImageDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemImageDataCopyWithImpl<$Res,
-        _$NavApiDocsItemImageDataImpl>
-    implements _$$NavApiDocsItemImageDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemImageDataImplCopyWithImpl(
-      _$NavApiDocsItemImageDataImpl _value,
-      $Res Function(_$NavApiDocsItemImageDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NavApiDocsItemImageData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? createdBy = null,
-    Object? title = null,
-    Object? original = null,
-    Object? credit = null,
-    Object? source = null,
-    Object? license = null,
-    Object? caption = freezed,
-    Object? updatedAt = null,
-    Object? createdAt = null,
-    Object? url = null,
-    Object? filename = null,
-    Object? mimeType = null,
-    Object? filesize = null,
-    Object? width = null,
-    Object? height = null,
-    Object? sizes = null,
-  }) {
-    return _then(_$NavApiDocsItemImageDataImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdBy: null == createdBy
-          ? _value.createdBy
-          : createdBy // ignore: cast_nullable_to_non_nullable
-              as NavApiDocsItemImageCreatedByData,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      original: null == original
-          ? _value.original
-          : original // ignore: cast_nullable_to_non_nullable
-              as bool,
-      credit: null == credit
-          ? _value.credit
-          : credit // ignore: cast_nullable_to_non_nullable
-              as String,
-      source: null == source
-          ? _value.source
-          : source // ignore: cast_nullable_to_non_nullable
-              as String,
-      license: null == license
-          ? _value.license
-          : license // ignore: cast_nullable_to_non_nullable
-              as String,
-      caption: freezed == caption
-          ? _value.caption
-          : caption // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      filename: null == filename
-          ? _value.filename
-          : filename // ignore: cast_nullable_to_non_nullable
-              as String,
-      mimeType: null == mimeType
-          ? _value.mimeType
-          : mimeType // ignore: cast_nullable_to_non_nullable
-              as String,
-      filesize: null == filesize
-          ? _value.filesize
-          : filesize // ignore: cast_nullable_to_non_nullable
-              as int,
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      sizes: null == sizes
-          ? _value.sizes
-          : sizes // ignore: cast_nullable_to_non_nullable
-              as NavApiDocsItemImageSizesData,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$NavApiDocsItemImageDataImpl extends _NavApiDocsItemImageData {
-  const _$NavApiDocsItemImageDataImpl(
+class _NavApiDocsItemImageData extends NavApiDocsItemImageData {
+  const _NavApiDocsItemImageData(
       {@JsonKey(name: 'id') this.id = '',
       @JsonKey(name: 'createdBy')
       this.createdBy = const NavApiDocsItemImageCreatedByData(),
@@ -819,9 +715,8 @@ class _$NavApiDocsItemImageDataImpl extends _NavApiDocsItemImageData {
       @JsonKey(name: 'sizes')
       this.sizes = const NavApiDocsItemImageSizesData()})
       : super._();
-
-  factory _$NavApiDocsItemImageDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NavApiDocsItemImageDataImplFromJson(json);
+  factory _NavApiDocsItemImageData.fromJson(Map<String, dynamic> json) =>
+      _$NavApiDocsItemImageDataFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -875,16 +770,27 @@ class _$NavApiDocsItemImageDataImpl extends _NavApiDocsItemImageData {
   @JsonKey(name: 'sizes')
   final NavApiDocsItemImageSizesData sizes;
 
+  /// Create a copy of NavApiDocsItemImageData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiDocsItemImageData(id: $id, createdBy: $createdBy, title: $title, original: $original, credit: $credit, source: $source, license: $license, caption: $caption, updatedAt: $updatedAt, createdAt: $createdAt, url: $url, filename: $filename, mimeType: $mimeType, filesize: $filesize, width: $width, height: $height, sizes: $sizes)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemImageDataCopyWith<_NavApiDocsItemImageData> get copyWith =>
+      __$NavApiDocsItemImageDataCopyWithImpl<_NavApiDocsItemImageData>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemImageDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemImageDataImpl &&
+            other is _NavApiDocsItemImageData &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy) &&
@@ -933,264 +839,263 @@ class _$NavApiDocsItemImageDataImpl extends _NavApiDocsItemImageData {
       height,
       sizes);
 
-  /// Create a copy of NavApiDocsItemImageData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemImageDataImplCopyWith<_$NavApiDocsItemImageDataImpl>
-      get copyWith => __$$NavApiDocsItemImageDataImplCopyWithImpl<
-          _$NavApiDocsItemImageDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemImageDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemImageData(id: $id, createdBy: $createdBy, title: $title, original: $original, credit: $credit, source: $source, license: $license, caption: $caption, updatedAt: $updatedAt, createdAt: $createdAt, url: $url, filename: $filename, mimeType: $mimeType, filesize: $filesize, width: $width, height: $height, sizes: $sizes)';
   }
 }
 
-abstract class _NavApiDocsItemImageData extends NavApiDocsItemImageData {
-  const factory _NavApiDocsItemImageData(
-          {@JsonKey(name: 'id') final String id,
-          @JsonKey(name: 'createdBy')
-          final NavApiDocsItemImageCreatedByData createdBy,
-          @JsonKey(name: 'title') final String title,
-          @JsonKey(name: 'original') final bool original,
-          @JsonKey(name: 'credit') final String credit,
-          @JsonKey(name: 'source') final String source,
-          @JsonKey(name: 'license') final String license,
-          @JsonKey(name: 'caption') final dynamic caption,
-          @JsonKey(name: 'updatedAt') final String updatedAt,
-          @JsonKey(name: 'createdAt') final String createdAt,
-          @JsonKey(name: 'url') final String url,
-          @JsonKey(name: 'filename') final String filename,
-          @JsonKey(name: 'mimeType') final String mimeType,
-          @JsonKey(name: 'filesize') final int filesize,
-          @JsonKey(name: 'width') final int width,
-          @JsonKey(name: 'height') final int height,
-          @JsonKey(name: 'sizes') final NavApiDocsItemImageSizesData sizes}) =
-      _$NavApiDocsItemImageDataImpl;
-  const _NavApiDocsItemImageData._() : super._();
+/// @nodoc
+abstract mixin class _$NavApiDocsItemImageDataCopyWith<$Res>
+    implements $NavApiDocsItemImageDataCopyWith<$Res> {
+  factory _$NavApiDocsItemImageDataCopyWith(_NavApiDocsItemImageData value,
+          $Res Function(_NavApiDocsItemImageData) _then) =
+      __$NavApiDocsItemImageDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') String id,
+      @JsonKey(name: 'createdBy') NavApiDocsItemImageCreatedByData createdBy,
+      @JsonKey(name: 'title') String title,
+      @JsonKey(name: 'original') bool original,
+      @JsonKey(name: 'credit') String credit,
+      @JsonKey(name: 'source') String source,
+      @JsonKey(name: 'license') String license,
+      @JsonKey(name: 'caption') dynamic caption,
+      @JsonKey(name: 'updatedAt') String updatedAt,
+      @JsonKey(name: 'createdAt') String createdAt,
+      @JsonKey(name: 'url') String url,
+      @JsonKey(name: 'filename') String filename,
+      @JsonKey(name: 'mimeType') String mimeType,
+      @JsonKey(name: 'filesize') int filesize,
+      @JsonKey(name: 'width') int width,
+      @JsonKey(name: 'height') int height,
+      @JsonKey(name: 'sizes') NavApiDocsItemImageSizesData sizes});
 
-  factory _NavApiDocsItemImageData.fromJson(Map<String, dynamic> json) =
-      _$NavApiDocsItemImageDataImpl.fromJson;
+  @override
+  $NavApiDocsItemImageCreatedByDataCopyWith<$Res> get createdBy;
+  @override
+  $NavApiDocsItemImageSizesDataCopyWith<$Res> get sizes;
+}
 
-  @override
-  @JsonKey(name: 'id')
-  String get id;
-  @override
-  @JsonKey(name: 'createdBy')
-  NavApiDocsItemImageCreatedByData get createdBy;
-  @override
-  @JsonKey(name: 'title')
-  String get title;
-  @override
-  @JsonKey(name: 'original')
-  bool get original;
-  @override
-  @JsonKey(name: 'credit')
-  String get credit;
-  @override
-  @JsonKey(name: 'source')
-  String get source;
-  @override
-  @JsonKey(name: 'license')
-  String get license;
-  @override
-  @JsonKey(name: 'caption')
-  dynamic get caption;
-  @override
-  @JsonKey(name: 'updatedAt')
-  String get updatedAt;
-  @override
-  @JsonKey(name: 'createdAt')
-  String get createdAt;
-  @override
-  @JsonKey(name: 'url')
-  String get url;
-  @override
-  @JsonKey(name: 'filename')
-  String get filename;
-  @override
-  @JsonKey(name: 'mimeType')
-  String get mimeType;
-  @override
-  @JsonKey(name: 'filesize')
-  int get filesize;
-  @override
-  @JsonKey(name: 'width')
-  int get width;
-  @override
-  @JsonKey(name: 'height')
-  int get height;
-  @override
-  @JsonKey(name: 'sizes')
-  NavApiDocsItemImageSizesData get sizes;
+/// @nodoc
+class __$NavApiDocsItemImageDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemImageDataCopyWith<$Res> {
+  __$NavApiDocsItemImageDataCopyWithImpl(this._self, this._then);
+
+  final _NavApiDocsItemImageData _self;
+  final $Res Function(_NavApiDocsItemImageData) _then;
 
   /// Create a copy of NavApiDocsItemImageData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemImageDataImplCopyWith<_$NavApiDocsItemImageDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? createdBy = null,
+    Object? title = null,
+    Object? original = null,
+    Object? credit = null,
+    Object? source = null,
+    Object? license = null,
+    Object? caption = freezed,
+    Object? updatedAt = null,
+    Object? createdAt = null,
+    Object? url = null,
+    Object? filename = null,
+    Object? mimeType = null,
+    Object? filesize = null,
+    Object? width = null,
+    Object? height = null,
+    Object? sizes = null,
+  }) {
+    return _then(_NavApiDocsItemImageData(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdBy: null == createdBy
+          ? _self.createdBy
+          : createdBy // ignore: cast_nullable_to_non_nullable
+              as NavApiDocsItemImageCreatedByData,
+      title: null == title
+          ? _self.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      original: null == original
+          ? _self.original
+          : original // ignore: cast_nullable_to_non_nullable
+              as bool,
+      credit: null == credit
+          ? _self.credit
+          : credit // ignore: cast_nullable_to_non_nullable
+              as String,
+      source: null == source
+          ? _self.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String,
+      license: null == license
+          ? _self.license
+          : license // ignore: cast_nullable_to_non_nullable
+              as String,
+      caption: freezed == caption
+          ? _self.caption
+          : caption // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      updatedAt: null == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
+              as String,
+      mimeType: null == mimeType
+          ? _self.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+      filesize: null == filesize
+          ? _self.filesize
+          : filesize // ignore: cast_nullable_to_non_nullable
+              as int,
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      sizes: null == sizes
+          ? _self.sizes
+          : sizes // ignore: cast_nullable_to_non_nullable
+              as NavApiDocsItemImageSizesData,
+    ));
+  }
 
-NavApiDocsItemImageCreatedByData _$NavApiDocsItemImageCreatedByDataFromJson(
-    Map<String, dynamic> json) {
-  return _NavApiDocsItemImageCreatedByData.fromJson(json);
+  /// Create a copy of NavApiDocsItemImageData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageCreatedByDataCopyWith<$Res> get createdBy {
+    return $NavApiDocsItemImageCreatedByDataCopyWith<$Res>(_self.createdBy,
+        (value) {
+      return _then(_self.copyWith(createdBy: value));
+    });
+  }
+
+  /// Create a copy of NavApiDocsItemImageData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageSizesDataCopyWith<$Res> get sizes {
+    return $NavApiDocsItemImageSizesDataCopyWith<$Res>(_self.sizes, (value) {
+      return _then(_self.copyWith(sizes: value));
+    });
+  }
 }
 
 /// @nodoc
 mixin _$NavApiDocsItemImageCreatedByData {
   @JsonKey(name: 'id')
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @JsonKey(name: 'sub')
-  String get sub => throw _privateConstructorUsedError;
+  String get sub;
   @JsonKey(name: 'external_provider')
-  String get externalProvider => throw _privateConstructorUsedError;
+  String get externalProvider;
   @JsonKey(name: 'username')
-  String get username => throw _privateConstructorUsedError;
+  String get username;
   @JsonKey(name: 'name')
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @JsonKey(name: 'roles')
-  List<String> get roles => throw _privateConstructorUsedError;
+  List<String> get roles;
   @JsonKey(name: 'avatar_url')
-  String get avatarUrl => throw _privateConstructorUsedError;
+  String get avatarUrl;
   @JsonKey(name: 'updatedAt')
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
   @JsonKey(name: 'createdAt')
-  String get createdAt => throw _privateConstructorUsedError;
+  String get createdAt;
   @JsonKey(name: 'email')
-  String get email => throw _privateConstructorUsedError;
+  String get email;
   @JsonKey(name: 'loginAttempts')
-  int get loginAttempts => throw _privateConstructorUsedError;
+  int get loginAttempts;
   @JsonKey(name: 'avatar')
-  String get avatar => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemImageCreatedByData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get avatar;
 
   /// Create a copy of NavApiDocsItemImageCreatedByData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NavApiDocsItemImageCreatedByDataCopyWith<NavApiDocsItemImageCreatedByData>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NavApiDocsItemImageCreatedByDataCopyWith<$Res> {
-  factory $NavApiDocsItemImageCreatedByDataCopyWith(
-          NavApiDocsItemImageCreatedByData value,
-          $Res Function(NavApiDocsItemImageCreatedByData) then) =
-      _$NavApiDocsItemImageCreatedByDataCopyWithImpl<$Res,
-          NavApiDocsItemImageCreatedByData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'id') String id,
-      @JsonKey(name: 'sub') String sub,
-      @JsonKey(name: 'external_provider') String externalProvider,
-      @JsonKey(name: 'username') String username,
-      @JsonKey(name: 'name') String name,
-      @JsonKey(name: 'roles') List<String> roles,
-      @JsonKey(name: 'avatar_url') String avatarUrl,
-      @JsonKey(name: 'updatedAt') String updatedAt,
-      @JsonKey(name: 'createdAt') String createdAt,
-      @JsonKey(name: 'email') String email,
-      @JsonKey(name: 'loginAttempts') int loginAttempts,
-      @JsonKey(name: 'avatar') String avatar});
-}
-
-/// @nodoc
-class _$NavApiDocsItemImageCreatedByDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemImageCreatedByData>
-    implements $NavApiDocsItemImageCreatedByDataCopyWith<$Res> {
-  _$NavApiDocsItemImageCreatedByDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NavApiDocsItemImageCreatedByData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageCreatedByDataCopyWith<NavApiDocsItemImageCreatedByData>
+      get copyWith => _$NavApiDocsItemImageCreatedByDataCopyWithImpl<
+              NavApiDocsItemImageCreatedByData>(
+          this as NavApiDocsItemImageCreatedByData, _$identity);
+
+  /// Serializes this NavApiDocsItemImageCreatedByData to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? sub = null,
-    Object? externalProvider = null,
-    Object? username = null,
-    Object? name = null,
-    Object? roles = null,
-    Object? avatarUrl = null,
-    Object? updatedAt = null,
-    Object? createdAt = null,
-    Object? email = null,
-    Object? loginAttempts = null,
-    Object? avatar = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      sub: null == sub
-          ? _value.sub
-          : sub // ignore: cast_nullable_to_non_nullable
-              as String,
-      externalProvider: null == externalProvider
-          ? _value.externalProvider
-          : externalProvider // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      roles: null == roles
-          ? _value.roles
-          : roles // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      avatarUrl: null == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      loginAttempts: null == loginAttempts
-          ? _value.loginAttempts
-          : loginAttempts // ignore: cast_nullable_to_non_nullable
-              as int,
-      avatar: null == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemImageCreatedByData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.sub, sub) || other.sub == sub) &&
+            (identical(other.externalProvider, externalProvider) ||
+                other.externalProvider == externalProvider) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.roles, roles) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                other.avatarUrl == avatarUrl) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.loginAttempts, loginAttempts) ||
+                other.loginAttempts == loginAttempts) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      sub,
+      externalProvider,
+      username,
+      name,
+      const DeepCollectionEquality().hash(roles),
+      avatarUrl,
+      updatedAt,
+      createdAt,
+      email,
+      loginAttempts,
+      avatar);
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemImageCreatedByData(id: $id, sub: $sub, externalProvider: $externalProvider, username: $username, name: $name, roles: $roles, avatarUrl: $avatarUrl, updatedAt: $updatedAt, createdAt: $createdAt, email: $email, loginAttempts: $loginAttempts, avatar: $avatar)';
   }
 }
 
 /// @nodoc
-abstract class _$$NavApiDocsItemImageCreatedByDataImplCopyWith<$Res>
-    implements $NavApiDocsItemImageCreatedByDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemImageCreatedByDataImplCopyWith(
-          _$NavApiDocsItemImageCreatedByDataImpl value,
-          $Res Function(_$NavApiDocsItemImageCreatedByDataImpl) then) =
-      __$$NavApiDocsItemImageCreatedByDataImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NavApiDocsItemImageCreatedByDataCopyWith<$Res> {
+  factory $NavApiDocsItemImageCreatedByDataCopyWith(
+          NavApiDocsItemImageCreatedByData value,
+          $Res Function(NavApiDocsItemImageCreatedByData) _then) =
+      _$NavApiDocsItemImageCreatedByDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') String id,
@@ -1208,14 +1113,12 @@ abstract class _$$NavApiDocsItemImageCreatedByDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$NavApiDocsItemImageCreatedByDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemImageCreatedByDataCopyWithImpl<$Res,
-        _$NavApiDocsItemImageCreatedByDataImpl>
-    implements _$$NavApiDocsItemImageCreatedByDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemImageCreatedByDataImplCopyWithImpl(
-      _$NavApiDocsItemImageCreatedByDataImpl _value,
-      $Res Function(_$NavApiDocsItemImageCreatedByDataImpl) _then)
-      : super(_value, _then);
+class _$NavApiDocsItemImageCreatedByDataCopyWithImpl<$Res>
+    implements $NavApiDocsItemImageCreatedByDataCopyWith<$Res> {
+  _$NavApiDocsItemImageCreatedByDataCopyWithImpl(this._self, this._then);
+
+  final NavApiDocsItemImageCreatedByData _self;
+  final $Res Function(NavApiDocsItemImageCreatedByData) _then;
 
   /// Create a copy of NavApiDocsItemImageCreatedByData
   /// with the given fields replaced by the non-null parameter values.
@@ -1235,53 +1138,53 @@ class __$$NavApiDocsItemImageCreatedByDataImplCopyWithImpl<$Res>
     Object? loginAttempts = null,
     Object? avatar = null,
   }) {
-    return _then(_$NavApiDocsItemImageCreatedByDataImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       sub: null == sub
-          ? _value.sub
+          ? _self.sub
           : sub // ignore: cast_nullable_to_non_nullable
               as String,
       externalProvider: null == externalProvider
-          ? _value.externalProvider
+          ? _self.externalProvider
           : externalProvider // ignore: cast_nullable_to_non_nullable
               as String,
       username: null == username
-          ? _value.username
+          ? _self.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       roles: null == roles
-          ? _value._roles
+          ? _self.roles
           : roles // ignore: cast_nullable_to_non_nullable
               as List<String>,
       avatarUrl: null == avatarUrl
-          ? _value.avatarUrl
+          ? _self.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String,
       updatedAt: null == updatedAt
-          ? _value.updatedAt
+          ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
-          ? _value.createdAt
+          ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
-          ? _value.email
+          ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
       loginAttempts: null == loginAttempts
-          ? _value.loginAttempts
+          ? _self.loginAttempts
           : loginAttempts // ignore: cast_nullable_to_non_nullable
               as int,
       avatar: null == avatar
-          ? _value.avatar
+          ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -1290,9 +1193,9 @@ class __$$NavApiDocsItemImageCreatedByDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NavApiDocsItemImageCreatedByDataImpl
-    extends _NavApiDocsItemImageCreatedByData {
-  const _$NavApiDocsItemImageCreatedByDataImpl(
+class _NavApiDocsItemImageCreatedByData
+    extends NavApiDocsItemImageCreatedByData {
+  const _NavApiDocsItemImageCreatedByData(
       {@JsonKey(name: 'id') this.id = '',
       @JsonKey(name: 'sub') this.sub = '',
       @JsonKey(name: 'external_provider') this.externalProvider = '',
@@ -1307,10 +1210,9 @@ class _$NavApiDocsItemImageCreatedByDataImpl
       @JsonKey(name: 'avatar') this.avatar = ''})
       : _roles = roles,
         super._();
-
-  factory _$NavApiDocsItemImageCreatedByDataImpl.fromJson(
+  factory _NavApiDocsItemImageCreatedByData.fromJson(
           Map<String, dynamic> json) =>
-      _$$NavApiDocsItemImageCreatedByDataImplFromJson(json);
+      _$NavApiDocsItemImageCreatedByDataFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -1355,16 +1257,27 @@ class _$NavApiDocsItemImageCreatedByDataImpl
   @JsonKey(name: 'avatar')
   final String avatar;
 
+  /// Create a copy of NavApiDocsItemImageCreatedByData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiDocsItemImageCreatedByData(id: $id, sub: $sub, externalProvider: $externalProvider, username: $username, name: $name, roles: $roles, avatarUrl: $avatarUrl, updatedAt: $updatedAt, createdAt: $createdAt, email: $email, loginAttempts: $loginAttempts, avatar: $avatar)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemImageCreatedByDataCopyWith<_NavApiDocsItemImageCreatedByData>
+      get copyWith => __$NavApiDocsItemImageCreatedByDataCopyWithImpl<
+          _NavApiDocsItemImageCreatedByData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemImageCreatedByDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemImageCreatedByDataImpl &&
+            other is _NavApiDocsItemImageCreatedByData &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.sub, sub) || other.sub == sub) &&
             (identical(other.externalProvider, externalProvider) ||
@@ -1402,200 +1315,176 @@ class _$NavApiDocsItemImageCreatedByDataImpl
       loginAttempts,
       avatar);
 
-  /// Create a copy of NavApiDocsItemImageCreatedByData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemImageCreatedByDataImplCopyWith<
-          _$NavApiDocsItemImageCreatedByDataImpl>
-      get copyWith => __$$NavApiDocsItemImageCreatedByDataImplCopyWithImpl<
-          _$NavApiDocsItemImageCreatedByDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemImageCreatedByDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemImageCreatedByData(id: $id, sub: $sub, externalProvider: $externalProvider, username: $username, name: $name, roles: $roles, avatarUrl: $avatarUrl, updatedAt: $updatedAt, createdAt: $createdAt, email: $email, loginAttempts: $loginAttempts, avatar: $avatar)';
   }
 }
 
-abstract class _NavApiDocsItemImageCreatedByData
-    extends NavApiDocsItemImageCreatedByData {
-  const factory _NavApiDocsItemImageCreatedByData(
-          {@JsonKey(name: 'id') final String id,
-          @JsonKey(name: 'sub') final String sub,
-          @JsonKey(name: 'external_provider') final String externalProvider,
-          @JsonKey(name: 'username') final String username,
-          @JsonKey(name: 'name') final String name,
-          @JsonKey(name: 'roles') final List<String> roles,
-          @JsonKey(name: 'avatar_url') final String avatarUrl,
-          @JsonKey(name: 'updatedAt') final String updatedAt,
-          @JsonKey(name: 'createdAt') final String createdAt,
-          @JsonKey(name: 'email') final String email,
-          @JsonKey(name: 'loginAttempts') final int loginAttempts,
-          @JsonKey(name: 'avatar') final String avatar}) =
-      _$NavApiDocsItemImageCreatedByDataImpl;
-  const _NavApiDocsItemImageCreatedByData._() : super._();
+/// @nodoc
+abstract mixin class _$NavApiDocsItemImageCreatedByDataCopyWith<$Res>
+    implements $NavApiDocsItemImageCreatedByDataCopyWith<$Res> {
+  factory _$NavApiDocsItemImageCreatedByDataCopyWith(
+          _NavApiDocsItemImageCreatedByData value,
+          $Res Function(_NavApiDocsItemImageCreatedByData) _then) =
+      __$NavApiDocsItemImageCreatedByDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') String id,
+      @JsonKey(name: 'sub') String sub,
+      @JsonKey(name: 'external_provider') String externalProvider,
+      @JsonKey(name: 'username') String username,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'roles') List<String> roles,
+      @JsonKey(name: 'avatar_url') String avatarUrl,
+      @JsonKey(name: 'updatedAt') String updatedAt,
+      @JsonKey(name: 'createdAt') String createdAt,
+      @JsonKey(name: 'email') String email,
+      @JsonKey(name: 'loginAttempts') int loginAttempts,
+      @JsonKey(name: 'avatar') String avatar});
+}
 
-  factory _NavApiDocsItemImageCreatedByData.fromJson(
-          Map<String, dynamic> json) =
-      _$NavApiDocsItemImageCreatedByDataImpl.fromJson;
+/// @nodoc
+class __$NavApiDocsItemImageCreatedByDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemImageCreatedByDataCopyWith<$Res> {
+  __$NavApiDocsItemImageCreatedByDataCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'id')
-  String get id;
-  @override
-  @JsonKey(name: 'sub')
-  String get sub;
-  @override
-  @JsonKey(name: 'external_provider')
-  String get externalProvider;
-  @override
-  @JsonKey(name: 'username')
-  String get username;
-  @override
-  @JsonKey(name: 'name')
-  String get name;
-  @override
-  @JsonKey(name: 'roles')
-  List<String> get roles;
-  @override
-  @JsonKey(name: 'avatar_url')
-  String get avatarUrl;
-  @override
-  @JsonKey(name: 'updatedAt')
-  String get updatedAt;
-  @override
-  @JsonKey(name: 'createdAt')
-  String get createdAt;
-  @override
-  @JsonKey(name: 'email')
-  String get email;
-  @override
-  @JsonKey(name: 'loginAttempts')
-  int get loginAttempts;
-  @override
-  @JsonKey(name: 'avatar')
-  String get avatar;
+  final _NavApiDocsItemImageCreatedByData _self;
+  final $Res Function(_NavApiDocsItemImageCreatedByData) _then;
 
   /// Create a copy of NavApiDocsItemImageCreatedByData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemImageCreatedByDataImplCopyWith<
-          _$NavApiDocsItemImageCreatedByDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-NavApiDocsItemImageSizesThumbnailData
-    _$NavApiDocsItemImageSizesThumbnailDataFromJson(Map<String, dynamic> json) {
-  return _NavApiDocsItemImageSizesThumbnailData.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? sub = null,
+    Object? externalProvider = null,
+    Object? username = null,
+    Object? name = null,
+    Object? roles = null,
+    Object? avatarUrl = null,
+    Object? updatedAt = null,
+    Object? createdAt = null,
+    Object? email = null,
+    Object? loginAttempts = null,
+    Object? avatar = null,
+  }) {
+    return _then(_NavApiDocsItemImageCreatedByData(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      sub: null == sub
+          ? _self.sub
+          : sub // ignore: cast_nullable_to_non_nullable
+              as String,
+      externalProvider: null == externalProvider
+          ? _self.externalProvider
+          : externalProvider // ignore: cast_nullable_to_non_nullable
+              as String,
+      username: null == username
+          ? _self.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      roles: null == roles
+          ? _self._roles
+          : roles // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      avatarUrl: null == avatarUrl
+          ? _self.avatarUrl
+          : avatarUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      updatedAt: null == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      loginAttempts: null == loginAttempts
+          ? _self.loginAttempts
+          : loginAttempts // ignore: cast_nullable_to_non_nullable
+              as int,
+      avatar: null == avatar
+          ? _self.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$NavApiDocsItemImageSizesThumbnailData {
   @JsonKey(name: 'url')
-  String get url => throw _privateConstructorUsedError;
+  String get url;
   @JsonKey(name: 'width')
-  int get width => throw _privateConstructorUsedError;
+  int get width;
   @JsonKey(name: 'height')
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @JsonKey(name: 'mimeType')
-  String get mimeType => throw _privateConstructorUsedError;
+  String get mimeType;
   @JsonKey(name: 'filesize')
-  int get filesize => throw _privateConstructorUsedError;
+  int get filesize;
   @JsonKey(name: 'filename')
-  String get filename => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemImageSizesThumbnailData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get filename;
 
   /// Create a copy of NavApiDocsItemImageSizesThumbnailData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesThumbnailDataCopyWith<
           NavApiDocsItemImageSizesThumbnailData>
-      get copyWith => throw _privateConstructorUsedError;
-}
+      get copyWith => _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl<
+              NavApiDocsItemImageSizesThumbnailData>(
+          this as NavApiDocsItemImageSizesThumbnailData, _$identity);
 
-/// @nodoc
-abstract class $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> {
-  factory $NavApiDocsItemImageSizesThumbnailDataCopyWith(
-          NavApiDocsItemImageSizesThumbnailData value,
-          $Res Function(NavApiDocsItemImageSizesThumbnailData) then) =
-      _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl<$Res,
-          NavApiDocsItemImageSizesThumbnailData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'url') String url,
-      @JsonKey(name: 'width') int width,
-      @JsonKey(name: 'height') int height,
-      @JsonKey(name: 'mimeType') String mimeType,
-      @JsonKey(name: 'filesize') int filesize,
-      @JsonKey(name: 'filename') String filename});
-}
+  /// Serializes this NavApiDocsItemImageSizesThumbnailData to a JSON map.
+  Map<String, dynamic> toJson();
 
-/// @nodoc
-class _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemImageSizesThumbnailData>
-    implements $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> {
-  _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NavApiDocsItemImageSizesThumbnailData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? url = null,
-    Object? width = null,
-    Object? height = null,
-    Object? mimeType = null,
-    Object? filesize = null,
-    Object? filename = null,
-  }) {
-    return _then(_value.copyWith(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      mimeType: null == mimeType
-          ? _value.mimeType
-          : mimeType // ignore: cast_nullable_to_non_nullable
-              as String,
-      filesize: null == filesize
-          ? _value.filesize
-          : filesize // ignore: cast_nullable_to_non_nullable
-              as int,
-      filename: null == filename
-          ? _value.filename
-          : filename // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemImageSizesThumbnailData &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType) &&
+            (identical(other.filesize, filesize) ||
+                other.filesize == filesize) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, url, width, height, mimeType, filesize, filename);
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemImageSizesThumbnailData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
   }
 }
 
 /// @nodoc
-abstract class _$$NavApiDocsItemImageSizesThumbnailDataImplCopyWith<$Res>
-    implements $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemImageSizesThumbnailDataImplCopyWith(
-          _$NavApiDocsItemImageSizesThumbnailDataImpl value,
-          $Res Function(_$NavApiDocsItemImageSizesThumbnailDataImpl) then) =
-      __$$NavApiDocsItemImageSizesThumbnailDataImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> {
+  factory $NavApiDocsItemImageSizesThumbnailDataCopyWith(
+          NavApiDocsItemImageSizesThumbnailData value,
+          $Res Function(NavApiDocsItemImageSizesThumbnailData) _then) =
+      _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'url') String url,
@@ -1607,14 +1496,12 @@ abstract class _$$NavApiDocsItemImageSizesThumbnailDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$NavApiDocsItemImageSizesThumbnailDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl<$Res,
-        _$NavApiDocsItemImageSizesThumbnailDataImpl>
-    implements _$$NavApiDocsItemImageSizesThumbnailDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemImageSizesThumbnailDataImplCopyWithImpl(
-      _$NavApiDocsItemImageSizesThumbnailDataImpl _value,
-      $Res Function(_$NavApiDocsItemImageSizesThumbnailDataImpl) _then)
-      : super(_value, _then);
+class _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl<$Res>
+    implements $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> {
+  _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl(this._self, this._then);
+
+  final NavApiDocsItemImageSizesThumbnailData _self;
+  final $Res Function(NavApiDocsItemImageSizesThumbnailData) _then;
 
   /// Create a copy of NavApiDocsItemImageSizesThumbnailData
   /// with the given fields replaced by the non-null parameter values.
@@ -1628,29 +1515,29 @@ class __$$NavApiDocsItemImageSizesThumbnailDataImplCopyWithImpl<$Res>
     Object? filesize = null,
     Object? filename = null,
   }) {
-    return _then(_$NavApiDocsItemImageSizesThumbnailDataImpl(
+    return _then(_self.copyWith(
       url: null == url
-          ? _value.url
+          ? _self.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
       width: null == width
-          ? _value.width
+          ? _self.width
           : width // ignore: cast_nullable_to_non_nullable
               as int,
       height: null == height
-          ? _value.height
+          ? _self.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
       mimeType: null == mimeType
-          ? _value.mimeType
+          ? _self.mimeType
           : mimeType // ignore: cast_nullable_to_non_nullable
               as String,
       filesize: null == filesize
-          ? _value.filesize
+          ? _self.filesize
           : filesize // ignore: cast_nullable_to_non_nullable
               as int,
       filename: null == filename
-          ? _value.filename
+          ? _self.filename
           : filename // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -1659,9 +1546,9 @@ class __$$NavApiDocsItemImageSizesThumbnailDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NavApiDocsItemImageSizesThumbnailDataImpl
-    extends _NavApiDocsItemImageSizesThumbnailData {
-  const _$NavApiDocsItemImageSizesThumbnailDataImpl(
+class _NavApiDocsItemImageSizesThumbnailData
+    extends NavApiDocsItemImageSizesThumbnailData {
+  const _NavApiDocsItemImageSizesThumbnailData(
       {@JsonKey(name: 'url') this.url = '',
       @JsonKey(name: 'width') this.width = 0,
       @JsonKey(name: 'height') this.height = 0,
@@ -1669,10 +1556,9 @@ class _$NavApiDocsItemImageSizesThumbnailDataImpl
       @JsonKey(name: 'filesize') this.filesize = 0,
       @JsonKey(name: 'filename') this.filename = ''})
       : super._();
-
-  factory _$NavApiDocsItemImageSizesThumbnailDataImpl.fromJson(
+  factory _NavApiDocsItemImageSizesThumbnailData.fromJson(
           Map<String, dynamic> json) =>
-      _$$NavApiDocsItemImageSizesThumbnailDataImplFromJson(json);
+      _$NavApiDocsItemImageSizesThumbnailDataFromJson(json);
 
   @override
   @JsonKey(name: 'url')
@@ -1693,16 +1579,28 @@ class _$NavApiDocsItemImageSizesThumbnailDataImpl
   @JsonKey(name: 'filename')
   final String filename;
 
+  /// Create a copy of NavApiDocsItemImageSizesThumbnailData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiDocsItemImageSizesThumbnailData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemImageSizesThumbnailDataCopyWith<
+          _NavApiDocsItemImageSizesThumbnailData>
+      get copyWith => __$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl<
+          _NavApiDocsItemImageSizesThumbnailData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemImageSizesThumbnailDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemImageSizesThumbnailDataImpl &&
+            other is _NavApiDocsItemImageSizesThumbnailData &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.width, width) || other.width == width) &&
             (identical(other.height, height) || other.height == height) &&
@@ -1719,108 +1617,134 @@ class _$NavApiDocsItemImageSizesThumbnailDataImpl
   int get hashCode => Object.hash(
       runtimeType, url, width, height, mimeType, filesize, filename);
 
-  /// Create a copy of NavApiDocsItemImageSizesThumbnailData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemImageSizesThumbnailDataImplCopyWith<
-          _$NavApiDocsItemImageSizesThumbnailDataImpl>
-      get copyWith => __$$NavApiDocsItemImageSizesThumbnailDataImplCopyWithImpl<
-          _$NavApiDocsItemImageSizesThumbnailDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemImageSizesThumbnailDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemImageSizesThumbnailData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
   }
 }
 
-abstract class _NavApiDocsItemImageSizesThumbnailData
-    extends NavApiDocsItemImageSizesThumbnailData {
-  const factory _NavApiDocsItemImageSizesThumbnailData(
-          {@JsonKey(name: 'url') final String url,
-          @JsonKey(name: 'width') final int width,
-          @JsonKey(name: 'height') final int height,
-          @JsonKey(name: 'mimeType') final String mimeType,
-          @JsonKey(name: 'filesize') final int filesize,
-          @JsonKey(name: 'filename') final String filename}) =
-      _$NavApiDocsItemImageSizesThumbnailDataImpl;
-  const _NavApiDocsItemImageSizesThumbnailData._() : super._();
+/// @nodoc
+abstract mixin class _$NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res>
+    implements $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> {
+  factory _$NavApiDocsItemImageSizesThumbnailDataCopyWith(
+          _NavApiDocsItemImageSizesThumbnailData value,
+          $Res Function(_NavApiDocsItemImageSizesThumbnailData) _then) =
+      __$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'url') String url,
+      @JsonKey(name: 'width') int width,
+      @JsonKey(name: 'height') int height,
+      @JsonKey(name: 'mimeType') String mimeType,
+      @JsonKey(name: 'filesize') int filesize,
+      @JsonKey(name: 'filename') String filename});
+}
 
-  factory _NavApiDocsItemImageSizesThumbnailData.fromJson(
-          Map<String, dynamic> json) =
-      _$NavApiDocsItemImageSizesThumbnailDataImpl.fromJson;
+/// @nodoc
+class __$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> {
+  __$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'url')
-  String get url;
-  @override
-  @JsonKey(name: 'width')
-  int get width;
-  @override
-  @JsonKey(name: 'height')
-  int get height;
-  @override
-  @JsonKey(name: 'mimeType')
-  String get mimeType;
-  @override
-  @JsonKey(name: 'filesize')
-  int get filesize;
-  @override
-  @JsonKey(name: 'filename')
-  String get filename;
+  final _NavApiDocsItemImageSizesThumbnailData _self;
+  final $Res Function(_NavApiDocsItemImageSizesThumbnailData) _then;
 
   /// Create a copy of NavApiDocsItemImageSizesThumbnailData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemImageSizesThumbnailDataImplCopyWith<
-          _$NavApiDocsItemImageSizesThumbnailDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-NavApiDocsItemImageSizesData _$NavApiDocsItemImageSizesDataFromJson(
-    Map<String, dynamic> json) {
-  return _NavApiDocsItemImageSizesData.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? url = null,
+    Object? width = null,
+    Object? height = null,
+    Object? mimeType = null,
+    Object? filesize = null,
+    Object? filename = null,
+  }) {
+    return _then(_NavApiDocsItemImageSizesThumbnailData(
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      mimeType: null == mimeType
+          ? _self.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+      filesize: null == filesize
+          ? _self.filesize
+          : filesize // ignore: cast_nullable_to_non_nullable
+              as int,
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$NavApiDocsItemImageSizesData {
   @JsonKey(name: 'thumbnail')
-  NavApiDocsItemImageSizesThumbnailData get thumbnail =>
-      throw _privateConstructorUsedError;
+  NavApiDocsItemImageSizesThumbnailData get thumbnail;
   @JsonKey(name: 'preload')
-  NavApiDocsItemImageSizesPreloadData get preload =>
-      throw _privateConstructorUsedError;
+  NavApiDocsItemImageSizesPreloadData get preload;
   @JsonKey(name: 'card')
-  NavApiDocsItemImageSizesCardData get card =>
-      throw _privateConstructorUsedError;
+  NavApiDocsItemImageSizesCardData get card;
   @JsonKey(name: 'tablet')
-  NavApiDocsItemImageSizesTabletData get tablet =>
-      throw _privateConstructorUsedError;
+  NavApiDocsItemImageSizesTabletData get tablet;
   @JsonKey(name: 'avatar')
-  NavApiDocsItemImageSizesAvatarData get avatar =>
-      throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemImageSizesData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  NavApiDocsItemImageSizesAvatarData get avatar;
 
   /// Create a copy of NavApiDocsItemImageSizesData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesDataCopyWith<NavApiDocsItemImageSizesData>
-      get copyWith => throw _privateConstructorUsedError;
+      get copyWith => _$NavApiDocsItemImageSizesDataCopyWithImpl<
+              NavApiDocsItemImageSizesData>(
+          this as NavApiDocsItemImageSizesData, _$identity);
+
+  /// Serializes this NavApiDocsItemImageSizesData to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemImageSizesData &&
+            (identical(other.thumbnail, thumbnail) ||
+                other.thumbnail == thumbnail) &&
+            (identical(other.preload, preload) || other.preload == preload) &&
+            (identical(other.card, card) || other.card == card) &&
+            (identical(other.tablet, tablet) || other.tablet == tablet) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, thumbnail, preload, card, tablet, avatar);
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemImageSizesData(thumbnail: $thumbnail, preload: $preload, card: $card, tablet: $tablet, avatar: $avatar)';
+  }
 }
 
 /// @nodoc
-abstract class $NavApiDocsItemImageSizesDataCopyWith<$Res> {
+abstract mixin class $NavApiDocsItemImageSizesDataCopyWith<$Res> {
   factory $NavApiDocsItemImageSizesDataCopyWith(
           NavApiDocsItemImageSizesData value,
-          $Res Function(NavApiDocsItemImageSizesData) then) =
-      _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
-          NavApiDocsItemImageSizesData>;
+          $Res Function(NavApiDocsItemImageSizesData) _then) =
+      _$NavApiDocsItemImageSizesDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'thumbnail')
@@ -1838,15 +1762,12 @@ abstract class $NavApiDocsItemImageSizesDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemImageSizesData>
+class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res>
     implements $NavApiDocsItemImageSizesDataCopyWith<$Res> {
-  _$NavApiDocsItemImageSizesDataCopyWithImpl(this._value, this._then);
+  _$NavApiDocsItemImageSizesDataCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NavApiDocsItemImageSizesData _self;
+  final $Res Function(NavApiDocsItemImageSizesData) _then;
 
   /// Create a copy of NavApiDocsItemImageSizesData
   /// with the given fields replaced by the non-null parameter values.
@@ -1859,28 +1780,28 @@ class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
     Object? tablet = null,
     Object? avatar = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       thumbnail: null == thumbnail
-          ? _value.thumbnail
+          ? _self.thumbnail
           : thumbnail // ignore: cast_nullable_to_non_nullable
               as NavApiDocsItemImageSizesThumbnailData,
       preload: null == preload
-          ? _value.preload
+          ? _self.preload
           : preload // ignore: cast_nullable_to_non_nullable
               as NavApiDocsItemImageSizesPreloadData,
       card: null == card
-          ? _value.card
+          ? _self.card
           : card // ignore: cast_nullable_to_non_nullable
               as NavApiDocsItemImageSizesCardData,
       tablet: null == tablet
-          ? _value.tablet
+          ? _self.tablet
           : tablet // ignore: cast_nullable_to_non_nullable
               as NavApiDocsItemImageSizesTabletData,
       avatar: null == avatar
-          ? _value.avatar
+          ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as NavApiDocsItemImageSizesAvatarData,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of NavApiDocsItemImageSizesData
@@ -1888,9 +1809,9 @@ class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> get thumbnail {
-    return $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res>(
-        _value.thumbnail, (value) {
-      return _then(_value.copyWith(thumbnail: value) as $Val);
+    return $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res>(_self.thumbnail,
+        (value) {
+      return _then(_self.copyWith(thumbnail: value));
     });
   }
 
@@ -1899,9 +1820,9 @@ class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> get preload {
-    return $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res>(_value.preload,
+    return $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res>(_self.preload,
         (value) {
-      return _then(_value.copyWith(preload: value) as $Val);
+      return _then(_self.copyWith(preload: value));
     });
   }
 
@@ -1910,9 +1831,8 @@ class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesCardDataCopyWith<$Res> get card {
-    return $NavApiDocsItemImageSizesCardDataCopyWith<$Res>(_value.card,
-        (value) {
-      return _then(_value.copyWith(card: value) as $Val);
+    return $NavApiDocsItemImageSizesCardDataCopyWith<$Res>(_self.card, (value) {
+      return _then(_self.copyWith(card: value));
     });
   }
 
@@ -1921,9 +1841,9 @@ class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> get tablet {
-    return $NavApiDocsItemImageSizesTabletDataCopyWith<$Res>(_value.tablet,
+    return $NavApiDocsItemImageSizesTabletDataCopyWith<$Res>(_self.tablet,
         (value) {
-      return _then(_value.copyWith(tablet: value) as $Val);
+      return _then(_self.copyWith(tablet: value));
     });
   }
 
@@ -1932,92 +1852,17 @@ class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> get avatar {
-    return $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res>(_value.avatar,
+    return $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res>(_self.avatar,
         (value) {
-      return _then(_value.copyWith(avatar: value) as $Val);
+      return _then(_self.copyWith(avatar: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$NavApiDocsItemImageSizesDataImplCopyWith<$Res>
-    implements $NavApiDocsItemImageSizesDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemImageSizesDataImplCopyWith(
-          _$NavApiDocsItemImageSizesDataImpl value,
-          $Res Function(_$NavApiDocsItemImageSizesDataImpl) then) =
-      __$$NavApiDocsItemImageSizesDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'thumbnail')
-      NavApiDocsItemImageSizesThumbnailData thumbnail,
-      @JsonKey(name: 'preload') NavApiDocsItemImageSizesPreloadData preload,
-      @JsonKey(name: 'card') NavApiDocsItemImageSizesCardData card,
-      @JsonKey(name: 'tablet') NavApiDocsItemImageSizesTabletData tablet,
-      @JsonKey(name: 'avatar') NavApiDocsItemImageSizesAvatarData avatar});
-
-  @override
-  $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> get thumbnail;
-  @override
-  $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> get preload;
-  @override
-  $NavApiDocsItemImageSizesCardDataCopyWith<$Res> get card;
-  @override
-  $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> get tablet;
-  @override
-  $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> get avatar;
-}
-
-/// @nodoc
-class __$$NavApiDocsItemImageSizesDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res,
-        _$NavApiDocsItemImageSizesDataImpl>
-    implements _$$NavApiDocsItemImageSizesDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemImageSizesDataImplCopyWithImpl(
-      _$NavApiDocsItemImageSizesDataImpl _value,
-      $Res Function(_$NavApiDocsItemImageSizesDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NavApiDocsItemImageSizesData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? thumbnail = null,
-    Object? preload = null,
-    Object? card = null,
-    Object? tablet = null,
-    Object? avatar = null,
-  }) {
-    return _then(_$NavApiDocsItemImageSizesDataImpl(
-      thumbnail: null == thumbnail
-          ? _value.thumbnail
-          : thumbnail // ignore: cast_nullable_to_non_nullable
-              as NavApiDocsItemImageSizesThumbnailData,
-      preload: null == preload
-          ? _value.preload
-          : preload // ignore: cast_nullable_to_non_nullable
-              as NavApiDocsItemImageSizesPreloadData,
-      card: null == card
-          ? _value.card
-          : card // ignore: cast_nullable_to_non_nullable
-              as NavApiDocsItemImageSizesCardData,
-      tablet: null == tablet
-          ? _value.tablet
-          : tablet // ignore: cast_nullable_to_non_nullable
-              as NavApiDocsItemImageSizesTabletData,
-      avatar: null == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as NavApiDocsItemImageSizesAvatarData,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$NavApiDocsItemImageSizesDataImpl extends _NavApiDocsItemImageSizesData {
-  const _$NavApiDocsItemImageSizesDataImpl(
+class _NavApiDocsItemImageSizesData extends NavApiDocsItemImageSizesData {
+  const _NavApiDocsItemImageSizesData(
       {@JsonKey(name: 'thumbnail')
       this.thumbnail = const NavApiDocsItemImageSizesThumbnailData(),
       @JsonKey(name: 'preload')
@@ -2029,10 +1874,8 @@ class _$NavApiDocsItemImageSizesDataImpl extends _NavApiDocsItemImageSizesData {
       @JsonKey(name: 'avatar')
       this.avatar = const NavApiDocsItemImageSizesAvatarData()})
       : super._();
-
-  factory _$NavApiDocsItemImageSizesDataImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$NavApiDocsItemImageSizesDataImplFromJson(json);
+  factory _NavApiDocsItemImageSizesData.fromJson(Map<String, dynamic> json) =>
+      _$NavApiDocsItemImageSizesDataFromJson(json);
 
   @override
   @JsonKey(name: 'thumbnail')
@@ -2050,16 +1893,27 @@ class _$NavApiDocsItemImageSizesDataImpl extends _NavApiDocsItemImageSizesData {
   @JsonKey(name: 'avatar')
   final NavApiDocsItemImageSizesAvatarData avatar;
 
+  /// Create a copy of NavApiDocsItemImageSizesData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiDocsItemImageSizesData(thumbnail: $thumbnail, preload: $preload, card: $card, tablet: $tablet, avatar: $avatar)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemImageSizesDataCopyWith<_NavApiDocsItemImageSizesData>
+      get copyWith => __$NavApiDocsItemImageSizesDataCopyWithImpl<
+          _NavApiDocsItemImageSizesData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemImageSizesDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemImageSizesDataImpl &&
+            other is _NavApiDocsItemImageSizesData &&
             (identical(other.thumbnail, thumbnail) ||
                 other.thumbnail == thumbnail) &&
             (identical(other.preload, preload) || other.preload == preload) &&
@@ -2073,174 +1927,203 @@ class _$NavApiDocsItemImageSizesDataImpl extends _NavApiDocsItemImageSizesData {
   int get hashCode =>
       Object.hash(runtimeType, thumbnail, preload, card, tablet, avatar);
 
-  /// Create a copy of NavApiDocsItemImageSizesData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemImageSizesDataImplCopyWith<
-          _$NavApiDocsItemImageSizesDataImpl>
-      get copyWith => __$$NavApiDocsItemImageSizesDataImplCopyWithImpl<
-          _$NavApiDocsItemImageSizesDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemImageSizesDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemImageSizesData(thumbnail: $thumbnail, preload: $preload, card: $card, tablet: $tablet, avatar: $avatar)';
   }
 }
 
-abstract class _NavApiDocsItemImageSizesData
-    extends NavApiDocsItemImageSizesData {
-  const factory _NavApiDocsItemImageSizesData(
+/// @nodoc
+abstract mixin class _$NavApiDocsItemImageSizesDataCopyWith<$Res>
+    implements $NavApiDocsItemImageSizesDataCopyWith<$Res> {
+  factory _$NavApiDocsItemImageSizesDataCopyWith(
+          _NavApiDocsItemImageSizesData value,
+          $Res Function(_NavApiDocsItemImageSizesData) _then) =
+      __$NavApiDocsItemImageSizesDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
       {@JsonKey(name: 'thumbnail')
-      final NavApiDocsItemImageSizesThumbnailData thumbnail,
-      @JsonKey(name: 'preload')
-      final NavApiDocsItemImageSizesPreloadData preload,
-      @JsonKey(name: 'card') final NavApiDocsItemImageSizesCardData card,
-      @JsonKey(name: 'tablet') final NavApiDocsItemImageSizesTabletData tablet,
-      @JsonKey(name: 'avatar')
-      final NavApiDocsItemImageSizesAvatarData
-          avatar}) = _$NavApiDocsItemImageSizesDataImpl;
-  const _NavApiDocsItemImageSizesData._() : super._();
-
-  factory _NavApiDocsItemImageSizesData.fromJson(Map<String, dynamic> json) =
-      _$NavApiDocsItemImageSizesDataImpl.fromJson;
+      NavApiDocsItemImageSizesThumbnailData thumbnail,
+      @JsonKey(name: 'preload') NavApiDocsItemImageSizesPreloadData preload,
+      @JsonKey(name: 'card') NavApiDocsItemImageSizesCardData card,
+      @JsonKey(name: 'tablet') NavApiDocsItemImageSizesTabletData tablet,
+      @JsonKey(name: 'avatar') NavApiDocsItemImageSizesAvatarData avatar});
 
   @override
-  @JsonKey(name: 'thumbnail')
-  NavApiDocsItemImageSizesThumbnailData get thumbnail;
+  $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> get thumbnail;
   @override
-  @JsonKey(name: 'preload')
-  NavApiDocsItemImageSizesPreloadData get preload;
+  $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> get preload;
   @override
-  @JsonKey(name: 'card')
-  NavApiDocsItemImageSizesCardData get card;
+  $NavApiDocsItemImageSizesCardDataCopyWith<$Res> get card;
   @override
-  @JsonKey(name: 'tablet')
-  NavApiDocsItemImageSizesTabletData get tablet;
+  $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> get tablet;
   @override
-  @JsonKey(name: 'avatar')
-  NavApiDocsItemImageSizesAvatarData get avatar;
+  $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> get avatar;
+}
+
+/// @nodoc
+class __$NavApiDocsItemImageSizesDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemImageSizesDataCopyWith<$Res> {
+  __$NavApiDocsItemImageSizesDataCopyWithImpl(this._self, this._then);
+
+  final _NavApiDocsItemImageSizesData _self;
+  final $Res Function(_NavApiDocsItemImageSizesData) _then;
 
   /// Create a copy of NavApiDocsItemImageSizesData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemImageSizesDataImplCopyWith<
-          _$NavApiDocsItemImageSizesDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? thumbnail = null,
+    Object? preload = null,
+    Object? card = null,
+    Object? tablet = null,
+    Object? avatar = null,
+  }) {
+    return _then(_NavApiDocsItemImageSizesData(
+      thumbnail: null == thumbnail
+          ? _self.thumbnail
+          : thumbnail // ignore: cast_nullable_to_non_nullable
+              as NavApiDocsItemImageSizesThumbnailData,
+      preload: null == preload
+          ? _self.preload
+          : preload // ignore: cast_nullable_to_non_nullable
+              as NavApiDocsItemImageSizesPreloadData,
+      card: null == card
+          ? _self.card
+          : card // ignore: cast_nullable_to_non_nullable
+              as NavApiDocsItemImageSizesCardData,
+      tablet: null == tablet
+          ? _self.tablet
+          : tablet // ignore: cast_nullable_to_non_nullable
+              as NavApiDocsItemImageSizesTabletData,
+      avatar: null == avatar
+          ? _self.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as NavApiDocsItemImageSizesAvatarData,
+    ));
+  }
 
-NavApiDocsItemImageSizesPreloadData
-    _$NavApiDocsItemImageSizesPreloadDataFromJson(Map<String, dynamic> json) {
-  return _NavApiDocsItemImageSizesPreloadData.fromJson(json);
+  /// Create a copy of NavApiDocsItemImageSizesData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res> get thumbnail {
+    return $NavApiDocsItemImageSizesThumbnailDataCopyWith<$Res>(_self.thumbnail,
+        (value) {
+      return _then(_self.copyWith(thumbnail: value));
+    });
+  }
+
+  /// Create a copy of NavApiDocsItemImageSizesData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> get preload {
+    return $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res>(_self.preload,
+        (value) {
+      return _then(_self.copyWith(preload: value));
+    });
+  }
+
+  /// Create a copy of NavApiDocsItemImageSizesData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageSizesCardDataCopyWith<$Res> get card {
+    return $NavApiDocsItemImageSizesCardDataCopyWith<$Res>(_self.card, (value) {
+      return _then(_self.copyWith(card: value));
+    });
+  }
+
+  /// Create a copy of NavApiDocsItemImageSizesData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> get tablet {
+    return $NavApiDocsItemImageSizesTabletDataCopyWith<$Res>(_self.tablet,
+        (value) {
+      return _then(_self.copyWith(tablet: value));
+    });
+  }
+
+  /// Create a copy of NavApiDocsItemImageSizesData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> get avatar {
+    return $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res>(_self.avatar,
+        (value) {
+      return _then(_self.copyWith(avatar: value));
+    });
+  }
 }
 
 /// @nodoc
 mixin _$NavApiDocsItemImageSizesPreloadData {
   @JsonKey(name: 'url')
-  dynamic get url => throw _privateConstructorUsedError;
+  dynamic get url;
   @JsonKey(name: 'width')
-  dynamic get width => throw _privateConstructorUsedError;
+  dynamic get width;
   @JsonKey(name: 'height')
-  dynamic get height => throw _privateConstructorUsedError;
+  dynamic get height;
   @JsonKey(name: 'mimeType')
-  dynamic get mimeType => throw _privateConstructorUsedError;
+  dynamic get mimeType;
   @JsonKey(name: 'filesize')
-  dynamic get filesize => throw _privateConstructorUsedError;
+  dynamic get filesize;
   @JsonKey(name: 'filename')
-  dynamic get filename => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemImageSizesPreloadData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  dynamic get filename;
 
   /// Create a copy of NavApiDocsItemImageSizesPreloadData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesPreloadDataCopyWith<
           NavApiDocsItemImageSizesPreloadData>
-      get copyWith => throw _privateConstructorUsedError;
-}
+      get copyWith => _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl<
+              NavApiDocsItemImageSizesPreloadData>(
+          this as NavApiDocsItemImageSizesPreloadData, _$identity);
 
-/// @nodoc
-abstract class $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> {
-  factory $NavApiDocsItemImageSizesPreloadDataCopyWith(
-          NavApiDocsItemImageSizesPreloadData value,
-          $Res Function(NavApiDocsItemImageSizesPreloadData) then) =
-      _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl<$Res,
-          NavApiDocsItemImageSizesPreloadData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'url') dynamic url,
-      @JsonKey(name: 'width') dynamic width,
-      @JsonKey(name: 'height') dynamic height,
-      @JsonKey(name: 'mimeType') dynamic mimeType,
-      @JsonKey(name: 'filesize') dynamic filesize,
-      @JsonKey(name: 'filename') dynamic filename});
-}
+  /// Serializes this NavApiDocsItemImageSizesPreloadData to a JSON map.
+  Map<String, dynamic> toJson();
 
-/// @nodoc
-class _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemImageSizesPreloadData>
-    implements $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> {
-  _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NavApiDocsItemImageSizesPreloadData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? url = freezed,
-    Object? width = freezed,
-    Object? height = freezed,
-    Object? mimeType = freezed,
-    Object? filesize = freezed,
-    Object? filename = freezed,
-  }) {
-    return _then(_value.copyWith(
-      url: freezed == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      width: freezed == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      height: freezed == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      mimeType: freezed == mimeType
-          ? _value.mimeType
-          : mimeType // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      filesize: freezed == filesize
-          ? _value.filesize
-          : filesize // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      filename: freezed == filename
-          ? _value.filename
-          : filename // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemImageSizesPreloadData &&
+            const DeepCollectionEquality().equals(other.url, url) &&
+            const DeepCollectionEquality().equals(other.width, width) &&
+            const DeepCollectionEquality().equals(other.height, height) &&
+            const DeepCollectionEquality().equals(other.mimeType, mimeType) &&
+            const DeepCollectionEquality().equals(other.filesize, filesize) &&
+            const DeepCollectionEquality().equals(other.filename, filename));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(url),
+      const DeepCollectionEquality().hash(width),
+      const DeepCollectionEquality().hash(height),
+      const DeepCollectionEquality().hash(mimeType),
+      const DeepCollectionEquality().hash(filesize),
+      const DeepCollectionEquality().hash(filename));
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemImageSizesPreloadData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
   }
 }
 
 /// @nodoc
-abstract class _$$NavApiDocsItemImageSizesPreloadDataImplCopyWith<$Res>
-    implements $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemImageSizesPreloadDataImplCopyWith(
-          _$NavApiDocsItemImageSizesPreloadDataImpl value,
-          $Res Function(_$NavApiDocsItemImageSizesPreloadDataImpl) then) =
-      __$$NavApiDocsItemImageSizesPreloadDataImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> {
+  factory $NavApiDocsItemImageSizesPreloadDataCopyWith(
+          NavApiDocsItemImageSizesPreloadData value,
+          $Res Function(NavApiDocsItemImageSizesPreloadData) _then) =
+      _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'url') dynamic url,
@@ -2252,14 +2135,12 @@ abstract class _$$NavApiDocsItemImageSizesPreloadDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$NavApiDocsItemImageSizesPreloadDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl<$Res,
-        _$NavApiDocsItemImageSizesPreloadDataImpl>
-    implements _$$NavApiDocsItemImageSizesPreloadDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemImageSizesPreloadDataImplCopyWithImpl(
-      _$NavApiDocsItemImageSizesPreloadDataImpl _value,
-      $Res Function(_$NavApiDocsItemImageSizesPreloadDataImpl) _then)
-      : super(_value, _then);
+class _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl<$Res>
+    implements $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> {
+  _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl(this._self, this._then);
+
+  final NavApiDocsItemImageSizesPreloadData _self;
+  final $Res Function(NavApiDocsItemImageSizesPreloadData) _then;
 
   /// Create a copy of NavApiDocsItemImageSizesPreloadData
   /// with the given fields replaced by the non-null parameter values.
@@ -2273,29 +2154,29 @@ class __$$NavApiDocsItemImageSizesPreloadDataImplCopyWithImpl<$Res>
     Object? filesize = freezed,
     Object? filename = freezed,
   }) {
-    return _then(_$NavApiDocsItemImageSizesPreloadDataImpl(
+    return _then(_self.copyWith(
       url: freezed == url
-          ? _value.url
+          ? _self.url
           : url // ignore: cast_nullable_to_non_nullable
               as dynamic,
       width: freezed == width
-          ? _value.width
+          ? _self.width
           : width // ignore: cast_nullable_to_non_nullable
               as dynamic,
       height: freezed == height
-          ? _value.height
+          ? _self.height
           : height // ignore: cast_nullable_to_non_nullable
               as dynamic,
       mimeType: freezed == mimeType
-          ? _value.mimeType
+          ? _self.mimeType
           : mimeType // ignore: cast_nullable_to_non_nullable
               as dynamic,
       filesize: freezed == filesize
-          ? _value.filesize
+          ? _self.filesize
           : filesize // ignore: cast_nullable_to_non_nullable
               as dynamic,
       filename: freezed == filename
-          ? _value.filename
+          ? _self.filename
           : filename // ignore: cast_nullable_to_non_nullable
               as dynamic,
     ));
@@ -2304,9 +2185,9 @@ class __$$NavApiDocsItemImageSizesPreloadDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NavApiDocsItemImageSizesPreloadDataImpl
-    extends _NavApiDocsItemImageSizesPreloadData {
-  const _$NavApiDocsItemImageSizesPreloadDataImpl(
+class _NavApiDocsItemImageSizesPreloadData
+    extends NavApiDocsItemImageSizesPreloadData {
+  const _NavApiDocsItemImageSizesPreloadData(
       {@JsonKey(name: 'url') this.url,
       @JsonKey(name: 'width') this.width,
       @JsonKey(name: 'height') this.height,
@@ -2314,10 +2195,9 @@ class _$NavApiDocsItemImageSizesPreloadDataImpl
       @JsonKey(name: 'filesize') this.filesize,
       @JsonKey(name: 'filename') this.filename})
       : super._();
-
-  factory _$NavApiDocsItemImageSizesPreloadDataImpl.fromJson(
+  factory _NavApiDocsItemImageSizesPreloadData.fromJson(
           Map<String, dynamic> json) =>
-      _$$NavApiDocsItemImageSizesPreloadDataImplFromJson(json);
+      _$NavApiDocsItemImageSizesPreloadDataFromJson(json);
 
   @override
   @JsonKey(name: 'url')
@@ -2338,16 +2218,28 @@ class _$NavApiDocsItemImageSizesPreloadDataImpl
   @JsonKey(name: 'filename')
   final dynamic filename;
 
+  /// Create a copy of NavApiDocsItemImageSizesPreloadData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiDocsItemImageSizesPreloadData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemImageSizesPreloadDataCopyWith<
+          _NavApiDocsItemImageSizesPreloadData>
+      get copyWith => __$NavApiDocsItemImageSizesPreloadDataCopyWithImpl<
+          _NavApiDocsItemImageSizesPreloadData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemImageSizesPreloadDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemImageSizesPreloadDataImpl &&
+            other is _NavApiDocsItemImageSizesPreloadData &&
             const DeepCollectionEquality().equals(other.url, url) &&
             const DeepCollectionEquality().equals(other.width, width) &&
             const DeepCollectionEquality().equals(other.height, height) &&
@@ -2367,282 +2259,254 @@ class _$NavApiDocsItemImageSizesPreloadDataImpl
       const DeepCollectionEquality().hash(filesize),
       const DeepCollectionEquality().hash(filename));
 
-  /// Create a copy of NavApiDocsItemImageSizesPreloadData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemImageSizesPreloadDataImplCopyWith<
-          _$NavApiDocsItemImageSizesPreloadDataImpl>
-      get copyWith => __$$NavApiDocsItemImageSizesPreloadDataImplCopyWithImpl<
-          _$NavApiDocsItemImageSizesPreloadDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemImageSizesPreloadDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemImageSizesPreloadData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
   }
 }
 
-abstract class _NavApiDocsItemImageSizesPreloadData
-    extends NavApiDocsItemImageSizesPreloadData {
-  const factory _NavApiDocsItemImageSizesPreloadData(
-          {@JsonKey(name: 'url') final dynamic url,
-          @JsonKey(name: 'width') final dynamic width,
-          @JsonKey(name: 'height') final dynamic height,
-          @JsonKey(name: 'mimeType') final dynamic mimeType,
-          @JsonKey(name: 'filesize') final dynamic filesize,
-          @JsonKey(name: 'filename') final dynamic filename}) =
-      _$NavApiDocsItemImageSizesPreloadDataImpl;
-  const _NavApiDocsItemImageSizesPreloadData._() : super._();
+/// @nodoc
+abstract mixin class _$NavApiDocsItemImageSizesPreloadDataCopyWith<$Res>
+    implements $NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> {
+  factory _$NavApiDocsItemImageSizesPreloadDataCopyWith(
+          _NavApiDocsItemImageSizesPreloadData value,
+          $Res Function(_NavApiDocsItemImageSizesPreloadData) _then) =
+      __$NavApiDocsItemImageSizesPreloadDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'url') dynamic url,
+      @JsonKey(name: 'width') dynamic width,
+      @JsonKey(name: 'height') dynamic height,
+      @JsonKey(name: 'mimeType') dynamic mimeType,
+      @JsonKey(name: 'filesize') dynamic filesize,
+      @JsonKey(name: 'filename') dynamic filename});
+}
 
-  factory _NavApiDocsItemImageSizesPreloadData.fromJson(
-          Map<String, dynamic> json) =
-      _$NavApiDocsItemImageSizesPreloadDataImpl.fromJson;
+/// @nodoc
+class __$NavApiDocsItemImageSizesPreloadDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemImageSizesPreloadDataCopyWith<$Res> {
+  __$NavApiDocsItemImageSizesPreloadDataCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'url')
-  dynamic get url;
-  @override
-  @JsonKey(name: 'width')
-  dynamic get width;
-  @override
-  @JsonKey(name: 'height')
-  dynamic get height;
-  @override
-  @JsonKey(name: 'mimeType')
-  dynamic get mimeType;
-  @override
-  @JsonKey(name: 'filesize')
-  dynamic get filesize;
-  @override
-  @JsonKey(name: 'filename')
-  dynamic get filename;
+  final _NavApiDocsItemImageSizesPreloadData _self;
+  final $Res Function(_NavApiDocsItemImageSizesPreloadData) _then;
 
   /// Create a copy of NavApiDocsItemImageSizesPreloadData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemImageSizesPreloadDataImplCopyWith<
-          _$NavApiDocsItemImageSizesPreloadDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-NavApiDocsItemImageSizesCardData _$NavApiDocsItemImageSizesCardDataFromJson(
-    Map<String, dynamic> json) {
-  return _NavApiDocsItemImageSizesCardData.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? url = freezed,
+    Object? width = freezed,
+    Object? height = freezed,
+    Object? mimeType = freezed,
+    Object? filesize = freezed,
+    Object? filename = freezed,
+  }) {
+    return _then(_NavApiDocsItemImageSizesPreloadData(
+      url: freezed == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      width: freezed == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      height: freezed == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      mimeType: freezed == mimeType
+          ? _self.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      filesize: freezed == filesize
+          ? _self.filesize
+          : filesize // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      filename: freezed == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$NavApiDocsItemImageSizesCardData {
   @JsonKey(name: 'url')
-  String get url => throw _privateConstructorUsedError;
+  String get url;
   @JsonKey(name: 'width')
-  int get width => throw _privateConstructorUsedError;
+  int get width;
   @JsonKey(name: 'height')
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @JsonKey(name: 'mimeType')
-  String get mimeType => throw _privateConstructorUsedError;
+  String get mimeType;
   @JsonKey(name: 'filesize')
-  int get filesize => throw _privateConstructorUsedError;
+  int get filesize;
   @JsonKey(name: 'filename')
-  String get filename => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemImageSizesCardData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get filename;
 
   /// Create a copy of NavApiDocsItemImageSizesCardData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesCardDataCopyWith<NavApiDocsItemImageSizesCardData>
-      get copyWith => throw _privateConstructorUsedError;
-}
+      get copyWith => _$NavApiDocsItemImageSizesCardDataCopyWithImpl<
+              NavApiDocsItemImageSizesCardData>(
+          this as NavApiDocsItemImageSizesCardData, _$identity);
 
-/// @nodoc
-abstract class $NavApiDocsItemImageSizesCardDataCopyWith<$Res> {
-  factory $NavApiDocsItemImageSizesCardDataCopyWith(
-          NavApiDocsItemImageSizesCardData value,
-          $Res Function(NavApiDocsItemImageSizesCardData) then) =
-      _$NavApiDocsItemImageSizesCardDataCopyWithImpl<$Res,
-          NavApiDocsItemImageSizesCardData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'url') String url,
-      @JsonKey(name: 'width') int width,
-      @JsonKey(name: 'height') int height,
-      @JsonKey(name: 'mimeType') String mimeType,
-      @JsonKey(name: 'filesize') int filesize,
-      @JsonKey(name: 'filename') String filename});
-}
+  /// Serializes this NavApiDocsItemImageSizesCardData to a JSON map.
+  Map<String, dynamic> toJson();
 
-/// @nodoc
-class _$NavApiDocsItemImageSizesCardDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemImageSizesCardData>
-    implements $NavApiDocsItemImageSizesCardDataCopyWith<$Res> {
-  _$NavApiDocsItemImageSizesCardDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NavApiDocsItemImageSizesCardData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? url = null,
-    Object? width = null,
-    Object? height = null,
-    Object? mimeType = null,
-    Object? filesize = null,
-    Object? filename = null,
-  }) {
-    return _then(_value.copyWith(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      mimeType: null == mimeType
-          ? _value.mimeType
-          : mimeType // ignore: cast_nullable_to_non_nullable
-              as String,
-      filesize: null == filesize
-          ? _value.filesize
-          : filesize // ignore: cast_nullable_to_non_nullable
-              as int,
-      filename: null == filename
-          ? _value.filename
-          : filename // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemImageSizesCardData &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType) &&
+            (identical(other.filesize, filesize) ||
+                other.filesize == filesize) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename));
   }
-}
 
-/// @nodoc
-abstract class _$$NavApiDocsItemImageSizesCardDataImplCopyWith<$Res>
-    implements $NavApiDocsItemImageSizesCardDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemImageSizesCardDataImplCopyWith(
-          _$NavApiDocsItemImageSizesCardDataImpl value,
-          $Res Function(_$NavApiDocsItemImageSizesCardDataImpl) then) =
-      __$$NavApiDocsItemImageSizesCardDataImplCopyWithImpl<$Res>;
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'url') String url,
-      @JsonKey(name: 'width') int width,
-      @JsonKey(name: 'height') int height,
-      @JsonKey(name: 'mimeType') String mimeType,
-      @JsonKey(name: 'filesize') int filesize,
-      @JsonKey(name: 'filename') String filename});
-}
-
-/// @nodoc
-class __$$NavApiDocsItemImageSizesCardDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemImageSizesCardDataCopyWithImpl<$Res,
-        _$NavApiDocsItemImageSizesCardDataImpl>
-    implements _$$NavApiDocsItemImageSizesCardDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemImageSizesCardDataImplCopyWithImpl(
-      _$NavApiDocsItemImageSizesCardDataImpl _value,
-      $Res Function(_$NavApiDocsItemImageSizesCardDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NavApiDocsItemImageSizesCardData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? url = null,
-    Object? width = null,
-    Object? height = null,
-    Object? mimeType = null,
-    Object? filesize = null,
-    Object? filename = null,
-  }) {
-    return _then(_$NavApiDocsItemImageSizesCardDataImpl(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      mimeType: null == mimeType
-          ? _value.mimeType
-          : mimeType // ignore: cast_nullable_to_non_nullable
-              as String,
-      filesize: null == filesize
-          ? _value.filesize
-          : filesize // ignore: cast_nullable_to_non_nullable
-              as int,
-      filename: null == filename
-          ? _value.filename
-          : filename // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$NavApiDocsItemImageSizesCardDataImpl
-    extends _NavApiDocsItemImageSizesCardData {
-  const _$NavApiDocsItemImageSizesCardDataImpl(
-      {@JsonKey(name: 'url') this.url = '',
-      @JsonKey(name: 'width') this.width = 0,
-      @JsonKey(name: 'height') this.height = 0,
-      @JsonKey(name: 'mimeType') this.mimeType = '',
-      @JsonKey(name: 'filesize') this.filesize = 0,
-      @JsonKey(name: 'filename') this.filename = ''})
-      : super._();
-
-  factory _$NavApiDocsItemImageSizesCardDataImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$NavApiDocsItemImageSizesCardDataImplFromJson(json);
-
-  @override
-  @JsonKey(name: 'url')
-  final String url;
-  @override
-  @JsonKey(name: 'width')
-  final int width;
-  @override
-  @JsonKey(name: 'height')
-  final int height;
-  @override
-  @JsonKey(name: 'mimeType')
-  final String mimeType;
-  @override
-  @JsonKey(name: 'filesize')
-  final int filesize;
-  @override
-  @JsonKey(name: 'filename')
-  final String filename;
+  int get hashCode => Object.hash(
+      runtimeType, url, width, height, mimeType, filesize, filename);
 
   @override
   String toString() {
     return 'NavApiDocsItemImageSizesCardData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
   }
+}
+
+/// @nodoc
+abstract mixin class $NavApiDocsItemImageSizesCardDataCopyWith<$Res> {
+  factory $NavApiDocsItemImageSizesCardDataCopyWith(
+          NavApiDocsItemImageSizesCardData value,
+          $Res Function(NavApiDocsItemImageSizesCardData) _then) =
+      _$NavApiDocsItemImageSizesCardDataCopyWithImpl;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'url') String url,
+      @JsonKey(name: 'width') int width,
+      @JsonKey(name: 'height') int height,
+      @JsonKey(name: 'mimeType') String mimeType,
+      @JsonKey(name: 'filesize') int filesize,
+      @JsonKey(name: 'filename') String filename});
+}
+
+/// @nodoc
+class _$NavApiDocsItemImageSizesCardDataCopyWithImpl<$Res>
+    implements $NavApiDocsItemImageSizesCardDataCopyWith<$Res> {
+  _$NavApiDocsItemImageSizesCardDataCopyWithImpl(this._self, this._then);
+
+  final NavApiDocsItemImageSizesCardData _self;
+  final $Res Function(NavApiDocsItemImageSizesCardData) _then;
+
+  /// Create a copy of NavApiDocsItemImageSizesCardData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? width = null,
+    Object? height = null,
+    Object? mimeType = null,
+    Object? filesize = null,
+    Object? filename = null,
+  }) {
+    return _then(_self.copyWith(
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      mimeType: null == mimeType
+          ? _self.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+      filesize: null == filesize
+          ? _self.filesize
+          : filesize // ignore: cast_nullable_to_non_nullable
+              as int,
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _NavApiDocsItemImageSizesCardData
+    extends NavApiDocsItemImageSizesCardData {
+  const _NavApiDocsItemImageSizesCardData(
+      {@JsonKey(name: 'url') this.url = '',
+      @JsonKey(name: 'width') this.width = 0,
+      @JsonKey(name: 'height') this.height = 0,
+      @JsonKey(name: 'mimeType') this.mimeType = '',
+      @JsonKey(name: 'filesize') this.filesize = 0,
+      @JsonKey(name: 'filename') this.filename = ''})
+      : super._();
+  factory _NavApiDocsItemImageSizesCardData.fromJson(
+          Map<String, dynamic> json) =>
+      _$NavApiDocsItemImageSizesCardDataFromJson(json);
+
+  @override
+  @JsonKey(name: 'url')
+  final String url;
+  @override
+  @JsonKey(name: 'width')
+  final int width;
+  @override
+  @JsonKey(name: 'height')
+  final int height;
+  @override
+  @JsonKey(name: 'mimeType')
+  final String mimeType;
+  @override
+  @JsonKey(name: 'filesize')
+  final int filesize;
+  @override
+  @JsonKey(name: 'filename')
+  final String filename;
+
+  /// Create a copy of NavApiDocsItemImageSizesCardData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemImageSizesCardDataCopyWith<_NavApiDocsItemImageSizesCardData>
+      get copyWith => __$NavApiDocsItemImageSizesCardDataCopyWithImpl<
+          _NavApiDocsItemImageSizesCardData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemImageSizesCardDataToJson(
+      this,
+    );
+  }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemImageSizesCardDataImpl &&
+            other is _NavApiDocsItemImageSizesCardData &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.width, width) || other.width == width) &&
             (identical(other.height, height) || other.height == height) &&
@@ -2659,399 +2523,140 @@ class _$NavApiDocsItemImageSizesCardDataImpl
   int get hashCode => Object.hash(
       runtimeType, url, width, height, mimeType, filesize, filename);
 
-  /// Create a copy of NavApiDocsItemImageSizesCardData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemImageSizesCardDataImplCopyWith<
-          _$NavApiDocsItemImageSizesCardDataImpl>
-      get copyWith => __$$NavApiDocsItemImageSizesCardDataImplCopyWithImpl<
-          _$NavApiDocsItemImageSizesCardDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemImageSizesCardDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemImageSizesCardData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
   }
 }
 
-abstract class _NavApiDocsItemImageSizesCardData
-    extends NavApiDocsItemImageSizesCardData {
-  const factory _NavApiDocsItemImageSizesCardData(
-          {@JsonKey(name: 'url') final String url,
-          @JsonKey(name: 'width') final int width,
-          @JsonKey(name: 'height') final int height,
-          @JsonKey(name: 'mimeType') final String mimeType,
-          @JsonKey(name: 'filesize') final int filesize,
-          @JsonKey(name: 'filename') final String filename}) =
-      _$NavApiDocsItemImageSizesCardDataImpl;
-  const _NavApiDocsItemImageSizesCardData._() : super._();
+/// @nodoc
+abstract mixin class _$NavApiDocsItemImageSizesCardDataCopyWith<$Res>
+    implements $NavApiDocsItemImageSizesCardDataCopyWith<$Res> {
+  factory _$NavApiDocsItemImageSizesCardDataCopyWith(
+          _NavApiDocsItemImageSizesCardData value,
+          $Res Function(_NavApiDocsItemImageSizesCardData) _then) =
+      __$NavApiDocsItemImageSizesCardDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'url') String url,
+      @JsonKey(name: 'width') int width,
+      @JsonKey(name: 'height') int height,
+      @JsonKey(name: 'mimeType') String mimeType,
+      @JsonKey(name: 'filesize') int filesize,
+      @JsonKey(name: 'filename') String filename});
+}
 
-  factory _NavApiDocsItemImageSizesCardData.fromJson(
-          Map<String, dynamic> json) =
-      _$NavApiDocsItemImageSizesCardDataImpl.fromJson;
+/// @nodoc
+class __$NavApiDocsItemImageSizesCardDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemImageSizesCardDataCopyWith<$Res> {
+  __$NavApiDocsItemImageSizesCardDataCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'url')
-  String get url;
-  @override
-  @JsonKey(name: 'width')
-  int get width;
-  @override
-  @JsonKey(name: 'height')
-  int get height;
-  @override
-  @JsonKey(name: 'mimeType')
-  String get mimeType;
-  @override
-  @JsonKey(name: 'filesize')
-  int get filesize;
-  @override
-  @JsonKey(name: 'filename')
-  String get filename;
+  final _NavApiDocsItemImageSizesCardData _self;
+  final $Res Function(_NavApiDocsItemImageSizesCardData) _then;
 
   /// Create a copy of NavApiDocsItemImageSizesCardData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemImageSizesCardDataImplCopyWith<
-          _$NavApiDocsItemImageSizesCardDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-NavApiDocsItemImageSizesTabletData _$NavApiDocsItemImageSizesTabletDataFromJson(
-    Map<String, dynamic> json) {
-  return _NavApiDocsItemImageSizesTabletData.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? url = null,
+    Object? width = null,
+    Object? height = null,
+    Object? mimeType = null,
+    Object? filesize = null,
+    Object? filename = null,
+  }) {
+    return _then(_NavApiDocsItemImageSizesCardData(
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      mimeType: null == mimeType
+          ? _self.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+      filesize: null == filesize
+          ? _self.filesize
+          : filesize // ignore: cast_nullable_to_non_nullable
+              as int,
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$NavApiDocsItemImageSizesTabletData {
   @JsonKey(name: 'url')
-  String get url => throw _privateConstructorUsedError;
+  String get url;
   @JsonKey(name: 'width')
-  int get width => throw _privateConstructorUsedError;
+  int get width;
   @JsonKey(name: 'height')
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @JsonKey(name: 'mimeType')
-  String get mimeType => throw _privateConstructorUsedError;
+  String get mimeType;
   @JsonKey(name: 'filesize')
-  int get filesize => throw _privateConstructorUsedError;
+  int get filesize;
   @JsonKey(name: 'filename')
-  String get filename => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemImageSizesTabletData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get filename;
 
   /// Create a copy of NavApiDocsItemImageSizesTabletData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NavApiDocsItemImageSizesTabletDataCopyWith<
           NavApiDocsItemImageSizesTabletData>
-      get copyWith => throw _privateConstructorUsedError;
-}
+      get copyWith => _$NavApiDocsItemImageSizesTabletDataCopyWithImpl<
+              NavApiDocsItemImageSizesTabletData>(
+          this as NavApiDocsItemImageSizesTabletData, _$identity);
 
-/// @nodoc
-abstract class $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> {
-  factory $NavApiDocsItemImageSizesTabletDataCopyWith(
-          NavApiDocsItemImageSizesTabletData value,
-          $Res Function(NavApiDocsItemImageSizesTabletData) then) =
-      _$NavApiDocsItemImageSizesTabletDataCopyWithImpl<$Res,
-          NavApiDocsItemImageSizesTabletData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'url') String url,
-      @JsonKey(name: 'width') int width,
-      @JsonKey(name: 'height') int height,
-      @JsonKey(name: 'mimeType') String mimeType,
-      @JsonKey(name: 'filesize') int filesize,
-      @JsonKey(name: 'filename') String filename});
-}
+  /// Serializes this NavApiDocsItemImageSizesTabletData to a JSON map.
+  Map<String, dynamic> toJson();
 
-/// @nodoc
-class _$NavApiDocsItemImageSizesTabletDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemImageSizesTabletData>
-    implements $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> {
-  _$NavApiDocsItemImageSizesTabletDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NavApiDocsItemImageSizesTabletData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? url = null,
-    Object? width = null,
-    Object? height = null,
-    Object? mimeType = null,
-    Object? filesize = null,
-    Object? filename = null,
-  }) {
-    return _then(_value.copyWith(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      mimeType: null == mimeType
-          ? _value.mimeType
-          : mimeType // ignore: cast_nullable_to_non_nullable
-              as String,
-      filesize: null == filesize
-          ? _value.filesize
-          : filesize // ignore: cast_nullable_to_non_nullable
-              as int,
-      filename: null == filename
-          ? _value.filename
-          : filename // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemImageSizesTabletData &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType) &&
+            (identical(other.filesize, filesize) ||
+                other.filesize == filesize) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename));
   }
-}
 
-/// @nodoc
-abstract class _$$NavApiDocsItemImageSizesTabletDataImplCopyWith<$Res>
-    implements $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemImageSizesTabletDataImplCopyWith(
-          _$NavApiDocsItemImageSizesTabletDataImpl value,
-          $Res Function(_$NavApiDocsItemImageSizesTabletDataImpl) then) =
-      __$$NavApiDocsItemImageSizesTabletDataImplCopyWithImpl<$Res>;
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'url') String url,
-      @JsonKey(name: 'width') int width,
-      @JsonKey(name: 'height') int height,
-      @JsonKey(name: 'mimeType') String mimeType,
-      @JsonKey(name: 'filesize') int filesize,
-      @JsonKey(name: 'filename') String filename});
-}
-
-/// @nodoc
-class __$$NavApiDocsItemImageSizesTabletDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemImageSizesTabletDataCopyWithImpl<$Res,
-        _$NavApiDocsItemImageSizesTabletDataImpl>
-    implements _$$NavApiDocsItemImageSizesTabletDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemImageSizesTabletDataImplCopyWithImpl(
-      _$NavApiDocsItemImageSizesTabletDataImpl _value,
-      $Res Function(_$NavApiDocsItemImageSizesTabletDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NavApiDocsItemImageSizesTabletData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? url = null,
-    Object? width = null,
-    Object? height = null,
-    Object? mimeType = null,
-    Object? filesize = null,
-    Object? filename = null,
-  }) {
-    return _then(_$NavApiDocsItemImageSizesTabletDataImpl(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      mimeType: null == mimeType
-          ? _value.mimeType
-          : mimeType // ignore: cast_nullable_to_non_nullable
-              as String,
-      filesize: null == filesize
-          ? _value.filesize
-          : filesize // ignore: cast_nullable_to_non_nullable
-              as int,
-      filename: null == filename
-          ? _value.filename
-          : filename // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$NavApiDocsItemImageSizesTabletDataImpl
-    extends _NavApiDocsItemImageSizesTabletData {
-  const _$NavApiDocsItemImageSizesTabletDataImpl(
-      {@JsonKey(name: 'url') this.url = '',
-      @JsonKey(name: 'width') this.width = 0,
-      @JsonKey(name: 'height') this.height = 0,
-      @JsonKey(name: 'mimeType') this.mimeType = '',
-      @JsonKey(name: 'filesize') this.filesize = 0,
-      @JsonKey(name: 'filename') this.filename = ''})
-      : super._();
-
-  factory _$NavApiDocsItemImageSizesTabletDataImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$NavApiDocsItemImageSizesTabletDataImplFromJson(json);
-
-  @override
-  @JsonKey(name: 'url')
-  final String url;
-  @override
-  @JsonKey(name: 'width')
-  final int width;
-  @override
-  @JsonKey(name: 'height')
-  final int height;
-  @override
-  @JsonKey(name: 'mimeType')
-  final String mimeType;
-  @override
-  @JsonKey(name: 'filesize')
-  final int filesize;
-  @override
-  @JsonKey(name: 'filename')
-  final String filename;
+  int get hashCode => Object.hash(
+      runtimeType, url, width, height, mimeType, filesize, filename);
 
   @override
   String toString() {
     return 'NavApiDocsItemImageSizesTabletData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemImageSizesTabletDataImpl &&
-            (identical(other.url, url) || other.url == url) &&
-            (identical(other.width, width) || other.width == width) &&
-            (identical(other.height, height) || other.height == height) &&
-            (identical(other.mimeType, mimeType) ||
-                other.mimeType == mimeType) &&
-            (identical(other.filesize, filesize) ||
-                other.filesize == filesize) &&
-            (identical(other.filename, filename) ||
-                other.filename == filename));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, url, width, height, mimeType, filesize, filename);
-
-  /// Create a copy of NavApiDocsItemImageSizesTabletData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemImageSizesTabletDataImplCopyWith<
-          _$NavApiDocsItemImageSizesTabletDataImpl>
-      get copyWith => __$$NavApiDocsItemImageSizesTabletDataImplCopyWithImpl<
-          _$NavApiDocsItemImageSizesTabletDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemImageSizesTabletDataImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _NavApiDocsItemImageSizesTabletData
-    extends NavApiDocsItemImageSizesTabletData {
-  const factory _NavApiDocsItemImageSizesTabletData(
-          {@JsonKey(name: 'url') final String url,
-          @JsonKey(name: 'width') final int width,
-          @JsonKey(name: 'height') final int height,
-          @JsonKey(name: 'mimeType') final String mimeType,
-          @JsonKey(name: 'filesize') final int filesize,
-          @JsonKey(name: 'filename') final String filename}) =
-      _$NavApiDocsItemImageSizesTabletDataImpl;
-  const _NavApiDocsItemImageSizesTabletData._() : super._();
-
-  factory _NavApiDocsItemImageSizesTabletData.fromJson(
-          Map<String, dynamic> json) =
-      _$NavApiDocsItemImageSizesTabletDataImpl.fromJson;
-
-  @override
-  @JsonKey(name: 'url')
-  String get url;
-  @override
-  @JsonKey(name: 'width')
-  int get width;
-  @override
-  @JsonKey(name: 'height')
-  int get height;
-  @override
-  @JsonKey(name: 'mimeType')
-  String get mimeType;
-  @override
-  @JsonKey(name: 'filesize')
-  int get filesize;
-  @override
-  @JsonKey(name: 'filename')
-  String get filename;
-
-  /// Create a copy of NavApiDocsItemImageSizesTabletData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemImageSizesTabletDataImplCopyWith<
-          _$NavApiDocsItemImageSizesTabletDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-NavApiDocsItemImageSizesAvatarData _$NavApiDocsItemImageSizesAvatarDataFromJson(
-    Map<String, dynamic> json) {
-  return _NavApiDocsItemImageSizesAvatarData.fromJson(json);
 }
 
 /// @nodoc
-mixin _$NavApiDocsItemImageSizesAvatarData {
-  @JsonKey(name: 'url')
-  String get url => throw _privateConstructorUsedError;
-  @JsonKey(name: 'width')
-  int get width => throw _privateConstructorUsedError;
-  @JsonKey(name: 'height')
-  int get height => throw _privateConstructorUsedError;
-  @JsonKey(name: 'mimeType')
-  String get mimeType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'filesize')
-  int get filesize => throw _privateConstructorUsedError;
-  @JsonKey(name: 'filename')
-  String get filename => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemImageSizesAvatarData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of NavApiDocsItemImageSizesAvatarData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $NavApiDocsItemImageSizesAvatarDataCopyWith<
-          NavApiDocsItemImageSizesAvatarData>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> {
-  factory $NavApiDocsItemImageSizesAvatarDataCopyWith(
-          NavApiDocsItemImageSizesAvatarData value,
-          $Res Function(NavApiDocsItemImageSizesAvatarData) then) =
-      _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<$Res,
-          NavApiDocsItemImageSizesAvatarData>;
+abstract mixin class $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> {
+  factory $NavApiDocsItemImageSizesTabletDataCopyWith(
+          NavApiDocsItemImageSizesTabletData value,
+          $Res Function(NavApiDocsItemImageSizesTabletData) _then) =
+      _$NavApiDocsItemImageSizesTabletDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'url') String url,
@@ -3063,17 +2668,14 @@ abstract class $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemImageSizesAvatarData>
-    implements $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> {
-  _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl(this._value, this._then);
+class _$NavApiDocsItemImageSizesTabletDataCopyWithImpl<$Res>
+    implements $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> {
+  _$NavApiDocsItemImageSizesTabletDataCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NavApiDocsItemImageSizesTabletData _self;
+  final $Res Function(NavApiDocsItemImageSizesTabletData) _then;
 
-  /// Create a copy of NavApiDocsItemImageSizesAvatarData
+  /// Create a copy of NavApiDocsItemImageSizesTabletData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -3085,98 +2687,29 @@ class _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<$Res,
     Object? filesize = null,
     Object? filename = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       url: null == url
-          ? _value.url
+          ? _self.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
       width: null == width
-          ? _value.width
+          ? _self.width
           : width // ignore: cast_nullable_to_non_nullable
               as int,
       height: null == height
-          ? _value.height
+          ? _self.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
       mimeType: null == mimeType
-          ? _value.mimeType
+          ? _self.mimeType
           : mimeType // ignore: cast_nullable_to_non_nullable
               as String,
       filesize: null == filesize
-          ? _value.filesize
+          ? _self.filesize
           : filesize // ignore: cast_nullable_to_non_nullable
               as int,
       filename: null == filename
-          ? _value.filename
-          : filename // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$NavApiDocsItemImageSizesAvatarDataImplCopyWith<$Res>
-    implements $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemImageSizesAvatarDataImplCopyWith(
-          _$NavApiDocsItemImageSizesAvatarDataImpl value,
-          $Res Function(_$NavApiDocsItemImageSizesAvatarDataImpl) then) =
-      __$$NavApiDocsItemImageSizesAvatarDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'url') String url,
-      @JsonKey(name: 'width') int width,
-      @JsonKey(name: 'height') int height,
-      @JsonKey(name: 'mimeType') String mimeType,
-      @JsonKey(name: 'filesize') int filesize,
-      @JsonKey(name: 'filename') String filename});
-}
-
-/// @nodoc
-class __$$NavApiDocsItemImageSizesAvatarDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<$Res,
-        _$NavApiDocsItemImageSizesAvatarDataImpl>
-    implements _$$NavApiDocsItemImageSizesAvatarDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemImageSizesAvatarDataImplCopyWithImpl(
-      _$NavApiDocsItemImageSizesAvatarDataImpl _value,
-      $Res Function(_$NavApiDocsItemImageSizesAvatarDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NavApiDocsItemImageSizesAvatarData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? url = null,
-    Object? width = null,
-    Object? height = null,
-    Object? mimeType = null,
-    Object? filesize = null,
-    Object? filename = null,
-  }) {
-    return _then(_$NavApiDocsItemImageSizesAvatarDataImpl(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      mimeType: null == mimeType
-          ? _value.mimeType
-          : mimeType // ignore: cast_nullable_to_non_nullable
-              as String,
-      filesize: null == filesize
-          ? _value.filesize
-          : filesize // ignore: cast_nullable_to_non_nullable
-              as int,
-      filename: null == filename
-          ? _value.filename
+          ? _self.filename
           : filename // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -3185,9 +2718,9 @@ class __$$NavApiDocsItemImageSizesAvatarDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NavApiDocsItemImageSizesAvatarDataImpl
-    extends _NavApiDocsItemImageSizesAvatarData {
-  const _$NavApiDocsItemImageSizesAvatarDataImpl(
+class _NavApiDocsItemImageSizesTabletData
+    extends NavApiDocsItemImageSizesTabletData {
+  const _NavApiDocsItemImageSizesTabletData(
       {@JsonKey(name: 'url') this.url = '',
       @JsonKey(name: 'width') this.width = 0,
       @JsonKey(name: 'height') this.height = 0,
@@ -3195,10 +2728,9 @@ class _$NavApiDocsItemImageSizesAvatarDataImpl
       @JsonKey(name: 'filesize') this.filesize = 0,
       @JsonKey(name: 'filename') this.filename = ''})
       : super._();
-
-  factory _$NavApiDocsItemImageSizesAvatarDataImpl.fromJson(
+  factory _NavApiDocsItemImageSizesTabletData.fromJson(
           Map<String, dynamic> json) =>
-      _$$NavApiDocsItemImageSizesAvatarDataImplFromJson(json);
+      _$NavApiDocsItemImageSizesTabletDataFromJson(json);
 
   @override
   @JsonKey(name: 'url')
@@ -3219,16 +2751,28 @@ class _$NavApiDocsItemImageSizesAvatarDataImpl
   @JsonKey(name: 'filename')
   final String filename;
 
+  /// Create a copy of NavApiDocsItemImageSizesTabletData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiDocsItemImageSizesAvatarData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemImageSizesTabletDataCopyWith<
+          _NavApiDocsItemImageSizesTabletData>
+      get copyWith => __$NavApiDocsItemImageSizesTabletDataCopyWithImpl<
+          _NavApiDocsItemImageSizesTabletData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemImageSizesTabletDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemImageSizesAvatarDataImpl &&
+            other is _NavApiDocsItemImageSizesTabletData &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.width, width) || other.width == width) &&
             (identical(other.height, height) || other.height == height) &&
@@ -3245,166 +2789,400 @@ class _$NavApiDocsItemImageSizesAvatarDataImpl
   int get hashCode => Object.hash(
       runtimeType, url, width, height, mimeType, filesize, filename);
 
-  /// Create a copy of NavApiDocsItemImageSizesAvatarData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemImageSizesAvatarDataImplCopyWith<
-          _$NavApiDocsItemImageSizesAvatarDataImpl>
-      get copyWith => __$$NavApiDocsItemImageSizesAvatarDataImplCopyWithImpl<
-          _$NavApiDocsItemImageSizesAvatarDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemImageSizesAvatarDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemImageSizesTabletData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
   }
 }
 
-abstract class _NavApiDocsItemImageSizesAvatarData
-    extends NavApiDocsItemImageSizesAvatarData {
-  const factory _NavApiDocsItemImageSizesAvatarData(
-          {@JsonKey(name: 'url') final String url,
-          @JsonKey(name: 'width') final int width,
-          @JsonKey(name: 'height') final int height,
-          @JsonKey(name: 'mimeType') final String mimeType,
-          @JsonKey(name: 'filesize') final int filesize,
-          @JsonKey(name: 'filename') final String filename}) =
-      _$NavApiDocsItemImageSizesAvatarDataImpl;
-  const _NavApiDocsItemImageSizesAvatarData._() : super._();
-
-  factory _NavApiDocsItemImageSizesAvatarData.fromJson(
-          Map<String, dynamic> json) =
-      _$NavApiDocsItemImageSizesAvatarDataImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$NavApiDocsItemImageSizesTabletDataCopyWith<$Res>
+    implements $NavApiDocsItemImageSizesTabletDataCopyWith<$Res> {
+  factory _$NavApiDocsItemImageSizesTabletDataCopyWith(
+          _NavApiDocsItemImageSizesTabletData value,
+          $Res Function(_NavApiDocsItemImageSizesTabletData) _then) =
+      __$NavApiDocsItemImageSizesTabletDataCopyWithImpl;
   @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'url') String url,
+      @JsonKey(name: 'width') int width,
+      @JsonKey(name: 'height') int height,
+      @JsonKey(name: 'mimeType') String mimeType,
+      @JsonKey(name: 'filesize') int filesize,
+      @JsonKey(name: 'filename') String filename});
+}
+
+/// @nodoc
+class __$NavApiDocsItemImageSizesTabletDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemImageSizesTabletDataCopyWith<$Res> {
+  __$NavApiDocsItemImageSizesTabletDataCopyWithImpl(this._self, this._then);
+
+  final _NavApiDocsItemImageSizesTabletData _self;
+  final $Res Function(_NavApiDocsItemImageSizesTabletData) _then;
+
+  /// Create a copy of NavApiDocsItemImageSizesTabletData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? url = null,
+    Object? width = null,
+    Object? height = null,
+    Object? mimeType = null,
+    Object? filesize = null,
+    Object? filename = null,
+  }) {
+    return _then(_NavApiDocsItemImageSizesTabletData(
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      mimeType: null == mimeType
+          ? _self.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+      filesize: null == filesize
+          ? _self.filesize
+          : filesize // ignore: cast_nullable_to_non_nullable
+              as int,
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$NavApiDocsItemImageSizesAvatarData {
   @JsonKey(name: 'url')
   String get url;
-  @override
   @JsonKey(name: 'width')
   int get width;
-  @override
   @JsonKey(name: 'height')
   int get height;
-  @override
   @JsonKey(name: 'mimeType')
   String get mimeType;
-  @override
   @JsonKey(name: 'filesize')
   int get filesize;
-  @override
   @JsonKey(name: 'filename')
   String get filename;
 
   /// Create a copy of NavApiDocsItemImageSizesAvatarData
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemImageSizesAvatarDataImplCopyWith<
-          _$NavApiDocsItemImageSizesAvatarDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $NavApiDocsItemImageSizesAvatarDataCopyWith<
+          NavApiDocsItemImageSizesAvatarData>
+      get copyWith => _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<
+              NavApiDocsItemImageSizesAvatarData>(
+          this as NavApiDocsItemImageSizesAvatarData, _$identity);
+
+  /// Serializes this NavApiDocsItemImageSizesAvatarData to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemImageSizesAvatarData &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType) &&
+            (identical(other.filesize, filesize) ||
+                other.filesize == filesize) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, url, width, height, mimeType, filesize, filename);
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemImageSizesAvatarData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  }
 }
 
-NavApiDocsItemTagsItemData _$NavApiDocsItemTagsItemDataFromJson(
-    Map<String, dynamic> json) {
-  return _NavApiDocsItemTagsItemData.fromJson(json);
+/// @nodoc
+abstract mixin class $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> {
+  factory $NavApiDocsItemImageSizesAvatarDataCopyWith(
+          NavApiDocsItemImageSizesAvatarData value,
+          $Res Function(NavApiDocsItemImageSizesAvatarData) _then) =
+      _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'url') String url,
+      @JsonKey(name: 'width') int width,
+      @JsonKey(name: 'height') int height,
+      @JsonKey(name: 'mimeType') String mimeType,
+      @JsonKey(name: 'filesize') int filesize,
+      @JsonKey(name: 'filename') String filename});
+}
+
+/// @nodoc
+class _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<$Res>
+    implements $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> {
+  _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl(this._self, this._then);
+
+  final NavApiDocsItemImageSizesAvatarData _self;
+  final $Res Function(NavApiDocsItemImageSizesAvatarData) _then;
+
+  /// Create a copy of NavApiDocsItemImageSizesAvatarData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? width = null,
+    Object? height = null,
+    Object? mimeType = null,
+    Object? filesize = null,
+    Object? filename = null,
+  }) {
+    return _then(_self.copyWith(
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      mimeType: null == mimeType
+          ? _self.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+      filesize: null == filesize
+          ? _self.filesize
+          : filesize // ignore: cast_nullable_to_non_nullable
+              as int,
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _NavApiDocsItemImageSizesAvatarData
+    extends NavApiDocsItemImageSizesAvatarData {
+  const _NavApiDocsItemImageSizesAvatarData(
+      {@JsonKey(name: 'url') this.url = '',
+      @JsonKey(name: 'width') this.width = 0,
+      @JsonKey(name: 'height') this.height = 0,
+      @JsonKey(name: 'mimeType') this.mimeType = '',
+      @JsonKey(name: 'filesize') this.filesize = 0,
+      @JsonKey(name: 'filename') this.filename = ''})
+      : super._();
+  factory _NavApiDocsItemImageSizesAvatarData.fromJson(
+          Map<String, dynamic> json) =>
+      _$NavApiDocsItemImageSizesAvatarDataFromJson(json);
+
+  @override
+  @JsonKey(name: 'url')
+  final String url;
+  @override
+  @JsonKey(name: 'width')
+  final int width;
+  @override
+  @JsonKey(name: 'height')
+  final int height;
+  @override
+  @JsonKey(name: 'mimeType')
+  final String mimeType;
+  @override
+  @JsonKey(name: 'filesize')
+  final int filesize;
+  @override
+  @JsonKey(name: 'filename')
+  final String filename;
+
+  /// Create a copy of NavApiDocsItemImageSizesAvatarData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemImageSizesAvatarDataCopyWith<
+          _NavApiDocsItemImageSizesAvatarData>
+      get copyWith => __$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<
+          _NavApiDocsItemImageSizesAvatarData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemImageSizesAvatarDataToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _NavApiDocsItemImageSizesAvatarData &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType) &&
+            (identical(other.filesize, filesize) ||
+                other.filesize == filesize) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, url, width, height, mimeType, filesize, filename);
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemImageSizesAvatarData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NavApiDocsItemImageSizesAvatarDataCopyWith<$Res>
+    implements $NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> {
+  factory _$NavApiDocsItemImageSizesAvatarDataCopyWith(
+          _NavApiDocsItemImageSizesAvatarData value,
+          $Res Function(_NavApiDocsItemImageSizesAvatarData) _then) =
+      __$NavApiDocsItemImageSizesAvatarDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'url') String url,
+      @JsonKey(name: 'width') int width,
+      @JsonKey(name: 'height') int height,
+      @JsonKey(name: 'mimeType') String mimeType,
+      @JsonKey(name: 'filesize') int filesize,
+      @JsonKey(name: 'filename') String filename});
+}
+
+/// @nodoc
+class __$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemImageSizesAvatarDataCopyWith<$Res> {
+  __$NavApiDocsItemImageSizesAvatarDataCopyWithImpl(this._self, this._then);
+
+  final _NavApiDocsItemImageSizesAvatarData _self;
+  final $Res Function(_NavApiDocsItemImageSizesAvatarData) _then;
+
+  /// Create a copy of NavApiDocsItemImageSizesAvatarData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? url = null,
+    Object? width = null,
+    Object? height = null,
+    Object? mimeType = null,
+    Object? filesize = null,
+    Object? filename = null,
+  }) {
+    return _then(_NavApiDocsItemImageSizesAvatarData(
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      mimeType: null == mimeType
+          ? _self.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+      filesize: null == filesize
+          ? _self.filesize
+          : filesize // ignore: cast_nullable_to_non_nullable
+              as int,
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$NavApiDocsItemTagsItemData {
   @JsonKey(name: 'id')
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @JsonKey(name: 'name')
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @JsonKey(name: 'slug')
-  String get slug => throw _privateConstructorUsedError;
+  String get slug;
   @JsonKey(name: 'updatedAt')
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
   @JsonKey(name: 'createdAt')
-  String get createdAt => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiDocsItemTagsItemData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get createdAt;
 
   /// Create a copy of NavApiDocsItemTagsItemData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NavApiDocsItemTagsItemDataCopyWith<NavApiDocsItemTagsItemData>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NavApiDocsItemTagsItemDataCopyWith<$Res> {
-  factory $NavApiDocsItemTagsItemDataCopyWith(NavApiDocsItemTagsItemData value,
-          $Res Function(NavApiDocsItemTagsItemData) then) =
-      _$NavApiDocsItemTagsItemDataCopyWithImpl<$Res,
-          NavApiDocsItemTagsItemData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'id') String id,
-      @JsonKey(name: 'name') String name,
-      @JsonKey(name: 'slug') String slug,
-      @JsonKey(name: 'updatedAt') String updatedAt,
-      @JsonKey(name: 'createdAt') String createdAt});
-}
-
-/// @nodoc
-class _$NavApiDocsItemTagsItemDataCopyWithImpl<$Res,
-        $Val extends NavApiDocsItemTagsItemData>
-    implements $NavApiDocsItemTagsItemDataCopyWith<$Res> {
-  _$NavApiDocsItemTagsItemDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NavApiDocsItemTagsItemData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $NavApiDocsItemTagsItemDataCopyWith<NavApiDocsItemTagsItemData>
+      get copyWith =>
+          _$NavApiDocsItemTagsItemDataCopyWithImpl<NavApiDocsItemTagsItemData>(
+              this as NavApiDocsItemTagsItemData, _$identity);
+
+  /// Serializes this NavApiDocsItemTagsItemData to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? slug = null,
-    Object? updatedAt = null,
-    Object? createdAt = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      slug: null == slug
-          ? _value.slug
-          : slug // ignore: cast_nullable_to_non_nullable
-              as String,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiDocsItemTagsItemData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, slug, updatedAt, createdAt);
+
+  @override
+  String toString() {
+    return 'NavApiDocsItemTagsItemData(id: $id, name: $name, slug: $slug, updatedAt: $updatedAt, createdAt: $createdAt)';
   }
 }
 
 /// @nodoc
-abstract class _$$NavApiDocsItemTagsItemDataImplCopyWith<$Res>
-    implements $NavApiDocsItemTagsItemDataCopyWith<$Res> {
-  factory _$$NavApiDocsItemTagsItemDataImplCopyWith(
-          _$NavApiDocsItemTagsItemDataImpl value,
-          $Res Function(_$NavApiDocsItemTagsItemDataImpl) then) =
-      __$$NavApiDocsItemTagsItemDataImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NavApiDocsItemTagsItemDataCopyWith<$Res> {
+  factory $NavApiDocsItemTagsItemDataCopyWith(NavApiDocsItemTagsItemData value,
+          $Res Function(NavApiDocsItemTagsItemData) _then) =
+      _$NavApiDocsItemTagsItemDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') String id,
@@ -3415,14 +3193,12 @@ abstract class _$$NavApiDocsItemTagsItemDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$NavApiDocsItemTagsItemDataImplCopyWithImpl<$Res>
-    extends _$NavApiDocsItemTagsItemDataCopyWithImpl<$Res,
-        _$NavApiDocsItemTagsItemDataImpl>
-    implements _$$NavApiDocsItemTagsItemDataImplCopyWith<$Res> {
-  __$$NavApiDocsItemTagsItemDataImplCopyWithImpl(
-      _$NavApiDocsItemTagsItemDataImpl _value,
-      $Res Function(_$NavApiDocsItemTagsItemDataImpl) _then)
-      : super(_value, _then);
+class _$NavApiDocsItemTagsItemDataCopyWithImpl<$Res>
+    implements $NavApiDocsItemTagsItemDataCopyWith<$Res> {
+  _$NavApiDocsItemTagsItemDataCopyWithImpl(this._self, this._then);
+
+  final NavApiDocsItemTagsItemData _self;
+  final $Res Function(NavApiDocsItemTagsItemData) _then;
 
   /// Create a copy of NavApiDocsItemTagsItemData
   /// with the given fields replaced by the non-null parameter values.
@@ -3435,25 +3211,25 @@ class __$$NavApiDocsItemTagsItemDataImplCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? createdAt = null,
   }) {
-    return _then(_$NavApiDocsItemTagsItemDataImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       slug: null == slug
-          ? _value.slug
+          ? _self.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String,
       updatedAt: null == updatedAt
-          ? _value.updatedAt
+          ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
-          ? _value.createdAt
+          ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -3462,18 +3238,16 @@ class __$$NavApiDocsItemTagsItemDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NavApiDocsItemTagsItemDataImpl extends _NavApiDocsItemTagsItemData {
-  const _$NavApiDocsItemTagsItemDataImpl(
+class _NavApiDocsItemTagsItemData extends NavApiDocsItemTagsItemData {
+  const _NavApiDocsItemTagsItemData(
       {@JsonKey(name: 'id') this.id = '',
       @JsonKey(name: 'name') this.name = '',
       @JsonKey(name: 'slug') this.slug = '',
       @JsonKey(name: 'updatedAt') this.updatedAt = '',
       @JsonKey(name: 'createdAt') this.createdAt = ''})
       : super._();
-
-  factory _$NavApiDocsItemTagsItemDataImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$NavApiDocsItemTagsItemDataImplFromJson(json);
+  factory _NavApiDocsItemTagsItemData.fromJson(Map<String, dynamic> json) =>
+      _$NavApiDocsItemTagsItemDataFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -3491,16 +3265,27 @@ class _$NavApiDocsItemTagsItemDataImpl extends _NavApiDocsItemTagsItemData {
   @JsonKey(name: 'createdAt')
   final String createdAt;
 
+  /// Create a copy of NavApiDocsItemTagsItemData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiDocsItemTagsItemData(id: $id, name: $name, slug: $slug, updatedAt: $updatedAt, createdAt: $createdAt)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDocsItemTagsItemDataCopyWith<_NavApiDocsItemTagsItemData>
+      get copyWith => __$NavApiDocsItemTagsItemDataCopyWithImpl<
+          _NavApiDocsItemTagsItemData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDocsItemTagsItemDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDocsItemTagsItemDataImpl &&
+            other is _NavApiDocsItemTagsItemData &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.slug, slug) || other.slug == slug) &&
@@ -3515,194 +3300,154 @@ class _$NavApiDocsItemTagsItemDataImpl extends _NavApiDocsItemTagsItemData {
   int get hashCode =>
       Object.hash(runtimeType, id, name, slug, updatedAt, createdAt);
 
-  /// Create a copy of NavApiDocsItemTagsItemData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDocsItemTagsItemDataImplCopyWith<_$NavApiDocsItemTagsItemDataImpl>
-      get copyWith => __$$NavApiDocsItemTagsItemDataImplCopyWithImpl<
-          _$NavApiDocsItemTagsItemDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDocsItemTagsItemDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiDocsItemTagsItemData(id: $id, name: $name, slug: $slug, updatedAt: $updatedAt, createdAt: $createdAt)';
   }
 }
 
-abstract class _NavApiDocsItemTagsItemData extends NavApiDocsItemTagsItemData {
-  const factory _NavApiDocsItemTagsItemData(
-          {@JsonKey(name: 'id') final String id,
-          @JsonKey(name: 'name') final String name,
-          @JsonKey(name: 'slug') final String slug,
-          @JsonKey(name: 'updatedAt') final String updatedAt,
-          @JsonKey(name: 'createdAt') final String createdAt}) =
-      _$NavApiDocsItemTagsItemDataImpl;
-  const _NavApiDocsItemTagsItemData._() : super._();
+/// @nodoc
+abstract mixin class _$NavApiDocsItemTagsItemDataCopyWith<$Res>
+    implements $NavApiDocsItemTagsItemDataCopyWith<$Res> {
+  factory _$NavApiDocsItemTagsItemDataCopyWith(
+          _NavApiDocsItemTagsItemData value,
+          $Res Function(_NavApiDocsItemTagsItemData) _then) =
+      __$NavApiDocsItemTagsItemDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') String id,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'slug') String slug,
+      @JsonKey(name: 'updatedAt') String updatedAt,
+      @JsonKey(name: 'createdAt') String createdAt});
+}
 
-  factory _NavApiDocsItemTagsItemData.fromJson(Map<String, dynamic> json) =
-      _$NavApiDocsItemTagsItemDataImpl.fromJson;
+/// @nodoc
+class __$NavApiDocsItemTagsItemDataCopyWithImpl<$Res>
+    implements _$NavApiDocsItemTagsItemDataCopyWith<$Res> {
+  __$NavApiDocsItemTagsItemDataCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'id')
-  String get id;
-  @override
-  @JsonKey(name: 'name')
-  String get name;
-  @override
-  @JsonKey(name: 'slug')
-  String get slug;
-  @override
-  @JsonKey(name: 'updatedAt')
-  String get updatedAt;
-  @override
-  @JsonKey(name: 'createdAt')
-  String get createdAt;
+  final _NavApiDocsItemTagsItemData _self;
+  final $Res Function(_NavApiDocsItemTagsItemData) _then;
 
   /// Create a copy of NavApiDocsItemTagsItemData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDocsItemTagsItemDataImplCopyWith<_$NavApiDocsItemTagsItemDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-NavApiData _$NavApiDataFromJson(Map<String, dynamic> json) {
-  return _NavApiData.fromJson(json);
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? updatedAt = null,
+    Object? createdAt = null,
+  }) {
+    return _then(_NavApiDocsItemTagsItemData(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      updatedAt: null == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$NavApiData {
   @JsonKey(name: 'docs')
-  List<NavApiDocsItemData> get docs => throw _privateConstructorUsedError;
+  List<NavApiDocsItemData> get docs;
   @JsonKey(name: 'hasNextPage')
-  bool get hasNextPage => throw _privateConstructorUsedError;
+  bool get hasNextPage;
   @JsonKey(name: 'hasPrevPage')
-  bool get hasPrevPage => throw _privateConstructorUsedError;
+  bool get hasPrevPage;
   @JsonKey(name: 'limit')
-  int get limit => throw _privateConstructorUsedError;
+  int get limit;
   @JsonKey(name: 'nextPage')
-  dynamic get nextPage => throw _privateConstructorUsedError;
+  dynamic get nextPage;
   @JsonKey(name: 'page')
-  int get page => throw _privateConstructorUsedError;
+  int get page;
   @JsonKey(name: 'pagingCounter')
-  int get pagingCounter => throw _privateConstructorUsedError;
+  int get pagingCounter;
   @JsonKey(name: 'prevPage')
-  dynamic get prevPage => throw _privateConstructorUsedError;
+  dynamic get prevPage;
   @JsonKey(name: 'totalDocs')
-  int get totalDocs => throw _privateConstructorUsedError;
+  int get totalDocs;
   @JsonKey(name: 'totalPages')
-  int get totalPages => throw _privateConstructorUsedError;
-
-  /// Serializes this NavApiData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  int get totalPages;
 
   /// Create a copy of NavApiData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NavApiDataCopyWith<NavApiData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NavApiDataCopyWith<$Res> {
-  factory $NavApiDataCopyWith(
-          NavApiData value, $Res Function(NavApiData) then) =
-      _$NavApiDataCopyWithImpl<$Res, NavApiData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'docs') List<NavApiDocsItemData> docs,
-      @JsonKey(name: 'hasNextPage') bool hasNextPage,
-      @JsonKey(name: 'hasPrevPage') bool hasPrevPage,
-      @JsonKey(name: 'limit') int limit,
-      @JsonKey(name: 'nextPage') dynamic nextPage,
-      @JsonKey(name: 'page') int page,
-      @JsonKey(name: 'pagingCounter') int pagingCounter,
-      @JsonKey(name: 'prevPage') dynamic prevPage,
-      @JsonKey(name: 'totalDocs') int totalDocs,
-      @JsonKey(name: 'totalPages') int totalPages});
-}
-
-/// @nodoc
-class _$NavApiDataCopyWithImpl<$Res, $Val extends NavApiData>
-    implements $NavApiDataCopyWith<$Res> {
-  _$NavApiDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NavApiData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $NavApiDataCopyWith<NavApiData> get copyWith =>
+      _$NavApiDataCopyWithImpl<NavApiData>(this as NavApiData, _$identity);
+
+  /// Serializes this NavApiData to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? docs = null,
-    Object? hasNextPage = null,
-    Object? hasPrevPage = null,
-    Object? limit = null,
-    Object? nextPage = freezed,
-    Object? page = null,
-    Object? pagingCounter = null,
-    Object? prevPage = freezed,
-    Object? totalDocs = null,
-    Object? totalPages = null,
-  }) {
-    return _then(_value.copyWith(
-      docs: null == docs
-          ? _value.docs
-          : docs // ignore: cast_nullable_to_non_nullable
-              as List<NavApiDocsItemData>,
-      hasNextPage: null == hasNextPage
-          ? _value.hasNextPage
-          : hasNextPage // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hasPrevPage: null == hasPrevPage
-          ? _value.hasPrevPage
-          : hasPrevPage // ignore: cast_nullable_to_non_nullable
-              as bool,
-      limit: null == limit
-          ? _value.limit
-          : limit // ignore: cast_nullable_to_non_nullable
-              as int,
-      nextPage: freezed == nextPage
-          ? _value.nextPage
-          : nextPage // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      pagingCounter: null == pagingCounter
-          ? _value.pagingCounter
-          : pagingCounter // ignore: cast_nullable_to_non_nullable
-              as int,
-      prevPage: freezed == prevPage
-          ? _value.prevPage
-          : prevPage // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      totalDocs: null == totalDocs
-          ? _value.totalDocs
-          : totalDocs // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalPages: null == totalPages
-          ? _value.totalPages
-          : totalPages // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NavApiData &&
+            const DeepCollectionEquality().equals(other.docs, docs) &&
+            (identical(other.hasNextPage, hasNextPage) ||
+                other.hasNextPage == hasNextPage) &&
+            (identical(other.hasPrevPage, hasPrevPage) ||
+                other.hasPrevPage == hasPrevPage) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            const DeepCollectionEquality().equals(other.nextPage, nextPage) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.pagingCounter, pagingCounter) ||
+                other.pagingCounter == pagingCounter) &&
+            const DeepCollectionEquality().equals(other.prevPage, prevPage) &&
+            (identical(other.totalDocs, totalDocs) ||
+                other.totalDocs == totalDocs) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(docs),
+      hasNextPage,
+      hasPrevPage,
+      limit,
+      const DeepCollectionEquality().hash(nextPage),
+      page,
+      pagingCounter,
+      const DeepCollectionEquality().hash(prevPage),
+      totalDocs,
+      totalPages);
+
+  @override
+  String toString() {
+    return 'NavApiData(docs: $docs, hasNextPage: $hasNextPage, hasPrevPage: $hasPrevPage, limit: $limit, nextPage: $nextPage, page: $page, pagingCounter: $pagingCounter, prevPage: $prevPage, totalDocs: $totalDocs, totalPages: $totalPages)';
   }
 }
 
 /// @nodoc
-abstract class _$$NavApiDataImplCopyWith<$Res>
-    implements $NavApiDataCopyWith<$Res> {
-  factory _$$NavApiDataImplCopyWith(
-          _$NavApiDataImpl value, $Res Function(_$NavApiDataImpl) then) =
-      __$$NavApiDataImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NavApiDataCopyWith<$Res> {
+  factory $NavApiDataCopyWith(
+          NavApiData value, $Res Function(NavApiData) _then) =
+      _$NavApiDataCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'docs') List<NavApiDocsItemData> docs,
@@ -3718,12 +3463,11 @@ abstract class _$$NavApiDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$NavApiDataImplCopyWithImpl<$Res>
-    extends _$NavApiDataCopyWithImpl<$Res, _$NavApiDataImpl>
-    implements _$$NavApiDataImplCopyWith<$Res> {
-  __$$NavApiDataImplCopyWithImpl(
-      _$NavApiDataImpl _value, $Res Function(_$NavApiDataImpl) _then)
-      : super(_value, _then);
+class _$NavApiDataCopyWithImpl<$Res> implements $NavApiDataCopyWith<$Res> {
+  _$NavApiDataCopyWithImpl(this._self, this._then);
+
+  final NavApiData _self;
+  final $Res Function(NavApiData) _then;
 
   /// Create a copy of NavApiData
   /// with the given fields replaced by the non-null parameter values.
@@ -3741,45 +3485,45 @@ class __$$NavApiDataImplCopyWithImpl<$Res>
     Object? totalDocs = null,
     Object? totalPages = null,
   }) {
-    return _then(_$NavApiDataImpl(
+    return _then(_self.copyWith(
       docs: null == docs
-          ? _value._docs
+          ? _self.docs
           : docs // ignore: cast_nullable_to_non_nullable
               as List<NavApiDocsItemData>,
       hasNextPage: null == hasNextPage
-          ? _value.hasNextPage
+          ? _self.hasNextPage
           : hasNextPage // ignore: cast_nullable_to_non_nullable
               as bool,
       hasPrevPage: null == hasPrevPage
-          ? _value.hasPrevPage
+          ? _self.hasPrevPage
           : hasPrevPage // ignore: cast_nullable_to_non_nullable
               as bool,
       limit: null == limit
-          ? _value.limit
+          ? _self.limit
           : limit // ignore: cast_nullable_to_non_nullable
               as int,
       nextPage: freezed == nextPage
-          ? _value.nextPage
+          ? _self.nextPage
           : nextPage // ignore: cast_nullable_to_non_nullable
               as dynamic,
       page: null == page
-          ? _value.page
+          ? _self.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
       pagingCounter: null == pagingCounter
-          ? _value.pagingCounter
+          ? _self.pagingCounter
           : pagingCounter // ignore: cast_nullable_to_non_nullable
               as int,
       prevPage: freezed == prevPage
-          ? _value.prevPage
+          ? _self.prevPage
           : prevPage // ignore: cast_nullable_to_non_nullable
               as dynamic,
       totalDocs: null == totalDocs
-          ? _value.totalDocs
+          ? _self.totalDocs
           : totalDocs // ignore: cast_nullable_to_non_nullable
               as int,
       totalPages: null == totalPages
-          ? _value.totalPages
+          ? _self.totalPages
           : totalPages // ignore: cast_nullable_to_non_nullable
               as int,
     ));
@@ -3788,8 +3532,8 @@ class __$$NavApiDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NavApiDataImpl extends _NavApiData {
-  const _$NavApiDataImpl(
+class _NavApiData extends NavApiData {
+  const _NavApiData(
       {@JsonKey(name: 'docs')
       final List<NavApiDocsItemData> docs = const <NavApiDocsItemData>[],
       @JsonKey(name: 'hasNextPage') this.hasNextPage = false,
@@ -3803,9 +3547,8 @@ class _$NavApiDataImpl extends _NavApiData {
       @JsonKey(name: 'totalPages') this.totalPages = 0})
       : _docs = docs,
         super._();
-
-  factory _$NavApiDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NavApiDataImplFromJson(json);
+  factory _NavApiData.fromJson(Map<String, dynamic> json) =>
+      _$NavApiDataFromJson(json);
 
   final List<NavApiDocsItemData> _docs;
   @override
@@ -3844,16 +3587,26 @@ class _$NavApiDataImpl extends _NavApiData {
   @JsonKey(name: 'totalPages')
   final int totalPages;
 
+  /// Create a copy of NavApiData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NavApiData(docs: $docs, hasNextPage: $hasNextPage, hasPrevPage: $hasPrevPage, limit: $limit, nextPage: $nextPage, page: $page, pagingCounter: $pagingCounter, prevPage: $prevPage, totalDocs: $totalDocs, totalPages: $totalPages)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NavApiDataCopyWith<_NavApiData> get copyWith =>
+      __$NavApiDataCopyWithImpl<_NavApiData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NavApiDataToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NavApiDataImpl &&
+            other is _NavApiData &&
             const DeepCollectionEquality().equals(other._docs, _docs) &&
             (identical(other.hasNextPage, hasNextPage) ||
                 other.hasNextPage == hasNextPage) &&
@@ -3886,74 +3639,99 @@ class _$NavApiDataImpl extends _NavApiData {
       totalDocs,
       totalPages);
 
-  /// Create a copy of NavApiData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NavApiDataImplCopyWith<_$NavApiDataImpl> get copyWith =>
-      __$$NavApiDataImplCopyWithImpl<_$NavApiDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NavApiDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NavApiData(docs: $docs, hasNextPage: $hasNextPage, hasPrevPage: $hasPrevPage, limit: $limit, nextPage: $nextPage, page: $page, pagingCounter: $pagingCounter, prevPage: $prevPage, totalDocs: $totalDocs, totalPages: $totalPages)';
   }
 }
 
-abstract class _NavApiData extends NavApiData {
-  const factory _NavApiData(
-      {@JsonKey(name: 'docs') final List<NavApiDocsItemData> docs,
-      @JsonKey(name: 'hasNextPage') final bool hasNextPage,
-      @JsonKey(name: 'hasPrevPage') final bool hasPrevPage,
-      @JsonKey(name: 'limit') final int limit,
-      @JsonKey(name: 'nextPage') final dynamic nextPage,
-      @JsonKey(name: 'page') final int page,
-      @JsonKey(name: 'pagingCounter') final int pagingCounter,
-      @JsonKey(name: 'prevPage') final dynamic prevPage,
-      @JsonKey(name: 'totalDocs') final int totalDocs,
-      @JsonKey(name: 'totalPages') final int totalPages}) = _$NavApiDataImpl;
-  const _NavApiData._() : super._();
+/// @nodoc
+abstract mixin class _$NavApiDataCopyWith<$Res>
+    implements $NavApiDataCopyWith<$Res> {
+  factory _$NavApiDataCopyWith(
+          _NavApiData value, $Res Function(_NavApiData) _then) =
+      __$NavApiDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'docs') List<NavApiDocsItemData> docs,
+      @JsonKey(name: 'hasNextPage') bool hasNextPage,
+      @JsonKey(name: 'hasPrevPage') bool hasPrevPage,
+      @JsonKey(name: 'limit') int limit,
+      @JsonKey(name: 'nextPage') dynamic nextPage,
+      @JsonKey(name: 'page') int page,
+      @JsonKey(name: 'pagingCounter') int pagingCounter,
+      @JsonKey(name: 'prevPage') dynamic prevPage,
+      @JsonKey(name: 'totalDocs') int totalDocs,
+      @JsonKey(name: 'totalPages') int totalPages});
+}
 
-  factory _NavApiData.fromJson(Map<String, dynamic> json) =
-      _$NavApiDataImpl.fromJson;
+/// @nodoc
+class __$NavApiDataCopyWithImpl<$Res> implements _$NavApiDataCopyWith<$Res> {
+  __$NavApiDataCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(name: 'docs')
-  List<NavApiDocsItemData> get docs;
-  @override
-  @JsonKey(name: 'hasNextPage')
-  bool get hasNextPage;
-  @override
-  @JsonKey(name: 'hasPrevPage')
-  bool get hasPrevPage;
-  @override
-  @JsonKey(name: 'limit')
-  int get limit;
-  @override
-  @JsonKey(name: 'nextPage')
-  dynamic get nextPage;
-  @override
-  @JsonKey(name: 'page')
-  int get page;
-  @override
-  @JsonKey(name: 'pagingCounter')
-  int get pagingCounter;
-  @override
-  @JsonKey(name: 'prevPage')
-  dynamic get prevPage;
-  @override
-  @JsonKey(name: 'totalDocs')
-  int get totalDocs;
-  @override
-  @JsonKey(name: 'totalPages')
-  int get totalPages;
+  final _NavApiData _self;
+  final $Res Function(_NavApiData) _then;
 
   /// Create a copy of NavApiData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NavApiDataImplCopyWith<_$NavApiDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? docs = null,
+    Object? hasNextPage = null,
+    Object? hasPrevPage = null,
+    Object? limit = null,
+    Object? nextPage = freezed,
+    Object? page = null,
+    Object? pagingCounter = null,
+    Object? prevPage = freezed,
+    Object? totalDocs = null,
+    Object? totalPages = null,
+  }) {
+    return _then(_NavApiData(
+      docs: null == docs
+          ? _self._docs
+          : docs // ignore: cast_nullable_to_non_nullable
+              as List<NavApiDocsItemData>,
+      hasNextPage: null == hasNextPage
+          ? _self.hasNextPage
+          : hasNextPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasPrevPage: null == hasPrevPage
+          ? _self.hasPrevPage
+          : hasPrevPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      limit: null == limit
+          ? _self.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      nextPage: freezed == nextPage
+          ? _self.nextPage
+          : nextPage // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      pagingCounter: null == pagingCounter
+          ? _self.pagingCounter
+          : pagingCounter // ignore: cast_nullable_to_non_nullable
+              as int,
+      prevPage: freezed == prevPage
+          ? _self.prevPage
+          : prevPage // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      totalDocs: null == totalDocs
+          ? _self.totalDocs
+          : totalDocs // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _self.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
+
+// dart format on

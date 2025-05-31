@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,108 +10,69 @@ part of 'tools_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ToolsUIState {
-  bool get working => throw _privateConstructorUsedError;
-  String get scInstalledPath => throw _privateConstructorUsedError;
-  String get rsiLauncherInstalledPath => throw _privateConstructorUsedError;
-  List<String> get scInstallPaths => throw _privateConstructorUsedError;
-  List<String> get rsiLauncherInstallPaths =>
-      throw _privateConstructorUsedError;
-  List<ToolsItemData> get items => throw _privateConstructorUsedError;
-  bool get isItemLoading => throw _privateConstructorUsedError;
+  bool get working;
+  String get scInstalledPath;
+  String get rsiLauncherInstalledPath;
+  List<String> get scInstallPaths;
+  List<String> get rsiLauncherInstallPaths;
+  List<ToolsItemData> get items;
+  bool get isItemLoading;
 
   /// Create a copy of ToolsUIState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ToolsUIStateCopyWith<ToolsUIState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ToolsUIStateCopyWith<$Res> {
-  factory $ToolsUIStateCopyWith(
-          ToolsUIState value, $Res Function(ToolsUIState) then) =
-      _$ToolsUIStateCopyWithImpl<$Res, ToolsUIState>;
-  @useResult
-  $Res call(
-      {bool working,
-      String scInstalledPath,
-      String rsiLauncherInstalledPath,
-      List<String> scInstallPaths,
-      List<String> rsiLauncherInstallPaths,
-      List<ToolsItemData> items,
-      bool isItemLoading});
-}
-
-/// @nodoc
-class _$ToolsUIStateCopyWithImpl<$Res, $Val extends ToolsUIState>
-    implements $ToolsUIStateCopyWith<$Res> {
-  _$ToolsUIStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ToolsUIState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $ToolsUIStateCopyWith<ToolsUIState> get copyWith =>
+      _$ToolsUIStateCopyWithImpl<ToolsUIState>(
+          this as ToolsUIState, _$identity);
+
   @override
-  $Res call({
-    Object? working = null,
-    Object? scInstalledPath = null,
-    Object? rsiLauncherInstalledPath = null,
-    Object? scInstallPaths = null,
-    Object? rsiLauncherInstallPaths = null,
-    Object? items = null,
-    Object? isItemLoading = null,
-  }) {
-    return _then(_value.copyWith(
-      working: null == working
-          ? _value.working
-          : working // ignore: cast_nullable_to_non_nullable
-              as bool,
-      scInstalledPath: null == scInstalledPath
-          ? _value.scInstalledPath
-          : scInstalledPath // ignore: cast_nullable_to_non_nullable
-              as String,
-      rsiLauncherInstalledPath: null == rsiLauncherInstalledPath
-          ? _value.rsiLauncherInstalledPath
-          : rsiLauncherInstalledPath // ignore: cast_nullable_to_non_nullable
-              as String,
-      scInstallPaths: null == scInstallPaths
-          ? _value.scInstallPaths
-          : scInstallPaths // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      rsiLauncherInstallPaths: null == rsiLauncherInstallPaths
-          ? _value.rsiLauncherInstallPaths
-          : rsiLauncherInstallPaths // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      items: null == items
-          ? _value.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<ToolsItemData>,
-      isItemLoading: null == isItemLoading
-          ? _value.isItemLoading
-          : isItemLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ToolsUIState &&
+            (identical(other.working, working) || other.working == working) &&
+            (identical(other.scInstalledPath, scInstalledPath) ||
+                other.scInstalledPath == scInstalledPath) &&
+            (identical(
+                    other.rsiLauncherInstalledPath, rsiLauncherInstalledPath) ||
+                other.rsiLauncherInstalledPath == rsiLauncherInstalledPath) &&
+            const DeepCollectionEquality()
+                .equals(other.scInstallPaths, scInstallPaths) &&
+            const DeepCollectionEquality().equals(
+                other.rsiLauncherInstallPaths, rsiLauncherInstallPaths) &&
+            const DeepCollectionEquality().equals(other.items, items) &&
+            (identical(other.isItemLoading, isItemLoading) ||
+                other.isItemLoading == isItemLoading));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      working,
+      scInstalledPath,
+      rsiLauncherInstalledPath,
+      const DeepCollectionEquality().hash(scInstallPaths),
+      const DeepCollectionEquality().hash(rsiLauncherInstallPaths),
+      const DeepCollectionEquality().hash(items),
+      isItemLoading);
+
+  @override
+  String toString() {
+    return 'ToolsUIState(working: $working, scInstalledPath: $scInstalledPath, rsiLauncherInstalledPath: $rsiLauncherInstalledPath, scInstallPaths: $scInstallPaths, rsiLauncherInstallPaths: $rsiLauncherInstallPaths, items: $items, isItemLoading: $isItemLoading)';
   }
 }
 
 /// @nodoc
-abstract class _$$ToolsUIStateImplCopyWith<$Res>
-    implements $ToolsUIStateCopyWith<$Res> {
-  factory _$$ToolsUIStateImplCopyWith(
-          _$ToolsUIStateImpl value, $Res Function(_$ToolsUIStateImpl) then) =
-      __$$ToolsUIStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $ToolsUIStateCopyWith<$Res> {
+  factory $ToolsUIStateCopyWith(
+          ToolsUIState value, $Res Function(ToolsUIState) _then) =
+      _$ToolsUIStateCopyWithImpl;
   @useResult
   $Res call(
       {bool working,
@@ -123,12 +85,11 @@ abstract class _$$ToolsUIStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ToolsUIStateImplCopyWithImpl<$Res>
-    extends _$ToolsUIStateCopyWithImpl<$Res, _$ToolsUIStateImpl>
-    implements _$$ToolsUIStateImplCopyWith<$Res> {
-  __$$ToolsUIStateImplCopyWithImpl(
-      _$ToolsUIStateImpl _value, $Res Function(_$ToolsUIStateImpl) _then)
-      : super(_value, _then);
+class _$ToolsUIStateCopyWithImpl<$Res> implements $ToolsUIStateCopyWith<$Res> {
+  _$ToolsUIStateCopyWithImpl(this._self, this._then);
+
+  final ToolsUIState _self;
+  final $Res Function(ToolsUIState) _then;
 
   /// Create a copy of ToolsUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -143,33 +104,33 @@ class __$$ToolsUIStateImplCopyWithImpl<$Res>
     Object? items = null,
     Object? isItemLoading = null,
   }) {
-    return _then(_$ToolsUIStateImpl(
+    return _then(_self.copyWith(
       working: null == working
-          ? _value.working
+          ? _self.working
           : working // ignore: cast_nullable_to_non_nullable
               as bool,
       scInstalledPath: null == scInstalledPath
-          ? _value.scInstalledPath
+          ? _self.scInstalledPath
           : scInstalledPath // ignore: cast_nullable_to_non_nullable
               as String,
       rsiLauncherInstalledPath: null == rsiLauncherInstalledPath
-          ? _value.rsiLauncherInstalledPath
+          ? _self.rsiLauncherInstalledPath
           : rsiLauncherInstalledPath // ignore: cast_nullable_to_non_nullable
               as String,
       scInstallPaths: null == scInstallPaths
-          ? _value._scInstallPaths
+          ? _self.scInstallPaths
           : scInstallPaths // ignore: cast_nullable_to_non_nullable
               as List<String>,
       rsiLauncherInstallPaths: null == rsiLauncherInstallPaths
-          ? _value._rsiLauncherInstallPaths
+          ? _self.rsiLauncherInstallPaths
           : rsiLauncherInstallPaths // ignore: cast_nullable_to_non_nullable
               as List<String>,
       items: null == items
-          ? _value._items
+          ? _self.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<ToolsItemData>,
       isItemLoading: null == isItemLoading
-          ? _value.isItemLoading
+          ? _self.isItemLoading
           : isItemLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
@@ -178,8 +139,8 @@ class __$$ToolsUIStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ToolsUIStateImpl implements _ToolsUIState {
-  _$ToolsUIStateImpl(
+class _ToolsUIState implements ToolsUIState {
+  _ToolsUIState(
       {this.working = false,
       this.scInstalledPath = "",
       this.rsiLauncherInstalledPath = "",
@@ -232,16 +193,19 @@ class _$ToolsUIStateImpl implements _ToolsUIState {
   @JsonKey()
   final bool isItemLoading;
 
+  /// Create a copy of ToolsUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'ToolsUIState(working: $working, scInstalledPath: $scInstalledPath, rsiLauncherInstalledPath: $rsiLauncherInstalledPath, scInstallPaths: $scInstallPaths, rsiLauncherInstallPaths: $rsiLauncherInstallPaths, items: $items, isItemLoading: $isItemLoading)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ToolsUIStateCopyWith<_ToolsUIState> get copyWith =>
+      __$ToolsUIStateCopyWithImpl<_ToolsUIState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ToolsUIStateImpl &&
+            other is _ToolsUIState &&
             (identical(other.working, working) || other.working == working) &&
             (identical(other.scInstalledPath, scInstalledPath) ||
                 other.scInstalledPath == scInstalledPath) &&
@@ -268,44 +232,82 @@ class _$ToolsUIStateImpl implements _ToolsUIState {
       const DeepCollectionEquality().hash(_items),
       isItemLoading);
 
+  @override
+  String toString() {
+    return 'ToolsUIState(working: $working, scInstalledPath: $scInstalledPath, rsiLauncherInstalledPath: $rsiLauncherInstalledPath, scInstallPaths: $scInstallPaths, rsiLauncherInstallPaths: $rsiLauncherInstallPaths, items: $items, isItemLoading: $isItemLoading)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ToolsUIStateCopyWith<$Res>
+    implements $ToolsUIStateCopyWith<$Res> {
+  factory _$ToolsUIStateCopyWith(
+          _ToolsUIState value, $Res Function(_ToolsUIState) _then) =
+      __$ToolsUIStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {bool working,
+      String scInstalledPath,
+      String rsiLauncherInstalledPath,
+      List<String> scInstallPaths,
+      List<String> rsiLauncherInstallPaths,
+      List<ToolsItemData> items,
+      bool isItemLoading});
+}
+
+/// @nodoc
+class __$ToolsUIStateCopyWithImpl<$Res>
+    implements _$ToolsUIStateCopyWith<$Res> {
+  __$ToolsUIStateCopyWithImpl(this._self, this._then);
+
+  final _ToolsUIState _self;
+  final $Res Function(_ToolsUIState) _then;
+
   /// Create a copy of ToolsUIState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ToolsUIStateImplCopyWith<_$ToolsUIStateImpl> get copyWith =>
-      __$$ToolsUIStateImplCopyWithImpl<_$ToolsUIStateImpl>(this, _$identity);
+  $Res call({
+    Object? working = null,
+    Object? scInstalledPath = null,
+    Object? rsiLauncherInstalledPath = null,
+    Object? scInstallPaths = null,
+    Object? rsiLauncherInstallPaths = null,
+    Object? items = null,
+    Object? isItemLoading = null,
+  }) {
+    return _then(_ToolsUIState(
+      working: null == working
+          ? _self.working
+          : working // ignore: cast_nullable_to_non_nullable
+              as bool,
+      scInstalledPath: null == scInstalledPath
+          ? _self.scInstalledPath
+          : scInstalledPath // ignore: cast_nullable_to_non_nullable
+              as String,
+      rsiLauncherInstalledPath: null == rsiLauncherInstalledPath
+          ? _self.rsiLauncherInstalledPath
+          : rsiLauncherInstalledPath // ignore: cast_nullable_to_non_nullable
+              as String,
+      scInstallPaths: null == scInstallPaths
+          ? _self._scInstallPaths
+          : scInstallPaths // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      rsiLauncherInstallPaths: null == rsiLauncherInstallPaths
+          ? _self._rsiLauncherInstallPaths
+          : rsiLauncherInstallPaths // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      items: null == items
+          ? _self._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<ToolsItemData>,
+      isItemLoading: null == isItemLoading
+          ? _self.isItemLoading
+          : isItemLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
-abstract class _ToolsUIState implements ToolsUIState {
-  factory _ToolsUIState(
-      {final bool working,
-      final String scInstalledPath,
-      final String rsiLauncherInstalledPath,
-      final List<String> scInstallPaths,
-      final List<String> rsiLauncherInstallPaths,
-      final List<ToolsItemData> items,
-      final bool isItemLoading}) = _$ToolsUIStateImpl;
-
-  @override
-  bool get working;
-  @override
-  String get scInstalledPath;
-  @override
-  String get rsiLauncherInstalledPath;
-  @override
-  List<String> get scInstallPaths;
-  @override
-  List<String> get rsiLauncherInstallPaths;
-  @override
-  List<ToolsItemData> get items;
-  @override
-  bool get isItemLoading;
-
-  /// Create a copy of ToolsUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ToolsUIStateImplCopyWith<_$ToolsUIStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

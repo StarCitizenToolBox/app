@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,89 +10,59 @@ part of 'performance_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$HomePerformanceUIState {
-  bool get showGraphicsPerformanceTip => throw _privateConstructorUsedError;
-  bool get enabled => throw _privateConstructorUsedError;
-  Map<String, List<GamePerformanceData>>? get performanceMap =>
-      throw _privateConstructorUsedError;
-  String get workingString => throw _privateConstructorUsedError;
+  bool get showGraphicsPerformanceTip;
+  bool get enabled;
+  Map<String, List<GamePerformanceData>>? get performanceMap;
+  String get workingString;
 
   /// Create a copy of HomePerformanceUIState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $HomePerformanceUIStateCopyWith<HomePerformanceUIState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $HomePerformanceUIStateCopyWith<$Res> {
-  factory $HomePerformanceUIStateCopyWith(HomePerformanceUIState value,
-          $Res Function(HomePerformanceUIState) then) =
-      _$HomePerformanceUIStateCopyWithImpl<$Res, HomePerformanceUIState>;
-  @useResult
-  $Res call(
-      {bool showGraphicsPerformanceTip,
-      bool enabled,
-      Map<String, List<GamePerformanceData>>? performanceMap,
-      String workingString});
-}
-
-/// @nodoc
-class _$HomePerformanceUIStateCopyWithImpl<$Res,
-        $Val extends HomePerformanceUIState>
-    implements $HomePerformanceUIStateCopyWith<$Res> {
-  _$HomePerformanceUIStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of HomePerformanceUIState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $HomePerformanceUIStateCopyWith<HomePerformanceUIState> get copyWith =>
+      _$HomePerformanceUIStateCopyWithImpl<HomePerformanceUIState>(
+          this as HomePerformanceUIState, _$identity);
+
   @override
-  $Res call({
-    Object? showGraphicsPerformanceTip = null,
-    Object? enabled = null,
-    Object? performanceMap = freezed,
-    Object? workingString = null,
-  }) {
-    return _then(_value.copyWith(
-      showGraphicsPerformanceTip: null == showGraphicsPerformanceTip
-          ? _value.showGraphicsPerformanceTip
-          : showGraphicsPerformanceTip // ignore: cast_nullable_to_non_nullable
-              as bool,
-      enabled: null == enabled
-          ? _value.enabled
-          : enabled // ignore: cast_nullable_to_non_nullable
-              as bool,
-      performanceMap: freezed == performanceMap
-          ? _value.performanceMap
-          : performanceMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<GamePerformanceData>>?,
-      workingString: null == workingString
-          ? _value.workingString
-          : workingString // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is HomePerformanceUIState &&
+            (identical(other.showGraphicsPerformanceTip,
+                    showGraphicsPerformanceTip) ||
+                other.showGraphicsPerformanceTip ==
+                    showGraphicsPerformanceTip) &&
+            (identical(other.enabled, enabled) || other.enabled == enabled) &&
+            const DeepCollectionEquality()
+                .equals(other.performanceMap, performanceMap) &&
+            (identical(other.workingString, workingString) ||
+                other.workingString == workingString));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      showGraphicsPerformanceTip,
+      enabled,
+      const DeepCollectionEquality().hash(performanceMap),
+      workingString);
+
+  @override
+  String toString() {
+    return 'HomePerformanceUIState(showGraphicsPerformanceTip: $showGraphicsPerformanceTip, enabled: $enabled, performanceMap: $performanceMap, workingString: $workingString)';
   }
 }
 
 /// @nodoc
-abstract class _$$HomePerformanceUIStateImplCopyWith<$Res>
-    implements $HomePerformanceUIStateCopyWith<$Res> {
-  factory _$$HomePerformanceUIStateImplCopyWith(
-          _$HomePerformanceUIStateImpl value,
-          $Res Function(_$HomePerformanceUIStateImpl) then) =
-      __$$HomePerformanceUIStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $HomePerformanceUIStateCopyWith<$Res> {
+  factory $HomePerformanceUIStateCopyWith(HomePerformanceUIState value,
+          $Res Function(HomePerformanceUIState) _then) =
+      _$HomePerformanceUIStateCopyWithImpl;
   @useResult
   $Res call(
       {bool showGraphicsPerformanceTip,
@@ -101,14 +72,12 @@ abstract class _$$HomePerformanceUIStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$HomePerformanceUIStateImplCopyWithImpl<$Res>
-    extends _$HomePerformanceUIStateCopyWithImpl<$Res,
-        _$HomePerformanceUIStateImpl>
-    implements _$$HomePerformanceUIStateImplCopyWith<$Res> {
-  __$$HomePerformanceUIStateImplCopyWithImpl(
-      _$HomePerformanceUIStateImpl _value,
-      $Res Function(_$HomePerformanceUIStateImpl) _then)
-      : super(_value, _then);
+class _$HomePerformanceUIStateCopyWithImpl<$Res>
+    implements $HomePerformanceUIStateCopyWith<$Res> {
+  _$HomePerformanceUIStateCopyWithImpl(this._self, this._then);
+
+  final HomePerformanceUIState _self;
+  final $Res Function(HomePerformanceUIState) _then;
 
   /// Create a copy of HomePerformanceUIState
   /// with the given fields replaced by the non-null parameter values.
@@ -120,21 +89,21 @@ class __$$HomePerformanceUIStateImplCopyWithImpl<$Res>
     Object? performanceMap = freezed,
     Object? workingString = null,
   }) {
-    return _then(_$HomePerformanceUIStateImpl(
+    return _then(_self.copyWith(
       showGraphicsPerformanceTip: null == showGraphicsPerformanceTip
-          ? _value.showGraphicsPerformanceTip
+          ? _self.showGraphicsPerformanceTip
           : showGraphicsPerformanceTip // ignore: cast_nullable_to_non_nullable
               as bool,
       enabled: null == enabled
-          ? _value.enabled
+          ? _self.enabled
           : enabled // ignore: cast_nullable_to_non_nullable
               as bool,
       performanceMap: freezed == performanceMap
-          ? _value._performanceMap
+          ? _self.performanceMap
           : performanceMap // ignore: cast_nullable_to_non_nullable
               as Map<String, List<GamePerformanceData>>?,
       workingString: null == workingString
-          ? _value.workingString
+          ? _self.workingString
           : workingString // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -143,8 +112,8 @@ class __$$HomePerformanceUIStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$HomePerformanceUIStateImpl implements _HomePerformanceUIState {
-  _$HomePerformanceUIStateImpl(
+class _HomePerformanceUIState implements HomePerformanceUIState {
+  _HomePerformanceUIState(
       {this.showGraphicsPerformanceTip = true,
       this.enabled = false,
       final Map<String, List<GamePerformanceData>>? performanceMap,
@@ -171,16 +140,20 @@ class _$HomePerformanceUIStateImpl implements _HomePerformanceUIState {
   @JsonKey()
   final String workingString;
 
+  /// Create a copy of HomePerformanceUIState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'HomePerformanceUIState(showGraphicsPerformanceTip: $showGraphicsPerformanceTip, enabled: $enabled, performanceMap: $performanceMap, workingString: $workingString)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$HomePerformanceUIStateCopyWith<_HomePerformanceUIState> get copyWith =>
+      __$HomePerformanceUIStateCopyWithImpl<_HomePerformanceUIState>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HomePerformanceUIStateImpl &&
+            other is _HomePerformanceUIState &&
             (identical(other.showGraphicsPerformanceTip,
                     showGraphicsPerformanceTip) ||
                 other.showGraphicsPerformanceTip ==
@@ -200,36 +173,64 @@ class _$HomePerformanceUIStateImpl implements _HomePerformanceUIState {
       const DeepCollectionEquality().hash(_performanceMap),
       workingString);
 
+  @override
+  String toString() {
+    return 'HomePerformanceUIState(showGraphicsPerformanceTip: $showGraphicsPerformanceTip, enabled: $enabled, performanceMap: $performanceMap, workingString: $workingString)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$HomePerformanceUIStateCopyWith<$Res>
+    implements $HomePerformanceUIStateCopyWith<$Res> {
+  factory _$HomePerformanceUIStateCopyWith(_HomePerformanceUIState value,
+          $Res Function(_HomePerformanceUIState) _then) =
+      __$HomePerformanceUIStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {bool showGraphicsPerformanceTip,
+      bool enabled,
+      Map<String, List<GamePerformanceData>>? performanceMap,
+      String workingString});
+}
+
+/// @nodoc
+class __$HomePerformanceUIStateCopyWithImpl<$Res>
+    implements _$HomePerformanceUIStateCopyWith<$Res> {
+  __$HomePerformanceUIStateCopyWithImpl(this._self, this._then);
+
+  final _HomePerformanceUIState _self;
+  final $Res Function(_HomePerformanceUIState) _then;
+
   /// Create a copy of HomePerformanceUIState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$HomePerformanceUIStateImplCopyWith<_$HomePerformanceUIStateImpl>
-      get copyWith => __$$HomePerformanceUIStateImplCopyWithImpl<
-          _$HomePerformanceUIStateImpl>(this, _$identity);
+  $Res call({
+    Object? showGraphicsPerformanceTip = null,
+    Object? enabled = null,
+    Object? performanceMap = freezed,
+    Object? workingString = null,
+  }) {
+    return _then(_HomePerformanceUIState(
+      showGraphicsPerformanceTip: null == showGraphicsPerformanceTip
+          ? _self.showGraphicsPerformanceTip
+          : showGraphicsPerformanceTip // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enabled: null == enabled
+          ? _self.enabled
+          : enabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      performanceMap: freezed == performanceMap
+          ? _self._performanceMap
+          : performanceMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<GamePerformanceData>>?,
+      workingString: null == workingString
+          ? _self.workingString
+          : workingString // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
-abstract class _HomePerformanceUIState implements HomePerformanceUIState {
-  factory _HomePerformanceUIState(
-      {final bool showGraphicsPerformanceTip,
-      final bool enabled,
-      final Map<String, List<GamePerformanceData>>? performanceMap,
-      final String workingString}) = _$HomePerformanceUIStateImpl;
-
-  @override
-  bool get showGraphicsPerformanceTip;
-  @override
-  bool get enabled;
-  @override
-  Map<String, List<GamePerformanceData>>? get performanceMap;
-  @override
-  String get workingString;
-
-  /// Create a copy of HomePerformanceUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HomePerformanceUIStateImplCopyWith<_$HomePerformanceUIStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

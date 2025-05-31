@@ -6,9 +6,8 @@ part of 'nav_api_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NavApiDocsItemDataImpl _$$NavApiDocsItemDataImplFromJson(
-        Map<String, dynamic> json) =>
-    _$NavApiDocsItemDataImpl(
+_NavApiDocsItemData _$NavApiDocsItemDataFromJson(Map<String, dynamic> json) =>
+    _NavApiDocsItemData(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
       slug: json['slug'] as String? ?? '',
@@ -29,8 +28,7 @@ _$NavApiDocsItemDataImpl _$$NavApiDocsItemDataImplFromJson(
       createdAt: json['createdAt'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$NavApiDocsItemDataImplToJson(
-        _$NavApiDocsItemDataImpl instance) =>
+Map<String, dynamic> _$NavApiDocsItemDataToJson(_NavApiDocsItemData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -45,9 +43,9 @@ Map<String, dynamic> _$$NavApiDocsItemDataImplToJson(
       'createdAt': instance.createdAt,
     };
 
-_$NavApiDocsItemImageDataImpl _$$NavApiDocsItemImageDataImplFromJson(
+_NavApiDocsItemImageData _$NavApiDocsItemImageDataFromJson(
         Map<String, dynamic> json) =>
-    _$NavApiDocsItemImageDataImpl(
+    _NavApiDocsItemImageData(
       id: json['id'] as String? ?? '',
       createdBy: json['createdBy'] == null
           ? const NavApiDocsItemImageCreatedByData()
@@ -73,8 +71,8 @@ _$NavApiDocsItemImageDataImpl _$$NavApiDocsItemImageDataImplFromJson(
               json['sizes'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$NavApiDocsItemImageDataImplToJson(
-        _$NavApiDocsItemImageDataImpl instance) =>
+Map<String, dynamic> _$NavApiDocsItemImageDataToJson(
+        _NavApiDocsItemImageData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'createdBy': instance.createdBy,
@@ -95,29 +93,27 @@ Map<String, dynamic> _$$NavApiDocsItemImageDataImplToJson(
       'sizes': instance.sizes,
     };
 
-_$NavApiDocsItemImageCreatedByDataImpl
-    _$$NavApiDocsItemImageCreatedByDataImplFromJson(
-            Map<String, dynamic> json) =>
-        _$NavApiDocsItemImageCreatedByDataImpl(
-          id: json['id'] as String? ?? '',
-          sub: json['sub'] as String? ?? '',
-          externalProvider: json['external_provider'] as String? ?? '',
-          username: json['username'] as String? ?? '',
-          name: json['name'] as String? ?? '',
-          roles: (json['roles'] as List<dynamic>?)
-                  ?.map((e) => e as String)
-                  .toList() ??
+_NavApiDocsItemImageCreatedByData _$NavApiDocsItemImageCreatedByDataFromJson(
+        Map<String, dynamic> json) =>
+    _NavApiDocsItemImageCreatedByData(
+      id: json['id'] as String? ?? '',
+      sub: json['sub'] as String? ?? '',
+      externalProvider: json['external_provider'] as String? ?? '',
+      username: json['username'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      roles:
+          (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const <String>[],
-          avatarUrl: json['avatar_url'] as String? ?? '',
-          updatedAt: json['updatedAt'] as String? ?? '',
-          createdAt: json['createdAt'] as String? ?? '',
-          email: json['email'] as String? ?? '',
-          loginAttempts: (json['loginAttempts'] as num?)?.toInt() ?? 0,
-          avatar: json['avatar'] as String? ?? '',
-        );
+      avatarUrl: json['avatar_url'] as String? ?? '',
+      updatedAt: json['updatedAt'] as String? ?? '',
+      createdAt: json['createdAt'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+      loginAttempts: (json['loginAttempts'] as num?)?.toInt() ?? 0,
+      avatar: json['avatar'] as String? ?? '',
+    );
 
-Map<String, dynamic> _$$NavApiDocsItemImageCreatedByDataImplToJson(
-        _$NavApiDocsItemImageCreatedByDataImpl instance) =>
+Map<String, dynamic> _$NavApiDocsItemImageCreatedByDataToJson(
+        _NavApiDocsItemImageCreatedByData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'sub': instance.sub,
@@ -133,10 +129,10 @@ Map<String, dynamic> _$$NavApiDocsItemImageCreatedByDataImplToJson(
       'avatar': instance.avatar,
     };
 
-_$NavApiDocsItemImageSizesThumbnailDataImpl
-    _$$NavApiDocsItemImageSizesThumbnailDataImplFromJson(
+_NavApiDocsItemImageSizesThumbnailData
+    _$NavApiDocsItemImageSizesThumbnailDataFromJson(
             Map<String, dynamic> json) =>
-        _$NavApiDocsItemImageSizesThumbnailDataImpl(
+        _NavApiDocsItemImageSizesThumbnailData(
           url: json['url'] as String? ?? '',
           width: (json['width'] as num?)?.toInt() ?? 0,
           height: (json['height'] as num?)?.toInt() ?? 0,
@@ -145,8 +141,8 @@ _$NavApiDocsItemImageSizesThumbnailDataImpl
           filename: json['filename'] as String? ?? '',
         );
 
-Map<String, dynamic> _$$NavApiDocsItemImageSizesThumbnailDataImplToJson(
-        _$NavApiDocsItemImageSizesThumbnailDataImpl instance) =>
+Map<String, dynamic> _$NavApiDocsItemImageSizesThumbnailDataToJson(
+        _NavApiDocsItemImageSizesThumbnailData instance) =>
     <String, dynamic>{
       'url': instance.url,
       'width': instance.width,
@@ -156,9 +152,9 @@ Map<String, dynamic> _$$NavApiDocsItemImageSizesThumbnailDataImplToJson(
       'filename': instance.filename,
     };
 
-_$NavApiDocsItemImageSizesDataImpl _$$NavApiDocsItemImageSizesDataImplFromJson(
+_NavApiDocsItemImageSizesData _$NavApiDocsItemImageSizesDataFromJson(
         Map<String, dynamic> json) =>
-    _$NavApiDocsItemImageSizesDataImpl(
+    _NavApiDocsItemImageSizesData(
       thumbnail: json['thumbnail'] == null
           ? const NavApiDocsItemImageSizesThumbnailData()
           : NavApiDocsItemImageSizesThumbnailData.fromJson(
@@ -181,8 +177,8 @@ _$NavApiDocsItemImageSizesDataImpl _$$NavApiDocsItemImageSizesDataImplFromJson(
               json['avatar'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$NavApiDocsItemImageSizesDataImplToJson(
-        _$NavApiDocsItemImageSizesDataImpl instance) =>
+Map<String, dynamic> _$NavApiDocsItemImageSizesDataToJson(
+        _NavApiDocsItemImageSizesData instance) =>
     <String, dynamic>{
       'thumbnail': instance.thumbnail,
       'preload': instance.preload,
@@ -191,10 +187,9 @@ Map<String, dynamic> _$$NavApiDocsItemImageSizesDataImplToJson(
       'avatar': instance.avatar,
     };
 
-_$NavApiDocsItemImageSizesPreloadDataImpl
-    _$$NavApiDocsItemImageSizesPreloadDataImplFromJson(
-            Map<String, dynamic> json) =>
-        _$NavApiDocsItemImageSizesPreloadDataImpl(
+_NavApiDocsItemImageSizesPreloadData
+    _$NavApiDocsItemImageSizesPreloadDataFromJson(Map<String, dynamic> json) =>
+        _NavApiDocsItemImageSizesPreloadData(
           url: json['url'],
           width: json['width'],
           height: json['height'],
@@ -203,8 +198,8 @@ _$NavApiDocsItemImageSizesPreloadDataImpl
           filename: json['filename'],
         );
 
-Map<String, dynamic> _$$NavApiDocsItemImageSizesPreloadDataImplToJson(
-        _$NavApiDocsItemImageSizesPreloadDataImpl instance) =>
+Map<String, dynamic> _$NavApiDocsItemImageSizesPreloadDataToJson(
+        _NavApiDocsItemImageSizesPreloadData instance) =>
     <String, dynamic>{
       'url': instance.url,
       'width': instance.width,
@@ -214,78 +209,75 @@ Map<String, dynamic> _$$NavApiDocsItemImageSizesPreloadDataImplToJson(
       'filename': instance.filename,
     };
 
-_$NavApiDocsItemImageSizesCardDataImpl
-    _$$NavApiDocsItemImageSizesCardDataImplFromJson(
-            Map<String, dynamic> json) =>
-        _$NavApiDocsItemImageSizesCardDataImpl(
-          url: json['url'] as String? ?? '',
-          width: (json['width'] as num?)?.toInt() ?? 0,
-          height: (json['height'] as num?)?.toInt() ?? 0,
-          mimeType: json['mimeType'] as String? ?? '',
-          filesize: (json['filesize'] as num?)?.toInt() ?? 0,
-          filename: json['filename'] as String? ?? '',
-        );
-
-Map<String, dynamic> _$$NavApiDocsItemImageSizesCardDataImplToJson(
-        _$NavApiDocsItemImageSizesCardDataImpl instance) =>
-    <String, dynamic>{
-      'url': instance.url,
-      'width': instance.width,
-      'height': instance.height,
-      'mimeType': instance.mimeType,
-      'filesize': instance.filesize,
-      'filename': instance.filename,
-    };
-
-_$NavApiDocsItemImageSizesTabletDataImpl
-    _$$NavApiDocsItemImageSizesTabletDataImplFromJson(
-            Map<String, dynamic> json) =>
-        _$NavApiDocsItemImageSizesTabletDataImpl(
-          url: json['url'] as String? ?? '',
-          width: (json['width'] as num?)?.toInt() ?? 0,
-          height: (json['height'] as num?)?.toInt() ?? 0,
-          mimeType: json['mimeType'] as String? ?? '',
-          filesize: (json['filesize'] as num?)?.toInt() ?? 0,
-          filename: json['filename'] as String? ?? '',
-        );
-
-Map<String, dynamic> _$$NavApiDocsItemImageSizesTabletDataImplToJson(
-        _$NavApiDocsItemImageSizesTabletDataImpl instance) =>
-    <String, dynamic>{
-      'url': instance.url,
-      'width': instance.width,
-      'height': instance.height,
-      'mimeType': instance.mimeType,
-      'filesize': instance.filesize,
-      'filename': instance.filename,
-    };
-
-_$NavApiDocsItemImageSizesAvatarDataImpl
-    _$$NavApiDocsItemImageSizesAvatarDataImplFromJson(
-            Map<String, dynamic> json) =>
-        _$NavApiDocsItemImageSizesAvatarDataImpl(
-          url: json['url'] as String? ?? '',
-          width: (json['width'] as num?)?.toInt() ?? 0,
-          height: (json['height'] as num?)?.toInt() ?? 0,
-          mimeType: json['mimeType'] as String? ?? '',
-          filesize: (json['filesize'] as num?)?.toInt() ?? 0,
-          filename: json['filename'] as String? ?? '',
-        );
-
-Map<String, dynamic> _$$NavApiDocsItemImageSizesAvatarDataImplToJson(
-        _$NavApiDocsItemImageSizesAvatarDataImpl instance) =>
-    <String, dynamic>{
-      'url': instance.url,
-      'width': instance.width,
-      'height': instance.height,
-      'mimeType': instance.mimeType,
-      'filesize': instance.filesize,
-      'filename': instance.filename,
-    };
-
-_$NavApiDocsItemTagsItemDataImpl _$$NavApiDocsItemTagsItemDataImplFromJson(
+_NavApiDocsItemImageSizesCardData _$NavApiDocsItemImageSizesCardDataFromJson(
         Map<String, dynamic> json) =>
-    _$NavApiDocsItemTagsItemDataImpl(
+    _NavApiDocsItemImageSizesCardData(
+      url: json['url'] as String? ?? '',
+      width: (json['width'] as num?)?.toInt() ?? 0,
+      height: (json['height'] as num?)?.toInt() ?? 0,
+      mimeType: json['mimeType'] as String? ?? '',
+      filesize: (json['filesize'] as num?)?.toInt() ?? 0,
+      filename: json['filename'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$NavApiDocsItemImageSizesCardDataToJson(
+        _NavApiDocsItemImageSizesCardData instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'width': instance.width,
+      'height': instance.height,
+      'mimeType': instance.mimeType,
+      'filesize': instance.filesize,
+      'filename': instance.filename,
+    };
+
+_NavApiDocsItemImageSizesTabletData
+    _$NavApiDocsItemImageSizesTabletDataFromJson(Map<String, dynamic> json) =>
+        _NavApiDocsItemImageSizesTabletData(
+          url: json['url'] as String? ?? '',
+          width: (json['width'] as num?)?.toInt() ?? 0,
+          height: (json['height'] as num?)?.toInt() ?? 0,
+          mimeType: json['mimeType'] as String? ?? '',
+          filesize: (json['filesize'] as num?)?.toInt() ?? 0,
+          filename: json['filename'] as String? ?? '',
+        );
+
+Map<String, dynamic> _$NavApiDocsItemImageSizesTabletDataToJson(
+        _NavApiDocsItemImageSizesTabletData instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'width': instance.width,
+      'height': instance.height,
+      'mimeType': instance.mimeType,
+      'filesize': instance.filesize,
+      'filename': instance.filename,
+    };
+
+_NavApiDocsItemImageSizesAvatarData
+    _$NavApiDocsItemImageSizesAvatarDataFromJson(Map<String, dynamic> json) =>
+        _NavApiDocsItemImageSizesAvatarData(
+          url: json['url'] as String? ?? '',
+          width: (json['width'] as num?)?.toInt() ?? 0,
+          height: (json['height'] as num?)?.toInt() ?? 0,
+          mimeType: json['mimeType'] as String? ?? '',
+          filesize: (json['filesize'] as num?)?.toInt() ?? 0,
+          filename: json['filename'] as String? ?? '',
+        );
+
+Map<String, dynamic> _$NavApiDocsItemImageSizesAvatarDataToJson(
+        _NavApiDocsItemImageSizesAvatarData instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'width': instance.width,
+      'height': instance.height,
+      'mimeType': instance.mimeType,
+      'filesize': instance.filesize,
+      'filename': instance.filename,
+    };
+
+_NavApiDocsItemTagsItemData _$NavApiDocsItemTagsItemDataFromJson(
+        Map<String, dynamic> json) =>
+    _NavApiDocsItemTagsItemData(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
       slug: json['slug'] as String? ?? '',
@@ -293,8 +285,8 @@ _$NavApiDocsItemTagsItemDataImpl _$$NavApiDocsItemTagsItemDataImplFromJson(
       createdAt: json['createdAt'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$NavApiDocsItemTagsItemDataImplToJson(
-        _$NavApiDocsItemTagsItemDataImpl instance) =>
+Map<String, dynamic> _$NavApiDocsItemTagsItemDataToJson(
+        _NavApiDocsItemTagsItemData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -303,8 +295,7 @@ Map<String, dynamic> _$$NavApiDocsItemTagsItemDataImplToJson(
       'createdAt': instance.createdAt,
     };
 
-_$NavApiDataImpl _$$NavApiDataImplFromJson(Map<String, dynamic> json) =>
-    _$NavApiDataImpl(
+_NavApiData _$NavApiDataFromJson(Map<String, dynamic> json) => _NavApiData(
       docs: (json['docs'] as List<dynamic>?)
               ?.map(
                   (e) => NavApiDocsItemData.fromJson(e as Map<String, dynamic>))
@@ -321,7 +312,7 @@ _$NavApiDataImpl _$$NavApiDataImplFromJson(Map<String, dynamic> json) =>
       totalPages: (json['totalPages'] as num?)?.toInt() ?? 0,
     );
 
-Map<String, dynamic> _$$NavApiDataImplToJson(_$NavApiDataImpl instance) =>
+Map<String, dynamic> _$NavApiDataToJson(_NavApiData instance) =>
     <String, dynamic>{
       'docs': instance.docs,
       'hasNextPage': instance.hasNextPage,

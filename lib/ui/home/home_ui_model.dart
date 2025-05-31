@@ -37,7 +37,7 @@ part 'home_ui_model.freezed.dart';
 part 'home_ui_model.g.dart';
 
 @freezed
-class HomeUIModelState with _$HomeUIModelState {
+abstract class HomeUIModelState with _$HomeUIModelState {
   factory HomeUIModelState({
     AppPlacardData? appPlacardData,
     @Default(false) bool isFixing,

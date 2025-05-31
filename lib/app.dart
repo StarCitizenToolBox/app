@@ -41,7 +41,7 @@ part 'app.g.dart';
 part 'app.freezed.dart';
 
 @freezed
-class AppGlobalState with _$AppGlobalState {
+abstract class AppGlobalState with _$AppGlobalState {
   const factory AppGlobalState({
     String? deviceUUID,
     String? applicationSupportDir,
@@ -348,7 +348,7 @@ class AppGlobalModel extends _$AppGlobalModel {
 }
 
 @freezed
-class ThemeConf with _$ThemeConf {
+abstract class ThemeConf with _$ThemeConf {
   const factory ThemeConf({
     @Default(Color(0xbf132431)) Color backgroundColor,
     @Default(Color(0xf2132431)) Color menuColor,
