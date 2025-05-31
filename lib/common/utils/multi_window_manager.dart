@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:starcitizen_doctor/app.dart';
+import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/tools/log_analyze_ui/log_analyze_ui.dart';
@@ -33,7 +34,8 @@ abstract class MultiWindowAppState with _$MultiWindowAppState {
 
 class MultiWindowManager {
   static Future<void> launchSubWindow(String type, String title, AppGlobalState appGlobalState) async {
-    final gameInstallPaths = await SCLoggerHelper.getGameInstallPath(await SCLoggerHelper.getLauncherLogList() ?? []);
+    final gameInstallPaths = await SCLoggerHelper.getGameInstallPath(await SCLoggerHelper.getLauncherLogList() ?? [],
+        checkExists: true, withVersion: AppConf.gameChannels);
     final window = await DesktopMultiWindow.createWindow(jsonEncode({
       'window_type': type,
       'app_state': _appStateToWindowState(
@@ -102,10 +104,10 @@ class MultiWindowManager {
             micaBackgroundColor: HexColor(windowAppState.micaColor),
             buttonTheme: ButtonThemeData(
                 defaultButtonStyle: ButtonStyle(
-                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
-                ))),
+              shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
+            ))),
         locale: windowAppState.languageCode != null
             ? Locale(windowAppState.languageCode!, windowAppState.countryCode)
             : null,
