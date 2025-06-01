@@ -83,6 +83,7 @@ class NavUI extends HookConsumerWidget {
       crossAxisSpacing: 12,
       itemCount: data.items!.length,
       padding: EdgeInsets.only(left: 12, right: 12, bottom: 12),
+      cacheExtent: 500,
       itemBuilder: (BuildContext context, int index) {
         const itemHeight = 160.0;
 
