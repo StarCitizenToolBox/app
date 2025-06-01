@@ -252,7 +252,7 @@ class AppGlobalModel extends _$AppGlobalModel {
 
   Timer? _activityThemeColorTimer;
 
-  checkActivityThemeColor(AppVersionData networkVersionData) {
+  void checkActivityThemeColor(AppVersionData networkVersionData) {
     if (_activityThemeColorTimer != null) {
       _activityThemeColorTimer?.cancel();
       _activityThemeColorTimer = null;

@@ -793,8 +793,6 @@
   "home_localization_select_customize_file_ini": "Пожалуйста, выберите ini файл",
   "home_localization_select_customize_file": "Пожалуйста, выберите пользовательский файл локализации",
   "home_localization_action_select_customize_file": "Нажмите для выбора ini файла",
-  "home_localization_ptu_advanced_localization_tip_title": "Рекомендуется использовать расширенную локализацию",
-  "home_localization_ptu_advanced_localization_tip_title_info": "В тестовых каналах PTU/EPTU текущий текст локализации может быть не синхронизирован с игрой. Использование расширенной локализации может уменьшить появление некорректного текста.",
   "tools_rsi_launcher_enhance_action_fold": "Свернуть дополнительные функции",
   "tools_rsi_launcher_enhance_action_expand": "Развернуть дополнительные функции",
   "tools_unp4k_missing_runtime": "Отсутствует среда выполнения",

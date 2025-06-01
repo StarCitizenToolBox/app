@@ -800,14 +800,6 @@ class MessageLookup extends MessageLookupByLibrary {
           "Доступна новая версия локализации!",
         ),
     "home_localization_new_version_installed": m34,
-    "home_localization_ptu_advanced_localization_tip_title":
-        MessageLookupByLibrary.simpleMessage(
-          "Рекомендуется использовать расширенную локализацию",
-        ),
-    "home_localization_ptu_advanced_localization_tip_title_info":
-        MessageLookupByLibrary.simpleMessage(
-          "В тестовых каналах PTU/EPTU текущий текст локализации может быть не синхронизирован с игрой. Использование расширенной локализации может уменьшить появление некорректного текста.",
-        ),
     "home_localization_select_customize_file":
         MessageLookupByLibrary.simpleMessage(
           "Пожалуйста, выберите пользовательский файл локализации",

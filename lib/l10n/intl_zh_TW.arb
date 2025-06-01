@@ -791,8 +791,6 @@
   "home_localization_select_customize_file_ini": "請選擇 ini 文件",
   "home_localization_select_customize_file": "請選擇自定義翻譯文件",
   "home_localization_action_select_customize_file": "點擊選擇 ini 文件",
-  "home_localization_ptu_advanced_localization_tip_title": "推薦使用高級翻譯",
-  "home_localization_ptu_advanced_localization_tip_title_info": "在 PTU/EPTU 等測試頻道 ，當前翻譯文本可能與遊戲不同步，使用高級翻譯可以減少亂碼產生。",
   "tools_rsi_launcher_enhance_action_fold": "收起額外功能",
   "tools_rsi_launcher_enhance_action_expand": "展開額外功能",
   "tools_unp4k_missing_runtime": "缺少運行庫",
@@ -900,5 +898,10 @@
   "nav_third_party_service_disclaimer": "*對應鏈接指向的服務由第三方提供，我們不對其做任何擔保，請用戶自行判斷使用風險    |   ",
   "nav_website_navigation_data_provided_by": "網站導航數據由",
   "nav_provided_by": "提供",
-  "nav_fetching_data": "正在獲取數據..."
+  "nav_fetching_data": "正在獲取數據...",
+  "tools_vehicle_sorting_title": "載具排序",
+  "tools_vehicle_sorting_info": "將左側載具拖動到右側列表中，這將會為載具名稱增加 001、002 .. 等前綴，方便您在遊戲內 UI 快速定位載具。在右側列表上下拖動可以調整載具的順序。",
+  "tools_vehicle_sorting_vehicle": "載具",
+  "tools_vehicle_sorting_search": "搜索載具",
+  "tools_vehicle_sorting_sorted": "已排序載具"
 }

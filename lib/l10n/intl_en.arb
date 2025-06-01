@@ -793,8 +793,6 @@
   "home_localization_select_customize_file_ini": "Please select ini file",
   "home_localization_select_customize_file": "Please select custom localization file",
   "home_localization_action_select_customize_file": "Click to select ini file",
-  "home_localization_ptu_advanced_localization_tip_title": "Advanced Localization Recommended",
-  "home_localization_ptu_advanced_localization_tip_title_info": "In PTU/EPTU and other test channels, current localization text may not be synchronized with the game. Using advanced localization can reduce the occurrence of garbled text.",
   "tools_rsi_launcher_enhance_action_fold": "Collapse Additional Features",
   "tools_rsi_launcher_enhance_action_expand": "Expand Additional Features",
   "tools_unp4k_missing_runtime": "Missing Runtime",
@@ -898,5 +896,10 @@
   "nav_third_party_service_disclaimer": "*The services linked correspond to third-party providers. We do not make any guarantees and users should assess the risks of using them.    |   ",
   "nav_website_navigation_data_provided_by": "Website navigation data provided by",
   "nav_provided_by": "",
-  "nav_fetching_data": "Fetching data..."
+  "nav_fetching_data": "Fetching data...",
+  "tools_vehicle_sorting_title": "Vehicle Sorting",
+  "tools_vehicle_sorting_info": "Drag vehicles from the left to the right list. This will add prefixes like 001, 002... to vehicle names, making it easier to locate them in the game UI. Drag vehicles up and down in the right list to adjust their order.",
+  "tools_vehicle_sorting_vehicle": "Vehicles",
+  "tools_vehicle_sorting_search": "Search Vehicles",
+  "tools_vehicle_sorting_sorted": "Sorted Vehicles"
 }

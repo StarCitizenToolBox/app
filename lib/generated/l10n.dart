@@ -4820,26 +4820,6 @@ class S {
     );
   }
 
-  /// `Advanced Localization Recommended`
-  String get home_localization_ptu_advanced_localization_tip_title {
-    return Intl.message(
-      'Advanced Localization Recommended',
-      name: 'home_localization_ptu_advanced_localization_tip_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `In PTU/EPTU and other test channels, current localization text may not be synchronized with the game. Using advanced localization can reduce the occurrence of garbled text.`
-  String get home_localization_ptu_advanced_localization_tip_title_info {
-    return Intl.message(
-      'In PTU/EPTU and other test channels, current localization text may not be synchronized with the game. Using advanced localization can reduce the occurrence of garbled text.',
-      name: 'home_localization_ptu_advanced_localization_tip_title_info',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Collapse Additional Features`
   String get tools_rsi_launcher_enhance_action_fold {
     return Intl.message(
@@ -5888,6 +5868,56 @@ class S {
     return Intl.message(
       'Fetching data...',
       name: 'nav_fetching_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vehicle Sorting`
+  String get tools_vehicle_sorting_title {
+    return Intl.message(
+      'Vehicle Sorting',
+      name: 'tools_vehicle_sorting_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drag vehicles from the left to the right list. This will add prefixes like 001, 002... to vehicle names, making it easier to locate them in the game UI. Drag vehicles up and down in the right list to adjust their order.`
+  String get tools_vehicle_sorting_info {
+    return Intl.message(
+      'Drag vehicles from the left to the right list. This will add prefixes like 001, 002... to vehicle names, making it easier to locate them in the game UI. Drag vehicles up and down in the right list to adjust their order.',
+      name: 'tools_vehicle_sorting_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vehicles`
+  String get tools_vehicle_sorting_vehicle {
+    return Intl.message(
+      'Vehicles',
+      name: 'tools_vehicle_sorting_vehicle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Vehicles`
+  String get tools_vehicle_sorting_search {
+    return Intl.message(
+      'Search Vehicles',
+      name: 'tools_vehicle_sorting_search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sorted Vehicles`
+  String get tools_vehicle_sorting_sorted {
+    return Intl.message(
+      'Sorted Vehicles',
+      name: 'tools_vehicle_sorting_sorted',
       desc: '',
       args: [],
     );

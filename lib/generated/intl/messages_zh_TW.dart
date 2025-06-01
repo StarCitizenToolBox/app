@@ -694,12 +694,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_localization_new_version_available":
         MessageLookupByLibrary.simpleMessage("社群翻譯有新的版本"),
     "home_localization_new_version_installed": m34,
-    "home_localization_ptu_advanced_localization_tip_title":
-        MessageLookupByLibrary.simpleMessage("推薦使用高級翻譯"),
-    "home_localization_ptu_advanced_localization_tip_title_info":
-        MessageLookupByLibrary.simpleMessage(
-          "在 PTU/EPTU 等測試頻道 ，當前翻譯文本可能與遊戲不同步，使用高級翻譯可以減少亂碼產生。",
-        ),
     "home_localization_select_customize_file":
         MessageLookupByLibrary.simpleMessage("請選擇自定義翻譯文件"),
     "home_localization_select_customize_file_ini":
@@ -1453,6 +1447,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_unknown_file_type": m74,
     "tools_unp4k_title": m75,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("單擊文件以預覽"),
+    "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
+      "將左側載具拖動到右側列表中，這將會為載具名稱增加 001、002 .. 等前綴，方便您在遊戲內 UI 快速定位載具。在右側列表上下拖動可以調整載具的順序。",
+    ),
+    "tools_vehicle_sorting_search": MessageLookupByLibrary.simpleMessage(
+      "搜索載具",
+    ),
+    "tools_vehicle_sorting_sorted": MessageLookupByLibrary.simpleMessage(
+      "已排序載具",
+    ),
+    "tools_vehicle_sorting_title": MessageLookupByLibrary.simpleMessage("載具排序"),
+    "tools_vehicle_sorting_vehicle": MessageLookupByLibrary.simpleMessage("載具"),
     "webview_localization_finished_invitations":
         MessageLookupByLibrary.simpleMessage("已完成的邀請"),
     "webview_localization_name_member": MessageLookupByLibrary.simpleMessage(

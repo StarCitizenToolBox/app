@@ -6,7 +6,7 @@ import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class AnalyticsApi {
-  static touch(String key) async {
+  static Future<void> touch(String key) async {
     if (kDebugMode || kProfileMode) {
       dPrint("AnalyticsApi.touch === $key skip");
       return;

@@ -41,9 +41,7 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
             color: Colors.white.withValues(alpha: .03),
             borderRadius: BorderRadius.circular(4.0),
           ),
-          child: Text(
-            "将左侧载具拖动到右侧列表中，这将会为载具名称增加 001、002 .. 等前缀，方便您在游戏内 UI 快速定位载具。在右侧列表上下拖动可以调整载具的顺序。",
-          ),
+          child: Text(S.current.tools_vehicle_sorting_info),
         ),
         const SizedBox(height: 12),
         Expanded(
@@ -60,10 +58,10 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.all(4.0),
                         child: Text(
-                          "载具",
+                          S.current.tools_vehicle_sorting_vehicle,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -74,7 +72,7 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                             Expanded(
                               child: TextFormBox(
                                 controller: leftSearchController,
-                                placeholder: "搜索载具",
+                                placeholder: S.current.tools_vehicle_sorting_search,
                                 onChanged: (value) {
                                   leftSearchKey.value = value;
                                 },
@@ -140,10 +138,10 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.all(4.0),
                         child: Text(
-                          "已排序载具",
+                          S.current.tools_vehicle_sorting_sorted,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -314,6 +312,8 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
           if (parts.length == 2) {
             final key = parts[0].trim();
             final value = parts[1].trim();
+            // 过滤掉短名称
+            if (key.toLowerCase().endsWith("_short") || key.toLowerCase().endsWith("_short,p")) continue;
             vehicleMap[key] = value;
           }
         }

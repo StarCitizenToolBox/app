@@ -789,14 +789,6 @@ class MessageLookup extends MessageLookupByLibrary {
           "New localization version available!",
         ),
     "home_localization_new_version_installed": m34,
-    "home_localization_ptu_advanced_localization_tip_title":
-        MessageLookupByLibrary.simpleMessage(
-          "Advanced Localization Recommended",
-        ),
-    "home_localization_ptu_advanced_localization_tip_title_info":
-        MessageLookupByLibrary.simpleMessage(
-          "In PTU/EPTU and other test channels, current localization text may not be synchronized with the game. Using advanced localization can reduce the occurrence of garbled text.",
-        ),
     "home_localization_select_customize_file":
         MessageLookupByLibrary.simpleMessage(
           "Please select custom localization file",
@@ -1680,6 +1672,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_title": m75,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Click file to preview",
+    ),
+    "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
+      "Drag vehicles from the left to the right list. This will add prefixes like 001, 002... to vehicle names, making it easier to locate them in the game UI. Drag vehicles up and down in the right list to adjust their order.",
+    ),
+    "tools_vehicle_sorting_search": MessageLookupByLibrary.simpleMessage(
+      "Search Vehicles",
+    ),
+    "tools_vehicle_sorting_sorted": MessageLookupByLibrary.simpleMessage(
+      "Sorted Vehicles",
+    ),
+    "tools_vehicle_sorting_title": MessageLookupByLibrary.simpleMessage(
+      "Vehicle Sorting",
+    ),
+    "tools_vehicle_sorting_vehicle": MessageLookupByLibrary.simpleMessage(
+      "Vehicles",
     ),
     "webview_localization_finished_invitations":
         MessageLookupByLibrary.simpleMessage("Finished invitations"),

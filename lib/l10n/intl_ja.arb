@@ -792,8 +792,6 @@
   "home_localization_select_customize_file_ini": "iniファイルを選択してください",
   "home_localization_select_customize_file": "カスタムローカリゼーションファイルを選択してください",
   "home_localization_action_select_customize_file": "iniファイルを選択するにはクリック",
-  "home_localization_ptu_advanced_localization_tip_title": "高度なローカリゼーションの使用をお勧めします",
-  "home_localization_ptu_advanced_localization_tip_title_info": "PTU/EPTUなどのテストチャンネルでは、現在のローカリゼーションテキストがゲームと同期していない可能性があります。高度なローカリゼーションを使用することで文字化けの発生を減らすことができます。",
   "tools_rsi_launcher_enhance_action_fold": "追加機能を折りたたむ",
   "tools_rsi_launcher_enhance_action_expand": "追加機能を展開",
   "tools_unp4k_missing_runtime": "ランタイムがありません",

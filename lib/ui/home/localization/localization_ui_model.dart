@@ -277,7 +277,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if ((context?.mounted ?? false) && isEnableVehicleSorting) {
       if (!context!.mounted) return;
       final iniStringDataVN = ValueNotifier(iniStringData);
-      final ok = await showConfirmDialogs(context, "载具排序", VehicleSortingDialogUi(iniStringData: iniStringDataVN),constraints: BoxConstraints(
+      final ok = await showConfirmDialogs(context, S.current.tools_vehicle_sorting_title, VehicleSortingDialogUi(iniStringData: iniStringDataVN),constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * .75,
       ));
       if (ok) {
@@ -669,7 +669,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           Row(
             children: [
               Text(
-                "载具排序",
+                S.current.tools_vehicle_sorting_title,
               ),
               Spacer(),
               StatefulBuilder(

@@ -793,8 +793,6 @@
   "home_localization_select_customize_file_ini": "请选择 ini 文件",
   "home_localization_select_customize_file": "请选择自定义汉化文件",
   "home_localization_action_select_customize_file": "点击选择 ini 文件",
-  "home_localization_ptu_advanced_localization_tip_title": "推荐使用高级汉化",
-  "home_localization_ptu_advanced_localization_tip_title_info": "在 PTU/EPTU 等测试频道 ，当前汉化文本可能与游戏不同步，使用高级汉化可以减少乱码产生。",
   "tools_rsi_launcher_enhance_action_fold": "收起额外功能",
   "tools_rsi_launcher_enhance_action_expand": "展开额外功能",
   "tools_unp4k_missing_runtime": "缺少运行库",
@@ -898,5 +896,10 @@
   "nav_third_party_service_disclaimer": "*对应链接指向的服务由第三方提供，我们不对其做任何担保，请用户自行判断使用风险    |   ",
   "nav_website_navigation_data_provided_by": "网站导航数据由",
   "nav_provided_by": "提供",
-  "nav_fetching_data": "正在获取数据..."
+  "nav_fetching_data": "正在获取数据...",
+  "tools_vehicle_sorting_title": "载具排序",
+  "tools_vehicle_sorting_info": "将左侧载具拖动到右侧列表中，这将会为载具名称增加 001、002 .. 等前缀，方便您在游戏内 UI 快速定位载具。在右侧列表上下拖动可以调整载具的顺序。",
+  "tools_vehicle_sorting_vehicle": "载具",
+  "tools_vehicle_sorting_search": "搜索载具",
+  "tools_vehicle_sorting_sorted": "已排序载具"
 }

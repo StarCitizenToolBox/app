@@ -734,12 +734,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_localization_new_version_available":
         MessageLookupByLibrary.simpleMessage("ローカリゼーションの新しいバージョンが利用可能です！"),
     "home_localization_new_version_installed": m34,
-    "home_localization_ptu_advanced_localization_tip_title":
-        MessageLookupByLibrary.simpleMessage("高度なローカリゼーションの使用をお勧めします"),
-    "home_localization_ptu_advanced_localization_tip_title_info":
-        MessageLookupByLibrary.simpleMessage(
-          "PTU/EPTUなどのテストチャンネルでは、現在のローカリゼーションテキストがゲームと同期していない可能性があります。高度なローカリゼーションを使用することで文字化けの発生を減らすことができます。",
-        ),
     "home_localization_select_customize_file":
         MessageLookupByLibrary.simpleMessage("カスタムローカリゼーションファイルを選択してください"),
     "home_localization_select_customize_file_ini":
