@@ -11,6 +11,9 @@ class ConstConf {
     "HOTFIX",
   ];
   static const isMSE = String.fromEnvironment("MSE", defaultValue: "false") == "true";
+  static const win32AppId = isMSE
+      ? "56575xkeyC.MSE_bsn1nexg8e4qe!starcitizendoctor"
+      : "{6D809377-6AF0-444B-8957-A3773F02200E}\\Starcitizen_Doctor\\starcitizen_doctor.exe";
   static const dohAddress = "https://223.6.6.6/resolve";
   static const inputMethodServerPort = 59399;
 }

@@ -33,7 +33,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     return state;
   }
 
-  _init({bool skipUpdate = false}) async {
+  Future<void> _init({bool skipUpdate = false}) async {
     final localizationState = ref.read(localizationUIModelProvider);
     final localizationModel = ref.read(localizationUIModelProvider.notifier);
     if (localizationState.installedCommunityInputMethodSupportVersion == null) {
