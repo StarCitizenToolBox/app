@@ -8,7 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
-import 'package:starcitizen_doctor/common/rust/api/rs_process.dart' as rs_process;
+import 'package:starcitizen_doctor/common/rust/api/rs_process.dart'
+    as rs_process;
 
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
@@ -31,8 +32,10 @@ extension Aria2cModelExt on Aria2cModelState {
 
   bool get hasDownloadTask => aria2globalStat != null && aria2TotalTaskNum > 0;
 
-  int get aria2TotalTaskNum =>
-      aria2globalStat == null ? 0 : ((aria2globalStat!.numActive ?? 0) + (aria2globalStat!.numWaiting ?? 0));
+  int get aria2TotalTaskNum => aria2globalStat == null
+      ? 0
+      : ((aria2globalStat!.numActive ?? 0) +
+          (aria2globalStat!.numWaiting ?? 0));
 }
 
 @riverpod
@@ -54,7 +57,8 @@ class Aria2cModel extends _$Aria2cModel {
       try {
         final sessionFile = File("$aria2cDir\\aria2.session");
         // 有下载任务则第一时间初始化
-        if (await sessionFile.exists() && (await sessionFile.readAsString()).trim().isNotEmpty) {
+        if (await sessionFile.exists() &&
+            (await sessionFile.readAsString()).trim().isNotEmpty) {
           dPrint("launch Aria2c daemon");
           await launchDaemon(appGlobalState.applicationBinaryModuleDir!);
         } else {
@@ -70,7 +74,8 @@ class Aria2cModel extends _$Aria2cModel {
 
   Future launchDaemon(String applicationBinaryModuleDir) async {
     if (state.aria2c != null) return;
-    await BinaryModuleConf.extractModule(["aria2c"], applicationBinaryModuleDir);
+    await BinaryModuleConf.extractModule(
+        ["aria2c"], applicationBinaryModuleDir);
 
     /// skip for debug hot reload
     if (kDebugMode) {
@@ -110,15 +115,14 @@ class Aria2cModel extends _$Aria2cModel {
           "--save-session-interval=60",
           "--file-allocation=trunc",
           "--seed-time=0",
-          "--user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"",
-          "--referer=*"
         ],
         workingDirectory: state.aria2cDir);
 
     String launchError = "";
 
     stream.listen((event) {
-      dPrint("Aria2cManager.rs_process event === [${event.rsPid}] ${event.dataType} >> ${event.data}");
+      dPrint(
+          "Aria2cManager.rs_process event === [${event.rsPid}] ${event.dataType} >> ${event.data}");
       switch (event.dataType) {
         case rs_process.RsProcessStreamDataType.output:
           if (event.data.contains("IPv4 RPC: listening on TCP port")) {
@@ -151,7 +155,8 @@ class Aria2cModel extends _$Aria2cModel {
   }
 
   String generateRandomPassword(int length) {
-    const String charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const String charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     Random random = Random();
     StringBuffer buffer = StringBuffer();
     for (int i = 0; i < length; i++) {
@@ -186,8 +191,10 @@ class Aria2cModel extends _$Aria2cModel {
     });
     final box = await Hive.openBox("app_conf");
     aria2c.changeGlobalOption(Aria2Option()
-      ..maxOverallUploadLimit = textToByte(box.get("downloader_up_limit", defaultValue: "0"))
-      ..maxOverallDownloadLimit = textToByte(box.get("downloader_down_limit", defaultValue: "0"))
+      ..maxOverallUploadLimit =
+          textToByte(box.get("downloader_up_limit", defaultValue: "0"))
+      ..maxOverallDownloadLimit =
+          textToByte(box.get("downloader_down_limit", defaultValue: "0"))
       ..btTracker = trackerList);
   }
 
