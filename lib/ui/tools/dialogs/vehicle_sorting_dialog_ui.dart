@@ -305,9 +305,9 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
     final vehicleMap = <String, String>{};
     final lines = iniStringData.value.split('\n');
     for (final regExp in vehicleLineRegExpList) {
-      final pattern = RegExp(regExp);
+      final pattern = RegExp(regExp.toLowerCase());
       for (final line in lines) {
-        if (pattern.hasMatch(line)) {
+        if (pattern.hasMatch(line.toLowerCase())) {
           final parts = line.split('=');
           if (parts.length == 2) {
             final key = parts[0].trim();
@@ -331,6 +331,8 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
           .where((key) => vehicleMap.containsKey(key))
           .map((key) => MapEntry(key, vehicleMap[key]!))
           .toList();
+      // 触发文本更新
+      _applyChanges(rightVehiclesList.value);
       dPrint("[VehicleSortingDialogUi] Loaded sorted vehicles: ${rightVehiclesList.value.length}");
     }
   }
