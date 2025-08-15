@@ -164,7 +164,7 @@ class IndexUI extends HookConsumerWidget {
     );
   }
 
-  _goDownloader(BuildContext context) {
+  void _goDownloader(BuildContext context) {
     context.push('/index/downloader');
   }
 }

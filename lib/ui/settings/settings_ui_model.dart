@@ -116,7 +116,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     }
   }
 
-  _saveCustomPath(String pathKey, String dir) async {
+  Future<void> _saveCustomPath(String pathKey, String dir) async {
     final confBox = await Hive.openBox("app_conf");
     await confBox.put(pathKey, dir);
   }
@@ -210,7 +210,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     _initState();
   }
 
-  showLogs() async {
+  Future<void> showLogs() async {
     SystemHelper.openDir(getDPrintFile()?.absolute.path.replaceAll("/", "\\"),
         isFile: true);
   }

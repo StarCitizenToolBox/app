@@ -219,7 +219,7 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
   }
 
-  openFile(String filePath) async {
+  Future<void> openFile(String filePath) async {
     final tempDir = await getTemporaryDirectory();
     final tempPath =
         "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
@@ -229,7 +229,7 @@ class Unp4kCModel extends _$Unp4kCModel {
     extractFile(filePath, tempPath, mode: "extract_open");
   }
 
-  extractFile(String filePath, String outputPath,
+  Future<void> extractFile(String filePath, String outputPath,
       {String mode = "extract"}) async {
     // remove first \\
     if (filePath.startsWith("\\")) {

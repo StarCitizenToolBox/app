@@ -73,7 +73,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
         showGraphicsPerformanceTip: v != _graphicsPerformanceTipVersion);
   }
 
-  _readConf() async {
+  Future<void> _readConf() async {
     if (state.performanceMap == null) return;
     state = state.copyWith(enabled: true);
 
@@ -95,14 +95,14 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     }
   }
 
-  closeTip() async {
+  Future<void> closeTip() async {
     final box = await Hive.openBox("app_conf");
     await box.put(
         "close_graphics_performance_tip", _graphicsPerformanceTipVersion);
     _init();
   }
 
-  onChangePreProfile(String key) {
+  void onChangePreProfile(String key) {
     switch (key) {
       case "low":
         state.performanceMap?.forEach((key, v) {
@@ -144,11 +144,11 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     state = state.copyWith();
   }
 
-  refresh() async {
+  Future<void> refresh() async {
     _init();
   }
 
-  clean(BuildContext context) async {
+  Future<void> clean(BuildContext context) async {
     state = state.copyWith(
         workingString: S.current.performance_info_delete_config_file);
     if (await confFile.exists()) {
@@ -164,7 +164,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     state = state.copyWith(workingString: "");
   }
 
-  cleanShaderCache(BuildContext? context) async {
+  Future<void> cleanShaderCache(BuildContext? context) async {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
     final l =
         await Directory(gameShaderCachePath!).list(recursive: false).toList();
@@ -181,7 +181,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     }
   }
 
-  applyProfile(bool cleanShader) async {
+  Future<void> applyProfile(bool cleanShader) async {
     if (state.performanceMap == null) return;
     AnalyticsApi.touch("performance_apply");
     state = state.copyWith(
@@ -222,7 +222,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     state = state.copyWith(workingString: "");
   }
 
-  updateState() {
+  void updateState() {
     state = state.copyWith();
   }
 }

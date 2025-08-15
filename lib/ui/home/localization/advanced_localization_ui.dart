@@ -225,7 +225,7 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
     );
   }
 
-  _showContent(BuildContext context, AppAdvancedLocalizationClassKeysData item) {
+  void _showContent(BuildContext context, AppAdvancedLocalizationClassKeysData item) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

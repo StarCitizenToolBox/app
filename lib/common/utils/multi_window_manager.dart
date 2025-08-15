@@ -50,7 +50,7 @@ class MultiWindowManager {
     // sendAppStateBroadcast(appGlobalState);
   }
 
-  static sendAppStateBroadcast(AppGlobalState appGlobalState) {
+  static void sendAppStateBroadcast(AppGlobalState appGlobalState) {
     DesktopMultiWindow.invokeMethod(
       0,
       'app_state_broadcast',

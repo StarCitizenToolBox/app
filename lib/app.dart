@@ -81,7 +81,7 @@ GoRouter router(Ref ref) {
               pageBuilder: (context, state) => myPageBuilder(context, state, const AdvancedLocalizationUI()))
         ],
       ),
-      GoRoute(path: '/tools', builder: (_, __) => const SizedBox(), routes: [
+      GoRoute(path: '/tools', builder: (_, _) => const SizedBox(), routes: [
         GoRoute(
           path: 'unp4kc',
           pageBuilder: (context, state) => myPageBuilder(context, state, const UnP4kcUI()),
@@ -295,7 +295,7 @@ class AppGlobalModel extends _$AppGlobalModel {
     }
   }
 
-  void changeLocale(value) async {
+  void changeLocale(dynamic value) async {
     final appConfBox = await Hive.openBox("app_conf");
     if (value is Locale) {
       if (value.languageCode == "auto") {

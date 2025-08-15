@@ -118,7 +118,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  goWebView(BuildContext context, String title, String url,
+  Future<void> goWebView(BuildContext context, String title, String url,
       {bool useLocalization = false,
       bool loginMode = false,
       RsiLoginCallback? rsiLoginCallback,

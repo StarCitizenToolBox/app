@@ -285,7 +285,7 @@ class HomeGameDoctorUI extends HookConsumerWidget {
     );
   }
 
-  _onTapButton(
+  Future<void> _onTapButton(
       BuildContext context, String key, HomeUIModelState homeState) async {
     switch (key) {
       case "rsi_log":

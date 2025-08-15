@@ -213,11 +213,11 @@ class WebViewModel {
     return finalUrl;
   }
 
-  launch(String url, AppVersionData appVersionData) async {
+  Future<void> launch(String url, AppVersionData appVersionData) async {
     webview.launch(await _handleMirrorsUrl(url, appVersionData));
   }
 
-  initLocalization(AppWebLocalizationVersionsData v) async {
+  Future<void> initLocalization(AppWebLocalizationVersionsData v) async {
     localizationScript = await rootBundle.loadString('assets/web_script.js');
 
     /// https://github.com/CxJuice/Uex_Chinese_Translate

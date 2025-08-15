@@ -90,7 +90,7 @@ class SplashUI extends HookConsumerWidget {
     context.go("/index");
   }
 
-  _showAlert(BuildContext context, Box<dynamic> appConf) async {
+  Future<void> _showAlert(BuildContext context, Box<dynamic> appConf) async {
     final userOk = await showConfirmDialogs(
         context,
         S.current.app_splash_dialog_u_a_p_p,

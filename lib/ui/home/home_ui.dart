@@ -718,7 +718,7 @@ class HomeUI extends HookConsumerWidget {
     );
   }
 
-  _showPlacard(BuildContext context, HomeUIModelState homeState) {
+  void _showPlacard(BuildContext context, HomeUIModelState homeState) {
     switch (homeState.appPlacardData?.linkType) {
       case "external":
         launchUrlString(homeState.appPlacardData?.link);
@@ -736,7 +736,7 @@ class HomeUI extends HookConsumerWidget {
     }
   }
 
-  _onTapFestival(BuildContext context) {
+  void _onTapFestival(BuildContext context) {
     showDialog(context: context, builder: (context) => const HomeCountdownDialogUI());
   }
 

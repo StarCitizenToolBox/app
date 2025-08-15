@@ -63,7 +63,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     return state;
   }
 
-  loadToolsCard(BuildContext context, {bool skipPathScan = false}) async {
+  Future<void> loadToolsCard(BuildContext context, {bool skipPathScan = false}) async {
     if (state.isItemLoading) return;
     var items = <ToolsItemData>[];
     state = state.copyWith(items: items, isItemLoading: true);
@@ -352,7 +352,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
   }
 
-  openDir(path) async {
+  Future<void> openDir(dynamic path) async {
     SystemHelper.openDir(path);
   }
 
@@ -526,7 +526,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     return true;
   }
 
-  _onChangePhotographyMode(BuildContext context, bool isEnable) async {
+  Future<void> _onChangePhotographyMode(BuildContext context, bool isEnable) async {
     _checkPhotographyStatus(context, setMode: !isEnable).unwrap(context: context);
     loadToolsCard(context, skipPathScan: true);
   }
@@ -539,15 +539,15 @@ class ToolsUIModel extends _$ToolsUIModel {
     state = state.copyWith(rsiLauncherInstalledPath: s);
   }
 
-  _doHostsBooster(BuildContext context) async {
+  Future<void> _doHostsBooster(BuildContext context) async {
     showDialog(context: context, builder: (BuildContext context) => const HostsBoosterDialogUI());
   }
 
-  _unp4kc(BuildContext context) async {
+  Future<void> _unp4kc(BuildContext context) async {
     context.push("/tools/unp4kc");
   }
 
-  static rsiEnhance(BuildContext context, {bool showNotGameInstallMsg = false}) async {
+  static Future<void> rsiEnhance(BuildContext context, {bool showNotGameInstallMsg = false}) async {
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
       showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
@@ -562,7 +562,7 @@ class ToolsUIModel extends _$ToolsUIModel {
             ));
   }
 
-  _showLogAnalyze(BuildContext context) async {
+  Future<void> _showLogAnalyze(BuildContext context) async {
     if (state.scInstalledPath.isEmpty) {
       showToast(context, S.current.tools_action_info_valid_game_directory_needed);
       return;

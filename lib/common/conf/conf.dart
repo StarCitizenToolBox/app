@@ -21,7 +21,7 @@ class ConstConf {
 class AppConf {
   static List<String>? _networkGameChannels;
 
-  static setNetworkChannels(List<String>? channels) {
+  static void setNetworkChannels(List<String>? channels) {
     _networkGameChannels = channels;
   }
 

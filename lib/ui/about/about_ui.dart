@@ -567,7 +567,7 @@ class AboutUI extends HookConsumerWidget {
     );
   }
 
-  _onCheckUpdate(BuildContext context, WidgetRef ref) async {
+  Future<void> _onCheckUpdate(BuildContext context, WidgetRef ref) async {
     if (ConstConf.isMSE) {
       launchUrlString("ms-windows-store://pdp/?productid=9NF3SWFWNKL1");
       return;

@@ -7,7 +7,7 @@ import 'package:starcitizen_doctor/common/rust/api/http_api.dart';
 import 'package:starcitizen_doctor/common/rust/http_package.dart';
 
 class RSHttp {
-  static init() async {
+  static Future<void> init() async {
     await rust_http.setDefaultHeader(headers: {
       "User-Agent":
           "SCToolBox/${ConstConf.appVersion} (${ConstConf.appVersionCode})${ConstConf.isMSE ? "" : " DEV"} RSHttp"

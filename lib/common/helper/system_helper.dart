@@ -6,7 +6,7 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 class SystemHelper {
   static String powershellPath = "powershell.exe";
 
-  static initPowershellPath() async {
+  static Future<void> initPowershellPath() async {
     try {
       var result = await Process.run(powershellPath, ["echo", "pong"]);
       if (!result.stdout.toString().startsWith("pong") && powershellPath == "powershell.exe") {
@@ -58,7 +58,7 @@ class SystemHelper {
     return result.stderr;
   }
 
-  static doRemoveNvmePath() async {
+  static Future<bool> doRemoveNvmePath() async {
     try {
       var result = await Process.run(powershellPath, [
         "Clear-ItemProperty",
@@ -110,7 +110,7 @@ class SystemHelper {
     return "";
   }
 
-  static killRSILauncher() async {
+  static Future<void> killRSILauncher() async {
     var psr = await Process.run(powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
     if (psr.stderr == "") {
       for (var value in (psr.stdout ?? "").toString().split("\n")) {
@@ -139,7 +139,7 @@ class SystemHelper {
     }
   }
 
-  static checkAndLaunchRSILauncher(String path) async {
+  static Future<void> checkAndLaunchRSILauncher(String path) async {
     // check running and kill
     await killRSILauncher();
     // launch
@@ -254,7 +254,7 @@ foreach ($adapter in $adapterMemory) {
     return int.parse(binaryString, radix: 2).toRadixString(16).padLeft(hexDigits, '0').toUpperCase();
   }
 
-  static Future openDir(path, {bool isFile = false}) async {
+  static Future openDir(dynamic path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
     if (Platform.isWindows) {
       await Process.run(

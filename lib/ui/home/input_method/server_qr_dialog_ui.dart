@@ -24,7 +24,7 @@ class ServerQrState extends _$ServerQrState {
     _context = context;
   }
 
-  popDialog() {
+  void popDialog() {
     _context?.pop();
   }
 }

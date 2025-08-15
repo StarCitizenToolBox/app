@@ -69,7 +69,7 @@ class HomeUIModel extends _$HomeUIModel {
     return state;
   }
 
-  closePlacard() async {
+  Future<void> closePlacard() async {
     final box = await Hive.openBox("app_conf");
     await box.put("close_placard", state.appPlacardData?.version);
     state = state.copyWith(appPlacardData: null);
@@ -281,7 +281,7 @@ class HomeUIModel extends _$HomeUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  launchRSI(BuildContext context) async {
+  Future<void> launchRSI(BuildContext context) async {
     if (state.scInstalledPath == "not_install") {
       showToast(context, S.current.home_info_valid_installation_required);
       return;
@@ -312,7 +312,7 @@ class HomeUIModel extends _$HomeUIModel {
     ref.read(localizationUIModelProvider.notifier).onChangeGameInstallPath(value);
   }
 
-  doLaunchGame(
+  Future<void> doLaunchGame(
       // ignore: avoid_build_context_in_providers
       BuildContext context,
       String launchExe,

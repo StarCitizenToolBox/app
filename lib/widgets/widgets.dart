@@ -212,7 +212,7 @@ class LoadingWidget<T> extends HookConsumerWidget {
   }
 }
 
-addPostFrameCallback(Function() callback) {
+void addPostFrameCallback(Function() callback) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     callback();
   });

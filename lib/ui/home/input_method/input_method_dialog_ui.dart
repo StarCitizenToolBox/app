@@ -239,7 +239,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
     }
   }
 
-  _onSwitchAutoTranslate(
+  Future<void> _onSwitchAutoTranslate(
       BuildContext context, InputMethodDialogUIModel model, bool b) async {
     if (b) {
       final ok = await showConfirmDialogs(

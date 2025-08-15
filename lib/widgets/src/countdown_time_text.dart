@@ -35,7 +35,7 @@ class _CountdownTimeTextState extends State<CountdownTimeText> {
     super.dispose();
   }
 
-  _onUpdateTime(_) {
+  void _onUpdateTime(_) {
     final now = DateTime.now();
     final dur = widget.targetTime.difference(now);
     setState(() {

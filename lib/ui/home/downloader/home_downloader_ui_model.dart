@@ -64,7 +64,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     return state;
   }
 
-  onTapButton(BuildContext context, String key) async {
+  Future<void> onTapButton(BuildContext context, String key) async {
     final aria2cState = ref.read(aria2cModelProvider);
     switch (key) {
       case "pause_all":
@@ -194,14 +194,14 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     return l;
   }
 
-  openFolder(Aria2Task task) {
+  void openFolder(Aria2Task task) {
     final f = getFilesFormTask(task).firstOrNull;
     if (f != null) {
       SystemHelper.openDir(File(f.path!).absolute.path.replaceAll("/", "\\"));
     }
   }
 
-  _listenDownloader() async {
+  Future<void> _listenDownloader() async {
     try {
       while (true) {
         final aria2cState = ref.read(aria2cModelProvider);

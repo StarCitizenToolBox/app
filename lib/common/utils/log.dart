@@ -8,7 +8,7 @@ export 'package:starcitizen_doctor/generated/l10n.dart';
 var _logLock = Lock();
 File? _logFile;
 
-void dPrint(src) async {
+void dPrint(dynamic src) async {
   if (kDebugMode) {
     print(src);
     return;

@@ -148,7 +148,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     }
   }
 
-  toggleAutoTranslate(bool b) async {
+  Future<void> toggleAutoTranslate(bool b) async {
     state = state.copyWith(isEnableAutoTranslate: b);
     final appConf = await Hive.openBox("app_conf");
     await appConf.put("isEnableAutoTranslate", b);

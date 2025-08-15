@@ -113,7 +113,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  doCheck(BuildContext context) async {
+  Future<void> doCheck(BuildContext context) async {
     if (state.isChecking) return;
     state = state.copyWith(
         isChecking: true, lastScreenInfo: S.current.doctor_action_analyzing);
@@ -124,7 +124,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  _statCheck(BuildContext context) async {
+  Future<void> _statCheck(BuildContext context) async {
     final homeState = ref.read(homeUIModelProvider);
     final scInstalledPath = homeState.scInstalledPath!;
 

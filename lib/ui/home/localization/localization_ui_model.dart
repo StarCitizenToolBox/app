@@ -455,7 +455,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     };
   }
 
-  _updateStatus() async {
+  Future<void> _updateStatus() async {
     final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
     final patchStatus =
         MapEntry(await _getLangCfgEnableLang(lang: state.selectedLanguage!), await _getInstalledIniVersion(iniPath));

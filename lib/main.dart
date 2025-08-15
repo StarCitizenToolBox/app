@@ -27,7 +27,7 @@ void main(List<String> args) async {
   runApp(const ProviderScope(child: App()));
 }
 
-_initWindow() async {
+Future<void> _initWindow() async {
   await windowManager.ensureInitialized();
   await windowManager.setTitleBarStyle(
     TitleBarStyle.hidden,
