@@ -83,8 +83,11 @@ class HomeUIModel extends _$HomeUIModel {
         state = state.copyWith(scInstalledPath: "not_install");
         return;
       }
-      final scInstallPaths =
-          await SCLoggerHelper.getGameInstallPath(listData, withVersion: AppConf.gameChannels, checkExists: true);
+      final scInstallPaths = await SCLoggerHelper.getGameInstallPath(
+        listData,
+        withVersion: AppConf.gameChannels,
+        checkExists: true,
+      );
 
       String scInstalledPath = "not_install";
 
@@ -93,13 +96,19 @@ class HomeUIModel extends _$HomeUIModel {
           scInstalledPath = scInstallPaths.first;
         }
       }
-      final lastScreenInfo =
-          S.current.home_action_info_scan_complete_valid_directories_found(scInstallPaths.length.toString());
+      final lastScreenInfo = S.current.home_action_info_scan_complete_valid_directories_found(
+        scInstallPaths.length.toString(),
+      );
       state = state.copyWith(
-          scInstalledPath: scInstalledPath, scInstallPaths: scInstallPaths, lastScreenInfo: lastScreenInfo);
+        scInstalledPath: scInstalledPath,
+        scInstallPaths: scInstallPaths,
+        lastScreenInfo: lastScreenInfo,
+      );
     } catch (e) {
       state = state.copyWith(
-          scInstalledPath: "not_install", lastScreenInfo: S.current.home_action_info_log_file_parse_fail);
+        scInstalledPath: "not_install",
+        lastScreenInfo: S.current.home_action_info_log_file_parse_fail,
+      );
       AnalyticsApi.touch("error_launchLogs");
       // showToast(context!,
       //     "${S.current.home_action_info_log_file_parse_fail} \n请关闭游戏，退出RSI启动器后重试，若仍有问题，请使用工具箱中的 RSI Launcher log 修复。");
@@ -127,8 +136,14 @@ class HomeUIModel extends _$HomeUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  Future<void> goWebView(BuildContext context, String title, String url,
-      {bool useLocalization = false, bool loginMode = false, RsiLoginCallback? rsiLoginCallback}) async {
+  Future<void> goWebView(
+    BuildContext context,
+    String title,
+    String url, {
+    bool useLocalization = false,
+    bool loginMode = false,
+    RsiLoginCallback? rsiLoginCallback,
+  }) async {
     if (useLocalization) {
       const tipVersion = 2;
       final box = await Hive.openBox("app_conf");
@@ -136,13 +151,11 @@ class HomeUIModel extends _$HomeUIModel {
       if (skip != tipVersion) {
         if (!context.mounted) return;
         final ok = await showConfirmDialogs(
-            context,
-            S.current.home_action_title_star_citizen_website_localization,
-            Text(
-              S.current.home_action_info_web_localization_plugin_disclaimer,
-              style: const TextStyle(fontSize: 16),
-            ),
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .6));
+          context,
+          S.current.home_action_title_star_citizen_website_localization,
+          Text(S.current.home_action_info_web_localization_plugin_disclaimer, style: const TextStyle(fontSize: 16)),
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .6),
+        );
         if (!ok) {
           if (loginMode) {
             rsiLoginCallback?.call(null, false);
@@ -189,12 +202,9 @@ class HomeUIModel extends _$HomeUIModel {
 
   void _init() {
     reScanPath();
-    _serverUpdateTimer = Timer.periodic(
-      const Duration(minutes: 10),
-      (timer) {
-        _updateSCServerStatus();
-      },
-    );
+    _serverUpdateTimer = Timer.periodic(const Duration(minutes: 10), (timer) {
+      _updateSCServerStatus();
+    });
 
     _appUpdateTimer = Timer.periodic(const Duration(minutes: 30), (timer) {
       checkLocalizationUpdate();
@@ -222,11 +232,13 @@ class HomeUIModel extends _$HomeUIModel {
       }
 
       final appWebLocalizationVersionsData = AppWebLocalizationVersionsData.fromJson(
-          json.decode((await RSHttp.getText("${URLConf.webTranslateHomeUrl}/versions.json"))));
+        json.decode((await RSHttp.getText("${URLConf.webTranslateHomeUrl}/versions.json"))),
+      );
       final countdownFestivalListData = await Api.getFestivalCountdownList();
       state = state.copyWith(
-          webLocalizationVersionsData: appWebLocalizationVersionsData,
-          countdownFestivalListData: countdownFestivalListData);
+        webLocalizationVersionsData: appWebLocalizationVersionsData,
+        countdownFestivalListData: countdownFestivalListData,
+      );
       _updateSCServerStatus();
       _loadRRS();
     } catch (e) {
@@ -255,14 +267,21 @@ class HomeUIModel extends _$HomeUIModel {
       dPrint("RSS update Success !");
     } catch (e) {
       dPrint("_loadRRS Error:$e");
+      // 避免持续显示 loading
+      if (state.rssTextItems == null) {
+        state = state.copyWith(rssTextItems: []);
+      }
+      if (state.rssVideoItems == null) {
+        state = state.copyWith(rssVideoItems: []);
+      }
     }
   }
 
   Future<void> checkLocalizationUpdate({bool skipReload = false}) async {
     dPrint("_checkLocalizationUpdate");
-    final updates = await (ref.read(localizationUIModelProvider.notifier))
-        .checkLangUpdate(skipReload: skipReload)
-        .unwrap<List<String>>();
+    final updates = await (ref.read(
+      localizationUIModelProvider.notifier,
+    )).checkLangUpdate(skipReload: skipReload).unwrap<List<String>>();
     if (updates == null || updates.isEmpty) {
       state = state.copyWith(localizationUpdateInfo: null);
       return;
@@ -273,10 +292,11 @@ class HomeUIModel extends _$HomeUIModel {
       _appUpdateTimer = null;
       // 发送通知
       await win32.sendNotify(
-          summary: S.current.home_localization_new_version_available,
-          body: S.current.home_localization_new_version_installed(updates.first),
-          appName: S.current.home_title_app_name,
-          appId: ConstConf.win32AppId);
+        summary: S.current.home_localization_new_version_available,
+        body: S.current.home_localization_new_version_installed(updates.first),
+        appName: S.current.home_title_app_name,
+        appId: ConstConf.win32AppId,
+      );
     }
   }
 
@@ -296,8 +316,12 @@ class HomeUIModel extends _$HomeUIModel {
       showDialog(context: context, dismissWithEsc: false, builder: (context) => HomeGameLoginDialogUI(context));
     } else {
       final ok = await showConfirmDialogs(
-          context, S.current.home_info_one_click_launch_warning, Text(S.current.home_info_account_security_warning),
-          confirm: S.current.home_action_install_microsoft_store_version, cancel: S.current.home_action_cancel);
+        context,
+        S.current.home_info_one_click_launch_warning,
+        Text(S.current.home_info_account_security_warning),
+        confirm: S.current.home_action_install_microsoft_store_version,
+        cancel: S.current.home_action_cancel,
+      );
       if (ok == true) {
         await launchUrlString("https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true");
         await Future.delayed(const Duration(seconds: 2));
@@ -313,12 +337,13 @@ class HomeUIModel extends _$HomeUIModel {
   }
 
   Future<void> doLaunchGame(
-      // ignore: avoid_build_context_in_providers
-      BuildContext context,
-      String launchExe,
-      List<String> args,
-      String installPath,
-      String? processorAffinity) async {
+    // ignore: avoid_build_context_in_providers
+    BuildContext context,
+    String launchExe,
+    List<String> args,
+    String installPath,
+    String? processorAffinity,
+  ) async {
     var runningMap = Map<String, bool>.from(state.isGameRunning);
     runningMap[installPath] = true;
     state = state.copyWith(isGameRunning: runningMap);
@@ -328,8 +353,16 @@ class HomeUIModel extends _$HomeUIModel {
         result = await Process.run(launchExe, args);
       } else {
         dPrint("set Affinity === $processorAffinity launchExe === $launchExe");
-        result = await Process.run(
-            "cmd.exe", ['/C', 'Start', '"StarCitizen"', '/High', '/Affinity', processorAffinity, launchExe, ...args]);
+        result = await Process.run("cmd.exe", [
+          '/C',
+          'Start',
+          '"StarCitizen"',
+          '/High',
+          '/Affinity',
+          processorAffinity,
+          launchExe,
+          ...args,
+        ]);
       }
       dPrint('Exit code: ${result.exitCode}');
       dPrint('stdout: ${result.stdout}');
@@ -350,13 +383,15 @@ class HomeUIModel extends _$HomeUIModel {
         //     "游戏非正常退出\nexitCode=${result.exitCode}\nstdout=${result.stdout ?? ""}\nstderr=${result.stderr ?? ""}\n\n诊断信息：${exitInfo == null ? "未知错误，请通过一键诊断加群反馈。" : exitInfo.key} \n${hasUrl ? "请查看弹出的网页链接获得详细信息。" : exitInfo?.value ?? ""}");
         // S.current.home_action_info_abnormal_game_exit
         showToast(
-            context,
-            S.current.home_action_info_abnormal_game_exit(
-                result.exitCode.toString(),
-                result.stdout ?? "",
-                result.stderr ?? "",
-                exitInfo == null ? S.current.home_action_info_unknown_error : exitInfo.key,
-                hasUrl ? S.current.home_action_info_check_web_link : exitInfo?.value ?? ""));
+          context,
+          S.current.home_action_info_abnormal_game_exit(
+            result.exitCode.toString(),
+            result.stdout ?? "",
+            result.stderr ?? "",
+            exitInfo == null ? S.current.home_action_info_unknown_error : exitInfo.key,
+            hasUrl ? S.current.home_action_info_check_web_link : exitInfo?.value ?? "",
+          ),
+        );
         if (hasUrl) {
           await Future.delayed(const Duration(seconds: 3));
           launchUrlString(exitInfo!.value);

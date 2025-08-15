@@ -219,7 +219,15 @@ InitWebLocalization();
 async function getRSILauncherToken(channelId) {
     if (!window.location.href.includes("robertsspaceindustries.com")) return;
 
-    let loginBodyElement = $(".c-form.c-signIn");
+    // check if logged in and fix redirect
+    if (window.location.href.endsWith('/connect?jumpto=/account/dashboard')) {
+      if (document.body.textContent.trim() === "/account/dashboard") {
+        window.location.href = "https://robertsspaceindustries.com/account/dashboard";
+        return;
+      }
+    }
+
+    let loginBodyElement = $(".c-form authenticationForm sign_in");
     loginBodyElement.show();
     // wait login
     window.chrome.webview.postMessage({ action: 'webview_rsi_login_show_window' });
