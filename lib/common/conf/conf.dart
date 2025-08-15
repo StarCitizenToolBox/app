@@ -1,7 +1,7 @@
 class ConstConf {
-  static const String appVersion = "2.14.2";
-  static const int appVersionCode = 66;
-  static const String appVersionDate = "2025-06-01";
+  static const String appVersion = "2.14.3";
+  static const int appVersionCode = 67;
+  static const String appVersionDate = "2025-08-15";
   static const _gameChannels = [
     "LIVE",
     "4.0_PREVIEW",
