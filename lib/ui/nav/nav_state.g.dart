@@ -13,8 +13,9 @@ String _$navHash() => r'00c4da8fdd37214cda179a81ece3676add7aab53';
 final navProvider = AutoDisposeNotifierProvider<Nav, NavState>.internal(
   Nav.new,
   name: r'navProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$navHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$navHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

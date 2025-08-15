@@ -11,16 +11,19 @@ String _$homePerformanceUIModelHash() =>
 
 /// See also [HomePerformanceUIModel].
 @ProviderFor(HomePerformanceUIModel)
-final homePerformanceUIModelProvider = AutoDisposeNotifierProvider<
-    HomePerformanceUIModel, HomePerformanceUIState>.internal(
-  HomePerformanceUIModel.new,
-  name: r'homePerformanceUIModelProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$homePerformanceUIModelHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final homePerformanceUIModelProvider =
+    AutoDisposeNotifierProvider<
+      HomePerformanceUIModel,
+      HomePerformanceUIState
+    >.internal(
+      HomePerformanceUIModel.new,
+      name: r'homePerformanceUIModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$homePerformanceUIModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$HomePerformanceUIModel = AutoDisposeNotifier<HomePerformanceUIState>;
 // ignore_for_file: type=lint

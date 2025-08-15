@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -12,75 +11,47 @@ part of 'settings_ui_model.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-
 /// @nodoc
 mixin _$SettingsUIState {
-  bool get isEnableToolSiteMirrors;
-  String get inputGameLaunchECore;
-  String? get customLauncherPath;
-  String? get customGamePath;
-  int get locationCacheSize;
-  bool get isUseInternalDNS;
 
-  /// Create a copy of SettingsUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $SettingsUIStateCopyWith<SettingsUIState> get copyWith =>
-      _$SettingsUIStateCopyWithImpl<SettingsUIState>(
-          this as SettingsUIState, _$identity);
+ bool get isEnableToolSiteMirrors; String get inputGameLaunchECore; String? get customLauncherPath; String? get customGamePath; int get locationCacheSize; bool get isUseInternalDNS;
+/// Create a copy of SettingsUIState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SettingsUIStateCopyWith<SettingsUIState> get copyWith => _$SettingsUIStateCopyWithImpl<SettingsUIState>(this as SettingsUIState, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is SettingsUIState &&
-            (identical(
-                    other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) ||
-                other.isEnableToolSiteMirrors == isEnableToolSiteMirrors) &&
-            (identical(other.inputGameLaunchECore, inputGameLaunchECore) ||
-                other.inputGameLaunchECore == inputGameLaunchECore) &&
-            (identical(other.customLauncherPath, customLauncherPath) ||
-                other.customLauncherPath == customLauncherPath) &&
-            (identical(other.customGamePath, customGamePath) ||
-                other.customGamePath == customGamePath) &&
-            (identical(other.locationCacheSize, locationCacheSize) ||
-                other.locationCacheSize == locationCacheSize) &&
-            (identical(other.isUseInternalDNS, isUseInternalDNS) ||
-                other.isUseInternalDNS == isUseInternalDNS));
-  }
 
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isEnableToolSiteMirrors,
-      inputGameLaunchECore,
-      customLauncherPath,
-      customGamePath,
-      locationCacheSize,
-      isUseInternalDNS);
 
-  @override
-  String toString() {
-    return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS)';
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS);
+
+@override
+String toString() {
+  return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $SettingsUIStateCopyWith<$Res> {
-  factory $SettingsUIStateCopyWith(
-          SettingsUIState value, $Res Function(SettingsUIState) _then) =
-      _$SettingsUIStateCopyWithImpl;
-  @useResult
-  $Res call(
-      {bool isEnableToolSiteMirrors,
-      String inputGameLaunchECore,
-      String? customLauncherPath,
-      String? customGamePath,
-      int locationCacheSize,
-      bool isUseInternalDNS});
-}
+abstract mixin class $SettingsUIStateCopyWith<$Res>  {
+  factory $SettingsUIStateCopyWith(SettingsUIState value, $Res Function(SettingsUIState) _then) = _$SettingsUIStateCopyWithImpl;
+@useResult
+$Res call({
+ bool isEnableToolSiteMirrors, String inputGameLaunchECore, String? customLauncherPath, String? customGamePath, int locationCacheSize, bool isUseInternalDNS
+});
 
+
+
+
+}
 /// @nodoc
 class _$SettingsUIStateCopyWithImpl<$Res>
     implements $SettingsUIStateCopyWith<$Res> {
@@ -89,136 +60,204 @@ class _$SettingsUIStateCopyWithImpl<$Res>
   final SettingsUIState _self;
   final $Res Function(SettingsUIState) _then;
 
-  /// Create a copy of SettingsUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? isEnableToolSiteMirrors = null,
-    Object? inputGameLaunchECore = null,
-    Object? customLauncherPath = freezed,
-    Object? customGamePath = freezed,
-    Object? locationCacheSize = null,
-    Object? isUseInternalDNS = null,
-  }) {
-    return _then(_self.copyWith(
-      isEnableToolSiteMirrors: null == isEnableToolSiteMirrors
-          ? _self.isEnableToolSiteMirrors
-          : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
-              as bool,
-      inputGameLaunchECore: null == inputGameLaunchECore
-          ? _self.inputGameLaunchECore
-          : inputGameLaunchECore // ignore: cast_nullable_to_non_nullable
-              as String,
-      customLauncherPath: freezed == customLauncherPath
-          ? _self.customLauncherPath
-          : customLauncherPath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      customGamePath: freezed == customGamePath
-          ? _self.customGamePath
-          : customGamePath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      locationCacheSize: null == locationCacheSize
-          ? _self.locationCacheSize
-          : locationCacheSize // ignore: cast_nullable_to_non_nullable
-              as int,
-      isUseInternalDNS: null == isUseInternalDNS
-          ? _self.isUseInternalDNS
-          : isUseInternalDNS // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
+/// Create a copy of SettingsUIState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? isEnableToolSiteMirrors = null,Object? inputGameLaunchECore = null,Object? customLauncherPath = freezed,Object? customGamePath = freezed,Object? locationCacheSize = null,Object? isUseInternalDNS = null,}) {
+  return _then(_self.copyWith(
+isEnableToolSiteMirrors: null == isEnableToolSiteMirrors ? _self.isEnableToolSiteMirrors : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
+as bool,inputGameLaunchECore: null == inputGameLaunchECore ? _self.inputGameLaunchECore : inputGameLaunchECore // ignore: cast_nullable_to_non_nullable
+as String,customLauncherPath: freezed == customLauncherPath ? _self.customLauncherPath : customLauncherPath // ignore: cast_nullable_to_non_nullable
+as String?,customGamePath: freezed == customGamePath ? _self.customGamePath : customGamePath // ignore: cast_nullable_to_non_nullable
+as String?,locationCacheSize: null == locationCacheSize ? _self.locationCacheSize : locationCacheSize // ignore: cast_nullable_to_non_nullable
+as int,isUseInternalDNS: null == isUseInternalDNS ? _self.isUseInternalDNS : isUseInternalDNS // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SettingsUIState].
+extension SettingsUIStatePatterns on SettingsUIState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SettingsUIState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SettingsUIState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SettingsUIState value)  $default,){
+final _that = this;
+switch (_that) {
+case _SettingsUIState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SettingsUIState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SettingsUIState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SettingsUIState() when $default != null:
+return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS)  $default,) {final _that = this;
+switch (_that) {
+case _SettingsUIState():
+return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS)?  $default,) {final _that = this;
+switch (_that) {
+case _SettingsUIState() when $default != null:
+return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
+
 
 class _SettingsUIState implements SettingsUIState {
-  _SettingsUIState(
-      {this.isEnableToolSiteMirrors = false,
-      this.inputGameLaunchECore = "0",
-      this.customLauncherPath,
-      this.customGamePath,
-      this.locationCacheSize = 0,
-      this.isUseInternalDNS = false});
+   _SettingsUIState({this.isEnableToolSiteMirrors = false, this.inputGameLaunchECore = "0", this.customLauncherPath, this.customGamePath, this.locationCacheSize = 0, this.isUseInternalDNS = false});
+  
 
-  @override
-  @JsonKey()
-  final bool isEnableToolSiteMirrors;
-  @override
-  @JsonKey()
-  final String inputGameLaunchECore;
-  @override
-  final String? customLauncherPath;
-  @override
-  final String? customGamePath;
-  @override
-  @JsonKey()
-  final int locationCacheSize;
-  @override
-  @JsonKey()
-  final bool isUseInternalDNS;
+@override@JsonKey() final  bool isEnableToolSiteMirrors;
+@override@JsonKey() final  String inputGameLaunchECore;
+@override final  String? customLauncherPath;
+@override final  String? customGamePath;
+@override@JsonKey() final  int locationCacheSize;
+@override@JsonKey() final  bool isUseInternalDNS;
 
-  /// Create a copy of SettingsUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$SettingsUIStateCopyWith<_SettingsUIState> get copyWith =>
-      __$SettingsUIStateCopyWithImpl<_SettingsUIState>(this, _$identity);
+/// Create a copy of SettingsUIState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SettingsUIStateCopyWith<_SettingsUIState> get copyWith => __$SettingsUIStateCopyWithImpl<_SettingsUIState>(this, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _SettingsUIState &&
-            (identical(
-                    other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) ||
-                other.isEnableToolSiteMirrors == isEnableToolSiteMirrors) &&
-            (identical(other.inputGameLaunchECore, inputGameLaunchECore) ||
-                other.inputGameLaunchECore == inputGameLaunchECore) &&
-            (identical(other.customLauncherPath, customLauncherPath) ||
-                other.customLauncherPath == customLauncherPath) &&
-            (identical(other.customGamePath, customGamePath) ||
-                other.customGamePath == customGamePath) &&
-            (identical(other.locationCacheSize, locationCacheSize) ||
-                other.locationCacheSize == locationCacheSize) &&
-            (identical(other.isUseInternalDNS, isUseInternalDNS) ||
-                other.isUseInternalDNS == isUseInternalDNS));
-  }
 
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isEnableToolSiteMirrors,
-      inputGameLaunchECore,
-      customLauncherPath,
-      customGamePath,
-      locationCacheSize,
-      isUseInternalDNS);
 
-  @override
-  String toString() {
-    return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS)';
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS);
+
+@override
+String toString() {
+  return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class _$SettingsUIStateCopyWith<$Res>
-    implements $SettingsUIStateCopyWith<$Res> {
-  factory _$SettingsUIStateCopyWith(
-          _SettingsUIState value, $Res Function(_SettingsUIState) _then) =
-      __$SettingsUIStateCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {bool isEnableToolSiteMirrors,
-      String inputGameLaunchECore,
-      String? customLauncherPath,
-      String? customGamePath,
-      int locationCacheSize,
-      bool isUseInternalDNS});
-}
+abstract mixin class _$SettingsUIStateCopyWith<$Res> implements $SettingsUIStateCopyWith<$Res> {
+  factory _$SettingsUIStateCopyWith(_SettingsUIState value, $Res Function(_SettingsUIState) _then) = __$SettingsUIStateCopyWithImpl;
+@override @useResult
+$Res call({
+ bool isEnableToolSiteMirrors, String inputGameLaunchECore, String? customLauncherPath, String? customGamePath, int locationCacheSize, bool isUseInternalDNS
+});
 
+
+
+
+}
 /// @nodoc
 class __$SettingsUIStateCopyWithImpl<$Res>
     implements _$SettingsUIStateCopyWith<$Res> {
@@ -227,45 +266,21 @@ class __$SettingsUIStateCopyWithImpl<$Res>
   final _SettingsUIState _self;
   final $Res Function(_SettingsUIState) _then;
 
-  /// Create a copy of SettingsUIState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? isEnableToolSiteMirrors = null,
-    Object? inputGameLaunchECore = null,
-    Object? customLauncherPath = freezed,
-    Object? customGamePath = freezed,
-    Object? locationCacheSize = null,
-    Object? isUseInternalDNS = null,
-  }) {
-    return _then(_SettingsUIState(
-      isEnableToolSiteMirrors: null == isEnableToolSiteMirrors
-          ? _self.isEnableToolSiteMirrors
-          : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
-              as bool,
-      inputGameLaunchECore: null == inputGameLaunchECore
-          ? _self.inputGameLaunchECore
-          : inputGameLaunchECore // ignore: cast_nullable_to_non_nullable
-              as String,
-      customLauncherPath: freezed == customLauncherPath
-          ? _self.customLauncherPath
-          : customLauncherPath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      customGamePath: freezed == customGamePath
-          ? _self.customGamePath
-          : customGamePath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      locationCacheSize: null == locationCacheSize
-          ? _self.locationCacheSize
-          : locationCacheSize // ignore: cast_nullable_to_non_nullable
-              as int,
-      isUseInternalDNS: null == isUseInternalDNS
-          ? _self.isUseInternalDNS
-          : isUseInternalDNS // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
+/// Create a copy of SettingsUIState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? isEnableToolSiteMirrors = null,Object? inputGameLaunchECore = null,Object? customLauncherPath = freezed,Object? customGamePath = freezed,Object? locationCacheSize = null,Object? isUseInternalDNS = null,}) {
+  return _then(_SettingsUIState(
+isEnableToolSiteMirrors: null == isEnableToolSiteMirrors ? _self.isEnableToolSiteMirrors : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
+as bool,inputGameLaunchECore: null == inputGameLaunchECore ? _self.inputGameLaunchECore : inputGameLaunchECore // ignore: cast_nullable_to_non_nullable
+as String,customLauncherPath: freezed == customLauncherPath ? _self.customLauncherPath : customLauncherPath // ignore: cast_nullable_to_non_nullable
+as String?,customGamePath: freezed == customGamePath ? _self.customGamePath : customGamePath // ignore: cast_nullable_to_non_nullable
+as String?,locationCacheSize: null == locationCacheSize ? _self.locationCacheSize : locationCacheSize // ignore: cast_nullable_to_non_nullable
+as int,isUseInternalDNS: null == isUseInternalDNS ? _self.isUseInternalDNS : isUseInternalDNS // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
 }
 
 // dart format on

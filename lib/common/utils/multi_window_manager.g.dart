@@ -19,12 +19,12 @@ _MultiWindowAppState _$MultiWindowAppStateFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$MultiWindowAppStateToJson(
-        _MultiWindowAppState instance) =>
-    <String, dynamic>{
-      'backgroundColor': instance.backgroundColor,
-      'menuColor': instance.menuColor,
-      'micaColor': instance.micaColor,
-      'gameInstallPaths': instance.gameInstallPaths,
-      'languageCode': instance.languageCode,
-      'countryCode': instance.countryCode,
-    };
+  _MultiWindowAppState instance,
+) => <String, dynamic>{
+  'backgroundColor': instance.backgroundColor,
+  'menuColor': instance.menuColor,
+  'micaColor': instance.micaColor,
+  'gameInstallPaths': instance.gameInstallPaths,
+  'languageCode': instance.languageCode,
+  'countryCode': instance.countryCode,
+};

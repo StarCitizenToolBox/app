@@ -11,16 +11,19 @@ String _$homeGameDoctorUIModelHash() =>
 
 /// See also [HomeGameDoctorUIModel].
 @ProviderFor(HomeGameDoctorUIModel)
-final homeGameDoctorUIModelProvider = AutoDisposeNotifierProvider<
-    HomeGameDoctorUIModel, HomeGameDoctorState>.internal(
-  HomeGameDoctorUIModel.new,
-  name: r'homeGameDoctorUIModelProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$homeGameDoctorUIModelHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final homeGameDoctorUIModelProvider =
+    AutoDisposeNotifierProvider<
+      HomeGameDoctorUIModel,
+      HomeGameDoctorState
+    >.internal(
+      HomeGameDoctorUIModel.new,
+      name: r'homeGameDoctorUIModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$homeGameDoctorUIModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$HomeGameDoctorUIModel = AutoDisposeNotifier<HomeGameDoctorState>;
 // ignore_for_file: type=lint

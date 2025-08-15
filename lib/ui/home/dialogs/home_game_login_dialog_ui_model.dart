@@ -48,7 +48,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     final homeState = ref.read(homeUIModelProvider);
     if (!context.mounted) return;
     goWebView(context, S.current.home_action_login_rsi_account,
-        "https://robertsspaceindustries.com/en/connect?jumpto=%2Fconnect",
+        "https://robertsspaceindustries.com/en/connect?jumpto=/account/dashboard",
         loginMode: true, rsiLoginCallback: (message, ok) async {
       // dPrint(
       //     "======rsiLoginCallback=== $ok ===== data==\n${json.encode(message)}");

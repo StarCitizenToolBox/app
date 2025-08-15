@@ -12,14 +12,14 @@ String _$serverQrStateHash() => r'06f5ab53e1d6718f2a6eb0078a1adc3778787ed0';
 @ProviderFor(ServerQrState)
 final serverQrStateProvider =
     AutoDisposeNotifierProvider<ServerQrState, bool>.internal(
-  ServerQrState.new,
-  name: r'serverQrStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$serverQrStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      ServerQrState.new,
+      name: r'serverQrStateProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$serverQrStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$ServerQrState = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint

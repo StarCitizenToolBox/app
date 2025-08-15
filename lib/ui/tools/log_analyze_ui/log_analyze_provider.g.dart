@@ -51,24 +51,15 @@ class ToolsLogAnalyzeFamily
   const ToolsLogAnalyzeFamily();
 
   /// See also [ToolsLogAnalyze].
-  ToolsLogAnalyzeProvider call(
-    String gameInstallPath,
-    bool listSortReverse,
-  ) {
-    return ToolsLogAnalyzeProvider(
-      gameInstallPath,
-      listSortReverse,
-    );
+  ToolsLogAnalyzeProvider call(String gameInstallPath, bool listSortReverse) {
+    return ToolsLogAnalyzeProvider(gameInstallPath, listSortReverse);
   }
 
   @override
   ToolsLogAnalyzeProvider getProviderOverride(
     covariant ToolsLogAnalyzeProvider provider,
   ) {
-    return call(
-      provider.gameInstallPath,
-      provider.listSortReverse,
-    );
+    return call(provider.gameInstallPath, provider.listSortReverse);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -87,28 +78,29 @@ class ToolsLogAnalyzeFamily
 }
 
 /// See also [ToolsLogAnalyze].
-class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    ToolsLogAnalyze, List<LogAnalyzeLineData>> {
+class ToolsLogAnalyzeProvider
+    extends
+        AutoDisposeAsyncNotifierProviderImpl<
+          ToolsLogAnalyze,
+          List<LogAnalyzeLineData>
+        > {
   /// See also [ToolsLogAnalyze].
-  ToolsLogAnalyzeProvider(
-    String gameInstallPath,
-    bool listSortReverse,
-  ) : this._internal(
-          () => ToolsLogAnalyze()
-            ..gameInstallPath = gameInstallPath
-            ..listSortReverse = listSortReverse,
-          from: toolsLogAnalyzeProvider,
-          name: r'toolsLogAnalyzeProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$toolsLogAnalyzeHash,
-          dependencies: ToolsLogAnalyzeFamily._dependencies,
-          allTransitiveDependencies:
-              ToolsLogAnalyzeFamily._allTransitiveDependencies,
-          gameInstallPath: gameInstallPath,
-          listSortReverse: listSortReverse,
-        );
+  ToolsLogAnalyzeProvider(String gameInstallPath, bool listSortReverse)
+    : this._internal(
+        () => ToolsLogAnalyze()
+          ..gameInstallPath = gameInstallPath
+          ..listSortReverse = listSortReverse,
+        from: toolsLogAnalyzeProvider,
+        name: r'toolsLogAnalyzeProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$toolsLogAnalyzeHash,
+        dependencies: ToolsLogAnalyzeFamily._dependencies,
+        allTransitiveDependencies:
+            ToolsLogAnalyzeFamily._allTransitiveDependencies,
+        gameInstallPath: gameInstallPath,
+        listSortReverse: listSortReverse,
+      );
 
   ToolsLogAnalyzeProvider._internal(
     super._createNotifier, {
@@ -128,10 +120,7 @@ class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
   FutureOr<List<LogAnalyzeLineData>> runNotifierBuild(
     covariant ToolsLogAnalyze notifier,
   ) {
-    return notifier.build(
-      gameInstallPath,
-      listSortReverse,
-    );
+    return notifier.build(gameInstallPath, listSortReverse);
   }
 
   @override
@@ -154,8 +143,11 @@ class ToolsLogAnalyzeProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<ToolsLogAnalyze,
-      List<LogAnalyzeLineData>> createElement() {
+  AutoDisposeAsyncNotifierProviderElement<
+    ToolsLogAnalyze,
+    List<LogAnalyzeLineData>
+  >
+  createElement() {
     return _ToolsLogAnalyzeProviderElement(this);
   }
 
@@ -188,8 +180,12 @@ mixin ToolsLogAnalyzeRef
 }
 
 class _ToolsLogAnalyzeProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<ToolsLogAnalyze,
-        List<LogAnalyzeLineData>> with ToolsLogAnalyzeRef {
+    extends
+        AutoDisposeAsyncNotifierProviderElement<
+          ToolsLogAnalyze,
+          List<LogAnalyzeLineData>
+        >
+    with ToolsLogAnalyzeRef {
   _ToolsLogAnalyzeProviderElement(super.provider);
 
   @override
@@ -199,5 +195,6 @@ class _ToolsLogAnalyzeProviderElement
   bool get listSortReverse =>
       (origin as ToolsLogAnalyzeProvider).listSortReverse;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

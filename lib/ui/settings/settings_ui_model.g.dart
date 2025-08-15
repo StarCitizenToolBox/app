@@ -12,14 +12,14 @@ String _$settingsUIModelHash() => r'4b7900c3f77f4d5ff1836cbf700af374b62c943f';
 @ProviderFor(SettingsUIModel)
 final settingsUIModelProvider =
     AutoDisposeNotifierProvider<SettingsUIModel, SettingsUIState>.internal(
-  SettingsUIModel.new,
-  name: r'settingsUIModelProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$settingsUIModelHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      SettingsUIModel.new,
+      name: r'settingsUIModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$settingsUIModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$SettingsUIModel = AutoDisposeNotifier<SettingsUIState>;
 // ignore_for_file: type=lint

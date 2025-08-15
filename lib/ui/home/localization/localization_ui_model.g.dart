@@ -7,20 +7,23 @@ part of 'localization_ui_model.dart';
 // **************************************************************************
 
 String _$localizationUIModelHash() =>
-    r'640a129e8ecf7854d7668278046e808925d7f9d2';
+    r'd114577031b7d62ac5c395f0ced314721b852ee9';
 
 /// See also [LocalizationUIModel].
 @ProviderFor(LocalizationUIModel)
-final localizationUIModelProvider = AutoDisposeNotifierProvider<
-    LocalizationUIModel, LocalizationUIState>.internal(
-  LocalizationUIModel.new,
-  name: r'localizationUIModelProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localizationUIModelHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final localizationUIModelProvider =
+    AutoDisposeNotifierProvider<
+      LocalizationUIModel,
+      LocalizationUIState
+    >.internal(
+      LocalizationUIModel.new,
+      name: r'localizationUIModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$localizationUIModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$LocalizationUIModel = AutoDisposeNotifier<LocalizationUIState>;
 // ignore_for_file: type=lint

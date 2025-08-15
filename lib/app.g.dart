@@ -13,8 +13,9 @@ String _$routerHash() => r'cdf659da46a6dfbab2368a85be2f803f54823142';
 final routerProvider = AutoDisposeProvider<GoRouter>.internal(
   router,
   name: r'routerProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$routerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -22,20 +23,20 @@ final routerProvider = AutoDisposeProvider<GoRouter>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef RouterRef = AutoDisposeProviderRef<GoRouter>;
-String _$appGlobalModelHash() => r'4e372bc744903960e4e7b146dbb394ded15e2c18';
+String _$appGlobalModelHash() => r'6cb5e8398329c7bcbaa65daf426979cf54d1bfff';
 
 /// See also [AppGlobalModel].
 @ProviderFor(AppGlobalModel)
 final appGlobalModelProvider =
     AutoDisposeNotifierProvider<AppGlobalModel, AppGlobalState>.internal(
-  AppGlobalModel.new,
-  name: r'appGlobalModelProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$appGlobalModelHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      AppGlobalModel.new,
+      name: r'appGlobalModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$appGlobalModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$AppGlobalModel = AutoDisposeNotifier<AppGlobalState>;
 // ignore_for_file: type=lint

@@ -12,13 +12,14 @@ String _$toolsUIModelHash() => r'c8830e26df6c0ee572dd5e78c4ccef3317f8b4e6';
 @ProviderFor(ToolsUIModel)
 final toolsUIModelProvider =
     AutoDisposeNotifierProvider<ToolsUIModel, ToolsUIState>.internal(
-  ToolsUIModel.new,
-  name: r'toolsUIModelProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$toolsUIModelHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      ToolsUIModel.new,
+      name: r'toolsUIModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$toolsUIModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$ToolsUIModel = AutoDisposeNotifier<ToolsUIState>;
 // ignore_for_file: type=lint

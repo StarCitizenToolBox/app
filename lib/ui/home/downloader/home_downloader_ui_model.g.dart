@@ -11,16 +11,19 @@ String _$homeDownloaderUIModelHash() =>
 
 /// See also [HomeDownloaderUIModel].
 @ProviderFor(HomeDownloaderUIModel)
-final homeDownloaderUIModelProvider = AutoDisposeNotifierProvider<
-    HomeDownloaderUIModel, HomeDownloaderUIState>.internal(
-  HomeDownloaderUIModel.new,
-  name: r'homeDownloaderUIModelProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$homeDownloaderUIModelHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final homeDownloaderUIModelProvider =
+    AutoDisposeNotifierProvider<
+      HomeDownloaderUIModel,
+      HomeDownloaderUIState
+    >.internal(
+      HomeDownloaderUIModel.new,
+      name: r'homeDownloaderUIModelProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$homeDownloaderUIModelHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$HomeDownloaderUIModel = AutoDisposeNotifier<HomeDownloaderUIState>;
 // ignore_for_file: type=lint
