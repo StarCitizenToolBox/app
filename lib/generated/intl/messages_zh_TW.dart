@@ -213,7 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "about_check_update": MessageLookupByLibrary.simpleMessage("檢查更新"),
     "about_disclaimer": MessageLookupByLibrary.simpleMessage(
-      "SC工具箱非官方的星際公民工具，不隸屬於 Cloud Imperium 公司集團。 本軟體中非由其主機或使用者創作的所有內容均為其各自所有者的財產。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的註冊商標。",
+      "SC工具箱非官方的星際公民工具，不隸屬於 Cloud Imperium 公司集團。 本軟體中非由其主體或使用者創作的所有內容均為其各自所有者的財產。 \nStar Citizen®、Roberts Space Industries® 和 Cloud Imperium® 是 Cloud Imperium Rights LLC 的註冊商標。",
     ),
     "about_info_latest_version": MessageLookupByLibrary.simpleMessage(
       "已經更新至最新版本",
