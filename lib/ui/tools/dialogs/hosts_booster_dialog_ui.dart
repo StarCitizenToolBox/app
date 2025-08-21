@@ -183,10 +183,10 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
   }
 
   Future<void> _openHostsFile(BuildContext context) async {
-    // 使用管理员权限调用记事本${S.current.tools_hosts_info_open_hosts_file}
-    Process.run(SystemHelper.powershellPath, [
-      "-Command",
-      "Start-Process notepad.exe -Verb runAs -ArgumentList ${SystemHelper.getHostsFilePath()}"
+    // Use Windows cmd to launch notepad with admin privileges instead of PowerShell
+    Process.run("cmd.exe", [
+      "/C",
+      "powershell.exe -Command Start-Process notepad.exe -Verb runAs -ArgumentList ${SystemHelper.getHostsFilePath()}"
       // ignore: use_build_context_synchronously
     ]).unwrap(context: context);
   }

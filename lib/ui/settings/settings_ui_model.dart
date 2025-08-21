@@ -191,7 +191,8 @@ class SettingsUIModel extends _$SettingsUIModel {
         Write-Host "Shortcut created successfully."
     }
 """;
-    await Process.run(SystemHelper.powershellPath, [script]);
+    // Keep PowerShell for desktop shortcut creation as it involves COM operations
+    await Process.run("powershell.exe", ["-Command", script]);
     if (!context.mounted) return;
     showToast(context, S.current.setting_action_info_shortcut_created);
   }

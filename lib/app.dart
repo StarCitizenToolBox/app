@@ -147,14 +147,9 @@ class AppGlobalModel extends _$AppGlobalModel {
       exit(0);
     }
 
-    // init powershell
+    // PowerShell initialization is no longer needed - using native Windows tools
     if (Platform.isWindows) {
-      try {
-        await SystemHelper.initPowershellPath();
-        dPrint("---- Powershell init -----");
-      } catch (e) {
-        dPrint("powershell init failed : $e");
-      }
+      dPrint("---- Using native Windows tools instead of PowerShell -----");
     }
 
     // get windows info

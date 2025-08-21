@@ -4,36 +4,23 @@ import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class SystemHelper {
-  static String powershellPath = "powershell.exe";
+  /// No longer needed - we use direct Windows tools instead of PowerShell
+  /// static String powershellPath = "powershell.exe";
 
-  static Future<void> initPowershellPath() async {
-    try {
-      var result = await Process.run(powershellPath, ["echo", "pong"]);
-      if (!result.stdout.toString().startsWith("pong") && powershellPath == "powershell.exe") {
-        throw "powershell check failed";
-      }
-    } catch (e) {
-      Map<String, String> envVars = Platform.environment;
-      final systemRoot = envVars["SYSTEMROOT"];
-      if (systemRoot != null) {
-        final autoSearchPath = "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-        dPrint("auto search powershell path === $autoSearchPath");
-        powershellPath = autoSearchPath;
-      }
-    }
-  }
+  /// No longer needed - PowerShell initialization removed
+  /// static Future<void> initPowershellPath() async {
 
   static Future<bool> checkNvmePatchStatus() async {
     try {
-      var result = await Process.run(SystemHelper.powershellPath, [
-        "Get-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\""
+      // Use reg.exe instead of PowerShell for better performance
+      var result = await Process.run("reg.exe", [
+        "query",
+        "HKLM\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device",
+        "/v",
+        "ForcedPhysicalSectorSizeInBytes"
       ]);
       dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
-      if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
+      if (result.exitCode == 0 && result.stdout.toString().contains("* 4095")) {
         return true;
       } else {
         return false;
@@ -44,35 +31,34 @@ class SystemHelper {
   }
 
   static Future<String> addNvmePatch() async {
-    var result = await Process.run(powershellPath, [
-      'New-ItemProperty',
-      "-Path",
-      "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-      "-Name",
+    // Use reg.exe instead of PowerShell for better performance
+    var result = await Process.run("reg.exe", [
+      "add",
+      "HKLM\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device",
+      "/v",
       "ForcedPhysicalSectorSizeInBytes",
-      "-PropertyType MultiString",
-      "-Force -Value",
-      "\"* 4095\""
+      "/t",
+      "REG_MULTI_SZ",
+      "/d",
+      "* 4095",
+      "/f"
     ]);
     dPrint("nvme_PhysicalBytes result == ${result.stdout}");
-    return result.stderr;
+    return result.exitCode == 0 ? "" : result.stderr.toString();
   }
 
   static Future<bool> doRemoveNvmePath() async {
     try {
-      var result = await Process.run(powershellPath, [
-        "Clear-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\""
+      // Use reg.exe instead of PowerShell for better performance
+      var result = await Process.run("reg.exe", [
+        "delete",
+        "HKLM\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device",
+        "/v",
+        "ForcedPhysicalSectorSizeInBytes",
+        "/f"
       ]);
       dPrint("doRemoveNvmePath result ==== ${result.stdout}");
-      if (result.stderr == "") {
-        return true;
-      } else {
-        return false;
-      }
+      return result.exitCode == 0;
     } catch (e) {
       return false;
     }
@@ -97,8 +83,10 @@ class SystemHelper {
         "$programDataPath\\Microsoft\\Windows\\Start Menu\\Programs\\Roberts Space Industries\\RSI Launcher.lnk";
     final rsiLinkFile = File(rsiFilePath);
     if (await rsiLinkFile.exists()) {
-      final r = await Process.run(SystemHelper.powershellPath,
-          ["(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath"]);
+      // Keep PowerShell for shortcut resolution as it's complex to replace
+      // This is one of the few remaining PowerShell uses
+      final r = await Process.run("powershell.exe",
+          ["-Command", "(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath"]);
       if (r.stdout.toString().contains("RSI Launcher.exe")) {
         final start = r.stdout.toString().split("RSI Launcher.exe");
         if (skipEXE) {
@@ -111,12 +99,21 @@ class SystemHelper {
   }
 
   static Future<void> killRSILauncher() async {
-    var psr = await Process.run(powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
-    if (psr.stderr == "") {
-      for (var value in (psr.stdout ?? "").toString().split("\n")) {
-        dPrint(value);
-        if (value != "") {
-          Process.killPid(int.parse(value));
+    // Use tasklist and taskkill instead of PowerShell for better performance
+    var psr = await Process.run("tasklist.exe", ["/FI", "IMAGENAME eq RSI Launcher.exe", "/FO", "CSV", "/NH"]);
+    if (psr.exitCode == 0) {
+      final lines = psr.stdout.toString().split('\n');
+      for (var line in lines) {
+        if (line.trim().isNotEmpty && line.contains("RSI Launcher.exe")) {
+          // Extract PID from CSV format (second column)
+          final parts = line.split(',');
+          if (parts.length >= 2) {
+            final pid = parts[1].replaceAll('"', '').trim();
+            if (pid.isNotEmpty) {
+              dPrint("Killing RSI Launcher with PID: $pid");
+              await Process.run("taskkill.exe", ["/PID", pid, "/F"]);
+            }
+          }
         }
       }
     }
@@ -124,15 +121,28 @@ class SystemHelper {
 
   static Future<List<String>> getPID(String name) async {
     try {
-      final r = await Process.run(powershellPath, ["(ps $name).Id"]);
-      if (r.stderr.toString().trim().isNotEmpty) {
+      // Use tasklist instead of PowerShell for better performance
+      final r = await Process.run("tasklist.exe", ["/FI", "IMAGENAME eq $name", "/FO", "CSV", "/NH"]);
+      if (r.exitCode != 0) {
         dPrint("getPID Error: ${r.stderr}");
         return [];
       }
-      final str = r.stdout.toString().trim();
-      dPrint("getPID result: $str");
-      if (str.isEmpty) return [];
-      return str.split("\n");
+      final List<String> pids = [];
+      final lines = r.stdout.toString().trim().split('\n');
+      for (var line in lines) {
+        if (line.trim().isNotEmpty && line.contains(name)) {
+          // Extract PID from CSV format (second column)
+          final parts = line.split(',');
+          if (parts.length >= 2) {
+            final pid = parts[1].replaceAll('"', '').trim();
+            if (pid.isNotEmpty) {
+              pids.add(pid);
+            }
+          }
+        }
+      }
+      dPrint("getPID result: $pids");
+      return pids;
     } catch (e) {
       dPrint("getPID Error: $e");
       return [];
@@ -161,45 +171,69 @@ class SystemHelper {
   }
 
   static Future<int> getSystemMemorySizeGB() async {
-    final r = await Process.run(
-        powershellPath, ["(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"]);
-    return int.tryParse(r.stdout.toString().trim()) ?? 0;
+    // Use wmic instead of PowerShell for better performance
+    final r = await Process.run("wmic.exe", ["computersystem", "get", "TotalPhysicalMemory", "/value"]);
+    final output = r.stdout.toString();
+    final match = RegExp(r'TotalPhysicalMemory=(\d+)').firstMatch(output);
+    if (match != null) {
+      final bytes = int.tryParse(match.group(1) ?? "0") ?? 0;
+      return (bytes / (1024 * 1024 * 1024)).round();
+    }
+    return 0;
   }
 
   static Future<String> getSystemCimInstance(String win32InstanceName, {pathName = "Name"}) async {
-    final r = await Process.run(powershellPath, ["(Get-CimInstance $win32InstanceName).$pathName"]);
-    return r.stdout.toString().trim();
+    // Use wmic instead of PowerShell for better performance
+    final r = await Process.run("wmic.exe", [win32InstanceName, "get", pathName, "/value"]);
+    final output = r.stdout.toString();
+    final match = RegExp('$pathName=(.*)').firstMatch(output);
+    return match?.group(1)?.trim() ?? "";
   }
 
   static Future<String> getSystemName() async {
-    final r = await Process.run(powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
-    return r.stdout.toString().trim();
+    // Use wmic instead of PowerShell for better performance
+    final r = await Process.run("wmic.exe", ["os", "get", "Caption", "/value"]);
+    final output = r.stdout.toString();
+    final match = RegExp(r'Caption=(.*)').firstMatch(output);
+    return match?.group(1)?.trim() ?? "Unknown";
   }
 
   static Future<String> getCpuName() async {
-    final r = await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
-    return r.stdout.toString().trim();
+    // Use wmic instead of PowerShell for better performance
+    final r = await Process.run("wmic.exe", ["cpu", "get", "Name", "/value"]);
+    final output = r.stdout.toString();
+    final match = RegExp(r'Name=(.*)').firstMatch(output);
+    return match?.group(1)?.trim() ?? "Unknown";
   }
 
   static Future<String> getGpuInfo() async {
-    const cmd = r"""
-    $adapterMemory = (Get-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0*" -Name "HardwareInformation.AdapterString", "HardwareInformation.qwMemorySize" -Exclude PSPath -ErrorAction SilentlyContinue)
-foreach ($adapter in $adapterMemory) {
-  [PSCustomObject] @{
-    Model=$adapter."HardwareInformation.AdapterString"
-    "VRAM (GB)"=[math]::round($adapter."HardwareInformation.qwMemorySize"/1GB)
-  }
-}
-    """;
-    final r = await Process.run(powershellPath, [cmd]);
-    return r.stdout.toString().trim();
+    // Use wmic instead of PowerShell for better performance  
+    final r = await Process.run("wmic.exe", ["path", "win32_VideoController", "get", "Name,AdapterRAM", "/format:csv"]);
+    final lines = r.stdout.toString().split('\n');
+    final List<String> gpuInfo = [];
+    
+    for (var line in lines) {
+      if (line.contains(',') && !line.startsWith('Node,')) {
+        final parts = line.split(',');
+        if (parts.length >= 3) {
+          final name = parts[2].trim();
+          final ramStr = parts[1].trim();
+          if (name.isNotEmpty && name != "Name") {
+            final ramBytes = int.tryParse(ramStr) ?? 0;
+            final ramGB = ramBytes > 0 ? (ramBytes / (1024 * 1024 * 1024)).round() : 0;
+            gpuInfo.add("Model: $name VRAM (GB): $ramGB");
+          }
+        }
+      }
+    }
+    
+    return gpuInfo.isEmpty ? "No GPU information found" : gpuInfo.join('\n');
   }
 
   static Future<String> getDiskInfo() async {
-    return (await Process.run(powershellPath, ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
-        .stdout
-        .toString()
-        .trim();
+    // Use wmic instead of PowerShell for better performance
+    final r = await Process.run("wmic.exe", ["diskdrive", "get", "InterfaceType,Model,Size", "/format:table"]);
+    return r.stdout.toString().trim();
   }
 
   static Future<int> getDirLen(String path, {List<String>? skipPath}) async {
@@ -226,10 +260,12 @@ foreach ($adapter in $adapterMemory) {
   }
 
   static Future<int> getNumberOfLogicalProcessors() async {
-    final cpuNumberResult =
-        await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
+    // Use wmic instead of PowerShell for better performance
+    final cpuNumberResult = await Process.run("wmic.exe", ["cpu", "get", "NumberOfLogicalProcessors", "/value"]);
     if (cpuNumberResult.exitCode != 0) return 0;
-    return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
+    final output = cpuNumberResult.stdout.toString();
+    final match = RegExp(r'NumberOfLogicalProcessors=(\d+)').firstMatch(output);
+    return int.tryParse(match?.group(1) ?? "0") ?? 0;
   }
 
   static Future<String?> getCpuAffinity() async {
@@ -257,8 +293,8 @@ foreach ($adapter in $adapterMemory) {
   static Future openDir(dynamic path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
     if (Platform.isWindows) {
-      await Process.run(
-          SystemHelper.powershellPath, ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
+      // Use explorer.exe directly instead of through PowerShell for better performance
+      await Process.run("explorer.exe", [isFile ? "/select,$path" : path]);
     }
   }
 

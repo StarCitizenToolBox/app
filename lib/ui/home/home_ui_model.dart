@@ -309,7 +309,7 @@ class HomeUIModel extends _$HomeUIModel {
 
     if (ConstConf.isMSE) {
       if (state.isCurGameRunning) {
-        await Process.run(SystemHelper.powershellPath, ["ps \"StarCitizen\" | kill"]);
+        await Process.run("taskkill.exe", ["/IM", "StarCitizen.exe", "/F"]);
         return;
       }
       AnalyticsApi.touch("gameLaunch");
