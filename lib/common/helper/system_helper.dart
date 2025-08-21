@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/common/rust/api/system_info.dart' as rust_system_info;
 
 class SystemHelper {
   static String powershellPath = "powershell.exe";
@@ -25,21 +26,27 @@ class SystemHelper {
 
   static Future<bool> checkNvmePatchStatus() async {
     try {
-      var result = await Process.run(SystemHelper.powershellPath, [
-        "Get-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\""
-      ]);
-      dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
-      if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
-        return true;
-      } else {
+      return rust_system_info.checkNvmePatchStatus();
+    } catch (e) {
+      dPrint("checkNvmePatchStatus error: $e");
+      // Fallback to PowerShell if Rust function fails
+      try {
+        var result = await Process.run(SystemHelper.powershellPath, [
+          "Get-ItemProperty",
+          "-Path",
+          "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
+          "-Name",
+          "\"ForcedPhysicalSectorSizeInBytes\""
+        ]);
+        dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
+        if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
         return false;
       }
-    } catch (e) {
-      return false;
     }
   }
 
@@ -161,9 +168,16 @@ class SystemHelper {
   }
 
   static Future<int> getSystemMemorySizeGB() async {
-    final r = await Process.run(
-        powershellPath, ["(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"]);
-    return int.tryParse(r.stdout.toString().trim()) ?? 0;
+    try {
+      final sizeGB = rust_system_info.getSystemMemorySizeGb();
+      return sizeGB.toInt();
+    } catch (e) {
+      dPrint("getSystemMemorySizeGB error: $e");
+      // Fallback to PowerShell if Rust function fails
+      final r = await Process.run(
+          powershellPath, ["(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"]);
+      return int.tryParse(r.stdout.toString().trim()) ?? 0;
+    }
   }
 
   static Future<String> getSystemCimInstance(String win32InstanceName, {pathName = "Name"}) async {
@@ -172,13 +186,25 @@ class SystemHelper {
   }
 
   static Future<String> getSystemName() async {
-    final r = await Process.run(powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
-    return r.stdout.toString().trim();
+    try {
+      return rust_system_info.getSystemName();
+    } catch (e) {
+      dPrint("getSystemName error: $e");
+      // Fallback to PowerShell if Rust function fails
+      final r = await Process.run(powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
+      return r.stdout.toString().trim();
+    }
   }
 
   static Future<String> getCpuName() async {
-    final r = await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
-    return r.stdout.toString().trim();
+    try {
+      return rust_system_info.getCpuName();
+    } catch (e) {
+      dPrint("getCpuName error: $e");
+      // Fallback to PowerShell if Rust function fails
+      final r = await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
+      return r.stdout.toString().trim();
+    }
   }
 
   static Future<String> getGpuInfo() async {
@@ -226,10 +252,16 @@ foreach ($adapter in $adapterMemory) {
   }
 
   static Future<int> getNumberOfLogicalProcessors() async {
-    final cpuNumberResult =
-        await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
-    if (cpuNumberResult.exitCode != 0) return 0;
-    return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
+    try {
+      return rust_system_info.getNumberOfLogicalProcessors();
+    } catch (e) {
+      dPrint("getNumberOfLogicalProcessors error: $e");
+      // Fallback to PowerShell if Rust function fails
+      final cpuNumberResult =
+          await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
+      if (cpuNumberResult.exitCode != 0) return 0;
+      return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
+    }
   }
 
   static Future<String?> getCpuAffinity() async {

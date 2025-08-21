@@ -6,6 +6,7 @@
 import 'api/asar_api.dart';
 import 'api/http_api.dart';
 import 'api/rs_process.dart';
+import 'api/system_info.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -68,7 +69,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 1832496273;
+  int get rustContentHash => 518850593;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -79,6 +80,8 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  bool crateApiSystemInfoCheckNvmePatchStatus();
+
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host});
 
   Future<List<String>> crateApiHttpApiDnsLookupTxt({required String host});
@@ -92,9 +95,17 @@ abstract class RustLibApi extends BaseApi {
     bool? withCustomDns,
   });
 
+  String crateApiSystemInfoGetCpuName();
+
+  int crateApiSystemInfoGetNumberOfLogicalProcessors();
+
   Future<RsiLauncherAsarData> crateApiAsarApiGetRsiLauncherAsarData({
     required String asarPath,
   });
+
+  BigInt crateApiSystemInfoGetSystemMemorySizeGb();
+
+  String crateApiSystemInfoGetSystemName();
 
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
     required RsiLauncherAsarData that,
@@ -135,6 +146,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required super.generalizedFrbRustBinding,
     required super.portManager,
   });
+
+  @override
+  bool crateApiSystemInfoCheckNvmePatchStatus() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire.wire__crate__api__system_info__check_nvme_patch_status();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoCheckNvmePatchStatusConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoCheckNvmePatchStatusConstMeta =>
+      const TaskConstMeta(debugName: "check_nvme_patch_status", argNames: []);
 
   @override
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host}) {
@@ -239,6 +271,52 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   );
 
   @override
+  String crateApiSystemInfoGetCpuName() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire.wire__crate__api__system_info__get_cpu_name();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoGetCpuNameConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoGetCpuNameConstMeta =>
+      const TaskConstMeta(debugName: "get_cpu_name", argNames: []);
+
+  @override
+  int crateApiSystemInfoGetNumberOfLogicalProcessors() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire
+              .wire__crate__api__system_info__get_number_of_logical_processors();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_32,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoGetNumberOfLogicalProcessorsConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoGetNumberOfLogicalProcessorsConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_number_of_logical_processors",
+        argNames: [],
+      );
+
+  @override
   Future<RsiLauncherAsarData> crateApiAsarApiGetRsiLauncherAsarData({
     required String asarPath,
   }) {
@@ -267,6 +345,49 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         debugName: "get_rsi_launcher_asar_data",
         argNames: ["asarPath"],
       );
+
+  @override
+  BigInt crateApiSystemInfoGetSystemMemorySizeGb() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire
+              .wire__crate__api__system_info__get_system_memory_size_gb();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_64,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoGetSystemMemorySizeGbConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoGetSystemMemorySizeGbConstMeta =>
+      const TaskConstMeta(debugName: "get_system_memory_size_gb", argNames: []);
+
+  @override
+  String crateApiSystemInfoGetSystemName() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire.wire__crate__api__system_info__get_system_name();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoGetSystemNameConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoGetSystemNameConstMeta =>
+      const TaskConstMeta(debugName: "get_system_name", argNames: []);
 
   @override
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({

@@ -6,6 +6,7 @@
 import 'api/asar_api.dart';
 import 'api/http_api.dart';
 import 'api/rs_process.dart';
+import 'api/system_info.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -614,6 +615,19 @@ class RustLibWire implements BaseWire {
   late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
       .asFunction<void Function(DartPostCObjectFnType)>();
 
+  WireSyncRust2DartDco
+  wire__crate__api__system_info__check_nvme_patch_status() {
+    return _wire__crate__api__system_info__check_nvme_patch_status();
+  }
+
+  late final _wire__crate__api__system_info__check_nvme_patch_statusPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__check_nvme_patch_status',
+      );
+  late final _wire__crate__api__system_info__check_nvme_patch_status =
+      _wire__crate__api__system_info__check_nvme_patch_statusPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
   void wire__crate__api__http_api__dns_lookup_ips(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> host,
@@ -706,6 +720,31 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  WireSyncRust2DartDco wire__crate__api__system_info__get_cpu_name() {
+    return _wire__crate__api__system_info__get_cpu_name();
+  }
+
+  late final _wire__crate__api__system_info__get_cpu_namePtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__get_cpu_name',
+      );
+  late final _wire__crate__api__system_info__get_cpu_name =
+      _wire__crate__api__system_info__get_cpu_namePtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
+  WireSyncRust2DartDco
+  wire__crate__api__system_info__get_number_of_logical_processors() {
+    return _wire__crate__api__system_info__get_number_of_logical_processors();
+  }
+
+  late final _wire__crate__api__system_info__get_number_of_logical_processorsPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__get_number_of_logical_processors',
+      );
+  late final _wire__crate__api__system_info__get_number_of_logical_processors =
+      _wire__crate__api__system_info__get_number_of_logical_processorsPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
   void wire__crate__api__asar_api__get_rsi_launcher_asar_data(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path,
@@ -732,6 +771,31 @@ class RustLibWire implements BaseWire {
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
+
+  WireSyncRust2DartDco
+  wire__crate__api__system_info__get_system_memory_size_gb() {
+    return _wire__crate__api__system_info__get_system_memory_size_gb();
+  }
+
+  late final _wire__crate__api__system_info__get_system_memory_size_gbPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__get_system_memory_size_gb',
+      );
+  late final _wire__crate__api__system_info__get_system_memory_size_gb =
+      _wire__crate__api__system_info__get_system_memory_size_gbPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__get_system_name() {
+    return _wire__crate__api__system_info__get_system_name();
+  }
+
+  late final _wire__crate__api__system_info__get_system_namePtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__get_system_name',
+      );
+  late final _wire__crate__api__system_info__get_system_name =
+      _wire__crate__api__system_info__get_system_namePtr
+          .asFunction<WireSyncRust2DartDco Function()>();
 
   void wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js(
     int port_,
