@@ -29,24 +29,7 @@ class SystemHelper {
       return rust_system_info.checkNvmePatchStatus();
     } catch (e) {
       dPrint("checkNvmePatchStatus error: $e");
-      // Fallback to PowerShell if Rust function fails
-      try {
-        var result = await Process.run(SystemHelper.powershellPath, [
-          "Get-ItemProperty",
-          "-Path",
-          "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-          "-Name",
-          "\"ForcedPhysicalSectorSizeInBytes\""
-        ]);
-        dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
-        if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
-          return true;
-        } else {
-          return false;
-        }
-      } catch (e) {
-        return false;
-      }
+      return false;
     }
   }
 
@@ -125,21 +108,9 @@ class SystemHelper {
         final pidList = pids.map((pid) => pid.toInt()).toList();
         final killedCount = rust_system_info.killProcessesByPids(pids: pidList);
         dPrint("Killed $killedCount RSI Launcher processes using Rust");
-        return;
       }
     } catch (e) {
-      dPrint("killRSILauncher (Rust) error: $e");
-    }
-    
-    // Fallback to PowerShell method
-    var psr = await Process.run(powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
-    if (psr.stderr == "") {
-      for (var value in (psr.stdout ?? "").toString().split("\n")) {
-        dPrint(value);
-        if (value != "") {
-          Process.killPid(int.parse(value));
-        }
-      }
+      dPrint("killRSILauncher error: $e");
     }
   }
 
@@ -148,22 +119,8 @@ class SystemHelper {
       final pids = rust_system_info.getProcessIdsByName(processName: name);
       return pids.map((pid) => pid.toString()).toList();
     } catch (e) {
-      dPrint("getPID (Rust) error: $e");
-      // Fallback to PowerShell if Rust function fails
-      try {
-        final r = await Process.run(powershellPath, ["(ps $name).Id"]);
-        if (r.stderr.toString().trim().isNotEmpty) {
-          dPrint("getPID Error: ${r.stderr}");
-          return [];
-        }
-        final str = r.stdout.toString().trim();
-        dPrint("getPID result: $str");
-        if (str.isEmpty) return [];
-        return str.split("\n");
-      } catch (e) {
-        dPrint("getPID Error: $e");
-        return [];
-      }
+      dPrint("getPID error: $e");
+      return [];
     }
   }
 
@@ -194,10 +151,7 @@ class SystemHelper {
       return sizeGB.toInt();
     } catch (e) {
       dPrint("getSystemMemorySizeGB error: $e");
-      // Fallback to PowerShell if Rust function fails
-      final r = await Process.run(
-          powershellPath, ["(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"]);
-      return int.tryParse(r.stdout.toString().trim()) ?? 0;
+      return 0;
     }
   }
 
@@ -211,9 +165,7 @@ class SystemHelper {
       return rust_system_info.getSystemName();
     } catch (e) {
       dPrint("getSystemName error: $e");
-      // Fallback to PowerShell if Rust function fails
-      final r = await Process.run(powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
-      return r.stdout.toString().trim();
+      return "Unknown";
     }
   }
 
@@ -222,9 +174,7 @@ class SystemHelper {
       return rust_system_info.getCpuName();
     } catch (e) {
       dPrint("getCpuName error: $e");
-      // Fallback to PowerShell if Rust function fails
-      final r = await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
-      return r.stdout.toString().trim();
+      return "Unknown CPU";
     }
   }
 
@@ -233,18 +183,7 @@ class SystemHelper {
       return rust_system_info.getGpuInfo();
     } catch (e) {
       dPrint("getGpuInfo error: $e");
-      // Fallback to PowerShell if Rust function fails
-      const cmd = r"""
-    $adapterMemory = (Get-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0*" -Name "HardwareInformation.AdapterString", "HardwareInformation.qwMemorySize" -Exclude PSPath -ErrorAction SilentlyContinue)
-foreach ($adapter in $adapterMemory) {
-  [PSCustomObject] @{
-    Model=$adapter."HardwareInformation.AdapterString"
-    "VRAM (GB)"=[math]::round($adapter."HardwareInformation.qwMemorySize"/1GB)
-  }
-}
-    """;
-      final r = await Process.run(powershellPath, [cmd]);
-      return r.stdout.toString().trim();
+      return "GPU information not available";
     }
   }
 
@@ -253,11 +192,7 @@ foreach ($adapter in $adapterMemory) {
       return rust_system_info.getDiskInfo();
     } catch (e) {
       dPrint("getDiskInfo error: $e");
-      // Fallback to PowerShell if Rust function fails
-      return (await Process.run(powershellPath, ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
-          .stdout
-          .toString()
-          .trim();
+      return "Disk information not available";
     }
   }
 
@@ -289,11 +224,7 @@ foreach ($adapter in $adapterMemory) {
       return rust_system_info.getNumberOfLogicalProcessors();
     } catch (e) {
       dPrint("getNumberOfLogicalProcessors error: $e");
-      // Fallback to PowerShell if Rust function fails
-      final cpuNumberResult =
-          await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
-      if (cpuNumberResult.exitCode != 0) return 0;
-      return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
+      return 0;
     }
   }
 
