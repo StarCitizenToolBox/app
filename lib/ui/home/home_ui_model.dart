@@ -13,8 +13,8 @@ import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/api/rss.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
+import 'package:starcitizen_doctor/common/rust/api/system_info.dart' as rust_system_info;
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
-import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 import 'package:starcitizen_doctor/common/utils/async.dart';
@@ -309,7 +309,15 @@ class HomeUIModel extends _$HomeUIModel {
 
     if (ConstConf.isMSE) {
       if (state.isCurGameRunning) {
-        await Process.run(SystemHelper.powershellPath, ["ps \"StarCitizen\" | kill"]);
+        try {
+          final pids = rust_system_info.getProcessIdsByName(processName: "StarCitizen");
+          if (pids.isNotEmpty) {
+            final pidList = pids.map((pid) => pid.toInt()).toList();
+            rust_system_info.killProcessesByPids(pids: pidList);
+          }
+        } catch (e) {
+          dPrint("Error killing StarCitizen processes: $e");
+        }
         return;
       }
       AnalyticsApi.touch("gameLaunch");

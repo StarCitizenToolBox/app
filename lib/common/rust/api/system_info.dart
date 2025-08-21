@@ -39,3 +39,43 @@ String getDiskInfo() => RustLib.instance.api.crateApiSystemInfoGetDiskInfo();
 /// Kill processes by PID
 int killProcessesByPids({required List<int> pids}) =>
     RustLib.instance.api.crateApiSystemInfoKillProcessesByPids(pids: pids);
+
+String addNvmePatch() => RustLib.instance.api.crateApiSystemInfoAddNvmePatch();
+
+bool removeNvmePatch() =>
+    RustLib.instance.api.crateApiSystemInfoRemoveNvmePatch();
+
+String resolveShortcutPath({required String shortcutPath}) => RustLib
+    .instance
+    .api
+    .crateApiSystemInfoResolveShortcutPath(shortcutPath: shortcutPath);
+
+/// Open file or directory in system file explorer
+void openInExplorer({required String path, required bool isFile}) => RustLib
+    .instance
+    .api
+    .crateApiSystemInfoOpenInExplorer(path: path, isFile: isFile);
+
+/// Start process with elevated privileges (Windows) or regular privileges (other platforms)
+void startProcessElevated({
+  required String executablePath,
+  required List<String> args,
+}) => RustLib.instance.api.crateApiSystemInfoStartProcessElevated(
+  executablePath: executablePath,
+  args: args,
+);
+
+/// Execute a script or command with system shell
+String executeSystemCommand({required String command}) => RustLib.instance.api
+    .crateApiSystemInfoExecuteSystemCommand(command: command);
+
+int getDiskSectorInfo({required String driveLetter}) => RustLib.instance.api
+    .crateApiSystemInfoGetDiskSectorInfo(driveLetter: driveLetter);
+
+void createDesktopShortcut({
+  required String targetPath,
+  required String shortcutName,
+}) => RustLib.instance.api.crateApiSystemInfoCreateDesktopShortcut(
+  targetPath: targetPath,
+  shortcutName: shortcutName,
+);

@@ -5,24 +5,7 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/rust/api/system_info.dart' as rust_system_info;
 
 class SystemHelper {
-  static String powershellPath = "powershell.exe";
-
-  static Future<void> initPowershellPath() async {
-    try {
-      var result = await Process.run(powershellPath, ["echo", "pong"]);
-      if (!result.stdout.toString().startsWith("pong") && powershellPath == "powershell.exe") {
-        throw "powershell check failed";
-      }
-    } catch (e) {
-      Map<String, String> envVars = Platform.environment;
-      final systemRoot = envVars["SYSTEMROOT"];
-      if (systemRoot != null) {
-        final autoSearchPath = "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-        dPrint("auto search powershell path === $autoSearchPath");
-        powershellPath = autoSearchPath;
-      }
-    }
-  }
+  // Note: PowerShell is no longer used - all critical functions now use Rust implementations
 
   static Future<bool> checkNvmePatchStatus() async {
     try {
@@ -34,36 +17,19 @@ class SystemHelper {
   }
 
   static Future<String> addNvmePatch() async {
-    var result = await Process.run(powershellPath, [
-      'New-ItemProperty',
-      "-Path",
-      "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-      "-Name",
-      "ForcedPhysicalSectorSizeInBytes",
-      "-PropertyType MultiString",
-      "-Force -Value",
-      "\"* 4095\""
-    ]);
-    dPrint("nvme_PhysicalBytes result == ${result.stdout}");
-    return result.stderr;
+    try {
+      return rust_system_info.addNvmePatch();
+    } catch (e) {
+      dPrint("addNvmePatch error: $e");
+      return "Error: $e";
+    }
   }
 
   static Future<bool> doRemoveNvmePath() async {
     try {
-      var result = await Process.run(powershellPath, [
-        "Clear-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\""
-      ]);
-      dPrint("doRemoveNvmePath result ==== ${result.stdout}");
-      if (result.stderr == "") {
-        return true;
-      } else {
-        return false;
-      }
+      return rust_system_info.removeNvmePatch();
     } catch (e) {
+      dPrint("doRemoveNvmePath error: $e");
       return false;
     }
   }
@@ -87,14 +53,17 @@ class SystemHelper {
         "$programDataPath\\Microsoft\\Windows\\Start Menu\\Programs\\Roberts Space Industries\\RSI Launcher.lnk";
     final rsiLinkFile = File(rsiFilePath);
     if (await rsiLinkFile.exists()) {
-      final r = await Process.run(SystemHelper.powershellPath,
-          ["(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath"]);
-      if (r.stdout.toString().contains("RSI Launcher.exe")) {
-        final start = r.stdout.toString().split("RSI Launcher.exe");
-        if (skipEXE) {
-          return start[0];
+      try {
+        final targetPath = rust_system_info.resolveShortcutPath(shortcutPath: rsiFilePath);
+        if (targetPath.contains("RSI Launcher.exe")) {
+          final start = targetPath.split("RSI Launcher.exe");
+          if (skipEXE) {
+            return start[0];
+          }
+          return "${start[0]}RSI Launcher.exe";
         }
-        return "${start[0]}RSI Launcher.exe";
+      } catch (e) {
+        dPrint("getRSILauncherPath shortcut resolution error: $e");
       }
     }
     return "";
@@ -155,10 +124,7 @@ class SystemHelper {
     }
   }
 
-  static Future<String> getSystemCimInstance(String win32InstanceName, {pathName = "Name"}) async {
-    final r = await Process.run(powershellPath, ["(Get-CimInstance $win32InstanceName).$pathName"]);
-    return r.stdout.toString().trim();
-  }
+
 
   static Future<String> getSystemName() async {
     try {
@@ -252,9 +218,10 @@ class SystemHelper {
 
   static Future openDir(dynamic path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
-    if (Platform.isWindows) {
-      await Process.run(
-          SystemHelper.powershellPath, ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
+    try {
+      rust_system_info.openInExplorer(path: path.toString(), isFile: isFile);
+    } catch (e) {
+      dPrint("openDir error: $e");
     }
   }
 

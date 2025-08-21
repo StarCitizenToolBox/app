@@ -659,6 +659,18 @@ class RustLibWire implements BaseWire {
   late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
       .asFunction<void Function(DartPostCObjectFnType)>();
 
+  WireSyncRust2DartDco wire__crate__api__system_info__add_nvme_patch() {
+    return _wire__crate__api__system_info__add_nvme_patch();
+  }
+
+  late final _wire__crate__api__system_info__add_nvme_patchPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__add_nvme_patch',
+      );
+  late final _wire__crate__api__system_info__add_nvme_patch =
+      _wire__crate__api__system_info__add_nvme_patchPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
   WireSyncRust2DartDco
   wire__crate__api__system_info__check_nvme_patch_status() {
     return _wire__crate__api__system_info__check_nvme_patch_status();
@@ -671,6 +683,36 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__system_info__check_nvme_patch_status =
       _wire__crate__api__system_info__check_nvme_patch_statusPtr
           .asFunction<WireSyncRust2DartDco Function()>();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__create_desktop_shortcut(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _target_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _shortcut_name,
+  ) {
+    return _wire__crate__api__system_info__create_desktop_shortcut(
+      _target_path,
+      _shortcut_name,
+    );
+  }
+
+  late final _wire__crate__api__system_info__create_desktop_shortcutPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__create_desktop_shortcut',
+      );
+  late final _wire__crate__api__system_info__create_desktop_shortcut =
+      _wire__crate__api__system_info__create_desktop_shortcutPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
 
   void wire__crate__api__http_api__dns_lookup_ips(
     int port_,
@@ -714,6 +756,30 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__http_api__dns_lookup_txtPtr
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__execute_system_command(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> command,
+  ) {
+    return _wire__crate__api__system_info__execute_system_command(command);
+  }
+
+  late final _wire__crate__api__system_info__execute_system_commandPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__execute_system_command',
+      );
+  late final _wire__crate__api__system_info__execute_system_command =
+      _wire__crate__api__system_info__execute_system_commandPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
           >();
 
   void wire__crate__api__http_api__fetch(
@@ -787,6 +853,30 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__system_info__get_disk_info =
       _wire__crate__api__system_info__get_disk_infoPtr
           .asFunction<WireSyncRust2DartDco Function()>();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__get_disk_sector_info(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _drive_letter,
+  ) {
+    return _wire__crate__api__system_info__get_disk_sector_info(_drive_letter);
+  }
+
+  late final _wire__crate__api__system_info__get_disk_sector_infoPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__get_disk_sector_info',
+      );
+  late final _wire__crate__api__system_info__get_disk_sector_info =
+      _wire__crate__api__system_info__get_disk_sector_infoPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
 
   WireSyncRust2DartDco wire__crate__api__system_info__get_gpu_info() {
     return _wire__crate__api__system_info__get_gpu_info();
@@ -912,6 +1002,71 @@ class RustLibWire implements BaseWire {
           .asFunction<
             WireSyncRust2DartDco Function(
               ffi.Pointer<wire_cst_list_prim_u_32_loose>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__open_in_explorer(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> path,
+    bool is_file,
+  ) {
+    return _wire__crate__api__system_info__open_in_explorer(path, is_file);
+  }
+
+  late final _wire__crate__api__system_info__open_in_explorerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Bool,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__open_in_explorer',
+      );
+  late final _wire__crate__api__system_info__open_in_explorer =
+      _wire__crate__api__system_info__open_in_explorerPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              bool,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__remove_nvme_patch() {
+    return _wire__crate__api__system_info__remove_nvme_patch();
+  }
+
+  late final _wire__crate__api__system_info__remove_nvme_patchPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__remove_nvme_patch',
+      );
+  late final _wire__crate__api__system_info__remove_nvme_patch =
+      _wire__crate__api__system_info__remove_nvme_patchPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__resolve_shortcut_path(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _shortcut_path,
+  ) {
+    return _wire__crate__api__system_info__resolve_shortcut_path(
+      _shortcut_path,
+    );
+  }
+
+  late final _wire__crate__api__system_info__resolve_shortcut_pathPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__resolve_shortcut_path',
+      );
+  late final _wire__crate__api__system_info__resolve_shortcut_path =
+      _wire__crate__api__system_info__resolve_shortcut_pathPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
             )
           >();
 
@@ -1077,6 +1232,36 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<wire_cst_list_String>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__start_process_elevated(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> executable_path,
+    ffi.Pointer<wire_cst_list_String> args,
+  ) {
+    return _wire__crate__api__system_info__start_process_elevated(
+      executable_path,
+      args,
+    );
+  }
+
+  late final _wire__crate__api__system_info__start_process_elevatedPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_String>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__start_process_elevated',
+      );
+  late final _wire__crate__api__system_info__start_process_elevated =
+      _wire__crate__api__system_info__start_process_elevatedPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_String>,
             )
           >();
 

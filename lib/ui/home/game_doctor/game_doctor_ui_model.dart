@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rust/api/system_info.dart' as rust_system_info;
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
@@ -264,17 +265,14 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
 
       // call check
       for (var element in p) {
-        var result = await Process.run('powershell', [
-          "(fsutil fsinfo sectorinfo $element: | Select-String 'PhysicalBytesPerSectorForPerformance').ToString().Split(':')[1].Trim()"
-        ]);
-        dPrint(
-            "fsutil info sector info: ->>> ${result.stdout.toString().trim()}");
-        if (result.stderr == "") {
-          final rs = result.stdout.toString().trim();
-          final physicalBytesPerSectorForPerformance = (int.tryParse(rs) ?? 0);
+        try {
+          final physicalBytesPerSectorForPerformance = rust_system_info.getDiskSectorInfo(driveLetter: element);
+          dPrint("fsutil info sector info: ->>> $physicalBytesPerSectorForPerformance");
           if (physicalBytesPerSectorForPerformance > 4096) {
             checkResult.add(MapEntry("nvme_PhysicalBytes", element));
           }
+        } catch (e) {
+          dPrint("Error checking disk sector info for $element: $e");
         }
       }
     } catch (e) {

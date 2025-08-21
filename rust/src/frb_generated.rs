@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 32365584;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 265989493;
 
 // Section: executor
 
@@ -45,6 +45,24 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire__crate__api__system_info__add_nvme_patch_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "add_nvme_patch",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = crate::api::system_info::add_nvme_patch()?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
 fn wire__crate__api__system_info__check_nvme_patch_status_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
@@ -57,6 +75,31 @@ fn wire__crate__api__system_info__check_nvme_patch_status_impl(
             transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                 (move || {
                     let output_ok = crate::api::system_info::check_nvme_patch_status()?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
+fn wire__crate__api__system_info__create_desktop_shortcut_impl(
+    _target_path: impl CstDecode<String>,
+    _shortcut_name: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "create_desktop_shortcut",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api__target_path = _target_path.cst_decode();
+            let api__shortcut_name = _shortcut_name.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = crate::api::system_info::create_desktop_shortcut(
+                        &api__target_path,
+                        &api__shortcut_name,
+                    )?;
                     Ok(output_ok)
                 })(),
             )
@@ -108,6 +151,26 @@ fn wire__crate__api__http_api__dns_lookup_txt_impl(
                     .await,
                 )
             }
+        },
+    )
+}
+fn wire__crate__api__system_info__execute_system_command_impl(
+    command: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "execute_system_command",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_command = command.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = crate::api::system_info::execute_system_command(&api_command)?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
@@ -183,6 +246,27 @@ fn wire__crate__api__system_info__get_disk_info_impl(
             transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                 (move || {
                     let output_ok = crate::api::system_info::get_disk_info()?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
+fn wire__crate__api__system_info__get_disk_sector_info_impl(
+    _drive_letter: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_disk_sector_info",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api__drive_letter = _drive_letter.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok =
+                        crate::api::system_info::get_disk_sector_info(&api__drive_letter)?;
                     Ok(output_ok)
                 })(),
             )
@@ -322,6 +406,68 @@ fn wire__crate__api__system_info__kill_processes_by_pids_impl(
             transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                 (move || {
                     let output_ok = crate::api::system_info::kill_processes_by_pids(api_pids)?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
+fn wire__crate__api__system_info__open_in_explorer_impl(
+    path: impl CstDecode<String>,
+    is_file: impl CstDecode<bool>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "open_in_explorer",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_path = path.cst_decode();
+            let api_is_file = is_file.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok =
+                        crate::api::system_info::open_in_explorer(&api_path, api_is_file)?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
+fn wire__crate__api__system_info__remove_nvme_patch_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "remove_nvme_patch",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = crate::api::system_info::remove_nvme_patch()?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
+fn wire__crate__api__system_info__resolve_shortcut_path_impl(
+    _shortcut_path: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "resolve_shortcut_path",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api__shortcut_path = _shortcut_path.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok =
+                        crate::api::system_info::resolve_shortcut_path(&api__shortcut_path)?;
                     Ok(output_ok)
                 })(),
             )
@@ -479,6 +625,31 @@ fn wire__crate__api__rs_process__start_impl(
                     .await,
                 )
             }
+        },
+    )
+}
+fn wire__crate__api__system_info__start_process_elevated_impl(
+    executable_path: impl CstDecode<String>,
+    args: impl CstDecode<Vec<String>>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "start_process_elevated",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_executable_path = executable_path.cst_decode();
+            let api_args = args.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = crate::api::system_info::start_process_elevated(
+                        &api_executable_path,
+                        api_args,
+                    )?;
+                    Ok(output_ok)
+                })(),
+            )
         },
     )
 }
@@ -1569,9 +1740,23 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__add_nvme_patch(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__system_info__add_nvme_patch_impl()
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__check_nvme_patch_status(
     ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__crate__api__system_info__check_nvme_patch_status_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__create_desktop_shortcut(
+        _target_path: *mut wire_cst_list_prim_u_8_strict,
+        _shortcut_name: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__system_info__create_desktop_shortcut_impl(_target_path, _shortcut_name)
     }
 
     #[unsafe(no_mangle)]
@@ -1588,6 +1773,13 @@ mod io {
         host: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__http_api__dns_lookup_txt_impl(port_, host)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__execute_system_command(
+        command: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__system_info__execute_system_command_impl(command)
     }
 
     #[unsafe(no_mangle)]
@@ -1621,6 +1813,13 @@ mod io {
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__get_disk_info(
     ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__crate__api__system_info__get_disk_info_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__get_disk_sector_info(
+        _drive_letter: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__system_info__get_disk_sector_info_impl(_drive_letter)
     }
 
     #[unsafe(no_mangle)]
@@ -1667,6 +1866,27 @@ mod io {
         pids: *mut wire_cst_list_prim_u_32_loose,
     ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
         wire__crate__api__system_info__kill_processes_by_pids_impl(pids)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__open_in_explorer(
+        path: *mut wire_cst_list_prim_u_8_strict,
+        is_file: bool,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__system_info__open_in_explorer_impl(path, is_file)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__remove_nvme_patch(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__system_info__remove_nvme_patch_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__resolve_shortcut_path(
+        _shortcut_path: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__system_info__resolve_shortcut_path_impl(_shortcut_path)
     }
 
     #[unsafe(no_mangle)]
@@ -1720,6 +1940,14 @@ mod io {
             working_directory,
             stream_sink,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__system_info__start_process_elevated(
+        executable_path: *mut wire_cst_list_prim_u_8_strict,
+        args: *mut wire_cst_list_String,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__system_info__start_process_elevated_impl(executable_path, args)
     }
 
     #[unsafe(no_mangle)]

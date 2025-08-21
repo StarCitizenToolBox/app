@@ -493,3 +493,461 @@ pub fn kill_processes_by_pids(pids: Vec<u32>) -> anyhow::Result<u32> {
     
     Ok(killed_count)
 }
+
+/// Add NVMe patch registry entry
+#[cfg(target_os = "windows")]
+#[frb(sync)]
+pub fn add_nvme_patch() -> anyhow::Result<String> {
+    use winapi::um::winreg::{HKEY_LOCAL_MACHINE, RegCreateKeyExW, RegSetValueExW, RegCloseKey, KEY_WRITE};
+    use winapi::um::winnt::{REG_MULTI_SZ, WCHAR};
+    use widestring::U16CString;
+    
+    unsafe {
+        let mut hkey = std::ptr::null_mut();
+        let key_name = U16CString::from_str("SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device").unwrap();
+        
+        let result = RegCreateKeyExW(
+            HKEY_LOCAL_MACHINE,
+            key_name.as_ptr(),
+            0,
+            std::ptr::null_mut(),
+            0,
+            KEY_WRITE,
+            std::ptr::null_mut(),
+            &mut hkey,
+            std::ptr::null_mut()
+        );
+        
+        if result != 0 {
+            return Err(anyhow::anyhow!("Failed to create/open registry key: {}", result));
+        }
+        
+        let value_name = U16CString::from_str("ForcedPhysicalSectorSizeInBytes").unwrap();
+        let value_data = U16CString::from_str("* 4095\0").unwrap();
+        let value_bytes = value_data.as_slice_with_nul();
+        
+        let set_result = RegSetValueExW(
+            hkey,
+            value_name.as_ptr(),
+            0,
+            REG_MULTI_SZ,
+            value_bytes.as_ptr() as *const u8,
+            (value_bytes.len() * std::mem::size_of::<WCHAR>()) as u32
+        );
+        
+        RegCloseKey(hkey);
+        
+        if set_result != 0 {
+            return Err(anyhow::anyhow!("Failed to set registry value: {}", set_result));
+        }
+        
+        Ok("NVMe patch added successfully".to_string())
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+#[frb(sync)]
+pub fn add_nvme_patch() -> anyhow::Result<String> {
+    Err(anyhow::anyhow!("NVMe patch is only supported on Windows"))
+}
+
+/// Remove NVMe patch registry entry
+#[cfg(target_os = "windows")]
+#[frb(sync)]
+pub fn remove_nvme_patch() -> anyhow::Result<bool> {
+    use winapi::um::winreg::{HKEY_LOCAL_MACHINE, RegOpenKeyExW, RegDeleteValueW, RegCloseKey, KEY_WRITE};
+    use widestring::U16CString;
+    
+    unsafe {
+        let mut hkey = std::ptr::null_mut();
+        let key_name = U16CString::from_str("SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device").unwrap();
+        
+        if RegOpenKeyExW(HKEY_LOCAL_MACHINE, key_name.as_ptr(), 0, KEY_WRITE, &mut hkey) != 0 {
+            return Ok(false);
+        }
+        
+        let value_name = U16CString::from_str("ForcedPhysicalSectorSizeInBytes").unwrap();
+        let result = RegDeleteValueW(hkey, value_name.as_ptr());
+        
+        RegCloseKey(hkey);
+        
+        Ok(result == 0)
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+#[frb(sync)]
+pub fn remove_nvme_patch() -> anyhow::Result<bool> {
+    Ok(false) // Not applicable on non-Windows systems
+}
+
+/// Resolve Windows shortcut (.lnk) file to get target path
+#[cfg(target_os = "windows")]
+#[frb(sync)]
+pub fn resolve_shortcut_path(shortcut_path: &str) -> anyhow::Result<String> {
+    use winapi::shared::winerror::S_OK;
+    use winapi::um::combaseapi::{CoCreateInstance, CoInitialize, CoUninitialize};
+    use winapi::um::objbase::CLSCTX_INPROC_SERVER;
+    use winapi::um::shlobj::{IShellLinkW, IPersistFile};
+    use winapi::um::shobjidl_core::CLSID_ShellLink;
+    use winapi::Interface;
+    use widestring::U16CString;
+    
+    unsafe {
+        CoInitialize(std::ptr::null_mut());
+        
+        let mut shell_link: *mut IShellLinkW = std::ptr::null_mut();
+        let hr = CoCreateInstance(
+            &CLSID_ShellLink,
+            std::ptr::null_mut(),
+            CLSCTX_INPROC_SERVER,
+            &IShellLinkW::uuidof(),
+            &mut shell_link as *mut *mut IShellLinkW as *mut *mut _,
+        );
+        
+        if hr != S_OK {
+            CoUninitialize();
+            return Err(anyhow::anyhow!("Failed to create ShellLink instance"));
+        }
+        
+        let mut persist_file: *mut IPersistFile = std::ptr::null_mut();
+        let hr = (*shell_link).QueryInterface(
+            &IPersistFile::uuidof(),
+            &mut persist_file as *mut *mut IPersistFile as *mut *mut _,
+        );
+        
+        if hr != S_OK {
+            (*shell_link).Release();
+            CoUninitialize();
+            return Err(anyhow::anyhow!("Failed to get IPersistFile interface"));
+        }
+        
+        let wide_path = U16CString::from_str(shortcut_path).unwrap();
+        let hr = (*persist_file).Load(wide_path.as_ptr(), 0);
+        
+        if hr != S_OK {
+            (*persist_file).Release();
+            (*shell_link).Release();
+            CoUninitialize();
+            return Err(anyhow::anyhow!("Failed to load shortcut file"));
+        }
+        
+        let mut target_path: [u16; 260] = [0; 260];
+        let hr = (*shell_link).GetPath(
+            target_path.as_mut_ptr(),
+            target_path.len() as i32,
+            std::ptr::null_mut(),
+            0,
+        );
+        
+        (*persist_file).Release();
+        (*shell_link).Release();
+        CoUninitialize();
+        
+        if hr != S_OK {
+            return Err(anyhow::anyhow!("Failed to get target path"));
+        }
+        
+        let result = U16CString::from_ptr(target_path.as_ptr(), target_path.len()).unwrap();
+        Ok(result.to_string_lossy())
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+#[frb(sync)]
+pub fn resolve_shortcut_path(_shortcut_path: &str) -> anyhow::Result<String> {
+    Err(anyhow::anyhow!("Shortcut resolution is only supported on Windows"))
+}
+
+/// Open file or directory in system file explorer
+#[frb(sync)]
+pub fn open_in_explorer(path: &str, is_file: bool) -> anyhow::Result<()> {
+    #[cfg(target_os = "windows")]
+    {
+        use std::process::Command;
+        
+        let args = if is_file {
+            vec!["/select,".to_string(), path.to_string()]
+        } else {
+            vec![path.to_string()]
+        };
+        
+        let output = Command::new("explorer.exe")
+            .args(&args)
+            .output()?;
+            
+        if !output.status.success() {
+            return Err(anyhow::anyhow!("Failed to open explorer: {}", String::from_utf8_lossy(&output.stderr)));
+        }
+        
+        Ok(())
+    }
+    
+    #[cfg(target_os = "macos")]
+    {
+        use std::process::Command;
+        
+        if is_file {
+            Command::new("open").args(&["-R", path]).output()?;
+        } else {
+            Command::new("open").arg(path).output()?;
+        }
+        
+        Ok(())
+    }
+    
+    #[cfg(target_os = "linux")]
+    {
+        use std::process::Command;
+        
+        // Try different file managers commonly found on Linux
+        let file_managers = ["nautilus", "dolphin", "thunar", "pcmanfm", "caja"];
+        
+        for fm in &file_managers {
+            if let Ok(_) = Command::new("which").arg(fm).output() {
+                let mut cmd = Command::new(fm);
+                
+                if is_file {
+                    // Most file managers support selecting a file with --select or similar
+                    if *fm == "nautilus" {
+                        cmd.args(&["--select", path]);
+                    } else {
+                        // For others, open the parent directory
+                        if let Some(parent) = std::path::Path::new(path).parent() {
+                            cmd.arg(parent.to_string_lossy().as_ref());
+                        }
+                    }
+                } else {
+                    cmd.arg(path);
+                }
+                
+                let _ = cmd.output();
+                return Ok(());
+            }
+        }
+        
+        // Fallback to xdg-open
+        Command::new("xdg-open").arg(path).output()?;
+        Ok(())
+    }
+    
+    #[cfg(not(any(target_os = "windows", target_os = "macos", target_os = "linux")))]
+    {
+        Err(anyhow::anyhow!("File explorer opening not supported on this platform"))
+    }
+}
+
+/// Start process with elevated privileges (Windows) or regular privileges (other platforms)
+#[frb(sync)]
+pub fn start_process_elevated(executable_path: &str, args: Vec<String>) -> anyhow::Result<()> {
+    #[cfg(target_os = "windows")]
+    {
+        use std::process::Command;
+        
+        let mut cmd = Command::new("cmd.exe");
+        cmd.arg("/C");
+        cmd.arg("start");
+        cmd.arg("\"\""); // Empty title
+        cmd.arg("/B"); // Don't create new console window
+        cmd.arg(executable_path);
+        
+        for arg in args {
+            cmd.arg(arg);
+        }
+        
+        let output = cmd.output()?;
+        
+        if !output.status.success() {
+            return Err(anyhow::anyhow!("Failed to start process: {}", String::from_utf8_lossy(&output.stderr)));
+        }
+        
+        Ok(())
+    }
+    
+    #[cfg(not(target_os = "windows"))]
+    {
+        use std::process::Command;
+        
+        let mut cmd = Command::new(executable_path);
+        cmd.args(args);
+        
+        let output = cmd.output()?;
+        
+        if !output.status.success() {
+            return Err(anyhow::anyhow!("Failed to start process: {}", String::from_utf8_lossy(&output.stderr)));
+        }
+        
+        Ok(())
+    }
+}
+
+/// Execute a script or command with system shell
+#[frb(sync)]
+pub fn execute_system_command(command: &str) -> anyhow::Result<String> {
+    use std::process::Command;
+    
+    #[cfg(target_os = "windows")]
+    {
+        let output = Command::new("cmd.exe")
+            .args(&["/C", command])
+            .output()?;
+            
+        if !output.status.success() {
+            return Err(anyhow::anyhow!("Command failed: {}", String::from_utf8_lossy(&output.stderr)));
+        }
+        
+        Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
+    }
+    
+    #[cfg(not(target_os = "windows"))]
+    {
+        let output = Command::new("sh")
+            .args(&["-c", command])
+            .output()?;
+            
+        if !output.status.success() {
+            return Err(anyhow::anyhow!("Command failed: {}", String::from_utf8_lossy(&output.stderr)));
+        }
+        
+        Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
+    }
+}
+
+/// Get disk sector information for a specific drive (Windows only)
+#[cfg(target_os = "windows")]
+#[frb(sync)]
+pub fn get_disk_sector_info(drive_letter: &str) -> anyhow::Result<u32> {
+    use std::process::Command;
+    
+    let command = format!("fsutil fsinfo sectorinfo {}:", drive_letter);
+    let output = Command::new("fsutil")
+        .args(&["fsinfo", "sectorinfo", &format!("{}:", drive_letter)])
+        .output()?;
+        
+    if !output.status.success() {
+        return Err(anyhow::anyhow!("fsutil command failed: {}", String::from_utf8_lossy(&output.stderr)));
+    }
+    
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    
+    // Parse the output to find PhysicalBytesPerSectorForPerformance
+    for line in stdout.lines() {
+        if line.contains("PhysicalBytesPerSectorForPerformance") {
+            if let Some(colon_pos) = line.find(':') {
+                let value_part = &line[colon_pos + 1..];
+                let trimmed = value_part.trim();
+                if let Ok(value) = trimmed.parse::<u32>() {
+                    return Ok(value);
+                }
+            }
+        }
+    }
+    
+    Err(anyhow::anyhow!("Could not parse sector information"))
+}
+
+#[cfg(not(target_os = "windows"))]
+#[frb(sync)]
+pub fn get_disk_sector_info(_drive_letter: &str) -> anyhow::Result<u32> {
+    // Not applicable on non-Windows systems, return default sector size
+    Ok(4096)
+}
+
+/// Create desktop shortcut (Windows only)
+#[cfg(target_os = "windows")]
+#[frb(sync)]
+pub fn create_desktop_shortcut(target_path: &str, shortcut_name: &str) -> anyhow::Result<()> {
+    use winapi::shared::winerror::S_OK;
+    use winapi::um::combaseapi::{CoCreateInstance, CoInitialize, CoUninitialize};
+    use winapi::um::objbase::CLSCTX_INPROC_SERVER;
+    use winapi::um::shlobj::{IShellLinkW, IPersistFile};
+    use winapi::um::shobjidl_core::CLSID_ShellLink;
+    use winapi::Interface;
+    use widestring::U16CString;
+    
+    unsafe {
+        CoInitialize(std::ptr::null_mut());
+        
+        // Create shell link
+        let mut shell_link: *mut IShellLinkW = std::ptr::null_mut();
+        let hr = CoCreateInstance(
+            &CLSID_ShellLink,
+            std::ptr::null_mut(),
+            CLSCTX_INPROC_SERVER,
+            &IShellLinkW::uuidof(),
+            &mut shell_link as *mut *mut IShellLinkW as *mut *mut _,
+        );
+        
+        if hr != S_OK {
+            CoUninitialize();
+            return Err(anyhow::anyhow!("Failed to create ShellLink instance"));
+        }
+        
+        // Set target path
+        let wide_target = U16CString::from_str(target_path).unwrap();
+        let hr = (*shell_link).SetPath(wide_target.as_ptr());
+        if hr != S_OK {
+            (*shell_link).Release();
+            CoUninitialize();
+            return Err(anyhow::anyhow!("Failed to set target path"));
+        }
+        
+        // Get desktop directory
+        use winapi::um::shlobj::SHGetFolderPathW;
+        use winapi::um::shlobj::CSIDL_DESKTOP;
+        let mut desktop_path: [u16; 260] = [0; 260];
+        let hr = SHGetFolderPathW(
+            std::ptr::null_mut(),
+            CSIDL_DESKTOP,
+            std::ptr::null_mut(),
+            0,
+            desktop_path.as_mut_ptr(),
+        );
+        
+        if hr != S_OK {
+            (*shell_link).Release();
+            CoUninitialize();
+            return Err(anyhow::anyhow!("Failed to get desktop path"));
+        }
+        
+        // Build shortcut path
+        let desktop_str = U16CString::from_ptr(desktop_path.as_ptr(), desktop_path.len()).unwrap();
+        let desktop_string = desktop_str.to_string_lossy();
+        let shortcut_path = format!("{}\\{}.lnk", desktop_string, shortcut_name);
+        
+        // Get IPersistFile interface
+        let mut persist_file: *mut IPersistFile = std::ptr::null_mut();
+        let hr = (*shell_link).QueryInterface(
+            &IPersistFile::uuidof(),
+            &mut persist_file as *mut *mut IPersistFile as *mut *mut _,
+        );
+        
+        if hr != S_OK {
+            (*shell_link).Release();
+            CoUninitialize();
+            return Err(anyhow::anyhow!("Failed to get IPersistFile interface"));
+        }
+        
+        // Save shortcut
+        let wide_path = U16CString::from_str(&shortcut_path).unwrap();
+        let hr = (*persist_file).Save(wide_path.as_ptr(), 1);
+        
+        (*persist_file).Release();
+        (*shell_link).Release();
+        CoUninitialize();
+        
+        if hr != S_OK {
+            return Err(anyhow::anyhow!("Failed to save shortcut"));
+        }
+        
+        Ok(())
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+#[frb(sync)]
+pub fn create_desktop_shortcut(_target_path: &str, _shortcut_name: &str) -> anyhow::Result<()> {
+    // For non-Windows systems, creating shortcuts is platform-specific
+    // This is a basic implementation that could be extended for Linux/macOS
+    Err(anyhow::anyhow!("Desktop shortcut creation not implemented for this platform"))
+}

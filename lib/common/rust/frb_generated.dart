@@ -69,7 +69,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 32365584;
+  int get rustContentHash => 265989493;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -80,11 +80,20 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  String crateApiSystemInfoAddNvmePatch();
+
   bool crateApiSystemInfoCheckNvmePatchStatus();
+
+  void crateApiSystemInfoCreateDesktopShortcut({
+    required String targetPath,
+    required String shortcutName,
+  });
 
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host});
 
   Future<List<String>> crateApiHttpApiDnsLookupTxt({required String host});
+
+  String crateApiSystemInfoExecuteSystemCommand({required String command});
 
   Future<RustHttpResponse> crateApiHttpApiFetch({
     required MyMethod method,
@@ -98,6 +107,8 @@ abstract class RustLibApi extends BaseApi {
   String crateApiSystemInfoGetCpuName();
 
   String crateApiSystemInfoGetDiskInfo();
+
+  int crateApiSystemInfoGetDiskSectorInfo({required String driveLetter});
 
   String crateApiSystemInfoGetGpuInfo();
 
@@ -116,6 +127,15 @@ abstract class RustLibApi extends BaseApi {
   String crateApiSystemInfoGetSystemName();
 
   int crateApiSystemInfoKillProcessesByPids({required List<int> pids});
+
+  void crateApiSystemInfoOpenInExplorer({
+    required String path,
+    required bool isFile,
+  });
+
+  bool crateApiSystemInfoRemoveNvmePatch();
+
+  String crateApiSystemInfoResolveShortcutPath({required String shortcutPath});
 
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
     required RsiLauncherAsarData that,
@@ -143,6 +163,11 @@ abstract class RustLibApi extends BaseApi {
     required String workingDirectory,
   });
 
+  void crateApiSystemInfoStartProcessElevated({
+    required String executablePath,
+    required List<String> args,
+  });
+
   Future<void> crateApiRsProcessWrite({
     required int rsPid,
     required String data,
@@ -156,6 +181,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required super.generalizedFrbRustBinding,
     required super.portManager,
   });
+
+  @override
+  String crateApiSystemInfoAddNvmePatch() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire.wire__crate__api__system_info__add_nvme_patch();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoAddNvmePatchConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoAddNvmePatchConstMeta =>
+      const TaskConstMeta(debugName: "add_nvme_patch", argNames: []);
 
   @override
   bool crateApiSystemInfoCheckNvmePatchStatus() {
@@ -177,6 +223,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiSystemInfoCheckNvmePatchStatusConstMeta =>
       const TaskConstMeta(debugName: "check_nvme_patch_status", argNames: []);
+
+  @override
+  void crateApiSystemInfoCreateDesktopShortcut({
+    required String targetPath,
+    required String shortcutName,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(targetPath);
+          var arg1 = cst_encode_String(shortcutName);
+          return wire.wire__crate__api__system_info__create_desktop_shortcut(
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoCreateDesktopShortcutConstMeta,
+        argValues: [targetPath, shortcutName],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoCreateDesktopShortcutConstMeta =>
+      const TaskConstMeta(
+        debugName: "create_desktop_shortcut",
+        argNames: ["targetPath", "shortcutName"],
+      );
 
   @override
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host}) {
@@ -221,6 +299,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiHttpApiDnsLookupTxtConstMeta =>
       const TaskConstMeta(debugName: "dns_lookup_txt", argNames: ["host"]);
+
+  @override
+  String crateApiSystemInfoExecuteSystemCommand({required String command}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(command);
+          return wire.wire__crate__api__system_info__execute_system_command(
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoExecuteSystemCommandConstMeta,
+        argValues: [command],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoExecuteSystemCommandConstMeta =>
+      const TaskConstMeta(
+        debugName: "execute_system_command",
+        argNames: ["command"],
+      );
 
   @override
   Future<RustHttpResponse> crateApiHttpApiFetch({
@@ -321,6 +426,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiSystemInfoGetDiskInfoConstMeta =>
       const TaskConstMeta(debugName: "get_disk_info", argNames: []);
+
+  @override
+  int crateApiSystemInfoGetDiskSectorInfo({required String driveLetter}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(driveLetter);
+          return wire.wire__crate__api__system_info__get_disk_sector_info(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_32,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoGetDiskSectorInfoConstMeta,
+        argValues: [driveLetter],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoGetDiskSectorInfoConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_disk_sector_info",
+        argNames: ["driveLetter"],
+      );
 
   @override
   String crateApiSystemInfoGetGpuInfo() {
@@ -498,6 +628,86 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  void crateApiSystemInfoOpenInExplorer({
+    required String path,
+    required bool isFile,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(path);
+          var arg1 = cst_encode_bool(isFile);
+          return wire.wire__crate__api__system_info__open_in_explorer(
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoOpenInExplorerConstMeta,
+        argValues: [path, isFile],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoOpenInExplorerConstMeta =>
+      const TaskConstMeta(
+        debugName: "open_in_explorer",
+        argNames: ["path", "isFile"],
+      );
+
+  @override
+  bool crateApiSystemInfoRemoveNvmePatch() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire.wire__crate__api__system_info__remove_nvme_patch();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoRemoveNvmePatchConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoRemoveNvmePatchConstMeta =>
+      const TaskConstMeta(debugName: "remove_nvme_patch", argNames: []);
+
+  @override
+  String crateApiSystemInfoResolveShortcutPath({required String shortcutPath}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(shortcutPath);
+          return wire.wire__crate__api__system_info__resolve_shortcut_path(
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoResolveShortcutPathConstMeta,
+        argValues: [shortcutPath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoResolveShortcutPathConstMeta =>
+      const TaskConstMeta(
+        debugName: "resolve_shortcut_path",
+        argNames: ["shortcutPath"],
+      );
+
+  @override
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
     required RsiLauncherAsarData that,
     required List<int> content,
@@ -671,6 +881,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     debugName: "start",
     argNames: ["executable", "arguments", "workingDirectory", "streamSink"],
   );
+
+  @override
+  void crateApiSystemInfoStartProcessElevated({
+    required String executablePath,
+    required List<String> args,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(executablePath);
+          var arg1 = cst_encode_list_String(args);
+          return wire.wire__crate__api__system_info__start_process_elevated(
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoStartProcessElevatedConstMeta,
+        argValues: [executablePath, args],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoStartProcessElevatedConstMeta =>
+      const TaskConstMeta(
+        debugName: "start_process_elevated",
+        argNames: ["executablePath", "args"],
+      );
 
   @override
   Future<void> crateApiRsProcessWrite({
