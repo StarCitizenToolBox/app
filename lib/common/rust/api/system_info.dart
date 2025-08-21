@@ -23,3 +23,13 @@ int getNumberOfLogicalProcessors() =>
 
 bool checkNvmePatchStatus() =>
     RustLib.instance.api.crateApiSystemInfoCheckNvmePatchStatus();
+
+/// Get list of process IDs by name
+Uint32List getProcessIdsByName({required String processName}) => RustLib
+    .instance
+    .api
+    .crateApiSystemInfoGetProcessIdsByName(processName: processName);
+
+/// Kill processes by PID
+int killProcessesByPids({required List<int> pids}) =>
+    RustLib.instance.api.crateApiSystemInfoKillProcessesByPids(pids: pids);

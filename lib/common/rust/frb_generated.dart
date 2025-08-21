@@ -69,7 +69,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 518850593;
+  int get rustContentHash => -184576637;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -99,6 +99,10 @@ abstract class RustLibApi extends BaseApi {
 
   int crateApiSystemInfoGetNumberOfLogicalProcessors();
 
+  Uint32List crateApiSystemInfoGetProcessIdsByName({
+    required String processName,
+  });
+
   Future<RsiLauncherAsarData> crateApiAsarApiGetRsiLauncherAsarData({
     required String asarPath,
   });
@@ -106,6 +110,8 @@ abstract class RustLibApi extends BaseApi {
   BigInt crateApiSystemInfoGetSystemMemorySizeGb();
 
   String crateApiSystemInfoGetSystemName();
+
+  int crateApiSystemInfoKillProcessesByPids({required List<int> pids});
 
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
     required RsiLauncherAsarData that,
@@ -317,6 +323,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Uint32List crateApiSystemInfoGetProcessIdsByName({
+    required String processName,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(processName);
+          return wire.wire__crate__api__system_info__get_process_ids_by_name(
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_prim_u_32_strict,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoGetProcessIdsByNameConstMeta,
+        argValues: [processName],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoGetProcessIdsByNameConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_process_ids_by_name",
+        argNames: ["processName"],
+      );
+
+  @override
   Future<RsiLauncherAsarData> crateApiAsarApiGetRsiLauncherAsarData({
     required String asarPath,
   }) {
@@ -388,6 +423,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiSystemInfoGetSystemNameConstMeta =>
       const TaskConstMeta(debugName: "get_system_name", argNames: []);
+
+  @override
+  int crateApiSystemInfoKillProcessesByPids({required List<int> pids}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_list_prim_u_32_loose(pids);
+          return wire.wire__crate__api__system_info__kill_processes_by_pids(
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_32,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoKillProcessesByPidsConstMeta,
+        argValues: [pids],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoKillProcessesByPidsConstMeta =>
+      const TaskConstMeta(
+        debugName: "kill_processes_by_pids",
+        argNames: ["pids"],
+      );
 
   @override
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
@@ -658,6 +720,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<int> dco_decode_list_prim_u_32_loose(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as List<int>;
+  }
+
+  @protected
+  Uint32List dco_decode_list_prim_u_32_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Uint32List;
+  }
+
+  @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as List<int>;
@@ -880,6 +954,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       ans_.add(sse_decode_String(deserializer));
     }
     return ans_;
+  }
+
+  @protected
+  List<int> sse_decode_list_prim_u_32_loose(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint32List(len_);
+  }
+
+  @protected
+  Uint32List sse_decode_list_prim_u_32_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint32List(len_);
   }
 
   @protected
@@ -1218,6 +1306,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     for (final item in self) {
       sse_encode_String(item, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_list_prim_u_32_loose(
+    List<int> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint32List(
+      self is Uint32List ? self : Uint32List.fromList(self),
+    );
+  }
+
+  @protected
+  void sse_encode_list_prim_u_32_strict(
+    Uint32List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint32List(self);
   }
 
   @protected

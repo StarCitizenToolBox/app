@@ -210,3 +210,114 @@ pub fn check_nvme_patch_status() -> anyhow::Result<bool> {
     // Not applicable on non-Windows systems
     Ok(false)
 }
+
+/// Get list of process IDs by name
+#[frb(sync)]
+pub fn get_process_ids_by_name(process_name: &str) -> anyhow::Result<Vec<u32>> {
+    #[cfg(target_os = "windows")]
+    {
+        use winapi::um::handleapi::CloseHandle;
+        use winapi::um::processthreadsapi::GetCurrentProcessId;
+        use winapi::um::tlhelp32::{
+            CreateToolhelp32Snapshot, Process32FirstW, Process32NextW, PROCESSENTRY32W, TH32CS_SNAPPROCESS,
+        };
+        use widestring::U16CString;
+        
+        let mut pids = Vec::new();
+        
+        unsafe {
+            let snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+            if snapshot == winapi::um::handleapi::INVALID_HANDLE_VALUE {
+                return Err(anyhow::anyhow!("Failed to create process snapshot"));
+            }
+            
+            let mut entry: PROCESSENTRY32W = std::mem::zeroed();
+            entry.dwSize = std::mem::size_of::<PROCESSENTRY32W>() as u32;
+            
+            if Process32FirstW(snapshot, &mut entry) != 0 {
+                loop {
+                    let exe_name = U16CString::from_ptr(entry.szExeFile.as_ptr(), entry.szExeFile.len()).unwrap();
+                    let exe_str = exe_name.to_string_lossy().to_lowercase();
+                    let search_name = process_name.to_lowercase();
+                    
+                    if exe_str.contains(&search_name) {
+                        pids.push(entry.th32ProcessID);
+                    }
+                    
+                    if Process32NextW(snapshot, &mut entry) == 0 {
+                        break;
+                    }
+                }
+            }
+            
+            CloseHandle(snapshot);
+        }
+        
+        Ok(pids)
+    }
+    
+    #[cfg(not(target_os = "windows"))]
+    {
+        // For Unix-like systems, use ps command
+        let output = Command::new("ps")
+            .args(&["-ax", "-o", "pid,comm"])
+            .output()?;
+            
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        let mut pids = Vec::new();
+        
+        for line in stdout.lines().skip(1) { // Skip header
+            let parts: Vec<&str> = line.trim().split_whitespace().collect();
+            if parts.len() >= 2 {
+                let pid_str = parts[0];
+                let comm = parts[1];
+                
+                if comm.to_lowercase().contains(&process_name.to_lowercase()) {
+                    if let Ok(pid) = pid_str.parse::<u32>() {
+                        pids.push(pid);
+                    }
+                }
+            }
+        }
+        
+        Ok(pids)
+    }
+}
+
+/// Kill processes by PID
+#[frb(sync)]
+pub fn kill_processes_by_pids(pids: Vec<u32>) -> anyhow::Result<u32> {
+    let mut killed_count = 0;
+    
+    #[cfg(target_os = "windows")]
+    {
+        use winapi::um::handleapi::CloseHandle;
+        use winapi::um::processthreadsapi::{OpenProcess, TerminateProcess};
+        use winapi::um::winnt::PROCESS_TERMINATE;
+        
+        for pid in pids {
+            unsafe {
+                let handle = OpenProcess(PROCESS_TERMINATE, 0, pid);
+                if handle != std::ptr::null_mut() {
+                    if TerminateProcess(handle, 1) != 0 {
+                        killed_count += 1;
+                    }
+                    CloseHandle(handle);
+                }
+            }
+        }
+    }
+    
+    #[cfg(not(target_os = "windows"))]
+    {
+        use std::process::Command;
+        
+        for pid in pids {
+            if let Ok(_) = Command::new("kill").arg(pid.to_string()).output() {
+                killed_count += 1;
+            }
+        }
+    }
+    
+    Ok(killed_count)
+}

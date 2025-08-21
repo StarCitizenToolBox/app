@@ -118,6 +118,20 @@ class SystemHelper {
   }
 
   static Future<void> killRSILauncher() async {
+    try {
+      // Use Rust to get process IDs
+      final pids = rust_system_info.getProcessIdsByName(processName: "RSI Launcher");
+      if (pids.isNotEmpty) {
+        final pidList = pids.map((pid) => pid.toInt()).toList();
+        final killedCount = rust_system_info.killProcessesByPids(pids: pidList);
+        dPrint("Killed $killedCount RSI Launcher processes using Rust");
+        return;
+      }
+    } catch (e) {
+      dPrint("killRSILauncher (Rust) error: $e");
+    }
+    
+    // Fallback to PowerShell method
     var psr = await Process.run(powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
     if (psr.stderr == "") {
       for (var value in (psr.stdout ?? "").toString().split("\n")) {
@@ -131,18 +145,25 @@ class SystemHelper {
 
   static Future<List<String>> getPID(String name) async {
     try {
-      final r = await Process.run(powershellPath, ["(ps $name).Id"]);
-      if (r.stderr.toString().trim().isNotEmpty) {
-        dPrint("getPID Error: ${r.stderr}");
+      final pids = rust_system_info.getProcessIdsByName(processName: name);
+      return pids.map((pid) => pid.toString()).toList();
+    } catch (e) {
+      dPrint("getPID (Rust) error: $e");
+      // Fallback to PowerShell if Rust function fails
+      try {
+        final r = await Process.run(powershellPath, ["(ps $name).Id"]);
+        if (r.stderr.toString().trim().isNotEmpty) {
+          dPrint("getPID Error: ${r.stderr}");
+          return [];
+        }
+        final str = r.stdout.toString().trim();
+        dPrint("getPID result: $str");
+        if (str.isEmpty) return [];
+        return str.split("\n");
+      } catch (e) {
+        dPrint("getPID Error: $e");
         return [];
       }
-      final str = r.stdout.toString().trim();
-      dPrint("getPID result: $str");
-      if (str.isEmpty) return [];
-      return str.split("\n");
-    } catch (e) {
-      dPrint("getPID Error: $e");
-      return [];
     }
   }
 
