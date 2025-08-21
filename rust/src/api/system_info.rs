@@ -284,6 +284,178 @@ pub fn get_process_ids_by_name(process_name: &str) -> anyhow::Result<Vec<u32>> {
     }
 }
 
+/// Get GPU information
+#[frb(sync)]
+pub fn get_gpu_info() -> anyhow::Result<String> {
+    #[cfg(target_os = "windows")]
+    {
+        use winapi::um::winreg::{HKEY_LOCAL_MACHINE, RegCloseKey, RegOpenKeyExW, RegQueryValueExW, RegEnumKeyExW, KEY_READ};
+        use winapi::um::winnt::{REG_SZ, REG_QWORD, WCHAR};
+        use widestring::U16CString;
+        
+        let mut gpu_info = String::new();
+        
+        unsafe {
+            let mut hkey = std::ptr::null_mut();
+            let key_name = U16CString::from_str("SYSTEM\\ControlSet001\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}").unwrap();
+            
+            if RegOpenKeyExW(HKEY_LOCAL_MACHINE, key_name.as_ptr(), 0, KEY_READ, &mut hkey) == 0 {
+                // Enumerate subkeys (GPU entries)
+                let mut index = 0u32;
+                loop {
+                    let mut subkey_name: [WCHAR; 256] = [0; 256];
+                    let mut subkey_name_len = 256u32;
+                    
+                    if RegEnumKeyExW(hkey, index, subkey_name.as_mut_ptr(), &mut subkey_name_len,
+                                   std::ptr::null_mut(), std::ptr::null_mut(), std::ptr::null_mut(), std::ptr::null_mut()) != 0 {
+                        break;
+                    }
+                    
+                    let subkey_str = U16CString::from_ptr(subkey_name.as_ptr(), subkey_name_len as usize).unwrap();
+                    let subkey_string = subkey_str.to_string_lossy();
+                    
+                    // Skip non-numeric keys (they're not GPU entries)
+                    if subkey_string.chars().all(|c| c.is_ascii_digit()) {
+                        // Open the GPU subkey
+                        let mut gpu_hkey = std::ptr::null_mut();
+                        let gpu_key_path = format!("SYSTEM\\ControlSet001\\Control\\Class\\{{4d36e968-e325-11ce-bfc1-08002be10318}}\\{}", subkey_string);
+                        let gpu_key_name = U16CString::from_str(&gpu_key_path).unwrap();
+                        
+                        if RegOpenKeyExW(HKEY_LOCAL_MACHINE, gpu_key_name.as_ptr(), 0, KEY_READ, &mut gpu_hkey) == 0 {
+                            // Get adapter string
+                            let adapter_name = U16CString::from_str("HardwareInformation.AdapterString").unwrap();
+                            let mut adapter_buffer: [WCHAR; 256] = [0; 256];
+                            let mut adapter_buffer_size = (adapter_buffer.len() * std::mem::size_of::<WCHAR>()) as u32;
+                            
+                            if RegQueryValueExW(gpu_hkey, adapter_name.as_ptr(), std::ptr::null_mut(),
+                                              std::ptr::null_mut(), adapter_buffer.as_mut_ptr() as *mut u8, &mut adapter_buffer_size) == 0 {
+                                let adapter_str = U16CString::from_ptr(adapter_buffer.as_ptr(), (adapter_buffer_size / 2) as usize).unwrap();
+                                let model = adapter_str.to_string_lossy();
+                                
+                                // Get VRAM size
+                                let vram_name = U16CString::from_str("HardwareInformation.qwMemorySize").unwrap();
+                                let mut vram_buffer: u64 = 0;
+                                let mut vram_buffer_size = std::mem::size_of::<u64>() as u32;
+                                
+                                if RegQueryValueExW(gpu_hkey, vram_name.as_ptr(), std::ptr::null_mut(),
+                                                  std::ptr::null_mut(), &mut vram_buffer as *mut u64 as *mut u8, &mut vram_buffer_size) == 0 {
+                                    let vram_gb = (vram_buffer as f64 / (1024.0 * 1024.0 * 1024.0)).round() as u64;
+                                    gpu_info.push_str(&format!("Model: {}\nVRAM (GB): {}\n\n", model.trim(), vram_gb));
+                                } else {
+                                    gpu_info.push_str(&format!("Model: {}\nVRAM (GB): Unknown\n\n", model.trim()));
+                                }
+                            }
+                            RegCloseKey(gpu_hkey);
+                        }
+                    }
+                    
+                    index += 1;
+                }
+                RegCloseKey(hkey);
+            }
+        }
+        
+        if gpu_info.is_empty() {
+            return Ok("No GPU information found".to_string());
+        }
+        
+        Ok(gpu_info.trim_end().to_string())
+    }
+    
+    #[cfg(not(target_os = "windows"))]
+    {
+        // For Linux systems, try to get GPU info from various sources
+        if let Ok(output) = Command::new("lspci").output() {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            let mut gpu_lines = Vec::new();
+            
+            for line in stdout.lines() {
+                if line.contains("VGA compatible controller") || line.contains("3D controller") {
+                    gpu_lines.push(line.trim());
+                }
+            }
+            
+            if !gpu_lines.is_empty() {
+                return Ok(gpu_lines.join("\n"));
+            }
+        }
+        
+        Ok("GPU information not available".to_string())
+    }
+}
+
+/// Get disk information
+#[frb(sync)]
+pub fn get_disk_info() -> anyhow::Result<String> {
+    #[cfg(target_os = "windows")]
+    {
+        use winapi::um::fileapi::{GetLogicalDrives, GetDriveTypeW};
+        use winapi::um::winbase::{DRIVE_FIXED, DRIVE_REMOVABLE, DRIVE_CDROM};
+        use widestring::U16CString;
+        
+        let mut disk_info = String::new();
+        
+        unsafe {
+            let drives = GetLogicalDrives();
+            for i in 0..26 {
+                if (drives & (1 << i)) != 0 {
+                    let drive_letter = format!("{}:\\", (b'A' + i) as char);
+                    let drive_path = U16CString::from_str(&drive_letter).unwrap();
+                    let drive_type = GetDriveTypeW(drive_path.as_ptr());
+                    
+                    let type_str = match drive_type {
+                        DRIVE_FIXED => "Fixed Drive",
+                        DRIVE_REMOVABLE => "Removable Drive", 
+                        DRIVE_CDROM => "CD-ROM Drive",
+                        _ => "Other",
+                    };
+                    
+                    if drive_type == DRIVE_FIXED {
+                        // Get free space for fixed drives
+                        use winapi::um::fileapi::GetDiskFreeSpaceExW;
+                        let mut free_bytes: u64 = 0;
+                        let mut total_bytes: u64 = 0;
+                        
+                        if GetDiskFreeSpaceExW(drive_path.as_ptr(), &mut free_bytes, &mut total_bytes, std::ptr::null_mut()) != 0 {
+                            let total_gb = (total_bytes as f64 / (1024.0 * 1024.0 * 1024.0)).round() as u64;
+                            let free_gb = (free_bytes as f64 / (1024.0 * 1024.0 * 1024.0)).round() as u64;
+                            disk_info.push_str(&format!("Drive {}: {} ({} GB total, {} GB free)\n", 
+                                                       drive_letter, type_str, total_gb, free_gb));
+                        } else {
+                            disk_info.push_str(&format!("Drive {}: {}\n", drive_letter, type_str));
+                        }
+                    } else {
+                        disk_info.push_str(&format!("Drive {}: {}\n", drive_letter, type_str));
+                    }
+                }
+            }
+        }
+        
+        if disk_info.is_empty() {
+            return Ok("No disk information found".to_string());
+        }
+        
+        Ok(disk_info.trim_end().to_string())
+    }
+    
+    #[cfg(not(target_os = "windows"))]
+    {
+        // For Linux systems, use df command
+        if let Ok(output) = Command::new("df").args(&["-h", "--type=ext4", "--type=ext3", "--type=ext2", "--type=xfs"]).output() {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            return Ok(stdout.to_string());
+        }
+        
+        // Fallback to basic df
+        if let Ok(output) = Command::new("df").arg("-h").output() {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            return Ok(stdout.to_string());
+        }
+        
+        Ok("Disk information not available".to_string())
+    }
+}
+
 /// Kill processes by PID
 #[frb(sync)]
 pub fn kill_processes_by_pids(pids: Vec<u32>) -> anyhow::Result<u32> {

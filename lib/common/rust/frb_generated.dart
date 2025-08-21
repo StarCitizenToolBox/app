@@ -69,7 +69,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -184576637;
+  int get rustContentHash => 32365584;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -96,6 +96,10 @@ abstract class RustLibApi extends BaseApi {
   });
 
   String crateApiSystemInfoGetCpuName();
+
+  String crateApiSystemInfoGetDiskInfo();
+
+  String crateApiSystemInfoGetGpuInfo();
 
   int crateApiSystemInfoGetNumberOfLogicalProcessors();
 
@@ -296,6 +300,48 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiSystemInfoGetCpuNameConstMeta =>
       const TaskConstMeta(debugName: "get_cpu_name", argNames: []);
+
+  @override
+  String crateApiSystemInfoGetDiskInfo() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire.wire__crate__api__system_info__get_disk_info();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoGetDiskInfoConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoGetDiskInfoConstMeta =>
+      const TaskConstMeta(debugName: "get_disk_info", argNames: []);
+
+  @override
+  String crateApiSystemInfoGetGpuInfo() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire.wire__crate__api__system_info__get_gpu_info();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiSystemInfoGetGpuInfoConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSystemInfoGetGpuInfoConstMeta =>
+      const TaskConstMeta(debugName: "get_gpu_info", argNames: []);
 
   @override
   int crateApiSystemInfoGetNumberOfLogicalProcessors() {

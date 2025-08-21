@@ -27,7 +27,7 @@ walkdir = "2.5.0"
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.61.3", features = ["Win32_UI_WindowsAndMessaging"] }
 win32job = "2"
-winapi = { version = "0.3", features = ["winreg", "sysinfoapi", "winnt", "memoryapi", "tlhelp32", "handleapi", "processthreadsapi"] }
+winapi = { version = "0.3", features = ["winreg", "sysinfoapi", "winnt", "memoryapi", "tlhelp32", "handleapi", "processthreadsapi", "fileapi", "winbase"] }
 widestring = "1.0"
 
 [lints.rust]

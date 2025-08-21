@@ -776,6 +776,30 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__system_info__get_cpu_namePtr
           .asFunction<WireSyncRust2DartDco Function()>();
 
+  WireSyncRust2DartDco wire__crate__api__system_info__get_disk_info() {
+    return _wire__crate__api__system_info__get_disk_info();
+  }
+
+  late final _wire__crate__api__system_info__get_disk_infoPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__get_disk_info',
+      );
+  late final _wire__crate__api__system_info__get_disk_info =
+      _wire__crate__api__system_info__get_disk_infoPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
+  WireSyncRust2DartDco wire__crate__api__system_info__get_gpu_info() {
+    return _wire__crate__api__system_info__get_gpu_info();
+  }
+
+  late final _wire__crate__api__system_info__get_gpu_infoPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__system_info__get_gpu_info',
+      );
+  late final _wire__crate__api__system_info__get_gpu_info =
+      _wire__crate__api__system_info__get_gpu_infoPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
   WireSyncRust2DartDco
   wire__crate__api__system_info__get_number_of_logical_processors() {
     return _wire__crate__api__system_info__get_number_of_logical_processors();

@@ -30,6 +30,12 @@ Uint32List getProcessIdsByName({required String processName}) => RustLib
     .api
     .crateApiSystemInfoGetProcessIdsByName(processName: processName);
 
+/// Get GPU information
+String getGpuInfo() => RustLib.instance.api.crateApiSystemInfoGetGpuInfo();
+
+/// Get disk information
+String getDiskInfo() => RustLib.instance.api.crateApiSystemInfoGetDiskInfo();
+
 /// Kill processes by PID
 int killProcessesByPids({required List<int> pids}) =>
     RustLib.instance.api.crateApiSystemInfoKillProcessesByPids(pids: pids);

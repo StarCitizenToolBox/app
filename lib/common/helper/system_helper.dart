@@ -229,7 +229,12 @@ class SystemHelper {
   }
 
   static Future<String> getGpuInfo() async {
-    const cmd = r"""
+    try {
+      return rust_system_info.getGpuInfo();
+    } catch (e) {
+      dPrint("getGpuInfo error: $e");
+      // Fallback to PowerShell if Rust function fails
+      const cmd = r"""
     $adapterMemory = (Get-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0*" -Name "HardwareInformation.AdapterString", "HardwareInformation.qwMemorySize" -Exclude PSPath -ErrorAction SilentlyContinue)
 foreach ($adapter in $adapterMemory) {
   [PSCustomObject] @{
@@ -238,15 +243,22 @@ foreach ($adapter in $adapterMemory) {
   }
 }
     """;
-    final r = await Process.run(powershellPath, [cmd]);
-    return r.stdout.toString().trim();
+      final r = await Process.run(powershellPath, [cmd]);
+      return r.stdout.toString().trim();
+    }
   }
 
   static Future<String> getDiskInfo() async {
-    return (await Process.run(powershellPath, ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
-        .stdout
-        .toString()
-        .trim();
+    try {
+      return rust_system_info.getDiskInfo();
+    } catch (e) {
+      dPrint("getDiskInfo error: $e");
+      // Fallback to PowerShell if Rust function fails
+      return (await Process.run(powershellPath, ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
+          .stdout
+          .toString()
+          .trim();
+    }
   }
 
   static Future<int> getDirLen(String path, {List<String>? skipPath}) async {
