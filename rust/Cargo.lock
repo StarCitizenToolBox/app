@@ -2405,7 +2405,9 @@ dependencies = [
  "tokio",
  "url",
  "walkdir",
+ "widestring",
  "win32job",
+ "winapi",
  "windows 0.61.3",
 ]
 
