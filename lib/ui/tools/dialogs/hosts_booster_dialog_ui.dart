@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/rust/api/system_info.dart' as rust_system_info;
 import 'package:starcitizen_doctor/common/utils/async.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
@@ -184,11 +185,12 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
 
   Future<void> _openHostsFile(BuildContext context) async {
     // 使用管理员权限调用记事本${S.current.tools_hosts_info_open_hosts_file}
-    Process.run(SystemHelper.powershellPath, [
-      "-Command",
-      "Start-Process notepad.exe -Verb runAs -ArgumentList ${SystemHelper.getHostsFilePath()}"
-      // ignore: use_build_context_synchronously
-    ]).unwrap(context: context);
+    try {
+      final command = "Start-Process notepad.exe -Verb runAs -ArgumentList ${SystemHelper.getHostsFilePath()}";
+      rust_system_info.executeSystemCommand(command: command);
+    } catch (e) {
+      dPrint("Error opening hosts file: $e");
+    }
   }
 
   Future<Map<String, String>> _doCheckDns(

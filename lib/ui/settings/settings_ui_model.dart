@@ -9,6 +9,7 @@ import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rust/api/system_info.dart' as rust_system_info;
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -178,20 +179,14 @@ class SettingsUIModel extends _$SettingsUIModel {
     }
     dPrint(Platform.resolvedExecutable);
     final shortCuntName = S.current.app_shortcut_name;
-    final script = """
-    \$targetPath = "${Platform.resolvedExecutable}";
-    \$shortcutPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory), "$shortCuntName");
-    \$shell = New-Object -ComObject WScript.Shell
-    \$shortcut = \$shell.CreateShortcut(\$shortcutPath)
-    if (\$shortcut -eq \$null) {
-        Write-Host "Failed to create shortcut."
-    } else {
-        \$shortcut.TargetPath = \$targetPath
-        \$shortcut.Save()
-        Write-Host "Shortcut created successfully."
+    try {
+      rust_system_info.createDesktopShortcut(
+        targetPath: Platform.resolvedExecutable,
+        shortcutName: shortCuntName
+      );
+    } catch (e) {
+      dPrint("Error creating desktop shortcut: $e");
     }
-""";
-    await Process.run(SystemHelper.powershellPath, [script]);
     if (!context.mounted) return;
     showToast(context, S.current.setting_action_info_shortcut_created);
   }

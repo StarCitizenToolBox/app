@@ -11,6 +11,7 @@ import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rust/api/system_info.dart' as rust_system_info;
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:html/parser.dart' as html_parser;
@@ -249,13 +250,13 @@ class UpgradeDialogUI extends HookConsumerWidget {
     }
 
     try {
-      final r = await (Process.run(
-          SystemHelper.powershellPath, ["start", fileName, "/SILENT"]));
-      if (r.stderr.toString().isNotEmpty) {
-        throw r.stderr;
-      }
+      rust_system_info.startProcessElevated(
+        executablePath: fileName,
+        args: ["/SILENT"]
+      );
       exit(0);
-    } catch (_) {
+    } catch (e) {
+      dPrint("Error starting installer: $e");
       isUpgrading.value = false;
       progress.value = 0;
       if (!context.mounted) return;
