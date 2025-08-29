@@ -1,22 +1,13 @@
 use flutter_rust_bridge::frb;
 use std::process::Command;
 
-#[cfg(target_os = "windows")]
-use winapi::um::sysinfoapi::{GetSystemInfo, SYSTEM_INFO};
-#[cfg(target_os = "windows")]
-use winapi::um::winnt::HKEY_LOCAL_MACHINE;
-#[cfg(target_os = "windows")]
-use winapi::um::winreg::{RegCloseKey, RegOpenKeyExW, RegQueryValueExW, KEY_READ};
-#[cfg(target_os = "windows")]
-use widestring::U16CString;
-
 /// Get the system OS name
 #[frb(sync)]
 pub fn get_system_name() -> anyhow::Result<String> {
     #[cfg(target_os = "windows")]
     {
-        use winapi::um::sysinfoapi::{GetVersionExW, OSVERSIONINFOW};
-        use winapi::um::winnt::VER_NT_WORKSTATION;
+        use winapi::um::sysinfoapi::GetVersionExW;
+        use winapi::um::winnt::{OSVERSIONINFOW, VER_NT_WORKSTATION};
         
         // Try to get Windows version information
         unsafe {
@@ -62,8 +53,8 @@ pub fn get_system_name() -> anyhow::Result<String> {
 pub fn get_cpu_name() -> anyhow::Result<String> {
     #[cfg(target_os = "windows")]
     {
-        use winapi::um::winreg::{HKEY_LOCAL_MACHINE, RegCloseKey, RegOpenKeyExW, RegQueryValueExW, KEY_READ};
-        use winapi::um::winnt::{REG_SZ, WCHAR};
+        use winapi::um::winreg::{RegCloseKey, RegOpenKeyExW, RegQueryValueExW};
+        use winapi::um::winnt::{HKEY_LOCAL_MACHINE, KEY_READ, WCHAR};
         use widestring::U16CString;
         
         unsafe {
@@ -173,8 +164,8 @@ pub fn get_number_of_logical_processors() -> anyhow::Result<u32> {
 #[cfg(target_os = "windows")]
 #[frb(sync)]
 pub fn check_nvme_patch_status() -> anyhow::Result<bool> {
-    use winapi::um::winreg::{HKEY_LOCAL_MACHINE, RegCloseKey, RegOpenKeyExW, RegQueryValueExW, KEY_READ};
-    use winapi::um::winnt::{REG_MULTI_SZ, WCHAR};
+    use winapi::um::winreg::{RegCloseKey, RegOpenKeyExW, RegQueryValueExW};
+    use winapi::um::winnt::{HKEY_LOCAL_MACHINE, KEY_READ, REG_MULTI_SZ, WCHAR};
     use widestring::U16CString;
     
     unsafe {
@@ -217,7 +208,6 @@ pub fn get_process_ids_by_name(process_name: &str) -> anyhow::Result<Vec<u32>> {
     #[cfg(target_os = "windows")]
     {
         use winapi::um::handleapi::CloseHandle;
-        use winapi::um::processthreadsapi::GetCurrentProcessId;
         use winapi::um::tlhelp32::{
             CreateToolhelp32Snapshot, Process32FirstW, Process32NextW, PROCESSENTRY32W, TH32CS_SNAPPROCESS,
         };
@@ -289,8 +279,8 @@ pub fn get_process_ids_by_name(process_name: &str) -> anyhow::Result<Vec<u32>> {
 pub fn get_gpu_info() -> anyhow::Result<String> {
     #[cfg(target_os = "windows")]
     {
-        use winapi::um::winreg::{HKEY_LOCAL_MACHINE, RegCloseKey, RegOpenKeyExW, RegQueryValueExW, RegEnumKeyExW, KEY_READ};
-        use winapi::um::winnt::{REG_SZ, REG_QWORD, WCHAR};
+        use winapi::um::winreg::{RegCloseKey, RegOpenKeyExW, RegQueryValueExW, RegEnumKeyExW};
+        use winapi::um::winnt::{HKEY_LOCAL_MACHINE, KEY_READ, WCHAR};
         use widestring::U16CString;
         
         let mut gpu_info = String::new();
@@ -413,12 +403,13 @@ pub fn get_disk_info() -> anyhow::Result<String> {
                     if drive_type == DRIVE_FIXED {
                         // Get free space for fixed drives
                         use winapi::um::fileapi::GetDiskFreeSpaceExW;
-                        let mut free_bytes: u64 = 0;
-                        let mut total_bytes: u64 = 0;
+                        use winapi::um::winnt::ULARGE_INTEGER;
+                        let mut free_bytes: ULARGE_INTEGER = unsafe { std::mem::zeroed() };
+                        let mut total_bytes: ULARGE_INTEGER = unsafe { std::mem::zeroed() };
                         
                         if GetDiskFreeSpaceExW(drive_path.as_ptr(), &mut free_bytes, &mut total_bytes, std::ptr::null_mut()) != 0 {
-                            let total_gb = (total_bytes as f64 / (1024.0 * 1024.0 * 1024.0)).round() as u64;
-                            let free_gb = (free_bytes as f64 / (1024.0 * 1024.0 * 1024.0)).round() as u64;
+                            let total_gb = (unsafe { *total_bytes.QuadPart() } as f64 / (1024.0 * 1024.0 * 1024.0)).round() as u64;
+                            let free_gb = (unsafe { *free_bytes.QuadPart() } as f64 / (1024.0 * 1024.0 * 1024.0)).round() as u64;
                             disk_info.push_str(&format!("Drive {}: {} ({} GB total, {} GB free)\n", 
                                                        drive_letter, type_str, total_gb, free_gb));
                         } else {
@@ -498,8 +489,8 @@ pub fn kill_processes_by_pids(pids: Vec<u32>) -> anyhow::Result<u32> {
 #[cfg(target_os = "windows")]
 #[frb(sync)]
 pub fn add_nvme_patch() -> anyhow::Result<String> {
-    use winapi::um::winreg::{HKEY_LOCAL_MACHINE, RegCreateKeyExW, RegSetValueExW, RegCloseKey, KEY_WRITE};
-    use winapi::um::winnt::{REG_MULTI_SZ, WCHAR};
+    use winapi::um::winreg::{RegCreateKeyExW, RegSetValueExW, RegCloseKey};
+    use winapi::um::winnt::{HKEY_LOCAL_MACHINE, KEY_WRITE, REG_MULTI_SZ, WCHAR};
     use widestring::U16CString;
     
     unsafe {
@@ -555,7 +546,8 @@ pub fn add_nvme_patch() -> anyhow::Result<String> {
 #[cfg(target_os = "windows")]
 #[frb(sync)]
 pub fn remove_nvme_patch() -> anyhow::Result<bool> {
-    use winapi::um::winreg::{HKEY_LOCAL_MACHINE, RegOpenKeyExW, RegDeleteValueW, RegCloseKey, KEY_WRITE};
+    use winapi::um::winreg::{RegOpenKeyExW, RegDeleteValueW, RegCloseKey};
+    use winapi::um::winnt::{HKEY_LOCAL_MACHINE, KEY_WRITE};
     use widestring::U16CString;
     
     unsafe {
@@ -590,7 +582,6 @@ pub fn resolve_shortcut_path(shortcut_path: &str) -> anyhow::Result<String> {
     use winapi::um::objbase::CLSCTX_INPROC_SERVER;
     use winapi::um::shlobj::{IShellLinkW, IPersistFile};
     use winapi::um::shobjidl_core::CLSID_ShellLink;
-    use winapi::Interface;
     use widestring::U16CString;
     
     unsafe {
@@ -819,7 +810,6 @@ pub fn execute_system_command(command: &str) -> anyhow::Result<String> {
 pub fn get_disk_sector_info(drive_letter: &str) -> anyhow::Result<u32> {
     use std::process::Command;
     
-    let command = format!("fsutil fsinfo sectorinfo {}:", drive_letter);
     let output = Command::new("fsutil")
         .args(&["fsinfo", "sectorinfo", &format!("{}:", drive_letter)])
         .output()?;
@@ -862,7 +852,6 @@ pub fn create_desktop_shortcut(target_path: &str, shortcut_name: &str) -> anyhow
     use winapi::um::objbase::CLSCTX_INPROC_SERVER;
     use winapi::um::shlobj::{IShellLinkW, IPersistFile};
     use winapi::um::shobjidl_core::CLSID_ShellLink;
-    use winapi::Interface;
     use widestring::U16CString;
     
     unsafe {
