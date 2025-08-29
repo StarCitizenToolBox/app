@@ -48,3 +48,8 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Wine + MSVC cross-compilation caches
+.xwin-cache/
+.wine*/
+.xwin/

@@ -317,6 +317,8 @@ cd rust && cargo clippy --target x86_64-pc-windows-msvc # MSVC linting (3-5 minu
 - **lib.exe not found:** Ensure `llvm-lib` is installed and properly aliased in cargo config
 - **Cross-compilation slow:** First-time setup downloads ~2GB of MSVC tools, subsequent builds are faster
 - **Wine prefix issues:** Use dedicated Wine prefix with `export WINEPREFIX="$HOME/.wine_msvc"`
+- **Complex native dependencies:** Some crates with extensive C/C++ code (like `ring`, OpenSSL) may fail to cross-compile; consider feature flags to disable problematic dependencies or use alternative crates
+- **clang-cl not found:** Install clang with `sudo apt install clang lld llvm` and create symlink: `sudo ln -sf /usr/bin/clang-cl-18 /usr/bin/clang-cl`
 
 ### Build Performance
 - Use `cargo check` instead of `cargo build` for quick Rust validation
