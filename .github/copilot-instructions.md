@@ -32,6 +32,15 @@ Install required dependencies in this exact order:
    cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'
    ```
 
+4. **Install cargo-xwin for Windows MSVC cross-compilation from Linux:**
+   ```bash
+   # Install cargo-xwin for cross-compilation to Windows
+   cargo install cargo-xwin
+   
+   # Add Windows MSVC target
+   rustup target add x86_64-pc-windows-msvc
+   ```
+
 ### Build Process - NEVER CANCEL LONG-RUNNING COMMANDS
 
 Execute these commands in sequence. **NEVER CANCEL** - builds can take 45+ minutes:
@@ -65,7 +74,12 @@ Execute these commands in sequence. **NEVER CANCEL** - builds can take 45+ minut
 6. **Build Rust components:** (60-90 seconds debug, 110-120 seconds release)
    ```bash
    cd rust
+   
+   # For native Linux build (limited functionality)
    cargo build --release  # NEVER CANCEL: Takes ~2 minutes
+   
+   # For Windows MSVC cross-compilation from Linux (recommended)
+   cargo xwin build --release --target x86_64-pc-windows-msvc  # NEVER CANCEL: Takes ~3-4 minutes
    ```
 
 7. **Build Flutter application:** (15-25 minutes - NEVER CANCEL)
@@ -90,7 +104,9 @@ Execute these commands in sequence. **NEVER CANCEL** - builds can take 45+ minut
 **Linux (Development/Testing):**
 - Basic build tools: `build-essential`, `cmake`, `ninja-build`
 - GTK development libraries
-- Limited functionality (desktop app designed primarily for Windows)
+- cargo-xwin for Windows MSVC cross-compilation: `cargo install cargo-xwin`
+- Windows MSVC target: `rustup target add x86_64-pc-windows-msvc`
+- Can build Windows-compatible Rust components via cross-compilation
 
 **macOS:**
 - Xcode Command Line Tools
@@ -101,8 +117,15 @@ Execute these commands in sequence. **NEVER CANCEL** - builds can take 45+ minut
 **Rust Component Testing:**
 ```bash
 cd rust
-cargo check  # Fast syntax check (1-2 minutes)
-cargo test   # Run Rust unit tests (5-10 minutes - NEVER CANCEL)
+
+# Fast syntax check (1-2 minutes)
+cargo check  
+
+# Cross-compilation check for Windows MSVC from Linux (2-3 minutes)
+cargo xwin check --target x86_64-pc-windows-msvc
+
+# Run Rust unit tests (5-10 minutes - NEVER CANCEL)
+cargo test   
 ```
 
 **Flutter Testing:**
@@ -114,6 +137,9 @@ flutter test  # Run Flutter widget tests (2-5 minutes)
 ```bash
 flutter analyze          # Dart/Flutter linting (30-60 seconds)
 cd rust && cargo clippy  # Rust linting (2-3 minutes)
+
+# Cross-compilation linting for Windows MSVC from Linux (3-4 minutes)
+cd rust && cargo xwin clippy --target x86_64-pc-windows-msvc
 ```
 
 ### Manual Validation Requirements
@@ -136,6 +162,42 @@ After building, always perform these validation steps:
    - Localization switching functional
 
 **Note:** Full UI testing requires Windows environment. Linux builds have limited functionality.
+
+### Cross-compilation with cargo-xwin
+
+For Linux developers who need to build Windows-compatible Rust components, cargo-xwin provides seamless cross-compilation to Windows MSVC targets without requiring Windows or Visual Studio.
+
+**Setup cargo-xwin:**
+```bash
+# Install cargo-xwin
+cargo install cargo-xwin
+
+# Add Windows MSVC target
+rustup target add x86_64-pc-windows-msvc
+```
+
+**Using cargo-xwin:**
+```bash
+cd rust
+
+# Check/validate Windows compatibility
+cargo xwin check --target x86_64-pc-windows-msvc
+
+# Build for Windows MSVC
+cargo xwin build --release --target x86_64-pc-windows-msvc
+
+# Test Windows-specific code paths
+cargo xwin test --target x86_64-pc-windows-msvc
+
+# Lint for Windows target
+cargo xwin clippy --target x86_64-pc-windows-msvc
+```
+
+**Benefits:**
+- Cross-compile Windows MSVC binaries from Linux
+- Validate Windows-specific dependencies and APIs
+- Test Windows code paths without Windows environment
+- Faster development cycle for Windows-targeted features
 
 ## Project Structure and Key Files
 
@@ -177,6 +239,10 @@ After building, always perform these validation steps:
    ```bash
    cd rust
    cargo check  # Quick validation
+   
+   # Cross-compilation validation for Windows MSVC from Linux
+   cargo xwin check --target x86_64-pc-windows-msvc
+   
    flutter_rust_bridge_codegen generate  # Regenerate bridge if API changed
    ```
 
@@ -193,6 +259,10 @@ flutter analyze                    # Dart linting (required for CI)
 cd rust && cargo clippy           # Rust linting  
 flutter test                      # Widget tests
 cd rust && cargo test            # Rust tests
+
+# Cross-compilation validation for Windows MSVC from Linux
+cd rust && cargo xwin check --target x86_64-pc-windows-msvc
+cd rust && cargo xwin clippy --target x86_64-pc-windows-msvc
 ```
 
 **CI Pipeline will fail if:**
@@ -215,6 +285,7 @@ cd rust && cargo test            # Rust tests
 
 ### Build Performance
 - Use `cargo check` instead of `cargo build` for quick Rust validation
+- Use `cargo xwin check --target x86_64-pc-windows-msvc` for quick Windows cross-compilation validation
 - Use `flutter analyze` instead of full build for quick Dart validation
 - Clean build artifacts if experiencing issues: `flutter clean && cd rust && cargo clean`
 
@@ -233,6 +304,9 @@ cd rust && cargo test            # Rust tests
 # Quick development validation (5-10 minutes total)
 flutter analyze && cd rust && cargo check
 
+# Quick Windows MSVC cross-compilation validation from Linux (6-12 minutes total)
+flutter analyze && cd rust && cargo xwin check --target x86_64-pc-windows-msvc
+
 # Full build validation (45-60 minutes - NEVER CANCEL)
 flutter pub get && \
 dart run build_runner build --delete-conflicting-outputs && \
@@ -241,6 +315,14 @@ flutter_rust_bridge_codegen generate && \
 flutter pub global run intl_utils:generate && \
 flutter build windows -v
 
+# Windows MSVC cross-compilation build from Linux (30-45 minutes - NEVER CANCEL)  
+flutter pub get && \
+dart run build_runner build --delete-conflicting-outputs && \
+cd rust && cargo update && \
+cargo xwin build --release --target x86_64-pc-windows-msvc && cd .. && \
+flutter_rust_bridge_codegen generate && \
+flutter pub global run intl_utils:generate
+
 # Code generation only (5-10 minutes)
 dart run build_runner build --delete-conflicting-outputs && \
 flutter_rust_bridge_codegen generate && \
@@ -248,6 +330,9 @@ flutter pub global run intl_utils:generate
 
 # Test execution (10-15 minutes total - NEVER CANCEL)
 flutter test && cd rust && cargo test
+
+# Cross-compilation test execution for Windows MSVC from Linux (12-18 minutes - NEVER CANCEL)
+flutter test && cd rust && cargo xwin test --target x86_64-pc-windows-msvc
 ```
 
 **CRITICAL REMINDERS:**
