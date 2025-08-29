@@ -96,6 +96,83 @@ Execute these commands in sequence. **NEVER CANCEL** - builds can take 45+ minut
 - Xcode Command Line Tools
 - CMake
 
+### Wine + Windows MSVC Cross-Compilation (Linux/macOS)
+
+For developers on Linux/macOS who want to validate Rust code against the Windows MSVC toolchain without running Windows natively:
+
+**Prerequisites:**
+```bash
+# Ubuntu/Debian
+sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install -y wine64 wine32:i386
+
+# macOS (with Homebrew)
+brew install --cask wine-stable
+
+# Add Windows MSVC target to Rust
+rustup target add x86_64-pc-windows-msvc
+```
+
+**Install Windows MSVC Build Tools via Wine:**
+1. **Download Visual Studio Build Tools:**
+   ```bash
+   # Create Wine prefix for isolated environment
+   export WINEPREFIX="$HOME/.wine_msvc"
+   winecfg  # Set to Windows 10 mode
+
+   # Download VS Build Tools (replace URL with current version)
+   wget -O /tmp/vs_buildtools.exe "https://aka.ms/vs/17/release/vs_buildtools.exe"
+   ```
+
+2. **Install MSVC components:**
+   ```bash
+   # Install with minimal required components
+   wine /tmp/vs_buildtools.exe --quiet --wait --add Microsoft.VisualStudio.Workload.VCTools \
+     --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 \
+     --add Microsoft.VisualStudio.Component.Windows10SDK.20348
+   ```
+
+3. **Configure Rust to use Wine MSVC:**
+   Create `~/.cargo/config.toml`:
+   ```toml
+   [target.x86_64-pc-windows-msvc]
+   linker = "lld-link"
+   ar = "llvm-lib"
+   
+   [env]
+   CC_x86_64_pc_windows_msvc = "wine cl.exe"
+   CXX_x86_64_pc_windows_msvc = "wine cl.exe"
+   AR_x86_64_pc_windows_msvc = "wine lib.exe"
+   CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_LINKER = "wine link.exe"
+   ```
+
+**Alternative: Using xwin (Recommended for CI/CD):**
+```bash
+# Install xwin for Microsoft CRT/SDK download
+cargo install xwin
+
+# Download Windows SDK and CRT
+xwin --accept-license splat --output ~/.xwin
+
+# Configure Rust to use xwin
+export XWIN_ARCH=x86_64
+export XWIN_CACHE_DIR=~/.xwin
+cat >> ~/.cargo/config.toml << 'EOF'
+[target.x86_64-pc-windows-msvc]
+linker = "lld-link"
+ar = "llvm-lib"
+runner = "wine"
+
+[env]
+CC_x86_64_pc_windows_msvc = "clang-cl"
+CXX_x86_64_pc_windows_msvc = "clang-cl"
+AR_x86_64_pc_windows_msvc = "llvm-lib"
+CFLAGS_x86_64_pc_windows_msvc = "/imsvc ~/.xwin/crt/include /imsvc ~/.xwin/sdk/include/ucrt /imsvc ~/.xwin/sdk/include/um /imsvc ~/.xwin/sdk/include/shared"
+RUSTFLAGS = "-Lnative=~/.xwin/crt/lib/x86_64 -Lnative=~/.xwin/sdk/lib/um/x86_64 -Lnative=~/.xwin/sdk/lib/ucrt/x86_64"
+EOF
+```
+
 ### Testing and Validation
 
 **Rust Component Testing:**
@@ -103,6 +180,17 @@ Execute these commands in sequence. **NEVER CANCEL** - builds can take 45+ minut
 cd rust
 cargo check  # Fast syntax check (1-2 minutes)
 cargo test   # Run Rust unit tests (5-10 minutes - NEVER CANCEL)
+```
+
+**Windows MSVC Cross-Compilation Validation (Linux/macOS):**
+```bash
+cd rust
+# Quick MSVC syntax check (3-5 minutes with Wine - NEVER CANCEL)
+cargo check --target x86_64-pc-windows-msvc
+
+# Alternative with xwin (2-3 minutes)
+RUSTFLAGS="-Lnative=$HOME/.xwin/crt/lib/x86_64 -Lnative=$HOME/.xwin/sdk/lib/um/x86_64 -Lnative=$HOME/.xwin/sdk/lib/ucrt/x86_64" \
+  cargo check --target x86_64-pc-windows-msvc
 ```
 
 **Flutter Testing:**
@@ -114,6 +202,7 @@ flutter test  # Run Flutter widget tests (2-5 minutes)
 ```bash
 flutter analyze          # Dart/Flutter linting (30-60 seconds)
 cd rust && cargo clippy  # Rust linting (2-3 minutes)
+cd rust && cargo clippy --target x86_64-pc-windows-msvc  # Windows MSVC linting (3-5 minutes - NEVER CANCEL)
 ```
 
 ### Manual Validation Requirements
@@ -195,11 +284,19 @@ flutter test                      # Widget tests
 cd rust && cargo test            # Rust tests
 ```
 
+**Extended validation for critical changes:**
+```bash
+# Windows MSVC compatibility check (Linux/macOS developers)
+cd rust && cargo check --target x86_64-pc-windows-msvc  # MSVC compatibility (3-5 minutes - NEVER CANCEL)
+cd rust && cargo clippy --target x86_64-pc-windows-msvc # MSVC linting (3-5 minutes - NEVER CANCEL)
+```
+
 **CI Pipeline will fail if:**
 - Flutter analyze reports errors
 - Rust clippy reports errors  
 - Any tests fail
 - Build process fails
+- Windows MSVC compatibility issues (if target enabled)
 
 ## Common Issues and Solutions
 
@@ -212,6 +309,14 @@ cd rust && cargo test            # Rust tests
 - **Bridge generation fails:** Verify flutter_rust_bridge_codegen is installed and Rust code compiles
 - **Link errors:** Ensure all required system libraries are installed for target platform
 - **API changes:** Regenerate bridge code after modifying Rust API signatures
+
+### Wine + MSVC Issues
+- **Wine not found:** Install Wine with `sudo apt install wine64 wine32:i386` (Linux) or `brew install --cask wine-stable` (macOS)
+- **MSVC tools missing:** Use `xwin` for automated Microsoft CRT/SDK download: `cargo install xwin && xwin --accept-license splat --output ~/.xwin`
+- **Link.exe errors:** Configure `~/.cargo/config.toml` with proper MSVC target settings and RUSTFLAGS
+- **lib.exe not found:** Ensure `llvm-lib` is installed and properly aliased in cargo config
+- **Cross-compilation slow:** First-time setup downloads ~2GB of MSVC tools, subsequent builds are faster
+- **Wine prefix issues:** Use dedicated Wine prefix with `export WINEPREFIX="$HOME/.wine_msvc"`
 
 ### Build Performance
 - Use `cargo check` instead of `cargo build` for quick Rust validation
@@ -233,6 +338,9 @@ cd rust && cargo test            # Rust tests
 # Quick development validation (5-10 minutes total)
 flutter analyze && cd rust && cargo check
 
+# Windows MSVC validation (Linux/macOS - 8-15 minutes total - NEVER CANCEL)
+flutter analyze && cd rust && cargo check --target x86_64-pc-windows-msvc
+
 # Full build validation (45-60 minutes - NEVER CANCEL)
 flutter pub get && \
 dart run build_runner build --delete-conflicting-outputs && \
@@ -248,11 +356,43 @@ flutter pub global run intl_utils:generate
 
 # Test execution (10-15 minutes total - NEVER CANCEL)
 flutter test && cd rust && cargo test
+
+# Extended MSVC validation (Linux/macOS - 15-20 minutes total - NEVER CANCEL)
+flutter test && \
+cd rust && cargo test && \
+cargo check --target x86_64-pc-windows-msvc && \
+cargo clippy --target x86_64-pc-windows-msvc
+```
+
+**Wine + MSVC Setup Commands:**
+```bash
+# Initial Wine MSVC setup (Linux/macOS - ONE-TIME - 30+ minutes - NEVER CANCEL)
+sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install -y wine64 wine32:i386  # Linux
+rustup target add x86_64-pc-windows-msvc
+cargo install xwin
+xwin --accept-license splat --output ~/.xwin
+
+# Configure Rust for MSVC cross-compilation
+mkdir -p ~/.cargo
+cat >> ~/.cargo/config.toml << 'EOF'
+[target.x86_64-pc-windows-msvc]
+linker = "lld-link"
+ar = "llvm-lib"
+runner = "wine"
+
+[env]
+CC_x86_64_pc_windows_msvc = "clang-cl"
+CXX_x86_64_pc_windows_msvc = "clang-cl" 
+AR_x86_64_pc_windows_msvc = "llvm-lib"
+RUSTFLAGS_x86_64_pc_windows_msvc = "-Lnative=$HOME/.xwin/crt/lib/x86_64 -Lnative=$HOME/.xwin/sdk/lib/um/x86_64 -Lnative=$HOME/.xwin/sdk/lib/ucrt/x86_64"
+EOF
 ```
 
 **CRITICAL REMINDERS:**
 - NEVER CANCEL builds or long-running commands - they can take 45+ minutes
 - Always set command timeouts to 60+ minutes for build operations
 - Always set command timeouts to 30+ minutes for test operations  
+- Wine + MSVC setup: Initial setup takes 30+ minutes, subsequent checks 3-5 minutes
+- Wine MSVC cargo check: Set timeout to 10+ minutes for first run, 3-5 minutes thereafter
 - Validate changes with both quick checks and full builds before committing
 - Use Windows environment for complete functionality testing
