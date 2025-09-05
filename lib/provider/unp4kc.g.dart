@@ -6,21 +6,58 @@ part of 'unp4kc.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$unp4kCModelHash() => r'636da3fe20d1fa94917dd63934f08f8dbffc8a9d';
-
-/// See also [Unp4kCModel].
 @ProviderFor(Unp4kCModel)
-final unp4kCModelProvider =
-    AutoDisposeNotifierProvider<Unp4kCModel, Unp4kcState>.internal(
-      Unp4kCModel.new,
-      name: r'unp4kCModelProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$unp4kCModelHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const unp4kCModelProvider = Unp4kCModelProvider._();
 
-typedef _$Unp4kCModel = AutoDisposeNotifier<Unp4kcState>;
+final class Unp4kCModelProvider
+    extends $NotifierProvider<Unp4kCModel, Unp4kcState> {
+  const Unp4kCModelProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'unp4kCModelProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$unp4kCModelHash();
+
+  @$internal
+  @override
+  Unp4kCModel create() => Unp4kCModel();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Unp4kcState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Unp4kcState>(value),
+    );
+  }
+}
+
+String _$unp4kCModelHash() => r'410461980f6173fdbb5d92cbaa3f4c2f57c1ad8d';
+
+abstract class _$Unp4kCModel extends $Notifier<Unp4kcState> {
+  Unp4kcState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<Unp4kcState, Unp4kcState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Unp4kcState, Unp4kcState>,
+              Unp4kcState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

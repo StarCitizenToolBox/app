@@ -6,21 +6,58 @@ part of 'tools_ui_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$toolsUIModelHash() => r'c8830e26df6c0ee572dd5e78c4ccef3317f8b4e6';
-
-/// See also [ToolsUIModel].
 @ProviderFor(ToolsUIModel)
-final toolsUIModelProvider =
-    AutoDisposeNotifierProvider<ToolsUIModel, ToolsUIState>.internal(
-      ToolsUIModel.new,
-      name: r'toolsUIModelProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$toolsUIModelHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const toolsUIModelProvider = ToolsUIModelProvider._();
 
-typedef _$ToolsUIModel = AutoDisposeNotifier<ToolsUIState>;
+final class ToolsUIModelProvider
+    extends $NotifierProvider<ToolsUIModel, ToolsUIState> {
+  const ToolsUIModelProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'toolsUIModelProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$toolsUIModelHash();
+
+  @$internal
+  @override
+  ToolsUIModel create() => ToolsUIModel();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ToolsUIState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ToolsUIState>(value),
+    );
+  }
+}
+
+String _$toolsUIModelHash() => r'81a73aeccf978f7e620681eaf1a3d4182ff48f9e';
+
+abstract class _$ToolsUIModel extends $Notifier<ToolsUIState> {
+  ToolsUIState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<ToolsUIState, ToolsUIState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ToolsUIState, ToolsUIState>,
+              ToolsUIState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

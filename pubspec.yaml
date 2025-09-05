@@ -13,79 +13,78 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-  flutter_riverpod: ^2.6.1
-  riverpod_annotation: ^2.6.1
-  flutter_hooks: ^0.21.2
-  hooks_riverpod: ^2.6.1
+  flutter_riverpod: ^3.0.0-dev.17
+  riverpod_annotation: ^3.0.0-dev.17
+  flutter_hooks: ^0.21.3+1
+  hooks_riverpod: ^3.0.0-dev.17
   json_annotation: ^4.9.0
-  go_router: ^16.1.0
-  window_manager: ^0.5.0
-  fluent_ui: ^4.11.5
+  go_router: ^16.2.1
+  window_manager: ^0.5.1
+  fluent_ui: 4.11.3
   flutter_staggered_grid_view: ^0.7.0
   flutter_acrylic: ^1.1.4
-  url_launcher: ^6.1.10
-  font_awesome_flutter: ^10.5.0
-  cupertino_icons: ^1.0.2
-  hive_ce: ^2.11.2
-  path_provider: ^2.1.1
-  dio: ^5.3.3
-  markdown: ^7.2.1
-  markdown_widget: ^2.2.0
-  extended_image: ^10.0.0
-  device_info_plus: ^11.0.0
-  file_picker: ^10.1.9
+  url_launcher: ^6.3.2
+  font_awesome_flutter: ^10.10.0
+  cupertino_icons: ^1.0.8
+  hive_ce: ^2.11.4
+  path_provider: ^2.1.5
+  dio: ^5.9.0
+  markdown: ^7.3.0
+  markdown_widget: ^2.3.2+8
+  extended_image: ^10.0.1
+  device_info_plus: ^11.5.0
+  file_picker: ^10.3.2
   file_sizes: ^1.0.6
   desktop_webview_window: ^0.2.3
-  flutter_svg: ^2.0.7
-  archive: ^4.0.1
+  flutter_svg: ^2.2.1
+  archive: ^4.0.7
   jwt_decode: ^0.3.1
-  uuid: ^4.1.0
-  flutter_tilt: ^3.0.0
+  uuid: ^4.5.1
+  flutter_tilt: ^3.3.1
   card_swiper: ^3.0.1
-  ffi: ^2.1.0
+  ffi: ^2.1.4
   flutter_rust_bridge: ^2.11.1
-  freezed_annotation: ^3.0.0
-  meta: ^1.9.1
+  freezed_annotation: ^3.1.0
+  meta: ^1.16.0
   hexcolor: ^3.0.1
-  dart_rss: ^3.0.1
-  html: ^0.15.4
-  xml: ^6.5.0
-  fixnum: ^1.1.0
-  protobuf: ^4.0.0
-  grpc: ^4.0.0
+  dart_rss: ^3.0.3
+  html: ^0.15.6
+  xml: ^6.6.1
+  fixnum: ^1.1.1
   rust_builder:
     path: rust_builder
   aria2:
     git: https://github.com/xkeyC/dart_aria2_rpc.git
   #    path: ../../xkeyC/dart_aria2_rpc
+  #    path: ../../xkeyC/dart_aria2_rpc
   intl: any
-  synchronized: ^3.1.0+1
+  synchronized: ^3.4.0
   super_sliver_list: ^0.4.1
-  file: ^7.0.0
+  file: ^7.0.1
   re_editor: ^0.7.0
   re_highlight: ^0.0.3
-  shelf: ^1.4.1
+  shelf: ^1.4.2
   qr_flutter: ^4.1.0
   desktop_multi_window: ^0.2.1
-  watcher: ^1.1.1
+  watcher: ^1.1.3
   path: ^1.9.1
   crypto: ^3.0.6
 dependency_overrides:
-  http: ^1.1.2
+  http: ^1.5.0
   intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  msix: ^3.16.4
-  build_runner: ^2.4.8
-  freezed: ^3.0.6
-  json_serializable: ^6.7.1
-  riverpod_generator: ^2.6.2
-  custom_lint: ^0.7.6
-  riverpod_lint: ^2.6.2
-  ffigen: ^19.0.0
+  msix: ^3.16.12
+  build_runner: 2.7.1
+  freezed: ^3.2.0
+  json_serializable: ^6.11.0
+  riverpod_generator: ^3.0.0-dev.17
+  custom_lint: ^0.8.0
+  riverpod_lint: ^3.0.0-dev.17
+  ffigen: ^19.1.0
   sct_dev_tools:
     path: ./packages/sct_dev_tools
 

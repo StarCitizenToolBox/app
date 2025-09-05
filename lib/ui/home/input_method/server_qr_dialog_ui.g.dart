@@ -6,21 +6,58 @@ part of 'server_qr_dialog_ui.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$serverQrStateHash() => r'06f5ab53e1d6718f2a6eb0078a1adc3778787ed0';
-
-/// See also [ServerQrState].
 @ProviderFor(ServerQrState)
-final serverQrStateProvider =
-    AutoDisposeNotifierProvider<ServerQrState, bool>.internal(
-      ServerQrState.new,
-      name: r'serverQrStateProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$serverQrStateHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const serverQrStateProvider = ServerQrStateProvider._();
 
-typedef _$ServerQrState = AutoDisposeNotifier<bool>;
+final class ServerQrStateProvider
+    extends $NotifierProvider<ServerQrState, bool> {
+  const ServerQrStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'serverQrStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$serverQrStateHash();
+
+  @$internal
+  @override
+  ServerQrState create() => ServerQrState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$serverQrStateHash() => r'41b627b3d012b29a9b68d19a45dbf5257d67a008';
+
+abstract class _$ServerQrState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

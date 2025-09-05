@@ -1,10 +1,11 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:hive_ce/hive.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/app.dart';
 
-extension ProviderExtension on AutoDisposeNotifier {
-  AppGlobalModel get appGlobalModel =>
-      ref.read(appGlobalModelProvider.notifier);
+extension ProviderExtension<T> on $Notifier<T> {
+  AppGlobalModel get appGlobalModel => ref.read(appGlobalModelProvider.notifier);
 
   AppGlobalState get appGlobalState => ref.read(appGlobalModelProvider);
 

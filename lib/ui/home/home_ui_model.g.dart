@@ -6,21 +6,58 @@ part of 'home_ui_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeUIModelHash() => r'8bde330ebc2cd73f76d2d49df8b328f301d42e44';
-
-/// See also [HomeUIModel].
 @ProviderFor(HomeUIModel)
-final homeUIModelProvider =
-    AutoDisposeNotifierProvider<HomeUIModel, HomeUIModelState>.internal(
-      HomeUIModel.new,
-      name: r'homeUIModelProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$homeUIModelHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const homeUIModelProvider = HomeUIModelProvider._();
 
-typedef _$HomeUIModel = AutoDisposeNotifier<HomeUIModelState>;
+final class HomeUIModelProvider
+    extends $NotifierProvider<HomeUIModel, HomeUIModelState> {
+  const HomeUIModelProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'homeUIModelProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$homeUIModelHash();
+
+  @$internal
+  @override
+  HomeUIModel create() => HomeUIModel();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(HomeUIModelState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<HomeUIModelState>(value),
+    );
+  }
+}
+
+String _$homeUIModelHash() => r'84eb149f999237410a7e0a95b74bd5729c2726d4';
+
+abstract class _$HomeUIModel extends $Notifier<HomeUIModelState> {
+  HomeUIModelState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<HomeUIModelState, HomeUIModelState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<HomeUIModelState, HomeUIModelState>,
+              HomeUIModelState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
