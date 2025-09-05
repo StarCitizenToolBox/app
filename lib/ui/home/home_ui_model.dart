@@ -136,14 +136,13 @@ class HomeUIModel extends _$HomeUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  Future<void> goWebView(
-    BuildContext context,
-    String title,
-    String url, {
-    bool useLocalization = false,
-    bool loginMode = false,
-    RsiLoginCallback? rsiLoginCallback,
-  }) async {
+  Future<void> goWebView(BuildContext context,
+      String title,
+      String url, {
+        bool useLocalization = false,
+        bool loginMode = false,
+        RsiLoginCallback? rsiLoginCallback,
+      }) async {
     if (useLocalization) {
       const tipVersion = 2;
       final box = await Hive.openBox("app_conf");
@@ -154,7 +153,10 @@ class HomeUIModel extends _$HomeUIModel {
           context,
           S.current.home_action_title_star_citizen_website_localization,
           Text(S.current.home_action_info_web_localization_plugin_disclaimer, style: const TextStyle(fontSize: 16)),
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .6),
+          constraints: BoxConstraints(maxWidth: MediaQuery
+              .of(context)
+              .size
+              .width * .6),
         );
         if (!ok) {
           if (loginMode) {
@@ -225,8 +227,7 @@ class HomeUIModel extends _$HomeUIModel {
       final box = await Hive.openBox("app_conf");
       final version = box.get("close_placard", defaultValue: "");
       if (r.enable == true) {
-        if (r.alwaysShow != true && version == r.version) {
-        } else {
+        if (r.alwaysShow != true && version == r.version) {} else {
           state = state.copyWith(appPlacardData: r);
         }
       }
@@ -237,7 +238,7 @@ class HomeUIModel extends _$HomeUIModel {
       final countdownFestivalListData = await Api.getFestivalCountdownList();
       state = state.copyWith(
         webLocalizationVersionsData: appWebLocalizationVersionsData,
-        countdownFestivalListData: countdownFestivalListData,
+        countdownFestivalListData: _fixFestivalCountdownListDateTime(countdownFestivalListData),
       );
       _updateSCServerStatus();
       _loadRRS();
@@ -246,6 +247,31 @@ class HomeUIModel extends _$HomeUIModel {
     }
     // check Localization update
     checkLocalizationUpdate();
+  }
+
+  /// 节日已过7天时，更新为下一年的时间
+  List<CountdownFestivalItemData> _fixFestivalCountdownListDateTime(List<CountdownFestivalItemData> list) {
+    final now = DateTime.now();
+
+    return list.map((item) {
+      if (item.time == null) return item;
+      final itemDateTime = DateTime.fromMillisecondsSinceEpoch(item.time! * 1000);
+      final itemDatePlusSeven = itemDateTime.add(const Duration(days: 7));
+      if (itemDatePlusSeven.isBefore(now)) {
+        final nextYearDate = DateTime(
+          now.year + 1,
+          itemDateTime.month,
+          itemDateTime.day,
+          itemDateTime.hour,
+          itemDateTime.minute,
+          itemDateTime.second,
+        );
+        final newTimestamp = (nextYearDate.millisecondsSinceEpoch / 1000).round();
+        return CountdownFestivalItemData(name: item.name, time: newTimestamp, icon: item.icon);
+      }
+
+      return item;
+    }).toList();
   }
 
   Future<void> _updateSCServerStatus() async {
@@ -336,14 +362,12 @@ class HomeUIModel extends _$HomeUIModel {
     ref.read(localizationUIModelProvider.notifier).onChangeGameInstallPath(value);
   }
 
-  Future<void> doLaunchGame(
-    // ignore: avoid_build_context_in_providers
-    BuildContext context,
-    String launchExe,
-    List<String> args,
-    String installPath,
-    String? processorAffinity,
-  ) async {
+  Future<void> doLaunchGame(// ignore: avoid_build_context_in_providers
+      BuildContext context,
+      String launchExe,
+      List<String> args,
+      String installPath,
+      String? processorAffinity,) async {
     var runningMap = Map<String, bool>.from(state.isGameRunning);
     runningMap[installPath] = true;
     state = state.copyWith(isGameRunning: runningMap);
