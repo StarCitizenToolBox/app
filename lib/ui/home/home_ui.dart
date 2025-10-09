@@ -152,6 +152,14 @@ class HomeUI extends HookConsumerWidget {
                 onChanged: model.onChangeInstallPath,
               ),
             ),
+            const SizedBox(width: 12),
+            Button(
+              onPressed: () => context.push("/guide"),
+              child: const Padding(
+                padding: EdgeInsets.all(6),
+                child: Icon(FluentIcons.settings),
+              ),
+            ),
             if (S.current.app_language_code == NoL10n.langCodeZhCn) ...[
               const SizedBox(width: 12),
               Button(
