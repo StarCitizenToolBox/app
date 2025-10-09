@@ -154,7 +154,10 @@ class HomeUI extends HookConsumerWidget {
             ),
             const SizedBox(width: 12),
             Button(
-              onPressed: () => context.push("/guide"),
+              onPressed: () async {
+                await context.push("/guide");
+                await model.reScanPath();
+              },
               child: const Padding(
                 padding: EdgeInsets.all(6),
                 child: Icon(FluentIcons.settings),
