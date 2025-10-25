@@ -2,83 +2,43 @@ import 'dart:io';
 
 import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as rust_win32;
 
 class SystemHelper {
-  static String powershellPath = "powershell.exe";
+  // Remove PowerShell dependency - all functions now use Rust implementations
 
   static Future<void> initPowershellPath() async {
-    try {
-      var result = await Process.run(powershellPath, ["echo", "pong"]);
-      if (!result.stdout.toString().startsWith("pong") && powershellPath == "powershell.exe") {
-        throw "powershell check failed";
-      }
-    } catch (e) {
-      Map<String, String> envVars = Platform.environment;
-      final systemRoot = envVars["SYSTEMROOT"];
-      if (systemRoot != null) {
-        final autoSearchPath = "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-        dPrint("auto search powershell path === $autoSearchPath");
-        powershellPath = autoSearchPath;
-      }
-    }
+    // No longer needed - keeping for backward compatibility
+    dPrint("SystemHelper initialized - using Rust implementations");
   }
 
   static Future<bool> checkNvmePatchStatus() async {
     try {
-      var result = await Process.run(SystemHelper.powershellPath, [
-        "Get-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\""
-      ]);
-      dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
-      if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
-        return true;
-      } else {
-        return false;
-      }
+      return await rust_win32.checkNvmePatchStatus();
     } catch (e) {
+      dPrint("checkNvmePatchStatus error: $e");
       return false;
     }
   }
 
   static Future<String> addNvmePatch() async {
-    var result = await Process.run(powershellPath, [
-      'New-ItemProperty',
-      "-Path",
-      "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-      "-Name",
-      "ForcedPhysicalSectorSizeInBytes",
-      "-PropertyType MultiString",
-      "-Force -Value",
-      "\"* 4095\""
-    ]);
-    dPrint("nvme_PhysicalBytes result == ${result.stdout}");
-    return result.stderr;
+    try {
+      return await rust_win32.addNvmePatch();
+    } catch (e) {
+      dPrint("addNvmePatch error: $e");
+      return e.toString();
+    }
   }
 
   static Future<bool> doRemoveNvmePath() async {
     try {
-      var result = await Process.run(powershellPath, [
-        "Clear-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\""
-      ]);
-      dPrint("doRemoveNvmePath result ==== ${result.stdout}");
-      if (result.stderr == "") {
-        return true;
-      } else {
-        return false;
-      }
+      return await rust_win32.removeNvmePatch();
     } catch (e) {
+      dPrint("doRemoveNvmePath error: $e");
       return false;
     }
   }
 
-  /// 获取 RSI 启动器 目录
   static Future<String> getRSILauncherPath({bool skipEXE = false}) async {
     final confBox = await Hive.openBox("app_conf");
     final path = confBox.get("custom_launcher_path");
@@ -97,42 +57,42 @@ class SystemHelper {
         "$programDataPath\\Microsoft\\Windows\\Start Menu\\Programs\\Roberts Space Industries\\RSI Launcher.lnk";
     final rsiLinkFile = File(rsiFilePath);
     if (await rsiLinkFile.exists()) {
-      final r = await Process.run(SystemHelper.powershellPath,
-          ["(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath"]);
-      if (r.stdout.toString().contains("RSI Launcher.exe")) {
-        final start = r.stdout.toString().split("RSI Launcher.exe");
-        if (skipEXE) {
-          return start[0];
+      try {
+        final targetPath = await rust_win32.resolveShortcut(lnkPath: rsiFilePath);
+        if (targetPath.contains("RSI Launcher.exe")) {
+          final start = targetPath.split("RSI Launcher.exe");
+          if (skipEXE) {
+            return start[0];
+          }
+          return "${start[0]}RSI Launcher.exe";
         }
-        return "${start[0]}RSI Launcher.exe";
+      } catch (e) {
+        dPrint("getRSILauncherPath error: $e");
       }
     }
     return "";
   }
 
   static Future<void> killRSILauncher() async {
-    var psr = await Process.run(powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
-    if (psr.stderr == "") {
-      for (var value in (psr.stdout ?? "").toString().split("\n")) {
-        dPrint(value);
-        if (value != "") {
-          Process.killPid(int.parse(value));
-        }
-      }
+    try {
+      await rust_win32.killProcessByName(processName: "RSI Launcher");
+    } catch (e) {
+      dPrint("killRSILauncher error: $e");
+    }
+  }
+
+  static Future<void> killProcessByName(String processName) async {
+    try {
+      await rust_win32.killProcessByName(processName: processName);
+    } catch (e) {
+      dPrint("killProcessByName error: $e");
     }
   }
 
   static Future<List<String>> getPID(String name) async {
     try {
-      final r = await Process.run(powershellPath, ["(ps $name).Id"]);
-      if (r.stderr.toString().trim().isNotEmpty) {
-        dPrint("getPID Error: ${r.stderr}");
-        return [];
-      }
-      final str = r.stdout.toString().trim();
-      dPrint("getPID result: $str");
-      if (str.isEmpty) return [];
-      return str.split("\n");
+      final pids = await rust_win32.getProcessIds(processName: name);
+      return pids.map((pid) => pid.toString()).toList();
     } catch (e) {
       dPrint("getPID Error: $e");
       return [];
@@ -144,92 +104,84 @@ class SystemHelper {
     await killRSILauncher();
     // launch
     final processorAffinity = await SystemHelper.getCpuAffinity();
-    if (processorAffinity == null) {
-      Process.run(path, []);
-    } else {
-      Process.run("cmd.exe", [
-        '/C',
-        'Start',
-        '""',
-        '/High',
-        '/Affinity',
-        processorAffinity,
-        path,
-      ]);
+    try {
+      await rust_win32.launchProcessWithAffinity(executablePath: path, args: [], affinityMask: processorAffinity);
+    } catch (e) {
+      dPrint("checkAndLaunchRSILauncher error: $e");
     }
-    dPrint(path);
   }
 
   static Future<int> getSystemMemorySizeGB() async {
-    final r = await Process.run(
-        powershellPath, ["(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"]);
-    return int.tryParse(r.stdout.toString().trim()) ?? 0;
+    try {
+      final memoryGb = await rust_win32.getSystemMemoryGb();
+      return memoryGb.toInt();
+    } catch (e) {
+      dPrint("getSystemMemorySizeGB error: $e");
+      return 0;
+    }
   }
 
   static Future<String> getSystemCimInstance(String win32InstanceName, {pathName = "Name"}) async {
-    final r = await Process.run(powershellPath, ["(Get-CimInstance $win32InstanceName).$pathName"]);
-    return r.stdout.toString().trim();
+    // This function is deprecated - specific functions should be used instead
+    dPrint("getSystemCimInstance is deprecated, use specific functions instead");
+    return "";
   }
 
   static Future<String> getSystemName() async {
-    final r = await Process.run(powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
-    return r.stdout.toString().trim();
+    try {
+      return await rust_win32.getSystemName();
+    } catch (e) {
+      dPrint("getSystemName error: $e");
+      return "Unknown";
+    }
   }
 
   static Future<String> getCpuName() async {
-    final r = await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
-    return r.stdout.toString().trim();
+    try {
+      return await rust_win32.getCpuName();
+    } catch (e) {
+      dPrint("getCpuName error: $e");
+      return "Unknown";
+    }
   }
 
   static Future<String> getGpuInfo() async {
-    const cmd = r"""
-    $adapterMemory = (Get-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0*" -Name "HardwareInformation.AdapterString", "HardwareInformation.qwMemorySize" -Exclude PSPath -ErrorAction SilentlyContinue)
-foreach ($adapter in $adapterMemory) {
-  [PSCustomObject] @{
-    Model=$adapter."HardwareInformation.AdapterString"
-    "VRAM (GB)"=[math]::round($adapter."HardwareInformation.qwMemorySize"/1GB)
-  }
-}
-    """;
-    final r = await Process.run(powershellPath, [cmd]);
-    return r.stdout.toString().trim();
+    try {
+      return await rust_win32.getGpuInfo();
+    } catch (e) {
+      dPrint("getGpuInfo error: $e");
+      return "Unknown";
+    }
   }
 
   static Future<String> getDiskInfo() async {
-    return (await Process.run(powershellPath, ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
-        .stdout
-        .toString()
-        .trim();
+    try {
+      return await rust_win32.getDiskInfo();
+    } catch (e) {
+      dPrint("getDiskInfo error: $e");
+      return "Unknown";
+    }
   }
 
   static Future<int> getDirLen(String path, {List<String>? skipPath}) async {
     if (path == "") return 0;
-    int totalSize = 0;
     try {
-      final l = await Directory(path).list(recursive: true).toList();
-      for (var element in l) {
-        if (element is File) {
-          bool skip = false;
-          if (skipPath != null) {
-            for (var value in skipPath) {
-              if (element.absolute.path.startsWith(value)) {
-                skip = true;
-                break;
-              }
-            }
-          }
-          if (!skip) totalSize += await element.length();
-        }
-      }
-    } catch (_) {}
-    return totalSize;
+      final size = await rust_win32.calculateDirectorySize(path: path, skipPaths: skipPath ?? []);
+      return size.toInt();
+    } catch (e) {
+      dPrint("getDirLen error: $e");
+      return 0;
+    }
   }
 
   static Future<int> getNumberOfLogicalProcessors() async {
-    final cpuNumberResult =
-        await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
-    if (cpuNumberResult.exitCode != 0) return 0;
-    return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
+    try {
+      final count = await rust_win32.getCpuCount();
+      return count.toInt();
+    } catch (e) {
+      dPrint("getNumberOfLogicalProcessors error: $e");
+      return 0;
+    }
   }
 
   static Future<String?> getCpuAffinity() async {
@@ -240,34 +192,36 @@ foreach ($adapter in $adapterMemory) {
       return null;
     }
 
-    StringBuffer sb = StringBuffer();
-    for (var i = 0; i < cpuNumber; i++) {
-      if (i < eCoreCount) {
-        sb.write("0");
-      } else {
-        sb.write("1");
-      }
+    try {
+      return await rust_win32.calculateCpuAffinity(eCoreCount: BigInt.from(eCoreCount));
+    } catch (e) {
+      dPrint("getCpuAffinity error: $e");
+      return null;
     }
-    final binaryString = sb.toString();
-    int hexDigits = (binaryString.length / 4).ceil();
-    dPrint("Affinity sb ==== $sb");
-    return int.parse(binaryString, radix: 2).toRadixString(16).padLeft(hexDigits, '0').toUpperCase();
   }
 
   static Future openDir(dynamic path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
-    if (Platform.isWindows) {
-      await Process.run(
-          SystemHelper.powershellPath, ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
+    try {
+      await rust_win32.openDirectory(path: path.toString(), selectFile: isFile);
+    } catch (e) {
+      dPrint("openDir error: $e");
     }
   }
 
   static String getHostsFilePath() {
-    if (Platform.isWindows) {
-      final envVars = Platform.environment;
-      final systemRoot = envVars["SYSTEMROOT"];
-      return "$systemRoot\\System32\\drivers\\etc\\hosts";
+    try {
+      // Note: This is synchronous but Rust function is async
+      // We'll handle this by making it a Future if needed
+      if (Platform.isWindows) {
+        final envVars = Platform.environment;
+        final systemRoot = envVars["SYSTEMROOT"];
+        return "$systemRoot\\System32\\drivers\\etc\\hosts";
+      }
+      return "/etc/hosts";
+    } catch (e) {
+      dPrint("getHostsFilePath error: $e");
+      return "";
     }
-    return "/etc/hosts";
   }
 }
