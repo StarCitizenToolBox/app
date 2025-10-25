@@ -131,6 +131,17 @@ class HomeUI extends HookConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(S.current.home_install_location),
+            const SizedBox(width: 12),
+            Button(
+              onPressed: () async {
+                await context.push("/guide");
+                await model.reScanPath();
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(6),
+                child: Icon(FluentIcons.settings),
+              ),
+            ),
             const SizedBox(width: 6),
             Expanded(
               child: ComboBox<String>(
@@ -150,17 +161,6 @@ class HomeUI extends HookConsumerWidget {
                     )
                 ],
                 onChanged: model.onChangeInstallPath,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Button(
-              onPressed: () async {
-                await context.push("/guide");
-                await model.reScanPath();
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(6),
-                child: Icon(FluentIcons.settings),
               ),
             ),
             if (S.current.app_language_code == NoL10n.langCodeZhCn) ...[
