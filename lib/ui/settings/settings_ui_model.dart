@@ -48,14 +48,15 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> setGameLaunchECore(BuildContext context) async {
     final userBox = await Hive.openBox("app_conf");
-    final defaultInput =
-        userBox.get("gameLaunch_eCore_count", defaultValue: "0");
+    final defaultInput = userBox.get("gameLaunch_eCore_count", defaultValue: "0");
     if (!context.mounted) return;
-    final input = await showInputDialogs(context,
-        title: S.current.setting_action_info_enter_cpu_core_to_ignore,
-        content: S.current.setting_action_info_cpu_core_tip,
-        initialValue: defaultInput,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly]);
+    final input = await showInputDialogs(
+      context,
+      title: S.current.setting_action_info_enter_cpu_core_to_ignore,
+      content: S.current.setting_action_info_cpu_core_tip,
+      initialValue: defaultInput,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+    );
     if (input == null) return;
     userBox.put("gameLaunch_eCore_count", input);
     _initState();
@@ -63,8 +64,7 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future _updateGameLaunchECore() async {
     final userBox = await Hive.openBox("app_conf");
-    final inputGameLaunchECore =
-        userBox.get("gameLaunch_eCore_count", defaultValue: "0");
+    final inputGameLaunchECore = userBox.get("gameLaunch_eCore_count", defaultValue: "0");
     state = state.copyWith(inputGameLaunchECore: inputGameLaunchECore);
   }
 
@@ -100,9 +100,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     if (r == null || r.files.firstOrNull?.path == null) return;
     final fileName = r.files.first.path!;
     dPrint(fileName);
-    final fileNameRegExp = RegExp(
-        r"^(.*\\StarCitizen\\.*\\)Bin64\\StarCitizen\.exe$",
-        caseSensitive: false);
+    final fileNameRegExp = RegExp(r"^(.*\\StarCitizen\\.*\\)Bin64\\StarCitizen\.exe$", caseSensitive: false);
     if (fileNameRegExp.hasMatch(fileName)) {
       RegExp pathRegex = RegExp(r"\\[^\\]+\\Bin64\\StarCitizen\.exe$");
       String extractedPath = fileName.replaceFirst(pathRegex, '');
@@ -125,8 +123,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     final confBox = await Hive.openBox("app_conf");
     final customLauncherPath = confBox.get("custom_launcher_path");
     final customGamePath = confBox.get("custom_game_path");
-    state = state.copyWith(
-        customLauncherPath: customLauncherPath, customGamePath: customGamePath);
+    state = state.copyWith(customLauncherPath: customLauncherPath, customGamePath: customGamePath);
   }
 
   Future<void> delName(String key) async {
@@ -136,24 +133,21 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future _loadLocationCacheSize() async {
-    final len1 = await SystemHelper.getDirLen(
-        "${appGlobalState.applicationSupportDir}/Localizations");
-    final len2 = await SystemHelper.getDirLen(
-        "${appGlobalState.applicationSupportDir}/launcher_enhance_data");
+    final len1 = await SystemHelper.getDirLen("${appGlobalState.applicationSupportDir}/Localizations");
+    final len2 = await SystemHelper.getDirLen("${appGlobalState.applicationSupportDir}/launcher_enhance_data");
     final locationCacheSize = len1 + len2;
     state = state.copyWith(locationCacheSize: locationCacheSize);
   }
 
   Future<void> cleanLocationCache(BuildContext context) async {
     final ok = await showConfirmDialogs(
-        context,
-        S.current.setting_action_info_confirm_clear_cache,
-        Text(S.current.setting_action_info_clear_cache_warning));
+      context,
+      S.current.setting_action_info_confirm_clear_cache,
+      Text(S.current.setting_action_info_clear_cache_warning),
+    );
     if (ok == true) {
-      final dir1 =
-          Directory("${appGlobalState.applicationSupportDir}/Localizations");
-      final dir2 = Directory(
-          "${appGlobalState.applicationSupportDir}/launcher_enhance_data");
+      final dir1 = Directory("${appGlobalState.applicationSupportDir}/Localizations");
+      final dir2 = Directory("${appGlobalState.applicationSupportDir}/launcher_enhance_data");
       if (!context.mounted) return;
       if (await dir1.exists()) {
         if (!context.mounted) return;
@@ -170,15 +164,15 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> addShortCut(BuildContext context) async {
     if (ConstConf.isMSE) {
-      showToast(
-          context, S.current.setting_action_info_microsoft_version_limitation);
+      showToast(context, S.current.setting_action_info_microsoft_version_limitation);
       await Future.delayed(const Duration(seconds: 1));
       Process.run("explorer.exe", ["shell:AppsFolder"]);
       return;
     }
     dPrint(Platform.resolvedExecutable);
     final shortCuntName = S.current.app_shortcut_name;
-    final script = """
+    final script =
+        """
     \$targetPath = "${Platform.resolvedExecutable}";
     \$shortcutPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory), "$shortCuntName");
     \$shell = New-Object -ComObject WScript.Shell
@@ -191,15 +185,15 @@ class SettingsUIModel extends _$SettingsUIModel {
         Write-Host "Shortcut created successfully."
     }
 """;
-    await Process.run(SystemHelper.powershellPath, [script]);
+    // Use powershell.exe directly instead of SystemHelper reference
+    await Process.run("powershell.exe", [script]);
     if (!context.mounted) return;
     showToast(context, S.current.setting_action_info_shortcut_created);
   }
 
   Future _loadToolSiteMirrorState() async {
     final userBox = await Hive.openBox("app_conf");
-    final isEnableToolSiteMirrors =
-        userBox.get("isEnableToolSiteMirrors", defaultValue: false);
+    final isEnableToolSiteMirrors = userBox.get("isEnableToolSiteMirrors", defaultValue: false);
     state = state.copyWith(isEnableToolSiteMirrors: isEnableToolSiteMirrors);
   }
 
@@ -211,8 +205,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future<void> showLogs() async {
-    SystemHelper.openDir(getDPrintFile()?.absolute.path.replaceAll("/", "\\"),
-        isFile: true);
+    SystemHelper.openDir(getDPrintFile()?.absolute.path.replaceAll("/", "\\"), isFile: true);
   }
 
   void onChangeUseInternalDNS(bool? b) {
@@ -223,8 +216,7 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future _loadUseInternalDNS() async {
     final userBox = await Hive.openBox("app_conf");
-    final isUseInternalDNS =
-        userBox.get("isUseInternalDNS", defaultValue: false);
+    final isUseInternalDNS = userBox.get("isUseInternalDNS", defaultValue: false);
     state = state.copyWith(isUseInternalDNS: isUseInternalDNS);
   }
 }

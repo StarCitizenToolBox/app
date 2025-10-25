@@ -56,6 +56,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<String> dco_decode_list_String(dynamic raw);
 
   @protected
+  Uint32List dco_decode_list_prim_u_32_strict(dynamic raw);
+
+  @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
 
   @protected
@@ -116,6 +119,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void dco_decode_unit(dynamic raw);
 
   @protected
+  BigInt dco_decode_usize(dynamic raw);
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
@@ -151,6 +157,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  Uint32List sse_decode_list_prim_u_32_strict(SseDeserializer deserializer);
 
   @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
@@ -225,6 +234,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_decode_unit(SseDeserializer deserializer);
 
   @protected
+  BigInt sse_decode_usize(SseDeserializer deserializer);
+
+  @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_AnyhowException(
     AnyhowException raw,
   ) {
@@ -295,6 +307,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_prim_u_32_strict> cst_encode_list_prim_u_32_strict(
+    Uint32List raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_u_32_strict(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_encode_list_prim_u_8_loose(
     List<int> raw,
   ) {
@@ -361,6 +383,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int cst_encode_u_64(BigInt raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw.toSigned(64).toInt();
+  }
+
+  @protected
+  int cst_encode_usize(BigInt raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw.toSigned(64).toInt();
   }
@@ -490,6 +518,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_prim_u_32_strict(
+    Uint32List self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
 
   @protected
@@ -575,6 +609,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_usize(BigInt self, SseSerializer serializer);
 }
 
 // Section: wire_class
@@ -613,6 +650,82 @@ class RustLibWire implements BaseWire {
       );
   late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
       .asFunction<void Function(DartPostCObjectFnType)>();
+
+  void wire__crate__api__win32_api__add_nvme_patch(int port_) {
+    return _wire__crate__api__win32_api__add_nvme_patch(port_);
+  }
+
+  late final _wire__crate__api__win32_api__add_nvme_patchPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__add_nvme_patch',
+      );
+  late final _wire__crate__api__win32_api__add_nvme_patch =
+      _wire__crate__api__win32_api__add_nvme_patchPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__calculate_cpu_affinity(
+    int port_,
+    int e_core_count,
+  ) {
+    return _wire__crate__api__win32_api__calculate_cpu_affinity(
+      port_,
+      e_core_count,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__calculate_cpu_affinityPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__calculate_cpu_affinity',
+      );
+  late final _wire__crate__api__win32_api__calculate_cpu_affinity =
+      _wire__crate__api__win32_api__calculate_cpu_affinityPtr
+          .asFunction<void Function(int, int)>();
+
+  void wire__crate__api__win32_api__calculate_directory_size(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> path,
+    ffi.Pointer<wire_cst_list_String> skip_paths,
+  ) {
+    return _wire__crate__api__win32_api__calculate_directory_size(
+      port_,
+      path,
+      skip_paths,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__calculate_directory_sizePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_String>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__calculate_directory_size',
+      );
+  late final _wire__crate__api__win32_api__calculate_directory_size =
+      _wire__crate__api__win32_api__calculate_directory_sizePtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_String>,
+            )
+          >();
+
+  void wire__crate__api__win32_api__check_nvme_patch_status(int port_) {
+    return _wire__crate__api__win32_api__check_nvme_patch_status(port_);
+  }
+
+  late final _wire__crate__api__win32_api__check_nvme_patch_statusPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__check_nvme_patch_status',
+      );
+  late final _wire__crate__api__win32_api__check_nvme_patch_status =
+      _wire__crate__api__win32_api__check_nvme_patch_statusPtr
+          .asFunction<void Function(int)>();
 
   void wire__crate__api__http_api__dns_lookup_ips(
     int port_,
@@ -706,6 +819,90 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__win32_api__get_cpu_count(int port_) {
+    return _wire__crate__api__win32_api__get_cpu_count(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_cpu_countPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_cpu_count',
+      );
+  late final _wire__crate__api__win32_api__get_cpu_count =
+      _wire__crate__api__win32_api__get_cpu_countPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__get_cpu_name(int port_) {
+    return _wire__crate__api__win32_api__get_cpu_name(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_cpu_namePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_cpu_name',
+      );
+  late final _wire__crate__api__win32_api__get_cpu_name =
+      _wire__crate__api__win32_api__get_cpu_namePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__get_disk_info(int port_) {
+    return _wire__crate__api__win32_api__get_disk_info(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_disk_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_disk_info',
+      );
+  late final _wire__crate__api__win32_api__get_disk_info =
+      _wire__crate__api__win32_api__get_disk_infoPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__get_gpu_info(int port_) {
+    return _wire__crate__api__win32_api__get_gpu_info(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_gpu_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_gpu_info',
+      );
+  late final _wire__crate__api__win32_api__get_gpu_info =
+      _wire__crate__api__win32_api__get_gpu_infoPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__get_hosts_file_path(int port_) {
+    return _wire__crate__api__win32_api__get_hosts_file_path(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_hosts_file_pathPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_hosts_file_path',
+      );
+  late final _wire__crate__api__win32_api__get_hosts_file_path =
+      _wire__crate__api__win32_api__get_hosts_file_pathPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__get_process_ids(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> process_name,
+  ) {
+    return _wire__crate__api__win32_api__get_process_ids(port_, process_name);
+  }
+
+  late final _wire__crate__api__win32_api__get_process_idsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_process_ids',
+      );
+  late final _wire__crate__api__win32_api__get_process_ids =
+      _wire__crate__api__win32_api__get_process_idsPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
   void wire__crate__api__asar_api__get_rsi_launcher_asar_data(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path,
@@ -729,6 +926,161 @@ class RustLibWire implements BaseWire {
       );
   late final _wire__crate__api__asar_api__get_rsi_launcher_asar_data =
       _wire__crate__api__asar_api__get_rsi_launcher_asar_dataPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__win32_api__get_system_memory_gb(int port_) {
+    return _wire__crate__api__win32_api__get_system_memory_gb(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_system_memory_gbPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_system_memory_gb',
+      );
+  late final _wire__crate__api__win32_api__get_system_memory_gb =
+      _wire__crate__api__win32_api__get_system_memory_gbPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__get_system_name(int port_) {
+    return _wire__crate__api__win32_api__get_system_name(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_system_namePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_system_name',
+      );
+  late final _wire__crate__api__win32_api__get_system_name =
+      _wire__crate__api__win32_api__get_system_namePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__kill_process_by_name(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> process_name,
+  ) {
+    return _wire__crate__api__win32_api__kill_process_by_name(
+      port_,
+      process_name,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__kill_process_by_namePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__kill_process_by_name',
+      );
+  late final _wire__crate__api__win32_api__kill_process_by_name =
+      _wire__crate__api__win32_api__kill_process_by_namePtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__win32_api__launch_process_with_affinity(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> executable_path,
+    ffi.Pointer<wire_cst_list_String> args,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> affinity_mask,
+  ) {
+    return _wire__crate__api__win32_api__launch_process_with_affinity(
+      port_,
+      executable_path,
+      args,
+      affinity_mask,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__launch_process_with_affinityPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_String>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__launch_process_with_affinity',
+      );
+  late final _wire__crate__api__win32_api__launch_process_with_affinity =
+      _wire__crate__api__win32_api__launch_process_with_affinityPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_String>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  void wire__crate__api__win32_api__open_directory(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> path,
+    bool select_file,
+  ) {
+    return _wire__crate__api__win32_api__open_directory(
+      port_,
+      path,
+      select_file,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__open_directoryPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Bool,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__open_directory',
+      );
+  late final _wire__crate__api__win32_api__open_directory =
+      _wire__crate__api__win32_api__open_directoryPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>, bool)
+          >();
+
+  void wire__crate__api__win32_api__remove_nvme_patch(int port_) {
+    return _wire__crate__api__win32_api__remove_nvme_patch(port_);
+  }
+
+  late final _wire__crate__api__win32_api__remove_nvme_patchPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__remove_nvme_patch',
+      );
+  late final _wire__crate__api__win32_api__remove_nvme_patch =
+      _wire__crate__api__win32_api__remove_nvme_patchPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__resolve_shortcut(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> lnk_path,
+  ) {
+    return _wire__crate__api__win32_api__resolve_shortcut(port_, lnk_path);
+  }
+
+  late final _wire__crate__api__win32_api__resolve_shortcutPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__resolve_shortcut',
+      );
+  late final _wire__crate__api__win32_api__resolve_shortcut =
+      _wire__crate__api__win32_api__resolve_shortcutPtr
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
@@ -974,6 +1326,21 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_String = _cst_new_list_StringPtr
       .asFunction<ffi.Pointer<wire_cst_list_String> Function(int)>();
 
+  ffi.Pointer<wire_cst_list_prim_u_32_strict> cst_new_list_prim_u_32_strict(
+    int len,
+  ) {
+    return _cst_new_list_prim_u_32_strict(len);
+  }
+
+  late final _cst_new_list_prim_u_32_strictPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_prim_u_32_strict> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_prim_u_32_strict');
+  late final _cst_new_list_prim_u_32_strict = _cst_new_list_prim_u_32_strictPtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_u_32_strict> Function(int)>();
+
   ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_new_list_prim_u_8_loose(
     int len,
   ) {
@@ -1049,6 +1416,13 @@ final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_list_String extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_record_string_string extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
 
@@ -1077,8 +1451,8 @@ final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
   external int len;
 }
 
-final class wire_cst_list_String extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
+final class wire_cst_list_prim_u_32_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint32> ptr;
 
   @ffi.Int32()
   external int len;

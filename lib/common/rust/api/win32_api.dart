@@ -22,3 +22,75 @@ Future<bool> setForegroundWindow({required String windowName}) => RustLib
     .instance
     .api
     .crateApiWin32ApiSetForegroundWindow(windowName: windowName);
+
+Future<bool> checkNvmePatchStatus() =>
+    RustLib.instance.api.crateApiWin32ApiCheckNvmePatchStatus();
+
+Future<String> addNvmePatch() =>
+    RustLib.instance.api.crateApiWin32ApiAddNvmePatch();
+
+Future<bool> removeNvmePatch() =>
+    RustLib.instance.api.crateApiWin32ApiRemoveNvmePatch();
+
+Future<Uint32List> getProcessIds({required String processName}) => RustLib
+    .instance
+    .api
+    .crateApiWin32ApiGetProcessIds(processName: processName);
+
+Future<void> killProcessByName({required String processName}) => RustLib
+    .instance
+    .api
+    .crateApiWin32ApiKillProcessByName(processName: processName);
+
+Future<void> launchProcessWithAffinity({
+  required String executablePath,
+  required List<String> args,
+  String? affinityMask,
+}) => RustLib.instance.api.crateApiWin32ApiLaunchProcessWithAffinity(
+  executablePath: executablePath,
+  args: args,
+  affinityMask: affinityMask,
+);
+
+Future<BigInt> getSystemMemoryGb() =>
+    RustLib.instance.api.crateApiWin32ApiGetSystemMemoryGb();
+
+Future<String> getCpuName() =>
+    RustLib.instance.api.crateApiWin32ApiGetCpuName();
+
+Future<BigInt> getCpuCount() =>
+    RustLib.instance.api.crateApiWin32ApiGetCpuCount();
+
+Future<String> calculateCpuAffinity({required BigInt eCoreCount}) => RustLib
+    .instance
+    .api
+    .crateApiWin32ApiCalculateCpuAffinity(eCoreCount: eCoreCount);
+
+Future<String> getSystemName() =>
+    RustLib.instance.api.crateApiWin32ApiGetSystemName();
+
+Future<String> getGpuInfo() =>
+    RustLib.instance.api.crateApiWin32ApiGetGpuInfo();
+
+Future<String> getDiskInfo() =>
+    RustLib.instance.api.crateApiWin32ApiGetDiskInfo();
+
+Future<BigInt> calculateDirectorySize({
+  required String path,
+  required List<String> skipPaths,
+}) => RustLib.instance.api.crateApiWin32ApiCalculateDirectorySize(
+  path: path,
+  skipPaths: skipPaths,
+);
+
+Future<String> resolveShortcut({required String lnkPath}) =>
+    RustLib.instance.api.crateApiWin32ApiResolveShortcut(lnkPath: lnkPath);
+
+Future<void> openDirectory({required String path, required bool selectFile}) =>
+    RustLib.instance.api.crateApiWin32ApiOpenDirectory(
+      path: path,
+      selectFile: selectFile,
+    );
+
+Future<String> getHostsFilePath() =>
+    RustLib.instance.api.crateApiWin32ApiGetHostsFilePath();

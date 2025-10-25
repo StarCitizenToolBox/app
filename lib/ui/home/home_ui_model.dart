@@ -136,13 +136,14 @@ class HomeUIModel extends _$HomeUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  Future<void> goWebView(BuildContext context,
-      String title,
-      String url, {
-        bool useLocalization = false,
-        bool loginMode = false,
-        RsiLoginCallback? rsiLoginCallback,
-      }) async {
+  Future<void> goWebView(
+    BuildContext context,
+    String title,
+    String url, {
+    bool useLocalization = false,
+    bool loginMode = false,
+    RsiLoginCallback? rsiLoginCallback,
+  }) async {
     if (useLocalization) {
       const tipVersion = 2;
       final box = await Hive.openBox("app_conf");
@@ -153,10 +154,7 @@ class HomeUIModel extends _$HomeUIModel {
           context,
           S.current.home_action_title_star_citizen_website_localization,
           Text(S.current.home_action_info_web_localization_plugin_disclaimer, style: const TextStyle(fontSize: 16)),
-          constraints: BoxConstraints(maxWidth: MediaQuery
-              .of(context)
-              .size
-              .width * .6),
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .6),
         );
         if (!ok) {
           if (loginMode) {
@@ -227,7 +225,8 @@ class HomeUIModel extends _$HomeUIModel {
       final box = await Hive.openBox("app_conf");
       final version = box.get("close_placard", defaultValue: "");
       if (r.enable == true) {
-        if (r.alwaysShow != true && version == r.version) {} else {
+        if (r.alwaysShow != true && version == r.version) {
+        } else {
           state = state.copyWith(appPlacardData: r);
         }
       }
@@ -335,7 +334,12 @@ class HomeUIModel extends _$HomeUIModel {
 
     if (ConstConf.isMSE) {
       if (state.isCurGameRunning) {
-        await Process.run(SystemHelper.powershellPath, ["ps \"StarCitizen\" | kill"]);
+        // Use Rust implementation to kill StarCitizen process
+        try {
+          await SystemHelper.killProcessByName("StarCitizen");
+        } catch (e) {
+          dPrint("Error killing StarCitizen: $e");
+        }
         return;
       }
       AnalyticsApi.touch("gameLaunch");
@@ -362,12 +366,14 @@ class HomeUIModel extends _$HomeUIModel {
     ref.read(localizationUIModelProvider.notifier).onChangeGameInstallPath(value);
   }
 
-  Future<void> doLaunchGame(// ignore: avoid_build_context_in_providers
-      BuildContext context,
-      String launchExe,
-      List<String> args,
-      String installPath,
-      String? processorAffinity,) async {
+  Future<void> doLaunchGame(
+    // ignore: avoid_build_context_in_providers
+    BuildContext context,
+    String launchExe,
+    List<String> args,
+    String installPath,
+    String? processorAffinity,
+  ) async {
     var runningMap = Map<String, bool>.from(state.isGameRunning);
     runningMap[installPath] = true;
     state = state.copyWith(isGameRunning: runningMap);
