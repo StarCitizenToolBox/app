@@ -1402,6 +1402,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "support_dev_github_star_message": MessageLookupByLibrary.simpleMessage(
       "You can also give my project a Star on GitHub",
     ),
+    "support_dev_hk_fps_transfer_id_copied":
+        MessageLookupByLibrary.simpleMessage("FPS ID copied"),
+    "support_dev_hk_fps_transfer_title": MessageLookupByLibrary.simpleMessage(
+      "Hong Kong FPS",
+    ),
     "support_dev_in_game_currency_message": MessageLookupByLibrary.simpleMessage(
       "You can send aUEC to me in the game as support, which will help me get a better gaming experience in limited time",
     ),

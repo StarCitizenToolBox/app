@@ -1264,6 +1264,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "support_dev_github_star_message": MessageLookupByLibrary.simpleMessage(
       "GitHubで私のプロジェクトにスターを付けることもできます",
     ),
+    "support_dev_hk_fps_transfer_id_copied":
+        MessageLookupByLibrary.simpleMessage("FPS IDがコピーされました"),
+    "support_dev_hk_fps_transfer_title": MessageLookupByLibrary.simpleMessage(
+      "Hong Kong FPS",
+    ),
     "support_dev_in_game_currency_message":
         MessageLookupByLibrary.simpleMessage(
           "ゲーム内でaUECを送信してサポートすることができます。これは限られた時間の中で私がより良いゲーム体験を得るのに役立ちます",

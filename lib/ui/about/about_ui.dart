@@ -23,10 +23,7 @@ class AboutUI extends HookConsumerWidget {
     return PageView(
       scrollDirection: Axis.vertical,
       controller: pageCtrl,
-      children: [
-        _makeAbout(context, ref, isTipTextCn, pageCtrl),
-        _makeDonate(context, ref, pageCtrl),
-      ],
+      children: [_makeAbout(context, ref, isTipTextCn, pageCtrl), _makeDonate(context, ref, pageCtrl)],
     );
   }
 
@@ -41,20 +38,22 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(height: 32),
               Image.asset("assets/app_logo.png", width: 128, height: 128),
               const SizedBox(height: 6),
-              Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev"),
-                  style: const TextStyle(fontSize: 18)),
+              Text(
+                S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev"),
+                style: const TextStyle(fontSize: 18),
+              ),
               const SizedBox(height: 12),
               Button(
-                  onPressed: () => _onCheckUpdate(context, ref),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Text(S.current.about_check_update),
-                  )),
+                onPressed: () => _onCheckUpdate(context, ref),
+                child: Padding(padding: const EdgeInsets.all(4), child: Text(S.current.about_check_update)),
+              ),
               const SizedBox(height: 32),
               Container(
                 margin: const EdgeInsets.all(24),
-                decoration:
-                    BoxDecoration(color: FluentTheme.of(context).cardColor, borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                  color: FluentTheme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -80,8 +79,9 @@ class AboutUI extends HookConsumerWidget {
                     child: Container(
                       width: MediaQuery.of(context).size.width * .35,
                       decoration: BoxDecoration(
-                          color: FluentTheme.of(context).cardColor.withValues(alpha: .06),
-                          borderRadius: BorderRadius.circular(12)),
+                        color: FluentTheme.of(context).cardColor.withValues(alpha: .06),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: IconButton(
                         icon: Padding(
                           padding: const EdgeInsets.all(3),
@@ -104,24 +104,14 @@ class AboutUI extends HookConsumerWidget {
             ],
           ),
         ),
-        Positioned(
-          bottom: 12,
-          left: 0,
-          right: 0,
-          child: Center(
-            child: makeNavButton(pageCtrl, 1),
-          ),
-        ),
+        Positioned(bottom: 12, left: 0, right: 0, child: Center(child: makeNavButton(pageCtrl, 1))),
       ],
     );
   }
 
   Widget _makeDonate(BuildContext context, WidgetRef ref, PageController pageCtrl) {
     final donationTypeNotifier = useState('alipay');
-    final bubbleMessages = [
-      S.current.support_dev_thanks_message,
-      S.current.support_dev_referral_code_message,
-    ];
+    final bubbleMessages = [S.current.support_dev_thanks_message, S.current.support_dev_referral_code_message];
 
     return Container(
       width: double.infinity,
@@ -132,10 +122,7 @@ class AboutUI extends HookConsumerWidget {
           makeNavButton(pageCtrl, 0),
           const SizedBox(height: 12),
 
-          Text(
-            S.current.support_dev_title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
+          Text(S.current.support_dev_title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           const SizedBox(height: 32),
 
           // 聊天头像和气泡消息
@@ -200,6 +187,15 @@ class AboutUI extends HookConsumerWidget {
               ),
               _donationMethodButton(
                 context: context,
+                title: 'FPS',
+                icon: FontAwesomeIcons.dollarSign,
+                iconWidget: Image.asset("assets/ic_hk_fps.png", width: 24, height: 24),
+                isSelected: donationTypeNotifier.value == 'fps',
+                color: const Color(0xFFFF6B6B),
+                onTap: () => donationTypeNotifier.value = 'fps',
+              ),
+              _donationMethodButton(
+                context: context,
                 title: 'aUEC',
                 icon: FontAwesomeIcons.gamepad,
                 isSelected: donationTypeNotifier.value == 'uec',
@@ -244,21 +240,24 @@ class AboutUI extends HookConsumerWidget {
     required bool isSelected,
     required Color color,
     required VoidCallback onTap,
+    Widget? iconWidget,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Button(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith((states) => isSelected
-              ? ButtonThemeData.buttonColor(context, states).withAlpha((255.0 * 0.08).round())
-              : ButtonThemeData.buttonColor(context, states).withAlpha((255.0 * 0.005).round())),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => isSelected
+                ? ButtonThemeData.buttonColor(context, states).withAlpha((255.0 * 0.08).round())
+                : ButtonThemeData.buttonColor(context, states).withAlpha((255.0 * 0.005).round()),
+          ),
           padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
         ),
         onPressed: onTap,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 24),
+            iconWidget ?? Icon(icon, color: color, size: 24),
             const SizedBox(height: 4),
             Text(title, style: TextStyle(fontSize: 12)),
           ],
@@ -299,6 +298,45 @@ class AboutUI extends HookConsumerWidget {
       );
     }
 
+    // 香港 FPS 转数快特殊处理
+    if (type == 'fps') {
+      return Column(
+        key: ValueKey('fps'),
+        children: [
+          Image.asset("assets/ic_hk_fps.png", width: 128, height: 128),
+          const SizedBox(height: 16),
+          Text(
+            S.current.support_dev_hk_fps_transfer_title,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: FluentTheme.of(context).cardColor.withAlpha((255 * .1).round()),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("FPS ID: 122289838", style: TextStyle(fontSize: 16)),
+                const SizedBox(width: 12),
+                Button(
+                  onPressed: () {
+                    Clipboard.setData(const ClipboardData(text: "122289838"));
+                    showToast(context, S.current.support_dev_hk_fps_transfer_id_copied);
+                  },
+                  child: Text(S.current.support_dev_copy_button),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 22),
+          Text(S.current.support_dev_in_game_currency_message, textAlign: TextAlign.start),
+        ],
+      );
+    }
+
     // UEC 游戏内捐赠也特殊处理
     if (type == 'uec') {
       return Column(
@@ -306,8 +344,10 @@ class AboutUI extends HookConsumerWidget {
         children: [
           Image.asset("assets/sc_logo.png", width: 128, height: 128),
           const SizedBox(height: 16),
-          Text(S.current.support_dev_in_game_currency_title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(
+            S.current.support_dev_in_game_currency_title,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.all(16),
@@ -327,15 +367,12 @@ class AboutUI extends HookConsumerWidget {
                     showToast(context, S.current.support_dev_in_game_id_copied);
                   },
                   child: Text(S.current.support_dev_copy_button),
-                )
+                ),
               ],
             ),
           ),
           const SizedBox(height: 22),
-          Text(
-            S.current.support_dev_in_game_currency_message,
-            textAlign: TextAlign.start,
-          ),
+          Text(S.current.support_dev_in_game_currency_message, textAlign: TextAlign.start),
         ],
       );
     }
@@ -373,17 +410,11 @@ class AboutUI extends HookConsumerWidget {
           width: 200,
           height: 200,
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
           child: QrImageView(data: qrData),
         ),
         const SizedBox(height: 16),
-        Text(
-          S.current.support_dev_donation_disclaimer,
-          style: TextStyle(fontSize: 16),
-        ),
+        Text(S.current.support_dev_donation_disclaimer, style: TextStyle(fontSize: 16)),
       ],
     );
   }
@@ -452,7 +483,8 @@ class AboutUI extends HookConsumerWidget {
           ),
           onPressed: () {
             launchUrlString(
-                "https://qm.qq.com/cgi-bin/qm/qr?k=TdyR3QU-x77OeD0NQ5w--F0uiNxPq-Tn&jump_from=webapi&authKey=m8s5GhF/7bRCvm5vI4aNl7RQEx5KOViwkzzIl54K+u9w2hzFpr9N/3avG4W/HaVS");
+              "https://qm.qq.com/cgi-bin/qm/qr?k=TdyR3QU-x77OeD0NQ5w--F0uiNxPq-Tn&jump_from=webapi&authKey=m8s5GhF/7bRCvm5vI4aNl7RQEx5KOViwkzzIl54K+u9w2hzFpr9N/3avG4W/HaVS",
+            );
           },
         ),
         const SizedBox(width: 24),
@@ -520,8 +552,11 @@ class AboutUI extends HookConsumerWidget {
                     GridItemAnimator(
                       index: buildIndex++,
                       child: makeAnalyticsItem(
-                          context: context, name: item["Type"] as String, value: item["Count"] as int),
-                    )
+                        context: context,
+                        name: item["Type"] as String,
+                        value: item["Count"] as int,
+                      ),
+                    ),
           ],
         );
       },
@@ -535,31 +570,26 @@ class AboutUI extends HookConsumerWidget {
       "firstLaunch": S.current.about_analytics_total_users,
       "install_localization": S.current.about_analytics_install_translation,
       "performance_apply": S.current.about_analytics_performance_optimization,
-      "p4k_download": S.current.about_analytics_p4k_redirection
+      "p4k_download": S.current.about_analytics_p4k_redirection,
     };
     return Container(
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(left: 18, right: 18),
       decoration: BoxDecoration(
-          color: FluentTheme.of(context).cardColor.withValues(alpha: .06), borderRadius: BorderRadius.circular(12)),
+        color: FluentTheme.of(context).cardColor.withValues(alpha: .06),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Column(
         children: [
-          Text(
-            names[name] ?? name,
-            style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .6)),
-          ),
+          Text(names[name] ?? name, style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .6))),
           const SizedBox(height: 4),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              FlowNumberText(
-                targetValue: value,
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              ),
+              FlowNumberText(targetValue: value, style: const TextStyle(fontSize: 20)),
               Text(
-                  " ${name == "firstLaunch" ? S.current.about_analytics_units_user : S.current.about_analytics_units_times}"),
+                " ${name == "firstLaunch" ? S.current.about_analytics_units_user : S.current.about_analytics_units_times}",
+              ),
             ],
           ),
         ],
@@ -599,10 +629,7 @@ class ChatBubble extends StatelessWidget {
           bottomRight: Radius.circular(18),
         ),
       ),
-      child: Text(
-        message,
-        style: TextStyle(fontSize: 14),
-      ),
+      child: Text(message, style: TextStyle(fontSize: 14)),
     );
   }
 }

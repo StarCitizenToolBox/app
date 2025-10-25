@@ -5400,6 +5400,26 @@ class S {
     );
   }
 
+  /// `Hong Kong FPS`
+  String get support_dev_hk_fps_transfer_title {
+    return Intl.message(
+      'Hong Kong FPS',
+      name: 'support_dev_hk_fps_transfer_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FPS ID copied`
+  String get support_dev_hk_fps_transfer_id_copied {
+    return Intl.message(
+      'FPS ID copied',
+      name: 'support_dev_hk_fps_transfer_id_copied',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Alipay`
   String get support_dev_alipay {
     return Intl.message(
