@@ -1211,6 +1211,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "support_dev_hk_fps_transfer_id_copied":
         MessageLookupByLibrary.simpleMessage("FPS ID 已复制"),
+    "support_dev_hk_fps_transfer_info": MessageLookupByLibrary.simpleMessage(
+      "如果您位于中国香港，或拥有中国香港的银行账户，这将是最轻松的转账方式",
+    ),
     "support_dev_hk_fps_transfer_title": MessageLookupByLibrary.simpleMessage(
       "香港 FPS 轉數快",
     ),

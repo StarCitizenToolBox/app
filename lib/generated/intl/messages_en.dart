@@ -1404,6 +1404,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "support_dev_hk_fps_transfer_id_copied":
         MessageLookupByLibrary.simpleMessage("FPS ID copied"),
+    "support_dev_hk_fps_transfer_info": MessageLookupByLibrary.simpleMessage(
+      "If you are located in Hong Kong - China, or have a bank account in Hong Kong, this will be the easiest way to transfer money",
+    ),
     "support_dev_hk_fps_transfer_title": MessageLookupByLibrary.simpleMessage(
       "Hong Kong FPS",
     ),

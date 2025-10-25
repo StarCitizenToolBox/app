@@ -332,7 +332,7 @@ class AboutUI extends HookConsumerWidget {
             ),
           ),
           const SizedBox(height: 22),
-          Text(S.current.support_dev_in_game_currency_message, textAlign: TextAlign.start),
+          Text(S.current.support_dev_hk_fps_transfer_info, textAlign: TextAlign.start),
         ],
       );
     }

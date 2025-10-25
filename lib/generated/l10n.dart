@@ -5420,6 +5420,16 @@ class S {
     );
   }
 
+  /// `If you are located in Hong Kong - China, or have a bank account in Hong Kong, this will be the easiest way to transfer money`
+  String get support_dev_hk_fps_transfer_info {
+    return Intl.message(
+      'If you are located in Hong Kong - China, or have a bank account in Hong Kong, this will be the easiest way to transfer money',
+      name: 'support_dev_hk_fps_transfer_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Alipay`
   String get support_dev_alipay {
     return Intl.message(
