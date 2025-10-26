@@ -6,18 +6,17 @@ import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 class HomeMdContentDialogUI extends HookConsumerWidget {
   final String title;
-  final String url;
+  final String? url;
+  final String? mdContent;
 
-  const HomeMdContentDialogUI(
-      {super.key, required this.title, required this.url});
+  const HomeMdContentDialogUI({super.key, required this.title, this.url, this.mdContent})
+    : assert(url != null || mdContent != null, "Either url or htmlContent must be provided");
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Material(
       child: ContentDialog(
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * .6,
-        ),
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .6),
         title: Text(title),
         content: LoadingWidget(
           onLoadData: _getContent,
@@ -36,21 +35,24 @@ class HomeMdContentDialogUI extends HookConsumerWidget {
         ),
         actions: [
           FilledButton(
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
-                child: Text(S.current.action_close),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              })
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
+              child: Text(S.current.action_close),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );
   }
 
   Future<String> _getContent() async {
-    final r = await RSHttp.getText(url);
+    if (mdContent != null) {
+      return mdContent!;
+    }
+    final r = await RSHttp.getText(url!);
     return r;
   }
 }

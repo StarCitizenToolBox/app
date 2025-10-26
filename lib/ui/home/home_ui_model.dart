@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dart_rss/domain/rss_item.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,7 +9,7 @@ import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
-import 'package:starcitizen_doctor/api/rss.dart';
+import 'package:starcitizen_doctor/api/news_api.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
@@ -23,12 +22,12 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
+import 'package:starcitizen_doctor/data/citizen_news_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_game_login_dialog_ui.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
-
 import '../webview/webview.dart';
 import 'localization/localization_ui_model.dart';
 
@@ -46,8 +45,7 @@ abstract class HomeUIModelState with _$HomeUIModelState {
     @Default([]) List<String> scInstallPaths,
     AppWebLocalizationVersionsData? webLocalizationVersionsData,
     @Default("") String lastScreenInfo,
-    List<RssItem>? rssVideoItems,
-    List<RssItem>? rssTextItems,
+    CitizenNewsData? citizenNewsData,
     MapEntry<String, bool>? localizationUpdateInfo,
     List? scServerStatus,
     List<CountdownFestivalItemData>? countdownFestivalListData,
@@ -115,8 +113,9 @@ class HomeUIModel extends _$HomeUIModel {
     }
   }
 
-  String getRssImage(RssItem item) {
-    final h = html.parse(item.description ?? "");
+  String getRssImage(String? htmlString) {
+    if (htmlString == null) return "";
+    final h = html.parse(htmlString);
     if (h.body == null) return "";
     for (var node in h.body!.nodes) {
       if (node is html_dom.Element) {
@@ -135,14 +134,15 @@ class HomeUIModel extends _$HomeUIModel {
     return title;
   }
 
-  // ignore: avoid_build_context_in_providers
-  Future<void> goWebView(BuildContext context,
-      String title,
-      String url, {
-        bool useLocalization = false,
-        bool loginMode = false,
-        RsiLoginCallback? rsiLoginCallback,
-      }) async {
+  Future<void> goWebView(
+    // ignore: avoid_build_context_in_providers
+    BuildContext context,
+    String title,
+    String url, {
+    bool useLocalization = false,
+    bool loginMode = false,
+    RsiLoginCallback? rsiLoginCallback,
+  }) async {
     if (useLocalization) {
       const tipVersion = 2;
       final box = await Hive.openBox("app_conf");
@@ -153,10 +153,7 @@ class HomeUIModel extends _$HomeUIModel {
           context,
           S.current.home_action_title_star_citizen_website_localization,
           Text(S.current.home_action_info_web_localization_plugin_disclaimer, style: const TextStyle(fontSize: 16)),
-          constraints: BoxConstraints(maxWidth: MediaQuery
-              .of(context)
-              .size
-              .width * .6),
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .6),
         );
         if (!ok) {
           if (loginMode) {
@@ -227,7 +224,8 @@ class HomeUIModel extends _$HomeUIModel {
       final box = await Hive.openBox("app_conf");
       final version = box.get("close_placard", defaultValue: "");
       if (r.enable == true) {
-        if (r.alwaysShow != true && version == r.version) {} else {
+        if (r.alwaysShow != true && version == r.version) {
+        } else {
           state = state.copyWith(appPlacardData: r);
         }
       }
@@ -241,7 +239,7 @@ class HomeUIModel extends _$HomeUIModel {
         countdownFestivalListData: _fixFestivalCountdownListDateTime(countdownFestivalListData),
       );
       _updateSCServerStatus();
-      _loadRRS();
+      _loadNews();
     } catch (e) {
       dPrint(e);
     }
@@ -255,10 +253,10 @@ class HomeUIModel extends _$HomeUIModel {
 
     return list.map((item) {
       if (item.time == null) return item;
-      final itemDateTime = DateTime.fromMillisecondsSinceEpoch(item.time! * 1000);
+      final itemDateTime = DateTime.fromMillisecondsSinceEpoch(item.time!);
       final itemDatePlusSeven = itemDateTime.add(const Duration(days: 7));
       if (itemDatePlusSeven.isBefore(now)) {
-        final nextYearDate = DateTime(
+        final nextDate = DateTime(
           now.year + 1,
           itemDateTime.month,
           itemDateTime.day,
@@ -266,7 +264,7 @@ class HomeUIModel extends _$HomeUIModel {
           itemDateTime.minute,
           itemDateTime.second,
         );
-        final newTimestamp = (nextYearDate.millisecondsSinceEpoch / 1000).round();
+        final newTimestamp = (nextDate.millisecondsSinceEpoch).round();
         return CountdownFestivalItemData(name: item.name, time: newTimestamp, icon: item.icon);
       }
 
@@ -284,23 +282,9 @@ class HomeUIModel extends _$HomeUIModel {
     }
   }
 
-  Future _loadRRS() async {
-    try {
-      final rssVideoItems = await RSSApi.getRssVideo();
-      state = state.copyWith(rssVideoItems: rssVideoItems);
-      final rssTextItems = await RSSApi.getRssText();
-      state = state.copyWith(rssTextItems: rssTextItems);
-      dPrint("RSS update Success !");
-    } catch (e) {
-      dPrint("_loadRRS Error:$e");
-      // 避免持续显示 loading
-      if (state.rssTextItems == null) {
-        state = state.copyWith(rssTextItems: []);
-      }
-      if (state.rssVideoItems == null) {
-        state = state.copyWith(rssVideoItems: []);
-      }
-    }
+  Future _loadNews() async {
+    final news = await NewsApi.getLatest();
+    state = state.copyWith(citizenNewsData: news ?? CitizenNewsData());
   }
 
   Future<void> checkLocalizationUpdate({bool skipReload = false}) async {
@@ -362,12 +346,14 @@ class HomeUIModel extends _$HomeUIModel {
     ref.read(localizationUIModelProvider.notifier).onChangeGameInstallPath(value);
   }
 
-  Future<void> doLaunchGame(// ignore: avoid_build_context_in_providers
-      BuildContext context,
-      String launchExe,
-      List<String> args,
-      String installPath,
-      String? processorAffinity,) async {
+  Future<void> doLaunchGame(
+    // ignore: avoid_build_context_in_providers
+    BuildContext context,
+    String launchExe,
+    List<String> args,
+    String installPath,
+    String? processorAffinity,
+  ) async {
     var runningMap = Map<String, bool>.from(state.isGameRunning);
     runningMap[installPath] = true;
     state = state.copyWith(isGameRunning: runningMap);

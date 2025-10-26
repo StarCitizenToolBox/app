@@ -10,12 +10,13 @@ class FlowNumberText extends HookConsumerWidget {
   final TextStyle? style;
   final Curve curve;
 
-  FlowNumberText(
-      {super.key,
-      required this.targetValue,
-      this.duration = const Duration(seconds: 1),
-      this.style,
-      this.curve = Curves.bounceOut});
+  FlowNumberText({
+    super.key,
+    required this.targetValue,
+    this.duration = const Duration(seconds: 1),
+    this.style,
+    this.curve = Curves.bounceOut,
+  });
 
   final _formatter = NumberFormat.decimalPattern();
 
@@ -46,9 +47,6 @@ class FlowNumberText extends HookConsumerWidget {
       return timer.value?.cancel;
     }, [targetValue]);
 
-    return Text(
-      _formatter.format(value.value.toInt()),
-      style: style,
-    );
+    return Text(_formatter.format(value.value.toInt()), style: style);
   }
 }

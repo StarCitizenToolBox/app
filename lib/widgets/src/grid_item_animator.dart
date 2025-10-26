@@ -20,19 +20,14 @@ class GridItemAnimator extends HookWidget {
   @override
   Widget build(BuildContext context) {
     // 创建动画控制器
-    final animationController = useAnimationController(
-      duration: duration,
-    );
+    final animationController = useAnimationController(duration: duration);
 
     // 创建不透明度动画
     final opacityAnimation = useAnimation(
       Tween<double>(
         begin: 0.0, // 开始时完全透明
         end: 1.0, // 结束时完全不透明
-      ).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Curves.easeOut,
-      )),
+      ).animate(CurvedAnimation(parent: animationController, curve: Curves.easeOut)),
     );
 
     // 创建位移动画
@@ -40,23 +35,24 @@ class GridItemAnimator extends HookWidget {
       Tween<double>(
         begin: 1.0, // 开始位置
         end: 0.0, // 结束位置
-      ).animate(CurvedAnimation(
-        parent: animationController,
-        curve: Curves.easeOutCubic,
-      )),
+      ).animate(CurvedAnimation(parent: animationController, curve: Curves.easeOutCubic)),
     );
 
     // 组件挂载后启动动画
     useEffect(() {
       // 根据索引计算延迟时间，实现逐个条目入场
       final delay = delayPerItem * index;
+      bool cancelled = false;
 
       Future.delayed(delay, () {
-        if (animationController.status != AnimationStatus.completed) {
+        if (!cancelled && animationController.status != AnimationStatus.completed) {
           animationController.forward();
         }
       });
-      return null;
+
+      return () {
+        cancelled = true;
+      };
     }, const []);
 
     // 应用动画效果

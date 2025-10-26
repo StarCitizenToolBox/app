@@ -17,53 +17,42 @@ export 'src/cache_image.dart';
 export 'src/countdown_time_text.dart';
 export 'src/cache_svg_image.dart';
 export 'src/grid_item_animator.dart';
+export 'src/swiper.dart';
 
 export '../common/utils/async.dart';
 export '../common/utils/base_utils.dart';
 export 'package:starcitizen_doctor/generated/l10n.dart';
 
-Widget makeLoading(
-  BuildContext context, {
-  double? width,
-}) {
+Widget makeLoading(BuildContext context, {double? width}) {
   width ??= 30;
   return Center(
-    child: SizedBox(
-      width: width,
-      height: width,
-      child: const ProgressRing(),
-    ),
+    child: SizedBox(width: width, height: width, child: const ProgressRing()),
   );
 }
 
-Widget makeDefaultPage(BuildContext context,
-    {Widget? titleRow,
-    List<Widget>? actions,
-    Widget? content,
-    bool automaticallyImplyLeading = true,
-    String title = "",
-    bool useBodyContainer = false}) {
+Widget makeDefaultPage(
+  BuildContext context, {
+  Widget? titleRow,
+  List<Widget>? actions,
+  Widget? content,
+  bool automaticallyImplyLeading = true,
+  String title = "",
+  bool useBodyContainer = false,
+}) {
   return NavigationView(
     appBar: NavigationAppBar(
-        automaticallyImplyLeading: automaticallyImplyLeading,
-        title: DragToMoveArea(
-          child: titleRow ??
-              Column(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Text(title),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-        ),
-        actions: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [...?actions, const WindowButtons()],
-        )),
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      title: DragToMoveArea(
+        child:
+            titleRow ??
+            Column(
+              children: [
+                Expanded(child: Row(children: [Text(title)])),
+              ],
+            ),
+      ),
+      actions: Row(mainAxisAlignment: MainAxisAlignment.end, children: [...?actions, const WindowButtons()]),
+    ),
     content: useBodyContainer
         ? Container(
             decoration: BoxDecoration(
@@ -85,55 +74,63 @@ class WindowButtons extends StatelessWidget {
     return SizedBox(
       width: 138,
       height: 50,
-      child: WindowCaption(
-        brightness: theme.brightness,
-        backgroundColor: Colors.transparent,
-      ),
+      child: WindowCaption(brightness: theme.brightness, backgroundColor: Colors.transparent),
     );
   }
 }
 
 List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {
-  return MarkdownGenerator().buildWidgets(description,
-      config: MarkdownConfig(configs: [
-        LinkConfig(onTap: (url) {
-          if (url.startsWith("/") && attachmentsUrl != null) {
-            url = "$attachmentsUrl/$url";
-          }
-          launchUrlString(url);
-        }),
-        ImgConfig(builder: (String url, Map<String, String> attributes) {
-          if (url.startsWith("/") && attachmentsUrl != null) {
-            url = "$attachmentsUrl/$url";
-          }
-          return ExtendedImage.network(
-            url,
-            loadStateChanged: (ExtendedImageState state) {
-              switch (state.extendedImageLoadState) {
-                case LoadState.loading:
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          const ProgressRing(),
-                          const SizedBox(height: 12),
-                          Text(S.current.app_common_loading_images)
-                        ],
+  return MarkdownGenerator().buildWidgets(
+    description,
+    config: MarkdownConfig(
+      configs: [
+        LinkConfig(
+          onTap: (url) {
+            if (url.startsWith("/") && attachmentsUrl != null) {
+              url = "$attachmentsUrl/$url";
+            }
+            launchUrlString(url);
+          },
+        ),
+        ImgConfig(
+          builder: (String url, Map<String, String> attributes) {
+            if (url.startsWith("/") && attachmentsUrl != null) {
+              url = "$attachmentsUrl/$url";
+            }
+            return ExtendedImage.network(
+              url,
+              loadStateChanged: (ExtendedImageState state) {
+                switch (state.extendedImageLoadState) {
+                  case LoadState.loading:
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            const ProgressRing(),
+                            const SizedBox(height: 12),
+                            Text(S.current.app_common_loading_images),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                case LoadState.completed:
-                  return ExtendedRawImage(
-                    image: state.extendedImageInfo?.image,
-                  );
-                case LoadState.failed:
-                  return Text("Loading Image error $url");
-              }
-            },
-          );
-        })
-      ]));
+                    );
+                  case LoadState.completed:
+                    return ExtendedRawImage(image: state.extendedImageInfo?.image);
+                  case LoadState.failed:
+                    return Button(
+                      onPressed: () {
+                        launchUrlString(url);
+                      },
+                      child: Text("Loading Image error $url"),
+                    );
+                }
+              },
+            );
+          },
+        ),
+      ],
+    ),
+  );
 }
 
 ColorFilter makeSvgColor(Color color) {
@@ -142,22 +139,20 @@ ColorFilter makeSvgColor(Color color) {
 
 CustomTransitionPage<T> myPageBuilder<T>(BuildContext context, GoRouterState state, Widget child) {
   return CustomTransitionPage(
-      child: child,
-      transitionDuration: const Duration(milliseconds: 150),
-      reverseTransitionDuration: const Duration(milliseconds: 150),
-      transitionsBuilder:
-          (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-        return SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0.0, 1.0),
-            end: const Offset(0.0, 0.0),
-          ).animate(CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeInOut,
-          )),
-          child: child,
-        );
-      });
+    child: child,
+    transitionDuration: const Duration(milliseconds: 150),
+    reverseTransitionDuration: const Duration(milliseconds: 150),
+    transitionsBuilder:
+        (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0.0, 1.0),
+              end: const Offset(0.0, 0.0),
+            ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+            child: child,
+          );
+        },
+  );
 }
 
 class LoadingWidget<T> extends HookConsumerWidget {
@@ -192,9 +187,7 @@ class LoadingWidget<T> extends HookConsumerWidget {
         onPressed: () {
           _loadData(dataState, errorMsg);
         },
-        child: Center(
-          child: Text(errorMsg.value),
-        ),
+        child: Center(child: Text(errorMsg.value)),
       );
     }
     if (dataState.value == null && data == null) return makeLoading(context);
