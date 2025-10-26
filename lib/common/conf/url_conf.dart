@@ -25,8 +25,6 @@ class URLConf {
 
   static String get webTranslateHomeUrl => "$gitApiHome/SCToolBox/ScWeb_Chinese_Translate/raw/branch/main/json/locales";
 
-  static const String googleTranslateApiUrl = "https://translate-g-proxy.xkeyc.com";
-
   static const feedbackUrl = "https://support.citizenwiki.cn/all";
   static const feedbackFAQUrl = "https://support.citizenwiki.cn/t/sc-toolbox";
   static String nav42KitUrl =

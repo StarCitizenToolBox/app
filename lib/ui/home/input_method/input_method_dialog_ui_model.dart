@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
 
@@ -40,14 +39,12 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
       return;
     }
     if (!skipUpdate) await localizationModel.checkCommunityInputMethodUpdate();
-    final keyMaps =
-        await localizationModel.getCommunityInputMethodSupportData();
+    final keyMaps = await localizationModel.getCommunityInputMethodSupportData();
     dPrint("[InputMethodDialogUIModel] keyMapsLen: ${keyMaps?.length}");
     final worldMaps = keyMaps?.map((key, value) => MapEntry(value.trim(), key));
     final appBox = await Hive.openBox("app_conf");
     final enableAutoCopy = appBox.get("enableAutoCopy", defaultValue: false);
-    final isEnableAutoTranslate =
-        appBox.get("isEnableAutoTranslate", defaultValue: false);
+    final isEnableAutoTranslate = appBox.get("isEnableAutoTranslate", defaultValue: false);
     state = state.copyWith(
       keyMaps: keyMaps,
       worldMaps: worldMaps,
@@ -127,22 +124,16 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
   TextEditingController? _srcTextCtrl;
   TextEditingController? _destTextCtrl;
 
-  void setUpController(
-      TextEditingController srcTextCtrl, TextEditingController destTextCtrl) {
+  void setUpController(TextEditingController srcTextCtrl, TextEditingController destTextCtrl) {
     _srcTextCtrl = srcTextCtrl;
     _destTextCtrl = destTextCtrl;
   }
 
-  Future<void> onSendText(
-    String text, {
-    bool autoCopy = false,
-    bool autoInput = false,
-  }) async {
+  Future<void> onSendText(String text, {bool autoCopy = false, bool autoInput = false}) async {
     debugPrint("[InputMethodDialogUIState] onSendText: $text");
     _srcTextCtrl?.text = text;
     _destTextCtrl?.text = onTextChange("src", text) ?? "";
     if (_destTextCtrl?.text.isEmpty ?? true) return;
-    checkAutoTranslate(webMessage: true);
     if (autoCopy && !state.isAutoTranslateWorking) {
       Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
     }
@@ -152,40 +143,5 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     state = state.copyWith(isEnableAutoTranslate: b);
     final appConf = await Hive.openBox("app_conf");
     await appConf.put("isEnableAutoTranslate", b);
-  }
-
-  Timer? _translateTimer;
-
-  Future<void> checkAutoTranslate({bool webMessage = false}) async {
-    final sourceText = _srcTextCtrl?.text ?? "";
-    final content = _destTextCtrl?.text ?? "";
-    if (sourceText.trim().isEmpty) return;
-    if (state.isEnableAutoTranslate) {
-      if (_translateTimer != null) _translateTimer?.cancel();
-      state = state.copyWith(isAutoTranslateWorking: true);
-      _translateTimer =
-          Timer(Duration(milliseconds: webMessage ? 1 : 400), () async {
-        try {
-          final inputText = sourceText.replaceAll("\n", " ");
-          final r = await Api.doGoogleTranslate(inputText);
-          if (r != null) {
-            String resultText = r;
-            // resultText 首字母大写
-            if (content.isNotEmpty) {
-              final firstChar = resultText.characters.first;
-              resultText =
-                  resultText.replaceFirst(firstChar, firstChar.toUpperCase());
-            }
-            _destTextCtrl?.text = "$content \n[en] $resultText";
-            if (state.enableAutoCopy || webMessage) {
-              Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
-            }
-          }
-        } catch (e) {
-          dPrint("[InputMethodDialogUIModel] AutoTranslate error: $e");
-        }
-        state = state.copyWith(isAutoTranslateWorking: false);
-      });
-    }
   }
 }

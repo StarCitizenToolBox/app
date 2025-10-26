@@ -74,7 +74,6 @@ class InputMethodDialogUI extends HookConsumerWidget {
                     final text = model.onTextChange("src", str);
                     destTextCtrl.text = text ?? "";
                     if (text != null) {
-                      model.checkAutoTranslate();
                     }
                   },
                 ),
@@ -113,18 +112,6 @@ class InputMethodDialogUI extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Row(
-                      children: [
-                        Text(S.current.input_method_auto_translate),
-                        SizedBox(width: 6),
-                        ToggleSwitch(
-                          checked: state.isEnableAutoTranslate,
-                          onChanged: (b) =>
-                              _onSwitchAutoTranslate(context, model, b),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 24),
                     Row(
                       children: [
                         Text(S.current.input_method_remote_input_service),
