@@ -47,6 +47,11 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     return state;
   }
 
+  @override
+  bool updateShouldNotify(previous, next) {
+    return !identical(previous, next);
+  }
+
   Future<void> _init() async {
     customizeCtrl.clear();
     _inAppKeys.clear();
@@ -69,8 +74,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
 
     final box = await Hive.openBox("app_conf");
     final v = box.get("close_graphics_performance_tip", defaultValue: -1);
-    state = state.copyWith(
-        showGraphicsPerformanceTip: v != _graphicsPerformanceTipVersion);
+    state = state.copyWith(showGraphicsPerformanceTip: v != _graphicsPerformanceTipVersion);
   }
 
   Future<void> _readConf() async {
@@ -89,16 +93,14 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
         }
       }
       if (kv.length == 2 && !_inAppKeys.contains(kv[0].trim())) {
-        customizeCtrl.text =
-            "${customizeCtrl.text}${kv[0].trim()}=${kv[1].trim()}\n";
+        customizeCtrl.text = "${customizeCtrl.text}${kv[0].trim()}=${kv[1].trim()}\n";
       }
     }
   }
 
   Future<void> closeTip() async {
     final box = await Hive.openBox("app_conf");
-    await box.put(
-        "close_graphics_performance_tip", _graphicsPerformanceTipVersion);
+    await box.put("close_graphics_performance_tip", _graphicsPerformanceTipVersion);
     _init();
   }
 
@@ -149,13 +151,11 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   Future<void> clean(BuildContext context) async {
-    state = state.copyWith(
-        workingString: S.current.performance_info_delete_config_file);
+    state = state.copyWith(workingString: S.current.performance_info_delete_config_file);
     if (await confFile.exists()) {
       await confFile.delete(recursive: true);
     }
-    state = state.copyWith(
-        workingString: S.current.performance_action_clear_shaders);
+    state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
     if (!context.mounted) return;
     await cleanShaderCache(context);
     state = state.copyWith(workingString: S.current.performance_info_done);
@@ -166,8 +166,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
 
   Future<void> cleanShaderCache(BuildContext? context) async {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
-    final l =
-        await Directory(gameShaderCachePath!).list(recursive: false).toList();
+    final l = await Directory(gameShaderCachePath!).list(recursive: false).toList();
     for (var value in l) {
       if (value is Directory) {
         if (!value.absolute.path.contains("Crashes")) {
@@ -184,8 +183,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   Future<void> applyProfile(bool cleanShader) async {
     if (state.performanceMap == null) return;
     AnalyticsApi.touch("performance_apply");
-    state = state.copyWith(
-        workingString: S.current.performance_info_generate_config_file);
+    state = state.copyWith(workingString: S.current.performance_info_generate_config_file);
     String conf = "";
     for (var v in state.performanceMap!.entries) {
       for (var c in v.value) {
@@ -204,16 +202,14 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
         }
       }
     }
-    state = state.copyWith(
-        workingString: S.current.performance_info_write_out_config_file);
+    state = state.copyWith(workingString: S.current.performance_info_write_out_config_file);
     if (await confFile.exists()) {
       await confFile.delete();
     }
     await confFile.create();
     await confFile.writeAsString(conf);
     if (cleanShader) {
-      state = state.copyWith(
-          workingString: S.current.performance_action_clear_shaders);
+      state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
       await cleanShaderCache(null);
     }
     state = state.copyWith(workingString: S.current.performance_info_done);

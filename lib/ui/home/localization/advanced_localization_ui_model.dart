@@ -43,14 +43,14 @@ abstract class AdvancedLocalizationUIState with _$AdvancedLocalizationUIState {
 
 extension AdvancedLocalizationUIStateEx on AdvancedLocalizationUIState {
   Map<AppAdvancedLocalizationClassKeysDataMode, String> get typeNames => {
-        AppAdvancedLocalizationClassKeysDataMode.localization:
-            S.current.home_localization_advanced_action_mod_change_localization,
-        AppAdvancedLocalizationClassKeysDataMode.unLocalization:
-            S.current.home_localization_advanced_action_mod_change_un_localization,
-        AppAdvancedLocalizationClassKeysDataMode.mixed: S.current.home_localization_advanced_action_mod_change_mixed,
-        AppAdvancedLocalizationClassKeysDataMode.mixedNewline:
-            S.current.home_localization_advanced_action_mod_change_mixed_newline,
-      };
+    AppAdvancedLocalizationClassKeysDataMode.localization:
+        S.current.home_localization_advanced_action_mod_change_localization,
+    AppAdvancedLocalizationClassKeysDataMode.unLocalization:
+        S.current.home_localization_advanced_action_mod_change_un_localization,
+    AppAdvancedLocalizationClassKeysDataMode.mixed: S.current.home_localization_advanced_action_mod_change_mixed,
+    AppAdvancedLocalizationClassKeysDataMode.mixedNewline:
+        S.current.home_localization_advanced_action_mod_change_mixed_newline,
+  };
 }
 
 @riverpod
@@ -64,6 +64,11 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     return state;
   }
 
+  @override
+  bool updateShouldNotify(previous, next) {
+    return !identical(previous, next);
+  }
+
   Future<void> _init(LocalizationUIState localizationUIState, LocalizationUIModel localizationUIModel) async {
     final (p4kGlobalIni, serverGlobalIni) = await _readIni(localizationUIState, localizationUIModel);
     final ald = await _readClassJson();
@@ -74,17 +79,18 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       p4kGlobalIni,
       serverGlobalIni,
       S.current.home_localization_advanced_json_text_un_localization,
-      S.current.home_localization_advanced_json_text_others
+      S.current.home_localization_advanced_json_text_others,
     ));
     final p4kGlobalIniLines = p4kGlobalIni.split("\n").length;
     final serverGlobalIniLines = serverGlobalIni.split("\n").length;
     state = state.copyWith(
-        workingText: "",
-        p4kGlobalIni: p4kGlobalIni,
-        serverGlobalIni: serverGlobalIni,
-        p4kGlobalIniLines: p4kGlobalIniLines,
-        serverGlobalIniLines: serverGlobalIniLines,
-        classMap: m);
+      workingText: "",
+      p4kGlobalIni: p4kGlobalIni,
+      serverGlobalIni: serverGlobalIni,
+      p4kGlobalIniLines: p4kGlobalIniLines,
+      serverGlobalIniLines: serverGlobalIniLines,
+      classMap: m,
+    );
   }
 
   void setCustomizeGlobalIni(String? data) async {
@@ -101,7 +107,8 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       String serverGlobalIni,
       String unLocalizationClassName,
       String othersClassName,
-    ) v,
+    )
+    v,
   ) {
     final (
       AppAdvancedLocalizationData ald,
@@ -110,18 +117,11 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       String unLocalizationClassName,
       String othersClassName,
     ) = v;
-    final unLocalization = AppAdvancedLocalizationClassKeysData(
-      id: "un_localization",
-      className: unLocalizationClassName,
-      keys: [],
-    )
-      ..mode = AppAdvancedLocalizationClassKeysDataMode.unLocalization
-      ..lockMod = true;
-    final unClass = AppAdvancedLocalizationClassKeysData(
-      id: "un_class",
-      className: othersClassName,
-      keys: [],
-    );
+    final unLocalization =
+        AppAdvancedLocalizationClassKeysData(id: "un_localization", className: unLocalizationClassName, keys: [])
+          ..mode = AppAdvancedLocalizationClassKeysDataMode.unLocalization
+          ..lockMod = true;
+    final unClass = AppAdvancedLocalizationClassKeysData(id: "un_class", className: othersClassName, keys: []);
     final classMap = <String, AppAdvancedLocalizationClassKeysData>{
       for (final keys in ald.classKeys!) keys.id ?? "": keys,
     };
@@ -129,8 +129,9 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     final p4kIniMap = readIniAsMap(p4kGlobalIni);
     final serverIniMap = readIniAsMap(serverGlobalIni);
 
-    var regexList =
-        classMap.values.expand((c) => c.keys!.map((k) => MapEntry(c, RegExp(k, caseSensitive: false)))).toList();
+    var regexList = classMap.values
+        .expand((c) => c.keys!.map((k) => MapEntry(c, RegExp(k, caseSensitive: false))))
+        .toList();
 
     iniKeysLoop:
     for (var p4kIniKey in p4kIniMap.keys) {
@@ -180,7 +181,9 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   }
 
   Future<(String, String)> _readIni(
-      LocalizationUIState localizationUIState, LocalizationUIModel localizationUIModel) async {
+    LocalizationUIState localizationUIState,
+    LocalizationUIModel localizationUIModel,
+  ) async {
     final homeUIState = ref.read(homeUIModelProvider);
     final gameDir = homeUIState.scInstalledPath;
     if (gameDir == null) return ("", "");
@@ -190,15 +193,18 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     state = state.copyWith(workingText: S.current.home_localization_advanced_msg_reading_server_localization_text);
 
     if (state.customizeGlobalIni != null) {
-      final apiLocalizationData =
-          ScLocalizationData(versionName: S.current.localization_info_custom_files, info: "Customize");
+      final apiLocalizationData = ScLocalizationData(
+        versionName: S.current.localization_info_custom_files,
+        info: "Customize",
+      );
       state = state.copyWith(apiLocalizationData: apiLocalizationData);
       return (p4kGlobalIni, state.customizeGlobalIni!);
     } else {
       final apiLocalizationData = localizationUIState.apiLocalizationData?.values.firstOrNull;
       if (apiLocalizationData == null) return ("", "");
-      final file =
-          File("${localizationUIModel.getDownloadDir().absolute.path}\\${apiLocalizationData.versionName}.sclang");
+      final file = File(
+        "${localizationUIModel.getDownloadDir().absolute.path}\\${apiLocalizationData.versionName}.sclang",
+      );
       if (!await file.exists()) {
         await localizationUIModel.downloadLocalizationFile(file, apiLocalizationData);
       }
@@ -211,8 +217,11 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
 
   Future<String> readEnglishInI(String gameDir) async {
     try {
-      var data = await Unp4kCModel.unp4kTools(appGlobalState.applicationBinaryModuleDir!,
-          ["extract_memory", "$gameDir\\Data.p4k", "Data\\Localization\\english\\global.ini"]);
+      var data = await Unp4kCModel.unp4kTools(appGlobalState.applicationBinaryModuleDir!, [
+        "extract_memory",
+        "$gameDir\\Data.p4k",
+        "Data\\Localization\\english\\global.ini",
+      ]);
       // remove bom
       if (data.length > 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
         data = data.sublist(3);
@@ -224,15 +233,16 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       if (Unp4kCModel.checkRunTimeError(errorMessage)) {
         AnalyticsApi.touch("advanced_localization_no_runtime");
       }
-      state = state.copyWith(
-        errorMessage: errorMessage,
-      );
+      state = state.copyWith(errorMessage: errorMessage);
       // rethrow;
     }
     return "";
   }
 
-  Future<void> onChangeMod(AppAdvancedLocalizationClassKeysData item, AppAdvancedLocalizationClassKeysDataMode mode) async {
+  Future<void> onChangeMod(
+    AppAdvancedLocalizationClassKeysData item,
+    AppAdvancedLocalizationClassKeysDataMode mode,
+  ) async {
     if (item.lockMod) return;
     item.mode = mode;
     item.isWorking = true;
@@ -282,8 +292,13 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     state = state.copyWith(workingText: S.current.home_localization_advanced_msg_gen_localization_install);
     final localizationUIModel = ref.read(localizationUIModelProvider.notifier);
     if (!context.mounted) return false;
-    await localizationUIModel.installFormString(globalIni, state.apiLocalizationData?.versionName ?? "-",
-        advanced: true, isEnableCommunityInputMethod: isEnableCommunityInputMethod, context: context);
+    await localizationUIModel.installFormString(
+      globalIni,
+      state.apiLocalizationData?.versionName ?? "-",
+      advanced: true,
+      isEnableCommunityInputMethod: isEnableCommunityInputMethod,
+      context: context,
+    );
     state = state.copyWith(workingText: "");
     return true;
   }
@@ -291,73 +306,72 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   // ignore: avoid_build_context_in_providers
   Future<void> onInstall(BuildContext context) async {
     var isEnableCommunityInputMethod = true;
-    final userOK =
-        await showConfirmDialogs(context, S.current.input_method_confirm_install_advanced_localization, HookConsumer(
-      builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final globalIni = useState<StringBuffer?>(null);
-        final enableCommunityInputMethod = useState(true);
-        final localizationState = ref.read(localizationUIModelProvider);
-        useEffect(() {
-          () async {
-            final classMap = state.classMap!;
-            final g = StringBuffer();
-            for (var item in classMap.values) {
-              for (var kv in item.valuesMap.entries) {
-                g.write("${kv.key}=${kv.value}\n");
-                await Future.delayed(Duration.zero);
+    final userOK = await showConfirmDialogs(
+      context,
+      S.current.input_method_confirm_install_advanced_localization,
+      HookConsumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          final globalIni = useState<StringBuffer?>(null);
+          final enableCommunityInputMethod = useState(true);
+          final localizationState = ref.read(localizationUIModelProvider);
+          useEffect(() {
+            () async {
+              final classMap = state.classMap!;
+              final g = StringBuffer();
+              for (var item in classMap.values) {
+                for (var kv in item.valuesMap.entries) {
+                  g.write("${kv.key}=${kv.value}\n");
+                  await Future.delayed(Duration.zero);
+                }
               }
-            }
-            globalIni.value = g;
-          }();
-          return null;
-        }, const []);
-        return Column(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: FluentTheme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: globalIni.value == null
-                    ? makeLoading(context)
-                    : CodeEditor(
-                        readOnly: true,
-                        controller: CodeLineEditingController.fromText(globalIni.value!.toString()),
-                        style: CodeEditorStyle(
-                          codeTheme: CodeHighlightTheme(
-                            languages: {'ini': CodeHighlightThemeMode(mode: langIni)},
-                            theme: vs2015Theme,
+              globalIni.value = g;
+            }();
+            return null;
+          }, const []);
+          return Column(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: FluentTheme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: globalIni.value == null
+                      ? makeLoading(context)
+                      : CodeEditor(
+                          readOnly: true,
+                          controller: CodeLineEditingController.fromText(globalIni.value!.toString()),
+                          style: CodeEditorStyle(
+                            codeTheme: CodeHighlightTheme(
+                              languages: {'ini': CodeHighlightThemeMode(mode: langIni)},
+                              theme: vs2015Theme,
+                            ),
                           ),
                         ),
-                      ),
-              ),
-            ),
-            SizedBox(height: 16),
-            Row(
-              children: [
-                Text(
-                  S.current.input_method_install_community_input_method_support,
                 ),
-                Spacer(),
-                ToggleSwitch(
-                  checked: enableCommunityInputMethod.value,
-                  onChanged: localizationState.communityInputMethodLanguageData == null
-                      ? null
-                      : (v) {
-                          isEnableCommunityInputMethod = v;
-                          enableCommunityInputMethod.value = v;
-                        },
-                )
-              ],
-            )
-          ],
-        );
-      },
-    ),
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * .8,
-            ));
+              ),
+              SizedBox(height: 16),
+              Row(
+                children: [
+                  Text(S.current.input_method_install_community_input_method_support),
+                  Spacer(),
+                  ToggleSwitch(
+                    checked: enableCommunityInputMethod.value,
+                    onChanged: localizationState.communityInputMethodLanguageData == null
+                        ? null
+                        : (v) {
+                            isEnableCommunityInputMethod = v;
+                            enableCommunityInputMethod.value = v;
+                          },
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .8),
+    );
     if (userOK) {
       if (!context.mounted) return;
       await doInstall(context, isEnableCommunityInputMethod: isEnableCommunityInputMethod);

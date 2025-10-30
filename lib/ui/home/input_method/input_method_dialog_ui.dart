@@ -28,9 +28,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
     }, const []);
 
     return ContentDialog(
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * .8,
-      ),
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .8),
       title: makeTitle(context, state, model, destTextCtrl),
       content: state.keyMaps == null
           ? makeLoading(context)
@@ -47,19 +45,17 @@ class InputMethodDialogUI extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                        child: Padding(
-                          padding: const EdgeInsets.all(3),
-                          child: Text(
-                            S.current.input_method_online_version_prompt,
-                            style: TextStyle(
-                              color: Color(0xff4ca0e0),
-                              fontSize: 12,
-                            ),
-                          ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Text(
+                          S.current.input_method_online_version_prompt,
+                          style: TextStyle(color: Color(0xff4ca0e0), fontSize: 12),
                         ),
-                        onTap: () {
-                          launchUrlString("https://ime.citizenwiki.cn/");
-                        }),
+                      ),
+                      onTap: () {
+                        launchUrlString("https://ime.citizenwiki.cn/");
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 12),
@@ -67,14 +63,12 @@ class InputMethodDialogUI extends HookConsumerWidget {
                   placeholder: S.current.input_method_input_placeholder,
                   controller: srcTextCtrl,
                   maxLines: 5,
-                  placeholderStyle:
-                      TextStyle(color: Colors.white.withValues(alpha: .6)),
+                  placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
                   style: TextStyle(fontSize: 16, color: Colors.white),
                   onChanged: (str) async {
                     final text = model.onTextChange("src", str);
                     destTextCtrl.text = text ?? "";
-                    if (text != null) {
-                    }
+                    if (text != null) {}
                   },
                 ),
                 SizedBox(height: 16),
@@ -85,10 +79,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
                       if (state.isAutoTranslateWorking)
                         SizedBox(width: 24, height: 24, child: ProgressRing())
                       else
-                        SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: Icon(FluentIcons.down))
+                        SizedBox(width: 24, height: 24, child: Icon(FluentIcons.down)),
                     ],
                   ),
                 ),
@@ -97,8 +88,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
                   placeholder: S.current.input_method_encoded_text_placeholder,
                   controller: destTextCtrl,
                   maxLines: 5,
-                  placeholderStyle:
-                      TextStyle(color: Colors.white.withValues(alpha: .6)),
+                  placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
                   style: TextStyle(fontSize: 16, color: Colors.white),
                   enabled: true,
                   onChanged: (str) {
@@ -119,24 +109,15 @@ class InputMethodDialogUI extends HookConsumerWidget {
                         if (serverState.isServerStartup)
                           Button(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    ServerQrDialogUI(),
-                              );
+                              showDialog(context: context, builder: (BuildContext context) => ServerQrDialogUI());
                             },
-                            child: Text(
-                              serverState.serverAddressText ?? "...",
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
+                            child: Text(serverState.serverAddressText ?? "...", style: TextStyle(fontSize: 14)),
                           ),
                         SizedBox(width: 14),
                         ToggleSwitch(
-                            checked: serverState.isServerStartup,
-                            onChanged: (b) =>
-                                _onSwitchServer(context, b, serverModel)),
+                          checked: serverState.isServerStartup,
+                          onChanged: (b) => _onSwitchServer(context, b, serverModel),
+                        ),
                       ],
                     ),
                   ],
@@ -148,12 +129,9 @@ class InputMethodDialogUI extends HookConsumerWidget {
                       child: Text(
                         textAlign: TextAlign.end,
                         S.current.input_method_disclaimer,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.white.withValues(alpha: .6),
-                        ),
+                        style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .6)),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -161,80 +139,59 @@ class InputMethodDialogUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeTitle(BuildContext context, InputMethodDialogUIState state,
-      InputMethodDialogUIModel model, TextEditingController destTextCtrl) {
+  Widget makeTitle(
+    BuildContext context,
+    InputMethodDialogUIState state,
+    InputMethodDialogUIModel model,
+    TextEditingController destTextCtrl,
+  ) {
     return Row(
       children: [
         IconButton(
-            icon: const Icon(
-              FluentIcons.back,
-              size: 22,
-            ),
-            onPressed: () {
-              context.pop();
-            }),
+          icon: const Icon(FluentIcons.back, size: 22),
+          onPressed: () {
+            context.pop();
+          },
+        ),
         const SizedBox(width: 12),
         Text(S.current.input_method_experimental_input_method),
         Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(
-              S.current.input_method_auto_copy,
-              style: TextStyle(fontSize: 14),
-            ),
+            Text(S.current.input_method_auto_copy, style: TextStyle(fontSize: 14)),
             SizedBox(width: 12),
-            ToggleSwitch(
-                checked: state.enableAutoCopy,
-                onChanged: model.onSwitchAutoCopy),
+            ToggleSwitch(checked: state.enableAutoCopy, onChanged: model.onSwitchAutoCopy),
           ],
         ),
         SizedBox(width: 24),
         FilledButton(
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            child: Icon(FluentIcons.copy),
-          ),
+          child: Padding(padding: const EdgeInsets.all(6), child: Icon(FluentIcons.copy)),
           onPressed: () {
             if (destTextCtrl.text.isNotEmpty) {
               Clipboard.setData(ClipboardData(text: destTextCtrl.text));
             }
           },
-        )
+        ),
       ],
     );
   }
 
-  Future<void> _onSwitchServer(
-      BuildContext context, bool value, InputMethodServer serverModel) async {
+  Future<void> _onSwitchServer(BuildContext context, bool value, InputMethodServer serverModel) async {
     if (value) {
       final userOK = await showConfirmDialogs(
-          context,
-          S.current.input_method_confirm_enable_remote_input,
-          Text(S.current.input_method_enable_remote_input_instructions));
+        context,
+        S.current.input_method_confirm_enable_remote_input,
+        Text(S.current.input_method_enable_remote_input_instructions),
+      );
       if (userOK) {
         // ignore: use_build_context_synchronously
         await serverModel.startServer().unwrap(context: context);
         if (!context.mounted) return;
-        await showDialog(
-          context: context,
-          builder: (BuildContext context) => ServerQrDialogUI(),
-        );
+        await showDialog(context: context, builder: (BuildContext context) => ServerQrDialogUI());
       }
     } else {
       await serverModel.stopServer().unwrap(context: context);
     }
-  }
-
-  Future<void> _onSwitchAutoTranslate(
-      BuildContext context, InputMethodDialogUIModel model, bool b) async {
-    if (b) {
-      final ok = await showConfirmDialogs(
-          context,
-          S.current.input_method_auto_translate_dialog_title,
-          Text(S.current.input_method_auto_translate_dialog_title_content));
-      if (ok != true) return;
-    }
-    model.toggleAutoTranslate(b);
   }
 }
