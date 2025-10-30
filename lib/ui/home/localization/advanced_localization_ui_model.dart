@@ -5,6 +5,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
 import 'package:re_highlight/languages/ini.dart';
@@ -278,7 +279,11 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  Future<bool> doInstall(BuildContext context, {bool isEnableCommunityInputMethod = false}) async {
+  Future<bool> doInstall(
+    BuildContext context, {
+    bool isEnableCommunityInputMethod = false,
+    bool isEnableVehicleSorting = false,
+  }) async {
     AnalyticsApi.touch("advanced_localization_apply");
     state = state.copyWith(workingText: S.current.home_localization_advanced_msg_gen_localization_text);
     final classMap = state.classMap!;
@@ -297,6 +302,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       state.apiLocalizationData?.versionName ?? "-",
       advanced: true,
       isEnableCommunityInputMethod: isEnableCommunityInputMethod,
+      isEnableVehicleSorting: isEnableVehicleSorting,
       context: context,
     );
     state = state.copyWith(workingText: "");
@@ -305,7 +311,9 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
 
   // ignore: avoid_build_context_in_providers
   Future<void> onInstall(BuildContext context) async {
+    final appBox = Hive.box("app_conf");
     var isEnableCommunityInputMethod = true;
+    var isEnableVehicleSorting = appBox.get("vehicle_sorting", defaultValue: false) ?? false;
     final userOK = await showConfirmDialogs(
       context,
       S.current.input_method_confirm_install_advanced_localization,
@@ -313,6 +321,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           final globalIni = useState<StringBuffer?>(null);
           final enableCommunityInputMethod = useState(true);
+          final enableVehicleSorting = useState(isEnableVehicleSorting);
           final localizationState = ref.read(localizationUIModelProvider);
           useEffect(() {
             () async {
@@ -366,6 +375,20 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
                   ),
                 ],
               ),
+              SizedBox(height: 12),
+              Row(
+                children: [
+                  Text(S.current.tools_vehicle_sorting_title),
+                  Spacer(),
+                  ToggleSwitch(
+                    checked: enableVehicleSorting.value,
+                    onChanged: (v) {
+                      isEnableVehicleSorting = v;
+                      enableVehicleSorting.value = v;
+                    },
+                  ),
+                ],
+              ),
             ],
           );
         },
@@ -373,8 +396,13 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .8),
     );
     if (userOK) {
+      await appBox.put("vehicle_sorting", isEnableVehicleSorting);
       if (!context.mounted) return;
-      await doInstall(context, isEnableCommunityInputMethod: isEnableCommunityInputMethod);
+      await doInstall(
+        context,
+        isEnableCommunityInputMethod: isEnableCommunityInputMethod,
+        isEnableVehicleSorting: isEnableVehicleSorting,
+      );
     }
   }
 }
