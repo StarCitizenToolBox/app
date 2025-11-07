@@ -63,7 +63,7 @@ dependencies:
   re_highlight: ^0.0.3
   shelf: ^1.4.2
   qr_flutter: ^4.1.0
-  desktop_multi_window: ^0.3.0
+  desktop_multi_window: ^0.2.1
   watcher: ^1.1.4
   path: ^1.9.1
   crypto: ^3.0.6
