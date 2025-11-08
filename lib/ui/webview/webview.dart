@@ -26,8 +26,7 @@ class WebViewModel {
 
   bool get isClosed => _isClosed;
 
-  WebViewModel(this.context,
-      {this.loginMode = false, this.loginCallback, this.loginChannel = "LIVE"});
+  WebViewModel(this.context, {this.loginMode = false, this.loginCallback, this.loginChannel = "LIVE"});
 
   String url = "";
   bool canGoBack = false;
@@ -35,6 +34,7 @@ class WebViewModel {
   final localizationResource = <String, dynamic>{};
 
   var localizationScript = "";
+  var requestInterceptorScript = "";
 
   bool enableCapture = false;
 
@@ -51,20 +51,22 @@ class WebViewModel {
 
   final RsiLoginCallback? loginCallback;
 
-  Future<void> initWebView(
-      {String title = "",
-      required String applicationSupportDir,
-      required AppVersionData appVersionData}) async {
+  Future<void> initWebView({
+    String title = "",
+    required String applicationSupportDir,
+    required AppVersionData appVersionData,
+  }) async {
     try {
       final userBox = await Hive.openBox("app_conf");
-      isEnableToolSiteMirrors =
-          userBox.get("isEnableToolSiteMirrors", defaultValue: false);
+      isEnableToolSiteMirrors = userBox.get("isEnableToolSiteMirrors", defaultValue: false);
       webview = await WebviewWindow.create(
-          configuration: CreateConfiguration(
-              windowWidth: loginMode ? 960 : 1920,
-              windowHeight: loginMode ? 720 : 1080,
-              userDataFolderWindows: "$applicationSupportDir/webview_data",
-              title: Platform.isMacOS ? "" : title));
+        configuration: CreateConfiguration(
+          windowWidth: loginMode ? 960 : 1920,
+          windowHeight: loginMode ? 720 : 1080,
+          userDataFolderWindows: "$applicationSupportDir/webview_data",
+          title: Platform.isMacOS ? "" : title,
+        ),
+      );
       // webview.openDevToolsWindow();
       webview.isNavigating.addListener(() async {
         if (!webview.isNavigating.value && localizationResource.isNotEmpty) {
@@ -74,14 +76,10 @@ class WebViewModel {
             final replaceWords = _getLocalizationResource("zh-CN");
             const org = "https://robertsspaceindustries.com/orgs";
             const citizens = "https://robertsspaceindustries.com/citizens";
-            const organization =
-                "https://robertsspaceindustries.com/account/organization";
-            const concierge =
-                "https://robertsspaceindustries.com/account/concierge";
-            const referral =
-                "https://robertsspaceindustries.com/account/referral-program";
-            const address =
-                "https://robertsspaceindustries.com/account/addresses";
+            const organization = "https://robertsspaceindustries.com/account/organization";
+            const concierge = "https://robertsspaceindustries.com/account/concierge";
+            const referral = "https://robertsspaceindustries.com/account/referral-program";
+            const address = "https://robertsspaceindustries.com/account/addresses";
 
             const hangar = "https://robertsspaceindustries.com/account/pledges";
 
@@ -95,13 +93,8 @@ class WebViewModel {
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(localizationScript);
 
-            if (url.startsWith(org) ||
-                url.startsWith(citizens) ||
-                url.startsWith(organization)) {
-              replaceWords.add({
-                "word": 'members',
-                "replacement": S.current.webview_localization_name_member
-              });
+            if (url.startsWith(org) || url.startsWith(citizens) || url.startsWith(organization)) {
+              replaceWords.add({"word": 'members', "replacement": S.current.webview_localization_name_member});
               replaceWords.addAll(_getLocalizationResource("orgs"));
             }
 
@@ -111,21 +104,9 @@ class WebViewModel {
 
             if (url.startsWith(referral)) {
               replaceWords.addAll([
-                {
-                  "word": 'Total recruits: ',
-                  "replacement":
-                      S.current.webview_localization_total_invitations
-                },
-                {
-                  "word": 'Prospects ',
-                  "replacement":
-                      S.current.webview_localization_unfinished_invitations
-                },
-                {
-                  "word": 'Recruits',
-                  "replacement":
-                      S.current.webview_localization_finished_invitations
-                },
+                {"word": 'Total recruits: ', "replacement": S.current.webview_localization_total_invitations},
+                {"word": 'Prospects ', "replacement": S.current.webview_localization_unfinished_invitations},
+                {"word": 'Recruits', "replacement": S.current.webview_localization_finished_invitations},
               ]);
             }
 
@@ -139,48 +120,43 @@ class WebViewModel {
 
             _curReplaceWords = {};
             for (var element in replaceWords) {
-              _curReplaceWords?[element["word"] ?? ""] =
-                  element["replacement"] ?? "";
+              _curReplaceWords?[element["word"] ?? ""] = element["replacement"] ?? "";
             }
             await webview.evaluateJavaScript("InitWebLocalization()");
             await Future.delayed(const Duration(milliseconds: 100));
             dPrint("update replaceWords");
             await webview.evaluateJavaScript(
-                "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
+              "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)",
+            );
 
             /// loginMode
             if (loginMode) {
-              dPrint(
-                  "--- do rsi login ---\n run === getRSILauncherToken(\"$loginChannel\");");
+              dPrint("--- do rsi login ---\n run === getRSILauncherToken(\"$loginChannel\");");
               await Future.delayed(const Duration(milliseconds: 200));
-              webview.evaluateJavaScript(
-                  "getRSILauncherToken(\"$loginChannel\");");
+              webview.evaluateJavaScript("getRSILauncherToken(\"$loginChannel\");");
             }
-          } else if (url.startsWith(await _handleMirrorsUrl(
-              "https://www.erkul.games", appVersionData))) {
+          } else if (url.startsWith(await _handleMirrorsUrl("https://www.erkul.games", appVersionData))) {
             dPrint("load script");
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(localizationScript);
             dPrint("update replaceWords");
             final replaceWords = _getLocalizationResource("DPS");
             await webview.evaluateJavaScript(
-                "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
-          } else if (url.startsWith(await _handleMirrorsUrl(
-              "https://uexcorp.space", appVersionData))) {
+              "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)",
+            );
+          } else if (url.startsWith(await _handleMirrorsUrl("https://uexcorp.space", appVersionData))) {
             dPrint("load script");
             await Future.delayed(const Duration(milliseconds: 100));
             await webview.evaluateJavaScript(localizationScript);
             dPrint("update replaceWords");
             final replaceWords = _getLocalizationResource("UEX");
             await webview.evaluateJavaScript(
-                "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)");
+              "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)",
+            );
           }
         }
       });
-      webview.addOnUrlRequestCallback((url) {
-        dPrint("OnUrlRequestCallback === $url");
-        this.url = url;
-      });
+      webview.addOnUrlRequestCallback(_onUrlRequest);
       webview.onClose.whenComplete(dispose);
       if (loginMode) {
         webview.addOnWebMessageReceivedCallback((messageString) {
@@ -199,8 +175,7 @@ class WebViewModel {
     }
   }
 
-  Future<String> _handleMirrorsUrl(
-      String url, AppVersionData appVersionData) async {
+  Future<String> _handleMirrorsUrl(String url, AppVersionData appVersionData) async {
     var finalUrl = url;
     if (isEnableToolSiteMirrors) {
       for (var kv in appVersionData.webMirrors!.entries) {
@@ -219,28 +194,28 @@ class WebViewModel {
 
   Future<void> initLocalization(AppWebLocalizationVersionsData v) async {
     localizationScript = await rootBundle.loadString('assets/web_script.js');
+    requestInterceptorScript = await rootBundle.loadString('assets/request_interceptor.js');
 
     /// https://github.com/CxJuice/Uex_Chinese_Translate
     // get versions
     final hostUrl = URLConf.webTranslateHomeUrl;
     dPrint("AppWebLocalizationVersionsData === ${v.toJson()}");
 
-    localizationResource["zh-CN"] = await _getJson("$hostUrl/zh-CN-rsi.json",
-        cacheKey: "rsi", version: v.rsi);
+    localizationResource["zh-CN"] = await _getJson("$hostUrl/zh-CN-rsi.json", cacheKey: "rsi", version: v.rsi);
     localizationResource["concierge"] = await _getJson(
-        "$hostUrl/concierge.json",
-        cacheKey: "concierge",
-        version: v.concierge);
-    localizationResource["orgs"] =
-        await _getJson("$hostUrl/orgs.json", cacheKey: "orgs", version: v.orgs);
-    localizationResource["address"] = await _getJson("$hostUrl/addresses.json",
-        cacheKey: "addresses", version: v.addresses);
-    localizationResource["hangar"] = await _getJson("$hostUrl/hangar.json",
-        cacheKey: "hangar", version: v.hangar);
-    localizationResource["UEX"] = await _getJson("$hostUrl/zh-CN-uex.json",
-        cacheKey: "uex", version: v.uex);
-    localizationResource["DPS"] = await _getJson("$hostUrl/zh-CN-dps.json",
-        cacheKey: "dps", version: v.dps);
+      "$hostUrl/concierge.json",
+      cacheKey: "concierge",
+      version: v.concierge,
+    );
+    localizationResource["orgs"] = await _getJson("$hostUrl/orgs.json", cacheKey: "orgs", version: v.orgs);
+    localizationResource["address"] = await _getJson(
+      "$hostUrl/addresses.json",
+      cacheKey: "addresses",
+      version: v.addresses,
+    );
+    localizationResource["hangar"] = await _getJson("$hostUrl/hangar.json", cacheKey: "hangar", version: v.hangar);
+    localizationResource["UEX"] = await _getJson("$hostUrl/zh-CN-uex.json", cacheKey: "uex", version: v.uex);
+    localizationResource["DPS"] = await _getJson("$hostUrl/zh-CN-dps.json", cacheKey: "dps", version: v.dps);
   }
 
   List<Map<String, String>> _getLocalizationResource(String key) {
@@ -254,15 +229,13 @@ class WebViewModel {
             .toLowerCase()
             .replaceAll(RegExp("/\xa0/g"), ' ')
             .replaceAll(RegExp("/s{2,}/g"), ' ');
-        localizations
-            .add({"word": k, "replacement": element.value.toString().trim()});
+        localizations.add({"word": k, "replacement": element.value.toString().trim()});
       }
     }
     return localizations;
   }
 
-  Future<Map> _getJson(String url,
-      {String cacheKey = "", String? version}) async {
+  Future<Map> _getJson(String url, {String cacheKey = "", String? version}) async {
     final box = await Hive.openBox("web_localization_cache_data");
     if (cacheKey.isNotEmpty) {
       final localVersion = box.get("${cacheKey}_version}", defaultValue: "");
@@ -277,7 +250,8 @@ class WebViewModel {
     final data = json.decode(r);
     if (cacheKey.isNotEmpty) {
       dPrint(
-          "update $cacheKey v == $version  time == ${(endTime.microsecondsSinceEpoch - startTime.microsecondsSinceEpoch) / 1000 / 1000}s");
+        "update $cacheKey v == $version  time == ${(endTime.microsecondsSinceEpoch - startTime.microsecondsSinceEpoch) / 1000 / 1000}s",
+      );
       await box.put(cacheKey, data);
       await box.put("${cacheKey}_version}", version);
     }
@@ -288,15 +262,26 @@ class WebViewModel {
     webview.addOnWebMessageReceivedCallback(callback);
   }
 
-  void removeOnWebMessageReceivedCallback(
-      OnWebMessageReceivedCallback callback) {
+  void removeOnWebMessageReceivedCallback(OnWebMessageReceivedCallback callback) {
     webview.removeOnWebMessageReceivedCallback(callback);
   }
 
   FutureOr<void> dispose() {
+    webview.removeOnUrlRequestCallback(_onUrlRequest);
     if (loginMode && !_loginModeSuccess) {
       loginCallback?.call(null, false);
     }
     _isClosed = true;
+  }
+
+  void _onUrlRequest(String url) {
+    dPrint("OnUrlRequestCallback === $url");
+    this.url = url;
+
+    // 在页面开始加载时立即注入拦截器
+    if (requestInterceptorScript.isNotEmpty) {
+      dPrint("Injecting request interceptor for: $url");
+      webview.evaluateJavaScript(requestInterceptorScript);
+    }
   }
 }
