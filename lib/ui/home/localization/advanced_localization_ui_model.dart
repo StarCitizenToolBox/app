@@ -278,8 +278,8 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     state = state.copyWith(classMap: classMap);
   }
 
-  // ignore: avoid_build_context_in_providers
   Future<bool> doInstall(
+    // ignore: avoid_build_context_in_providers
     BuildContext context, {
     bool isEnableCommunityInputMethod = false,
     bool isEnableVehicleSorting = false,
