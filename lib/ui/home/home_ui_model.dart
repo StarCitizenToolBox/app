@@ -251,7 +251,7 @@ class HomeUIModel extends _$HomeUIModel {
   List<CountdownFestivalItemData> _fixFestivalCountdownListDateTime(List<CountdownFestivalItemData> list) {
     final now = DateTime.now();
 
-    return list.map((item) {
+    final fixedList = list.map((item) {
       if (item.time == null) return item;
       final itemDateTime = DateTime.fromMillisecondsSinceEpoch(item.time!);
       final itemDatePlusSeven = itemDateTime.add(const Duration(days: 7));
@@ -270,6 +270,16 @@ class HomeUIModel extends _$HomeUIModel {
 
       return item;
     }).toList();
+
+    // Sort by time (ascending order - nearest festival first)
+    fixedList.sort((a, b) {
+      if (a.time == null && b.time == null) return 0;
+      if (a.time == null) return 1;
+      if (b.time == null) return -1;
+      return a.time!.compareTo(b.time!);
+    });
+
+    return fixedList;
   }
 
   Future<void> _updateSCServerStatus() async {
