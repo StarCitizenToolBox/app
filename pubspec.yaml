@@ -2,7 +2,7 @@ name: starcitizen_doctor
 description: Designed for "StarCitizen" players, providing many convenient functions.
 publish_to: 'none'
 
-version: 2.14.5+69
+version: 2.15.0+70
 
 environment:
   sdk: ^3.8.0
@@ -108,7 +108,7 @@ msix_config:
   publisher_display_name: xkeyC Studio
   identity_name: 56575xkeyC.MSE
   publisher: CN=B54C897B-C263-4680-B6AB-4913C603DF87
-  msix_version: 2.14.5.0
+  msix_version: 2.15.0.0
   logo_path: ./assets/app_logo.png
   capabilities: internetClient,allowElevation
   languages: zh-cn
