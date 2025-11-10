@@ -83,7 +83,7 @@ dev_dependencies:
   riverpod_generator: ^3.0.3
   custom_lint: ^0.8.0
   riverpod_lint: ^3.0.3
-  ffigen: ^19.1.0
+  ffigen: ^20.0.0
   sct_dev_tools:
     path: ./packages/sct_dev_tools
 
