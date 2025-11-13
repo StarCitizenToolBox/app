@@ -1,5 +1,5 @@
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
-import 'package:starcitizen_doctor/common/rust/http_package.dart';
+import 'package:starcitizen_doctor/common/io/dio_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class URLConf {
@@ -46,7 +46,7 @@ class URLConf {
     String firstUrl = "";
     int callLen = 0;
 
-    void onCall(RustHttpResponse? response, String url) {
+    void onCall(HttpResponse? response, String url) {
       callLen++;
       if (response != null && response.statusCode == 200 && firstUrl.isEmpty) {
         firstUrl = url;

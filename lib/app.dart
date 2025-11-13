@@ -17,7 +17,6 @@ import 'package:uuid/uuid.dart';
 
 import 'api/api.dart';
 import 'common/io/rs_http.dart';
-import 'common/rust/frb_generated.dart';
 import 'data/app_version_data.dart';
 import 'generated/no_l10n_strings.dart';
 import 'ui/home/localization/advanced_localization_ui.dart';
@@ -95,10 +94,9 @@ class AppGlobalModel extends _$AppGlobalModel {
     // init Data
     // final applicationSupportDir = await _initAppDir();
 
-    // init Rust bridge
-    await RustLib.init();
+    // init HTTP client
     await RSHttp.init();
-    dPrint("---- rust bridge init -----");
+    dPrint("---- HTTP client init -----");
 
     // init Hive
     try {
