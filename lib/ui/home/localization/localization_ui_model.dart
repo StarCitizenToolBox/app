@@ -281,7 +281,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       String? communityInputMethodVersion;
       String? communityInputMethodSupportData;
 
-      if (isEnableCommunityInputMethod && !kIsWeb) {
+      if (isEnableCommunityInputMethod) {
         final data = state.communityInputMethodLanguageData;
         if (data != null) {
           communityInputMethodVersion = data.version;
