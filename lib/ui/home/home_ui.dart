@@ -11,7 +11,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
 import 'package:starcitizen_doctor/ui/guide/guide_ui.dart';
-import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -32,7 +31,7 @@ class HomeUI extends HookConsumerWidget {
     ref.watch(localizationUIModelProvider);
 
     useEffect(() {
-      _checkGuide(context, model);
+      // _checkGuide(context, model);
       return null;
     }, const []);
 
@@ -118,25 +117,25 @@ class HomeUI extends HookConsumerWidget {
           children: [
             Text(S.current.home_install_location),
             const SizedBox(width: 12),
-            Button(
-              onPressed: () async {
-                await context.push("/guide");
-                await model.reScanPath();
-              },
-              child: const Padding(padding: EdgeInsets.all(6), child: Icon(FluentIcons.settings)),
-            ),
-            const SizedBox(width: 6),
+            // Button(
+            //   onPressed: () async {
+            //     await context.push("/guide");
+            //     await model.reScanPath();
+            //   },
+            //   child: const Padding(padding: EdgeInsets.all(6), child: Icon(FluentIcons.settings)),
+            // ),
+            // const SizedBox(width: 6),
             Expanded(
               child: ComboBox<String>(
                 value: homeState.scInstalledPath,
                 isExpanded: true,
                 items: [
-                  ComboBoxItem(value: "not_install", child: Text(S.current.home_not_installed_or_failed)),
-                  for (final path in homeState.scInstallPaths)
-                    ComboBoxItem(
-                      value: path,
-                      child: Row(children: [Text(path)]),
-                    ),
+                  ComboBoxItem(value: "not_install", child: Text("您的电脑")),
+                  // for (final path in homeState.scInstallPaths)
+                  //   ComboBoxItem(
+                  //     value: path,
+                  //     child: Row(children: [Text(path)]),
+                  //   ),
                 ],
                 onChanged: model.onChangeInstallPath,
               ),
@@ -714,13 +713,8 @@ class HomeUI extends HookConsumerWidget {
   }
 
   Future<void> _onMenuTap(BuildContext context, String key, HomeUIModelState homeState, WidgetRef ref) async {
-    String gameInstallReqInfo = S.current.home_action_info_valid_install_location_required;
     switch (key) {
       case "localization":
-        if (homeState.scInstalledPath == "not_install") {
-          ToolsUIModel.rsiEnhance(context, showNotGameInstallMsg: true);
-          break;
-        }
         final model = ref.watch(homeUIModelProvider.notifier);
         model.checkLocalizationUpdate();
         await showDialog(
@@ -731,14 +725,10 @@ class HomeUI extends HookConsumerWidget {
         model.checkLocalizationUpdate(skipReload: true);
         break;
       case "performance":
-        if (homeState.scInstalledPath == "not_install") {
-          showToast(context, gameInstallReqInfo);
-          break;
-        }
-        context.push("/index/$key");
+        context.push("/$key");
         break;
       default:
-        context.push("/index/$key");
+        context.push("/$key");
     }
   }
 
@@ -771,42 +761,7 @@ class HomeUI extends HookConsumerWidget {
     HomeUIModel model,
     WidgetRef ref,
   ) async {
-    final localizationState = ref.read(localizationUIModelProvider);
-    if (localizationState.communityInputMethodLanguageData == null) {
-      showToast(context, S.current.input_method_feature_maintenance);
-      return;
-    }
-    if (localizationState.installedCommunityInputMethodSupportVersion == null) {
-      final userOK = await showConfirmDialogs(
-        context,
-        S.current.input_method_community_input_method_not_installed,
-        Text(S.current.input_method_install_community_input_method_prompt),
-      );
-      if (userOK) {
-        if (!context.mounted) return;
-        () async {
-          await _onMenuTap(context, 'localization', homeState, ref);
-          final localizationState = ref.read(localizationUIModelProvider);
-          if (localizationState.installedCommunityInputMethodSupportVersion != null) {
-            await Future.delayed(Duration(milliseconds: 300));
-            if (!context.mounted) return;
-            await _goInputMethod(context, model);
-            return;
-          }
-        }();
-
-        await Future.delayed(Duration(milliseconds: 300));
-        final localizationModel = ref.read(localizationUIModelProvider.notifier);
-        if (!context.mounted) return;
-        localizationModel.checkReinstall(context);
-      }
-      return;
-    }
-    await _goInputMethod(context, model);
-  }
-
-  Future<void> _goInputMethod(BuildContext context, HomeUIModel model) async {
-    await showDialog(context: context, builder: (context) => const InputMethodDialogUI());
+    showToast(context, "请使用完整版体验");
   }
 }
 

@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class SCLoggerHelper {
   static Future<String?> getLogFilePath() async {
-    if (!Platform.isWindows) return null;
+    if (kIsWeb || !Platform.isWindows) return null;
     Map<String, String> envVars = Platform.environment;
     final appDataPath = envVars["appdata"];
     if (appDataPath == null) {
@@ -31,7 +32,7 @@ class SCLoggerHelper {
   }
 
   static Future<List?> getLauncherLogList() async {
-    if (!Platform.isWindows) return [];
+    if (kIsWeb || !Platform.isWindows) return [];
     try {
       final jsonLogPath = await getLogFilePath();
       if (jsonLogPath == null) throw "no file path";
@@ -43,9 +44,11 @@ class SCLoggerHelper {
     }
   }
 
-  static Future<List<String>> getGameInstallPath(List listData,
-      {bool checkExists = true,
-      List<String> withVersion = const ["LIVE"]}) async {
+  static Future<List<String>> getGameInstallPath(
+    List listData, {
+    bool checkExists = true,
+    List<String> withVersion = const ["LIVE"],
+  }) async {
     List<String> scInstallPaths = [];
 
     checkAndAddPath(String path, bool checkExists) async {
@@ -55,8 +58,7 @@ class SCLoggerHelper {
         if (!checkExists) {
           dPrint("find installPath == $path");
           scInstallPaths.add(path);
-        } else if (await File("$path/Bin64/StarCitizen.exe").exists() &&
-            await File("$path/Data.p4k").exists()) {
+        } else if (await File("$path/Bin64/StarCitizen.exe").exists() && await File("$path/Data.p4k").exists()) {
           dPrint("find installPath == $path");
           scInstallPaths.add(path);
         }
@@ -73,8 +75,7 @@ class SCLoggerHelper {
 
     try {
       for (var v in withVersion) {
-        String pattern =
-            r'([a-zA-Z]:\\\\[^\\\\]*\\\\[^\\\\]*\\\\StarCitizen\\\\' + v + r')';
+        String pattern = r'([a-zA-Z]:\\\\[^\\\\]*\\\\[^\\\\]*\\\\StarCitizen\\\\' + v + r')';
         RegExp regExp = RegExp(pattern, caseSensitive: false);
         for (var i = listData.length - 1; i > 0; i--) {
           final line = listData[i];
@@ -91,8 +92,7 @@ class SCLoggerHelper {
           for (var v in withVersion) {
             if (fileName.toString().endsWith(v)) {
               for (var nv in withVersion) {
-                final nextName =
-                    "${fileName.toString().replaceAll("\\$v", "")}\\$nv";
+                final nextName = "${fileName.toString().replaceAll("\\$v", "")}\\$nv";
                 await checkAndAddPath(nextName, true);
               }
             }
@@ -121,8 +121,7 @@ class SCLoggerHelper {
     if (!await logFile.exists()) {
       return null;
     }
-    return await logFile.readAsLines(
-        encoding: const Utf8Codec(allowMalformed: true));
+    return await logFile.readAsLines(encoding: const Utf8Codec(allowMalformed: true));
   }
 
   static MapEntry<String, String>? getGameRunningLogInfo(List<String> logs) {
@@ -138,47 +137,47 @@ class SCLoggerHelper {
 
   static MapEntry<String, String>? _checkRunningLine(String line) {
     if (line.contains("STATUS_CRYENGINE_OUT_OF_SYSMEM")) {
-      return MapEntry(S.current.doctor_game_error_low_memory,
-          S.current.doctor_game_error_low_memory_info);
+      return MapEntry(S.current.doctor_game_error_low_memory, S.current.doctor_game_error_low_memory_info);
     }
     if (line.contains("EXCEPTION_ACCESS_VIOLATION")) {
-      return MapEntry(S.current.doctor_game_error_generic_info,
-          "https://docs.qq.com/doc/DUURxUVhzTmZoY09Z");
+      return MapEntry(S.current.doctor_game_error_generic_info, "https://docs.qq.com/doc/DUURxUVhzTmZoY09Z");
     }
     if (line.contains("DXGI_ERROR_DEVICE_REMOVED")) {
-      return MapEntry(S.current.doctor_game_error_gpu_crash,
-          "https://www.bilibili.com/read/cv19335199");
+      return MapEntry(S.current.doctor_game_error_gpu_crash, "https://www.bilibili.com/read/cv19335199");
     }
     if (line.contains("Wakeup socket sendto error")) {
-      return MapEntry(S.current.doctor_game_error_socket_error,
-          S.current.doctor_game_error_socket_error_info);
+      return MapEntry(S.current.doctor_game_error_socket_error, S.current.doctor_game_error_socket_error_info);
     }
 
     if (line.contains("The requested operation requires elevated")) {
-      return MapEntry(S.current.doctor_game_error_permissions_error,
-          S.current.doctor_game_error_permissions_error_info);
+      return MapEntry(
+        S.current.doctor_game_error_permissions_error,
+        S.current.doctor_game_error_permissions_error_info,
+      );
     }
-    if (line.contains(
-        "The process cannot access the file because is is being used by another process")) {
-      return MapEntry(S.current.doctor_game_error_game_process_error,
-          S.current.doctor_game_error_game_process_error_info);
+    if (line.contains("The process cannot access the file because is is being used by another process")) {
+      return MapEntry(
+        S.current.doctor_game_error_game_process_error,
+        S.current.doctor_game_error_game_process_error_info,
+      );
     }
     if (line.contains("0xc0000043")) {
-      return MapEntry(S.current.doctor_game_error_game_damaged_file,
-          S.current.doctor_game_error_game_damaged_file_info);
+      return MapEntry(
+        S.current.doctor_game_error_game_damaged_file,
+        S.current.doctor_game_error_game_damaged_file_info,
+      );
     }
     if (line.contains("option to verify the content of the Data.p4k file")) {
-      return MapEntry(S.current.doctor_game_error_game_damaged_p4k_file,
-          S.current.doctor_game_error_game_damaged_p4k_file_info);
+      return MapEntry(
+        S.current.doctor_game_error_game_damaged_p4k_file,
+        S.current.doctor_game_error_game_damaged_p4k_file_info,
+      );
     }
     if (line.contains("OUTOFMEMORY Direct3D could not allocate")) {
-      return MapEntry(S.current.doctor_game_error_low_gpu_memory,
-          S.current.doctor_game_error_low_gpu_memory_info);
+      return MapEntry(S.current.doctor_game_error_low_gpu_memory, S.current.doctor_game_error_low_gpu_memory_info);
     }
-    if (line.contains(
-        "try disabling with r_vulkanDisableLayers = 1 in your user.cfg")) {
-      return MapEntry(S.current.doctor_game_error_gpu_vulkan_crash,
-          S.current.doctor_game_error_gpu_vulkan_crash_info);
+    if (line.contains("try disabling with r_vulkanDisableLayers = 1 in your user.cfg")) {
+      return MapEntry(S.current.doctor_game_error_gpu_vulkan_crash, S.current.doctor_game_error_gpu_vulkan_crash_info);
     }
 
     /// Unknown

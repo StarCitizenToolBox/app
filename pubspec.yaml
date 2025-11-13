@@ -42,19 +42,21 @@ dependencies:
   uuid: ^4.5.1
   flutter_tilt: ^3.3.2
   card_swiper: ^3.0.1
-  ffi: ^2.1.4
-  flutter_rust_bridge: ^2.11.1
+  # ffi: ^2.1.4  # 移除 Rust 依赖
+  # flutter_rust_bridge: ^2.11.1  # 移除 Rust 依赖
   freezed_annotation: ^3.1.0
   meta: ^1.16.0
   hexcolor: ^3.0.1
   html: ^0.15.6
   fixnum: ^1.1.1
-  rust_builder:
-    path: rust_builder
+  # rust_builder:  # 移除 Rust 依赖
+  #   path: rust_builder
   aria2:
     git: https://github.com/xkeyC/dart_aria2_rpc.git
   #    path: ../../xkeyC/dart_aria2_rpc
   #    path: ../../xkeyC/dart_aria2_rpc
+  # rust_builder:  # Web 版本不需要 Rust
+  #   path: rust_builder
   intl: any
   synchronized: ^3.4.0
   super_sliver_list: ^0.4.1
@@ -68,10 +70,12 @@ dependencies:
   path: ^1.9.1
   crypto: ^3.0.7
   xml: ^6.6.1
+  cross_file: ^0.3.4+2
+  web: ^1.0.0
 dependency_overrides:
   http: ^1.5.0
   intl: ^0.20.2
-
+  isolate_manager: ^6.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -83,7 +87,7 @@ dev_dependencies:
   riverpod_generator: ^3.0.3
   custom_lint: ^0.8.0
   riverpod_lint: ^3.0.3
-  ffigen: ^20.0.0
+  # ffigen: ^20.0.0  # 移除 Rust 依赖
   sct_dev_tools:
     path: ./packages/sct_dev_tools
 
@@ -94,6 +98,7 @@ flutter:
     - assets/
     - assets/binary/
     - assets/countdown/
+    - assets/backgrounds/
     - assets/web/input_method/
     - assets/web/input_method/js/
     - assets/web/input_method/style/

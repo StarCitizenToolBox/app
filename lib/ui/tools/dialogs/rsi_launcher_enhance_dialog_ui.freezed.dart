@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RSILauncherStateData {
 
- String get version; asar_api.RsiLauncherAsarData get data; String get serverData; bool get isPatchInstalled; String? get enabledLocalization; bool? get enableDownloaderBoost;
+ String get version; dynamic get data; String get serverData; bool get isPatchInstalled; String? get enabledLocalization; bool? get enableDownloaderBoost;
 /// Create a copy of RSILauncherStateData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,12 +25,12 @@ $RSILauncherStateDataCopyWith<RSILauncherStateData> get copyWith => _$RSILaunche
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RSILauncherStateData&&(identical(other.version, version) || other.version == version)&&(identical(other.data, data) || other.data == data)&&(identical(other.serverData, serverData) || other.serverData == serverData)&&(identical(other.isPatchInstalled, isPatchInstalled) || other.isPatchInstalled == isPatchInstalled)&&(identical(other.enabledLocalization, enabledLocalization) || other.enabledLocalization == enabledLocalization)&&(identical(other.enableDownloaderBoost, enableDownloaderBoost) || other.enableDownloaderBoost == enableDownloaderBoost));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RSILauncherStateData&&(identical(other.version, version) || other.version == version)&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.serverData, serverData) || other.serverData == serverData)&&(identical(other.isPatchInstalled, isPatchInstalled) || other.isPatchInstalled == isPatchInstalled)&&(identical(other.enabledLocalization, enabledLocalization) || other.enabledLocalization == enabledLocalization)&&(identical(other.enableDownloaderBoost, enableDownloaderBoost) || other.enableDownloaderBoost == enableDownloaderBoost));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,version,data,serverData,isPatchInstalled,enabledLocalization,enableDownloaderBoost);
+int get hashCode => Object.hash(runtimeType,version,const DeepCollectionEquality().hash(data),serverData,isPatchInstalled,enabledLocalization,enableDownloaderBoost);
 
 @override
 String toString() {
@@ -45,7 +45,7 @@ abstract mixin class $RSILauncherStateDataCopyWith<$Res>  {
   factory $RSILauncherStateDataCopyWith(RSILauncherStateData value, $Res Function(RSILauncherStateData) _then) = _$RSILauncherStateDataCopyWithImpl;
 @useResult
 $Res call({
- String version, asar_api.RsiLauncherAsarData data, String serverData, bool isPatchInstalled, String? enabledLocalization, bool? enableDownloaderBoost
+ String version, dynamic data, String serverData, bool isPatchInstalled, String? enabledLocalization, bool? enableDownloaderBoost
 });
 
 
@@ -62,11 +62,11 @@ class _$RSILauncherStateDataCopyWithImpl<$Res>
 
 /// Create a copy of RSILauncherStateData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? version = null,Object? data = null,Object? serverData = null,Object? isPatchInstalled = null,Object? enabledLocalization = freezed,Object? enableDownloaderBoost = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? version = null,Object? data = freezed,Object? serverData = null,Object? isPatchInstalled = null,Object? enabledLocalization = freezed,Object? enableDownloaderBoost = freezed,}) {
   return _then(_self.copyWith(
 version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
-as String,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
-as asar_api.RsiLauncherAsarData,serverData: null == serverData ? _self.serverData : serverData // ignore: cast_nullable_to_non_nullable
+as String,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as dynamic,serverData: null == serverData ? _self.serverData : serverData // ignore: cast_nullable_to_non_nullable
 as String,isPatchInstalled: null == isPatchInstalled ? _self.isPatchInstalled : isPatchInstalled // ignore: cast_nullable_to_non_nullable
 as bool,enabledLocalization: freezed == enabledLocalization ? _self.enabledLocalization : enabledLocalization // ignore: cast_nullable_to_non_nullable
 as String?,enableDownloaderBoost: freezed == enableDownloaderBoost ? _self.enableDownloaderBoost : enableDownloaderBoost // ignore: cast_nullable_to_non_nullable
@@ -155,7 +155,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String version,  asar_api.RsiLauncherAsarData data,  String serverData,  bool isPatchInstalled,  String? enabledLocalization,  bool? enableDownloaderBoost)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String version,  dynamic data,  String serverData,  bool isPatchInstalled,  String? enabledLocalization,  bool? enableDownloaderBoost)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RSILauncherStateData() when $default != null:
 return $default(_that.version,_that.data,_that.serverData,_that.isPatchInstalled,_that.enabledLocalization,_that.enableDownloaderBoost);case _:
@@ -176,7 +176,7 @@ return $default(_that.version,_that.data,_that.serverData,_that.isPatchInstalled
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String version,  asar_api.RsiLauncherAsarData data,  String serverData,  bool isPatchInstalled,  String? enabledLocalization,  bool? enableDownloaderBoost)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String version,  dynamic data,  String serverData,  bool isPatchInstalled,  String? enabledLocalization,  bool? enableDownloaderBoost)  $default,) {final _that = this;
 switch (_that) {
 case _RSILauncherStateData():
 return $default(_that.version,_that.data,_that.serverData,_that.isPatchInstalled,_that.enabledLocalization,_that.enableDownloaderBoost);case _:
@@ -196,7 +196,7 @@ return $default(_that.version,_that.data,_that.serverData,_that.isPatchInstalled
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String version,  asar_api.RsiLauncherAsarData data,  String serverData,  bool isPatchInstalled,  String? enabledLocalization,  bool? enableDownloaderBoost)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String version,  dynamic data,  String serverData,  bool isPatchInstalled,  String? enabledLocalization,  bool? enableDownloaderBoost)?  $default,) {final _that = this;
 switch (_that) {
 case _RSILauncherStateData() when $default != null:
 return $default(_that.version,_that.data,_that.serverData,_that.isPatchInstalled,_that.enabledLocalization,_that.enableDownloaderBoost);case _:
@@ -215,7 +215,7 @@ class _RSILauncherStateData implements RSILauncherStateData {
   
 
 @override final  String version;
-@override final  asar_api.RsiLauncherAsarData data;
+@override final  dynamic data;
 @override final  String serverData;
 @override@JsonKey() final  bool isPatchInstalled;
 @override final  String? enabledLocalization;
@@ -231,12 +231,12 @@ _$RSILauncherStateDataCopyWith<_RSILauncherStateData> get copyWith => __$RSILaun
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RSILauncherStateData&&(identical(other.version, version) || other.version == version)&&(identical(other.data, data) || other.data == data)&&(identical(other.serverData, serverData) || other.serverData == serverData)&&(identical(other.isPatchInstalled, isPatchInstalled) || other.isPatchInstalled == isPatchInstalled)&&(identical(other.enabledLocalization, enabledLocalization) || other.enabledLocalization == enabledLocalization)&&(identical(other.enableDownloaderBoost, enableDownloaderBoost) || other.enableDownloaderBoost == enableDownloaderBoost));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RSILauncherStateData&&(identical(other.version, version) || other.version == version)&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.serverData, serverData) || other.serverData == serverData)&&(identical(other.isPatchInstalled, isPatchInstalled) || other.isPatchInstalled == isPatchInstalled)&&(identical(other.enabledLocalization, enabledLocalization) || other.enabledLocalization == enabledLocalization)&&(identical(other.enableDownloaderBoost, enableDownloaderBoost) || other.enableDownloaderBoost == enableDownloaderBoost));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,version,data,serverData,isPatchInstalled,enabledLocalization,enableDownloaderBoost);
+int get hashCode => Object.hash(runtimeType,version,const DeepCollectionEquality().hash(data),serverData,isPatchInstalled,enabledLocalization,enableDownloaderBoost);
 
 @override
 String toString() {
@@ -251,7 +251,7 @@ abstract mixin class _$RSILauncherStateDataCopyWith<$Res> implements $RSILaunche
   factory _$RSILauncherStateDataCopyWith(_RSILauncherStateData value, $Res Function(_RSILauncherStateData) _then) = __$RSILauncherStateDataCopyWithImpl;
 @override @useResult
 $Res call({
- String version, asar_api.RsiLauncherAsarData data, String serverData, bool isPatchInstalled, String? enabledLocalization, bool? enableDownloaderBoost
+ String version, dynamic data, String serverData, bool isPatchInstalled, String? enabledLocalization, bool? enableDownloaderBoost
 });
 
 
@@ -268,11 +268,11 @@ class __$RSILauncherStateDataCopyWithImpl<$Res>
 
 /// Create a copy of RSILauncherStateData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? version = null,Object? data = null,Object? serverData = null,Object? isPatchInstalled = null,Object? enabledLocalization = freezed,Object? enableDownloaderBoost = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? version = null,Object? data = freezed,Object? serverData = null,Object? isPatchInstalled = null,Object? enabledLocalization = freezed,Object? enableDownloaderBoost = freezed,}) {
   return _then(_RSILauncherStateData(
 version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
-as String,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
-as asar_api.RsiLauncherAsarData,serverData: null == serverData ? _self.serverData : serverData // ignore: cast_nullable_to_non_nullable
+as String,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as dynamic,serverData: null == serverData ? _self.serverData : serverData // ignore: cast_nullable_to_non_nullable
 as String,isPatchInstalled: null == isPatchInstalled ? _self.isPatchInstalled : isPatchInstalled // ignore: cast_nullable_to_non_nullable
 as bool,enabledLocalization: freezed == enabledLocalization ? _self.enabledLocalization : enabledLocalization // ignore: cast_nullable_to_non_nullable
 as String?,enableDownloaderBoost: freezed == enableDownloaderBoost ? _self.enableDownloaderBoost : enableDownloaderBoost // ignore: cast_nullable_to_non_nullable

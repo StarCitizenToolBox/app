@@ -18,6 +18,7 @@ export 'src/countdown_time_text.dart';
 export 'src/cache_svg_image.dart';
 export 'src/grid_item_animator.dart';
 export 'src/swiper.dart';
+export 'src/blur_oval_widget.dart';
 
 export '../common/utils/async.dart';
 export '../common/utils/base_utils.dart';

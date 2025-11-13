@@ -2,10 +2,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:archive/archive_io.dart';
+import 'package:archive/archive.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, compute;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -23,8 +24,8 @@ import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/tools/dialogs/vehicle_sorting_dialog_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
+import 'dart:js_interop';
+import 'package:web/web.dart' as web;
 
 part 'localization_ui_model.g.dart';
 
@@ -34,6 +35,7 @@ part 'localization_ui_model.freezed.dart';
 abstract class LocalizationUIState with _$LocalizationUIState {
   factory LocalizationUIState({
     String? selectedLanguage,
+    @Default("LIVE") String selectedChannel,
     String? installedCommunityInputMethodSupportVersion,
     InputMethodApiLanguageData? communityInputMethodLanguageData,
     Map<String, ScLocalizationData>? apiLocalizationData,
@@ -46,10 +48,7 @@ abstract class LocalizationUIState with _$LocalizationUIState {
 
 @riverpod
 class LocalizationUIModel extends _$LocalizationUIModel {
-  static const languageSupport = {
-    "chinese_(simplified)": NoL10n.langZHS,
-    "chinese_(traditional)": NoL10n.langZHT,
-  };
+  static const languageSupport = {"chinese_(simplified)": NoL10n.langZHS, "chinese_(traditional)": NoL10n.langZHT};
 
   Directory get _downloadDir => Directory("${appGlobalState.applicationSupportDir}\\Localizations");
 
@@ -71,7 +70,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<void> _init() async {
-    if (_scInstallPath == "not_install") {
+    if (!kIsWeb && _scInstallPath == "not_install") {
       return;
     }
     ref.onDispose(() {
@@ -108,7 +107,16 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   Future<void> _loadData() async {
     _allVersionLocalizationData.clear();
-    await _updateStatus();
+    if (!kIsWeb) {
+      await _updateStatus();
+    } else {
+      await Future.delayed(Duration(milliseconds: 100));
+      state = state.copyWith(
+        patchStatus: MapEntry(false, S.current.home_action_info_game_built_in),
+        isInstalledAdvanced: false,
+        installedCommunityInputMethodSupportVersion: null,
+      );
+    }
     await _loadCommunityInputMethodData();
     for (var lang in languageSupport.keys) {
       final l = await Api.getScLocalizationData(lang).unwrap();
@@ -116,7 +124,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         if (lang == state.selectedLanguage) {
           final apiLocalizationData = <String, ScLocalizationData>{};
           for (var element in l) {
-            final isPTU = !_scInstallPath.contains("LIVE");
+            final isPTU = !state.selectedChannel.contains("LIVE");
             if (isPTU && element.gameChannel == "PTU") {
               apiLocalizationData[element.versionName ?? ""] = element;
             } else if (!isPTU && element.gameChannel == "PU") {
@@ -135,14 +143,20 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   void checkUserCfg(BuildContext context) async {
+    // Web 版本不支持此功能
+    if (kIsWeb) return;
+
     final userCfgFile = File("$_scInstallPath\\USER.cfg");
     if (await userCfgFile.exists()) {
       final cfgString = await userCfgFile.readAsString();
       if (cfgString.contains("g_language") && !cfgString.contains("g_language=${state.selectedLanguage}")) {
         if (!context.mounted) return;
-        final ok = await showConfirmDialogs(context, S.current.localization_info_remove_incompatible_translation_params,
-            Text(S.current.localization_info_incompatible_translation_params_warning),
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
+        final ok = await showConfirmDialogs(
+          context,
+          S.current.localization_info_remove_incompatible_translation_params,
+          Text(S.current.localization_info_incompatible_translation_params_warning),
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+        );
         if (ok == true) {
           var finalString = "";
           for (var item in cfgString.split("\n")) {
@@ -160,6 +174,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<void> updateLangCfg(bool enable) async {
+    // Web 版本不支持此功能
+    if (kIsWeb) return;
+
     final selectedLanguage = state.selectedLanguage!;
     final status = await _getLangCfgEnableLang(lang: selectedLanguage);
     final exists = await _cfgFile.exists();
@@ -216,7 +233,25 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     launchUrlString(URLConf.feedbackUrl);
   }
 
+  Future<String> genLangCfg() async {
+    final selectedLanguage = state.selectedLanguage!;
+    StringBuffer newStr = StringBuffer();
+    if (!newStr.toString().contains("sys_languages=$selectedLanguage")) {
+      newStr.writeln("sys_languages=$selectedLanguage");
+    }
+    if (!newStr.toString().contains("g_language=$selectedLanguage")) {
+      newStr.writeln("g_language=$selectedLanguage");
+    }
+    if (!newStr.toString().contains("g_languageAudio")) {
+      newStr.writeln("g_languageAudio=english");
+    }
+    return newStr.toString();
+  }
+
   VoidCallback? doDelIniFile() {
+    // Web 版本不支持此功能
+    if (kIsWeb) return null;
+
     return () async {
       final iniFile = File("${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
       if (await iniFile.exists()) await iniFile.delete();
@@ -238,7 +273,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     BuildContext? context,
   }) async {
     dPrint("LocalizationUIModel -> installFormString $versionName");
-    final iniFile = File("${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
+
     if (versionName.isNotEmpty) {
       if (!globalIni.toString().endsWith("\n")) {
         globalIni.write("\n");
@@ -246,7 +281,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       String? communityInputMethodVersion;
       String? communityInputMethodSupportData;
 
-      if (isEnableCommunityInputMethod) {
+      if (isEnableCommunityInputMethod && !kIsWeb) {
         final data = state.communityInputMethodLanguageData;
         if (data != null) {
           communityInputMethodVersion = data.version;
@@ -258,8 +293,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       }
 
       if (communityInputMethodVersion != null) {
-        globalIni
-            .write("_starcitizen_doctor_localization_community_input_method_version=$communityInputMethodVersion\n");
+        globalIni.write(
+          "_starcitizen_doctor_localization_community_input_method_version=$communityInputMethodVersion\n",
+        );
       }
       if (communityInputMethodSupportData != null) {
         for (var line in communityInputMethodSupportData.split("\n")) {
@@ -274,16 +310,28 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
     var iniStringData = globalIni.toString().trim();
 
+    // 载具排序对话框 - 在生成最终文件前执行
     if ((context?.mounted ?? false) && isEnableVehicleSorting) {
       if (!context!.mounted) return;
       final iniStringDataVN = ValueNotifier(iniStringData);
-      final ok = await showConfirmDialogs(context, S.current.tools_vehicle_sorting_title, VehicleSortingDialogUi(iniStringData: iniStringDataVN),constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * .75,
-      ));
+      final ok = await showConfirmDialogs(
+        context,
+        S.current.tools_vehicle_sorting_title,
+        VehicleSortingDialogUi(iniStringData: iniStringDataVN),
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .75),
+      );
       if (ok) {
         iniStringData = iniStringDataVN.value;
       }
     }
+
+    // Web 版本生成下载文件
+    if (kIsWeb) {
+      await _generateAndDownloadWebFile(iniStringData, versionName);
+      return;
+    }
+
+    final iniFile = File("${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
 
     /// write ini
     if (await iniFile.exists()) {
@@ -293,6 +341,28 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     await iniFile.writeAsString("\uFEFF$iniStringData", flush: true);
     await updateLangCfg(true);
     await _updateStatus();
+  }
+
+  Future<void> _generateAndDownloadWebFile(String iniStringData, String versionName) async {
+    final selectedLanguage = state.selectedLanguage!;
+    final iniFileString = "\uFEFF$iniStringData";
+    final cfg = await genLangCfg();
+    final archive = Archive();
+    archive.addFile(
+      ArchiveFile("data/Localization/$selectedLanguage/global.ini", iniFileString.length, utf8.encode(iniFileString)),
+    );
+    archive.addFile(ArchiveFile("data/system.cfg", cfg.length, utf8.encode(cfg)));
+    final zip = await compute(_encodeZipFile, archive);
+    if (zip == null) return;
+    final blob = Blob.fromBytes(zip, opt: {"type": "application/zip"});
+    final url = web.URL.createObjectURL(blob);
+    await Future.delayed(const Duration(seconds: 1));
+    jsDownloadBlobFile(url, "Localization_$versionName.zip");
+  }
+
+  List<int>? _encodeZipFile(Archive archive) {
+    final zip = ZipEncoder().encode(archive);
+    return zip;
   }
 
   Future<Map<String, String>?> getCommunityInputMethodSupportData() async {
@@ -348,9 +418,40 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return ("", "");
   }
 
-  Future? doRemoteInstall(BuildContext context, ScLocalizationData value,
-      {bool isEnableCommunityInputMethod = false, bool isEnableVehicleSorting = false}) async {
+  Future? doRemoteInstall(
+    BuildContext context,
+    ScLocalizationData value, {
+    bool isEnableCommunityInputMethod = false,
+    bool isEnableVehicleSorting = false,
+  }) async {
     AnalyticsApi.touch("install_localization");
+
+    // Web 版本直接下载并生成 ZIP
+    if (kIsWeb) {
+      try {
+        state = state.copyWith(workingVersion: value.versionName!);
+        final data = await downloadLocalizationFileForWeb(value);
+        await Future.delayed(const Duration(milliseconds: 300));
+        // check file
+        final globalIni = await compute(readArchiveFromBytes, data);
+        if (globalIni.isEmpty) {
+          throw S.current.localization_info_corrupted_file;
+        }
+        if (!context.mounted) return;
+        await installFormString(
+          globalIni,
+          value.versionName ?? "",
+          isEnableCommunityInputMethod: isEnableCommunityInputMethod,
+          isEnableVehicleSorting: isEnableVehicleSorting,
+          context: context,
+        );
+      } catch (e) {
+        if (!context.mounted) return;
+        await showToast(context, S.current.localization_info_installation_error(e));
+      }
+      state = state.copyWith(workingVersion: "");
+      return;
+    }
 
     final savePath = File("${_downloadDir.absolute.path}\\${value.versionName}.sclang");
     try {
@@ -385,7 +486,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<String> downloadOrGetCachedCommunityInputMethodSupportFile(
-      InputMethodApiLanguageData communityInputMethodData) async {
+    InputMethodApiLanguageData communityInputMethodData,
+  ) async {
     final lang = state.selectedLanguage ?? "_";
     final box = await Hive.openBox("community_input_method_data");
     final cachedVersion = box.get("${lang}_version");
@@ -410,9 +512,40 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
   }
 
+  // Web 版本下载方法，返回字节数据
+  Future<Uint8List> downloadLocalizationFileForWeb(ScLocalizationData value) async {
+    dPrint("downloading file for web");
+    final downloadUrl = "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
+    final r = await RSHttp.get(downloadUrl);
+    if (r.statusCode == 200 && r.data != null) {
+      return r.data!;
+    } else {
+      throw "statusCode Error : ${r.statusCode}";
+    }
+  }
+
   static StringBuffer readArchive(String savePath) {
     final inputStream = InputFileStream(savePath);
     final output = GZipDecoder().decodeBytes(inputStream.toUint8List());
+    final archive = TarDecoder().decodeBytes(output);
+    StringBuffer globalIni = StringBuffer("");
+    for (var element in archive.files) {
+      if (element.name.contains("global.ini")) {
+        if (element.rawContent == null) continue;
+        final stringContent = utf8.decode(element.rawContent!.readBytes());
+        for (var value in (stringContent).split("\n")) {
+          final tv = value.trim();
+          if (tv.isNotEmpty) globalIni.writeln(value);
+        }
+      }
+    }
+    archive.clear();
+    return globalIni;
+  }
+
+  // Web 版本从字节数据读取 Archive
+  static StringBuffer readArchiveFromBytes(Uint8List data) {
+    final output = GZipDecoder().decodeBytes(data);
     final archive = TarDecoder().decodeBytes(output);
     StringBuffer globalIni = StringBuffer("");
     for (var element in archive.files) {
@@ -440,6 +573,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     await appConfBox.put("localization_selectedLanguage", v);
   }
 
+  void selectChannel(String v) async {
+    state = state.copyWith(selectedChannel: v);
+    _loadData();
+    final appConfBox = await Hive.openBox("app_conf");
+    await appConfBox.put("localization_selectedChannel", v);
+  }
+
   VoidCallback? onBack(BuildContext context) {
     if (state.workingVersion.isNotEmpty) return null;
     return () {
@@ -456,14 +596,20 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<void> _updateStatus() async {
+    // Web 版本不支持此功能
+    if (kIsWeb) return;
+
     final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
-    final patchStatus =
-        MapEntry(await _getLangCfgEnableLang(lang: state.selectedLanguage!), await _getInstalledIniVersion(iniPath));
+    final patchStatus = MapEntry(
+      await _getLangCfgEnableLang(lang: state.selectedLanguage!),
+      await _getInstalledIniVersion(iniPath),
+    );
     final isInstalledAdvanced = await _checkAdvancedStatus(iniPath);
     final installedCommunityInputMethodSupportVersion = await getInstalledCommunityInputMethodSupportVersion(iniPath);
 
     dPrint(
-        "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion");
+      "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion",
+    );
 
     state = state.copyWith(
       patchStatus: patchStatus,
@@ -473,6 +619,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<String?> getInstalledCommunityInputMethodSupportVersion(String path) async {
+    // Web 版本不支持此功能
+    if (kIsWeb) return null;
+
     final iniFile = File(path);
     if (!await iniFile.exists()) {
       return null;
@@ -488,6 +637,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<bool> _checkAdvancedStatus(String path) async {
+    // Web 版本不支持此功能
+    if (kIsWeb) return false;
+
     final iniFile = File(path);
     if (!await iniFile.exists()) {
       return false;
@@ -497,6 +649,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<bool> _getLangCfgEnableLang({String lang = "", String gamePath = ""}) async {
+    // Web 版本不支持此功能
+    if (kIsWeb) return false;
+
     if (gamePath.isEmpty) {
       gamePath = _scInstallPath;
     }
@@ -509,6 +664,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   static Future<String> _getInstalledIniVersion(String iniPath) async {
+    // Web 版本不支持此功能
+    if (kIsWeb) return S.current.home_action_info_game_built_in;
+
     final iniFile = File(iniPath);
     if (!await iniFile.exists()) {
       return S.current.home_action_info_game_built_in;
@@ -524,6 +682,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<List<String>> checkLangUpdate({bool skipReload = false}) async {
+    // Web 版本不支持此功能
+    if (kIsWeb) return [];
+
     if (_scInstallPath == "not_install") {
       return [];
     }
@@ -571,6 +732,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<void> checkCommunityInputMethodUpdate() async {
+    if (kIsWeb) return; // Web 版本不支持自动更新检查
     final cloudVersion = state.communityInputMethodLanguageData?.version;
     final localVersion = state.installedCommunityInputMethodSupportVersion;
     if (cloudVersion == null || localVersion == null) return;
@@ -582,11 +744,14 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         return;
       }
       await installFormString(StringBuffer(localIniString), versioName, isEnableCommunityInputMethod: true);
-      await win32.sendNotify(
-          summary: S.current.input_method_support_updated,
-          body: S.current.input_method_support_updated_to_version(cloudVersion),
-          appName: S.current.home_title_app_name,
-          appId: ConstConf.win32AppId);
+      if (!kIsWeb) {
+        // Web 版本不支持系统通知
+        // await win32.sendNotify(
+        //     summary: S.current.input_method_support_updated,
+        //     body: S.current.input_method_support_updated_to_version(cloudVersion),
+        //     appName: S.current.home_title_app_name,
+        //     appId: ConstConf.win32AppId);
+      }
     }
   }
 
@@ -595,7 +760,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<void> onRemoteInsTall(
-      BuildContext context, MapEntry<String, ScLocalizationData> item, LocalizationUIState state) async {
+    BuildContext context,
+    MapEntry<String, ScLocalizationData> item,
+    LocalizationUIState state,
+  ) async {
     final appBox = Hive.box("app_conf");
     bool enableCommunityInputMethod = state.communityInputMethodLanguageData != null;
     bool isEnableVehicleSorting = appBox.get("vehicle_sorting", defaultValue: false) ?? false;
@@ -646,9 +814,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           SizedBox(height: 12),
           Row(
             children: [
-              Text(
-                S.current.input_method_install_community_input_method_support,
-              ),
+              Text(S.current.input_method_install_community_input_method_support),
               Spacer(),
               StatefulBuilder(
                 builder: (BuildContext context, void Function(void Function()) setState) {
@@ -662,15 +828,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
                           },
                   );
                 },
-              )
+              ),
             ],
           ),
           SizedBox(height: 12),
           Row(
             children: [
-              Text(
-                S.current.tools_vehicle_sorting_title,
-              ),
+              Text(S.current.tools_vehicle_sorting_title),
               Spacer(),
               StatefulBuilder(
                 builder: (BuildContext context, void Function(void Function()) setState) {
@@ -683,7 +847,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
                     },
                   );
                 },
-              )
+              ),
             ],
           ),
         ],
@@ -718,3 +882,20 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
   }
 }
+
+// Web 平台支持 - JS 互操作
+@JS("Blob")
+extension type Blob._(JSObject _) implements JSObject {
+  external factory Blob(JSArray<JSArrayBuffer> blobParts, JSAny? options);
+
+  factory Blob.fromBytes(List<int> bytes, {Map? opt}) {
+    final data = Uint8List.fromList(bytes).buffer.toJS;
+    return Blob([data].toJS, opt?.jsify());
+  }
+
+  external JSArrayBuffer? get blobParts;
+  external JSObject? get options;
+}
+
+@JS()
+external void jsDownloadBlobFile(String blobUrl, String filename);

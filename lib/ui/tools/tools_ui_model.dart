@@ -67,30 +67,30 @@ class ToolsUIModel extends _$ToolsUIModel {
     if (state.isItemLoading) return;
     var items = <ToolsItemData>[];
     state = state.copyWith(items: items, isItemLoading: true);
-    if (!skipPathScan) {
-      await reScanPath(context);
-    }
+    // if (!skipPathScan) {
+    //   await reScanPath(context);
+    // }
     try {
       items = [
-        ToolsItemData(
-          "systemnfo",
-          S.current.tools_action_view_system_info,
-          S.current.tools_action_info_view_critical_system_info,
-          const Icon(FluentIcons.system, size: 24),
-          onTap: () => _showSystemInfo(context),
-        ),
+        // ToolsItemData(
+        //   "systemnfo",
+        //   S.current.tools_action_view_system_info,
+        //   S.current.tools_action_info_view_critical_system_info,
+        //   const Icon(FluentIcons.system, size: 24),
+        //   onTap: () => _showSystemInfo(context),
+        // ),
       ];
 
       if (!context.mounted) return;
       items.add(await _addP4kCard(context));
       items.addAll([
-        ToolsItemData(
-          "hosts_booster",
-          S.current.tools_action_hosts_acceleration_experimental,
-          S.current.tools_action_info_hosts_acceleration_experimental_tip,
-          const Icon(FluentIcons.virtual_network, size: 24),
-          onTap: () => _doHostsBooster(context),
-        ),
+        // ToolsItemData(
+        //   "hosts_booster",
+        //   S.current.tools_action_hosts_acceleration_experimental,
+        //   S.current.tools_action_info_hosts_acceleration_experimental_tip,
+        //   const Icon(FluentIcons.virtual_network, size: 24),
+        //   onTap: () => _doHostsBooster(context),
+        // ),
         ToolsItemData(
           "log_analyze",
           S.current.log_analyzer_title,
@@ -98,45 +98,45 @@ class ToolsUIModel extends _$ToolsUIModel {
           Icon(FluentIcons.analytics_logo),
           onTap: () => _showLogAnalyze(context),
         ),
-        ToolsItemData(
-          "rsilauncher_enhance_mod",
-          S.current.tools_rsi_launcher_enhance_title,
-          S.current.tools_action_rsi_launcher_enhance_info,
-          const Icon(FluentIcons.c_plus_plus, size: 24),
-          onTap: () => rsiEnhance(context),
-        ),
-        ToolsItemData(
-          "reinstall_eac",
-          S.current.tools_action_reinstall_easyanticheat,
-          S.current.tools_action_info_reinstall_eac,
-          const Icon(FluentIcons.game, size: 24),
-          onTap: () => _reinstallEAC(context),
-        ),
-        ToolsItemData(
-          "rsilauncher_admin_mode",
-          S.current.tools_action_rsi_launcher_admin_mode,
-          S.current.tools_action_info_run_rsi_as_admin,
-          const Icon(FluentIcons.admin, size: 24),
-          onTap: () => _adminRSILauncher(context),
-        ),
-        ToolsItemData(
-          "unp4kc",
-          S.current.tools_action_unp4k,
-          S.current.tools_action_unp4k_info,
-          const Icon(FontAwesomeIcons.fileZipper, size: 24),
-          onTap: () => _unp4kc(context),
-        ),
+        // ToolsItemData(
+        //   "rsilauncher_enhance_mod",
+        //   S.current.tools_rsi_launcher_enhance_title,
+        //   S.current.tools_action_rsi_launcher_enhance_info,
+        //   const Icon(FluentIcons.c_plus_plus, size: 24),
+        //   onTap: () => rsiEnhance(context),
+        // ),
+        // ToolsItemData(
+        //   "reinstall_eac",
+        //   S.current.tools_action_reinstall_easyanticheat,
+        //   S.current.tools_action_info_reinstall_eac,
+        //   const Icon(FluentIcons.game, size: 24),
+        //   onTap: () => _reinstallEAC(context),
+        // ),
+        // ToolsItemData(
+        //   "rsilauncher_admin_mode",
+        //   S.current.tools_action_rsi_launcher_admin_mode,
+        //   S.current.tools_action_info_run_rsi_as_admin,
+        //   const Icon(FluentIcons.admin, size: 24),
+        //   onTap: () => _adminRSILauncher(context),
+        // ),
+        // ToolsItemData(
+        //   "unp4kc",
+        //   S.current.tools_action_unp4k,
+        //   S.current.tools_action_unp4k_info,
+        //   const Icon(FontAwesomeIcons.fileZipper, size: 24),
+        //   onTap: () => _unp4kc(context),
+        // ),
       ]);
 
       state = state.copyWith(items: items);
       if (!context.mounted) return;
-      items.add(await _addShaderCard(context));
-      state = state.copyWith(items: items);
+      // items.add(await _addShaderCard(context));
+      // state = state.copyWith(items: items);
       if (!context.mounted) return;
-      items.add(await _addPhotographyCard(context));
-      state = state.copyWith(items: items);
-      if (!context.mounted) return;
-      items.addAll(await _addNvmePatchCard(context));
+      // items.add(await _addPhotographyCard(context));
+      // state = state.copyWith(items: items);
+      // if (!context.mounted) return;
+      // items.addAll(await _addNvmePatchCard(context));
       state = state.copyWith(items: items, isItemLoading: false);
     } catch (e) {
       if (!context.mounted) return;
@@ -176,7 +176,8 @@ class ToolsUIModel extends _$ToolsUIModel {
           "remove_nvme_settings",
           S.current.tools_action_remove_nvme_registry_patch,
           S.current.tools_action_info_nvme_patch_issue(
-              nvmePatchStatus ? S.current.localization_info_installed : S.current.tools_action_info_not_installed),
+            nvmePatchStatus ? S.current.localization_info_installed : S.current.tools_action_info_not_installed,
+          ),
           const Icon(FluentIcons.hard_drive, size: 24),
           onTap: nvmePatchStatus
               ? () async {
@@ -208,7 +209,7 @@ class ToolsUIModel extends _$ToolsUIModel {
             state = state.copyWith(working: false);
             loadToolsCard(context, skipPathScan: true);
           },
-        )
+        ),
     ];
   }
 
@@ -266,8 +267,11 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (listData == null) {
         return;
       }
-      scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
-          checkExists: checkActive, withVersion: AppConf.gameChannels);
+      scInstallPaths = await SCLoggerHelper.getGameInstallPath(
+        listData,
+        checkExists: checkActive,
+        withVersion: AppConf.gameChannels,
+      );
       if (scInstallPaths.isNotEmpty) {
         scInstalledPath = scInstallPaths.first;
       }
@@ -337,11 +341,12 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   Future<String> getSystemInfo() async {
     return S.current.tools_action_info_system_info_content(
-        await SystemHelper.getSystemName(),
-        await SystemHelper.getCpuName(),
-        await SystemHelper.getSystemMemorySizeGB(),
-        await SystemHelper.getGpuInfo(),
-        await SystemHelper.getDiskInfo());
+      await SystemHelper.getSystemName(),
+      await SystemHelper.getCpuName(),
+      await SystemHelper.getSystemMemorySizeGB(),
+      await SystemHelper.getGpuInfo(),
+      await SystemHelper.getDiskInfo(),
+    );
   }
 
   /// 管理员模式运行 RSI 启动器
@@ -365,9 +370,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       builder: (context) => ContentDialog(
         title: Text(S.current.tools_action_info_system_info_title),
         content: Text(systemInfo),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * .65,
-        ),
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .65),
         actions: [
           FilledButton(
             child: Padding(
@@ -404,8 +407,11 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
+      showToast(
+        context,
+        S.current.tools_action_info_rsi_launcher_running_warning,
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+      );
       return;
     }
 
@@ -440,8 +446,11 @@ class ToolsUIModel extends _$ToolsUIModel {
         return;
       }
 
-      final userSelect =
-          await FilePicker.platform.saveFile(initialDirectory: savePath, fileName: fileName, lockParentWindow: true);
+      final userSelect = await FilePicker.platform.saveFile(
+        initialDirectory: savePath,
+        fileName: fileName,
+        lockParentWindow: true,
+      );
       if (userSelect == null) {
         state = state.copyWith(working: false);
         return;
@@ -468,7 +477,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       await aria2c.saveSession();
       AnalyticsApi.touch("p4k_download");
       if (!context.mounted) return;
-      context.push("/index/downloader");
+      context.push("/downloader");
     } catch (e) {
       state = state.copyWith(working: false);
       if (!context.mounted) return;
@@ -550,16 +559,18 @@ class ToolsUIModel extends _$ToolsUIModel {
   static Future<void> rsiEnhance(BuildContext context, {bool showNotGameInstallMsg = false}) async {
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
+      showToast(
+        context,
+        S.current.tools_action_info_rsi_launcher_running_warning,
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+      );
       return;
     }
     if (!context.mounted) return;
     showDialog(
-        context: context,
-        builder: (BuildContext context) => RsiLauncherEnhanceDialogUI(
-              showNotGameInstallMsg: showNotGameInstallMsg,
-            ));
+      context: context,
+      builder: (BuildContext context) => RsiLauncherEnhanceDialogUI(showNotGameInstallMsg: showNotGameInstallMsg),
+    );
   }
 
   Future<void> _showLogAnalyze(BuildContext context) async {

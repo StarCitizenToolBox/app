@@ -371,6 +371,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_action_rsi_launcher_log": MessageLookupByLibrary.simpleMessage(
       "Лог RSI Launcher",
     ),
+    "doctor_action_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "Выбрать файл журнала",
+    ),
     "doctor_action_tip_checking_game_log": MessageLookupByLibrary.simpleMessage(
       "Проверка: Game.log",
     ),
@@ -440,6 +443,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
       "Вы собираетесь перейти к сервису спасения игры, предоставляемому Центром глубокого космического лечения (QQ группа: 536454632), который в основном решает проблемы с неудачной установкой и частыми вылетами. Не присоединяйтесь к группе для вопросов по игровому процессу.",
     ),
+    "doctor_info_log_file_selected": MessageLookupByLibrary.simpleMessage(
+      "Файл журнала выбран",
+    ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "Нужна помощь? Нажмите, чтобы присоединиться к группе для бесплатной поддержки!",
     ),
@@ -495,6 +501,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "doctor_info_tool_check_result_note": MessageLookupByLibrary.simpleMessage(
       "Примечание: Результаты проверки этим инструментом предоставляются только для справки. Если вы не понимаете следующие операции, пожалуйста, предоставьте снимок экрана опытным игрокам!",
+    ),
+    "doctor_info_web_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "Web-платформа: Пожалуйста, выберите файл Game.log вручную для диагностики",
     ),
     "doctor_tip_title_select_game_directory":
         MessageLookupByLibrary.simpleMessage(

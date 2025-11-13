@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,18 +15,15 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/guide/guide_ui.dart';
 import 'package:starcitizen_doctor/ui/home/performance/performance_ui.dart';
 import 'package:starcitizen_doctor/ui/splash_ui.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:uuid/uuid.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'api/analytics.dart';
 import 'api/api.dart';
 import 'common/conf/url_conf.dart';
 import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
-import 'common/rust/frb_generated.dart';
-import 'common/rust/api/win32_api.dart' as win32;
+// import 'common/rust/api/win32_api.dart' as win32; // Web 不支持
 import 'data/app_version_data.dart';
 import 'generated/no_l10n_strings.dart';
 import 'ui/home/downloader/home_downloader_ui.dart';
@@ -49,24 +47,24 @@ abstract class AppGlobalState with _$AppGlobalState {
     @Default(ThemeConf()) ThemeConf themeConf,
     Locale? appLocale,
     Box? appConfBox,
+    @Default("assets/backgrounds/SC_01_Wallpaper_3840x2160.webp") String backgroundImageAssetsPath,
   }) = _AppGlobalState;
 }
 
 @riverpod
 GoRouter router(Ref ref) {
   return GoRouter(
+    initialLocation: '/splash',
     routes: [
+      GoRoute(path: '/splash', pageBuilder: (context, state) => myPageBuilder(context, state, const SplashUI())),
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) => myPageBuilder(context, state, const SplashUI()),
-      ),
-      GoRoute(
-        path: '/index',
         pageBuilder: (context, state) => myPageBuilder(context, state, const IndexUI()),
         routes: [
           GoRoute(
-              path: "downloader",
-              pageBuilder: (context, state) => myPageBuilder(context, state, const HomeDownloaderUI())),
+            path: "downloader",
+            pageBuilder: (context, state) => myPageBuilder(context, state, const HomeDownloaderUI()),
+          ),
           GoRoute(
             path: 'game_doctor',
             pageBuilder: (context, state) => myPageBuilder(context, state, const HomeGameDoctorUI()),
@@ -76,17 +74,19 @@ GoRouter router(Ref ref) {
             pageBuilder: (context, state) => myPageBuilder(context, state, const HomePerformanceUI()),
           ),
           GoRoute(
-              path: 'advanced_localization',
-              pageBuilder: (context, state) => myPageBuilder(context, state, const AdvancedLocalizationUI()))
+            path: 'advanced_localization',
+            pageBuilder: (context, state) => myPageBuilder(context, state, const AdvancedLocalizationUI()),
+          ),
         ],
       ),
-      GoRoute(path: '/tools', builder: (_, _) => const SizedBox(), routes: [
-        GoRoute(
-          path: 'unp4kc',
-          pageBuilder: (context, state) => myPageBuilder(context, state, const UnP4kcUI()),
-        ),
-      ]),
-      GoRoute(path: '/guide', pageBuilder: (context, state) => myPageBuilder(context, state, const GuideUI()))
+      GoRoute(
+        path: '/tools',
+        builder: (_, _) => const SizedBox(),
+        routes: [
+          GoRoute(path: 'unp4kc', pageBuilder: (context, state) => myPageBuilder(context, state, const UnP4kcUI())),
+        ],
+      ),
+      GoRoute(path: '/guide', pageBuilder: (context, state) => myPageBuilder(context, state, const GuideUI())),
     ],
   );
 }
@@ -94,13 +94,13 @@ GoRouter router(Ref ref) {
 @riverpod
 class AppGlobalModel extends _$AppGlobalModel {
   static Map<Locale, String> get appLocaleSupport => {
-        const Locale("auto"): S.current.settings_app_language_auto,
-        const Locale("zh", "CN"): NoL10n.langZHS,
-        const Locale("zh", "TW"): NoL10n.langZHT,
-        const Locale("en"): NoL10n.langEn,
-        const Locale("ja"): NoL10n.langJa,
-        const Locale("ru"): NoL10n.langRU,
-      };
+    const Locale("auto"): S.current.settings_app_language_auto,
+    const Locale("zh", "CN"): NoL10n.langZHS,
+    const Locale("zh", "TW"): NoL10n.langZHT,
+    const Locale("en"): NoL10n.langEn,
+    const Locale("ja"): NoL10n.langJa,
+    const Locale("ru"): NoL10n.langRU,
+  };
 
   @override
   AppGlobalState build() {
@@ -113,15 +113,12 @@ class AppGlobalModel extends _$AppGlobalModel {
     if (_initialized) return;
     // init Data
     final applicationSupportDir = await _initAppDir();
-
-    // init Rust bridge
-    await RustLib.init();
     await RSHttp.init();
     dPrint("---- rust bridge init -----");
 
     // init Hive
     try {
-      Hive.init("$applicationSupportDir/db");
+      if (!kIsWeb) Hive.init("$applicationSupportDir/db");
       final box = await Hive.openBox("app_conf");
       state = state.copyWith(appConfBox: box);
       if (box.get("install_id", defaultValue: "") == "") {
@@ -141,13 +138,16 @@ class AppGlobalModel extends _$AppGlobalModel {
       }
       state = state.copyWith(deviceUUID: deviceUUID, appLocale: locale);
     } catch (e) {
-      await win32.setForegroundWindow(windowName: "SCToolBox");
+      // Web 平台不支持 win32 API
+      if (!kIsWeb) {
+        // await win32.setForegroundWindow(windowName: "SCToolBox");
+      }
       dPrint("exit: db is locking ...");
-      exit(0);
+      if (!kIsWeb) exit(0);
     }
 
     // init powershell
-    if (Platform.isWindows) {
+    if (!kIsWeb && Platform.isWindows) {
       try {
         await SystemHelper.initPowershellPath();
         dPrint("---- Powershell init -----");
@@ -157,33 +157,61 @@ class AppGlobalModel extends _$AppGlobalModel {
     }
 
     // get windows info
-    WindowsDeviceInfo? windowsDeviceInfo;
-    try {
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      windowsDeviceInfo = await deviceInfo.windowsInfo;
-    } catch (e) {
-      dPrint("DeviceInfo.windowsInfo error: $e");
-    }
+    // WindowsDeviceInfo? windowsDeviceInfo;
+    // try {
+    //   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    //   windowsDeviceInfo = await deviceInfo.windowsInfo;
+    // } catch (e) {
+    //   dPrint("DeviceInfo.windowsInfo error: $e");
+    // }
 
     // init windows
-    windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setTitle("SCToolBox");
-      await windowManager.setSkipTaskbar(false);
-      await windowManager.show();
-      if (Platform.isWindows) {
-        await Window.initialize();
-        await Window.hideWindowControls();
-        if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
-          await Window.setEffect(
-            effect: WindowEffect.acrylic,
-          );
-        }
-      }
-    });
+    // if (!kIsWeb) {
+    //   windowManager.waitUntilReadyToShow().then((_) async {
+    //     await windowManager.setTitle("SCToolBox");
+    //     await windowManager.setSkipTaskbar(false);
+    //     await windowManager.show();
+    //     if (Platform.isWindows) {
+    //       await Window.initialize();
+    //       await Window.hideWindowControls();
+    //       if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
+    //         await Window.setEffect(effect: WindowEffect.acrylic);
+    //       }
+    //     }
+    //   });
+    // }
 
     dPrint("---- Window init -----");
+    if (kIsWeb) {
+      _startBackgroundLoop();
+    }
     _initialized = true;
     ref.keepAlive();
+  }
+
+  Timer? _loopTimer;
+
+  void _startBackgroundLoop() async {
+    _loopTimer?.cancel();
+    _loopTimer = null;
+    final assetManifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+    final imageAssetsList = assetManifest
+        .listAssets()
+        .where((string) => string.startsWith("assets/backgrounds"))
+        .toList();
+
+    void rollImage() {
+      final random = DateTime.now().millisecondsSinceEpoch % imageAssetsList.length;
+      final image = imageAssetsList[random];
+      state = state.copyWith(backgroundImageAssetsPath: image);
+      dPrint("rollImage: [$random] $image");
+    }
+
+    rollImage();
+    // 使用 timer 每 30 秒 更换一次随机图片
+    _loopTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
+      rollImage();
+    });
   }
 
   String getUpgradePath() {
@@ -194,7 +222,7 @@ class AppGlobalModel extends _$AppGlobalModel {
 
   // ignore: avoid_build_context_in_providers
   Future<bool> checkUpdate(BuildContext context) async {
-    if (!ConstConf.isMSE) {
+    if (!kIsWeb && !ConstConf.isMSE) {
       final dir = Directory(getUpgradePath());
       if (await dir.exists()) {
         dir.delete(recursive: true);
@@ -226,18 +254,25 @@ class AppGlobalModel extends _$AppGlobalModel {
     if (state.networkVersionData == null) {
       if (!context.mounted) return false;
       await showToast(
-          context, S.current.app_common_network_error(ConstConf.appVersionDate, checkUpdateError.toString()));
+        context,
+        S.current.app_common_network_error(ConstConf.appVersionDate, checkUpdateError.toString()),
+      );
       return false;
     }
+    if (kIsWeb) return false; // Web 版本不支持自动更新
     if (!Platform.isWindows) return false;
-    final lastVersion =
-        ConstConf.isMSE ? state.networkVersionData?.mSELastVersionCode : state.networkVersionData?.lastVersionCode;
+    final lastVersion = ConstConf.isMSE
+        ? state.networkVersionData?.mSELastVersionCode
+        : state.networkVersionData?.lastVersionCode;
     if ((lastVersion ?? 0) > ConstConf.appVersionCode) {
       // need update
       if (!context.mounted) return false;
 
-      final r =
-          await showDialog(dismissWithEsc: false, context: context, builder: (context) => const UpgradeDialogUI());
+      final r = await showDialog(
+        dismissWithEsc: false,
+        context: context,
+        builder: (context) => const UpgradeDialogUI(),
+      );
 
       if (r != true) {
         if (!context.mounted) return false;
@@ -264,8 +299,10 @@ class AppGlobalModel extends _$AppGlobalModel {
 
     dPrint("now == $now  start == $startTime end == $endTime");
     if (now < startTime) {
-      _activityThemeColorTimer =
-          Timer(Duration(milliseconds: startTime - now), () => checkActivityThemeColor(networkVersionData));
+      _activityThemeColorTimer = Timer(
+        Duration(milliseconds: startTime - now),
+        () => checkActivityThemeColor(networkVersionData),
+      );
       dPrint("start Timer ....");
     } else if (now >= startTime && now <= endTime) {
       dPrint("update Color ....");
@@ -280,8 +317,10 @@ class AppGlobalModel extends _$AppGlobalModel {
       );
 
       // wait for end
-      _activityThemeColorTimer =
-          Timer(Duration(milliseconds: endTime - now), () => checkActivityThemeColor(networkVersionData));
+      _activityThemeColorTimer = Timer(
+        Duration(milliseconds: endTime - now),
+        () => checkActivityThemeColor(networkVersionData),
+      );
     } else {
       dPrint("reset Color ....");
       state = state.copyWith(
@@ -302,8 +341,9 @@ class AppGlobalModel extends _$AppGlobalModel {
         await appConfBox.put("app_locale", null);
         return;
       }
-      final localeCode =
-          value.countryCode != null ? "${value.languageCode}_${value.countryCode ?? ""}" : value.languageCode;
+      final localeCode = value.countryCode != null
+          ? "${value.languageCode}_${value.countryCode ?? ""}"
+          : value.languageCode;
       dPrint("changeLocale == $value localeCode=== $localeCode");
       await appConfBox.put("app_locale", localeCode);
       state = state.copyWith(appLocale: value);
@@ -311,6 +351,12 @@ class AppGlobalModel extends _$AppGlobalModel {
   }
 
   Future<String> _initAppDir() async {
+    if (kIsWeb) {
+      await Future.delayed(const Duration(milliseconds: 10));
+      // Web 版本不需要本地目录
+      state = state.copyWith(applicationSupportDir: "", applicationBinaryModuleDir: "");
+      return Future.value("");
+    }
     if (Platform.isWindows) {
       final userProfileDir = Platform.environment["USERPROFILE"];
       final applicationSupportDir = (await getApplicationSupportDirectory()).absolute.path;

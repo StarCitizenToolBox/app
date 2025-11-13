@@ -344,6 +344,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_action_rsi_launcher_log": MessageLookupByLibrary.simpleMessage(
       "RSIランチャーログ",
     ),
+    "doctor_action_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "ログファイルを選択",
+    ),
     "doctor_action_tip_checking_game_log": MessageLookupByLibrary.simpleMessage(
       "確認中：Game.log",
     ),
@@ -408,6 +411,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
       "深宇宙治療センター（QQグループ番号：536454632）によるゲーム異常救済サービスにアクセスしようとしています。これは主にゲームのインストール失敗や頻繁なクラッシュに対応するものです。ゲームプレイの問題に関しては、グループに参加しないでください。",
     ),
+    "doctor_info_log_file_selected": MessageLookupByLibrary.simpleMessage(
+      "ログファイルが選択されました",
+    ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "助けが必要ですか？クリックしてグループに参加し、無料のサポートを受けましょう！",
     ),
@@ -462,6 +468,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "doctor_info_tool_check_result_note": MessageLookupByLibrary.simpleMessage(
       "注意：このツールの検出結果は参考用です。以下の操作が理解できない場合は、スクリーンショットを経験豊富なプレイヤーに提供してください！",
+    ),
+    "doctor_info_web_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "Webプラットフォーム：Game.logファイルを手動で選択して診断してください",
     ),
     "doctor_tip_title_select_game_directory":
         MessageLookupByLibrary.simpleMessage(

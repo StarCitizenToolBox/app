@@ -320,6 +320,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_action_rsi_launcher_log": MessageLookupByLibrary.simpleMessage(
       "RSI启动器log",
     ),
+    "doctor_action_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "选择 log 文件",
+    ),
     "doctor_action_tip_checking_game_log": MessageLookupByLibrary.simpleMessage(
       "正在检查：Game.log",
     ),
@@ -381,6 +384,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
       "您即将前往由 深空治疗中心（QQ群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。",
     ),
+    "doctor_info_log_file_selected": MessageLookupByLibrary.simpleMessage(
+      "已选择日志文件",
+    ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "需要帮助？ 点击加群寻求免费人工支援！",
     ),
@@ -431,6 +437,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "doctor_info_tool_check_result_note": MessageLookupByLibrary.simpleMessage(
       "注意：本工具检测结果仅供参考，若您不理解以下操作，请提供截图给有经验的玩家！",
+    ),
+    "doctor_info_web_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "Web 平台请手动选择 Game.log 文件进行诊断",
     ),
     "doctor_tip_title_select_game_directory":
         MessageLookupByLibrary.simpleMessage("请在首页选择游戏安装目录。"),

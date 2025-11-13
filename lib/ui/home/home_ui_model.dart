@@ -120,7 +120,12 @@ class HomeUIModel extends _$HomeUIModel {
     for (var node in h.body!.nodes) {
       if (node is html_dom.Element) {
         if (node.localName == "img") {
-          return node.attributes["src"]?.trim() ?? "";
+          final image = node.attributes["src"]?.trim() ?? "";
+          var updatedImage = image.replaceAllMapped(
+            RegExp(r'http(s)?://i(\d+)\.hdslb\.com/bfs/'),
+            (match) => 'https://web-proxy.scbox.xkeyc.cn/bfs${match[2]}/bfs/',
+          );
+          return updatedImage;
         }
       }
     }

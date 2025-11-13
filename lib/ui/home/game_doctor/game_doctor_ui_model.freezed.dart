@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeGameDoctorState {
 
- bool get isChecking; bool get isFixing; String get lastScreenInfo; String get isFixingString; List<MapEntry<String, String>>? get checkResult;
+ bool get isChecking; bool get isFixing; String get lastScreenInfo; String get isFixingString; List<MapEntry<String, String>>? get checkResult; String? get customLogFilePath; List<String>? get customLogFileContent;
 /// Create a copy of HomeGameDoctorState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $HomeGameDoctorStateCopyWith<HomeGameDoctorState> get copyWith => _$HomeGameDoct
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeGameDoctorState&&(identical(other.isChecking, isChecking) || other.isChecking == isChecking)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&const DeepCollectionEquality().equals(other.checkResult, checkResult));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeGameDoctorState&&(identical(other.isChecking, isChecking) || other.isChecking == isChecking)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&const DeepCollectionEquality().equals(other.checkResult, checkResult)&&(identical(other.customLogFilePath, customLogFilePath) || other.customLogFilePath == customLogFilePath)&&const DeepCollectionEquality().equals(other.customLogFileContent, customLogFileContent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isChecking,isFixing,lastScreenInfo,isFixingString,const DeepCollectionEquality().hash(checkResult));
+int get hashCode => Object.hash(runtimeType,isChecking,isFixing,lastScreenInfo,isFixingString,const DeepCollectionEquality().hash(checkResult),customLogFilePath,const DeepCollectionEquality().hash(customLogFileContent));
 
 @override
 String toString() {
-  return 'HomeGameDoctorState(isChecking: $isChecking, isFixing: $isFixing, lastScreenInfo: $lastScreenInfo, isFixingString: $isFixingString, checkResult: $checkResult)';
+  return 'HomeGameDoctorState(isChecking: $isChecking, isFixing: $isFixing, lastScreenInfo: $lastScreenInfo, isFixingString: $isFixingString, checkResult: $checkResult, customLogFilePath: $customLogFilePath, customLogFileContent: $customLogFileContent)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $HomeGameDoctorStateCopyWith<$Res>  {
   factory $HomeGameDoctorStateCopyWith(HomeGameDoctorState value, $Res Function(HomeGameDoctorState) _then) = _$HomeGameDoctorStateCopyWithImpl;
 @useResult
 $Res call({
- bool isChecking, bool isFixing, String lastScreenInfo, String isFixingString, List<MapEntry<String, String>>? checkResult
+ bool isChecking, bool isFixing, String lastScreenInfo, String isFixingString, List<MapEntry<String, String>>? checkResult, String? customLogFilePath, List<String>? customLogFileContent
 });
 
 
@@ -62,14 +62,16 @@ class _$HomeGameDoctorStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeGameDoctorState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isChecking = null,Object? isFixing = null,Object? lastScreenInfo = null,Object? isFixingString = null,Object? checkResult = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isChecking = null,Object? isFixing = null,Object? lastScreenInfo = null,Object? isFixingString = null,Object? checkResult = freezed,Object? customLogFilePath = freezed,Object? customLogFileContent = freezed,}) {
   return _then(_self.copyWith(
 isChecking: null == isChecking ? _self.isChecking : isChecking // ignore: cast_nullable_to_non_nullable
 as bool,isFixing: null == isFixing ? _self.isFixing : isFixing // ignore: cast_nullable_to_non_nullable
 as bool,lastScreenInfo: null == lastScreenInfo ? _self.lastScreenInfo : lastScreenInfo // ignore: cast_nullable_to_non_nullable
 as String,isFixingString: null == isFixingString ? _self.isFixingString : isFixingString // ignore: cast_nullable_to_non_nullable
 as String,checkResult: freezed == checkResult ? _self.checkResult : checkResult // ignore: cast_nullable_to_non_nullable
-as List<MapEntry<String, String>>?,
+as List<MapEntry<String, String>>?,customLogFilePath: freezed == customLogFilePath ? _self.customLogFilePath : customLogFilePath // ignore: cast_nullable_to_non_nullable
+as String?,customLogFileContent: freezed == customLogFileContent ? _self.customLogFileContent : customLogFileContent // ignore: cast_nullable_to_non_nullable
+as List<String>?,
   ));
 }
 
@@ -154,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isChecking,  bool isFixing,  String lastScreenInfo,  String isFixingString,  List<MapEntry<String, String>>? checkResult)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isChecking,  bool isFixing,  String lastScreenInfo,  String isFixingString,  List<MapEntry<String, String>>? checkResult,  String? customLogFilePath,  List<String>? customLogFileContent)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeGameDoctorState() when $default != null:
-return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFixingString,_that.checkResult);case _:
+return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFixingString,_that.checkResult,_that.customLogFilePath,_that.customLogFileContent);case _:
   return orElse();
 
 }
@@ -175,10 +177,10 @@ return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFix
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isChecking,  bool isFixing,  String lastScreenInfo,  String isFixingString,  List<MapEntry<String, String>>? checkResult)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isChecking,  bool isFixing,  String lastScreenInfo,  String isFixingString,  List<MapEntry<String, String>>? checkResult,  String? customLogFilePath,  List<String>? customLogFileContent)  $default,) {final _that = this;
 switch (_that) {
 case _HomeGameDoctorState():
-return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFixingString,_that.checkResult);case _:
+return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFixingString,_that.checkResult,_that.customLogFilePath,_that.customLogFileContent);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +197,10 @@ return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFix
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isChecking,  bool isFixing,  String lastScreenInfo,  String isFixingString,  List<MapEntry<String, String>>? checkResult)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isChecking,  bool isFixing,  String lastScreenInfo,  String isFixingString,  List<MapEntry<String, String>>? checkResult,  String? customLogFilePath,  List<String>? customLogFileContent)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeGameDoctorState() when $default != null:
-return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFixingString,_that.checkResult);case _:
+return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFixingString,_that.checkResult,_that.customLogFilePath,_that.customLogFileContent);case _:
   return null;
 
 }
@@ -210,7 +212,7 @@ return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFix
 
 
 class _HomeGameDoctorState implements HomeGameDoctorState {
-   _HomeGameDoctorState({this.isChecking = false, this.isFixing = false, this.lastScreenInfo = "", this.isFixingString = "", final  List<MapEntry<String, String>>? checkResult}): _checkResult = checkResult;
+   _HomeGameDoctorState({this.isChecking = false, this.isFixing = false, this.lastScreenInfo = "", this.isFixingString = "", final  List<MapEntry<String, String>>? checkResult, this.customLogFilePath, final  List<String>? customLogFileContent}): _checkResult = checkResult,_customLogFileContent = customLogFileContent;
   
 
 @override@JsonKey() final  bool isChecking;
@@ -226,6 +228,16 @@ class _HomeGameDoctorState implements HomeGameDoctorState {
   return EqualUnmodifiableListView(value);
 }
 
+@override final  String? customLogFilePath;
+ final  List<String>? _customLogFileContent;
+@override List<String>? get customLogFileContent {
+  final value = _customLogFileContent;
+  if (value == null) return null;
+  if (_customLogFileContent is EqualUnmodifiableListView) return _customLogFileContent;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of HomeGameDoctorState
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +249,16 @@ _$HomeGameDoctorStateCopyWith<_HomeGameDoctorState> get copyWith => __$HomeGameD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeGameDoctorState&&(identical(other.isChecking, isChecking) || other.isChecking == isChecking)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&const DeepCollectionEquality().equals(other._checkResult, _checkResult));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeGameDoctorState&&(identical(other.isChecking, isChecking) || other.isChecking == isChecking)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&const DeepCollectionEquality().equals(other._checkResult, _checkResult)&&(identical(other.customLogFilePath, customLogFilePath) || other.customLogFilePath == customLogFilePath)&&const DeepCollectionEquality().equals(other._customLogFileContent, _customLogFileContent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isChecking,isFixing,lastScreenInfo,isFixingString,const DeepCollectionEquality().hash(_checkResult));
+int get hashCode => Object.hash(runtimeType,isChecking,isFixing,lastScreenInfo,isFixingString,const DeepCollectionEquality().hash(_checkResult),customLogFilePath,const DeepCollectionEquality().hash(_customLogFileContent));
 
 @override
 String toString() {
-  return 'HomeGameDoctorState(isChecking: $isChecking, isFixing: $isFixing, lastScreenInfo: $lastScreenInfo, isFixingString: $isFixingString, checkResult: $checkResult)';
+  return 'HomeGameDoctorState(isChecking: $isChecking, isFixing: $isFixing, lastScreenInfo: $lastScreenInfo, isFixingString: $isFixingString, checkResult: $checkResult, customLogFilePath: $customLogFilePath, customLogFileContent: $customLogFileContent)';
 }
 
 
@@ -257,7 +269,7 @@ abstract mixin class _$HomeGameDoctorStateCopyWith<$Res> implements $HomeGameDoc
   factory _$HomeGameDoctorStateCopyWith(_HomeGameDoctorState value, $Res Function(_HomeGameDoctorState) _then) = __$HomeGameDoctorStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isChecking, bool isFixing, String lastScreenInfo, String isFixingString, List<MapEntry<String, String>>? checkResult
+ bool isChecking, bool isFixing, String lastScreenInfo, String isFixingString, List<MapEntry<String, String>>? checkResult, String? customLogFilePath, List<String>? customLogFileContent
 });
 
 
@@ -274,14 +286,16 @@ class __$HomeGameDoctorStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeGameDoctorState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isChecking = null,Object? isFixing = null,Object? lastScreenInfo = null,Object? isFixingString = null,Object? checkResult = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isChecking = null,Object? isFixing = null,Object? lastScreenInfo = null,Object? isFixingString = null,Object? checkResult = freezed,Object? customLogFilePath = freezed,Object? customLogFileContent = freezed,}) {
   return _then(_HomeGameDoctorState(
 isChecking: null == isChecking ? _self.isChecking : isChecking // ignore: cast_nullable_to_non_nullable
 as bool,isFixing: null == isFixing ? _self.isFixing : isFixing // ignore: cast_nullable_to_non_nullable
 as bool,lastScreenInfo: null == lastScreenInfo ? _self.lastScreenInfo : lastScreenInfo // ignore: cast_nullable_to_non_nullable
 as String,isFixingString: null == isFixingString ? _self.isFixingString : isFixingString // ignore: cast_nullable_to_non_nullable
 as String,checkResult: freezed == checkResult ? _self._checkResult : checkResult // ignore: cast_nullable_to_non_nullable
-as List<MapEntry<String, String>>?,
+as List<MapEntry<String, String>>?,customLogFilePath: freezed == customLogFilePath ? _self.customLogFilePath : customLogFilePath // ignore: cast_nullable_to_non_nullable
+as String?,customLogFileContent: freezed == customLogFileContent ? _self._customLogFileContent : customLogFileContent // ignore: cast_nullable_to_non_nullable
+as List<String>?,
   ));
 }
 

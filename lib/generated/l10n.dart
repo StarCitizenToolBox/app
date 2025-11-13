@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -740,6 +739,36 @@ class S {
     return Intl.message(
       'Game run log',
       name: 'doctor_action_game_run_log',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Log File`
+  String get doctor_action_select_log_file {
+    return Intl.message(
+      'Select Log File',
+      name: 'doctor_action_select_log_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Web platform: Please manually select the Game.log file for diagnosis`
+  String get doctor_info_web_select_log_file {
+    return Intl.message(
+      'Web platform: Please manually select the Game.log file for diagnosis',
+      name: 'doctor_info_web_select_log_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log file selected`
+  String get doctor_info_log_file_selected {
+    return Intl.message(
+      'Log file selected',
+      name: 'doctor_info_log_file_selected',
       desc: '',
       args: [],
     );

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -18,21 +19,60 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="StarCitizen ToolBox - Web Lite Version">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="starcitizen_doctor">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="apple-mobile-web-app-title" content="SCToolBox">
+  <link rel="apple-touch-icon" href="icons/favicon.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>starcitizen_doctor</title>
+  <title>SCToolBox Web Lite</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
+  <!-- Loading indicator -->
+  <div id="loading"
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #132431; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <div style="text-align: center; color: white;">
+      <img src="favicon.png" style="width: 100px; height: 100px; margin-bottom: 20px;"
+        onerror="this.style.display='none'">
+      <h2>SCToolBox Web Lite</h2>
+      <p>Loading...</p>
+    </div>
+  </div>
+  <script>
+    // Remove loading indicator when app is ready
+    window.addEventListener('flutter-first-frame', function () {
+      var loading = document.getElementById('loading');
+      if (loading) {
+        loading.style.opacity = '0';
+        loading.style.transition = 'opacity 0.5s';
+        setTimeout(function () {
+          loading.remove();
+        }, 500);
+      }
+    });
+  </script>
+  <script>
+    function jsDownloadBlobFile(blobUrl, filename) {
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      a.href = blobUrl;
+      a.download = filename;
+      a.click();
+      setTimeout(() => {
+        window.URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(a);
+      }, 0);
+    }
+
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
+
 </html>

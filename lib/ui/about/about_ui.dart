@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,7 +46,7 @@ class AboutUI extends HookConsumerWidget {
               const SizedBox(height: 12),
               Button(
                 onPressed: () => _onCheckUpdate(context, ref),
-                child: Padding(padding: const EdgeInsets.all(4), child: Text(S.current.about_check_update)),
+                child: Padding(padding: const EdgeInsets.all(4), child: Text("获取完整版")),
               ),
               const SizedBox(height: 32),
               Container(
@@ -598,8 +599,10 @@ class AboutUI extends HookConsumerWidget {
   }
 
   Future<void> _onCheckUpdate(BuildContext context, WidgetRef ref) async {
-    if (ConstConf.isMSE) {
-      launchUrlString("ms-windows-store://pdp/?productid=9NF3SWFWNKL1");
+    if (ConstConf.isMSE || kIsWeb) {
+      launchUrlString(
+        "https://citizenwiki.cn/Localization#%E6%96%B9%E5%BC%8F2%EF%BC%9ASC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90%E4%B8%80%E9%94%AE%E6%B1%89%E5%8C%96:~:text=%E6%97%A0%E6%B3%95%E8%BE%93%E5%85%A5%E4%B8%AD%E6%96%87-,%E6%96%B9%E5%BC%8F2%EF%BC%9ASC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90%E4%B8%80%E9%94%AE%E6%B1%89%E5%8C%96,-SC%E6%B1%89%E5%8C%96%E7%9B%92%E5%AD%90",
+      );
       return;
     } else {
       final hasUpdate = await ref.read(appGlobalModelProvider.notifier).checkUpdate(context);

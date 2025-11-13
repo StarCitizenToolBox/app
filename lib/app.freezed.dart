@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppGlobalState {
 
- String? get deviceUUID; String? get applicationSupportDir; String? get applicationBinaryModuleDir; AppVersionData? get networkVersionData; ThemeConf get themeConf; Locale? get appLocale; Box? get appConfBox;
+ String? get deviceUUID; String? get applicationSupportDir; String? get applicationBinaryModuleDir; AppVersionData? get networkVersionData; ThemeConf get themeConf; Locale? get appLocale; Box? get appConfBox; String get backgroundImageAssetsPath;
 /// Create a copy of AppGlobalState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AppGlobalStateCopyWith<AppGlobalState> get copyWith => _$AppGlobalStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox)&&(identical(other.backgroundImageAssetsPath, backgroundImageAssetsPath) || other.backgroundImageAssetsPath == backgroundImageAssetsPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,appLocale,appConfBox);
+int get hashCode => Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,appLocale,appConfBox,backgroundImageAssetsPath);
 
 @override
 String toString() {
-  return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox)';
+  return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox, backgroundImageAssetsPath: $backgroundImageAssetsPath)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AppGlobalStateCopyWith<$Res>  {
   factory $AppGlobalStateCopyWith(AppGlobalState value, $Res Function(AppGlobalState) _then) = _$AppGlobalStateCopyWithImpl;
 @useResult
 $Res call({
- String? deviceUUID, String? applicationSupportDir, String? applicationBinaryModuleDir, AppVersionData? networkVersionData, ThemeConf themeConf, Locale? appLocale, Box? appConfBox
+ String? deviceUUID, String? applicationSupportDir, String? applicationBinaryModuleDir, AppVersionData? networkVersionData, ThemeConf themeConf, Locale? appLocale, Box? appConfBox, String backgroundImageAssetsPath
 });
 
 
@@ -62,7 +62,7 @@ class _$AppGlobalStateCopyWithImpl<$Res>
 
 /// Create a copy of AppGlobalState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? deviceUUID = freezed,Object? applicationSupportDir = freezed,Object? applicationBinaryModuleDir = freezed,Object? networkVersionData = freezed,Object? themeConf = null,Object? appLocale = freezed,Object? appConfBox = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? deviceUUID = freezed,Object? applicationSupportDir = freezed,Object? applicationBinaryModuleDir = freezed,Object? networkVersionData = freezed,Object? themeConf = null,Object? appLocale = freezed,Object? appConfBox = freezed,Object? backgroundImageAssetsPath = null,}) {
   return _then(_self.copyWith(
 deviceUUID: freezed == deviceUUID ? _self.deviceUUID : deviceUUID // ignore: cast_nullable_to_non_nullable
 as String?,applicationSupportDir: freezed == applicationSupportDir ? _self.applicationSupportDir : applicationSupportDir // ignore: cast_nullable_to_non_nullable
@@ -71,7 +71,8 @@ as String?,networkVersionData: freezed == networkVersionData ? _self.networkVers
 as AppVersionData?,themeConf: null == themeConf ? _self.themeConf : themeConf // ignore: cast_nullable_to_non_nullable
 as ThemeConf,appLocale: freezed == appLocale ? _self.appLocale : appLocale // ignore: cast_nullable_to_non_nullable
 as Locale?,appConfBox: freezed == appConfBox ? _self.appConfBox : appConfBox // ignore: cast_nullable_to_non_nullable
-as Box?,
+as Box?,backgroundImageAssetsPath: null == backgroundImageAssetsPath ? _self.backgroundImageAssetsPath : backgroundImageAssetsPath // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 /// Create a copy of AppGlobalState
@@ -165,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox,  String backgroundImageAssetsPath)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppGlobalState() when $default != null:
-return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox);case _:
+return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox,_that.backgroundImageAssetsPath);case _:
   return orElse();
 
 }
@@ -186,10 +187,10 @@ return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox,  String backgroundImageAssetsPath)  $default,) {final _that = this;
 switch (_that) {
 case _AppGlobalState():
-return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox);case _:
+return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox,_that.backgroundImageAssetsPath);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +207,10 @@ return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox,  String backgroundImageAssetsPath)?  $default,) {final _that = this;
 switch (_that) {
 case _AppGlobalState() when $default != null:
-return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox);case _:
+return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox,_that.backgroundImageAssetsPath);case _:
   return null;
 
 }
@@ -221,7 +222,7 @@ return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBi
 
 
 class _AppGlobalState implements AppGlobalState {
-  const _AppGlobalState({this.deviceUUID, this.applicationSupportDir, this.applicationBinaryModuleDir, this.networkVersionData, this.themeConf = const ThemeConf(), this.appLocale, this.appConfBox});
+  const _AppGlobalState({this.deviceUUID, this.applicationSupportDir, this.applicationBinaryModuleDir, this.networkVersionData, this.themeConf = const ThemeConf(), this.appLocale, this.appConfBox, this.backgroundImageAssetsPath = "assets/backgrounds/SC_01_Wallpaper_3840x2160.webp"});
   
 
 @override final  String? deviceUUID;
@@ -231,6 +232,7 @@ class _AppGlobalState implements AppGlobalState {
 @override@JsonKey() final  ThemeConf themeConf;
 @override final  Locale? appLocale;
 @override final  Box? appConfBox;
+@override@JsonKey() final  String backgroundImageAssetsPath;
 
 /// Create a copy of AppGlobalState
 /// with the given fields replaced by the non-null parameter values.
@@ -242,16 +244,16 @@ _$AppGlobalStateCopyWith<_AppGlobalState> get copyWith => __$AppGlobalStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox)&&(identical(other.backgroundImageAssetsPath, backgroundImageAssetsPath) || other.backgroundImageAssetsPath == backgroundImageAssetsPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,appLocale,appConfBox);
+int get hashCode => Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,appLocale,appConfBox,backgroundImageAssetsPath);
 
 @override
 String toString() {
-  return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox)';
+  return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox, backgroundImageAssetsPath: $backgroundImageAssetsPath)';
 }
 
 
@@ -262,7 +264,7 @@ abstract mixin class _$AppGlobalStateCopyWith<$Res> implements $AppGlobalStateCo
   factory _$AppGlobalStateCopyWith(_AppGlobalState value, $Res Function(_AppGlobalState) _then) = __$AppGlobalStateCopyWithImpl;
 @override @useResult
 $Res call({
- String? deviceUUID, String? applicationSupportDir, String? applicationBinaryModuleDir, AppVersionData? networkVersionData, ThemeConf themeConf, Locale? appLocale, Box? appConfBox
+ String? deviceUUID, String? applicationSupportDir, String? applicationBinaryModuleDir, AppVersionData? networkVersionData, ThemeConf themeConf, Locale? appLocale, Box? appConfBox, String backgroundImageAssetsPath
 });
 
 
@@ -279,7 +281,7 @@ class __$AppGlobalStateCopyWithImpl<$Res>
 
 /// Create a copy of AppGlobalState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? deviceUUID = freezed,Object? applicationSupportDir = freezed,Object? applicationBinaryModuleDir = freezed,Object? networkVersionData = freezed,Object? themeConf = null,Object? appLocale = freezed,Object? appConfBox = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? deviceUUID = freezed,Object? applicationSupportDir = freezed,Object? applicationBinaryModuleDir = freezed,Object? networkVersionData = freezed,Object? themeConf = null,Object? appLocale = freezed,Object? appConfBox = freezed,Object? backgroundImageAssetsPath = null,}) {
   return _then(_AppGlobalState(
 deviceUUID: freezed == deviceUUID ? _self.deviceUUID : deviceUUID // ignore: cast_nullable_to_non_nullable
 as String?,applicationSupportDir: freezed == applicationSupportDir ? _self.applicationSupportDir : applicationSupportDir // ignore: cast_nullable_to_non_nullable
@@ -288,7 +290,8 @@ as String?,networkVersionData: freezed == networkVersionData ? _self.networkVers
 as AppVersionData?,themeConf: null == themeConf ? _self.themeConf : themeConf // ignore: cast_nullable_to_non_nullable
 as ThemeConf,appLocale: freezed == appLocale ? _self.appLocale : appLocale // ignore: cast_nullable_to_non_nullable
 as Locale?,appConfBox: freezed == appConfBox ? _self.appConfBox : appConfBox // ignore: cast_nullable_to_non_nullable
-as Box?,
+as Box?,backgroundImageAssetsPath: null == backgroundImageAssetsPath ? _self.backgroundImageAssetsPath : backgroundImageAssetsPath // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

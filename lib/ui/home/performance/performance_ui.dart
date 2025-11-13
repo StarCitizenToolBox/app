@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -30,12 +31,8 @@ class HomePerformanceUI extends HookConsumerWidget {
                     children: [
                       if (state.showGraphicsPerformanceTip)
                         InfoBar(
-                          title: Text(S.current
-                              .performance_info_graphic_optimization_hint),
-                          content: Text(
-                            S.current
-                                .performance_info_graphic_optimization_warning,
-                          ),
+                          title: Text(S.current.performance_info_graphic_optimization_hint),
+                          content: Text(S.current.performance_info_graphic_optimization_warning),
                           onClose: () => model.closeTip(),
                         ),
                       const SizedBox(height: 16),
@@ -43,65 +40,74 @@ class HomePerformanceUI extends HookConsumerWidget {
                         children: [
                           Text(
                             S.current.performance_info_current_status(
-                                state.enabled
-                                    ? S.current.performance_info_applied
-                                    : S.current.performance_info_not_applied),
+                              state.enabled
+                                  ? S.current.performance_info_applied
+                                  : S.current.performance_info_not_applied,
+                            ),
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(width: 32),
-                          Text(
-                            S.current.performance_action_preset,
-                            style: const TextStyle(fontSize: 18),
-                          ),
+                          Text(S.current.performance_action_preset, style: const TextStyle(fontSize: 18)),
                           for (final item in {
                             "low": S.current.performance_action_low,
                             "medium": S.current.performance_action_medium,
                             "high": S.current.performance_action_high,
-                            "ultra": S.current.performance_action_super
+                            "ultra": S.current.performance_action_super,
                           }.entries)
                             Padding(
                               padding: const EdgeInsets.only(left: 6, right: 6),
                               child: Button(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 2, bottom: 2, left: 4, right: 4),
-                                    child: Text(item.value),
-                                  ),
-                                  onPressed: () =>
-                                      model.onChangePreProfile(item.key)),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 2, bottom: 2, left: 4, right: 4),
+                                  child: Text(item.value),
+                                ),
+                                onPressed: () => model.onChangePreProfile(item.key),
+                              ),
                             ),
-                          Text(S.current
-                              .performance_action_info_preset_only_changes_graphics),
+                          Text(S.current.performance_action_info_preset_only_changes_graphics),
                           const Spacer(),
                           Button(
                             onPressed: () => model.refresh(),
-                            child: const Padding(
-                              padding: EdgeInsets.all(6),
-                              child: Icon(FluentIcons.refresh),
-                            ),
+                            child: const Padding(padding: EdgeInsets.all(6), child: Icon(FluentIcons.refresh)),
                           ),
                           const SizedBox(width: 12),
-                          Button(
+                          if (!kIsWeb)
+                            Button(
                               child: Text(
                                 S.current.performance_action_reset_to_default,
                                 style: const TextStyle(fontSize: 16),
                               ),
-                              onPressed: () => model.clean(context)),
-                          const SizedBox(width: 24),
-                          Button(
+                              onPressed: () => model.clean(context),
+                            ),
+                          if (!kIsWeb) const SizedBox(width: 24),
+                          if (kIsWeb)
+                            // Web 平台：下载配置文件
+                            Button(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(FluentIcons.download, size: 16),
+                                  const SizedBox(width: 6),
+                                  Text("下载配置", style: const TextStyle(fontSize: 16)),
+                                ],
+                              ),
+                              onPressed: () => model.downloadConfigForWeb(),
+                            )
+                          else ...[
+                            // 桌面平台：应用配置
+                            Button(
+                              child: Text(S.current.performance_action_apply, style: const TextStyle(fontSize: 16)),
+                              onPressed: () => model.applyProfile(false),
+                            ),
+                            const SizedBox(width: 6),
+                            Button(
                               child: Text(
-                                S.current.performance_action_apply,
+                                S.current.performance_action_apply_and_clear_shaders,
                                 style: const TextStyle(fontSize: 16),
                               ),
-                              onPressed: () => model.applyProfile(false)),
-                          const SizedBox(width: 6),
-                          Button(
-                              child: Text(
-                                S.current
-                                    .performance_action_apply_and_clear_shaders,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              onPressed: () => model.applyProfile(true)),
+                              onPressed: () => model.applyProfile(true),
+                            ),
+                          ],
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -109,73 +115,60 @@ class HomePerformanceUI extends HookConsumerWidget {
                   ),
                 ),
                 Expanded(
-                    child: MasonryGridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 1,
-                  crossAxisSpacing: 1,
-                  itemCount: state.performanceMap!.length,
-                  itemBuilder: (context, index) {
-                    return makeItemGroup(context,
-                        state.performanceMap!.entries.elementAt(index), model);
-                  },
-                )),
+                  child: MasonryGridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 1,
+                    crossAxisSpacing: 1,
+                    itemCount: state.performanceMap!.length,
+                    itemBuilder: (context, index) {
+                      return makeItemGroup(context, state.performanceMap!.entries.elementAt(index), model);
+                    },
+                  ),
+                ),
               ],
             ),
           ),
           if (state.workingString.isNotEmpty)
             Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withAlpha(150),
-              ),
+              decoration: BoxDecoration(color: Colors.black.withAlpha(150)),
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const ProgressRing(),
-                    const SizedBox(height: 12),
-                    Text(state.workingString),
-                  ],
+                  children: [const ProgressRing(), const SizedBox(height: 12), Text(state.workingString)],
                 ),
               ),
-            )
+            ),
         ],
       );
     }
 
-    return makeDefaultPage(context,
-        title:
-            S.current.performance_title_performance_optimization(model.scPath),
-        useBodyContainer: true,
-        content: content);
+    return makeDefaultPage(
+      context,
+      title: S.current.performance_title_performance_optimization(model.scPath),
+      useBodyContainer: true,
+      content: content,
+    );
   }
 
   Widget makeItemGroup(
-      BuildContext context,
-      MapEntry<String?, List<GamePerformanceData>> group,
-      HomePerformanceUIModel model) {
+    BuildContext context,
+    MapEntry<String?, List<GamePerformanceData>> group,
+    HomePerformanceUIModel model,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: FluentTheme.of(context).cardColor,
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: FluentTheme.of(context).cardColor),
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${group.key}",
-                style: const TextStyle(fontSize: 20),
-              ),
+              Text("${group.key}", style: const TextStyle(fontSize: 20)),
               const SizedBox(height: 6),
-              Container(
-                  color:
-                      FluentTheme.of(context).cardColor.withValues(alpha: .2),
-                  height: 1),
+              Container(color: FluentTheme.of(context).cardColor.withValues(alpha: .2), height: 1),
               const SizedBox(height: 6),
-              for (final item in group.value) makeItem(context, item, model)
+              for (final item in group.value) makeItem(context, item, model),
             ],
           ),
         ),
@@ -183,17 +176,13 @@ class HomePerformanceUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeItem(BuildContext context, GamePerformanceData item,
-      HomePerformanceUIModel model) {
+  Widget makeItem(BuildContext context, GamePerformanceData item, HomePerformanceUIModel model) {
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "${item.name}",
-            style: const TextStyle(fontSize: 16),
-          ),
+          Text("${item.name}", style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 12),
           if (item.type == "int")
             Column(
@@ -209,9 +198,7 @@ class HomePerformanceUI extends HookConsumerWidget {
                           dPrint(str);
                           if (str.isEmpty) return;
                           final v = int.tryParse(str);
-                          if (v != null &&
-                              v < (item.max ?? 0) &&
-                              v >= (item.min ?? 0)) {
+                          if (v != null && v < (item.max ?? 0) && v >= (item.min ?? 0)) {
                             item.value = v;
                           }
                           model.updateState();
@@ -233,9 +220,9 @@ class HomePerformanceUI extends HookConsumerWidget {
                           model.updateState();
                         },
                       ),
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             )
           else if (item.type == "bool")
@@ -247,7 +234,7 @@ class HomePerformanceUI extends HookConsumerWidget {
                     item.value = value ? 1 : 0;
                     model.updateState();
                   },
-                )
+                ),
               ],
             )
           else if (item.type == "customize")
@@ -258,11 +245,7 @@ class HomePerformanceUI extends HookConsumerWidget {
             ),
           if (item.info != null && item.info!.isNotEmpty) ...[
             const SizedBox(height: 12),
-            Text(
-              "${item.info}",
-              style: TextStyle(
-                  fontSize: 14, color: Colors.white.withValues(alpha: .6)),
-            ),
+            Text("${item.info}", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
           ],
           const SizedBox(height: 12),
           if (item.type != "customize")
@@ -270,16 +253,13 @@ class HomePerformanceUI extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  S.current.performance_info_min_max_values(
-                      item.key ?? "", item.min ?? "", item.max ?? ""),
+                  S.current.performance_info_min_max_values(item.key ?? "", item.min ?? "", item.max ?? ""),
                   style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                )
+                ),
               ],
             ),
           const SizedBox(height: 6),
-          Container(
-              color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
-              height: 1),
+          Container(color: FluentTheme.of(context).cardColor.withValues(alpha: .1), height: 1),
         ],
       ),
     );

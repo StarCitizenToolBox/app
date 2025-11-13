@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
@@ -12,9 +13,20 @@ import 'app.dart';
 import 'common/utils/multi_window_manager.dart';
 
 void main(List<String> args) async {
+  if (kIsWeb) {
+    // Web 版本直接运行
+    WidgetsFlutterBinding.ensureInitialized();
+    runApp(const ProviderScope(child: App()));
+    return;
+  }
+
+  // Desktop 版本
   // webview window
-  if (runWebViewTitleBarWidget(args,
-      backgroundColor: const Color.fromRGBO(19, 36, 49, 1), builder: _defaultWebviewTitleBar)) {
+  if (runWebViewTitleBarWidget(
+    args,
+    backgroundColor: const Color.fromRGBO(19, 36, 49, 1),
+    builder: _defaultWebviewTitleBar,
+  )) {
     return;
   }
   if (args.firstOrNull == 'multi_window') {
@@ -29,10 +41,7 @@ void main(List<String> args) async {
 
 Future<void> _initWindow() async {
   await windowManager.ensureInitialized();
-  await windowManager.setTitleBarStyle(
-    TitleBarStyle.hidden,
-    windowButtonVisibility: false,
-  );
+  await windowManager.setTitleBarStyle(TitleBarStyle.hidden, windowButtonVisibility: false);
   await windowManager.setSize(const Size(1280, 810));
   await windowManager.setMinimumSize(const Size(1280, 810));
   await windowManager.center(animate: true);
@@ -47,10 +56,14 @@ class App extends HookConsumerWidget with WindowListener {
     final appState = ref.watch(appGlobalModelProvider);
 
     useEffect(() {
-      windowManager.addListener(this);
-      windowManager.setPreventClose(true);
+      if (!kIsWeb) {
+        windowManager.addListener(this);
+        windowManager.setPreventClose(true);
+      }
       return () async {
-        windowManager.removeListener(this);
+        if (!kIsWeb) {
+          windowManager.removeListener(this);
+        }
       };
     }, const []);
 
@@ -73,18 +86,22 @@ class App extends HookConsumerWidget with WindowListener {
         );
       },
       theme: FluentThemeData(
-          brightness: Brightness.dark,
-          fontFamily: "SourceHanSansCN-Regular",
-          navigationPaneTheme: NavigationPaneThemeData(
-            backgroundColor: appState.themeConf.backgroundColor,
+        brightness: Brightness.dark,
+        fontFamily: "SourceHanSansCN-Regular",
+        navigationPaneTheme: NavigationPaneThemeData(backgroundColor: appState.themeConf.backgroundColor),
+        menuColor: appState.themeConf.menuColor,
+        micaBackgroundColor: appState.themeConf.micaColor,
+        buttonTheme: ButtonThemeData(
+          defaultButtonStyle: ButtonStyle(
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+                side: BorderSide(color: Colors.white.withValues(alpha: .01)),
+              ),
+            ),
           ),
-          menuColor: appState.themeConf.menuColor,
-          micaBackgroundColor: appState.themeConf.micaColor,
-          buttonTheme: ButtonThemeData(
-              defaultButtonStyle: ButtonStyle(
-            shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4), side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
-          ))),
+        ),
+      ),
       locale: appState.appLocale,
       debugShowCheckedModeBanner: false,
       routeInformationParser: router.routeInformationParser,
@@ -96,7 +113,7 @@ class App extends HookConsumerWidget with WindowListener {
   @override
   Future<void> onWindowClose() async {
     debugPrint("onWindowClose");
-    if (await windowManager.isPreventClose()) {
+    if (!kIsWeb && await windowManager.isPreventClose()) {
       final windows = await DesktopMultiWindow.getAllSubWindowIds();
       for (final id in windows) {
         await WindowController.fromWindowId(id).close();
@@ -112,42 +129,28 @@ Widget _defaultWebviewTitleBar(BuildContext context) {
   final state = TitleBarWebViewState.of(context);
   final controller = TitleBarWebViewController.of(context);
   return FluentTheme(
-      data: FluentThemeData.dark(),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (Platform.isMacOS) const SizedBox(width: 96),
-          IconButton(
-            onPressed: !state.canGoBack ? null : controller.back,
-            icon: const Icon(FluentIcons.chevron_left),
-          ),
-          const SizedBox(width: 12),
-          IconButton(
-            onPressed: !state.canGoForward ? null : controller.forward,
-            icon: const Icon(FluentIcons.chevron_right),
-          ),
-          const SizedBox(width: 12),
-          if (state.isLoading)
-            IconButton(
-              onPressed: controller.stop,
-              icon: const Icon(FluentIcons.chrome_close),
-            )
-          else
-            IconButton(
-              onPressed: controller.reload,
-              icon: const Icon(FluentIcons.refresh),
-            ),
-          const SizedBox(width: 12),
-          (state.isLoading)
-              ? const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: ProgressRing(),
-                )
-              : const SizedBox(width: 24),
-          const SizedBox(width: 12),
-          SelectableText(state.url ?? ""),
-          const Spacer()
-        ],
-      ));
+    data: FluentThemeData.dark(),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (Platform.isMacOS) const SizedBox(width: 96),
+        IconButton(onPressed: !state.canGoBack ? null : controller.back, icon: const Icon(FluentIcons.chevron_left)),
+        const SizedBox(width: 12),
+        IconButton(
+          onPressed: !state.canGoForward ? null : controller.forward,
+          icon: const Icon(FluentIcons.chevron_right),
+        ),
+        const SizedBox(width: 12),
+        if (state.isLoading)
+          IconButton(onPressed: controller.stop, icon: const Icon(FluentIcons.chrome_close))
+        else
+          IconButton(onPressed: controller.reload, icon: const Icon(FluentIcons.refresh)),
+        const SizedBox(width: 12),
+        (state.isLoading) ? const SizedBox(width: 24, height: 24, child: ProgressRing()) : const SizedBox(width: 24),
+        const SizedBox(width: 12),
+        SelectableText(state.url ?? ""),
+        const Spacer(),
+      ],
+    ),
+  );
 }

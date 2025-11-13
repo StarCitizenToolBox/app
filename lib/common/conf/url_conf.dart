@@ -6,9 +6,9 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class URLConf {
   /// HOME API
-  static String gitApiHome = "https://git.scbox.xkeyc.cn";
-  static String newsApiHome = "https://scbox.citizenwiki.cn";
-  static const String analyticsApiHome = "https://scbox.org";
+  static String gitApiHome = "https://ecdn.git.scbox.xkeyc.cn";
+  static String newsApiHome = "https://ecdn.news.scbox.xkeyc.cn";
+  static const String analyticsApiHome = "https://web-proxy.scbox.xkeyc.cn/analytics/analytics";
 
   static bool isUrlCheckPass = false;
 
@@ -28,7 +28,7 @@ class URLConf {
   static const feedbackUrl = "https://support.citizenwiki.cn/all";
   static const feedbackFAQUrl = "https://support.citizenwiki.cn/t/sc-toolbox";
   static String nav42KitUrl =
-      "https://payload.citizenwiki.cn/api/community-navs?sort=is_sponsored&depth=2&page=1&limit=1000";
+      "https://ecdn.42nav.xkeyc.cn/api/community-navs?sort=is_sponsored&depth=2&page=1&limit=1000";
 
   static String get devReleaseUrl => "$gitApiHome/SCToolBox/Release/releases";
 

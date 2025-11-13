@@ -1,7 +1,12 @@
 // ignore_for_file: avoid_build_context_in_providers, avoid_public_notifier_properties
 import 'dart:io';
+import 'dart:js_interop';
+import 'dart:typed_data';
 
+import 'package:archive/archive.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, compute;
+import 'package:web/web.dart' as web;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -36,7 +41,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
 
   final List<String> _inAppKeys = [];
 
-  late final confFile = File("$scPath\\USER.cfg");
+  late final confFile = kIsWeb ? null : File("$scPath\\USER.cfg");
 
   static const _graphicsPerformanceTipVersion = 1;
 
@@ -66,7 +71,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     }
     state = state.copyWith(performanceMap: performanceMap);
 
-    if (await confFile.exists()) {
+    if (!kIsWeb && await confFile!.exists()) {
       await _readConf();
     } else {
       state = state.copyWith(enabled: false);
@@ -78,10 +83,10 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   Future<void> _readConf() async {
-    if (state.performanceMap == null) return;
+    if (state.performanceMap == null || kIsWeb) return;
     state = state.copyWith(enabled: true);
 
-    final confString = await confFile.readAsString();
+    final confString = await confFile!.readAsString();
     for (var value in confString.split("\n")) {
       final kv = value.split("=");
       for (var m in state.performanceMap!.entries) {
@@ -151,9 +156,15 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   Future<void> clean(BuildContext context) async {
+    if (kIsWeb) {
+      // Web 平台只需要重置状态
+      await _init();
+      return;
+    }
+
     state = state.copyWith(workingString: S.current.performance_info_delete_config_file);
-    if (await confFile.exists()) {
-      await confFile.delete(recursive: true);
+    if (await confFile!.exists()) {
+      await confFile!.delete(recursive: true);
     }
     state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
     if (!context.mounted) return;
@@ -181,6 +192,12 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   Future<void> applyProfile(bool cleanShader) async {
+    if (kIsWeb) {
+      // Web 平台使用下载功能
+      await downloadConfigForWeb();
+      return;
+    }
+
     if (state.performanceMap == null) return;
     AnalyticsApi.touch("performance_apply");
     state = state.copyWith(workingString: S.current.performance_info_generate_config_file);
@@ -203,11 +220,11 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
       }
     }
     state = state.copyWith(workingString: S.current.performance_info_write_out_config_file);
-    if (await confFile.exists()) {
-      await confFile.delete();
+    if (await confFile!.exists()) {
+      await confFile!.delete();
     }
-    await confFile.create();
-    await confFile.writeAsString(conf);
+    await confFile!.create();
+    await confFile!.writeAsString(conf);
     if (cleanShader) {
       state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
       await cleanShaderCache(null);
@@ -221,4 +238,70 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   void updateState() {
     state = state.copyWith();
   }
+
+  /// Web 平台下载配置文件
+  Future<void> downloadConfigForWeb() async {
+    if (!kIsWeb) return;
+    if (state.performanceMap == null) return;
+
+    AnalyticsApi.touch("performance_download_web");
+    state = state.copyWith(workingString: S.current.performance_info_generate_config_file);
+
+    String conf = "";
+    for (var v in state.performanceMap!.entries) {
+      for (var c in v.value) {
+        if (c.key != "customize") {
+          conf = "$conf${c.key}=${c.value}\n";
+        }
+      }
+    }
+
+    if (customizeCtrl.text.trim().isNotEmpty) {
+      final lines = customizeCtrl.text.split("\n");
+      for (var value in lines) {
+        final sp = value.split("=");
+        // 忽略无效的配置文件
+        if (sp.length == 2) {
+          conf = "$conf${sp[0].trim()}=${sp[1].trim()}\n";
+        }
+      }
+    }
+
+    await _generateAndDownloadWebFile(conf);
+    state = state.copyWith(workingString: "");
+  }
+
+  Future<void> _generateAndDownloadWebFile(String confContent) async {
+    final archive = Archive();
+    archive.addFile(ArchiveFile("USER.cfg", confContent.length, confContent.codeUnits));
+
+    final zip = await compute(_encodeZipFile, archive);
+    if (zip == null) return;
+
+    final blob = Blob.fromBytes(zip, opt: {"type": "application/zip"});
+    final url = web.URL.createObjectURL(blob);
+    jsDownloadBlobFile(url, "StarCitizen_Performance_Config.zip");
+  }
+
+  List<int>? _encodeZipFile(Archive archive) {
+    final zip = ZipEncoder().encode(archive);
+    return zip;
+  }
 }
+
+// Web 平台支持 - JS 互操作
+@JS("Blob")
+extension type Blob._(JSObject _) implements JSObject {
+  external factory Blob(JSArray<JSArrayBuffer> blobParts, JSAny? options);
+
+  factory Blob.fromBytes(List<int> bytes, {Map? opt}) {
+    final data = Uint8List.fromList(bytes).buffer.toJS;
+    return Blob([data].toJS, opt?.jsify());
+  }
+
+  external JSArrayBuffer? get blobParts;
+  external JSObject? get options;
+}
+
+@JS()
+external void jsDownloadBlobFile(String blobUrl, String filename);

@@ -366,6 +366,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_action_rsi_launcher_log": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher log",
     ),
+    "doctor_action_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "Select Log File",
+    ),
     "doctor_action_tip_checking_game_log": MessageLookupByLibrary.simpleMessage(
       "Checking: Game.log",
     ),
@@ -435,6 +438,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
       "You are about to access the game anomaly rescue service provided by Deep Space Treatment Center (QQ Group: 536454632), which mainly solves game installation failures and frequent crashes. Please do not join the group for gameplay issues.",
     ),
+    "doctor_info_log_file_selected": MessageLookupByLibrary.simpleMessage(
+      "Log file selected",
+    ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "Need help? Click to join the group for free human support!",
     ),
@@ -490,6 +496,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "doctor_info_tool_check_result_note": MessageLookupByLibrary.simpleMessage(
       "Note: The detection results of this tool are for reference only. If you do not understand the following operations, please provide screenshots to experienced players!",
+    ),
+    "doctor_info_web_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "Web platform: Please manually select the Game.log file for diagnosis",
     ),
     "doctor_tip_title_select_game_directory":
         MessageLookupByLibrary.simpleMessage(
