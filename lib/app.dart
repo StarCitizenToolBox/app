@@ -121,10 +121,10 @@ class AppGlobalModel extends _$AppGlobalModel {
       if (!kIsWeb) Hive.init("$applicationSupportDir/db");
       final box = await Hive.openBox("app_conf");
       state = state.copyWith(appConfBox: box);
-      if (box.get("install_id", defaultValue: "") == "") {
-        await box.put("install_id", const Uuid().v4());
-        AnalyticsApi.touch("firstLaunch");
-      }
+      // if (box.get("install_id", defaultValue: "") == "") {
+      //   await box.put("install_id", const Uuid().v4());
+      //   AnalyticsApi.touch("firstLaunch");
+      // }
       final deviceUUID = box.get("install_id", defaultValue: "");
       final localeCode = box.get("app_locale", defaultValue: null);
       Locale? locale;

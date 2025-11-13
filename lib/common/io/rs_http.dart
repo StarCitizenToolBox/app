@@ -10,10 +10,7 @@ class RSHttp {
   static Map<String, String> _defaultHeaders = {};
 
   static Future<void> init() async {
-    _defaultHeaders = {
-      "User-Agent":
-          "SCToolBox/${ConstConf.appVersion} (${ConstConf.appVersionCode})${ConstConf.isMSE ? "" : " DEV"} RSHttp",
-    };
+    _defaultHeaders = {};
 
     _dio = Dio(
       BaseOptions(
