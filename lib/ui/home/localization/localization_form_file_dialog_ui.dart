@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
@@ -26,18 +28,18 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
       final file = result.files.first;
       final buffer = StringBuffer();
       
-      // On web, use bytes instead of File
+      // On web, use bytes; on other platforms, file path would be used
       String content;
-      if (kIsWeb) {
-        if (file.bytes != null) {
-          content = String.fromCharCodes(file.bytes!);
-        } else {
-          isLoading.value = false;
-          return;
-        }
+      if (file.bytes != null) {
+        // Web or when bytes are available
+        content = utf8.decode(file.bytes!);
+      } else if (file.path != null) {
+        // Desktop/Mobile with file path
+        // Note: For web version, this branch won't be reached
+        // For desktop version, would need to import dart:io conditionally
+        isLoading.value = false;
+        return;
       } else {
-        // For non-web platforms, file operations would be used here
-        // but this is simplified for web version
         isLoading.value = false;
         return;
       }

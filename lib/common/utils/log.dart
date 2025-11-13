@@ -5,15 +5,9 @@ export 'package:starcitizen_doctor/generated/l10n.dart';
 void dPrint(src) {
   if (kDebugMode) {
     print(src);
-    return;
   }
-  // For web, we only use print in debug mode
   // File logging is not supported on web
-  if (kIsWeb) {
-    if (kDebugMode) {
-      print(src);
-    }
-  }
+  // For non-web platforms, file logging would be implemented here
 }
 
 Future<void> initDPrintFile(String applicationSupportDir) async {

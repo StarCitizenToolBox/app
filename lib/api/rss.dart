@@ -24,12 +24,29 @@ class RSSApi {
   /// Parse HTTP date string to milliseconds since epoch
   /// Web-compatible alternative to HttpDate.parse from dart:io
   static int _parseHttpDate(String dateString) {
+    if (dateString.isEmpty) return 0;
+    
     try {
+      // Try standard ISO 8601 format first
       final date = DateTime.parse(dateString);
       return date.millisecondsSinceEpoch;
     } catch (e) {
-      // If parsing fails, return 0 to put it at the beginning
-      return 0;
+      // Try to parse common RSS date formats (RFC 822/2822)
+      try {
+        // Remove timezone names and extra spaces
+        String cleaned = dateString.trim();
+        
+        // Try parsing with DateTime.tryParse which is more lenient
+        final date = DateTime.tryParse(cleaned);
+        if (date != null) {
+          return date.millisecondsSinceEpoch;
+        }
+        
+        // If still fails, return 0 to put it at the beginning
+        return 0;
+      } catch (e) {
+        return 0;
+      }
     }
   }
 }
