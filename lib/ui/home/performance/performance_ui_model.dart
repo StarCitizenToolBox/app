@@ -153,8 +153,8 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
       // Show unsupported dialog on web
       await WebPlatformHelper.showWebUnsupportedDialog(
         context,
-        featureName: S.current.performance_action_clean ?? '性能优化',
-        additionalInfo: S.current.web_performance_not_supported ?? '性能优化功能需要访问本地文件系统，在网页版中不可用。',
+        featureName: '性能优化',
+        additionalInfo: '性能优化功能需要访问本地文件系统，在网页版中不可用。',
       );
       return;
     }

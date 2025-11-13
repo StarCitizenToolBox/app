@@ -20,33 +20,31 @@ class WebPlatformHelper {
     await showDialog(
       context: context,
       builder: (context) => ContentDialog(
-        title: Text(S.current.web_feature_unavailable_title ?? '功能不可用'),
+        title: const Text('功能不可用'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(S.current.web_feature_unavailable_message(featureName) ??
-                '抱歉，"$featureName" 功能在网页版中不可用。'),
+            Text('抱歉，"$featureName" 功能在网页版中不可用。'),
             const SizedBox(height: 12),
             if (additionalInfo != null) ...[
               Text(additionalInfo),
               const SizedBox(height: 12),
             ],
-            Text(S.current.web_download_full_version_prompt ??
-                '请下载完整版以使用所有功能。'),
+            const Text('请下载完整版以使用所有功能。'),
           ],
         ),
         actions: [
           Button(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(S.current.button_cancel ?? '取消'),
+            child: const Text('取消'),
           ),
           FilledButton(
             onPressed: () async {
               Navigator.of(context).pop();
               await _openDownloadPage();
             },
-            child: Text(S.current.button_download ?? '下载完整版'),
+            child: const Text('下载完整版'),
           ),
         ],
       ),
