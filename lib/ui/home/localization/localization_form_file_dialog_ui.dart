@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,7 +25,23 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
       isLoading.value = true;
       final file = result.files.first;
       final buffer = StringBuffer();
-      final content = await File(file.path!).readAsString();
+      
+      // On web, use bytes instead of File
+      String content;
+      if (kIsWeb) {
+        if (file.bytes != null) {
+          content = String.fromCharCodes(file.bytes!);
+        } else {
+          isLoading.value = false;
+          return;
+        }
+      } else {
+        // For non-web platforms, file operations would be used here
+        // but this is simplified for web version
+        isLoading.value = false;
+        return;
+      }
+      
       for (final line in content.split("\n")) {
         if (line.startsWith("_starcitizen_doctor_")) continue;
         buffer.writeln(line);

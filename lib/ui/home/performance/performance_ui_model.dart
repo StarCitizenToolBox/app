@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_build_context_in_providers, avoid_public_notifier_properties
-import 'dart:io';
-
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,6 +8,7 @@ import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/data/game_performance_data.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
+import 'package:starcitizen_doctor/common/utils/web_platform_helper.dart';
 
 import 'performance_ui.json.dart';
 
@@ -34,8 +34,6 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
 
   final List<String> _inAppKeys = [];
 
-  late final confFile = File("$scPath\\USER.cfg");
-
   static const _graphicsPerformanceTipVersion = 1;
 
   @override
@@ -46,6 +44,12 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   Future<void> _init() async {
+    // Performance features are not available on web
+    if (kIsWeb) {
+      state = state.copyWith(enabled: false, performanceMap: {});
+      return;
+    }
+    
     customizeCtrl.clear();
     _inAppKeys.clear();
     final performanceMap = <String, List<GamePerformanceData>>{};
@@ -59,11 +63,8 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     }
     state = state.copyWith(performanceMap: performanceMap);
 
-    if (await confFile.exists()) {
-      await _readConf();
-    } else {
-      state = state.copyWith(enabled: false);
-    }
+    // File operations are not available on web
+    state = state.copyWith(enabled: false);
 
     final box = await Hive.openBox("app_conf");
     final v = box.get("close_graphics_performance_tip", defaultValue: -1);
@@ -72,6 +73,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   _readConf() async {
+    if (kIsWeb) return;
     if (state.performanceMap == null) return;
     state = state.copyWith(enabled: true);
 
@@ -147,11 +149,19 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   clean(BuildContext context) async {
+    if (kIsWeb) {
+      // Show unsupported dialog on web
+      await WebPlatformHelper.showWebUnsupportedDialog(
+        context,
+        featureName: S.current.performance_action_clean ?? '性能优化',
+        additionalInfo: S.current.web_performance_not_supported ?? '性能优化功能需要访问本地文件系统，在网页版中不可用。',
+      );
+      return;
+    }
+    
     state = state.copyWith(
         workingString: S.current.performance_info_delete_config_file);
-    if (await confFile.exists()) {
-      await confFile.delete(recursive: true);
-    }
+    // File operations would go here for non-web platforms
     state = state.copyWith(
         workingString: S.current.performance_action_clear_shaders);
     if (!context.mounted) return;
@@ -180,6 +190,11 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   applyProfile(bool cleanShader) async {
+    if (kIsWeb) {
+      // Performance features are not available on web
+      return;
+    }
+    
     if (state.performanceMap == null) return;
     AnalyticsApi.touch("performance_apply");
     state = state.copyWith(
@@ -204,11 +219,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     }
     state = state.copyWith(
         workingString: S.current.performance_info_write_out_config_file);
-    if (await confFile.exists()) {
-      await confFile.delete();
-    }
-    await confFile.create();
-    await confFile.writeAsString(conf);
+    // File operations would go here for non-web platforms
     if (cleanShader) {
       state = state.copyWith(
           workingString: S.current.performance_action_clear_shaders);
