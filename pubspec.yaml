@@ -36,8 +36,11 @@ dependencies:
   uuid: ^4.1.0
   flutter_tilt: ^3.0.0
   card_swiper: ^3.0.1
-  ffi: ^2.1.0
-  flutter_rust_bridge: ^2.1.0
+  # Rust dependencies removed for web support
+  # ffi: ^2.1.0
+  # flutter_rust_bridge: ^2.1.0
+  # rust_builder:
+  #   path: rust_builder
   freezed_annotation: ^2.4.1
   meta: ^1.9.1
   hexcolor: ^3.0.1
@@ -45,8 +48,6 @@ dependencies:
   html: ^0.15.4
   xml: ^6.5.0
   fixnum: ^1.1.0
-  rust_builder:
-    path: rust_builder
   #    path: ../../xkeyC/dart_aria2_rpc
   intl: ^0.19.0
   synchronized: ^3.1.0+1
@@ -70,7 +71,8 @@ dev_dependencies:
   riverpod_generator: ^2.3.11
   custom_lint: ^0.6.2
   riverpod_lint: ^2.3.9
-  ffigen: ^13.0.0
+  # Removed ffigen for web compatibility
+  # ffigen: ^13.0.0
   sct_dev_tools:
     path: ./packages/sct_dev_tools
 
