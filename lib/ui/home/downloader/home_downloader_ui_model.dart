@@ -79,9 +79,10 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
         return;
       case "cancel_all":
         final userOK = await showConfirmDialogs(
-            context,
-            S.current.downloader_action_confirm_cancel_all_tasks,
-            Text(S.current.downloader_info_manual_file_deletion_note));
+          context,
+          S.current.downloader_action_confirm_cancel_all_tasks,
+          Text(S.current.downloader_info_manual_file_deletion_note),
+        );
         if (userOK == true) {
           if (!aria2cState.isRunning) return;
           try {
@@ -101,31 +102,19 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   }
 
   int getTasksLen() {
-    return state.tasks.length +
-        state.waitingTasks.length +
-        state.stoppedTasks.length;
+    return state.tasks.length + state.waitingTasks.length + state.stoppedTasks.length;
   }
 
   (Aria2Task, String, bool) getTaskAndType(int index) {
-    final tempList = <Aria2Task>[
-      ...state.tasks,
-      ...state.waitingTasks,
-      ...state.stoppedTasks
-    ];
+    final tempList = <Aria2Task>[...state.tasks, ...state.waitingTasks, ...state.stoppedTasks];
     if (index >= 0 && index < state.tasks.length) {
       return (tempList[index], "active", index == 0);
     }
-    if (index >= state.tasks.length &&
-        index < state.tasks.length + state.waitingTasks.length) {
+    if (index >= state.tasks.length && index < state.tasks.length + state.waitingTasks.length) {
       return (tempList[index], "waiting", index == state.tasks.length);
     }
-    if (index >= state.tasks.length + state.waitingTasks.length &&
-        index < tempList.length) {
-      return (
-        tempList[index],
-        "stopped",
-        index == state.tasks.length + state.waitingTasks.length
-      );
+    if (index >= state.tasks.length + state.waitingTasks.length && index < tempList.length) {
+      return (tempList[index], "stopped", index == state.tasks.length + state.waitingTasks.length);
     }
     throw Exception("Index out of range or element is null");
   }
@@ -148,8 +137,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
 
   int getETA(Aria2Task task) {
     if (task.downloadSpeed == null || task.downloadSpeed == 0) return 0;
-    final remainingBytes =
-        (task.totalLength ?? 0) - (task.completedLength ?? 0);
+    final remainingBytes = (task.totalLength ?? 0) - (task.completedLength ?? 0);
     return remainingBytes ~/ (task.downloadSpeed!);
   }
 
@@ -172,9 +160,10 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     if (gid != null) {
       if (!context.mounted) return;
       final ok = await showConfirmDialogs(
-          context,
-          S.current.downloader_action_confirm_cancel_download,
-          Text(S.current.downloader_info_manual_file_deletion_note));
+        context,
+        S.current.downloader_action_confirm_cancel_download,
+        Text(S.current.downloader_info_manual_file_deletion_note),
+      );
       if (ok == true) {
         final aria2c = ref.read(aria2cModelProvider).aria2c;
         await aria2c?.remove(gid);
@@ -204,8 +193,8 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   Future<void> _listenDownloader() async {
     try {
       while (true) {
-        final aria2cState = ref.read(aria2cModelProvider);
         if (_disposed) return;
+        final aria2cState = ref.read(aria2cModelProvider);
         if (aria2cState.isRunning) {
           final aria2c = aria2cState.aria2c!;
           final tasks = await aria2c.tellActive();
@@ -219,12 +208,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
             globalStat: globalStat,
           );
         } else {
-          state = state.copyWith(
-            tasks: [],
-            waitingTasks: [],
-            stoppedTasks: [],
-            globalStat: null,
-          );
+          state = state.copyWith(tasks: [], waitingTasks: [], stoppedTasks: [], globalStat: null);
         }
         await Future.delayed(const Duration(seconds: 1));
       }
@@ -236,72 +220,64 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   Future<void> _showDownloadSpeedSettings(BuildContext context) async {
     final box = await Hive.openBox("app_conf");
 
-    final upCtrl = TextEditingController(
-        text: box.get("downloader_up_limit", defaultValue: ""));
-    final downCtrl = TextEditingController(
-        text: box.get("downloader_down_limit", defaultValue: ""));
+    final upCtrl = TextEditingController(text: box.get("downloader_up_limit", defaultValue: ""));
+    final downCtrl = TextEditingController(text: box.get("downloader_down_limit", defaultValue: ""));
 
     final ifr = FilteringTextInputFormatter.allow(RegExp(r'^\d*[km]?$'));
 
     if (!context.mounted) return;
     final ok = await showConfirmDialogs(
-        context,
-        S.current.downloader_speed_limit_settings,
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              S.current.downloader_info_p2p_network_note,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white.withValues(alpha: .6),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(S.current.downloader_info_download_unit_input_prompt),
-            const SizedBox(height: 12),
-            Text(S.current.downloader_input_upload_speed_limit),
-            const SizedBox(height: 6),
-            TextFormBox(
-              placeholder: "1、100k、10m、0",
-              controller: upCtrl,
-              placeholderStyle:
-                  TextStyle(color: Colors.white.withValues(alpha: .6)),
-              inputFormatters: [ifr],
-            ),
-            const SizedBox(height: 12),
-            Text(S.current.downloader_input_download_speed_limit),
-            const SizedBox(height: 6),
-            TextFormBox(
-              placeholder: "1、100k、10m、0",
-              controller: downCtrl,
-              placeholderStyle:
-                  TextStyle(color: Colors.white.withValues(alpha: .6)),
-              inputFormatters: [ifr],
-            ),
-            const SizedBox(height: 24),
-            Text(
-              S.current.downloader_input_info_p2p_upload_note,
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.white.withValues(alpha: .6),
-              ),
-            )
-          ],
-        ));
+      context,
+      S.current.downloader_speed_limit_settings,
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            S.current.downloader_info_p2p_network_note,
+            style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+          ),
+          const SizedBox(height: 24),
+          Text(S.current.downloader_info_download_unit_input_prompt),
+          const SizedBox(height: 12),
+          Text(S.current.downloader_input_upload_speed_limit),
+          const SizedBox(height: 6),
+          TextFormBox(
+            placeholder: "1、100k、10m、0",
+            controller: upCtrl,
+            placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
+            inputFormatters: [ifr],
+          ),
+          const SizedBox(height: 12),
+          Text(S.current.downloader_input_download_speed_limit),
+          const SizedBox(height: 6),
+          TextFormBox(
+            placeholder: "1、100k、10m、0",
+            controller: downCtrl,
+            placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
+            inputFormatters: [ifr],
+          ),
+          const SizedBox(height: 24),
+          Text(
+            S.current.downloader_input_info_p2p_upload_note,
+            style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .6)),
+          ),
+        ],
+      ),
+    );
     if (ok == true) {
       final aria2cState = ref.read(aria2cModelProvider);
       final aria2cModel = ref.read(aria2cModelProvider.notifier);
-      await aria2cModel
-          .launchDaemon(appGlobalState.applicationBinaryModuleDir!);
+      await aria2cModel.launchDaemon(appGlobalState.applicationBinaryModuleDir!);
       final aria2c = aria2cState.aria2c!;
       final upByte = aria2cModel.textToByte(upCtrl.text.trim());
       final downByte = aria2cModel.textToByte(downCtrl.text.trim());
       final r = await aria2c
-          .changeGlobalOption(Aria2Option()
-            ..maxOverallUploadLimit = upByte
-            ..maxOverallDownloadLimit = downByte)
+          .changeGlobalOption(
+            Aria2Option()
+              ..maxOverallUploadLimit = upByte
+              ..maxOverallDownloadLimit = downByte,
+          )
           .unwrap();
       if (r != null) {
         await box.put('downloader_up_limit', upCtrl.text.trim());

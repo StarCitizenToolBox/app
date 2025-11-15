@@ -49,6 +49,7 @@ abstract class AppGlobalState with _$AppGlobalState {
     @Default(ThemeConf()) ThemeConf themeConf,
     Locale? appLocale,
     Box? appConfBox,
+    @Default(10) windowsVersion,
   }) = _AppGlobalState;
 }
 
@@ -56,17 +57,15 @@ abstract class AppGlobalState with _$AppGlobalState {
 GoRouter router(Ref ref) {
   return GoRouter(
     routes: [
-      GoRoute(
-        path: '/',
-        pageBuilder: (context, state) => myPageBuilder(context, state, const SplashUI()),
-      ),
+      GoRoute(path: '/', pageBuilder: (context, state) => myPageBuilder(context, state, const SplashUI())),
       GoRoute(
         path: '/index',
         pageBuilder: (context, state) => myPageBuilder(context, state, const IndexUI()),
         routes: [
           GoRoute(
-              path: "downloader",
-              pageBuilder: (context, state) => myPageBuilder(context, state, const HomeDownloaderUI())),
+            path: "downloader",
+            pageBuilder: (context, state) => myPageBuilder(context, state, const HomeDownloaderUI()),
+          ),
           GoRoute(
             path: 'game_doctor',
             pageBuilder: (context, state) => myPageBuilder(context, state, const HomeGameDoctorUI()),
@@ -76,17 +75,19 @@ GoRouter router(Ref ref) {
             pageBuilder: (context, state) => myPageBuilder(context, state, const HomePerformanceUI()),
           ),
           GoRoute(
-              path: 'advanced_localization',
-              pageBuilder: (context, state) => myPageBuilder(context, state, const AdvancedLocalizationUI()))
+            path: 'advanced_localization',
+            pageBuilder: (context, state) => myPageBuilder(context, state, const AdvancedLocalizationUI()),
+          ),
         ],
       ),
-      GoRoute(path: '/tools', builder: (_, _) => const SizedBox(), routes: [
-        GoRoute(
-          path: 'unp4kc',
-          pageBuilder: (context, state) => myPageBuilder(context, state, const UnP4kcUI()),
-        ),
-      ]),
-      GoRoute(path: '/guide', pageBuilder: (context, state) => myPageBuilder(context, state, const GuideUI()))
+      GoRoute(
+        path: '/tools',
+        builder: (_, _) => const SizedBox(),
+        routes: [
+          GoRoute(path: 'unp4kc', pageBuilder: (context, state) => myPageBuilder(context, state, const UnP4kcUI())),
+        ],
+      ),
+      GoRoute(path: '/guide', pageBuilder: (context, state) => myPageBuilder(context, state, const GuideUI())),
     ],
   );
 }
@@ -94,13 +95,13 @@ GoRouter router(Ref ref) {
 @riverpod
 class AppGlobalModel extends _$AppGlobalModel {
   static Map<Locale, String> get appLocaleSupport => {
-        const Locale("auto"): S.current.settings_app_language_auto,
-        const Locale("zh", "CN"): NoL10n.langZHS,
-        const Locale("zh", "TW"): NoL10n.langZHT,
-        const Locale("en"): NoL10n.langEn,
-        const Locale("ja"): NoL10n.langJa,
-        const Locale("ru"): NoL10n.langRU,
-      };
+    const Locale("auto"): S.current.settings_app_language_auto,
+    const Locale("zh", "CN"): NoL10n.langZHS,
+    const Locale("zh", "TW"): NoL10n.langZHT,
+    const Locale("en"): NoL10n.langEn,
+    const Locale("ja"): NoL10n.langJa,
+    const Locale("ru"): NoL10n.langRU,
+  };
 
   @override
   AppGlobalState build() {
@@ -174,9 +175,9 @@ class AppGlobalModel extends _$AppGlobalModel {
         await Window.initialize();
         await Window.hideWindowControls();
         if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
-          await Window.setEffect(
-            effect: WindowEffect.acrylic,
-          );
+          await Window.setEffect(effect: WindowEffect.acrylic);
+          state = state.copyWith(windowsVersion: 11);
+          dPrint("---- Windows 11 Acrylic Effect init -----");
         }
       }
     });
@@ -226,18 +227,24 @@ class AppGlobalModel extends _$AppGlobalModel {
     if (state.networkVersionData == null) {
       if (!context.mounted) return false;
       await showToast(
-          context, S.current.app_common_network_error(ConstConf.appVersionDate, checkUpdateError.toString()));
+        context,
+        S.current.app_common_network_error(ConstConf.appVersionDate, checkUpdateError.toString()),
+      );
       return false;
     }
     if (!Platform.isWindows) return false;
-    final lastVersion =
-        ConstConf.isMSE ? state.networkVersionData?.mSELastVersionCode : state.networkVersionData?.lastVersionCode;
+    final lastVersion = ConstConf.isMSE
+        ? state.networkVersionData?.mSELastVersionCode
+        : state.networkVersionData?.lastVersionCode;
     if ((lastVersion ?? 0) > ConstConf.appVersionCode) {
       // need update
       if (!context.mounted) return false;
 
-      final r =
-          await showDialog(dismissWithEsc: false, context: context, builder: (context) => const UpgradeDialogUI());
+      final r = await showDialog(
+        dismissWithEsc: false,
+        context: context,
+        builder: (context) => const UpgradeDialogUI(),
+      );
 
       if (r != true) {
         if (!context.mounted) return false;
@@ -264,8 +271,10 @@ class AppGlobalModel extends _$AppGlobalModel {
 
     dPrint("now == $now  start == $startTime end == $endTime");
     if (now < startTime) {
-      _activityThemeColorTimer =
-          Timer(Duration(milliseconds: startTime - now), () => checkActivityThemeColor(networkVersionData));
+      _activityThemeColorTimer = Timer(
+        Duration(milliseconds: startTime - now),
+        () => checkActivityThemeColor(networkVersionData),
+      );
       dPrint("start Timer ....");
     } else if (now >= startTime && now <= endTime) {
       dPrint("update Color ....");
@@ -280,8 +289,10 @@ class AppGlobalModel extends _$AppGlobalModel {
       );
 
       // wait for end
-      _activityThemeColorTimer =
-          Timer(Duration(milliseconds: endTime - now), () => checkActivityThemeColor(networkVersionData));
+      _activityThemeColorTimer = Timer(
+        Duration(milliseconds: endTime - now),
+        () => checkActivityThemeColor(networkVersionData),
+      );
     } else {
       dPrint("reset Color ....");
       state = state.copyWith(
@@ -302,8 +313,9 @@ class AppGlobalModel extends _$AppGlobalModel {
         await appConfBox.put("app_locale", null);
         return;
       }
-      final localeCode =
-          value.countryCode != null ? "${value.languageCode}_${value.countryCode ?? ""}" : value.languageCode;
+      final localeCode = value.countryCode != null
+          ? "${value.languageCode}_${value.countryCode ?? ""}"
+          : value.languageCode;
       dPrint("changeLocale == $value localeCode=== $localeCode");
       await appConfBox.put("app_locale", localeCode);
       state = state.copyWith(appLocale: value);

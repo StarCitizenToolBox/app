@@ -66,6 +66,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   @override
   LocalizationUIState build() {
     state = LocalizationUIState(selectedLanguage: languageSupport.keys.first);
+    ref.onDispose(() {
+      _customizeDirListenSub?.cancel();
+      _customizeDirListenSub = null;
+    });
     _init();
     return state;
   }
@@ -74,10 +78,6 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if (_scInstallPath == "not_install") {
       return;
     }
-    ref.onDispose(() {
-      _customizeDirListenSub?.cancel();
-      _customizeDirListenSub = null;
-    });
     final appConfBox = await Hive.openBox("app_conf");
     final lang = await appConfBox.get("localization_selectedLanguage", defaultValue: languageSupport.keys.first);
     state = state.copyWith(selectedLanguage: lang);

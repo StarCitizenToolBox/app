@@ -11,28 +11,42 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app.dart';
 import 'common/utils/multi_window_manager.dart';
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   // webview window
-  if (runWebViewTitleBarWidget(args,
-      backgroundColor: const Color.fromRGBO(19, 36, 49, 1), builder: _defaultWebviewTitleBar)) {
+  if (runWebViewTitleBarWidget(
+    args,
+    backgroundColor: const Color.fromRGBO(19, 36, 49, 1),
+    builder: _defaultWebviewTitleBar,
+  )) {
     return;
   }
-  if (args.firstOrNull == 'multi_window') {
-    MultiWindowManager.runSubWindowApp(args);
-    return;
-  }
+
   WidgetsFlutterBinding.ensureInitialized();
-  await _initWindow();
-  // run app
-  runApp(const ProviderScope(child: App()));
+  await windowManager.ensureInitialized();
+
+  // Get the current window controller
+  final windowController = await WindowController.fromCurrentEngine();
+
+  // Parse window arguments to determine which window to show
+  final windowType = MultiWindowManager.parseWindowType(windowController.arguments);
+
+  // Initialize window-specific handlers for sub-windows
+  if (windowType != WindowTypes.main) {
+    await windowController.doCustomInitialize();
+  }
+
+  // Run different apps based on the window type
+  switch (windowType) {
+    case WindowTypes.main:
+      await _initWindow();
+      runApp(const ProviderScope(child: App()));
+    default:
+      MultiWindowManager.runSubWindowApp(windowController.arguments, windowType);
+  }
 }
 
 Future<void> _initWindow() async {
-  await windowManager.ensureInitialized();
-  await windowManager.setTitleBarStyle(
-    TitleBarStyle.hidden,
-    windowButtonVisibility: false,
-  );
+  await windowManager.setTitleBarStyle(TitleBarStyle.hidden, windowButtonVisibility: false);
   await windowManager.setSize(const Size(1280, 810));
   await windowManager.setMinimumSize(const Size(1280, 810));
   await windowManager.center(animate: true);
@@ -73,18 +87,22 @@ class App extends HookConsumerWidget with WindowListener {
         );
       },
       theme: FluentThemeData(
-          brightness: Brightness.dark,
-          fontFamily: "SourceHanSansCN-Regular",
-          navigationPaneTheme: NavigationPaneThemeData(
-            backgroundColor: appState.themeConf.backgroundColor,
+        brightness: Brightness.dark,
+        fontFamily: "SourceHanSansCN-Regular",
+        navigationPaneTheme: NavigationPaneThemeData(backgroundColor: appState.themeConf.backgroundColor),
+        menuColor: appState.themeConf.menuColor,
+        micaBackgroundColor: appState.themeConf.micaColor,
+        buttonTheme: ButtonThemeData(
+          defaultButtonStyle: ButtonStyle(
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+                side: BorderSide(color: Colors.white.withValues(alpha: .01)),
+              ),
+            ),
           ),
-          menuColor: appState.themeConf.menuColor,
-          micaBackgroundColor: appState.themeConf.micaColor,
-          buttonTheme: ButtonThemeData(
-              defaultButtonStyle: ButtonStyle(
-            shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4), side: BorderSide(color: Colors.white.withValues(alpha: .01)))),
-          ))),
+        ),
+      ),
       locale: appState.appLocale,
       debugShowCheckedModeBanner: false,
       routeInformationParser: router.routeInformationParser,
@@ -97,11 +115,19 @@ class App extends HookConsumerWidget with WindowListener {
   Future<void> onWindowClose() async {
     debugPrint("onWindowClose");
     if (await windowManager.isPreventClose()) {
-      final windows = await DesktopMultiWindow.getAllSubWindowIds();
-      for (final id in windows) {
-        await WindowController.fromWindowId(id).close();
+      final mainWindow = await WindowController.fromCurrentEngine();
+      final windows = await WindowController.getAll();
+      for (final controller in windows) {
+        if (controller.windowId != mainWindow.windowId) {
+          try {
+            controller.close();
+          } catch (e) {
+            debugPrint("Error closing window ${controller.windowId}: $e");
+          }
+        }
       }
-      await windowManager.destroy();
+      await windowManager.setPreventClose(false);
+      await windowManager.close();
       exit(0);
     }
     super.onWindowClose();
@@ -112,42 +138,28 @@ Widget _defaultWebviewTitleBar(BuildContext context) {
   final state = TitleBarWebViewState.of(context);
   final controller = TitleBarWebViewController.of(context);
   return FluentTheme(
-      data: FluentThemeData.dark(),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (Platform.isMacOS) const SizedBox(width: 96),
-          IconButton(
-            onPressed: !state.canGoBack ? null : controller.back,
-            icon: const Icon(FluentIcons.chevron_left),
-          ),
-          const SizedBox(width: 12),
-          IconButton(
-            onPressed: !state.canGoForward ? null : controller.forward,
-            icon: const Icon(FluentIcons.chevron_right),
-          ),
-          const SizedBox(width: 12),
-          if (state.isLoading)
-            IconButton(
-              onPressed: controller.stop,
-              icon: const Icon(FluentIcons.chrome_close),
-            )
-          else
-            IconButton(
-              onPressed: controller.reload,
-              icon: const Icon(FluentIcons.refresh),
-            ),
-          const SizedBox(width: 12),
-          (state.isLoading)
-              ? const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: ProgressRing(),
-                )
-              : const SizedBox(width: 24),
-          const SizedBox(width: 12),
-          SelectableText(state.url ?? ""),
-          const Spacer()
-        ],
-      ));
+    data: FluentThemeData.dark(),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (Platform.isMacOS) const SizedBox(width: 96),
+        IconButton(onPressed: !state.canGoBack ? null : controller.back, icon: const Icon(FluentIcons.chevron_left)),
+        const SizedBox(width: 12),
+        IconButton(
+          onPressed: !state.canGoForward ? null : controller.forward,
+          icon: const Icon(FluentIcons.chevron_right),
+        ),
+        const SizedBox(width: 12),
+        if (state.isLoading)
+          IconButton(onPressed: controller.stop, icon: const Icon(FluentIcons.chrome_close))
+        else
+          IconButton(onPressed: controller.reload, icon: const Icon(FluentIcons.refresh)),
+        const SizedBox(width: 12),
+        (state.isLoading) ? const SizedBox(width: 24, height: 24, child: ProgressRing()) : const SizedBox(width: 24),
+        const SizedBox(width: 12),
+        SelectableText(state.url ?? ""),
+        const Spacer(),
+      ],
+    ),
+  );
 }

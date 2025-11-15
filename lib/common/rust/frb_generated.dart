@@ -5,6 +5,7 @@
 
 import 'api/asar_api.dart';
 import 'api/http_api.dart';
+import 'api/ort_api.dart';
 import 'api/rs_process.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
@@ -68,7 +69,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 1832496273;
+  int get rustContentHash => -706588047;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -79,6 +80,8 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  Future<void> crateApiOrtApiClearAllModels();
+
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host});
 
   Future<List<String>> crateApiHttpApiDnsLookupTxt({required String host});
@@ -94,6 +97,12 @@ abstract class RustLibApi extends BaseApi {
 
   Future<RsiLauncherAsarData> crateApiAsarApiGetRsiLauncherAsarData({
     required String asarPath,
+  });
+
+  Future<void> crateApiOrtApiLoadTranslationModel({
+    required String modelPath,
+    required String modelKey,
+    required String quantizationSuffix,
   });
 
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
@@ -122,6 +131,18 @@ abstract class RustLibApi extends BaseApi {
     required String workingDirectory,
   });
 
+  Future<String> crateApiOrtApiTranslateText({
+    required String modelKey,
+    required String text,
+  });
+
+  Future<List<String>> crateApiOrtApiTranslateTextBatch({
+    required String modelKey,
+    required List<String> texts,
+  });
+
+  Future<void> crateApiOrtApiUnloadTranslationModel({required String modelKey});
+
   Future<void> crateApiRsProcessWrite({
     required int rsPid,
     required String data,
@@ -135,6 +156,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required super.generalizedFrbRustBinding,
     required super.portManager,
   });
+
+  @override
+  Future<void> crateApiOrtApiClearAllModels() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__ort_api__clear_all_models(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiOrtApiClearAllModelsConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiOrtApiClearAllModelsConstMeta =>
+      const TaskConstMeta(debugName: "clear_all_models", argNames: []);
 
   @override
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host}) {
@@ -266,6 +308,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "get_rsi_launcher_asar_data",
         argNames: ["asarPath"],
+      );
+
+  @override
+  Future<void> crateApiOrtApiLoadTranslationModel({
+    required String modelPath,
+    required String modelKey,
+    required String quantizationSuffix,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(modelPath);
+          var arg1 = cst_encode_String(modelKey);
+          var arg2 = cst_encode_String(quantizationSuffix);
+          return wire.wire__crate__api__ort_api__load_translation_model(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiOrtApiLoadTranslationModelConstMeta,
+        argValues: [modelPath, modelKey, quantizationSuffix],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiOrtApiLoadTranslationModelConstMeta =>
+      const TaskConstMeta(
+        debugName: "load_translation_model",
+        argNames: ["modelPath", "modelKey", "quantizationSuffix"],
       );
 
   @override
@@ -442,6 +520,102 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     debugName: "start",
     argNames: ["executable", "arguments", "workingDirectory", "streamSink"],
   );
+
+  @override
+  Future<String> crateApiOrtApiTranslateText({
+    required String modelKey,
+    required String text,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(modelKey);
+          var arg1 = cst_encode_String(text);
+          return wire.wire__crate__api__ort_api__translate_text(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiOrtApiTranslateTextConstMeta,
+        argValues: [modelKey, text],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiOrtApiTranslateTextConstMeta =>
+      const TaskConstMeta(
+        debugName: "translate_text",
+        argNames: ["modelKey", "text"],
+      );
+
+  @override
+  Future<List<String>> crateApiOrtApiTranslateTextBatch({
+    required String modelKey,
+    required List<String> texts,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(modelKey);
+          var arg1 = cst_encode_list_String(texts);
+          return wire.wire__crate__api__ort_api__translate_text_batch(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiOrtApiTranslateTextBatchConstMeta,
+        argValues: [modelKey, texts],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiOrtApiTranslateTextBatchConstMeta =>
+      const TaskConstMeta(
+        debugName: "translate_text_batch",
+        argNames: ["modelKey", "texts"],
+      );
+
+  @override
+  Future<void> crateApiOrtApiUnloadTranslationModel({
+    required String modelKey,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(modelKey);
+          return wire.wire__crate__api__ort_api__unload_translation_model(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiOrtApiUnloadTranslationModelConstMeta,
+        argValues: [modelKey],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiOrtApiUnloadTranslationModelConstMeta =>
+      const TaskConstMeta(
+        debugName: "unload_translation_model",
+        argNames: ["modelKey"],
+      );
 
   @override
   Future<void> crateApiRsProcessWrite({

@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1832496273;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -706588047;
 
 // Section: executor
 
@@ -45,6 +45,27 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire__crate__api__ort_api__clear_all_models_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "clear_all_models",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::ort_api::clear_all_models()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__http_api__dns_lookup_ips_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     host: impl CstDecode<String>,
@@ -156,6 +177,37 @@ fn wire__crate__api__asar_api__get_rsi_launcher_asar_data_impl(
                         Ok(output_ok)
                     })()
                     .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__ort_api__load_translation_model_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    model_path: impl CstDecode<String>,
+    model_key: impl CstDecode<String>,
+    quantization_suffix: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "load_translation_model",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_model_path = model_path.cst_decode();
+            let api_model_key = model_key.cst_decode();
+            let api_quantization_suffix = quantization_suffix.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::ort_api::load_translation_model(
+                            api_model_path,
+                            api_model_key,
+                            api_quantization_suffix,
+                        )?;
+                        Ok(output_ok)
+                    })(),
                 )
             }
         },
@@ -310,6 +362,82 @@ fn wire__crate__api__rs_process__start_impl(
                         Ok(output_ok)
                     })()
                     .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__ort_api__translate_text_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    model_key: impl CstDecode<String>,
+    text: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "translate_text",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_model_key = model_key.cst_decode();
+            let api_text = text.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::ort_api::translate_text(api_model_key, api_text)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__ort_api__translate_text_batch_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    model_key: impl CstDecode<String>,
+    texts: impl CstDecode<Vec<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "translate_text_batch",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_model_key = model_key.cst_decode();
+            let api_texts = texts.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::ort_api::translate_text_batch(api_model_key, api_texts)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__ort_api__unload_translation_model_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    model_key: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "unload_translation_model",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_model_key = model_key.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::ort_api::unload_translation_model(api_model_key)?;
+                        Ok(output_ok)
+                    })(),
                 )
             }
         },
@@ -1362,6 +1490,13 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ort_api__clear_all_models(
+        port_: i64,
+    ) {
+        wire__crate__api__ort_api__clear_all_models_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__http_api__dns_lookup_ips(
         port_: i64,
         host: *mut wire_cst_list_prim_u_8_strict,
@@ -1404,6 +1539,21 @@ mod io {
         asar_path: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__asar_api__get_rsi_launcher_asar_data_impl(port_, asar_path)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ort_api__load_translation_model(
+        port_: i64,
+        model_path: *mut wire_cst_list_prim_u_8_strict,
+        model_key: *mut wire_cst_list_prim_u_8_strict,
+        quantization_suffix: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__ort_api__load_translation_model_impl(
+            port_,
+            model_path,
+            model_key,
+            quantization_suffix,
+        )
     }
 
     #[unsafe(no_mangle)]
@@ -1457,6 +1607,32 @@ mod io {
             working_directory,
             stream_sink,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ort_api__translate_text(
+        port_: i64,
+        model_key: *mut wire_cst_list_prim_u_8_strict,
+        text: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__ort_api__translate_text_impl(port_, model_key, text)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ort_api__translate_text_batch(
+        port_: i64,
+        model_key: *mut wire_cst_list_prim_u_8_strict,
+        texts: *mut wire_cst_list_String,
+    ) {
+        wire__crate__api__ort_api__translate_text_batch_impl(port_, model_key, texts)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ort_api__unload_translation_model(
+        port_: i64,
+        model_key: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__ort_api__unload_translation_model_impl(port_, model_key)
     }
 
     #[unsafe(no_mangle)]
