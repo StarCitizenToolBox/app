@@ -23,6 +23,10 @@ scopeguard = "1.2"
 notify-rust = "4"
 asar = "0.3.0"
 walkdir = "2.5.0"
+ort = { version = "2.0.0-rc.10", features = ["xnnpack", "download-binaries", "ndarray"] }
+tokenizers = { version = "0.20", default-features = false, features = ["onig"] }
+ndarray = "0.16"
+serde_json = "1.0"
 
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.62.2", features = ["Win32_UI_WindowsAndMessaging"] }

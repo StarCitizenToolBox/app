@@ -33,27 +33,26 @@ dependencies:
   markdown_widget: ^2.3.2+8
   extended_image: ^10.0.1
   device_info_plus: ^12.2.0
-  file_picker: ^10.3.3
+  file_picker: ^10.3.6
   file_sizes: ^1.0.6
   desktop_webview_window: ^0.2.3
   flutter_svg: ^2.2.2
   archive: ^4.0.7
   jwt_decode: ^0.3.1
-  uuid: ^4.5.1
+  uuid: ^4.5.2
   flutter_tilt: ^3.3.2
   card_swiper: ^3.0.1
   ffi: ^2.1.4
   flutter_rust_bridge: ^2.11.1
   freezed_annotation: ^3.1.0
-  meta: ^1.16.0
-  hexcolor: ^3.0.1
+  meta: ^1.17.0
+  hexcolor: ^3.0.2
   html: ^0.15.6
   fixnum: ^1.1.1
   rust_builder:
     path: rust_builder
   aria2:
     git: https://github.com/xkeyC/dart_aria2_rpc.git
-  #    path: ../../xkeyC/dart_aria2_rpc
   #    path: ../../xkeyC/dart_aria2_rpc
   intl: any
   synchronized: ^3.4.0
@@ -69,7 +68,7 @@ dependencies:
   crypto: ^3.0.7
   xml: ^6.6.1
 dependency_overrides:
-  http: ^1.5.0
+  http: ^1.6.0
   intl: ^0.20.2
 
 dev_dependencies:
@@ -81,7 +80,7 @@ dev_dependencies:
   freezed: ^3.2.3
   json_serializable: ^6.11.1
   riverpod_generator: ^3.0.3
-  custom_lint: ^0.8.0
+  custom_lint: ^0.8.1
   riverpod_lint: ^3.0.3
   ffigen: ^20.0.0
   sct_dev_tools:
