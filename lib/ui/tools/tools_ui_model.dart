@@ -19,7 +19,6 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/multi_window_manager.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
-import 'package:starcitizen_doctor/ui/home/downloader/home_downloader_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:xml/xml.dart';
@@ -423,14 +422,11 @@ class ToolsUIModel extends _$ToolsUIModel {
       final aria2c = ref.read(aria2cModelProvider).aria2c!;
 
       // check download task list
-      for (var value in [...await aria2c.tellActive(), ...await aria2c.tellWaiting(0, 100000)]) {
-        final t = HomeDownloaderUIModel.getTaskTypeAndName(value);
-        if (t.key == "torrent" && t.value.contains("Data.p4k")) {
-          if (!context.mounted) return;
-          showToast(context, S.current.tools_action_info_p4k_download_in_progress);
-          state = state.copyWith(working: false);
-          return;
-        }
+      if (await aria2cManager.isNameInTask("Data.p4k")) {
+        if (!context.mounted) return;
+        showToast(context, S.current.tools_action_info_p4k_download_in_progress);
+        state = state.copyWith(working: false);
+        return;
       }
 
       if (torrentUrl == "") {

@@ -97,14 +97,7 @@ class App extends HookConsumerWidget with WindowListener {
   @override
   Future<void> onWindowClose() async {
     debugPrint("onWindowClose");
-    if (await windowManager.isPreventClose()) {
-      final windows = await DesktopMultiWindow.getAllSubWindowIds();
-      for (final id in windows) {
-        await WindowController.fromWindowId(id).close();
-      }
-      await windowManager.destroy();
-      exit(0);
-    }
+    exit(0);
     super.onWindowClose();
   }
 }

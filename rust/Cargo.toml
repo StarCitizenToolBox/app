@@ -24,8 +24,8 @@ notify-rust = "4"
 asar = "0.3.0"
 walkdir = "2.5.0"
 ort = { version = "2.0.0-rc.10", features = ["xnnpack", "download-binaries", "ndarray"] }
-tokenizers = { version = "0.20", default-features = false, features = ["onig"] }
-ndarray = "0.16"
+tokenizers = { version = "0.22", default-features = false, features = ["onig"] }
+ndarray = "0.17"
 serde_json = "1.0"
 
 [target.'cfg(windows)'.dependencies]

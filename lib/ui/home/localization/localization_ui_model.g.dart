@@ -42,7 +42,7 @@ final class LocalizationUIModelProvider
 }
 
 String _$localizationUIModelHash() =>
-    r'd3797a7ff3d31dd1d4b05aed4a9969f4be6853c5';
+    r'3d3f0ed7fa3631eca4e10d456c437f6fca8eedff';
 
 abstract class _$LocalizationUIModel extends $Notifier<LocalizationUIState> {
   LocalizationUIState build();

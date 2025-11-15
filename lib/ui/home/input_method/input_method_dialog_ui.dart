@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/home/input_method/input_method_dialog_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/input_method/server.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -60,7 +61,9 @@ class InputMethodDialogUI extends HookConsumerWidget {
                 ),
                 SizedBox(height: 12),
                 TextFormBox(
-                  placeholder: S.current.input_method_input_placeholder,
+                  placeholder: state.isEnableAutoTranslate
+                      ? "${S.current.input_method_input_placeholder}\n\n本地翻译模型对中英混合处理能力较差，如有需要，建议分开发送。"
+                      : S.current.input_method_input_placeholder,
                   controller: srcTextCtrl,
                   maxLines: 5,
                   placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
@@ -68,7 +71,9 @@ class InputMethodDialogUI extends HookConsumerWidget {
                   onChanged: (str) async {
                     final text = model.onTextChange("src", str);
                     destTextCtrl.text = text ?? "";
-                    if (text != null) {}
+                    if (text != null) {
+                      model.checkAutoTranslate();
+                    }
                   },
                 ),
                 SizedBox(height: 16),
@@ -91,17 +96,23 @@ class InputMethodDialogUI extends HookConsumerWidget {
                   placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
                   style: TextStyle(fontSize: 16, color: Colors.white),
                   enabled: true,
-                  onChanged: (str) {
-                    // final text = model.onTextChange("dest", str);
-                    // if (text != null) {
-                    //   srcTextCtrl.text = text;
-                    // }
-                  },
+                  onChanged: (str) {},
                 ),
                 SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Row(
+                      children: [
+                        Text(S.current.input_method_auto_translate),
+                        SizedBox(width: 6),
+                        ToggleSwitch(
+                          checked: state.isEnableAutoTranslate,
+                          onChanged: (b) => _onSwitchAutoTranslate(context, model, b),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 24),
                     Row(
                       children: [
                         Text(S.current.input_method_remote_input_service),
@@ -193,5 +204,53 @@ class InputMethodDialogUI extends HookConsumerWidget {
     } else {
       await serverModel.stopServer().unwrap(context: context);
     }
+  }
+
+  void _onSwitchAutoTranslate(BuildContext context, InputMethodDialogUIModel model, bool b) async {
+    if (b) {
+      // 检查下载任务
+      if (await model.isTranslateModelDownloading()) {
+        if (!context.mounted) return;
+        showToast(context, "模型正在下载中，请稍后...");
+        return;
+      }
+      // 打开，检查本地模型
+      if (!await model.checkLocalTranslateModelAvailable()) {
+        if (!context.mounted) return;
+        // 询问用户是否下载模型
+        final userOK = await showConfirmDialogs(
+          context,
+          "是否下载 AI 模型以使用翻译功能？",
+          Text(
+            "大约需要 200MB 的本地空间。"
+            "\n\n我们使用本地模型进行翻译，您的翻译数据不会发送给任何第三方。"
+            "\n\n模型未对游戏术语优化，请自行判断使用。",
+          ),
+        );
+        if (userOK) {
+          try {
+            final guid = await model.doDownloadTranslateModel();
+            if (guid.isNotEmpty) {
+              if (!context.mounted) return;
+              context.go("/index/downloader");
+              await Future.delayed(Duration(seconds: 1)).then((_) {
+                if (!context.mounted) return;
+                showToast(context, "下载已开始，请在模型下载完成后重新启用翻译功能。");
+              });
+              return;
+            }
+          } catch (e) {
+            dPrint("下载模型失败：$e");
+            if (context.mounted) {
+              showToast(context, "下载模型失败：$e");
+            }
+            return;
+          }
+        }
+        return;
+      }
+    }
+    if (!context.mounted) return;
+    model.toggleAutoTranslate(b, context: context).unwrap(context: context);
   }
 }

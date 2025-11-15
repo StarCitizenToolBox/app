@@ -1,12 +1,22 @@
+// ignore_for_file: avoid_build_context_in_providers, use_build_context_synchronously
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:starcitizen_doctor/api/api.dart';
+import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/utils/async.dart';
+import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/common/utils/provider.dart';
+import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
+import 'package:starcitizen_doctor/common/rust/api/ort_api.dart' as ort;
 
 part 'input_method_dialog_ui_model.g.dart';
 
@@ -44,7 +54,8 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     final worldMaps = keyMaps?.map((key, value) => MapEntry(value.trim(), key));
     final appBox = await Hive.openBox("app_conf");
     final enableAutoCopy = appBox.get("enableAutoCopy", defaultValue: false);
-    final isEnableAutoTranslate = appBox.get("isEnableAutoTranslate", defaultValue: false);
+    final isEnableAutoTranslate = appBox.get("isEnableAutoTranslate_v2", defaultValue: false);
+    _checkAutoTranslateOnInit();
     state = state.copyWith(
       keyMaps: keyMaps,
       worldMaps: worldMaps,
@@ -134,14 +145,216 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     _srcTextCtrl?.text = text;
     _destTextCtrl?.text = onTextChange("src", text) ?? "";
     if (_destTextCtrl?.text.isEmpty ?? true) return;
+    checkAutoTranslate(webMessage: true);
     if (autoCopy && !state.isAutoTranslateWorking) {
       Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
     }
   }
 
-  Future<void> toggleAutoTranslate(bool b) async {
+  // ignore: duplicate_ignore
+  // ignore: avoid_build_context_in_providers
+  Future<void> toggleAutoTranslate(bool b, {BuildContext? context}) async {
     state = state.copyWith(isEnableAutoTranslate: b);
     final appConf = await Hive.openBox("app_conf");
-    await appConf.put("isEnableAutoTranslate", b);
+    await appConf.put("isEnableAutoTranslate_v2", b);
+    if (b) {
+      mountOnnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName, context: context);
+    }
+  }
+
+  Timer? _translateTimer;
+
+  Future<void> checkAutoTranslate({bool webMessage = false}) async {
+    final sourceText = _srcTextCtrl?.text ?? "";
+    final content = _destTextCtrl?.text ?? "";
+    if (sourceText.trim().isEmpty) return;
+    if (state.isEnableAutoTranslate) {
+      if (_translateTimer != null) _translateTimer?.cancel();
+      state = state.copyWith(isAutoTranslateWorking: true);
+      _translateTimer = Timer(Duration(milliseconds: webMessage ? 1 : 400), () async {
+        try {
+          final inputText = sourceText.replaceAll("\n", " ");
+          final r = await doTranslateText(inputText);
+          if (r != null) {
+            String resultText = r;
+            // resultText 首字母大写
+            if (content.isNotEmpty) {
+              final firstChar = resultText.characters.first;
+              resultText = resultText.replaceFirst(firstChar, firstChar.toUpperCase());
+            }
+            _destTextCtrl?.text = "$content \n[en] $resultText";
+            if (state.enableAutoCopy || webMessage) {
+              Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
+            }
+          }
+        } catch (e) {
+          dPrint("[InputMethodDialogUIModel] AutoTranslate error: $e");
+        }
+        state = state.copyWith(isAutoTranslateWorking: false);
+      });
+    }
+  }
+
+  String get _localTranslateModelName => "opus-mt-zh-en_onnx";
+
+  String get _localTranslateModelDir => "${appGlobalState.applicationSupportDir}/onnx_models";
+
+  OnnxTranslationProvider get _localTranslateModelProvider =>
+      onnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName);
+
+  void _checkAutoTranslateOnInit() {
+    // 检查模型文件是否存在，不存在则关闭自动翻译
+    if (state.isEnableAutoTranslate) {
+      checkLocalTranslateModelAvailable().then((available) {
+        if (!available) {
+          toggleAutoTranslate(false);
+        }
+      });
+    }
+  }
+
+  Future<bool> checkLocalTranslateModelAvailable() async {
+    final fileCheckList = const [
+      "config.json",
+      "tokenizer.json",
+      "vocab.json",
+      "onnx/decoder_model_q4f16.onnx",
+      "onnx/encoder_model_q4f16.onnx",
+    ];
+    var allExist = true;
+    for (var fileName in fileCheckList) {
+      final filePath = "$_localTranslateModelDir/$_localTranslateModelName/$fileName";
+      if (!await File(filePath).exists()) {
+        allExist = false;
+        break;
+      }
+    }
+    return allExist;
+  }
+
+  Future<String> doDownloadTranslateModel() async {
+    state = state.copyWith(isAutoTranslateWorking: true);
+    try {
+      final aria2cManager = ref.read(aria2cModelProvider.notifier);
+      await aria2cManager.launchDaemon(appGlobalState.applicationBinaryModuleDir!);
+      final aria2c = ref.read(aria2cModelProvider).aria2c!;
+
+      if (await aria2cManager.isNameInTask(_localTranslateModelName)) {
+        throw Exception("Model is already downloading");
+      }
+
+      final l = await Api.getAppTorrentDataList();
+      final modelTorrent = l.firstWhere(
+        (element) => element.name == _localTranslateModelName,
+        orElse: () => throw Exception("Model torrent not found"),
+      );
+      final torrentUrl = modelTorrent.url;
+      if (torrentUrl?.isEmpty ?? true) {
+        throw Exception("Get model torrent url failed");
+      }
+      // get torrent Data
+      final data = await RSHttp.get(torrentUrl!);
+      final b64Str = base64Encode(data.data!);
+      final gid = await aria2c.addTorrent(b64Str, extraParams: {"dir": _localTranslateModelDir});
+      return gid;
+    } catch (e) {
+      dPrint("[InputMethodDialogUIModel] doDownloadTranslateModel error: $e");
+      rethrow;
+    } finally {
+      state = state.copyWith(isAutoTranslateWorking: false);
+    }
+  }
+
+  Future<void> mountOnnxTranslationProvider(
+    String localTranslateModelDir,
+    String localTranslateModelName, {
+    BuildContext? context,
+  }) async {
+    if (!ref.exists(_localTranslateModelProvider)) {
+      ref.listen(_localTranslateModelProvider, ((_, _) {}));
+      final err = await ref.read(_localTranslateModelProvider.notifier).initModel();
+      _handleTranslateModel(context, err);
+    } else {
+      // 重新加载
+      final err = await ref.read(_localTranslateModelProvider.notifier).initModel();
+      _handleTranslateModel(context, err);
+    }
+  }
+
+  Future<void> _handleTranslateModel(BuildContext? context, String? err) async {
+    if (err != null) {
+      dPrint("[InputMethodDialogUIModel] mountOnnxTranslationProvider failed to init model");
+      if (context != null) {
+        if (!context.mounted) return;
+        final userOK = await showConfirmDialogs(context, "翻译模型加载失败", Text("是否删除本地文件，稍后您可以尝试重新下载。错误信息：\n$err"));
+        if (userOK) {
+          // 删除文件，并禁用开关
+          final dir = Directory("$_localTranslateModelDir/$_localTranslateModelName");
+          if (await dir.exists()) {
+            await dir.delete(recursive: true);
+            dPrint("[InputMethodDialogUIModel] Deleted local translate model files.");
+            toggleAutoTranslate(false);
+          }
+        }
+      } else {
+        // 禁用开关
+        toggleAutoTranslate(false);
+      }
+    }
+  }
+
+  Future<String?> doTranslateText(String text) async {
+    if (!ref.exists(_localTranslateModelProvider)) {
+      await mountOnnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName);
+    }
+    final onnxTranslationState = ref.read(_localTranslateModelProvider);
+    if (!onnxTranslationState) {
+      return null;
+    }
+    try {
+      final result = await ort.translateText(modelKey: _localTranslateModelName, text: text);
+      return result;
+    } catch (e) {
+      dPrint("[InputMethodDialogUIModel] doTranslateText error: $e");
+      return null;
+    }
+  }
+
+  Future<bool> isTranslateModelDownloading() async {
+    final aria2cManager = ref.read(aria2cModelProvider.notifier);
+    return await aria2cManager.isNameInTask(_localTranslateModelName);
+  }
+}
+
+@riverpod
+class OnnxTranslation extends _$OnnxTranslation {
+  @override
+  bool build(String modelDir, String modelName) {
+    dPrint("[OnnxTranslation] Build provider for model: $modelName");
+    ref.onDispose(disposeModel);
+    return false;
+  }
+
+  Future<String?> initModel() async {
+    dPrint("[OnnxTranslation] Load model: $modelName from $modelDir");
+    String? errorMessage;
+    try {
+      await ort.loadTranslationModel(
+        modelPath: "$modelDir/$modelName",
+        modelKey: modelName,
+        quantizationSuffix: "_q4f16",
+      );
+      state = true;
+    } catch (e) {
+      dPrint("[OnnxTranslation] Load model error: $e");
+      errorMessage = e.toString();
+      state = false;
+    }
+    return errorMessage;
+  }
+
+  Future<void> disposeModel() async {
+    await ort.unloadTranslationModel(modelKey: modelName).unwrap();
+    dPrint("[OnnxTranslation] Unload model: $modelName");
   }
 }
