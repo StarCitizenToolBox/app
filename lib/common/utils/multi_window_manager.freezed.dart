@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MultiWindowAppState {
 
- String get backgroundColor; String get menuColor; String get micaColor; List<String> get gameInstallPaths; String? get languageCode; String? get countryCode;
+ String get backgroundColor; String get menuColor; String get micaColor; List<String> get gameInstallPaths; String? get languageCode; String? get countryCode; dynamic get windowsVersion;
 /// Create a copy of MultiWindowAppState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $MultiWindowAppStateCopyWith<MultiWindowAppState> get copyWith => _$MultiWindowA
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MultiWindowAppState&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor)&&const DeepCollectionEquality().equals(other.gameInstallPaths, gameInstallPaths)&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MultiWindowAppState&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor)&&const DeepCollectionEquality().equals(other.gameInstallPaths, gameInstallPaths)&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,backgroundColor,menuColor,micaColor,const DeepCollectionEquality().hash(gameInstallPaths),languageCode,countryCode);
+int get hashCode => Object.hash(runtimeType,backgroundColor,menuColor,micaColor,const DeepCollectionEquality().hash(gameInstallPaths),languageCode,countryCode,const DeepCollectionEquality().hash(windowsVersion));
 
 @override
 String toString() {
-  return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, gameInstallPaths: $gameInstallPaths, languageCode: $languageCode, countryCode: $countryCode)';
+  return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, gameInstallPaths: $gameInstallPaths, languageCode: $languageCode, countryCode: $countryCode, windowsVersion: $windowsVersion)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $MultiWindowAppStateCopyWith<$Res>  {
   factory $MultiWindowAppStateCopyWith(MultiWindowAppState value, $Res Function(MultiWindowAppState) _then) = _$MultiWindowAppStateCopyWithImpl;
 @useResult
 $Res call({
- String backgroundColor, String menuColor, String micaColor, List<String> gameInstallPaths, String? languageCode, String? countryCode
+ String backgroundColor, String menuColor, String micaColor, List<String> gameInstallPaths, String? languageCode, String? countryCode, dynamic windowsVersion
 });
 
 
@@ -65,7 +65,7 @@ class _$MultiWindowAppStateCopyWithImpl<$Res>
 
 /// Create a copy of MultiWindowAppState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? backgroundColor = null,Object? menuColor = null,Object? micaColor = null,Object? gameInstallPaths = null,Object? languageCode = freezed,Object? countryCode = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? backgroundColor = null,Object? menuColor = null,Object? micaColor = null,Object? gameInstallPaths = null,Object? languageCode = freezed,Object? countryCode = freezed,Object? windowsVersion = freezed,}) {
   return _then(_self.copyWith(
 backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
 as String,menuColor: null == menuColor ? _self.menuColor : menuColor // ignore: cast_nullable_to_non_nullable
@@ -73,7 +73,8 @@ as String,micaColor: null == micaColor ? _self.micaColor : micaColor // ignore: 
 as String,gameInstallPaths: null == gameInstallPaths ? _self.gameInstallPaths : gameInstallPaths // ignore: cast_nullable_to_non_nullable
 as List<String>,languageCode: freezed == languageCode ? _self.languageCode : languageCode // ignore: cast_nullable_to_non_nullable
 as String?,countryCode: freezed == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,windowsVersion: freezed == windowsVersion ? _self.windowsVersion : windowsVersion // ignore: cast_nullable_to_non_nullable
+as dynamic,
   ));
 }
 
@@ -158,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String backgroundColor,  String menuColor,  String micaColor,  List<String> gameInstallPaths,  String? languageCode,  String? countryCode)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String backgroundColor,  String menuColor,  String micaColor,  List<String> gameInstallPaths,  String? languageCode,  String? countryCode,  dynamic windowsVersion)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MultiWindowAppState() when $default != null:
-return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.gameInstallPaths,_that.languageCode,_that.countryCode);case _:
+return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.gameInstallPaths,_that.languageCode,_that.countryCode,_that.windowsVersion);case _:
   return orElse();
 
 }
@@ -179,10 +180,10 @@ return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.game
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String backgroundColor,  String menuColor,  String micaColor,  List<String> gameInstallPaths,  String? languageCode,  String? countryCode)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String backgroundColor,  String menuColor,  String micaColor,  List<String> gameInstallPaths,  String? languageCode,  String? countryCode,  dynamic windowsVersion)  $default,) {final _that = this;
 switch (_that) {
 case _MultiWindowAppState():
-return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.gameInstallPaths,_that.languageCode,_that.countryCode);case _:
+return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.gameInstallPaths,_that.languageCode,_that.countryCode,_that.windowsVersion);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +200,10 @@ return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.game
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String backgroundColor,  String menuColor,  String micaColor,  List<String> gameInstallPaths,  String? languageCode,  String? countryCode)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String backgroundColor,  String menuColor,  String micaColor,  List<String> gameInstallPaths,  String? languageCode,  String? countryCode,  dynamic windowsVersion)?  $default,) {final _that = this;
 switch (_that) {
 case _MultiWindowAppState() when $default != null:
-return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.gameInstallPaths,_that.languageCode,_that.countryCode);case _:
+return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.gameInstallPaths,_that.languageCode,_that.countryCode,_that.windowsVersion);case _:
   return null;
 
 }
@@ -214,7 +215,7 @@ return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.game
 @JsonSerializable()
 
 class _MultiWindowAppState implements MultiWindowAppState {
-  const _MultiWindowAppState({required this.backgroundColor, required this.menuColor, required this.micaColor, required final  List<String> gameInstallPaths, this.languageCode, this.countryCode}): _gameInstallPaths = gameInstallPaths;
+  const _MultiWindowAppState({required this.backgroundColor, required this.menuColor, required this.micaColor, required final  List<String> gameInstallPaths, this.languageCode, this.countryCode, this.windowsVersion = 10}): _gameInstallPaths = gameInstallPaths;
   factory _MultiWindowAppState.fromJson(Map<String, dynamic> json) => _$MultiWindowAppStateFromJson(json);
 
 @override final  String backgroundColor;
@@ -229,6 +230,7 @@ class _MultiWindowAppState implements MultiWindowAppState {
 
 @override final  String? languageCode;
 @override final  String? countryCode;
+@override@JsonKey() final  dynamic windowsVersion;
 
 /// Create a copy of MultiWindowAppState
 /// with the given fields replaced by the non-null parameter values.
@@ -243,16 +245,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MultiWindowAppState&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor)&&const DeepCollectionEquality().equals(other._gameInstallPaths, _gameInstallPaths)&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MultiWindowAppState&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor)&&const DeepCollectionEquality().equals(other._gameInstallPaths, _gameInstallPaths)&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,backgroundColor,menuColor,micaColor,const DeepCollectionEquality().hash(_gameInstallPaths),languageCode,countryCode);
+int get hashCode => Object.hash(runtimeType,backgroundColor,menuColor,micaColor,const DeepCollectionEquality().hash(_gameInstallPaths),languageCode,countryCode,const DeepCollectionEquality().hash(windowsVersion));
 
 @override
 String toString() {
-  return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, gameInstallPaths: $gameInstallPaths, languageCode: $languageCode, countryCode: $countryCode)';
+  return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, gameInstallPaths: $gameInstallPaths, languageCode: $languageCode, countryCode: $countryCode, windowsVersion: $windowsVersion)';
 }
 
 
@@ -263,7 +265,7 @@ abstract mixin class _$MultiWindowAppStateCopyWith<$Res> implements $MultiWindow
   factory _$MultiWindowAppStateCopyWith(_MultiWindowAppState value, $Res Function(_MultiWindowAppState) _then) = __$MultiWindowAppStateCopyWithImpl;
 @override @useResult
 $Res call({
- String backgroundColor, String menuColor, String micaColor, List<String> gameInstallPaths, String? languageCode, String? countryCode
+ String backgroundColor, String menuColor, String micaColor, List<String> gameInstallPaths, String? languageCode, String? countryCode, dynamic windowsVersion
 });
 
 
@@ -280,7 +282,7 @@ class __$MultiWindowAppStateCopyWithImpl<$Res>
 
 /// Create a copy of MultiWindowAppState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? backgroundColor = null,Object? menuColor = null,Object? micaColor = null,Object? gameInstallPaths = null,Object? languageCode = freezed,Object? countryCode = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? backgroundColor = null,Object? menuColor = null,Object? micaColor = null,Object? gameInstallPaths = null,Object? languageCode = freezed,Object? countryCode = freezed,Object? windowsVersion = freezed,}) {
   return _then(_MultiWindowAppState(
 backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
 as String,menuColor: null == menuColor ? _self.menuColor : menuColor // ignore: cast_nullable_to_non_nullable
@@ -288,7 +290,8 @@ as String,micaColor: null == micaColor ? _self.micaColor : micaColor // ignore: 
 as String,gameInstallPaths: null == gameInstallPaths ? _self._gameInstallPaths : gameInstallPaths // ignore: cast_nullable_to_non_nullable
 as List<String>,languageCode: freezed == languageCode ? _self.languageCode : languageCode // ignore: cast_nullable_to_non_nullable
 as String?,countryCode: freezed == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,windowsVersion: freezed == windowsVersion ? _self.windowsVersion : windowsVersion // ignore: cast_nullable_to_non_nullable
+as dynamic,
   ));
 }
 

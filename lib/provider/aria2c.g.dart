@@ -41,7 +41,7 @@ final class Aria2cModelProvider
   }
 }
 
-String _$aria2cModelHash() => r'eb45d6aa9fc641abceb34ad5685aab57aa7a870b';
+String _$aria2cModelHash() => r'17956c60a79c68ae13b8b8e700ebbafb70e93194';
 
 abstract class _$Aria2cModel extends $Notifier<Aria2cModelState> {
   Aria2cModelState build();

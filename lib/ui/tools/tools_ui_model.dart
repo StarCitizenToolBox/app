@@ -175,7 +175,8 @@ class ToolsUIModel extends _$ToolsUIModel {
           "remove_nvme_settings",
           S.current.tools_action_remove_nvme_registry_patch,
           S.current.tools_action_info_nvme_patch_issue(
-              nvmePatchStatus ? S.current.localization_info_installed : S.current.tools_action_info_not_installed),
+            nvmePatchStatus ? S.current.localization_info_installed : S.current.tools_action_info_not_installed,
+          ),
           const Icon(FluentIcons.hard_drive, size: 24),
           onTap: nvmePatchStatus
               ? () async {
@@ -207,7 +208,7 @@ class ToolsUIModel extends _$ToolsUIModel {
             state = state.copyWith(working: false);
             loadToolsCard(context, skipPathScan: true);
           },
-        )
+        ),
     ];
   }
 
@@ -265,8 +266,11 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (listData == null) {
         return;
       }
-      scInstallPaths = await SCLoggerHelper.getGameInstallPath(listData,
-          checkExists: checkActive, withVersion: AppConf.gameChannels);
+      scInstallPaths = await SCLoggerHelper.getGameInstallPath(
+        listData,
+        checkExists: checkActive,
+        withVersion: AppConf.gameChannels,
+      );
       if (scInstallPaths.isNotEmpty) {
         scInstalledPath = scInstallPaths.first;
       }
@@ -336,11 +340,12 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   Future<String> getSystemInfo() async {
     return S.current.tools_action_info_system_info_content(
-        await SystemHelper.getSystemName(),
-        await SystemHelper.getCpuName(),
-        await SystemHelper.getSystemMemorySizeGB(),
-        await SystemHelper.getGpuInfo(),
-        await SystemHelper.getDiskInfo());
+      await SystemHelper.getSystemName(),
+      await SystemHelper.getCpuName(),
+      await SystemHelper.getSystemMemorySizeGB(),
+      await SystemHelper.getGpuInfo(),
+      await SystemHelper.getDiskInfo(),
+    );
   }
 
   /// 管理员模式运行 RSI 启动器
@@ -364,9 +369,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       builder: (context) => ContentDialog(
         title: Text(S.current.tools_action_info_system_info_title),
         content: Text(systemInfo),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * .65,
-        ),
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .65),
         actions: [
           FilledButton(
             child: Padding(
@@ -403,8 +406,11 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
+      showToast(
+        context,
+        S.current.tools_action_info_rsi_launcher_running_warning,
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+      );
       return;
     }
 
@@ -436,8 +442,11 @@ class ToolsUIModel extends _$ToolsUIModel {
         return;
       }
 
-      final userSelect =
-          await FilePicker.platform.saveFile(initialDirectory: savePath, fileName: fileName, lockParentWindow: true);
+      final userSelect = await FilePicker.platform.saveFile(
+        initialDirectory: savePath,
+        fileName: fileName,
+        lockParentWindow: true,
+      );
       if (userSelect == null) {
         state = state.copyWith(working: false);
         return;
@@ -546,16 +555,18 @@ class ToolsUIModel extends _$ToolsUIModel {
   static Future<void> rsiEnhance(BuildContext context, {bool showNotGameInstallMsg = false}) async {
     if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
       if (!context.mounted) return;
-      showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
+      showToast(
+        context,
+        S.current.tools_action_info_rsi_launcher_running_warning,
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+      );
       return;
     }
     if (!context.mounted) return;
     showDialog(
-        context: context,
-        builder: (BuildContext context) => RsiLauncherEnhanceDialogUI(
-              showNotGameInstallMsg: showNotGameInstallMsg,
-            ));
+      context: context,
+      builder: (BuildContext context) => RsiLauncherEnhanceDialogUI(showNotGameInstallMsg: showNotGameInstallMsg),
+    );
   }
 
   Future<void> _showLogAnalyze(BuildContext context) async {
@@ -564,6 +575,10 @@ class ToolsUIModel extends _$ToolsUIModel {
       return;
     }
     if (!context.mounted) return;
-    await MultiWindowManager.launchSubWindow("log_analyze", S.current.log_analyzer_window_title, appGlobalState);
+    await MultiWindowManager.launchSubWindow(
+      WindowTypes.logAnalyze,
+      S.current.log_analyzer_window_title,
+      appGlobalState,
+    );
   }
 }

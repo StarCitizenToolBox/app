@@ -43,7 +43,7 @@ final class InputMethodDialogUIModelProvider
 }
 
 String _$inputMethodDialogUIModelHash() =>
-    r'39b7fc1446c09514b837c0f181488d34a4391751';
+    r'f216c1a5b6d68b3924af7b351314c618dcac80b5';
 
 abstract class _$InputMethodDialogUIModel
     extends $Notifier<InputMethodDialogUIState> {
@@ -115,7 +115,7 @@ final class OnnxTranslationProvider
   }
 }
 
-String _$onnxTranslationHash() => r'05b7b063a1013eed1ee4daae5212b3b6c555cd82';
+String _$onnxTranslationHash() => r'4f3dc0e361dca2d6b00f557496bdf006cc6c235c';
 
 final class OnnxTranslationFamily extends $Family
     with

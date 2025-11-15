@@ -16,6 +16,7 @@ _MultiWindowAppState _$MultiWindowAppStateFromJson(Map<String, dynamic> json) =>
           .toList(),
       languageCode: json['languageCode'] as String?,
       countryCode: json['countryCode'] as String?,
+      windowsVersion: json['windowsVersion'] ?? 10,
     );
 
 Map<String, dynamic> _$MultiWindowAppStateToJson(
@@ -27,4 +28,5 @@ Map<String, dynamic> _$MultiWindowAppStateToJson(
   'gameInstallPaths': instance.gameInstallPaths,
   'languageCode': instance.languageCode,
   'countryCode': instance.countryCode,
+  'windowsVersion': instance.windowsVersion,
 };

@@ -11,24 +11,41 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app.dart';
 import 'common/utils/multi_window_manager.dart';
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   // webview window
-  if (runWebViewTitleBarWidget(args,
-      backgroundColor: const Color.fromRGBO(19, 36, 49, 1), builder: _defaultWebviewTitleBar)) {
+  if (runWebViewTitleBarWidget(
+    args,
+    backgroundColor: const Color.fromRGBO(19, 36, 49, 1),
+    builder: _defaultWebviewTitleBar,
+  )) {
     return;
   }
-  if (args.firstOrNull == 'multi_window') {
-    MultiWindowManager.runSubWindowApp(args);
-    return;
-  }
+
   WidgetsFlutterBinding.ensureInitialized();
-  await _initWindow();
-  // run app
-  runApp(const ProviderScope(child: App()));
+  await windowManager.ensureInitialized();
+
+  // Get the current window controller
+  final windowController = await WindowController.fromCurrentEngine();
+
+  // Parse window arguments to determine which window to show
+  final windowType = MultiWindowManager.parseWindowType(windowController.arguments);
+
+  // Initialize window-specific handlers for sub-windows
+  if (windowType != WindowTypes.main) {
+    await windowController.doCustomInitialize();
+  }
+
+  // Run different apps based on the window type
+  switch (windowType) {
+    case WindowTypes.main:
+      await _initWindow();
+      runApp(const ProviderScope(child: App()));
+    default:
+      MultiWindowManager.runSubWindowApp(windowController.arguments, windowType);
+  }
 }
 
 Future<void> _initWindow() async {
-  await windowManager.ensureInitialized();
   await windowManager.setTitleBarStyle(TitleBarStyle.hidden, windowButtonVisibility: false);
   await windowManager.setSize(const Size(1280, 810));
   await windowManager.setMinimumSize(const Size(1280, 810));
@@ -97,7 +114,22 @@ class App extends HookConsumerWidget with WindowListener {
   @override
   Future<void> onWindowClose() async {
     debugPrint("onWindowClose");
-    exit(0);
+    if (await windowManager.isPreventClose()) {
+      final mainWindow = await WindowController.fromCurrentEngine();
+      final windows = await WindowController.getAll();
+      for (final controller in windows) {
+        if (controller.windowId != mainWindow.windowId) {
+          try {
+            controller.close();
+          } catch (e) {
+            debugPrint("Error closing window ${controller.windowId}: $e");
+          }
+        }
+      }
+      await windowManager.close();
+      await windowManager.destroy();
+      exit(0);
+    }
     super.onWindowClose();
   }
 }
