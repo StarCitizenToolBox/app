@@ -21,7 +21,7 @@ part 'aria2c.freezed.dart';
 @freezed
 abstract class Aria2cModelState with _$Aria2cModelState {
   const factory Aria2cModelState({required String aria2cDir, Aria2c? aria2c, Aria2GlobalStat? aria2globalStat}) =
-      _Aria2cModelState;
+  _Aria2cModelState;
 }
 
 extension Aria2cModelExt on Aria2cModelState {
@@ -52,15 +52,16 @@ class Aria2cModel extends _$Aria2cModel {
       try {
         final sessionFile = File("$aria2cDir\\aria2.session");
         // 有下载任务则第一时间初始化
-        if (await sessionFile.exists() && (await sessionFile.readAsString()).trim().isNotEmpty) {
-          dPrint("launch Aria2c daemon");
-          await launchDaemon(appGlobalState.applicationBinaryModuleDir!);
-        } else {
-          dPrint("LazyLoad Aria2c daemon");
-        }
-      } catch (e) {
-        dPrint("Aria2cManager.checkLazyLoad Error:$e");
-      }
+        if (await sessionFile.exists ()
+    && (await sessionFile.readAsString()).trim().isNotEmpty) {
+    dPrint("launch Aria2c daemon");
+    await launchDaemon(appGlobalState.applicationBinaryModuleDir!);
+    } else {
+    dPrint("LazyLoad Aria2c daemon");
+    }
+    } catch (e) {
+    dPrint("Aria2cManager.checkLazyLoad Error:$e");
+    }
     }();
 
     return Aria2cModelState(aria2cDir: aria2cDir);
@@ -212,7 +213,9 @@ class Aria2cModel extends _$Aria2cModel {
     if (aria2c == null) return false;
     for (var value in [...await aria2c.tellActive(), ...await aria2c.tellWaiting(0, 100000)]) {
       final t = HomeDownloaderUIModel.getTaskTypeAndName(value);
-      return (t.key == "torrent" && t.value.contains(name));
+      if (t.key == "torrent" && t.value.contains(name)) {
+        return true;
+      }
     }
     return false;
   }

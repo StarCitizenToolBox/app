@@ -171,7 +171,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     if (state.isEnableAutoTranslate) {
       if (_translateTimer != null) _translateTimer?.cancel();
       state = state.copyWith(isAutoTranslateWorking: true);
-      _translateTimer = Timer(Duration(milliseconds: webMessage ? 1 : 400), () async {
+      _translateTimer = Timer(Duration(milliseconds: webMessage ? 150 : 400), () async {
         try {
           final inputText = sourceText.replaceAll("\n", " ");
           final r = await doTranslateText(inputText);
