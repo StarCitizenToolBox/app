@@ -126,8 +126,8 @@ class App extends HookConsumerWidget with WindowListener {
           }
         }
       }
+      await windowManager.setPreventClose(false);
       await windowManager.close();
-      await windowManager.destroy();
       exit(0);
     }
     super.onWindowClose();
