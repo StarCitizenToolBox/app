@@ -77,7 +77,7 @@ class MultiWindowManager {
       ),
     );
     await Future.delayed(Duration(milliseconds: 500)).then((_) async {
-      await controller.setFrame(const Rect.fromLTWH(0, 0, 800, 1200));
+      await controller.setFrame(const Rect.fromLTWH(0, 0, 720, 800));
       await controller.setTitle(title);
       await controller.center();
       await controller.show();

@@ -195,7 +195,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     }
   }
 
-  String get _localTranslateModelName => "opus-mt-zh-en_onnx";
+  String get _localTranslateModelName => "Opus-MT-StarCitizen-zh-en";
 
   String get _localTranslateModelDir => "${appGlobalState.applicationSupportDir}/onnx_models";
 

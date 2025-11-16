@@ -393,11 +393,11 @@ mod tests {
     #[test]
     fn test_translation() {
         let model = OpusMtModel::new(
-            "C:\\Users\\xkeyc\\Downloads\\onnx_models\\opus-mt-zh-en",
+            "E:\\Project\\StarCtizen\\Opus-MT-StarCitizen\\results\\final_model",
             "_q4f16",
         )
         .unwrap();
-        let result = model.translate("你好世界").unwrap();
+        let result = model.translate("北极星要炸了，快撤！").unwrap();
         println!("Translation: {}", result);
     }
 }

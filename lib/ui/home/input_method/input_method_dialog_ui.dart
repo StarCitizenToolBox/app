@@ -29,133 +29,135 @@ class InputMethodDialogUI extends HookConsumerWidget {
     }, const []);
 
     return ContentDialog(
-      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .8),
+      constraints: BoxConstraints(maxWidth: MediaQuery
+          .of(context)
+          .size
+          .width * .8),
       title: makeTitle(context, state, model, destTextCtrl),
       content: state.keyMaps == null
           ? makeLoading(context)
           : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 12),
-                InfoBar(
-                  title: Text(S.current.input_method_usage_instructions),
-                  content: Text(S.current.input_method_input_text_instructions),
-                ),
-                SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.all(3),
-                        child: Text(
-                          S.current.input_method_online_version_prompt,
-                          style: TextStyle(color: Color(0xff4ca0e0), fontSize: 12),
-                        ),
-                      ),
-                      onTap: () {
-                        launchUrlString("https://ime.citizenwiki.cn/");
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12),
-                TextFormBox(
-                  placeholder: state.isEnableAutoTranslate
-                      ? "${S.current.input_method_input_placeholder}\n\n本地翻译模型对中英混合处理能力较差，如有需要，建议分开发送。"
-                      : S.current.input_method_input_placeholder,
-                  controller: srcTextCtrl,
-                  maxLines: 5,
-                  placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                  onChanged: (str) async {
-                    final text = model.onTextChange("src", str);
-                    destTextCtrl.text = text ?? "";
-                    if (text != null) {
-                      model.checkAutoTranslate();
-                    }
-                  },
-                ),
-                SizedBox(height: 16),
-                Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (state.isAutoTranslateWorking)
-                        SizedBox(width: 24, height: 24, child: ProgressRing())
-                      else
-                        SizedBox(width: 24, height: 24, child: Icon(FluentIcons.down)),
-                    ],
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 12),
+          InfoBar(
+            title: Text(S.current.input_method_usage_instructions),
+            content: Text(S.current.input_method_input_text_instructions),
+          ),
+          SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Text(
+                    S.current.input_method_online_version_prompt,
+                    style: TextStyle(color: Color(0xff4ca0e0), fontSize: 12),
                   ),
                 ),
-                SizedBox(height: 16),
-                TextFormBox(
-                  placeholder: S.current.input_method_encoded_text_placeholder,
-                  controller: destTextCtrl,
-                  maxLines: 5,
-                  placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                  enabled: true,
-                  onChanged: (str) {},
-                ),
-                SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Row(
-                      children: [
-                        Text(S.current.input_method_auto_translate),
-                        SizedBox(width: 6),
-                        ToggleSwitch(
-                          checked: state.isEnableAutoTranslate,
-                          onChanged: (b) => _onSwitchAutoTranslate(context, model, b),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 24),
-                    Row(
-                      children: [
-                        Text(S.current.input_method_remote_input_service),
-                        SizedBox(width: 6),
-                        if (serverState.isServerStartup)
-                          Button(
-                            onPressed: () {
-                              showDialog(context: context, builder: (BuildContext context) => ServerQrDialogUI());
-                            },
-                            child: Text(serverState.serverAddressText ?? "...", style: TextStyle(fontSize: 14)),
-                          ),
-                        SizedBox(width: 14),
-                        ToggleSwitch(
-                          checked: serverState.isServerStartup,
-                          onChanged: (b) => _onSwitchServer(context, b, serverModel),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 24),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        textAlign: TextAlign.end,
-                        S.current.input_method_disclaimer,
-                        style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .6)),
-                      ),
-                    ),
-                  ],
-                ),
+                onTap: () {
+                  launchUrlString("https://ime.citizenwiki.cn/");
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+          TextFormBox(
+            placeholder: state.isEnableAutoTranslate
+                ? "${S.current
+                .input_method_input_placeholder}\n\n本地翻译模型对中英混合处理能力较差，如有需要，建议分开发送。"
+                : S.current.input_method_input_placeholder,
+            controller: srcTextCtrl,
+            maxLines: 5,
+            placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
+            style: TextStyle(fontSize: 16, color: Colors.white),
+            onChanged: (str) async {
+              final text = model.onTextChange("src", str);
+              destTextCtrl.text = text ?? "";
+              if (text != null) {
+                model.checkAutoTranslate();
+              }
+            },
+          ),
+          SizedBox(height: 16),
+          Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (state.isAutoTranslateWorking)
+                  SizedBox(width: 24, height: 24, child: ProgressRing())
+                else
+                  SizedBox(width: 24, height: 24, child: Icon(FluentIcons.down)),
               ],
             ),
+          ),
+          SizedBox(height: 16),
+          TextFormBox(
+            placeholder: S.current.input_method_encoded_text_placeholder,
+            controller: destTextCtrl,
+            maxLines: 5,
+            placeholderStyle: TextStyle(color: Colors.white.withValues(alpha: .6)),
+            style: TextStyle(fontSize: 16, color: Colors.white),
+            enabled: true,
+            onChanged: (str) {},
+          ),
+          SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
+                children: [
+                  Text(S.current.input_method_auto_translate),
+                  SizedBox(width: 6),
+                  ToggleSwitch(
+                    checked: state.isEnableAutoTranslate,
+                    onChanged: (b) => _onSwitchAutoTranslate(context, model, b),
+                  ),
+                ],
+              ),
+              SizedBox(width: 24),
+              Row(
+                children: [
+                  Text(S.current.input_method_remote_input_service),
+                  SizedBox(width: 6),
+                  if (serverState.isServerStartup)
+                    Button(
+                      onPressed: () {
+                        showDialog(context: context, builder: (BuildContext context) => ServerQrDialogUI());
+                      },
+                      child: Text(serverState.serverAddressText ?? "...", style: TextStyle(fontSize: 14)),
+                    ),
+                  SizedBox(width: 14),
+                  ToggleSwitch(
+                    checked: serverState.isServerStartup,
+                    onChanged: (b) => _onSwitchServer(context, b, serverModel),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  textAlign: TextAlign.end,
+                  S.current.input_method_disclaimer,
+                  style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .6)),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget makeTitle(
-    BuildContext context,
-    InputMethodDialogUIState state,
-    InputMethodDialogUIModel model,
-    TextEditingController destTextCtrl,
-  ) {
+  Widget makeTitle(BuildContext context,
+      InputMethodDialogUIState state,
+      InputMethodDialogUIModel model,
+      TextEditingController destTextCtrl,) {
     return Row(
       children: [
         IconButton(
@@ -223,8 +225,8 @@ class InputMethodDialogUI extends HookConsumerWidget {
           "是否下载 AI 模型以使用翻译功能？",
           Text(
             "大约需要 200MB 的本地空间。"
-            "\n\n我们使用本地模型进行翻译，您的翻译数据不会发送给任何第三方。"
-            "\n\n模型未对游戏术语优化，请自行判断使用。",
+                "\n\n我们使用本地模型进行翻译，您的翻译数据不会发送给任何第三方。"
+                "\n\nOpus-MT-StarCitizen-zh-en 是汉化盒子团队基于 Opus-MT 模型微调得到的模型，对游戏术语进行了优化。",
           ),
         );
         if (userOK) {
