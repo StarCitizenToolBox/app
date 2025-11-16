@@ -286,7 +286,11 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
       dPrint("[InputMethodDialogUIModel] mountOnnxTranslationProvider failed to init model");
       if (context != null) {
         if (!context.mounted) return;
-        final userOK = await showConfirmDialogs(context, "翻译模型加载失败", Text("是否删除本地文件，稍后您可以尝试重新下载。错误信息：\n$err"));
+        final userOK = await showConfirmDialogs(
+          context,
+          S.current.input_method_auto_translate_model_load_failed_title,
+          Text(S.current.input_method_auto_translate_model_load_failed_content(err)),
+        );
         if (userOK) {
           // 删除文件，并禁用开关
           final dir = Directory("$_localTranslateModelDir/$_localTranslateModelName");

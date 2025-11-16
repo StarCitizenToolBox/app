@@ -337,7 +337,7 @@ class HomeUI extends HookConsumerWidget {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              "${index + 1}. ${(item?.title ?? "").replaceAll("【寰宇周刊】", "")}",
+                                              "${index + 1}. ${(item?.title ?? "").replaceAll(NoL10n.aniCatTitle, "")}",
                                               style: TextStyle(fontSize: 12),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,

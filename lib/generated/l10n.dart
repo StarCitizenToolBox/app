@@ -5280,23 +5280,73 @@ class S {
     );
   }
 
-  /// `Enable bilingual translation?`
+  /// `Download AI model to use translation function?`
   String get input_method_auto_translate_dialog_title {
     return Intl.message(
-      'Enable bilingual translation?',
+      'Download AI model to use translation function?',
       name: 'input_method_auto_translate_dialog_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `When enabled, Google Translate service will be used to add English subtitles to your input content, which may cause response lag. If the feature is abnormal, please turn it off.\n\nText will be forwarded to Google servers, please refer to Google's privacy policy.`
+  /// `Approximately 200MB of local space is required.\n\nWe use a local model for translation; your translation data will not be sent to any third party.\n\nOpus-MT-StarCitizen is a model fine-tuned by the Chinese localization team based on the Opus-MT model, optimized for game terminology.`
   String get input_method_auto_translate_dialog_title_content {
     return Intl.message(
-      'When enabled, Google Translate service will be used to add English subtitles to your input content, which may cause response lag. If the feature is abnormal, please turn it off.\n\nText will be forwarded to Google servers, please refer to Google\'s privacy policy.',
+      'Approximately 200MB of local space is required.\n\nWe use a local model for translation; your translation data will not be sent to any third party.\n\nOpus-MT-StarCitizen is a model fine-tuned by the Chinese localization team based on the Opus-MT model, optimized for game terminology.',
       name: 'input_method_auto_translate_dialog_title_content',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Download has started. Please re-enable the translation function after the model download is complete.`
+  String get input_method_auto_translate_model_download_start {
+    return Intl.message(
+      'Download has started. Please re-enable the translation function after the model download is complete.',
+      name: 'input_method_auto_translate_model_download_start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0}\n\nThe local translation model has poor handling of mixed Chinese and English; if needed, it is recommended to send them separately.`
+  String input_method_auto_translate_model_tips(Object v0) {
+    return Intl.message(
+      '$v0\n\nThe local translation model has poor handling of mixed Chinese and English; if needed, it is recommended to send them separately.',
+      name: 'input_method_auto_translate_model_tips',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Model is downloading, please wait...`
+  String get input_method_auto_translate_model_tips_downloading_tips {
+    return Intl.message(
+      'Model is downloading, please wait...',
+      name: 'input_method_auto_translate_model_tips_downloading_tips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Translation model loading failed`
+  String get input_method_auto_translate_model_load_failed_title {
+    return Intl.message(
+      'Translation model loading failed',
+      name: 'input_method_auto_translate_model_load_failed_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete the local file? You can try downloading it again later. Error message:\n{v0}`
+  String input_method_auto_translate_model_load_failed_content(Object v0) {
+    return Intl.message(
+      'Delete the local file? You can try downloading it again later. Error message:\n$v0',
+      name: 'input_method_auto_translate_model_load_failed_content',
+      desc: '',
+      args: [v0],
     );
   }
 

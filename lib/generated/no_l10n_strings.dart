@@ -6,4 +6,6 @@ class NoL10n {
   static const String langFR = 'Français';
   static const String langRU = 'Русский';
   static const String langCodeZhCn = 'zh_CN';
+
+  static const String aniCatTitle = '【寰宇周刊】';
 }
