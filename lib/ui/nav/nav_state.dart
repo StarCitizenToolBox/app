@@ -33,8 +33,10 @@ class Nav extends _$Nav {
     if (!_mounted) return;
     try {
       final r = await UDBNavApi.getNavItems(pageNo: pageNo);
+      if (!_mounted) return;
       state = state.copyWith(items: r.docs, errorInfo: "");
     } catch (e) {
+      if (!_mounted) return;
       state = state.copyWith(errorInfo: e.toString());
     }
   }

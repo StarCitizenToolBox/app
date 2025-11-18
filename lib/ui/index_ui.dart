@@ -6,6 +6,7 @@ import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/provider/aria2c.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
+import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
@@ -13,6 +14,7 @@ import 'package:window_manager/window_manager.dart';
 import 'about/about_ui.dart';
 import 'home/home_ui.dart';
 import 'nav/nav_ui.dart';
+import 'party_room/party_room_ui_model.dart';
 import 'settings/settings_ui.dart';
 import 'tools/tools_ui.dart';
 
@@ -21,58 +23,52 @@ class IndexUI extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(appGlobalModelProvider);
     // pre init child
+
     ref.watch(homeUIModelProvider.select((value) => null));
     ref.watch(settingsUIModelProvider.select((value) => null));
-    ref.watch(appGlobalModelProvider);
+    ref.watch(partyRoomUIModelProvider.select((value) => null));
 
     final curIndex = useState(0);
     return NavigationView(
       appBar: NavigationAppBar(
-          automaticallyImplyLeading: false,
-          title: () {
-            return DragToMoveArea(
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Row(
-                  children: [
-                    Image.asset(
-                      "assets/app_logo_mini.png",
-                      width: 20,
-                      height: 20,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
-                  ],
-                ),
+        automaticallyImplyLeading: false,
+        title: () {
+          return DragToMoveArea(
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Row(
+                children: [
+                  Image.asset("assets/app_logo_mini.png", width: 20, height: 20, fit: BoxFit.cover),
+                  const SizedBox(width: 12),
+                  Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
+                ],
               ),
-            );
-          }(),
-          actions: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                icon: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: Icon(
-                        FluentIcons.installation,
-                        size: 22,
-                        color: Colors.white.withValues(alpha: .6),
-                      ),
-                    ),
-                    _makeAria2TaskNumWidget()
-                  ],
-                ),
-                onPressed: () => _goDownloader(context),
-                // onPressed: model.goDownloader
+            ),
+          );
+        }(),
+        actions: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            IconButton(
+              icon: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Icon(FluentIcons.installation, size: 22, color: Colors.white.withValues(alpha: .6)),
+                  ),
+                  _makeAria2TaskNumWidget(),
+                ],
               ),
-              const SizedBox(width: 24),
-              const WindowButtons()
-            ],
-          )),
+              onPressed: () => _goDownloader(context),
+              // onPressed: model.goDownloader
+            ),
+            const SizedBox(width: 24),
+            const WindowButtons(),
+          ],
+        ),
+      ),
       pane: NavigationPane(
         key: Key("NavigationPane_${S.current.app_language_code}"),
         selected: curIndex.value,
@@ -86,21 +82,13 @@ class IndexUI extends HookConsumerWidget {
   }
 
   Map<IconData, (String, Widget)> get pageMenus => {
-        FluentIcons.home: (
-          S.current.app_index_menu_home,
-          const HomeUI(),
-        ),
-        FluentIcons.toolbox: (
-          S.current.app_index_menu_tools,
-          const ToolsUI(),
-        ),
-        FluentIcons.power_apps: ((S.current.nav_title), const NavUI()),
-        FluentIcons.settings: (S.current.app_index_menu_settings, const SettingsUI()),
-        FluentIcons.info: (
-          S.current.app_index_menu_about,
-          const AboutUI(),
-        ),
-      };
+    FluentIcons.home: (S.current.app_index_menu_home, const HomeUI()),
+    FluentIcons.game: (S.current.app_index_menu_lobby, const PartyRoomUI()),
+    FluentIcons.toolbox: (S.current.app_index_menu_tools, const ToolsUI()),
+    FluentIcons.power_apps: ((S.current.nav_title), const NavUI()),
+    FluentIcons.settings: (S.current.app_index_menu_settings, const SettingsUI()),
+    FluentIcons.info: (S.current.app_index_menu_about, const AboutUI()),
+  };
 
   List<NavigationPaneItem> getNavigationPaneItems(ValueNotifier<int> curIndexState) {
     // width = 64
@@ -116,10 +104,7 @@ class IndexUI extends HookConsumerWidget {
                 children: [
                   Icon(kv.key, size: 18),
                   const SizedBox(height: 3),
-                  Text(
-                    kv.value.$1,
-                    style: const TextStyle(fontSize: 11),
-                  )
+                  Text(kv.value.$1, style: const TextStyle(fontSize: 11)),
                 ],
               ),
             ),
@@ -144,22 +129,14 @@ class IndexUI extends HookConsumerWidget {
           return const SizedBox();
         }
         return Positioned(
-            bottom: 0,
-            right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.only(left: 6, right: 6, bottom: 1.5, top: 1.5),
-              child: Text(
-                "${aria2cState.aria2TotalTaskNum}",
-                style: const TextStyle(
-                  fontSize: 8,
-                  color: Colors.white,
-                ),
-              ),
-            ));
+          bottom: 0,
+          right: 0,
+          child: Container(
+            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)),
+            padding: const EdgeInsets.only(left: 6, right: 6, bottom: 1.5, top: 1.5),
+            child: Text("${aria2cState.aria2TotalTaskNum}", style: const TextStyle(fontSize: 8, color: Colors.white)),
+          ),
+        );
       },
     );
   }

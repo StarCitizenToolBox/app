@@ -32,6 +32,13 @@ class URLConf {
 
   static String get devReleaseUrl => "$gitApiHome/SCToolBox/Release/releases";
 
+  /// PartyRoom Server
+  static const String partyRoomServerAddress = "localhost";
+  static const int partyRoomServerPort = 50051;
+  
+  /// RSI Avatar Base URL
+  static const String rsiAvatarBaseUrl = "https://robertsspaceindustries.com";
+
   static Future<bool> checkHost() async {
     // 使用 DNS 获取可用列表
     final gitApiList = _genFinalList(await dnsLookupTxt("git.dns.scbox.org"));

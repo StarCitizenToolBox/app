@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'nav_state.dart';
+part of 'party_room_ui_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,52 @@ part of 'nav_state.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Nav)
-const navProvider = NavProvider._();
+@ProviderFor(PartyRoomUIModel)
+const partyRoomUIModelProvider = PartyRoomUIModelProvider._();
 
-final class NavProvider extends $NotifierProvider<Nav, NavState> {
-  const NavProvider._()
+final class PartyRoomUIModelProvider
+    extends $NotifierProvider<PartyRoomUIModel, PartyRoomUIState> {
+  const PartyRoomUIModelProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'navProvider',
+        name: r'partyRoomUIModelProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$navHash();
+  String debugGetCreateSourceHash() => _$partyRoomUIModelHash();
 
   @$internal
   @override
-  Nav create() => Nav();
+  PartyRoomUIModel create() => PartyRoomUIModel();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(NavState value) {
+  Override overrideWithValue(PartyRoomUIState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<NavState>(value),
+      providerOverride: $SyncValueProvider<PartyRoomUIState>(value),
     );
   }
 }
 
-String _$navHash() => r'bd3773505d6ae53f577ac6f3bfe711b320faa524';
+String _$partyRoomUIModelHash() => r'262069d02bbc7d76fe6797c6c744bdf848122492';
 
-abstract class _$Nav extends $Notifier<NavState> {
-  NavState build();
+abstract class _$PartyRoomUIModel extends $Notifier<PartyRoomUIState> {
+  PartyRoomUIState build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<NavState, NavState>;
+    final ref = this.ref as $Ref<PartyRoomUIState, PartyRoomUIState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<NavState, NavState>,
-              NavState,
+              AnyNotifier<PartyRoomUIState, PartyRoomUIState>,
+              PartyRoomUIState,
               Object?,
               Object?
             >;
