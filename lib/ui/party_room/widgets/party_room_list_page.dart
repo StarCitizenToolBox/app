@@ -1,11 +1,14 @@
 import 'dart:ui';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:local_hero/local_hero.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
+import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/widgets/create_room_dialog.dart';
@@ -86,6 +89,53 @@ class PartyRoomListPage extends HookConsumerWidget {
           Expanded(child: _buildRoomList(context, ref, uiState, partyRoom, scrollController)),
         ],
       ),
+      bottomBar: _buildFloatingRoomButton(context, ref, partyRoomState),
+    );
+  }
+
+  Widget? _buildFloatingRoomButton(BuildContext context, WidgetRef ref, PartyRoomFullState partyRoomState) {
+    if (!partyRoomState.room.isInRoom || partyRoomState.room.currentRoom == null) {
+      return null;
+    }
+
+    final currentRoom = partyRoomState.room.currentRoom!;
+    final owner = partyRoomState.room.members.firstWhere(
+      (m) => m.gameUserId == currentRoom.ownerGameId,
+      orElse: () => RoomMember(),
+    );
+    final avatarUrl = owner.avatarUrl.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${owner.avatarUrl}' : '';
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      alignment: Alignment.bottomRight,
+      child: Tooltip(
+        message: '返回当前房间',
+        child: GestureDetector(
+          onTap: () {
+            ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
+          },
+          child: LocalHero(
+            tag: 'party_room_detail_hero',
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: const Color(0xFF2D2D2D),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4)),
+                ],
+                border: Border.all(color: const Color(0xFF4A9EFF), width: 2),
+              ),
+              child: ClipOval(
+                child: avatarUrl.isNotEmpty
+                    ? CacheNetImage(url: avatarUrl, fit: BoxFit.cover)
+                    : const Icon(FluentIcons.group, color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -102,7 +152,7 @@ class PartyRoomListPage extends HookConsumerWidget {
       value: uiState.selectedMainTagId,
       items: [
         const ComboBoxItem(value: null, child: Text('全部标签')),
-        ...tags.map((tag) => ComboBoxItem(value: tag.id, child: Text(tag.name))),
+        ...tags.values.map((tag) => ComboBoxItem(value: tag.id, child: Text(tag.name))),
       ],
       onChanged: (value) {
         ref.read(partyRoomUIModelProvider.notifier).setSelectedMainTagId(value);
@@ -189,6 +239,8 @@ class PartyRoomListPage extends HookConsumerWidget {
 
   Widget _buildRoomCard(BuildContext context, WidgetRef ref, PartyRoom partyRoom, dynamic room, int index) {
     final avatarUrl = room.ownerAvatar.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${room.ownerAvatar}' : '';
+    final partyRoomState = ref.watch(partyRoomProvider);
+    final isCurrentRoom = partyRoomState.room.isInRoom && partyRoomState.room.roomUuid == room.roomUuid;
 
     return GridItemAnimator(
       index: index,
@@ -197,6 +249,7 @@ class PartyRoomListPage extends HookConsumerWidget {
         child: Tilt(
           shadowConfig: const ShadowConfig(maxIntensity: .3),
           borderRadius: BorderRadius.circular(12),
+          border: isCurrentRoom ? Border.all(color: Colors.green, width: 2) : null,
           clipBehavior: Clip.hardEdge,
           child: Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
@@ -234,7 +287,9 @@ class PartyRoomListPage extends HookConsumerWidget {
                           CircleAvatar(
                             radius: 24,
                             backgroundColor: const Color(0xFF4A9EFF).withValues(alpha: 0.5),
-                            backgroundImage: avatarUrl.isNotEmpty ? NetworkImage(avatarUrl) : null,
+                            backgroundImage: avatarUrl.isNotEmpty
+                                ? ExtendedNetworkImageProvider(avatarUrl, cache: true)
+                                : null,
                             child: avatarUrl.isEmpty ? const Icon(FluentIcons.contact, color: Colors.white) : null,
                           ),
                           const SizedBox(width: 12),
@@ -332,29 +387,68 @@ class PartyRoomListPage extends HookConsumerWidget {
   }
 
   Future<void> _joinRoom(BuildContext context, WidgetRef ref, PartyRoom partyRoom, dynamic room) async {
+    final partyRoomState = ref.read(partyRoomProvider);
+
+    // 如果已经在房间中
+    if (partyRoomState.room.isInRoom) {
+      // 如果点击的是当前房间，直接返回
+      if (partyRoomState.room.roomUuid == room.roomUuid) {
+        ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
+        return;
+      }
+
+      // 如果点击的是其他房间，提示用户
+      if (context.mounted) {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (context) => ContentDialog(
+            title: const Text('切换房间'),
+            content: const Text('你已经在其他房间中，加入新房间将自动退出当前房间。是否继续？'),
+            actions: [
+              Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+              FilledButton(child: const Text('继续'), onPressed: () => Navigator.pop(context, true)),
+            ],
+          ),
+        );
+
+        if (confirmed != true) return;
+      } else {
+        return;
+      }
+
+      // 退出当前房间
+      await partyRoom.leaveRoom();
+    }
+
     String? password;
 
     if (room.hasPassword) {
-      password = await showDialog<String>(
-        context: context,
-        builder: (context) {
-          final passwordController = TextEditingController();
-          return ContentDialog(
-            title: const Text('输入房间密码'),
-            content: TextBox(controller: passwordController, placeholder: '请输入密码', obscureText: true),
-            actions: [
-              Button(child: const Text('取消'), onPressed: () => Navigator.pop(context)),
-              FilledButton(child: const Text('加入'), onPressed: () => Navigator.pop(context, passwordController.text)),
-            ],
-          );
-        },
-      );
+      if (context.mounted) {
+        password = await showDialog<String>(
+          context: context,
+          builder: (context) {
+            final passwordController = TextEditingController();
+            return ContentDialog(
+              title: const Text('输入房间密码'),
+              content: TextBox(controller: passwordController, placeholder: '请输入密码', obscureText: true),
+              actions: [
+                Button(child: const Text('取消'), onPressed: () => Navigator.pop(context)),
+                FilledButton(child: const Text('加入'), onPressed: () => Navigator.pop(context, passwordController.text)),
+              ],
+            );
+          },
+        );
+      } else {
+        return;
+      }
 
       if (password == null) return;
     }
 
     try {
       await partyRoom.joinRoom(room.roomUuid, password: password);
+      // 加入成功后，确保不处于最小化状态
+      ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
     } catch (e) {
       if (context.mounted) {
         await showDialog(

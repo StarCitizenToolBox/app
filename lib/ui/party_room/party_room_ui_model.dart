@@ -28,6 +28,7 @@ sealed class PartyRoomUIState with _$PartyRoomUIState {
     @Default('') String registerGameUserId,
     @Default(false) bool isReconnecting,
     @Default(0) int reconnectAttempts,
+    @Default(false) bool isMinimized,
   }) = _PartyRoomUIState;
 }
 
@@ -40,6 +41,11 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
     state = const PartyRoomUIState();
     ref.listen(partyRoomProvider, (previous, next) {
       _handleConnectionStateChange(previous, next);
+
+      // 如果房间被解散或离开房间，重置最小化状态
+      if (previous?.room.isInRoom == true && !next.room.isInRoom) {
+        state = state.copyWith(isMinimized: false);
+      }
     });
 
     connectToServer();
@@ -258,5 +264,9 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
   void dismissRoom() {
     ref.read(partyRoomProvider.notifier).dismissRoom();
     ref.read(partyRoomProvider.notifier).loadTags();
+  }
+
+  void setMinimized(bool minimized) {
+    state = state.copyWith(isMinimized: minimized);
   }
 }

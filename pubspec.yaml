@@ -36,6 +36,7 @@ dependencies:
   markdown: ^7.3.0
   markdown_widget: ^2.3.2+8
   extended_image: ^10.0.1
+  local_hero: ^0.3.0
   device_info_plus: ^12.2.0
   file_picker: ^10.3.6
   file_sizes: ^1.0.6

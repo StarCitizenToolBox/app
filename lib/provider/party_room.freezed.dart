@@ -277,7 +277,7 @@ as DateTime?,
 /// @nodoc
 mixin _$PartyRoomState {
 
- partroom.RoomInfo? get currentRoom; List<partroom.RoomMember> get members; List<common.Tag> get tags; List<common.SignalType> get signalTypes; bool get isInRoom; bool get isOwner; String? get roomUuid; List<partroom.RoomEvent> get recentEvents;
+ partroom.RoomInfo? get currentRoom; List<partroom.RoomMember> get members; Map<String, common.Tag> get tags; Map<String, common.SignalType> get signalTypes; bool get isInRoom; bool get isOwner; String? get roomUuid; List<partroom.RoomEvent> get recentEvents;
 /// Create a copy of PartyRoomState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -308,7 +308,7 @@ abstract mixin class $PartyRoomStateCopyWith<$Res>  {
   factory $PartyRoomStateCopyWith(PartyRoomState value, $Res Function(PartyRoomState) _then) = _$PartyRoomStateCopyWithImpl;
 @useResult
 $Res call({
- partroom.RoomInfo? currentRoom, List<partroom.RoomMember> members, List<common.Tag> tags, List<common.SignalType> signalTypes, bool isInRoom, bool isOwner, String? roomUuid, List<partroom.RoomEvent> recentEvents
+ partroom.RoomInfo? currentRoom, List<partroom.RoomMember> members, Map<String, common.Tag> tags, Map<String, common.SignalType> signalTypes, bool isInRoom, bool isOwner, String? roomUuid, List<partroom.RoomEvent> recentEvents
 });
 
 
@@ -330,8 +330,8 @@ class _$PartyRoomStateCopyWithImpl<$Res>
 currentRoom: freezed == currentRoom ? _self.currentRoom : currentRoom // ignore: cast_nullable_to_non_nullable
 as partroom.RoomInfo?,members: null == members ? _self.members : members // ignore: cast_nullable_to_non_nullable
 as List<partroom.RoomMember>,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
-as List<common.Tag>,signalTypes: null == signalTypes ? _self.signalTypes : signalTypes // ignore: cast_nullable_to_non_nullable
-as List<common.SignalType>,isInRoom: null == isInRoom ? _self.isInRoom : isInRoom // ignore: cast_nullable_to_non_nullable
+as Map<String, common.Tag>,signalTypes: null == signalTypes ? _self.signalTypes : signalTypes // ignore: cast_nullable_to_non_nullable
+as Map<String, common.SignalType>,isInRoom: null == isInRoom ? _self.isInRoom : isInRoom // ignore: cast_nullable_to_non_nullable
 as bool,isOwner: null == isOwner ? _self.isOwner : isOwner // ignore: cast_nullable_to_non_nullable
 as bool,roomUuid: freezed == roomUuid ? _self.roomUuid : roomUuid // ignore: cast_nullable_to_non_nullable
 as String?,recentEvents: null == recentEvents ? _self.recentEvents : recentEvents // ignore: cast_nullable_to_non_nullable
@@ -417,7 +417,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  List<common.Tag> tags,  List<common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PartyRoomState() when $default != null:
 return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents);case _:
@@ -438,7 +438,7 @@ return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  List<common.Tag> tags,  List<common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)  $default,) {final _that = this;
 switch (_that) {
 case _PartyRoomState():
 return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents);}
@@ -455,7 +455,7 @@ return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  List<common.Tag> tags,  List<common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)?  $default,) {final _that = this;
 switch (_that) {
 case _PartyRoomState() when $default != null:
 return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents);case _:
@@ -470,7 +470,7 @@ return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_th
 
 
 class _PartyRoomState implements PartyRoomState {
-  const _PartyRoomState({this.currentRoom, final  List<partroom.RoomMember> members = const [], final  List<common.Tag> tags = const [], final  List<common.SignalType> signalTypes = const [], this.isInRoom = false, this.isOwner = false, this.roomUuid, final  List<partroom.RoomEvent> recentEvents = const []}): _members = members,_tags = tags,_signalTypes = signalTypes,_recentEvents = recentEvents;
+  const _PartyRoomState({this.currentRoom, final  List<partroom.RoomMember> members = const [], final  Map<String, common.Tag> tags = const {}, final  Map<String, common.SignalType> signalTypes = const {}, this.isInRoom = false, this.isOwner = false, this.roomUuid, final  List<partroom.RoomEvent> recentEvents = const []}): _members = members,_tags = tags,_signalTypes = signalTypes,_recentEvents = recentEvents;
   
 
 @override final  partroom.RoomInfo? currentRoom;
@@ -481,18 +481,18 @@ class _PartyRoomState implements PartyRoomState {
   return EqualUnmodifiableListView(_members);
 }
 
- final  List<common.Tag> _tags;
-@override@JsonKey() List<common.Tag> get tags {
-  if (_tags is EqualUnmodifiableListView) return _tags;
+ final  Map<String, common.Tag> _tags;
+@override@JsonKey() Map<String, common.Tag> get tags {
+  if (_tags is EqualUnmodifiableMapView) return _tags;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_tags);
+  return EqualUnmodifiableMapView(_tags);
 }
 
- final  List<common.SignalType> _signalTypes;
-@override@JsonKey() List<common.SignalType> get signalTypes {
-  if (_signalTypes is EqualUnmodifiableListView) return _signalTypes;
+ final  Map<String, common.SignalType> _signalTypes;
+@override@JsonKey() Map<String, common.SignalType> get signalTypes {
+  if (_signalTypes is EqualUnmodifiableMapView) return _signalTypes;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_signalTypes);
+  return EqualUnmodifiableMapView(_signalTypes);
 }
 
 @override@JsonKey() final  bool isInRoom;
@@ -536,7 +536,7 @@ abstract mixin class _$PartyRoomStateCopyWith<$Res> implements $PartyRoomStateCo
   factory _$PartyRoomStateCopyWith(_PartyRoomState value, $Res Function(_PartyRoomState) _then) = __$PartyRoomStateCopyWithImpl;
 @override @useResult
 $Res call({
- partroom.RoomInfo? currentRoom, List<partroom.RoomMember> members, List<common.Tag> tags, List<common.SignalType> signalTypes, bool isInRoom, bool isOwner, String? roomUuid, List<partroom.RoomEvent> recentEvents
+ partroom.RoomInfo? currentRoom, List<partroom.RoomMember> members, Map<String, common.Tag> tags, Map<String, common.SignalType> signalTypes, bool isInRoom, bool isOwner, String? roomUuid, List<partroom.RoomEvent> recentEvents
 });
 
 
@@ -558,8 +558,8 @@ class __$PartyRoomStateCopyWithImpl<$Res>
 currentRoom: freezed == currentRoom ? _self.currentRoom : currentRoom // ignore: cast_nullable_to_non_nullable
 as partroom.RoomInfo?,members: null == members ? _self._members : members // ignore: cast_nullable_to_non_nullable
 as List<partroom.RoomMember>,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
-as List<common.Tag>,signalTypes: null == signalTypes ? _self._signalTypes : signalTypes // ignore: cast_nullable_to_non_nullable
-as List<common.SignalType>,isInRoom: null == isInRoom ? _self.isInRoom : isInRoom // ignore: cast_nullable_to_non_nullable
+as Map<String, common.Tag>,signalTypes: null == signalTypes ? _self._signalTypes : signalTypes // ignore: cast_nullable_to_non_nullable
+as Map<String, common.SignalType>,isInRoom: null == isInRoom ? _self.isInRoom : isInRoom // ignore: cast_nullable_to_non_nullable
 as bool,isOwner: null == isOwner ? _self.isOwner : isOwner // ignore: cast_nullable_to_non_nullable
 as bool,roomUuid: freezed == roomUuid ? _self.roomUuid : roomUuid // ignore: cast_nullable_to_non_nullable
 as String?,recentEvents: null == recentEvents ? _self._recentEvents : recentEvents // ignore: cast_nullable_to_non_nullable

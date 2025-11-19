@@ -33,8 +33,8 @@ sealed class PartyRoomState with _$PartyRoomState {
   const factory PartyRoomState({
     partroom.RoomInfo? currentRoom,
     @Default([]) List<partroom.RoomMember> members,
-    @Default([]) List<common.Tag> tags,
-    @Default([]) List<common.SignalType> signalTypes,
+    @Default({}) Map<String, common.Tag> tags,
+    @Default({}) Map<String, common.SignalType> signalTypes,
     @Default(false) bool isInRoom,
     @Default(false) bool isOwner,
     String? roomUuid,
@@ -249,10 +249,9 @@ class PartyRoom extends _$PartyRoom {
       // 清除本地认证信息
       await _confBox?.delete(_secretKeyKey);
 
-      state = state.copyWith(
-        auth: state.auth.copyWith(secretKey: '', isLoggedIn: false, userInfo: null),
-        room: const PartyRoomState(),
-      );
+      _dismissRoom();
+
+      state = state.copyWith(auth: state.auth.copyWith(secretKey: '', isLoggedIn: false, userInfo: null));
 
       dPrint('[PartyRoom] Unregistered successfully');
     } catch (e) {
@@ -273,13 +272,15 @@ class PartyRoom extends _$PartyRoom {
       final response = await commonClient.getTags(common.GetTagsRequest());
       final signalTypesResponse = await commonClient.getSignalTypes(common.GetSignalTypesRequest());
 
+      // 转换为 Map
+      final tagsMap = {for (var tag in response.tags) tag.id: tag};
+      final signalTypesMap = {for (var signal in signalTypesResponse.signals) signal.id: signal};
+
       state = state.copyWith(
-        room: state.room.copyWith(tags: response.tags, signalTypes: signalTypesResponse.signals),
+        room: state.room.copyWith(tags: tagsMap, signalTypes: signalTypesMap),
       );
 
-      dPrint(
-        '[PartyRoom] Tags and SignalTypes loaded: ${response.tags.length} tags, ${signalTypesResponse.signals.length} signal types',
-      );
+      dPrint('[PartyRoom] Tags and SignalTypes loaded: ${tagsMap.length} tags, ${signalTypesMap.length} signal types');
     } catch (e) {
       dPrint('[PartyRoom] LoadTags error: $e');
       rethrow;
@@ -397,7 +398,7 @@ class PartyRoom extends _$PartyRoom {
       await _stopHeartbeat();
       await _stopEventStream();
 
-      state = state.copyWith(room: const PartyRoomState());
+      _dismissRoom();
 
       dPrint('[PartyRoom] Left room: $roomUuid');
     } catch (e) {
@@ -420,7 +421,7 @@ class PartyRoom extends _$PartyRoom {
       await _stopHeartbeat();
       await _stopEventStream();
 
-      state = state.copyWith(room: const PartyRoomState());
+      _dismissRoom();
 
       dPrint('[PartyRoom] Dismissed room: $roomUuid');
     } catch (e) {
@@ -616,9 +617,8 @@ class PartyRoom extends _$PartyRoom {
       if (roomUuid == null) return;
 
       // 验证信号类型是否有效
-      final validSignalIds = state.room.signalTypes.map((s) => s.id).toList();
-      if (validSignalIds.isNotEmpty && !validSignalIds.contains(signalId)) {
-        throw Exception('Invalid signal ID: $signalId. Valid IDs: ${validSignalIds.join(", ")}');
+      if (state.room.signalTypes.isNotEmpty && !state.room.signalTypes.containsKey(signalId)) {
+        throw Exception('Invalid signal ID: $signalId. Valid IDs: ${state.room.signalTypes.keys.join(", ")}');
       }
 
       final request = partroom.SendSignalRequest(roomUuid: roomUuid, signalId: signalId);
@@ -822,7 +822,7 @@ class PartyRoom extends _$PartyRoom {
         // 房间被解散
         _stopHeartbeat();
         _stopEventStream();
-        state = state.copyWith(room: const PartyRoomState());
+        _dismissRoom();
         break;
 
       case partroom.RoomEventType.SIGNAL_BROADCAST:
@@ -876,6 +876,13 @@ class PartyRoom extends _$PartyRoom {
   }
 
   // ========== 清理 ==========
+
+  /// 重置房间状态（保留 tags 和 signalTypes）
+  void _dismissRoom() {
+    state = state.copyWith(
+      room: PartyRoomState(tags: state.room.tags, signalTypes: state.room.signalTypes),
+    );
+  }
 
   void _cleanup() {
     _stopHeartbeat();

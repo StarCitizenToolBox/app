@@ -20,87 +20,149 @@ class CreateRoomDialog extends HookConsumerWidget {
     final socialLinksController = useTextEditingController();
     final isCreating = useState(false);
 
+    // 获取选中的主标签
+    final selectedMainTagData = selectedMainTag.value != null ? partyRoomState.room.tags[selectedMainTag.value] : null;
+
     return ContentDialog(
-      constraints: const BoxConstraints(maxWidth: 500),
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4),
       title: const Text('创建房间'),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InfoLabel(
-              label: '房间类型',
-              child: ComboBox<String>(
-                placeholder: const Text('选择主标签'),
-                value: selectedMainTag.value,
-                items: partyRoomState.room.tags.map((tag) {
-                  return ComboBoxItem(value: tag.id, child: Text(tag.name));
-                }).toList(),
-                onChanged: (value) {
-                  selectedMainTag.value = value;
-                  selectedSubTag.value = null;
-                },
-              ),
-            ),
-            const SizedBox(height: 12),
+      content: SizedBox(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  InfoLabel(
+                    label: '房间类型',
+                    child: ComboBox<String>(
+                      placeholder: const Text('选择主标签'),
+                      value: selectedMainTag.value,
+                      isExpanded: true,
+                      items: partyRoomState.room.tags.values.map((tag) {
+                        return ComboBoxItem(
+                          value: tag.id,
+                          child: Row(
+                            children: [
+                              if (tag.color.isNotEmpty)
+                                Container(
+                                  width: 12,
+                                  height: 12,
+                                  margin: const EdgeInsets.only(right: 8),
+                                  decoration: BoxDecoration(
+                                    color: _parseColor(tag.color),
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                ),
+                              Text(tag.name),
+                              if (tag.info.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Text(tag.info, style: TextStyle(fontSize: 11, color: Colors.grey[100])),
+                                ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        selectedMainTag.value = value;
+                        selectedSubTag.value = null;
+                      },
+                    ),
+                  ),
 
-            if (selectedMainTag.value != null) ...[
+                  const SizedBox(height: 12),
+
+                  // 子标签 - 始终显示，避免布局跳动
+                  InfoLabel(
+                    label: '子标签 (可选)',
+                    child: ComboBox<String>(
+                      placeholder: const Text('选择子标签'),
+                      value: selectedSubTag.value,
+                      isExpanded: true,
+                      items: [
+                        const ComboBoxItem(value: null, child: Text('无')),
+                        if (selectedMainTagData != null)
+                          ...selectedMainTagData.subTags.map((subTag) {
+                            return ComboBoxItem(
+                              value: subTag.id,
+                              child: Row(
+                                children: [
+                                  if (subTag.color.isNotEmpty)
+                                    Container(
+                                      width: 12,
+                                      height: 12,
+                                      margin: const EdgeInsets.only(right: 8),
+                                      decoration: BoxDecoration(
+                                        color: _parseColor(subTag.color),
+                                        borderRadius: BorderRadius.circular(2),
+                                      ),
+                                    ),
+                                  Text(subTag.name),
+                                  if (subTag.info.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Text(subTag.info, style: TextStyle(fontSize: 11, color: Colors.grey[100])),
+                                    ),
+                                ],
+                              ),
+                            );
+                          }),
+                      ],
+                      onChanged: selectedMainTagData != null
+                          ? (value) {
+                              selectedSubTag.value = value;
+                            }
+                          : null,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
               InfoLabel(
-                label: '子标签 (可选)',
-                child: ComboBox<String>(
-                  placeholder: const Text('选择子标签'),
-                  value: selectedSubTag.value,
-                  items: [
-                    const ComboBoxItem(value: null, child: Text('无')),
-                    ...partyRoomState.room.tags.firstWhere((tag) => tag.id == selectedMainTag.value).subTags.map((
-                      subTag,
-                    ) {
-                      return ComboBoxItem(value: subTag.id, child: Text(subTag.name));
-                    }),
-                  ],
-                  onChanged: (value) {
-                    selectedSubTag.value = value;
-                  },
+                label: '目标人数 (2-600)',
+                child: TextBox(
+                  controller: targetMembersController,
+                  placeholder: '输入目标人数',
+                  keyboardType: TextInputType.number,
                 ),
               ),
-              const SizedBox(height: 12),
-            ],
+              const SizedBox(height: 16),
 
-            InfoLabel(
-              label: '目标人数 (2-600)',
-              child: TextBox(
-                controller: targetMembersController,
-                placeholder: '输入目标人数',
-                keyboardType: TextInputType.number,
+              Row(
+                children: [
+                  Checkbox(
+                    checked: hasPassword.value,
+                    onChanged: (value) {
+                      hasPassword.value = value ?? false;
+                    },
+                    content: const Text('设置密码'),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 12),
-
-            Row(
-              children: [
-                Checkbox(
-                  checked: hasPassword.value,
-                  onChanged: (value) {
-                    hasPassword.value = value ?? false;
-                  },
-                  content: const Text('设置密码'),
-                ),
-              ],
-            ),
-            if (hasPassword.value) ...[
               const SizedBox(height: 8),
+
+              // 密码输入框 - 始终显示，避免布局跳动
               InfoLabel(
                 label: '房间密码',
-                child: TextBox(controller: passwordController, placeholder: '输入密码', obscureText: true),
+                child: TextBox(
+                  controller: passwordController,
+                  placeholder: hasPassword.value ? '输入密码' : '未启用密码',
+                  obscureText: hasPassword.value,
+                  maxLines: 1,
+                  maxLength: 12,
+                  enabled: hasPassword.value,
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              InfoLabel(
+                label: '社交链接 (可选)',
+                child: TextBox(controller: socialLinksController, placeholder: 'https://discord.gg/xxxxx', maxLines: 1),
               ),
             ],
-            const SizedBox(height: 12),
-
-            InfoLabel(
-              label: '社交链接 (可选)',
-              child: TextBox(controller: socialLinksController, placeholder: 'https://discord.gg/xxxxx', maxLines: 1),
-            ),
-          ],
+          ),
         ),
       ),
       actions: [
@@ -186,5 +248,27 @@ class CreateRoomDialog extends HookConsumerWidget {
         Button(onPressed: isCreating.value ? null : () => Navigator.pop(context), child: const Text('取消')),
       ],
     );
+  }
+
+  /// 解析颜色字符串
+  Color _parseColor(String colorStr) {
+    if (colorStr.isEmpty) return Colors.grey;
+
+    try {
+      // 移除 # 前缀
+      String hexColor = colorStr.replaceAll('#', '');
+
+      // 如果是3位或6位，添加 alpha 通道
+      if (hexColor.length == 3) {
+        hexColor = hexColor.split('').map((c) => '$c$c').join();
+      }
+      if (hexColor.length == 6) {
+        hexColor = 'FF$hexColor';
+      }
+
+      return Color(int.parse(hexColor, radix: 16));
+    } catch (e) {
+      return Colors.grey;
+    }
   }
 }
