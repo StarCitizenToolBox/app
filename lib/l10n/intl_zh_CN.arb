@@ -909,5 +909,11 @@
   "tools_vehicle_sorting_info": "将左侧载具拖动到右侧列表中，这将会为载具名称增加 001、002 .. 等前缀，方便您在游戏内 UI 快速定位载具。在右侧列表上下拖动可以调整载具的顺序。",
   "tools_vehicle_sorting_vehicle": "载具",
   "tools_vehicle_sorting_search": "搜索载具",
-  "tools_vehicle_sorting_sorted": "已排序载具"
+  "tools_vehicle_sorting_sorted": "已排序载具",
+  "user_not_logged_in": "未登录",
+  "user_action_unregister": "注销账户",
+  "user_confirm_unregister_title": "确认注销",
+  "user_confirm_unregister_message": "您确定要注销账户吗？此操作不可撤销，如需再次登录，需重新验证 RSI 账号。",
+  "user_unregister_success": "账户注销成功",
+  "user_unregister_failed": "账户注销失败"
 }

@@ -1180,5 +1180,18 @@
   "tools_vehicle_sorting_search": "Search Vehicles",
   "@tools_vehicle_sorting_search": {},
   "tools_vehicle_sorting_sorted": "Sorted Vehicles",
-  "@tools_vehicle_sorting_sorted": {}
+  "@tools_vehicle_sorting_sorted": {},
+  "user_not_logged_in": "Not Logged In",
+  "@user_not_logged_in": {},
+  "user_action_unregister": "Unregister Account",
+  "@user_action_unregister": {},
+  "user_confirm_unregister_title": "Confirm Unregister",
+  "@user_confirm_unregister_title": {},
+  "user_confirm_unregister_message": "Are you sure you want to unregister your account? If you need to log in again, you will need to link your account again.",
+  "@user_confirm_unregister_message": {},
+  "user_unregister_success": "Account unregistered successfully",
+  "@user_unregister_success": {},
+  "user_unregister_failed": "Account unregistration failed",
+  "@user_unregister_failed": {}
 }
+

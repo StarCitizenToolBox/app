@@ -1472,6 +1472,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_vehicle_sorting_title": MessageLookupByLibrary.simpleMessage("载具排序"),
     "tools_vehicle_sorting_vehicle": MessageLookupByLibrary.simpleMessage("载具"),
+    "user_action_unregister": MessageLookupByLibrary.simpleMessage("注销账户"),
+    "user_confirm_unregister_message": MessageLookupByLibrary.simpleMessage(
+      "您确定要注销账户吗？此操作不可撤销，如需再次登录，需重新验证 RSI 账号。",
+    ),
+    "user_confirm_unregister_title": MessageLookupByLibrary.simpleMessage(
+      "确认注销",
+    ),
+    "user_not_logged_in": MessageLookupByLibrary.simpleMessage("未登录"),
+    "user_unregister_failed": MessageLookupByLibrary.simpleMessage("账户注销失败"),
+    "user_unregister_success": MessageLookupByLibrary.simpleMessage("账户注销成功"),
     "webview_localization_finished_invitations":
         MessageLookupByLibrary.simpleMessage("已完成的邀请"),
     "webview_localization_name_member": MessageLookupByLibrary.simpleMessage(

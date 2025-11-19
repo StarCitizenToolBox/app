@@ -17,6 +17,7 @@ import 'nav/nav_ui.dart';
 import 'party_room/party_room_ui_model.dart';
 import 'settings/settings_ui.dart';
 import 'tools/tools_ui.dart';
+import 'index_ui_widgets/user_avatar_widget.dart';
 
 class IndexUI extends HookConsumerWidget {
   const IndexUI({super.key});
@@ -51,6 +52,8 @@ class IndexUI extends HookConsumerWidget {
         actions: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            UserAvatarWidget(onTapNavigateToPartyRoom: () => _navigateToPartyRoom(curIndex)),
+            const SizedBox(width: 12),
             IconButton(
               icon: Stack(
                 children: [
@@ -143,5 +146,13 @@ class IndexUI extends HookConsumerWidget {
 
   void _goDownloader(BuildContext context) {
     context.push('/index/downloader');
+  }
+
+  void _navigateToPartyRoom(ValueNotifier<int> curIndexState) {
+    // 查找 PartyRoomUI 在菜单中的索引
+    final partyRoomIndex = pageMenus.values.toList().indexWhere((element) => element.$2 is PartyRoomUI);
+    if (partyRoomIndex >= 0) {
+      curIndexState.value = partyRoomIndex;
+    }
   }
 }

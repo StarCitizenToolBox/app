@@ -6001,6 +6001,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Not Logged In`
+  String get user_not_logged_in {
+    return Intl.message(
+      'Not Logged In',
+      name: 'user_not_logged_in',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unregister Account`
+  String get user_action_unregister {
+    return Intl.message(
+      'Unregister Account',
+      name: 'user_action_unregister',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Unregister`
+  String get user_confirm_unregister_title {
+    return Intl.message(
+      'Confirm Unregister',
+      name: 'user_confirm_unregister_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to unregister your account? If you need to log in again, you will need to link your account again.`
+  String get user_confirm_unregister_message {
+    return Intl.message(
+      'Are you sure you want to unregister your account? If you need to log in again, you will need to link your account again.',
+      name: 'user_confirm_unregister_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account unregistered successfully`
+  String get user_unregister_success {
+    return Intl.message(
+      'Account unregistered successfully',
+      name: 'user_unregister_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account unregistration failed`
+  String get user_unregister_failed {
+    return Intl.message(
+      'Account unregistration failed',
+      name: 'user_unregister_failed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

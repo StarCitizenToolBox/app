@@ -1718,6 +1718,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_vehicle_sorting_vehicle": MessageLookupByLibrary.simpleMessage(
       "Vehicles",
     ),
+    "user_action_unregister": MessageLookupByLibrary.simpleMessage(
+      "Unregister Account",
+    ),
+    "user_confirm_unregister_message": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to unregister your account? If you need to log in again, you will need to link your account again.",
+    ),
+    "user_confirm_unregister_title": MessageLookupByLibrary.simpleMessage(
+      "Confirm Unregister",
+    ),
+    "user_not_logged_in": MessageLookupByLibrary.simpleMessage("Not Logged In"),
+    "user_unregister_failed": MessageLookupByLibrary.simpleMessage(
+      "Account unregistration failed",
+    ),
+    "user_unregister_success": MessageLookupByLibrary.simpleMessage(
+      "Account unregistered successfully",
+    ),
     "webview_localization_finished_invitations":
         MessageLookupByLibrary.simpleMessage("Finished invitations"),
     "webview_localization_name_member": MessageLookupByLibrary.simpleMessage(

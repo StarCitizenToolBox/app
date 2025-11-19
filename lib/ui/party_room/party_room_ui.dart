@@ -19,7 +19,7 @@ class PartyRoomUI extends HookConsumerWidget {
     Widget widget = const PartyRoomListPage();
 
     // 根据状态显示不同页面
-    if (!partyRoomState.client.isConnected) {
+    if (!partyRoomState.client.isConnected || uiState.isLoggingIn) {
       widget = PartyRoomConnectPage();
     } else if (!partyRoomState.auth.isLoggedIn) {
       widget = PartyRoomRegisterPage();

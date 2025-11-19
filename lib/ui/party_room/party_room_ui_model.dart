@@ -29,6 +29,7 @@ sealed class PartyRoomUIState with _$PartyRoomUIState {
     @Default(false) bool isReconnecting,
     @Default(0) int reconnectAttempts,
     @Default(false) bool isMinimized,
+    @Default(true) bool isLoggingIn,
   }) = _PartyRoomUIState;
 }
 
@@ -138,6 +139,7 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
 
       // 尝试登录
       try {
+        state = state.copyWith(isLoggingIn: true);
         await partyRoom.login();
         // 登录成功，加载标签和房间列表
         await partyRoom.loadTags();
@@ -146,6 +148,8 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       } catch (e) {
         // 未注册，保持在连接状态
         dPrint('[PartyRoomUI] Login failed, need register: $e');
+      } finally {
+        state = state.copyWith(isLoggingIn: false);
       }
 
       state = state.copyWith(isConnecting: false);
