@@ -54,6 +54,7 @@ class PartyRoomMemberItem extends ConsumerWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
         child: GestureDetector(
+          onTapUp: (details) => _showMemberContextMenu(context, member, partyRoom, isOwner, isSelf, flyoutController),
           onSecondaryTapUp: (details) =>
               _showMemberContextMenu(context, member, partyRoom, isOwner, isSelf, flyoutController),
           child: HoverButton(
@@ -94,22 +95,21 @@ class PartyRoomMemberItem extends ConsumerWidget {
                               ],
                             ],
                           ),
-                          if (member.status.currentLocation.isNotEmpty)
-                            Text(
-                              member.status.currentLocation,
-                              style: const TextStyle(fontSize: 10, color: Color(0xFF80848E)),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                member.status.currentLocation.isNotEmpty ? member.status.currentLocation : '...',
+                                style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .9)),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                "K: ${member.status.kills} D: ${member.status.deaths}",
+                                style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                              ),
+                            ],
+                          ),
                         ],
-                      ),
-                    ),
-                    // 状态指示器
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF23A559), // 在线绿色
-                        shape: BoxShape.circle,
                       ),
                     ),
                   ],
@@ -134,7 +134,7 @@ class PartyRoomMemberItem extends ConsumerWidget {
       // 复制ID - 所有用户可用
       MenuFlyoutItem(
         leading: const Icon(FluentIcons.copy, size: 16),
-        text: const Text('复制用户ID'),
+        text: const Text('复制游戏ID'),
         onPressed: () async {
           await Clipboard.setData(ClipboardData(text: member.gameUserId));
         },

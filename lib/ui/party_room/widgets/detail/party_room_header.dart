@@ -28,7 +28,7 @@ class PartyRoomHeader extends ConsumerWidget {
           Row(
             children: [
               IconButton(
-                icon: const Icon(FluentIcons.back, size: 16, color: Color(0xFFB5BAC1)),
+                icon: const Icon(FluentIcons.back, size: 16, color: Colors.white),
                 onPressed: () {
                   ref.read(partyRoomUIModelProvider.notifier).setMinimized(true);
                 },

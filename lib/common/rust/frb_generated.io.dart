@@ -63,6 +63,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  List<ProcessInfo> dco_decode_list_process_info(dynamic raw);
+
+  @protected
   List<(String, String)> dco_decode_list_record_string_string(dynamic raw);
 
   @protected
@@ -85,6 +88,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw);
+
+  @protected
+  ProcessInfo dco_decode_process_info(dynamic raw);
 
   @protected
   (String, String) dco_decode_record_string_string(dynamic raw);
@@ -160,6 +166,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
+  List<ProcessInfo> sse_decode_list_process_info(SseDeserializer deserializer);
+
+  @protected
   List<(String, String)> sse_decode_list_record_string_string(
     SseDeserializer deserializer,
   );
@@ -186,6 +195,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  ProcessInfo sse_decode_process_info(SseDeserializer deserializer);
 
   @protected
   (String, String) sse_decode_record_string_string(
@@ -316,6 +328,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_process_info> cst_encode_list_process_info(
+    List<ProcessInfo> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_process_info(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_process_info(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_record_string_string>
   cst_encode_list_record_string_string(List<(String, String)> raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -372,6 +396,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     ffi.Pointer<wire_cst_rsi_launcher_asar_data> wireObj,
   ) {
     cst_api_fill_to_wire_rsi_launcher_asar_data(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_process_info(
+    ProcessInfo apiObj,
+    wire_cst_process_info wireObj,
+  ) {
+    wireObj.pid = cst_encode_u_32(apiObj.pid);
+    wireObj.name = cst_encode_String(apiObj.name);
+    wireObj.path = cst_encode_String(apiObj.path);
   }
 
   @protected
@@ -500,6 +534,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_process_info(
+    List<ProcessInfo> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_record_string_string(
     List<(String, String)> self,
     SseSerializer serializer,
@@ -531,6 +571,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     Uint8List? self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_process_info(ProcessInfo self, SseSerializer serializer);
 
   @protected
   void sse_encode_record_string_string(
@@ -717,6 +760,60 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<ffi.Bool>,
             )
+          >();
+
+  void wire__crate__api__win32_api__get_process_list_by_name(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> process_name,
+  ) {
+    return _wire__crate__api__win32_api__get_process_list_by_name(
+      port_,
+      process_name,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__get_process_list_by_namePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_process_list_by_name',
+      );
+  late final _wire__crate__api__win32_api__get_process_list_by_name =
+      _wire__crate__api__win32_api__get_process_list_by_namePtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__win32_api__get_process_pid_by_name(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> process_name,
+  ) {
+    return _wire__crate__api__win32_api__get_process_pid_by_name(
+      port_,
+      process_name,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__get_process_pid_by_namePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_process_pid_by_name',
+      );
+  late final _wire__crate__api__win32_api__get_process_pid_by_name =
+      _wire__crate__api__win32_api__get_process_pid_by_namePtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
   void wire__crate__api__asar_api__get_rsi_launcher_asar_data(
@@ -1144,6 +1241,19 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_prim_u_8_strict = _cst_new_list_prim_u_8_strictPtr
       .asFunction<ffi.Pointer<wire_cst_list_prim_u_8_strict> Function(int)>();
 
+  ffi.Pointer<wire_cst_list_process_info> cst_new_list_process_info(int len) {
+    return _cst_new_list_process_info(len);
+  }
+
+  late final _cst_new_list_process_infoPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_process_info> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_process_info');
+  late final _cst_new_list_process_info = _cst_new_list_process_infoPtr
+      .asFunction<ffi.Pointer<wire_cst_list_process_info> Function(int)>();
+
   ffi.Pointer<wire_cst_list_record_string_string>
   cst_new_list_record_string_string(int len) {
     return _cst_new_list_record_string_string(len);
@@ -1219,6 +1329,22 @@ final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
 
 final class wire_cst_list_String extends ffi.Struct {
   external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_process_info extends ffi.Struct {
+  @ffi.Uint32()
+  external int pid;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> name;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> path;
+}
+
+final class wire_cst_list_process_info extends ffi.Struct {
+  external ffi.Pointer<wire_cst_process_info> ptr;
 
   @ffi.Int32()
   external int len;

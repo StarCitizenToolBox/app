@@ -1,0 +1,128 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'game_log_tracker_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(PartyRoomGameLogTrackerProvider)
+const partyRoomGameLogTrackerProviderProvider =
+    PartyRoomGameLogTrackerProviderFamily._();
+
+final class PartyRoomGameLogTrackerProviderProvider
+    extends
+        $NotifierProvider<
+          PartyRoomGameLogTrackerProvider,
+          PartyRoomGameLogTrackerProviderState
+        > {
+  const PartyRoomGameLogTrackerProviderProvider._({
+    required PartyRoomGameLogTrackerProviderFamily super.from,
+    required DateTime super.argument,
+  }) : super(
+         retry: null,
+         name: r'partyRoomGameLogTrackerProviderProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$partyRoomGameLogTrackerProviderHash();
+
+  @override
+  String toString() {
+    return r'partyRoomGameLogTrackerProviderProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  PartyRoomGameLogTrackerProvider create() => PartyRoomGameLogTrackerProvider();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(PartyRoomGameLogTrackerProviderState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride:
+          $SyncValueProvider<PartyRoomGameLogTrackerProviderState>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PartyRoomGameLogTrackerProviderProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$partyRoomGameLogTrackerProviderHash() =>
+    r'ecb015eb46d25bfe11bbb153242fd5c4f20ef367';
+
+final class PartyRoomGameLogTrackerProviderFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          PartyRoomGameLogTrackerProvider,
+          PartyRoomGameLogTrackerProviderState,
+          PartyRoomGameLogTrackerProviderState,
+          PartyRoomGameLogTrackerProviderState,
+          DateTime
+        > {
+  const PartyRoomGameLogTrackerProviderFamily._()
+    : super(
+        retry: null,
+        name: r'partyRoomGameLogTrackerProviderProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  PartyRoomGameLogTrackerProviderProvider call({required DateTime startTime}) =>
+      PartyRoomGameLogTrackerProviderProvider._(
+        argument: startTime,
+        from: this,
+      );
+
+  @override
+  String toString() => r'partyRoomGameLogTrackerProviderProvider';
+}
+
+abstract class _$PartyRoomGameLogTrackerProvider
+    extends $Notifier<PartyRoomGameLogTrackerProviderState> {
+  late final _$args = ref.$arg as DateTime;
+  DateTime get startTime => _$args;
+
+  PartyRoomGameLogTrackerProviderState build({required DateTime startTime});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build(startTime: _$args);
+    final ref =
+        this.ref
+            as $Ref<
+              PartyRoomGameLogTrackerProviderState,
+              PartyRoomGameLogTrackerProviderState
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                PartyRoomGameLogTrackerProviderState,
+                PartyRoomGameLogTrackerProviderState
+              >,
+              PartyRoomGameLogTrackerProviderState,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

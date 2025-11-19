@@ -7,7 +7,7 @@ import 'package:starcitizen_doctor/ui/party_room/widgets/party_room_list_page.da
 import 'package:starcitizen_doctor/ui/party_room/widgets/detail/party_room_detail_page.dart';
 import 'package:starcitizen_doctor/ui/party_room/widgets/party_room_register_page.dart';
 
-class PartyRoomUI extends HookConsumerWidget {
+class PartyRoomUI extends ConsumerWidget {
   const PartyRoomUI({super.key});
 
   @override

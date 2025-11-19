@@ -1,10 +1,15 @@
 import 'dart:async';
 
+import 'package:fixnum/fixnum.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
+import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart' show PartyRoomUtils;
+
+import 'utils/game_log_tracker_provider.dart';
 
 part 'party_room_ui_model.freezed.dart';
 
@@ -37,6 +42,7 @@ sealed class PartyRoomUIState with _$PartyRoomUIState {
 @riverpod
 class PartyRoomUIModel extends _$PartyRoomUIModel {
   Timer? _reconnectTimer;
+  ProviderSubscription? _gameLogSubscription;
 
   @override
   PartyRoomUIState build() {
@@ -48,16 +54,57 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       if (previous?.room.isInRoom == true && !next.room.isInRoom) {
         state = state.copyWith(isMinimized: false);
       }
+
+      // 监听房间创建时间变化，设置游戏日志监听
+      if (previous?.room.currentRoom?.createdAt != next.room.currentRoom?.createdAt) {
+        _setupGameLogListener(next.room.currentRoom?.createdAt);
+      }
     });
 
     connectToServer();
 
-    // 在 dispose 时清理定时器
+    // 在 dispose 时清理定时器和订阅
     ref.onDispose(() {
       _reconnectTimer?.cancel();
+      _gameLogSubscription?.close();
     });
-
     return state;
+  }
+
+  /// 设置游戏日志监听
+  void _setupGameLogListener(Int64? createdAt) {
+    // 清除之前的订阅
+    _gameLogSubscription?.close();
+    _gameLogSubscription = null;
+
+    final dateTime = PartyRoomUtils.getDateTime(createdAt);
+    if (dateTime != null) {
+      _gameLogSubscription = ref.listen<PartyRoomGameLogTrackerProviderState>(
+        partyRoomGameLogTrackerProviderProvider(startTime: dateTime),
+        (previous, next) => _onUpdateGameStatus(previous, next),
+      );
+    }
+  }
+
+  /// 处理游戏状态更新
+  void _onUpdateGameStatus(PartyRoomGameLogTrackerProviderState? previous, PartyRoomGameLogTrackerProviderState next) {
+    // 防抖
+    final currentGameStartTime = previous?.gameStartTime?.millisecondsSinceEpoch;
+    final gameStartTime = next.gameStartTime?.microsecondsSinceEpoch;
+    if (next.kills != previous?.kills ||
+        next.deaths != previous?.deaths ||
+        next.location != previous?.location ||
+        currentGameStartTime != gameStartTime) {
+      // 更新状态
+      ref
+          .read(partyRoomProvider.notifier)
+          .setStatus(
+            kills: next.kills != previous?.kills ? next.kills : null,
+            deaths: next.deaths != previous?.deaths ? next.deaths : null,
+            currentLocation: next.location != previous?.location ? next.location : null,
+            playTime: currentGameStartTime != gameStartTime ? gameStartTime : null,
+          );
+    }
   }
 
   /// 处理连接状态变化
@@ -140,17 +187,16 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
 
       // 加载标签（游客和登录用户都需要）
       await partyRoom.loadTags();
-
-      // 非游客模式：尝试登录
       try {
         state = state.copyWith(isLoggingIn: true);
         await partyRoom.login();
         // 登录成功，加载房间列表
         await loadRoomList();
-        state = state.copyWith(showRoomList: true);
+        state = state.copyWith(showRoomList: true, isLoggingIn: false, isGuestMode: false);
       } catch (e) {
         // 未注册，保持在连接状态
         dPrint('[PartyRoomUI] Login failed, need register: $e');
+        state = state.copyWith(isGuestMode: true);
       } finally {
         state = state.copyWith(isLoggingIn: false);
       }

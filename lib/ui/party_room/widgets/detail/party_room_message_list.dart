@@ -6,6 +6,7 @@ import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart' as
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/widgets/src/cache_image.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter/services.dart';
 
 /// 消息列表组件
 class PartyRoomMessageList extends ConsumerWidget {
@@ -20,19 +21,17 @@ class PartyRoomMessageList extends ConsumerWidget {
     final room = partyRoomState.room.currentRoom;
     final hasSocialLinks = room != null && room.socialLinks.isNotEmpty;
 
-    // 计算总项数：社交链接消息（如果有）+ 事件消息
-    final totalItems = (hasSocialLinks ? 1 : 0) + events.length;
+    // 计算总项数：社交链接消息（如果有）+ 复制 ID 消息 + 事件消息
+    final totalItems = (hasSocialLinks ? 1 : 0) + 1 + events.length;
 
     if (totalItems == 0) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(FluentIcons.chat, size: 64, color: Color(0xFF404249)),
+            Icon(FluentIcons.chat, size: 64, color: Colors.white.withValues(alpha: .6)),
             const SizedBox(height: 16),
             Text('暂无消息', style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 14)),
-            const SizedBox(height: 4),
-            Text('发送一条信号开始对话吧！', style: TextStyle(color: Colors.white.withValues(alpha: 0.3), fontSize: 12)),
           ],
         ),
       );
@@ -47,9 +46,13 @@ class PartyRoomMessageList extends ConsumerWidget {
         if (hasSocialLinks && index == 0) {
           return _buildSocialLinksMessage(room);
         }
-
+        // 第二条消息显示复制 ID
+        final copyIdIndex = hasSocialLinks ? 1 : 0;
+        if (index == copyIdIndex) {
+          return _buildCopyIdMessage(room);
+        }
         // 其他消息显示事件
-        final eventIndex = hasSocialLinks ? index - 1 : index;
+        final eventIndex = index - (hasSocialLinks ? 2 : 1);
         final event = events[eventIndex];
         return _MessageItem(event: event);
       },
@@ -78,7 +81,7 @@ class PartyRoomMessageList extends ConsumerWidget {
               const SizedBox(width: 12),
               const Expanded(
                 child: Text(
-                  '该房间包含第三方社交连接，点击加入一起开黑吧~',
+                  '该房间包含第三方社交连接，点击加入自由交流吧~',
                   style: TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
                 ),
               ),
@@ -117,6 +120,68 @@ class PartyRoomMessageList extends ConsumerWidget {
     );
   }
 
+  Widget _buildCopyIdMessage(dynamic room) {
+    final ownerGameId = room?.ownerGameId ?? '';
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(color: const Color(0xFF2B2D31), borderRadius: BorderRadius.circular(8)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(color: Colors.purple, shape: BoxShape.circle),
+                child: const Icon(FluentIcons.copy, size: 14, color: Colors.white),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  '复制房主的游戏ID，可在游戏首页添加好友，快速组队',
+                  style: TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(color: const Color(0xFF1E1F22), borderRadius: BorderRadius.circular(4)),
+                  child: Text(ownerGameId, style: const TextStyle(fontSize: 13, color: Color(0xFFDBDEE1))),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Button(
+                onPressed: ownerGameId.isNotEmpty
+                    ? () async {
+                        await Clipboard.setData(ClipboardData(text: ownerGameId));
+                      }
+                    : null,
+                style: ButtonStyle(
+                  padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 8)),
+                  backgroundColor: WidgetStateProperty.resolveWith((states) {
+                    if (states.isPressed) return const Color(0xFF3A40A0);
+                    if (states.isHovered) return const Color(0xFF4752C4);
+                    return const Color(0xFF5865F2);
+                  }),
+                ),
+                child: const Text(
+                  '复制',
+                  style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   IconData _getSocialIcon(String link) {
     if (link.contains('qq.com')) return FontAwesomeIcons.qq;
     if (link.contains('discord')) return FontAwesomeIcons.discord;
@@ -144,6 +209,9 @@ class _MessageItem extends ConsumerWidget {
     final isSignal = roomEvent.type == partroom.RoomEventType.SIGNAL_BROADCAST;
     final userName = _getEventUserName(roomEvent);
     final avatarUrl = _getEventAvatarUrl(roomEvent);
+
+    final text = _getEventText(roomEvent, ref);
+    if (text == null) return const SizedBox.shrink();
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -176,7 +244,7 @@ class _MessageItem extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _getEventText(roomEvent, ref),
+                  text,
                   style: TextStyle(
                     fontSize: 14,
                     color: isSignal ? const Color(0xFFDBDEE1) : const Color(0xFF949BA4),
@@ -223,7 +291,7 @@ class _MessageItem extends ConsumerWidget {
     return null;
   }
 
-  String _getEventText(partroom.RoomEvent event, WidgetRef ref) {
+  String? _getEventText(partroom.RoomEvent event, WidgetRef ref) {
     final partyRoomState = ref.read(partyRoomProvider);
     final signalTypes = partyRoomState.room.signalTypes;
     switch (event.type) {
@@ -245,21 +313,13 @@ class _MessageItem extends ConsumerWidget {
       case partroom.RoomEventType.ROOM_UPDATED:
         return '房间信息已更新';
       case partroom.RoomEventType.MEMBER_STATUS_UPDATED:
-        if (event.hasMember()) {
-          final member = event.member;
-          final name = member.handleName.isNotEmpty ? member.handleName : member.gameUserId;
-          if (member.hasStatus() && member.status.currentLocation.isNotEmpty) {
-            return '$name 更新了状态: ${member.status.currentLocation}';
-          }
-          return '$name 更新了状态';
-        }
-        return '成员状态已更新';
+        return null;
       case partroom.RoomEventType.ROOM_DISMISSED:
         return '房间已解散';
       case partroom.RoomEventType.MEMBER_KICKED:
         return '被踢出房间';
       default:
-        return '未知事件';
+        return null;
     }
   }
 
