@@ -127,11 +127,7 @@ class PartyRoom extends _$PartyRoom {
       final serverAddress = URLConf.partyRoomServerAddress;
       final serverPort = URLConf.partyRoomServerPort;
 
-      final channel = ClientChannel(
-        serverAddress,
-        port: serverPort,
-        options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-      );
+      final channel = ClientChannel(serverAddress, port: serverPort);
 
       final authClient = auth.AuthServiceClient(channel);
       final roomClient = partroom.PartRoomServiceClient(channel);

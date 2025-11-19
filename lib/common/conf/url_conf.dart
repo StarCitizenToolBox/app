@@ -10,6 +10,11 @@ class URLConf {
   static String newsApiHome = "https://scbox.citizenwiki.cn";
   static const String analyticsApiHome = "https://scbox.org";
 
+  /// PartyRoom Server
+  static const String partyRoomServerAddress = "partyroom.grpc.scbox.xkeyc.cn";
+  static const int partyRoomServerPort = 443;
+
+
   static bool isUrlCheckPass = false;
 
   /// URLS
@@ -32,10 +37,6 @@ class URLConf {
 
   static String get devReleaseUrl => "$gitApiHome/SCToolBox/Release/releases";
 
-  /// PartyRoom Server
-  static const String partyRoomServerAddress = "localhost";
-  static const int partyRoomServerPort = 50051;
-  
   /// RSI Avatar Base URL
   static const String rsiAvatarBaseUrl = "https://robertsspaceindustries.com";
 
