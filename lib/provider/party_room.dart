@@ -889,4 +889,8 @@ class PartyRoom extends _$PartyRoom {
     _stopEventStream();
     _confBox?.close();
   }
+
+  common.Tag? getMainTagById(String mainTagId) {
+    return state.room.tags[mainTagId];
+  }
 }

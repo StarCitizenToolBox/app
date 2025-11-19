@@ -1,6 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:local_hero/local_hero.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/widgets/party_room_connect_page.dart';
@@ -27,14 +26,22 @@ class PartyRoomUI extends HookConsumerWidget {
       widget = PartyRoomDetailPage();
     }
 
-    return LocalHeroScope(
-      duration: Duration(milliseconds: 180),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 230),
-        switchInCurve: Curves.easeInOut,
-        switchOutCurve: Curves.easeInOut,
-        child: widget,
-      ),
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 230),
+      switchInCurve: Curves.easeInOut,
+      switchOutCurve: Curves.easeInOut,
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        final offsetAnimation = Tween<Offset>(
+          begin: const Offset(0, 0.08),
+          end: Offset.zero,
+        ).chain(CurveTween(curve: Curves.easeInOut)).animate(animation);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: FadeTransition(opacity: animation, child: child),
+        );
+      },
+      child: widget,
     );
   }
 }

@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:local_hero/local_hero.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
@@ -105,17 +106,17 @@ class PartyRoomListPage extends HookConsumerWidget {
     );
     final avatarUrl = owner.avatarUrl.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${owner.avatarUrl}' : '';
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      alignment: Alignment.bottomRight,
-      child: Tooltip(
-        message: '返回当前房间',
-        child: GestureDetector(
-          onTap: () {
-            ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
-          },
-          child: LocalHero(
-            tag: 'party_room_detail_hero',
+    return Bounce(
+      duration: Duration(milliseconds: 230),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        alignment: Alignment.bottomRight,
+        child: Tooltip(
+          message: '返回当前房间',
+          child: GestureDetector(
+            onTap: () {
+              ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
+            },
             child: Container(
               width: 56,
               height: 56,
@@ -196,13 +197,22 @@ class PartyRoomListPage extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FluentIcons.room, size: 48, color: Colors.grey.withValues(alpha: 0.6)),
+            Icon(FluentIcons.room, size: 48, color: Colors.white.withValues(alpha: 0.6)),
             const SizedBox(height: 16),
-            Text('暂无房间', style: TextStyle(color: Colors.white.withValues(alpha: 0.7))),
+            Text(
+              uiState.searchOwnerName.isNotEmpty
+                  ? '没有找到符合条件的房间'
+                  : uiState.selectedMainTagId != null
+                  ? '当前分类下没有房间'
+                  : '暂无可用房间',
+              style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
+            ),
             const SizedBox(height: 8),
-            Text('成为第一个创建房间的人吧！', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5))),
-            const SizedBox(height: 16),
-            FilledButton(onPressed: () => _showCreateRoomDialog(context, ref), child: const Text('创建房间')),
+            if (uiState.searchOwnerName.isEmpty) ...[
+              Text('成为第一个创建房间的人吧！', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5))),
+              const SizedBox(height: 16),
+              FilledButton(onPressed: () => _showCreateRoomDialog(context, ref), child: const Text('创建房间')),
+            ],
           ],
         ),
       );
@@ -237,11 +247,10 @@ class PartyRoomListPage extends HookConsumerWidget {
     );
   }
 
-  Widget _buildRoomCard(BuildContext context, WidgetRef ref, PartyRoom partyRoom, dynamic room, int index) {
+  Widget _buildRoomCard(BuildContext context, WidgetRef ref, PartyRoom partyRoom, RoomListItem room, int index) {
     final avatarUrl = room.ownerAvatar.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${room.ownerAvatar}' : '';
     final partyRoomState = ref.watch(partyRoomProvider);
     final isCurrentRoom = partyRoomState.room.isInRoom && partyRoomState.room.roomUuid == room.roomUuid;
-
     return GridItemAnimator(
       index: index,
       child: GestureDetector(
@@ -338,18 +347,7 @@ class PartyRoomListPage extends HookConsumerWidget {
                         spacing: 6,
                         runSpacing: 6,
                         children: [
-                          if (room.mainTagId.isNotEmpty)
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF4A9EFF).withValues(alpha: 0.3),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                room.mainTagId,
-                                style: const TextStyle(fontSize: 11, color: Color(0xFF4A9EFF)),
-                              ),
-                            ),
+                          makeTagContainer(partyRoom, room),
                           if (room.socialLinks.isNotEmpty)
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -379,6 +377,26 @@ class PartyRoomListPage extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget makeTagContainer(PartyRoom partyRoom, RoomListItem room) {
+    final tag = partyRoom.getMainTagById(room.mainTagId);
+    final subTag = tag?.subTags.where((e) => e.id == room.subTagId).firstOrNull;
+
+    Widget buildContainer(String name, Color color) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4)),
+        child: Text(name, style: const TextStyle(fontSize: 11, color: Colors.white)),
+      );
+    }
+
+    return Row(
+      children: [
+        buildContainer(tag?.name ?? "<${tag?.id}>", HexColor(tag?.color ?? "#0096FF")),
+        if (subTag != null) ...[const SizedBox(width: 4), buildContainer(subTag.name, HexColor(subTag.color))],
+      ],
     );
   }
 

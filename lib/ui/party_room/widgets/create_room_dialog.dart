@@ -24,7 +24,7 @@ class CreateRoomDialog extends HookConsumerWidget {
     final selectedMainTagData = selectedMainTag.value != null ? partyRoomState.room.tags[selectedMainTag.value] : null;
 
     return ContentDialog(
-      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4),
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
       title: const Text('创建房间'),
       content: SizedBox(
         child: SingleChildScrollView(
@@ -55,11 +55,14 @@ class CreateRoomDialog extends HookConsumerWidget {
                                     borderRadius: BorderRadius.circular(2),
                                   ),
                                 ),
-                              Text(tag.name),
+                              Text(tag.name, style: TextStyle(fontSize: 16)),
                               if (tag.info.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
-                                  child: Text(tag.info, style: TextStyle(fontSize: 11, color: Colors.grey[100])),
+                                  child: Text(
+                                    tag.info,
+                                    style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
+                                  ),
                                 ),
                             ],
                           ),
@@ -99,11 +102,14 @@ class CreateRoomDialog extends HookConsumerWidget {
                                         borderRadius: BorderRadius.circular(2),
                                       ),
                                     ),
-                                  Text(subTag.name),
+                                  Text(subTag.name, style: TextStyle(fontSize: 16)),
                                   if (subTag.info.isNotEmpty)
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8),
-                                      child: Text(subTag.info, style: TextStyle(fontSize: 11, color: Colors.grey[100])),
+                                      child: Text(
+                                        subTag.info,
+                                        style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
+                                      ),
                                     ),
                                 ],
                               ),
@@ -159,7 +165,11 @@ class CreateRoomDialog extends HookConsumerWidget {
 
               InfoLabel(
                 label: '社交链接 (可选)',
-                child: TextBox(controller: socialLinksController, placeholder: 'https://discord.gg/xxxxx', maxLines: 1),
+                child: TextBox(
+                  controller: socialLinksController,
+                  placeholder: '以 https:// 开头，目前仅支持 qq、discord、kook、oopz 链接',
+                  maxLines: 1,
+                ),
               ),
             ],
           ),

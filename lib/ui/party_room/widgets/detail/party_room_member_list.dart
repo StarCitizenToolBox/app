@@ -1,7 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:local_hero/local_hero.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
@@ -246,7 +245,6 @@ class PartyRoomMemberItem extends ConsumerWidget {
               child: CacheNetImage(url: avatarUrl),
             ),
     );
-    if (isOwner) return LocalHero(tag: 'party_room_detail_hero', child: avatarWidget);
     return avatarWidget;
   }
 }
