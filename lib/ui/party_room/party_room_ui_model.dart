@@ -30,6 +30,7 @@ sealed class PartyRoomUIState with _$PartyRoomUIState {
     @Default(0) int reconnectAttempts,
     @Default(false) bool isMinimized,
     @Default(true) bool isLoggingIn,
+    @Default(true) bool isGuestMode,
   }) = _PartyRoomUIState;
 }
 
@@ -137,12 +138,14 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       final partyRoom = ref.read(partyRoomProvider.notifier);
       await partyRoom.connect();
 
-      // 尝试登录
+      // 加载标签（游客和登录用户都需要）
+      await partyRoom.loadTags();
+
+      // 非游客模式：尝试登录
       try {
         state = state.copyWith(isLoggingIn: true);
         await partyRoom.login();
-        // 登录成功，加载标签和房间列表
-        await partyRoom.loadTags();
+        // 登录成功，加载房间列表
         await loadRoomList();
         state = state.copyWith(showRoomList: true);
       } catch (e) {
@@ -245,6 +248,16 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
   Future<void> refreshRoomList() async {
     state = state.copyWith(currentPage: 1, roomListItems: []);
     await loadRoomList(page: 1);
+  }
+
+  /// 进入游客模式
+  void enterGuestMode() {
+    state = state.copyWith(isGuestMode: true, showRoomList: false);
+  }
+
+  /// 退出游客模式（进入登录/注册流程）
+  void exitGuestMode() {
+    state = state.copyWith(isGuestMode: false, showRoomList: false);
   }
 
   /// 清除错误消息

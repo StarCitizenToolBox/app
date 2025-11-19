@@ -28,6 +28,12 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
             children: [
               Row(
                 children: [
+                  IconButton(
+                    onPressed: () {
+                      uiModel.enterGuestMode();
+                    },
+                    icon: Padding(padding: const EdgeInsets.all(8.0), child: Icon(FluentIcons.back, size: 24)),
+                  ),
                   const Expanded(
                     child: Text(
                       '注册账号',

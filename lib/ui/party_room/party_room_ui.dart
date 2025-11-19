@@ -20,7 +20,8 @@ class PartyRoomUI extends HookConsumerWidget {
     // 根据状态显示不同页面
     if (!partyRoomState.client.isConnected || uiState.isLoggingIn) {
       widget = PartyRoomConnectPage();
-    } else if (!partyRoomState.auth.isLoggedIn) {
+    } else if (!partyRoomState.auth.isLoggedIn && !uiState.isGuestMode) {
+      // 非游客模式且未登录，显示注册页面
       widget = PartyRoomRegisterPage();
     } else if (partyRoomState.room.isInRoom && !uiState.isMinimized) {
       widget = PartyRoomDetailPage();

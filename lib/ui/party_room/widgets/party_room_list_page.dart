@@ -55,6 +55,34 @@ class PartyRoomListPage extends HookConsumerWidget {
       padding: EdgeInsets.zero,
       content: Column(
         children: [
+          // 游客模式提示
+          if (uiState.isGuestMode)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              color: const Color(0xFF2D2D2D),
+              child: Row(
+                children: [
+                  Icon(FluentIcons.info, size: 16, color: const Color(0xFF4A9EFF)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '您正在以游客身份浏览，登录后可创建或加入房间。',
+                      style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8)),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  FilledButton(
+                    style: ButtonStyle(
+                      padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 6)),
+                    ),
+                    onPressed: () {
+                      ref.read(partyRoomUIModelProvider.notifier).exitGuestMode();
+                    },
+                    child: const Text('登录', style: TextStyle(fontSize: 12)),
+                  ),
+                ],
+              ),
+            ),
           // 筛选栏
           Container(
             padding: const EdgeInsets.all(16),
@@ -401,11 +429,54 @@ class PartyRoomListPage extends HookConsumerWidget {
   }
 
   Future<void> _showCreateRoomDialog(BuildContext context, WidgetRef ref) async {
+    final uiState = ref.read(partyRoomUIModelProvider);
+
+    // 检查是否为游客模式
+    if (uiState.isGuestMode) {
+      final shouldLogin = await showDialog<bool>(
+        context: context,
+        builder: (context) => ContentDialog(
+          title: const Text('需要登录'),
+          content: const Text('创建房间需要先登录账号，是否现在去登录？'),
+          actions: [
+            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+            FilledButton(child: const Text('去登录'), onPressed: () => Navigator.pop(context, true)),
+          ],
+        ),
+      );
+
+      if (shouldLogin == true) {
+        ref.read(partyRoomUIModelProvider.notifier).exitGuestMode();
+      }
+      return;
+    }
+
     await showDialog(context: context, builder: (context) => const CreateRoomDialog());
   }
 
   Future<void> _joinRoom(BuildContext context, WidgetRef ref, PartyRoom partyRoom, dynamic room) async {
     final partyRoomState = ref.read(partyRoomProvider);
+    final uiState = ref.read(partyRoomUIModelProvider);
+
+    // 检查是否为游客模式
+    if (uiState.isGuestMode) {
+      final shouldLogin = await showDialog<bool>(
+        context: context,
+        builder: (context) => ContentDialog(
+          title: const Text('需要登录'),
+          content: const Text('加入房间需要先登录账号，是否现在去登录？'),
+          actions: [
+            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+            FilledButton(child: const Text('去登录'), onPressed: () => Navigator.pop(context, true)),
+          ],
+        ),
+      );
+
+      if (shouldLogin == true) {
+        ref.read(partyRoomUIModelProvider.notifier).exitGuestMode();
+      }
+      return;
+    }
 
     // 如果已经在房间中
     if (partyRoomState.room.isInRoom) {
