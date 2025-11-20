@@ -800,12 +800,12 @@ class PartyRoom extends _$PartyRoom {
         }
         break;
       case partroom.RoomEventType.MEMBER_STATUS_UPDATED:
-        // 刷新成员状态
+        // 刷新成员状态，只更新对应成员的 status
         state = state.copyWith(
           room: state.room.copyWith(
             members: state.room.members.map((member) {
               if (member.gameUserId == event.member.gameUserId) {
-                return event.member;
+                return member.deepCopy()..status = event.member.status;
               }
               return member;
             }).toList(),
