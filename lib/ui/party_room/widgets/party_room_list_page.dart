@@ -1,0 +1,554 @@
+import 'dart:ui';
+
+import 'package:animate_do/animate_do.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_tilt/flutter_tilt.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/common/conf/url_conf.dart';
+import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart';
+import 'package:starcitizen_doctor/provider/party_room.dart';
+import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
+import 'package:starcitizen_doctor/ui/party_room/widgets/create_room_dialog.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
+
+/// 房间列表页面
+class PartyRoomListPage extends HookConsumerWidget {
+  const PartyRoomListPage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uiModel = ref.read(partyRoomUIModelProvider.notifier);
+    final uiState = ref.watch(partyRoomUIModelProvider);
+    final partyRoomState = ref.watch(partyRoomProvider);
+    final partyRoom = ref.read(partyRoomProvider.notifier);
+
+    final searchController = useTextEditingController();
+    final scrollController = useScrollController();
+
+    useEffect(() {
+      // 初次加载房间列表
+      Future.microtask(() => uiModel.loadRoomList());
+      return null;
+    }, []);
+
+    // 无限滑动监听
+    useEffect(() {
+      void onScroll() {
+        if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
+          // 距离底部200px时开始加载
+          final totalPages = (uiState.totalRooms / uiState.pageSize).ceil();
+          if (!uiState.isLoading && uiState.currentPage < totalPages && uiState.errorMessage == null) {
+            uiModel.loadMoreRooms();
+          }
+        }
+      }
+
+      scrollController.addListener(onScroll);
+      return () => scrollController.removeListener(onScroll);
+    }, [uiState.isLoading, uiState.currentPage, uiState.totalRooms]);
+
+    return ScaffoldPage(
+      padding: EdgeInsets.zero,
+      content: Column(
+        children: [
+          // 游客模式提示
+          if (uiState.isGuestMode)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              color: const Color(0xFF2D2D2D),
+              child: Row(
+                children: [
+                  Icon(FluentIcons.info, size: 16, color: const Color(0xFF4A9EFF)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '您正在以游客身份浏览，登录后可创建或加入房间。',
+                      style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8)),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  FilledButton(
+                    style: ButtonStyle(
+                      padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 6)),
+                    ),
+                    onPressed: () {
+                      ref.read(partyRoomUIModelProvider.notifier).exitGuestMode();
+                    },
+                    child: const Text('登录', style: TextStyle(fontSize: 12)),
+                  ),
+                ],
+              ),
+            ),
+          // 筛选栏
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextBox(
+                    controller: searchController,
+                    placeholder: '搜索房主名称...',
+                    prefix: const Padding(padding: EdgeInsets.only(left: 8), child: Icon(FluentIcons.search)),
+                    onSubmitted: (value) {
+                      uiModel.loadRoomList(searchName: value, page: 1);
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                _buildTagFilter(context, ref, uiState, partyRoomState),
+                const SizedBox(width: 12),
+                IconButton(icon: const Icon(FluentIcons.refresh), onPressed: () => uiModel.refreshRoomList()),
+                const SizedBox(width: 12),
+                FilledButton(
+                  onPressed: () => _showCreateRoomDialog(context, ref),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [Icon(FluentIcons.add, size: 16), SizedBox(width: 8), Text('创建房间')],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // 房间列表
+          Expanded(child: _buildRoomList(context, ref, uiState, partyRoom, scrollController)),
+        ],
+      ),
+      bottomBar: _buildFloatingRoomButton(context, ref, partyRoomState),
+    );
+  }
+
+  Widget? _buildFloatingRoomButton(BuildContext context, WidgetRef ref, PartyRoomFullState partyRoomState) {
+    if (!partyRoomState.room.isInRoom || partyRoomState.room.currentRoom == null) {
+      return null;
+    }
+
+    final currentRoom = partyRoomState.room.currentRoom!;
+    final owner = partyRoomState.room.members.firstWhere(
+      (m) => m.gameUserId == currentRoom.ownerGameId,
+      orElse: () => RoomMember(),
+    );
+    final avatarUrl = owner.avatarUrl.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${owner.avatarUrl}' : '';
+
+    return Bounce(
+      duration: Duration(milliseconds: 230),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        alignment: Alignment.bottomRight,
+        child: Tooltip(
+          message: '返回当前房间',
+          child: GestureDetector(
+            onTap: () {
+              ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
+            },
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: const Color(0xFF2D2D2D),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4)),
+                ],
+                border: Border.all(color: const Color(0xFF4A9EFF), width: 2),
+              ),
+              child: ClipOval(
+                child: avatarUrl.isNotEmpty
+                    ? CacheNetImage(url: avatarUrl, fit: BoxFit.cover)
+                    : const Icon(FluentIcons.group, color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTagFilter(
+    BuildContext context,
+    WidgetRef ref,
+    PartyRoomUIState uiState,
+    PartyRoomFullState partyRoomState,
+  ) {
+    final tags = partyRoomState.room.tags;
+
+    return ComboBox<String>(
+      placeholder: const Text('选择标签'),
+      value: uiState.selectedMainTagId,
+      items: [
+        const ComboBoxItem(value: null, child: Text('全部标签')),
+        ...tags.values.map((tag) => ComboBoxItem(value: tag.id, child: Text(tag.name))),
+      ],
+      onChanged: (value) {
+        ref.read(partyRoomUIModelProvider.notifier).setSelectedMainTagId(value);
+      },
+    );
+  }
+
+  Widget _buildRoomList(
+    BuildContext context,
+    WidgetRef ref,
+    PartyRoomUIState uiState,
+    PartyRoom partyRoom,
+    ScrollController scrollController,
+  ) {
+    if (uiState.isLoading && uiState.roomListItems.isEmpty) {
+      return const Center(child: ProgressRing());
+    }
+
+    if (uiState.errorMessage != null && uiState.roomListItems.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(FluentIcons.error, size: 48, color: Color(0xFFFF6B6B)),
+            const SizedBox(height: 16),
+            Text(uiState.errorMessage!, style: const TextStyle(color: Color(0xFFE0E0E0))),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: () {
+                ref.read(partyRoomUIModelProvider.notifier).refreshRoomList();
+              },
+              child: const Text('重试'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (uiState.roomListItems.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(FluentIcons.room, size: 48, color: Colors.white.withValues(alpha: 0.6)),
+            const SizedBox(height: 16),
+            Text(
+              uiState.searchOwnerName.isNotEmpty
+                  ? '没有找到符合条件的房间'
+                  : uiState.selectedMainTagId != null
+                  ? '当前分类下没有房间'
+                  : '暂无可用房间',
+              style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
+            ),
+            const SizedBox(height: 8),
+            if (uiState.searchOwnerName.isEmpty) ...[
+              Text('成为第一个创建房间的人吧！', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5))),
+              const SizedBox(height: 16),
+              FilledButton(onPressed: () => _showCreateRoomDialog(context, ref), child: const Text('创建房间')),
+            ],
+          ],
+        ),
+      );
+    }
+
+    final totalPages = (uiState.totalRooms / uiState.pageSize).ceil();
+    final hasMore = uiState.currentPage < totalPages;
+
+    return MasonryGridView.count(
+      controller: scrollController,
+      crossAxisCount: 3,
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      itemCount: uiState.roomListItems.length + (hasMore || uiState.isLoading ? 1 : 0),
+      padding: const EdgeInsets.all(16),
+      itemBuilder: (context, index) {
+        // 显示加载更多指示器
+        if (index == uiState.roomListItems.length) {
+          return Container(
+            padding: const EdgeInsets.all(24),
+            child: Center(
+              child: uiState.isLoading
+                  ? const ProgressRing()
+                  : Text('已加载全部房间', style: TextStyle(color: Colors.white.withValues(alpha: 0.5))),
+            ),
+          );
+        }
+
+        final room = uiState.roomListItems[index];
+        return _buildRoomCard(context, ref, partyRoom, room, index);
+      },
+    );
+  }
+
+  Widget _buildRoomCard(BuildContext context, WidgetRef ref, PartyRoom partyRoom, RoomListItem room, int index) {
+    final avatarUrl = room.ownerAvatar.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${room.ownerAvatar}' : '';
+    final partyRoomState = ref.watch(partyRoomProvider);
+    final isCurrentRoom = partyRoomState.room.isInRoom && partyRoomState.room.roomUuid == room.roomUuid;
+    return GridItemAnimator(
+      index: index,
+      child: GestureDetector(
+        onTap: () => _joinRoom(context, ref, partyRoom, room),
+        child: Tilt(
+          shadowConfig: const ShadowConfig(maxIntensity: .3),
+          borderRadius: BorderRadius.circular(12),
+          border: isCurrentRoom ? Border.all(color: Colors.green, width: 2) : null,
+          clipBehavior: Clip.hardEdge,
+          child: Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            clipBehavior: Clip.hardEdge,
+            child: Stack(
+              children: [
+                // 背景图片
+                if (avatarUrl.isNotEmpty)
+                  Positioned.fill(
+                    child: CacheNetImage(url: avatarUrl, fit: BoxFit.cover),
+                  ),
+                // 黑色遮罩
+                Positioned.fill(
+                  child: Container(decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.6))),
+                ),
+                // 模糊效果
+                Positioned.fill(
+                  child: ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+                      child: Container(color: Colors.transparent),
+                    ),
+                  ),
+                ),
+                // 内容
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // 头像和房主信息
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 24,
+                            backgroundColor: const Color(0xFF4A9EFF).withValues(alpha: 0.5),
+                            backgroundImage: avatarUrl.isNotEmpty
+                                ? ExtendedNetworkImageProvider(avatarUrl, cache: true)
+                                : null,
+                            child: avatarUrl.isEmpty ? const Icon(FluentIcons.contact, color: Colors.white) : null,
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        room.ownerHandleName.isNotEmpty ? room.ownerHandleName : room.ownerGameId,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    if (room.hasPassword) ...[
+                                      const SizedBox(width: 4),
+                                      Icon(FluentIcons.lock, size: 12, color: Colors.white.withValues(alpha: 0.7)),
+                                    ],
+                                  ],
+                                ),
+                                const SizedBox(height: 2),
+                                Row(
+                                  children: [
+                                    Icon(FluentIcons.group, size: 11, color: Colors.white.withValues(alpha: 0.6)),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '${room.currentMembers}/${room.targetMembers}',
+                                      style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.7)),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      // 标签和时间
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: [
+                          makeTagContainer(partyRoom, room),
+                          if (room.socialLinks.isNotEmpty)
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.green.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(FluentIcons.link, size: 10, color: Colors.green.withValues(alpha: 0.8)),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${room.socialLinks.length}',
+                                    style: TextStyle(fontSize: 11, color: Colors.green.withValues(alpha: 0.9)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget makeTagContainer(PartyRoom partyRoom, RoomListItem room) {
+    final tag = partyRoom.getMainTagById(room.mainTagId);
+    final subTag = tag?.subTags.where((e) => e.id == room.subTagId).firstOrNull;
+
+    Widget buildContainer(String name, Color color) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4)),
+        child: Text(name, style: const TextStyle(fontSize: 11, color: Colors.white)),
+      );
+    }
+
+    return Row(
+      children: [
+        buildContainer(tag?.name ?? "<${tag?.id}>", HexColor(tag?.color ?? "#0096FF")),
+        if (subTag != null) ...[const SizedBox(width: 4), buildContainer(subTag.name, HexColor(subTag.color))],
+      ],
+    );
+  }
+
+  Future<void> _showCreateRoomDialog(BuildContext context, WidgetRef ref) async {
+    final uiState = ref.read(partyRoomUIModelProvider);
+
+    // 检查是否为游客模式
+    if (uiState.isGuestMode) {
+      final shouldLogin = await showDialog<bool>(
+        context: context,
+        builder: (context) => ContentDialog(
+          title: const Text('需要登录'),
+          content: const Text('创建房间需要先登录账号，是否现在去登录？'),
+          actions: [
+            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+            FilledButton(child: const Text('去登录'), onPressed: () => Navigator.pop(context, true)),
+          ],
+        ),
+      );
+
+      if (shouldLogin == true) {
+        ref.read(partyRoomUIModelProvider.notifier).exitGuestMode();
+      }
+      return;
+    }
+
+    await showDialog(context: context, builder: (context) => const CreateRoomDialog());
+  }
+
+  Future<void> _joinRoom(BuildContext context, WidgetRef ref, PartyRoom partyRoom, dynamic room) async {
+    final partyRoomState = ref.read(partyRoomProvider);
+    final uiState = ref.read(partyRoomUIModelProvider);
+
+    // 检查是否为游客模式
+    if (uiState.isGuestMode) {
+      final shouldLogin = await showDialog<bool>(
+        context: context,
+        builder: (context) => ContentDialog(
+          title: const Text('需要登录'),
+          content: const Text('加入房间需要先登录账号，是否现在去登录？'),
+          actions: [
+            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+            FilledButton(child: const Text('去登录'), onPressed: () => Navigator.pop(context, true)),
+          ],
+        ),
+      );
+
+      if (shouldLogin == true) {
+        ref.read(partyRoomUIModelProvider.notifier).exitGuestMode();
+      }
+      return;
+    }
+
+    // 如果已经在房间中
+    if (partyRoomState.room.isInRoom) {
+      // 如果点击的是当前房间，直接返回
+      if (partyRoomState.room.roomUuid == room.roomUuid) {
+        ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
+        return;
+      }
+
+      // 如果点击的是其他房间，提示用户
+      if (context.mounted) {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (context) => ContentDialog(
+            title: const Text('切换房间'),
+            content: const Text('你已经在其他房间中，加入新房间将自动退出当前房间。是否继续？'),
+            actions: [
+              Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+              FilledButton(child: const Text('继续'), onPressed: () => Navigator.pop(context, true)),
+            ],
+          ),
+        );
+
+        if (confirmed != true) return;
+      } else {
+        return;
+      }
+
+      // 退出当前房间
+      await partyRoom.leaveRoom();
+    }
+
+    String? password;
+
+    if (room.hasPassword) {
+      if (context.mounted) {
+        password = await showDialog<String>(
+          context: context,
+          builder: (context) {
+            final passwordController = TextEditingController();
+            return ContentDialog(
+              title: const Text('输入房间密码'),
+              content: TextBox(controller: passwordController, placeholder: '请输入密码', obscureText: true),
+              actions: [
+                Button(child: const Text('取消'), onPressed: () => Navigator.pop(context)),
+                FilledButton(child: const Text('加入'), onPressed: () => Navigator.pop(context, passwordController.text)),
+              ],
+            );
+          },
+        );
+      } else {
+        return;
+      }
+
+      if (password == null) return;
+    }
+
+    try {
+      await partyRoom.joinRoom(room.roomUuid, password: password);
+      // 加入成功后，确保不处于最小化状态
+      ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
+    } catch (e) {
+      if (context.mounted) {
+        await showDialog(
+          context: context,
+          builder: (context) => ContentDialog(
+            title: const Text('加入失败'),
+            content: Text(e.toString()),
+            actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+          ),
+        );
+      }
+    }
+  }
+}

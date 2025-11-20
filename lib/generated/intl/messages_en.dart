@@ -130,8 +130,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m46(v0, v1, v2, v3, v4) =>
       "Area: ${v0}   Player driving: ${v1}   Collision entity: ${v2} \nCollision vehicle: ${v3}   Collision distance: ${v4} ";
 
-  static String m47(v0, v1, v2, v3) =>
-      "Victim ID: ${v0}    Cause of death: ${v1} \nKiller ID: ${v2}  \nArea: ${v3}";
+  static String m47(v0, v2, v3) =>
+      "Victim ID: ${v0}   \nLocation: ${v2}  \nArea: ${v3}";
 
   static String m48(v0) => "Detailed information: ${v0}";
 
@@ -1717,6 +1717,22 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_vehicle_sorting_vehicle": MessageLookupByLibrary.simpleMessage(
       "Vehicles",
+    ),
+    "user_action_unregister": MessageLookupByLibrary.simpleMessage(
+      "Unregister Account",
+    ),
+    "user_confirm_unregister_message": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to unregister your account? If you need to log in again, you will need to link your account again.",
+    ),
+    "user_confirm_unregister_title": MessageLookupByLibrary.simpleMessage(
+      "Confirm Unregister",
+    ),
+    "user_not_logged_in": MessageLookupByLibrary.simpleMessage("Not Logged In"),
+    "user_unregister_failed": MessageLookupByLibrary.simpleMessage(
+      "Account unregistration failed",
+    ),
+    "user_unregister_success": MessageLookupByLibrary.simpleMessage(
+      "Account unregistered successfully",
     ),
     "webview_localization_finished_invitations":
         MessageLookupByLibrary.simpleMessage("Finished invitations"),

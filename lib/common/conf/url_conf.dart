@@ -10,6 +10,10 @@ class URLConf {
   static String newsApiHome = "https://scbox.citizenwiki.cn";
   static const String analyticsApiHome = "https://scbox.org";
 
+  /// PartyRoom Server
+  static const String partyRoomServerAddress = "ecdn.partyroom.grpc.scbox.xkeyc.cn";
+  static const int partyRoomServerPort = 443;
+
   static bool isUrlCheckPass = false;
 
   /// URLS
@@ -31,6 +35,9 @@ class URLConf {
       "https://payload.citizenwiki.cn/api/community-navs?sort=is_sponsored&depth=2&page=1&limit=1000";
 
   static String get devReleaseUrl => "$gitApiHome/SCToolBox/Release/releases";
+
+  /// RSI Avatar Base URL
+  static const String rsiAvatarBaseUrl = "https://robertsspaceindustries.com";
 
   static Future<bool> checkHost() async {
     // 使用 DNS 获取可用列表

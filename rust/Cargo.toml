@@ -29,7 +29,12 @@ ndarray = "0.17"
 serde_json = "1.0"
 
 [target.'cfg(windows)'.dependencies]
-windows = { version = "0.62.2", features = ["Win32_UI_WindowsAndMessaging"] }
+windows = { version = "0.62.2", features = [
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_Threading",
+    "Win32_Foundation"
+] }
 win32job = "2"
 
 [lints.rust]

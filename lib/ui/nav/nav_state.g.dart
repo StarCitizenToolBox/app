@@ -40,7 +40,7 @@ final class NavProvider extends $NotifierProvider<Nav, NavState> {
   }
 }
 
-String _$navHash() => r'00c4da8fdd37214cda179a81ece3676add7aab53';
+String _$navHash() => r'bd3773505d6ae53f577ac6f3bfe711b320faa524';
 
 abstract class _$Nav extends $Notifier<NavState> {
   NavState build();

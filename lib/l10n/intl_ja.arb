@@ -1139,7 +1139,7 @@
   "@log_analyzer_disintegration": {},
   "log_analyzer_vehicle_damage_details": "ビークルモデル：{v0}   \nエリア：{v1} \n損傷レベル：{v2} （{v3}）   責任者：{v4}",
   "@log_analyzer_vehicle_damage_details": {},
-  "log_analyzer_death_details": "被害者ID：{v0}    死因：{v1} \n殺害者ID：{v2}  \nエリア：{v3}",
+  "log_analyzer_death_details": "被害者ID：{v0}    \n位置：{v2}  \nエリア：{v3}",
   "@log_analyzer_death_details": {},
   "log_analyzer_player_login": "プレイヤー {v0} ログイン中...",
   "@log_analyzer_player_login": {},

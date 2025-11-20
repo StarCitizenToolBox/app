@@ -1,41 +1,48 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:starcitizen_doctor/generated/l10n.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:starcitizen_doctor/provider/party_room.dart';
+import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
+import 'package:starcitizen_doctor/ui/party_room/widgets/party_room_connect_page.dart';
+import 'package:starcitizen_doctor/ui/party_room/widgets/party_room_list_page.dart';
+import 'package:starcitizen_doctor/ui/party_room/widgets/detail/party_room_detail_page.dart';
+import 'package:starcitizen_doctor/ui/party_room/widgets/party_room_register_page.dart';
 
-class PartyRoomUI extends HookConsumerWidget {
+class PartyRoomUI extends ConsumerWidget {
   const PartyRoomUI({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            S.current.lobby_online_lobby_coming_soon,
-            style: const TextStyle(fontSize: 20),
-          ),
-          const SizedBox(height: 12),
-          GestureDetector(
-            onTap: () {
-              launchUrlString("https://wj.qq.com/s2/14112124/f4c8/");
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(S.current.lobby_invitation_to_participate),
-                Text(
-                  S.current.lobby_survey,
-                  style: const TextStyle(
-                    color: Colors.blue,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
+    final partyRoomState = ref.watch(partyRoomProvider);
+    final uiState = ref.watch(partyRoomUIModelProvider);
+
+    Widget widget = const PartyRoomListPage();
+
+    // 根据状态显示不同页面
+    if (!partyRoomState.client.isConnected || uiState.isLoggingIn) {
+      widget = PartyRoomConnectPage();
+    } else if (!partyRoomState.auth.isLoggedIn && !uiState.isGuestMode) {
+      // 非游客模式且未登录，显示注册页面
+      widget = PartyRoomRegisterPage();
+    } else if (partyRoomState.room.isInRoom && !uiState.isMinimized) {
+      widget = PartyRoomDetailPage();
+    }
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 230),
+      switchInCurve: Curves.easeInOut,
+      switchOutCurve: Curves.easeInOut,
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        final offsetAnimation = Tween<Offset>(
+          begin: const Offset(0, 0.08),
+          end: Offset.zero,
+        ).chain(CurveTween(curve: Curves.easeInOut)).animate(animation);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: FadeTransition(opacity: animation, child: child),
+        );
+      },
+      child: widget,
     );
   }
 }

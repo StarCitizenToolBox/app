@@ -119,8 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m46(v0, v1, v2, v3, v4) =>
       "区域：${v0}   玩家驾驶：${v1}   碰撞实体：${v2} \n碰撞载具: ${v3}   碰撞距离：${v4} ";
 
-  static String m47(v0, v1, v2, v3) =>
-      "受害者ID：${v0}    死因：${v1} \n击杀者ID：${v2}  \n区域：${v3}";
+  static String m47(v0, v2, v3) => "受害者ID：${v0}   \n位置：${v2}  \n区域：${v3}";
 
   static String m48(v0) => "详细信息：${v0}";
 
@@ -1406,7 +1405,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_init_msg2":
         MessageLookupByLibrary.simpleMessage("正在从网络获取增强数据..."),
     "tools_rsi_launcher_enhance_msg_error":
-        MessageLookupByLibrary.simpleMessage("获取增强数据失败，可能是网络问题或当前版本不支持"),
+        MessageLookupByLibrary.simpleMessage("当前版本暂不支持，請等待適配..."),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage("读取启动器信息失败！"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
@@ -1472,6 +1471,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_vehicle_sorting_title": MessageLookupByLibrary.simpleMessage("载具排序"),
     "tools_vehicle_sorting_vehicle": MessageLookupByLibrary.simpleMessage("载具"),
+    "user_action_unregister": MessageLookupByLibrary.simpleMessage("注销账户"),
+    "user_confirm_unregister_message": MessageLookupByLibrary.simpleMessage(
+      "您确定要注销账户吗？此操作不可撤销，如需再次登录，需重新验证 RSI 账号。",
+    ),
+    "user_confirm_unregister_title": MessageLookupByLibrary.simpleMessage(
+      "确认注销",
+    ),
+    "user_not_logged_in": MessageLookupByLibrary.simpleMessage("未登录"),
+    "user_unregister_failed": MessageLookupByLibrary.simpleMessage("账户注销失败"),
+    "user_unregister_success": MessageLookupByLibrary.simpleMessage("账户注销成功"),
     "webview_localization_finished_invitations":
         MessageLookupByLibrary.simpleMessage("已完成的邀请"),
     "webview_localization_name_member": MessageLookupByLibrary.simpleMessage(

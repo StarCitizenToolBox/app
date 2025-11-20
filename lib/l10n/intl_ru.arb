@@ -1139,7 +1139,7 @@
   "@log_analyzer_disintegration": {},
   "log_analyzer_vehicle_damage_details": "Модель техники: {v0}   \nЗона: {v1} \nУровень повреждения: {v2} ({v3})   Виновник: {v4}",
   "@log_analyzer_vehicle_damage_details": {},
-  "log_analyzer_death_details": "ID жертвы: {v0}    Причина смерти: {v1} \nID убийцы: {v2}  \nЗона: {v3}",
+  "log_analyzer_death_details": "ID жертвы: {v0}   \nID убийцы: {v2}  \nЗона: {v3}",
   "@log_analyzer_death_details": {},
   "log_analyzer_player_login": "Игрок {v0} входит в игру...",
   "@log_analyzer_player_login": {},

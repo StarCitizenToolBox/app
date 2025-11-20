@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -706588047;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1227557070;
 
 // Section: executor
 
@@ -151,6 +151,54 @@ fn wire__crate__api__http_api__fetch_impl(
                         Ok(output_ok)
                     })()
                     .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__get_process_list_by_name_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    process_name: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_process_list_by_name",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_process_name = process_name.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::win32_api::get_process_list_by_name(&api_process_name)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__get_process_pid_by_name_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    process_name: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_process_pid_by_name",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_process_name = process_name.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::win32_api::get_process_pid_by_name(&api_process_name)?;
+                        Ok(output_ok)
+                    })(),
                 )
             }
         },
@@ -627,6 +675,20 @@ impl SseDecode for Vec<u8> {
     }
 }
 
+impl SseDecode for Vec<crate::api::win32_api::ProcessInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::win32_api::ProcessInfo>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<(String, String)> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -728,6 +790,20 @@ impl SseDecode for Option<Vec<u8>> {
         } else {
             return None;
         }
+    }
+}
+
+impl SseDecode for crate::api::win32_api::ProcessInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_pid = <u32>::sse_decode(deserializer);
+        let mut var_name = <String>::sse_decode(deserializer);
+        let mut var_path = <String>::sse_decode(deserializer);
+        return crate::api::win32_api::ProcessInfo {
+            pid: var_pid,
+            name: var_name,
+            path: var_path,
+        };
     }
 }
 
@@ -918,6 +994,28 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::http_api::MyMethod>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::win32_api::ProcessInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.pid.into_into_dart().into_dart(),
+            self.name.into_into_dart().into_dart(),
+            self.path.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::win32_api::ProcessInfo
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::win32_api::ProcessInfo>
+    for crate::api::win32_api::ProcessInfo
+{
+    fn into_into_dart(self) -> crate::api::win32_api::ProcessInfo {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::rs_process::RsProcessStreamData {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -1077,6 +1175,16 @@ impl SseEncode for Vec<u8> {
     }
 }
 
+impl SseEncode for Vec<crate::api::win32_api::ProcessInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::win32_api::ProcessInfo>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<(String, String)> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1177,6 +1285,15 @@ impl SseEncode for Option<Vec<u8>> {
         if let Some(value) = self {
             <Vec<u8>>::sse_encode(value, serializer);
         }
+    }
+}
+
+impl SseEncode for crate::api::win32_api::ProcessInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.pid, serializer);
+        <String>::sse_encode(self.name, serializer);
+        <String>::sse_encode(self.path, serializer);
     }
 }
 
@@ -1379,6 +1496,16 @@ mod io {
             }
         }
     }
+    impl CstDecode<Vec<crate::api::win32_api::ProcessInfo>> for *mut wire_cst_list_process_info {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::win32_api::ProcessInfo> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
     impl CstDecode<Vec<(String, String)>> for *mut wire_cst_list_record_string_string {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<(String, String)> {
@@ -1387,6 +1514,16 @@ mod io {
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
             };
             vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<crate::api::win32_api::ProcessInfo> for wire_cst_process_info {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::win32_api::ProcessInfo {
+            crate::api::win32_api::ProcessInfo {
+                pid: self.pid.cst_decode(),
+                name: self.name.cst_decode(),
+                path: self.path.cst_decode(),
+            }
         }
     }
     impl CstDecode<(String, String)> for wire_cst_record_string_string {
@@ -1427,6 +1564,20 @@ mod io {
                 remote_addr: self.remote_addr.cst_decode(),
                 data: self.data.cst_decode(),
             }
+        }
+    }
+    impl NewWithNullPtr for wire_cst_process_info {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                pid: Default::default(),
+                name: core::ptr::null_mut(),
+                path: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_process_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
         }
     }
     impl NewWithNullPtr for wire_cst_record_string_string {
@@ -1531,6 +1682,22 @@ mod io {
             with_ip_address,
             with_custom_dns,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_process_list_by_name(
+        port_: i64,
+        process_name: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__win32_api__get_process_list_by_name_impl(port_, process_name)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_process_pid_by_name(
+        port_: i64,
+        process_name: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__win32_api__get_process_pid_by_name_impl(port_, process_name)
     }
 
     #[unsafe(no_mangle)]
@@ -1699,6 +1866,20 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_process_info(
+        len: i32,
+    ) -> *mut wire_cst_list_process_info {
+        let wrap = wire_cst_list_process_info {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_process_info>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_record_string_string(
         len: i32,
     ) -> *mut wire_cst_list_record_string_string {
@@ -1732,9 +1913,22 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_list_process_info {
+        ptr: *mut wire_cst_process_info,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_list_record_string_string {
         ptr: *mut wire_cst_record_string_string,
         len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_process_info {
+        pid: u32,
+        name: *mut wire_cst_list_prim_u_8_strict,
+        path: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

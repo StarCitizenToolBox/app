@@ -69,7 +69,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -706588047;
+  int get rustContentHash => 1227557070;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -93,6 +93,14 @@ abstract class RustLibApi extends BaseApi {
     Uint8List? inputData,
     String? withIpAddress,
     bool? withCustomDns,
+  });
+
+  Future<List<ProcessInfo>> crateApiWin32ApiGetProcessListByName({
+    required String processName,
+  });
+
+  Future<int> crateApiWin32ApiGetProcessPidByName({
+    required String processName,
   });
 
   Future<RsiLauncherAsarData> crateApiAsarApiGetRsiLauncherAsarData({
@@ -279,6 +287,66 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       "withCustomDns",
     ],
   );
+
+  @override
+  Future<List<ProcessInfo>> crateApiWin32ApiGetProcessListByName({
+    required String processName,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(processName);
+          return wire.wire__crate__api__win32_api__get_process_list_by_name(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_process_info,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiGetProcessListByNameConstMeta,
+        argValues: [processName],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiGetProcessListByNameConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_process_list_by_name",
+        argNames: ["processName"],
+      );
+
+  @override
+  Future<int> crateApiWin32ApiGetProcessPidByName({
+    required String processName,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(processName);
+          return wire.wire__crate__api__win32_api__get_process_pid_by_name(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_i_32,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiGetProcessPidByNameConstMeta,
+        argValues: [processName],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiGetProcessPidByNameConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_process_pid_by_name",
+        argNames: ["processName"],
+      );
 
   @override
   Future<RsiLauncherAsarData> crateApiAsarApiGetRsiLauncherAsarData({
@@ -723,6 +791,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<ProcessInfo> dco_decode_list_process_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_process_info).toList();
+  }
+
+  @protected
   List<(String, String)> dco_decode_list_record_string_string(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_record_string_string).toList();
@@ -768,6 +842,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_list_prim_u_8_strict(raw);
+  }
+
+  @protected
+  ProcessInfo dco_decode_process_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return ProcessInfo(
+      pid: dco_decode_u_32(arr[0]),
+      name: dco_decode_String(arr[1]),
+      path: dco_decode_String(arr[2]),
+    );
   }
 
   @protected
@@ -950,6 +1037,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<ProcessInfo> sse_decode_list_process_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <ProcessInfo>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_process_info(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   List<(String, String)> sse_decode_list_record_string_string(
     SseDeserializer deserializer,
   ) {
@@ -1032,6 +1131,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     } else {
       return null;
     }
+  }
+
+  @protected
+  ProcessInfo sse_decode_process_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_pid = sse_decode_u_32(deserializer);
+    var var_name = sse_decode_String(deserializer);
+    var var_path = sse_decode_String(deserializer);
+    return ProcessInfo(pid: var_pid, name: var_name, path: var_path);
   }
 
   @protected
@@ -1296,6 +1404,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_process_info(
+    List<ProcessInfo> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_process_info(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_list_record_string_string(
     List<(String, String)> self,
     SseSerializer serializer,
@@ -1376,6 +1496,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     if (self != null) {
       sse_encode_list_prim_u_8_strict(self, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_process_info(ProcessInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.pid, serializer);
+    sse_encode_String(self.name, serializer);
+    sse_encode_String(self.path, serializer);
   }
 
   @protected

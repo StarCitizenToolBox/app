@@ -6,6 +6,9 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+// These functions are ignored because they are not marked as `pub`: `get_process_path`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`
+
 Future<void> sendNotify({
   String? summary,
   String? body,
@@ -22,3 +25,37 @@ Future<bool> setForegroundWindow({required String windowName}) => RustLib
     .instance
     .api
     .crateApiWin32ApiSetForegroundWindow(windowName: windowName);
+
+Future<int> getProcessPidByName({required String processName}) => RustLib
+    .instance
+    .api
+    .crateApiWin32ApiGetProcessPidByName(processName: processName);
+
+Future<List<ProcessInfo>> getProcessListByName({required String processName}) =>
+    RustLib.instance.api.crateApiWin32ApiGetProcessListByName(
+      processName: processName,
+    );
+
+class ProcessInfo {
+  final int pid;
+  final String name;
+  final String path;
+
+  const ProcessInfo({
+    required this.pid,
+    required this.name,
+    required this.path,
+  });
+
+  @override
+  int get hashCode => pid.hashCode ^ name.hashCode ^ path.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProcessInfo &&
+          runtimeType == other.runtimeType &&
+          pid == other.pid &&
+          name == other.name &&
+          path == other.path;
+}

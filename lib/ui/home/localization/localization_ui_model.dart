@@ -63,10 +63,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   String get _scInstallPath => ref.read(homeUIModelProvider).scInstalledPath!;
 
+  bool _isDisposed = false;
+
   @override
   LocalizationUIState build() {
     state = LocalizationUIState(selectedLanguage: languageSupport.keys.first);
     ref.onDispose(() {
+      _isDisposed = true;
       _customizeDirListenSub?.cancel();
       _customizeDirListenSub = null;
     });
@@ -83,6 +86,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     state = state.copyWith(selectedLanguage: lang);
     // fix for ui performance
     await Future.delayed(Duration(milliseconds: 250));
+    if (_isDisposed) return;
     await _loadData();
   }
 
@@ -113,6 +117,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     for (var lang in languageSupport.keys) {
       final l = await Api.getScLocalizationData(lang).unwrap();
       if (l != null) {
+        if (_isDisposed) return;
         if (lang == state.selectedLanguage) {
           final apiLocalizationData = <String, ScLocalizationData>{};
           for (var element in l) {
@@ -123,6 +128,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
               apiLocalizationData[element.versionName ?? ""] = element;
             }
           }
+          if (_isDisposed) return;
           state = state.copyWith(apiLocalizationData: apiLocalizationData);
         }
         final map = <String, ScLocalizationData>{};
@@ -464,7 +470,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
     dPrint(
         "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion");
-
+    if (_isDisposed) return;
     state = state.copyWith(
       patchStatus: patchStatus,
       isInstalledAdvanced: isInstalledAdvanced,
