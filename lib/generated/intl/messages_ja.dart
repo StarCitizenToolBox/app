@@ -119,8 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m46(v0, v1, v2, v3, v4) =>
       "エリア：${v0}   プレイヤー操縦：${v1}   衝突エンティティ：${v2} \n衝突ビークル：${v3}   衝突距離：${v4} ";
 
-  static String m47(v0, v1, v2, v3) =>
-      "被害者ID：${v0}    死因：${v1} \n殺害者ID：${v2}  \nエリア：${v3}";
+  static String m47(v0, v2, v3) => "被害者ID：${v0}    \n位置：${v2}  \nエリア：${v3}";
 
   static String m48(v0) => "詳細情報：${v0}";
 

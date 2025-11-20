@@ -105,6 +105,12 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
             playTime: currentGameStartTime != gameStartTime ? gameStartTime : null,
           );
     }
+
+    if (next.deathEvents?.isNotEmpty ?? false) {
+      for (final event in next.deathEvents!) {
+        ref.read(partyRoomProvider.notifier).sendSignal("special_death", params: {"location": event.$1, "area": event.$2});
+      }
+    }
   }
 
   /// 处理连接状态变化

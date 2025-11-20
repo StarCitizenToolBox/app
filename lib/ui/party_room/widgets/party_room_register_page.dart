@@ -123,7 +123,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                 ? const Color(0xFF4CAF50)
                 : isActive
                 ? const Color(0xFF4A9EFF)
-                : Colors.grey.withValues(alpha: 0.3),
+                : Colors.white.withValues(alpha: 0.4),
             shape: BoxShape.circle,
           ),
           child: Center(
@@ -143,7 +143,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
           title,
           style: TextStyle(
             fontSize: 11,
-            color: isActive ? const Color(0xFF4A9EFF) : Colors.grey.withValues(alpha: 0.7),
+            color: isActive ? const Color(0xFF4A9EFF) : Colors.white.withValues(alpha: 0.4),
             fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
           ),
         ),

@@ -115,8 +115,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m46(v0, v1, v2, v3, v4) =>
       "區域：${v0}   玩家駕駛：${v1}   碰撞實體：${v2} \n碰撞載具: ${v3}   碰撞距離：${v4} ";
 
-  static String m47(v0, v1, v2, v3) =>
-      "受害者ID：${v0}    死因：${v1} \n擊殺者ID：${v2}  \n區域：${v3}";
+  static String m47(v0, v2, v3) => "受害者ID：${v0}   \n位置：${v2}  \n區域：${v3}";
 
   static String m48(v0) => "詳細資訊：${v0}";
 
@@ -1397,7 +1396,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_init_msg2":
         MessageLookupByLibrary.simpleMessage("正在從網路取得增強資料..."),
     "tools_rsi_launcher_enhance_msg_error":
-        MessageLookupByLibrary.simpleMessage("增強資料取得失敗，可能是網路問題或目前版本不支援"),
+        MessageLookupByLibrary.simpleMessage("目前版本不支援"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage("讀取啟動器資訊失敗！"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":

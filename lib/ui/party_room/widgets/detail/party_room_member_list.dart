@@ -97,15 +97,12 @@ class PartyRoomMemberItem extends ConsumerWidget {
                           ),
                           Row(
                             children: [
-                              Text(
-                                member.status.currentLocation.isNotEmpty ? member.status.currentLocation : '...',
-                                style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .9)),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                "K: ${member.status.kills} D: ${member.status.deaths}",
-                                style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                              Expanded(
+                                child: Text(
+                                  member.status.currentLocation.isNotEmpty ? member.status.currentLocation : '...',
+                                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .9)),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ],
                           ),

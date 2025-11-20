@@ -210,6 +210,11 @@ class _MessageItem extends ConsumerWidget {
     final userName = _getEventUserName(roomEvent);
     final avatarUrl = _getEventAvatarUrl(roomEvent);
 
+    // 检查是否是死亡信号，显示特殊卡片
+    if (isSignal && roomEvent.signalId == 'special_death') {
+      return _buildDeathMessageCard(context, roomEvent, userName, avatarUrl);
+    }
+
     final text = _getEventText(roomEvent, ref);
     if (text == null) return const SizedBox.shrink();
 
@@ -256,6 +261,104 @@ class _MessageItem extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDeathMessageCard(
+    BuildContext context,
+    partroom.RoomEvent roomEvent,
+    String userName,
+    String? avatarUrl,
+  ) {
+    final location = roomEvent.signalParams['location'] ?? '未知位置';
+    final area = roomEvent.signalParams['area'] ?? '未知区域';
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildUserAvatar(userName, avatarUrl: avatarUrl, size: 28),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 用户名和时间
+                Row(
+                  children: [
+                    Text(
+                      userName,
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      _formatTime(roomEvent.timestamp),
+                      style: const TextStyle(fontSize: 11, color: Color(0xFF80848E)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                // 死亡卡片
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2B2D31),
+                    border: Border.all(color: const Color(0xFFED4245).withValues(alpha: 0.3)),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 标题
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFED4245).withValues(alpha: 0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(FluentIcons.status_error_full, size: 14, color: Color(0xFFED4245)),
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            '玩家死亡',
+                            style: TextStyle(fontSize: 14, color: Color(0xFFED4245), fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      // 位置信息
+                      _buildInfoRow(icon: FluentIcons.location, label: '位置', value: location),
+                      const SizedBox(height: 8),
+                      // 区域信息
+                      _buildInfoRow(icon: FluentIcons.map_pin, label: '区域', value: area),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow({required IconData icon, required String label, required String value}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 14, color: Colors.white.withValues(alpha: .4)),
+        const SizedBox(width: 8),
+        Text(
+          '$label:   ',
+          style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .4), fontWeight: FontWeight.w500),
+        ),
+        Expanded(
+          child: Text(value, style: const TextStyle(fontSize: 13, color: Color(0xFFDBDEE1))),
+        ),
+      ],
     );
   }
 

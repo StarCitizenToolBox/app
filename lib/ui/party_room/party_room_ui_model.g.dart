@@ -41,7 +41,7 @@ final class PartyRoomUIModelProvider
   }
 }
 
-String _$partyRoomUIModelHash() => r'a0b6c3632ff33f2d58882f9bc1ab58c69c2487f4';
+String _$partyRoomUIModelHash() => r'add4703c9129465718a7850ea09025aa1ff35358';
 
 abstract class _$PartyRoomUIModel extends $Notifier<PartyRoomUIState> {
   PartyRoomUIState build();

@@ -5808,18 +5808,13 @@ class S {
     );
   }
 
-  /// `Victim ID: {v0}    Cause of death: {v1} \nKiller ID: {v2}  \nArea: {v3}`
-  String log_analyzer_death_details(
-    Object v0,
-    Object v1,
-    Object v2,
-    Object v3,
-  ) {
+  /// `Victim ID: {v0}   \nLocation: {v2}  \nArea: {v3}`
+  String log_analyzer_death_details(Object v0, Object v2, Object v3) {
     return Intl.message(
-      'Victim ID: $v0    Cause of death: $v1 \nKiller ID: $v2  \nArea: $v3',
+      'Victim ID: $v0   \nLocation: $v2  \nArea: $v3',
       name: 'log_analyzer_death_details',
       desc: '',
-      args: [v0, v1, v2, v3],
+      args: [v0, v2, v3],
     );
   }
 

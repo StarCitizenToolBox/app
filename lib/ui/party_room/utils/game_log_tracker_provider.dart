@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,8 +19,7 @@ sealed class PartyRoomGameLogTrackerProviderState with _$PartyRoomGameLogTracker
     @Default(0) int kills,
     @Default(0) int deaths,
     DateTime? gameStartTime,
-    @Default([]) List<String> killedIds, // 本次迭代新增的击杀ID
-    @Default([]) List<String> deathIds, // 本次迭代新增的死亡ID
+    List<(String, String)>? deathEvents,
   }) = _PartyRoomGameLogTrackerProviderState;
 }
 
@@ -32,6 +32,7 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
 
   @override
   PartyRoomGameLogTrackerProviderState build({required DateTime startTime}) {
+    startTime = DateTime.now();
     dPrint("[PartyRoomGameLogTrackerProvider] init $startTime");
     ref.onDispose(() {
       _disposed = true;
@@ -65,16 +66,9 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
         }
       } catch (e) {
         // 游戏未启动或发生错误
-        state = state.copyWith(
-          location: '<游戏未启动>',
-          gameStartTime: null,
-          kills: 0,
-          deaths: 0,
-          killedIds: [],
-          deathIds: [],
-        );
+        state = state.copyWith(location: '<游戏未启动>', gameStartTime: null, kills: 0, deaths: 0);
       }
-      await Future.delayed(const Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 10));
     }
   }
 
@@ -90,9 +84,7 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
       // 从统计数据中直接获取最新位置（全量查找的结果）
       final location = statistics.latestLocation == null ? '<主菜单>' : '[${statistics.latestLocation}]';
 
-      // 计算基于 _lastQueryTime 之后的增量 ID
-      final newKilledIds = <String>[];
-      final newDeathIds = <String>[];
+      List<(String, String)> deathEvents = [];
 
       if (_lastQueryTime != null) {
         // 遍历所有 actor_death 事件
@@ -125,24 +117,15 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
             }
           }
 
-          // 使用格式化字段，不再重新解析
-          final victimId = data.victimId;
-          final killerId = data.killerId;
-
-          if (victimId != null && killerId != null && victimId != killerId) {
-            // 如果玩家是击杀者，记录被击杀的ID
-            if (killerId == statistics.playerName) {
-              newKilledIds.add(victimId);
-            }
-
-            // 如果玩家是受害者，记录击杀者ID
-            if (victimId == statistics.playerName) {
-              newDeathIds.add(killerId);
-            }
+          if (data.playerName == data.victimId) {
+            // 玩家死亡，增加记录
+            deathEvents.add((data.location ?? "-", data.area ?? "-"));
           }
         }
       }
-
+      // debugPrint(
+      //   "[PartyRoomGameLogTrackerProvider] location $location killCount ${statistics.killCount} deathCount ${statistics.deathCount}",
+      // );
       // 更新状态，只存储本次迭代的增量数据
       state = state.copyWith(
         location: location,
@@ -151,10 +134,7 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
         deaths: statistics.deathCount,
         // 从 startTime 开始的总计数
         gameStartTime: statistics.gameStartTime,
-        // 全量查找的游戏开始时间
-        killedIds: newKilledIds,
-        // 只存储本次迭代的增量
-        deathIds: newDeathIds, // 只存储本次迭代的增量
+        deathEvents: deathEvents,
       );
 
       // 更新查询时间为本次查询的时刻

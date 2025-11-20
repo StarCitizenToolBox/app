@@ -15,8 +15,8 @@ class LogAnalyzeLineData {
 
   // 格式化后的字段
   final String? victimId; // 受害者ID (actor_death)
-  final String? killerId; // 击杀者ID (actor_death)
   final String? location; // 位置信息 (request_location_inventory)
+  final String? area; // 区域信息
   final String? playerName; // 玩家名称 (player_login)
 
   const LogAnalyzeLineData({
@@ -26,8 +26,8 @@ class LogAnalyzeLineData {
     this.dateTime,
     this.tag,
     this.victimId,
-    this.killerId,
     this.location,
+    this.area,
     this.playerName,
   });
 
@@ -76,10 +76,10 @@ class GameLogAnalyzer {
 
   // 致命碰撞解析
   static final _fatalCollisionPatterns = {
-    'zone': RegExp(r'\[Part:[^\]]*?Zone:\s*([^,\]]+)'),
+    'vehicle': RegExp(r'Fatal Collision occured for vehicle\s+(\S+)'),
+    'zone': RegExp(r'Zone:\s*([^,\]]+)'),
     'player_pilot': RegExp(r'PlayerPilot:\s*(\d)'),
     'hit_entity': RegExp(r'hitting entity:\s*(\w+)'),
-    'hit_entity_vehicle': RegExp(r'hitting entity:[^\[]*\[Zone:\s*([^\s-]+)'),
     'distance': RegExp(r'Distance:\s*([\d.]+)'),
   };
 
@@ -93,10 +93,9 @@ class GameLogAnalyzer {
 
   // 角色死亡解析
   static final _actorDeathPattern = RegExp(
-    r"CActor::Kill: '([^']+)'.*?" // 受害者ID
-    r"in zone '([^']+)'.*?" // 死亡位置区域
-    r"killed by '([^']+)'.*?" // 击杀者ID
-    r"with damage type '([^']+)'", // 伤害类型
+    r"Actor '([^']+)'.*?" // 受害者ID
+    r"ejected from zone '([^']+)'.*?" // 原载具/区域
+    r"to zone '([^']+)'", // 目标区域
   );
 
   // 角色名称解析
@@ -217,7 +216,7 @@ class GameLogAnalyzer {
               }
             });
             break;
-          case "Actor Death":
+          case "[ActorState] Dead":
             data = _parseActorDeath(line, playerName, shouldCount, (isKill, isDeath, isSelfKill) {
               if (isSelfKill) {
                 selfKillCount++;
@@ -372,10 +371,10 @@ class GameLogAnalyzer {
   static String? _safeExtract(RegExp pattern, String line) => pattern.firstMatch(line)?.group(1)?.trim();
 
   static LogAnalyzeLineData? _parseFatalCollision(String line) {
+    final vehicle = _safeExtract(_fatalCollisionPatterns['vehicle']!, line) ?? unknownValue;
     final zone = _safeExtract(_fatalCollisionPatterns['zone']!, line) ?? unknownValue;
     final playerPilot = (_safeExtract(_fatalCollisionPatterns['player_pilot']!, line) ?? '0') == '1';
     final hitEntity = _safeExtract(_fatalCollisionPatterns['hit_entity']!, line) ?? unknownValue;
-    final hitEntityVehicle = _safeExtract(_fatalCollisionPatterns['hit_entity_vehicle']!, line) ?? unknownValue;
     final distance = double.tryParse(_safeExtract(_fatalCollisionPatterns['distance']!, line) ?? '') ?? 0.0;
 
     return LogAnalyzeLineData(
@@ -385,7 +384,7 @@ class GameLogAnalyzer {
         zone,
         playerPilot ? '✅' : '❌',
         hitEntity,
-        hitEntityVehicle,
+        vehicle,
         distance.toStringAsFixed(2),
       ),
       dateTime: _getLogLineDateTimeString(line),
@@ -436,27 +435,25 @@ class GameLogAnalyzer {
     final match = _actorDeathPattern.firstMatch(line);
     if (match != null) {
       final victimId = match.group(1) ?? unknownValue;
-      final zone = match.group(2) ?? unknownValue;
-      final killerId = match.group(3) ?? unknownValue;
-      final damageType = match.group(4) ?? unknownValue;
+      final fromZone = match.group(2) ?? unknownValue;
+      final toZone = match.group(3) ?? unknownValue;
 
       if (shouldCount) {
-        if (victimId.trim() == killerId.trim()) {
-          onDeath(false, false, true); // 自杀
-        } else {
-          final isDeath = victimId.trim() == playerName;
-          final isKill = killerId.trim() == playerName;
-          onDeath(isKill, isDeath, false);
+        final isDeath = victimId.trim() == playerName;
+        if (isDeath) {
+          onDeath(false, true, false);
         }
       }
 
       return LogAnalyzeLineData(
         type: "actor_death",
         title: S.current.log_analyzer_filter_character_death,
-        data: S.current.log_analyzer_death_details(victimId, damageType, killerId, zone),
+        data: S.current.log_analyzer_death_details(victimId, fromZone, toZone),
         dateTime: _getLogLineDateTimeString(line),
-        victimId: victimId, // 格式化字段
-        killerId: killerId, // 格式化字段
+        location: fromZone,
+        area: toZone,
+        victimId: victimId,
+        playerName: playerName,
       );
     }
     return null;

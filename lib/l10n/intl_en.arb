@@ -1141,7 +1141,7 @@
   "@log_analyzer_disintegration": {},
   "log_analyzer_vehicle_damage_details": "Vehicle model: {v0}   \nArea: {v1} \nDamage level: {v2} ({v3})   Responsible party: {v4}",
   "@log_analyzer_vehicle_damage_details": {},
-  "log_analyzer_death_details": "Victim ID: {v0}    Cause of death: {v1} \nKiller ID: {v2}  \nArea: {v3}",
+  "log_analyzer_death_details": "Victim ID: {v0}   \nLocation: {v2}  \nArea: {v3}",
   "@log_analyzer_death_details": {},
   "log_analyzer_player_login": "Player {v0} logged in...",
   "@log_analyzer_player_login": {},
