@@ -11,9 +11,8 @@ class URLConf {
   static const String analyticsApiHome = "https://scbox.org";
 
   /// PartyRoom Server
-  static const String partyRoomServerAddress = "partyroom.grpc.scbox.xkeyc.cn";
+  static const String partyRoomServerAddress = "ecdn.partyroom.grpc.scbox.xkeyc.cn";
   static const int partyRoomServerPort = 443;
-
 
   static bool isUrlCheckPass = false;
 

@@ -781,9 +781,9 @@ class PartyRoom extends _$PartyRoom {
   void _handleRoomEvent(partroom.RoomEvent event) {
     dPrint('[PartyRoom] Event received: ${event.type}');
 
-    // 添加到最近事件列表（保留最近 50 条）
+    // 添加到最近事件列表（保留最近 1000 条）
     final recentEvents = [...state.room.recentEvents, event];
-    if (recentEvents.length > 50) {
+    if (recentEvents.length > 1000) {
       recentEvents.removeAt(0);
     }
 
@@ -794,13 +794,24 @@ class PartyRoom extends _$PartyRoom {
       case partroom.RoomEventType.MEMBER_JOINED:
       case partroom.RoomEventType.MEMBER_LEFT:
       case partroom.RoomEventType.MEMBER_KICKED:
-      case partroom.RoomEventType.MEMBER_STATUS_UPDATED:
         // 刷新成员列表
         if (state.room.roomUuid != null) {
           getRoomMembers(state.room.roomUuid!);
         }
         break;
-
+      case partroom.RoomEventType.MEMBER_STATUS_UPDATED:
+        // 刷新成员状态，只更新对应成员的 status
+        state = state.copyWith(
+          room: state.room.copyWith(
+            members: state.room.members.map((member) {
+              if (member.gameUserId == event.member.gameUserId) {
+                return member.deepCopy()..status = event.member.status;
+              }
+              return member;
+            }).toList(),
+          ),
+        );
+        break;
       case partroom.RoomEventType.OWNER_CHANGED:
         // 检查是否自己成为房主
         final isOwner = event.member.gameUserId == state.auth.userInfo?.gameUserId;
