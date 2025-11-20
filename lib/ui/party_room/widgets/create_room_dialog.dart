@@ -127,7 +127,7 @@ class CreateRoomDialog extends HookConsumerWidget {
               ),
               const SizedBox(height: 16),
               InfoLabel(
-                label: '目标人数 (2-600)',
+                label: '目标人数 (2-100)',
                 child: TextBox(
                   controller: targetMembersController,
                   placeholder: '输入目标人数',
@@ -194,12 +194,12 @@ class CreateRoomDialog extends HookConsumerWidget {
                   }
 
                   final targetMembers = int.tryParse(targetMembersController.text);
-                  if (targetMembers == null || targetMembers < 2 || targetMembers > 600) {
+                  if (targetMembers == null || targetMembers < 2 || targetMembers > 100) {
                     await showDialog(
                       context: context,
                       builder: (context) => ContentDialog(
                         title: const Text('提示'),
-                        content: const Text('目标人数必须在 2-600 之间'),
+                        content: const Text('目标人数必须在 2-100 之间'),
                         actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                       ),
                     );
