@@ -430,6 +430,7 @@ class PartyRoomListPage extends HookConsumerWidget {
 
   Future<void> _showCreateRoomDialog(BuildContext context, WidgetRef ref) async {
     final uiState = ref.read(partyRoomUIModelProvider);
+    final partyRoomState = ref.read(partyRoomProvider);
 
     // 检查是否为游客模式
     if (uiState.isGuestMode) {
@@ -451,6 +452,26 @@ class PartyRoomListPage extends HookConsumerWidget {
       return;
     }
 
+    // 检查是否已经在房间内
+    if (partyRoomState.room.isInRoom) {
+      final shouldLeave = await showDialog<bool>(
+        context: context,
+        builder: (context) => ContentDialog(
+          title: const Text('创建新房间'),
+          content: const Text('你已经在其他房间中，创建新房间将自动退出当前房间。是否继续？'),
+          actions: [
+            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+            FilledButton(child: const Text('继续'), onPressed: () => Navigator.pop(context, true)),
+          ],
+        ),
+      );
+
+      if (shouldLeave != true) return;
+
+      // 退出当前房间
+      await ref.read(partyRoomProvider.notifier).leaveRoom();
+    }
+    if (!context.mounted) return;
     await showDialog(context: context, builder: (context) => const CreateRoomDialog());
   }
 

@@ -39,6 +39,7 @@ sealed class PartyRoomState with _$PartyRoomState {
     @Default(false) bool isOwner,
     String? roomUuid,
     @Default([]) List<partroom.RoomEvent> recentEvents,
+    @Default(false) bool eventStreamDisconnected,
   }) = _PartyRoomState;
 }
 
@@ -75,11 +76,7 @@ class PartyRoom extends _$PartyRoom {
   Box? _confBox;
   StreamSubscription<partroom.RoomEvent>? _eventStreamSubscription;
   Timer? _heartbeatTimer;
-  Timer? _reconnectTimer;
   bool _disposed = false;
-  int _reconnectAttempts = 0;
-  static const int _maxReconnectAttempts = 5;
-  static const Duration _reconnectDelay = Duration(seconds: 3);
 
   @override
   PartyRoomFullState build() {
@@ -402,7 +399,6 @@ class PartyRoom extends _$PartyRoom {
       await _stopHeartbeat();
       await _stopEventStream();
 
-      _reconnectAttempts = 0;
       _dismissRoom();
 
       dPrint('[PartyRoom] Left room: $roomUuid');
@@ -426,7 +422,6 @@ class PartyRoom extends _$PartyRoom {
       await _stopHeartbeat();
       await _stopEventStream();
 
-      _reconnectAttempts = 0;
       _dismissRoom();
 
       dPrint('[PartyRoom] Dismissed room: $roomUuid');
@@ -760,106 +755,35 @@ class PartyRoom extends _$PartyRoom {
 
       _eventStreamSubscription = stream.listen(
         (event) {
-          // 重置重连计数器，因为连接正常
-          _reconnectAttempts = 0;
           _handleRoomEvent(event);
         },
         onError: (error) {
           dPrint('[PartyRoom] Event stream error: $error');
-          // 发生错误时尝试重连
-          _scheduleReconnect(roomUuid);
+          // 标记事件流断开
+          state = state.copyWith(room: state.room.copyWith(eventStreamDisconnected: true));
         },
         onDone: () {
           dPrint('[PartyRoom] Event stream closed');
-          // 流关闭时尝试重连
-          _scheduleReconnect(roomUuid);
+          // 标记事件流断开
+          state = state.copyWith(room: state.room.copyWith(eventStreamDisconnected: true));
         },
       );
 
+      // 成功启动，重置断开标记
+      state = state.copyWith(room: state.room.copyWith(eventStreamDisconnected: false));
+
       dPrint('[PartyRoom] Event stream started');
-      // 成功启动，重置重连计数
-      _reconnectAttempts = 0;
     } catch (e) {
       dPrint('[PartyRoom] StartEventStream error: $e');
-      // 启动失败时尝试重连
-      _scheduleReconnect(roomUuid);
-    }
-  }
-
-  /// 调度重连
-  void _scheduleReconnect(String roomUuid) {
-    // 如果已经销毁或不在房间内，不重连
-    if (_disposed || state.room.roomUuid == null || state.room.roomUuid != roomUuid) {
-      dPrint('[PartyRoom] Skip reconnect: disposed=$_disposed, roomUuid=${state.room.roomUuid}');
-      return;
-    }
-
-    // 如果已经有重连任务在进行，不重复调度
-    if (_reconnectTimer?.isActive ?? false) {
-      return;
-    }
-
-    // 检查重连次数
-    if (_reconnectAttempts >= _maxReconnectAttempts) {
-      dPrint('[PartyRoom] Max reconnect attempts reached ($_maxReconnectAttempts)');
-      return;
-    }
-
-    _reconnectAttempts++;
-    dPrint(
-      '[PartyRoom] Scheduling reconnect attempt $_reconnectAttempts/$_maxReconnectAttempts in ${_reconnectDelay.inSeconds}s',
-    );
-
-    _reconnectTimer = Timer(_reconnectDelay, () async {
-      await _attemptReconnect(roomUuid);
-    });
-  }
-
-  /// 尝试重连
-  Future<void> _attemptReconnect(String roomUuid) async {
-    if (_disposed || state.room.roomUuid == null || state.room.roomUuid != roomUuid) {
-      dPrint('[PartyRoom] Abort reconnect: no longer in room');
-      return;
-    }
-
-    try {
-      dPrint('[PartyRoom] Attempting to reconnect event stream...');
-
-      // 先检查自己是否还在房间内
-      final client = state.client.roomClient;
-      if (client == null) {
-        dPrint('[PartyRoom] Reconnect failed: client not available');
-        _scheduleReconnect(roomUuid);
-        return;
-      }
-
-      // 调用 getMyRoom 检查是否还在房间内
-      final response = await client.getMyRoom(partroom.GetMyRoomRequest(), options: _getAuthCallOptions());
-
-      if (!response.hasRoom() || response.room.roomUuid != roomUuid) {
-        dPrint('[PartyRoom] Reconnect failed: no longer in room');
-        // 不在房间内，清理状态
-        await _stopHeartbeat();
-        await _stopEventStream();
-        _reconnectAttempts = 0;
-        _dismissRoom();
-        return;
-      }
-
-      // 确认还在房间内，重新启动事件流
-      dPrint('[PartyRoom] Still in room, restarting event stream');
-      await _startEventStream(roomUuid);
-    } catch (e) {
-      dPrint('[PartyRoom] Reconnect attempt failed: $e');
-      // 重连失败，继续调度下一次重连
-      _scheduleReconnect(roomUuid);
+      // 启动失败，标记断开
+      state = state.copyWith(room: state.room.copyWith(eventStreamDisconnected: true));
+      rethrow;
     }
   }
 
   /// 停止事件流监听
   Future<void> _stopEventStream() async {
-    _reconnectTimer?.cancel();
-    _reconnectTimer = null;
+    if (_eventStreamSubscription == null) return;
     await _eventStreamSubscription?.cancel();
     _eventStreamSubscription = null;
     dPrint('[PartyRoom] Event stream stopped');
@@ -947,6 +871,43 @@ class PartyRoom extends _$PartyRoom {
         break;
     }
   }
+
+  // ========== 手动重连方法 ==========
+
+  /// 刷新房间信息并重新启动事件流
+  /// 供 UI 层在检测到连接断开时调用
+  Future<void> refreshRoomAndReconnect() async {
+    try {
+      final roomUuid = state.room.roomUuid;
+      if (roomUuid == null) {
+        throw Exception('Not in a room');
+      }
+
+      dPrint('[PartyRoom] Refreshing room and reconnecting...');
+
+      // 刷新房间信息
+      await getRoomInfo(roomUuid);
+
+      // 刷新成员列表
+      await getRoomMembers(roomUuid);
+
+      // 重新启动事件流
+      await _startEventStream(roomUuid);
+
+      dPrint('[PartyRoom] Room refreshed and reconnected successfully');
+    } catch (e) {
+      dPrint('[PartyRoom] Refresh and reconnect error: $e');
+      rethrow;
+    }
+  }
+
+  /// 确认已看到断开连接通知（用于清除断开标记而不重连）
+  void acknowledgeDisconnection() {
+    state = state.copyWith(room: state.room.copyWith(eventStreamDisconnected: false));
+  }
+
+  /// 检查事件流是否处于活跃状态
+  bool get isEventStreamActive => _eventStreamSubscription != null && !(_eventStreamSubscription?.isPaused ?? true);
 
   // ========== 通用服务方法 ==========
 

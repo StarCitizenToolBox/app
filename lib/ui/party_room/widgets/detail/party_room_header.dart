@@ -2,6 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
+import 'package:starcitizen_doctor/ui/party_room/widgets/create_room_dialog.dart';
 
 /// 房间信息头部组件
 class PartyRoomHeader extends ConsumerWidget {
@@ -58,39 +59,54 @@ class PartyRoomHeader extends ConsumerWidget {
           ),
           if (isOwner) ...[
             const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              child: Button(
-                onPressed: () async {
-                  final confirmed = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => ContentDialog(
-                      title: const Text('确认解散'),
-                      content: const Text('确定要解散房间吗？所有成员将被移出。'),
-                      actions: [
-                        Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
-                        FilledButton(
-                          style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xFFDA373C))),
-                          child: const Text('解散', style: TextStyle(color: Colors.white)),
-                          onPressed: () => Navigator.pop(context, true),
-                        ),
-                      ],
-                    ),
-                  );
-                  if (confirmed == true) {
-                    ref.read(partyRoomUIModelProvider.notifier).dismissRoom();
-                  }
-                },
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.resolveWith((state) {
-                    if (state.isHovered || state.isPressed) {
-                      return const Color(0xFFB3261E);
-                    }
-                    return const Color(0xFFDA373C);
-                  }),
+            Row(
+              children: [
+                Expanded(
+                  child: Button(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => CreateRoomDialog(roomInfo: room),
+                      );
+                    },
+                    child: const Text('编辑房间'),
+                  ),
                 ),
-                child: const Text('解散房间', style: TextStyle(color: Colors.white)),
-              ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Button(
+                    onPressed: () async {
+                      final confirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => ContentDialog(
+                          title: const Text('确认解散'),
+                          content: const Text('确定要解散房间吗？所有成员将被移出。'),
+                          actions: [
+                            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+                            FilledButton(
+                              style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xFFDA373C))),
+                              child: const Text('解散', style: TextStyle(color: Colors.white)),
+                              onPressed: () => Navigator.pop(context, true),
+                            ),
+                          ],
+                        ),
+                      );
+                      if (confirmed == true) {
+                        ref.read(partyRoomUIModelProvider.notifier).dismissRoom();
+                      }
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.resolveWith((state) {
+                        if (state.isHovered || state.isPressed) {
+                          return const Color(0xFFB3261E);
+                        }
+                        return const Color(0xFFDA373C);
+                      }),
+                    ),
+                    child: const Text('解散房间', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
             ),
           ] else ...[
             const SizedBox(height: 8),
@@ -100,8 +116,21 @@ class PartyRoomHeader extends ConsumerWidget {
                 onPressed: () async {
                   await partyRoom.leaveRoom();
                 },
-                style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xFF404249))),
-                child: const Text('离开房间', style: TextStyle(color: Color(0xFFB5BAC1))),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.resolveWith((state) {
+                    if (state.isHovered || state.isPressed) {
+                      return const Color(0xFFDA373C);
+                    }
+                    return const Color(0xFF404249);
+                  }),
+                  foregroundColor: WidgetStateProperty.resolveWith((state) {
+                    if (state.isHovered || state.isPressed) {
+                      return Colors.white;
+                    }
+                    return const Color(0xFFDBDEE1);
+                  }),
+                ),
+                child: const Text('离开房间'),
               ),
             ),
           ],

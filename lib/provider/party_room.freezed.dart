@@ -277,7 +277,7 @@ as DateTime?,
 /// @nodoc
 mixin _$PartyRoomState {
 
- partroom.RoomInfo? get currentRoom; List<partroom.RoomMember> get members; Map<String, common.Tag> get tags; Map<String, common.SignalType> get signalTypes; bool get isInRoom; bool get isOwner; String? get roomUuid; List<partroom.RoomEvent> get recentEvents;
+ partroom.RoomInfo? get currentRoom; List<partroom.RoomMember> get members; Map<String, common.Tag> get tags; Map<String, common.SignalType> get signalTypes; bool get isInRoom; bool get isOwner; String? get roomUuid; List<partroom.RoomEvent> get recentEvents; bool get eventStreamDisconnected;
 /// Create a copy of PartyRoomState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -288,16 +288,16 @@ $PartyRoomStateCopyWith<PartyRoomState> get copyWith => _$PartyRoomStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomState&&(identical(other.currentRoom, currentRoom) || other.currentRoom == currentRoom)&&const DeepCollectionEquality().equals(other.members, members)&&const DeepCollectionEquality().equals(other.tags, tags)&&const DeepCollectionEquality().equals(other.signalTypes, signalTypes)&&(identical(other.isInRoom, isInRoom) || other.isInRoom == isInRoom)&&(identical(other.isOwner, isOwner) || other.isOwner == isOwner)&&(identical(other.roomUuid, roomUuid) || other.roomUuid == roomUuid)&&const DeepCollectionEquality().equals(other.recentEvents, recentEvents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomState&&(identical(other.currentRoom, currentRoom) || other.currentRoom == currentRoom)&&const DeepCollectionEquality().equals(other.members, members)&&const DeepCollectionEquality().equals(other.tags, tags)&&const DeepCollectionEquality().equals(other.signalTypes, signalTypes)&&(identical(other.isInRoom, isInRoom) || other.isInRoom == isInRoom)&&(identical(other.isOwner, isOwner) || other.isOwner == isOwner)&&(identical(other.roomUuid, roomUuid) || other.roomUuid == roomUuid)&&const DeepCollectionEquality().equals(other.recentEvents, recentEvents)&&(identical(other.eventStreamDisconnected, eventStreamDisconnected) || other.eventStreamDisconnected == eventStreamDisconnected));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentRoom,const DeepCollectionEquality().hash(members),const DeepCollectionEquality().hash(tags),const DeepCollectionEquality().hash(signalTypes),isInRoom,isOwner,roomUuid,const DeepCollectionEquality().hash(recentEvents));
+int get hashCode => Object.hash(runtimeType,currentRoom,const DeepCollectionEquality().hash(members),const DeepCollectionEquality().hash(tags),const DeepCollectionEquality().hash(signalTypes),isInRoom,isOwner,roomUuid,const DeepCollectionEquality().hash(recentEvents),eventStreamDisconnected);
 
 @override
 String toString() {
-  return 'PartyRoomState(currentRoom: $currentRoom, members: $members, tags: $tags, signalTypes: $signalTypes, isInRoom: $isInRoom, isOwner: $isOwner, roomUuid: $roomUuid, recentEvents: $recentEvents)';
+  return 'PartyRoomState(currentRoom: $currentRoom, members: $members, tags: $tags, signalTypes: $signalTypes, isInRoom: $isInRoom, isOwner: $isOwner, roomUuid: $roomUuid, recentEvents: $recentEvents, eventStreamDisconnected: $eventStreamDisconnected)';
 }
 
 
@@ -308,7 +308,7 @@ abstract mixin class $PartyRoomStateCopyWith<$Res>  {
   factory $PartyRoomStateCopyWith(PartyRoomState value, $Res Function(PartyRoomState) _then) = _$PartyRoomStateCopyWithImpl;
 @useResult
 $Res call({
- partroom.RoomInfo? currentRoom, List<partroom.RoomMember> members, Map<String, common.Tag> tags, Map<String, common.SignalType> signalTypes, bool isInRoom, bool isOwner, String? roomUuid, List<partroom.RoomEvent> recentEvents
+ partroom.RoomInfo? currentRoom, List<partroom.RoomMember> members, Map<String, common.Tag> tags, Map<String, common.SignalType> signalTypes, bool isInRoom, bool isOwner, String? roomUuid, List<partroom.RoomEvent> recentEvents, bool eventStreamDisconnected
 });
 
 
@@ -325,7 +325,7 @@ class _$PartyRoomStateCopyWithImpl<$Res>
 
 /// Create a copy of PartyRoomState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? currentRoom = freezed,Object? members = null,Object? tags = null,Object? signalTypes = null,Object? isInRoom = null,Object? isOwner = null,Object? roomUuid = freezed,Object? recentEvents = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? currentRoom = freezed,Object? members = null,Object? tags = null,Object? signalTypes = null,Object? isInRoom = null,Object? isOwner = null,Object? roomUuid = freezed,Object? recentEvents = null,Object? eventStreamDisconnected = null,}) {
   return _then(_self.copyWith(
 currentRoom: freezed == currentRoom ? _self.currentRoom : currentRoom // ignore: cast_nullable_to_non_nullable
 as partroom.RoomInfo?,members: null == members ? _self.members : members // ignore: cast_nullable_to_non_nullable
@@ -335,7 +335,8 @@ as Map<String, common.SignalType>,isInRoom: null == isInRoom ? _self.isInRoom : 
 as bool,isOwner: null == isOwner ? _self.isOwner : isOwner // ignore: cast_nullable_to_non_nullable
 as bool,roomUuid: freezed == roomUuid ? _self.roomUuid : roomUuid // ignore: cast_nullable_to_non_nullable
 as String?,recentEvents: null == recentEvents ? _self.recentEvents : recentEvents // ignore: cast_nullable_to_non_nullable
-as List<partroom.RoomEvent>,
+as List<partroom.RoomEvent>,eventStreamDisconnected: null == eventStreamDisconnected ? _self.eventStreamDisconnected : eventStreamDisconnected // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -417,10 +418,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents,  bool eventStreamDisconnected)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PartyRoomState() when $default != null:
-return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents);case _:
+return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents,_that.eventStreamDisconnected);case _:
   return orElse();
 
 }
@@ -438,10 +439,10 @@ return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents,  bool eventStreamDisconnected)  $default,) {final _that = this;
 switch (_that) {
 case _PartyRoomState():
-return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents);}
+return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents,_that.eventStreamDisconnected);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -455,10 +456,10 @@ return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( partroom.RoomInfo? currentRoom,  List<partroom.RoomMember> members,  Map<String, common.Tag> tags,  Map<String, common.SignalType> signalTypes,  bool isInRoom,  bool isOwner,  String? roomUuid,  List<partroom.RoomEvent> recentEvents,  bool eventStreamDisconnected)?  $default,) {final _that = this;
 switch (_that) {
 case _PartyRoomState() when $default != null:
-return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents);case _:
+return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_that.isInRoom,_that.isOwner,_that.roomUuid,_that.recentEvents,_that.eventStreamDisconnected);case _:
   return null;
 
 }
@@ -470,7 +471,7 @@ return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_th
 
 
 class _PartyRoomState implements PartyRoomState {
-  const _PartyRoomState({this.currentRoom, final  List<partroom.RoomMember> members = const [], final  Map<String, common.Tag> tags = const {}, final  Map<String, common.SignalType> signalTypes = const {}, this.isInRoom = false, this.isOwner = false, this.roomUuid, final  List<partroom.RoomEvent> recentEvents = const []}): _members = members,_tags = tags,_signalTypes = signalTypes,_recentEvents = recentEvents;
+  const _PartyRoomState({this.currentRoom, final  List<partroom.RoomMember> members = const [], final  Map<String, common.Tag> tags = const {}, final  Map<String, common.SignalType> signalTypes = const {}, this.isInRoom = false, this.isOwner = false, this.roomUuid, final  List<partroom.RoomEvent> recentEvents = const [], this.eventStreamDisconnected = false}): _members = members,_tags = tags,_signalTypes = signalTypes,_recentEvents = recentEvents;
   
 
 @override final  partroom.RoomInfo? currentRoom;
@@ -505,6 +506,7 @@ class _PartyRoomState implements PartyRoomState {
   return EqualUnmodifiableListView(_recentEvents);
 }
 
+@override@JsonKey() final  bool eventStreamDisconnected;
 
 /// Create a copy of PartyRoomState
 /// with the given fields replaced by the non-null parameter values.
@@ -516,16 +518,16 @@ _$PartyRoomStateCopyWith<_PartyRoomState> get copyWith => __$PartyRoomStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomState&&(identical(other.currentRoom, currentRoom) || other.currentRoom == currentRoom)&&const DeepCollectionEquality().equals(other._members, _members)&&const DeepCollectionEquality().equals(other._tags, _tags)&&const DeepCollectionEquality().equals(other._signalTypes, _signalTypes)&&(identical(other.isInRoom, isInRoom) || other.isInRoom == isInRoom)&&(identical(other.isOwner, isOwner) || other.isOwner == isOwner)&&(identical(other.roomUuid, roomUuid) || other.roomUuid == roomUuid)&&const DeepCollectionEquality().equals(other._recentEvents, _recentEvents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomState&&(identical(other.currentRoom, currentRoom) || other.currentRoom == currentRoom)&&const DeepCollectionEquality().equals(other._members, _members)&&const DeepCollectionEquality().equals(other._tags, _tags)&&const DeepCollectionEquality().equals(other._signalTypes, _signalTypes)&&(identical(other.isInRoom, isInRoom) || other.isInRoom == isInRoom)&&(identical(other.isOwner, isOwner) || other.isOwner == isOwner)&&(identical(other.roomUuid, roomUuid) || other.roomUuid == roomUuid)&&const DeepCollectionEquality().equals(other._recentEvents, _recentEvents)&&(identical(other.eventStreamDisconnected, eventStreamDisconnected) || other.eventStreamDisconnected == eventStreamDisconnected));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentRoom,const DeepCollectionEquality().hash(_members),const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_signalTypes),isInRoom,isOwner,roomUuid,const DeepCollectionEquality().hash(_recentEvents));
+int get hashCode => Object.hash(runtimeType,currentRoom,const DeepCollectionEquality().hash(_members),const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_signalTypes),isInRoom,isOwner,roomUuid,const DeepCollectionEquality().hash(_recentEvents),eventStreamDisconnected);
 
 @override
 String toString() {
-  return 'PartyRoomState(currentRoom: $currentRoom, members: $members, tags: $tags, signalTypes: $signalTypes, isInRoom: $isInRoom, isOwner: $isOwner, roomUuid: $roomUuid, recentEvents: $recentEvents)';
+  return 'PartyRoomState(currentRoom: $currentRoom, members: $members, tags: $tags, signalTypes: $signalTypes, isInRoom: $isInRoom, isOwner: $isOwner, roomUuid: $roomUuid, recentEvents: $recentEvents, eventStreamDisconnected: $eventStreamDisconnected)';
 }
 
 
@@ -536,7 +538,7 @@ abstract mixin class _$PartyRoomStateCopyWith<$Res> implements $PartyRoomStateCo
   factory _$PartyRoomStateCopyWith(_PartyRoomState value, $Res Function(_PartyRoomState) _then) = __$PartyRoomStateCopyWithImpl;
 @override @useResult
 $Res call({
- partroom.RoomInfo? currentRoom, List<partroom.RoomMember> members, Map<String, common.Tag> tags, Map<String, common.SignalType> signalTypes, bool isInRoom, bool isOwner, String? roomUuid, List<partroom.RoomEvent> recentEvents
+ partroom.RoomInfo? currentRoom, List<partroom.RoomMember> members, Map<String, common.Tag> tags, Map<String, common.SignalType> signalTypes, bool isInRoom, bool isOwner, String? roomUuid, List<partroom.RoomEvent> recentEvents, bool eventStreamDisconnected
 });
 
 
@@ -553,7 +555,7 @@ class __$PartyRoomStateCopyWithImpl<$Res>
 
 /// Create a copy of PartyRoomState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? currentRoom = freezed,Object? members = null,Object? tags = null,Object? signalTypes = null,Object? isInRoom = null,Object? isOwner = null,Object? roomUuid = freezed,Object? recentEvents = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currentRoom = freezed,Object? members = null,Object? tags = null,Object? signalTypes = null,Object? isInRoom = null,Object? isOwner = null,Object? roomUuid = freezed,Object? recentEvents = null,Object? eventStreamDisconnected = null,}) {
   return _then(_PartyRoomState(
 currentRoom: freezed == currentRoom ? _self.currentRoom : currentRoom // ignore: cast_nullable_to_non_nullable
 as partroom.RoomInfo?,members: null == members ? _self._members : members // ignore: cast_nullable_to_non_nullable
@@ -563,7 +565,8 @@ as Map<String, common.SignalType>,isInRoom: null == isInRoom ? _self.isInRoom : 
 as bool,isOwner: null == isOwner ? _self.isOwner : isOwner // ignore: cast_nullable_to_non_nullable
 as bool,roomUuid: freezed == roomUuid ? _self.roomUuid : roomUuid // ignore: cast_nullable_to_non_nullable
 as String?,recentEvents: null == recentEvents ? _self._recentEvents : recentEvents // ignore: cast_nullable_to_non_nullable
-as List<partroom.RoomEvent>,
+as List<partroom.RoomEvent>,eventStreamDisconnected: null == eventStreamDisconnected ? _self.eventStreamDisconnected : eventStreamDisconnected // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
