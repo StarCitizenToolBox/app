@@ -1,7 +1,7 @@
 class ConstConf {
-  static const String appVersion = "3.0.0 Beta";
-  static const int appVersionCode = 72;
-  static const String appVersionDate = "2025-11-21";
+  static const String appVersion = "3.0.0 Beta2";
+  static const int appVersionCode = 73;
+  static const String appVersionDate = "2025-11-24";
   static const _gameChannels = ["LIVE", "4.0_PREVIEW", "PTU", "EPTU", "TECH-PREVIEW", "HOTFIX"];
   static const isMSE = String.fromEnvironment("MSE", defaultValue: "false") == "true";
   static const win32AppId = isMSE
