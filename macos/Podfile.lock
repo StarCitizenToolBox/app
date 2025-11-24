@@ -10,8 +10,7 @@ PODS:
   - FlutterMacOS (1.0.0)
   - macos_window_utils (1.0.0):
     - FlutterMacOS
-  - path_provider_foundation (0.0.1):
-    - Flutter
+  - objective_c (0.0.1):
     - FlutterMacOS
   - rust_builder (0.0.1):
     - FlutterMacOS
@@ -29,7 +28,7 @@ DEPENDENCIES:
   - file_picker (from `Flutter/ephemeral/.symlinks/plugins/file_picker/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - macos_window_utils (from `Flutter/ephemeral/.symlinks/plugins/macos_window_utils/macos`)
-  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
+  - objective_c (from `Flutter/ephemeral/.symlinks/plugins/objective_c/macos`)
   - rust_builder (from `Flutter/ephemeral/.symlinks/plugins/rust_builder/macos`)
   - screen_retriever_macos (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever_macos/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
@@ -48,8 +47,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
   macos_window_utils:
     :path: Flutter/ephemeral/.symlinks/plugins/macos_window_utils/macos
-  path_provider_foundation:
-    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
+  objective_c:
+    :path: Flutter/ephemeral/.symlinks/plugins/objective_c/macos
   rust_builder:
     :path: Flutter/ephemeral/.symlinks/plugins/rust_builder/macos
   screen_retriever_macos:
@@ -66,8 +65,8 @@ SPEC CHECKSUMS:
   file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
   macos_window_utils: 23f54331a0fd51eea9e0ed347253bf48fd379d1d
-  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
-  rust_builder: 20181fc33fd408f6ec1135f518edbd4f5d3a6dc5
+  objective_c: ec13431e45ba099cb734eb2829a5c1cd37986cba
+  rust_builder: f99e810dace35ac9783428b039d73d1caa5bfbc1
   screen_retriever_macos: 452e51764a9e1cdb74b3c541238795849f21557f
   url_launcher_macos: f87a979182d112f911de6820aefddaf56ee9fbfd
   window_manager: b729e31d38fb04905235df9ea896128991cad99e
