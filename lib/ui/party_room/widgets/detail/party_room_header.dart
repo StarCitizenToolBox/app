@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/widgets/create_room_dialog.dart';
@@ -114,14 +115,16 @@ class PartyRoomHeader extends ConsumerWidget {
               width: double.infinity,
               child: Button(
                 onPressed: () async {
+                  final userOK = await showConfirmDialogs(context, "提示", Text("确认离开房间吗？"));
+                  if (!userOK) return;
                   await partyRoom.leaveRoom();
                 },
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.resolveWith((state) {
                     if (state.isHovered || state.isPressed) {
-                      return const Color(0xFFDA373C);
+                      return const Color(0xFF404249);
                     }
-                    return const Color(0xFF404249);
+                    return const Color(0xFF404249).withValues(alpha: .6);
                   }),
                   foregroundColor: WidgetStateProperty.resolveWith((state) {
                     if (state.isHovered || state.isPressed) {

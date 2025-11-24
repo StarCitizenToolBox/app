@@ -540,7 +540,10 @@ class PartyRoomListPage extends HookConsumerWidget {
             final passwordController = TextEditingController();
             return ContentDialog(
               title: const Text('输入房间密码'),
-              content: TextBox(controller: passwordController, placeholder: '请输入密码', obscureText: true),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [TextBox(controller: passwordController, placeholder: '请输入密码', obscureText: true)],
+              ),
               actions: [
                 Button(child: const Text('取消'), onPressed: () => Navigator.pop(context)),
                 FilledButton(child: const Text('加入'), onPressed: () => Navigator.pop(context, passwordController.text)),

@@ -228,8 +228,9 @@ class CreateRoomDialog extends HookConsumerWidget {
                     }
                   }
 
-                  final socialLinks = socialLinksController.text.split('\n');
-
+                  final socialLinks = socialLinksController.text.split('\n').map((e) => e.trim()).toList();
+                  // 移除空链接
+                  socialLinks.removeWhere((link) => link.trim().isEmpty);
                   // 检查是否为 https 开头的链接
                   final invalidLinks = socialLinks.where((link) => !link.startsWith('https://')).toList();
                   if (invalidLinks.isNotEmpty) {
