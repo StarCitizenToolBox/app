@@ -371,12 +371,11 @@ class PartyRoomListPage extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 12),
                       // 标签和时间
-                      Wrap(
-                        spacing: 6,
-                        runSpacing: 6,
+                      Row(
                         children: [
                           makeTagContainer(partyRoom, room),
-                          if (room.socialLinks.isNotEmpty)
+                          if (room.socialLinks.isNotEmpty) ...[
+                            const SizedBox(width: 6),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
@@ -395,6 +394,7 @@ class PartyRoomListPage extends HookConsumerWidget {
                                 ],
                               ),
                             ),
+                          ],
                         ],
                       ),
                     ],
