@@ -34,4 +34,19 @@ Future<List<String>> dnsLookupTxt({required String host}) =>
 Future<List<String>> dnsLookupIps({required String host}) =>
     RustLib.instance.api.crateApiHttpApiDnsLookupIps(host: host);
 
+/// Get the fastest URL from a list of URLs by testing them concurrently.
+/// Returns the first URL that responds successfully, canceling other requests.
+///
+/// # Arguments
+/// * `urls` - List of base URLs to test
+/// * `path_suffix` - Optional path suffix to append to each URL (e.g., "/api/version")
+///                   If None, tests the base URL directly
+Future<String?> getFasterUrl({
+  required List<String> urls,
+  String? pathSuffix,
+}) => RustLib.instance.api.crateApiHttpApiGetFasterUrl(
+  urls: urls,
+  pathSuffix: pathSuffix,
+);
+
 enum MyMethod { options, gets, post, put, delete, head, trace, connect, patch }

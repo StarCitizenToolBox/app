@@ -59,3 +59,17 @@ pub async fn dns_lookup_txt(host: String) -> anyhow::Result<Vec<String>> {
 pub async fn dns_lookup_ips(host: String) -> anyhow::Result<Vec<String>> {
     http_package::dns_lookup_ips(host).await
 }
+
+/// Get the fastest URL from a list of URLs by testing them concurrently.
+/// Returns the first URL that responds successfully, canceling other requests.
+/// 
+/// # Arguments
+/// * `urls` - List of base URLs to test
+/// * `path_suffix` - Optional path suffix to append to each URL (e.g., "/api/version")
+///   If None, tests the base URL directly
+pub async fn get_faster_url(
+    urls: Vec<String>,
+    path_suffix: Option<String>,
+) -> anyhow::Result<Option<String>> {
+    http_package::get_faster_url(urls, path_suffix).await
+}

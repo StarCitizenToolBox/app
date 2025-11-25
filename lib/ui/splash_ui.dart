@@ -30,42 +30,37 @@ class SplashUI extends HookConsumerWidget {
       return null;
     }, []);
 
-    return makeDefaultPage(context,
-        content: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset("assets/app_logo.png", width: 192, height: 192),
-              const SizedBox(height: 32),
-              const ProgressRing(),
-              const SizedBox(height: 32),
-              if (step == 0) Text(S.current.app_splash_checking_availability),
-              if (step == 1) Text(S.current.app_splash_checking_for_updates),
-              if (step == 2) Text(S.current.app_splash_almost_done),
-            ],
-          ),
+    return makeDefaultPage(
+      context,
+      content: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset("assets/app_logo.png", width: 192, height: 192),
+            const SizedBox(height: 32),
+            const ProgressRing(),
+            const SizedBox(height: 32),
+            if (step == 0) Text(S.current.app_splash_checking_availability),
+            if (step == 1) Text(S.current.app_splash_checking_for_updates),
+            if (step == 2) Text(S.current.app_splash_almost_done),
+          ],
         ),
-        automaticallyImplyLeading: false,
-        titleRow: Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/app_logo_mini.png",
-                width: 20,
-                height: 20,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(width: 12),
-              Text(S.current.app_index_version_info(
-                  ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev"))
-            ],
-          ),
-        ));
+      ),
+      automaticallyImplyLeading: false,
+      titleRow: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Row(
+          children: [
+            Image.asset("assets/app_logo_mini.png", width: 20, height: 20, fit: BoxFit.cover),
+            const SizedBox(width: 12),
+            Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
+          ],
+        ),
+      ),
+    );
   }
 
-  void _initApp(BuildContext context, AppGlobalModel appModel,
-      ValueNotifier<int> stepState, WidgetRef ref) async {
+  void _initApp(BuildContext context, AppGlobalModel appModel, ValueNotifier<int> stepState, WidgetRef ref) async {
     await appModel.initApp();
     final appConf = await Hive.openBox("app_conf");
     final v = appConf.get("splash_alert_info_version", defaultValue: 0);
@@ -92,11 +87,11 @@ class SplashUI extends HookConsumerWidget {
 
   Future<void> _showAlert(BuildContext context, Box<dynamic> appConf) async {
     final userOk = await showConfirmDialogs(
-        context,
-        S.current.app_splash_dialog_u_a_p_p,
-        MarkdownWidget(data: S.current.app_splash_dialog_u_a_p_p_content),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .5));
+      context,
+      S.current.app_splash_dialog_u_a_p_p,
+      MarkdownWidget(data: S.current.app_splash_dialog_u_a_p_p_content),
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .5),
+    );
     if (userOk) {
       await appConf.put("splash_alert_info_version", _alertInfoVersion);
     } else {

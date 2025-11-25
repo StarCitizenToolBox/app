@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1227557070;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -518970253;
 
 // Section: executor
 
@@ -148,6 +148,33 @@ fn wire__crate__api__http_api__fetch_impl(
                             api_with_custom_dns,
                         )
                         .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__http_api__get_faster_url_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    urls: impl CstDecode<Vec<String>>,
+    path_suffix: impl CstDecode<Option<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_faster_url",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_urls = urls.cst_decode();
+            let api_path_suffix = path_suffix.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::http_api::get_faster_url(api_urls, api_path_suffix).await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -1682,6 +1709,15 @@ mod io {
             with_ip_address,
             with_custom_dns,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__http_api__get_faster_url(
+        port_: i64,
+        urls: *mut wire_cst_list_String,
+        path_suffix: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__http_api__get_faster_url_impl(port_, urls, path_suffix)
     }
 
     #[unsafe(no_mangle)]

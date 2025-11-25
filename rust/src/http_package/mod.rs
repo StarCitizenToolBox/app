@@ -9,6 +9,8 @@ use std::str::FromStr;
 use std::sync::{Arc, RwLock};
 use std::time::Duration;
 use url::Url;
+use tokio::sync::mpsc;
+use tokio::task::JoinHandle;
 
 #[derive(Debug)]
 #[allow(non_camel_case_types)]
@@ -182,4 +184,91 @@ fn _mix_header(
     let dh = DEFAULT_HEADER.read().unwrap();
     req = req.headers(dh.clone());
     req
+}
+
+/// Get the fastest URL from a list of URLs by testing them concurrently.
+/// Returns the first URL that responds successfully (HTTP 200), and cancels all other pending requests.
+/// 
+/// # Arguments
+/// * `urls` - List of base URLs to test
+/// * `path_suffix` - Optional path suffix to append to each URL for testing
+///   If None, tests the base URL directly
+/// 
+/// # Returns
+/// * `Ok(Some(url))` - The first base URL that responded successfully
+/// * `Ok(None)` - All URLs failed or the list was empty
+pub async fn get_faster_url(
+    urls: Vec<String>,
+    path_suffix: Option<String>,
+) -> anyhow::Result<Option<String>> {
+    if urls.is_empty() {
+        return Ok(None);
+    }
+
+    let (tx, mut rx) = mpsc::channel(urls.len());
+    let mut handles: Vec<JoinHandle<()>> = Vec::new();
+
+    // Spawn a task for each URL
+    for url in urls.iter() {
+        let url_clone = url.clone();
+        let tx_clone = tx.clone();
+        let path_suffix_clone = path_suffix.clone();
+        
+        let handle = tokio::spawn(async move {
+            // Build request URL
+            let req_url = if let Some(suffix) = path_suffix_clone {
+                format!("{}{}", url_clone, suffix)
+            } else {
+                url_clone.clone()
+            };
+
+            // Perform HEAD request
+            let result = fetch(
+                Method::HEAD,
+                req_url,
+                None,
+                None,
+                None,
+                Some(false),
+            ).await;
+
+            // Send result back through channel
+            if let Ok(response) = result {
+                if response.status_code == 200 {
+                    let _ = tx_clone.send(Some(url_clone)).await;
+                    return;
+                }
+            }
+            
+            // Send None if request failed
+            let _ = tx_clone.send(None).await;
+        });
+
+        handles.push(handle);
+    }
+
+    // Drop the original sender so the channel closes when all tasks complete
+    drop(tx);
+
+    // Wait for the first successful response
+    let mut completed = 0;
+    let total = urls.len();
+    
+    while let Some(result) = rx.recv().await {
+        if let Some(url) = result {
+            // Found a successful URL - abort all other tasks
+            for handle in handles {
+                handle.abort();
+            }
+            return Ok(Some(url));
+        }
+        
+        completed += 1;
+        if completed >= total {
+            // All requests completed without success
+            break;
+        }
+    }
+
+    Ok(None)
 }

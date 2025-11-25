@@ -762,6 +762,38 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__http_api__get_faster_url(
+    int port_,
+    ffi.Pointer<wire_cst_list_String> urls,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> path_suffix,
+  ) {
+    return _wire__crate__api__http_api__get_faster_url(
+      port_,
+      urls,
+      path_suffix,
+    );
+  }
+
+  late final _wire__crate__api__http_api__get_faster_urlPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_String>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >('frbgen_starcitizen_doctor_wire__crate__api__http_api__get_faster_url');
+  late final _wire__crate__api__http_api__get_faster_url =
+      _wire__crate__api__http_api__get_faster_urlPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_String>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
   void wire__crate__api__win32_api__get_process_list_by_name(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> process_name,
@@ -1312,6 +1344,13 @@ final class wire_cst_list_record_string_string extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_list_String extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_rsi_launcher_asar_data extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path;
 
@@ -1322,13 +1361,6 @@ final class wire_cst_rsi_launcher_asar_data extends ffi.Struct {
 
 final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
   external ffi.Pointer<ffi.Uint8> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_String extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
 
   @ffi.Int32()
   external int len;

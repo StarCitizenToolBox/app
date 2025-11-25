@@ -1,7 +1,6 @@
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/io/doh_client.dart';
-import 'package:starcitizen_doctor/common/io/rs_http.dart';
-import 'package:starcitizen_doctor/common/rust/http_package.dart';
+import 'package:starcitizen_doctor/common/rust/api/http_api.dart' as rust_http;
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class URLConf {
@@ -43,13 +42,19 @@ class URLConf {
     // 使用 DNS 获取可用列表
     final gitApiList = _genFinalList(await dnsLookupTxt("git.dns.scbox.org"));
     dPrint("DNS gitApiList ==== $gitApiList");
-    final fasterGit = await getFasterUrl(gitApiList, "git");
+    final fasterGit = await rust_http.getFasterUrl(
+      urls: gitApiList,
+      pathSuffix: "/SCToolBox/Api/raw/branch/main/sc_doctor/version.json",
+    );
     dPrint("gitApiList.Faster ==== $fasterGit");
     if (fasterGit != null) {
       gitApiHome = fasterGit;
     }
     final newsApiList = _genFinalList(await dnsLookupTxt("news.dns.scbox.org"));
-    final fasterNews = await getFasterUrl(newsApiList, "news");
+    final fasterNews = await rust_http.getFasterUrl(
+      urls: newsApiList,
+      pathSuffix: "/api/latest",
+    );
     dPrint("DNS newsApiList ==== $newsApiList");
     dPrint("newsApiList.Faster ==== $fasterNews");
     if (fasterNews != null) {
@@ -62,51 +67,10 @@ class URLConf {
   static Future<List<String>> dnsLookupTxt(String host) async {
     if (await Api.isUseInternalDNS()) {
       dPrint("[URLConf] use internal DNS LookupTxt $host");
-      return RSHttp.dnsLookupTxt(host);
+      return rust_http.dnsLookupTxt(host: host);
     }
     dPrint("[URLConf] use DOH LookupTxt $host");
     return (await DohClient.resolveTXT(host)) ?? [];
-  }
-
-  static Future<String?> getFasterUrl(List<String> urls, String mode) async {
-    String firstUrl = "";
-    int callLen = 0;
-
-    void onCall(RustHttpResponse? response, String url) {
-      callLen++;
-      if (response != null && response.statusCode == 200 && firstUrl.isEmpty) {
-        firstUrl = url;
-      }
-    }
-
-    for (var url in urls) {
-      var reqUrl = url;
-      switch (mode) {
-        case "git":
-          reqUrl = "$url/SCToolBox/Api/raw/branch/main/sc_doctor/version.json";
-          break;
-        case "news":
-          reqUrl = "$url/api/latest";
-          break;
-      }
-      RSHttp.head(reqUrl).then(
-        (resp) => onCall(resp, url),
-        onError: (err) {
-          callLen++;
-          dPrint("RSHttp.head error $err");
-        },
-      );
-    }
-
-    while (true) {
-      await Future.delayed(const Duration(milliseconds: 16));
-      if (firstUrl.isNotEmpty) {
-        return firstUrl;
-      }
-      if (callLen == urls.length && firstUrl.isEmpty) {
-        return null;
-      }
-    }
   }
 
   static List<String> _genFinalList(List<String> sList) {

@@ -69,7 +69,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 1227557070;
+  int get rustContentHash => -518970253;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -93,6 +93,11 @@ abstract class RustLibApi extends BaseApi {
     Uint8List? inputData,
     String? withIpAddress,
     bool? withCustomDns,
+  });
+
+  Future<String?> crateApiHttpApiGetFasterUrl({
+    required List<String> urls,
+    String? pathSuffix,
   });
 
   Future<List<ProcessInfo>> crateApiWin32ApiGetProcessListByName({
@@ -287,6 +292,39 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       "withCustomDns",
     ],
   );
+
+  @override
+  Future<String?> crateApiHttpApiGetFasterUrl({
+    required List<String> urls,
+    String? pathSuffix,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_list_String(urls);
+          var arg1 = cst_encode_opt_String(pathSuffix);
+          return wire.wire__crate__api__http_api__get_faster_url(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_opt_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiHttpApiGetFasterUrlConstMeta,
+        argValues: [urls, pathSuffix],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiHttpApiGetFasterUrlConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_faster_url",
+        argNames: ["urls", "pathSuffix"],
+      );
 
   @override
   Future<List<ProcessInfo>> crateApiWin32ApiGetProcessListByName({
