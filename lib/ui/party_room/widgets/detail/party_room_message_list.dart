@@ -1,9 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart' as partroom;
 import 'package:starcitizen_doctor/provider/party_room.dart';
+import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart';
 import 'package:starcitizen_doctor/widgets/src/cache_image.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:flutter/services.dart';
@@ -388,7 +388,7 @@ class _MessageItem extends ConsumerWidget {
         event.type == partroom.RoomEventType.MEMBER_KICKED ||
         event.type == partroom.RoomEventType.OWNER_CHANGED) {
       if (event.hasMember() && event.member.avatarUrl.isNotEmpty) {
-        return '${URLConf.rsiAvatarBaseUrl}${event.member.avatarUrl}';
+        return PartyRoomUtils.getAvatarUrl(event.member.avatarUrl);
       }
     }
     return null;

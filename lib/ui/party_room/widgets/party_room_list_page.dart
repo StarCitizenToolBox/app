@@ -8,10 +8,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
+import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart';
 import 'package:starcitizen_doctor/ui/party_room/widgets/create_room_dialog.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
@@ -132,7 +132,7 @@ class PartyRoomListPage extends HookConsumerWidget {
       (m) => m.gameUserId == currentRoom.ownerGameId,
       orElse: () => RoomMember(),
     );
-    final avatarUrl = owner.avatarUrl.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${owner.avatarUrl}' : '';
+    final avatarUrl = PartyRoomUtils.getAvatarUrl(owner.avatarUrl) ?? '';
 
     return Bounce(
       duration: Duration(milliseconds: 230),
@@ -276,7 +276,7 @@ class PartyRoomListPage extends HookConsumerWidget {
   }
 
   Widget _buildRoomCard(BuildContext context, WidgetRef ref, PartyRoom partyRoom, RoomListItem room, int index) {
-    final avatarUrl = room.ownerAvatar.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${room.ownerAvatar}' : '';
+    final avatarUrl = PartyRoomUtils.getAvatarUrl(room.ownerAvatar) ?? '';
     final partyRoomState = ref.watch(partyRoomProvider);
     final isCurrentRoom = partyRoomState.room.isInRoom && partyRoomState.room.roomUuid == room.roomUuid;
     return GridItemAnimator(

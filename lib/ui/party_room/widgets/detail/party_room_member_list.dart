@@ -1,9 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
+import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart';
 import 'package:starcitizen_doctor/widgets/src/cache_image.dart';
 
 /// 成员列表侧边栏
@@ -43,7 +43,7 @@ class PartyRoomMemberItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final avatarUrl = member.avatarUrl.isNotEmpty ? '${URLConf.rsiAvatarBaseUrl}${member.avatarUrl}' : null;
+    final avatarUrl = PartyRoomUtils.getAvatarUrl(member.avatarUrl);
     final partyRoomState = ref.watch(partyRoomProvider);
     final currentUserId = partyRoomState.auth.userInfo?.gameUserId ?? '';
     final isSelf = member.gameUserId == currentUserId;
