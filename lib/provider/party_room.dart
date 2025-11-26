@@ -128,7 +128,17 @@ class PartyRoom extends _$PartyRoom {
       final serverAddress = URLConf.partyRoomServerAddress;
       final serverPort = URLConf.partyRoomServerPort;
 
-      final channel = ClientChannel(serverAddress, port: serverPort);
+      final channel = ClientChannel(
+        serverAddress,
+        port: serverPort,
+        options: ChannelOptions(
+          keepAlive: ClientKeepAliveOptions(
+            pingInterval: Duration(seconds: 30),
+            timeout: Duration(seconds: 10),
+            permitWithoutCalls: false,
+          ),
+        ),
+      );
 
       final authClient = auth.AuthServiceClient(channel);
       final roomClient = partroom.PartRoomServiceClient(channel);
