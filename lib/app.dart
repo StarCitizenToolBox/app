@@ -123,6 +123,7 @@ class AppGlobalModel extends _$AppGlobalModel {
     // init Hive
     try {
       Hive.init("$applicationSupportDir/db");
+      await Future.delayed(const Duration(milliseconds: 100));
       final box = await Hive.openBox("app_conf");
       state = state.copyWith(appConfBox: box);
       if (box.get("install_id", defaultValue: "") == "") {
