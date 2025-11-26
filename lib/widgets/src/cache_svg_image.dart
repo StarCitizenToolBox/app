@@ -18,47 +18,35 @@ class CachedSvgImage extends HookWidget {
     final cachedFile = useState<File?>(null);
     final errorInfo = useState<String?>(null);
 
-    useEffect(
-      () {
-        () async {
-          try {
-            cachedFile.value = await FileCacheUtils.getFile(url);
-          } catch (e) {
-            debugPrint("Error loading SVG: $e");
-            errorInfo.value = "Error loading SVG: $e";
-          }
-        }();
-        return null;
-      },
-      [url],
-    );
+    useEffect(() {
+      () async {
+        try {
+          final file = await FileCacheUtils.getFile(url);
+          if (context.mounted) cachedFile.value = file;
+        } catch (e) {
+          debugPrint("Error loading SVG: $e");
+          if (context.mounted) errorInfo.value = "Error loading SVG: $e";
+        }
+      }();
+      return null;
+    }, [url]);
 
     if (errorInfo.value != null) {
       return SizedBox(
         width: width,
         height: height,
         child: Center(
-          child: Text(
-            errorInfo.value!,
-            style: TextStyle(color: Colors.red),
-          ),
+          child: Text(errorInfo.value!, style: TextStyle(color: Colors.red)),
         ),
       );
     }
 
     return cachedFile.value != null
-        ? SvgPicture.file(
-            cachedFile.value!,
-            width: width,
-            height: height,
-            fit: fit ?? BoxFit.contain,
-          )
+        ? SvgPicture.file(cachedFile.value!, width: width, height: height, fit: fit ?? BoxFit.contain)
         : SizedBox(
             width: width,
             height: height,
-            child: Center(
-              child: ProgressRing(),
-            ),
+            child: Center(child: ProgressRing()),
           );
   }
 }
