@@ -1,7 +1,6 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart';
@@ -20,7 +19,7 @@ class UserAvatarWidget extends HookConsumerWidget {
     final userName = partyRoomState.auth.userInfo?.gameUserId ?? S.current.user_not_logged_in;
     final avatarUrl = partyRoomState.auth.userInfo?.avatarUrl;
     final enlistedDate = partyRoomState.auth.userInfo?.enlistedDate;
-    final fullAvatarUrl = (avatarUrl != null && avatarUrl.isNotEmpty) ? '${URLConf.rsiAvatarBaseUrl}$avatarUrl' : null;
+    final fullAvatarUrl = PartyRoomUtils.getAvatarUrl(avatarUrl);
     return HoverButton(
       onPressed: () {
         if (isLoggedIn) {
@@ -53,14 +52,14 @@ class UserAvatarWidget extends HookConsumerWidget {
                   child: uiState.isLoggingIn
                       ? const Padding(padding: EdgeInsets.all(4), child: ProgressRing(strokeWidth: 2))
                       : (fullAvatarUrl != null
-                            ? CacheNetImage(url: fullAvatarUrl, fit: BoxFit.cover)
-                            : Center(
-                                child: Icon(
-                                  isLoggedIn ? FluentIcons.contact : FluentIcons.unknown,
-                                  size: 16,
-                                  color: Colors.white,
-                                ),
-                              )),
+                      ? CacheNetImage(url: fullAvatarUrl, fit: BoxFit.cover)
+                      : Center(
+                    child: Icon(
+                      isLoggedIn ? FluentIcons.contact : FluentIcons.unknown,
+                      size: 16,
+                      color: Colors.white,
+                    ),
+                  )),
                 ),
               ),
               const SizedBox(width: 8),
@@ -100,7 +99,9 @@ class UserAvatarWidget extends HookConsumerWidget {
               child: Container(
                 width: 360,
                 decoration: BoxDecoration(
-                  color: FluentTheme.of(context).micaBackgroundColor,
+                  color: FluentTheme
+                      .of(context)
+                      .micaBackgroundColor,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.white.withValues(alpha: .1), width: 1),
                   boxShadow: [
