@@ -38,6 +38,31 @@ impl Default for ModelConfig {
     }
 }
 
+/// 创建 ONNX 会话的辅助函数
+///
+/// # Arguments
+/// * `model_path` - 模型文件路径
+/// * `model_name` - 模型名称（用于错误消息）
+/// * `use_xnnpack` - 是否使用 XNNPACK 加速
+fn create_session(model_path: &Path, model_name: &str, use_xnnpack: bool) -> Result<Session> {
+    let mut builder = Session::builder()
+        .context(format!("Failed to create {} session builder", model_name))?
+        .with_optimization_level(GraphOptimizationLevel::Level3)
+        .context("Failed to set optimization level")?
+        .with_intra_threads(4)
+        .context("Failed to set intra threads")?;
+
+    if use_xnnpack {
+        builder = builder
+            .with_execution_providers([XNNPACKExecutionProvider::default().build()])
+            .context("Failed to register XNNPACK execution provider")?;
+    }
+
+    builder
+        .commit_from_file(model_path)
+        .context(format!("Failed to load {} model", model_name))
+}
+
 impl OpusMtModel {
     /// 从模型路径创建新的 OpusMT 模型实例
     ///
@@ -83,33 +108,7 @@ impl OpusMtModel {
             ));
         }
 
-        let encoder_session = if use_xnnpack {
-            Session::builder()
-                .context("Failed to create encoder session builder")?
-                .with_optimization_level(GraphOptimizationLevel::Level3)
-                .context("Failed to set optimization level")?
-                .with_intra_threads(4)
-                .context("Failed to set intra threads")?
-                .with_execution_providers([XNNPACKExecutionProvider::default().build()])
-                .context("Failed to register XNNPACK execution provider")?
-                .commit_from_file(&encoder_path)
-                .context(format!(
-                    "Failed to load encoder model: {}",
-                    encoder_filename
-                ))?
-        } else {
-            Session::builder()
-                .context("Failed to create encoder session builder")?
-                .with_optimization_level(GraphOptimizationLevel::Level3)
-                .context("Failed to set optimization level")?
-                .with_intra_threads(4)
-                .context("Failed to set intra threads")?
-                .commit_from_file(&encoder_path)
-                .context(format!(
-                    "Failed to load encoder model: {}",
-                    encoder_filename
-                ))?
-        };
+        let encoder_session = create_session(&encoder_path, "encoder", use_xnnpack)?;
 
         // 加载 decoder 模型（在 onnx 子目录）
         let decoder_path = onnx_dir.join(&decoder_filename);
@@ -120,33 +119,7 @@ impl OpusMtModel {
             ));
         }
 
-        let decoder_session = if use_xnnpack {
-            Session::builder()
-                .context("Failed to create decoder session builder")?
-                .with_optimization_level(GraphOptimizationLevel::Level3)
-                .context("Failed to set optimization level")?
-                .with_intra_threads(4)
-                .context("Failed to set intra threads")?
-                .with_execution_providers([XNNPACKExecutionProvider::default().build()])
-                .context("Failed to register XNNPACK execution provider")?
-                .commit_from_file(&decoder_path)
-                .context(format!(
-                    "Failed to load decoder model: {}",
-                    decoder_filename
-                ))?
-        } else {
-            Session::builder()
-                .context("Failed to create decoder session builder")?
-                .with_optimization_level(GraphOptimizationLevel::Level3)
-                .context("Failed to set optimization level")?
-                .with_intra_threads(4)
-                .context("Failed to set intra threads")?
-                .commit_from_file(&decoder_path)
-                .context(format!(
-                    "Failed to load decoder model: {}",
-                    decoder_filename
-                ))?
-        };
+        let decoder_session = create_session(&decoder_path, "decoder", use_xnnpack)?;
 
         // 加载配置（如果存在，在根目录）
         let config = Self::load_config(model_path)?;
