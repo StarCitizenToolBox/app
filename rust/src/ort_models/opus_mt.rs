@@ -44,10 +44,11 @@ impl OpusMtModel {
     /// # Arguments
     /// * `model_path` - 模型文件夹路径（应包含 onnx 子文件夹）
     /// * `quantization_suffix` - 量化后缀，如 "_q4", "_q8"，为空字符串则使用默认模型
+    /// * `use_xnnpack` - 是否使用 XNNPACK 加速
     ///
     /// # Returns
     /// * `Result<Self>` - 成功返回模型实例，失败返回错误
-    pub fn new<P: AsRef<Path>>(model_path: P, quantization_suffix: &str) -> Result<Self> {
+    pub fn new<P: AsRef<Path>>(model_path: P, quantization_suffix: &str, use_xnnpack: bool) -> Result<Self> {
         let model_path = model_path.as_ref();
 
         // onnx-community 标准：模型在 onnx 子文件夹中
@@ -82,19 +83,33 @@ impl OpusMtModel {
             ));
         }
 
-        let encoder_session = Session::builder()
-            .context("Failed to create encoder session builder")?
-            .with_optimization_level(GraphOptimizationLevel::Level3)
-            .context("Failed to set optimization level")?
-            .with_intra_threads(4)
-            .context("Failed to set intra threads")?
-            .with_execution_providers([XNNPACKExecutionProvider::default().build()])
-            .context("Failed to register XNNPACK execution provider")?
-            .commit_from_file(&encoder_path)
-            .context(format!(
-                "Failed to load encoder model: {}",
-                encoder_filename
-            ))?;
+        let encoder_session = if use_xnnpack {
+            Session::builder()
+                .context("Failed to create encoder session builder")?
+                .with_optimization_level(GraphOptimizationLevel::Level3)
+                .context("Failed to set optimization level")?
+                .with_intra_threads(4)
+                .context("Failed to set intra threads")?
+                .with_execution_providers([XNNPACKExecutionProvider::default().build()])
+                .context("Failed to register XNNPACK execution provider")?
+                .commit_from_file(&encoder_path)
+                .context(format!(
+                    "Failed to load encoder model: {}",
+                    encoder_filename
+                ))?
+        } else {
+            Session::builder()
+                .context("Failed to create encoder session builder")?
+                .with_optimization_level(GraphOptimizationLevel::Level3)
+                .context("Failed to set optimization level")?
+                .with_intra_threads(4)
+                .context("Failed to set intra threads")?
+                .commit_from_file(&encoder_path)
+                .context(format!(
+                    "Failed to load encoder model: {}",
+                    encoder_filename
+                ))?
+        };
 
         // 加载 decoder 模型（在 onnx 子目录）
         let decoder_path = onnx_dir.join(&decoder_filename);
@@ -105,19 +120,33 @@ impl OpusMtModel {
             ));
         }
 
-        let decoder_session = Session::builder()
-            .context("Failed to create decoder session builder")?
-            .with_optimization_level(GraphOptimizationLevel::Level3)
-            .context("Failed to set optimization level")?
-            .with_intra_threads(4)
-            .context("Failed to set intra threads")?
-            .with_execution_providers([XNNPACKExecutionProvider::default().build()])
-            .context("Failed to register XNNPACK execution provider")?
-            .commit_from_file(&decoder_path)
-            .context(format!(
-                "Failed to load decoder model: {}",
-                decoder_filename
-            ))?;
+        let decoder_session = if use_xnnpack {
+            Session::builder()
+                .context("Failed to create decoder session builder")?
+                .with_optimization_level(GraphOptimizationLevel::Level3)
+                .context("Failed to set optimization level")?
+                .with_intra_threads(4)
+                .context("Failed to set intra threads")?
+                .with_execution_providers([XNNPACKExecutionProvider::default().build()])
+                .context("Failed to register XNNPACK execution provider")?
+                .commit_from_file(&decoder_path)
+                .context(format!(
+                    "Failed to load decoder model: {}",
+                    decoder_filename
+                ))?
+        } else {
+            Session::builder()
+                .context("Failed to create decoder session builder")?
+                .with_optimization_level(GraphOptimizationLevel::Level3)
+                .context("Failed to set optimization level")?
+                .with_intra_threads(4)
+                .context("Failed to set intra threads")?
+                .commit_from_file(&decoder_path)
+                .context(format!(
+                    "Failed to load decoder model: {}",
+                    decoder_filename
+                ))?
+        };
 
         // 加载配置（如果存在，在根目录）
         let config = Self::load_config(model_path)?;
@@ -395,6 +424,7 @@ mod tests {
         let model = OpusMtModel::new(
             "E:\\Project\\StarCtizen\\Opus-MT-StarCitizen\\results\\final_model",
             "_q4f16",
+            true,
         )
         .unwrap();
         let result = model.translate("北极星要炸了，快撤！").unwrap();

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsUIState {
 
- bool get isEnableToolSiteMirrors; String get inputGameLaunchECore; String? get customLauncherPath; String? get customGamePath; int get locationCacheSize; bool get isUseInternalDNS;
+ bool get isEnableToolSiteMirrors; String get inputGameLaunchECore; String? get customLauncherPath; String? get customGamePath; int get locationCacheSize; bool get isUseInternalDNS; bool get isEnableOnnxXnnPack;
 /// Create a copy of SettingsUIState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SettingsUIStateCopyWith<SettingsUIState> get copyWith => _$SettingsUIStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS)&&(identical(other.isEnableOnnxXnnPack, isEnableOnnxXnnPack) || other.isEnableOnnxXnnPack == isEnableOnnxXnnPack));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS);
+int get hashCode => Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS,isEnableOnnxXnnPack);
 
 @override
 String toString() {
-  return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS)';
+  return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS, isEnableOnnxXnnPack: $isEnableOnnxXnnPack)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SettingsUIStateCopyWith<$Res>  {
   factory $SettingsUIStateCopyWith(SettingsUIState value, $Res Function(SettingsUIState) _then) = _$SettingsUIStateCopyWithImpl;
 @useResult
 $Res call({
- bool isEnableToolSiteMirrors, String inputGameLaunchECore, String? customLauncherPath, String? customGamePath, int locationCacheSize, bool isUseInternalDNS
+ bool isEnableToolSiteMirrors, String inputGameLaunchECore, String? customLauncherPath, String? customGamePath, int locationCacheSize, bool isUseInternalDNS, bool isEnableOnnxXnnPack
 });
 
 
@@ -62,7 +62,7 @@ class _$SettingsUIStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsUIState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isEnableToolSiteMirrors = null,Object? inputGameLaunchECore = null,Object? customLauncherPath = freezed,Object? customGamePath = freezed,Object? locationCacheSize = null,Object? isUseInternalDNS = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isEnableToolSiteMirrors = null,Object? inputGameLaunchECore = null,Object? customLauncherPath = freezed,Object? customGamePath = freezed,Object? locationCacheSize = null,Object? isUseInternalDNS = null,Object? isEnableOnnxXnnPack = null,}) {
   return _then(_self.copyWith(
 isEnableToolSiteMirrors: null == isEnableToolSiteMirrors ? _self.isEnableToolSiteMirrors : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
 as bool,inputGameLaunchECore: null == inputGameLaunchECore ? _self.inputGameLaunchECore : inputGameLaunchECore // ignore: cast_nullable_to_non_nullable
@@ -70,6 +70,7 @@ as String,customLauncherPath: freezed == customLauncherPath ? _self.customLaunch
 as String?,customGamePath: freezed == customGamePath ? _self.customGamePath : customGamePath // ignore: cast_nullable_to_non_nullable
 as String?,locationCacheSize: null == locationCacheSize ? _self.locationCacheSize : locationCacheSize // ignore: cast_nullable_to_non_nullable
 as int,isUseInternalDNS: null == isUseInternalDNS ? _self.isUseInternalDNS : isUseInternalDNS // ignore: cast_nullable_to_non_nullable
+as bool,isEnableOnnxXnnPack: null == isEnableOnnxXnnPack ? _self.isEnableOnnxXnnPack : isEnableOnnxXnnPack // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS,  bool isEnableOnnxXnnPack)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsUIState() when $default != null:
-return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS);case _:
+return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS,_that.isEnableOnnxXnnPack);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS,  bool isEnableOnnxXnnPack)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsUIState():
-return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS);case _:
+return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS,_that.isEnableOnnxXnnPack);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isEnableToolSiteMirrors,  String inputGameLaunchECore,  String? customLauncherPath,  String? customGamePath,  int locationCacheSize,  bool isUseInternalDNS,  bool isEnableOnnxXnnPack)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsUIState() when $default != null:
-return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS);case _:
+return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.customLauncherPath,_that.customGamePath,_that.locationCacheSize,_that.isUseInternalDNS,_that.isEnableOnnxXnnPack);case _:
   return null;
 
 }
@@ -211,7 +212,7 @@ return $default(_that.isEnableToolSiteMirrors,_that.inputGameLaunchECore,_that.c
 
 
 class _SettingsUIState implements SettingsUIState {
-   _SettingsUIState({this.isEnableToolSiteMirrors = false, this.inputGameLaunchECore = "0", this.customLauncherPath, this.customGamePath, this.locationCacheSize = 0, this.isUseInternalDNS = false});
+   _SettingsUIState({this.isEnableToolSiteMirrors = false, this.inputGameLaunchECore = "0", this.customLauncherPath, this.customGamePath, this.locationCacheSize = 0, this.isUseInternalDNS = false, this.isEnableOnnxXnnPack = true});
   
 
 @override@JsonKey() final  bool isEnableToolSiteMirrors;
@@ -220,6 +221,7 @@ class _SettingsUIState implements SettingsUIState {
 @override final  String? customGamePath;
 @override@JsonKey() final  int locationCacheSize;
 @override@JsonKey() final  bool isUseInternalDNS;
+@override@JsonKey() final  bool isEnableOnnxXnnPack;
 
 /// Create a copy of SettingsUIState
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +233,16 @@ _$SettingsUIStateCopyWith<_SettingsUIState> get copyWith => __$SettingsUIStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS)&&(identical(other.isEnableOnnxXnnPack, isEnableOnnxXnnPack) || other.isEnableOnnxXnnPack == isEnableOnnxXnnPack));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS);
+int get hashCode => Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS,isEnableOnnxXnnPack);
 
 @override
 String toString() {
-  return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS)';
+  return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS, isEnableOnnxXnnPack: $isEnableOnnxXnnPack)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$SettingsUIStateCopyWith<$Res> implements $SettingsUIState
   factory _$SettingsUIStateCopyWith(_SettingsUIState value, $Res Function(_SettingsUIState) _then) = __$SettingsUIStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isEnableToolSiteMirrors, String inputGameLaunchECore, String? customLauncherPath, String? customGamePath, int locationCacheSize, bool isUseInternalDNS
+ bool isEnableToolSiteMirrors, String inputGameLaunchECore, String? customLauncherPath, String? customGamePath, int locationCacheSize, bool isUseInternalDNS, bool isEnableOnnxXnnPack
 });
 
 
@@ -268,7 +270,7 @@ class __$SettingsUIStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsUIState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isEnableToolSiteMirrors = null,Object? inputGameLaunchECore = null,Object? customLauncherPath = freezed,Object? customGamePath = freezed,Object? locationCacheSize = null,Object? isUseInternalDNS = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isEnableToolSiteMirrors = null,Object? inputGameLaunchECore = null,Object? customLauncherPath = freezed,Object? customGamePath = freezed,Object? locationCacheSize = null,Object? isUseInternalDNS = null,Object? isEnableOnnxXnnPack = null,}) {
   return _then(_SettingsUIState(
 isEnableToolSiteMirrors: null == isEnableToolSiteMirrors ? _self.isEnableToolSiteMirrors : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
 as bool,inputGameLaunchECore: null == inputGameLaunchECore ? _self.inputGameLaunchECore : inputGameLaunchECore // ignore: cast_nullable_to_non_nullable
@@ -276,6 +278,7 @@ as String,customLauncherPath: freezed == customLauncherPath ? _self.customLaunch
 as String?,customGamePath: freezed == customGamePath ? _self.customGamePath : customGamePath // ignore: cast_nullable_to_non_nullable
 as String?,locationCacheSize: null == locationCacheSize ? _self.locationCacheSize : locationCacheSize // ignore: cast_nullable_to_non_nullable
 as int,isUseInternalDNS: null == isUseInternalDNS ? _self.isUseInternalDNS : isUseInternalDNS // ignore: cast_nullable_to_non_nullable
+as bool,isEnableOnnxXnnPack: null == isEnableOnnxXnnPack ? _self.isEnableOnnxXnnPack : isEnableOnnxXnnPack // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

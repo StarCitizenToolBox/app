@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -6053,6 +6052,26 @@ class S {
     return Intl.message(
       'Account unregistration failed',
       name: 'user_unregister_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use XNN to accelerate ONNX inference`
+  String get settings_item_onnx_xnn_pack {
+    return Intl.message(
+      'Use XNN to accelerate ONNX inference',
+      name: 'settings_item_onnx_xnn_pack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disabling this option may solve some compatibility issues`
+  String get settings_item_onnx_xnn_pack_info {
+    return Intl.message(
+      'Disabling this option may solve some compatibility issues',
+      name: 'settings_item_onnx_xnn_pack_info',
       desc: '',
       args: [],
     );

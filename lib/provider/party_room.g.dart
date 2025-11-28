@@ -44,7 +44,7 @@ final class PartyRoomProvider
   }
 }
 
-String _$partyRoomHash() => r'5640c173d0820c681f3bc68872a2ab4f2fa29285';
+String _$partyRoomHash() => r'2ce3ac365bec3af8f7e1d350b53262c8e4e2872d';
 
 /// PartyRoom Provider
 

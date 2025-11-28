@@ -199,8 +199,13 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
 
   String get _localTranslateModelDir => "${appGlobalState.applicationSupportDir}/onnx_models";
 
+  bool get _isEnableOnnxXnnPack {
+    final userBox = Hive.box("app_conf");
+    return userBox.get("isEnableOnnxXnnPack", defaultValue: true);
+  }
+
   OnnxTranslationProvider get _localTranslateModelProvider =>
-      onnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName);
+      onnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName, _isEnableOnnxXnnPack);
 
   void _checkAutoTranslateOnInit() {
     // 检查模型文件是否存在，不存在则关闭自动翻译
@@ -333,20 +338,21 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
 @riverpod
 class OnnxTranslation extends _$OnnxTranslation {
   @override
-  bool build(String modelDir, String modelName) {
-    dPrint("[OnnxTranslation] Build provider for model: $modelName");
+  bool build(String modelDir, String modelName, bool useXnnPack) {
+    dPrint("[OnnxTranslation] Build provider for model: $modelName, useXnnPack: $useXnnPack");
     ref.onDispose(disposeModel);
     return false;
   }
 
   Future<String?> initModel() async {
-    dPrint("[OnnxTranslation] Load model: $modelName from $modelDir");
+    dPrint("[OnnxTranslation] Load model: $modelName from $modelDir, useXnnPack: $useXnnPack");
     String? errorMessage;
     try {
       await ort.loadTranslationModel(
         modelPath: "$modelDir/$modelName",
         modelKey: modelName,
         quantizationSuffix: "_q4f16",
+        useXnnpack: useXnnPack,
       );
       state = true;
     } catch (e) {

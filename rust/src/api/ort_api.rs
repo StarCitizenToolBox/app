@@ -15,13 +15,15 @@ static MODEL_CACHE: Lazy<Mutex<HashMap<String, OpusMtModel>>> =
 /// * `model_path` - 模型文件夹路径
 /// * `model_key` - 模型缓存键（用于标识模型，如 "zh-en"）
 /// * `quantization_suffix` - 量化后缀（如 "_q4", "_q8"，空字符串表示使用默认模型）
+/// * `use_xnnpack` - 是否使用 XNNPACK 加速
 ///
 pub fn load_translation_model(
     model_path: String,
     model_key: String,
     quantization_suffix: String,
+    use_xnnpack: bool,
 ) -> Result<()> {
-    let model = OpusMtModel::new(&model_path, &quantization_suffix)?;
+    let model = OpusMtModel::new(&model_path, &quantization_suffix, use_xnnpack)?;
 
     let mut cache = MODEL_CACHE
         .lock()

@@ -880,12 +880,14 @@ class RustLibWire implements BaseWire {
     ffi.Pointer<wire_cst_list_prim_u_8_strict> model_path,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> model_key,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> quantization_suffix,
+    bool use_xnnpack,
   ) {
     return _wire__crate__api__ort_api__load_translation_model(
       port_,
       model_path,
       model_key,
       quantization_suffix,
+      use_xnnpack,
     );
   }
 
@@ -897,6 +899,7 @@ class RustLibWire implements BaseWire {
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Bool,
           )
         >
       >(
@@ -910,6 +913,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              bool,
             )
           >();
 

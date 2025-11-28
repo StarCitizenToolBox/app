@@ -262,6 +262,7 @@ fn wire__crate__api__ort_api__load_translation_model_impl(
     model_path: impl CstDecode<String>,
     model_key: impl CstDecode<String>,
     quantization_suffix: impl CstDecode<String>,
+    use_xnnpack: impl CstDecode<bool>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -273,6 +274,7 @@ fn wire__crate__api__ort_api__load_translation_model_impl(
             let api_model_path = model_path.cst_decode();
             let api_model_key = model_key.cst_decode();
             let api_quantization_suffix = quantization_suffix.cst_decode();
+            let api_use_xnnpack = use_xnnpack.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
@@ -280,6 +282,7 @@ fn wire__crate__api__ort_api__load_translation_model_impl(
                             api_model_path,
                             api_model_key,
                             api_quantization_suffix,
+                            api_use_xnnpack,
                         )?;
                         Ok(output_ok)
                     })(),
@@ -1750,12 +1753,14 @@ mod io {
         model_path: *mut wire_cst_list_prim_u_8_strict,
         model_key: *mut wire_cst_list_prim_u_8_strict,
         quantization_suffix: *mut wire_cst_list_prim_u_8_strict,
+        use_xnnpack: bool,
     ) {
         wire__crate__api__ort_api__load_translation_model_impl(
             port_,
             model_path,
             model_key,
             quantization_suffix,
+            use_xnnpack,
         )
     }
 

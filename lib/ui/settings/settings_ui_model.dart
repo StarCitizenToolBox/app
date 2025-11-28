@@ -26,6 +26,7 @@ abstract class SettingsUIState with _$SettingsUIState {
     String? customGamePath,
     @Default(0) int locationCacheSize,
     @Default(false) bool isUseInternalDNS,
+    @Default(true) bool isEnableOnnxXnnPack,
   }) = _SettingsUIState;
 }
 
@@ -44,6 +45,7 @@ class SettingsUIModel extends _$SettingsUIModel {
     await _loadLocationCacheSize();
     await _loadToolSiteMirrorState();
     await _loadUseInternalDNS();
+    await _loadOnnxXnnPackState();
   }
 
   Future<void> setGameLaunchECore(BuildContext context) async {
@@ -226,5 +228,18 @@ class SettingsUIModel extends _$SettingsUIModel {
     final isUseInternalDNS =
         userBox.get("isUseInternalDNS", defaultValue: false);
     state = state.copyWith(isUseInternalDNS: isUseInternalDNS);
+  }
+
+  void onChangeOnnxXnnPack(bool? b) {
+    final userBox = Hive.box("app_conf");
+    userBox.put("isEnableOnnxXnnPack", b ?? true);
+    _initState();
+  }
+
+  Future _loadOnnxXnnPackState() async {
+    final userBox = await Hive.openBox("app_conf");
+    final isEnableOnnxXnnPack =
+        userBox.get("isEnableOnnxXnnPack", defaultValue: true);
+    state = state.copyWith(isEnableOnnxXnnPack: isEnableOnnxXnnPack);
   }
 }

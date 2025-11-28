@@ -1180,5 +1180,8 @@
   "tools_vehicle_sorting_search": "搜索載具",
   "@tools_vehicle_sorting_search": {},
   "tools_vehicle_sorting_sorted": "已排序載具",
-  "@tools_vehicle_sorting_sorted": {}
+  "@tools_vehicle_sorting_sorted": {},
+  "settings_item_onnx_xnn_pack": "使用 XNN 加速 ONNX 推理",
+  "@settings_item_onnx_xnn_pack": {},
+  "settings_item_onnx_xnn_pack_info": "關閉此選項或許可以解決一些相容性問題"
 }

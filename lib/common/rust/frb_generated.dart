@@ -116,6 +116,7 @@ abstract class RustLibApi extends BaseApi {
     required String modelPath,
     required String modelKey,
     required String quantizationSuffix,
+    required bool useXnnpack,
   });
 
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
@@ -421,6 +422,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required String modelPath,
     required String modelKey,
     required String quantizationSuffix,
+    required bool useXnnpack,
   }) {
     return handler.executeNormal(
       NormalTask(
@@ -428,11 +430,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           var arg0 = cst_encode_String(modelPath);
           var arg1 = cst_encode_String(modelKey);
           var arg2 = cst_encode_String(quantizationSuffix);
+          var arg3 = cst_encode_bool(useXnnpack);
           return wire.wire__crate__api__ort_api__load_translation_model(
             port_,
             arg0,
             arg1,
             arg2,
+            arg3,
           );
         },
         codec: DcoCodec(
@@ -440,7 +444,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: dco_decode_AnyhowException,
         ),
         constMeta: kCrateApiOrtApiLoadTranslationModelConstMeta,
-        argValues: [modelPath, modelKey, quantizationSuffix],
+        argValues: [modelPath, modelKey, quantizationSuffix, useXnnpack],
         apiImpl: this,
       ),
     );
@@ -449,7 +453,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiOrtApiLoadTranslationModelConstMeta =>
       const TaskConstMeta(
         debugName: "load_translation_model",
-        argNames: ["modelPath", "modelKey", "quantizationSuffix"],
+        argNames: ["modelPath", "modelKey", "quantizationSuffix", "useXnnpack"],
       );
 
   @override

@@ -1158,5 +1158,8 @@
   "log_analyzer_description": "プレイ記録を分析（ログイン、死亡、キルなどの情報）",
   "@log_analyzer_description": {},
   "log_analyzer_window_title": "SCToolbox: logアナライザ",
-  "@log_analyzer_window_title": {}
+  "@log_analyzer_window_title": {},
+  "settings_item_onnx_xnn_pack": "XNNを使用してONNX推論を高速化",
+  "@settings_item_onnx_xnn_pack": {},
+  "settings_item_onnx_xnn_pack_info": "このオプションをオフにすると、一部の互換性問題が解決する場合があります"
 }
