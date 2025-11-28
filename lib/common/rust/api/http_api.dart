@@ -40,7 +40,7 @@ Future<List<String>> dnsLookupIps({required String host}) =>
 /// # Arguments
 /// * `urls` - List of base URLs to test
 /// * `path_suffix` - Optional path suffix to append to each URL (e.g., "/api/version")
-///                   If None, tests the base URL directly
+///   If None, tests the base URL directly
 Future<String?> getFasterUrl({
   required List<String> urls,
   String? pathSuffix,

@@ -1414,6 +1414,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings_item_dns_info": MessageLookupByLibrary.simpleMessage(
       "При включении может решить проблемы с DNS-загрязнением в некоторых регионах",
     ),
+    "settings_item_onnx_xnn_pack": MessageLookupByLibrary.simpleMessage(
+      "Использовать XNN для ускорения ONNX",
+    ),
+    "settings_item_onnx_xnn_pack_info": MessageLookupByLibrary.simpleMessage(
+      "Отключение этой опции может решить некоторые проблемы совместимости",
+    ),
     "settings_title_game": MessageLookupByLibrary.simpleMessage("Игра"),
     "settings_title_general": MessageLookupByLibrary.simpleMessage("Общие"),
     "support_dev_alipay": MessageLookupByLibrary.simpleMessage("Alipay"),

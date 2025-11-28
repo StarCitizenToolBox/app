@@ -1200,6 +1200,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings_item_dns_info": MessageLookupByLibrary.simpleMessage(
       "開啟後可能解決部分地區 DNS 污染的問題",
     ),
+    "settings_item_onnx_xnn_pack": MessageLookupByLibrary.simpleMessage(
+      "使用 XNN 加速 ONNX 推理",
+    ),
+    "settings_item_onnx_xnn_pack_info": MessageLookupByLibrary.simpleMessage(
+      "關閉此選項或許可以解決一些相容性問題",
+    ),
     "settings_title_game": MessageLookupByLibrary.simpleMessage("遊戲"),
     "settings_title_general": MessageLookupByLibrary.simpleMessage("通用"),
     "support_dev_alipay": MessageLookupByLibrary.simpleMessage("支付寶"),

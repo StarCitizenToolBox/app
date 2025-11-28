@@ -39,6 +39,13 @@ class SettingsUI extends HookConsumerWidget {
           onSwitch: model.onChangeUseInternalDNS,
           onTap: () => model.onChangeUseInternalDNS(!sate.isUseInternalDNS)),
       const SizedBox(height: 12),
+      makeSettingsItem(const Icon(FluentIcons.processing, size: 20),
+          S.current.settings_item_onnx_xnn_pack,
+          subTitle: S.current.settings_item_onnx_xnn_pack_info,
+          switchStatus: sate.isEnableOnnxXnnPack,
+          onSwitch: model.onChangeOnnxXnnPack,
+          onTap: () => model.onChangeOnnxXnnPack(!sate.isEnableOnnxXnnPack)),
+      const SizedBox(height: 12),
       makeSettingsItem(const Icon(FluentIcons.delete, size: 20),
           S.current.setting_action_clear_translation_file_cache,
           subTitle: S.current.setting_action_info_cache_clearing_info(

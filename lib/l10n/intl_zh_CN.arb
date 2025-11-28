@@ -915,5 +915,8 @@
   "user_confirm_unregister_title": "确认注销",
   "user_confirm_unregister_message": "您确定要注销账户吗？此操作不可撤销，如需再次登录，需重新验证 RSI 账号。",
   "user_unregister_success": "账户注销成功",
-  "user_unregister_failed": "账户注销失败"
+  "user_unregister_failed": "账户注销失败",
+  "settings_item_onnx_xnn_pack": "使用 XNN 加速 ONNX 推理",
+  "@settings_item_onnx_xnn_pack": {},
+  "settings_item_onnx_xnn_pack_info": "关闭此选项或许可以解决一些兼容问题"
 }

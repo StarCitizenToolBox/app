@@ -1158,5 +1158,8 @@
   "log_analyzer_description": "Анализ ваших игровых записей (логин, смерти, убийства и другая информация)",
   "@log_analyzer_description": {},
   "log_analyzer_window_title": "SCToolbox: Анализатор логов",
-  "@log_analyzer_window_title": {}
+  "@log_analyzer_window_title": {},
+  "settings_item_onnx_xnn_pack": "Использовать XNN для ускорения ONNX",
+  "@settings_item_onnx_xnn_pack": {},
+  "settings_item_onnx_xnn_pack_info": "Отключение этой опции может решить некоторые проблемы совместимости"
 }
