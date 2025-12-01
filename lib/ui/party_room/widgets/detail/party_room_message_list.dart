@@ -81,7 +81,7 @@ class PartyRoomMessageList extends ConsumerWidget {
               const SizedBox(width: 12),
               const Expanded(
                 child: Text(
-                  '该房间包含第三方社交连接，点击加入自由交流吧~',
+                  '该房间包含第三方社交链接，点击加入自由交流吧~',
                   style: TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
                 ),
               ),
