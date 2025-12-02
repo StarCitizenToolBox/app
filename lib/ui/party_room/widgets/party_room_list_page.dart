@@ -554,7 +554,7 @@ class PartyRoomListPage extends HookConsumerWidget {
 
     try {
       await partyRoom.joinRoom(room.roomUuid, password: password);
-      // ${S.current.party_room_join}成功后，确保不处于最小化状态
+      // 加入成功后，确保不处于最小化状态
       ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
     } catch (e) {
       if (context.mounted) {

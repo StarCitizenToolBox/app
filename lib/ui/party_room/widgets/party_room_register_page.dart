@@ -229,7 +229,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
       await uiModel.requestPreRegister(gameId);
       currentStep.value = 1;
     } catch (e) {
-      // ${S.current.party_room_error}已在 state 中设置
+      // 错误已在 state 中设置
     }
   }
 
@@ -340,7 +340,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
       await uiModel.completeRegister();
       currentStep.value = 2;
     } catch (e) {
-      // ${S.current.party_room_error}已在 state 中设置
+      // 错误已在 state 中设置
     }
   }
 

@@ -6,7 +6,7 @@ import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart' as
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 
-/// 创建/${S.current.party_room_edit_room}对话框
+/// 创建/编辑房间对话框
 class CreateRoomDialog extends HookConsumerWidget {
   final partroom.RoomInfo? roomInfo;
 

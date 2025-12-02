@@ -6,7 +6,7 @@ import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/widgets/create_room_dialog.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 
-/// ${S.current.party_room_room}信息头部组件
+/// 房间信息头部组件
 class PartyRoomHeader extends ConsumerWidget {
   final dynamic room;
   final List members;

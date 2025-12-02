@@ -22,7 +22,7 @@ class PartyRoomMessageList extends ConsumerWidget {
     final room = partyRoomState.room.currentRoom;
     final hasSocialLinks = room != null && room.socialLinks.isNotEmpty;
 
-    // 计算总项数：社交链接消息（如果有）+ ${S.current.support_dev_copy_button} ID 消息 + 事件消息
+    // 计算总项数：社交链接消息（如果有）+ 复制 ID 消息 + 事件消息
     final totalItems = (hasSocialLinks ? 1 : 0) + 1 + events.length;
 
     if (totalItems == 0) {
@@ -43,11 +43,11 @@ class PartyRoomMessageList extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       itemCount: totalItems,
       itemBuilder: (context, index) {
-        // 第一条消息显示社交${S.current.party_room_link}（如果有）
+        // 第一条消息显示社交链接（如果有）
         if (hasSocialLinks && index == 0) {
           return _buildSocialLinksMessage(room);
         }
-        // 第二条消息显示${S.current.support_dev_copy_button} ID
+        // 第二条消息显示复制 ID
         final copyIdIndex = hasSocialLinks ? 1 : 0;
         if (index == copyIdIndex) {
           return _buildCopyIdMessage(room);
