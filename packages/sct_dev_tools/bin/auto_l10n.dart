@@ -185,8 +185,16 @@ class CheckContainsVisitor extends GeneralizingAstVisitor {
 }
 
 class MyAstVisitor extends GeneralizingAstVisitor {
+  // Track nodes that have been processed as part of a parent AdjacentStrings
+  // to avoid duplicate processing
+  final Set<AstNode> _processedNodes = {};
+
   @override
   visitStringLiteral(StringLiteral node) {
+    // Skip if this node was already processed as part of AdjacentStrings
+    if (_processedNodes.contains(node)) {
+      return super.visitStringLiteral(node);
+    }
     final value = node.stringValue ?? "";
     if (containsChinese(value)) {
       print('Found->visitStringLiteral: $value');
@@ -200,6 +208,8 @@ class MyAstVisitor extends GeneralizingAstVisitor {
     int interpolationIndex = 0;
     var result = '';
     for (var string in node.strings) {
+      // Mark child nodes as processed to avoid duplicates
+      _processedNodes.add(string);
       if (string is SimpleStringLiteral) {
         result += string.value;
       } else if (string is StringInterpolation) {
@@ -221,6 +231,10 @@ class MyAstVisitor extends GeneralizingAstVisitor {
 
   @override
   visitStringInterpolation(StringInterpolation node) {
+    // Skip if this node was already processed as part of AdjacentStrings
+    if (_processedNodes.contains(node)) {
+      return super.visitStringInterpolation(node);
+    }
     int interpolationIndex = 0;
     var result = '';
     for (var element in node.elements) {
@@ -235,17 +249,6 @@ class MyAstVisitor extends GeneralizingAstVisitor {
       addStringResult(result);
     }
     return super.visitStringInterpolation(node);
-  }
-
-  @override
-  visitInterpolationExpression(InterpolationExpression node) {
-    int interpolationIndex = 0;
-    final value = '{v${interpolationIndex++}}';
-    if (containsChinese(value)) {
-      print('Found->visitInterpolationExpression: $value');
-      addStringResult(value);
-    }
-    return super.visitInterpolationExpression(node);
   }
 
   bool containsChinese(String input) {

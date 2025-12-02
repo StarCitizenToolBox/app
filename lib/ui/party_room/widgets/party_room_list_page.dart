@@ -66,7 +66,7 @@ class PartyRoomListPage extends HookConsumerWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      '您正在以游客身份浏览，登录后可创建或加入房间。',
+                      S.current.party_room_guest_mode_hint,
                       style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8)),
                     ),
                   ),
@@ -78,7 +78,7 @@ class PartyRoomListPage extends HookConsumerWidget {
                     onPressed: () {
                       ref.read(partyRoomUIModelProvider.notifier).exitGuestMode();
                     },
-                    child: const Text('登录', style: TextStyle(fontSize: 12)),
+                    child: Text(S.current.party_room_login, style: TextStyle(fontSize: 12)),
                   ),
                 ],
               ),
@@ -91,7 +91,7 @@ class PartyRoomListPage extends HookConsumerWidget {
                 Expanded(
                   child: TextBox(
                     controller: searchController,
-                    placeholder: '搜索房主名称...',
+                    placeholder: S.current.party_room_search_owner,
                     prefix: const Padding(padding: EdgeInsets.only(left: 8), child: Icon(FluentIcons.search)),
                     onSubmitted: (value) {
                       uiModel.loadRoomList(searchName: value, page: 1);
@@ -105,9 +105,9 @@ class PartyRoomListPage extends HookConsumerWidget {
                 const SizedBox(width: 12),
                 FilledButton(
                   onPressed: () => _showCreateRoomDialog(context, ref),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [Icon(FluentIcons.add, size: 16), SizedBox(width: 8), Text('创建房间')],
+                    children: [const Icon(FluentIcons.add, size: 16), const SizedBox(width: 8), Text(S.current.party_room_create_room)],
                   ),
                 ),
               ],
@@ -140,7 +140,7 @@ class PartyRoomListPage extends HookConsumerWidget {
         padding: const EdgeInsets.all(16),
         alignment: Alignment.bottomRight,
         child: Tooltip(
-          message: '返回当前房间',
+          message: S.current.party_room_return_to_room,
           child: GestureDetector(
             onTap: () {
               ref.read(partyRoomUIModelProvider.notifier).setMinimized(false);
@@ -177,10 +177,10 @@ class PartyRoomListPage extends HookConsumerWidget {
     final tags = partyRoomState.room.tags;
 
     return ComboBox<String>(
-      placeholder: const Text('选择标签'),
+      placeholder: Text(S.current.party_room_select_tag),
       value: uiState.selectedMainTagId,
       items: [
-        const ComboBoxItem(value: null, child: Text('全部标签')),
+        ComboBoxItem(value: null, child: Text(S.current.party_room_all_tags)),
         ...tags.values.map((tag) => ComboBoxItem(value: tag.id, child: Text(tag.name))),
       ],
       onChanged: (value) {
@@ -213,7 +213,7 @@ class PartyRoomListPage extends HookConsumerWidget {
               onPressed: () {
                 ref.read(partyRoomUIModelProvider.notifier).refreshRoomList();
               },
-              child: const Text('重试'),
+              child: Text(S.current.party_room_retry),
             ),
           ],
         ),
@@ -229,17 +229,17 @@ class PartyRoomListPage extends HookConsumerWidget {
             const SizedBox(height: 16),
             Text(
               uiState.searchOwnerName.isNotEmpty
-                  ? '没有找到符合条件的房间'
+                  ? S.current.party_room_no_matching_room
                   : uiState.selectedMainTagId != null
-                  ? '当前分类下没有房间'
-                  : '暂无可用房间',
+                  ? S.current.party_room_no_room_in_category
+                  : S.current.party_room_no_available_room,
               style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
             ),
             const SizedBox(height: 8),
             if (uiState.searchOwnerName.isEmpty) ...[
-              Text('成为第一个创建房间的人吧！', style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5))),
+              Text(S.current.party_room_be_first_create, style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5))),
               const SizedBox(height: 16),
-              FilledButton(onPressed: () => _showCreateRoomDialog(context, ref), child: const Text('创建房间')),
+              FilledButton(onPressed: () => _showCreateRoomDialog(context, ref), child: Text(S.current.party_room_create_room)),
             ],
           ],
         ),
@@ -264,7 +264,7 @@ class PartyRoomListPage extends HookConsumerWidget {
             child: Center(
               child: uiState.isLoading
                   ? const ProgressRing()
-                  : Text('已加载全部房间', style: TextStyle(color: Colors.white.withValues(alpha: 0.5))),
+                  : Text(S.current.party_room_all_loaded, style: TextStyle(color: Colors.white.withValues(alpha: 0.5))),
             ),
           );
         }
@@ -431,11 +431,11 @@ class PartyRoomListPage extends HookConsumerWidget {
       final shouldLogin = await showDialog<bool>(
         context: context,
         builder: (context) => ContentDialog(
-          title: const Text('需要登录'),
-          content: const Text('创建房间需要先登录账号，是否现在去登录？'),
+          title: Text(S.current.party_room_need_login),
+          content: Text(S.current.party_room_create_need_login),
           actions: [
-            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
-            FilledButton(child: const Text('去登录'), onPressed: () => Navigator.pop(context, true)),
+            Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
+            FilledButton(child: Text(S.current.party_room_go_login), onPressed: () => Navigator.pop(context, true)),
           ],
         ),
       );
@@ -451,11 +451,11 @@ class PartyRoomListPage extends HookConsumerWidget {
       final shouldLeave = await showDialog<bool>(
         context: context,
         builder: (context) => ContentDialog(
-          title: const Text('创建新房间'),
-          content: const Text('你已经在其他房间中，创建新房间将自动退出当前房间。是否继续？'),
+          title: Text(S.current.party_room_create_new_room),
+          content: Text(S.current.party_room_already_in_room_create),
           actions: [
-            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
-            FilledButton(child: const Text('继续'), onPressed: () => Navigator.pop(context, true)),
+            Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
+            FilledButton(child: Text(S.current.party_room_continue), onPressed: () => Navigator.pop(context, true)),
           ],
         ),
       );
@@ -478,11 +478,11 @@ class PartyRoomListPage extends HookConsumerWidget {
       final shouldLogin = await showDialog<bool>(
         context: context,
         builder: (context) => ContentDialog(
-          title: const Text('需要登录'),
-          content: const Text('加入房间需要先登录账号，是否现在去登录？'),
+          title: Text(S.current.party_room_need_login),
+          content: Text(S.current.party_room_join_need_login),
           actions: [
-            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
-            FilledButton(child: const Text('去登录'), onPressed: () => Navigator.pop(context, true)),
+            Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
+            FilledButton(child: Text(S.current.party_room_go_login), onPressed: () => Navigator.pop(context, true)),
           ],
         ),
       );
@@ -506,11 +506,11 @@ class PartyRoomListPage extends HookConsumerWidget {
         final confirmed = await showDialog<bool>(
           context: context,
           builder: (context) => ContentDialog(
-            title: const Text('切换房间'),
-            content: const Text('你已经在其他房间中，加入新房间将自动退出当前房间。是否继续？'),
+            title: Text(S.current.party_room_switch_room),
+            content: Text(S.current.party_room_already_in_room_join),
             actions: [
-              Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
-              FilledButton(child: const Text('继续'), onPressed: () => Navigator.pop(context, true)),
+              Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
+              FilledButton(child: Text(S.current.party_room_continue), onPressed: () => Navigator.pop(context, true)),
             ],
           ),
         );
@@ -533,14 +533,14 @@ class PartyRoomListPage extends HookConsumerWidget {
           builder: (context) {
             final passwordController = TextEditingController();
             return ContentDialog(
-              title: const Text('输入房间密码'),
+              title: Text(S.current.party_room_enter_room_password),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [TextBox(controller: passwordController, placeholder: '请输入密码', obscureText: true)],
+                children: [TextBox(controller: passwordController, placeholder: S.current.party_room_enter_password_required, obscureText: true)],
               ),
               actions: [
-                Button(child: const Text('取消'), onPressed: () => Navigator.pop(context)),
-                FilledButton(child: const Text('加入'), onPressed: () => Navigator.pop(context, passwordController.text)),
+                Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context)),
+                FilledButton(child: Text(S.current.party_room_join), onPressed: () => Navigator.pop(context, passwordController.text)),
               ],
             );
           },
@@ -561,7 +561,7 @@ class PartyRoomListPage extends HookConsumerWidget {
         await showDialog(
           context: context,
           builder: (context) => ContentDialog(
-            title: const Text('加入失败'),
+            title: Text(S.current.party_room_join_failed),
             content: Text(e.toString()),
             actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
           ),

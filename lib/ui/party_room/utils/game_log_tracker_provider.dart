@@ -66,7 +66,7 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
         }
       } catch (e) {
         // 游戏未启动或发生错误
-        state = state.copyWith(location: '<游戏未启动>', gameStartTime: null, kills: 0, deaths: 0);
+        state = state.copyWith(location: S.current.party_room_game_not_started, gameStartTime: null, kills: 0, deaths: 0);
       }
       await Future.delayed(const Duration(seconds: 10));
     }

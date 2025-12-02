@@ -137,56 +137,120 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m54(v0, v1, v2, v3, v4) =>
       "载具型号：${v0}   \n区域：${v1} \n损毁等级：${v2} （${v3}）   责任方：${v4}";
 
-  static String m55(v0) => "当前状态：${v0}";
+  static String m55(v0) => "连接失败: ${v0}";
 
-  static String m56(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
+  static String m56(v0) => "${v0} 天前";
 
-  static String m57(v0) => "性能优化 -> ${v0}";
+  static String m57(v0) => "退出房间失败: ${v0}";
 
-  static String m58(v0) => "缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化";
+  static String m58(v0) => "获取验证码失败: ${v0}";
 
-  static String m59(v0) =>
+  static String m59(v0) => "${v0} 小时前";
+
+  static String m60(v0) => "确定要踢出 ${v0} 吗？";
+
+  static String m61(v0) => "踢出成员失败：${v0}";
+
+  static String m62(v0) => "加载房间列表失败: ${v0}";
+
+  static String m63(v0, v1) => "${v0}/${v1} 成员";
+
+  static String m64(v0) => "${v0} 分钟前";
+
+  static String m65(v0) => "重连失败: ${v0}";
+
+  static String m66(v0) => "重连失败，已尝试 ${v0} 次";
+
+  static String m67(v0) => "注册失败: ${v0}";
+
+  static String m68(v0) => "确定要将房主转移给 ${v0} 吗？";
+
+  static String m69(v0) => "转移房主失败：${v0}";
+
+  static String m70(v0) => "当前状态：${v0}";
+
+  static String m71(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
+
+  static String m72(v0) => "性能优化 -> ${v0}";
+
+  static String m73(v0) => "缓存大小 ${v0}MB，清理盒子下载的汉化文件缓存，不会影响已安装的汉化";
+
+  static String m74(v0) =>
       "已设置的核心数量：${v0}   （此功能适用于首页的盒子一键启动 或 工具中的RSI启动器管理员模式，当为 0 时不启用此功能 ）";
 
-  static String m60(v0) => "清理失败，请手动移除，文件位置：${v0}";
+  static String m75(v0) => "⚠ AnalyticsApi.touch(\"launch\") 错误: ${v0} - 继续执行";
 
-  static String m61(v0) => "出现错误：${v0}";
+  static String m76(v0) => "✗ appModel.initApp() 错误: ${v0}";
 
-  static String m62(v0) => "初始化失败，请截图报告给开发者。${v0}";
+  static String m77(v0) => "⚠ aria2cModelProvider 初始化错误: ${v0}";
 
-  static String m63(v0) =>
+  static String m78(v0) => "⚠ URLConf.checkHost() 错误: ${v0} - 继续执行";
+
+  static String m79(v0) => "⚠ appModel.checkUpdate() 错误: ${v0} - 继续执行";
+
+  static String m80(v0) => "[诊断] 关闭 Hive boxes 失败: ${v0}";
+
+  static String m81(v0) => "[诊断] 数据库目录不存在: ${v0}";
+
+  static String m82(v0) => "[诊断] 正在删除数据库目录: ${v0}";
+
+  static String m83(v0) => "[诊断] ${v0}";
+
+  static String m84(v0) => "诊断模式 - Step ${v0}";
+
+  static String m85(v0) => "✗ Hive.openBox(\"app_conf\") 错误: ${v0}";
+
+  static String m86(v0) => "[${v0}] ⚠ 日志文件不存在";
+
+  static String m87(v0) => "[${v0}] --- 日志读取完成 (显示最后1000行) ---";
+
+  static String m88(v0, v1) => "[${v0}] ✗ 读取日志失败: ${v1}";
+
+  static String m89(v0) => "[诊断] 重置数据库失败: ${v0}";
+
+  static String m90(v0) => "[${v0}] 开始初始化...";
+
+  static String m91(v0) => "[${v0}] --- 开始读取完整日志文件 ---";
+
+  static String m92(v0) => "清理失败，请手动移除，文件位置：${v0}";
+
+  static String m93(v0) => "出现错误：${v0}";
+
+  static String m94(v0) => "初始化失败，请截图报告给开发者。${v0}";
+
+  static String m95(v0) =>
       "若您使用 nvme 补丁出现问题，请运行此工具。（可能导致游戏 安装/更新 不可用。）\n\n当前补丁状态：${v0}";
 
-  static String m64(v0) => "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n版本信息：${v0}";
+  static String m96(v0) => "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n版本信息：${v0}";
 
-  static String m65(v0) =>
+  static String m97(v0) =>
       "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${v0} MB";
 
-  static String m66(v0) =>
+  static String m98(v0) =>
       "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（同时会将 Vulkan 还原为 DX11） \n\n缓存大小：${v0} MB";
 
-  static String m67(v0, v1, v2, v3, v4) =>
+  static String m99(v0, v1, v2, v3, v4) =>
       "系统：${v0}\n\n处理器：${v1}\n\n内存大小：${v2}GB\n\n显卡信息：\n${v3}\n\n硬盘信息：\n${v4}\n\n";
 
-  static String m68(v0) => "处理失败！：${v0}";
+  static String m100(v0) => "处理失败！：${v0}";
 
-  static String m69(v0) => "读取启动器信息失败：${v0}";
+  static String m101(v0) => "读取启动器信息失败：${v0}";
 
-  static String m70(v0) => "补丁状态：${v0}";
+  static String m102(v0) => "补丁状态：${v0}";
 
-  static String m71(v0) => "启动器内部版本信息：${v0}";
+  static String m103(v0) => "启动器内部版本信息：${v0}";
 
-  static String m72(v0) => "打开文件：${v0}";
+  static String m104(v0) => "打开文件：${v0}";
 
-  static String m73(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
+  static String m105(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
 
-  static String m74(v0) => "读取文件：${v0} ...";
+  static String m106(v0) => "读取文件：${v0} ...";
 
-  static String m75(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
+  static String m107(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
 
-  static String m76(v0) => "未知文件类型\n${v0}";
+  static String m108(v0) => "未知文件类型\n${v0}";
 
-  static String m77(v0) => "P4K 查看器 -> ${v0}";
+  static String m109(v0) => "P4K 查看器 -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -929,6 +993,228 @@ class MessageLookup extends MessageLookupByLibrary {
     "nav_title": MessageLookupByLibrary.simpleMessage("导航"),
     "nav_website_navigation_data_provided_by":
         MessageLookupByLibrary.simpleMessage("网站导航数据由"),
+    "party_room_about_verification": MessageLookupByLibrary.simpleMessage(
+      "关于账号验证",
+    ),
+    "party_room_all_loaded": MessageLookupByLibrary.simpleMessage("已加载全部房间"),
+    "party_room_all_tags": MessageLookupByLibrary.simpleMessage("全部标签"),
+    "party_room_already_in_room_create": MessageLookupByLibrary.simpleMessage(
+      "你已经在其他房间中，创建新房间将自动退出当前房间。是否继续？",
+    ),
+    "party_room_already_in_room_join": MessageLookupByLibrary.simpleMessage(
+      "你已经在其他房间中，加入新房间将自动退出当前房间。是否继续？",
+    ),
+    "party_room_area": MessageLookupByLibrary.simpleMessage("区域"),
+    "party_room_be_first_create": MessageLookupByLibrary.simpleMessage(
+      "成为第一个创建房间的人吧！",
+    ),
+    "party_room_became_owner": MessageLookupByLibrary.simpleMessage("成为了新房主"),
+    "party_room_code_validity": MessageLookupByLibrary.simpleMessage(
+      "在简介的任意位置添加验证码即可，验证码30分钟内有效",
+    ),
+    "party_room_confirm_dismiss": MessageLookupByLibrary.simpleMessage("确认解散"),
+    "party_room_connect_error": m55,
+    "party_room_connect_failed": MessageLookupByLibrary.simpleMessage("连接失败"),
+    "party_room_connecting": MessageLookupByLibrary.simpleMessage("正在连接服务器..."),
+    "party_room_continue": MessageLookupByLibrary.simpleMessage("继续"),
+    "party_room_copy": MessageLookupByLibrary.simpleMessage("复制"),
+    "party_room_copy_code": MessageLookupByLibrary.simpleMessage("1. 复制以下验证码:"),
+    "party_room_copy_game_id": MessageLookupByLibrary.simpleMessage("复制游戏ID"),
+    "party_room_copy_owner_id_hint": MessageLookupByLibrary.simpleMessage(
+      "复制房主的游戏ID，可在游戏首页添加好友，快速组队",
+    ),
+    "party_room_create": MessageLookupByLibrary.simpleMessage("创建"),
+    "party_room_create_failed": MessageLookupByLibrary.simpleMessage("创建失败"),
+    "party_room_create_need_login": MessageLookupByLibrary.simpleMessage(
+      "创建房间需要先登录账号，是否现在去登录？",
+    ),
+    "party_room_create_new_room": MessageLookupByLibrary.simpleMessage("创建新房间"),
+    "party_room_create_room": MessageLookupByLibrary.simpleMessage("创建房间"),
+    "party_room_days_ago": m56,
+    "party_room_disconnected": MessageLookupByLibrary.simpleMessage("连接已断开"),
+    "party_room_dismiss": MessageLookupByLibrary.simpleMessage("解散"),
+    "party_room_dismiss_confirm_msg": MessageLookupByLibrary.simpleMessage(
+      "确定要解散房间吗？所有成员将被移出。",
+    ),
+    "party_room_dismiss_room": MessageLookupByLibrary.simpleMessage("解散房间"),
+    "party_room_dismissed": MessageLookupByLibrary.simpleMessage("房间已解散"),
+    "party_room_edit_bio": MessageLookupByLibrary.simpleMessage(
+      "3. 编辑您的个人简介，将验证码添加到简介中",
+    ),
+    "party_room_edit_room": MessageLookupByLibrary.simpleMessage("编辑房间"),
+    "party_room_enter_game_id": MessageLookupByLibrary.simpleMessage("请输入游戏ID"),
+    "party_room_enter_password": MessageLookupByLibrary.simpleMessage("输入密码"),
+    "party_room_enter_password_required": MessageLookupByLibrary.simpleMessage(
+      "请输入密码",
+    ),
+    "party_room_enter_room_password": MessageLookupByLibrary.simpleMessage(
+      "输入房间密码",
+    ),
+    "party_room_enter_target_members": MessageLookupByLibrary.simpleMessage(
+      "输入目标人数",
+    ),
+    "party_room_error": MessageLookupByLibrary.simpleMessage("错误"),
+    "party_room_exit_room": MessageLookupByLibrary.simpleMessage("退出房间"),
+    "party_room_exit_room_failed": m57,
+    "party_room_game_id_empty": MessageLookupByLibrary.simpleMessage(
+      "游戏ID不能为空",
+    ),
+    "party_room_game_id_example": MessageLookupByLibrary.simpleMessage(
+      "例如: Citizen123",
+    ),
+    "party_room_game_not_started": MessageLookupByLibrary.simpleMessage(
+      "<游戏未启动>",
+    ),
+    "party_room_get_code_failed": m58,
+    "party_room_go_login": MessageLookupByLibrary.simpleMessage("去登录"),
+    "party_room_guest_mode_hint": MessageLookupByLibrary.simpleMessage(
+      "您正在以游客身份浏览，登录后可创建或加入房间。",
+    ),
+    "party_room_hours_ago": m59,
+    "party_room_info_updated": MessageLookupByLibrary.simpleMessage("房间信息已更新"),
+    "party_room_join": MessageLookupByLibrary.simpleMessage("加入"),
+    "party_room_join_failed": MessageLookupByLibrary.simpleMessage("加入失败"),
+    "party_room_join_need_login": MessageLookupByLibrary.simpleMessage(
+      "加入房间需要先登录账号，是否现在去登录？",
+    ),
+    "party_room_joined_room": MessageLookupByLibrary.simpleMessage("加入了房间"),
+    "party_room_just_now": MessageLookupByLibrary.simpleMessage("刚刚"),
+    "party_room_kick": MessageLookupByLibrary.simpleMessage("踢出"),
+    "party_room_kick_member": MessageLookupByLibrary.simpleMessage("踢出成员"),
+    "party_room_kick_member_confirm": m60,
+    "party_room_kick_member_failed": m61,
+    "party_room_kicked": MessageLookupByLibrary.simpleMessage("被踢出房间"),
+    "party_room_leave_confirm": MessageLookupByLibrary.simpleMessage(
+      "确认离开房间吗？",
+    ),
+    "party_room_leave_room": MessageLookupByLibrary.simpleMessage("离开房间"),
+    "party_room_left_room": MessageLookupByLibrary.simpleMessage("离开了房间"),
+    "party_room_link": MessageLookupByLibrary.simpleMessage("链接"),
+    "party_room_link_format_error": MessageLookupByLibrary.simpleMessage(
+      "链接格式错误！",
+    ),
+    "party_room_load_list_failed": m62,
+    "party_room_loading": MessageLookupByLibrary.simpleMessage("加载中..."),
+    "party_room_location": MessageLookupByLibrary.simpleMessage("位置"),
+    "party_room_login": MessageLookupByLibrary.simpleMessage("登录"),
+    "party_room_main_menu": MessageLookupByLibrary.simpleMessage("<主菜单>"),
+    "party_room_members_count": m63,
+    "party_room_minutes_ago": m64,
+    "party_room_need_login": MessageLookupByLibrary.simpleMessage("需要登录"),
+    "party_room_new_owner": MessageLookupByLibrary.simpleMessage("新房主"),
+    "party_room_next_step": MessageLookupByLibrary.simpleMessage("下一步"),
+    "party_room_no_available_room": MessageLookupByLibrary.simpleMessage(
+      "暂无可用房间",
+    ),
+    "party_room_no_matching_room": MessageLookupByLibrary.simpleMessage(
+      "没有找到符合条件的房间",
+    ),
+    "party_room_no_members": MessageLookupByLibrary.simpleMessage("暂无成员"),
+    "party_room_no_messages": MessageLookupByLibrary.simpleMessage("暂无消息"),
+    "party_room_no_room_in_category": MessageLookupByLibrary.simpleMessage(
+      "当前分类下没有房间",
+    ),
+    "party_room_none": MessageLookupByLibrary.simpleMessage("无"),
+    "party_room_open_profile": MessageLookupByLibrary.simpleMessage("打开资料页"),
+    "party_room_operation_failed": MessageLookupByLibrary.simpleMessage("操作失败"),
+    "party_room_password_disabled": MessageLookupByLibrary.simpleMessage(
+      "未启用密码",
+    ),
+    "party_room_password_empty_hint": MessageLookupByLibrary.simpleMessage(
+      "为空则不更新密码，取消勾选则取消密码",
+    ),
+    "party_room_player_death": MessageLookupByLibrary.simpleMessage("玩家死亡"),
+    "party_room_prev_step": MessageLookupByLibrary.simpleMessage("上一步"),
+    "party_room_reconnect": MessageLookupByLibrary.simpleMessage("重新连接"),
+    "party_room_reconnect_failed": m65,
+    "party_room_reconnect_prompt": MessageLookupByLibrary.simpleMessage(
+      "与房间服务器的连接已断开，是否重新连接？",
+    ),
+    "party_room_reconnect_retry": m66,
+    "party_room_register_failed": m67,
+    "party_room_register_success": MessageLookupByLibrary.simpleMessage(
+      "注册成功！",
+    ),
+    "party_room_register_success_msg": MessageLookupByLibrary.simpleMessage(
+      "您已成功注册组队大厅，现在可以开始使用了",
+    ),
+    "party_room_register_title": MessageLookupByLibrary.simpleMessage("注册账号"),
+    "party_room_retry": MessageLookupByLibrary.simpleMessage("重试"),
+    "party_room_return_to_room": MessageLookupByLibrary.simpleMessage("返回当前房间"),
+    "party_room_room": MessageLookupByLibrary.simpleMessage("房间"),
+    "party_room_room_password": MessageLookupByLibrary.simpleMessage("房间密码"),
+    "party_room_room_type": MessageLookupByLibrary.simpleMessage("房间类型"),
+    "party_room_save": MessageLookupByLibrary.simpleMessage("保存"),
+    "party_room_search_owner": MessageLookupByLibrary.simpleMessage(
+      "搜索房主名称...",
+    ),
+    "party_room_select_main_tag": MessageLookupByLibrary.simpleMessage("选择主标签"),
+    "party_room_select_room_type": MessageLookupByLibrary.simpleMessage(
+      "请选择房间类型",
+    ),
+    "party_room_select_sub_tag": MessageLookupByLibrary.simpleMessage("选择子标签"),
+    "party_room_select_tag": MessageLookupByLibrary.simpleMessage("选择标签"),
+    "party_room_send_failed": MessageLookupByLibrary.simpleMessage("发送失败"),
+    "party_room_send_signal": MessageLookupByLibrary.simpleMessage("发送信号"),
+    "party_room_set_password": MessageLookupByLibrary.simpleMessage("设置密码"),
+    "party_room_social_links_hint": MessageLookupByLibrary.simpleMessage(
+      "该房间包含第三方社交链接，点击加入自由交流吧~",
+    ),
+    "party_room_social_links_optional": MessageLookupByLibrary.simpleMessage(
+      "社交链接 (可选)",
+    ),
+    "party_room_social_links_placeholder": MessageLookupByLibrary.simpleMessage(
+      "以 https:// 开头，目前仅支持 qq、discord、kook、oopz 链接",
+    ),
+    "party_room_step1_desc": MessageLookupByLibrary.simpleMessage(
+      "请输入您在星际公民中的游戏ID（Handle），这是您在游戏中使用的唯一标识符。",
+    ),
+    "party_room_step1_title": MessageLookupByLibrary.simpleMessage(
+      "步骤 1: 输入您的游戏ID",
+    ),
+    "party_room_step2_desc": MessageLookupByLibrary.simpleMessage(
+      "请按照以下步骤完成账号验证：",
+    ),
+    "party_room_step2_title": MessageLookupByLibrary.simpleMessage(
+      "步骤 2: 验证 RSI 账号",
+    ),
+    "party_room_step_complete": MessageLookupByLibrary.simpleMessage("完成注册"),
+    "party_room_step_enter_game_id": MessageLookupByLibrary.simpleMessage(
+      "输入游戏ID",
+    ),
+    "party_room_step_verify_rsi": MessageLookupByLibrary.simpleMessage(
+      "验证RSI账号",
+    ),
+    "party_room_sub_tag_optional": MessageLookupByLibrary.simpleMessage(
+      "子标签 (可选)",
+    ),
+    "party_room_switch_room": MessageLookupByLibrary.simpleMessage("切换房间"),
+    "party_room_system": MessageLookupByLibrary.simpleMessage("系统"),
+    "party_room_target_members": MessageLookupByLibrary.simpleMessage(
+      "目标人数 (2-100)",
+    ),
+    "party_room_target_members_range": MessageLookupByLibrary.simpleMessage(
+      "目标人数必须在 2-100 之间",
+    ),
+    "party_room_title": MessageLookupByLibrary.simpleMessage("组队大厅"),
+    "party_room_transfer": MessageLookupByLibrary.simpleMessage("转移"),
+    "party_room_transfer_owner": MessageLookupByLibrary.simpleMessage("转移房主"),
+    "party_room_transfer_owner_confirm": m68,
+    "party_room_transfer_owner_failed": m69,
+    "party_room_unknown_area": MessageLookupByLibrary.simpleMessage("未知区域"),
+    "party_room_unknown_location": MessageLookupByLibrary.simpleMessage("未知位置"),
+    "party_room_unknown_user": MessageLookupByLibrary.simpleMessage("未知用户"),
+    "party_room_update_failed": MessageLookupByLibrary.simpleMessage("更新失败"),
+    "party_room_verification_hint": MessageLookupByLibrary.simpleMessage(
+      "接下来，您需要在 RSI 账号简介中添加验证码以证明账号所有权，验证通过后，您可以移除该验证码。",
+    ),
+    "party_room_verify_register": MessageLookupByLibrary.simpleMessage(
+      "我已添加，验证并注册",
+    ),
+    "party_room_view_game_id": MessageLookupByLibrary.simpleMessage("查看我的游戏ID"),
+    "party_room_visit_rsi": MessageLookupByLibrary.simpleMessage(
+      "2. 访问您的 RSI 账号资设置页",
+    ),
     "performance_action_apply": MessageLookupByLibrary.simpleMessage("应用"),
     "performance_action_apply_and_clear_shaders":
         MessageLookupByLibrary.simpleMessage("应用并清理着色器（推荐）"),
@@ -950,7 +1236,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_action_super": MessageLookupByLibrary.simpleMessage("超级"),
     "performance_info_applied": MessageLookupByLibrary.simpleMessage("已应用"),
-    "performance_info_current_status": m55,
+    "performance_info_current_status": m70,
     "performance_info_delete_config_file": MessageLookupByLibrary.simpleMessage(
       "删除配置文件...",
     ),
@@ -964,7 +1250,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起反效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。",
         ),
     "performance_info_graphics": MessageLookupByLibrary.simpleMessage("图形"),
-    "performance_info_min_max_values": m56,
+    "performance_info_min_max_values": m71,
     "performance_info_not_applied": MessageLookupByLibrary.simpleMessage("未应用"),
     "performance_info_shader_clearing_warning":
         MessageLookupByLibrary.simpleMessage(
@@ -1123,7 +1409,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_water_info": MessageLookupByLibrary.simpleMessage(
       "各种水的等级",
     ),
-    "performance_title_performance_optimization": m57,
+    "performance_title_performance_optimization": m72,
     "setting_action_clear_translation_file_cache":
         MessageLookupByLibrary.simpleMessage("清理汉化文件缓存"),
     "setting_action_create_desktop_shortcut":
@@ -1136,7 +1422,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "setting_action_info_autofill_data_cleared":
         MessageLookupByLibrary.simpleMessage("已清理自动填充数据"),
-    "setting_action_info_cache_clearing_info": m58,
+    "setting_action_info_cache_clearing_info": m73,
     "setting_action_info_clear_cache_warning":
         MessageLookupByLibrary.simpleMessage("这不会影响已安装的汉化。"),
     "setting_action_info_confirm_clear_cache":
@@ -1181,7 +1467,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setting_action_reset_auto_password_fill":
         MessageLookupByLibrary.simpleMessage("重置自动密码填充"),
-    "setting_action_set_core_count": m59,
+    "setting_action_set_core_count": m74,
     "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
       "设置游戏文件 （StarCitizen.exe）",
     ),
@@ -1214,6 +1500,125 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "settings_title_game": MessageLookupByLibrary.simpleMessage("游戏"),
     "settings_title_general": MessageLookupByLibrary.simpleMessage("通用"),
+    "splash_agreement_handled": MessageLookupByLibrary.simpleMessage(
+      "✓ 用户协议对话框已处理",
+    ),
+    "splash_all_done": MessageLookupByLibrary.simpleMessage(
+      "✓ 所有初始化完成，准备跳转到主界面",
+    ),
+    "splash_analytics_done": MessageLookupByLibrary.simpleMessage(
+      "✓ AnalyticsApi.touch(\"launch\") 完成",
+    ),
+    "splash_analytics_error": m75,
+    "splash_analytics_timeout": MessageLookupByLibrary.simpleMessage(
+      "⚠ AnalyticsApi.touch() 超时 (10秒) - 继续执行",
+    ),
+    "splash_app_init_done": MessageLookupByLibrary.simpleMessage(
+      "✓ appModel.initApp() 完成",
+    ),
+    "splash_app_init_error": m76,
+    "splash_app_init_timeout": MessageLookupByLibrary.simpleMessage(
+      "✗ appModel.initApp() 超时 (10秒)",
+    ),
+    "splash_aria2c_done": MessageLookupByLibrary.simpleMessage(
+      "✓ aria2cModelProvider 初始化完成",
+    ),
+    "splash_aria2c_error": m77,
+    "splash_check_host_done": MessageLookupByLibrary.simpleMessage(
+      "✓ URLConf.checkHost() 完成",
+    ),
+    "splash_check_host_error": m78,
+    "splash_check_host_timeout": MessageLookupByLibrary.simpleMessage(
+      "⚠ URLConf.checkHost() 超时 (10秒) - 继续执行",
+    ),
+    "splash_check_update_done": MessageLookupByLibrary.simpleMessage(
+      "✓ appModel.checkUpdate() 完成",
+    ),
+    "splash_check_update_error": m79,
+    "splash_check_update_timeout": MessageLookupByLibrary.simpleMessage(
+      "⚠ appModel.checkUpdate() 超时 (10秒) - 继续执行",
+    ),
+    "splash_check_version": MessageLookupByLibrary.simpleMessage(
+      "检查 splash_alert_info_version...",
+    ),
+    "splash_close_hive_failed": m80,
+    "splash_context_unmounted": MessageLookupByLibrary.simpleMessage(
+      "✗ Context 已卸载",
+    ),
+    "splash_context_unmounted_dialog": MessageLookupByLibrary.simpleMessage(
+      "✗ Context 已卸载，无法显示对话框",
+    ),
+    "splash_context_unmounted_jump": MessageLookupByLibrary.simpleMessage(
+      "✗ Context 已卸载，无法跳转",
+    ),
+    "splash_context_unmounted_nav": MessageLookupByLibrary.simpleMessage(
+      "✗ Context 已卸载，无法导航",
+    ),
+    "splash_db_deleted": MessageLookupByLibrary.simpleMessage("[诊断] 数据库目录已删除"),
+    "splash_db_not_exist": m81,
+    "splash_db_reset_done": MessageLookupByLibrary.simpleMessage(
+      "[诊断] 数据库重置完成，准备退出应用",
+    ),
+    "splash_db_reset_msg": MessageLookupByLibrary.simpleMessage(
+      "数据库已重置，应用将退出。请重新启动应用。",
+    ),
+    "splash_deleting_db": m82,
+    "splash_diagnostic_log": m83,
+    "splash_diagnostic_mode": m84,
+    "splash_error": MessageLookupByLibrary.simpleMessage("错误"),
+    "splash_exec_analytics": MessageLookupByLibrary.simpleMessage(
+      "执行 AnalyticsApi.touch(\"launch\")...",
+    ),
+    "splash_exec_app_init": MessageLookupByLibrary.simpleMessage(
+      "执行 appModel.initApp()...",
+    ),
+    "splash_exec_check_host": MessageLookupByLibrary.simpleMessage(
+      "执行 URLConf.checkHost()...",
+    ),
+    "splash_exec_check_update": MessageLookupByLibrary.simpleMessage(
+      "执行 appModel.checkUpdate()...",
+    ),
+    "splash_hive_boxes_closed": MessageLookupByLibrary.simpleMessage(
+      "[诊断] Hive boxes 已关闭",
+    ),
+    "splash_hive_done": MessageLookupByLibrary.simpleMessage(
+      "✓ Hive.openBox(\"app_conf\") 完成",
+    ),
+    "splash_hive_error": m85,
+    "splash_hive_timeout": MessageLookupByLibrary.simpleMessage(
+      "✗ Hive.openBox(\"app_conf\") 超时 (10秒)",
+    ),
+    "splash_init_aria2c": MessageLookupByLibrary.simpleMessage(
+      "初始化 aria2cModelProvider...",
+    ),
+    "splash_init_task_status": MessageLookupByLibrary.simpleMessage(
+      "初始化任务执行情况：",
+    ),
+    "splash_log_not_exist": m86,
+    "splash_log_read_done": m87,
+    "splash_open_hive_box": MessageLookupByLibrary.simpleMessage(
+      "打开 Hive app_conf box...",
+    ),
+    "splash_read_full_log": MessageLookupByLibrary.simpleMessage("读取完整日志"),
+    "splash_read_log_failed": m88,
+    "splash_reset_database": MessageLookupByLibrary.simpleMessage("重置数据库"),
+    "splash_reset_db_failed": m89,
+    "splash_show_agreement": MessageLookupByLibrary.simpleMessage(
+      "需要显示用户协议对话框...",
+    ),
+    "splash_start_init": m90,
+    "splash_start_read_log": m91,
+    "splash_step0_done": MessageLookupByLibrary.simpleMessage(
+      "--- Step 0 完成，进入 Step 1 ---",
+    ),
+    "splash_step1_done": MessageLookupByLibrary.simpleMessage(
+      "--- Step 1 完成，进入 Step 2 ---",
+    ),
+    "splash_timeout": MessageLookupByLibrary.simpleMessage("超时"),
+    "splash_user_reset_db": MessageLookupByLibrary.simpleMessage(
+      "[诊断] 用户请求重置数据库",
+    ),
+    "splash_waiting_log": MessageLookupByLibrary.simpleMessage("等待日志..."),
     "support_dev_alipay": MessageLookupByLibrary.simpleMessage("支付宝"),
     "support_dev_back_button": MessageLookupByLibrary.simpleMessage("返回"),
     "support_dev_copy_button": MessageLookupByLibrary.simpleMessage("复制"),
@@ -1267,13 +1672,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "清理完毕，请完成一次安装 / 游戏启动 操作。",
     ),
-    "tools_action_info_cleanup_failed": m60,
+    "tools_action_info_cleanup_failed": m92,
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage("配置文件不存在，请尝试运行一次游戏"),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
       "已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请您前往 SETTINGS -> VERIFY 重装 EAC。",
     ),
-    "tools_action_info_error_occurred": m61,
+    "tools_action_info_error_occurred": m93,
     "tools_action_info_fix_success_restart":
         MessageLookupByLibrary.simpleMessage(
           "修复成功，请尝试重启电脑后继续安装游戏！ 若注册表修改操作导致其他软件出现兼容问题，请使用 工具 中的 NVME 注册表清理。",
@@ -1284,7 +1689,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。",
         ),
-    "tools_action_info_init_failed": m62,
+    "tools_action_info_init_failed": m94,
     "tools_action_info_log_file_not_exist":
         MessageLookupByLibrary.simpleMessage(
           "日志文件不存在，请尝试进行一次游戏启动或游戏安装，并退出启动器，若无法解决问题，请尝试将启动器更新至最新版本！",
@@ -1299,14 +1704,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_not_installed": MessageLookupByLibrary.simpleMessage(
       "未安装",
     ),
-    "tools_action_info_nvme_patch_issue": m63,
+    "tools_action_info_nvme_patch_issue": m95,
     "tools_action_info_one_key_close_lens_shake":
         MessageLookupByLibrary.simpleMessage(
           "一键关闭游戏内镜头晃动以便于摄影操作。\n\n @拉邦那 Lapernum 提供参数信息。",
         ),
     "tools_action_info_p4k_download_in_progress":
         MessageLookupByLibrary.simpleMessage("已经有一个p4k下载任务正在进行中，请前往下载管理器查看！"),
-    "tools_action_info_p4k_download_repair_tip": m64,
+    "tools_action_info_p4k_download_repair_tip": m96,
     "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
       "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。",
     ),
@@ -1321,7 +1726,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "tools_action_info_rsi_launcher_directory_not_found":
         MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器目录，请您尝试手动操作。"),
-    "tools_action_info_rsi_launcher_log_issue": m65,
+    "tools_action_info_rsi_launcher_log_issue": m97,
     "tools_action_info_rsi_launcher_not_found":
         MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器，请尝试重新安装，或在设置中手动添加。"),
     "tools_action_info_rsi_launcher_running_warning":
@@ -1329,12 +1734,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
       "以管理员身份运行RSI启动器，可能会解决一些问题。\n\n若设置了能效核心屏蔽参数，也会在此应用。",
     ),
-    "tools_action_info_shader_cache_issue": m66,
+    "tools_action_info_shader_cache_issue": m98,
     "tools_action_info_star_citizen_not_found":
         MessageLookupByLibrary.simpleMessage(
           "未找到星际公民游戏安装位置，请至少完成一次游戏启动操作 或在设置中手动添加。",
         ),
-    "tools_action_info_system_info_content": m67,
+    "tools_action_info_system_info_content": m99,
     "tools_action_info_system_info_title": MessageLookupByLibrary.simpleMessage(
       "系统信息",
     ),
@@ -1395,7 +1800,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "游戏安装位置：  ",
     ),
-    "tools_info_processing_failed": m68,
+    "tools_info_processing_failed": m100,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSI启动器位置：",
     ),
@@ -1415,13 +1820,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage("读取启动器信息失败！"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m69,
+        m101,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m70,
+    "tools_rsi_launcher_enhance_msg_patch_status": m102,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage("* 如需卸载增强补丁，请覆盖安装 RSI 启动器。"),
-    "tools_rsi_launcher_enhance_msg_version": m71,
+    "tools_rsi_launcher_enhance_msg_version": m103,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSI 启动器增强是一项社区功能，它会在您的电脑上解包 \"RSI Launcher\" 并加入额外的增强功能，具体使用哪些功能由您决定。\n\n目前，官方（CIG）仅许可我们进行多语言操作，启动器下载增强是我们认为有用的额外功能，违反cig用户协议（https://robertsspaceindustries.com/eula）可能导致账号被封禁等严重后果，是否启用由您自己决定，我们不对可能产生的后果（游戏损坏，账号封禁等）承担任何责任。\n\n对于启动器的修改内容，我们开源于：https://github.com/StarCitizenToolBox/RSILauncherEnhance，如有需要，您可自行查阅。\n\n如果您因为任何原因需要取消此增强补丁，请直接覆盖安装官方启动器。",
     ),
@@ -1453,18 +1858,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-    "tools_unp4k_msg_open_file": m72,
-    "tools_unp4k_msg_read_completed": m73,
-    "tools_unp4k_msg_read_file": m74,
+    "tools_unp4k_msg_open_file": m104,
+    "tools_unp4k_msg_read_completed": m105,
+    "tools_unp4k_msg_read_file": m106,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "正在读取P4K 文件 ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "正在处理文件 ...",
     ),
-    "tools_unp4k_msg_reading3": m75,
-    "tools_unp4k_msg_unknown_file_type": m76,
-    "tools_unp4k_title": m77,
+    "tools_unp4k_msg_reading3": m107,
+    "tools_unp4k_msg_unknown_file_type": m108,
+    "tools_unp4k_title": m109,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("单击文件以预览"),
     "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
       "将左侧载具拖动到右侧列表中，这将会为载具名称增加 001、002 .. 等前缀，方便您在游戏内 UI 快速定位载具。在右侧列表上下拖动可以调整载具的顺序。",

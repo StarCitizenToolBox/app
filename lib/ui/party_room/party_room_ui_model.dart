@@ -232,7 +232,7 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
   /// 完成注册
   Future<void> completeRegister() async {
     if (state.registerGameUserId.isEmpty) {
-      throw Exception('游戏ID不能为空');
+      throw Exception(S.current.party_room_game_id_empty);
     }
 
     state = state.copyWith(isLoading: true, errorMessage: null);

@@ -149,62 +149,130 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m54(v0, v1, v2, v3, v4) =>
       "Vehicle model: ${v0}   \nArea: ${v1} \nDamage level: ${v2} (${v3})   Responsible party: ${v4}";
 
-  static String m55(v0) => "Current status: ${v0}";
+  static String m55(v0) => "Connection failed: ${v0}";
 
-  static String m56(v0, v1, v2) =>
+  static String m56(v0) => "${v0} days ago";
+
+  static String m57(v0) => "Failed to exit room: ${v0}";
+
+  static String m58(v0) => "Failed to get verification code: ${v0}";
+
+  static String m59(v0) => "${v0} hours ago";
+
+  static String m60(v0) => "Are you sure you want to kick ${v0}?";
+
+  static String m61(v0) => "Failed to kick member: ${v0}";
+
+  static String m62(v0) => "Failed to load room list: ${v0}";
+
+  static String m63(v0, v1) => "${v0}/${v1} members";
+
+  static String m64(v0) => "${v0} minutes ago";
+
+  static String m65(v0) => "Reconnect failed: ${v0}";
+
+  static String m66(v0) => "Reconnect failed, attempted ${v0} times";
+
+  static String m67(v0) => "Registration failed: ${v0}";
+
+  static String m68(v0) =>
+      "Are you sure you want to transfer ownership to ${v0}?";
+
+  static String m69(v0) => "Failed to transfer ownership: ${v0}";
+
+  static String m70(v0) => "Current status: ${v0}";
+
+  static String m71(v0, v1, v2) =>
       "${v0}    Min value: ${v1} / Max value: ${v2}";
 
-  static String m57(v0) => "Performance Optimization -> ${v0}";
+  static String m72(v0) => "Performance Optimization -> ${v0}";
 
-  static String m58(v0) =>
+  static String m73(v0) =>
       "Cache size ${v0}MB, clears the localization file cache downloaded by SCToolbox, does not affect installed localizations";
 
-  static String m59(v0) =>
+  static String m74(v0) =>
       "Number of cores set: ${v0} (This feature applies to SCToolbox one-click launch on the homepage or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled)";
 
-  static String m60(v0) =>
+  static String m75(v0) =>
+      "⚠ AnalyticsApi.touch(\"launch\") error: ${v0} - continuing";
+
+  static String m76(v0) => "✗ appModel.initApp() error: ${v0}";
+
+  static String m77(v0) => "⚠ aria2cModelProvider initialization error: ${v0}";
+
+  static String m78(v0) => "⚠ URLConf.checkHost() error: ${v0} - continuing";
+
+  static String m79(v0) => "⚠ appModel.checkUpdate() error: ${v0} - continuing";
+
+  static String m80(v0) => "[Diagnostic] Failed to close Hive boxes: ${v0}";
+
+  static String m81(v0) =>
+      "[Diagnostic] Database directory does not exist: ${v0}";
+
+  static String m82(v0) => "[Diagnostic] Deleting database directory: ${v0}";
+
+  static String m83(v0) => "[Diagnostic] ${v0}";
+
+  static String m84(v0) => "Diagnostic Mode - Step ${v0}";
+
+  static String m85(v0) => "✗ Hive.openBox(\"app_conf\") error: ${v0}";
+
+  static String m86(v0) => "[${v0}] ⚠ Log file does not exist";
+
+  static String m87(v0) =>
+      "[${v0}] --- Log reading complete (showing last 1000 lines) ---";
+
+  static String m88(v0, v1) => "[${v0}] ✗ Failed to read log: ${v1}";
+
+  static String m89(v0) => "[Diagnostic] Failed to reset database: ${v0}";
+
+  static String m90(v0) => "[${v0}] Starting initialization...";
+
+  static String m91(v0) => "[${v0}] --- Starting to read full log file ---";
+
+  static String m92(v0) =>
       "Cleanup failed, please remove manually, file location: ${v0}";
 
-  static String m61(v0) => "An error occurred: ${v0}";
+  static String m93(v0) => "An error occurred: ${v0}";
 
-  static String m62(v0) =>
+  static String m94(v0) =>
       "Initialization failed, please take a screenshot to report to the developer. ${v0}";
 
-  static String m63(v0) =>
+  static String m95(v0) =>
       "If you have issues with the nvme patch, please run this tool. (May cause game installation/updates to be unavailable.)\n\nCurrent patch status: ${v0}";
 
-  static String m64(v0) =>
+  static String m96(v0) =>
       "Use the diversion download service provided by Star Citizen Chinese Wiki for downloading or repairing p4k.\nVersion info: ${v0}";
 
-  static String m65(v0) =>
+  static String m97(v0) =>
       "In some cases, the log file of the RSI Launcher may be corrupted, preventing problem scanning from completing. Use this tool to clean up corrupted log files.\n\nCurrent log file size: ${v0} MB";
 
-  static String m66(v0) =>
+  static String m98(v0) =>
       "If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders (also restores Vulkan to DX11)\n\nCache size: ${v0} MB";
 
-  static String m67(v0, v1, v2, v3, v4) =>
+  static String m99(v0, v1, v2, v3, v4) =>
       "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2}GB\n\nGPU information:\n${v3}\n\nStorage information:\n${v4}\n\n";
 
-  static String m68(v0) => "Processing failed!: ${v0}";
+  static String m100(v0) => "Processing failed!: ${v0}";
 
-  static String m69(v0) => "Failed to read launcher information: ${v0}";
+  static String m101(v0) => "Failed to read launcher information: ${v0}";
 
-  static String m70(v0) => "Patch status: ${v0}";
+  static String m102(v0) => "Patch status: ${v0}";
 
-  static String m71(v0) => "Launcher internal version information: ${v0}";
+  static String m103(v0) => "Launcher internal version information: ${v0}";
 
-  static String m72(v0) => "Opening file: ${v0}";
+  static String m104(v0) => "Opening file: ${v0}";
 
-  static String m73(v0, v1) =>
+  static String m105(v0, v1) =>
       "Loading complete: ${v0} files, time taken: ${v1} ms";
 
-  static String m74(v0) => "Reading file: ${v0}...";
+  static String m106(v0) => "Reading file: ${v0}...";
 
-  static String m75(v0, v1) => "Processing files (${v0}/${v1})...";
+  static String m107(v0, v1) => "Processing files (${v0}/${v1})...";
 
-  static String m76(v0) => "Unknown file type\n${v0}";
+  static String m108(v0) => "Unknown file type\n${v0}";
 
-  static String m77(v0) => "P4K Viewer -> ${v0}";
+  static String m109(v0) => "P4K Viewer -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1084,6 +1152,312 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Website navigation data provided by",
         ),
+    "party_room_about_verification": MessageLookupByLibrary.simpleMessage(
+      "About Account Verification",
+    ),
+    "party_room_all_loaded": MessageLookupByLibrary.simpleMessage(
+      "All rooms loaded",
+    ),
+    "party_room_all_tags": MessageLookupByLibrary.simpleMessage("All Tags"),
+    "party_room_already_in_room_create": MessageLookupByLibrary.simpleMessage(
+      "You are already in another room. Creating a new room will automatically exit the current room. Continue?",
+    ),
+    "party_room_already_in_room_join": MessageLookupByLibrary.simpleMessage(
+      "You are already in another room. Joining a new room will automatically exit the current room. Continue?",
+    ),
+    "party_room_area": MessageLookupByLibrary.simpleMessage("Area"),
+    "party_room_be_first_create": MessageLookupByLibrary.simpleMessage(
+      "Be the first to create a room!",
+    ),
+    "party_room_became_owner": MessageLookupByLibrary.simpleMessage(
+      "became the new room owner",
+    ),
+    "party_room_code_validity": MessageLookupByLibrary.simpleMessage(
+      "Add the code anywhere in your bio. The code is valid for 30 minutes",
+    ),
+    "party_room_confirm_dismiss": MessageLookupByLibrary.simpleMessage(
+      "Confirm Dismiss",
+    ),
+    "party_room_connect_error": m55,
+    "party_room_connect_failed": MessageLookupByLibrary.simpleMessage(
+      "Connection failed",
+    ),
+    "party_room_connecting": MessageLookupByLibrary.simpleMessage(
+      "Connecting to server...",
+    ),
+    "party_room_continue": MessageLookupByLibrary.simpleMessage("Continue"),
+    "party_room_copy": MessageLookupByLibrary.simpleMessage("Copy"),
+    "party_room_copy_code": MessageLookupByLibrary.simpleMessage(
+      "1. Copy the following verification code:",
+    ),
+    "party_room_copy_game_id": MessageLookupByLibrary.simpleMessage(
+      "Copy Game ID",
+    ),
+    "party_room_copy_owner_id_hint": MessageLookupByLibrary.simpleMessage(
+      "Copy the room owner\'s game ID to add friends and quickly team up on the game homepage",
+    ),
+    "party_room_create": MessageLookupByLibrary.simpleMessage("Create"),
+    "party_room_create_failed": MessageLookupByLibrary.simpleMessage(
+      "Create failed",
+    ),
+    "party_room_create_need_login": MessageLookupByLibrary.simpleMessage(
+      "You need to login to create a room. Would you like to login now?",
+    ),
+    "party_room_create_new_room": MessageLookupByLibrary.simpleMessage(
+      "Create New Room",
+    ),
+    "party_room_create_room": MessageLookupByLibrary.simpleMessage(
+      "Create Room",
+    ),
+    "party_room_days_ago": m56,
+    "party_room_disconnected": MessageLookupByLibrary.simpleMessage(
+      "Connection lost",
+    ),
+    "party_room_dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
+    "party_room_dismiss_confirm_msg": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to dismiss this room? All members will be removed.",
+    ),
+    "party_room_dismiss_room": MessageLookupByLibrary.simpleMessage(
+      "Dismiss Room",
+    ),
+    "party_room_dismissed": MessageLookupByLibrary.simpleMessage(
+      "Room has been dismissed",
+    ),
+    "party_room_edit_bio": MessageLookupByLibrary.simpleMessage(
+      "3. Edit your bio and add the verification code",
+    ),
+    "party_room_edit_room": MessageLookupByLibrary.simpleMessage("Edit Room"),
+    "party_room_enter_game_id": MessageLookupByLibrary.simpleMessage(
+      "Please enter game ID",
+    ),
+    "party_room_enter_password": MessageLookupByLibrary.simpleMessage(
+      "Enter password",
+    ),
+    "party_room_enter_password_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter password",
+    ),
+    "party_room_enter_room_password": MessageLookupByLibrary.simpleMessage(
+      "Enter Room Password",
+    ),
+    "party_room_enter_target_members": MessageLookupByLibrary.simpleMessage(
+      "Enter target members",
+    ),
+    "party_room_error": MessageLookupByLibrary.simpleMessage("Error"),
+    "party_room_exit_room": MessageLookupByLibrary.simpleMessage("Exit Room"),
+    "party_room_exit_room_failed": m57,
+    "party_room_game_id_empty": MessageLookupByLibrary.simpleMessage(
+      "Game ID cannot be empty",
+    ),
+    "party_room_game_id_example": MessageLookupByLibrary.simpleMessage(
+      "Example: Citizen123",
+    ),
+    "party_room_game_not_started": MessageLookupByLibrary.simpleMessage(
+      "<Game Not Started>",
+    ),
+    "party_room_get_code_failed": m58,
+    "party_room_go_login": MessageLookupByLibrary.simpleMessage("Login"),
+    "party_room_guest_mode_hint": MessageLookupByLibrary.simpleMessage(
+      "You are browsing as a guest. Log in to create or join rooms.",
+    ),
+    "party_room_hours_ago": m59,
+    "party_room_info_updated": MessageLookupByLibrary.simpleMessage(
+      "Room information updated",
+    ),
+    "party_room_join": MessageLookupByLibrary.simpleMessage("Join"),
+    "party_room_join_failed": MessageLookupByLibrary.simpleMessage(
+      "Join failed",
+    ),
+    "party_room_join_need_login": MessageLookupByLibrary.simpleMessage(
+      "You need to login to join a room. Would you like to login now?",
+    ),
+    "party_room_joined_room": MessageLookupByLibrary.simpleMessage(
+      "joined the room",
+    ),
+    "party_room_just_now": MessageLookupByLibrary.simpleMessage("Just now"),
+    "party_room_kick": MessageLookupByLibrary.simpleMessage("Kick"),
+    "party_room_kick_member": MessageLookupByLibrary.simpleMessage(
+      "Kick Member",
+    ),
+    "party_room_kick_member_confirm": m60,
+    "party_room_kick_member_failed": m61,
+    "party_room_kicked": MessageLookupByLibrary.simpleMessage(
+      "was kicked from the room",
+    ),
+    "party_room_leave_confirm": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to leave the room?",
+    ),
+    "party_room_leave_room": MessageLookupByLibrary.simpleMessage("Leave Room"),
+    "party_room_left_room": MessageLookupByLibrary.simpleMessage(
+      "left the room",
+    ),
+    "party_room_link": MessageLookupByLibrary.simpleMessage("Link"),
+    "party_room_link_format_error": MessageLookupByLibrary.simpleMessage(
+      "Link format error!",
+    ),
+    "party_room_load_list_failed": m62,
+    "party_room_loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+    "party_room_location": MessageLookupByLibrary.simpleMessage("Location"),
+    "party_room_login": MessageLookupByLibrary.simpleMessage("Login"),
+    "party_room_main_menu": MessageLookupByLibrary.simpleMessage("<Main Menu>"),
+    "party_room_members_count": m63,
+    "party_room_minutes_ago": m64,
+    "party_room_need_login": MessageLookupByLibrary.simpleMessage(
+      "Login Required",
+    ),
+    "party_room_new_owner": MessageLookupByLibrary.simpleMessage("New Owner"),
+    "party_room_next_step": MessageLookupByLibrary.simpleMessage("Next"),
+    "party_room_no_available_room": MessageLookupByLibrary.simpleMessage(
+      "No rooms available",
+    ),
+    "party_room_no_matching_room": MessageLookupByLibrary.simpleMessage(
+      "No rooms matching criteria found",
+    ),
+    "party_room_no_members": MessageLookupByLibrary.simpleMessage("No members"),
+    "party_room_no_messages": MessageLookupByLibrary.simpleMessage(
+      "No messages",
+    ),
+    "party_room_no_room_in_category": MessageLookupByLibrary.simpleMessage(
+      "No rooms in this category",
+    ),
+    "party_room_none": MessageLookupByLibrary.simpleMessage("None"),
+    "party_room_open_profile": MessageLookupByLibrary.simpleMessage(
+      "Open Profile Page",
+    ),
+    "party_room_operation_failed": MessageLookupByLibrary.simpleMessage(
+      "Operation failed",
+    ),
+    "party_room_password_disabled": MessageLookupByLibrary.simpleMessage(
+      "Password not enabled",
+    ),
+    "party_room_password_empty_hint": MessageLookupByLibrary.simpleMessage(
+      "Leave empty to keep password unchanged, uncheck to remove password",
+    ),
+    "party_room_player_death": MessageLookupByLibrary.simpleMessage(
+      "Player Death",
+    ),
+    "party_room_prev_step": MessageLookupByLibrary.simpleMessage("Previous"),
+    "party_room_reconnect": MessageLookupByLibrary.simpleMessage("Reconnect"),
+    "party_room_reconnect_failed": m65,
+    "party_room_reconnect_prompt": MessageLookupByLibrary.simpleMessage(
+      "The connection to the room server has been lost. Do you want to reconnect?",
+    ),
+    "party_room_reconnect_retry": m66,
+    "party_room_register_failed": m67,
+    "party_room_register_success": MessageLookupByLibrary.simpleMessage(
+      "Registration Successful!",
+    ),
+    "party_room_register_success_msg": MessageLookupByLibrary.simpleMessage(
+      "You have successfully registered for the party room. You can now start using it",
+    ),
+    "party_room_register_title": MessageLookupByLibrary.simpleMessage(
+      "Register Account",
+    ),
+    "party_room_retry": MessageLookupByLibrary.simpleMessage("Retry"),
+    "party_room_return_to_room": MessageLookupByLibrary.simpleMessage(
+      "Return to current room",
+    ),
+    "party_room_room": MessageLookupByLibrary.simpleMessage("Room"),
+    "party_room_room_password": MessageLookupByLibrary.simpleMessage(
+      "Room Password",
+    ),
+    "party_room_room_type": MessageLookupByLibrary.simpleMessage("Room Type"),
+    "party_room_save": MessageLookupByLibrary.simpleMessage("Save"),
+    "party_room_search_owner": MessageLookupByLibrary.simpleMessage(
+      "Search room owner...",
+    ),
+    "party_room_select_main_tag": MessageLookupByLibrary.simpleMessage(
+      "Select Main Tag",
+    ),
+    "party_room_select_room_type": MessageLookupByLibrary.simpleMessage(
+      "Please select room type",
+    ),
+    "party_room_select_sub_tag": MessageLookupByLibrary.simpleMessage(
+      "Select Sub Tag",
+    ),
+    "party_room_select_tag": MessageLookupByLibrary.simpleMessage("Select Tag"),
+    "party_room_send_failed": MessageLookupByLibrary.simpleMessage(
+      "Send failed",
+    ),
+    "party_room_send_signal": MessageLookupByLibrary.simpleMessage(
+      "Send Signal",
+    ),
+    "party_room_set_password": MessageLookupByLibrary.simpleMessage(
+      "Set Password",
+    ),
+    "party_room_social_links_hint": MessageLookupByLibrary.simpleMessage(
+      "This room contains third-party social links. Click to join and chat freely~",
+    ),
+    "party_room_social_links_optional": MessageLookupByLibrary.simpleMessage(
+      "Social Links (Optional)",
+    ),
+    "party_room_social_links_placeholder": MessageLookupByLibrary.simpleMessage(
+      "Start with https://, currently only supports qq, discord, kook, oopz links",
+    ),
+    "party_room_step1_desc": MessageLookupByLibrary.simpleMessage(
+      "Please enter your Star Citizen game ID (Handle), which is your unique identifier in the game.",
+    ),
+    "party_room_step1_title": MessageLookupByLibrary.simpleMessage(
+      "Step 1: Enter Your Game ID",
+    ),
+    "party_room_step2_desc": MessageLookupByLibrary.simpleMessage(
+      "Please follow these steps to complete account verification:",
+    ),
+    "party_room_step2_title": MessageLookupByLibrary.simpleMessage(
+      "Step 2: Verify RSI Account",
+    ),
+    "party_room_step_complete": MessageLookupByLibrary.simpleMessage(
+      "Complete Registration",
+    ),
+    "party_room_step_enter_game_id": MessageLookupByLibrary.simpleMessage(
+      "Enter Game ID",
+    ),
+    "party_room_step_verify_rsi": MessageLookupByLibrary.simpleMessage(
+      "Verify RSI Account",
+    ),
+    "party_room_sub_tag_optional": MessageLookupByLibrary.simpleMessage(
+      "Sub Tag (Optional)",
+    ),
+    "party_room_switch_room": MessageLookupByLibrary.simpleMessage(
+      "Switch Room",
+    ),
+    "party_room_system": MessageLookupByLibrary.simpleMessage("System"),
+    "party_room_target_members": MessageLookupByLibrary.simpleMessage(
+      "Target Members (2-100)",
+    ),
+    "party_room_target_members_range": MessageLookupByLibrary.simpleMessage(
+      "Target members must be between 2-100",
+    ),
+    "party_room_title": MessageLookupByLibrary.simpleMessage("Party Room"),
+    "party_room_transfer": MessageLookupByLibrary.simpleMessage("Transfer"),
+    "party_room_transfer_owner": MessageLookupByLibrary.simpleMessage(
+      "Transfer Ownership",
+    ),
+    "party_room_transfer_owner_confirm": m68,
+    "party_room_transfer_owner_failed": m69,
+    "party_room_unknown_area": MessageLookupByLibrary.simpleMessage(
+      "Unknown Area",
+    ),
+    "party_room_unknown_location": MessageLookupByLibrary.simpleMessage(
+      "Unknown Location",
+    ),
+    "party_room_unknown_user": MessageLookupByLibrary.simpleMessage(
+      "Unknown User",
+    ),
+    "party_room_update_failed": MessageLookupByLibrary.simpleMessage(
+      "Update failed",
+    ),
+    "party_room_verification_hint": MessageLookupByLibrary.simpleMessage(
+      "Next, you need to add a verification code to your RSI account bio to prove account ownership. After verification, you can remove the code.",
+    ),
+    "party_room_verify_register": MessageLookupByLibrary.simpleMessage(
+      "I\'ve added it, verify and register",
+    ),
+    "party_room_view_game_id": MessageLookupByLibrary.simpleMessage(
+      "View My Game ID",
+    ),
+    "party_room_visit_rsi": MessageLookupByLibrary.simpleMessage(
+      "2. Visit your RSI account settings page",
+    ),
     "performance_action_apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "performance_action_apply_and_clear_shaders":
         MessageLookupByLibrary.simpleMessage(
@@ -1111,7 +1485,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_action_super": MessageLookupByLibrary.simpleMessage("Super"),
     "performance_info_applied": MessageLookupByLibrary.simpleMessage("Applied"),
-    "performance_info_current_status": m55,
+    "performance_info_current_status": m70,
     "performance_info_delete_config_file": MessageLookupByLibrary.simpleMessage(
       "Deleting config file...",
     ),
@@ -1127,7 +1501,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_info_graphics": MessageLookupByLibrary.simpleMessage(
       "Graphics",
     ),
-    "performance_info_min_max_values": m56,
+    "performance_info_min_max_values": m71,
     "performance_info_not_applied": MessageLookupByLibrary.simpleMessage(
       "Not applied",
     ),
@@ -1308,7 +1682,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_water_info": MessageLookupByLibrary.simpleMessage(
       "Various water level effects",
     ),
-    "performance_title_performance_optimization": m57,
+    "performance_title_performance_optimization": m72,
     "setting_action_clear_translation_file_cache":
         MessageLookupByLibrary.simpleMessage("Clear Localization File Cache"),
     "setting_action_create_desktop_shortcut":
@@ -1323,7 +1697,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "setting_action_info_autofill_data_cleared":
         MessageLookupByLibrary.simpleMessage("Auto-fill data cleared"),
-    "setting_action_info_cache_clearing_info": m58,
+    "setting_action_info_cache_clearing_info": m73,
     "setting_action_info_clear_cache_warning":
         MessageLookupByLibrary.simpleMessage(
           "This will not affect installed localizations.",
@@ -1383,7 +1757,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setting_action_reset_auto_password_fill":
         MessageLookupByLibrary.simpleMessage("Reset Auto Password Fill"),
-    "setting_action_set_core_count": m59,
+    "setting_action_set_core_count": m74,
     "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
       "Set Game File (StarCitizen.exe)",
     ),
@@ -1418,6 +1792,133 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "settings_title_game": MessageLookupByLibrary.simpleMessage("Game"),
     "settings_title_general": MessageLookupByLibrary.simpleMessage("General"),
+    "splash_agreement_handled": MessageLookupByLibrary.simpleMessage(
+      "✓ User agreement dialog handled",
+    ),
+    "splash_all_done": MessageLookupByLibrary.simpleMessage(
+      "✓ All initialization complete, ready to navigate to main interface",
+    ),
+    "splash_analytics_done": MessageLookupByLibrary.simpleMessage(
+      "✓ AnalyticsApi.touch(\"launch\") completed",
+    ),
+    "splash_analytics_error": m75,
+    "splash_analytics_timeout": MessageLookupByLibrary.simpleMessage(
+      "⚠ AnalyticsApi.touch() timeout (10s) - continuing",
+    ),
+    "splash_app_init_done": MessageLookupByLibrary.simpleMessage(
+      "✓ appModel.initApp() completed",
+    ),
+    "splash_app_init_error": m76,
+    "splash_app_init_timeout": MessageLookupByLibrary.simpleMessage(
+      "✗ appModel.initApp() timeout (10s)",
+    ),
+    "splash_aria2c_done": MessageLookupByLibrary.simpleMessage(
+      "✓ aria2cModelProvider initialization complete",
+    ),
+    "splash_aria2c_error": m77,
+    "splash_check_host_done": MessageLookupByLibrary.simpleMessage(
+      "✓ URLConf.checkHost() completed",
+    ),
+    "splash_check_host_error": m78,
+    "splash_check_host_timeout": MessageLookupByLibrary.simpleMessage(
+      "⚠ URLConf.checkHost() timeout (10s) - continuing",
+    ),
+    "splash_check_update_done": MessageLookupByLibrary.simpleMessage(
+      "✓ appModel.checkUpdate() completed",
+    ),
+    "splash_check_update_error": m79,
+    "splash_check_update_timeout": MessageLookupByLibrary.simpleMessage(
+      "⚠ appModel.checkUpdate() timeout (10s) - continuing",
+    ),
+    "splash_check_version": MessageLookupByLibrary.simpleMessage(
+      "Checking splash_alert_info_version...",
+    ),
+    "splash_close_hive_failed": m80,
+    "splash_context_unmounted": MessageLookupByLibrary.simpleMessage(
+      "✗ Context unmounted",
+    ),
+    "splash_context_unmounted_dialog": MessageLookupByLibrary.simpleMessage(
+      "✗ Context unmounted, cannot show dialog",
+    ),
+    "splash_context_unmounted_jump": MessageLookupByLibrary.simpleMessage(
+      "✗ Context unmounted, cannot jump",
+    ),
+    "splash_context_unmounted_nav": MessageLookupByLibrary.simpleMessage(
+      "✗ Context unmounted, cannot navigate",
+    ),
+    "splash_db_deleted": MessageLookupByLibrary.simpleMessage(
+      "[Diagnostic] Database directory deleted",
+    ),
+    "splash_db_not_exist": m81,
+    "splash_db_reset_done": MessageLookupByLibrary.simpleMessage(
+      "[Diagnostic] Database reset complete, preparing to exit application",
+    ),
+    "splash_db_reset_msg": MessageLookupByLibrary.simpleMessage(
+      "Database has been reset, application will exit. Please restart the application.",
+    ),
+    "splash_deleting_db": m82,
+    "splash_diagnostic_log": m83,
+    "splash_diagnostic_mode": m84,
+    "splash_error": MessageLookupByLibrary.simpleMessage("Error"),
+    "splash_exec_analytics": MessageLookupByLibrary.simpleMessage(
+      "Executing AnalyticsApi.touch(\"launch\")...",
+    ),
+    "splash_exec_app_init": MessageLookupByLibrary.simpleMessage(
+      "Executing appModel.initApp()...",
+    ),
+    "splash_exec_check_host": MessageLookupByLibrary.simpleMessage(
+      "Executing URLConf.checkHost()...",
+    ),
+    "splash_exec_check_update": MessageLookupByLibrary.simpleMessage(
+      "Executing appModel.checkUpdate()...",
+    ),
+    "splash_hive_boxes_closed": MessageLookupByLibrary.simpleMessage(
+      "[Diagnostic] Hive boxes closed",
+    ),
+    "splash_hive_done": MessageLookupByLibrary.simpleMessage(
+      "✓ Hive.openBox(\"app_conf\") completed",
+    ),
+    "splash_hive_error": m85,
+    "splash_hive_timeout": MessageLookupByLibrary.simpleMessage(
+      "✗ Hive.openBox(\"app_conf\") timeout (10s)",
+    ),
+    "splash_init_aria2c": MessageLookupByLibrary.simpleMessage(
+      "Initializing aria2cModelProvider...",
+    ),
+    "splash_init_task_status": MessageLookupByLibrary.simpleMessage(
+      "Initialization Task Status:",
+    ),
+    "splash_log_not_exist": m86,
+    "splash_log_read_done": m87,
+    "splash_open_hive_box": MessageLookupByLibrary.simpleMessage(
+      "Opening Hive app_conf box...",
+    ),
+    "splash_read_full_log": MessageLookupByLibrary.simpleMessage(
+      "Read Full Log",
+    ),
+    "splash_read_log_failed": m88,
+    "splash_reset_database": MessageLookupByLibrary.simpleMessage(
+      "Reset Database",
+    ),
+    "splash_reset_db_failed": m89,
+    "splash_show_agreement": MessageLookupByLibrary.simpleMessage(
+      "Need to show user agreement dialog...",
+    ),
+    "splash_start_init": m90,
+    "splash_start_read_log": m91,
+    "splash_step0_done": MessageLookupByLibrary.simpleMessage(
+      "--- Step 0 complete, entering Step 1 ---",
+    ),
+    "splash_step1_done": MessageLookupByLibrary.simpleMessage(
+      "--- Step 1 complete, entering Step 2 ---",
+    ),
+    "splash_timeout": MessageLookupByLibrary.simpleMessage("Timeout"),
+    "splash_user_reset_db": MessageLookupByLibrary.simpleMessage(
+      "[Diagnostic] User requested database reset",
+    ),
+    "splash_waiting_log": MessageLookupByLibrary.simpleMessage(
+      "Waiting for log...",
+    ),
     "support_dev_alipay": MessageLookupByLibrary.simpleMessage("Alipay"),
     "support_dev_back_button": MessageLookupByLibrary.simpleMessage("Back"),
     "support_dev_copy_button": MessageLookupByLibrary.simpleMessage("Copy"),
@@ -1476,7 +1977,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "Cleanup complete, please complete one installation / game launch operation.",
     ),
-    "tools_action_info_cleanup_failed": m60,
+    "tools_action_info_cleanup_failed": m92,
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage(
           "Configuration file does not exist, please try running the game once",
@@ -1484,7 +1985,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
       "EAC files have been removed for you. Next, we\'ll open the RSI launcher for you. Please go to SETTINGS -> VERIFY to reinstall EAC.",
     ),
-    "tools_action_info_error_occurred": m61,
+    "tools_action_info_error_occurred": m93,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
       "Fixed successfully, please try restarting your computer and then continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME Registry Cleanup in Tools.",
     ),
@@ -1496,7 +1997,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Write IP information to the Hosts file to solve issues such as DNS pollution in some regions that prevent logging in to the official website.\nThis feature is in its first testing phase, please provide feedback if you encounter any issues.",
         ),
-    "tools_action_info_init_failed": m62,
+    "tools_action_info_init_failed": m94,
     "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
       "Log file does not exist. Please try launching the game or installing the game once and then exit the launcher. If the problem persists, please try updating the launcher to the latest version!",
     ),
@@ -1509,7 +2010,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_not_installed": MessageLookupByLibrary.simpleMessage(
       "Not installed",
     ),
-    "tools_action_info_nvme_patch_issue": m63,
+    "tools_action_info_nvme_patch_issue": m95,
     "tools_action_info_one_key_close_lens_shake":
         MessageLookupByLibrary.simpleMessage(
           "One-click disable in-game lens shake for better photography operations.\n\n@Lapernum provides parameter information.",
@@ -1518,7 +2019,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "A p4k download task is already in progress, please check the download manager!",
         ),
-    "tools_action_info_p4k_download_repair_tip": m64,
+    "tools_action_info_p4k_download_repair_tip": m96,
     "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
       "P4k is Star Citizen\'s core game file, over 100GB+. The offline download provided by SCToolbox is to help users who have extremely slow p4k file downloads or to repair p4k files that the official launcher cannot fix.\n\nNext, a dialog will ask for your save location (you can choose the Star Citizen folder or elsewhere). After downloading, please make sure the P4K file is placed in the LIVE folder, then verify and update using the Star Citizen launcher.",
     ),
@@ -1536,7 +2037,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "RSI launcher directory not found, please try manual operation.",
         ),
-    "tools_action_info_rsi_launcher_log_issue": m65,
+    "tools_action_info_rsi_launcher_log_issue": m97,
     "tools_action_info_rsi_launcher_not_found":
         MessageLookupByLibrary.simpleMessage(
           "RSI launcher not found, please try reinstalling or manually adding it in settings.",
@@ -1548,12 +2049,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
       "Run the RSI launcher as administrator, which may solve some issues.\n\nIf efficiency core blocking parameters are set, they will also be applied here.",
     ),
-    "tools_action_info_shader_cache_issue": m66,
+    "tools_action_info_shader_cache_issue": m98,
     "tools_action_info_star_citizen_not_found":
         MessageLookupByLibrary.simpleMessage(
           "Star Citizen game installation location not found, please complete at least one game launch operation or manually add it in settings.",
         ),
-    "tools_action_info_system_info_content": m67,
+    "tools_action_info_system_info_content": m99,
     "tools_action_info_system_info_title": MessageLookupByLibrary.simpleMessage(
       "System Information",
     ),
@@ -1620,7 +2121,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "Game installation location: ",
     ),
-    "tools_info_processing_failed": m68,
+    "tools_info_processing_failed": m100,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher location:",
     ),
@@ -1645,15 +2146,15 @@ class MessageLookup extends MessageLookupByLibrary {
           "Failed to read launcher information!",
         ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m69,
+        m101,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("RSI launcher not found"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m70,
+    "tools_rsi_launcher_enhance_msg_patch_status": m102,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
           "* To uninstall the enhancement patch, please reinstall the RSI launcher.",
         ),
-    "tools_rsi_launcher_enhance_msg_version": m71,
+    "tools_rsi_launcher_enhance_msg_version": m103,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher Enhancement is a community feature that unpacks the \"RSI Launcher\" on your computer and adds additional enhancement features. Which features to use is up to you.\n\nCurrently, only multi-language operations are officially permitted by CIG. Launcher download enhancement is an extra feature we consider useful, but violating the CIG user agreement (https://robertsspaceindustries.com/eula) may result in serious consequences such as account banning. Whether to enable it is your decision, and we are not responsible for any consequences (game damage, account banning, etc.) that may arise.\n\nThe modifications to the launcher are open-sourced at: https://github.com/StarCitizenToolBox/RSILauncherEnhance, which you can check if needed.\n\nIf for any reason you need to cancel this enhancement patch, please directly reinstall the official launcher.",
     ),
@@ -1694,18 +2195,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Initializing...",
     ),
-    "tools_unp4k_msg_open_file": m72,
-    "tools_unp4k_msg_read_completed": m73,
-    "tools_unp4k_msg_read_file": m74,
+    "tools_unp4k_msg_open_file": m104,
+    "tools_unp4k_msg_read_completed": m105,
+    "tools_unp4k_msg_read_file": m106,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Reading P4K file...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Processing files...",
     ),
-    "tools_unp4k_msg_reading3": m75,
-    "tools_unp4k_msg_unknown_file_type": m76,
-    "tools_unp4k_title": m77,
+    "tools_unp4k_msg_reading3": m107,
+    "tools_unp4k_msg_unknown_file_type": m108,
+    "tools_unp4k_title": m109,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Click file to preview",
     ),

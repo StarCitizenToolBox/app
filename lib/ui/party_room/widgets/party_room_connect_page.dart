@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 
 /// 连接服务器页面
@@ -40,14 +41,14 @@ class PartyRoomConnectPage extends HookConsumerWidget {
               const SizedBox(height: 32),
 
               // 标题
-              const Text(
-                '组队大厅',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0), letterSpacing: 2),
+              Text(
+                S.current.party_room_title,
+                style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0), letterSpacing: 2),
               ),
               const SizedBox(height: 12),
 
               // 副标题
-              Text('正在连接服务器...', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.7))),
+              Text(S.current.party_room_connecting, style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.7))),
               const SizedBox(height: 32),
 
               // 加载动画
@@ -66,13 +67,13 @@ class PartyRoomConnectPage extends HookConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Icon(FluentIcons.error_badge, color: Color(0xFFFF6B6B), size: 16),
-                          SizedBox(width: 8),
+                          const Icon(FluentIcons.error_badge, color: Color(0xFFFF6B6B), size: 16),
+                          const SizedBox(width: 8),
                           Text(
-                            '连接失败',
-                            style: TextStyle(color: Color(0xFFFF6B6B), fontWeight: FontWeight.bold),
+                            S.current.party_room_connect_failed,
+                            style: const TextStyle(color: Color(0xFFFF6B6B), fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -83,7 +84,7 @@ class PartyRoomConnectPage extends HookConsumerWidget {
                         onPressed: () async {
                           await uiModel.connectToServer();
                         },
-                        child: const Text('重试'),
+                        child: Text(S.current.party_room_retry),
                       ),
                     ],
                   ),
