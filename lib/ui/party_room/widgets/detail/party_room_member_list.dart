@@ -18,7 +18,7 @@ class PartyRoomMemberList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     if (members.isEmpty) {
       return Center(
-        child: Text('暂无成员', style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12)),
+        child: Text('${S.current.party_room_no_members}', style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12)),
       );
     }
 
@@ -131,7 +131,7 @@ class PartyRoomMemberItem extends ConsumerWidget {
       // 复制ID - 所有用户可用
       MenuFlyoutItem(
         leading: const Icon(FluentIcons.copy, size: 16),
-        text: const Text('复制游戏ID'),
+        text: const Text('${S.current.party_room_copy_game_id}'),
         onPressed: () async {
           await Clipboard.setData(ClipboardData(text: member.gameUserId));
         },
@@ -144,16 +144,16 @@ class PartyRoomMemberItem extends ConsumerWidget {
         const MenuFlyoutSeparator(),
         MenuFlyoutItem(
           leading: const Icon(FluentIcons.people, size: 16),
-          text: const Text('转移房主'),
+          text: const Text('${S.current.party_room_transfer_owner}'),
           onPressed: () async {
             final confirmed = await showDialog<bool>(
               context: context,
               builder: (context) => ContentDialog(
-                title: const Text('转移房主'),
+                title: const Text('${S.current.party_room_transfer_owner}'),
                 content: Text('确定要将房主转移给 ${member.handleName.isNotEmpty ? member.handleName : member.gameUserId} 吗？'),
                 actions: [
-                  Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
-                  FilledButton(child: const Text('转移'), onPressed: () => Navigator.pop(context, true)),
+                  Button(child: const Text('${S.current.home_action_cancel}'), onPressed: () => Navigator.pop(context, false)),
+                  FilledButton(child: const Text('${S.current.party_room_transfer}'), onPressed: () => Navigator.pop(context, true)),
                 ],
               ),
             );
@@ -165,7 +165,7 @@ class PartyRoomMemberItem extends ConsumerWidget {
                   await showDialog(
                     context: context,
                     builder: (context) => ContentDialog(
-                      title: const Text('操作失败'),
+                      title: const Text('${S.current.party_room_operation_failed}'),
                       content: Text('转移房主失败：$e'),
                       actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                     ),
@@ -177,18 +177,18 @@ class PartyRoomMemberItem extends ConsumerWidget {
         ),
         MenuFlyoutItem(
           leading: const Icon(FluentIcons.remove_from_shopping_list, size: 16),
-          text: const Text('踢出成员'),
+          text: const Text('${S.current.party_room_kick_member}'),
           onPressed: () async {
             final confirmed = await showDialog<bool>(
               context: context,
               builder: (context) => ContentDialog(
-                title: const Text('踢出成员'),
+                title: const Text('${S.current.party_room_kick_member}'),
                 content: Text('确定要踢出 ${member.handleName.isNotEmpty ? member.handleName : member.gameUserId} 吗？'),
                 actions: [
-                  Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+                  Button(child: const Text('${S.current.home_action_cancel}'), onPressed: () => Navigator.pop(context, false)),
                   FilledButton(
                     style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xFFDA373C))),
-                    child: const Text('踢出'),
+                    child: const Text('${S.current.party_room_kick}'),
                     onPressed: () => Navigator.pop(context, true),
                   ),
                 ],
@@ -202,7 +202,7 @@ class PartyRoomMemberItem extends ConsumerWidget {
                   await showDialog(
                     context: context,
                     builder: (context) => ContentDialog(
-                      title: const Text('操作失败'),
+                      title: const Text('${S.current.party_room_operation_failed}'),
                       content: Text('踢出成员失败：$e'),
                       actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                     ),

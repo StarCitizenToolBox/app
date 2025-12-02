@@ -5,7 +5,7 @@ import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/widgets/create_room_dialog.dart';
 
-/// 房间信息头部组件
+/// ${S.current.party_room_room}信息头部组件
 class PartyRoomHeader extends ConsumerWidget {
   final dynamic room;
   final List members;
@@ -40,7 +40,7 @@ class PartyRoomHeader extends ConsumerWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  room?.ownerGameId ?? '房间',
+                  room?.ownerGameId ?? '${S.current.party_room_room}',
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -70,7 +70,7 @@ class PartyRoomHeader extends ConsumerWidget {
                         builder: (context) => CreateRoomDialog(roomInfo: room),
                       );
                     },
-                    child: const Text('编辑房间'),
+                    child: const Text('${S.current.party_room_edit_room}'),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -80,13 +80,13 @@ class PartyRoomHeader extends ConsumerWidget {
                       final confirmed = await showDialog<bool>(
                         context: context,
                         builder: (context) => ContentDialog(
-                          title: const Text('确认解散'),
-                          content: const Text('确定要解散房间吗？所有成员将被移出。'),
+                          title: const Text('${S.current.party_room_confirm_dismiss}'),
+                          content: const Text('${S.current.party_room_dismiss_confirm_msg}'),
                           actions: [
-                            Button(child: const Text('取消'), onPressed: () => Navigator.pop(context, false)),
+                            Button(child: const Text('${S.current.home_action_cancel}'), onPressed: () => Navigator.pop(context, false)),
                             FilledButton(
                               style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xFFDA373C))),
-                              child: const Text('解散', style: TextStyle(color: Colors.white)),
+                              child: const Text('${S.current.party_room_dismiss}', style: TextStyle(color: Colors.white)),
                               onPressed: () => Navigator.pop(context, true),
                             ),
                           ],
@@ -104,7 +104,7 @@ class PartyRoomHeader extends ConsumerWidget {
                         return const Color(0xFFDA373C);
                       }),
                     ),
-                    child: const Text('解散房间', style: TextStyle(color: Colors.white)),
+                    child: const Text('${S.current.party_room_dismiss_room}', style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],
@@ -115,7 +115,7 @@ class PartyRoomHeader extends ConsumerWidget {
               width: double.infinity,
               child: Button(
                 onPressed: () async {
-                  final userOK = await showConfirmDialogs(context, "提示", Text("确认离开房间吗？"));
+                  final userOK = await showConfirmDialogs(context, "提示", Text("${S.current.party_room_leave_confirm}"));
                   if (!userOK) return;
                   await partyRoom.leaveRoom();
                 },
@@ -133,7 +133,7 @@ class PartyRoomHeader extends ConsumerWidget {
                     return const Color(0xFFDBDEE1);
                   }),
                 ),
-                child: const Text('离开房间'),
+                child: const Text('${S.current.party_room_leave_room}'),
               ),
             ),
           ],

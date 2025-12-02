@@ -6076,6 +6076,1831 @@ class S {
       args: [],
     );
   }
+
+  /// `Party Room`
+  String get party_room_title {
+    return Intl.message(
+      'Party Room',
+      name: 'party_room_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connecting to server...`
+  String get party_room_connecting {
+    return Intl.message(
+      'Connecting to server...',
+      name: 'party_room_connecting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection failed`
+  String get party_room_connect_failed {
+    return Intl.message(
+      'Connection failed',
+      name: 'party_room_connect_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get party_room_retry {
+    return Intl.message('Retry', name: 'party_room_retry', desc: '', args: []);
+  }
+
+  /// `Connection lost`
+  String get party_room_disconnected {
+    return Intl.message(
+      'Connection lost',
+      name: 'party_room_disconnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The connection to the room server has been lost. Do you want to reconnect?`
+  String get party_room_reconnect_prompt {
+    return Intl.message(
+      'The connection to the room server has been lost. Do you want to reconnect?',
+      name: 'party_room_reconnect_prompt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exit Room`
+  String get party_room_exit_room {
+    return Intl.message(
+      'Exit Room',
+      name: 'party_room_exit_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reconnect`
+  String get party_room_reconnect {
+    return Intl.message(
+      'Reconnect',
+      name: 'party_room_reconnect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to exit room: {v0}`
+  String party_room_exit_room_failed(Object v0) {
+    return Intl.message(
+      'Failed to exit room: $v0',
+      name: 'party_room_exit_room_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `No members`
+  String get party_room_no_members {
+    return Intl.message(
+      'No members',
+      name: 'party_room_no_members',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy Game ID`
+  String get party_room_copy_game_id {
+    return Intl.message(
+      'Copy Game ID',
+      name: 'party_room_copy_game_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transfer Ownership`
+  String get party_room_transfer_owner {
+    return Intl.message(
+      'Transfer Ownership',
+      name: 'party_room_transfer_owner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to transfer ownership to {v0}?`
+  String party_room_transfer_owner_confirm(Object v0) {
+    return Intl.message(
+      'Are you sure you want to transfer ownership to $v0?',
+      name: 'party_room_transfer_owner_confirm',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Transfer`
+  String get party_room_transfer {
+    return Intl.message(
+      'Transfer',
+      name: 'party_room_transfer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Operation failed`
+  String get party_room_operation_failed {
+    return Intl.message(
+      'Operation failed',
+      name: 'party_room_operation_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to transfer ownership: {v0}`
+  String party_room_transfer_owner_failed(Object v0) {
+    return Intl.message(
+      'Failed to transfer ownership: $v0',
+      name: 'party_room_transfer_owner_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Kick Member`
+  String get party_room_kick_member {
+    return Intl.message(
+      'Kick Member',
+      name: 'party_room_kick_member',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to kick {v0}?`
+  String party_room_kick_member_confirm(Object v0) {
+    return Intl.message(
+      'Are you sure you want to kick $v0?',
+      name: 'party_room_kick_member_confirm',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Kick`
+  String get party_room_kick {
+    return Intl.message('Kick', name: 'party_room_kick', desc: '', args: []);
+  }
+
+  /// `Failed to kick member: {v0}`
+  String party_room_kick_member_failed(Object v0) {
+    return Intl.message(
+      'Failed to kick member: $v0',
+      name: 'party_room_kick_member_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Loading...`
+  String get party_room_loading {
+    return Intl.message(
+      'Loading...',
+      name: 'party_room_loading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Signal`
+  String get party_room_send_signal {
+    return Intl.message(
+      'Send Signal',
+      name: 'party_room_send_signal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send failed`
+  String get party_room_send_failed {
+    return Intl.message(
+      'Send failed',
+      name: 'party_room_send_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No messages`
+  String get party_room_no_messages {
+    return Intl.message(
+      'No messages',
+      name: 'party_room_no_messages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This room contains third-party social links. Click to join and chat freely~`
+  String get party_room_social_links_hint {
+    return Intl.message(
+      'This room contains third-party social links. Click to join and chat freely~',
+      name: 'party_room_social_links_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy the room owner's game ID to add friends and quickly team up on the game homepage`
+  String get party_room_copy_owner_id_hint {
+    return Intl.message(
+      'Copy the room owner\'s game ID to add friends and quickly team up on the game homepage',
+      name: 'party_room_copy_owner_id_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy`
+  String get party_room_copy {
+    return Intl.message('Copy', name: 'party_room_copy', desc: '', args: []);
+  }
+
+  /// `Link`
+  String get party_room_link {
+    return Intl.message('Link', name: 'party_room_link', desc: '', args: []);
+  }
+
+  /// `Unknown Location`
+  String get party_room_unknown_location {
+    return Intl.message(
+      'Unknown Location',
+      name: 'party_room_unknown_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown Area`
+  String get party_room_unknown_area {
+    return Intl.message(
+      'Unknown Area',
+      name: 'party_room_unknown_area',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Player Death`
+  String get party_room_player_death {
+    return Intl.message(
+      'Player Death',
+      name: 'party_room_player_death',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location`
+  String get party_room_location {
+    return Intl.message(
+      'Location',
+      name: 'party_room_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Area`
+  String get party_room_area {
+    return Intl.message('Area', name: 'party_room_area', desc: '', args: []);
+  }
+
+  /// `Unknown User`
+  String get party_room_unknown_user {
+    return Intl.message(
+      'Unknown User',
+      name: 'party_room_unknown_user',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Owner`
+  String get party_room_new_owner {
+    return Intl.message(
+      'New Owner',
+      name: 'party_room_new_owner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System`
+  String get party_room_system {
+    return Intl.message(
+      'System',
+      name: 'party_room_system',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `joined the room`
+  String get party_room_joined_room {
+    return Intl.message(
+      'joined the room',
+      name: 'party_room_joined_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `left the room`
+  String get party_room_left_room {
+    return Intl.message(
+      'left the room',
+      name: 'party_room_left_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `became the new room owner`
+  String get party_room_became_owner {
+    return Intl.message(
+      'became the new room owner',
+      name: 'party_room_became_owner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room information updated`
+  String get party_room_info_updated {
+    return Intl.message(
+      'Room information updated',
+      name: 'party_room_info_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room has been dismissed`
+  String get party_room_dismissed {
+    return Intl.message(
+      'Room has been dismissed',
+      name: 'party_room_dismissed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `was kicked from the room`
+  String get party_room_kicked {
+    return Intl.message(
+      'was kicked from the room',
+      name: 'party_room_kicked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Just now`
+  String get party_room_just_now {
+    return Intl.message(
+      'Just now',
+      name: 'party_room_just_now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} minutes ago`
+  String party_room_minutes_ago(Object v0) {
+    return Intl.message(
+      '$v0 minutes ago',
+      name: 'party_room_minutes_ago',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `{v0} hours ago`
+  String party_room_hours_ago(Object v0) {
+    return Intl.message(
+      '$v0 hours ago',
+      name: 'party_room_hours_ago',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `{v0} days ago`
+  String party_room_days_ago(Object v0) {
+    return Intl.message(
+      '$v0 days ago',
+      name: 'party_room_days_ago',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Room`
+  String get party_room_room {
+    return Intl.message('Room', name: 'party_room_room', desc: '', args: []);
+  }
+
+  /// `{v0}/{v1} members`
+  String party_room_members_count(Object v0, Object v1) {
+    return Intl.message(
+      '$v0/$v1 members',
+      name: 'party_room_members_count',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Edit Room`
+  String get party_room_edit_room {
+    return Intl.message(
+      'Edit Room',
+      name: 'party_room_edit_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Dismiss`
+  String get party_room_confirm_dismiss {
+    return Intl.message(
+      'Confirm Dismiss',
+      name: 'party_room_confirm_dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to dismiss this room? All members will be removed.`
+  String get party_room_dismiss_confirm_msg {
+    return Intl.message(
+      'Are you sure you want to dismiss this room? All members will be removed.',
+      name: 'party_room_dismiss_confirm_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dismiss`
+  String get party_room_dismiss {
+    return Intl.message(
+      'Dismiss',
+      name: 'party_room_dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dismiss Room`
+  String get party_room_dismiss_room {
+    return Intl.message(
+      'Dismiss Room',
+      name: 'party_room_dismiss_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to leave the room?`
+  String get party_room_leave_confirm {
+    return Intl.message(
+      'Are you sure you want to leave the room?',
+      name: 'party_room_leave_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave Room`
+  String get party_room_leave_room {
+    return Intl.message(
+      'Leave Room',
+      name: 'party_room_leave_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Room`
+  String get party_room_create_room {
+    return Intl.message(
+      'Create Room',
+      name: 'party_room_create_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room Type`
+  String get party_room_room_type {
+    return Intl.message(
+      'Room Type',
+      name: 'party_room_room_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Main Tag`
+  String get party_room_select_main_tag {
+    return Intl.message(
+      'Select Main Tag',
+      name: 'party_room_select_main_tag',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sub Tag (Optional)`
+  String get party_room_sub_tag_optional {
+    return Intl.message(
+      'Sub Tag (Optional)',
+      name: 'party_room_sub_tag_optional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Sub Tag`
+  String get party_room_select_sub_tag {
+    return Intl.message(
+      'Select Sub Tag',
+      name: 'party_room_select_sub_tag',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `None`
+  String get party_room_none {
+    return Intl.message('None', name: 'party_room_none', desc: '', args: []);
+  }
+
+  /// `Target Members (2-100)`
+  String get party_room_target_members {
+    return Intl.message(
+      'Target Members (2-100)',
+      name: 'party_room_target_members',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter target members`
+  String get party_room_enter_target_members {
+    return Intl.message(
+      'Enter target members',
+      name: 'party_room_enter_target_members',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set Password`
+  String get party_room_set_password {
+    return Intl.message(
+      'Set Password',
+      name: 'party_room_set_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room Password`
+  String get party_room_room_password {
+    return Intl.message(
+      'Room Password',
+      name: 'party_room_room_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave empty to keep password unchanged, uncheck to remove password`
+  String get party_room_password_empty_hint {
+    return Intl.message(
+      'Leave empty to keep password unchanged, uncheck to remove password',
+      name: 'party_room_password_empty_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter password`
+  String get party_room_enter_password {
+    return Intl.message(
+      'Enter password',
+      name: 'party_room_enter_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password not enabled`
+  String get party_room_password_disabled {
+    return Intl.message(
+      'Password not enabled',
+      name: 'party_room_password_disabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Social Links (Optional)`
+  String get party_room_social_links_optional {
+    return Intl.message(
+      'Social Links (Optional)',
+      name: 'party_room_social_links_optional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start with https://, currently only supports qq, discord, kook, oopz links`
+  String get party_room_social_links_placeholder {
+    return Intl.message(
+      'Start with https://, currently only supports qq, discord, kook, oopz links',
+      name: 'party_room_social_links_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select room type`
+  String get party_room_select_room_type {
+    return Intl.message(
+      'Please select room type',
+      name: 'party_room_select_room_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Target members must be between 2-100`
+  String get party_room_target_members_range {
+    return Intl.message(
+      'Target members must be between 2-100',
+      name: 'party_room_target_members_range',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter password`
+  String get party_room_enter_password_required {
+    return Intl.message(
+      'Please enter password',
+      name: 'party_room_enter_password_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link format error!`
+  String get party_room_link_format_error {
+    return Intl.message(
+      'Link format error!',
+      name: 'party_room_link_format_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update failed`
+  String get party_room_update_failed {
+    return Intl.message(
+      'Update failed',
+      name: 'party_room_update_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create failed`
+  String get party_room_create_failed {
+    return Intl.message(
+      'Create failed',
+      name: 'party_room_create_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get party_room_save {
+    return Intl.message('Save', name: 'party_room_save', desc: '', args: []);
+  }
+
+  /// `Create`
+  String get party_room_create {
+    return Intl.message(
+      'Create',
+      name: 'party_room_create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register Account`
+  String get party_room_register_title {
+    return Intl.message(
+      'Register Account',
+      name: 'party_room_register_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get party_room_error {
+    return Intl.message('Error', name: 'party_room_error', desc: '', args: []);
+  }
+
+  /// `Enter Game ID`
+  String get party_room_step_enter_game_id {
+    return Intl.message(
+      'Enter Game ID',
+      name: 'party_room_step_enter_game_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify RSI Account`
+  String get party_room_step_verify_rsi {
+    return Intl.message(
+      'Verify RSI Account',
+      name: 'party_room_step_verify_rsi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete Registration`
+  String get party_room_step_complete {
+    return Intl.message(
+      'Complete Registration',
+      name: 'party_room_step_complete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About Account Verification`
+  String get party_room_about_verification {
+    return Intl.message(
+      'About Account Verification',
+      name: 'party_room_about_verification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next, you need to add a verification code to your RSI account bio to prove account ownership. After verification, you can remove the code.`
+  String get party_room_verification_hint {
+    return Intl.message(
+      'Next, you need to add a verification code to your RSI account bio to prove account ownership. After verification, you can remove the code.',
+      name: 'party_room_verification_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Step 1: Enter Your Game ID`
+  String get party_room_step1_title {
+    return Intl.message(
+      'Step 1: Enter Your Game ID',
+      name: 'party_room_step1_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your Star Citizen game ID (Handle), which is your unique identifier in the game.`
+  String get party_room_step1_desc {
+    return Intl.message(
+      'Please enter your Star Citizen game ID (Handle), which is your unique identifier in the game.',
+      name: 'party_room_step1_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Example: Citizen123`
+  String get party_room_game_id_example {
+    return Intl.message(
+      'Example: Citizen123',
+      name: 'party_room_game_id_example',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View My Game ID`
+  String get party_room_view_game_id {
+    return Intl.message(
+      'View My Game ID',
+      name: 'party_room_view_game_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter game ID`
+  String get party_room_enter_game_id {
+    return Intl.message(
+      'Please enter game ID',
+      name: 'party_room_enter_game_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get party_room_next_step {
+    return Intl.message(
+      'Next',
+      name: 'party_room_next_step',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Step 2: Verify RSI Account`
+  String get party_room_step2_title {
+    return Intl.message(
+      'Step 2: Verify RSI Account',
+      name: 'party_room_step2_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please follow these steps to complete account verification:`
+  String get party_room_step2_desc {
+    return Intl.message(
+      'Please follow these steps to complete account verification:',
+      name: 'party_room_step2_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Copy the following verification code:`
+  String get party_room_copy_code {
+    return Intl.message(
+      '1. Copy the following verification code:',
+      name: 'party_room_copy_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2. Visit your RSI account settings page`
+  String get party_room_visit_rsi {
+    return Intl.message(
+      '2. Visit your RSI account settings page',
+      name: 'party_room_visit_rsi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Profile Page`
+  String get party_room_open_profile {
+    return Intl.message(
+      'Open Profile Page',
+      name: 'party_room_open_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3. Edit your bio and add the verification code`
+  String get party_room_edit_bio {
+    return Intl.message(
+      '3. Edit your bio and add the verification code',
+      name: 'party_room_edit_bio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add the code anywhere in your bio. The code is valid for 30 minutes`
+  String get party_room_code_validity {
+    return Intl.message(
+      'Add the code anywhere in your bio. The code is valid for 30 minutes',
+      name: 'party_room_code_validity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous`
+  String get party_room_prev_step {
+    return Intl.message(
+      'Previous',
+      name: 'party_room_prev_step',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I've added it, verify and register`
+  String get party_room_verify_register {
+    return Intl.message(
+      'I\'ve added it, verify and register',
+      name: 'party_room_verify_register',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration Successful!`
+  String get party_room_register_success {
+    return Intl.message(
+      'Registration Successful!',
+      name: 'party_room_register_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have successfully registered for the party room. You can now start using it`
+  String get party_room_register_success_msg {
+    return Intl.message(
+      'You have successfully registered for the party room. You can now start using it',
+      name: 'party_room_register_success_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are browsing as a guest. Log in to create or join rooms.`
+  String get party_room_guest_mode_hint {
+    return Intl.message(
+      'You are browsing as a guest. Log in to create or join rooms.',
+      name: 'party_room_guest_mode_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get party_room_login {
+    return Intl.message('Login', name: 'party_room_login', desc: '', args: []);
+  }
+
+  /// `Search room owner...`
+  String get party_room_search_owner {
+    return Intl.message(
+      'Search room owner...',
+      name: 'party_room_search_owner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Return to current room`
+  String get party_room_return_to_room {
+    return Intl.message(
+      'Return to current room',
+      name: 'party_room_return_to_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Tag`
+  String get party_room_select_tag {
+    return Intl.message(
+      'Select Tag',
+      name: 'party_room_select_tag',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Tags`
+  String get party_room_all_tags {
+    return Intl.message(
+      'All Tags',
+      name: 'party_room_all_tags',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No rooms matching criteria found`
+  String get party_room_no_matching_room {
+    return Intl.message(
+      'No rooms matching criteria found',
+      name: 'party_room_no_matching_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No rooms in this category`
+  String get party_room_no_room_in_category {
+    return Intl.message(
+      'No rooms in this category',
+      name: 'party_room_no_room_in_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No rooms available`
+  String get party_room_no_available_room {
+    return Intl.message(
+      'No rooms available',
+      name: 'party_room_no_available_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Be the first to create a room!`
+  String get party_room_be_first_create {
+    return Intl.message(
+      'Be the first to create a room!',
+      name: 'party_room_be_first_create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All rooms loaded`
+  String get party_room_all_loaded {
+    return Intl.message(
+      'All rooms loaded',
+      name: 'party_room_all_loaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login Required`
+  String get party_room_need_login {
+    return Intl.message(
+      'Login Required',
+      name: 'party_room_need_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You need to login to create a room. Would you like to login now?`
+  String get party_room_create_need_login {
+    return Intl.message(
+      'You need to login to create a room. Would you like to login now?',
+      name: 'party_room_create_need_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get party_room_go_login {
+    return Intl.message(
+      'Login',
+      name: 'party_room_go_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create New Room`
+  String get party_room_create_new_room {
+    return Intl.message(
+      'Create New Room',
+      name: 'party_room_create_new_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are already in another room. Creating a new room will automatically exit the current room. Continue?`
+  String get party_room_already_in_room_create {
+    return Intl.message(
+      'You are already in another room. Creating a new room will automatically exit the current room. Continue?',
+      name: 'party_room_already_in_room_create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get party_room_continue {
+    return Intl.message(
+      'Continue',
+      name: 'party_room_continue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You need to login to join a room. Would you like to login now?`
+  String get party_room_join_need_login {
+    return Intl.message(
+      'You need to login to join a room. Would you like to login now?',
+      name: 'party_room_join_need_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Switch Room`
+  String get party_room_switch_room {
+    return Intl.message(
+      'Switch Room',
+      name: 'party_room_switch_room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are already in another room. Joining a new room will automatically exit the current room. Continue?`
+  String get party_room_already_in_room_join {
+    return Intl.message(
+      'You are already in another room. Joining a new room will automatically exit the current room. Continue?',
+      name: 'party_room_already_in_room_join',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Room Password`
+  String get party_room_enter_room_password {
+    return Intl.message(
+      'Enter Room Password',
+      name: 'party_room_enter_room_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join`
+  String get party_room_join {
+    return Intl.message('Join', name: 'party_room_join', desc: '', args: []);
+  }
+
+  /// `Join failed`
+  String get party_room_join_failed {
+    return Intl.message(
+      'Join failed',
+      name: 'party_room_join_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reconnect failed: {v0}`
+  String party_room_reconnect_failed(Object v0) {
+    return Intl.message(
+      'Reconnect failed: $v0',
+      name: 'party_room_reconnect_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Reconnect failed, attempted {v0} times`
+  String party_room_reconnect_retry(Object v0) {
+    return Intl.message(
+      'Reconnect failed, attempted $v0 times',
+      name: 'party_room_reconnect_retry',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Connection failed: {v0}`
+  String party_room_connect_error(Object v0) {
+    return Intl.message(
+      'Connection failed: $v0',
+      name: 'party_room_connect_error',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Failed to get verification code: {v0}`
+  String party_room_get_code_failed(Object v0) {
+    return Intl.message(
+      'Failed to get verification code: $v0',
+      name: 'party_room_get_code_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Game ID cannot be empty`
+  String get party_room_game_id_empty {
+    return Intl.message(
+      'Game ID cannot be empty',
+      name: 'party_room_game_id_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration failed: {v0}`
+  String party_room_register_failed(Object v0) {
+    return Intl.message(
+      'Registration failed: $v0',
+      name: 'party_room_register_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Failed to load room list: {v0}`
+  String party_room_load_list_failed(Object v0) {
+    return Intl.message(
+      'Failed to load room list: $v0',
+      name: 'party_room_load_list_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `<Game Not Started>`
+  String get party_room_game_not_started {
+    return Intl.message(
+      '<Game Not Started>',
+      name: 'party_room_game_not_started',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `<Main Menu>`
+  String get party_room_main_menu {
+    return Intl.message(
+      '<Main Menu>',
+      name: 'party_room_main_menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Diagnostic Mode - Step {v0}`
+  String splash_diagnostic_mode(Object v0) {
+    return Intl.message(
+      'Diagnostic Mode - Step $v0',
+      name: 'splash_diagnostic_mode',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Read Full Log`
+  String get splash_read_full_log {
+    return Intl.message(
+      'Read Full Log',
+      name: 'splash_read_full_log',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset Database`
+  String get splash_reset_database {
+    return Intl.message(
+      'Reset Database',
+      name: 'splash_reset_database',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initialization Task Status:`
+  String get splash_init_task_status {
+    return Intl.message(
+      'Initialization Task Status:',
+      name: 'splash_init_task_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waiting for log...`
+  String get splash_waiting_log {
+    return Intl.message(
+      'Waiting for log...',
+      name: 'splash_waiting_log',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Timeout`
+  String get splash_timeout {
+    return Intl.message('Timeout', name: 'splash_timeout', desc: '', args: []);
+  }
+
+  /// `Error`
+  String get splash_error {
+    return Intl.message('Error', name: 'splash_error', desc: '', args: []);
+  }
+
+  /// `[Diagnostic] {v0}`
+  String splash_diagnostic_log(Object v0) {
+    return Intl.message(
+      '[Diagnostic] $v0',
+      name: 'splash_diagnostic_log',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `[{v0}] Starting initialization...`
+  String splash_start_init(Object v0) {
+    return Intl.message(
+      '[$v0] Starting initialization...',
+      name: 'splash_start_init',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Executing appModel.initApp()...`
+  String get splash_exec_app_init {
+    return Intl.message(
+      'Executing appModel.initApp()...',
+      name: 'splash_exec_app_init',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✗ appModel.initApp() timeout (10s)`
+  String get splash_app_init_timeout {
+    return Intl.message(
+      '✗ appModel.initApp() timeout (10s)',
+      name: 'splash_app_init_timeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ appModel.initApp() completed`
+  String get splash_app_init_done {
+    return Intl.message(
+      '✓ appModel.initApp() completed',
+      name: 'splash_app_init_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✗ appModel.initApp() error: {v0}`
+  String splash_app_init_error(Object v0) {
+    return Intl.message(
+      '✗ appModel.initApp() error: $v0',
+      name: 'splash_app_init_error',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Opening Hive app_conf box...`
+  String get splash_open_hive_box {
+    return Intl.message(
+      'Opening Hive app_conf box...',
+      name: 'splash_open_hive_box',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✗ Hive.openBox("app_conf") timeout (10s)`
+  String get splash_hive_timeout {
+    return Intl.message(
+      '✗ Hive.openBox("app_conf") timeout (10s)',
+      name: 'splash_hive_timeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ Hive.openBox("app_conf") completed`
+  String get splash_hive_done {
+    return Intl.message(
+      '✓ Hive.openBox("app_conf") completed',
+      name: 'splash_hive_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✗ Hive.openBox("app_conf") error: {v0}`
+  String splash_hive_error(Object v0) {
+    return Intl.message(
+      '✗ Hive.openBox("app_conf") error: $v0',
+      name: 'splash_hive_error',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Checking splash_alert_info_version...`
+  String get splash_check_version {
+    return Intl.message(
+      'Checking splash_alert_info_version...',
+      name: 'splash_check_version',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Executing AnalyticsApi.touch("launch")...`
+  String get splash_exec_analytics {
+    return Intl.message(
+      'Executing AnalyticsApi.touch("launch")...',
+      name: 'splash_exec_analytics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠ AnalyticsApi.touch() timeout (10s) - continuing`
+  String get splash_analytics_timeout {
+    return Intl.message(
+      '⚠ AnalyticsApi.touch() timeout (10s) - continuing',
+      name: 'splash_analytics_timeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ AnalyticsApi.touch("launch") completed`
+  String get splash_analytics_done {
+    return Intl.message(
+      '✓ AnalyticsApi.touch("launch") completed',
+      name: 'splash_analytics_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠ AnalyticsApi.touch("launch") error: {v0} - continuing`
+  String splash_analytics_error(Object v0) {
+    return Intl.message(
+      '⚠ AnalyticsApi.touch("launch") error: $v0 - continuing',
+      name: 'splash_analytics_error',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Need to show user agreement dialog...`
+  String get splash_show_agreement {
+    return Intl.message(
+      'Need to show user agreement dialog...',
+      name: 'splash_show_agreement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✗ Context unmounted, cannot show dialog`
+  String get splash_context_unmounted_dialog {
+    return Intl.message(
+      '✗ Context unmounted, cannot show dialog',
+      name: 'splash_context_unmounted_dialog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ User agreement dialog handled`
+  String get splash_agreement_handled {
+    return Intl.message(
+      '✓ User agreement dialog handled',
+      name: 'splash_agreement_handled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Executing URLConf.checkHost()...`
+  String get splash_exec_check_host {
+    return Intl.message(
+      'Executing URLConf.checkHost()...',
+      name: 'splash_exec_check_host',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠ URLConf.checkHost() timeout (10s) - continuing`
+  String get splash_check_host_timeout {
+    return Intl.message(
+      '⚠ URLConf.checkHost() timeout (10s) - continuing',
+      name: 'splash_check_host_timeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ URLConf.checkHost() completed`
+  String get splash_check_host_done {
+    return Intl.message(
+      '✓ URLConf.checkHost() completed',
+      name: 'splash_check_host_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠ URLConf.checkHost() error: {v0} - continuing`
+  String splash_check_host_error(Object v0) {
+    return Intl.message(
+      '⚠ URLConf.checkHost() error: $v0 - continuing',
+      name: 'splash_check_host_error',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `--- Step 0 complete, entering Step 1 ---`
+  String get splash_step0_done {
+    return Intl.message(
+      '--- Step 0 complete, entering Step 1 ---',
+      name: 'splash_step0_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✗ Context unmounted`
+  String get splash_context_unmounted {
+    return Intl.message(
+      '✗ Context unmounted',
+      name: 'splash_context_unmounted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Executing appModel.checkUpdate()...`
+  String get splash_exec_check_update {
+    return Intl.message(
+      'Executing appModel.checkUpdate()...',
+      name: 'splash_exec_check_update',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠ appModel.checkUpdate() timeout (10s) - continuing`
+  String get splash_check_update_timeout {
+    return Intl.message(
+      '⚠ appModel.checkUpdate() timeout (10s) - continuing',
+      name: 'splash_check_update_timeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ appModel.checkUpdate() completed`
+  String get splash_check_update_done {
+    return Intl.message(
+      '✓ appModel.checkUpdate() completed',
+      name: 'splash_check_update_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠ appModel.checkUpdate() error: {v0} - continuing`
+  String splash_check_update_error(Object v0) {
+    return Intl.message(
+      '⚠ appModel.checkUpdate() error: $v0 - continuing',
+      name: 'splash_check_update_error',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `--- Step 1 complete, entering Step 2 ---`
+  String get splash_step1_done {
+    return Intl.message(
+      '--- Step 1 complete, entering Step 2 ---',
+      name: 'splash_step1_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initializing aria2cModelProvider...`
+  String get splash_init_aria2c {
+    return Intl.message(
+      'Initializing aria2cModelProvider...',
+      name: 'splash_init_aria2c',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ aria2cModelProvider initialization complete`
+  String get splash_aria2c_done {
+    return Intl.message(
+      '✓ aria2cModelProvider initialization complete',
+      name: 'splash_aria2c_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠ aria2cModelProvider initialization error: {v0}`
+  String splash_aria2c_error(Object v0) {
+    return Intl.message(
+      '⚠ aria2cModelProvider initialization error: $v0',
+      name: 'splash_aria2c_error',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `✗ Context unmounted, cannot navigate`
+  String get splash_context_unmounted_nav {
+    return Intl.message(
+      '✗ Context unmounted, cannot navigate',
+      name: 'splash_context_unmounted_nav',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ All initialization complete, ready to navigate to main interface`
+  String get splash_all_done {
+    return Intl.message(
+      '✓ All initialization complete, ready to navigate to main interface',
+      name: 'splash_all_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✗ Context unmounted, cannot jump`
+  String get splash_context_unmounted_jump {
+    return Intl.message(
+      '✗ Context unmounted, cannot jump',
+      name: 'splash_context_unmounted_jump',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[{v0}] ⚠ Log file does not exist`
+  String splash_log_not_exist(Object v0) {
+    return Intl.message(
+      '[$v0] ⚠ Log file does not exist',
+      name: 'splash_log_not_exist',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `[{v0}] --- Starting to read full log file ---`
+  String splash_start_read_log(Object v0) {
+    return Intl.message(
+      '[$v0] --- Starting to read full log file ---',
+      name: 'splash_start_read_log',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `[{v0}] --- Log reading complete (showing last 1000 lines) ---`
+  String splash_log_read_done(Object v0) {
+    return Intl.message(
+      '[$v0] --- Log reading complete (showing last 1000 lines) ---',
+      name: 'splash_log_read_done',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `[{v0}] ✗ Failed to read log: {v1}`
+  String splash_read_log_failed(Object v0, Object v1) {
+    return Intl.message(
+      '[$v0] ✗ Failed to read log: $v1',
+      name: 'splash_read_log_failed',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `[Diagnostic] User requested database reset`
+  String get splash_user_reset_db {
+    return Intl.message(
+      '[Diagnostic] User requested database reset',
+      name: 'splash_user_reset_db',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Diagnostic] Hive boxes closed`
+  String get splash_hive_boxes_closed {
+    return Intl.message(
+      '[Diagnostic] Hive boxes closed',
+      name: 'splash_hive_boxes_closed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Diagnostic] Failed to close Hive boxes: {v0}`
+  String splash_close_hive_failed(Object v0) {
+    return Intl.message(
+      '[Diagnostic] Failed to close Hive boxes: $v0',
+      name: 'splash_close_hive_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `[Diagnostic] Deleting database directory: {v0}`
+  String splash_deleting_db(Object v0) {
+    return Intl.message(
+      '[Diagnostic] Deleting database directory: $v0',
+      name: 'splash_deleting_db',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `[Diagnostic] Database directory deleted`
+  String get splash_db_deleted {
+    return Intl.message(
+      '[Diagnostic] Database directory deleted',
+      name: 'splash_db_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Diagnostic] Database directory does not exist: {v0}`
+  String splash_db_not_exist(Object v0) {
+    return Intl.message(
+      '[Diagnostic] Database directory does not exist: $v0',
+      name: 'splash_db_not_exist',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `[Diagnostic] Database reset complete, preparing to exit application`
+  String get splash_db_reset_done {
+    return Intl.message(
+      '[Diagnostic] Database reset complete, preparing to exit application',
+      name: 'splash_db_reset_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Database has been reset, application will exit. Please restart the application.`
+  String get splash_db_reset_msg {
+    return Intl.message(
+      'Database has been reset, application will exit. Please restart the application.',
+      name: 'splash_db_reset_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Diagnostic] Failed to reset database: {v0}`
+  String splash_reset_db_failed(Object v0) {
+    return Intl.message(
+      '[Diagnostic] Failed to reset database: $v0',
+      name: 'splash_reset_db_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

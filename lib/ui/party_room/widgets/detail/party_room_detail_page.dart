@@ -36,16 +36,16 @@ class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
 
     final result = await showBaseDialog(
       context,
-      title: '连接已断开',
-      content: const Text('与房间服务器的连接已断开，是否重新连接？'),
+      title: '${S.current.party_room_disconnected}',
+      content: const Text('${S.current.party_room_reconnect_prompt}'),
       actions: [
         Button(
           onPressed: () => Navigator.of(context).pop('leave'),
-          child: const Padding(padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8), child: Text('退出房间')),
+          child: const Padding(padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8), child: Text('${S.current.party_room_exit_room}')),
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop('reconnect'),
-          child: const Padding(padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8), child: Text('重新连接')),
+          child: const Padding(padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8), child: Text('${S.current.party_room_reconnect}')),
         ),
       ],
     );

@@ -36,7 +36,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   ),
                   const Expanded(
                     child: Text(
-                      '注册账号',
+                      '${S.current.party_room_register_title}',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
                     ),
                   ),
@@ -46,7 +46,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
 
               if (uiState.errorMessage != null) ...[
                 InfoBar(
-                  title: const Text('错误'),
+                  title: const Text('${S.current.party_room_error}'),
                   content: Text(uiState.errorMessage!),
                   severity: InfoBarSeverity.error,
                   onClose: () => uiModel.clearError(),
@@ -60,7 +60,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   _buildStepIndicator(
                     context,
                     number: 1,
-                    title: '输入游戏ID',
+                    title: '${S.current.party_room_step_enter_game_id}',
                     isActive: currentStep.value == 0,
                     isCompleted: currentStep.value > 0,
                   ),
@@ -68,7 +68,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   _buildStepIndicator(
                     context,
                     number: 2,
-                    title: '验证RSI账号',
+                    title: '${S.current.party_room_step_verify_rsi}',
                     isActive: currentStep.value == 1,
                     isCompleted: currentStep.value > 1,
                   ),
@@ -76,7 +76,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   _buildStepIndicator(
                     context,
                     number: 3,
-                    title: '完成注册',
+                    title: '${S.current.party_room_step_complete}',
                     isActive: currentStep.value == 2,
                     isCompleted: false,
                   ),
@@ -95,8 +95,8 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
               const SizedBox(height: 16),
 
               InfoBar(
-                title: const Text('关于账号验证'),
-                content: const Text('接下来，您需要在 RSI 账号简介中添加验证码以证明账号所有权，验证通过后，您可以移除该验证码。'),
+                title: const Text('${S.current.party_room_about_verification}'),
+                content: const Text('${S.current.party_room_verification_hint}'),
                 severity: InfoBarSeverity.info,
               ),
             ],
@@ -160,7 +160,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
   ) {
     return [
       const Text(
-        '步骤 1: 输入您的游戏ID',
+        '${S.current.party_room_step1_title}',
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
       ),
       const SizedBox(height: 12),
@@ -173,7 +173,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
 
       TextBox(
         controller: gameIdController,
-        placeholder: '例如: Citizen123',
+        placeholder: '${S.current.party_room_game_id_example}',
         enabled: !uiState.isLoading,
         onSubmitted: (value) async {
           if (value.trim().isEmpty) return;
@@ -189,7 +189,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
             onPressed: () {
               launchUrlString('https://robertsspaceindustries.com/en/account/dashboard');
             },
-            child: const Text('查看我的游戏ID'),
+            child: const Text('${S.current.party_room_view_game_id}'),
           ),
           const SizedBox(width: 8),
           FilledButton(
@@ -201,8 +201,8 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                       await showDialog(
                         context: context,
                         builder: (context) => ContentDialog(
-                          title: const Text('提示'),
-                          content: const Text('请输入游戏ID'),
+                          title: const Text('${S.current.app_common_tip}'),
+                          content: const Text('${S.current.party_room_enter_game_id}'),
                           actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                         ),
                       );
@@ -212,7 +212,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   },
             child: uiState.isLoading
                 ? const SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2))
-                : const Text('下一步'),
+                : const Text('${S.current.party_room_next_step}'),
           ),
         ],
       ),
@@ -229,7 +229,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
       await uiModel.requestPreRegister(gameId);
       currentStep.value = 1;
     } catch (e) {
-      // 错误已在 state 中设置
+      // ${S.current.party_room_error}已在 state 中设置
     }
   }
 
@@ -242,11 +242,11 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
   ) {
     return [
       const Text(
-        '步骤 2: 验证 RSI 账号',
+        '${S.current.party_room_step2_title}',
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
       ),
       const SizedBox(height: 12),
-      Text('请按照以下步骤完成账号验证：', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
+      Text('${S.current.party_room_step2_desc}', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
       const SizedBox(height: 16),
 
       Container(
@@ -260,7 +260,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              '1. 复制以下验证码:',
+              '${S.current.party_room_copy_code}',
               style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
@@ -286,7 +286,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              '2. 访问您的 RSI 账号资设置页',
+              '${S.current.party_room_visit_rsi}',
               style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
@@ -294,16 +294,16 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
               onPressed: () {
                 launchUrlString('https://robertsspaceindustries.com/en/account/profile');
               },
-              child: const Text('打开资料页'),
+              child: const Text('${S.current.party_room_open_profile}'),
             ),
             const SizedBox(height: 16),
             const Text(
-              '3. 编辑您的个人简介，将验证码添加到简介中',
+              '${S.current.party_room_edit_bio}',
               style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
             Text(
-              '在简介的任意位置添加验证码即可，验证码30分钟内有效',
+              '${S.current.party_room_code_validity}',
               style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5)),
             ),
           ],
@@ -318,7 +318,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
             onPressed: () {
               currentStep.value = 0;
             },
-            child: const Text('上一步'),
+            child: const Text('${S.current.party_room_prev_step}'),
           ),
           FilledButton(
             onPressed: uiState.isLoading
@@ -328,7 +328,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   },
             child: uiState.isLoading
                 ? const SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2))
-                : const Text('我已添加，验证并注册'),
+                : const Text('${S.current.party_room_verify_register}'),
           ),
         ],
       ),
@@ -340,7 +340,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
       await uiModel.completeRegister();
       currentStep.value = 2;
     } catch (e) {
-      // 错误已在 state 中设置
+      // ${S.current.party_room_error}已在 state 中设置
     }
   }
 
@@ -357,11 +357,11 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
             const Icon(FluentIcons.completed_solid, size: 64, color: Color(0xFF4CAF50)),
             const SizedBox(height: 16),
             const Text(
-              '注册成功！',
+              '${S.current.party_room_register_success}',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
-            Text('您已成功注册组队大厅，现在可以开始使用了', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
+            Text('${S.current.party_room_register_success_msg}', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
           ],
         ),
       ),

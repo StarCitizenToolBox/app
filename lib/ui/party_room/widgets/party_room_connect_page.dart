@@ -41,13 +41,13 @@ class PartyRoomConnectPage extends HookConsumerWidget {
 
               // 标题
               const Text(
-                '组队大厅',
+                '${S.current.party_room_title}',
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0), letterSpacing: 2),
               ),
               const SizedBox(height: 12),
 
               // 副标题
-              Text('正在连接服务器...', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.7))),
+              Text('${S.current.party_room_connecting}', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.7))),
               const SizedBox(height: 32),
 
               // 加载动画
@@ -71,7 +71,7 @@ class PartyRoomConnectPage extends HookConsumerWidget {
                           Icon(FluentIcons.error_badge, color: Color(0xFFFF6B6B), size: 16),
                           SizedBox(width: 8),
                           Text(
-                            '连接失败',
+                            '${S.current.party_room_connect_failed}',
                             style: TextStyle(color: Color(0xFFFF6B6B), fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -83,7 +83,7 @@ class PartyRoomConnectPage extends HookConsumerWidget {
                         onPressed: () async {
                           await uiModel.connectToServer();
                         },
-                        child: const Text('重试'),
+                        child: const Text('${S.current.party_room_retry}'),
                       ),
                     ],
                   ),

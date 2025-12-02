@@ -100,15 +100,15 @@ class SplashUI extends HookConsumerWidget {
               Text('诊断模式 - Step $currentStep', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               Row(
                 children: [
-                  Button(onPressed: () => _loadDPrintLog(diagnosticLogs), child: const Text('读取完整日志')),
+                  Button(onPressed: () => _loadDPrintLog(diagnosticLogs), child: const Text('${S.current.splash_read_full_log}')),
                   const SizedBox(width: 8),
-                  Button(onPressed: () => _resetHiveDatabase(context), child: const Text('重置数据库')),
+                  Button(onPressed: () => _resetHiveDatabase(context), child: const Text('${S.current.splash_reset_database}')),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 16),
-          const Text('初始化任务执行情况：', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+          const Text('${S.current.splash_init_task_status}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
           Expanded(
             child: ValueListenableBuilder<List<String>>(
@@ -122,7 +122,7 @@ class SplashUI extends HookConsumerWidget {
                     border: Border.all(color: Colors.grey),
                   ),
                   child: logs.isEmpty
-                      ? const Center(child: Text('等待日志...'))
+                      ? const Center(child: Text('${S.current.splash_waiting_log}'))
                       : ListView.builder(
                     itemCount: logs.length,
                     itemBuilder: (context, index) {
@@ -130,7 +130,7 @@ class SplashUI extends HookConsumerWidget {
                       Color textColor = Colors.white;
                       if (log.contains('✓')) {
                         textColor = Colors.green;
-                      } else if (log.contains('✗') || log.contains('超时') || log.contains('错误')) {
+                      } else if (log.contains('✗') || log.contains('超时') || log.contains('${S.current.party_room_error}')) {
                         textColor = Colors.red;
                       } else if (log.contains('⚠')) {
                         textColor = Colors.orange;
@@ -169,95 +169,95 @@ class SplashUI extends HookConsumerWidget {
     addLog('[${DateTime.now().toIso8601String()}] 开始初始化...');
 
     // Step 0: initApp with timeout
-    addLog('执行 appModel.initApp()...');
+    addLog('${S.current.splash_exec_app_init}');
     try {
       await appModel.initApp().timeout(
         const Duration(seconds: 10),
         onTimeout: () {
-          addLog('✗ appModel.initApp() 超时 (10秒)');
+          addLog('${S.current.splash_app_init_timeout}');
           throw TimeoutException('initApp timeout');
         },
       );
-      addLog('✓ appModel.initApp() 完成');
+      addLog('${S.current.splash_app_init_done}');
     } catch (e) {
       addLog('✗ appModel.initApp() 错误: $e');
       rethrow;
     }
 
     // Open app_conf box with timeout
-    addLog('打开 Hive app_conf box...');
+    addLog('${S.current.splash_open_hive_box}');
     late Box appConf;
     try {
       appConf = await Hive.openBox("app_conf").timeout(
         const Duration(seconds: 10),
         onTimeout: () {
-          addLog('✗ Hive.openBox("app_conf") 超时 (10秒)');
+          addLog('${S.current.splash_hive_timeout}');
           throw TimeoutException('openBox timeout');
         },
       );
-      addLog('✓ Hive.openBox("app_conf") 完成');
+      addLog('${S.current.splash_hive_done}');
     } catch (e) {
       addLog('✗ Hive.openBox("app_conf") 错误: $e');
       rethrow;
     }
 
     // Check alert info version
-    addLog('检查 splash_alert_info_version...');
+    addLog('${S.current.splash_check_version}');
     final v = appConf.get("splash_alert_info_version", defaultValue: 0);
     addLog('✓ splash_alert_info_version = $v');
 
     // Analytics touch
-    addLog('执行 AnalyticsApi.touch("launch")...');
+    addLog('${S.current.splash_exec_analytics}');
     try {
       final touchFuture = AnalyticsApi.touch("launch");
       await touchFuture.timeout(
         const Duration(seconds: 10),
         onTimeout: () {
-          addLog('⚠ AnalyticsApi.touch() 超时 (10秒) - 继续执行');
+          addLog('${S.current.splash_analytics_timeout}');
         },
       );
-      addLog('✓ AnalyticsApi.touch("launch") 完成');
+      addLog('${S.current.splash_analytics_done}');
     } catch (e) {
       addLog('⚠ AnalyticsApi.touch("launch") 错误: $e - 继续执行');
     }
 
     // Show alert if needed
     if (v < _alertInfoVersion) {
-      addLog('需要显示用户协议对话框...');
+      addLog('${S.current.splash_show_agreement}');
       if (!context.mounted) {
-        addLog('✗ Context 已卸载，无法显示对话框');
+        addLog('${S.current.splash_context_unmounted_dialog}');
         return;
       }
       await _showAlert(context, appConf);
-      addLog('✓ 用户协议对话框已处理');
+      addLog('${S.current.splash_agreement_handled}');
     }
 
     // Check host
-    addLog('执行 URLConf.checkHost()...');
+    addLog('${S.current.splash_exec_check_host}');
     try {
       final checkHostFuture = URLConf.checkHost();
       await checkHostFuture.timeout(
         const Duration(seconds: 10),
         onTimeout: () {
-          addLog('⚠ URLConf.checkHost() 超时 (10秒) - 继续执行');
+          addLog('${S.current.splash_check_host_timeout}');
           return false;
         },
       );
-      addLog('✓ URLConf.checkHost() 完成');
+      addLog('${S.current.splash_check_host_done}');
     } catch (e) {
       addLog('⚠ URLConf.checkHost() 错误: $e - 继续执行');
       dPrint("checkHost Error:$e");
     }
 
-    addLog('--- Step 0 完成，进入 Step 1 ---');
+    addLog('${S.current.splash_step0_done}');
     stepState.value = 1;
     if (!context.mounted) {
-      addLog('✗ Context 已卸载');
+      addLog('${S.current.splash_context_unmounted}');
       return;
     }
 
     // Step 1: Check update
-    addLog('执行 appModel.checkUpdate()...');
+    addLog('${S.current.splash_exec_check_update}');
     dPrint("_initApp checkUpdate");
     try {
       await appModel
@@ -265,37 +265,37 @@ class SplashUI extends HookConsumerWidget {
           .timeout(
         const Duration(seconds: 10),
         onTimeout: () {
-          addLog('⚠ appModel.checkUpdate() 超时 (10秒) - 继续执行');
+          addLog('${S.current.splash_check_update_timeout}');
           return false;
         },
       );
-      addLog('✓ appModel.checkUpdate() 完成');
+      addLog('${S.current.splash_check_update_done}');
     } catch (e) {
       addLog('⚠ appModel.checkUpdate() 错误: $e - 继续执行');
     }
 
-    addLog('--- Step 1 完成，进入 Step 2 ---');
+    addLog('${S.current.splash_step1_done}');
     stepState.value = 2;
 
     // Step 2: Initialize aria2c
-    addLog('初始化 aria2cModelProvider...');
+    addLog('${S.current.splash_init_aria2c}');
     dPrint("_initApp aria2cModelProvider");
     try {
       ref.read(aria2cModelProvider);
-      addLog('✓ aria2cModelProvider 初始化完成');
+      addLog('${S.current.splash_aria2c_done}');
     } catch (e) {
       addLog('⚠ aria2cModelProvider 初始化错误: $e');
     }
 
     if (!context.mounted) {
-      addLog('✗ Context 已卸载，无法导航');
+      addLog('${S.current.splash_context_unmounted_nav}');
       return;
     }
 
-    addLog('✓ 所有初始化完成，准备跳转到主界面');
+    addLog('${S.current.splash_all_done}');
     await Future.delayed(const Duration(milliseconds: 500));
     if (!context.mounted) {
-      addLog('✗ Context 已卸载，无法跳转');
+      addLog('${S.current.splash_context_unmounted_jump}');
       return;
     }
     context.pushReplacement("/index");
@@ -348,12 +348,12 @@ class SplashUI extends HookConsumerWidget {
 
   void _resetHiveDatabase(BuildContext context) async {
     try {
-      dPrint('[诊断] 用户请求重置数据库');
+      dPrint('${S.current.splash_user_reset_db}');
 
       // 关闭所有 Hive box
       try {
         await Hive.close();
-        dPrint('[诊断] Hive boxes 已关闭');
+        dPrint('${S.current.splash_hive_boxes_closed}');
       } catch (e) {
         dPrint('[诊断] 关闭 Hive boxes 失败: $e');
       }
@@ -365,16 +365,16 @@ class SplashUI extends HookConsumerWidget {
       if (await dbDir.exists()) {
         dPrint('[诊断] 正在删除数据库目录: ${dbDir.path}');
         await dbDir.delete(recursive: true);
-        dPrint('[诊断] 数据库目录已删除');
+        dPrint('${S.current.splash_db_deleted}');
       } else {
         dPrint('[诊断] 数据库目录不存在: ${dbDir.path}');
       }
 
       // 显示提示并退出
-      dPrint('[诊断] 数据库重置完成，准备退出应用');
+      dPrint('${S.current.splash_db_reset_done}');
 
       if (context.mounted) {
-        await showToast(context, "数据库已重置，应用将退出。请重新启动应用。");
+        await showToast(context, "${S.current.splash_db_reset_msg}");
       }
 
       // 等待一小段时间确保日志写入
