@@ -7,6 +7,7 @@ import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart';
 import 'package:starcitizen_doctor/widgets/src/cache_image.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:flutter/services.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 /// 消息列表组件
 class PartyRoomMessageList extends ConsumerWidget {
@@ -31,7 +32,7 @@ class PartyRoomMessageList extends ConsumerWidget {
           children: [
             Icon(FluentIcons.chat, size: 64, color: Colors.white.withValues(alpha: .6)),
             const SizedBox(height: 16),
-            Text('${S.current.party_room_no_messages}', style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 14)),
+            Text(S.current.party_room_no_messages, style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 14)),
           ],
         ),
       );
@@ -79,10 +80,10 @@ class PartyRoomMessageList extends ConsumerWidget {
                 child: const Icon(FluentIcons.info, size: 14, color: Colors.white),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  '${S.current.party_room_social_links_hint}',
-                  style: TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
+                  S.current.party_room_social_links_hint,
+                  style: const TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -137,10 +138,10 @@ class PartyRoomMessageList extends ConsumerWidget {
                 child: const Icon(FluentIcons.copy, size: 14, color: Colors.white),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  '${S.current.party_room_copy_owner_id_hint}',
-                  style: TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
+                  S.current.party_room_copy_owner_id_hint,
+                  style: const TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -170,9 +171,9 @@ class PartyRoomMessageList extends ConsumerWidget {
                     return const Color(0xFF5865F2);
                   }),
                 ),
-                child: const Text(
-                  '${S.current.support_dev_copy_button}',
-                  style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w500),
+                child: Text(
+                  S.current.support_dev_copy_button,
+                  style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -193,7 +194,7 @@ class PartyRoomMessageList extends ConsumerWidget {
     if (link.contains('discord')) return 'Discord';
     if (link.contains('kook')) return 'KOOK';
     if (link.contains('qq')) return 'QQ';
-    return '${S.current.party_room_link}';
+    return S.current.party_room_link;
   }
 }
 
@@ -270,8 +271,8 @@ class _MessageItem extends ConsumerWidget {
     String userName,
     String? avatarUrl,
   ) {
-    final location = roomEvent.signalParams['location'] ?? '${S.current.party_room_unknown_location}';
-    final area = roomEvent.signalParams['area'] ?? '${S.current.party_room_unknown_area}';
+    final location = roomEvent.signalParams['location'] ?? S.current.party_room_unknown_location;
+    final area = roomEvent.signalParams['area'] ?? S.current.party_room_unknown_area;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -322,18 +323,18 @@ class _MessageItem extends ConsumerWidget {
                             child: const Icon(FluentIcons.status_error_full, size: 14, color: Color(0xFFED4245)),
                           ),
                           const SizedBox(width: 8),
-                          const Text(
-                            '${S.current.party_room_player_death}',
-                            style: TextStyle(fontSize: 14, color: Color(0xFFED4245), fontWeight: FontWeight.w600),
+                          Text(
+                            S.current.party_room_player_death,
+                            style: const TextStyle(fontSize: 14, color: Color(0xFFED4245), fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
-                      // ${S.current.party_room_location}信息
-                      _buildInfoRow(icon: FluentIcons.location, label: '${S.current.party_room_location}', value: location),
+                      // 位置信息
+                      _buildInfoRow(icon: FluentIcons.location, label: S.current.party_room_location, value: location),
                       const SizedBox(height: 8),
-                      // ${S.current.party_room_area}信息
-                      _buildInfoRow(icon: FluentIcons.map_pin, label: '${S.current.party_room_area}', value: area),
+                      // 区域信息
+                      _buildInfoRow(icon: FluentIcons.map_pin, label: S.current.party_room_area, value: area),
                     ],
                   ),
                 ),
@@ -365,7 +366,7 @@ class _MessageItem extends ConsumerWidget {
   String _getEventUserName(partroom.RoomEvent event) {
     switch (event.type) {
       case partroom.RoomEventType.SIGNAL_BROADCAST:
-        return event.signalSender.isNotEmpty ? event.signalSender : '${S.current.party_room_unknown_user}';
+        return event.signalSender.isNotEmpty ? event.signalSender : S.current.party_room_unknown_user;
       case partroom.RoomEventType.MEMBER_JOINED:
       case partroom.RoomEventType.MEMBER_LEFT:
       case partroom.RoomEventType.MEMBER_KICKED:
@@ -373,11 +374,11 @@ class _MessageItem extends ConsumerWidget {
             ? event.member.handleName
             : event.hasMember()
             ? event.member.gameUserId
-            : '${S.current.party_room_unknown_user}';
+            : S.current.party_room_unknown_user;
       case partroom.RoomEventType.OWNER_CHANGED:
-        return event.hasMember() && event.member.handleName.isNotEmpty ? event.member.handleName : '${S.current.party_room_new_owner}';
+        return event.hasMember() && event.member.handleName.isNotEmpty ? event.member.handleName : S.current.party_room_new_owner;
       default:
-        return '${S.current.party_room_system}';
+        return S.current.party_room_system;
     }
   }
 
@@ -408,19 +409,19 @@ class _MessageItem extends ConsumerWidget {
         }
         return signalType?.name ?? event.signalId;
       case partroom.RoomEventType.MEMBER_JOINED:
-        return '${S.current.party_room_joined_room}';
+        return S.current.party_room_joined_room;
       case partroom.RoomEventType.MEMBER_LEFT:
-        return '${S.current.party_room_left_room}';
+        return S.current.party_room_left_room;
       case partroom.RoomEventType.OWNER_CHANGED:
-        return '${S.current.party_room_became_owner}';
+        return S.current.party_room_became_owner;
       case partroom.RoomEventType.ROOM_UPDATED:
-        return '${S.current.party_room_info_updated}';
+        return S.current.party_room_info_updated;
       case partroom.RoomEventType.MEMBER_STATUS_UPDATED:
         return null;
       case partroom.RoomEventType.ROOM_DISMISSED:
-        return '${S.current.party_room_dismissed}';
+        return S.current.party_room_dismissed;
       case partroom.RoomEventType.MEMBER_KICKED:
-        return '${S.current.party_room_kicked}';
+        return S.current.party_room_kicked;
       default:
         return null;
     }
@@ -433,7 +434,7 @@ class _MessageItem extends ConsumerWidget {
       final diff = now.difference(date);
 
       if (diff.inMinutes < 1) {
-        return '${S.current.party_room_just_now}';
+        return S.current.party_room_just_now;
       } else if (diff.inMinutes < 60) {
         return '${diff.inMinutes} 分钟前';
       } else if (diff.inHours < 24) {

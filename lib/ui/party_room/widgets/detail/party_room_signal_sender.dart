@@ -1,6 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 /// 信号发送器组件
 class PartyRoomSignalSender extends ConsumerWidget {
@@ -25,7 +26,7 @@ class PartyRoomSignalSender extends ConsumerWidget {
           const Spacer(),
           DropDownButton(
             leading: const Icon(FluentIcons.send, size: 16),
-            title: Text(signalTypes.isEmpty ? '${S.current.party_room_loading}' : '发送信号'),
+            title: Text(signalTypes.isEmpty ? S.current.party_room_loading : '发送信号'),
             disabled: signalTypes.isEmpty || room == null,
             items: signalTypes.map((signal) {
               return MenuFlyoutItem(
@@ -52,7 +53,7 @@ class PartyRoomSignalSender extends ConsumerWidget {
         await showDialog(
           context: context,
           builder: (context) => ContentDialog(
-            title: const Text('${S.current.party_room_send_failed}'),
+            title: Text(S.current.party_room_send_failed),
             content: Text(e.toString()),
             actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
           ),

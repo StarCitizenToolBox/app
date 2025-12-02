@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart' as partroom;
 import 'package:starcitizen_doctor/provider/party_room.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 /// 创建/${S.current.party_room_edit_room}对话框
 class CreateRoomDialog extends HookConsumerWidget {
@@ -30,7 +31,7 @@ class CreateRoomDialog extends HookConsumerWidget {
 
     return ContentDialog(
       constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
-      title: Text(isEdit ? '${S.current.party_room_edit_room}' : '创建房间'),
+      title: Text(isEdit ? S.current.party_room_edit_room : '创建房间'),
       content: SizedBox(
         child: SingleChildScrollView(
           child: Column(
@@ -40,9 +41,9 @@ class CreateRoomDialog extends HookConsumerWidget {
               Column(
                 children: [
                   InfoLabel(
-                    label: '${S.current.party_room_room_type}',
+                    label: S.current.party_room_room_type,
                     child: ComboBox<String>(
-                      placeholder: const Text('${S.current.party_room_select_main_tag}'),
+                      placeholder: Text(S.current.party_room_select_main_tag),
                       value: selectedMainTag.value,
                       isExpanded: true,
                       items: partyRoomState.room.tags.values.map((tag) {
@@ -84,13 +85,13 @@ class CreateRoomDialog extends HookConsumerWidget {
 
                   // 子标签 - 始终显示，避免布局跳动
                   InfoLabel(
-                    label: '${S.current.party_room_sub_tag_optional}',
+                    label: S.current.party_room_sub_tag_optional,
                     child: ComboBox<String>(
-                      placeholder: const Text('${S.current.party_room_select_sub_tag}'),
+                      placeholder: Text(S.current.party_room_select_sub_tag),
                       value: selectedSubTag.value,
                       isExpanded: true,
                       items: [
-                        const ComboBoxItem(value: null, child: Text('${S.current.party_room_none}')),
+                        ComboBoxItem(value: null, child: Text(S.current.party_room_none)),
                         if (selectedMainTagData != null)
                           ...selectedMainTagData.subTags.map((subTag) {
                             return ComboBoxItem(
@@ -132,10 +133,10 @@ class CreateRoomDialog extends HookConsumerWidget {
               ),
               const SizedBox(height: 16),
               InfoLabel(
-                label: '${S.current.party_room_target_members}',
+                label: S.current.party_room_target_members,
                 child: TextBox(
                   controller: targetMembersController,
-                  placeholder: '${S.current.party_room_enter_target_members}',
+                  placeholder: S.current.party_room_enter_target_members,
                   keyboardType: TextInputType.number,
                 ),
               ),
@@ -148,21 +149,21 @@ class CreateRoomDialog extends HookConsumerWidget {
                       onChanged: (value) {
                         hasPassword.value = value ?? false;
                       },
-                      content: const Text('${S.current.party_room_set_password}'),
+                      content: Text(S.current.party_room_set_password),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 // 密码输入框 - 始终显示，避免布局跳动
                 InfoLabel(
-                  label: '${S.current.party_room_room_password}',
+                  label: S.current.party_room_room_password,
                   child: TextBox(
                     controller: passwordController,
                     placeholder: isEdit
-                        ? "${S.current.party_room_password_empty_hint}"
+                        ? S.current.party_room_password_empty_hint
                         : hasPassword.value
-                        ? '${S.current.party_room_enter_password}'
-                        : '${S.current.party_room_password_disabled}',
+                        ? S.current.party_room_enter_password
+                        : S.current.party_room_password_disabled,
                     obscureText: hasPassword.value,
                     maxLines: 1,
                     maxLength: 12,
@@ -172,10 +173,10 @@ class CreateRoomDialog extends HookConsumerWidget {
                 const SizedBox(height: 16),
               ],
               InfoLabel(
-                label: '${S.current.party_room_social_links_optional}',
+                label: S.current.party_room_social_links_optional,
                 child: TextBox(
                   controller: socialLinksController,
-                  placeholder: '${S.current.party_room_social_links_placeholder}',
+                  placeholder: S.current.party_room_social_links_placeholder,
                   maxLines: 1,
                 ),
               ),
@@ -193,8 +194,8 @@ class CreateRoomDialog extends HookConsumerWidget {
                     await showDialog(
                       context: context,
                       builder: (context) => ContentDialog(
-                        title: const Text('${S.current.app_common_tip}'),
-                        content: const Text('${S.current.party_room_select_room_type}'),
+                        title: Text(S.current.app_common_tip),
+                        content: Text(S.current.party_room_select_room_type),
                         actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                       ),
                     );
@@ -206,8 +207,8 @@ class CreateRoomDialog extends HookConsumerWidget {
                     await showDialog(
                       context: context,
                       builder: (context) => ContentDialog(
-                        title: const Text('${S.current.app_common_tip}'),
-                        content: const Text('${S.current.party_room_target_members_range}'),
+                        title: Text(S.current.app_common_tip),
+                        content: Text(S.current.party_room_target_members_range),
                         actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                       ),
                     );
@@ -219,8 +220,8 @@ class CreateRoomDialog extends HookConsumerWidget {
                       await showDialog(
                         context: context,
                         builder: (context) => ContentDialog(
-                          title: const Text('${S.current.app_common_tip}'),
-                          content: const Text('${S.current.party_room_enter_password_required}'),
+                          title: Text(S.current.app_common_tip),
+                          content: Text(S.current.party_room_enter_password_required),
                           actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                         ),
                       );
@@ -234,7 +235,7 @@ class CreateRoomDialog extends HookConsumerWidget {
                   // 检查是否为 https 开头的链接
                   final invalidLinks = socialLinks.where((link) => !link.startsWith('https://')).toList();
                   if (invalidLinks.isNotEmpty) {
-                    showToast(context, "${S.current.party_room_link_format_error}");
+                    showToast(context, S.current.party_room_link_format_error);
                     return;
                   }
 
@@ -270,7 +271,7 @@ class CreateRoomDialog extends HookConsumerWidget {
                       await showDialog(
                         context: context,
                         builder: (context) => ContentDialog(
-                          title: Text(isEdit ? '${S.current.party_room_update_failed}' : '创建失败'),
+                          title: Text(isEdit ? S.current.party_room_update_failed : '创建失败'),
                           content: Text(e.toString()),
                           actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                         ),
@@ -280,9 +281,9 @@ class CreateRoomDialog extends HookConsumerWidget {
                 },
           child: isCreating.value
               ? const SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2))
-              : Text(isEdit ? '${S.current.party_room_save}' : '创建'),
+              : Text(isEdit ? S.current.party_room_save : '创建'),
         ),
-        Button(onPressed: isCreating.value ? null : () => Navigator.pop(context), child: const Text('${S.current.home_action_cancel}')),
+        Button(onPressed: isCreating.value ? null : () => Navigator.pop(context), child: Text(S.current.home_action_cancel)),
       ],
     );
   }

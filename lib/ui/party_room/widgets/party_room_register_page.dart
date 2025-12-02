@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 /// 注册页面
 class PartyRoomRegisterPage extends HookConsumerWidget {
@@ -34,10 +35,10 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                     },
                     icon: Padding(padding: const EdgeInsets.all(8.0), child: Icon(FluentIcons.back, size: 24)),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      '${S.current.party_room_register_title}',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
+                      S.current.party_room_register_title,
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
                     ),
                   ),
                 ],
@@ -46,7 +47,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
 
               if (uiState.errorMessage != null) ...[
                 InfoBar(
-                  title: const Text('${S.current.party_room_error}'),
+                  title: Text(S.current.party_room_error),
                   content: Text(uiState.errorMessage!),
                   severity: InfoBarSeverity.error,
                   onClose: () => uiModel.clearError(),
@@ -60,7 +61,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   _buildStepIndicator(
                     context,
                     number: 1,
-                    title: '${S.current.party_room_step_enter_game_id}',
+                    title: S.current.party_room_step_enter_game_id,
                     isActive: currentStep.value == 0,
                     isCompleted: currentStep.value > 0,
                   ),
@@ -68,7 +69,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   _buildStepIndicator(
                     context,
                     number: 2,
-                    title: '${S.current.party_room_step_verify_rsi}',
+                    title: S.current.party_room_step_verify_rsi,
                     isActive: currentStep.value == 1,
                     isCompleted: currentStep.value > 1,
                   ),
@@ -76,7 +77,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   _buildStepIndicator(
                     context,
                     number: 3,
-                    title: '${S.current.party_room_step_complete}',
+                    title: S.current.party_room_step_complete,
                     isActive: currentStep.value == 2,
                     isCompleted: false,
                   ),
@@ -95,8 +96,8 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
               const SizedBox(height: 16),
 
               InfoBar(
-                title: const Text('${S.current.party_room_about_verification}'),
-                content: const Text('${S.current.party_room_verification_hint}'),
+                title: Text(S.current.party_room_about_verification),
+                content: Text(S.current.party_room_verification_hint),
                 severity: InfoBarSeverity.info,
               ),
             ],
@@ -159,21 +160,20 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
     ValueNotifier<int> currentStep,
   ) {
     return [
-      const Text(
-        '${S.current.party_room_step1_title}',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
+      Text(
+        S.current.party_room_step1_title,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
       ),
       const SizedBox(height: 12),
       Text(
-        '请输入您在星际公民中的游戏ID（Handle），'
-        '这是您在游戏中使用的唯一标识符。',
+        S.current.party_room_step1_desc,
         style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6)),
       ),
       const SizedBox(height: 16),
 
       TextBox(
         controller: gameIdController,
-        placeholder: '${S.current.party_room_game_id_example}',
+        placeholder: S.current.party_room_game_id_example,
         enabled: !uiState.isLoading,
         onSubmitted: (value) async {
           if (value.trim().isEmpty) return;
@@ -189,7 +189,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
             onPressed: () {
               launchUrlString('https://robertsspaceindustries.com/en/account/dashboard');
             },
-            child: const Text('${S.current.party_room_view_game_id}'),
+            child: Text(S.current.party_room_view_game_id),
           ),
           const SizedBox(width: 8),
           FilledButton(
@@ -201,8 +201,8 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                       await showDialog(
                         context: context,
                         builder: (context) => ContentDialog(
-                          title: const Text('${S.current.app_common_tip}'),
-                          content: const Text('${S.current.party_room_enter_game_id}'),
+                          title: Text(S.current.app_common_tip),
+                          content: Text(S.current.party_room_enter_game_id),
                           actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
                         ),
                       );
@@ -212,7 +212,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   },
             child: uiState.isLoading
                 ? const SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2))
-                : const Text('${S.current.party_room_next_step}'),
+                : Text(S.current.party_room_next_step),
           ),
         ],
       ),
@@ -241,12 +241,12 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
     ValueNotifier<int> currentStep,
   ) {
     return [
-      const Text(
-        '${S.current.party_room_step2_title}',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
+      Text(
+        S.current.party_room_step2_title,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
       ),
       const SizedBox(height: 12),
-      Text('${S.current.party_room_step2_desc}', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
+      Text(S.current.party_room_step2_desc, style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
       const SizedBox(height: 16),
 
       Container(
@@ -259,9 +259,9 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '${S.current.party_room_copy_code}',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
+            Text(
+              S.current.party_room_copy_code,
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
             Row(
@@ -285,25 +285,25 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 16),
-            const Text(
-              '${S.current.party_room_visit_rsi}',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
+            Text(
+              S.current.party_room_visit_rsi,
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
             Button(
               onPressed: () {
                 launchUrlString('https://robertsspaceindustries.com/en/account/profile');
               },
-              child: const Text('${S.current.party_room_open_profile}'),
+              child: Text(S.current.party_room_open_profile),
             ),
             const SizedBox(height: 16),
-            const Text(
-              '${S.current.party_room_edit_bio}',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
+            Text(
+              S.current.party_room_edit_bio,
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
             Text(
-              '${S.current.party_room_code_validity}',
+              S.current.party_room_code_validity,
               style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5)),
             ),
           ],
@@ -318,7 +318,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
             onPressed: () {
               currentStep.value = 0;
             },
-            child: const Text('${S.current.party_room_prev_step}'),
+            child: Text(S.current.party_room_prev_step),
           ),
           FilledButton(
             onPressed: uiState.isLoading
@@ -328,7 +328,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
                   },
             child: uiState.isLoading
                 ? const SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2))
-                : const Text('${S.current.party_room_verify_register}'),
+                : Text(S.current.party_room_verify_register),
           ),
         ],
       ),
@@ -356,12 +356,12 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
           children: [
             const Icon(FluentIcons.completed_solid, size: 64, color: Color(0xFF4CAF50)),
             const SizedBox(height: 16),
-            const Text(
-              '${S.current.party_room_register_success}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
+            Text(
+              S.current.party_room_register_success,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
-            Text('${S.current.party_room_register_success_msg}', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
+            Text(S.current.party_room_register_success_msg, style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
           ],
         ),
       ),
