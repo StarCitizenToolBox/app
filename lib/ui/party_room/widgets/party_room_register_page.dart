@@ -165,10 +165,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
       ),
       const SizedBox(height: 12),
-      Text(
-        S.current.party_room_step1_desc,
-        style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6)),
-      ),
+      Text(S.current.party_room_step1_desc, style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
       const SizedBox(height: 16),
 
       TextBox(
@@ -187,7 +184,7 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
         children: [
           Button(
             onPressed: () {
-              launchUrlString('https://robertsspaceindustries.com/en/account/dashboard');
+              launchUrlString('https://robertsspaceindustries.com/en/account/settings');
             },
             child: Text(S.current.party_room_view_game_id),
           ),
@@ -361,7 +358,10 @@ class PartyRoomRegisterPage extends HookConsumerWidget {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFE0E0E0)),
             ),
             const SizedBox(height: 8),
-            Text(S.current.party_room_register_success_msg, style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6))),
+            Text(
+              S.current.party_room_register_success_msg,
+              style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.6)),
+            ),
           ],
         ),
       ),
