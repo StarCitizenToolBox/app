@@ -112,8 +112,8 @@ class Unp4kCModel extends _$Unp4kCModel {
 
         if (i == nextAwait) {
           state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading3(i, p4kFiles.length));
-          await Future.delayed(Duration.zero);
-          nextAwait += 20000;
+          await Future.delayed(Duration(milliseconds: 1));
+          nextAwait += 30000;
         }
       }
 
