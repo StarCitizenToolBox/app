@@ -253,40 +253,44 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m99(v0, v1, v2, v3, v4) =>
       "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2}GB\n\nGPU information:\n${v3}\n\nStorage information:\n${v4}\n\n";
 
-  static String m100(v0) => "Processing failed!: ${v0}";
+  static String m100(v0) => "Current Renderer: ${v0}";
 
-  static String m101(v0) => "Failed to read launcher information: ${v0}";
+  static String m101(v0) => "Save failed: ${v0}";
 
-  static String m102(v0) => "Patch status: ${v0}";
+  static String m102(v0) => "Processing failed!: ${v0}";
 
-  static String m103(v0) => "Launcher internal version information: ${v0}";
+  static String m103(v0) => "Failed to read launcher information: ${v0}";
 
-  static String m104(v0) => "Export Selected (${v0})";
+  static String m104(v0) => "Patch status: ${v0}";
 
-  static String m105(v0) => "Extraction failed: ${v0}";
+  static String m105(v0) => "Launcher internal version information: ${v0}";
 
-  static String m106(v0) => "Extraction complete: ${v0}";
+  static String m106(v0) => "Export Selected (${v0})";
 
-  static String m107(v0) => "Extracting: ${v0}";
+  static String m107(v0) => "Extraction failed: ${v0}";
 
-  static String m108(v0) => "Extraction completed, ${v0} files total";
+  static String m108(v0) => "Extraction complete: ${v0}";
 
-  static String m109(v0) => "Current file: ${v0}";
+  static String m109(v0) => "Extracting: ${v0}";
 
-  static String m110(v0, v1) => "Extracting (${v0}/${v1})";
+  static String m110(v0) => "Extraction completed, ${v0} files total";
 
-  static String m111(v0) => "Opening file: ${v0}";
+  static String m111(v0) => "Current file: ${v0}";
 
-  static String m112(v0, v1) =>
+  static String m112(v0, v1) => "Extracting (${v0}/${v1})";
+
+  static String m113(v0) => "Opening file: ${v0}";
+
+  static String m114(v0, v1) =>
       "Loading complete: ${v0} files, time taken: ${v1} ms";
 
-  static String m113(v0) => "Reading file: ${v0}...";
+  static String m115(v0) => "Reading file: ${v0}...";
 
-  static String m114(v0, v1) => "Processing files (${v0}/${v1})...";
+  static String m116(v0, v1) => "Processing files (${v0}/${v1})...";
 
-  static String m115(v0) => "Unknown file type\n${v0}";
+  static String m117(v0) => "Unknown file type\n${v0}";
 
-  static String m116(v0) => "P4K Viewer -> ${v0}";
+  static String m118(v0) => "P4K Viewer -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2099,6 +2103,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_rsi_launcher_log_fix": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher Log Fix",
     ),
+    "tools_action_switch_graphics_renderer":
+        MessageLookupByLibrary.simpleMessage("Switch DirectX/Vulkan Renderer"),
+    "tools_action_switch_graphics_renderer_info": m100,
     "tools_action_unp4k": MessageLookupByLibrary.simpleMessage("P4K Viewer"),
     "tools_action_unp4k_info": MessageLookupByLibrary.simpleMessage(
       "Unpack Star Citizen p4k files",
@@ -2108,6 +2115,33 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_action_write_nvme_registry_patch":
         MessageLookupByLibrary.simpleMessage("Write NVME Registry Patch"),
+    "tools_graphics_renderer_dialog_no_version":
+        MessageLookupByLibrary.simpleMessage(
+          "Version code not found. Please enter it manually. (If you are unfamiliar with this, please ask other players for help.)",
+        ),
+    "tools_graphics_renderer_dialog_renderer":
+        MessageLookupByLibrary.simpleMessage("Renderer"),
+    "tools_graphics_renderer_dialog_save": MessageLookupByLibrary.simpleMessage(
+      "Save",
+    ),
+    "tools_graphics_renderer_dialog_save_failed": m101,
+    "tools_graphics_renderer_dialog_save_success":
+        MessageLookupByLibrary.simpleMessage("Renderer settings saved"),
+    "tools_graphics_renderer_dialog_title":
+        MessageLookupByLibrary.simpleMessage("Switch Graphics Renderer"),
+    "tools_graphics_renderer_dialog_version":
+        MessageLookupByLibrary.simpleMessage("Version Code"),
+    "tools_graphics_renderer_dialog_version_hint":
+        MessageLookupByLibrary.simpleMessage("Select or enter version code"),
+    "tools_graphics_renderer_dx11": MessageLookupByLibrary.simpleMessage(
+      "DirectX 11",
+    ),
+    "tools_graphics_renderer_unknown": MessageLookupByLibrary.simpleMessage(
+      "Unknown",
+    ),
+    "tools_graphics_renderer_vulkan": MessageLookupByLibrary.simpleMessage(
+      "Vulkan",
+    ),
     "tools_hosts_action_one_click_acceleration":
         MessageLookupByLibrary.simpleMessage("One-Click Acceleration"),
     "tools_hosts_info_dns_query_and_test": MessageLookupByLibrary.simpleMessage(
@@ -2135,7 +2169,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "Game installation location: ",
     ),
-    "tools_info_processing_failed": m100,
+    "tools_info_processing_failed": m102,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher location:",
     ),
@@ -2160,15 +2194,15 @@ class MessageLookup extends MessageLookupByLibrary {
           "Failed to read launcher information!",
         ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m101,
+        m103,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("RSI launcher not found"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m102,
+    "tools_rsi_launcher_enhance_msg_patch_status": m104,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
           "* To uninstall the enhancement patch, please reinstall the RSI launcher.",
         ),
-    "tools_rsi_launcher_enhance_msg_version": m103,
+    "tools_rsi_launcher_enhance_msg_version": m105,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher Enhancement is a community feature that unpacks the \"RSI Launcher\" on your computer and adds additional enhancement features. Which features to use is up to you.\n\nCurrently, only multi-language operations are officially permitted by CIG. Launcher download enhancement is an extra feature we consider useful, but violating the CIG user agreement (https://robertsspaceindustries.com/eula) may result in serious consequences such as account banning. Whether to enable it is your decision, and we are not responsible for any consequences (game damage, account banning, etc.) that may arise.\n\nThe modifications to the launcher are open-sourced at: https://github.com/StarCitizenToolBox/RSILauncherEnhance, which you can check if needed.\n\nIf for any reason you need to cancel this enhancement patch, please directly reinstall the official launcher.",
     ),
@@ -2203,10 +2237,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_action_deselect_all": MessageLookupByLibrary.simpleMessage(
       "Deselect All",
     ),
-    "tools_unp4k_action_export_selected": m104,
-    "tools_unp4k_action_extract_failed": m105,
-    "tools_unp4k_action_extract_success": m106,
-    "tools_unp4k_action_extracting": m107,
+    "tools_unp4k_action_export_selected": m106,
+    "tools_unp4k_action_extract_failed": m107,
+    "tools_unp4k_action_extract_success": m108,
+    "tools_unp4k_action_extracting": m109,
     "tools_unp4k_action_multi_select": MessageLookupByLibrary.simpleMessage(
       "Multi-Select",
     ),
@@ -2219,12 +2253,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_extract_cancelled": MessageLookupByLibrary.simpleMessage(
       "Extraction cancelled",
     ),
-    "tools_unp4k_extract_completed": m108,
-    "tools_unp4k_extract_current_file": m109,
+    "tools_unp4k_extract_completed": m110,
+    "tools_unp4k_extract_current_file": m111,
     "tools_unp4k_extract_dialog_title": MessageLookupByLibrary.simpleMessage(
       "Extract Files",
     ),
-    "tools_unp4k_extract_progress": m110,
+    "tools_unp4k_extract_progress": m112,
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "Missing Runtime",
     ),
@@ -2236,17 +2270,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Initializing...",
     ),
-    "tools_unp4k_msg_open_file": m111,
-    "tools_unp4k_msg_read_completed": m112,
-    "tools_unp4k_msg_read_file": m113,
+    "tools_unp4k_msg_open_file": m113,
+    "tools_unp4k_msg_read_completed": m114,
+    "tools_unp4k_msg_read_file": m115,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Reading P4K file...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Processing files...",
     ),
-    "tools_unp4k_msg_reading3": m114,
-    "tools_unp4k_msg_unknown_file_type": m115,
+    "tools_unp4k_msg_reading3": m116,
+    "tools_unp4k_msg_unknown_file_type": m117,
     "tools_unp4k_search_no_result": MessageLookupByLibrary.simpleMessage(
       "No matching files found",
     ),
@@ -2271,7 +2305,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_sort_size_desc": MessageLookupByLibrary.simpleMessage(
       "Larger First",
     ),
-    "tools_unp4k_title": m116,
+    "tools_unp4k_title": m118,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Click file to preview",
     ),

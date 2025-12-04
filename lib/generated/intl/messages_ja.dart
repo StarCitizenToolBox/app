@@ -234,25 +234,25 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m99(v0, v1, v2, v3, v4) =>
       "システム：${v0}\n\nプロセッサ：${v1}\n\nメモリサイズ：${v2}GB\n\nグラフィックカード情報：\n${v3}\n\nハードドライブ情報：\n${v4}\n\n";
 
-  static String m100(v0) => "処理に失敗しました！：${v0}";
+  static String m102(v0) => "処理に失敗しました！：${v0}";
 
-  static String m101(v0) => "ランチャー情報の読み込みに失敗：${v0}";
+  static String m103(v0) => "ランチャー情報の読み込みに失敗：${v0}";
 
-  static String m102(v0) => "パッチ状態：${v0}";
+  static String m104(v0) => "パッチ状態：${v0}";
 
-  static String m103(v0) => "ランチャー内部バージョン情報：${v0}";
+  static String m105(v0) => "ランチャー内部バージョン情報：${v0}";
 
-  static String m111(v0) => "ファイルを開く：${v0}";
+  static String m113(v0) => "ファイルを開く：${v0}";
 
-  static String m112(v0, v1) => "読み込み完了：${v0}ファイル、所要時間：${v1} ms";
+  static String m114(v0, v1) => "読み込み完了：${v0}ファイル、所要時間：${v1} ms";
 
-  static String m113(v0) => "ファイルを読み込み中：${v0}...";
+  static String m115(v0) => "ファイルを読み込み中：${v0}...";
 
-  static String m114(v0, v1) => "ファイルを処理中(${v0}/${v1})...";
+  static String m116(v0, v1) => "ファイルを処理中(${v0}/${v1})...";
 
-  static String m115(v0) => "不明なファイルタイプ\n${v0}";
+  static String m117(v0) => "不明なファイルタイプ\n${v0}";
 
-  static String m116(v0) => "P4Kビューア -> ${v0}";
+  static String m118(v0) => "P4Kビューア -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1907,7 +1907,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "ゲームインストール場所：  ",
     ),
-    "tools_info_processing_failed": m100,
+    "tools_info_processing_failed": m102,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSIランチャー場所：",
     ),
@@ -1929,15 +1929,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage("ランチャー情報の読み込みに失敗しました！"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m101,
+        m103,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("RSIランチャーが見つかりません"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m102,
+    "tools_rsi_launcher_enhance_msg_patch_status": m104,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
           "* 機能強化パッチをアンインストールするには、RSIランチャーを上書きインストールしてください。",
         ),
-    "tools_rsi_launcher_enhance_msg_version": m103,
+    "tools_rsi_launcher_enhance_msg_version": m105,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSIランチャー機能強化はコミュニティ機能で、お使いのコンピューターで「RSI Launcher」を解凍し、追加の機能強化を加えます。どの機能を使用するかはあなた次第です。\n\n現在、公式（CIG）は多言語操作のみを許可していますが、ランチャーダウンロード機能強化は私たちが有用だと考える追加機能です。cigユーザー契約（https://robertsspaceindustries.com/eula）に違反すると、アカウント禁止などの深刻な結果を招く可能性があり、使用するかどうかはあなた自身の判断によります。私たちは発生する可能性のある結果（ゲームの損傷、アカウント禁止など）に対して責任を負いません。\n\nランチャーの変更内容については、https://github.com/StarCitizenToolBox/RSILauncherEnhanceでオープンソースとして公開しています。必要に応じて確認できます。\n\n何らかの理由でこの機能強化パッチをキャンセルする必要がある場合は、公式ランチャーを直接上書きインストールしてください。",
     ),
@@ -1971,18 +1971,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "この機能を使用するには.NET8ランタイムをインストールする必要があります。下のボタンをクリックしてダウンロードしてインストールし、インストールが成功したらこのページを再度開いて使用を続行してください。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初期化中..."),
-    "tools_unp4k_msg_open_file": m111,
-    "tools_unp4k_msg_read_completed": m112,
-    "tools_unp4k_msg_read_file": m113,
+    "tools_unp4k_msg_open_file": m113,
+    "tools_unp4k_msg_read_completed": m114,
+    "tools_unp4k_msg_read_file": m115,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "P4Kファイルを読み込み中...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "ファイルを処理中...",
     ),
-    "tools_unp4k_msg_reading3": m114,
-    "tools_unp4k_msg_unknown_file_type": m115,
-    "tools_unp4k_title": m116,
+    "tools_unp4k_msg_reading3": m116,
+    "tools_unp4k_msg_unknown_file_type": m117,
+    "tools_unp4k_title": m118,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "プレビューするファイルをクリック",
     ),

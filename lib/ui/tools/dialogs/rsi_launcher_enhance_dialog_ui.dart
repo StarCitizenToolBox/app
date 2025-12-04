@@ -68,7 +68,7 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
     void doInstall() async {
       if (!context.mounted) return;
       workingText.value = S.current.tools_rsi_launcher_enhance_working_msg1;
-      if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
+      if ((await SystemHelper.getPID("RSI Launcher")).isNotEmpty) {
         if (!context.mounted) return;
         showToast(context, S.current.tools_action_info_rsi_launcher_running_warning,
             constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));

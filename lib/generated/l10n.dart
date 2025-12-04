@@ -8122,6 +8122,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Switch DirectX/Vulkan Renderer`
+  String get tools_action_switch_graphics_renderer {
+    return Intl.message(
+      'Switch DirectX/Vulkan Renderer',
+      name: 'tools_action_switch_graphics_renderer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Renderer: {v0}`
+  String tools_action_switch_graphics_renderer_info(Object v0) {
+    return Intl.message(
+      'Current Renderer: $v0',
+      name: 'tools_action_switch_graphics_renderer_info',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `DirectX 11`
+  String get tools_graphics_renderer_dx11 {
+    return Intl.message(
+      'DirectX 11',
+      name: 'tools_graphics_renderer_dx11',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vulkan`
+  String get tools_graphics_renderer_vulkan {
+    return Intl.message(
+      'Vulkan',
+      name: 'tools_graphics_renderer_vulkan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get tools_graphics_renderer_unknown {
+    return Intl.message(
+      'Unknown',
+      name: 'tools_graphics_renderer_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Switch Graphics Renderer`
+  String get tools_graphics_renderer_dialog_title {
+    return Intl.message(
+      'Switch Graphics Renderer',
+      name: 'tools_graphics_renderer_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Version Code`
+  String get tools_graphics_renderer_dialog_version {
+    return Intl.message(
+      'Version Code',
+      name: 'tools_graphics_renderer_dialog_version',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select or enter version code`
+  String get tools_graphics_renderer_dialog_version_hint {
+    return Intl.message(
+      'Select or enter version code',
+      name: 'tools_graphics_renderer_dialog_version_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renderer`
+  String get tools_graphics_renderer_dialog_renderer {
+    return Intl.message(
+      'Renderer',
+      name: 'tools_graphics_renderer_dialog_renderer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get tools_graphics_renderer_dialog_save {
+    return Intl.message(
+      'Save',
+      name: 'tools_graphics_renderer_dialog_save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renderer settings saved`
+  String get tools_graphics_renderer_dialog_save_success {
+    return Intl.message(
+      'Renderer settings saved',
+      name: 'tools_graphics_renderer_dialog_save_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save failed: {v0}`
+  String tools_graphics_renderer_dialog_save_failed(Object v0) {
+    return Intl.message(
+      'Save failed: $v0',
+      name: 'tools_graphics_renderer_dialog_save_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Version code not found. Please enter it manually. (If you are unfamiliar with this, please ask other players for help.)`
+  String get tools_graphics_renderer_dialog_no_version {
+    return Intl.message(
+      'Version code not found. Please enter it manually. (If you are unfamiliar with this, please ask other players for help.)',
+      name: 'tools_graphics_renderer_dialog_no_version',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

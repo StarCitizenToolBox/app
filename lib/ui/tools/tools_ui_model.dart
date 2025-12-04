@@ -129,6 +129,9 @@ class ToolsUIModel extends _$ToolsUIModel {
 
       state = state.copyWith(items: items);
       if (!context.mounted) return;
+      items.add(await _addGraphicsRendererCard(context));
+      state = state.copyWith(items: items);
+      if (!context.mounted) return;
       items.add(await _addShaderCard(context));
       state = state.copyWith(items: items);
       if (!context.mounted) return;
@@ -225,6 +228,131 @@ class ToolsUIModel extends _$ToolsUIModel {
       S.current.tools_action_info_shader_cache_issue(shaderSize),
       const Icon(FontAwesomeIcons.shapes, size: 24),
       onTap: () => _cleanShaderCache(context),
+    );
+  }
+
+  /// 获取所有可用的版本号
+  Future<List<String>> _getAvailableGraphicsVersions() async {
+    final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
+    if (gameShaderCachePath == null) return [];
+
+    final dir = Directory(gameShaderCachePath);
+    if (!await dir.exists()) return [];
+
+    final versions = <String>[];
+    await for (var entity in dir.list()) {
+      if (entity is Directory) {
+        final name = entity.path.split(Platform.pathSeparator).last;
+        if (name.startsWith("starcitizen_")) {
+          // 提取版本号，例如 starcitizen_1234567 -> 1234567
+          final version = name.replaceFirst("starcitizen_", "");
+          if (version.isNotEmpty) {
+            versions.add(version);
+          }
+        }
+      }
+    }
+
+    // 按版本号降序排序（最新的在前面）
+    versions.sort((a, b) => b.compareTo(a));
+    return versions;
+  }
+
+  /// 获取当前渲染器设置
+  Future<(int, String?)> _getCurrentGraphicsRenderer() async {
+    final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
+    if (gameShaderCachePath == null) return (-1, null);
+
+    final versions = await _getAvailableGraphicsVersions();
+    if (versions.isEmpty) return (-1, null);
+
+    // 使用最新版本
+    final latestVersion = versions.first;
+    final settingsPath = "$gameShaderCachePath\\starcitizen_$latestVersion\\GraphicsSettings\\GraphicsSettings.json";
+
+    final file = File(settingsPath);
+    if (!await file.exists()) return (-1, latestVersion);
+
+    try {
+      final content = await file.readAsString();
+      final json = jsonDecode(content) as Map<String, dynamic>;
+      final graphicsSettings = json["GraphicsSettings"] as Map<String, dynamic>?;
+      final renderer = graphicsSettings?["GraphicsRenderer"] as int? ?? 0;
+      return (renderer, latestVersion);
+    } catch (e) {
+      dPrint("_getCurrentGraphicsRenderer error: $e");
+      return (-1, latestVersion);
+    }
+  }
+
+  /// 保存渲染器设置
+  Future<void> _saveGraphicsRenderer(String version, int renderer) async {
+    final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
+    if (gameShaderCachePath == null) throw "Shader cache path not found";
+
+    final settingsDir = "$gameShaderCachePath\\starcitizen_$version\\GraphicsSettings";
+    final settingsPath = "$settingsDir\\GraphicsSettings.json";
+
+    // 确保目录存在
+    await Directory(settingsDir).create(recursive: true);
+
+    final json = {
+      "GraphicsSettings": {"SettingsVersion": 1, "GraphicsRenderer": renderer},
+    };
+
+    await File(settingsPath).writeAsString(const JsonEncoder.withIndent('  ').convert(json));
+  }
+
+  /// 获取渲染器名称
+  String _getRendererName(int renderer) {
+    switch (renderer) {
+      case 0:
+        return S.current.tools_graphics_renderer_dx11;
+      case 1:
+        return S.current.tools_graphics_renderer_vulkan;
+      default:
+        return S.current.tools_graphics_renderer_unknown;
+    }
+  }
+
+  Future<ToolsItemData> _addGraphicsRendererCard(BuildContext context) async {
+    final (renderer, _) = await _getCurrentGraphicsRenderer();
+    final rendererName = _getRendererName(renderer);
+
+    return ToolsItemData(
+      "graphics_renderer",
+      S.current.tools_action_switch_graphics_renderer,
+      S.current.tools_action_switch_graphics_renderer_info(rendererName),
+      const Icon(FluentIcons.video, size: 24),
+      onTap: () => _showGraphicsRendererDialog(context),
+    );
+  }
+
+  Future<void> _showGraphicsRendererDialog(BuildContext context) async {
+    final versions = await _getAvailableGraphicsVersions();
+    final (currentRenderer, latestVersion) = await _getCurrentGraphicsRenderer();
+
+    if (!context.mounted) return;
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => _GraphicsRendererDialog(
+        versions: versions,
+        initialVersion: latestVersion ?? "",
+        initialRenderer: currentRenderer >= 0 ? currentRenderer : 0,
+        onSave: (version, renderer) async {
+          try {
+            await _saveGraphicsRenderer(version, renderer);
+            if (!context.mounted) return;
+            showToast(context, S.current.tools_graphics_renderer_dialog_save_success);
+            loadToolsCard(context, skipPathScan: true);
+            Navigator.of(dialogContext).pop();
+          } catch (e) {
+            if (!context.mounted) return;
+            showToast(context, S.current.tools_graphics_renderer_dialog_save_failed(e));
+          }
+        },
+      ),
     );
   }
 
@@ -390,7 +518,13 @@ class ToolsUIModel extends _$ToolsUIModel {
     final l = await Directory(gameShaderCachePath!).list(recursive: false).toList();
     for (var value in l) {
       if (value is Directory) {
-        if (!value.absolute.path.contains("Crashes")) {
+        final dirName = value.path.split(Platform.pathSeparator).last;
+        if (dirName == "Crashes") continue;
+
+        // 对于 starcitizen_* 目录，手动遍历删除，保留 GraphicsSettings 文件夹
+        if (dirName.startsWith("starcitizen_")) {
+          await _cleanShaderCacheDirectory(value);
+        } else {
           await value.delete(recursive: true);
         }
       }
@@ -400,11 +534,31 @@ class ToolsUIModel extends _$ToolsUIModel {
     state = state.copyWith(working: false);
   }
 
+  /// 清理着色器缓存目录，保留 GraphicsSettings 文件夹
+  Future<void> _cleanShaderCacheDirectory(Directory dir) async {
+    try {
+      final contents = await dir.list(recursive: false).toList();
+      for (var entity in contents) {
+        final name = entity.path.split(Platform.pathSeparator).last;
+        // 保留 GraphicsSettings 文件夹
+        if (name == "GraphicsSettings") continue;
+
+        if (entity is Directory) {
+          await entity.delete(recursive: true);
+        } else if (entity is File) {
+          await entity.delete();
+        }
+      }
+    } catch (e) {
+      dPrint("_cleanShaderCacheDirectory error: $e");
+    }
+  }
+
   Future<void> _downloadP4k(BuildContext context, String torrentUrl) async {
     String savePath = state.scInstalledPath;
     String fileName = "Data.p4k";
 
-    if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
+    if ((await SystemHelper.getPID("RSI Launcher")).isNotEmpty) {
       if (!context.mounted) return;
       showToast(
         context,
@@ -553,7 +707,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   static Future<void> rsiEnhance(BuildContext context, {bool showNotGameInstallMsg = false}) async {
-    if ((await SystemHelper.getPID("\"RSI Launcher\"")).isNotEmpty) {
+    if ((await SystemHelper.getPID("RSI Launcher")).isNotEmpty) {
       if (!context.mounted) return;
       showToast(
         context,
@@ -579,6 +733,123 @@ class ToolsUIModel extends _$ToolsUIModel {
       WindowTypes.logAnalyze,
       S.current.log_analyzer_window_title,
       appGlobalState,
+    );
+  }
+}
+
+/// 图形渲染器切换对话框
+class _GraphicsRendererDialog extends StatefulWidget {
+  final List<String> versions;
+  final String initialVersion;
+  final int initialRenderer;
+  final Future<void> Function(String version, int renderer) onSave;
+
+  const _GraphicsRendererDialog({
+    required this.versions,
+    required this.initialVersion,
+    required this.initialRenderer,
+    required this.onSave,
+  });
+
+  @override
+  State<_GraphicsRendererDialog> createState() => _GraphicsRendererDialogState();
+}
+
+class _GraphicsRendererDialogState extends State<_GraphicsRendererDialog> {
+  late TextEditingController _versionController;
+  late int _selectedRenderer;
+  bool _isSaving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _versionController = TextEditingController(text: widget.initialVersion);
+    _selectedRenderer = widget.initialRenderer;
+  }
+
+  @override
+  void dispose() {
+    _versionController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ContentDialog(
+      title: Text(S.current.tools_graphics_renderer_dialog_title),
+      constraints: const BoxConstraints(maxWidth: 460),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.versions.isEmpty)
+            Padding(
+              padding: EdgeInsets.only(bottom: 12),
+              child: InfoBar(
+                title: Text(S.current.tools_graphics_renderer_dialog_no_version),
+                severity: InfoBarSeverity.warning,
+              ),
+            ),
+          // 版本选择
+          Text(S.current.tools_graphics_renderer_dialog_version),
+          const SizedBox(height: 8),
+          AutoSuggestBox<String>(
+            controller: _versionController,
+            placeholder: S.current.tools_graphics_renderer_dialog_version_hint,
+            items: widget.versions.map((v) => AutoSuggestBoxItem<String>(value: v, label: v)).toList(),
+            onSelected: (item) {
+              setState(() {
+                _versionController.text = item.value ?? "";
+              });
+            },
+          ),
+          const SizedBox(height: 16),
+          // 渲染器选择
+          Text(S.current.tools_graphics_renderer_dialog_renderer),
+          const SizedBox(height: 8),
+          ComboBox<int>(
+            value: _selectedRenderer,
+            items: [
+              ComboBoxItem(value: 0, child: Text(S.current.tools_graphics_renderer_dx11)),
+              ComboBoxItem(value: 1, child: Text(S.current.tools_graphics_renderer_vulkan)),
+            ],
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  _selectedRenderer = value;
+                });
+              }
+            },
+          ),
+        ],
+      ),
+      actions: [
+        Button(onPressed: _isSaving ? null : () => Navigator.of(context).pop(), child: Text(S.current.action_close)),
+        FilledButton(
+          onPressed: _isSaving || _versionController.text.isEmpty
+              ? null
+              : () async {
+                  setState(() {
+                    _isSaving = true;
+                  });
+                  try {
+                    await widget.onSave(_versionController.text, _selectedRenderer);
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  } finally {
+                    if (mounted) {
+                      setState(() {
+                        _isSaving = false;
+                      });
+                    }
+                  }
+                },
+          child: _isSaving
+              ? const SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2))
+              : Text(S.current.tools_graphics_renderer_dialog_save),
+        ),
+      ],
     );
   }
 }

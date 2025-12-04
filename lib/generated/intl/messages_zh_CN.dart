@@ -232,39 +232,43 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m99(v0, v1, v2, v3, v4) =>
       "系统：${v0}\n\n处理器：${v1}\n\n内存大小：${v2}GB\n\n显卡信息：\n${v3}\n\n硬盘信息：\n${v4}\n\n";
 
-  static String m100(v0) => "处理失败！：${v0}";
+  static String m100(v0) => "当前渲染器：${v0}";
 
-  static String m101(v0) => "读取启动器信息失败：${v0}";
+  static String m101(v0) => "保存失败：${v0}";
 
-  static String m102(v0) => "补丁状态：${v0}";
+  static String m102(v0) => "处理失败！：${v0}";
 
-  static String m103(v0) => "启动器内部版本信息：${v0}";
+  static String m103(v0) => "读取启动器信息失败：${v0}";
 
-  static String m104(v0) => "导出选中项 (${v0})";
+  static String m104(v0) => "补丁状态：${v0}";
 
-  static String m105(v0) => "提取失败：${v0}";
+  static String m105(v0) => "启动器内部版本信息：${v0}";
 
-  static String m106(v0) => "提取完成：${v0}";
+  static String m106(v0) => "导出选中项 (${v0})";
 
-  static String m107(v0) => "正在提取：${v0}";
+  static String m107(v0) => "提取失败：${v0}";
 
-  static String m108(v0) => "提取完成，共 ${v0} 个文件";
+  static String m108(v0) => "提取完成：${v0}";
 
-  static String m109(v0) => "当前文件：${v0}";
+  static String m109(v0) => "正在提取：${v0}";
 
-  static String m110(v0, v1) => "正在提取 (${v0}/${v1})";
+  static String m110(v0) => "提取完成，共 ${v0} 个文件";
 
-  static String m111(v0) => "打开文件：${v0}";
+  static String m111(v0) => "当前文件：${v0}";
 
-  static String m112(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
+  static String m112(v0, v1) => "正在提取 (${v0}/${v1})";
 
-  static String m113(v0) => "读取文件：${v0} ...";
+  static String m113(v0) => "打开文件：${v0}";
 
-  static String m114(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
+  static String m114(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
 
-  static String m115(v0) => "未知文件类型\n${v0}";
+  static String m115(v0) => "读取文件：${v0} ...";
 
-  static String m116(v0) => "P4K 查看器 -> ${v0}";
+  static String m116(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
+
+  static String m117(v0) => "未知文件类型\n${v0}";
+
+  static String m118(v0) => "P4K 查看器 -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1778,6 +1782,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_rsi_launcher_log_fix": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher Log 修复",
     ),
+    "tools_action_switch_graphics_renderer":
+        MessageLookupByLibrary.simpleMessage("切换 DirectX/Vulkan 渲染器"),
+    "tools_action_switch_graphics_renderer_info": m100,
     "tools_action_unp4k": MessageLookupByLibrary.simpleMessage("P4K 查看器"),
     "tools_action_unp4k_info": MessageLookupByLibrary.simpleMessage(
       "解包星际公民 p4k 文件",
@@ -1787,6 +1794,33 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_action_write_nvme_registry_patch":
         MessageLookupByLibrary.simpleMessage("写入 nvme 注册表补丁"),
+    "tools_graphics_renderer_dialog_no_version":
+        MessageLookupByLibrary.simpleMessage(
+          "未找到版本代码，请手动输入（若您不了解此项，请群求其他玩家帮助）",
+        ),
+    "tools_graphics_renderer_dialog_renderer":
+        MessageLookupByLibrary.simpleMessage("渲染器"),
+    "tools_graphics_renderer_dialog_save": MessageLookupByLibrary.simpleMessage(
+      "保存",
+    ),
+    "tools_graphics_renderer_dialog_save_failed": m101,
+    "tools_graphics_renderer_dialog_save_success":
+        MessageLookupByLibrary.simpleMessage("渲染器设置已保存"),
+    "tools_graphics_renderer_dialog_title":
+        MessageLookupByLibrary.simpleMessage("切换图形渲染器"),
+    "tools_graphics_renderer_dialog_version":
+        MessageLookupByLibrary.simpleMessage("版本代码"),
+    "tools_graphics_renderer_dialog_version_hint":
+        MessageLookupByLibrary.simpleMessage("请选择或输入版本代码"),
+    "tools_graphics_renderer_dx11": MessageLookupByLibrary.simpleMessage(
+      "DirectX 11",
+    ),
+    "tools_graphics_renderer_unknown": MessageLookupByLibrary.simpleMessage(
+      "未知",
+    ),
+    "tools_graphics_renderer_vulkan": MessageLookupByLibrary.simpleMessage(
+      "Vulkan",
+    ),
     "tools_hosts_action_one_click_acceleration":
         MessageLookupByLibrary.simpleMessage("一键加速"),
     "tools_hosts_info_dns_query_and_test": MessageLookupByLibrary.simpleMessage(
@@ -1814,7 +1848,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "游戏安装位置：  ",
     ),
-    "tools_info_processing_failed": m100,
+    "tools_info_processing_failed": m102,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSI启动器位置：",
     ),
@@ -1834,13 +1868,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage("读取启动器信息失败！"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m101,
+        m103,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("未找到 RSI 启动器"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m102,
+    "tools_rsi_launcher_enhance_msg_patch_status": m104,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage("* 如需卸载增强补丁，请覆盖安装 RSI 启动器。"),
-    "tools_rsi_launcher_enhance_msg_version": m103,
+    "tools_rsi_launcher_enhance_msg_version": m105,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSI 启动器增强是一项社区功能，它会在您的电脑上解包 \"RSI Launcher\" 并加入额外的增强功能，具体使用哪些功能由您决定。\n\n目前，官方（CIG）仅许可我们进行多语言操作，启动器下载增强是我们认为有用的额外功能，违反cig用户协议（https://robertsspaceindustries.com/eula）可能导致账号被封禁等严重后果，是否启用由您自己决定，我们不对可能产生的后果（游戏损坏，账号封禁等）承担任何责任。\n\n对于启动器的修改内容，我们开源于：https://github.com/StarCitizenToolBox/RSILauncherEnhance，如有需要，您可自行查阅。\n\n如果您因为任何原因需要取消此增强补丁，请直接覆盖安装官方启动器。",
     ),
@@ -1868,10 +1902,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_action_deselect_all": MessageLookupByLibrary.simpleMessage(
       "取消全选",
     ),
-    "tools_unp4k_action_export_selected": m104,
-    "tools_unp4k_action_extract_failed": m105,
-    "tools_unp4k_action_extract_success": m106,
-    "tools_unp4k_action_extracting": m107,
+    "tools_unp4k_action_export_selected": m106,
+    "tools_unp4k_action_extract_failed": m107,
+    "tools_unp4k_action_extract_success": m108,
+    "tools_unp4k_action_extracting": m109,
     "tools_unp4k_action_multi_select": MessageLookupByLibrary.simpleMessage(
       "多选",
     ),
@@ -1882,12 +1916,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_extract_cancelled": MessageLookupByLibrary.simpleMessage(
       "提取已取消",
     ),
-    "tools_unp4k_extract_completed": m108,
-    "tools_unp4k_extract_current_file": m109,
+    "tools_unp4k_extract_completed": m110,
+    "tools_unp4k_extract_current_file": m111,
     "tools_unp4k_extract_dialog_title": MessageLookupByLibrary.simpleMessage(
       "提取文件",
     ),
-    "tools_unp4k_extract_progress": m110,
+    "tools_unp4k_extract_progress": m112,
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "缺少运行库",
     ),
@@ -1897,17 +1931,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-    "tools_unp4k_msg_open_file": m111,
-    "tools_unp4k_msg_read_completed": m112,
-    "tools_unp4k_msg_read_file": m113,
+    "tools_unp4k_msg_open_file": m113,
+    "tools_unp4k_msg_read_completed": m114,
+    "tools_unp4k_msg_read_file": m115,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "正在读取P4K 文件 ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "正在处理文件 ...",
     ),
-    "tools_unp4k_msg_reading3": m114,
-    "tools_unp4k_msg_unknown_file_type": m115,
+    "tools_unp4k_msg_reading3": m116,
+    "tools_unp4k_msg_unknown_file_type": m117,
     "tools_unp4k_search_no_result": MessageLookupByLibrary.simpleMessage(
       "未找到匹配文件",
     ),
@@ -1920,7 +1954,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_sort_default": MessageLookupByLibrary.simpleMessage("默认排序"),
     "tools_unp4k_sort_size_asc": MessageLookupByLibrary.simpleMessage("小文件优先"),
     "tools_unp4k_sort_size_desc": MessageLookupByLibrary.simpleMessage("大文件优先"),
-    "tools_unp4k_title": m116,
+    "tools_unp4k_title": m118,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("单击文件以预览"),
     "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
       "将左侧载具拖动到右侧列表中，这将会为载具名称增加 001、002 .. 等前缀，方便您在游戏内 UI 快速定位载具。在右侧列表上下拖动可以调整载具的顺序。",

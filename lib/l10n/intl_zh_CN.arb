@@ -1161,5 +1161,18 @@
   "tools_unp4k_action_export_selected": "导出选中项 ({v0})",
   "tools_unp4k_action_cancel_multi_select": "取消多选",
   "tools_unp4k_action_select_all": "全选",
-  "tools_unp4k_action_deselect_all": "取消全选"
+  "tools_unp4k_action_deselect_all": "取消全选",
+  "tools_action_switch_graphics_renderer": "切换 DirectX/Vulkan 渲染器",
+  "tools_action_switch_graphics_renderer_info": "当前渲染器：{v0}",
+  "tools_graphics_renderer_dx11": "DirectX 11",
+  "tools_graphics_renderer_vulkan": "Vulkan",
+  "tools_graphics_renderer_unknown": "未知",
+  "tools_graphics_renderer_dialog_title": "切换图形渲染器",
+  "tools_graphics_renderer_dialog_version": "版本代码",
+  "tools_graphics_renderer_dialog_version_hint": "请选择或输入版本代码",
+  "tools_graphics_renderer_dialog_renderer": "渲染器",
+  "tools_graphics_renderer_dialog_save": "保存",
+  "tools_graphics_renderer_dialog_save_success": "渲染器设置已保存",
+  "tools_graphics_renderer_dialog_save_failed": "保存失败：{v0}",
+  "tools_graphics_renderer_dialog_no_version": "未找到版本代码，请手动输入（若您不了解此项，请群求其他玩家帮助）"
 }

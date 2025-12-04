@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 
 class SystemHelper {
   static String powershellPath = "powershell.exe";
@@ -30,7 +31,7 @@ class SystemHelper {
         "-Path",
         "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
         "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\""
+        "\"ForcedPhysicalSectorSizeInBytes\"",
       ]);
       dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
       if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
@@ -52,7 +53,7 @@ class SystemHelper {
       "ForcedPhysicalSectorSizeInBytes",
       "-PropertyType MultiString",
       "-Force -Value",
-      "\"* 4095\""
+      "\"* 4095\"",
     ]);
     dPrint("nvme_PhysicalBytes result == ${result.stdout}");
     return result.stderr;
@@ -65,7 +66,7 @@ class SystemHelper {
         "-Path",
         "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
         "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\""
+        "\"ForcedPhysicalSectorSizeInBytes\"",
       ]);
       dPrint("doRemoveNvmePath result ==== ${result.stdout}");
       if (result.stderr == "") {
@@ -97,8 +98,9 @@ class SystemHelper {
         "$programDataPath\\Microsoft\\Windows\\Start Menu\\Programs\\Roberts Space Industries\\RSI Launcher.lnk";
     final rsiLinkFile = File(rsiFilePath);
     if (await rsiLinkFile.exists()) {
-      final r = await Process.run(SystemHelper.powershellPath,
-          ["(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath"]);
+      final r = await Process.run(SystemHelper.powershellPath, [
+        "(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath",
+      ]);
       if (r.stdout.toString().contains("RSI Launcher.exe")) {
         final start = r.stdout.toString().split("RSI Launcher.exe");
         if (skipEXE) {
@@ -111,28 +113,20 @@ class SystemHelper {
   }
 
   static Future<void> killRSILauncher() async {
-    var psr = await Process.run(powershellPath, ["ps", "\"RSI Launcher\"", "|select -expand id"]);
-    if (psr.stderr == "") {
-      for (var value in (psr.stdout ?? "").toString().split("\n")) {
-        dPrint(value);
-        if (value != "") {
-          Process.killPid(int.parse(value));
-        }
+    var pList = await getPID("RSI Launcher");
+    for (var pid in pList) {
+      try {
+        Process.killPid(pid);
+      } catch (e) {
+        dPrint("killRSILauncher Error: $e");
       }
     }
   }
 
-  static Future<List<String>> getPID(String name) async {
+  static Future<List<int>> getPID(String name) async {
     try {
-      final r = await Process.run(powershellPath, ["(ps $name).Id"]);
-      if (r.stderr.toString().trim().isNotEmpty) {
-        dPrint("getPID Error: ${r.stderr}");
-        return [];
-      }
-      final str = r.stdout.toString().trim();
-      dPrint("getPID result: $str");
-      if (str.isEmpty) return [];
-      return str.split("\n");
+      final pList = await win32.getProcessListByName(processName: name);
+      return pList.map((e) => e.pid).toList();
     } catch (e) {
       dPrint("getPID Error: $e");
       return [];
@@ -147,22 +141,15 @@ class SystemHelper {
     if (processorAffinity == null) {
       Process.run(path, []);
     } else {
-      Process.run("cmd.exe", [
-        '/C',
-        'Start',
-        '""',
-        '/High',
-        '/Affinity',
-        processorAffinity,
-        path,
-      ]);
+      Process.run("cmd.exe", ['/C', 'Start', '""', '/High', '/Affinity', processorAffinity, path]);
     }
     dPrint(path);
   }
 
   static Future<int> getSystemMemorySizeGB() async {
-    final r = await Process.run(
-        powershellPath, ["(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb"]);
+    final r = await Process.run(powershellPath, [
+      "(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb",
+    ]);
     return int.tryParse(r.stdout.toString().trim()) ?? 0;
   }
 
@@ -196,10 +183,9 @@ foreach ($adapter in $adapterMemory) {
   }
 
   static Future<String> getDiskInfo() async {
-    return (await Process.run(powershellPath, ["Get-PhysicalDisk | format-table BusType,FriendlyName,Size"]))
-        .stdout
-        .toString()
-        .trim();
+    return (await Process.run(powershellPath, [
+      "Get-PhysicalDisk | format-table BusType,FriendlyName,Size",
+    ])).stdout.toString().trim();
   }
 
   static Future<int> getDirLen(String path, {List<String>? skipPath}) async {
@@ -226,8 +212,9 @@ foreach ($adapter in $adapterMemory) {
   }
 
   static Future<int> getNumberOfLogicalProcessors() async {
-    final cpuNumberResult =
-        await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors"]);
+    final cpuNumberResult = await Process.run(powershellPath, [
+      "(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors",
+    ]);
     if (cpuNumberResult.exitCode != 0) return 0;
     return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
   }
@@ -257,8 +244,10 @@ foreach ($adapter in $adapterMemory) {
   static Future openDir(dynamic path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
     if (Platform.isWindows) {
-      await Process.run(
-          SystemHelper.powershellPath, ["explorer.exe", isFile ? "/select,$path" : "\"/select,\"$path\"\""]);
+      await Process.run(SystemHelper.powershellPath, [
+        "explorer.exe",
+        isFile ? "/select,$path" : "\"/select,\"$path\"\"",
+      ]);
     }
   }
 

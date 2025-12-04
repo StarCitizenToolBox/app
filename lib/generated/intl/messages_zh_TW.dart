@@ -228,25 +228,25 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m99(v0, v1, v2, v3, v4) =>
       "系統：${v0}\n\n處理器：${v1}\n\n記憶體：${v2}GB\n\n顯示卡：\n${v3}\n\n硬碟：\n${v4}\n\n";
 
-  static String m100(v0) => "處理失敗！：${v0}";
+  static String m102(v0) => "處理失敗！：${v0}";
 
-  static String m101(v0) => "讀取啟動器資訊失敗：${v0}";
+  static String m103(v0) => "讀取啟動器資訊失敗：${v0}";
 
-  static String m102(v0) => "補丁狀態：${v0}";
+  static String m104(v0) => "補丁狀態：${v0}";
 
-  static String m103(v0) => "啟動器內部版本資訊：${v0}";
+  static String m105(v0) => "啟動器內部版本資訊：${v0}";
 
-  static String m111(v0) => "打開文件：${v0}";
+  static String m113(v0) => "打開文件：${v0}";
 
-  static String m112(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
+  static String m114(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
 
-  static String m113(v0) => "讀取文件：${v0} ...";
+  static String m115(v0) => "讀取文件：${v0} ...";
 
-  static String m114(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
+  static String m116(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
 
-  static String m115(v0) => "未知文件類型\n${v0}";
+  static String m117(v0) => "未知文件類型\n${v0}";
 
-  static String m116(v0) => "P4K 查看器 -> ${v0}";
+  static String m118(v0) => "P4K 查看器 -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1791,7 +1791,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "遊戲安裝位置：  ",
     ),
-    "tools_info_processing_failed": m100,
+    "tools_info_processing_failed": m102,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSI啟動器位置：",
     ),
@@ -1811,13 +1811,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage("讀取啟動器資訊失敗！"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m101,
+        m103,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("未找到 RSI 啟動器"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m102,
+    "tools_rsi_launcher_enhance_msg_patch_status": m104,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage("* 如需移除增強補丁，請覆蓋安裝 RSI 啟動器。"),
-    "tools_rsi_launcher_enhance_msg_version": m103,
+    "tools_rsi_launcher_enhance_msg_version": m105,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSI 啟動器增強是一項社群功能，它會在您的電腦上解包 \"RSI Launcher\" 並加入額外的增強功能，具體使用哪些功能由您決定。\n\n目前，官方（CIG）僅許可我們進行多語言操作，啟動器下載增強是我們認為有用的額外功能，違反cig使用者協議（https://robertsspaceindustries.com/eula）可能導致帳號被封禁等嚴重後果，是否啟用由您自己決定，我們不對可能產生的後果（遊戲損壞，帳號封禁等）承擔任何責任。\n\n對於啟動器的修改內容，我們開源於：https://github.com/StarCitizenToolBox/RSILauncherEnhance，如有需要，您可自行查閱。\n\n如果您因為任何原因需要取消此增強補丁，請直接覆蓋安裝官方啟動器。",
     ),
@@ -1849,18 +1849,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-    "tools_unp4k_msg_open_file": m111,
-    "tools_unp4k_msg_read_completed": m112,
-    "tools_unp4k_msg_read_file": m113,
+    "tools_unp4k_msg_open_file": m113,
+    "tools_unp4k_msg_read_completed": m114,
+    "tools_unp4k_msg_read_file": m115,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "正在讀取P4K 文件 ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "正在處理文件 ...",
     ),
-    "tools_unp4k_msg_reading3": m114,
-    "tools_unp4k_msg_unknown_file_type": m115,
-    "tools_unp4k_title": m116,
+    "tools_unp4k_msg_reading3": m116,
+    "tools_unp4k_msg_unknown_file_type": m117,
+    "tools_unp4k_title": m118,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("單擊文件以預覽"),
     "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
       "將左側載具拖動到右側列表中，這將會為載具名稱增加 001、002 .. 等前綴，方便您在遊戲內 UI 快速定位載具。在右側列表上下拖動可以調整載具的順序。",

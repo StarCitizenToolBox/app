@@ -248,26 +248,26 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m99(v0, v1, v2, v3, v4) =>
       "Система: ${v0}\n\nПроцессор: ${v1}\n\nОбъем памяти: ${v2}GB\n\nИнформация о видеокарте:\n${v3}\n\nИнформация о жестком диске:\n${v4}\n\n";
 
-  static String m100(v0) => "Ошибка обработки: ${v0}";
+  static String m102(v0) => "Ошибка обработки: ${v0}";
 
-  static String m101(v0) => "Не удалось прочитать информацию о лаунчере: ${v0}";
+  static String m103(v0) => "Не удалось прочитать информацию о лаунчере: ${v0}";
 
-  static String m102(v0) => "Статус патча: ${v0}";
+  static String m104(v0) => "Статус патча: ${v0}";
 
-  static String m103(v0) => "Внутренняя версия лаунчера: ${v0}";
+  static String m105(v0) => "Внутренняя версия лаунчера: ${v0}";
 
-  static String m111(v0) => "Открытие файла: ${v0}";
+  static String m113(v0) => "Открытие файла: ${v0}";
 
-  static String m112(v0, v1) =>
+  static String m114(v0, v1) =>
       "Загрузка завершена: ${v0} файлов, время: ${v1} мс";
 
-  static String m113(v0) => "Чтение файла: ${v0}...";
+  static String m115(v0) => "Чтение файла: ${v0}...";
 
-  static String m114(v0, v1) => "Обработка файлов (${v0}/${v1})...";
+  static String m116(v0, v1) => "Обработка файлов (${v0}/${v1})...";
 
-  static String m115(v0) => "Неизвестный тип файла\n${v0}";
+  static String m117(v0) => "Неизвестный тип файла\n${v0}";
 
-  static String m116(v0) => "Просмотрщик P4K -> ${v0}";
+  static String m118(v0) => "Просмотрщик P4K -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2148,7 +2148,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "Место установки игры:  ",
     ),
-    "tools_info_processing_failed": m100,
+    "tools_info_processing_failed": m102,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "Местоположение RSI Launcher:",
     ),
@@ -2177,15 +2177,15 @@ class MessageLookup extends MessageLookupByLibrary {
           "Не удалось прочитать информацию о лаунчере!",
         ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m101,
+        m103,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("RSI Launcher не найден"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m102,
+    "tools_rsi_launcher_enhance_msg_patch_status": m104,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
           "* Чтобы удалить патч улучшений, переустановите RSI Launcher.",
         ),
-    "tools_rsi_launcher_enhance_msg_version": m103,
+    "tools_rsi_launcher_enhance_msg_version": m105,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "Улучшения RSI Launcher - это функция сообщества, которая распаковывает \"RSI Launcher\" на вашем компьютере и добавляет дополнительные функции улучшений. Какие функции использовать - решать вам.\n\nВ настоящее время CIG разрешает нам только операции с мультиязычностью. Ускорение загрузки лаунчера - это дополнительная функция, которую мы считаем полезной. Нарушение пользовательского соглашения CIG (https://robertsspaceindustries.com/eula) может привести к серьезным последствиям, включая блокировку аккаунта. Решение об использовании остается за вами, мы не несем ответственности за возможные последствия (повреждение игры, блокировка аккаунта и т.д.).\n\nДля модификаций лаунчера мы открыли исходный код на: https://github.com/StarCitizenToolBox/RSILauncherEnhance, при необходимости вы можете его изучить.\n\nЕсли по какой-либо причине вам нужно отменить этот патч улучшений, просто переустановите официальный лаунчер поверх текущего.",
     ),
@@ -2224,18 +2224,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Инициализация...",
     ),
-    "tools_unp4k_msg_open_file": m111,
-    "tools_unp4k_msg_read_completed": m112,
-    "tools_unp4k_msg_read_file": m113,
+    "tools_unp4k_msg_open_file": m113,
+    "tools_unp4k_msg_read_completed": m114,
+    "tools_unp4k_msg_read_file": m115,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Чтение файла P4K...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Обработка файлов...",
     ),
-    "tools_unp4k_msg_reading3": m114,
-    "tools_unp4k_msg_unknown_file_type": m115,
-    "tools_unp4k_title": m116,
+    "tools_unp4k_msg_reading3": m116,
+    "tools_unp4k_msg_unknown_file_type": m117,
+    "tools_unp4k_title": m118,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Нажмите на файл для предварительного просмотра",
     ),

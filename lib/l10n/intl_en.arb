@@ -1446,5 +1446,18 @@
   "tools_unp4k_action_export_selected": "Export Selected ({v0})",
   "tools_unp4k_action_cancel_multi_select": "Cancel Multi-Select",
   "tools_unp4k_action_select_all": "Select All",
-  "tools_unp4k_action_deselect_all": "Deselect All"
+  "tools_unp4k_action_deselect_all": "Deselect All",
+  "tools_action_switch_graphics_renderer": "Switch DirectX/Vulkan Renderer",
+  "tools_action_switch_graphics_renderer_info": "Current Renderer: {v0}",
+  "tools_graphics_renderer_dx11": "DirectX 11",
+  "tools_graphics_renderer_vulkan": "Vulkan",
+  "tools_graphics_renderer_unknown": "Unknown",
+  "tools_graphics_renderer_dialog_title": "Switch Graphics Renderer",
+  "tools_graphics_renderer_dialog_version": "Version Code",
+  "tools_graphics_renderer_dialog_version_hint": "Select or enter version code",
+  "tools_graphics_renderer_dialog_renderer": "Renderer",
+  "tools_graphics_renderer_dialog_save": "Save",
+  "tools_graphics_renderer_dialog_save_success": "Renderer settings saved",
+  "tools_graphics_renderer_dialog_save_failed": "Save failed: {v0}",
+  "tools_graphics_renderer_dialog_no_version": "Version code not found. Please enter it manually. (If you are unfamiliar with this, please ask other players for help.)"
 }
