@@ -236,17 +236,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m103(v0) => "啟動器內部版本資訊：${v0}";
 
-  static String m104(v0) => "打開文件：${v0}";
+  static String m111(v0) => "打開文件：${v0}";
 
-  static String m105(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
+  static String m112(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
 
-  static String m106(v0) => "讀取文件：${v0} ...";
+  static String m113(v0) => "讀取文件：${v0} ...";
 
-  static String m107(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
+  static String m114(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
 
-  static String m108(v0) => "未知文件類型\n${v0}";
+  static String m115(v0) => "未知文件類型\n${v0}";
 
-  static String m109(v0) => "P4K 查看器 -> ${v0}";
+  static String m116(v0) => "P4K 查看器 -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1849,18 +1849,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-    "tools_unp4k_msg_open_file": m104,
-    "tools_unp4k_msg_read_completed": m105,
-    "tools_unp4k_msg_read_file": m106,
+    "tools_unp4k_msg_open_file": m111,
+    "tools_unp4k_msg_read_completed": m112,
+    "tools_unp4k_msg_read_file": m113,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "正在讀取P4K 文件 ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "正在處理文件 ...",
     ),
-    "tools_unp4k_msg_reading3": m107,
-    "tools_unp4k_msg_unknown_file_type": m108,
-    "tools_unp4k_title": m109,
+    "tools_unp4k_msg_reading3": m114,
+    "tools_unp4k_msg_unknown_file_type": m115,
+    "tools_unp4k_title": m116,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("單擊文件以預覽"),
     "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
       "將左側載具拖動到右側列表中，這將會為載具名稱增加 001、002 .. 等前綴，方便您在遊戲內 UI 快速定位載具。在右側列表上下拖動可以調整載具的順序。",

@@ -240,17 +240,31 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m103(v0) => "启动器内部版本信息：${v0}";
 
-  static String m104(v0) => "打开文件：${v0}";
+  static String m104(v0) => "导出选中项 (${v0})";
 
-  static String m105(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
+  static String m105(v0) => "提取失败：${v0}";
 
-  static String m106(v0) => "读取文件：${v0} ...";
+  static String m106(v0) => "提取完成：${v0}";
 
-  static String m107(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
+  static String m107(v0) => "正在提取：${v0}";
 
-  static String m108(v0) => "未知文件类型\n${v0}";
+  static String m108(v0) => "提取完成，共 ${v0} 个文件";
 
-  static String m109(v0) => "P4K 查看器 -> ${v0}";
+  static String m109(v0) => "当前文件：${v0}";
+
+  static String m110(v0, v1) => "正在提取 (${v0}/${v1})";
+
+  static String m111(v0) => "打开文件：${v0}";
+
+  static String m112(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
+
+  static String m113(v0) => "读取文件：${v0} ...";
+
+  static String m114(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
+
+  static String m115(v0) => "未知文件类型\n${v0}";
+
+  static String m116(v0) => "P4K 查看器 -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1849,6 +1863,31 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("生成补丁 ..."),
     "tools_rsi_launcher_enhance_working_msg2":
         MessageLookupByLibrary.simpleMessage("安装补丁，这需要一点时间，取决于您的计算机性能 ..."),
+    "tools_unp4k_action_cancel_multi_select":
+        MessageLookupByLibrary.simpleMessage("取消多选"),
+    "tools_unp4k_action_deselect_all": MessageLookupByLibrary.simpleMessage(
+      "取消全选",
+    ),
+    "tools_unp4k_action_export_selected": m104,
+    "tools_unp4k_action_extract_failed": m105,
+    "tools_unp4k_action_extract_success": m106,
+    "tools_unp4k_action_extracting": m107,
+    "tools_unp4k_action_multi_select": MessageLookupByLibrary.simpleMessage(
+      "多选",
+    ),
+    "tools_unp4k_action_save_as": MessageLookupByLibrary.simpleMessage(
+      "另存为...",
+    ),
+    "tools_unp4k_action_select_all": MessageLookupByLibrary.simpleMessage("全选"),
+    "tools_unp4k_extract_cancelled": MessageLookupByLibrary.simpleMessage(
+      "提取已取消",
+    ),
+    "tools_unp4k_extract_completed": m108,
+    "tools_unp4k_extract_current_file": m109,
+    "tools_unp4k_extract_dialog_title": MessageLookupByLibrary.simpleMessage(
+      "提取文件",
+    ),
+    "tools_unp4k_extract_progress": m110,
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "缺少运行库",
     ),
@@ -1858,18 +1897,30 @@ class MessageLookup extends MessageLookupByLibrary {
       "使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-    "tools_unp4k_msg_open_file": m104,
-    "tools_unp4k_msg_read_completed": m105,
-    "tools_unp4k_msg_read_file": m106,
+    "tools_unp4k_msg_open_file": m111,
+    "tools_unp4k_msg_read_completed": m112,
+    "tools_unp4k_msg_read_file": m113,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "正在读取P4K 文件 ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "正在处理文件 ...",
     ),
-    "tools_unp4k_msg_reading3": m107,
-    "tools_unp4k_msg_unknown_file_type": m108,
-    "tools_unp4k_title": m109,
+    "tools_unp4k_msg_reading3": m114,
+    "tools_unp4k_msg_unknown_file_type": m115,
+    "tools_unp4k_search_no_result": MessageLookupByLibrary.simpleMessage(
+      "未找到匹配文件",
+    ),
+    "tools_unp4k_search_placeholder": MessageLookupByLibrary.simpleMessage(
+      "搜索文件（支持正则）...",
+    ),
+    "tools_unp4k_searching": MessageLookupByLibrary.simpleMessage("正在搜索..."),
+    "tools_unp4k_sort_date_asc": MessageLookupByLibrary.simpleMessage("旧文件优先"),
+    "tools_unp4k_sort_date_desc": MessageLookupByLibrary.simpleMessage("新文件优先"),
+    "tools_unp4k_sort_default": MessageLookupByLibrary.simpleMessage("默认排序"),
+    "tools_unp4k_sort_size_asc": MessageLookupByLibrary.simpleMessage("小文件优先"),
+    "tools_unp4k_sort_size_desc": MessageLookupByLibrary.simpleMessage("大文件优先"),
+    "tools_unp4k_title": m116,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("单击文件以预览"),
     "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
       "将左侧载具拖动到右侧列表中，这将会为载具名称增加 001、002 .. 等前缀，方便您在游戏内 UI 快速定位载具。在右侧列表上下拖动可以调整载具的顺序。",

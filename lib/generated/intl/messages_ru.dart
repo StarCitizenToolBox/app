@@ -256,18 +256,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m103(v0) => "Внутренняя версия лаунчера: ${v0}";
 
-  static String m104(v0) => "Открытие файла: ${v0}";
+  static String m111(v0) => "Открытие файла: ${v0}";
 
-  static String m105(v0, v1) =>
+  static String m112(v0, v1) =>
       "Загрузка завершена: ${v0} файлов, время: ${v1} мс";
 
-  static String m106(v0) => "Чтение файла: ${v0}...";
+  static String m113(v0) => "Чтение файла: ${v0}...";
 
-  static String m107(v0, v1) => "Обработка файлов (${v0}/${v1})...";
+  static String m114(v0, v1) => "Обработка файлов (${v0}/${v1})...";
 
-  static String m108(v0) => "Неизвестный тип файла\n${v0}";
+  static String m115(v0) => "Неизвестный тип файла\n${v0}";
 
-  static String m109(v0) => "Просмотрщик P4K -> ${v0}";
+  static String m116(v0) => "Просмотрщик P4K -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2224,18 +2224,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Инициализация...",
     ),
-    "tools_unp4k_msg_open_file": m104,
-    "tools_unp4k_msg_read_completed": m105,
-    "tools_unp4k_msg_read_file": m106,
+    "tools_unp4k_msg_open_file": m111,
+    "tools_unp4k_msg_read_completed": m112,
+    "tools_unp4k_msg_read_file": m113,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Чтение файла P4K...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Обработка файлов...",
     ),
-    "tools_unp4k_msg_reading3": m107,
-    "tools_unp4k_msg_unknown_file_type": m108,
-    "tools_unp4k_title": m109,
+    "tools_unp4k_msg_reading3": m114,
+    "tools_unp4k_msg_unknown_file_type": m115,
+    "tools_unp4k_title": m116,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Нажмите на файл для предварительного просмотра",
     ),

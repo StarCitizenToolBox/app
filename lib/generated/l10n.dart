@@ -28,9 +28,10 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name =
+        (locale.countryCode?.isEmpty ?? false)
+            ? locale.languageCode
+            : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -7899,6 +7900,226 @@ class S {
       name: 'splash_reset_db_failed',
       desc: '',
       args: [v0],
+    );
+  }
+
+  /// `Search files (supports regex)...`
+  String get tools_unp4k_search_placeholder {
+    return Intl.message(
+      'Search files (supports regex)...',
+      name: 'tools_unp4k_search_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Default Sort`
+  String get tools_unp4k_sort_default {
+    return Intl.message(
+      'Default Sort',
+      name: 'tools_unp4k_sort_default',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smaller First`
+  String get tools_unp4k_sort_size_asc {
+    return Intl.message(
+      'Smaller First',
+      name: 'tools_unp4k_sort_size_asc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Larger First`
+  String get tools_unp4k_sort_size_desc {
+    return Intl.message(
+      'Larger First',
+      name: 'tools_unp4k_sort_size_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Older First`
+  String get tools_unp4k_sort_date_asc {
+    return Intl.message(
+      'Older First',
+      name: 'tools_unp4k_sort_date_asc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Newer First`
+  String get tools_unp4k_sort_date_desc {
+    return Intl.message(
+      'Newer First',
+      name: 'tools_unp4k_sort_date_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save As...`
+  String get tools_unp4k_action_save_as {
+    return Intl.message(
+      'Save As...',
+      name: 'tools_unp4k_action_save_as',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extracting: {v0}`
+  String tools_unp4k_action_extracting(Object v0) {
+    return Intl.message(
+      'Extracting: $v0',
+      name: 'tools_unp4k_action_extracting',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Extraction complete: {v0}`
+  String tools_unp4k_action_extract_success(Object v0) {
+    return Intl.message(
+      'Extraction complete: $v0',
+      name: 'tools_unp4k_action_extract_success',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Extraction failed: {v0}`
+  String tools_unp4k_action_extract_failed(Object v0) {
+    return Intl.message(
+      'Extraction failed: $v0',
+      name: 'tools_unp4k_action_extract_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `No matching files found`
+  String get tools_unp4k_search_no_result {
+    return Intl.message(
+      'No matching files found',
+      name: 'tools_unp4k_search_no_result',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Searching...`
+  String get tools_unp4k_searching {
+    return Intl.message(
+      'Searching...',
+      name: 'tools_unp4k_searching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extract Files`
+  String get tools_unp4k_extract_dialog_title {
+    return Intl.message(
+      'Extract Files',
+      name: 'tools_unp4k_extract_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extracting ({v0}/{v1})`
+  String tools_unp4k_extract_progress(Object v0, Object v1) {
+    return Intl.message(
+      'Extracting ($v0/$v1)',
+      name: 'tools_unp4k_extract_progress',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Current file: {v0}`
+  String tools_unp4k_extract_current_file(Object v0) {
+    return Intl.message(
+      'Current file: $v0',
+      name: 'tools_unp4k_extract_current_file',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Extraction cancelled`
+  String get tools_unp4k_extract_cancelled {
+    return Intl.message(
+      'Extraction cancelled',
+      name: 'tools_unp4k_extract_cancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extraction completed, {v0} files total`
+  String tools_unp4k_extract_completed(Object v0) {
+    return Intl.message(
+      'Extraction completed, $v0 files total',
+      name: 'tools_unp4k_extract_completed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Multi-Select`
+  String get tools_unp4k_action_multi_select {
+    return Intl.message(
+      'Multi-Select',
+      name: 'tools_unp4k_action_multi_select',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export Selected ({v0})`
+  String tools_unp4k_action_export_selected(Object v0) {
+    return Intl.message(
+      'Export Selected ($v0)',
+      name: 'tools_unp4k_action_export_selected',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Cancel Multi-Select`
+  String get tools_unp4k_action_cancel_multi_select {
+    return Intl.message(
+      'Cancel Multi-Select',
+      name: 'tools_unp4k_action_cancel_multi_select',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select All`
+  String get tools_unp4k_action_select_all {
+    return Intl.message(
+      'Select All',
+      name: 'tools_unp4k_action_select_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deselect All`
+  String get tools_unp4k_action_deselect_all {
+    return Intl.message(
+      'Deselect All',
+      name: 'tools_unp4k_action_deselect_all',
+      desc: '',
+      args: [],
     );
   }
 }
