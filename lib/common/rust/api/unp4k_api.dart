@@ -8,19 +8,19 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_api.freezed.dart';
 
-/// 打开 P4K 文件
-Future<BigInt> p4KOpen({required String p4KPath}) =>
+// These functions are ignored because they are not marked as `pub`: `dos_datetime_to_millis`, `ensure_files_loaded`
+
+/// 打开 P4K 文件（仅打开，不读取文件列表）
+Future<void> p4KOpen({required String p4KPath}) =>
     RustLib.instance.api.crateApiUnp4KApiP4KOpen(p4KPath: p4KPath);
+
+/// 获取文件数量（会触发文件列表加载）
+Future<BigInt> p4KGetFileCount() =>
+    RustLib.instance.api.crateApiUnp4KApiP4KGetFileCount();
 
 /// 获取所有文件列表
 Future<List<P4kFileItem>> p4KGetAllFiles() =>
     RustLib.instance.api.crateApiUnp4KApiP4KGetAllFiles();
-
-/// 获取指定目录下的文件列表
-Future<List<P4kFileItem>> p4KGetFilesInDirectory({required String directory}) =>
-    RustLib.instance.api.crateApiUnp4KApiP4KGetFilesInDirectory(
-      directory: directory,
-    );
 
 /// 提取文件到内存
 Future<Uint8List> p4KExtractToMemory({required String filePath}) =>
@@ -46,5 +46,6 @@ sealed class P4kFileItem with _$P4kFileItem {
     required bool isDirectory,
     required BigInt size,
     required BigInt compressedSize,
+    required PlatformInt64 dateModified,
   }) = _P4kFileItem;
 }

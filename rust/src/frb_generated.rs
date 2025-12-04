@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -737964996;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1801517256;
 
 // Section: executor
 
@@ -390,24 +390,20 @@ fn wire__crate__api__unp4k_api__p4k_get_all_files_impl(
         },
     )
 }
-fn wire__crate__api__unp4k_api__p4k_get_files_in_directory_impl(
+fn wire__crate__api__unp4k_api__p4k_get_file_count_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    directory: impl CstDecode<String>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "p4k_get_files_in_directory",
+            debug_name: "p4k_get_file_count",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let api_directory = directory.cst_decode();
             move |context| async move {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
-                        let output_ok =
-                            crate::api::unp4k_api::p4k_get_files_in_directory(api_directory)
-                                .await?;
+                        let output_ok = crate::api::unp4k_api::p4k_get_file_count().await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -713,6 +709,12 @@ impl CstDecode<i32> for i32 {
         self
     }
 }
+impl CstDecode<i64> for i64 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> i64 {
+        self
+    }
+}
 impl CstDecode<crate::http_package::MyHttpVersion> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::http_package::MyHttpVersion {
@@ -833,6 +835,13 @@ impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+    }
+}
+
+impl SseDecode for i64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i64::<NativeEndian>().unwrap()
     }
 }
 
@@ -999,11 +1008,13 @@ impl SseDecode for crate::api::unp4k_api::P4kFileItem {
         let mut var_isDirectory = <bool>::sse_decode(deserializer);
         let mut var_size = <u64>::sse_decode(deserializer);
         let mut var_compressedSize = <u64>::sse_decode(deserializer);
+        let mut var_dateModified = <i64>::sse_decode(deserializer);
         return crate::api::unp4k_api::P4kFileItem {
             name: var_name,
             is_directory: var_isDirectory,
             size: var_size,
             compressed_size: var_compressedSize,
+            date_modified: var_dateModified,
         };
     }
 }
@@ -1223,6 +1234,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::P4kFileItem {
             self.is_directory.into_into_dart().into_dart(),
             self.size.into_into_dart().into_dart(),
             self.compressed_size.into_into_dart().into_dart(),
+            self.date_modified.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -1400,6 +1412,13 @@ impl SseEncode for i32 {
     }
 }
 
+impl SseEncode for i64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i64::<NativeEndian>(self).unwrap();
+    }
+}
+
 impl SseEncode for Vec<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1550,6 +1569,7 @@ impl SseEncode for crate::api::unp4k_api::P4kFileItem {
         <bool>::sse_encode(self.is_directory, serializer);
         <u64>::sse_encode(self.size, serializer);
         <u64>::sse_encode(self.compressed_size, serializer);
+        <i64>::sse_encode(self.date_modified, serializer);
     }
 }
 
@@ -1809,6 +1829,7 @@ mod io {
                 is_directory: self.is_directory.cst_decode(),
                 size: self.size.cst_decode(),
                 compressed_size: self.compressed_size.cst_decode(),
+                date_modified: self.date_modified.cst_decode(),
             }
         }
     }
@@ -1869,6 +1890,7 @@ mod io {
                 is_directory: Default::default(),
                 size: Default::default(),
                 compressed_size: Default::default(),
+                date_modified: Default::default(),
             }
         }
     }
@@ -2075,11 +2097,10 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_files_in_directory(
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_file_count(
         port_: i64,
-        directory: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__unp4k_api__p4k_get_files_in_directory_impl(port_, directory)
+        wire__crate__api__unp4k_api__p4k_get_file_count_impl(port_)
     }
 
     #[unsafe(no_mangle)]
@@ -2317,6 +2338,7 @@ mod io {
         is_directory: bool,
         size: u64,
         compressed_size: u64,
+        date_modified: i64,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

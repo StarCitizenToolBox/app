@@ -229,9 +229,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       return iniData;
     } catch (e) {
       final errorMessage = e.toString();
-      if (Unp4kCModel.checkRunTimeError(errorMessage)) {
-        AnalyticsApi.touch("advanced_localization_no_runtime");
-      }
+      // Rust 实现不再需要 .NET runtime 检查
       state = state.copyWith(errorMessage: errorMessage);
       // rethrow;
     }

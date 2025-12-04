@@ -16,6 +16,36 @@ pub struct P4kFileItem {
     pub size: u64,
     /// 压缩后大小（字节）
     pub compressed_size: u64,
+    /// 文件修改时间（毫秒时间戳）
+    pub date_modified: i64,
+}
+
+/// 将 DOS 日期时间转换为毫秒时间戳
+fn dos_datetime_to_millis(date: u16, time: u16) -> i64 {
+    let year = ((date >> 9) & 0x7F) as i32 + 1980;
+    let month = ((date >> 5) & 0x0F) as u32;
+    let day = (date & 0x1F) as u32;
+    let hour = ((time >> 11) & 0x1F) as u32;
+    let minute = ((time >> 5) & 0x3F) as u32;
+    let second = ((time & 0x1F) * 2) as u32;
+
+    let days_since_epoch = {
+        let mut days = 0i64;
+        for y in 1970..year {
+            days += if (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0) { 366 } else { 365 };
+        }
+        let days_in_months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        if month >= 1 && month <= 12 {
+            days += days_in_months[(month - 1) as usize] as i64;
+            if month > 2 && ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+                days += 1;
+            }
+        }
+        days += (day as i64) - 1;
+        days
+    };
+
+    (days_since_epoch * 86400 + (hour as i64) * 3600 + (minute as i64) * 60 + (second as i64)) * 1000
 }
 
 // 全局 P4K 读取器实例（用于保持状态）
@@ -25,118 +55,84 @@ static GLOBAL_P4K_READER: once_cell::sync::Lazy<Arc<Mutex<Option<P4kFile>>>> =
 static GLOBAL_P4K_FILES: once_cell::sync::Lazy<Arc<Mutex<HashMap<String, P4kEntry>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(HashMap::new())));
 
-/// 打开 P4K 文件
-pub async fn p4k_open(p4k_path: String) -> Result<usize> {
+/// 打开 P4K 文件（仅打开，不读取文件列表）
+pub async fn p4k_open(p4k_path: String) -> Result<()> {
     let path = PathBuf::from(&p4k_path);
     if !path.exists() {
         return Err(anyhow!("P4K file not found: {}", p4k_path));
     }
 
     // 在后台线程执行阻塞操作
-    let (reader, file_count, files_map) = tokio::task::spawn_blocking(move || {
+    let reader = tokio::task::spawn_blocking(move || {
         let reader = P4kFile::open(&path)?;
-        let entries = reader.entries();
-        let file_count = entries.len();
-
-        let mut files_map = HashMap::new();
-        for entry in entries {
-            // 将路径转换为 Windows 风格，以 \ 开头
-            let name = if entry.name.starts_with("\\") {
-                entry.name.clone()
-            } else {
-                format!("\\{}", entry.name.replace("/", "\\"))
-            };
-            files_map.insert(name, entry.clone());
-        }
-
-        Ok::<_, anyhow::Error>((reader, file_count, files_map))
+        Ok::<_, anyhow::Error>(reader)
     })
     .await??;
 
     *GLOBAL_P4K_READER.lock().unwrap() = Some(reader);
-    *GLOBAL_P4K_FILES.lock().unwrap() = files_map;
+    // 清空之前的文件列表缓存
+    GLOBAL_P4K_FILES.lock().unwrap().clear();
 
-    Ok(file_count)
+    Ok(())
+}
+
+/// 确保文件列表已加载（内部使用）
+fn ensure_files_loaded() -> Result<usize> {
+    let mut files = GLOBAL_P4K_FILES.lock().unwrap();
+    if !files.is_empty() {
+        return Ok(files.len());
+    }
+
+    let reader = GLOBAL_P4K_READER.lock().unwrap();
+    if reader.is_none() {
+        return Err(anyhow!("P4K reader not initialized"));
+    }
+
+    let entries = reader.as_ref().unwrap().entries();
+    for entry in entries {
+        let name = if entry.name.starts_with("\\") {
+            entry.name.clone()
+        } else {
+            format!("\\{}", entry.name.replace("/", "\\"))
+        };
+        files.insert(name, entry.clone());
+    }
+
+    Ok(files.len())
+}
+
+/// 获取文件数量（会触发文件列表加载）
+pub async fn p4k_get_file_count() -> Result<usize> {
+    tokio::task::spawn_blocking(|| ensure_files_loaded()).await?
 }
 
 /// 获取所有文件列表
 pub async fn p4k_get_all_files() -> Result<Vec<P4kFileItem>> {
-    let files = GLOBAL_P4K_FILES.lock().unwrap();
-    let mut result = Vec::with_capacity(files.len());
+    tokio::task::spawn_blocking(|| {
+        ensure_files_loaded()?;
+        let files = GLOBAL_P4K_FILES.lock().unwrap();
+        let mut result = Vec::with_capacity(files.len());
 
-    for (name, entry) in files.iter() {
-        result.push(P4kFileItem {
-            name: name.clone(),
-            is_directory: false,
-            size: entry.uncompressed_size,
-            compressed_size: entry.compressed_size,
-        });
-    }
-
-    Ok(result)
-}
-
-/// 获取指定目录下的文件列表
-pub async fn p4k_get_files_in_directory(directory: String) -> Result<Vec<P4kFileItem>> {
-    let files = GLOBAL_P4K_FILES.lock().unwrap();
-    let mut result = Vec::new();
-    let mut dirs = std::collections::HashSet::new();
-
-    // 确保目录路径以 \ 开头和结尾
-    let dir_path = if !directory.starts_with("\\") {
-        format!("\\{}", directory)
-    } else {
-        directory.clone()
-    };
-    let dir_path = if !dir_path.ends_with("\\") {
-        format!("{}\\", dir_path)
-    } else {
-        dir_path
-    };
-
-    for (name, entry) in files.iter() {
-        if name.starts_with(&dir_path) {
-            let relative = &name[dir_path.len()..];
-            if let Some(slash_pos) = relative.find("\\") {
-                // 这是一个子目录
-                let subdir = &relative[..slash_pos];
-                if !dirs.contains(subdir) {
-                    dirs.insert(subdir.to_string());
-                    result.push(P4kFileItem {
-                        name: format!("{}{}\\", dir_path, subdir),
-                        is_directory: true,
-                        size: 0,
-                        compressed_size: 0,
-                    });
-                }
-            } else {
-                // 这是一个文件
-                result.push(P4kFileItem {
-                    name: name.clone(),
-                    is_directory: false,
-                    size: entry.uncompressed_size,
-                    compressed_size: entry.compressed_size,
-                });
-            }
+        for (name, entry) in files.iter() {
+            result.push(P4kFileItem {
+                name: name.clone(),
+                is_directory: false,
+                size: entry.uncompressed_size,
+                compressed_size: entry.compressed_size,
+                date_modified: dos_datetime_to_millis(entry.mod_date, entry.mod_time),
+            });
         }
-    }
 
-    // 按目录优先，然后按名称排序
-    result.sort_by(|a, b| {
-        if a.is_directory && !b.is_directory {
-            std::cmp::Ordering::Less
-        } else if !a.is_directory && b.is_directory {
-            std::cmp::Ordering::Greater
-        } else {
-            a.name.cmp(&b.name)
-        }
-    });
-
-    Ok(result)
+        Ok(result)
+    })
+    .await?
 }
 
 /// 提取文件到内存
 pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
+    // 确保文件列表已加载
+    tokio::task::spawn_blocking(|| ensure_files_loaded()).await??;
+
     // 规范化路径
     let normalized_path = if file_path.starts_with("\\") {
         file_path.clone()

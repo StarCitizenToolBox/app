@@ -51,12 +51,12 @@ class Unp4kCModel extends _$Unp4kCModel {
 
       final loadStartTime = DateTime.now();
 
-      // 使用 Rust API 打开 P4K 文件（异步）
+      // 使用 Rust API 打开 P4K 文件（仅打开，不读取文件列表）
       await unp4k_api.p4KOpen(p4KPath: gameP4kPath);
 
       state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading2);
 
-      // 获取所有文件列表（异步）
+      // 获取所有文件列表（会触发文件列表加载）
       final p4kFiles = await unp4k_api.p4KGetAllFiles();
 
       final files = <String, AppUnp4kP4kItemData>{};
@@ -70,6 +70,7 @@ class Unp4kCModel extends _$Unp4kCModel {
           isDirectory: item.isDirectory,
           size: item.size.toInt(),
           compressedSize: item.compressedSize.toInt(),
+          dateModified: item.dateModified,
         );
 
         files[item.name] = fileData;
@@ -158,7 +159,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       tempOpenFile: const MapEntry("loading", ""),
       endMessage: S.current.tools_unp4k_msg_open_file(filePath),
     );
-    extractFile(filePath, tempPath, mode: "extract_open");
+    await extractFile(filePath, tempPath, mode: "extract_open");
   }
 
   Future<void> extractFile(String filePath, String outputPath, {String mode = "extract"}) async {
@@ -171,6 +172,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       final fullOutputPath = "$outputPath$filePath";
       dPrint("extractFile .... $filePath -> $fullOutputPath");
 
+      // 使用 Rust API 提取到磁盘
       await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: fullOutputPath);
 
       if (mode == "extract_open") {
@@ -196,11 +198,6 @@ class Unp4kCModel extends _$Unp4kCModel {
       dPrint("[unp4k] extractFile error: $e");
       state = state.copyWith(errorMessage: e.toString());
     }
-  }
-
-  static bool checkRunTimeError(String errorMessage) {
-    // Rust 实现不再需要 .NET runtime，这个方法保留以兼容现有代码
-    return false;
   }
 
   /// 从 P4K 文件中提取指定文件到内存

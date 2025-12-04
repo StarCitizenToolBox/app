@@ -55,6 +55,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_i_32(dynamic raw);
 
   @protected
+  PlatformInt64 dco_decode_i_64(dynamic raw);
+
+  @protected
   List<String> dco_decode_list_String(dynamic raw);
 
   @protected
@@ -165,6 +168,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int sse_decode_i_32(SseDeserializer deserializer);
+
+  @protected
+  PlatformInt64 sse_decode_i_64(SseDeserializer deserializer);
 
   @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
@@ -319,6 +325,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  int cst_encode_i_64(PlatformInt64 raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw.toInt();
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_String> cst_encode_list_String(List<String> raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ans = wire.cst_new_list_String(raw.length);
@@ -446,6 +458,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.is_directory = cst_encode_bool(apiObj.isDirectory);
     wireObj.size = cst_encode_u_64(apiObj.size);
     wireObj.compressed_size = cst_encode_u_64(apiObj.compressedSize);
+    wireObj.date_modified = cst_encode_i_64(apiObj.dateModified);
   }
 
   @protected
@@ -570,6 +583,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
@@ -1064,32 +1080,17 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__unp4k_api__p4k_get_all_filesPtr
           .asFunction<void Function(int)>();
 
-  void wire__crate__api__unp4k_api__p4k_get_files_in_directory(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> directory,
-  ) {
-    return _wire__crate__api__unp4k_api__p4k_get_files_in_directory(
-      port_,
-      directory,
-    );
+  void wire__crate__api__unp4k_api__p4k_get_file_count(int port_) {
+    return _wire__crate__api__unp4k_api__p4k_get_file_count(port_);
   }
 
-  late final _wire__crate__api__unp4k_api__p4k_get_files_in_directoryPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Int64,
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_files_in_directory',
+  late final _wire__crate__api__unp4k_api__p4k_get_file_countPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_file_count',
       );
-  late final _wire__crate__api__unp4k_api__p4k_get_files_in_directory =
-      _wire__crate__api__unp4k_api__p4k_get_files_in_directoryPtr
-          .asFunction<
-            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
-          >();
+  late final _wire__crate__api__unp4k_api__p4k_get_file_count =
+      _wire__crate__api__unp4k_api__p4k_get_file_countPtr
+          .asFunction<void Function(int)>();
 
   void wire__crate__api__unp4k_api__p4k_open(
     int port_,
@@ -1592,6 +1593,9 @@ final class wire_cst_p_4_k_file_item extends ffi.Struct {
 
   @ffi.Uint64()
   external int compressed_size;
+
+  @ffi.Int64()
+  external int date_modified;
 }
 
 final class wire_cst_list_p_4_k_file_item extends ffi.Struct {

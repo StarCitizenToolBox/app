@@ -11,7 +11,6 @@ import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class UnP4kcUI extends HookConsumerWidget {
   const UnP4kcUI({super.key});
@@ -28,14 +27,21 @@ class UnP4kcUI extends HookConsumerWidget {
       return null;
     }, const []);
 
-    return makeDefaultPage(context,
-        title: S.current.tools_unp4k_title(model.getGamePath()),
-        useBodyContainer: false,
-        content: makeBody(context, state, model, files, paths));
+    return makeDefaultPage(
+      context,
+      title: S.current.tools_unp4k_title(model.getGamePath()),
+      useBodyContainer: false,
+      content: makeBody(context, state, model, files, paths),
+    );
   }
 
-  Widget makeBody(BuildContext context, Unp4kcState state, Unp4kCModel model,
-      List<AppUnp4kP4kItemData>? files, List<String> paths) {
+  Widget makeBody(
+    BuildContext context,
+    Unp4kcState state,
+    Unp4kCModel model,
+    List<AppUnp4kP4kItemData>? files,
+    List<String> paths,
+  ) {
     if (state.errorMessage.isNotEmpty) {
       return UnP4kErrorWidget(errorMessage: state.errorMessage);
     }
@@ -47,10 +53,7 @@ class UnP4kcUI extends HookConsumerWidget {
               if (state.endMessage != null)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "${state.endMessage}",
-                    style: const TextStyle(fontSize: 12),
-                  ),
+                  child: Text("${state.endMessage}", style: const TextStyle(fontSize: 12)),
                 ),
             ],
           )
@@ -58,10 +61,7 @@ class UnP4kcUI extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                decoration: BoxDecoration(
-                    color: FluentTheme.of(context)
-                        .cardColor
-                        .withValues(alpha: .06)),
+                decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .06)),
                 height: 36,
                 padding: const EdgeInsets.only(left: 12, right: 12),
                 child: SuperListView.builder(
@@ -72,8 +72,7 @@ class UnP4kcUI extends HookConsumerWidget {
                     if (path.isEmpty) {
                       path = "\\";
                     }
-                    final fullPath =
-                        "${paths.sublist(0, index + 1).join("\\")}\\";
+                    final fullPath = "${paths.sublist(0, index + 1).join("\\")}\\";
                     return Row(
                       children: [
                         IconButton(
@@ -82,181 +81,153 @@ class UnP4kcUI extends HookConsumerWidget {
                             model.changeDir(fullPath, fullPath: true);
                           },
                         ),
-                        const Icon(
-                          FluentIcons.chevron_right,
-                          size: 12,
-                        ),
+                        const Icon(FluentIcons.chevron_right, size: 12),
                       ],
                     );
                   },
                 ),
               ),
               Expanded(
-                  child: Row(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * .3,
-                    decoration: BoxDecoration(
-                      color: FluentTheme.of(context)
-                          .cardColor
-                          .withValues(alpha: .01),
-                    ),
-                    child: SuperListView.builder(
-                      padding: const EdgeInsets.only(
-                          top: 6, bottom: 6, left: 3, right: 12),
-                      itemBuilder: (BuildContext context, int index) {
-                        final item = files![index];
-                        final fileName =
-                            item.name?.replaceAll(state.curPath.trim(), "") ??
-                                "?";
-                        return Container(
-                          margin: const EdgeInsets.only(top: 4, bottom: 4),
-                          decoration: BoxDecoration(
-                            color: FluentTheme.of(context)
-                                .cardColor
-                                .withValues(alpha: .05),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              if (item.isDirectory ?? false) {
-                                model.changeDir(fileName);
-                              } else {
-                                model.openFile(item.name ?? "");
-                              }
-                            },
-                            icon: Padding(
-                              padding: const EdgeInsets.only(left: 4, right: 4),
-                              child: Row(
-                                children: [
-                                  if (item.isDirectory ?? false)
-                                    const Icon(
-                                      FluentIcons.folder_fill,
-                                      color: Color.fromRGBO(255, 224, 138, 1),
-                                    )
-                                  else if (fileName.endsWith(".xml"))
-                                    const Icon(
-                                      FluentIcons.file_code,
-                                    )
-                                  else
-                                    const Icon(
-                                      FluentIcons.open_file,
-                                    ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                fileName,
-                                                style: const TextStyle(
-                                                    fontSize: 13),
-                                                textAlign: TextAlign.start,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        if (!(item.isDirectory ?? true)) ...[
-                                          const SizedBox(height: 1),
+                child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * .3,
+                      decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .01)),
+                      child: SuperListView.builder(
+                        padding: const EdgeInsets.only(top: 6, bottom: 6, left: 3, right: 12),
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = files![index];
+                          final fileName = item.name?.replaceAll(state.curPath.trim(), "") ?? "?";
+                          return Container(
+                            margin: const EdgeInsets.only(top: 4, bottom: 4),
+                            decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .05)),
+                            child: IconButton(
+                              onPressed: () {
+                                if (item.isDirectory ?? false) {
+                                  model.changeDir(fileName);
+                                } else {
+                                  model.openFile(item.name ?? "");
+                                }
+                              },
+                              icon: Padding(
+                                padding: const EdgeInsets.only(left: 4, right: 4),
+                                child: Row(
+                                  children: [
+                                    if (item.isDirectory ?? false)
+                                      const Icon(FluentIcons.folder_fill, color: Color.fromRGBO(255, 224, 138, 1))
+                                    else if (fileName.endsWith(".xml"))
+                                      const Icon(FluentIcons.file_code)
+                                    else
+                                      const Icon(FluentIcons.open_file),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
                                           Row(
                                             children: [
-                                              Text(
-                                                FileSize.getSize(item.size),
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.white
-                                                        .withValues(alpha: .6)),
-                                              ),
-                                              const SizedBox(width: 12),
-                                              Text(
-                                                "${item.dateTime}",
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.white
-                                                        .withValues(alpha: .6)),
+                                              Expanded(
+                                                child: Text(
+                                                  fileName,
+                                                  style: const TextStyle(fontSize: 13),
+                                                  textAlign: TextAlign.start,
+                                                ),
                                               ),
                                             ],
                                           ),
+                                          if (!(item.isDirectory ?? true)) ...[
+                                            const SizedBox(height: 1),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  FileSize.getSize(item.size),
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white.withValues(alpha: .6),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Text(
+                                                  item.dateModified != null
+                                                      ? DateTime.fromMillisecondsSinceEpoch(
+                                                          item.dateModified!,
+                                                        ).toString().substring(0, 19)
+                                                      : "",
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.white.withValues(alpha: .6),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ],
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 3),
-                                  Icon(
-                                    FluentIcons.chevron_right,
-                                    size: 14,
-                                    color: Colors.white.withValues(alpha: .6),
-                                  )
-                                ],
+                                    const SizedBox(width: 3),
+                                    Icon(
+                                      FluentIcons.chevron_right,
+                                      size: 14,
+                                      color: Colors.white.withValues(alpha: .6),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                      itemCount: files?.length ?? 0,
+                          );
+                        },
+                        itemCount: files?.length ?? 0,
+                      ),
                     ),
-                  ),
-                  Expanded(
+                    Expanded(
                       child: Container(
-                    child: state.tempOpenFile == null
-                        ? Center(
-                            child: Text(S.current.tools_unp4k_view_file),
-                          )
-                        : state.tempOpenFile?.key == "loading"
+                        child: state.tempOpenFile == null
+                            ? Center(child: Text(S.current.tools_unp4k_view_file))
+                            : state.tempOpenFile?.key == "loading"
                             ? makeLoading(context)
                             : Padding(
                                 padding: const EdgeInsets.all(12),
                                 child: Column(
                                   children: [
                                     if (state.tempOpenFile?.key == "text")
-                                      Expanded(
-                                          child: _TextTempWidget(
-                                              state.tempOpenFile?.value ?? ""))
+                                      Expanded(child: _TextTempWidget(state.tempOpenFile?.value ?? ""))
                                     else
                                       Expanded(
                                         child: Center(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text(S.current
-                                                  .tools_unp4k_msg_unknown_file_type(
-                                                      state.tempOpenFile
-                                                              ?.value ??
-                                                          "")),
+                                              Text(
+                                                S.current.tools_unp4k_msg_unknown_file_type(
+                                                  state.tempOpenFile?.value ?? "",
+                                                ),
+                                              ),
                                               const SizedBox(height: 32),
                                               FilledButton(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(4),
-                                                    child: Text(S.current
-                                                        .action_open_folder),
-                                                  ),
-                                                  onPressed: () {
-                                                    SystemHelper.openDir(state
-                                                            .tempOpenFile
-                                                            ?.value ??
-                                                        "");
-                                                  })
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(4),
+                                                  child: Text(S.current.action_open_folder),
+                                                ),
+                                                onPressed: () {
+                                                  SystemHelper.openDir(state.tempOpenFile?.value ?? "");
+                                                },
+                                              ),
                                             ],
                                           ),
                                         ),
-                                      )
+                                      ),
                                   ],
                                 ),
                               ),
-                  ))
-                ],
-              )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               if (state.endMessage != null)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "${state.endMessage}",
-                    style: const TextStyle(fontSize: 12),
-                  ),
+                  child: Text("${state.endMessage}", style: const TextStyle(fontSize: 12)),
                 ),
             ],
           );
@@ -273,20 +244,20 @@ class _TextTempWidget extends HookConsumerWidget {
     final textData = useState<String?>(null);
 
     useEffect(() {
-      File(filePath).readAsString().then((value) {
-        textData.value = value;
-      }).catchError((err) {
-        textData.value = "Error: $err";
-      });
+      File(filePath)
+          .readAsString()
+          .then((value) {
+            textData.value = value;
+          })
+          .catchError((err) {
+            textData.value = "Error: $err";
+          });
       return null;
     }, const []);
 
     if (textData.value == null) return makeLoading(context);
 
-    return CodeEditor(
-      controller: CodeLineEditingController.fromText('${textData.value}'),
-      readOnly: true,
-    );
+    return CodeEditor(controller: CodeLineEditingController.fromText('${textData.value}'), readOnly: true);
   }
 }
 
@@ -295,39 +266,12 @@ class UnP4kErrorWidget extends StatelessWidget {
 
   const UnP4kErrorWidget({super.key, required this.errorMessage});
 
-  static const _downloadUrl =
-      "https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win-x64&os=win10&apphost_version=8.0.0";
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (Unp4kCModel.checkRunTimeError(errorMessage)) ...[
-              Text(
-                S.current.tools_unp4k_missing_runtime,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 6),
-              Text(S.current.tools_unp4k_missing_runtime_info),
-              const SizedBox(height: 16),
-              FilledButton(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-                    child: Text(
-                        S.current.tools_unp4k_missing_runtime_action_install),
-                  ),
-                  onPressed: () {
-                    launchUrlString(_downloadUrl);
-                  }),
-            ] else
-              Text(errorMessage),
-          ],
-        ),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [Text(errorMessage)]),
       ),
     );
   }
