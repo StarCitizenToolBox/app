@@ -66,7 +66,7 @@ final class PartyRoomGameLogTrackerProviderProvider
 }
 
 String _$partyRoomGameLogTrackerProviderHash() =>
-    r'3e1560b2fffc5461a41bece57b43e27f4112ad0c';
+    r'7c9413736b0a3357075ab5309f0e746f0d6e3fc3';
 
 final class PartyRoomGameLogTrackerProviderFamily extends $Family
     with

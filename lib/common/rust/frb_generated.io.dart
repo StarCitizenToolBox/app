@@ -7,6 +7,7 @@ import 'api/asar_api.dart';
 import 'api/http_api.dart';
 import 'api/ort_api.dart';
 import 'api/rs_process.dart';
+import 'api/unp4k_api.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -57,6 +58,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<String> dco_decode_list_String(dynamic raw);
 
   @protected
+  List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw);
+
+  @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
 
   @protected
@@ -90,6 +94,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  P4kFileItem dco_decode_p_4_k_file_item(dynamic raw);
+
+  @protected
   ProcessInfo dco_decode_process_info(dynamic raw);
 
   @protected
@@ -121,6 +128,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void dco_decode_unit(dynamic raw);
+
+  @protected
+  BigInt dco_decode_usize(dynamic raw);
 
   @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
@@ -160,6 +170,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<String> sse_decode_list_String(SseDeserializer deserializer);
 
   @protected
+  List<P4kFileItem> sse_decode_list_p_4_k_file_item(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
 
   @protected
@@ -195,6 +210,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  P4kFileItem sse_decode_p_4_k_file_item(SseDeserializer deserializer);
 
   @protected
   ProcessInfo sse_decode_process_info(SseDeserializer deserializer);
@@ -236,6 +254,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_decode_unit(SseDeserializer deserializer);
+
+  @protected
+  BigInt sse_decode_usize(SseDeserializer deserializer);
 
   @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_AnyhowException(
@@ -303,6 +324,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     final ans = wire.cst_new_list_String(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       ans.ref.ptr[i] = cst_encode_String(raw[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_p_4_k_file_item> cst_encode_list_p_4_k_file_item(
+    List<P4kFileItem> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_p_4_k_file_item(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_p_4_k_file_item(raw[i], ans.ref.ptr[i]);
     }
     return ans;
   }
@@ -391,11 +424,28 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  int cst_encode_usize(BigInt raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw.toSigned(64).toInt();
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_rsi_launcher_asar_data(
     RsiLauncherAsarData apiObj,
     ffi.Pointer<wire_cst_rsi_launcher_asar_data> wireObj,
   ) {
     cst_api_fill_to_wire_rsi_launcher_asar_data(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_p_4_k_file_item(
+    P4kFileItem apiObj,
+    wire_cst_p_4_k_file_item wireObj,
+  ) {
+    wireObj.name = cst_encode_String(apiObj.name);
+    wireObj.is_directory = cst_encode_bool(apiObj.isDirectory);
+    wireObj.size = cst_encode_u_64(apiObj.size);
+    wireObj.compressed_size = cst_encode_u_64(apiObj.compressedSize);
   }
 
   @protected
@@ -525,6 +575,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_p_4_k_file_item(
+    List<P4kFileItem> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
 
   @protected
@@ -573,6 +629,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_p_4_k_file_item(P4kFileItem self, SseSerializer serializer);
+
+  @protected
   void sse_encode_process_info(ProcessInfo self, SseSerializer serializer);
 
   @protected
@@ -619,6 +678,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_usize(BigInt self, SseSerializer serializer);
 }
 
 // Section: wire_class
@@ -915,6 +977,140 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               bool,
             )
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_close(int port_) {
+    return _wire__crate__api__unp4k_api__p4k_close(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_closePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_close',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_close =
+      _wire__crate__api__unp4k_api__p4k_closePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__p4k_extract_to_disk(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_extract_to_disk(
+      port_,
+      file_path,
+      output_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_extract_to_diskPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_extract_to_disk',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_extract_to_disk =
+      _wire__crate__api__unp4k_api__p4k_extract_to_diskPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_extract_to_memory(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_extract_to_memory(
+      port_,
+      file_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_extract_to_memoryPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_extract_to_memory',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_extract_to_memory =
+      _wire__crate__api__unp4k_api__p4k_extract_to_memoryPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_get_all_files(int port_) {
+    return _wire__crate__api__unp4k_api__p4k_get_all_files(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_get_all_filesPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_all_files',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_get_all_files =
+      _wire__crate__api__unp4k_api__p4k_get_all_filesPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__p4k_get_files_in_directory(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> directory,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_get_files_in_directory(
+      port_,
+      directory,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_get_files_in_directoryPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_files_in_directory',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_get_files_in_directory =
+      _wire__crate__api__unp4k_api__p4k_get_files_in_directoryPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_open(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> p4k_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_open(port_, p4k_path);
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_openPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >('frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_open');
+  late final _wire__crate__api__unp4k_api__p4k_open =
+      _wire__crate__api__unp4k_api__p4k_openPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
   void wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js(
@@ -1247,6 +1443,21 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_String = _cst_new_list_StringPtr
       .asFunction<ffi.Pointer<wire_cst_list_String> Function(int)>();
 
+  ffi.Pointer<wire_cst_list_p_4_k_file_item> cst_new_list_p_4_k_file_item(
+    int len,
+  ) {
+    return _cst_new_list_p_4_k_file_item(len);
+  }
+
+  late final _cst_new_list_p_4_k_file_itemPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_p_4_k_file_item> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_p_4_k_file_item');
+  late final _cst_new_list_p_4_k_file_item = _cst_new_list_p_4_k_file_itemPtr
+      .asFunction<ffi.Pointer<wire_cst_list_p_4_k_file_item> Function(int)>();
+
   ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_new_list_prim_u_8_loose(
     int len,
   ) {
@@ -1365,6 +1576,26 @@ final class wire_cst_rsi_launcher_asar_data extends ffi.Struct {
 
 final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
   external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_p_4_k_file_item extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> name;
+
+  @ffi.Bool()
+  external bool is_directory;
+
+  @ffi.Uint64()
+  external int size;
+
+  @ffi.Uint64()
+  external int compressed_size;
+}
+
+final class wire_cst_list_p_4_k_file_item extends ffi.Struct {
+  external ffi.Pointer<wire_cst_p_4_k_file_item> ptr;
 
   @ffi.Int32()
   external int len;

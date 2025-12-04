@@ -7,6 +7,7 @@ import 'api/asar_api.dart';
 import 'api/http_api.dart';
 import 'api/ort_api.dart';
 import 'api/rs_process.dart';
+import 'api/unp4k_api.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -69,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -518970253;
+  int get rustContentHash => -737964996;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -118,6 +119,25 @@ abstract class RustLibApi extends BaseApi {
     required String quantizationSuffix,
     required bool useXnnpack,
   });
+
+  Future<void> crateApiUnp4KApiP4KClose();
+
+  Future<void> crateApiUnp4KApiP4KExtractToDisk({
+    required String filePath,
+    required String outputPath,
+  });
+
+  Future<Uint8List> crateApiUnp4KApiP4KExtractToMemory({
+    required String filePath,
+  });
+
+  Future<List<P4kFileItem>> crateApiUnp4KApiP4KGetAllFiles();
+
+  Future<List<P4kFileItem>> crateApiUnp4KApiP4KGetFilesInDirectory({
+    required String directory,
+  });
+
+  Future<BigInt> crateApiUnp4KApiP4KOpen({required String p4KPath});
 
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
     required RsiLauncherAsarData that,
@@ -455,6 +475,163 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         debugName: "load_translation_model",
         argNames: ["modelPath", "modelKey", "quantizationSuffix", "useXnnpack"],
       );
+
+  @override
+  Future<void> crateApiUnp4KApiP4KClose() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_api__p4k_close(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KCloseConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KCloseConstMeta =>
+      const TaskConstMeta(debugName: "p4k_close", argNames: []);
+
+  @override
+  Future<void> crateApiUnp4KApiP4KExtractToDisk({
+    required String filePath,
+    required String outputPath,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(filePath);
+          var arg1 = cst_encode_String(outputPath);
+          return wire.wire__crate__api__unp4k_api__p4k_extract_to_disk(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KExtractToDiskConstMeta,
+        argValues: [filePath, outputPath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KExtractToDiskConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_extract_to_disk",
+        argNames: ["filePath", "outputPath"],
+      );
+
+  @override
+  Future<Uint8List> crateApiUnp4KApiP4KExtractToMemory({
+    required String filePath,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(filePath);
+          return wire.wire__crate__api__unp4k_api__p4k_extract_to_memory(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_prim_u_8_strict,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KExtractToMemoryConstMeta,
+        argValues: [filePath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KExtractToMemoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_extract_to_memory",
+        argNames: ["filePath"],
+      );
+
+  @override
+  Future<List<P4kFileItem>> crateApiUnp4KApiP4KGetAllFiles() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_api__p4k_get_all_files(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_p_4_k_file_item,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KGetAllFilesConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KGetAllFilesConstMeta =>
+      const TaskConstMeta(debugName: "p4k_get_all_files", argNames: []);
+
+  @override
+  Future<List<P4kFileItem>> crateApiUnp4KApiP4KGetFilesInDirectory({
+    required String directory,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(directory);
+          return wire.wire__crate__api__unp4k_api__p4k_get_files_in_directory(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_p_4_k_file_item,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KGetFilesInDirectoryConstMeta,
+        argValues: [directory],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KGetFilesInDirectoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_get_files_in_directory",
+        argNames: ["directory"],
+      );
+
+  @override
+  Future<BigInt> crateApiUnp4KApiP4KOpen({required String p4KPath}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(p4KPath);
+          return wire.wire__crate__api__unp4k_api__p4k_open(port_, arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_usize,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KOpenConstMeta,
+        argValues: [p4KPath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KOpenConstMeta =>
+      const TaskConstMeta(debugName: "p4k_open", argNames: ["p4KPath"]);
 
   @override
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
@@ -821,6 +998,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_p_4_k_file_item).toList();
+  }
+
+  @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as List<int>;
@@ -884,6 +1067,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_list_prim_u_8_strict(raw);
+  }
+
+  @protected
+  P4kFileItem dco_decode_p_4_k_file_item(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return P4kFileItem(
+      name: dco_decode_String(arr[0]),
+      isDirectory: dco_decode_bool(arr[1]),
+      size: dco_decode_u_64(arr[2]),
+      compressedSize: dco_decode_u_64(arr[3]),
+    );
   }
 
   @protected
@@ -989,6 +1186,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  BigInt dco_decode_usize(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeU64(raw);
+  }
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_String(deserializer);
@@ -1060,6 +1263,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var ans_ = <String>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<P4kFileItem> sse_decode_list_p_4_k_file_item(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <P4kFileItem>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_p_4_k_file_item(deserializer));
     }
     return ans_;
   }
@@ -1176,6 +1393,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kFileItem sse_decode_p_4_k_file_item(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_name = sse_decode_String(deserializer);
+    var var_isDirectory = sse_decode_bool(deserializer);
+    var var_size = sse_decode_u_64(deserializer);
+    var var_compressedSize = sse_decode_u_64(deserializer);
+    return P4kFileItem(
+      name: var_name,
+      isDirectory: var_isDirectory,
+      size: var_size,
+      compressedSize: var_compressedSize,
+    );
+  }
+
+  @protected
   ProcessInfo sse_decode_process_info(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_pid = sse_decode_u_32(deserializer);
@@ -1281,6 +1513,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_decode_unit(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+  }
+
+  @protected
+  BigInt sse_decode_usize(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getBigUint64();
   }
 
   @protected
@@ -1424,6 +1662,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_p_4_k_file_item(
+    List<P4kFileItem> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_p_4_k_file_item(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_list_prim_u_8_loose(
     List<int> self,
     SseSerializer serializer,
@@ -1541,6 +1791,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_p_4_k_file_item(P4kFileItem self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.name, serializer);
+    sse_encode_bool(self.isDirectory, serializer);
+    sse_encode_u_64(self.size, serializer);
+    sse_encode_u_64(self.compressedSize, serializer);
+  }
+
+  @protected
   void sse_encode_process_info(ProcessInfo self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_32(self.pid, serializer);
@@ -1631,5 +1890,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_unit(void self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+  }
+
+  @protected
+  void sse_encode_usize(BigInt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putBigUint64(self);
   }
 }

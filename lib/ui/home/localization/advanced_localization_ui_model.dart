@@ -13,7 +13,6 @@ import 'package:re_highlight/styles/vs2015.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
-import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
@@ -218,11 +217,10 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
 
   Future<String> readEnglishInI(String gameDir) async {
     try {
-      var data = await Unp4kCModel.unp4kTools(appGlobalState.applicationBinaryModuleDir!, [
-        "extract_memory",
+      var data = await Unp4kCModel.extractP4kFileToMemory(
         "$gameDir\\Data.p4k",
         "Data\\Localization\\english\\global.ini",
-      ]);
+      );
       // remove bom
       if (data.length > 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
         data = data.sublist(3);
