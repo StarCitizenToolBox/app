@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_sizes/file_sizes.dart';
@@ -244,14 +245,14 @@ class _TextTempWidget extends HookConsumerWidget {
     final textData = useState<String?>(null);
 
     useEffect(() {
-      File(filePath)
-          .readAsString()
-          .then((value) {
-            textData.value = value;
-          })
-          .catchError((err) {
-            textData.value = "Error: $err";
-          });
+      File(filePath).readAsBytes().then((data) {
+        // 处理可能的 BOM
+        if (data.length > 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
+          data = data.sublist(3);
+        }
+        final text = utf8.decode(data, allowMalformed: true);
+        textData.value = text;
+      });
       return null;
     }, const []);
 

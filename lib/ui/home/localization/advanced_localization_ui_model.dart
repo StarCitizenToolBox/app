@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
@@ -225,7 +226,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       if (data.length > 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
         data = data.sublist(3);
       }
-      final iniData = String.fromCharCodes(data);
+      final iniData = utf8.decode(data, allowMalformed: true);
       return iniData;
     } catch (e) {
       final errorMessage = e.toString();
