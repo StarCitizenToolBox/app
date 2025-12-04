@@ -51,12 +51,10 @@ class Unp4kCModel extends _$Unp4kCModel {
 
       final loadStartTime = DateTime.now();
 
-      // 使用 Rust API 打开 P4K 文件（仅打开，不读取文件列表）
       await unp4k_api.p4KOpen(p4KPath: gameP4kPath);
 
       state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading2);
 
-      // 获取所有文件列表（会触发文件列表加载）
       final p4kFiles = await unp4k_api.p4KGetAllFiles();
 
       final files = <String, AppUnp4kP4kItemData>{};
@@ -102,7 +100,6 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
 
     ref.onDispose(() async {
-      state = state.copyWith(fs: null);
       try {
         await unp4k_api.p4KClose();
       } catch (e) {
