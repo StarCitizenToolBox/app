@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_multi_window
-  desktop_webview_window
   flutter_acrylic
   screen_retriever_windows
   url_launcher_windows

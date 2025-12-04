@@ -8,6 +8,7 @@ import 'api/http_api.dart';
 import 'api/ort_api.dart';
 import 'api/rs_process.dart';
 import 'api/unp4k_api.dart';
+import 'api/webview_api.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -70,7 +71,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 1801517256;
+  int get rustContentHash => -1082688871;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -174,6 +175,62 @@ abstract class RustLibApi extends BaseApi {
   });
 
   Future<void> crateApiOrtApiUnloadTranslationModel({required String modelKey});
+
+  Future<WebViewConfiguration> crateApiWebviewApiWebViewConfigurationDefault();
+
+  Future<WebViewNavigationState>
+  crateApiWebviewApiWebViewNavigationStateDefault();
+
+  void crateApiWebviewApiWebviewClose({required String id});
+
+  String crateApiWebviewApiWebviewCreate({
+    required WebViewConfiguration config,
+  });
+
+  void crateApiWebviewApiWebviewExecuteScript({
+    required String id,
+    required String script,
+  });
+
+  WebViewNavigationState crateApiWebviewApiWebviewGetState({
+    required String id,
+  });
+
+  void crateApiWebviewApiWebviewGoBack({required String id});
+
+  void crateApiWebviewApiWebviewGoForward({required String id});
+
+  bool crateApiWebviewApiWebviewIsClosed({required String id});
+
+  List<String> crateApiWebviewApiWebviewListAll();
+
+  void crateApiWebviewApiWebviewNavigate({
+    required String id,
+    required String url,
+  });
+
+  List<WebViewEvent> crateApiWebviewApiWebviewPollEvents({required String id});
+
+  void crateApiWebviewApiWebviewReload({required String id});
+
+  void crateApiWebviewApiWebviewSetVisibility({
+    required String id,
+    required bool visible,
+  });
+
+  void crateApiWebviewApiWebviewSetWindowPosition({
+    required String id,
+    required int x,
+    required int y,
+  });
+
+  void crateApiWebviewApiWebviewSetWindowSize({
+    required String id,
+    required int width,
+    required int height,
+  });
+
+  void crateApiWebviewApiWebviewStop({required String id});
 
   Future<void> crateApiRsProcessWrite({
     required int rsPid,
@@ -894,6 +951,451 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<WebViewConfiguration> crateApiWebviewApiWebViewConfigurationDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__webview_api__web_view_configuration_default(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_web_view_configuration,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiWebviewApiWebViewConfigurationDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebViewConfigurationDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "web_view_configuration_default",
+        argNames: [],
+      );
+
+  @override
+  Future<WebViewNavigationState>
+  crateApiWebviewApiWebViewNavigationStateDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__webview_api__web_view_navigation_state_default(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_web_view_navigation_state,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiWebviewApiWebViewNavigationStateDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebViewNavigationStateDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "web_view_navigation_state_default",
+        argNames: [],
+      );
+
+  @override
+  void crateApiWebviewApiWebviewClose({required String id}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          return wire.wire__crate__api__webview_api__webview_close(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewCloseConstMeta,
+        argValues: [id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewCloseConstMeta =>
+      const TaskConstMeta(debugName: "webview_close", argNames: ["id"]);
+
+  @override
+  String crateApiWebviewApiWebviewCreate({
+    required WebViewConfiguration config,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_box_autoadd_web_view_configuration(config);
+          return wire.wire__crate__api__webview_api__webview_create(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewCreateConstMeta,
+        argValues: [config],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewCreateConstMeta =>
+      const TaskConstMeta(debugName: "webview_create", argNames: ["config"]);
+
+  @override
+  void crateApiWebviewApiWebviewExecuteScript({
+    required String id,
+    required String script,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          var arg1 = cst_encode_String(script);
+          return wire.wire__crate__api__webview_api__webview_execute_script(
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewExecuteScriptConstMeta,
+        argValues: [id, script],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewExecuteScriptConstMeta =>
+      const TaskConstMeta(
+        debugName: "webview_execute_script",
+        argNames: ["id", "script"],
+      );
+
+  @override
+  WebViewNavigationState crateApiWebviewApiWebviewGetState({
+    required String id,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          return wire.wire__crate__api__webview_api__webview_get_state(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_web_view_navigation_state,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewGetStateConstMeta,
+        argValues: [id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewGetStateConstMeta =>
+      const TaskConstMeta(debugName: "webview_get_state", argNames: ["id"]);
+
+  @override
+  void crateApiWebviewApiWebviewGoBack({required String id}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          return wire.wire__crate__api__webview_api__webview_go_back(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewGoBackConstMeta,
+        argValues: [id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewGoBackConstMeta =>
+      const TaskConstMeta(debugName: "webview_go_back", argNames: ["id"]);
+
+  @override
+  void crateApiWebviewApiWebviewGoForward({required String id}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          return wire.wire__crate__api__webview_api__webview_go_forward(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewGoForwardConstMeta,
+        argValues: [id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewGoForwardConstMeta =>
+      const TaskConstMeta(debugName: "webview_go_forward", argNames: ["id"]);
+
+  @override
+  bool crateApiWebviewApiWebviewIsClosed({required String id}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          return wire.wire__crate__api__webview_api__webview_is_closed(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewIsClosedConstMeta,
+        argValues: [id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewIsClosedConstMeta =>
+      const TaskConstMeta(debugName: "webview_is_closed", argNames: ["id"]);
+
+  @override
+  List<String> crateApiWebviewApiWebviewListAll() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire.wire__crate__api__webview_api__webview_list_all();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_String,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewListAllConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewListAllConstMeta =>
+      const TaskConstMeta(debugName: "webview_list_all", argNames: []);
+
+  @override
+  void crateApiWebviewApiWebviewNavigate({
+    required String id,
+    required String url,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          var arg1 = cst_encode_String(url);
+          return wire.wire__crate__api__webview_api__webview_navigate(
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewNavigateConstMeta,
+        argValues: [id, url],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewNavigateConstMeta =>
+      const TaskConstMeta(
+        debugName: "webview_navigate",
+        argNames: ["id", "url"],
+      );
+
+  @override
+  List<WebViewEvent> crateApiWebviewApiWebviewPollEvents({required String id}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          return wire.wire__crate__api__webview_api__webview_poll_events(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_web_view_event,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewPollEventsConstMeta,
+        argValues: [id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewPollEventsConstMeta =>
+      const TaskConstMeta(debugName: "webview_poll_events", argNames: ["id"]);
+
+  @override
+  void crateApiWebviewApiWebviewReload({required String id}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          return wire.wire__crate__api__webview_api__webview_reload(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewReloadConstMeta,
+        argValues: [id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewReloadConstMeta =>
+      const TaskConstMeta(debugName: "webview_reload", argNames: ["id"]);
+
+  @override
+  void crateApiWebviewApiWebviewSetVisibility({
+    required String id,
+    required bool visible,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          var arg1 = cst_encode_bool(visible);
+          return wire.wire__crate__api__webview_api__webview_set_visibility(
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewSetVisibilityConstMeta,
+        argValues: [id, visible],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewSetVisibilityConstMeta =>
+      const TaskConstMeta(
+        debugName: "webview_set_visibility",
+        argNames: ["id", "visible"],
+      );
+
+  @override
+  void crateApiWebviewApiWebviewSetWindowPosition({
+    required String id,
+    required int x,
+    required int y,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          var arg1 = cst_encode_i_32(x);
+          var arg2 = cst_encode_i_32(y);
+          return wire
+              .wire__crate__api__webview_api__webview_set_window_position(
+                arg0,
+                arg1,
+                arg2,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewSetWindowPositionConstMeta,
+        argValues: [id, x, y],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewSetWindowPositionConstMeta =>
+      const TaskConstMeta(
+        debugName: "webview_set_window_position",
+        argNames: ["id", "x", "y"],
+      );
+
+  @override
+  void crateApiWebviewApiWebviewSetWindowSize({
+    required String id,
+    required int width,
+    required int height,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          var arg1 = cst_encode_u_32(width);
+          var arg2 = cst_encode_u_32(height);
+          return wire.wire__crate__api__webview_api__webview_set_window_size(
+            arg0,
+            arg1,
+            arg2,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewSetWindowSizeConstMeta,
+        argValues: [id, width, height],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewSetWindowSizeConstMeta =>
+      const TaskConstMeta(
+        debugName: "webview_set_window_size",
+        argNames: ["id", "width", "height"],
+      );
+
+  @override
+  void crateApiWebviewApiWebviewStop({required String id}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(id);
+          return wire.wire__crate__api__webview_api__webview_stop(arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_String,
+        ),
+        constMeta: kCrateApiWebviewApiWebviewStopConstMeta,
+        argValues: [id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWebviewApiWebviewStopConstMeta =>
+      const TaskConstMeta(debugName: "webview_stop", argNames: ["id"]);
+
+  @override
   Future<void> crateApiRsProcessWrite({
     required int rsPid,
     required String data,
@@ -975,6 +1477,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  WebViewConfiguration dco_decode_box_autoadd_web_view_configuration(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_web_view_configuration(raw);
+  }
+
+  @protected
   int dco_decode_i_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -1020,6 +1530,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<(String, String)> dco_decode_list_record_string_string(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_record_string_string).toList();
+  }
+
+  @protected
+  List<WebViewEvent> dco_decode_list_web_view_event(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_web_view_event).toList();
   }
 
   @protected
@@ -1188,6 +1704,59 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  WebViewConfiguration dco_decode_web_view_configuration(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
+    return WebViewConfiguration(
+      title: dco_decode_String(arr[0]),
+      width: dco_decode_u_32(arr[1]),
+      height: dco_decode_u_32(arr[2]),
+      userDataFolder: dco_decode_opt_String(arr[3]),
+      enableDevtools: dco_decode_bool(arr[4]),
+      transparent: dco_decode_bool(arr[5]),
+      userAgent: dco_decode_opt_String(arr[6]),
+    );
+  }
+
+  @protected
+  WebViewEvent dco_decode_web_view_event(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return WebViewEvent_NavigationStarted(url: dco_decode_String(raw[1]));
+      case 1:
+        return WebViewEvent_NavigationCompleted(url: dco_decode_String(raw[1]));
+      case 2:
+        return WebViewEvent_TitleChanged(title: dco_decode_String(raw[1]));
+      case 3:
+        return WebViewEvent_WebMessage(message: dco_decode_String(raw[1]));
+      case 4:
+        return WebViewEvent_WindowClosed();
+      case 5:
+        return WebViewEvent_Error(message: dco_decode_String(raw[1]));
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  WebViewNavigationState dco_decode_web_view_navigation_state(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return WebViewNavigationState(
+      url: dco_decode_String(arr[0]),
+      title: dco_decode_String(arr[1]),
+      canGoBack: dco_decode_bool(arr[2]),
+      canGoForward: dco_decode_bool(arr[3]),
+      isLoading: dco_decode_bool(arr[4]),
+    );
+  }
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_String(deserializer);
@@ -1243,6 +1812,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_u_64(deserializer));
+  }
+
+  @protected
+  WebViewConfiguration sse_decode_box_autoadd_web_view_configuration(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_web_view_configuration(deserializer));
   }
 
   @protected
@@ -1319,6 +1896,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var ans_ = <(String, String)>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_record_string_string(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<WebViewEvent> sse_decode_list_web_view_event(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <WebViewEvent>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_web_view_event(deserializer));
     }
     return ans_;
   }
@@ -1526,6 +2117,76 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  WebViewConfiguration sse_decode_web_view_configuration(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_title = sse_decode_String(deserializer);
+    var var_width = sse_decode_u_32(deserializer);
+    var var_height = sse_decode_u_32(deserializer);
+    var var_userDataFolder = sse_decode_opt_String(deserializer);
+    var var_enableDevtools = sse_decode_bool(deserializer);
+    var var_transparent = sse_decode_bool(deserializer);
+    var var_userAgent = sse_decode_opt_String(deserializer);
+    return WebViewConfiguration(
+      title: var_title,
+      width: var_width,
+      height: var_height,
+      userDataFolder: var_userDataFolder,
+      enableDevtools: var_enableDevtools,
+      transparent: var_transparent,
+      userAgent: var_userAgent,
+    );
+  }
+
+  @protected
+  WebViewEvent sse_decode_web_view_event(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_url = sse_decode_String(deserializer);
+        return WebViewEvent_NavigationStarted(url: var_url);
+      case 1:
+        var var_url = sse_decode_String(deserializer);
+        return WebViewEvent_NavigationCompleted(url: var_url);
+      case 2:
+        var var_title = sse_decode_String(deserializer);
+        return WebViewEvent_TitleChanged(title: var_title);
+      case 3:
+        var var_message = sse_decode_String(deserializer);
+        return WebViewEvent_WebMessage(message: var_message);
+      case 4:
+        return WebViewEvent_WindowClosed();
+      case 5:
+        var var_message = sse_decode_String(deserializer);
+        return WebViewEvent_Error(message: var_message);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  WebViewNavigationState sse_decode_web_view_navigation_state(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_url = sse_decode_String(deserializer);
+    var var_title = sse_decode_String(deserializer);
+    var var_canGoBack = sse_decode_bool(deserializer);
+    var var_canGoForward = sse_decode_bool(deserializer);
+    var var_isLoading = sse_decode_bool(deserializer);
+    return WebViewNavigationState(
+      url: var_url,
+      title: var_title,
+      canGoBack: var_canGoBack,
+      canGoForward: var_canGoForward,
+      isLoading: var_isLoading,
+    );
+  }
+
+  @protected
   bool cst_encode_bool(bool raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw;
@@ -1651,6 +2312,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_web_view_configuration(
+    WebViewConfiguration self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_web_view_configuration(self, serializer);
+  }
+
+  @protected
   void sse_encode_i_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt32(self);
@@ -1726,6 +2396,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_record_string_string(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_web_view_event(
+    List<WebViewEvent> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_web_view_event(item, serializer);
     }
   }
 
@@ -1907,5 +2589,57 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_usize(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putBigUint64(self);
+  }
+
+  @protected
+  void sse_encode_web_view_configuration(
+    WebViewConfiguration self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.title, serializer);
+    sse_encode_u_32(self.width, serializer);
+    sse_encode_u_32(self.height, serializer);
+    sse_encode_opt_String(self.userDataFolder, serializer);
+    sse_encode_bool(self.enableDevtools, serializer);
+    sse_encode_bool(self.transparent, serializer);
+    sse_encode_opt_String(self.userAgent, serializer);
+  }
+
+  @protected
+  void sse_encode_web_view_event(WebViewEvent self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case WebViewEvent_NavigationStarted(url: final url):
+        sse_encode_i_32(0, serializer);
+        sse_encode_String(url, serializer);
+      case WebViewEvent_NavigationCompleted(url: final url):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(url, serializer);
+      case WebViewEvent_TitleChanged(title: final title):
+        sse_encode_i_32(2, serializer);
+        sse_encode_String(title, serializer);
+      case WebViewEvent_WebMessage(message: final message):
+        sse_encode_i_32(3, serializer);
+        sse_encode_String(message, serializer);
+      case WebViewEvent_WindowClosed():
+        sse_encode_i_32(4, serializer);
+      case WebViewEvent_Error(message: final message):
+        sse_encode_i_32(5, serializer);
+        sse_encode_String(message, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_web_view_navigation_state(
+    WebViewNavigationState self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.url, serializer);
+    sse_encode_String(self.title, serializer);
+    sse_encode_bool(self.canGoBack, serializer);
+    sse_encode_bool(self.canGoForward, serializer);
+    sse_encode_bool(self.isLoading, serializer);
   }
 }

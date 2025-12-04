@@ -207,7 +207,7 @@ function ReportUnTranslate(k, v) {
         const jsRegex = /(?:^|[^<])<script[^>]*>[\s\S]*?<\/script>(?:[^>]|$)/i;
         if (k.trim() !== "" && !cnPattern.test(k) && !htmlPattern.test(k) && !cssRegex.test(k) && !jsRegex.test(k)
             && enPattern.test(k) && !k.startsWith("http://") && !k.startsWith("https://")) {
-            window.chrome.webview.postMessage({ action: 'webview_localization_capture', key: k, value: v });
+            window.ipc.postMessage(JSON.stringify({ action: 'webview_localization_capture', key: k, value: v }));
         }
     }
 }
@@ -217,93 +217,149 @@ InitWebLocalization();
 
 /// ----- Login Script ----
 async function getRSILauncherToken(channelId) {
-    if (!window.location.href.includes("robertsspaceindustries.com")) return;
-
-    // check if logged in and fix redirect
-    if (window.location.href.endsWith('/connect?jumpto=/account/dashboard')) {
-      if (document.body.textContent.trim() === "/account/dashboard") {
-        window.location.href = "https://robertsspaceindustries.com/account/dashboard";
-        return;
-      }
-    }
-
-    let loginBodyElement = $(".c-form authenticationForm sign_in");
-    loginBodyElement.show();
-    // wait login
-    window.chrome.webview.postMessage({ action: 'webview_rsi_login_show_window' });
-
-    // get claims
-    let claimsR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/claims", {
-        method: 'POST', headers: {
-            'x-rsi-token': $.cookie('Rsi-Token'),
-        },
-    });
-    if (claimsR.status !== 200) return;
-
-    loginBodyElement.hide();
-    SCTShowToast("登录游戏中...");
-
-    let claimsData = (await claimsR.json())["data"];
-
-    let tokenFormData = new FormData();
-    tokenFormData.append('claims', claimsData);
-    tokenFormData.append('gameId', 'SC');
-    let tokenR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/token", {
-        method: 'POST', headers: {
-            'x-rsi-token': $.cookie('Rsi-Token'),
-        },
-        body: tokenFormData
-    });
-
-    if (tokenR.status !== 200) return;
-    let TokenData = (await tokenR.json())["data"]["token"];
-    console.log(TokenData);
-
-    // get release Data
-    let releaseFormData = new FormData();
-    releaseFormData.append("channelId", channelId);
-    releaseFormData.append("claims", claimsData);
-    releaseFormData.append("gameId", "SC");
-    releaseFormData.append("platformId", "prod");
-    let releaseR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/release", {
-        method: 'POST', headers: {
-            'x-rsi-token': $.cookie('Rsi-Token'),
-        },
-        body: releaseFormData
-    });
-    if (releaseR.status !== 200) return;
-    let releaseDataJson = (await releaseR.json())['data'];
-    console.log(releaseDataJson);
-    // get game library
-    let libraryR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/library", {
-        method: 'POST', headers: {
-            'x-rsi-token': $.cookie('Rsi-Token'),
-        },
-        body: releaseFormData
-    });
-
-    let libraryData = (await libraryR.json())["data"]
-
-    // get user avatar
-    let avatarUrl = $(".orion-c-avatar__image").attr("src");
-
-    //post message
-    window.chrome.webview.postMessage({
-        action: 'webview_rsi_login_success', data: {
-            'webToken': $.cookie('Rsi-Token'),
-            'claims': claimsData,
-            'authToken': TokenData,
-            'releaseInfo': releaseDataJson,
-            "avatar": avatarUrl,
-            'libraryData': libraryData,
+    console.log('[SCToolbox] getRSILauncherToken called with channel:', channelId);
+    
+    try {
+        if (!window.location.href.includes("robertsspaceindustries.com")) {
+            console.log('[SCToolbox] Not on RSI site, skipping');
+            return;
         }
-    });
+
+        // check if logged in and fix redirect
+        if (window.location.href.endsWith('/connect?jumpto=/account/dashboard')) {
+          if (document.body.textContent.trim() === "/account/dashboard") {
+            window.location.href = "https://robertsspaceindustries.com/account/dashboard";
+            return;
+          }
+        }
+
+        // Wait for jQuery to be ready
+        let waitCount = 0;
+        while (typeof $ === 'undefined' && waitCount < 50) {
+            console.log('[SCToolbox] Waiting for jQuery... attempt', waitCount);
+            await new Promise(r => setTimeout(r, 100));
+            waitCount++;
+        }
+        
+        if (typeof $ === 'undefined') {
+            console.error('[SCToolbox] jQuery not available after waiting');
+            return;
+        }
+
+        // Get RSI token from cookie (don't rely on $.cookie plugin)
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+        
+        const rsiToken = getCookie('Rsi-Token');
+        console.log('[SCToolbox] RSI Token available:', !!rsiToken);
+        
+        if (!rsiToken) {
+            console.log('[SCToolbox] No RSI token, showing login window');
+            let loginBodyElement = $(".c-form authenticationForm sign_in");
+            loginBodyElement.show();
+            window.ipc.postMessage(JSON.stringify({ action: 'webview_rsi_login_show_window' }));
+            return;
+        }
+
+        // get claims
+        console.log('[SCToolbox] Fetching claims...');
+        let claimsR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/claims", {
+            method: 'POST', headers: {
+                'x-rsi-token': rsiToken,
+            },
+        });
+        
+        console.log('[SCToolbox] Claims response status:', claimsR.status);
+        if (claimsR.status !== 200) {
+            console.error('[SCToolbox] Claims request failed');
+            return;
+        }
+
+        SCTShowToast("登录游戏中...");
+
+        let claimsData = (await claimsR.json())["data"];
+        console.log('[SCToolbox] Claims data received');
+
+        let tokenFormData = new FormData();
+        tokenFormData.append('claims', claimsData);
+        tokenFormData.append('gameId', 'SC');
+        let tokenR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/token", {
+            method: 'POST', headers: {
+                'x-rsi-token': rsiToken,
+            },
+            body: tokenFormData
+        });
+
+        console.log('[SCToolbox] Token response status:', tokenR.status);
+        if (tokenR.status !== 200) {
+            console.error('[SCToolbox] Token request failed');
+            return;
+        }
+        let TokenData = (await tokenR.json())["data"]["token"];
+        console.log('[SCToolbox] Token received');
+
+        // get release Data
+        let releaseFormData = new FormData();
+        releaseFormData.append("channelId", channelId);
+        releaseFormData.append("claims", claimsData);
+        releaseFormData.append("gameId", "SC");
+        releaseFormData.append("platformId", "prod");
+        let releaseR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/release", {
+            method: 'POST', headers: {
+                'x-rsi-token': rsiToken,
+            },
+            body: releaseFormData
+        });
+        
+        console.log('[SCToolbox] Release response status:', releaseR.status);
+        if (releaseR.status !== 200) {
+            console.error('[SCToolbox] Release request failed');
+            return;
+        }
+        let releaseDataJson = (await releaseR.json())['data'];
+        console.log('[SCToolbox] Release data received');
+        
+        // get game library
+        let libraryR = await fetch("https://robertsspaceindustries.com/api/launcher/v3/games/library", {
+            method: 'POST', headers: {
+                'x-rsi-token': rsiToken,
+            },
+            body: releaseFormData
+        });
+
+        let libraryData = (await libraryR.json())["data"];
+        console.log('[SCToolbox] Library data received');
+
+        // get user avatar
+        let avatarUrl = $(".orion-c-avatar__image").attr("src") || '';
+        console.log('[SCToolbox] Avatar URL:', avatarUrl);
+
+        //post message
+        console.log('[SCToolbox] Sending login success message...');
+        window.ipc.postMessage(JSON.stringify({
+            action: 'webview_rsi_login_success', data: {
+                'webToken': rsiToken,
+                'claims': claimsData,
+                'authToken': TokenData,
+                'releaseInfo': releaseDataJson,
+                "avatar": avatarUrl,
+                'libraryData': libraryData,
+            }
+        }));
+        console.log('[SCToolbox] Login success message sent');
+    } catch (error) {
+        console.error('[SCToolbox] Error in getRSILauncherToken:', error);
+    }
 }
 
 function SCTShowToast(message) {
     let m = document.createElement('div');
     m.innerHTML = message;
-    m.style.cssText = "font-family:siyuan;max-width:60%;min-width: 150px;padding:0 14px;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 4px;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 999999;background: rgba(0, 0, 0,.7);font-size: 16px;";
+    m.style.cssText = "font-family:siyuan;max-width:60%;min-width: 9.375rem;padding:0 0.875rem;height: 2.5rem;color: rgb(255, 255, 255);line-height: 2.5rem;text-align: center;border-radius: 0.25rem;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 999999;background: rgba(0, 0, 0,.7);font-size: 1rem;";
     document.body.appendChild(m);
     setTimeout(function () {
         let d = 0.5;

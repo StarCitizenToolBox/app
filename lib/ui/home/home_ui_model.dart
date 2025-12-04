@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
@@ -164,12 +163,7 @@ class HomeUIModel extends _$HomeUIModel {
         await box.put("skip_web_localization_tip_version", tipVersion);
       }
     }
-    if (!await WebviewWindow.isWebviewAvailable()) {
-      if (!context.mounted) return;
-      showToast(context, S.current.home_login_action_title_need_webview2_runtime);
-      launchUrlString("https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
-      return;
-    }
+    // Rust WebView using wry + tao - no WebView2 runtime check needed as wry handles it internally
     if (!context.mounted) return;
     final webViewModel = WebViewModel(context, loginMode: loginMode, loginCallback: rsiLoginCallback);
     if (useLocalization) {
