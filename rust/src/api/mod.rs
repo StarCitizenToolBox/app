@@ -6,3 +6,4 @@ pub mod rs_process;
 pub mod win32_api;
 pub mod asar_api;
 pub mod ort_api;
+pub mod unp4k_api;

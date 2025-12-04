@@ -261,18 +261,32 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m103(v0) => "Launcher internal version information: ${v0}";
 
-  static String m104(v0) => "Opening file: ${v0}";
+  static String m104(v0) => "Export Selected (${v0})";
 
-  static String m105(v0, v1) =>
+  static String m105(v0) => "Extraction failed: ${v0}";
+
+  static String m106(v0) => "Extraction complete: ${v0}";
+
+  static String m107(v0) => "Extracting: ${v0}";
+
+  static String m108(v0) => "Extraction completed, ${v0} files total";
+
+  static String m109(v0) => "Current file: ${v0}";
+
+  static String m110(v0, v1) => "Extracting (${v0}/${v1})";
+
+  static String m111(v0) => "Opening file: ${v0}";
+
+  static String m112(v0, v1) =>
       "Loading complete: ${v0} files, time taken: ${v1} ms";
 
-  static String m106(v0) => "Reading file: ${v0}...";
+  static String m113(v0) => "Reading file: ${v0}...";
 
-  static String m107(v0, v1) => "Processing files (${v0}/${v1})...";
+  static String m114(v0, v1) => "Processing files (${v0}/${v1})...";
 
-  static String m108(v0) => "Unknown file type\n${v0}";
+  static String m115(v0) => "Unknown file type\n${v0}";
 
-  static String m109(v0) => "P4K Viewer -> ${v0}";
+  static String m116(v0) => "P4K Viewer -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2184,6 +2198,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_working_msg2": MessageLookupByLibrary.simpleMessage(
       "Installing patch, this will take some time depending on your computer\'s performance...",
     ),
+    "tools_unp4k_action_cancel_multi_select":
+        MessageLookupByLibrary.simpleMessage("Cancel Multi-Select"),
+    "tools_unp4k_action_deselect_all": MessageLookupByLibrary.simpleMessage(
+      "Deselect All",
+    ),
+    "tools_unp4k_action_export_selected": m104,
+    "tools_unp4k_action_extract_failed": m105,
+    "tools_unp4k_action_extract_success": m106,
+    "tools_unp4k_action_extracting": m107,
+    "tools_unp4k_action_multi_select": MessageLookupByLibrary.simpleMessage(
+      "Multi-Select",
+    ),
+    "tools_unp4k_action_save_as": MessageLookupByLibrary.simpleMessage(
+      "Save As...",
+    ),
+    "tools_unp4k_action_select_all": MessageLookupByLibrary.simpleMessage(
+      "Select All",
+    ),
+    "tools_unp4k_extract_cancelled": MessageLookupByLibrary.simpleMessage(
+      "Extraction cancelled",
+    ),
+    "tools_unp4k_extract_completed": m108,
+    "tools_unp4k_extract_current_file": m109,
+    "tools_unp4k_extract_dialog_title": MessageLookupByLibrary.simpleMessage(
+      "Extract Files",
+    ),
+    "tools_unp4k_extract_progress": m110,
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "Missing Runtime",
     ),
@@ -2195,18 +2236,42 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Initializing...",
     ),
-    "tools_unp4k_msg_open_file": m104,
-    "tools_unp4k_msg_read_completed": m105,
-    "tools_unp4k_msg_read_file": m106,
+    "tools_unp4k_msg_open_file": m111,
+    "tools_unp4k_msg_read_completed": m112,
+    "tools_unp4k_msg_read_file": m113,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Reading P4K file...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Processing files...",
     ),
-    "tools_unp4k_msg_reading3": m107,
-    "tools_unp4k_msg_unknown_file_type": m108,
-    "tools_unp4k_title": m109,
+    "tools_unp4k_msg_reading3": m114,
+    "tools_unp4k_msg_unknown_file_type": m115,
+    "tools_unp4k_search_no_result": MessageLookupByLibrary.simpleMessage(
+      "No matching files found",
+    ),
+    "tools_unp4k_search_placeholder": MessageLookupByLibrary.simpleMessage(
+      "Search files (supports regex)...",
+    ),
+    "tools_unp4k_searching": MessageLookupByLibrary.simpleMessage(
+      "Searching...",
+    ),
+    "tools_unp4k_sort_date_asc": MessageLookupByLibrary.simpleMessage(
+      "Older First",
+    ),
+    "tools_unp4k_sort_date_desc": MessageLookupByLibrary.simpleMessage(
+      "Newer First",
+    ),
+    "tools_unp4k_sort_default": MessageLookupByLibrary.simpleMessage(
+      "Default Sort",
+    ),
+    "tools_unp4k_sort_size_asc": MessageLookupByLibrary.simpleMessage(
+      "Smaller First",
+    ),
+    "tools_unp4k_sort_size_desc": MessageLookupByLibrary.simpleMessage(
+      "Larger First",
+    ),
+    "tools_unp4k_title": m116,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Click file to preview",
     ),

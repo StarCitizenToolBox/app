@@ -242,17 +242,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m103(v0) => "ランチャー内部バージョン情報：${v0}";
 
-  static String m104(v0) => "ファイルを開く：${v0}";
+  static String m111(v0) => "ファイルを開く：${v0}";
 
-  static String m105(v0, v1) => "読み込み完了：${v0}ファイル、所要時間：${v1} ms";
+  static String m112(v0, v1) => "読み込み完了：${v0}ファイル、所要時間：${v1} ms";
 
-  static String m106(v0) => "ファイルを読み込み中：${v0}...";
+  static String m113(v0) => "ファイルを読み込み中：${v0}...";
 
-  static String m107(v0, v1) => "ファイルを処理中(${v0}/${v1})...";
+  static String m114(v0, v1) => "ファイルを処理中(${v0}/${v1})...";
 
-  static String m108(v0) => "不明なファイルタイプ\n${v0}";
+  static String m115(v0) => "不明なファイルタイプ\n${v0}";
 
-  static String m109(v0) => "P4Kビューア -> ${v0}";
+  static String m116(v0) => "P4Kビューア -> ${v0}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1971,18 +1971,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "この機能を使用するには.NET8ランタイムをインストールする必要があります。下のボタンをクリックしてダウンロードしてインストールし、インストールが成功したらこのページを再度開いて使用を続行してください。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初期化中..."),
-    "tools_unp4k_msg_open_file": m104,
-    "tools_unp4k_msg_read_completed": m105,
-    "tools_unp4k_msg_read_file": m106,
+    "tools_unp4k_msg_open_file": m111,
+    "tools_unp4k_msg_read_completed": m112,
+    "tools_unp4k_msg_read_file": m113,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "P4Kファイルを読み込み中...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "ファイルを処理中...",
     ),
-    "tools_unp4k_msg_reading3": m107,
-    "tools_unp4k_msg_unknown_file_type": m108,
-    "tools_unp4k_title": m109,
+    "tools_unp4k_msg_reading3": m114,
+    "tools_unp4k_msg_unknown_file_type": m115,
+    "tools_unp4k_title": m116,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "プレビューするファイルをクリック",
     ),
