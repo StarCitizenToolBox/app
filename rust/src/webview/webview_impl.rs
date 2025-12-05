@@ -23,10 +23,10 @@ use crate::api::webview_api::{
 };
 
 // Embed the app icon at compile time
-static APP_ICON_DATA: &[u8] = include_bytes!("../../windows/runner/resources/app_icon.ico");
+static APP_ICON_DATA: &[u8] = include_bytes!("../../../windows/runner/resources/app_icon.ico");
 
 // Embed the init script at compile time
-static INIT_SCRIPT: &str = include_str!("../assets/webview_init_script.js");
+static INIT_SCRIPT: &str = include_str!("webview_init_script.js");
 
 // ============ Types ============
 
@@ -284,19 +284,36 @@ fn run_webview_loop(
             let event_tx = event_tx.clone();
             let state = Arc::clone(&state);
             let nav_history = Arc::clone(&nav_history);
+            let proxy = proxy.clone();
             move |uri| {
                 if uri == "about:blank" {
                     return true;
                 }
                 
+                let can_back;
+                let can_forward;
                 {
                     let mut state_guard = state.write();
                     state_guard.url = uri.clone();
                     state_guard.is_loading = true;
                     let history = nav_history.read();
-                    state_guard.can_go_back = history.can_go_back();
-                    state_guard.can_go_forward = history.can_go_forward();
+                    can_back = history.can_go_back();
+                    can_forward = history.can_go_forward();
+                    state_guard.can_go_back = can_back;
+                    state_guard.can_go_forward = can_forward;
                 }
+                
+                // Send loading state to JS immediately when navigation starts
+                // This makes the spinner appear on the current page before navigating away
+                let state_json = serde_json::json!({
+                    "can_go_back": can_back,
+                    "can_go_forward": can_forward,
+                    "is_loading": true,
+                    "url": uri
+                });
+                let script = format!("window._sctUpdateNavState && window._sctUpdateNavState({})", state_json);
+                let _ = proxy.send_event(UserEvent::Command(WebViewCommand::ExecuteScript(script)));
+                
                 let _ = event_tx.send(WebViewEvent::NavigationStarted { url: uri });
                 true
             }
