@@ -11,6 +11,7 @@ import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:html/parser.dart' as html_parser;
@@ -44,39 +45,36 @@ class UpgradeDialogUI extends HookConsumerWidget {
 
     return Material(
       child: ContentDialog(
-        title:
-            Text(S.current.app_upgrade_title_new_version_found(targetVersion)),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55),
+        title: Text(S.current.app_upgrade_title_new_version_found(targetVersion)),
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-                child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (description.value == null) ...[
-                      Center(
-                        child: Column(
-                          children: [
-                            const ProgressRing(),
-                            const SizedBox(height: 16),
-                            Text(S.current
-                                .app_upgrade_info_getting_new_version_details)
-                          ],
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (description.value == null) ...[
+                        Center(
+                          child: Column(
+                            children: [
+                              const ProgressRing(),
+                              const SizedBox(height: 16),
+                              Text(S.current.app_upgrade_info_getting_new_version_details),
+                            ],
+                          ),
                         ),
-                      )
-                    ] else
-                      ...makeMarkdownView(description.value!,
-                          attachmentsUrl: URLConf.giteaAttachmentsUrl),
-                  ],
+                      ] else
+                        ...makeMarkdownView(description.value!, attachmentsUrl: URLConf.giteaAttachmentsUrl),
+                    ],
+                  ),
                 ),
               ),
-            )),
+            ),
             if (isUsingDiversion.value) ...[
               const SizedBox(height: 24),
               GestureDetector(
@@ -84,13 +82,12 @@ class UpgradeDialogUI extends HookConsumerWidget {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: .1),
-                      borderRadius: BorderRadius.circular(7)),
+                    color: Colors.white.withValues(alpha: .1),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
                   child: Text(
                     S.current.app_upgrade_info_update_server_tip,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white.withValues(alpha: .7)),
+                    style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
                   ),
                 ),
               ),
@@ -99,14 +96,12 @@ class UpgradeDialogUI extends HookConsumerWidget {
               const SizedBox(height: 24),
               Row(
                 children: [
-                  Text(progress.value == 100
-                      ? S.current.app_upgrade_info_installing
-                      : S.current.app_upgrade_info_downloading(
-                          progress.value.toStringAsFixed(2))),
-                  Expanded(
-                      child: ProgressBar(
-                    value: progress.value == 100 ? null : progress.value,
-                  )),
+                  Text(
+                    progress.value == 100
+                        ? S.current.app_upgrade_info_installing
+                        : S.current.app_upgrade_info_downloading(progress.value.toStringAsFixed(2)),
+                  ),
+                  Expanded(child: ProgressBar(value: progress.value == 100 ? null : progress.value)),
                 ],
               ),
             ],
@@ -117,38 +112,40 @@ class UpgradeDialogUI extends HookConsumerWidget {
             : [
                 if (downloadUrl.value.isNotEmpty)
                   FilledButton(
-                      onPressed: () => _doUpgrade(
-                          context,
-                          appState,
-                          isUpgrading,
-                          appModel,
-                          downloadUrl,
-                          description,
-                          isUsingDiversion,
-                          progress),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 4, bottom: 4, left: 8, right: 8),
-                        child: Text(S.current.app_upgrade_action_update_now),
-                      )),
+                    onPressed: () => _doUpgrade(
+                      context,
+                      appState,
+                      isUpgrading,
+                      appModel,
+                      downloadUrl,
+                      description,
+                      isUsingDiversion,
+                      progress,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
+                      child: Text(S.current.app_upgrade_action_update_now),
+                    ),
+                  ),
                 if (ConstConf.appVersionCode >= (minVersionCode ?? 0))
                   Button(
-                      onPressed: () => _doCancel(context),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 4, bottom: 4, left: 8, right: 8),
-                        child: Text(S.current.app_upgrade_action_next_time),
-                      )),
+                    onPressed: () => _doCancel(context),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
+                      child: Text(S.current.app_upgrade_action_next_time),
+                    ),
+                  ),
               ],
       ),
     );
   }
 
   Future<void> _getUpdateInfo(
-      BuildContext context,
-      String targetVersion,
-      ValueNotifier<String?> description,
-      ValueNotifier<String> downloadUrl) async {
+    BuildContext context,
+    String targetVersion,
+    ValueNotifier<String?> description,
+    ValueNotifier<String> downloadUrl,
+  ) async {
     try {
       final r = await Api.getAppReleaseDataByVersionName(targetVersion);
       description.value = r["body"];
@@ -193,19 +190,19 @@ class UpgradeDialogUI extends HookConsumerWidget {
   }
 
   Future<void> _doUpgrade(
-      BuildContext context,
-      AppGlobalState appState,
-      ValueNotifier<bool> isUpgrading,
-      AppGlobalModel appModel,
-      ValueNotifier<String> downloadUrl,
-      ValueNotifier<String?> description,
-      ValueNotifier<bool> isUsingDiversion,
-      ValueNotifier<double> progress) async {
+    BuildContext context,
+    AppGlobalState appState,
+    ValueNotifier<bool> isUpgrading,
+    AppGlobalModel appModel,
+    ValueNotifier<String> downloadUrl,
+    ValueNotifier<String?> description,
+    ValueNotifier<bool> isUsingDiversion,
+    ValueNotifier<double> progress,
+  ) async {
     if (ConstConf.isMSE) {
       launchUrlString("ms-windows-store://pdp/?productid=9NF3SWFWNKL1");
       await Future.delayed(const Duration(seconds: 3));
-      if (ConstConf.appVersionCode <
-          (appState.networkVersionData?.minVersionCode ?? 0)) {
+      if (ConstConf.appVersionCode < (appState.networkVersionData?.minVersionCode ?? 0)) {
         exit(0);
       }
       if (!context.mounted) return;
@@ -221,10 +218,10 @@ class UpgradeDialogUI extends HookConsumerWidget {
       final dio = Dio();
       if (diversionDownloadUrl.isNotEmpty) {
         try {
-          final resp = await dio.head(diversionDownloadUrl,
-              options: Options(
-                  sendTimeout: const Duration(seconds: 10),
-                  receiveTimeout: const Duration(seconds: 10)));
+          final resp = await dio.head(
+            diversionDownloadUrl,
+            options: Options(sendTimeout: const Duration(seconds: 10), receiveTimeout: const Duration(seconds: 10)),
+          );
           if (resp.statusCode == 200) {
             isUsingDiversion.value = true;
             url = diversionDownloadUrl;
@@ -236,10 +233,13 @@ class UpgradeDialogUI extends HookConsumerWidget {
           dPrint("diversionDownloadUrl err:$e");
         }
       }
-      await dio.download(url, fileName,
-          onReceiveProgress: (int count, int total) {
-        progress.value = (count / total) * 100;
-      });
+      await dio.download(
+        url,
+        fileName,
+        onReceiveProgress: (int count, int total) {
+          progress.value = (count / total) * 100;
+        },
+      );
     } catch (_) {
       isUpgrading.value = false;
       progress.value = 0;
@@ -249,11 +249,7 @@ class UpgradeDialogUI extends HookConsumerWidget {
     }
 
     try {
-      final r = await (Process.run(
-          SystemHelper.powershellPath, ["start", fileName, "/SILENT"]));
-      if (r.stderr.toString().isNotEmpty) {
-        throw r.stderr;
-      }
+      await win32.startProcess(program: fileName, args: ["/SILENT"]);
       exit(0);
     } catch (_) {
       isUpgrading.value = false;

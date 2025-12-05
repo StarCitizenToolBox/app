@@ -7,7 +7,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 import 'package:starcitizen_doctor/common/utils/async.dart';
+import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class HostsBoosterDialogUI extends HookConsumerWidget {
@@ -15,12 +17,8 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
 
   static final _hostsMap = {
     "Recaptcha": ["www.recaptcha.net", "recaptcha.net"],
-    S.current.tools_hosts_info_rsi_official_website: [
-      "robertsspaceindustries.com"
-    ],
-    S.current.tools_hosts_info_rsi_customer_service: [
-      "support.robertsspaceindustries.com"
-    ],
+    S.current.tools_hosts_info_rsi_official_website: ["robertsspaceindustries.com"],
+    S.current.tools_hosts_info_rsi_customer_service: ["support.robertsspaceindustries.com"],
   };
 
   @override
@@ -31,9 +29,7 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
 
     doHost(BuildContext context) async {
       if (workingMap.value.isEmpty) {
-        final hasTrue =
-            checkedMap.value.values.where((element) => element).firstOrNull !=
-                null;
+        final hasTrue = checkedMap.value.values.where((element) => element).firstOrNull != null;
         if (!hasTrue) {
           for (var k in _hostsMap.keys) {
             checkedMap.value[k] = true;
@@ -59,32 +55,29 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
     }, []);
 
     return ContentDialog(
-      constraints:
-          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55),
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55),
       title: Row(
         children: [
           IconButton(
-              icon: const Icon(
-                FluentIcons.back,
-                size: 22,
-              ),
-              onPressed:
-                  workingText.value.isEmpty ? Navigator.of(context).pop : null),
+            icon: const Icon(FluentIcons.back, size: 22),
+            onPressed: workingText.value.isEmpty ? Navigator.of(context).pop : null,
+          ),
           const SizedBox(width: 12),
           Text(S.current.tools_hosts_info_hosts_acceleration),
           const Spacer(),
           Button(
-              onPressed: () => _openHostsFile(context),
-              child: Padding(
-                padding: const EdgeInsets.all(3),
-                child: Row(
-                  children: [
-                    const Icon(FluentIcons.open_file),
-                    const SizedBox(width: 6),
-                    Text(S.current.tools_hosts_info_open_hosts_file),
-                  ],
-                ),
-              ))
+            onPressed: () => _openHostsFile(context),
+            child: Padding(
+              padding: const EdgeInsets.all(3),
+              child: Row(
+                children: [
+                  const Icon(FluentIcons.open_file),
+                  const SizedBox(width: 6),
+                  Text(S.current.tools_hosts_info_open_hosts_file),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
       content: AnimatedSize(
@@ -111,10 +104,8 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
               padding: const EdgeInsets.all(6),
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                final isEnable =
-                    checkedMap.value[_hostsMap.keys.elementAt(index)] ?? false;
-                final workingState =
-                    workingMap.value[_hostsMap.keys.elementAt(index)];
+                final isEnable = checkedMap.value[_hostsMap.keys.elementAt(index)] ?? false;
+                final workingState = workingMap.value[_hostsMap.keys.elementAt(index)];
                 return Container(
                   padding: const EdgeInsets.all(12),
                   margin: const EdgeInsets.only(bottom: 12),
@@ -124,23 +115,16 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
                   ),
                   child: Row(
                     children: [
-                      if (workingState == null)
-                        Icon(FontAwesomeIcons.xmark,
-                            size: 24, color: Colors.red),
-                      if (workingState == 0)
-                        const SizedBox(
-                            width: 24, height: 24, child: ProgressRing()),
-                      if (workingState == 1)
-                        Icon(FontAwesomeIcons.check,
-                            size: 24, color: Colors.green),
+                      if (workingState == null) Icon(FontAwesomeIcons.xmark, size: 24, color: Colors.red),
+                      if (workingState == 0) const SizedBox(width: 24, height: 24, child: ProgressRing()),
+                      if (workingState == 1) Icon(FontAwesomeIcons.check, size: 24, color: Colors.green),
                       const SizedBox(width: 24),
                       const SizedBox(width: 12),
                       Text(_hostsMap.keys.elementAt(index)),
                       const Spacer(),
                       ToggleSwitch(
                         onChanged: (value) {
-                          checkedMap.value[_hostsMap.keys.elementAt(index)] =
-                              value;
+                          checkedMap.value[_hostsMap.keys.elementAt(index)] = value;
                           checkedMap.value = Map.from(checkedMap.value);
                         },
                         checked: isEnable,
@@ -156,8 +140,7 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
                 height: 86,
                 child: Column(
                   children: [
-                    const SizedBox(
-                        height: 42, width: 42, child: ProgressRing()),
+                    const SizedBox(height: 42, width: 42, child: ProgressRing()),
                     const SizedBox(height: 12),
                     Text(workingText.value),
                   ],
@@ -169,10 +152,8 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
                 child: FilledButton(
                   onPressed: () => doHost(context),
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 3, bottom: 3, left: 12, right: 12),
-                    child: Text(
-                        S.current.tools_hosts_action_one_click_acceleration),
+                    padding: const EdgeInsets.only(top: 3, bottom: 3, left: 12, right: 12),
+                    child: Text(S.current.tools_hosts_action_one_click_acceleration),
                   ),
                 ),
               ),
@@ -183,17 +164,19 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
   }
 
   Future<void> _openHostsFile(BuildContext context) async {
-    // 使用管理员权限调用记事本${S.current.tools_hosts_info_open_hosts_file}
-    Process.run(SystemHelper.powershellPath, [
-      "-Command",
-      "Start-Process notepad.exe -Verb runAs -ArgumentList ${SystemHelper.getHostsFilePath()}"
-      // ignore: use_build_context_synchronously
-    ]).unwrap(context: context);
+    // 使用管理员权限调用记事本
+    try {
+      await win32.runAsAdmin(program: "notepad.exe", args: SystemHelper.getHostsFilePath());
+    } catch (e) {
+      if (!context.mounted) return;
+      showToast(context, "Failed to open hosts file: $e");
+    }
   }
 
   Future<Map<String, String>> _doCheckDns(
-      ValueNotifier<Map<String, int?>> workingMap,
-      ValueNotifier<Map<String, bool>> checkedMap) async {
+    ValueNotifier<Map<String, int?>> workingMap,
+    ValueNotifier<Map<String, bool>> checkedMap,
+  ) async {
     Map<String, String> result = {};
     final trueLen = checkedMap.value.values.where((element) => element).length;
     if (trueLen == 0) {
@@ -207,36 +190,37 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
       }
       workingMap.value[siteName] = 0;
       workingMap.value = Map.from(workingMap.value);
-      RSHttp.dnsLookupIps(siteHost).then((ips) async {
-        int tryCount = ips.length;
-        try {
-          for (var ip in ips) {
-            final resp =
-                await RSHttp.head("https://$siteHost", withIpAddress: ip);
-            dPrint(
-                "[HostsBooster] host== $siteHost ip== $ip resp== ${resp.headers}");
-            if (resp.headers.isNotEmpty) {
-              if (result[siteName] == null) {
-                result[siteName] = ip;
-                workingMap.value[siteName] = 1;
-                workingMap.value = Map.from(workingMap.value);
-                break;
+      RSHttp.dnsLookupIps(siteHost).then(
+        (ips) async {
+          int tryCount = ips.length;
+          try {
+            for (var ip in ips) {
+              final resp = await RSHttp.head("https://$siteHost", withIpAddress: ip);
+              dPrint("[HostsBooster] host== $siteHost ip== $ip resp== ${resp.headers}");
+              if (resp.headers.isNotEmpty) {
+                if (result[siteName] == null) {
+                  result[siteName] = ip;
+                  workingMap.value[siteName] = 1;
+                  workingMap.value = Map.from(workingMap.value);
+                  break;
+                }
               }
             }
+          } catch (e) {
+            tryCount--;
+            if (tryCount == 0) {
+              workingMap.value[siteName] = null;
+              workingMap.value = Map.from(workingMap.value);
+              result[siteName] = "";
+            }
           }
-        } catch (e) {
-          tryCount--;
-          if (tryCount == 0) {
-            workingMap.value[siteName] = null;
-            workingMap.value = Map.from(workingMap.value);
-            result[siteName] = "";
-          }
-        }
-      }, onError: (e) {
-        workingMap.value[siteName] = null;
-        workingMap.value = Map.from(workingMap.value);
-        result[siteName] = "";
-      });
+        },
+        onError: (e) {
+          workingMap.value[siteName] = null;
+          workingMap.value = Map.from(workingMap.value);
+          result[siteName] = "";
+        },
+      );
     }
     while (true) {
       await Future.delayed(const Duration(milliseconds: 100));
@@ -265,16 +249,17 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
       final domains = _hostsMap[kv.key] ?? <String>[];
       for (var domain in domains) {
         if (kv.value != "") {
-          newHostsFileLines
-              .add("${kv.value}     $domain     #StarCitizenToolBox");
+          newHostsFileLines.add("${kv.value}     $domain     #StarCitizenToolBox");
         }
       }
     }
     await hostsFile.writeAsString(newHostsFileLines.join("\n"), flush: true);
   }
 
-  Future<void> _readHostsState(ValueNotifier<Map<String, int?>> workingMap,
-      ValueNotifier<Map<String, bool>> checkedMap) async {
+  Future<void> _readHostsState(
+    ValueNotifier<Map<String, int?>> workingMap,
+    ValueNotifier<Map<String, bool>> checkedMap,
+  ) async {
     workingMap.value.clear();
     final hostsFile = File(SystemHelper.getHostsFilePath());
     final hostsFileString = await hostsFile.readAsString();

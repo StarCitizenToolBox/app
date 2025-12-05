@@ -12,7 +12,6 @@ import 'package:starcitizen_doctor/api/news_api.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
-import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 import 'package:starcitizen_doctor/common/utils/async.dart';
@@ -323,7 +322,7 @@ class HomeUIModel extends _$HomeUIModel {
 
     if (ConstConf.isMSE) {
       if (state.isCurGameRunning) {
-        await Process.run(SystemHelper.powershellPath, ["ps \"StarCitizen\" | kill"]);
+        await win32.killProcessByName(processName: "StarCitizen");
         return;
       }
       AnalyticsApi.touch("gameLaunch");

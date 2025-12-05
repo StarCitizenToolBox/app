@@ -4,7 +4,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:starcitizen_doctor/common/rust/api/webview_api.dart' as rust_webview;
+import 'package:starcitizen_doctor/common/rust/api/webview_api.dart'
+    as rust_webview;
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 typedef OnWebMessageCallback = void Function(String message);
@@ -76,7 +77,9 @@ class RustWebViewController {
   Future<void> _loadScripts() async {
     try {
       _localizationScript = await rootBundle.loadString('assets/web_script.js');
-      _requestInterceptorScript = await rootBundle.loadString('assets/request_interceptor.js');
+      _requestInterceptorScript = await rootBundle.loadString(
+        'assets/request_interceptor.js',
+      );
     } catch (e) {
       dPrint("Failed to load scripts: $e");
     }
@@ -286,12 +289,16 @@ class RustWebViewController {
   }
 
   /// 添加导航完成回调（用于在页面加载完成后注入脚本）
-  void addOnNavigationCompletedCallback(OnNavigationCompletedCallback callback) {
+  void addOnNavigationCompletedCallback(
+    OnNavigationCompletedCallback callback,
+  ) {
     _navigationCompletedCallbacks.add(callback);
   }
 
   /// 移除导航完成回调
-  void removeOnNavigationCompletedCallback(OnNavigationCompletedCallback callback) {
+  void removeOnNavigationCompletedCallback(
+    OnNavigationCompletedCallback callback,
+  ) {
     _navigationCompletedCallbacks.remove(callback);
   }
 
@@ -320,7 +327,9 @@ class RustWebViewController {
   /// 更新翻译词典
   void updateReplaceWords(List<Map<String, String>> words, bool enableCapture) {
     final jsonWords = json.encode(words);
-    executeScript("WebLocalizationUpdateReplaceWords($jsonWords, $enableCapture)");
+    executeScript(
+      "WebLocalizationUpdateReplaceWords($jsonWords, $enableCapture)",
+    );
   }
 
   /// 执行 RSI 登录脚本

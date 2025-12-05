@@ -22,7 +22,6 @@ import 'package:window_manager/window_manager.dart';
 import 'api/analytics.dart';
 import 'api/api.dart';
 import 'common/conf/url_conf.dart';
-import 'common/helper/system_helper.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
 import 'common/rust/api/win32_api.dart' as win32;
@@ -146,16 +145,6 @@ class AppGlobalModel extends _$AppGlobalModel {
       await win32.setForegroundWindow(windowName: "SCToolBox");
       dPrint("exit: db is locking ...");
       exit(0);
-    }
-
-    // init powershell
-    if (Platform.isWindows) {
-      try {
-        await SystemHelper.initPowershellPath();
-        dPrint("---- Powershell init -----");
-      } catch (e) {
-        dPrint("powershell init failed : $e");
-      }
     }
 
     // get windows info

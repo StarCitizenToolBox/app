@@ -5,76 +5,31 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 
 class SystemHelper {
-  static String powershellPath = "powershell.exe";
-
-  static Future<void> initPowershellPath() async {
-    try {
-      var result = await Process.run(powershellPath, ["echo", "pong"]);
-      if (!result.stdout.toString().startsWith("pong") && powershellPath == "powershell.exe") {
-        throw "powershell check failed";
-      }
-    } catch (e) {
-      Map<String, String> envVars = Platform.environment;
-      final systemRoot = envVars["SYSTEMROOT"];
-      if (systemRoot != null) {
-        final autoSearchPath = "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-        dPrint("auto search powershell path === $autoSearchPath");
-        powershellPath = autoSearchPath;
-      }
-    }
-  }
-
   static Future<bool> checkNvmePatchStatus() async {
     try {
-      var result = await Process.run(SystemHelper.powershellPath, [
-        "Get-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\"",
-      ]);
-      dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
-      if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
-        return true;
-      } else {
-        return false;
-      }
+      return await win32.checkNvmePatchStatus();
     } catch (e) {
+      dPrint("checkNvmePatchStatus error: $e");
       return false;
     }
   }
 
   static Future<String> addNvmePatch() async {
-    var result = await Process.run(powershellPath, [
-      'New-ItemProperty',
-      "-Path",
-      "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-      "-Name",
-      "ForcedPhysicalSectorSizeInBytes",
-      "-PropertyType MultiString",
-      "-Force -Value",
-      "\"* 4095\"",
-    ]);
-    dPrint("nvme_PhysicalBytes result == ${result.stdout}");
-    return result.stderr;
+    try {
+      await win32.addNvmePatch();
+      return "";
+    } catch (e) {
+      dPrint("addNvmePatch error: $e");
+      return e.toString();
+    }
   }
 
   static Future<bool> doRemoveNvmePath() async {
     try {
-      var result = await Process.run(powershellPath, [
-        "Clear-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\"",
-      ]);
-      dPrint("doRemoveNvmePath result ==== ${result.stdout}");
-      if (result.stderr == "") {
-        return true;
-      } else {
-        return false;
-      }
+      await win32.removeNvmePatch();
+      return true;
     } catch (e) {
+      dPrint("doRemoveNvmePath error: $e");
       return false;
     }
   }
@@ -98,15 +53,17 @@ class SystemHelper {
         "$programDataPath\\Microsoft\\Windows\\Start Menu\\Programs\\Roberts Space Industries\\RSI Launcher.lnk";
     final rsiLinkFile = File(rsiFilePath);
     if (await rsiLinkFile.exists()) {
-      final r = await Process.run(SystemHelper.powershellPath, [
-        "(New-Object -ComObject WScript.Shell).CreateShortcut(\"$rsiFilePath\").targetpath",
-      ]);
-      if (r.stdout.toString().contains("RSI Launcher.exe")) {
-        final start = r.stdout.toString().split("RSI Launcher.exe");
-        if (skipEXE) {
-          return start[0];
+      try {
+        final targetPath = await win32.resolveShortcut(lnkPath: rsiFilePath);
+        if (targetPath.contains("RSI Launcher.exe")) {
+          final start = targetPath.split("RSI Launcher.exe");
+          if (skipEXE) {
+            return start[0];
+          }
+          return "${start[0]}RSI Launcher.exe";
         }
-        return "${start[0]}RSI Launcher.exe";
+      } catch (e) {
+        dPrint("resolveShortcut error: $e");
       }
     }
     return "";
@@ -147,45 +104,78 @@ class SystemHelper {
   }
 
   static Future<int> getSystemMemorySizeGB() async {
-    final r = await Process.run(powershellPath, [
-      "(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb",
-    ]);
-    return int.tryParse(r.stdout.toString().trim()) ?? 0;
+    try {
+      final memoryGb = await win32.getSystemMemorySizeGb();
+      return memoryGb.toInt();
+    } catch (e) {
+      dPrint("getSystemMemorySizeGB error: $e");
+      return 0;
+    }
   }
 
   static Future<String> getSystemCimInstance(String win32InstanceName, {pathName = "Name"}) async {
-    final r = await Process.run(powershellPath, ["(Get-CimInstance $win32InstanceName).$pathName"]);
-    return r.stdout.toString().trim();
+    // This method is deprecated, use getSystemInfo() instead
+    try {
+      final sysInfo = await win32.getSystemInfo();
+      if (win32InstanceName.contains("OperatingSystem")) {
+        return sysInfo.osName;
+      } else if (win32InstanceName.contains("Processor")) {
+        return sysInfo.cpuName;
+      } else if (win32InstanceName.contains("VideoController")) {
+        return sysInfo.gpuInfo;
+      } else if (win32InstanceName.contains("DiskDrive")) {
+        return sysInfo.diskInfo;
+      }
+    } catch (e) {
+      dPrint("getSystemCimInstance error: $e");
+    }
+    return "";
   }
 
   static Future<String> getSystemName() async {
-    final r = await Process.run(powershellPath, ["(Get-ComputerInfo | Select-Object -expand OsName)"]);
-    return r.stdout.toString().trim();
+    try {
+      final sysInfo = await win32.getSystemInfo();
+      return sysInfo.osName;
+    } catch (e) {
+      dPrint("getSystemName error: $e");
+      return "";
+    }
   }
 
   static Future<String> getCpuName() async {
-    final r = await Process.run(powershellPath, ["(Get-WmiObject -Class Win32_Processor).Name"]);
-    return r.stdout.toString().trim();
+    try {
+      final sysInfo = await win32.getSystemInfo();
+      return sysInfo.cpuName;
+    } catch (e) {
+      dPrint("getCpuName error: $e");
+      return "";
+    }
   }
 
   static Future<String> getGpuInfo() async {
-    const cmd = r"""
-    $adapterMemory = (Get-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0*" -Name "HardwareInformation.AdapterString", "HardwareInformation.qwMemorySize" -Exclude PSPath -ErrorAction SilentlyContinue)
-foreach ($adapter in $adapterMemory) {
-  [PSCustomObject] @{
-    Model=$adapter."HardwareInformation.AdapterString"
-    "VRAM (GB)"=[math]::round($adapter."HardwareInformation.qwMemorySize"/1GB)
-  }
-}
-    """;
-    final r = await Process.run(powershellPath, [cmd]);
-    return r.stdout.toString().trim();
+    try {
+      // Try registry first for more accurate VRAM info
+      final regInfo = await win32.getGpuInfoFromRegistry();
+      if (regInfo.isNotEmpty) {
+        return regInfo;
+      }
+      // Fallback to WMI
+      final sysInfo = await win32.getSystemInfo();
+      return sysInfo.gpuInfo;
+    } catch (e) {
+      dPrint("getGpuInfo error: $e");
+      return "";
+    }
   }
 
   static Future<String> getDiskInfo() async {
-    return (await Process.run(powershellPath, [
-      "Get-PhysicalDisk | format-table BusType,FriendlyName,Size",
-    ])).stdout.toString().trim();
+    try {
+      final sysInfo = await win32.getSystemInfo();
+      return sysInfo.diskInfo;
+    } catch (e) {
+      dPrint("getDiskInfo error: $e");
+      return "";
+    }
   }
 
   static Future<int> getDirLen(String path, {List<String>? skipPath}) async {
@@ -212,11 +202,12 @@ foreach ($adapter in $adapterMemory) {
   }
 
   static Future<int> getNumberOfLogicalProcessors() async {
-    final cpuNumberResult = await Process.run(powershellPath, [
-      "(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors",
-    ]);
-    if (cpuNumberResult.exitCode != 0) return 0;
-    return int.tryParse(cpuNumberResult.stdout.toString().trim()) ?? 0;
+    try {
+      return await win32.getNumberOfLogicalProcessors();
+    } catch (e) {
+      dPrint("getNumberOfLogicalProcessors error: $e");
+      return 0;
+    }
   }
 
   static Future<String?> getCpuAffinity() async {
@@ -244,10 +235,11 @@ foreach ($adapter in $adapterMemory) {
   static Future openDir(dynamic path, {bool isFile = false}) async {
     dPrint("SystemHelper.openDir  path === $path");
     if (Platform.isWindows) {
-      await Process.run(SystemHelper.powershellPath, [
-        "explorer.exe",
-        isFile ? "/select,$path" : "\"/select,\"$path\"\"",
-      ]);
+      try {
+        await win32.openDirWithExplorer(path: path.toString(), isFile: isFile);
+      } catch (e) {
+        dPrint("openDir error: $e");
+      }
     }
   }
 
