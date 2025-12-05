@@ -522,6 +522,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "暫停下載",
     ),
+    "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
+      "稍後套用",
+    ),
+    "downloader_action_restart_now": MessageLookupByLibrary.simpleMessage(
+      "立即重新啟動",
+    ),
     "downloader_action_resume_all": MessageLookupByLibrary.simpleMessage(
       "全部繼續",
     ),
@@ -549,6 +555,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "SC 工具箱使用 p2p 網路來加速文件下載，如果您流量有限，可在此處將上傳頻寬設定為 1(byte)。",
     ),
     "downloader_info_paused": MessageLookupByLibrary.simpleMessage("已暫停"),
+    "downloader_info_restart_manager_to_apply":
+        MessageLookupByLibrary.simpleMessage("限速設定已儲存。是否立即重新啟動下載管理器以套用新設定？"),
+    "downloader_info_speed_limit_saved_restart_required":
+        MessageLookupByLibrary.simpleMessage("限速設定已儲存，將在下次啟動下載器時生效。"),
     "downloader_info_status": m22,
     "downloader_info_total_size": m23,
     "downloader_info_uploaded": m24,

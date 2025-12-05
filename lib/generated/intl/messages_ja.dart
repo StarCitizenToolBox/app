@@ -551,6 +551,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "ダウンロードを一時停止",
     ),
+    "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
+      "後で適用",
+    ),
+    "downloader_action_restart_now": MessageLookupByLibrary.simpleMessage(
+      "今すぐ再起動",
+    ),
     "downloader_action_resume_all": MessageLookupByLibrary.simpleMessage(
       "すべて再開",
     ),
@@ -582,6 +588,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "SCToolboxはファイルダウンロードを高速化するためにP2Pネットワークを使用しています。通信量に制限がある場合は、アップロード帯域幅を1(byte)に設定できます。",
     ),
     "downloader_info_paused": MessageLookupByLibrary.simpleMessage("一時停止中"),
+    "downloader_info_restart_manager_to_apply":
+        MessageLookupByLibrary.simpleMessage(
+          "速度制限設定が保存されました。新しい設定を適用するためにダウンロードマネージャーを今すぐ再起動しますか？",
+        ),
+    "downloader_info_speed_limit_saved_restart_required":
+        MessageLookupByLibrary.simpleMessage(
+          "速度制限設定が保存されました。次回のダウンローダー起動時に適用されます。",
+        ),
     "downloader_info_status": m22,
     "downloader_info_total_size": m23,
     "downloader_info_uploaded": m24,

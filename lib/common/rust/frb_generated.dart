@@ -72,7 +72,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1465039096;
+  int get rustContentHash => -641930410;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -126,7 +126,14 @@ abstract class RustLibApi extends BaseApi {
     required BigInt taskId,
   });
 
-  void crateApiDownloaderApiDownloaderInit({required String downloadDir});
+  Future<bool> crateApiDownloaderApiDownloaderHasActiveTasks();
+
+  void crateApiDownloaderApiDownloaderInit({
+    required String workingDir,
+    required String defaultDownloadDir,
+    int? uploadLimitBps,
+    int? downloadLimitBps,
+  });
 
   bool crateApiDownloaderApiDownloaderIsInitialized();
 
@@ -143,11 +150,20 @@ abstract class RustLibApi extends BaseApi {
     required bool deleteFiles,
   });
 
+  Future<int> crateApiDownloaderApiDownloaderRemoveCompletedTasks();
+
   Future<void> crateApiDownloaderApiDownloaderResume({required BigInt taskId});
 
   Future<void> crateApiDownloaderApiDownloaderResumeAll();
 
+  Future<void> crateApiDownloaderApiDownloaderShutdown();
+
   Future<void> crateApiDownloaderApiDownloaderStop();
+
+  Future<void> crateApiDownloaderApiDownloaderUpdateSpeedLimits({
+    int? uploadLimitBps,
+    int? downloadLimitBps,
+  });
 
   Future<RustHttpResponse> crateApiHttpApiFetch({
     required MyMethod method,
@@ -700,19 +716,64 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiDownloaderApiDownloaderInit({required String downloadDir}) {
+  Future<bool> crateApiDownloaderApiDownloaderHasActiveTasks() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__downloader_api__downloader_has_active_tasks(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderHasActiveTasksConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderHasActiveTasksConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_has_active_tasks",
+        argNames: [],
+      );
+
+  @override
+  void crateApiDownloaderApiDownloaderInit({
+    required String workingDir,
+    required String defaultDownloadDir,
+    int? uploadLimitBps,
+    int? downloadLimitBps,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
-          var arg0 = cst_encode_String(downloadDir);
-          return wire.wire__crate__api__downloader_api__downloader_init(arg0);
+          var arg0 = cst_encode_String(workingDir);
+          var arg1 = cst_encode_String(defaultDownloadDir);
+          var arg2 = cst_encode_opt_box_autoadd_u_32(uploadLimitBps);
+          var arg3 = cst_encode_opt_box_autoadd_u_32(downloadLimitBps);
+          return wire.wire__crate__api__downloader_api__downloader_init(
+            arg0,
+            arg1,
+            arg2,
+            arg3,
+          );
         },
         codec: DcoCodec(
           decodeSuccessData: dco_decode_unit,
           decodeErrorData: dco_decode_AnyhowException,
         ),
         constMeta: kCrateApiDownloaderApiDownloaderInitConstMeta,
-        argValues: [downloadDir],
+        argValues: [
+          workingDir,
+          defaultDownloadDir,
+          uploadLimitBps,
+          downloadLimitBps,
+        ],
         apiImpl: this,
       ),
     );
@@ -721,7 +782,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiDownloaderApiDownloaderInitConstMeta =>
       const TaskConstMeta(
         debugName: "downloader_init",
-        argNames: ["downloadDir"],
+        argNames: [
+          "workingDir",
+          "defaultDownloadDir",
+          "uploadLimitBps",
+          "downloadLimitBps",
+        ],
       );
 
   @override
@@ -859,6 +925,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<int> crateApiDownloaderApiDownloaderRemoveCompletedTasks() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__downloader_api__downloader_remove_completed_tasks(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_32,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta:
+            kCrateApiDownloaderApiDownloaderRemoveCompletedTasksConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderRemoveCompletedTasksConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_remove_completed_tasks",
+        argNames: [],
+      );
+
+  @override
   Future<void> crateApiDownloaderApiDownloaderResume({required BigInt taskId}) {
     return handler.executeNormal(
       NormalTask(
@@ -907,6 +1002,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "downloader_resume_all", argNames: []);
 
   @override
+  Future<void> crateApiDownloaderApiDownloaderShutdown() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__downloader_api__downloader_shutdown(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderShutdownConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderShutdownConstMeta =>
+      const TaskConstMeta(debugName: "downloader_shutdown", argNames: []);
+
+  @override
   Future<void> crateApiDownloaderApiDownloaderStop() {
     return handler.executeNormal(
       NormalTask(
@@ -926,6 +1044,41 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiDownloaderApiDownloaderStopConstMeta =>
       const TaskConstMeta(debugName: "downloader_stop", argNames: []);
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderUpdateSpeedLimits({
+    int? uploadLimitBps,
+    int? downloadLimitBps,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_opt_box_autoadd_u_32(uploadLimitBps);
+          var arg1 = cst_encode_opt_box_autoadd_u_32(downloadLimitBps);
+          return wire
+              .wire__crate__api__downloader_api__downloader_update_speed_limits(
+                port_,
+                arg0,
+                arg1,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderUpdateSpeedLimitsConstMeta,
+        argValues: [uploadLimitBps, downloadLimitBps],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderUpdateSpeedLimitsConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_update_speed_limits",
+        argNames: ["uploadLimitBps", "downloadLimitBps"],
+      );
 
   @override
   Future<RustHttpResponse> crateApiHttpApiFetch({
@@ -2387,6 +2540,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
   BigInt dco_decode_box_autoadd_u_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_u_64(raw);
@@ -2535,6 +2694,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool? dco_decode_opt_box_autoadd_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_bool(raw);
+  }
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
   }
 
   @protected
@@ -2798,6 +2963,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_u_32(deserializer));
+  }
+
+  @protected
   BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_u_64(deserializer));
@@ -3022,6 +3193,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_bool(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_u_32(deserializer));
     } else {
       return null;
     }
@@ -3408,6 +3590,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_64(self, serializer);
@@ -3616,6 +3804,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_bool(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_u_32(self, serializer);
     }
   }
 

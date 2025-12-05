@@ -42,7 +42,7 @@ final class HomeDownloaderUIModelProvider
 }
 
 String _$homeDownloaderUIModelHash() =>
-    r'27e2e4b7a5103eee9d489a347410131edef46be4';
+    r'3dd2ca0b1c03113d577c322de81078faa378230b';
 
 abstract class _$HomeDownloaderUIModel
     extends $Notifier<HomeDownloaderUIState> {

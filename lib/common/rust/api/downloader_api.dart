@@ -6,12 +6,27 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `get_task_status`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`
+// These functions are ignored because they are not marked as `pub`: `get_session`, `get_task_status`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `eq`, `fmt`, `fmt`, `fmt`
 
-/// Initialize the download manager session
-void downloaderInit({required String downloadDir}) => RustLib.instance.api
-    .crateApiDownloaderApiDownloaderInit(downloadDir: downloadDir);
+/// Initialize the download manager session with persistence enabled
+///
+/// Parameters:
+/// - working_dir: The directory to store session data (persistence, DHT, etc.)
+/// - default_download_dir: The default directory to store downloads
+/// - upload_limit_bps: Upload speed limit in bytes per second (0 = unlimited)
+/// - download_limit_bps: Download speed limit in bytes per second (0 = unlimited)
+void downloaderInit({
+  required String workingDir,
+  required String defaultDownloadDir,
+  int? uploadLimitBps,
+  int? downloadLimitBps,
+}) => RustLib.instance.api.crateApiDownloaderApiDownloaderInit(
+  workingDir: workingDir,
+  defaultDownloadDir: defaultDownloadDir,
+  uploadLimitBps: uploadLimitBps,
+  downloadLimitBps: downloadLimitBps,
+);
 
 /// Check if the downloader is initialized
 bool downloaderIsInitialized() =>
@@ -95,9 +110,33 @@ Future<void> downloaderPauseAll() =>
 Future<void> downloaderResumeAll() =>
     RustLib.instance.api.crateApiDownloaderApiDownloaderResumeAll();
 
-/// Stop the downloader session
+/// Stop the downloader session (pauses all tasks but keeps session)
 Future<void> downloaderStop() =>
     RustLib.instance.api.crateApiDownloaderApiDownloaderStop();
+
+/// Shutdown the downloader session completely (allows restart with new settings)
+Future<void> downloaderShutdown() =>
+    RustLib.instance.api.crateApiDownloaderApiDownloaderShutdown();
+
+/// Update global speed limits
+/// Note: rqbit Session doesn't support runtime limit changes,
+/// this function is a placeholder that returns an error.
+/// Speed limits should be set during downloader_init.
+Future<void> downloaderUpdateSpeedLimits({
+  int? uploadLimitBps,
+  int? downloadLimitBps,
+}) => RustLib.instance.api.crateApiDownloaderApiDownloaderUpdateSpeedLimits(
+  uploadLimitBps: uploadLimitBps,
+  downloadLimitBps: downloadLimitBps,
+);
+
+/// Remove all completed tasks (equivalent to aria2's --seed-time=0 behavior)
+Future<int> downloaderRemoveCompletedTasks() =>
+    RustLib.instance.api.crateApiDownloaderApiDownloaderRemoveCompletedTasks();
+
+/// Check if there are any active (non-completed) tasks
+Future<bool> downloaderHasActiveTasks() =>
+    RustLib.instance.api.crateApiDownloaderApiDownloaderHasActiveTasks();
 
 /// Global statistics
 class DownloadGlobalStat {

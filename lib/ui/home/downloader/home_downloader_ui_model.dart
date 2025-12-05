@@ -267,14 +267,51 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
       ),
     );
     if (ok == true) {
-      // Note: rqbit doesn't support dynamic speed limit changes yet
-      // Just save the settings for now
+      // Save the settings
       await box.put('downloader_up_limit', upCtrl.text.trim());
       await box.put('downloader_down_limit', downCtrl.text.trim());
 
-      // Show info that speed limits will apply on next restart
+      // Ask user if they want to restart the download manager now
       if (context.mounted) {
-        showToast(context, "Speed limit settings saved. Will apply on next download.");
+        final restartNow = await showDialog<bool>(
+          context: context,
+          builder: (context) => ContentDialog(
+            title: Text(S.current.downloader_speed_limit_settings),
+            content: Text(S.current.downloader_info_restart_manager_to_apply),
+            actions: [
+              Button(
+                child: Text(S.current.downloader_action_restart_later),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              FilledButton(
+                child: Text(S.current.downloader_action_restart_now),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          ),
+        );
+
+        if (restartNow == true) {
+          // Get the download manager and restart it with new settings
+          final downloadManager = ref.read(downloadManagerProvider.notifier);
+          final upLimit = downloadManager.textToByte(upCtrl.text.trim());
+          final downLimit = downloadManager.textToByte(downCtrl.text.trim());
+
+          try {
+            await downloadManager.restart(
+              uploadLimitBps: upLimit > 0 ? upLimit : null,
+              downloadLimitBps: downLimit > 0 ? downLimit : null,
+            );
+            if (context.mounted) {
+              showToast(context, S.current.downloader_info_speed_limit_saved_restart_required);
+            }
+          } catch (e) {
+            dPrint("Failed to restart download manager: $e");
+            if (context.mounted) {
+              showToast(context, "Failed to restart: $e");
+            }
+          }
+        }
       }
     }
   }

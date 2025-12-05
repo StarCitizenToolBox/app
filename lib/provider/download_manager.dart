@@ -13,6 +13,7 @@ part 'download_manager.freezed.dart';
 @freezed
 abstract class DownloadManagerState with _$DownloadManagerState {
   const factory DownloadManagerState({
+    required String workingDir,
     required String downloadDir,
     @Default(false) bool isInitialized,
     downloader_api.DownloadGlobalStat? globalStat,
@@ -36,18 +37,24 @@ class DownloadManager extends _$DownloadManager {
     if (appGlobalState.applicationBinaryModuleDir == null) {
       throw Exception("applicationBinaryModuleDir is null");
     }
+    if (appGlobalState.applicationSupportDir == null) {
+      throw Exception("applicationSupportDir is null");
+    }
     ref.onDispose(() {
       _disposed = true;
     });
     ref.keepAlive();
 
+    // Working directory for session data (in appSupport)
+    final workingDir = "${appGlobalState.applicationSupportDir}${Platform.pathSeparator}downloader";
+    // Default download directory (can be customized)
     final downloadDir = "${appGlobalState.applicationBinaryModuleDir}${Platform.pathSeparator}downloads";
 
     // Lazy load init
     () async {
       try {
-        // Check if there are existing tasks
-        final dir = Directory(downloadDir);
+        // Check if there are existing tasks (check working dir for session data)
+        final dir = Directory(workingDir);
         if (await dir.exists()) {
           dPrint("Launch download manager");
           await initDownloader();
@@ -59,21 +66,32 @@ class DownloadManager extends _$DownloadManager {
       }
     }();
 
-    return DownloadManagerState(downloadDir: downloadDir);
+    return DownloadManagerState(workingDir: workingDir, downloadDir: downloadDir);
   }
 
-  Future<void> initDownloader() async {
+  Future<void> initDownloader({int? uploadLimitBps, int? downloadLimitBps}) async {
     if (state.isInitialized) return;
 
     try {
-      // Create download directory if it doesn't exist
-      final dir = Directory(state.downloadDir);
-      if (!await dir.exists()) {
-        await dir.create(recursive: true);
+      // Create working directory if it doesn't exist
+      final workingDir = Directory(state.workingDir);
+      if (!await workingDir.exists()) {
+        await workingDir.create(recursive: true);
       }
 
-      // Initialize the Rust downloader
-      downloader_api.downloaderInit(downloadDir: state.downloadDir);
+      // Create download directory if it doesn't exist
+      final downloadDir = Directory(state.downloadDir);
+      if (!await downloadDir.exists()) {
+        await downloadDir.create(recursive: true);
+      }
+
+      // Initialize the Rust downloader with optional speed limits
+      downloader_api.downloaderInit(
+        workingDir: state.workingDir,
+        defaultDownloadDir: state.downloadDir,
+        uploadLimitBps: uploadLimitBps,
+        downloadLimitBps: downloadLimitBps,
+      );
 
       state = state.copyWith(isInitialized: true);
 
@@ -97,6 +115,9 @@ class DownloadManager extends _$DownloadManager {
       try {
         final globalStat = await downloader_api.downloaderGetGlobalStats();
         state = state.copyWith(globalStat: globalStat);
+
+        // Auto-remove completed tasks (no seeding behavior)
+        await removeCompletedTasks();
       } catch (e) {
         dPrint("globalStat update error:$e");
       }
@@ -177,6 +198,18 @@ class DownloadManager extends _$DownloadManager {
     state = state.copyWith(isInitialized: false, globalStat: null);
   }
 
+  /// Shutdown the downloader completely (allows restart with new settings)
+  Future<void> shutdown() async {
+    await downloader_api.downloaderShutdown();
+    state = state.copyWith(isInitialized: false, globalStat: null);
+  }
+
+  /// Restart the downloader with new speed limit settings
+  Future<void> restart({int? uploadLimitBps, int? downloadLimitBps}) async {
+    await shutdown();
+    await initDownloader(uploadLimitBps: uploadLimitBps, downloadLimitBps: downloadLimitBps);
+  }
+
   /// Convert speed limit text to bytes per second
   /// Supports formats like: "1", "100k", "10m", "0"
   int textToByte(String text) {
@@ -194,5 +227,23 @@ class DownloadManager extends _$DownloadManager {
       return int.parse(trimmed.substring(0, trimmed.length - 1)) * 1024 * 1024;
     }
     return 0;
+  }
+
+  /// Remove all completed tasks (equivalent to aria2's --seed-time=0 behavior)
+  /// Returns the number of tasks removed
+  Future<int> removeCompletedTasks() async {
+    if (!state.isInitialized) {
+      return 0;
+    }
+    final removed = await downloader_api.downloaderRemoveCompletedTasks();
+    return removed;
+  }
+
+  /// Check if there are any active (non-completed) download tasks
+  Future<bool> hasActiveTasks() async {
+    if (!state.isInitialized) {
+      return false;
+    }
+    return await downloader_api.downloaderHasActiveTasks();
   }
 }

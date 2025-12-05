@@ -614,6 +614,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "Pause Download",
     ),
+    "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
+      "Apply Later",
+    ),
+    "downloader_action_restart_now": MessageLookupByLibrary.simpleMessage(
+      "Restart Now",
+    ),
     "downloader_action_resume_all": MessageLookupByLibrary.simpleMessage(
       "Resume All",
     ),
@@ -645,6 +651,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "SCToolbox uses p2p network to accelerate file downloads. If you have limited bandwidth, you can set the upload bandwidth to 1(byte) here.",
     ),
     "downloader_info_paused": MessageLookupByLibrary.simpleMessage("Paused"),
+    "downloader_info_restart_manager_to_apply":
+        MessageLookupByLibrary.simpleMessage(
+          "Speed limit settings saved. Restart the download manager now to apply new settings?",
+        ),
+    "downloader_info_speed_limit_saved_restart_required":
+        MessageLookupByLibrary.simpleMessage(
+          "Speed limit settings saved. Will apply on next downloader start.",
+        ),
     "downloader_info_status": m22,
     "downloader_info_total_size": m23,
     "downloader_info_uploaded": m24,

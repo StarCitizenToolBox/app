@@ -591,6 +591,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "Приостановить загрузку",
     ),
+    "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
+      "Применить позже",
+    ),
+    "downloader_action_restart_now": MessageLookupByLibrary.simpleMessage(
+      "Перезапустить сейчас",
+    ),
     "downloader_action_resume_all": MessageLookupByLibrary.simpleMessage(
       "Возобновить все",
     ),
@@ -624,6 +630,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_info_paused": MessageLookupByLibrary.simpleMessage(
       "Приостановлено",
     ),
+    "downloader_info_restart_manager_to_apply":
+        MessageLookupByLibrary.simpleMessage(
+          "Настройки ограничения скорости сохранены. Перезапустить менеджер загрузок сейчас для применения новых настроек?",
+        ),
+    "downloader_info_speed_limit_saved_restart_required":
+        MessageLookupByLibrary.simpleMessage(
+          "Настройки ограничения скорости сохранены. Будут применены при следующем запуске загрузчика.",
+        ),
     "downloader_info_status": m22,
     "downloader_info_total_size": m23,
     "downloader_info_uploaded": m24,

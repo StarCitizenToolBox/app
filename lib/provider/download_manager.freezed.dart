@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DownloadManagerState {
 
- String get downloadDir; bool get isInitialized; downloader_api.DownloadGlobalStat? get globalStat;
+ String get workingDir; String get downloadDir; bool get isInitialized; downloader_api.DownloadGlobalStat? get globalStat;
 /// Create a copy of DownloadManagerState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $DownloadManagerStateCopyWith<DownloadManagerState> get copyWith => _$DownloadMa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloadManagerState&&(identical(other.downloadDir, downloadDir) || other.downloadDir == downloadDir)&&(identical(other.isInitialized, isInitialized) || other.isInitialized == isInitialized)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloadManagerState&&(identical(other.workingDir, workingDir) || other.workingDir == workingDir)&&(identical(other.downloadDir, downloadDir) || other.downloadDir == downloadDir)&&(identical(other.isInitialized, isInitialized) || other.isInitialized == isInitialized)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,downloadDir,isInitialized,globalStat);
+int get hashCode => Object.hash(runtimeType,workingDir,downloadDir,isInitialized,globalStat);
 
 @override
 String toString() {
-  return 'DownloadManagerState(downloadDir: $downloadDir, isInitialized: $isInitialized, globalStat: $globalStat)';
+  return 'DownloadManagerState(workingDir: $workingDir, downloadDir: $downloadDir, isInitialized: $isInitialized, globalStat: $globalStat)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $DownloadManagerStateCopyWith<$Res>  {
   factory $DownloadManagerStateCopyWith(DownloadManagerState value, $Res Function(DownloadManagerState) _then) = _$DownloadManagerStateCopyWithImpl;
 @useResult
 $Res call({
- String downloadDir, bool isInitialized, downloader_api.DownloadGlobalStat? globalStat
+ String workingDir, String downloadDir, bool isInitialized, downloader_api.DownloadGlobalStat? globalStat
 });
 
 
@@ -62,9 +62,10 @@ class _$DownloadManagerStateCopyWithImpl<$Res>
 
 /// Create a copy of DownloadManagerState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? downloadDir = null,Object? isInitialized = null,Object? globalStat = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? workingDir = null,Object? downloadDir = null,Object? isInitialized = null,Object? globalStat = freezed,}) {
   return _then(_self.copyWith(
-downloadDir: null == downloadDir ? _self.downloadDir : downloadDir // ignore: cast_nullable_to_non_nullable
+workingDir: null == workingDir ? _self.workingDir : workingDir // ignore: cast_nullable_to_non_nullable
+as String,downloadDir: null == downloadDir ? _self.downloadDir : downloadDir // ignore: cast_nullable_to_non_nullable
 as String,isInitialized: null == isInitialized ? _self.isInitialized : isInitialized // ignore: cast_nullable_to_non_nullable
 as bool,globalStat: freezed == globalStat ? _self.globalStat : globalStat // ignore: cast_nullable_to_non_nullable
 as downloader_api.DownloadGlobalStat?,
@@ -152,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String downloadDir,  bool isInitialized,  downloader_api.DownloadGlobalStat? globalStat)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String workingDir,  String downloadDir,  bool isInitialized,  downloader_api.DownloadGlobalStat? globalStat)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DownloadManagerState() when $default != null:
-return $default(_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
+return $default(_that.workingDir,_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
   return orElse();
 
 }
@@ -173,10 +174,10 @@ return $default(_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String downloadDir,  bool isInitialized,  downloader_api.DownloadGlobalStat? globalStat)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String workingDir,  String downloadDir,  bool isInitialized,  downloader_api.DownloadGlobalStat? globalStat)  $default,) {final _that = this;
 switch (_that) {
 case _DownloadManagerState():
-return $default(_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
+return $default(_that.workingDir,_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +194,10 @@ return $default(_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String downloadDir,  bool isInitialized,  downloader_api.DownloadGlobalStat? globalStat)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String workingDir,  String downloadDir,  bool isInitialized,  downloader_api.DownloadGlobalStat? globalStat)?  $default,) {final _that = this;
 switch (_that) {
 case _DownloadManagerState() when $default != null:
-return $default(_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
+return $default(_that.workingDir,_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
   return null;
 
 }
@@ -208,9 +209,10 @@ return $default(_that.downloadDir,_that.isInitialized,_that.globalStat);case _:
 
 
 class _DownloadManagerState implements DownloadManagerState {
-  const _DownloadManagerState({required this.downloadDir, this.isInitialized = false, this.globalStat});
+  const _DownloadManagerState({required this.workingDir, required this.downloadDir, this.isInitialized = false, this.globalStat});
   
 
+@override final  String workingDir;
 @override final  String downloadDir;
 @override@JsonKey() final  bool isInitialized;
 @override final  downloader_api.DownloadGlobalStat? globalStat;
@@ -225,16 +227,16 @@ _$DownloadManagerStateCopyWith<_DownloadManagerState> get copyWith => __$Downloa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DownloadManagerState&&(identical(other.downloadDir, downloadDir) || other.downloadDir == downloadDir)&&(identical(other.isInitialized, isInitialized) || other.isInitialized == isInitialized)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DownloadManagerState&&(identical(other.workingDir, workingDir) || other.workingDir == workingDir)&&(identical(other.downloadDir, downloadDir) || other.downloadDir == downloadDir)&&(identical(other.isInitialized, isInitialized) || other.isInitialized == isInitialized)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,downloadDir,isInitialized,globalStat);
+int get hashCode => Object.hash(runtimeType,workingDir,downloadDir,isInitialized,globalStat);
 
 @override
 String toString() {
-  return 'DownloadManagerState(downloadDir: $downloadDir, isInitialized: $isInitialized, globalStat: $globalStat)';
+  return 'DownloadManagerState(workingDir: $workingDir, downloadDir: $downloadDir, isInitialized: $isInitialized, globalStat: $globalStat)';
 }
 
 
@@ -245,7 +247,7 @@ abstract mixin class _$DownloadManagerStateCopyWith<$Res> implements $DownloadMa
   factory _$DownloadManagerStateCopyWith(_DownloadManagerState value, $Res Function(_DownloadManagerState) _then) = __$DownloadManagerStateCopyWithImpl;
 @override @useResult
 $Res call({
- String downloadDir, bool isInitialized, downloader_api.DownloadGlobalStat? globalStat
+ String workingDir, String downloadDir, bool isInitialized, downloader_api.DownloadGlobalStat? globalStat
 });
 
 
@@ -262,9 +264,10 @@ class __$DownloadManagerStateCopyWithImpl<$Res>
 
 /// Create a copy of DownloadManagerState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? downloadDir = null,Object? isInitialized = null,Object? globalStat = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? workingDir = null,Object? downloadDir = null,Object? isInitialized = null,Object? globalStat = freezed,}) {
   return _then(_DownloadManagerState(
-downloadDir: null == downloadDir ? _self.downloadDir : downloadDir // ignore: cast_nullable_to_non_nullable
+workingDir: null == workingDir ? _self.workingDir : workingDir // ignore: cast_nullable_to_non_nullable
+as String,downloadDir: null == downloadDir ? _self.downloadDir : downloadDir // ignore: cast_nullable_to_non_nullable
 as String,isInitialized: null == isInitialized ? _self.isInitialized : isInitialized // ignore: cast_nullable_to_non_nullable
 as bool,globalStat: freezed == globalStat ? _self.globalStat : globalStat // ignore: cast_nullable_to_non_nullable
 as downloader_api.DownloadGlobalStat?,

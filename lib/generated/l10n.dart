@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -710,6 +709,46 @@ class S {
     return Intl.message(
       '* P2P upload only occurs when downloading files and will close p2p connections after download completion. If you want to participate in seeding, please contact us through the About page.',
       name: 'downloader_input_info_p2p_upload_note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed limit settings saved. Will apply on next downloader start.`
+  String get downloader_info_speed_limit_saved_restart_required {
+    return Intl.message(
+      'Speed limit settings saved. Will apply on next downloader start.',
+      name: 'downloader_info_speed_limit_saved_restart_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restart Now`
+  String get downloader_action_restart_now {
+    return Intl.message(
+      'Restart Now',
+      name: 'downloader_action_restart_now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply Later`
+  String get downloader_action_restart_later {
+    return Intl.message(
+      'Apply Later',
+      name: 'downloader_action_restart_later',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed limit settings saved. Restart the download manager now to apply new settings?`
+  String get downloader_info_restart_manager_to_apply {
+    return Intl.message(
+      'Speed limit settings saved. Restart the download manager now to apply new settings?',
+      name: 'downloader_info_restart_manager_to_apply',
       desc: '',
       args: [],
     );

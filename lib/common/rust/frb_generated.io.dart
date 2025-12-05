@@ -51,6 +51,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw);
+
+  @protected
   BigInt dco_decode_box_autoadd_u_64(dynamic raw);
 
   @protected
@@ -114,6 +117,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool? dco_decode_opt_box_autoadd_bool(dynamic raw);
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
 
   @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
@@ -204,6 +210,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
+
+  @protected
   BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
 
   @protected
@@ -281,6 +290,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer);
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
 
   @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
@@ -406,6 +418,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     final ptr = wire.cst_new_box_autoadd_rsi_launcher_asar_data();
     cst_api_fill_to_wire_rsi_launcher_asar_data(raw, ptr.ref);
     return ptr;
+  }
+
+  @protected
+  ffi.Pointer<ffi.Uint32> cst_encode_box_autoadd_u_32(int raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return wire.cst_new_box_autoadd_u_32(cst_encode_u_32(raw));
   }
 
   @protected
@@ -536,6 +554,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<ffi.Bool> cst_encode_opt_box_autoadd_bool(bool? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_bool(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.Uint32> cst_encode_opt_box_autoadd_u_32(int? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_u_32(raw);
   }
 
   @protected
@@ -830,6 +854,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer);
 
   @protected
@@ -924,6 +951,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
@@ -1337,10 +1367,34 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__downloader_api__downloader_get_task_infoPtr
           .asFunction<void Function(int, int)>();
 
-  WireSyncRust2DartDco wire__crate__api__downloader_api__downloader_init(
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> download_dir,
+  void wire__crate__api__downloader_api__downloader_has_active_tasks(
+    int port_,
   ) {
-    return _wire__crate__api__downloader_api__downloader_init(download_dir);
+    return _wire__crate__api__downloader_api__downloader_has_active_tasks(
+      port_,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_has_active_tasksPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_has_active_tasks',
+      );
+  late final _wire__crate__api__downloader_api__downloader_has_active_tasks =
+      _wire__crate__api__downloader_api__downloader_has_active_tasksPtr
+          .asFunction<void Function(int)>();
+
+  WireSyncRust2DartDco wire__crate__api__downloader_api__downloader_init(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> working_dir,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> default_download_dir,
+    ffi.Pointer<ffi.Uint32> upload_limit_bps,
+    ffi.Pointer<ffi.Uint32> download_limit_bps,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_init(
+      working_dir,
+      default_download_dir,
+      upload_limit_bps,
+      download_limit_bps,
+    );
   }
 
   late final _wire__crate__api__downloader_api__downloader_initPtr =
@@ -1348,6 +1402,9 @@ class RustLibWire implements BaseWire {
         ffi.NativeFunction<
           WireSyncRust2DartDco Function(
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<ffi.Uint32>,
+            ffi.Pointer<ffi.Uint32>,
           )
         >
       >(
@@ -1358,6 +1415,9 @@ class RustLibWire implements BaseWire {
           .asFunction<
             WireSyncRust2DartDco Function(
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<ffi.Uint32>,
+              ffi.Pointer<ffi.Uint32>,
             )
           >();
 
@@ -1450,6 +1510,22 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__downloader_api__downloader_removePtr
           .asFunction<void Function(int, int, bool)>();
 
+  void wire__crate__api__downloader_api__downloader_remove_completed_tasks(
+    int port_,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_remove_completed_tasks(
+      port_,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_remove_completed_tasksPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_remove_completed_tasks',
+      );
+  late final _wire__crate__api__downloader_api__downloader_remove_completed_tasks =
+      _wire__crate__api__downloader_api__downloader_remove_completed_tasksPtr
+          .asFunction<void Function(int)>();
+
   void wire__crate__api__downloader_api__downloader_resume(
     int port_,
     int task_id,
@@ -1477,6 +1553,18 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__downloader_api__downloader_resume_allPtr
           .asFunction<void Function(int)>();
 
+  void wire__crate__api__downloader_api__downloader_shutdown(int port_) {
+    return _wire__crate__api__downloader_api__downloader_shutdown(port_);
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_shutdownPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_shutdown',
+      );
+  late final _wire__crate__api__downloader_api__downloader_shutdown =
+      _wire__crate__api__downloader_api__downloader_shutdownPtr
+          .asFunction<void Function(int)>();
+
   void wire__crate__api__downloader_api__downloader_stop(int port_) {
     return _wire__crate__api__downloader_api__downloader_stop(port_);
   }
@@ -1488,6 +1576,36 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__downloader_api__downloader_stop =
       _wire__crate__api__downloader_api__downloader_stopPtr
           .asFunction<void Function(int)>();
+
+  void wire__crate__api__downloader_api__downloader_update_speed_limits(
+    int port_,
+    ffi.Pointer<ffi.Uint32> _upload_limit_bps,
+    ffi.Pointer<ffi.Uint32> _download_limit_bps,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_update_speed_limits(
+      port_,
+      _upload_limit_bps,
+      _download_limit_bps,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_update_speed_limitsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<ffi.Uint32>,
+            ffi.Pointer<ffi.Uint32>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_update_speed_limits',
+      );
+  late final _wire__crate__api__downloader_api__downloader_update_speed_limits =
+      _wire__crate__api__downloader_api__downloader_update_speed_limitsPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<ffi.Uint32>, ffi.Pointer<ffi.Uint32>)
+          >();
 
   void wire__crate__api__http_api__fetch(
     int port_,
@@ -2754,6 +2872,17 @@ class RustLibWire implements BaseWire {
           .asFunction<
             ffi.Pointer<wire_cst_rsi_launcher_asar_data> Function()
           >();
+
+  ffi.Pointer<ffi.Uint32> cst_new_box_autoadd_u_32(int value) {
+    return _cst_new_box_autoadd_u_32(value);
+  }
+
+  late final _cst_new_box_autoadd_u_32Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Uint32> Function(ffi.Uint32)>>(
+        'frbgen_starcitizen_doctor_cst_new_box_autoadd_u_32',
+      );
+  late final _cst_new_box_autoadd_u_32 = _cst_new_box_autoadd_u_32Ptr
+      .asFunction<ffi.Pointer<ffi.Uint32> Function(int)>();
 
   ffi.Pointer<ffi.Uint64> cst_new_box_autoadd_u_64(int value) {
     return _cst_new_box_autoadd_u_64(value);

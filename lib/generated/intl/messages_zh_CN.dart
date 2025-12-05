@@ -538,6 +538,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "暂停下载",
     ),
+    "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
+      "下次启动时生效",
+    ),
+    "downloader_action_restart_now": MessageLookupByLibrary.simpleMessage(
+      "立即重启下载管理器",
+    ),
     "downloader_action_resume_all": MessageLookupByLibrary.simpleMessage(
       "恢复全部",
     ),
@@ -565,6 +571,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "SC 汉化盒子使用 p2p 网络来加速文件下载，如果您流量有限，可在此处将上传带宽设置为 1(byte)。",
     ),
     "downloader_info_paused": MessageLookupByLibrary.simpleMessage("已暂停"),
+    "downloader_info_restart_manager_to_apply":
+        MessageLookupByLibrary.simpleMessage("限速设置已保存。是否立即重启下载管理器以应用新设置？"),
+    "downloader_info_speed_limit_saved_restart_required":
+        MessageLookupByLibrary.simpleMessage("限速设置已保存，将在下次启动下载器时生效。"),
     "downloader_info_status": m22,
     "downloader_info_total_size": m23,
     "downloader_info_uploaded": m24,

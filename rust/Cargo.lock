@@ -2994,7 +2994,7 @@ dependencies = [
 [[package]]
 name = "librqbit"
 version = "9.0.0-beta.1"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -3058,7 +3058,7 @@ dependencies = [
 [[package]]
 name = "librqbit-bencode"
 version = "3.1.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "anyhow",
  "arrayvec",
@@ -3074,7 +3074,7 @@ dependencies = [
 [[package]]
 name = "librqbit-buffers"
 version = "4.2.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "bytes",
  "librqbit-clone-to-owned",
@@ -3085,7 +3085,7 @@ dependencies = [
 [[package]]
 name = "librqbit-clone-to-owned"
 version = "3.0.1"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "bytes",
 ]
@@ -3093,7 +3093,7 @@ dependencies = [
 [[package]]
 name = "librqbit-core"
 version = "5.0.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "anyhow",
  "bytes",
@@ -3122,7 +3122,7 @@ dependencies = [
 [[package]]
 name = "librqbit-dht"
 version = "5.3.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "anyhow",
  "backon",
@@ -3169,7 +3169,7 @@ dependencies = [
 [[package]]
 name = "librqbit-lsd"
 version = "0.1.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "anyhow",
  "atoi",
@@ -3189,7 +3189,7 @@ dependencies = [
 [[package]]
 name = "librqbit-peer-protocol"
 version = "4.3.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "anyhow",
  "bitvec",
@@ -3209,7 +3209,7 @@ dependencies = [
 [[package]]
 name = "librqbit-sha1-wrapper"
 version = "4.1.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "assert_cfg",
  "aws-lc-rs",
@@ -3218,7 +3218,7 @@ dependencies = [
 [[package]]
 name = "librqbit-tracker-comms"
 version = "3.0.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "anyhow",
  "async-stream",
@@ -3246,7 +3246,7 @@ dependencies = [
 [[package]]
 name = "librqbit-upnp"
 version = "1.0.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.1#e5ac0ac75cceffe017e247ea265dc7402c226638"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?tag=webseed-v0.0.2#7a9b4d7db84b7b9cccc424e294610cc800a9baa4"
 dependencies = [
  "anyhow",
  "bstr",

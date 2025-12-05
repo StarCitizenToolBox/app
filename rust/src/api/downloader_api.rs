@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::num::NonZeroU32;
 use std::path::PathBuf;
 use std::sync::Arc;
 
@@ -7,9 +8,11 @@ use bytes::Bytes;
 use flutter_rust_bridge::frb;
 use librqbit::{
     AddTorrent, AddTorrentOptions, AddTorrentResponse, Session, SessionOptions,
-    TorrentStats, ManagedTorrent, TorrentStatsState,
+    SessionPersistenceConfig, TorrentStats, ManagedTorrent, TorrentStatsState,
+    api::TorrentIdOrHash,
+    dht::PersistentDhtConfig,
+    limits::LimitsConfig,
 };
-use once_cell::sync::OnceCell;
 use parking_lot::RwLock;
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
@@ -17,8 +20,9 @@ use tokio::sync::Mutex;
 // Type alias for ManagedTorrentHandle
 type ManagedTorrentHandle = Arc<ManagedTorrent>;
 
-// Global session instance
-static SESSION: OnceCell<Arc<Session>> = OnceCell::new();
+// Global session instance - using RwLock to allow restart
+static SESSION: once_cell::sync::Lazy<RwLock<Option<Arc<Session>>>> =
+    once_cell::sync::Lazy::new(|| RwLock::new(None));
 static SESSION_INIT_LOCK: once_cell::sync::Lazy<Mutex<()>> =
     once_cell::sync::Lazy::new(|| Mutex::new(()));
 
@@ -31,7 +35,7 @@ static TASK_OUTPUT_FOLDERS: once_cell::sync::Lazy<RwLock<HashMap<usize, String>>
     once_cell::sync::Lazy::new(|| RwLock::new(HashMap::new()));
 
 /// Download task status
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum DownloadTaskStatus {
     Initializing,
     Live,
@@ -65,11 +69,22 @@ pub struct DownloadGlobalStat {
     pub num_waiting: usize,
 }
 
-/// Initialize the download manager session
+/// Initialize the download manager session with persistence enabled
+/// 
+/// Parameters:
+/// - working_dir: The directory to store session data (persistence, DHT, etc.)
+/// - default_download_dir: The default directory to store downloads
+/// - upload_limit_bps: Upload speed limit in bytes per second (0 = unlimited)
+/// - download_limit_bps: Download speed limit in bytes per second (0 = unlimited)
 #[frb(sync)]
-pub fn downloader_init(download_dir: String) -> Result<()> {
+pub fn downloader_init(
+    working_dir: String,
+    default_download_dir: String,
+    upload_limit_bps: Option<u32>,
+    download_limit_bps: Option<u32>,
+) -> Result<()> {
     // Already initialized
-    if SESSION.get().is_some() {
+    if SESSION.read().is_some() {
         return Ok(());
     }
 
@@ -78,28 +93,52 @@ pub fn downloader_init(download_dir: String) -> Result<()> {
         let _lock = SESSION_INIT_LOCK.lock().await;
         
         // Double check after acquiring lock
-        if SESSION.get().is_some() {
+        if SESSION.read().is_some() {
             return Ok(());
         }
 
-        let output_folder = PathBuf::from(&download_dir);
+        // Working directory for persistence and session data
+        let working_folder = PathBuf::from(&working_dir);
+        std::fs::create_dir_all(&working_folder)?;
+        
+        // Default download folder
+        let output_folder = PathBuf::from(&default_download_dir);
         std::fs::create_dir_all(&output_folder)?;
+        
+        // Create persistence folder for session state in working directory
+        let persistence_folder = working_folder.join("rqbit-session");
+        std::fs::create_dir_all(&persistence_folder)?;
+        
+        // DHT persistence file in working directory
+        let dht_persistence_file = working_folder.join("dht.json");
 
         let session = Session::new_with_opts(
             output_folder,
             SessionOptions {
                 disable_dht: false,
-                disable_dht_persistence: true,
-                persistence: None,
+                disable_dht_persistence: false,
+                // Configure DHT persistence to use working directory
+                dht_config: Some(PersistentDhtConfig {
+                    config_filename: Some(dht_persistence_file),
+                    ..Default::default()
+                }),
+                // Enable JSON-based session persistence for task recovery
+                persistence: Some(SessionPersistenceConfig::Json {
+                    folder: Some(persistence_folder),
+                }),
+                fastresume: false,
+                // Configure rate limits
+                ratelimits: LimitsConfig {
+                    upload_bps: upload_limit_bps.and_then(NonZeroU32::new),
+                    download_bps: download_limit_bps.and_then(NonZeroU32::new),
+                },
                 ..Default::default()
             },
         )
         .await
         .context("Failed to create rqbit session")?;
 
-        SESSION
-            .set(session)
-            .map_err(|_| anyhow::anyhow!("Session already initialized"))?;
+        *SESSION.write() = Some(session);
 
         Ok(())
     })
@@ -108,7 +147,14 @@ pub fn downloader_init(download_dir: String) -> Result<()> {
 /// Check if the downloader is initialized
 #[frb(sync)]
 pub fn downloader_is_initialized() -> bool {
-    SESSION.get().is_some()
+    SESSION.read().is_some()
+}
+
+/// Helper function to get session
+fn get_session() -> Result<Arc<Session>> {
+    SESSION.read()
+        .clone()
+        .context("Downloader not initialized. Call downloader_init first.")
 }
 
 /// Add a torrent from bytes (e.g., .torrent file content)
@@ -117,9 +163,7 @@ pub async fn downloader_add_torrent(
     output_folder: Option<String>,
     trackers: Option<Vec<String>>,
 ) -> Result<usize> {
-    let session = SESSION
-        .get()
-        .context("Downloader not initialized. Call downloader_init first.")?;
+    let session = get_session()?;
 
     let bytes = Bytes::from(torrent_bytes);
     let add_torrent = AddTorrent::from_bytes(bytes);
@@ -171,9 +215,7 @@ pub async fn downloader_add_magnet(
     output_folder: Option<String>,
     trackers: Option<Vec<String>>,
 ) -> Result<usize> {
-    let session = SESSION
-        .get()
-        .context("Downloader not initialized. Call downloader_init first.")?;
+    let session = get_session()?;
 
     // Check if it's a magnet link
     if !magnet_link.starts_with("magnet:") {
@@ -260,9 +302,7 @@ pub async fn downloader_add_url(
 
 /// Pause a download task
 pub async fn downloader_pause(task_id: usize) -> Result<()> {
-    let session = SESSION
-        .get()
-        .context("Downloader not initialized")?;
+    let session = get_session()?;
 
     let handle = {
         let handles = TORRENT_HANDLES.read();
@@ -279,9 +319,7 @@ pub async fn downloader_pause(task_id: usize) -> Result<()> {
 
 /// Resume a download task
 pub async fn downloader_resume(task_id: usize) -> Result<()> {
-    let session = SESSION
-        .get()
-        .context("Downloader not initialized")?;
+    let session = get_session()?;
 
     let handle = {
         let handles = TORRENT_HANDLES.read();
@@ -298,9 +336,7 @@ pub async fn downloader_resume(task_id: usize) -> Result<()> {
 
 /// Remove a download task
 pub async fn downloader_remove(task_id: usize, delete_files: bool) -> Result<()> {
-    let session = SESSION
-        .get()
-        .context("Downloader not initialized")?;
+    let session = get_session()?;
 
     session
         .delete(librqbit::api::TorrentIdOrHash::Id(task_id), delete_files)
@@ -382,11 +418,12 @@ fn get_task_status(stats: &TorrentStats) -> DownloadTaskStatus {
 
 /// Get all tasks
 pub async fn downloader_get_all_tasks() -> Result<Vec<DownloadTaskInfo>> {
-    let session = SESSION.get();
-    if session.is_none() {
-        return Ok(vec![]);
-    }
-    let session = session.unwrap();
+    let session_guard = SESSION.read();
+    let session = match session_guard.as_ref() {
+        Some(s) => s.clone(),
+        None => return Ok(vec![]),
+    };
+    drop(session_guard);
 
     // Use RwLock to collect tasks since with_torrents takes Fn (not FnMut)
     let tasks: RwLock<Vec<DownloadTaskInfo>> = RwLock::new(Vec::new());
@@ -474,9 +511,7 @@ pub async fn downloader_is_name_in_task(name: String) -> bool {
 
 /// Pause all tasks
 pub async fn downloader_pause_all() -> Result<()> {
-    let session = SESSION
-        .get()
-        .context("Downloader not initialized")?;
+    let session = get_session()?;
 
     let handles: Vec<_> = TORRENT_HANDLES.read().values().cloned().collect();
     
@@ -489,9 +524,7 @@ pub async fn downloader_pause_all() -> Result<()> {
 
 /// Resume all tasks
 pub async fn downloader_resume_all() -> Result<()> {
-    let session = SESSION
-        .get()
-        .context("Downloader not initialized")?;
+    let session = get_session()?;
 
     let handles: Vec<_> = TORRENT_HANDLES.read().values().cloned().collect();
     
@@ -502,12 +535,80 @@ pub async fn downloader_resume_all() -> Result<()> {
     Ok(())
 }
 
-/// Stop the downloader session
+/// Stop the downloader session (pauses all tasks but keeps session)
 pub async fn downloader_stop() -> Result<()> {
-    if let Some(session) = SESSION.get() {
+    let session = SESSION.read().clone();
+    if let Some(session) = session {
         session.stop().await;
     }
     TORRENT_HANDLES.write().clear();
     TASK_OUTPUT_FOLDERS.write().clear();
     Ok(())
+}
+
+/// Shutdown the downloader session completely (allows restart with new settings)
+pub async fn downloader_shutdown() -> Result<()> {
+    let session_opt = {
+        let mut guard = SESSION.write();
+        guard.take()
+    };
+    
+    if let Some(session) = session_opt {
+        session.stop().await;
+    }
+    
+    TORRENT_HANDLES.write().clear();
+    TASK_OUTPUT_FOLDERS.write().clear();
+    Ok(())
+}
+
+/// Update global speed limits
+/// Note: rqbit Session doesn't support runtime limit changes, 
+/// this function is a placeholder that returns an error.
+/// Speed limits should be set during downloader_init.
+pub async fn downloader_update_speed_limits(
+    _upload_limit_bps: Option<u32>,
+    _download_limit_bps: Option<u32>,
+) -> Result<()> {
+    // rqbit Session is created with limits but doesn't support runtime updates
+    // To change limits, the session needs to be recreated
+    anyhow::bail!("Runtime speed limit changes not supported. Please restart the downloader.")
+}
+
+/// Remove all completed tasks (equivalent to aria2's --seed-time=0 behavior)
+pub async fn downloader_remove_completed_tasks() -> Result<u32> {
+    let session = get_session()?;
+
+    let tasks = downloader_get_all_tasks().await?;
+    let mut removed_count = 0u32;
+    
+    for task in tasks {
+        if task.status == DownloadTaskStatus::Finished {
+            // Check if handle exists (drop lock before await)
+            let has_handle = TORRENT_HANDLES.read().contains_key(&task.id);
+            if has_handle {
+                // Use TorrentIdOrHash::Id for deletion (TorrentId is just usize)
+                if session.delete(TorrentIdOrHash::Id(task.id), false).await.is_ok() {
+                    TORRENT_HANDLES.write().remove(&task.id);
+                    TASK_OUTPUT_FOLDERS.write().remove(&task.id);
+                    removed_count += 1;
+                }
+            }
+        }
+    }
+    
+    Ok(removed_count)
+}
+
+/// Check if there are any active (non-completed) tasks
+pub async fn downloader_has_active_tasks() -> bool {
+    if let Ok(tasks) = downloader_get_all_tasks().await {
+        for task in tasks {
+            if task.status != DownloadTaskStatus::Finished 
+                && task.status != DownloadTaskStatus::Error {
+                return true;
+            }
+        }
+    }
+    false
 }
