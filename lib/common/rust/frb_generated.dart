@@ -71,7 +71,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1082688871;
+  int get rustContentHash => 1317751362;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -102,6 +102,10 @@ abstract class RustLibApi extends BaseApi {
     String? pathSuffix,
   });
 
+  Future<String> crateApiWin32ApiGetGpuInfoFromRegistry();
+
+  Future<int> crateApiWin32ApiGetNumberOfLogicalProcessors();
+
   Future<List<ProcessInfo>> crateApiWin32ApiGetProcessListByName({
     required String processName,
   });
@@ -114,11 +118,20 @@ abstract class RustLibApi extends BaseApi {
     required String asarPath,
   });
 
+  Future<SystemInfo> crateApiWin32ApiGetSystemInfo();
+
+  Future<BigInt> crateApiWin32ApiGetSystemMemorySizeGb();
+
   Future<void> crateApiOrtApiLoadTranslationModel({
     required String modelPath,
     required String modelKey,
     required String quantizationSuffix,
     required bool useXnnpack,
+  });
+
+  Future<void> crateApiWin32ApiOpenDirWithExplorer({
+    required String path,
+    required bool isFile,
   });
 
   Future<void> crateApiUnp4KApiP4KClose();
@@ -137,6 +150,8 @@ abstract class RustLibApi extends BaseApi {
   Future<BigInt> crateApiUnp4KApiP4KGetFileCount();
 
   Future<void> crateApiUnp4KApiP4KOpen({required String p4KPath});
+
+  Future<String> crateApiWin32ApiResolveShortcut({required String lnkPath});
 
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
     required RsiLauncherAsarData that,
@@ -403,6 +418,59 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<String> crateApiWin32ApiGetGpuInfoFromRegistry() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__win32_api__get_gpu_info_from_registry(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiGetGpuInfoFromRegistryConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiGetGpuInfoFromRegistryConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_gpu_info_from_registry",
+        argNames: [],
+      );
+
+  @override
+  Future<int> crateApiWin32ApiGetNumberOfLogicalProcessors() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__win32_api__get_number_of_logical_processors(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_32,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiGetNumberOfLogicalProcessorsConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiGetNumberOfLogicalProcessorsConstMeta =>
+      const TaskConstMeta(
+        debugName: "get_number_of_logical_processors",
+        argNames: [],
+      );
+
+  @override
   Future<List<ProcessInfo>> crateApiWin32ApiGetProcessListByName({
     required String processName,
   }) {
@@ -493,6 +561,50 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<SystemInfo> crateApiWin32ApiGetSystemInfo() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__win32_api__get_system_info(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_system_info,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiGetSystemInfoConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiGetSystemInfoConstMeta =>
+      const TaskConstMeta(debugName: "get_system_info", argNames: []);
+
+  @override
+  Future<BigInt> crateApiWin32ApiGetSystemMemorySizeGb() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__win32_api__get_system_memory_size_gb(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_64,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiGetSystemMemorySizeGbConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiGetSystemMemorySizeGbConstMeta =>
+      const TaskConstMeta(debugName: "get_system_memory_size_gb", argNames: []);
+
+  @override
   Future<void> crateApiOrtApiLoadTranslationModel({
     required String modelPath,
     required String modelKey,
@@ -529,6 +641,39 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "load_translation_model",
         argNames: ["modelPath", "modelKey", "quantizationSuffix", "useXnnpack"],
+      );
+
+  @override
+  Future<void> crateApiWin32ApiOpenDirWithExplorer({
+    required String path,
+    required bool isFile,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(path);
+          var arg1 = cst_encode_bool(isFile);
+          return wire.wire__crate__api__win32_api__open_dir_with_explorer(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiOpenDirWithExplorerConstMeta,
+        argValues: [path, isFile],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiOpenDirWithExplorerConstMeta =>
+      const TaskConstMeta(
+        debugName: "open_dir_with_explorer",
+        argNames: ["path", "isFile"],
       );
 
   @override
@@ -678,6 +823,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiUnp4KApiP4KOpenConstMeta =>
       const TaskConstMeta(debugName: "p4k_open", argNames: ["p4KPath"]);
+
+  @override
+  Future<String> crateApiWin32ApiResolveShortcut({required String lnkPath}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(lnkPath);
+          return wire.wire__crate__api__win32_api__resolve_shortcut(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiResolveShortcutConstMeta,
+        argValues: [lnkPath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiResolveShortcutConstMeta =>
+      const TaskConstMeta(debugName: "resolve_shortcut", argNames: ["lnkPath"]);
 
   @override
   Future<void> crateApiAsarApiRsiLauncherAsarDataWriteMainJs({
@@ -1668,6 +1838,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  SystemInfo dco_decode_system_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return SystemInfo(
+      osName: dco_decode_String(arr[0]),
+      cpuName: dco_decode_String(arr[1]),
+      gpuInfo: dco_decode_String(arr[2]),
+      diskInfo: dco_decode_String(arr[3]),
+    );
+  }
+
+  @protected
   int dco_decode_u_16(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -2078,6 +2262,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       version: var_version,
       remoteAddr: var_remoteAddr,
       data: var_data,
+    );
+  }
+
+  @protected
+  SystemInfo sse_decode_system_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_osName = sse_decode_String(deserializer);
+    var var_cpuName = sse_decode_String(deserializer);
+    var var_gpuInfo = sse_decode_String(deserializer);
+    var var_diskInfo = sse_decode_String(deserializer);
+    return SystemInfo(
+      osName: var_osName,
+      cpuName: var_cpuName,
+      gpuInfo: var_gpuInfo,
+      diskInfo: var_diskInfo,
     );
   }
 
@@ -2554,6 +2753,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_my_http_version(self.version, serializer);
     sse_encode_String(self.remoteAddr, serializer);
     sse_encode_opt_list_prim_u_8_strict(self.data, serializer);
+  }
+
+  @protected
+  void sse_encode_system_info(SystemInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.osName, serializer);
+    sse_encode_String(self.cpuName, serializer);
+    sse_encode_String(self.gpuInfo, serializer);
+    sse_encode_String(self.diskInfo, serializer);
   }
 
   @protected

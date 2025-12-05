@@ -26,6 +26,359 @@ pub fn send_notify(
     Ok(())
 }
 
+/// Get system memory size in GB
+#[cfg(target_os = "windows")]
+pub fn get_system_memory_size_gb() -> anyhow::Result<u64> {
+    use windows::Win32::System::SystemInformation::{GlobalMemoryStatusEx, MEMORYSTATUSEX};
+    use std::mem;
+    
+    unsafe {
+        let mut mem_status: MEMORYSTATUSEX = mem::zeroed();
+        mem_status.dwLength = mem::size_of::<MEMORYSTATUSEX>() as u32;
+        
+        GlobalMemoryStatusEx(&mut mem_status)?;
+        
+        // Convert bytes to GB
+        Ok(mem_status.ullTotalPhys / (1024 * 1024 * 1024))
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn get_system_memory_size_gb() -> anyhow::Result<u64> {
+    Ok(0)
+}
+
+/// Get number of logical processors
+#[cfg(target_os = "windows")]
+pub fn get_number_of_logical_processors() -> anyhow::Result<u32> {
+    use windows::Win32::System::SystemInformation::{GetSystemInfo, SYSTEM_INFO};
+    use std::mem;
+    
+    unsafe {
+        let mut sys_info: SYSTEM_INFO = mem::zeroed();
+        GetSystemInfo(&mut sys_info);
+        Ok(sys_info.dwNumberOfProcessors)
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn get_number_of_logical_processors() -> anyhow::Result<u32> {
+    Ok(0)
+}
+
+/// System information struct
+#[derive(Debug, Clone)]
+pub struct SystemInfo {
+    pub os_name: String,
+    pub cpu_name: String,
+    pub gpu_info: String,
+    pub disk_info: String,
+}
+
+/// Get all system information at once
+#[cfg(target_os = "windows")]
+pub fn get_system_info() -> anyhow::Result<SystemInfo> {
+    use wmi::{COMLibrary, WMIConnection};
+    use serde::Deserialize;
+    
+    #[derive(Deserialize, Debug)]
+    #[serde(rename = "Caption")]
+    struct OsInfo {
+        #[serde(rename = "Caption")]
+        caption: Option<String>,
+    }
+    
+    #[derive(Deserialize, Debug)]
+    struct CpuInfo {
+        #[serde(rename = "Name")]
+        name: Option<String>,
+    }
+    
+    #[derive(Deserialize, Debug)]
+    struct GpuInfo {
+        #[serde(rename = "Name")]
+        name: Option<String>,
+        #[serde(rename = "AdapterRAM")]
+        adapter_ram: Option<u64>,
+    }
+    
+    #[derive(Deserialize, Debug)]
+    struct DiskInfo {
+        #[serde(rename = "MediaType")]
+        media_type: Option<String>,
+        #[serde(rename = "Model")]
+        model: Option<String>,
+        #[serde(rename = "Size")]
+        size: Option<u64>,
+    }
+    
+    let com_con = COMLibrary::new()?;
+    let wmi_con = WMIConnection::new(com_con)?;
+    
+    // Get OS name using raw query
+    let os_name = match wmi_con.raw_query::<OsInfo>("SELECT Caption FROM Win32_OperatingSystem") {
+        Ok(results) => results.first()
+            .and_then(|os| os.caption.clone())
+            .unwrap_or_default(),
+        Err(_) => String::new(),
+    };
+    
+    // Get CPU name using raw query
+    let cpu_name = match wmi_con.raw_query::<CpuInfo>("SELECT Name FROM Win32_Processor") {
+        Ok(results) => results.first()
+            .and_then(|cpu| cpu.name.clone())
+            .unwrap_or_default(),
+        Err(_) => String::new(),
+    };
+    
+    // Get GPU info using raw query
+    let gpu_info = match wmi_con.raw_query::<GpuInfo>("SELECT Name, AdapterRAM FROM Win32_VideoController") {
+        Ok(results) => results.iter()
+            .filter_map(|gpu| {
+                gpu.name.as_ref().map(|name| {
+                    let vram_gb = gpu.adapter_ram.unwrap_or(0) / (1024 * 1024 * 1024);
+                    format!("{} ({} GB)", name, vram_gb)
+                })
+            })
+            .collect::<Vec<_>>()
+            .join("\n"),
+        Err(_) => String::new(),
+    };
+    
+    // Get Disk info using raw query
+    let disk_info = match wmi_con.raw_query::<DiskInfo>("SELECT MediaType, Model, Size FROM Win32_DiskDrive") {
+        Ok(results) => results.iter()
+            .filter(|disk| disk.model.is_some())
+            .map(|disk| {
+                let size_gb = disk.size.unwrap_or(0) / (1024 * 1024 * 1024);
+                format!("{}\t{}\t{} GB", 
+                    disk.media_type.as_deref().unwrap_or(""),
+                    disk.model.as_deref().unwrap_or(""),
+                    size_gb)
+            })
+            .collect::<Vec<_>>()
+            .join("\n"),
+        Err(_) => String::new(),
+    };
+    
+    Ok(SystemInfo {
+        os_name,
+        cpu_name,
+        gpu_info,
+        disk_info,
+    })
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn get_system_info() -> anyhow::Result<SystemInfo> {
+    Ok(SystemInfo {
+        os_name: String::new(),
+        cpu_name: String::new(),
+        gpu_info: String::new(),
+        disk_info: String::new(),
+    })
+}
+
+/// Get GPU info from registry (more accurate VRAM)
+#[cfg(target_os = "windows")]
+pub fn get_gpu_info_from_registry() -> anyhow::Result<String> {
+    use windows::Win32::System::Registry::{
+        RegOpenKeyExW, RegQueryValueExW, RegEnumKeyExW, RegCloseKey,
+        HKEY_LOCAL_MACHINE, KEY_READ, REG_VALUE_TYPE,
+    };
+    use windows::core::{HSTRING, PCWSTR};
+    use std::mem;
+    
+    let mut result = Vec::new();
+    let base_path = HSTRING::from(r"SYSTEM\ControlSet001\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}");
+    
+    unsafe {
+        let mut hkey = std::mem::zeroed();
+        if RegOpenKeyExW(
+            HKEY_LOCAL_MACHINE,
+            PCWSTR(base_path.as_ptr()),
+            Some(0),
+            KEY_READ,
+            &mut hkey,
+        ).is_err() {
+            return Ok(String::new());
+        }
+        
+        let mut index = 0u32;
+        let mut key_name = [0u16; 256];
+        
+        loop {
+            let mut key_name_len = key_name.len() as u32;
+            if RegEnumKeyExW(
+                hkey,
+                index,
+                Some(windows::core::PWSTR::from_raw(key_name.as_mut_ptr())),
+                &mut key_name_len,
+                None,
+                None,
+                None,
+                None,
+            ).is_err() {
+                break;
+            }
+            
+            let subkey_name = String::from_utf16_lossy(&key_name[..key_name_len as usize]);
+            
+            // Only process numbered subkeys (0000, 0001, etc.)
+            if subkey_name.chars().all(|c| c.is_ascii_digit()) {
+                let full_path = HSTRING::from(format!(
+                    r"SYSTEM\ControlSet001\Control\Class\{{4d36e968-e325-11ce-bfc1-08002be10318}}\{}", 
+                    subkey_name
+                ));
+                
+                let mut subkey = mem::zeroed();
+                if RegOpenKeyExW(
+                    HKEY_LOCAL_MACHINE,
+                    PCWSTR(full_path.as_ptr()),
+                    Some(0),
+                    KEY_READ,
+                    &mut subkey,
+                ).is_ok() {
+                    // Read adapter string
+                    let adapter_name = HSTRING::from("HardwareInformation.AdapterString");
+                    let mut adapter_buffer = [0u16; 512];
+                    let mut adapter_size = (adapter_buffer.len() * 2) as u32;
+                    let mut adapter_type = REG_VALUE_TYPE::default();
+                    
+                    let adapter_string = if RegQueryValueExW(
+                        subkey,
+                        PCWSTR(adapter_name.as_ptr()),
+                        None,
+                        Some(&mut adapter_type),
+                        Some(adapter_buffer.as_mut_ptr() as *mut u8),
+                        Some(&mut adapter_size),
+                    ).is_ok() {
+                        let len = (adapter_size as usize / 2).saturating_sub(1);
+                        String::from_utf16_lossy(&adapter_buffer[..len])
+                    } else {
+                        String::new()
+                    };
+                    
+                    // Read memory size
+                    let mem_name = HSTRING::from("HardwareInformation.qwMemorySize");
+                    let mut mem_value: u64 = 0;
+                    let mut mem_size = std::mem::size_of::<u64>() as u32;
+                    let mut mem_type = REG_VALUE_TYPE::default();
+                    
+                    let vram_gb = if RegQueryValueExW(
+                        subkey,
+                        PCWSTR(mem_name.as_ptr()),
+                        None,
+                        Some(&mut mem_type),
+                        Some(&mut mem_value as *mut u64 as *mut u8),
+                        Some(&mut mem_size),
+                    ).is_ok() {
+                        mem_value / (1024 * 1024 * 1024)
+                    } else {
+                        0
+                    };
+                    
+                    if !adapter_string.is_empty() {
+                        result.push(format!("Model: {}\nVRAM (GB): {}", adapter_string, vram_gb));
+                    }
+                    
+                    let _ = RegCloseKey(subkey);
+                }
+            }
+            
+            index += 1;
+        }
+        
+        let _ = RegCloseKey(hkey);
+    }
+    
+    Ok(result.join("\n\n"))
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn get_gpu_info_from_registry() -> anyhow::Result<String> {
+    Ok(String::new())
+}
+
+/// Resolve shortcut (.lnk) file to get target path
+#[cfg(target_os = "windows")]
+pub fn resolve_shortcut(lnk_path: &str) -> anyhow::Result<String> {
+    use windows::core::{HSTRING, Interface};
+    use windows::Win32::System::Com::{
+        CoCreateInstance, CoInitializeEx, CoUninitialize, 
+        CLSCTX_INPROC_SERVER, COINIT_APARTMENTTHREADED, STGM_READ,
+    };
+    use windows::Win32::UI::Shell::{IShellLinkW, ShellLink};
+    use windows::Win32::System::Com::IPersistFile;
+    
+    unsafe {
+        // Initialize COM
+        let _ = CoInitializeEx(None, COINIT_APARTMENTTHREADED);
+        
+        let result = (|| -> anyhow::Result<String> {
+            // Create ShellLink instance
+            let shell_link: IShellLinkW = CoCreateInstance(
+                &ShellLink,
+                None,
+                CLSCTX_INPROC_SERVER,
+            )?;
+            
+            // Get IPersistFile interface
+            let persist_file: IPersistFile = shell_link.cast()?;
+            
+            // Load the shortcut file
+            let lnk_path_w = HSTRING::from(lnk_path);
+            persist_file.Load(windows::core::PCWSTR(lnk_path_w.as_ptr()), STGM_READ)?;
+            
+            // Get target path
+            let mut path_buffer = [0u16; 260];
+            shell_link.GetPath(
+                &mut path_buffer,
+                std::ptr::null_mut(),
+                0,
+            )?;
+            
+            let path = String::from_utf16_lossy(
+                &path_buffer[..path_buffer.iter().position(|&c| c == 0).unwrap_or(path_buffer.len())]
+            );
+            
+            Ok(path)
+        })();
+        
+        CoUninitialize();
+        result
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn resolve_shortcut(lnk_path: &str) -> anyhow::Result<String> {
+    Ok(String::new())
+}
+
+/// Open file explorer and select file/folder
+#[cfg(target_os = "windows")]
+pub fn open_dir_with_explorer(path: &str, is_file: bool) -> anyhow::Result<()> {
+    use std::process::Command;
+    
+    if is_file {
+        Command::new("explorer.exe")
+            .args(["/select,", path])
+            .spawn()?;
+    } else {
+        Command::new("explorer.exe")
+            .args(["/select,", path])
+            .spawn()?;
+    }
+    
+    Ok(())
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn open_dir_with_explorer(path: &str, is_file: bool) -> anyhow::Result<()> {
+    println!("open_dir_with_explorer (unix): {} is_file={}", path, is_file);
+    Ok(())
+}
+
 
 #[cfg(target_os = "windows")]
 pub fn set_foreground_window(window_name: &str) -> anyhow::Result<bool> {

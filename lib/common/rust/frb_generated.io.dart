@@ -127,6 +127,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RustHttpResponse dco_decode_rust_http_response(dynamic raw);
 
   @protected
+  SystemInfo dco_decode_system_info(dynamic raw);
+
+  @protected
   int dco_decode_u_16(dynamic raw);
 
   @protected
@@ -273,6 +276,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RustHttpResponse sse_decode_rust_http_response(SseDeserializer deserializer);
+
+  @protected
+  SystemInfo sse_decode_system_info(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_16(SseDeserializer deserializer);
@@ -589,6 +595,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_system_info(
+    SystemInfo apiObj,
+    wire_cst_system_info wireObj,
+  ) {
+    wireObj.os_name = cst_encode_String(apiObj.osName);
+    wireObj.cpu_name = cst_encode_String(apiObj.cpuName);
+    wireObj.gpu_info = cst_encode_String(apiObj.gpuInfo);
+    wireObj.disk_info = cst_encode_String(apiObj.diskInfo);
+  }
+
+  @protected
   void cst_api_fill_to_wire_web_view_configuration(
     WebViewConfiguration apiObj,
     wire_cst_web_view_configuration wireObj,
@@ -830,6 +847,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_system_info(SystemInfo self, SseSerializer serializer);
+
+  @protected
   void sse_encode_u_16(int self, SseSerializer serializer);
 
   @protected
@@ -1036,6 +1056,34 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__win32_api__get_gpu_info_from_registry(int port_) {
+    return _wire__crate__api__win32_api__get_gpu_info_from_registry(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_gpu_info_from_registryPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_gpu_info_from_registry',
+      );
+  late final _wire__crate__api__win32_api__get_gpu_info_from_registry =
+      _wire__crate__api__win32_api__get_gpu_info_from_registryPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__get_number_of_logical_processors(
+    int port_,
+  ) {
+    return _wire__crate__api__win32_api__get_number_of_logical_processors(
+      port_,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__get_number_of_logical_processorsPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_number_of_logical_processors',
+      );
+  late final _wire__crate__api__win32_api__get_number_of_logical_processors =
+      _wire__crate__api__win32_api__get_number_of_logical_processorsPtr
+          .asFunction<void Function(int)>();
+
   void wire__crate__api__win32_api__get_process_list_by_name(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> process_name,
@@ -1117,6 +1165,30 @@ class RustLibWire implements BaseWire {
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
+  void wire__crate__api__win32_api__get_system_info(int port_) {
+    return _wire__crate__api__win32_api__get_system_info(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_system_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_system_info',
+      );
+  late final _wire__crate__api__win32_api__get_system_info =
+      _wire__crate__api__win32_api__get_system_infoPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__win32_api__get_system_memory_size_gb(int port_) {
+    return _wire__crate__api__win32_api__get_system_memory_size_gb(port_);
+  }
+
+  late final _wire__crate__api__win32_api__get_system_memory_size_gbPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_system_memory_size_gb',
+      );
+  late final _wire__crate__api__win32_api__get_system_memory_size_gb =
+      _wire__crate__api__win32_api__get_system_memory_size_gbPtr
+          .asFunction<void Function(int)>();
+
   void wire__crate__api__ort_api__load_translation_model(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> model_path,
@@ -1157,6 +1229,36 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               bool,
             )
+          >();
+
+  void wire__crate__api__win32_api__open_dir_with_explorer(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> path,
+    bool is_file,
+  ) {
+    return _wire__crate__api__win32_api__open_dir_with_explorer(
+      port_,
+      path,
+      is_file,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__open_dir_with_explorerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Bool,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__open_dir_with_explorer',
+      );
+  late final _wire__crate__api__win32_api__open_dir_with_explorer =
+      _wire__crate__api__win32_api__open_dir_with_explorerPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>, bool)
           >();
 
   void wire__crate__api__unp4k_api__p4k_close(int port_) {
@@ -1274,6 +1376,30 @@ class RustLibWire implements BaseWire {
       >('frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_open');
   late final _wire__crate__api__unp4k_api__p4k_open =
       _wire__crate__api__unp4k_api__p4k_openPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__win32_api__resolve_shortcut(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> lnk_path,
+  ) {
+    return _wire__crate__api__win32_api__resolve_shortcut(port_, lnk_path);
+  }
+
+  late final _wire__crate__api__win32_api__resolve_shortcutPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__resolve_shortcut',
+      );
+  late final _wire__crate__api__win32_api__resolve_shortcut =
+      _wire__crate__api__win32_api__resolve_shortcutPtr
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
@@ -2319,6 +2445,16 @@ final class wire_cst_rust_http_response extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> remote_addr;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
+}
+
+final class wire_cst_system_info extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> os_name;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> cpu_name;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> gpu_info;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> disk_info;
 }
 
 final class wire_cst_web_view_navigation_state extends ffi.Struct {

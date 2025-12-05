@@ -7,7 +7,7 @@ import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `get_process_path`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `fmt`, `fmt`
 
 Future<void> sendNotify({
   String? summary,
@@ -19,6 +19,35 @@ Future<void> sendNotify({
   body: body,
   appName: appName,
   appId: appId,
+);
+
+/// Get system memory size in GB
+Future<BigInt> getSystemMemorySizeGb() =>
+    RustLib.instance.api.crateApiWin32ApiGetSystemMemorySizeGb();
+
+/// Get number of logical processors
+Future<int> getNumberOfLogicalProcessors() =>
+    RustLib.instance.api.crateApiWin32ApiGetNumberOfLogicalProcessors();
+
+/// Get all system information at once
+Future<SystemInfo> getSystemInfo() =>
+    RustLib.instance.api.crateApiWin32ApiGetSystemInfo();
+
+/// Get GPU info from registry (more accurate VRAM)
+Future<String> getGpuInfoFromRegistry() =>
+    RustLib.instance.api.crateApiWin32ApiGetGpuInfoFromRegistry();
+
+/// Resolve shortcut (.lnk) file to get target path
+Future<String> resolveShortcut({required String lnkPath}) =>
+    RustLib.instance.api.crateApiWin32ApiResolveShortcut(lnkPath: lnkPath);
+
+/// Open file explorer and select file/folder
+Future<void> openDirWithExplorer({
+  required String path,
+  required bool isFile,
+}) => RustLib.instance.api.crateApiWin32ApiOpenDirWithExplorer(
+  path: path,
+  isFile: isFile,
 );
 
 Future<bool> setForegroundWindow({required String windowName}) => RustLib
@@ -58,4 +87,33 @@ class ProcessInfo {
           pid == other.pid &&
           name == other.name &&
           path == other.path;
+}
+
+/// System information struct
+class SystemInfo {
+  final String osName;
+  final String cpuName;
+  final String gpuInfo;
+  final String diskInfo;
+
+  const SystemInfo({
+    required this.osName,
+    required this.cpuName,
+    required this.gpuInfo,
+    required this.diskInfo,
+  });
+
+  @override
+  int get hashCode =>
+      osName.hashCode ^ cpuName.hashCode ^ gpuInfo.hashCode ^ diskInfo.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SystemInfo &&
+          runtimeType == other.runtimeType &&
+          osName == other.osName &&
+          cpuName == other.cpuName &&
+          gpuInfo == other.gpuInfo &&
+          diskInfo == other.diskInfo;
 }
