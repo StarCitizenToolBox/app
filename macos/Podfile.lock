@@ -1,8 +1,6 @@
 PODS:
   - desktop_multi_window (0.0.1):
     - FlutterMacOS
-  - desktop_webview_window (0.0.1):
-    - FlutterMacOS
   - device_info_plus (0.0.1):
     - FlutterMacOS
   - file_picker (0.0.1):
@@ -10,7 +8,8 @@ PODS:
   - FlutterMacOS (1.0.0)
   - macos_window_utils (1.0.0):
     - FlutterMacOS
-  - objective_c (0.0.1):
+  - path_provider_foundation (0.0.1):
+    - Flutter
     - FlutterMacOS
   - rust_builder (0.0.1):
     - FlutterMacOS
@@ -23,12 +22,11 @@ PODS:
 
 DEPENDENCIES:
   - desktop_multi_window (from `Flutter/ephemeral/.symlinks/plugins/desktop_multi_window/macos`)
-  - desktop_webview_window (from `Flutter/ephemeral/.symlinks/plugins/desktop_webview_window/macos`)
   - device_info_plus (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus/macos`)
   - file_picker (from `Flutter/ephemeral/.symlinks/plugins/file_picker/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - macos_window_utils (from `Flutter/ephemeral/.symlinks/plugins/macos_window_utils/macos`)
-  - objective_c (from `Flutter/ephemeral/.symlinks/plugins/objective_c/macos`)
+  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - rust_builder (from `Flutter/ephemeral/.symlinks/plugins/rust_builder/macos`)
   - screen_retriever_macos (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever_macos/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
@@ -37,8 +35,6 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   desktop_multi_window:
     :path: Flutter/ephemeral/.symlinks/plugins/desktop_multi_window/macos
-  desktop_webview_window:
-    :path: Flutter/ephemeral/.symlinks/plugins/desktop_webview_window/macos
   device_info_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/device_info_plus/macos
   file_picker:
@@ -47,8 +43,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
   macos_window_utils:
     :path: Flutter/ephemeral/.symlinks/plugins/macos_window_utils/macos
-  objective_c:
-    :path: Flutter/ephemeral/.symlinks/plugins/objective_c/macos
+  path_provider_foundation:
+    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
   rust_builder:
     :path: Flutter/ephemeral/.symlinks/plugins/rust_builder/macos
   screen_retriever_macos:
@@ -60,12 +56,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   desktop_multi_window: 93667594ccc4b88d91a97972fd3b1b89667fa80a
-  desktop_webview_window: 7e37af677d6d19294cb433d9b1d878ef78dffa4d
   device_info_plus: 4fb280989f669696856f8b129e4a5e3cd6c48f76
   file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
   macos_window_utils: 23f54331a0fd51eea9e0ed347253bf48fd379d1d
-  objective_c: ec13431e45ba099cb734eb2829a5c1cd37986cba
+  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
   rust_builder: f99e810dace35ac9783428b039d73d1caa5bfbc1
   screen_retriever_macos: 452e51764a9e1cdb74b3c541238795849f21557f
   url_launcher_macos: f87a979182d112f911de6820aefddaf56ee9fbfd
