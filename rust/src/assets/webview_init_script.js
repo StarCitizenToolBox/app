@@ -1,15 +1,32 @@
 // SCToolbox WebView initialization script
+// Uses IPC (window.ipc.postMessage) to communicate with Rust backend
 (function() {
     'use strict';
     
     if (window._sctInitialized) return;
     window._sctInitialized = true;
     
+    // ========== IPC Communication ==========
+    // Send message to Rust backend
+    function sendToRust(type, payload) {
+        if (window.ipc && typeof window.ipc.postMessage === 'function') {
+            window.ipc.postMessage(JSON.stringify({ type, payload }));
+        }
+    }
+    
     // ========== 导航栏 UI ==========
     const icons = {
         back: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
         forward: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
         reload: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8C13.5 11.0376 11.0376 13.5 8 13.5C4.96243 13.5 2.5 11.0376 2.5 8C2.5 4.96243 4.96243 2.5 8 2.5C10.1012 2.5 11.9254 3.67022 12.8169 5.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 5.5H13V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    };
+    
+    // Global state from Rust
+    window._sctNavState = {
+        canGoBack: false,
+        canGoForward: false,
+        isLoading: true,
+        url: window.location.href
     };
     
     function createNavBar() {
@@ -57,8 +74,8 @@
                     transition: all 0.15s ease;
                     padding: 0;
                 }
-                #sct-navbar button:hover { background: rgba(10, 49, 66, 0.9); color: #fff; }
-                #sct-navbar button:active { background: rgba(10, 49, 66, 1); transform: scale(0.95); }
+                #sct-navbar button:hover:not(:disabled) { background: rgba(10, 49, 66, 0.9); color: #fff; }
+                #sct-navbar button:active:not(:disabled) { background: rgba(10, 49, 66, 1); transform: scale(0.95); }
                 #sct-navbar button:disabled { opacity: 0.35; cursor: not-allowed; }
                 #sct-navbar button svg { display: block; }
                 #sct-navbar-url {
@@ -112,8 +129,8 @@
                     #sct-spinner { -webkit-animation: none; animation: none; }
                 }
             </style>
-            <button id="sct-back" title="Back">${icons.back}</button>
-            <button id="sct-forward" title="Forward">${icons.forward}</button>
+            <button id="sct-back" title="Back" disabled>${icons.back}</button>
+            <button id="sct-forward" title="Forward" disabled>${icons.forward}</button>
             <button id="sct-reload" title="Reload">${icons.reload}</button>
             <div id="sct-spinner" role="progressbar" aria-hidden="false" aria-valuetext="Loading" title="Loading"></div>
             <div id="sct-favicon-slot"><img id="sct-favicon" src="" alt="Page icon" /></div>
@@ -121,51 +138,45 @@
         `;
         document.body.insertBefore(nav, document.body.firstChild);
         
+        // Navigation buttons - send commands to Rust
         document.getElementById('sct-back').onclick = () => {
-            // Check if going back would result in about:blank
-            // If so, skip this entry and go back further
-            const beforeBackUrl = window.location.href;
-            history.back();
-            
-            // After a short delay, if we landed on about:blank, go back again
-            setTimeout(() => {
-                if (window.location.href === 'about:blank' && beforeBackUrl !== 'about:blank') {
-                    history.back();
-                }
-            }, 100);
+            sendToRust('nav_back', {});
         };
-        document.getElementById('sct-forward').onclick = () => history.forward();
-        document.getElementById('sct-reload').onclick = () => location.reload();
+        document.getElementById('sct-forward').onclick = () => {
+            sendToRust('nav_forward', {});
+        };
+        document.getElementById('sct-reload').onclick = () => {
+            sendToRust('nav_reload', {});
+        };
         
-        // Update back button state and URL display on navigation
-        function updateNavBarState() {
-            const backBtn = document.getElementById('sct-back');
-            const urlEl = document.getElementById('sct-navbar-url');
-            const currentUrl = window.location.href;
-            
-            if (backBtn) {
-                // Disable back button if at start of history or at about:blank
-                backBtn.disabled = window.history.length <= 1 || currentUrl === 'about:blank';
-            }
-            
-            if (urlEl) {
-                urlEl.value = currentUrl;
-            }
-        }
+        // Apply initial state from Rust
+        updateNavBarFromState();
         
-        // Listen to popstate and hashchange to update nav bar
-        window.addEventListener('popstate', updateNavBarState);
-        window.addEventListener('hashchange', updateNavBarState);
-        
-        // Initial state
-        updateNavBarState();
-
-        // Spinner and favicon show/hide helpers
+        // Request initial state from Rust
+        sendToRust('get_nav_state', {});
+    }
+    
+    // Update navbar UI based on state from Rust
+    function updateNavBarFromState() {
+        const state = window._sctNavState;
+        const backBtn = document.getElementById('sct-back');
+        const forwardBtn = document.getElementById('sct-forward');
+        const urlEl = document.getElementById('sct-navbar-url');
         const spinner = document.getElementById('sct-spinner');
         const faviconSlot = document.getElementById('sct-favicon-slot');
-        const faviconImg = document.getElementById('sct-favicon');
-
-        function showSpinner() {
+        
+        if (backBtn) {
+            backBtn.disabled = !state.canGoBack;
+        }
+        if (forwardBtn) {
+            forwardBtn.disabled = !state.canGoForward;
+        }
+        if (urlEl && state.url) {
+            urlEl.value = state.url;
+        }
+        
+        // Show spinner when loading, show favicon when complete
+        if (state.isLoading) {
             if (spinner) {
                 spinner.style.display = 'block';
                 spinner.setAttribute('aria-hidden', 'false');
@@ -174,73 +185,80 @@
             if (faviconSlot) {
                 faviconSlot.style.display = 'none';
             }
-        }
-
-        function hideSpin() {
+        } else {
             if (spinner) {
                 spinner.style.display = 'none';
                 spinner.setAttribute('aria-hidden', 'true');
                 spinner.setAttribute('aria-busy', 'false');
             }
+            // Show favicon when page is loaded
+            showFaviconIfAvailable();
         }
-
-        // Extract favicon from page and show it when ready
-        function showFaviconWhenReady() {
-            hideSpin();
-            
-            // Try to find favicon from page
-            let faviconUrl = null;
-            
-            // 1. Look for link[rel="icon"] or link[rel="shortcut icon"]
-            const linkIcon = document.querySelector('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]');
-            if (linkIcon && linkIcon.href) {
-                faviconUrl = linkIcon.href;
-            }
-            
-            // 2. Look for og:image in meta tags (fallback)
-            if (!faviconUrl) {
-                const ogImage = document.querySelector('meta[property="og:image"]');
-                if (ogImage && ogImage.content) {
-                    faviconUrl = ogImage.content;
-                }
-            }
-            
-            // 3. Check page's existing favicon from document.head or body elements
-            if (!faviconUrl) {
-                const existingFavicon = document.querySelector('img[src*="favicon"], img[src*="icon"]');
-                if (existingFavicon && existingFavicon.src) {
-                    faviconUrl = existingFavicon.src;
-                }
-            }
-            
-            // Display favicon if found, otherwise hide slot
-            if (faviconUrl) {
-                if (faviconImg) {
-                    faviconImg.src = faviconUrl;
-                    faviconImg.onerror = () => {
-                        if (faviconSlot) faviconSlot.style.display = 'none';
-                    };
-                }
-                if (faviconSlot) {
-                    faviconSlot.style.display = 'flex';
-                }
-            } else if (faviconSlot) {
-                faviconSlot.style.display = 'none';
-            }
-        }
-
-        // Monitor document readyState to show favicon when page is ready
-        document.addEventListener('readystatechange', function () {
-            if (document.readyState === 'interactive' || document.readyState === 'complete') {
-                setTimeout(showFaviconWhenReady, 150);
-            }
-        });
-
-        // Also trigger favicon display on load event
-        window.addEventListener('load', function () {
-            setTimeout(showFaviconWhenReady, 150);
-        });
     }
+    
+    // Extract and show favicon from page
+    function showFaviconIfAvailable() {
+        const faviconSlot = document.getElementById('sct-favicon-slot');
+        const faviconImg = document.getElementById('sct-favicon');
+        
+        if (!faviconSlot || !faviconImg) return;
+        
+        // Try to find favicon from page
+        let faviconUrl = null;
+        
+        // 1. Look for link[rel="icon"] or link[rel="shortcut icon"]
+        const linkIcon = document.querySelector('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]');
+        if (linkIcon && linkIcon.href) {
+            faviconUrl = linkIcon.href;
+        }
+        
+        // 2. Look for og:image in meta tags (fallback)
+        if (!faviconUrl) {
+            const ogImage = document.querySelector('meta[property="og:image"]');
+            if (ogImage && ogImage.content) {
+                faviconUrl = ogImage.content;
+            }
+        }
+        
+        // 3. Try default favicon.ico
+        if (!faviconUrl) {
+            try {
+                const origin = window.location.origin;
+                if (origin && origin !== 'null') {
+                    faviconUrl = origin + '/favicon.ico';
+                }
+            } catch (e) {
+                // Ignore
+            }
+        }
+        
+        // Display favicon if found
+        if (faviconUrl) {
+            faviconImg.src = faviconUrl;
+            faviconImg.onerror = () => {
+                faviconSlot.style.display = 'none';
+            };
+            faviconImg.onload = () => {
+                faviconSlot.style.display = 'flex';
+            };
+        } else {
+            faviconSlot.style.display = 'none';
+        }
+    }
+    
+    // ========== Rust -> JS Message Handler ==========
+    // Rust will call this function to update navigation state
+    window._sctUpdateNavState = function(state) {
+        if (state) {
+            window._sctNavState = {
+                canGoBack: !!state.can_go_back,
+                canGoForward: !!state.can_go_forward,
+                isLoading: !!state.is_loading,
+                url: state.url || window.location.href
+            };
+            updateNavBarFromState();
+        }
+    };
     
     // 在 DOM 准备好时创建导航栏
     if (document.readyState === 'loading') {
@@ -248,19 +266,4 @@
     } else {
         createNavBar();
     }
-    
-    // URL 变化时：进入加载状态，显示 spinner
-    window.addEventListener('popstate', () => {
-        // Show spinner when navigating via popstate (URL change)
-        const spinner = document.getElementById('sct-spinner');
-        const faviconSlot = document.getElementById('sct-favicon-slot');
-        if (spinner) {
-            spinner.style.display = 'block';
-            spinner.setAttribute('aria-hidden', 'false');
-            spinner.setAttribute('aria-busy', 'true');
-        }
-        if (faviconSlot) {
-            faviconSlot.style.display = 'none';
-        }
-    });
 })();

@@ -111,6 +111,82 @@ pub enum WebViewCommand {
 
 type WebViewId = String;
 
+/// Navigation history manager to track back/forward capability
+#[derive(Debug, Clone, Default)]
+struct NavigationHistory {
+    /// List of URLs in history (excluding about:blank)
+    urls: Vec<String>,
+    /// Current position in history (0-based index)
+    current_index: i32,
+}
+
+impl NavigationHistory {
+    fn new() -> Self {
+        Self {
+            urls: Vec::new(),
+            current_index: -1,
+        }
+    }
+    
+    /// Push a new URL to history (when navigating to a new page)
+    fn push(&mut self, url: &str) {
+        // Skip about:blank
+        if url == "about:blank" {
+            return;
+        }
+        
+        // If we're not at the end of history, truncate forward history
+        if self.current_index >= 0 && (self.current_index as usize) < self.urls.len().saturating_sub(1) {
+            self.urls.truncate((self.current_index + 1) as usize);
+        }
+        
+        // Don't add duplicate consecutive URLs
+        if self.urls.last().map(|s| s.as_str()) != Some(url) {
+            self.urls.push(url.to_string());
+        }
+        self.current_index = (self.urls.len() as i32) - 1;
+    }
+    
+    /// Check if we can go back (not at first real page)
+    fn can_go_back(&self) -> bool {
+        self.current_index > 0
+    }
+    
+    /// Check if we can go forward
+    fn can_go_forward(&self) -> bool {
+        self.current_index >= 0 && (self.current_index as usize) < self.urls.len().saturating_sub(1)
+    }
+    
+    /// Go back in history, returns true if successful
+    fn go_back(&mut self) -> bool {
+        if self.can_go_back() {
+            self.current_index -= 1;
+            true
+        } else {
+            false
+        }
+    }
+    
+    /// Go forward in history, returns true if successful
+    fn go_forward(&mut self) -> bool {
+        if self.can_go_forward() {
+            self.current_index += 1;
+            true
+        } else {
+            false
+        }
+    }
+    
+    /// Get current URL
+    fn current_url(&self) -> Option<&str> {
+        if self.current_index >= 0 && (self.current_index as usize) < self.urls.len() {
+            Some(&self.urls[self.current_index as usize])
+        } else {
+            None
+        }
+    }
+}
+
 struct WebViewInstance {
     command_sender: Sender<WebViewCommand>,
     event_receiver: Receiver<WebViewEvent>,
@@ -333,7 +409,12 @@ fn run_webview_loop(
 
     let window = Arc::new(window);
 
+    // Navigation history for tracking back/forward state
+    let nav_history = Arc::new(RwLock::new(NavigationHistory::new()));
+
     let event_tx_clone = event_tx.clone();
+    let nav_history_ipc = Arc::clone(&nav_history);
+    let state_ipc = Arc::clone(&state);
 
     // Create web context with custom data directory if provided
     let mut web_context = config
@@ -354,20 +435,76 @@ fn run_webview_loop(
         builder = builder.with_user_agent(user_agent);
     }
 
+    // Store proxy for IPC commands
+    let proxy_ipc = proxy.clone();
+    
     let webview = builder
         .with_ipc_handler(move |message| {
             let msg = message.body().to_string();
-            // Forward all messages to Dart
+            
+            // Try to parse as navigation command from JS
+            if let Ok(parsed) = serde_json::from_str::<serde_json::Value>(&msg) {
+                if let Some(msg_type) = parsed.get("type").and_then(|v| v.as_str()) {
+                    match msg_type {
+                        "nav_back" => {
+                            // Check if we can go back (avoid about:blank)
+                            let can_back = nav_history_ipc.read().can_go_back();
+                            if can_back {
+                                let _ = proxy_ipc.send_event(UserEvent::Command(WebViewCommand::GoBack));
+                            }
+                            return;
+                        }
+                        "nav_forward" => {
+                            let can_forward = nav_history_ipc.read().can_go_forward();
+                            if can_forward {
+                                let _ = proxy_ipc.send_event(UserEvent::Command(WebViewCommand::GoForward));
+                            }
+                            return;
+                        }
+                        "nav_reload" => {
+                            let _ = proxy_ipc.send_event(UserEvent::Command(WebViewCommand::Reload));
+                            return;
+                        }
+                        "get_nav_state" => {
+                            // Send current state to JS
+                            let state_guard = state_ipc.read();
+                            let history = nav_history_ipc.read();
+                            let state_json = serde_json::json!({
+                                "can_go_back": history.can_go_back(),
+                                "can_go_forward": history.can_go_forward(),
+                                "is_loading": state_guard.is_loading,
+                                "url": state_guard.url
+                            });
+                            let script = format!("window._sctUpdateNavState({})", state_json);
+                            let _ = proxy_ipc.send_event(UserEvent::Command(WebViewCommand::ExecuteScript(script)));
+                            return;
+                        }
+                        _ => {}
+                    }
+                }
+            }
+            
+            // Forward other messages to Dart
             let _ = event_tx_clone.send(WebViewEvent::WebMessage { message: msg });
         })
         .with_navigation_handler({
             let event_tx = event_tx.clone();
             let state = Arc::clone(&state);
+            let nav_history = Arc::clone(&nav_history);
             move |uri| {
+                // Skip about:blank for navigation events
+                if uri == "about:blank" {
+                    return true;
+                }
+                
                 {
                     let mut state_guard = state.write();
                     state_guard.url = uri.clone();
                     state_guard.is_loading = true;
+                    // Update can_go_back/can_go_forward from history
+                    let history = nav_history.read();
+                    state_guard.can_go_back = history.can_go_back();
+                    state_guard.can_go_forward = history.can_go_forward();
                 }
                 let _ = event_tx.send(WebViewEvent::NavigationStarted { url: uri });
                 true // Allow navigation
@@ -376,20 +513,66 @@ fn run_webview_loop(
         .with_on_page_load_handler({
             let event_tx = event_tx.clone();
             let state = Arc::clone(&state);
+            let nav_history = Arc::clone(&nav_history);
+            let proxy = proxy.clone();
             move |event, url| {
+                // Skip about:blank
+                if url == "about:blank" {
+                    return;
+                }
+                
                 match event {
                     PageLoadEvent::Started => {
-                        let mut state_guard = state.write();
-                        state_guard.url = url.clone();
-                        state_guard.is_loading = true;
+                        let can_back;
+                        let can_forward;
+                        {
+                            let mut state_guard = state.write();
+                            state_guard.url = url.clone();
+                            state_guard.is_loading = true;
+                            let history = nav_history.read();
+                            can_back = history.can_go_back();
+                            can_forward = history.can_go_forward();
+                            state_guard.can_go_back = can_back;
+                            state_guard.can_go_forward = can_forward;
+                        }
+                        // Send loading state to JS
+                        let state_json = serde_json::json!({
+                            "can_go_back": can_back,
+                            "can_go_forward": can_forward,
+                            "is_loading": true,
+                            "url": url
+                        });
+                        let script = format!("window._sctUpdateNavState && window._sctUpdateNavState({})", state_json);
+                        let _ = proxy.send_event(UserEvent::Command(WebViewCommand::ExecuteScript(script)));
                     }
                     PageLoadEvent::Finished => {
+                        let can_back;
+                        let can_forward;
+                        {
+                            // Add to history when page finishes loading
+                            let mut history = nav_history.write();
+                            history.push(&url);
+                            can_back = history.can_go_back();
+                            can_forward = history.can_go_forward();
+                        }
                         {
                             let mut state_guard = state.write();
                             state_guard.url = url.clone();
                             state_guard.is_loading = false;
+                            state_guard.can_go_back = can_back;
+                            state_guard.can_go_forward = can_forward;
                         }
-                        let _ = event_tx.send(WebViewEvent::NavigationCompleted { url });
+                        let _ = event_tx.send(WebViewEvent::NavigationCompleted { url: url.clone() });
+                        
+                        // Send completed state to JS
+                        let state_json = serde_json::json!({
+                            "can_go_back": can_back,
+                            "can_go_forward": can_forward,
+                            "is_loading": false,
+                            "url": url
+                        });
+                        let script = format!("window._sctUpdateNavState && window._sctUpdateNavState({})", state_json);
+                        let _ = proxy.send_event(UserEvent::Command(WebViewCommand::ExecuteScript(script)));
                     }
                 }
             }
@@ -425,7 +608,7 @@ fn run_webview_loop(
             }
             Event::UserEvent(user_event) => match user_event {
                 UserEvent::Command(cmd) => {
-                    handle_command(&webview_cmd, &window, cmd, &state, &event_tx, &is_closed, control_flow);
+                    handle_command(&webview_cmd, &window, cmd, &state, &nav_history, &event_tx, &is_closed, control_flow);
                 }
                 UserEvent::Quit => {
                     is_closed.store(true, Ordering::SeqCst);
@@ -447,6 +630,7 @@ fn handle_command(
     window: &Arc<Window>,
     command: WebViewCommand,
     state: &Arc<RwLock<WebViewNavigationState>>,
+    nav_history: &Arc<RwLock<NavigationHistory>>,
     event_tx: &Sender<WebViewEvent>,
     is_closed: &Arc<AtomicBool>,
     control_flow: &mut ControlFlow,
@@ -462,10 +646,24 @@ fn handle_command(
             let _ = event_tx.send(WebViewEvent::NavigationStarted { url });
         }
         WebViewCommand::GoBack => {
-            let _ = webview.evaluate_script("history.back()");
+            // Update history index before navigation
+            let can_go = {
+                let mut history = nav_history.write();
+                history.go_back()
+            };
+            if can_go {
+                let _ = webview.evaluate_script("history.back()");
+            }
         }
         WebViewCommand::GoForward => {
-            let _ = webview.evaluate_script("history.forward()");
+            // Update history index before navigation
+            let can_go = {
+                let mut history = nav_history.write();
+                history.go_forward()
+            };
+            if can_go {
+                let _ = webview.evaluate_script("history.forward()");
+            }
         }
         WebViewCommand::Reload => {
             let _ = webview.evaluate_script("location.reload()");
