@@ -449,9 +449,11 @@ pub async fn downloader_get_all_tasks() -> Result<Vec<DownloadTaskInfo>> {
             };
 
             // Get speed from live stats
+            // Note: mbps in rqbit is actually MiB/s (bytes_per_second / 1024 / 1024)
+            // So we convert back to bytes per second: mbps * 1024 * 1024
             let (download_speed, upload_speed, num_peers) = if let Some(live) = &stats.live {
-                let down = (live.download_speed.mbps * 1024.0 * 1024.0 / 8.0) as u64;
-                let up = (live.upload_speed.mbps * 1024.0 * 1024.0 / 8.0) as u64;
+                let down = (live.download_speed.mbps * 1024.0 * 1024.0) as u64;
+                let up = (live.upload_speed.mbps * 1024.0 * 1024.0) as u64;
                 let peers = (live.snapshot.peer_stats.queued + live.snapshot.peer_stats.connecting + live.snapshot.peer_stats.live) as usize;
                 (down, up, peers)
             } else {
