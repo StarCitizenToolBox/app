@@ -7,11 +7,7 @@ use anyhow::{bail, Context, Result};
 use bytes::Bytes;
 use flutter_rust_bridge::frb;
 use librqbit::{
-    AddTorrent, AddTorrentOptions, AddTorrentResponse, Session, SessionOptions,
-    SessionPersistenceConfig, TorrentStats, ManagedTorrent, TorrentStatsState,
-    api::TorrentIdOrHash,
-    dht::PersistentDhtConfig,
-    limits::LimitsConfig,
+    AddTorrent, AddTorrentOptions, AddTorrentResponse, ManagedTorrent, Session, SessionOptions, SessionPersistenceConfig, TorrentStats, TorrentStatsState, WebSeedConfig, api::TorrentIdOrHash, dht::PersistentDhtConfig, limits::LimitsConfig
 };
 use parking_lot::RwLock;
 use serde::{Deserialize, Serialize};
@@ -134,6 +130,15 @@ pub async fn downloader_init(
                 upload_bps: upload_limit_bps.and_then(NonZeroU32::new),
                 download_bps: download_limit_bps.and_then(NonZeroU32::new),
             },
+            webseed_config: Some(WebSeedConfig{
+                max_concurrent_per_source: 32,
+                max_total_concurrent: 128,
+                request_timeout_secs: 30,
+                prefer_for_large_gaps: true,
+                min_gap_for_webseed: 10,
+                max_errors_before_disable: 10,
+                disable_cooldown_secs: 600,
+            })
             ..Default::default()
         },
     )
