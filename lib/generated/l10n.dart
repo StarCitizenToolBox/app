@@ -444,16 +444,6 @@ class S {
     );
   }
 
-  /// `Verifying... ({v2})`
-  String downloader_info_verifying(Object v2) {
-    return Intl.message(
-      'Verifying... ($v2)',
-      name: 'downloader_info_verifying',
-      desc: '',
-      args: [v2],
-    );
-  }
-
   /// `Downloading... ({v0}%)`
   String downloader_info_downloading(Object v0) {
     return Intl.message(
@@ -489,6 +479,16 @@ class S {
     return Intl.message(
       'Downloaded: $v0',
       name: 'downloader_info_downloaded',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Checked: {v0}`
+  String downloader_info_checked(Object v0) {
+    return Intl.message(
+      'Checked: $v0',
+      name: 'downloader_info_checked',
       desc: '',
       args: [v0],
     );
@@ -561,6 +561,26 @@ class S {
       name: 'downloader_info_downloading_status',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Checking`
+  String get downloader_info_checking {
+    return Intl.message(
+      'Checking',
+      name: 'downloader_info_checking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking... ({v0}%)`
+  String downloader_info_checking_progress(Object v0) {
+    return Intl.message(
+      'Checking... ($v0%)',
+      name: 'downloader_info_checking_progress',
+      desc: '',
+      args: [v0],
     );
   }
 

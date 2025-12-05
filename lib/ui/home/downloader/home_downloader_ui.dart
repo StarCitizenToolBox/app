@@ -58,6 +58,7 @@ class HomeDownloaderUI extends HookConsumerWidget {
                   final statusStr = model.getStatusString(task.status);
                   final isActive = task.status == DownloadTaskStatus.live;
                   final isPaused = task.status == DownloadTaskStatus.paused;
+                  final isChecking = task.status == DownloadTaskStatus.checking;
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,6 +111,8 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                       Text(
                                         S.current.downloader_info_downloading((task.progress * 100).toStringAsFixed(2)),
                                       )
+                                    else if (isChecking)
+                                      Text(model.getCheckingProgressString(task))
                                     else
                                       Text(S.current.downloader_info_status(model.statusMap[statusStr] ?? "Unknown")),
                                     const SizedBox(width: 24),
@@ -126,9 +129,17 @@ class HomeDownloaderUI extends HookConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(S.current.downloader_info_uploaded(FileSize.getSize(task.uploadedBytes.toInt()))),
-                                Text(
-                                  S.current.downloader_info_downloaded(FileSize.getSize(task.downloadedBytes.toInt())),
-                                ),
+                                // 校验状态下，downloadedBytes 显示为校验进度
+                                if (isChecking)
+                                  Text(
+                                    S.current.downloader_info_checked(FileSize.getSize(task.downloadedBytes.toInt())),
+                                  )
+                                else
+                                  Text(
+                                    S.current.downloader_info_downloaded(
+                                      FileSize.getSize(task.downloadedBytes.toInt()),
+                                    ),
+                                  ),
                               ],
                             ),
                             const SizedBox(width: 18),

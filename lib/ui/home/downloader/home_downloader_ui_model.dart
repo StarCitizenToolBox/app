@@ -142,6 +142,12 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     }
   }
 
+  /// 获取校验进度字符串（百分比）
+  String getCheckingProgressString(DownloadTaskInfo task) {
+    final percent = (task.progress * 100).toStringAsFixed(1);
+    return S.current.downloader_info_checking_progress(percent);
+  }
+
   Future<void> resumeTask(int taskId) async {
     final downloadManager = ref.read(downloadManagerProvider.notifier);
     await downloadManager.resumeTask(taskId);
