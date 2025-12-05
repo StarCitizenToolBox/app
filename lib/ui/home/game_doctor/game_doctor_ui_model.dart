@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
@@ -35,11 +36,11 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   }
 
   Future<void> doFix(
-      // ignore: avoid_build_context_in_providers
-      BuildContext context,
-      MapEntry<String, String> item) async {
-    final checkResult =
-        List<MapEntry<String, String>>.from(state.checkResult ?? []);
+    // ignore: avoid_build_context_in_providers
+    BuildContext context,
+    MapEntry<String, String> item,
+  ) async {
+    final checkResult = List<MapEntry<String, String>>.from(state.checkResult ?? []);
     state = state.copyWith(isFixing: true, isFixingString: "");
     switch (item.key) {
       case "unSupport_system":
@@ -49,13 +50,11 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         try {
           await Directory(item.value).create(recursive: true);
           if (!context.mounted) break;
-          showToast(
-              context, S.current.doctor_action_result_create_folder_success);
+          showToast(context, S.current.doctor_action_result_create_folder_success);
           checkResult.remove(item);
           state = state.copyWith(checkResult: checkResult);
         } catch (e) {
-          showToast(context,
-              S.current.doctor_action_result_create_folder_fail(item.value, e));
+          showToast(context, S.current.doctor_action_result_create_folder_fail(item.value, e));
         }
         break;
       case "nvme_PhysicalBytes":
@@ -71,8 +70,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         }
         break;
       case "eac_file_miss":
-        showToast(context,
-            S.current.doctor_info_result_verify_files_with_rsi_launcher);
+        showToast(context, S.current.doctor_info_result_verify_files_with_rsi_launcher);
         break;
       case "eac_not_install":
         final eacJsonPath = "${item.value}\\Settings.json";
@@ -80,19 +78,16 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         final Map eacJson = json.decode(utf8.decode(eacJsonData));
         final eacID = eacJson["productid"];
         try {
-          var result = await Process.run(
-              "${item.value}\\EasyAntiCheat_EOS_Setup.exe", ["install", eacID]);
+          var result = await Process.run("${item.value}\\EasyAntiCheat_EOS_Setup.exe", ["install", eacID]);
           dPrint("${item.value}\\EasyAntiCheat_EOS_Setup.exe install $eacID");
           if (result.stderr == "") {
             if (!context.mounted) break;
-            showToast(
-                context, S.current.doctor_action_result_game_start_success);
+            showToast(context, S.current.doctor_action_result_game_start_success);
             checkResult.remove(item);
             state = state.copyWith(checkResult: checkResult);
           } else {
             if (!context.mounted) break;
-            showToast(context,
-                S.current.doctor_action_result_fix_fail(result.stderr));
+            showToast(context, S.current.doctor_action_result_fix_fail(result.stderr));
           }
         } catch (e) {
           if (!context.mounted) break;
@@ -102,8 +97,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
       case "cn_user_name":
         showToast(context, S.current.doctor_action_result_redirect_warning);
         await Future.delayed(const Duration(milliseconds: 300));
-        launchUrlString(
-            "https://jingyan.baidu.com/article/59703552a318a08fc0074021.html");
+        launchUrlString("https://jingyan.baidu.com/article/59703552a318a08fc0074021.html");
         break;
       default:
         showToast(context, S.current.doctor_action_result_issue_not_supported);
@@ -115,8 +109,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   // ignore: avoid_build_context_in_providers
   Future<void> doCheck(BuildContext context) async {
     if (state.isChecking) return;
-    state = state.copyWith(
-        isChecking: true, lastScreenInfo: S.current.doctor_action_analyzing);
+    state = state.copyWith(isChecking: true, lastScreenInfo: S.current.doctor_action_analyzing);
     dPrint("-------- start docker check -----");
     if (!context.mounted) return;
     await _statCheck(context);
@@ -144,11 +137,8 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
       final lastScreenInfo = S.current.doctor_action_result_analysis_no_issue;
       state = state.copyWith(checkResult: null, lastScreenInfo: lastScreenInfo);
     } else {
-      final lastScreenInfo = S.current
-          .doctor_action_result_analysis_issues_found(
-              checkResult.length.toString());
-      state = state.copyWith(
-          checkResult: checkResult, lastScreenInfo: lastScreenInfo);
+      final lastScreenInfo = S.current.doctor_action_result_analysis_issues_found(checkResult.length.toString());
+      state = state.copyWith(checkResult: checkResult, lastScreenInfo: lastScreenInfo);
     }
 
     if (scInstalledPath == "not_install" && (checkResult.isEmpty)) {
@@ -158,8 +148,11 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   }
 
   // ignore: avoid_build_context_in_providers
-  Future _checkGameRunningLog(BuildContext context, String scInstalledPath,
-      List<MapEntry<String, String>> checkResult) async {
+  Future _checkGameRunningLog(
+    BuildContext context,
+    String scInstalledPath,
+    List<MapEntry<String, String>> checkResult,
+  ) async {
     if (scInstalledPath == "not_install") return;
     final lastScreenInfo = S.current.doctor_action_tip_checking_game_log;
     state = state.copyWith(lastScreenInfo: lastScreenInfo);
@@ -168,28 +161,27 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     final info = SCLoggerHelper.getGameRunningLogInfo(logs);
     if (info != null) {
       if (info.key != "_") {
-        checkResult.add(MapEntry(
-            S.current.doctor_action_info_game_abnormal_exit(info.key),
-            info.value));
+        checkResult.add(MapEntry(S.current.doctor_action_info_game_abnormal_exit(info.key), info.value));
       } else {
-        checkResult.add(MapEntry(
+        checkResult.add(
+          MapEntry(
             S.current.doctor_action_info_game_abnormal_exit_unknown,
-            S.current.doctor_action_info_info_feedback(info.value)));
+            S.current.doctor_action_info_info_feedback(info.value),
+          ),
+        );
       }
     }
   }
 
   // ignore: avoid_build_context_in_providers
-  Future _checkEAC(BuildContext context, String scInstalledPath,
-      List<MapEntry<String, String>> checkResult) async {
+  Future _checkEAC(BuildContext context, String scInstalledPath, List<MapEntry<String, String>> checkResult) async {
     if (scInstalledPath == "not_install") return;
     final lastScreenInfo = S.current.doctor_action_info_checking_eac;
     state = state.copyWith(lastScreenInfo: lastScreenInfo);
 
     final eacPath = "$scInstalledPath\\EasyAntiCheat";
     final eacJsonPath = "$eacPath\\Settings.json";
-    if (!await Directory(eacPath).exists() ||
-        !await File(eacJsonPath).exists()) {
+    if (!await Directory(eacPath).exists() || !await File(eacJsonPath).exists()) {
       checkResult.add(const MapEntry("eac_file_miss", ""));
       return;
     }
@@ -212,17 +204,18 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
   final _cnExp = RegExp(r"[^\x00-\xff]");
 
   // ignore: avoid_build_context_in_providers
-  Future _checkPreInstall(BuildContext context, String scInstalledPath,
-      List<MapEntry<String, String>> checkResult) async {
+  Future _checkPreInstall(
+    BuildContext context,
+    String scInstalledPath,
+    List<MapEntry<String, String>> checkResult,
+  ) async {
     final lastScreenInfo = S.current.doctor_action_info_checking_runtime;
     state = state.copyWith(lastScreenInfo: lastScreenInfo);
 
     if (!(Platform.operatingSystemVersion.contains("Windows 10") ||
         Platform.operatingSystemVersion.contains("Windows 11"))) {
-      checkResult
-          .add(MapEntry("unSupport_system", Platform.operatingSystemVersion));
-      final lastScreenInfo = S.current.doctor_action_result_info_unsupported_os(
-          Platform.operatingSystemVersion);
+      checkResult.add(MapEntry("unSupport_system", Platform.operatingSystemVersion));
+      final lastScreenInfo = S.current.doctor_action_result_info_unsupported_os(Platform.operatingSystemVersion);
       state = state.copyWith(lastScreenInfo: lastScreenInfo);
       await showToast(context, lastScreenInfo);
     }
@@ -236,12 +229,10 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     if (ramSize < 16) {
       checkResult.add(MapEntry("low_ram", "$ramSize"));
     }
-    state = state.copyWith(
-        lastScreenInfo: S.current.doctor_action_info_checking_install_info);
+    state = state.copyWith(lastScreenInfo: S.current.doctor_action_info_checking_install_info);
     // 检查安装分区
     try {
-      final listData = await SCLoggerHelper.getGameInstallPath(
-          await SCLoggerHelper.getLauncherLogList() ?? []);
+      final listData = await SCLoggerHelper.getGameInstallPath(await SCLoggerHelper.getLauncherLogList() ?? []);
       final p = [];
       final checkedPath = [];
       for (var installPath in listData) {
@@ -262,19 +253,16 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         }
       }
 
-      // call check
+      // call check using Rust API
       for (var element in p) {
-        var result = await Process.run('powershell', [
-          "(fsutil fsinfo sectorinfo $element: | Select-String 'PhysicalBytesPerSectorForPerformance').ToString().Split(':')[1].Trim()"
-        ]);
-        dPrint(
-            "fsutil info sector info: ->>> ${result.stdout.toString().trim()}");
-        if (result.stderr == "") {
-          final rs = result.stdout.toString().trim();
-          final physicalBytesPerSectorForPerformance = (int.tryParse(rs) ?? 0);
+        try {
+          final physicalBytesPerSectorForPerformance = await win32.getDiskPhysicalSectorSize(driveLetter: element);
+          dPrint("disk sector info for $element: -> $physicalBytesPerSectorForPerformance");
           if (physicalBytesPerSectorForPerformance > 4096) {
             checkResult.add(MapEntry("nvme_PhysicalBytes", element));
           }
+        } catch (e) {
+          dPrint("getDiskPhysicalSectorSize error: $e");
         }
       }
     } catch (e) {

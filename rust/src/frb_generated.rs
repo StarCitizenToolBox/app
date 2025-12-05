@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1317751362;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1161621087;
 
 // Section: executor
 
@@ -45,6 +45,48 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire__crate__api__win32_api__add_nvme_patch_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "add_nvme_patch",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::win32_api::add_nvme_patch()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__check_nvme_patch_status_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "check_nvme_patch_status",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::win32_api::check_nvme_patch_status()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__ort_api__clear_all_models_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
 ) {
@@ -59,6 +101,34 @@ fn wire__crate__api__ort_api__clear_all_models_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::ort_api::clear_all_models()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__create_desktop_shortcut_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    target_path: impl CstDecode<String>,
+    shortcut_name: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "create_desktop_shortcut",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_target_path = target_path.cst_decode();
+            let api_shortcut_name = shortcut_name.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::win32_api::create_desktop_shortcut(
+                            &api_target_path,
+                            &api_shortcut_name,
+                        )?;
                         Ok(output_ok)
                     })(),
                 )
@@ -151,6 +221,31 @@ fn wire__crate__api__http_api__fetch_impl(
                         Ok(output_ok)
                     })()
                     .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__get_disk_physical_sector_size_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    drive_letter: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_disk_physical_sector_size",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_drive_letter = drive_letter.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::win32_api::get_disk_physical_sector_size(
+                            &api_drive_letter,
+                        )?;
+                        Ok(output_ok)
+                    })(),
                 )
             }
         },
@@ -334,6 +429,30 @@ fn wire__crate__api__win32_api__get_system_memory_size_gb_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::win32_api::get_system_memory_size_gb()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__kill_process_by_name_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    process_name: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "kill_process_by_name",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_process_name = process_name.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::win32_api::kill_process_by_name(&api_process_name)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -546,6 +665,27 @@ fn wire__crate__api__unp4k_api__p4k_open_impl(
         },
     )
 }
+fn wire__crate__api__win32_api__remove_nvme_patch_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "remove_nvme_patch",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::win32_api::remove_nvme_patch()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__win32_api__resolve_shortcut_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     lnk_path: impl CstDecode<String>,
@@ -594,6 +734,32 @@ fn wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js_impl(
                         Ok(output_ok)
                     })()
                     .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__run_as_admin_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    program: impl CstDecode<String>,
+    args: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "run_as_admin",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_program = program.cst_decode();
+            let api_args = args.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::win32_api::run_as_admin(&api_program, &api_args)?;
+                        Ok(output_ok)
+                    })(),
                 )
             }
         },
@@ -718,6 +884,32 @@ fn wire__crate__api__rs_process__start_impl(
                         Ok(output_ok)
                     })()
                     .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__start_process_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    program: impl CstDecode<String>,
+    args: impl CstDecode<Vec<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "start_process",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_program = program.cst_decode();
+            let api_args = args.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::win32_api::start_process(&api_program, api_args)?;
+                        Ok(output_ok)
+                    })(),
                 )
             }
         },
@@ -2894,10 +3086,33 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__add_nvme_patch(
+        port_: i64,
+    ) {
+        wire__crate__api__win32_api__add_nvme_patch_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__check_nvme_patch_status(
+        port_: i64,
+    ) {
+        wire__crate__api__win32_api__check_nvme_patch_status_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ort_api__clear_all_models(
         port_: i64,
     ) {
         wire__crate__api__ort_api__clear_all_models_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__create_desktop_shortcut(
+        port_: i64,
+        target_path: *mut wire_cst_list_prim_u_8_strict,
+        shortcut_name: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__win32_api__create_desktop_shortcut_impl(port_, target_path, shortcut_name)
     }
 
     #[unsafe(no_mangle)]
@@ -2935,6 +3150,14 @@ mod io {
             with_ip_address,
             with_custom_dns,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__get_disk_physical_sector_size(
+        port_: i64,
+        drive_letter: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__win32_api__get_disk_physical_sector_size_impl(port_, drive_letter)
     }
 
     #[unsafe(no_mangle)]
@@ -2996,6 +3219,14 @@ mod io {
         port_: i64,
     ) {
         wire__crate__api__win32_api__get_system_memory_size_gb_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__kill_process_by_name(
+        port_: i64,
+        process_name: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__win32_api__kill_process_by_name_impl(port_, process_name)
     }
 
     #[unsafe(no_mangle)]
@@ -3069,6 +3300,13 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__remove_nvme_patch(
+        port_: i64,
+    ) {
+        wire__crate__api__win32_api__remove_nvme_patch_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__resolve_shortcut(
         port_: i64,
         lnk_path: *mut wire_cst_list_prim_u_8_strict,
@@ -3083,6 +3321,15 @@ mod io {
         content: *mut wire_cst_list_prim_u_8_loose,
     ) {
         wire__crate__api__asar_api__rsi_launcher_asar_data_write_main_js_impl(port_, that, content)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__run_as_admin(
+        port_: i64,
+        program: *mut wire_cst_list_prim_u_8_strict,
+        args: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__win32_api__run_as_admin_impl(port_, program, args)
     }
 
     #[unsafe(no_mangle)]
@@ -3127,6 +3374,15 @@ mod io {
             working_directory,
             stream_sink,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__start_process(
+        port_: i64,
+        program: *mut wire_cst_list_prim_u_8_strict,
+        args: *mut wire_cst_list_String,
+    ) {
+        wire__crate__api__win32_api__start_process_impl(port_, program, args)
     }
 
     #[unsafe(no_mangle)]

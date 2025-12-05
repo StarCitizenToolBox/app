@@ -528,3 +528,391 @@ pub fn get_process_list_by_name(process_name: &str) -> anyhow::Result<Vec<Proces
     println!("get_process_list_by_name (unix): {}", process_name);
     Ok(Vec::new())
 }
+
+/// Kill processes by name
+#[cfg(target_os = "windows")]
+pub fn kill_process_by_name(process_name: &str) -> anyhow::Result<u32> {
+    use windows::Win32::Foundation::CloseHandle;
+    use windows::Win32::System::Threading::{OpenProcess, TerminateProcess, PROCESS_TERMINATE};
+    
+    let processes = get_process_list_by_name(process_name)?;
+    let mut killed_count = 0u32;
+    
+    for process in processes {
+        unsafe {
+            if let Ok(h_process) = OpenProcess(PROCESS_TERMINATE, false, process.pid) {
+                if !h_process.is_invalid() {
+                    if TerminateProcess(h_process, 0).is_ok() {
+                        killed_count += 1;
+                    }
+                    let _ = CloseHandle(h_process);
+                }
+            }
+        }
+    }
+    
+    Ok(killed_count)
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn kill_process_by_name(process_name: &str) -> anyhow::Result<u32> {
+    println!("kill_process_by_name (unix): {}", process_name);
+    Ok(0)
+}
+
+/// Get disk physical sector size for performance
+#[cfg(target_os = "windows")]
+pub fn get_disk_physical_sector_size(drive_letter: &str) -> anyhow::Result<u32> {
+    use windows::Win32::Storage::FileSystem::{
+        CreateFileW, FILE_SHARE_READ, FILE_SHARE_WRITE, OPEN_EXISTING,
+    };
+    use windows::Win32::System::IO::DeviceIoControl;
+    use windows::Win32::System::Ioctl::IOCTL_STORAGE_QUERY_PROPERTY;
+    use windows::Win32::Foundation::CloseHandle;
+    use windows::core::HSTRING;
+    use std::mem;
+    
+    // STORAGE_PROPERTY_QUERY structure
+    #[repr(C)]
+    struct StoragePropertyQuery {
+        property_id: u32,
+        query_type: u32,
+        additional_parameters: [u8; 1],
+    }
+    
+    // STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR structure  
+    #[repr(C)]
+    struct StorageAccessAlignmentDescriptor {
+        version: u32,
+        size: u32,
+        bytes_per_cache_line: u32,
+        bytes_offset_for_cache_alignment: u32,
+        bytes_per_logical_sector: u32,
+        bytes_per_physical_sector: u32,
+        bytes_offset_for_sector_alignment: u32,
+    }
+    
+    let drive_path = format!(r"\\.\{}:", drive_letter.chars().next().unwrap_or('C'));
+    let drive_path_w = HSTRING::from(&drive_path);
+    
+    unsafe {
+        let handle = CreateFileW(
+            &drive_path_w,
+            0, // No access needed, just query
+            FILE_SHARE_READ | FILE_SHARE_WRITE,
+            None,
+            OPEN_EXISTING,
+            windows::Win32::Storage::FileSystem::FILE_FLAGS_AND_ATTRIBUTES(0),
+            None,
+        )?;
+        
+        if handle.is_invalid() {
+            return Err(anyhow::anyhow!("Failed to open drive"));
+        }
+        
+        // StorageAccessAlignmentProperty = 6
+        let query = StoragePropertyQuery {
+            property_id: 6,
+            query_type: 0, // PropertyStandardQuery
+            additional_parameters: [0],
+        };
+        
+        let mut descriptor: StorageAccessAlignmentDescriptor = mem::zeroed();
+        let mut bytes_returned: u32 = 0;
+        
+        let result = DeviceIoControl(
+            handle,
+            IOCTL_STORAGE_QUERY_PROPERTY,
+            Some(&query as *const _ as *const std::ffi::c_void),
+            mem::size_of::<StoragePropertyQuery>() as u32,
+            Some(&mut descriptor as *mut _ as *mut std::ffi::c_void),
+            mem::size_of::<StorageAccessAlignmentDescriptor>() as u32,
+            Some(&mut bytes_returned),
+            None,
+        );
+        
+        let _ = CloseHandle(handle);
+        
+        if result.is_ok() {
+            Ok(descriptor.bytes_per_physical_sector)
+        } else {
+            Err(anyhow::anyhow!("DeviceIoControl failed"))
+        }
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn get_disk_physical_sector_size(drive_letter: &str) -> anyhow::Result<u32> {
+    println!("get_disk_physical_sector_size (unix): {}", drive_letter);
+    Ok(0)
+}
+
+/// Create a desktop shortcut
+#[cfg(target_os = "windows")]
+pub fn create_desktop_shortcut(target_path: &str, shortcut_name: &str) -> anyhow::Result<()> {
+    use windows::core::{HSTRING, Interface, BSTR};
+    use windows::Win32::System::Com::{
+        CoCreateInstance, CoInitializeEx, CoUninitialize,
+        CLSCTX_INPROC_SERVER, COINIT_APARTMENTTHREADED,
+    };
+    use windows::Win32::UI::Shell::{IShellLinkW, ShellLink, SHGetKnownFolderPath, FOLDERID_Desktop};
+    use windows::Win32::System::Com::IPersistFile;
+    
+    unsafe {
+        let _ = CoInitializeEx(None, COINIT_APARTMENTTHREADED);
+        
+        let result = (|| -> anyhow::Result<()> {
+            // Get desktop path
+            let desktop_path = SHGetKnownFolderPath(&FOLDERID_Desktop, windows::Win32::UI::Shell::KNOWN_FOLDER_FLAG(0), None)?;
+            let desktop_str = desktop_path.to_string()?;
+            
+            // Create ShellLink instance
+            let shell_link: IShellLinkW = CoCreateInstance(
+                &ShellLink,
+                None,
+                CLSCTX_INPROC_SERVER,
+            )?;
+            
+            // Set target path
+            let target_w = HSTRING::from(target_path);
+            shell_link.SetPath(&target_w)?;
+            
+            // Get IPersistFile interface
+            let persist_file: IPersistFile = shell_link.cast()?;
+            
+            // Create shortcut file path
+            let shortcut_path = format!("{}\\{}", desktop_str, shortcut_name);
+            let shortcut_w = BSTR::from(&shortcut_path);
+            
+            // Save shortcut
+            persist_file.Save(windows::core::PCWSTR(shortcut_w.as_ptr()), true)?;
+            
+            Ok(())
+        })();
+        
+        CoUninitialize();
+        result
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn create_desktop_shortcut(target_path: &str, shortcut_name: &str) -> anyhow::Result<()> {
+    println!("create_desktop_shortcut (unix): {} -> {}", target_path, shortcut_name);
+    Ok(())
+}
+
+/// Run a program with admin privileges (UAC)
+#[cfg(target_os = "windows")]
+pub fn run_as_admin(program: &str, args: &str) -> anyhow::Result<()> {
+    use windows::core::HSTRING;
+    use windows::Win32::UI::Shell::ShellExecuteW;
+    use windows::Win32::UI::WindowsAndMessaging::SW_SHOWNORMAL;
+    
+    let operation = HSTRING::from("runas");
+    let file = HSTRING::from(program);
+    let parameters = HSTRING::from(args);
+    
+    unsafe {
+        let result = ShellExecuteW(
+            None,
+            &operation,
+            &file,
+            &parameters,
+            None,
+            SW_SHOWNORMAL,
+        );
+        
+        // ShellExecuteW returns a value > 32 on success
+        if result.0 as usize > 32 {
+            Ok(())
+        } else {
+            Err(anyhow::anyhow!("ShellExecuteW failed with code: {}", result.0 as usize))
+        }
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn run_as_admin(program: &str, args: &str) -> anyhow::Result<()> {
+    println!("run_as_admin (unix): {} {}", program, args);
+    Ok(())
+}
+
+/// Start a program (without waiting)
+#[cfg(target_os = "windows")]
+pub fn start_process(program: &str, args: Vec<String>) -> anyhow::Result<()> {
+    use std::process::Command;
+    
+    Command::new(program)
+        .args(&args)
+        .spawn()?;
+    
+    Ok(())
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn start_process(program: &str, args: Vec<String>) -> anyhow::Result<()> {
+    println!("start_process (unix): {} {:?}", program, args);
+    Ok(())
+}
+
+// ============== NVME Patch Functions ==============
+
+const NVME_REGISTRY_PATH: &str = r"SYSTEM\CurrentControlSet\Services\stornvme\Parameters\Device";
+const NVME_VALUE_NAME: &str = "ForcedPhysicalSectorSizeInBytes";
+
+/// Check if NVME patch is applied
+#[cfg(target_os = "windows")]
+pub fn check_nvme_patch_status() -> anyhow::Result<bool> {
+    use windows::Win32::System::Registry::{
+        RegOpenKeyExW, RegQueryValueExW, RegCloseKey,
+        HKEY_LOCAL_MACHINE, KEY_READ, REG_VALUE_TYPE,
+    };
+    use windows::core::{HSTRING, PCWSTR};
+    
+    unsafe {
+        let path = HSTRING::from(NVME_REGISTRY_PATH);
+        let mut hkey = std::mem::zeroed();
+        
+        // Try to open the registry key
+        if RegOpenKeyExW(
+            HKEY_LOCAL_MACHINE,
+            PCWSTR(path.as_ptr()),
+            Some(0),
+            KEY_READ,
+            &mut hkey,
+        ).is_err() {
+            return Ok(false);
+        }
+        
+        // Query the value
+        let value_name = HSTRING::from(NVME_VALUE_NAME);
+        let mut buffer = [0u8; 1024];
+        let mut size = buffer.len() as u32;
+        let mut value_type = REG_VALUE_TYPE::default();
+        
+        let result = if RegQueryValueExW(
+            hkey,
+            PCWSTR(value_name.as_ptr()),
+            None,
+            Some(&mut value_type),
+            Some(buffer.as_mut_ptr()),
+            Some(&mut size),
+        ).is_ok() {
+            // Check if the value contains "* 4095"
+            // REG_MULTI_SZ is stored as null-terminated wide strings
+            let data = String::from_utf16_lossy(
+                std::slice::from_raw_parts(buffer.as_ptr() as *const u16, size as usize / 2)
+            );
+            data.contains("* 4095")
+        } else {
+            false
+        };
+        
+        let _ = RegCloseKey(hkey);
+        Ok(result)
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn check_nvme_patch_status() -> anyhow::Result<bool> {
+    Ok(false)
+}
+
+/// Add NVME patch to registry
+#[cfg(target_os = "windows")]
+pub fn add_nvme_patch() -> anyhow::Result<()> {
+    use windows::Win32::System::Registry::{
+        RegOpenKeyExW, RegSetValueExW, RegCloseKey,
+        HKEY_LOCAL_MACHINE, KEY_WRITE, REG_MULTI_SZ,
+    };
+    use windows::core::{HSTRING, PCWSTR};
+    
+    unsafe {
+        let path = HSTRING::from(NVME_REGISTRY_PATH);
+        let mut hkey = std::mem::zeroed();
+        
+        // Open the registry key with write access
+        let open_result = RegOpenKeyExW(
+            HKEY_LOCAL_MACHINE,
+            PCWSTR(path.as_ptr()),
+            Some(0),
+            KEY_WRITE,
+            &mut hkey,
+        );
+        if open_result.is_err() {
+            return Err(anyhow::anyhow!("Failed to open registry key: {:?}", open_result));
+        }
+        
+        // Prepare the value: "* 4095" as REG_MULTI_SZ (double null terminated)
+        let value_str = "* 4095\0\0";
+        let value_wide: Vec<u16> = value_str.encode_utf16().collect();
+        let value_name = HSTRING::from(NVME_VALUE_NAME);
+        
+        let result = RegSetValueExW(
+            hkey,
+            PCWSTR(value_name.as_ptr()),
+            Some(0),
+            REG_MULTI_SZ,
+            Some(std::slice::from_raw_parts(
+                value_wide.as_ptr() as *const u8,
+                value_wide.len() * 2,
+            )),
+        );
+        
+        let _ = RegCloseKey(hkey);
+        
+        if result.is_err() {
+            return Err(anyhow::anyhow!("Failed to set registry value: {:?}", result));
+        }
+        Ok(())
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn add_nvme_patch() -> anyhow::Result<()> {
+    Err(anyhow::anyhow!("NVME patch is only supported on Windows"))
+}
+
+/// Remove NVME patch from registry
+#[cfg(target_os = "windows")]
+pub fn remove_nvme_patch() -> anyhow::Result<()> {
+    use windows::Win32::System::Registry::{
+        RegOpenKeyExW, RegDeleteValueW, RegCloseKey,
+        HKEY_LOCAL_MACHINE, KEY_WRITE, 
+    };
+    use windows::Win32::Foundation::ERROR_FILE_NOT_FOUND;
+    use windows::core::{HSTRING, PCWSTR};
+    
+    unsafe {
+        let path = HSTRING::from(NVME_REGISTRY_PATH);
+        let mut hkey = std::mem::zeroed();
+        
+        // Open the registry key with write access
+        let open_result = RegOpenKeyExW(
+            HKEY_LOCAL_MACHINE,
+            PCWSTR(path.as_ptr()),
+            Some(0),
+            KEY_WRITE,
+            &mut hkey,
+        );
+        if open_result.is_err() {
+            return Err(anyhow::anyhow!("Failed to open registry key: {:?}", open_result));
+        }
+        
+        let value_name = HSTRING::from(NVME_VALUE_NAME);
+        
+        let result = RegDeleteValueW(
+            hkey,
+            PCWSTR(value_name.as_ptr()),
+        );
+        
+        let _ = RegCloseKey(hkey);
+        
+        // It's OK if the value doesn't exist
+        if result.is_err() && result != ERROR_FILE_NOT_FOUND {
+            return Err(anyhow::anyhow!("Failed to delete registry value: {:?}", result));
+        }
+        
+        Ok(())
+    }
+}

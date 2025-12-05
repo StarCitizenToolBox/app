@@ -54,7 +54,10 @@ windows = { version = "0.62.2", features = [
     "Win32_UI_Shell",
     "Win32_System_Com",
     "Win32_System_Ole",
-    "Win32_System_Variant"
+    "Win32_System_Variant",
+    "Win32_Security",
+    "Win32_System_IO",
+    "Win32_System_Ioctl"
 ] }
 win32job = "2.0.3"
 wmi = "0.15"

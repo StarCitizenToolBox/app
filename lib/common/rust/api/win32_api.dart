@@ -65,6 +65,55 @@ Future<List<ProcessInfo>> getProcessListByName({required String processName}) =>
       processName: processName,
     );
 
+/// Kill processes by name
+Future<int> killProcessByName({required String processName}) => RustLib
+    .instance
+    .api
+    .crateApiWin32ApiKillProcessByName(processName: processName);
+
+/// Get disk physical sector size for performance
+Future<int> getDiskPhysicalSectorSize({required String driveLetter}) => RustLib
+    .instance
+    .api
+    .crateApiWin32ApiGetDiskPhysicalSectorSize(driveLetter: driveLetter);
+
+/// Create a desktop shortcut
+Future<void> createDesktopShortcut({
+  required String targetPath,
+  required String shortcutName,
+}) => RustLib.instance.api.crateApiWin32ApiCreateDesktopShortcut(
+  targetPath: targetPath,
+  shortcutName: shortcutName,
+);
+
+/// Run a program with admin privileges (UAC)
+Future<void> runAsAdmin({required String program, required String args}) =>
+    RustLib.instance.api.crateApiWin32ApiRunAsAdmin(
+      program: program,
+      args: args,
+    );
+
+/// Start a program (without waiting)
+Future<void> startProcess({
+  required String program,
+  required List<String> args,
+}) => RustLib.instance.api.crateApiWin32ApiStartProcess(
+  program: program,
+  args: args,
+);
+
+/// Check if NVME patch is applied
+Future<bool> checkNvmePatchStatus() =>
+    RustLib.instance.api.crateApiWin32ApiCheckNvmePatchStatus();
+
+/// Add NVME patch to registry
+Future<void> addNvmePatch() =>
+    RustLib.instance.api.crateApiWin32ApiAddNvmePatch();
+
+/// Remove NVME patch from registry
+Future<void> removeNvmePatch() =>
+    RustLib.instance.api.crateApiWin32ApiRemoveNvmePatch();
+
 class ProcessInfo {
   final int pid;
   final String name;

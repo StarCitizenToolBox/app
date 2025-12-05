@@ -5,76 +5,31 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 
 class SystemHelper {
-  static String powershellPath = "powershell.exe";
-
-  static Future<void> initPowershellPath() async {
-    try {
-      var result = await Process.run(powershellPath, ["echo", "pong"]);
-      if (!result.stdout.toString().startsWith("pong") && powershellPath == "powershell.exe") {
-        throw "powershell check failed";
-      }
-    } catch (e) {
-      Map<String, String> envVars = Platform.environment;
-      final systemRoot = envVars["SYSTEMROOT"];
-      if (systemRoot != null) {
-        final autoSearchPath = "$systemRoot\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-        dPrint("auto search powershell path === $autoSearchPath");
-        powershellPath = autoSearchPath;
-      }
-    }
-  }
-
   static Future<bool> checkNvmePatchStatus() async {
     try {
-      var result = await Process.run(SystemHelper.powershellPath, [
-        "Get-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\"",
-      ]);
-      dPrint("checkNvmePatchStatus result ==== ${result.stdout}");
-      if (result.stderr == "" && result.stdout.toString().contains("{* 4095}")) {
-        return true;
-      } else {
-        return false;
-      }
+      return await win32.checkNvmePatchStatus();
     } catch (e) {
+      dPrint("checkNvmePatchStatus error: $e");
       return false;
     }
   }
 
   static Future<String> addNvmePatch() async {
-    var result = await Process.run(powershellPath, [
-      'New-ItemProperty',
-      "-Path",
-      "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-      "-Name",
-      "ForcedPhysicalSectorSizeInBytes",
-      "-PropertyType MultiString",
-      "-Force -Value",
-      "\"* 4095\"",
-    ]);
-    dPrint("nvme_PhysicalBytes result == ${result.stdout}");
-    return result.stderr;
+    try {
+      await win32.addNvmePatch();
+      return "";
+    } catch (e) {
+      dPrint("addNvmePatch error: $e");
+      return e.toString();
+    }
   }
 
   static Future<bool> doRemoveNvmePath() async {
     try {
-      var result = await Process.run(powershellPath, [
-        "Clear-ItemProperty",
-        "-Path",
-        "\"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\stornvme\\Parameters\\Device\"",
-        "-Name",
-        "\"ForcedPhysicalSectorSizeInBytes\"",
-      ]);
-      dPrint("doRemoveNvmePath result ==== ${result.stdout}");
-      if (result.stderr == "") {
-        return true;
-      } else {
-        return false;
-      }
+      await win32.removeNvmePatch();
+      return true;
     } catch (e) {
+      dPrint("doRemoveNvmePath error: $e");
       return false;
     }
   }
