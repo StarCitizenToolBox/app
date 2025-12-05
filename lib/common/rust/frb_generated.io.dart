@@ -1383,13 +1383,15 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__downloader_api__downloader_has_active_tasksPtr
           .asFunction<void Function(int)>();
 
-  WireSyncRust2DartDco wire__crate__api__downloader_api__downloader_init(
+  void wire__crate__api__downloader_api__downloader_init(
+    int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> working_dir,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> default_download_dir,
     ffi.Pointer<ffi.Uint32> upload_limit_bps,
     ffi.Pointer<ffi.Uint32> download_limit_bps,
   ) {
     return _wire__crate__api__downloader_api__downloader_init(
+      port_,
       working_dir,
       default_download_dir,
       upload_limit_bps,
@@ -1400,7 +1402,8 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__downloader_api__downloader_initPtr =
       _lookup<
         ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
+          ffi.Void Function(
+            ffi.Int64,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
             ffi.Pointer<ffi.Uint32>,
@@ -1413,7 +1416,8 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__downloader_api__downloader_init =
       _wire__crate__api__downloader_api__downloader_initPtr
           .asFunction<
-            WireSyncRust2DartDco Function(
+            void Function(
+              int,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<ffi.Uint32>,

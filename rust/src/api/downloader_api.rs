@@ -76,8 +76,7 @@ pub struct DownloadGlobalStat {
 /// - default_download_dir: The default directory to store downloads
 /// - upload_limit_bps: Upload speed limit in bytes per second (0 = unlimited)
 /// - download_limit_bps: Download speed limit in bytes per second (0 = unlimited)
-#[frb(sync)]
-pub fn downloader_init(
+pub async fn downloader_init(
     working_dir: String,
     default_download_dir: String,
     upload_limit_bps: Option<u32>,
@@ -88,60 +87,57 @@ pub fn downloader_init(
         return Ok(());
     }
 
-    let rt = tokio::runtime::Handle::current();
-    rt.block_on(async {
-        let _lock = SESSION_INIT_LOCK.lock().await;
-        
-        // Double check after acquiring lock
-        if SESSION.read().is_some() {
-            return Ok(());
-        }
+    let _lock = SESSION_INIT_LOCK.lock().await;
+    
+    // Double check after acquiring lock
+    if SESSION.read().is_some() {
+        return Ok(());
+    }
 
-        // Working directory for persistence and session data
-        let working_folder = PathBuf::from(&working_dir);
-        std::fs::create_dir_all(&working_folder)?;
-        
-        // Default download folder
-        let output_folder = PathBuf::from(&default_download_dir);
-        std::fs::create_dir_all(&output_folder)?;
-        
-        // Create persistence folder for session state in working directory
-        let persistence_folder = working_folder.join("rqbit-session");
-        std::fs::create_dir_all(&persistence_folder)?;
-        
-        // DHT persistence file in working directory
-        let dht_persistence_file = working_folder.join("dht.json");
+    // Working directory for persistence and session data
+    let working_folder = PathBuf::from(&working_dir);
+    std::fs::create_dir_all(&working_folder)?;
+    
+    // Default download folder
+    let output_folder = PathBuf::from(&default_download_dir);
+    std::fs::create_dir_all(&output_folder)?;
+    
+    // Create persistence folder for session state in working directory
+    let persistence_folder = working_folder.join("rqbit-session");
+    std::fs::create_dir_all(&persistence_folder)?;
+    
+    // DHT persistence file in working directory
+    let dht_persistence_file = working_folder.join("dht.json");
 
-        let session = Session::new_with_opts(
-            output_folder,
-            SessionOptions {
-                disable_dht: false,
-                disable_dht_persistence: false,
-                // Configure DHT persistence to use working directory
-                dht_config: Some(PersistentDhtConfig {
-                    config_filename: Some(dht_persistence_file),
-                    ..Default::default()
-                }),
-                // Enable JSON-based session persistence for task recovery
-                persistence: Some(SessionPersistenceConfig::Json {
-                    folder: Some(persistence_folder),
-                }),
-                fastresume: false,
-                // Configure rate limits
-                ratelimits: LimitsConfig {
-                    upload_bps: upload_limit_bps.and_then(NonZeroU32::new),
-                    download_bps: download_limit_bps.and_then(NonZeroU32::new),
-                },
+    let session = Session::new_with_opts(
+        output_folder,
+        SessionOptions {
+            disable_dht: false,
+            disable_dht_persistence: false,
+            // Configure DHT persistence to use working directory
+            dht_config: Some(PersistentDhtConfig {
+                config_filename: Some(dht_persistence_file),
                 ..Default::default()
+            }),
+            // Enable JSON-based session persistence for task recovery
+            persistence: Some(SessionPersistenceConfig::Json {
+                folder: Some(persistence_folder),
+            }),
+            fastresume: false,
+            // Configure rate limits
+            ratelimits: LimitsConfig {
+                upload_bps: upload_limit_bps.and_then(NonZeroU32::new),
+                download_bps: download_limit_bps.and_then(NonZeroU32::new),
             },
-        )
-        .await
-        .context("Failed to create rqbit session")?;
+            ..Default::default()
+        },
+    )
+    .await
+    .context("Failed to create rqbit session")?;
 
-        *SESSION.write() = Some(session);
+    *SESSION.write() = Some(session);
 
-        Ok(())
-    })
+    Ok(())
 }
 
 /// Check if the downloader is initialized

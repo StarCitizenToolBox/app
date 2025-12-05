@@ -16,7 +16,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 /// - default_download_dir: The default directory to store downloads
 /// - upload_limit_bps: Upload speed limit in bytes per second (0 = unlimited)
 /// - download_limit_bps: Download speed limit in bytes per second (0 = unlimited)
-void downloaderInit({
+Future<void> downloaderInit({
   required String workingDir,
   required String defaultDownloadDir,
   int? uploadLimitBps,

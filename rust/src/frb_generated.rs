@@ -401,33 +401,38 @@ fn wire__crate__api__downloader_api__downloader_has_active_tasks_impl(
     )
 }
 fn wire__crate__api__downloader_api__downloader_init_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
     working_dir: impl CstDecode<String>,
     default_download_dir: impl CstDecode<String>,
     upload_limit_bps: impl CstDecode<Option<u32>>,
     download_limit_bps: impl CstDecode<Option<u32>>,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "downloader_init",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let api_working_dir = working_dir.cst_decode();
             let api_default_download_dir = default_download_dir.cst_decode();
             let api_upload_limit_bps = upload_limit_bps.cst_decode();
             let api_download_limit_bps = download_limit_bps.cst_decode();
-            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                (move || {
-                    let output_ok = crate::api::downloader_api::downloader_init(
-                        api_working_dir,
-                        api_default_download_dir,
-                        api_upload_limit_bps,
-                        api_download_limit_bps,
-                    )?;
-                    Ok(output_ok)
-                })(),
-            )
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::downloader_api::downloader_init(
+                            api_working_dir,
+                            api_default_download_dir,
+                            api_upload_limit_bps,
+                            api_download_limit_bps,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
         },
     )
 }
@@ -4093,12 +4098,14 @@ mod io {
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_init(
+        port_: i64,
         working_dir: *mut wire_cst_list_prim_u_8_strict,
         default_download_dir: *mut wire_cst_list_prim_u_8_strict,
         upload_limit_bps: *mut u32,
         download_limit_bps: *mut u32,
-    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    ) {
         wire__crate__api__downloader_api__downloader_init_impl(
+            port_,
             working_dir,
             default_download_dir,
             upload_limit_bps,

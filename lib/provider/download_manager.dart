@@ -86,7 +86,7 @@ class DownloadManager extends _$DownloadManager {
       }
 
       // Initialize the Rust downloader with optional speed limits
-      downloader_api.downloaderInit(
+      await downloader_api.downloaderInit(
         workingDir: state.workingDir,
         defaultDownloadDir: state.downloadDir,
         uploadLimitBps: uploadLimitBps,

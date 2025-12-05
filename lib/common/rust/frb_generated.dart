@@ -128,7 +128,7 @@ abstract class RustLibApi extends BaseApi {
 
   Future<bool> crateApiDownloaderApiDownloaderHasActiveTasks();
 
-  void crateApiDownloaderApiDownloaderInit({
+  Future<void> crateApiDownloaderApiDownloaderInit({
     required String workingDir,
     required String defaultDownloadDir,
     int? uploadLimitBps,
@@ -743,20 +743,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiDownloaderApiDownloaderInit({
+  Future<void> crateApiDownloaderApiDownloaderInit({
     required String workingDir,
     required String defaultDownloadDir,
     int? uploadLimitBps,
     int? downloadLimitBps,
   }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
           var arg0 = cst_encode_String(workingDir);
           var arg1 = cst_encode_String(defaultDownloadDir);
           var arg2 = cst_encode_opt_box_autoadd_u_32(uploadLimitBps);
           var arg3 = cst_encode_opt_box_autoadd_u_32(downloadLimitBps);
           return wire.wire__crate__api__downloader_api__downloader_init(
+            port_,
             arg0,
             arg1,
             arg2,
