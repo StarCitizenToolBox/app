@@ -138,7 +138,7 @@ pub async fn downloader_init(
                 min_gap_for_webseed: 10,
                 max_errors_before_disable: 10,
                 disable_cooldown_secs: 600,
-            })
+            }),
             ..Default::default()
         },
     )
