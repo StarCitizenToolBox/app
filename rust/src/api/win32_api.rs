@@ -351,7 +351,7 @@ pub fn resolve_shortcut(lnk_path: &str) -> anyhow::Result<String> {
 }
 
 #[cfg(not(target_os = "windows"))]
-pub fn resolve_shortcut(lnk_path: &str) -> anyhow::Result<String> {
+pub fn resolve_shortcut(_: &str) -> anyhow::Result<String> {
     Ok(String::new())
 }
 
@@ -756,8 +756,9 @@ pub fn start_process(program: &str, args: Vec<String>) -> anyhow::Result<()> {
 }
 
 // ============== NVME Patch Functions ==============
-
+#[cfg(target_os = "windows")]
 const NVME_REGISTRY_PATH: &str = r"SYSTEM\CurrentControlSet\Services\stornvme\Parameters\Device";
+#[cfg(target_os = "windows")]
 const NVME_VALUE_NAME: &str = "ForcedPhysicalSectorSizeInBytes";
 
 /// Check if NVME patch is applied
@@ -915,4 +916,9 @@ pub fn remove_nvme_patch() -> anyhow::Result<()> {
         
         Ok(())
     }
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn remove_nvme_patch() -> anyhow::Result<()> {
+    Err(anyhow::anyhow!("NVME patch is only supported on Windows"))
 }
