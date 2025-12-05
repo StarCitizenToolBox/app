@@ -32,6 +32,18 @@ Future<void> downloaderInit({
 bool downloaderIsInitialized() =>
     RustLib.instance.api.crateApiDownloaderApiDownloaderIsInitialized();
 
+/// Check if there are pending tasks to restore from session file (without starting the downloader)
+/// This reads the session.json file directly to check if there are any torrents saved.
+///
+/// Parameters:
+/// - working_dir: The directory where session data is stored (same as passed to downloader_init)
+///
+/// Returns: true if there are tasks to restore, false otherwise
+bool downloaderHasPendingSessionTasks({required String workingDir}) =>
+    RustLib.instance.api.crateApiDownloaderApiDownloaderHasPendingSessionTasks(
+      workingDir: workingDir,
+    );
+
 /// Add a torrent from bytes (e.g., .torrent file content)
 Future<BigInt> downloaderAddTorrent({
   required List<int> torrentBytes,
@@ -118,6 +130,17 @@ Future<void> downloaderStop() =>
 Future<void> downloaderShutdown() =>
     RustLib.instance.api.crateApiDownloaderApiDownloaderShutdown();
 
+/// Get all completed tasks from cache (tasks removed by downloader_remove_completed_tasks)
+/// This cache is cleared when the downloader is shutdown/restarted
+List<DownloadTaskInfo> downloaderGetCompletedTasksCache() => RustLib
+    .instance
+    .api
+    .crateApiDownloaderApiDownloaderGetCompletedTasksCache();
+
+/// Clear the completed tasks cache manually
+void downloaderClearCompletedTasksCache() => RustLib.instance.api
+    .crateApiDownloaderApiDownloaderClearCompletedTasksCache();
+
 /// Update global speed limits
 /// Note: rqbit Session doesn't support runtime limit changes,
 /// this function is a placeholder that returns an error.
@@ -131,6 +154,7 @@ Future<void> downloaderUpdateSpeedLimits({
 );
 
 /// Remove all completed tasks (equivalent to aria2's --seed-time=0 behavior)
+/// Removed tasks are cached in memory and can be queried via downloader_get_completed_tasks_cache
 Future<int> downloaderRemoveCompletedTasks() =>
     RustLib.instance.api.crateApiDownloaderApiDownloaderRemoveCompletedTasks();
 

@@ -153,7 +153,7 @@ class HomeDownloaderUI extends HookConsumerWidget {
                             const SizedBox(width: 32),
                             if (type != "stopped")
                               DropDownButton(
-                                closeAfterClick: false,
+                                closeAfterClick: true,
                                 title: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Text(S.current.downloader_action_options),

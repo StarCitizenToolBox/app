@@ -1321,6 +1321,19 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  WireSyncRust2DartDco
+  wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache() {
+    return _wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache();
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_clear_completed_tasks_cachePtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache',
+      );
+  late final _wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache =
+      _wire__crate__api__downloader_api__downloader_clear_completed_tasks_cachePtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
   void wire__crate__api__downloader_api__downloader_get_all_tasks(int port_) {
     return _wire__crate__api__downloader_api__downloader_get_all_tasks(port_);
   }
@@ -1332,6 +1345,19 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__downloader_api__downloader_get_all_tasks =
       _wire__crate__api__downloader_api__downloader_get_all_tasksPtr
           .asFunction<void Function(int)>();
+
+  WireSyncRust2DartDco
+  wire__crate__api__downloader_api__downloader_get_completed_tasks_cache() {
+    return _wire__crate__api__downloader_api__downloader_get_completed_tasks_cache();
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_get_completed_tasks_cachePtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_completed_tasks_cache',
+      );
+  late final _wire__crate__api__downloader_api__downloader_get_completed_tasks_cache =
+      _wire__crate__api__downloader_api__downloader_get_completed_tasks_cachePtr
+          .asFunction<WireSyncRust2DartDco Function()>();
 
   void wire__crate__api__downloader_api__downloader_get_global_stats(
     int port_,
@@ -1382,6 +1408,33 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__downloader_api__downloader_has_active_tasks =
       _wire__crate__api__downloader_api__downloader_has_active_tasksPtr
           .asFunction<void Function(int)>();
+
+  WireSyncRust2DartDco
+  wire__crate__api__downloader_api__downloader_has_pending_session_tasks(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> working_dir,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_has_pending_session_tasks(
+      working_dir,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_has_pending_session_tasksPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_has_pending_session_tasks',
+      );
+  late final _wire__crate__api__downloader_api__downloader_has_pending_session_tasks =
+      _wire__crate__api__downloader_api__downloader_has_pending_session_tasksPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
 
   void wire__crate__api__downloader_api__downloader_init(
     int port_,
@@ -2083,9 +2136,9 @@ class RustLibWire implements BaseWire {
 
   void wire__crate__api__win32_api__resolve_shortcut(
     int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> _lnk_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> lnk_path,
   ) {
-    return _wire__crate__api__win32_api__resolve_shortcut(port_, _lnk_path);
+    return _wire__crate__api__win32_api__resolve_shortcut(port_, lnk_path);
   }
 
   late final _wire__crate__api__win32_api__resolve_shortcutPtr =

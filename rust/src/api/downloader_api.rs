@@ -26,9 +26,9 @@ static SESSION_INIT_LOCK: once_cell::sync::Lazy<Mutex<()>> =
 static TORRENT_HANDLES: once_cell::sync::Lazy<RwLock<HashMap<usize, ManagedTorrentHandle>>> =
     once_cell::sync::Lazy::new(|| RwLock::new(HashMap::new()));
 
-// Store output folders for each task
-static TASK_OUTPUT_FOLDERS: once_cell::sync::Lazy<RwLock<HashMap<usize, String>>> =
-    once_cell::sync::Lazy::new(|| RwLock::new(HashMap::new()));
+// Store completed tasks info (in-memory cache, cleared on restart)
+static COMPLETED_TASKS_CACHE: once_cell::sync::Lazy<RwLock<Vec<DownloadTaskInfo>>> =
+    once_cell::sync::Lazy::new(|| RwLock::new(Vec::new()));
 
 /// Download task status
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -132,12 +132,15 @@ pub async fn downloader_init(
             },
             webseed_config: Some(WebSeedConfig{
                 max_concurrent_per_source: 32,
-                max_total_concurrent: 128,
+                max_total_concurrent: 64,
                 request_timeout_secs: 30,
                 prefer_for_large_gaps: true,
                 min_gap_for_webseed: 10,
                 max_errors_before_disable: 10,
                 disable_cooldown_secs: 600,
+                adaptive_increase_threshold: 5,
+                adaptive_decrease_threshold: 10,
+                ..Default::default()
             }),
             ..Default::default()
         },
@@ -154,6 +157,44 @@ pub async fn downloader_init(
 #[frb(sync)]
 pub fn downloader_is_initialized() -> bool {
     SESSION.read().is_some()
+}
+
+/// Check if there are pending tasks to restore from session file (without starting the downloader)
+/// This reads the session.json file directly to check if there are any torrents saved.
+/// 
+/// Parameters:
+/// - working_dir: The directory where session data is stored (same as passed to downloader_init)
+/// 
+/// Returns: true if there are tasks to restore, false otherwise
+#[frb(sync)]
+pub fn downloader_has_pending_session_tasks(working_dir: String) -> bool {
+    let session_file = PathBuf::from(&working_dir)
+        .join("rqbit-session")
+        .join("session.json");
+    
+    if !session_file.exists() {
+        return false;
+    }
+    
+    // Try to read and parse the session file
+    match std::fs::read_to_string(&session_file) {
+        Ok(content) => {
+            // Parse as JSON to check if there are any torrents
+            // The structure is: { "torrents": { "0": {...}, "1": {...} } }
+            match serde_json::from_str::<serde_json::Value>(&content) {
+                Ok(json) => {
+                    if let Some(torrents) = json.get("torrents") {
+                        if let Some(obj) = torrents.as_object() {
+                            return !obj.is_empty();
+                        }
+                    }
+                    false
+                }
+                Err(_) => false,
+            }
+        }
+        Err(_) => false,
+    }
 }
 
 /// Helper function to get session
@@ -195,17 +236,10 @@ pub async fn downloader_add_torrent(
 
     match response {
         AddTorrentResponse::Added(id, handle) => {
-            // Store output folder
-            if let Some(folder) = output_folder.clone() {
-                TASK_OUTPUT_FOLDERS.write().insert(id, folder);
-            }
             TORRENT_HANDLES.write().insert(id, handle);
             Ok(id)
         }
         AddTorrentResponse::AlreadyManaged(id, handle) => {
-            if let Some(folder) = output_folder.clone() {
-                TASK_OUTPUT_FOLDERS.write().insert(id, folder);
-            }
             TORRENT_HANDLES.write().insert(id, handle);
             Ok(id)
         }
@@ -251,16 +285,10 @@ pub async fn downloader_add_magnet(
 
     match response {
         AddTorrentResponse::Added(id, handle) => {
-            if let Some(folder) = output_folder.clone() {
-                TASK_OUTPUT_FOLDERS.write().insert(id, folder);
-            }
             TORRENT_HANDLES.write().insert(id, handle);
             Ok(id)
         }
         AddTorrentResponse::AlreadyManaged(id, handle) => {
-            if let Some(folder) = output_folder.clone() {
-                TASK_OUTPUT_FOLDERS.write().insert(id, folder);
-            }
             TORRENT_HANDLES.write().insert(id, handle);
             Ok(id)
         }
@@ -364,11 +392,13 @@ pub async fn downloader_get_task_info(task_id: usize) -> Result<DownloadTaskInfo
     if let Some(handle) = handle {
         let stats = handle.stats();
         let name = handle.name().unwrap_or_else(|| format!("Task {}", task_id));
-        let output_folder = TASK_OUTPUT_FOLDERS
-            .read()
-            .get(&task_id)
-            .cloned()
-            .unwrap_or_default();
+        // Get output_folder from handle's shared options
+        let output_folder = handle
+            .shared()
+            .options
+            .output_folder
+            .to_string_lossy()
+            .into_owned();
 
         let status = get_task_status(&stats);
         let progress = if stats.total_bytes > 0 {
@@ -440,11 +470,13 @@ pub async fn downloader_get_all_tasks() -> Result<Vec<DownloadTaskInfo>> {
         for (id, handle) in torrents {
             let stats = handle.stats();
             let name = handle.name().unwrap_or_else(|| format!("Task {}", id));
-            let output_folder = TASK_OUTPUT_FOLDERS
-                .read()
-                .get(&id)
-                .cloned()
-                .unwrap_or_default();
+            // Get output_folder from handle's shared options
+            let output_folder = handle
+                .shared()
+                .options
+                .output_folder
+                .to_string_lossy()
+                .into_owned();
 
             let status = get_task_status(&stats);
             let progress = if stats.total_bytes > 0 {
@@ -552,7 +584,6 @@ pub async fn downloader_stop() -> Result<()> {
         session.stop().await;
     }
     TORRENT_HANDLES.write().clear();
-    TASK_OUTPUT_FOLDERS.write().clear();
     Ok(())
 }
 
@@ -568,8 +599,22 @@ pub async fn downloader_shutdown() -> Result<()> {
     }
     
     TORRENT_HANDLES.write().clear();
-    TASK_OUTPUT_FOLDERS.write().clear();
+    // Clear completed tasks cache on shutdown
+    COMPLETED_TASKS_CACHE.write().clear();
     Ok(())
+}
+
+/// Get all completed tasks from cache (tasks removed by downloader_remove_completed_tasks)
+/// This cache is cleared when the downloader is shutdown/restarted
+#[frb(sync)]
+pub fn downloader_get_completed_tasks_cache() -> Vec<DownloadTaskInfo> {
+    COMPLETED_TASKS_CACHE.read().clone()
+}
+
+/// Clear the completed tasks cache manually
+#[frb(sync)]
+pub fn downloader_clear_completed_tasks_cache() {
+    COMPLETED_TASKS_CACHE.write().clear();
 }
 
 /// Update global speed limits
@@ -586,6 +631,7 @@ pub async fn downloader_update_speed_limits(
 }
 
 /// Remove all completed tasks (equivalent to aria2's --seed-time=0 behavior)
+/// Removed tasks are cached in memory and can be queried via downloader_get_completed_tasks_cache
 pub async fn downloader_remove_completed_tasks() -> Result<u32> {
     let session = get_session()?;
 
@@ -599,8 +645,10 @@ pub async fn downloader_remove_completed_tasks() -> Result<u32> {
             if has_handle {
                 // Use TorrentIdOrHash::Id for deletion (TorrentId is just usize)
                 if session.delete(TorrentIdOrHash::Id(task.id), false).await.is_ok() {
+                    // Save task info to cache before removing
+                    COMPLETED_TASKS_CACHE.write().push(task.clone());
+                    
                     TORRENT_HANDLES.write().remove(&task.id);
-                    TASK_OUTPUT_FOLDERS.write().remove(&task.id);
                     removed_count += 1;
                 }
             }

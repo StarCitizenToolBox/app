@@ -52,14 +52,14 @@ class DownloadManager extends _$DownloadManager {
 
     // Lazy load init
     () async {
+      await Future.delayed(const Duration(milliseconds: 16));
       try {
-        // Check if there are existing tasks (check working dir for session data)
-        final dir = Directory(workingDir);
-        if (await dir.exists()) {
-          dPrint("Launch download manager");
+        // Check if there are pending tasks to restore (without starting the downloader)
+        if (downloader_api.downloaderHasPendingSessionTasks(workingDir: workingDir)) {
+          dPrint("Launch download manager - found pending session tasks");
           await initDownloader();
         } else {
-          dPrint("LazyLoad download manager");
+          dPrint("LazyLoad download manager - no pending tasks");
         }
       } catch (e) {
         dPrint("DownloadManager.checkLazyLoad Error:$e");
@@ -245,5 +245,16 @@ class DownloadManager extends _$DownloadManager {
       return false;
     }
     return await downloader_api.downloaderHasActiveTasks();
+  }
+
+  /// Get all completed tasks from cache (tasks that were removed by removeCompletedTasks)
+  /// This cache is cleared when the downloader is shutdown/restarted
+  List<downloader_api.DownloadTaskInfo> getCompletedTasksCache() {
+    return downloader_api.downloaderGetCompletedTasksCache();
+  }
+
+  /// Clear the completed tasks cache manually
+  void clearCompletedTasksCache() {
+    downloader_api.downloaderClearCompletedTasksCache();
   }
 }

@@ -72,7 +72,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -641930410;
+  int get rustContentHash => -1482626931;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -118,7 +118,12 @@ abstract class RustLibApi extends BaseApi {
     List<String>? trackers,
   });
 
+  void crateApiDownloaderApiDownloaderClearCompletedTasksCache();
+
   Future<List<DownloadTaskInfo>> crateApiDownloaderApiDownloaderGetAllTasks();
+
+  List<DownloadTaskInfo>
+  crateApiDownloaderApiDownloaderGetCompletedTasksCache();
 
   Future<DownloadGlobalStat> crateApiDownloaderApiDownloaderGetGlobalStats();
 
@@ -127,6 +132,10 @@ abstract class RustLibApi extends BaseApi {
   });
 
   Future<bool> crateApiDownloaderApiDownloaderHasActiveTasks();
+
+  bool crateApiDownloaderApiDownloaderHasPendingSessionTasks({
+    required String workingDir,
+  });
 
   Future<void> crateApiDownloaderApiDownloaderInit({
     required String workingDir,
@@ -634,6 +643,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  void crateApiDownloaderApiDownloaderClearCompletedTasksCache() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire
+              .wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiDownloaderApiDownloaderClearCompletedTasksCacheConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderClearCompletedTasksCacheConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_clear_completed_tasks_cache",
+        argNames: [],
+      );
+
+  @override
   Future<List<DownloadTaskInfo>> crateApiDownloaderApiDownloaderGetAllTasks() {
     return handler.executeNormal(
       NormalTask(
@@ -656,6 +692,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiDownloaderApiDownloaderGetAllTasksConstMeta =>
       const TaskConstMeta(debugName: "downloader_get_all_tasks", argNames: []);
+
+  @override
+  List<DownloadTaskInfo>
+  crateApiDownloaderApiDownloaderGetCompletedTasksCache() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire
+              .wire__crate__api__downloader_api__downloader_get_completed_tasks_cache();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_download_task_info,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiDownloaderApiDownloaderGetCompletedTasksCacheConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderGetCompletedTasksCacheConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_get_completed_tasks_cache",
+        argNames: [],
+      );
 
   @override
   Future<DownloadGlobalStat> crateApiDownloaderApiDownloaderGetGlobalStats() {
@@ -740,6 +804,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "downloader_has_active_tasks",
         argNames: [],
+      );
+
+  @override
+  bool crateApiDownloaderApiDownloaderHasPendingSessionTasks({
+    required String workingDir,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(workingDir);
+          return wire
+              .wire__crate__api__downloader_api__downloader_has_pending_session_tasks(
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiDownloaderApiDownloaderHasPendingSessionTasksConstMeta,
+        argValues: [workingDir],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderHasPendingSessionTasksConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_has_pending_session_tasks",
+        argNames: ["workingDir"],
       );
 
   @override

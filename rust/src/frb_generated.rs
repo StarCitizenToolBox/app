@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -641930410;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1482626931;
 
 // Section: executor
 
@@ -304,6 +304,24 @@ fn wire__crate__api__downloader_api__downloader_add_url_impl(
         },
     )
 }
+fn wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_clear_completed_tasks_cache",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok({
+                    crate::api::downloader_api::downloader_clear_completed_tasks_cache();
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__downloader_api__downloader_get_all_tasks_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
 ) {
@@ -324,6 +342,24 @@ fn wire__crate__api__downloader_api__downloader_get_all_tasks_impl(
                     .await,
                 )
             }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_get_completed_tasks_cache_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_get_completed_tasks_cache",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(
+                    crate::api::downloader_api::downloader_get_completed_tasks_cache(),
+                )?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -397,6 +433,28 @@ fn wire__crate__api__downloader_api__downloader_has_active_tasks_impl(
                     .await,
                 )
             }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_has_pending_session_tasks_impl(
+    working_dir: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_has_pending_session_tasks",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_working_dir = working_dir.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(
+                    crate::api::downloader_api::downloader_has_pending_session_tasks(
+                        api_working_dir,
+                    ),
+                )?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -1204,7 +1262,7 @@ fn wire__crate__api__win32_api__remove_nvme_patch_impl(
 }
 fn wire__crate__api__win32_api__resolve_shortcut_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    _lnk_path: impl CstDecode<String>,
+    lnk_path: impl CstDecode<String>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -1213,11 +1271,11 @@ fn wire__crate__api__win32_api__resolve_shortcut_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let api__lnk_path = _lnk_path.cst_decode();
+            let api_lnk_path = lnk_path.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
-                        let output_ok = crate::api::win32_api::resolve_shortcut(api__lnk_path)?;
+                        let output_ok = crate::api::win32_api::resolve_shortcut(api_lnk_path)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -4068,10 +4126,22 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache_impl()
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_all_tasks(
         port_: i64,
     ) {
         wire__crate__api__downloader_api__downloader_get_all_tasks_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_completed_tasks_cache(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__downloader_api__downloader_get_completed_tasks_cache_impl()
     }
 
     #[unsafe(no_mangle)]
@@ -4094,6 +4164,13 @@ mod io {
         port_: i64,
     ) {
         wire__crate__api__downloader_api__downloader_has_active_tasks_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_has_pending_session_tasks(
+        working_dir: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__downloader_api__downloader_has_pending_session_tasks_impl(working_dir)
     }
 
     #[unsafe(no_mangle)]
@@ -4378,9 +4455,9 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__resolve_shortcut(
         port_: i64,
-        _lnk_path: *mut wire_cst_list_prim_u_8_strict,
+        lnk_path: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__win32_api__resolve_shortcut_impl(port_, _lnk_path)
+        wire__crate__api__win32_api__resolve_shortcut_impl(port_, lnk_path)
     }
 
     #[unsafe(no_mangle)]
