@@ -5,7 +5,6 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
@@ -14,7 +13,6 @@ import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/rsi_game_library_data.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/webview/webview.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:uuid/uuid.dart';
 
 part 'home_game_login_dialog_ui_model.freezed.dart';
@@ -47,82 +45,87 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
   Future<void> launchWebLogin(BuildContext context) async {
     final homeState = ref.read(homeUIModelProvider);
     if (!context.mounted) return;
-    goWebView(context, S.current.home_action_login_rsi_account,
-        "https://robertsspaceindustries.com/en/connect?jumpto=/account/dashboard",
-        loginMode: true, rsiLoginCallback: (message, ok) async {
-      // dPrint(
-      //     "======rsiLoginCallback=== $ok ===== data==\n${json.encode(message)}");
-      if (message == null || !ok) {
-        Navigator.pop(context);
-        return;
-      }
+    goWebView(
+      context,
+      S.current.home_action_login_rsi_account,
+      "https://robertsspaceindustries.com/en/connect?jumpto=/account/dashboard",
+      loginMode: true,
+      rsiLoginCallback: (message, ok) async {
+        // dPrint(
+        //     "======rsiLoginCallback=== $ok ===== data==\n${json.encode(message)}");
+        if (message == null || !ok) {
+          Navigator.pop(context);
+          return;
+        }
 
-      // final emailBox = await Hive.openBox("quick_login_email");
-      final data = message["data"];
-      final authToken = data["authToken"];
-      final webToken = data["webToken"];
-      final releaseInfo = data["releaseInfo"];
-      final libraryData = RsiGameLibraryData.fromJson(data["libraryData"]);
-      var avatarUrl = data["avatar"]
-          ?.toString()
-          .replaceAll("url(\"", "")
-          .replaceAll("\")", "");
-      if (avatarUrl?.startsWith("/") ?? false) {
-        avatarUrl = "https://robertsspaceindustries.com$avatarUrl";
-      }
-      final Map<String, dynamic> payload = Jwt.parseJwt(authToken!);
-      final nickname = payload["nickname"] ?? "";
+        // final emailBox = await Hive.openBox("quick_login_email");
+        final data = message["data"];
+        final authToken = data["authToken"];
+        final webToken = data["webToken"];
+        final releaseInfo = data["releaseInfo"];
+        final libraryData = RsiGameLibraryData.fromJson(data["libraryData"]);
+        var avatarUrl = data["avatar"]?.toString().replaceAll("url(\"", "").replaceAll("\")", "");
+        if (avatarUrl?.startsWith("/") ?? false) {
+          avatarUrl = "https://robertsspaceindustries.com$avatarUrl";
+        }
+        final Map<String, dynamic> payload = Jwt.parseJwt(authToken!);
+        final nickname = payload["nickname"] ?? "";
 
-      state = state.copyWith(
-        nickname: nickname,
-        avatarUrl: avatarUrl,
-        authToken: authToken,
-        webToken: webToken,
-        releaseInfo: releaseInfo,
-        libraryData: libraryData,
-      );
+        state = state.copyWith(
+          nickname: nickname,
+          avatarUrl: avatarUrl,
+          authToken: authToken,
+          webToken: webToken,
+          releaseInfo: releaseInfo,
+          libraryData: libraryData,
+        );
 
-      final buildInfoFile =
-          File("${homeState.scInstalledPath}\\build_manifest.id");
-      if (await buildInfoFile.exists()) {
-        final buildInfo =
-            json.decode(await buildInfoFile.readAsString())["Data"];
+        final buildInfoFile = File("${homeState.scInstalledPath}\\build_manifest.id");
+        if (await buildInfoFile.exists()) {
+          final buildInfo = json.decode(await buildInfoFile.readAsString())["Data"];
 
-        if (releaseInfo?["versionLabel"] != null &&
-            buildInfo["RequestedP4ChangeNum"] != null) {
-          if (!(releaseInfo!["versionLabel"]!
-              .toString()
-              .endsWith(buildInfo["RequestedP4ChangeNum"]!.toString()))) {
-            if (!context.mounted) return;
-            final ok = await showConfirmDialogs(
+          if (releaseInfo?["versionLabel"] != null && buildInfo["RequestedP4ChangeNum"] != null) {
+            if (!(releaseInfo!["versionLabel"]!.toString().endsWith(buildInfo["RequestedP4ChangeNum"]!.toString()))) {
+              if (!context.mounted) return;
+              final ok = await showConfirmDialogs(
                 context,
                 S.current.home_login_info_game_version_outdated,
-                Text(S.current.home_login_info_rsi_server_report(
+                Text(
+                  S.current.home_login_info_rsi_server_report(
                     releaseInfo?["versionLabel"],
-                    buildInfo["RequestedP4ChangeNum"])),
-                constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * .4),
-                cancel: S.current.home_login_info_action_ignore);
-            if (ok == true) {
-              if (!context.mounted) return;
-              Navigator.pop(context);
-              return;
+                    buildInfo["RequestedP4ChangeNum"],
+                  ),
+                ),
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .4),
+                cancel: S.current.home_login_info_action_ignore,
+              );
+              if (ok == true) {
+                if (!context.mounted) return;
+                Navigator.pop(context);
+                return;
+              }
             }
           }
         }
-      }
 
-      if (!context.mounted) return;
-      _readyForLaunch(homeState, context);
-    }, useLocalization: true, homeState: homeState);
+        if (!context.mounted) return;
+        _readyForLaunch(homeState, context);
+      },
+      useLocalization: true,
+      homeState: homeState,
+    );
   }
 
   // ignore: avoid_build_context_in_providers
-  Future<void> goWebView(BuildContext context, String title, String url,
-      {bool useLocalization = false,
-      bool loginMode = false,
-      RsiLoginCallback? rsiLoginCallback,
-      required HomeUIModelState homeState}) async {
+  Future<void> goWebView(
+    BuildContext context,
+    String title,
+    String url, {
+    bool useLocalization = false,
+    bool loginMode = false,
+    RsiLoginCallback? rsiLoginCallback,
+    required HomeUIModelState homeState,
+  }) async {
     if (useLocalization) {
       const tipVersion = 2;
       final box = await Hive.openBox("app_conf");
@@ -130,14 +133,11 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
       if (skip != tipVersion) {
         if (!context.mounted) return;
         final ok = await showConfirmDialogs(
-            context,
-            S.current.home_login_action_title_box_one_click_launch,
-            Text(
-              S.current.home_login_info_one_click_launch_description,
-              style: const TextStyle(fontSize: 16),
-            ),
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * .6));
+          context,
+          S.current.home_login_action_title_box_one_click_launch,
+          Text(S.current.home_login_info_one_click_launch_description, style: const TextStyle(fontSize: 16)),
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .6),
+        );
         if (!ok) {
           if (loginMode) {
             rsiLoginCallback?.call(null, false);
@@ -147,26 +147,17 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
         await box.put("skip_web_login_version", tipVersion);
       }
     }
-    if (!await WebviewWindow.isWebviewAvailable()) {
-      if (!context.mounted) return;
-      await showToast(
-          context, S.current.home_login_action_title_need_webview2_runtime);
-      if (!context.mounted) return;
-      await launchUrlString(
-          "https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
-      if (!context.mounted) return;
-      Navigator.pop(context);
-      return;
-    }
+    // Rust WebView using wry + tao - no WebView2 runtime check needed as wry handles it internally
     if (!context.mounted) return;
-    final webViewModel = WebViewModel(context,
-        loginMode: loginMode,
-        loginCallback: rsiLoginCallback,
-        loginChannel: getChannelID(homeState.scInstalledPath!));
+    final webViewModel = WebViewModel(
+      context,
+      loginMode: loginMode,
+      loginCallback: rsiLoginCallback,
+      loginChannel: getChannelID(homeState.scInstalledPath!),
+    );
     if (useLocalization) {
       try {
-        await webViewModel
-            .initLocalization(homeState.webLocalizationVersionsData!);
+        await webViewModel.initLocalization(homeState.webLocalizationVersionsData!);
       } catch (_) {}
     }
     await Future.delayed(const Duration(milliseconds: 500));
@@ -179,9 +170,10 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
   }
 
   Future<void> _readyForLaunch(
-      HomeUIModelState homeState,
-      // ignore: avoid_build_context_in_providers
-      BuildContext context) async {
+    HomeUIModelState homeState,
+    // ignore: avoid_build_context_in_providers
+    BuildContext context,
+  ) async {
     final userBox = await Hive.openBox("rsi_account_data");
     state = state.copyWith(loginStatus: 2);
     final launchData = {
@@ -211,11 +203,12 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     final homeUIModel = ref.read(homeUIModelProvider.notifier);
     if (!context.mounted) return;
     homeUIModel.doLaunchGame(
-        context,
-        '${homeState.scInstalledPath}\\$executable',
-        ["-no_login_dialog", ...launchOptions.toString().split(" ")],
-        homeState.scInstalledPath!,
-        processorAffinity);
+      context,
+      '${homeState.scInstalledPath}\\$executable',
+      ["-no_login_dialog", ...launchOptions.toString().split(" ")],
+      homeState.scInstalledPath!,
+      processorAffinity,
+    );
     await Future.delayed(const Duration(seconds: 1));
     if (!context.mounted) return;
     Navigator.pop(context);

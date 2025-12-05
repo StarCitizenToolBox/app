@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1801517256;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1082688871;
 
 // Section: executor
 
@@ -666,6 +666,337 @@ fn wire__crate__api__ort_api__unload_translation_model_impl(
         },
     )
 }
+fn wire__crate__api__webview_api__web_view_configuration_default_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "web_view_configuration_default",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::webview_api::WebViewConfiguration::default(),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__webview_api__web_view_navigation_state_default_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "web_view_navigation_state_default",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::webview_api::WebViewNavigationState::default(),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_close_impl(
+    id: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_close",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_close(api_id)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_create_impl(
+    config: impl CstDecode<crate::api::webview_api::WebViewConfiguration>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_create",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_config = config.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_create(api_config)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_execute_script_impl(
+    id: impl CstDecode<String>,
+    script: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_execute_script",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_script = script.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok =
+                    crate::api::webview_api::webview_execute_script(api_id, api_script)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_get_state_impl(
+    id: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_get_state",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_get_state(api_id)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_go_back_impl(
+    id: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_go_back",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_go_back(api_id)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_go_forward_impl(
+    id: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_go_forward",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_go_forward(api_id)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_is_closed_impl(
+    id: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_is_closed",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::webview_api::webview_is_closed(api_id))?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_list_all_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_list_all",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::webview_api::webview_list_all())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_navigate_impl(
+    id: impl CstDecode<String>,
+    url: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_navigate",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_url = url.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_navigate(api_id, api_url)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_poll_events_impl(
+    id: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_poll_events",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::webview_api::webview_poll_events(api_id))?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_reload_impl(
+    id: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_reload",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_reload(api_id)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_set_visibility_impl(
+    id: impl CstDecode<String>,
+    visible: impl CstDecode<bool>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_set_visibility",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_visible = visible.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok =
+                    crate::api::webview_api::webview_set_visibility(api_id, api_visible)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_set_window_position_impl(
+    id: impl CstDecode<String>,
+    x: impl CstDecode<i32>,
+    y: impl CstDecode<i32>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_set_window_position",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_x = x.cst_decode();
+            let api_y = y.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok =
+                    crate::api::webview_api::webview_set_window_position(api_id, api_x, api_y)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_set_window_size_impl(
+    id: impl CstDecode<String>,
+    width: impl CstDecode<u32>,
+    height: impl CstDecode<u32>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_set_window_size",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_width = width.cst_decode();
+            let api_height = height.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_set_window_size(
+                    api_id, api_width, api_height,
+                )?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__webview_api__webview_stop_impl(
+    id: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_stop",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok = crate::api::webview_api::webview_stop(api_id)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__rs_process__write_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     rs_pid: impl CstDecode<u32>,
@@ -909,6 +1240,20 @@ impl SseDecode for Vec<(String, String)> {
     }
 }
 
+impl SseDecode for Vec<crate::api::webview_api::WebViewEvent> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::webview_api::WebViewEvent>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for crate::http_package::MyHttpVersion {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1146,6 +1491,85 @@ impl SseDecode for usize {
     }
 }
 
+impl SseDecode for crate::api::webview_api::WebViewConfiguration {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_title = <String>::sse_decode(deserializer);
+        let mut var_width = <u32>::sse_decode(deserializer);
+        let mut var_height = <u32>::sse_decode(deserializer);
+        let mut var_userDataFolder = <Option<String>>::sse_decode(deserializer);
+        let mut var_enableDevtools = <bool>::sse_decode(deserializer);
+        let mut var_transparent = <bool>::sse_decode(deserializer);
+        let mut var_userAgent = <Option<String>>::sse_decode(deserializer);
+        return crate::api::webview_api::WebViewConfiguration {
+            title: var_title,
+            width: var_width,
+            height: var_height,
+            user_data_folder: var_userDataFolder,
+            enable_devtools: var_enableDevtools,
+            transparent: var_transparent,
+            user_agent: var_userAgent,
+        };
+    }
+}
+
+impl SseDecode for crate::api::webview_api::WebViewEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_url = <String>::sse_decode(deserializer);
+                return crate::api::webview_api::WebViewEvent::NavigationStarted { url: var_url };
+            }
+            1 => {
+                let mut var_url = <String>::sse_decode(deserializer);
+                return crate::api::webview_api::WebViewEvent::NavigationCompleted { url: var_url };
+            }
+            2 => {
+                let mut var_title = <String>::sse_decode(deserializer);
+                return crate::api::webview_api::WebViewEvent::TitleChanged { title: var_title };
+            }
+            3 => {
+                let mut var_message = <String>::sse_decode(deserializer);
+                return crate::api::webview_api::WebViewEvent::WebMessage {
+                    message: var_message,
+                };
+            }
+            4 => {
+                return crate::api::webview_api::WebViewEvent::WindowClosed;
+            }
+            5 => {
+                let mut var_message = <String>::sse_decode(deserializer);
+                return crate::api::webview_api::WebViewEvent::Error {
+                    message: var_message,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseDecode for crate::api::webview_api::WebViewNavigationState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_url = <String>::sse_decode(deserializer);
+        let mut var_title = <String>::sse_decode(deserializer);
+        let mut var_canGoBack = <bool>::sse_decode(deserializer);
+        let mut var_canGoForward = <bool>::sse_decode(deserializer);
+        let mut var_isLoading = <bool>::sse_decode(deserializer);
+        return crate::api::webview_api::WebViewNavigationState {
+            url: var_url,
+            title: var_title,
+            can_go_back: var_canGoBack,
+            can_go_forward: var_canGoForward,
+            is_loading: var_isLoading,
+        };
+    }
+}
+
 fn pde_ffi_dispatcher_primary_impl(
     func_id: i32,
     port: flutter_rust_bridge::for_generated::MessagePort,
@@ -1364,6 +1788,93 @@ impl flutter_rust_bridge::IntoIntoDart<crate::http_package::RustHttpResponse>
         self
     }
 }
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::webview_api::WebViewConfiguration {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.title.into_into_dart().into_dart(),
+            self.width.into_into_dart().into_dart(),
+            self.height.into_into_dart().into_dart(),
+            self.user_data_folder.into_into_dart().into_dart(),
+            self.enable_devtools.into_into_dart().into_dart(),
+            self.transparent.into_into_dart().into_dart(),
+            self.user_agent.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::webview_api::WebViewConfiguration
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::webview_api::WebViewConfiguration>
+    for crate::api::webview_api::WebViewConfiguration
+{
+    fn into_into_dart(self) -> crate::api::webview_api::WebViewConfiguration {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::webview_api::WebViewEvent {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::webview_api::WebViewEvent::NavigationStarted { url } => {
+                [0.into_dart(), url.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::webview_api::WebViewEvent::NavigationCompleted { url } => {
+                [1.into_dart(), url.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::webview_api::WebViewEvent::TitleChanged { title } => {
+                [2.into_dart(), title.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::webview_api::WebViewEvent::WebMessage { message } => {
+                [3.into_dart(), message.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::webview_api::WebViewEvent::WindowClosed => [4.into_dart()].into_dart(),
+            crate::api::webview_api::WebViewEvent::Error { message } => {
+                [5.into_dart(), message.into_into_dart().into_dart()].into_dart()
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::webview_api::WebViewEvent
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::webview_api::WebViewEvent>
+    for crate::api::webview_api::WebViewEvent
+{
+    fn into_into_dart(self) -> crate::api::webview_api::WebViewEvent {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::webview_api::WebViewNavigationState {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.url.into_into_dart().into_dart(),
+            self.title.into_into_dart().into_dart(),
+            self.can_go_back.into_into_dart().into_dart(),
+            self.can_go_forward.into_into_dart().into_dart(),
+            self.is_loading.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::webview_api::WebViewNavigationState
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::webview_api::WebViewNavigationState>
+    for crate::api::webview_api::WebViewNavigationState
+{
+    fn into_into_dart(self) -> crate::api::webview_api::WebViewNavigationState {
+        self
+    }
+}
 
 impl SseEncode for flutter_rust_bridge::for_generated::anyhow::Error {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1465,6 +1976,16 @@ impl SseEncode for Vec<(String, String)> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <(String, String)>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::webview_api::WebViewEvent> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::webview_api::WebViewEvent>::sse_encode(item, serializer);
         }
     }
 }
@@ -1681,6 +2202,64 @@ impl SseEncode for usize {
     }
 }
 
+impl SseEncode for crate::api::webview_api::WebViewConfiguration {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.title, serializer);
+        <u32>::sse_encode(self.width, serializer);
+        <u32>::sse_encode(self.height, serializer);
+        <Option<String>>::sse_encode(self.user_data_folder, serializer);
+        <bool>::sse_encode(self.enable_devtools, serializer);
+        <bool>::sse_encode(self.transparent, serializer);
+        <Option<String>>::sse_encode(self.user_agent, serializer);
+    }
+}
+
+impl SseEncode for crate::api::webview_api::WebViewEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::webview_api::WebViewEvent::NavigationStarted { url } => {
+                <i32>::sse_encode(0, serializer);
+                <String>::sse_encode(url, serializer);
+            }
+            crate::api::webview_api::WebViewEvent::NavigationCompleted { url } => {
+                <i32>::sse_encode(1, serializer);
+                <String>::sse_encode(url, serializer);
+            }
+            crate::api::webview_api::WebViewEvent::TitleChanged { title } => {
+                <i32>::sse_encode(2, serializer);
+                <String>::sse_encode(title, serializer);
+            }
+            crate::api::webview_api::WebViewEvent::WebMessage { message } => {
+                <i32>::sse_encode(3, serializer);
+                <String>::sse_encode(message, serializer);
+            }
+            crate::api::webview_api::WebViewEvent::WindowClosed => {
+                <i32>::sse_encode(4, serializer);
+            }
+            crate::api::webview_api::WebViewEvent::Error { message } => {
+                <i32>::sse_encode(5, serializer);
+                <String>::sse_encode(message, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseEncode for crate::api::webview_api::WebViewNavigationState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.url, serializer);
+        <String>::sse_encode(self.title, serializer);
+        <bool>::sse_encode(self.can_go_back, serializer);
+        <bool>::sse_encode(self.can_go_forward, serializer);
+        <bool>::sse_encode(self.is_loading, serializer);
+    }
+}
+
 #[cfg(not(target_family = "wasm"))]
 mod io {
     // This file is automatically generated, so please do not edit it.
@@ -1763,6 +2342,15 @@ mod io {
             unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
         }
     }
+    impl CstDecode<crate::api::webview_api::WebViewConfiguration>
+        for *mut wire_cst_web_view_configuration
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::webview_api::WebViewConfiguration {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::webview_api::WebViewConfiguration>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<Vec<String>> for *mut wire_cst_list_String {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<String> {
@@ -1814,6 +2402,16 @@ mod io {
     impl CstDecode<Vec<(String, String)>> for *mut wire_cst_list_record_string_string {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<(String, String)> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<crate::api::webview_api::WebViewEvent>> for *mut wire_cst_list_web_view_event {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::webview_api::WebViewEvent> {
             let vec = unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -1880,6 +2478,73 @@ mod io {
                 version: self.version.cst_decode(),
                 remote_addr: self.remote_addr.cst_decode(),
                 data: self.data.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::webview_api::WebViewConfiguration> for wire_cst_web_view_configuration {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::webview_api::WebViewConfiguration {
+            crate::api::webview_api::WebViewConfiguration {
+                title: self.title.cst_decode(),
+                width: self.width.cst_decode(),
+                height: self.height.cst_decode(),
+                user_data_folder: self.user_data_folder.cst_decode(),
+                enable_devtools: self.enable_devtools.cst_decode(),
+                transparent: self.transparent.cst_decode(),
+                user_agent: self.user_agent.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::webview_api::WebViewEvent> for wire_cst_web_view_event {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::webview_api::WebViewEvent {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.NavigationStarted };
+                    crate::api::webview_api::WebViewEvent::NavigationStarted {
+                        url: ans.url.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.NavigationCompleted };
+                    crate::api::webview_api::WebViewEvent::NavigationCompleted {
+                        url: ans.url.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.TitleChanged };
+                    crate::api::webview_api::WebViewEvent::TitleChanged {
+                        title: ans.title.cst_decode(),
+                    }
+                }
+                3 => {
+                    let ans = unsafe { self.kind.WebMessage };
+                    crate::api::webview_api::WebViewEvent::WebMessage {
+                        message: ans.message.cst_decode(),
+                    }
+                }
+                4 => crate::api::webview_api::WebViewEvent::WindowClosed,
+                5 => {
+                    let ans = unsafe { self.kind.Error };
+                    crate::api::webview_api::WebViewEvent::Error {
+                        message: ans.message.cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::webview_api::WebViewNavigationState>
+        for wire_cst_web_view_navigation_state
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::webview_api::WebViewNavigationState {
+            crate::api::webview_api::WebViewNavigationState {
+                url: self.url.cst_decode(),
+                title: self.title.cst_decode(),
+                can_go_back: self.can_go_back.cst_decode(),
+                can_go_forward: self.can_go_forward.cst_decode(),
+                is_loading: self.is_loading.cst_decode(),
             }
         }
     }
@@ -1968,6 +2633,53 @@ mod io {
         }
     }
     impl Default for wire_cst_rust_http_response {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_web_view_configuration {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                title: core::ptr::null_mut(),
+                width: Default::default(),
+                height: Default::default(),
+                user_data_folder: core::ptr::null_mut(),
+                enable_devtools: Default::default(),
+                transparent: Default::default(),
+                user_agent: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_web_view_configuration {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_web_view_event {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: WebViewEventKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_web_view_event {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_web_view_navigation_state {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                url: core::ptr::null_mut(),
+                title: core::ptr::null_mut(),
+                can_go_back: Default::default(),
+                can_go_forward: Default::default(),
+                is_loading: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_web_view_navigation_state {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -2191,6 +2903,131 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__web_view_configuration_default(
+        port_: i64,
+    ) {
+        wire__crate__api__webview_api__web_view_configuration_default_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__web_view_navigation_state_default(
+        port_: i64,
+    ) {
+        wire__crate__api__webview_api__web_view_navigation_state_default_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_close(
+        id: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_close_impl(id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_create(
+        config: *mut wire_cst_web_view_configuration,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_create_impl(config)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_execute_script(
+        id: *mut wire_cst_list_prim_u_8_strict,
+        script: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_execute_script_impl(id, script)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_get_state(
+        id: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_get_state_impl(id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_go_back(
+        id: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_go_back_impl(id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_go_forward(
+        id: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_go_forward_impl(id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_is_closed(
+        id: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_is_closed_impl(id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_list_all(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_list_all_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_navigate(
+        id: *mut wire_cst_list_prim_u_8_strict,
+        url: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_navigate_impl(id, url)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_poll_events(
+        id: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_poll_events_impl(id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_reload(
+        id: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_reload_impl(id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_set_visibility(
+        id: *mut wire_cst_list_prim_u_8_strict,
+        visible: bool,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_set_visibility_impl(id, visible)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_set_window_position(
+        id: *mut wire_cst_list_prim_u_8_strict,
+        x: i32,
+        y: i32,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_set_window_position_impl(id, x, y)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_set_window_size(
+        id: *mut wire_cst_list_prim_u_8_strict,
+        width: u32,
+        height: u32,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_set_window_size_impl(id, width, height)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_stop(
+        id: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_stop_impl(id)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__rs_process__write(
         port_: i64,
         rs_pid: u32,
@@ -2215,6 +3052,14 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_u_64(value: u64) -> *mut u64 {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_web_view_configuration(
+    ) -> *mut wire_cst_web_view_configuration {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_web_view_configuration::new_with_null_ptr(),
+        )
     }
 
     #[unsafe(no_mangle)]
@@ -2295,6 +3140,20 @@ mod io {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
     }
 
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_web_view_event(
+        len: i32,
+    ) -> *mut wire_cst_list_web_view_event {
+        let wrap = wire_cst_list_web_view_event {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_web_view_event>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_String {
@@ -2329,6 +3188,12 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_record_string_string {
         ptr: *mut wire_cst_record_string_string,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_web_view_event {
+        ptr: *mut wire_cst_web_view_event,
         len: i32,
     }
     #[repr(C)]
@@ -2377,6 +3242,67 @@ mod io {
         version: i32,
         remote_addr: *mut wire_cst_list_prim_u_8_strict,
         data: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_web_view_configuration {
+        title: *mut wire_cst_list_prim_u_8_strict,
+        width: u32,
+        height: u32,
+        user_data_folder: *mut wire_cst_list_prim_u_8_strict,
+        enable_devtools: bool,
+        transparent: bool,
+        user_agent: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_web_view_event {
+        tag: i32,
+        kind: WebViewEventKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union WebViewEventKind {
+        NavigationStarted: wire_cst_WebViewEvent_NavigationStarted,
+        NavigationCompleted: wire_cst_WebViewEvent_NavigationCompleted,
+        TitleChanged: wire_cst_WebViewEvent_TitleChanged,
+        WebMessage: wire_cst_WebViewEvent_WebMessage,
+        Error: wire_cst_WebViewEvent_Error,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_WebViewEvent_NavigationStarted {
+        url: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_WebViewEvent_NavigationCompleted {
+        url: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_WebViewEvent_TitleChanged {
+        title: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_WebViewEvent_WebMessage {
+        message: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_WebViewEvent_Error {
+        message: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_web_view_navigation_state {
+        url: *mut wire_cst_list_prim_u_8_strict,
+        title: *mut wire_cst_list_prim_u_8_strict,
+        can_go_back: bool,
+        can_go_forward: bool,
+        is_loading: bool,
     }
 }
 #[cfg(not(target_family = "wasm"))]

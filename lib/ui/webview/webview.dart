@@ -4,22 +4,24 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:desktop_webview_window/desktop_webview_window.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
+import 'package:starcitizen_doctor/common/rust/rust_webview_controller.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
 
 typedef RsiLoginCallback = void Function(Map? data, bool success);
+typedef OnWebMessageReceivedCallback = void Function(String message);
 
 class WebViewModel {
-  late Webview webview;
+  late RustWebViewController webview;
   final BuildContext context;
 
   bool _isClosed = false;
@@ -51,6 +53,8 @@ class WebViewModel {
 
   final RsiLoginCallback? loginCallback;
 
+  late AppVersionData _appVersionData;
+
   Future<void> initWebView({
     String title = "",
     required String applicationSupportDir,
@@ -59,119 +63,132 @@ class WebViewModel {
     try {
       final userBox = await Hive.openBox("app_conf");
       isEnableToolSiteMirrors = userBox.get("isEnableToolSiteMirrors", defaultValue: false);
-      webview = await WebviewWindow.create(
-        configuration: CreateConfiguration(
-          windowWidth: loginMode ? 960 : 1920,
-          windowHeight: loginMode ? 720 : 1080,
-          userDataFolderWindows: "$applicationSupportDir/webview_data",
-          title: Platform.isMacOS ? "" : title,
-        ),
+      _appVersionData = appVersionData;
+
+      webview = await RustWebViewController.create(
+        title: Platform.isMacOS ? "" : title,
+        width: loginMode ? 960 : 1920,
+        height: loginMode ? 720 : 1080,
+        userDataFolder: "$applicationSupportDir/webview_data",
+        enableDevtools: kDebugMode,
       );
-      // webview.openDevToolsWindow();
-      webview.isNavigating.addListener(() async {
-        if (!webview.isNavigating.value && localizationResource.isNotEmpty) {
-          dPrint("webview Navigating url === $url");
-          if (url.contains("robertsspaceindustries.com")) {
-            // SC 官网
-            final replaceWords = _getLocalizationResource("zh-CN");
-            const org = "https://robertsspaceindustries.com/orgs";
-            const citizens = "https://robertsspaceindustries.com/citizens";
-            const organization = "https://robertsspaceindustries.com/account/organization";
-            const concierge = "https://robertsspaceindustries.com/account/concierge";
-            const referral = "https://robertsspaceindustries.com/account/referral-program";
-            const address = "https://robertsspaceindustries.com/account/addresses";
 
-            const hangar = "https://robertsspaceindustries.com/account/pledges";
+      // 添加导航完成回调（用于注入脚本）
+      webview.addOnNavigationCompletedCallback(_onNavigationCompleted);
 
-            const spectrum = "https://robertsspaceindustries.com/spectrum";
-            // 跳过光谱论坛 https://github.com/StarCitizenToolBox/StarCitizenBoxBrowserEx/issues/1
-            if (url.startsWith(spectrum)) {
-              return;
-            }
+      // 添加关闭回调
+      webview.addOnCloseCallback(dispose);
 
-            dPrint("load script");
-            await Future.delayed(const Duration(milliseconds: 100));
-            await webview.evaluateJavaScript(localizationScript);
-
-            if (url.startsWith(org) || url.startsWith(citizens) || url.startsWith(organization)) {
-              replaceWords.add({"word": 'members', "replacement": S.current.webview_localization_name_member});
-              replaceWords.addAll(_getLocalizationResource("orgs"));
-            }
-
-            if (address.startsWith(address)) {
-              replaceWords.addAll(_getLocalizationResource("address"));
-            }
-
-            if (url.startsWith(referral)) {
-              replaceWords.addAll([
-                {"word": 'Total recruits: ', "replacement": S.current.webview_localization_total_invitations},
-                {"word": 'Prospects ', "replacement": S.current.webview_localization_unfinished_invitations},
-                {"word": 'Recruits', "replacement": S.current.webview_localization_finished_invitations},
-              ]);
-            }
-
-            if (url.startsWith(concierge)) {
-              replaceWords.clear();
-              replaceWords.addAll(_getLocalizationResource("concierge"));
-            }
-            if (url.startsWith(hangar)) {
-              replaceWords.addAll(_getLocalizationResource("hangar"));
-            }
-
-            _curReplaceWords = {};
-            for (var element in replaceWords) {
-              _curReplaceWords?[element["word"] ?? ""] = element["replacement"] ?? "";
-            }
-            await webview.evaluateJavaScript("InitWebLocalization()");
-            await Future.delayed(const Duration(milliseconds: 100));
-            dPrint("update replaceWords");
-            await webview.evaluateJavaScript(
-              "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)",
-            );
-
-            /// loginMode
-            if (loginMode) {
-              dPrint("--- do rsi login ---\n run === getRSILauncherToken(\"$loginChannel\");");
-              await Future.delayed(const Duration(milliseconds: 200));
-              webview.evaluateJavaScript("getRSILauncherToken(\"$loginChannel\");");
-            }
-          } else if (url.startsWith(await _handleMirrorsUrl("https://www.erkul.games", appVersionData))) {
-            dPrint("load script");
-            await Future.delayed(const Duration(milliseconds: 100));
-            await webview.evaluateJavaScript(localizationScript);
-            dPrint("update replaceWords");
-            final replaceWords = _getLocalizationResource("DPS");
-            await webview.evaluateJavaScript(
-              "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)",
-            );
-          } else if (url.startsWith(await _handleMirrorsUrl("https://uexcorp.space", appVersionData))) {
-            dPrint("load script");
-            await Future.delayed(const Duration(milliseconds: 100));
-            await webview.evaluateJavaScript(localizationScript);
-            dPrint("update replaceWords");
-            final replaceWords = _getLocalizationResource("UEX");
-            await webview.evaluateJavaScript(
-              "WebLocalizationUpdateReplaceWords(${json.encode(replaceWords)},$enableCapture)",
-            );
-          }
-        }
-      });
-      webview.addOnUrlRequestCallback(_onUrlRequest);
-      webview.onClose.whenComplete(dispose);
       if (loginMode) {
-        webview.addOnWebMessageReceivedCallback((messageString) {
-          final message = json.decode(messageString);
-          if (message["action"] == "webview_rsi_login_show_window") {
-            webview.setWebviewWindowVisibility(true);
-          } else if (message["action"] == "webview_rsi_login_success") {
-            _loginModeSuccess = true;
-            loginCallback?.call(message, true);
-            webview.close();
+        webview.addOnWebMessageCallback((messageString) {
+          try {
+            final message = json.decode(messageString);
+            if (message["action"] == "webview_rsi_login_show_window") {
+              webview.setVisible(true);
+            } else if (message["action"] == "webview_rsi_login_success") {
+              _loginModeSuccess = true;
+              loginCallback?.call(message, true);
+              webview.close();
+            }
+          } catch (e) {
+            dPrint("Error parsing login message: $e");
           }
         });
       }
     } catch (e) {
       showToast(context, S.current.app_init_failed_with_reason(e));
+    }
+  }
+
+  Future<void> _onNavigationCompleted(String newUrl) async {
+    dPrint("Navigation completed: $newUrl");
+    url = newUrl;
+
+    // 在页面加载时注入拦截器
+    if (requestInterceptorScript.isNotEmpty) {
+      dPrint("Injecting request interceptor for: $url");
+      webview.executeScript(requestInterceptorScript);
+    }
+
+    if (localizationResource.isEmpty) return;
+
+    dPrint("webview Navigating url === $url");
+    if (url.contains("robertsspaceindustries.com")) {
+      // SC 官网
+      final replaceWords = _getLocalizationResource("zh-CN");
+      const org = "https://robertsspaceindustries.com/orgs";
+      const citizens = "https://robertsspaceindustries.com/citizens";
+      const organization = "https://robertsspaceindustries.com/account/organization";
+      const concierge = "https://robertsspaceindustries.com/account/concierge";
+      const referral = "https://robertsspaceindustries.com/account/referral-program";
+      const address = "https://robertsspaceindustries.com/account/addresses";
+
+      const hangar = "https://robertsspaceindustries.com/account/pledges";
+
+      const spectrum = "https://robertsspaceindustries.com/spectrum";
+      // 跳过光谱论坛 https://github.com/StarCitizenToolBox/StarCitizenBoxBrowserEx/issues/1
+      if (url.startsWith(spectrum)) {
+        return;
+      }
+
+      dPrint("load script");
+      await Future.delayed(const Duration(milliseconds: 100));
+      webview.injectLocalizationScript();
+
+      if (url.startsWith(org) || url.startsWith(citizens) || url.startsWith(organization)) {
+        replaceWords.add({"word": 'members', "replacement": S.current.webview_localization_name_member});
+        replaceWords.addAll(_getLocalizationResource("orgs"));
+      }
+
+      if (address.startsWith(address)) {
+        replaceWords.addAll(_getLocalizationResource("address"));
+      }
+
+      if (url.startsWith(referral)) {
+        replaceWords.addAll([
+          {"word": 'Total recruits: ', "replacement": S.current.webview_localization_total_invitations},
+          {"word": 'Prospects ', "replacement": S.current.webview_localization_unfinished_invitations},
+          {"word": 'Recruits', "replacement": S.current.webview_localization_finished_invitations},
+        ]);
+      }
+
+      if (url.startsWith(concierge)) {
+        replaceWords.clear();
+        replaceWords.addAll(_getLocalizationResource("concierge"));
+      }
+      if (url.startsWith(hangar)) {
+        replaceWords.addAll(_getLocalizationResource("hangar"));
+      }
+
+      _curReplaceWords = {};
+      for (var element in replaceWords) {
+        _curReplaceWords?[element["word"] ?? ""] = element["replacement"] ?? "";
+      }
+      webview.initWebLocalization();
+      await Future.delayed(const Duration(milliseconds: 100));
+      dPrint("update replaceWords");
+      webview.updateReplaceWords(replaceWords, enableCapture);
+
+      /// loginMode
+      if (loginMode) {
+        dPrint("--- do rsi login ---\n run === getRSILauncherToken(\"$loginChannel\");");
+        await Future.delayed(const Duration(milliseconds: 200));
+        webview.executeRsiLogin(loginChannel);
+      }
+    } else if (url.startsWith(await _handleMirrorsUrl("https://www.erkul.games", _appVersionData))) {
+      dPrint("load script");
+      await Future.delayed(const Duration(milliseconds: 100));
+      webview.injectLocalizationScript();
+      dPrint("update replaceWords");
+      final replaceWords = _getLocalizationResource("DPS");
+      webview.updateReplaceWords(replaceWords, enableCapture);
+    } else if (url.startsWith(await _handleMirrorsUrl("https://uexcorp.space", _appVersionData))) {
+      dPrint("load script");
+      await Future.delayed(const Duration(milliseconds: 100));
+      webview.injectLocalizationScript();
+      dPrint("update replaceWords");
+      final replaceWords = _getLocalizationResource("UEX");
+      webview.updateReplaceWords(replaceWords, enableCapture);
     }
   }
 
@@ -189,7 +206,7 @@ class WebViewModel {
   }
 
   Future<void> launch(String url, AppVersionData appVersionData) async {
-    webview.launch(await _handleMirrorsUrl(url, appVersionData));
+    webview.navigate(await _handleMirrorsUrl(url, appVersionData));
   }
 
   Future<void> initLocalization(AppWebLocalizationVersionsData v) async {
@@ -259,29 +276,19 @@ class WebViewModel {
   }
 
   void addOnWebMessageReceivedCallback(OnWebMessageReceivedCallback callback) {
-    webview.addOnWebMessageReceivedCallback(callback);
+    webview.addOnWebMessageCallback(callback);
   }
 
   void removeOnWebMessageReceivedCallback(OnWebMessageReceivedCallback callback) {
-    webview.removeOnWebMessageReceivedCallback(callback);
+    webview.removeOnWebMessageCallback(callback);
   }
 
   FutureOr<void> dispose() {
-    webview.removeOnUrlRequestCallback(_onUrlRequest);
+    webview.removeOnNavigationCompletedCallback(_onNavigationCompleted);
     if (loginMode && !_loginModeSuccess) {
       loginCallback?.call(null, false);
     }
     _isClosed = true;
-  }
-
-  void _onUrlRequest(String url) {
-    dPrint("OnUrlRequestCallback === $url");
-    this.url = url;
-
-    // 在页面开始加载时立即注入拦截器
-    if (requestInterceptorScript.isNotEmpty) {
-      dPrint("Injecting request interceptor for: $url");
-      webview.evaluateJavaScript(requestInterceptorScript);
-    }
+    webview.dispose();
   }
 }

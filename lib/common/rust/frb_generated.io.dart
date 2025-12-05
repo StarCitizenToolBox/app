@@ -8,6 +8,7 @@ import 'api/http_api.dart';
 import 'api/ort_api.dart';
 import 'api/rs_process.dart';
 import 'api/unp4k_api.dart';
+import 'api/webview_api.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -52,6 +53,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt dco_decode_box_autoadd_u_64(dynamic raw);
 
   @protected
+  WebViewConfiguration dco_decode_box_autoadd_web_view_configuration(
+    dynamic raw,
+  );
+
+  @protected
   int dco_decode_i_32(dynamic raw);
 
   @protected
@@ -74,6 +80,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<(String, String)> dco_decode_list_record_string_string(dynamic raw);
+
+  @protected
+  List<WebViewEvent> dco_decode_list_web_view_event(dynamic raw);
 
   @protected
   MyHttpVersion dco_decode_my_http_version(dynamic raw);
@@ -136,6 +145,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt dco_decode_usize(dynamic raw);
 
   @protected
+  WebViewConfiguration dco_decode_web_view_configuration(dynamic raw);
+
+  @protected
+  WebViewEvent dco_decode_web_view_event(dynamic raw);
+
+  @protected
+  WebViewNavigationState dco_decode_web_view_navigation_state(dynamic raw);
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
@@ -167,6 +185,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
 
   @protected
+  WebViewConfiguration sse_decode_box_autoadd_web_view_configuration(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
@@ -191,6 +214,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<(String, String)> sse_decode_list_record_string_string(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  List<WebViewEvent> sse_decode_list_web_view_event(
     SseDeserializer deserializer,
   );
 
@@ -265,6 +293,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt sse_decode_usize(SseDeserializer deserializer);
 
   @protected
+  WebViewConfiguration sse_decode_web_view_configuration(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  WebViewEvent sse_decode_web_view_event(SseDeserializer deserializer);
+
+  @protected
+  WebViewNavigationState sse_decode_web_view_navigation_state(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_AnyhowException(
     AnyhowException raw,
   ) {
@@ -322,6 +363,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<ffi.Uint64> cst_encode_box_autoadd_u_64(BigInt raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return wire.cst_new_box_autoadd_u_64(cst_encode_u_64(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_web_view_configuration>
+  cst_encode_box_autoadd_web_view_configuration(WebViewConfiguration raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_web_view_configuration();
+    cst_api_fill_to_wire_web_view_configuration(raw, ptr.ref);
+    return ptr;
   }
 
   @protected
@@ -396,6 +446,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_web_view_event> cst_encode_list_web_view_event(
+    List<WebViewEvent> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_web_view_event(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_web_view_event(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_record_string_string>
   cst_encode_opt_Map_String_String_None(Map<String, String>? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -447,6 +509,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     ffi.Pointer<wire_cst_rsi_launcher_asar_data> wireObj,
   ) {
     cst_api_fill_to_wire_rsi_launcher_asar_data(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_web_view_configuration(
+    WebViewConfiguration apiObj,
+    ffi.Pointer<wire_cst_web_view_configuration> wireObj,
+  ) {
+    cst_api_fill_to_wire_web_view_configuration(apiObj, wireObj.ref);
   }
 
   @protected
@@ -519,6 +589,73 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_web_view_configuration(
+    WebViewConfiguration apiObj,
+    wire_cst_web_view_configuration wireObj,
+  ) {
+    wireObj.title = cst_encode_String(apiObj.title);
+    wireObj.width = cst_encode_u_32(apiObj.width);
+    wireObj.height = cst_encode_u_32(apiObj.height);
+    wireObj.user_data_folder = cst_encode_opt_String(apiObj.userDataFolder);
+    wireObj.enable_devtools = cst_encode_bool(apiObj.enableDevtools);
+    wireObj.transparent = cst_encode_bool(apiObj.transparent);
+    wireObj.user_agent = cst_encode_opt_String(apiObj.userAgent);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_web_view_event(
+    WebViewEvent apiObj,
+    wire_cst_web_view_event wireObj,
+  ) {
+    if (apiObj is WebViewEvent_NavigationStarted) {
+      var pre_url = cst_encode_String(apiObj.url);
+      wireObj.tag = 0;
+      wireObj.kind.NavigationStarted.url = pre_url;
+      return;
+    }
+    if (apiObj is WebViewEvent_NavigationCompleted) {
+      var pre_url = cst_encode_String(apiObj.url);
+      wireObj.tag = 1;
+      wireObj.kind.NavigationCompleted.url = pre_url;
+      return;
+    }
+    if (apiObj is WebViewEvent_TitleChanged) {
+      var pre_title = cst_encode_String(apiObj.title);
+      wireObj.tag = 2;
+      wireObj.kind.TitleChanged.title = pre_title;
+      return;
+    }
+    if (apiObj is WebViewEvent_WebMessage) {
+      var pre_message = cst_encode_String(apiObj.message);
+      wireObj.tag = 3;
+      wireObj.kind.WebMessage.message = pre_message;
+      return;
+    }
+    if (apiObj is WebViewEvent_WindowClosed) {
+      wireObj.tag = 4;
+      return;
+    }
+    if (apiObj is WebViewEvent_Error) {
+      var pre_message = cst_encode_String(apiObj.message);
+      wireObj.tag = 5;
+      wireObj.kind.Error.message = pre_message;
+      return;
+    }
+  }
+
+  @protected
+  void cst_api_fill_to_wire_web_view_navigation_state(
+    WebViewNavigationState apiObj,
+    wire_cst_web_view_navigation_state wireObj,
+  ) {
+    wireObj.url = cst_encode_String(apiObj.url);
+    wireObj.title = cst_encode_String(apiObj.title);
+    wireObj.can_go_back = cst_encode_bool(apiObj.canGoBack);
+    wireObj.can_go_forward = cst_encode_bool(apiObj.canGoForward);
+    wireObj.is_loading = cst_encode_bool(apiObj.isLoading);
+  }
+
+  @protected
   bool cst_encode_bool(bool raw);
 
   @protected
@@ -582,6 +719,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_web_view_configuration(
+    WebViewConfiguration self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
@@ -614,6 +757,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_record_string_string(
     List<(String, String)> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_web_view_event(
+    List<WebViewEvent> self,
     SseSerializer serializer,
   );
 
@@ -697,6 +846,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_usize(BigInt self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_web_view_configuration(
+    WebViewConfiguration self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_web_view_event(WebViewEvent self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_web_view_navigation_state(
+    WebViewNavigationState self,
+    SseSerializer serializer,
+  );
 }
 
 // Section: wire_class
@@ -1368,6 +1532,416 @@ class RustLibWire implements BaseWire {
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
+  void wire__crate__api__webview_api__web_view_configuration_default(
+    int port_,
+  ) {
+    return _wire__crate__api__webview_api__web_view_configuration_default(
+      port_,
+    );
+  }
+
+  late final _wire__crate__api__webview_api__web_view_configuration_defaultPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__web_view_configuration_default',
+      );
+  late final _wire__crate__api__webview_api__web_view_configuration_default =
+      _wire__crate__api__webview_api__web_view_configuration_defaultPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__webview_api__web_view_navigation_state_default(
+    int port_,
+  ) {
+    return _wire__crate__api__webview_api__web_view_navigation_state_default(
+      port_,
+    );
+  }
+
+  late final _wire__crate__api__webview_api__web_view_navigation_state_defaultPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__web_view_navigation_state_default',
+      );
+  late final _wire__crate__api__webview_api__web_view_navigation_state_default =
+      _wire__crate__api__webview_api__web_view_navigation_state_defaultPtr
+          .asFunction<void Function(int)>();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_close(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+  ) {
+    return _wire__crate__api__webview_api__webview_close(id);
+  }
+
+  late final _wire__crate__api__webview_api__webview_closePtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_close',
+      );
+  late final _wire__crate__api__webview_api__webview_close =
+      _wire__crate__api__webview_api__webview_closePtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_create(
+    ffi.Pointer<wire_cst_web_view_configuration> config,
+  ) {
+    return _wire__crate__api__webview_api__webview_create(config);
+  }
+
+  late final _wire__crate__api__webview_api__webview_createPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_web_view_configuration>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_create',
+      );
+  late final _wire__crate__api__webview_api__webview_create =
+      _wire__crate__api__webview_api__webview_createPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_web_view_configuration>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_execute_script(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> script,
+  ) {
+    return _wire__crate__api__webview_api__webview_execute_script(id, script);
+  }
+
+  late final _wire__crate__api__webview_api__webview_execute_scriptPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_execute_script',
+      );
+  late final _wire__crate__api__webview_api__webview_execute_script =
+      _wire__crate__api__webview_api__webview_execute_scriptPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_get_state(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+  ) {
+    return _wire__crate__api__webview_api__webview_get_state(id);
+  }
+
+  late final _wire__crate__api__webview_api__webview_get_statePtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_get_state',
+      );
+  late final _wire__crate__api__webview_api__webview_get_state =
+      _wire__crate__api__webview_api__webview_get_statePtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_go_back(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+  ) {
+    return _wire__crate__api__webview_api__webview_go_back(id);
+  }
+
+  late final _wire__crate__api__webview_api__webview_go_backPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_go_back',
+      );
+  late final _wire__crate__api__webview_api__webview_go_back =
+      _wire__crate__api__webview_api__webview_go_backPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_go_forward(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+  ) {
+    return _wire__crate__api__webview_api__webview_go_forward(id);
+  }
+
+  late final _wire__crate__api__webview_api__webview_go_forwardPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_go_forward',
+      );
+  late final _wire__crate__api__webview_api__webview_go_forward =
+      _wire__crate__api__webview_api__webview_go_forwardPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_is_closed(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+  ) {
+    return _wire__crate__api__webview_api__webview_is_closed(id);
+  }
+
+  late final _wire__crate__api__webview_api__webview_is_closedPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_is_closed',
+      );
+  late final _wire__crate__api__webview_api__webview_is_closed =
+      _wire__crate__api__webview_api__webview_is_closedPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_list_all() {
+    return _wire__crate__api__webview_api__webview_list_all();
+  }
+
+  late final _wire__crate__api__webview_api__webview_list_allPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_list_all',
+      );
+  late final _wire__crate__api__webview_api__webview_list_all =
+      _wire__crate__api__webview_api__webview_list_allPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_navigate(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> url,
+  ) {
+    return _wire__crate__api__webview_api__webview_navigate(id, url);
+  }
+
+  late final _wire__crate__api__webview_api__webview_navigatePtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_navigate',
+      );
+  late final _wire__crate__api__webview_api__webview_navigate =
+      _wire__crate__api__webview_api__webview_navigatePtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_poll_events(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+  ) {
+    return _wire__crate__api__webview_api__webview_poll_events(id);
+  }
+
+  late final _wire__crate__api__webview_api__webview_poll_eventsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_poll_events',
+      );
+  late final _wire__crate__api__webview_api__webview_poll_events =
+      _wire__crate__api__webview_api__webview_poll_eventsPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_reload(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+  ) {
+    return _wire__crate__api__webview_api__webview_reload(id);
+  }
+
+  late final _wire__crate__api__webview_api__webview_reloadPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_reload',
+      );
+  late final _wire__crate__api__webview_api__webview_reload =
+      _wire__crate__api__webview_api__webview_reloadPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_set_visibility(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+    bool visible,
+  ) {
+    return _wire__crate__api__webview_api__webview_set_visibility(id, visible);
+  }
+
+  late final _wire__crate__api__webview_api__webview_set_visibilityPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Bool,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_set_visibility',
+      );
+  late final _wire__crate__api__webview_api__webview_set_visibility =
+      _wire__crate__api__webview_api__webview_set_visibilityPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              bool,
+            )
+          >();
+
+  WireSyncRust2DartDco
+  wire__crate__api__webview_api__webview_set_window_position(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+    int x,
+    int y,
+  ) {
+    return _wire__crate__api__webview_api__webview_set_window_position(
+      id,
+      x,
+      y,
+    );
+  }
+
+  late final _wire__crate__api__webview_api__webview_set_window_positionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Int32,
+            ffi.Int32,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_set_window_position',
+      );
+  late final _wire__crate__api__webview_api__webview_set_window_position =
+      _wire__crate__api__webview_api__webview_set_window_positionPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+              int,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_set_window_size(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+    int width,
+    int height,
+  ) {
+    return _wire__crate__api__webview_api__webview_set_window_size(
+      id,
+      width,
+      height,
+    );
+  }
+
+  late final _wire__crate__api__webview_api__webview_set_window_sizePtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Uint32,
+            ffi.Uint32,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_set_window_size',
+      );
+  late final _wire__crate__api__webview_api__webview_set_window_size =
+      _wire__crate__api__webview_api__webview_set_window_sizePtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+              int,
+            )
+          >();
+
+  WireSyncRust2DartDco wire__crate__api__webview_api__webview_stop(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
+  ) {
+    return _wire__crate__api__webview_api__webview_stop(id);
+  }
+
+  late final _wire__crate__api__webview_api__webview_stopPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_stop',
+      );
+  late final _wire__crate__api__webview_api__webview_stop =
+      _wire__crate__api__webview_api__webview_stopPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
   void wire__crate__api__rs_process__write(
     int port_,
     int rs_pid,
@@ -1430,6 +2004,23 @@ class RustLibWire implements BaseWire {
       );
   late final _cst_new_box_autoadd_u_64 = _cst_new_box_autoadd_u_64Ptr
       .asFunction<ffi.Pointer<ffi.Uint64> Function(int)>();
+
+  ffi.Pointer<wire_cst_web_view_configuration>
+  cst_new_box_autoadd_web_view_configuration() {
+    return _cst_new_box_autoadd_web_view_configuration();
+  }
+
+  late final _cst_new_box_autoadd_web_view_configurationPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_web_view_configuration> Function()
+        >
+      >('frbgen_starcitizen_doctor_cst_new_box_autoadd_web_view_configuration');
+  late final _cst_new_box_autoadd_web_view_configuration =
+      _cst_new_box_autoadd_web_view_configurationPtr
+          .asFunction<
+            ffi.Pointer<wire_cst_web_view_configuration> Function()
+          >();
 
   ffi.Pointer<wire_cst_list_String> cst_new_list_String(int len) {
     return _cst_new_list_String(len);
@@ -1519,6 +2110,21 @@ class RustLibWire implements BaseWire {
             ffi.Pointer<wire_cst_list_record_string_string> Function(int)
           >();
 
+  ffi.Pointer<wire_cst_list_web_view_event> cst_new_list_web_view_event(
+    int len,
+  ) {
+    return _cst_new_list_web_view_event(len);
+  }
+
+  late final _cst_new_list_web_view_eventPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_web_view_event> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_web_view_event');
+  late final _cst_new_list_web_view_event = _cst_new_list_web_view_eventPtr
+      .asFunction<ffi.Pointer<wire_cst_list_web_view_event> Function(int)>();
+
   int dummy_method_to_enforce_bundling() {
     return _dummy_method_to_enforce_bundling();
   }
@@ -1582,6 +2188,26 @@ final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_web_view_configuration extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> title;
+
+  @ffi.Uint32()
+  external int width;
+
+  @ffi.Uint32()
+  external int height;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> user_data_folder;
+
+  @ffi.Bool()
+  external bool enable_devtools;
+
+  @ffi.Bool()
+  external bool transparent;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> user_agent;
+}
+
 final class wire_cst_p_4_k_file_item extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> name;
 
@@ -1621,6 +2247,52 @@ final class wire_cst_list_process_info extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_WebViewEvent_NavigationStarted extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> url;
+}
+
+final class wire_cst_WebViewEvent_NavigationCompleted extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> url;
+}
+
+final class wire_cst_WebViewEvent_TitleChanged extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> title;
+}
+
+final class wire_cst_WebViewEvent_WebMessage extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> message;
+}
+
+final class wire_cst_WebViewEvent_Error extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> message;
+}
+
+final class WebViewEventKind extends ffi.Union {
+  external wire_cst_WebViewEvent_NavigationStarted NavigationStarted;
+
+  external wire_cst_WebViewEvent_NavigationCompleted NavigationCompleted;
+
+  external wire_cst_WebViewEvent_TitleChanged TitleChanged;
+
+  external wire_cst_WebViewEvent_WebMessage WebMessage;
+
+  external wire_cst_WebViewEvent_Error Error;
+}
+
+final class wire_cst_web_view_event extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external WebViewEventKind kind;
+}
+
+final class wire_cst_list_web_view_event extends ffi.Struct {
+  external ffi.Pointer<wire_cst_web_view_event> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_rs_process_stream_data extends ffi.Struct {
   @ffi.Int32()
   external int data_type;
@@ -1647,4 +2319,19 @@ final class wire_cst_rust_http_response extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> remote_addr;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
+}
+
+final class wire_cst_web_view_navigation_state extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> url;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> title;
+
+  @ffi.Bool()
+  external bool can_go_back;
+
+  @ffi.Bool()
+  external bool can_go_forward;
+
+  @ffi.Bool()
+  external bool is_loading;
 }
