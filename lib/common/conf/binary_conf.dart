@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class BinaryModuleConf {
-  static const _modules = {"aria2c": "0"};
+  // aria2c has been replaced by rqbit (Rust-based torrent library)
+  static const _modules = <String, String>{};
 
   static Future extractModule(List<String> modules, String workingDir) async {
     for (var m in _modules.entries) {

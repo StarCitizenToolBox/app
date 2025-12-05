@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
-import 'package:starcitizen_doctor/provider/aria2c.dart';
+import 'package:starcitizen_doctor/provider/download_manager.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
@@ -61,7 +61,7 @@ class IndexUI extends HookConsumerWidget {
                     padding: const EdgeInsets.all(6),
                     child: Icon(FluentIcons.installation, size: 22, color: Colors.white.withValues(alpha: .6)),
                   ),
-                  _makeAria2TaskNumWidget(),
+                  _makeDownloadTaskNumWidget(),
                 ],
               ),
               onPressed: () => _goDownloader(context),
@@ -124,11 +124,11 @@ class IndexUI extends HookConsumerWidget {
     curIndexState.value = pageIndex;
   }
 
-  Widget _makeAria2TaskNumWidget() {
+  Widget _makeDownloadTaskNumWidget() {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final aria2cState = ref.watch(aria2cModelProvider);
-        if (!aria2cState.hasDownloadTask) {
+        final downloadState = ref.watch(downloadManagerProvider);
+        if (!downloadState.hasDownloadTask) {
           return const SizedBox();
         }
         return Positioned(
@@ -137,7 +137,7 @@ class IndexUI extends HookConsumerWidget {
           child: Container(
             decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)),
             padding: const EdgeInsets.only(left: 6, right: 6, bottom: 1.5, top: 1.5),
-            child: Text("${aria2cState.aria2TotalTaskNum}", style: const TextStyle(fontSize: 8, color: Colors.white)),
+            child: Text("${downloadState.totalTaskNum}", style: const TextStyle(fontSize: 8, color: Colors.white)),
           ),
         );
       },

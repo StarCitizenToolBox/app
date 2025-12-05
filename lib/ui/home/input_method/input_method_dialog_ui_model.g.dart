@@ -43,7 +43,7 @@ final class InputMethodDialogUIModelProvider
 }
 
 String _$inputMethodDialogUIModelHash() =>
-    r'bd96c85ef2073d80de6eba71748b41adb8861e1c';
+    r'5c2989faf94d43bb814e5b80e10d68416c8241ec';
 
 abstract class _$InputMethodDialogUIModel
     extends $Notifier<InputMethodDialogUIState> {

@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1161621087;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1465039096;
 
 // Section: executor
 
@@ -176,6 +176,407 @@ fn wire__crate__api__http_api__dns_lookup_txt_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
                         let output_ok = crate::api::http_api::dns_lookup_txt(api_host).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__download_global_stat_default_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "download_global_stat_default",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::downloader_api::DownloadGlobalStat::default(),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_add_magnet_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    magnet_link: impl CstDecode<String>,
+    output_folder: impl CstDecode<Option<String>>,
+    trackers: impl CstDecode<Option<Vec<String>>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_add_magnet",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_magnet_link = magnet_link.cst_decode();
+            let api_output_folder = output_folder.cst_decode();
+            let api_trackers = trackers.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::downloader_api::downloader_add_magnet(
+                            api_magnet_link,
+                            api_output_folder,
+                            api_trackers,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_add_torrent_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    torrent_bytes: impl CstDecode<Vec<u8>>,
+    output_folder: impl CstDecode<Option<String>>,
+    trackers: impl CstDecode<Option<Vec<String>>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_add_torrent",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_torrent_bytes = torrent_bytes.cst_decode();
+            let api_output_folder = output_folder.cst_decode();
+            let api_trackers = trackers.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::downloader_api::downloader_add_torrent(
+                            api_torrent_bytes,
+                            api_output_folder,
+                            api_trackers,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_add_url_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    url: impl CstDecode<String>,
+    output_folder: impl CstDecode<Option<String>>,
+    trackers: impl CstDecode<Option<Vec<String>>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_add_url",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_url = url.cst_decode();
+            let api_output_folder = output_folder.cst_decode();
+            let api_trackers = trackers.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::downloader_api::downloader_add_url(
+                            api_url,
+                            api_output_folder,
+                            api_trackers,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_get_all_tasks_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_get_all_tasks",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::downloader_api::downloader_get_all_tasks().await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_get_global_stats_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_get_global_stats",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::downloader_api::downloader_get_global_stats().await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_get_task_info_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    task_id: impl CstDecode<usize>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_get_task_info",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_task_id = task_id.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::downloader_api::downloader_get_task_info(api_task_id)
+                                .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_init_impl(
+    download_dir: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_init",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_download_dir = download_dir.cst_decode();
+            transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = crate::api::downloader_api::downloader_init(api_download_dir)?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_is_initialized_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_is_initialized",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::downloader_api::downloader_is_initialized())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_is_name_in_task_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    name: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_is_name_in_task",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_name = name.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, ()>(
+                    (move || async move {
+                        let output_ok = Result::<_, ()>::Ok(
+                            crate::api::downloader_api::downloader_is_name_in_task(api_name).await,
+                        )?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_pause_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    task_id: impl CstDecode<usize>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_pause",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_task_id = task_id.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::downloader_api::downloader_pause(api_task_id).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_pause_all_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_pause_all",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::downloader_api::downloader_pause_all().await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_remove_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    task_id: impl CstDecode<usize>,
+    delete_files: impl CstDecode<bool>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_remove",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_task_id = task_id.cst_decode();
+            let api_delete_files = delete_files.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::downloader_api::downloader_remove(
+                            api_task_id,
+                            api_delete_files,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_resume_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    task_id: impl CstDecode<usize>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_resume",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_task_id = task_id.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::downloader_api::downloader_resume(api_task_id).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_resume_all_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_resume_all",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::downloader_api::downloader_resume_all().await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__downloader_api__downloader_stop_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "downloader_stop",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::downloader_api::downloader_stop().await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -688,7 +1089,7 @@ fn wire__crate__api__win32_api__remove_nvme_patch_impl(
 }
 fn wire__crate__api__win32_api__resolve_shortcut_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    lnk_path: impl CstDecode<String>,
+    _lnk_path: impl CstDecode<String>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -697,11 +1098,11 @@ fn wire__crate__api__win32_api__resolve_shortcut_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let api_lnk_path = lnk_path.cst_decode();
+            let api__lnk_path = _lnk_path.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
-                        let output_ok = crate::api::win32_api::resolve_shortcut(&api_lnk_path)?;
+                        let output_ok = crate::api::win32_api::resolve_shortcut(api__lnk_path)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -1359,6 +1760,25 @@ impl CstDecode<bool> for bool {
         self
     }
 }
+impl CstDecode<crate::api::downloader_api::DownloadTaskStatus> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::downloader_api::DownloadTaskStatus {
+        match self {
+            0 => crate::api::downloader_api::DownloadTaskStatus::Initializing,
+            1 => crate::api::downloader_api::DownloadTaskStatus::Live,
+            2 => crate::api::downloader_api::DownloadTaskStatus::Paused,
+            3 => crate::api::downloader_api::DownloadTaskStatus::Error,
+            4 => crate::api::downloader_api::DownloadTaskStatus::Finished,
+            _ => unreachable!("Invalid variant for DownloadTaskStatus: {}", self),
+        }
+    }
+}
+impl CstDecode<f64> for f64 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> f64 {
+        self
+    }
+}
 impl CstDecode<i32> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> i32 {
@@ -1487,6 +1907,75 @@ impl SseDecode for bool {
     }
 }
 
+impl SseDecode for crate::api::downloader_api::DownloadGlobalStat {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_downloadSpeed = <u64>::sse_decode(deserializer);
+        let mut var_uploadSpeed = <u64>::sse_decode(deserializer);
+        let mut var_numActive = <usize>::sse_decode(deserializer);
+        let mut var_numWaiting = <usize>::sse_decode(deserializer);
+        return crate::api::downloader_api::DownloadGlobalStat {
+            download_speed: var_downloadSpeed,
+            upload_speed: var_uploadSpeed,
+            num_active: var_numActive,
+            num_waiting: var_numWaiting,
+        };
+    }
+}
+
+impl SseDecode for crate::api::downloader_api::DownloadTaskInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_id = <usize>::sse_decode(deserializer);
+        let mut var_name = <String>::sse_decode(deserializer);
+        let mut var_status =
+            <crate::api::downloader_api::DownloadTaskStatus>::sse_decode(deserializer);
+        let mut var_totalBytes = <u64>::sse_decode(deserializer);
+        let mut var_downloadedBytes = <u64>::sse_decode(deserializer);
+        let mut var_uploadedBytes = <u64>::sse_decode(deserializer);
+        let mut var_downloadSpeed = <u64>::sse_decode(deserializer);
+        let mut var_uploadSpeed = <u64>::sse_decode(deserializer);
+        let mut var_progress = <f64>::sse_decode(deserializer);
+        let mut var_numPeers = <usize>::sse_decode(deserializer);
+        let mut var_outputFolder = <String>::sse_decode(deserializer);
+        return crate::api::downloader_api::DownloadTaskInfo {
+            id: var_id,
+            name: var_name,
+            status: var_status,
+            total_bytes: var_totalBytes,
+            downloaded_bytes: var_downloadedBytes,
+            uploaded_bytes: var_uploadedBytes,
+            download_speed: var_downloadSpeed,
+            upload_speed: var_uploadSpeed,
+            progress: var_progress,
+            num_peers: var_numPeers,
+            output_folder: var_outputFolder,
+        };
+    }
+}
+
+impl SseDecode for crate::api::downloader_api::DownloadTaskStatus {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::downloader_api::DownloadTaskStatus::Initializing,
+            1 => crate::api::downloader_api::DownloadTaskStatus::Live,
+            2 => crate::api::downloader_api::DownloadTaskStatus::Paused,
+            3 => crate::api::downloader_api::DownloadTaskStatus::Error,
+            4 => crate::api::downloader_api::DownloadTaskStatus::Finished,
+            _ => unreachable!("Invalid variant for DownloadTaskStatus: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for f64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_f64::<NativeEndian>().unwrap()
+    }
+}
+
 impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1508,6 +1997,20 @@ impl SseDecode for Vec<String> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<String>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::downloader_api::DownloadTaskInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::downloader_api::DownloadTaskInfo>::sse_decode(
+                deserializer,
+            ));
         }
         return ans_;
     }
@@ -1654,6 +2157,17 @@ impl SseDecode for Option<u64> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<u64>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<Vec<String>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<Vec<String>>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -1938,6 +2452,83 @@ fn pde_ffi_dispatcher_sync_impl(
 
 // Section: rust2dart
 
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::downloader_api::DownloadGlobalStat {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.download_speed.into_into_dart().into_dart(),
+            self.upload_speed.into_into_dart().into_dart(),
+            self.num_active.into_into_dart().into_dart(),
+            self.num_waiting.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::downloader_api::DownloadGlobalStat
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::downloader_api::DownloadGlobalStat>
+    for crate::api::downloader_api::DownloadGlobalStat
+{
+    fn into_into_dart(self) -> crate::api::downloader_api::DownloadGlobalStat {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::downloader_api::DownloadTaskInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.id.into_into_dart().into_dart(),
+            self.name.into_into_dart().into_dart(),
+            self.status.into_into_dart().into_dart(),
+            self.total_bytes.into_into_dart().into_dart(),
+            self.downloaded_bytes.into_into_dart().into_dart(),
+            self.uploaded_bytes.into_into_dart().into_dart(),
+            self.download_speed.into_into_dart().into_dart(),
+            self.upload_speed.into_into_dart().into_dart(),
+            self.progress.into_into_dart().into_dart(),
+            self.num_peers.into_into_dart().into_dart(),
+            self.output_folder.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::downloader_api::DownloadTaskInfo
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::downloader_api::DownloadTaskInfo>
+    for crate::api::downloader_api::DownloadTaskInfo
+{
+    fn into_into_dart(self) -> crate::api::downloader_api::DownloadTaskInfo {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::downloader_api::DownloadTaskStatus {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Initializing => 0.into_dart(),
+            Self::Live => 1.into_dart(),
+            Self::Paused => 2.into_dart(),
+            Self::Error => 3.into_dart(),
+            Self::Finished => 4.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::downloader_api::DownloadTaskStatus
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::downloader_api::DownloadTaskStatus>
+    for crate::api::downloader_api::DownloadTaskStatus
+{
+    fn into_into_dart(self) -> crate::api::downloader_api::DownloadTaskStatus {
+        self
+    }
+}
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::http_package::MyHttpVersion {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
@@ -2280,6 +2871,59 @@ impl SseEncode for bool {
     }
 }
 
+impl SseEncode for crate::api::downloader_api::DownloadGlobalStat {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u64>::sse_encode(self.download_speed, serializer);
+        <u64>::sse_encode(self.upload_speed, serializer);
+        <usize>::sse_encode(self.num_active, serializer);
+        <usize>::sse_encode(self.num_waiting, serializer);
+    }
+}
+
+impl SseEncode for crate::api::downloader_api::DownloadTaskInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <usize>::sse_encode(self.id, serializer);
+        <String>::sse_encode(self.name, serializer);
+        <crate::api::downloader_api::DownloadTaskStatus>::sse_encode(self.status, serializer);
+        <u64>::sse_encode(self.total_bytes, serializer);
+        <u64>::sse_encode(self.downloaded_bytes, serializer);
+        <u64>::sse_encode(self.uploaded_bytes, serializer);
+        <u64>::sse_encode(self.download_speed, serializer);
+        <u64>::sse_encode(self.upload_speed, serializer);
+        <f64>::sse_encode(self.progress, serializer);
+        <usize>::sse_encode(self.num_peers, serializer);
+        <String>::sse_encode(self.output_folder, serializer);
+    }
+}
+
+impl SseEncode for crate::api::downloader_api::DownloadTaskStatus {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::downloader_api::DownloadTaskStatus::Initializing => 0,
+                crate::api::downloader_api::DownloadTaskStatus::Live => 1,
+                crate::api::downloader_api::DownloadTaskStatus::Paused => 2,
+                crate::api::downloader_api::DownloadTaskStatus::Error => 3,
+                crate::api::downloader_api::DownloadTaskStatus::Finished => 4,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for f64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_f64::<NativeEndian>(self).unwrap();
+    }
+}
+
 impl SseEncode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -2300,6 +2944,16 @@ impl SseEncode for Vec<String> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <String>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::downloader_api::DownloadTaskInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::downloader_api::DownloadTaskInfo>::sse_encode(item, serializer);
         }
     }
 }
@@ -2433,6 +3087,16 @@ impl SseEncode for Option<u64> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <u64>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<Vec<String>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <Vec<String>>::sse_encode(value, serializer);
         }
     }
 }
@@ -2725,9 +3389,50 @@ mod io {
             CstDecode::<crate::api::webview_api::WebViewConfiguration>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<crate::api::downloader_api::DownloadGlobalStat> for wire_cst_download_global_stat {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::downloader_api::DownloadGlobalStat {
+            crate::api::downloader_api::DownloadGlobalStat {
+                download_speed: self.download_speed.cst_decode(),
+                upload_speed: self.upload_speed.cst_decode(),
+                num_active: self.num_active.cst_decode(),
+                num_waiting: self.num_waiting.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::downloader_api::DownloadTaskInfo> for wire_cst_download_task_info {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::downloader_api::DownloadTaskInfo {
+            crate::api::downloader_api::DownloadTaskInfo {
+                id: self.id.cst_decode(),
+                name: self.name.cst_decode(),
+                status: self.status.cst_decode(),
+                total_bytes: self.total_bytes.cst_decode(),
+                downloaded_bytes: self.downloaded_bytes.cst_decode(),
+                uploaded_bytes: self.uploaded_bytes.cst_decode(),
+                download_speed: self.download_speed.cst_decode(),
+                upload_speed: self.upload_speed.cst_decode(),
+                progress: self.progress.cst_decode(),
+                num_peers: self.num_peers.cst_decode(),
+                output_folder: self.output_folder.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<Vec<String>> for *mut wire_cst_list_String {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<String> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<crate::api::downloader_api::DownloadTaskInfo>>
+        for *mut wire_cst_list_download_task_info
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::downloader_api::DownloadTaskInfo> {
             let vec = unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -2933,6 +3638,43 @@ mod io {
             }
         }
     }
+    impl NewWithNullPtr for wire_cst_download_global_stat {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                download_speed: Default::default(),
+                upload_speed: Default::default(),
+                num_active: Default::default(),
+                num_waiting: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_download_global_stat {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_download_task_info {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                id: Default::default(),
+                name: core::ptr::null_mut(),
+                status: Default::default(),
+                total_bytes: Default::default(),
+                downloaded_bytes: Default::default(),
+                uploaded_bytes: Default::default(),
+                download_speed: Default::default(),
+                upload_speed: Default::default(),
+                progress: Default::default(),
+                num_peers: Default::default(),
+                output_folder: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_download_task_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_p_4_k_file_item {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -3132,6 +3874,147 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__download_global_stat_default(
+        port_: i64,
+    ) {
+        wire__crate__api__downloader_api__download_global_stat_default_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_add_magnet(
+        port_: i64,
+        magnet_link: *mut wire_cst_list_prim_u_8_strict,
+        output_folder: *mut wire_cst_list_prim_u_8_strict,
+        trackers: *mut wire_cst_list_String,
+    ) {
+        wire__crate__api__downloader_api__downloader_add_magnet_impl(
+            port_,
+            magnet_link,
+            output_folder,
+            trackers,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_add_torrent(
+        port_: i64,
+        torrent_bytes: *mut wire_cst_list_prim_u_8_loose,
+        output_folder: *mut wire_cst_list_prim_u_8_strict,
+        trackers: *mut wire_cst_list_String,
+    ) {
+        wire__crate__api__downloader_api__downloader_add_torrent_impl(
+            port_,
+            torrent_bytes,
+            output_folder,
+            trackers,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_add_url(
+        port_: i64,
+        url: *mut wire_cst_list_prim_u_8_strict,
+        output_folder: *mut wire_cst_list_prim_u_8_strict,
+        trackers: *mut wire_cst_list_String,
+    ) {
+        wire__crate__api__downloader_api__downloader_add_url_impl(
+            port_,
+            url,
+            output_folder,
+            trackers,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_all_tasks(
+        port_: i64,
+    ) {
+        wire__crate__api__downloader_api__downloader_get_all_tasks_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_global_stats(
+        port_: i64,
+    ) {
+        wire__crate__api__downloader_api__downloader_get_global_stats_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_task_info(
+        port_: i64,
+        task_id: usize,
+    ) {
+        wire__crate__api__downloader_api__downloader_get_task_info_impl(port_, task_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_init(
+        download_dir: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__downloader_api__downloader_init_impl(download_dir)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_is_initialized(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__downloader_api__downloader_is_initialized_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_is_name_in_task(
+        port_: i64,
+        name: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__downloader_api__downloader_is_name_in_task_impl(port_, name)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_pause(
+        port_: i64,
+        task_id: usize,
+    ) {
+        wire__crate__api__downloader_api__downloader_pause_impl(port_, task_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_pause_all(
+        port_: i64,
+    ) {
+        wire__crate__api__downloader_api__downloader_pause_all_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_remove(
+        port_: i64,
+        task_id: usize,
+        delete_files: bool,
+    ) {
+        wire__crate__api__downloader_api__downloader_remove_impl(port_, task_id, delete_files)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_resume(
+        port_: i64,
+        task_id: usize,
+    ) {
+        wire__crate__api__downloader_api__downloader_resume_impl(port_, task_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_resume_all(
+        port_: i64,
+    ) {
+        wire__crate__api__downloader_api__downloader_resume_all_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_stop(
+        port_: i64,
+    ) {
+        wire__crate__api__downloader_api__downloader_stop_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__http_api__fetch(
         port_: i64,
         method: i32,
@@ -3309,9 +4192,9 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__resolve_shortcut(
         port_: i64,
-        lnk_path: *mut wire_cst_list_prim_u_8_strict,
+        _lnk_path: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__win32_api__resolve_shortcut_impl(port_, lnk_path)
+        wire__crate__api__win32_api__resolve_shortcut_impl(port_, _lnk_path)
     }
 
     #[unsafe(no_mangle)]
@@ -3586,6 +4469,20 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_download_task_info(
+        len: i32,
+    ) -> *mut wire_cst_list_download_task_info {
+        let wrap = wire_cst_list_download_task_info {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_download_task_info>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_p_4_k_file_item(
         len: i32,
     ) -> *mut wire_cst_list_p_4_k_file_item {
@@ -3665,8 +4562,37 @@ mod io {
 
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_download_global_stat {
+        download_speed: u64,
+        upload_speed: u64,
+        num_active: usize,
+        num_waiting: usize,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_download_task_info {
+        id: usize,
+        name: *mut wire_cst_list_prim_u_8_strict,
+        status: i32,
+        total_bytes: u64,
+        downloaded_bytes: u64,
+        uploaded_bytes: u64,
+        download_speed: u64,
+        upload_speed: u64,
+        progress: f64,
+        num_peers: usize,
+        output_folder: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_list_String {
         ptr: *mut *mut wire_cst_list_prim_u_8_strict,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_download_task_info {
+        ptr: *mut wire_cst_download_task_info,
         len: i32,
     }
     #[repr(C)]

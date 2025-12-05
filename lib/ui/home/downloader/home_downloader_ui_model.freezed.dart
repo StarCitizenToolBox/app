@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeDownloaderUIState {
 
- List<Aria2Task> get tasks; List<Aria2Task> get waitingTasks; List<Aria2Task> get stoppedTasks; Aria2GlobalStat? get globalStat;
+ List<DownloadTaskInfo> get activeTasks; List<DownloadTaskInfo> get waitingTasks; List<DownloadTaskInfo> get stoppedTasks; DownloadGlobalStat? get globalStat;
 /// Create a copy of HomeDownloaderUIState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $HomeDownloaderUIStateCopyWith<HomeDownloaderUIState> get copyWith => _$HomeDown
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeDownloaderUIState&&const DeepCollectionEquality().equals(other.tasks, tasks)&&const DeepCollectionEquality().equals(other.waitingTasks, waitingTasks)&&const DeepCollectionEquality().equals(other.stoppedTasks, stoppedTasks)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeDownloaderUIState&&const DeepCollectionEquality().equals(other.activeTasks, activeTasks)&&const DeepCollectionEquality().equals(other.waitingTasks, waitingTasks)&&const DeepCollectionEquality().equals(other.stoppedTasks, stoppedTasks)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(tasks),const DeepCollectionEquality().hash(waitingTasks),const DeepCollectionEquality().hash(stoppedTasks),globalStat);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(activeTasks),const DeepCollectionEquality().hash(waitingTasks),const DeepCollectionEquality().hash(stoppedTasks),globalStat);
 
 @override
 String toString() {
-  return 'HomeDownloaderUIState(tasks: $tasks, waitingTasks: $waitingTasks, stoppedTasks: $stoppedTasks, globalStat: $globalStat)';
+  return 'HomeDownloaderUIState(activeTasks: $activeTasks, waitingTasks: $waitingTasks, stoppedTasks: $stoppedTasks, globalStat: $globalStat)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $HomeDownloaderUIStateCopyWith<$Res>  {
   factory $HomeDownloaderUIStateCopyWith(HomeDownloaderUIState value, $Res Function(HomeDownloaderUIState) _then) = _$HomeDownloaderUIStateCopyWithImpl;
 @useResult
 $Res call({
- List<Aria2Task> tasks, List<Aria2Task> waitingTasks, List<Aria2Task> stoppedTasks, Aria2GlobalStat? globalStat
+ List<DownloadTaskInfo> activeTasks, List<DownloadTaskInfo> waitingTasks, List<DownloadTaskInfo> stoppedTasks, DownloadGlobalStat? globalStat
 });
 
 
@@ -62,13 +62,13 @@ class _$HomeDownloaderUIStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeDownloaderUIState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? tasks = null,Object? waitingTasks = null,Object? stoppedTasks = null,Object? globalStat = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? activeTasks = null,Object? waitingTasks = null,Object? stoppedTasks = null,Object? globalStat = freezed,}) {
   return _then(_self.copyWith(
-tasks: null == tasks ? _self.tasks : tasks // ignore: cast_nullable_to_non_nullable
-as List<Aria2Task>,waitingTasks: null == waitingTasks ? _self.waitingTasks : waitingTasks // ignore: cast_nullable_to_non_nullable
-as List<Aria2Task>,stoppedTasks: null == stoppedTasks ? _self.stoppedTasks : stoppedTasks // ignore: cast_nullable_to_non_nullable
-as List<Aria2Task>,globalStat: freezed == globalStat ? _self.globalStat : globalStat // ignore: cast_nullable_to_non_nullable
-as Aria2GlobalStat?,
+activeTasks: null == activeTasks ? _self.activeTasks : activeTasks // ignore: cast_nullable_to_non_nullable
+as List<DownloadTaskInfo>,waitingTasks: null == waitingTasks ? _self.waitingTasks : waitingTasks // ignore: cast_nullable_to_non_nullable
+as List<DownloadTaskInfo>,stoppedTasks: null == stoppedTasks ? _self.stoppedTasks : stoppedTasks // ignore: cast_nullable_to_non_nullable
+as List<DownloadTaskInfo>,globalStat: freezed == globalStat ? _self.globalStat : globalStat // ignore: cast_nullable_to_non_nullable
+as DownloadGlobalStat?,
   ));
 }
 
@@ -153,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Aria2Task> tasks,  List<Aria2Task> waitingTasks,  List<Aria2Task> stoppedTasks,  Aria2GlobalStat? globalStat)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<DownloadTaskInfo> activeTasks,  List<DownloadTaskInfo> waitingTasks,  List<DownloadTaskInfo> stoppedTasks,  DownloadGlobalStat? globalStat)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeDownloaderUIState() when $default != null:
-return $default(_that.tasks,_that.waitingTasks,_that.stoppedTasks,_that.globalStat);case _:
+return $default(_that.activeTasks,_that.waitingTasks,_that.stoppedTasks,_that.globalStat);case _:
   return orElse();
 
 }
@@ -174,10 +174,10 @@ return $default(_that.tasks,_that.waitingTasks,_that.stoppedTasks,_that.globalSt
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Aria2Task> tasks,  List<Aria2Task> waitingTasks,  List<Aria2Task> stoppedTasks,  Aria2GlobalStat? globalStat)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<DownloadTaskInfo> activeTasks,  List<DownloadTaskInfo> waitingTasks,  List<DownloadTaskInfo> stoppedTasks,  DownloadGlobalStat? globalStat)  $default,) {final _that = this;
 switch (_that) {
 case _HomeDownloaderUIState():
-return $default(_that.tasks,_that.waitingTasks,_that.stoppedTasks,_that.globalStat);case _:
+return $default(_that.activeTasks,_that.waitingTasks,_that.stoppedTasks,_that.globalStat);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +194,10 @@ return $default(_that.tasks,_that.waitingTasks,_that.stoppedTasks,_that.globalSt
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Aria2Task> tasks,  List<Aria2Task> waitingTasks,  List<Aria2Task> stoppedTasks,  Aria2GlobalStat? globalStat)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<DownloadTaskInfo> activeTasks,  List<DownloadTaskInfo> waitingTasks,  List<DownloadTaskInfo> stoppedTasks,  DownloadGlobalStat? globalStat)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeDownloaderUIState() when $default != null:
-return $default(_that.tasks,_that.waitingTasks,_that.stoppedTasks,_that.globalStat);case _:
+return $default(_that.activeTasks,_that.waitingTasks,_that.stoppedTasks,_that.globalStat);case _:
   return null;
 
 }
@@ -209,31 +209,31 @@ return $default(_that.tasks,_that.waitingTasks,_that.stoppedTasks,_that.globalSt
 
 
 class _HomeDownloaderUIState implements HomeDownloaderUIState {
-   _HomeDownloaderUIState({final  List<Aria2Task> tasks = const [], final  List<Aria2Task> waitingTasks = const [], final  List<Aria2Task> stoppedTasks = const [], this.globalStat}): _tasks = tasks,_waitingTasks = waitingTasks,_stoppedTasks = stoppedTasks;
+   _HomeDownloaderUIState({final  List<DownloadTaskInfo> activeTasks = const [], final  List<DownloadTaskInfo> waitingTasks = const [], final  List<DownloadTaskInfo> stoppedTasks = const [], this.globalStat}): _activeTasks = activeTasks,_waitingTasks = waitingTasks,_stoppedTasks = stoppedTasks;
   
 
- final  List<Aria2Task> _tasks;
-@override@JsonKey() List<Aria2Task> get tasks {
-  if (_tasks is EqualUnmodifiableListView) return _tasks;
+ final  List<DownloadTaskInfo> _activeTasks;
+@override@JsonKey() List<DownloadTaskInfo> get activeTasks {
+  if (_activeTasks is EqualUnmodifiableListView) return _activeTasks;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_tasks);
+  return EqualUnmodifiableListView(_activeTasks);
 }
 
- final  List<Aria2Task> _waitingTasks;
-@override@JsonKey() List<Aria2Task> get waitingTasks {
+ final  List<DownloadTaskInfo> _waitingTasks;
+@override@JsonKey() List<DownloadTaskInfo> get waitingTasks {
   if (_waitingTasks is EqualUnmodifiableListView) return _waitingTasks;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_waitingTasks);
 }
 
- final  List<Aria2Task> _stoppedTasks;
-@override@JsonKey() List<Aria2Task> get stoppedTasks {
+ final  List<DownloadTaskInfo> _stoppedTasks;
+@override@JsonKey() List<DownloadTaskInfo> get stoppedTasks {
   if (_stoppedTasks is EqualUnmodifiableListView) return _stoppedTasks;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_stoppedTasks);
 }
 
-@override final  Aria2GlobalStat? globalStat;
+@override final  DownloadGlobalStat? globalStat;
 
 /// Create a copy of HomeDownloaderUIState
 /// with the given fields replaced by the non-null parameter values.
@@ -245,16 +245,16 @@ _$HomeDownloaderUIStateCopyWith<_HomeDownloaderUIState> get copyWith => __$HomeD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeDownloaderUIState&&const DeepCollectionEquality().equals(other._tasks, _tasks)&&const DeepCollectionEquality().equals(other._waitingTasks, _waitingTasks)&&const DeepCollectionEquality().equals(other._stoppedTasks, _stoppedTasks)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeDownloaderUIState&&const DeepCollectionEquality().equals(other._activeTasks, _activeTasks)&&const DeepCollectionEquality().equals(other._waitingTasks, _waitingTasks)&&const DeepCollectionEquality().equals(other._stoppedTasks, _stoppedTasks)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_tasks),const DeepCollectionEquality().hash(_waitingTasks),const DeepCollectionEquality().hash(_stoppedTasks),globalStat);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_activeTasks),const DeepCollectionEquality().hash(_waitingTasks),const DeepCollectionEquality().hash(_stoppedTasks),globalStat);
 
 @override
 String toString() {
-  return 'HomeDownloaderUIState(tasks: $tasks, waitingTasks: $waitingTasks, stoppedTasks: $stoppedTasks, globalStat: $globalStat)';
+  return 'HomeDownloaderUIState(activeTasks: $activeTasks, waitingTasks: $waitingTasks, stoppedTasks: $stoppedTasks, globalStat: $globalStat)';
 }
 
 
@@ -265,7 +265,7 @@ abstract mixin class _$HomeDownloaderUIStateCopyWith<$Res> implements $HomeDownl
   factory _$HomeDownloaderUIStateCopyWith(_HomeDownloaderUIState value, $Res Function(_HomeDownloaderUIState) _then) = __$HomeDownloaderUIStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Aria2Task> tasks, List<Aria2Task> waitingTasks, List<Aria2Task> stoppedTasks, Aria2GlobalStat? globalStat
+ List<DownloadTaskInfo> activeTasks, List<DownloadTaskInfo> waitingTasks, List<DownloadTaskInfo> stoppedTasks, DownloadGlobalStat? globalStat
 });
 
 
@@ -282,13 +282,13 @@ class __$HomeDownloaderUIStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeDownloaderUIState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? tasks = null,Object? waitingTasks = null,Object? stoppedTasks = null,Object? globalStat = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? activeTasks = null,Object? waitingTasks = null,Object? stoppedTasks = null,Object? globalStat = freezed,}) {
   return _then(_HomeDownloaderUIState(
-tasks: null == tasks ? _self._tasks : tasks // ignore: cast_nullable_to_non_nullable
-as List<Aria2Task>,waitingTasks: null == waitingTasks ? _self._waitingTasks : waitingTasks // ignore: cast_nullable_to_non_nullable
-as List<Aria2Task>,stoppedTasks: null == stoppedTasks ? _self._stoppedTasks : stoppedTasks // ignore: cast_nullable_to_non_nullable
-as List<Aria2Task>,globalStat: freezed == globalStat ? _self.globalStat : globalStat // ignore: cast_nullable_to_non_nullable
-as Aria2GlobalStat?,
+activeTasks: null == activeTasks ? _self._activeTasks : activeTasks // ignore: cast_nullable_to_non_nullable
+as List<DownloadTaskInfo>,waitingTasks: null == waitingTasks ? _self._waitingTasks : waitingTasks // ignore: cast_nullable_to_non_nullable
+as List<DownloadTaskInfo>,stoppedTasks: null == stoppedTasks ? _self._stoppedTasks : stoppedTasks // ignore: cast_nullable_to_non_nullable
+as List<DownloadTaskInfo>,globalStat: freezed == globalStat ? _self.globalStat : globalStat // ignore: cast_nullable_to_non_nullable
+as DownloadGlobalStat?,
   ));
 }
 

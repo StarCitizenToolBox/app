@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_build_context_in_providers, use_build_context_synchronously
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -14,7 +13,7 @@ import 'package:starcitizen_doctor/common/utils/async.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
-import 'package:starcitizen_doctor/provider/aria2c.dart';
+import 'package:starcitizen_doctor/provider/download_manager.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
 import 'package:starcitizen_doctor/common/rust/api/ort_api.dart' as ort;
 
@@ -240,11 +239,10 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
   Future<String> doDownloadTranslateModel() async {
     state = state.copyWith(isAutoTranslateWorking: true);
     try {
-      final aria2cManager = ref.read(aria2cModelProvider.notifier);
-      await aria2cManager.launchDaemon(appGlobalState.applicationBinaryModuleDir!);
-      final aria2c = ref.read(aria2cModelProvider).aria2c!;
+      final downloadManager = ref.read(downloadManagerProvider.notifier);
+      await downloadManager.initDownloader();
 
-      if (await aria2cManager.isNameInTask(_localTranslateModelName)) {
+      if (await downloadManager.isNameInTask(_localTranslateModelName)) {
         throw Exception("Model is already downloading");
       }
 
@@ -259,9 +257,8 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
       }
       // get torrent Data
       final data = await RSHttp.get(torrentUrl!);
-      final b64Str = base64Encode(data.data!);
-      final gid = await aria2c.addTorrent(b64Str, extraParams: {"dir": _localTranslateModelDir});
-      return gid;
+      final taskId = await downloadManager.addTorrent(data.data!, outputFolder: _localTranslateModelDir);
+      return taskId.toString();
     } catch (e) {
       dPrint("[InputMethodDialogUIModel] doDownloadTranslateModel error: $e");
       rethrow;
@@ -330,8 +327,8 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
   }
 
   Future<bool> isTranslateModelDownloading() async {
-    final aria2cManager = ref.read(aria2cModelProvider.notifier);
-    return await aria2cManager.isNameInTask(_localTranslateModelName);
+    final downloadManager = ref.read(downloadManagerProvider.notifier);
+    return await downloadManager.isNameInTask(_localTranslateModelName);
   }
 }
 

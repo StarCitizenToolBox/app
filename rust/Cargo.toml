@@ -35,6 +35,10 @@ unp4k_rs = { git = "https://github.com/StarCitizenToolBox/unp4k_rs", tag = "V0.0
 uuid = { version = "1.19.0", features = ["v4"] }
 parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"
+librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", tag = "webseed-v0.0.1" }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+bytes = "1.10"
 
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]

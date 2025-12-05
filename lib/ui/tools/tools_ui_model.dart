@@ -18,7 +18,7 @@ import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/multi_window_manager.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
-import 'package:starcitizen_doctor/provider/aria2c.dart';
+import 'package:starcitizen_doctor/provider/download_manager.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:xml/xml.dart';
@@ -27,7 +27,6 @@ import 'dialogs/hosts_booster_dialog_ui.dart';
 import 'dialogs/rsi_launcher_enhance_dialog_ui.dart';
 
 part 'tools_ui_model.g.dart';
-
 part 'tools_ui_model.freezed.dart';
 
 class ToolsItemData {
@@ -577,12 +576,11 @@ class ToolsUIModel extends _$ToolsUIModel {
     if (!ok) return;
     try {
       state = state.copyWith(working: true);
-      final aria2cManager = ref.read(aria2cModelProvider.notifier);
-      await aria2cManager.launchDaemon(appGlobalState.applicationBinaryModuleDir!);
-      final aria2c = ref.read(aria2cModelProvider).aria2c!;
+      final downloadManager = ref.read(downloadManagerProvider.notifier);
+      await downloadManager.initDownloader();
 
       // check download task list
-      if (await aria2cManager.isNameInTask("Data.p4k")) {
+      if (await downloadManager.isNameInTask("Data.p4k")) {
         if (!context.mounted) return;
         showToast(context, S.current.tools_action_info_p4k_download_in_progress);
         state = state.copyWith(working: false);
@@ -619,12 +617,10 @@ class ToolsUIModel extends _$ToolsUIModel {
         state = state.copyWith(working: false);
         return;
       }
-      final b64Str = base64Encode(btData.data!);
 
-      final gid = await aria2c.addTorrent(b64Str, extraParams: {"dir": savePath});
+      final taskId = await downloadManager.addTorrent(btData.data!, outputFolder: savePath);
       state = state.copyWith(working: false);
-      dPrint("Aria2cManager.aria2c.addUri resp === $gid");
-      await aria2c.saveSession();
+      dPrint("DownloadManager.addTorrent resp === $taskId");
       AnalyticsApi.touch("p4k_download");
       if (!context.mounted) return;
       context.push("/index/downloader");

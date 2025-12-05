@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/asar_api.dart';
+import 'api/downloader_api.dart';
 import 'api/http_api.dart';
 import 'api/ort_api.dart';
 import 'api/rs_process.dart';
@@ -58,6 +59,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  DownloadGlobalStat dco_decode_download_global_stat(dynamic raw);
+
+  @protected
+  DownloadTaskInfo dco_decode_download_task_info(dynamic raw);
+
+  @protected
+  DownloadTaskStatus dco_decode_download_task_status(dynamic raw);
+
+  @protected
+  double dco_decode_f_64(dynamic raw);
+
+  @protected
   int dco_decode_i_32(dynamic raw);
 
   @protected
@@ -65,6 +78,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> dco_decode_list_String(dynamic raw);
+
+  @protected
+  List<DownloadTaskInfo> dco_decode_list_download_task_info(dynamic raw);
 
   @protected
   List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw);
@@ -101,6 +117,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
+
+  @protected
+  List<String>? dco_decode_opt_list_String(dynamic raw);
 
   @protected
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw);
@@ -193,6 +212,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  DownloadGlobalStat sse_decode_download_global_stat(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  DownloadTaskInfo sse_decode_download_task_info(SseDeserializer deserializer);
+
+  @protected
+  DownloadTaskStatus sse_decode_download_task_status(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  double sse_decode_f_64(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
@@ -200,6 +235,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  List<DownloadTaskInfo> sse_decode_list_download_task_info(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<P4kFileItem> sse_decode_list_p_4_k_file_item(
@@ -244,6 +284,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
+
+  @protected
+  List<String>? sse_decode_opt_list_String(SseDeserializer deserializer);
 
   @protected
   Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer);
@@ -397,6 +440,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_download_task_info>
+  cst_encode_list_download_task_info(List<DownloadTaskInfo> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_download_task_info(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_download_task_info(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_p_4_k_file_item> cst_encode_list_p_4_k_file_item(
     List<P4kFileItem> raw,
   ) {
@@ -491,6 +545,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_String> cst_encode_opt_list_String(
+    List<String>? raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_list_String(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict>
   cst_encode_opt_list_prim_u_8_strict(Uint8List? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -523,6 +585,35 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     ffi.Pointer<wire_cst_web_view_configuration> wireObj,
   ) {
     cst_api_fill_to_wire_web_view_configuration(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_download_global_stat(
+    DownloadGlobalStat apiObj,
+    wire_cst_download_global_stat wireObj,
+  ) {
+    wireObj.download_speed = cst_encode_u_64(apiObj.downloadSpeed);
+    wireObj.upload_speed = cst_encode_u_64(apiObj.uploadSpeed);
+    wireObj.num_active = cst_encode_usize(apiObj.numActive);
+    wireObj.num_waiting = cst_encode_usize(apiObj.numWaiting);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_download_task_info(
+    DownloadTaskInfo apiObj,
+    wire_cst_download_task_info wireObj,
+  ) {
+    wireObj.id = cst_encode_usize(apiObj.id);
+    wireObj.name = cst_encode_String(apiObj.name);
+    wireObj.status = cst_encode_download_task_status(apiObj.status);
+    wireObj.total_bytes = cst_encode_u_64(apiObj.totalBytes);
+    wireObj.downloaded_bytes = cst_encode_u_64(apiObj.downloadedBytes);
+    wireObj.uploaded_bytes = cst_encode_u_64(apiObj.uploadedBytes);
+    wireObj.download_speed = cst_encode_u_64(apiObj.downloadSpeed);
+    wireObj.upload_speed = cst_encode_u_64(apiObj.uploadSpeed);
+    wireObj.progress = cst_encode_f_64(apiObj.progress);
+    wireObj.num_peers = cst_encode_usize(apiObj.numPeers);
+    wireObj.output_folder = cst_encode_String(apiObj.outputFolder);
   }
 
   @protected
@@ -676,6 +767,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool cst_encode_bool(bool raw);
 
   @protected
+  int cst_encode_download_task_status(DownloadTaskStatus raw);
+
+  @protected
+  double cst_encode_f_64(double raw);
+
+  @protected
   int cst_encode_i_32(int raw);
 
   @protected
@@ -742,6 +839,27 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_download_global_stat(
+    DownloadGlobalStat self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_download_task_info(
+    DownloadTaskInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_download_task_status(
+    DownloadTaskStatus self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_f_64(double self, SseSerializer serializer);
+
+  @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
@@ -749,6 +867,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_download_task_info(
+    List<DownloadTaskInfo> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_p_4_k_file_item(
@@ -803,6 +927,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_list_String(List<String>? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_list_prim_u_8_strict(
@@ -1033,6 +1160,334 @@ class RustLibWire implements BaseWire {
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
+
+  void wire__crate__api__downloader_api__download_global_stat_default(
+    int port_,
+  ) {
+    return _wire__crate__api__downloader_api__download_global_stat_default(
+      port_,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__download_global_stat_defaultPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__download_global_stat_default',
+      );
+  late final _wire__crate__api__downloader_api__download_global_stat_default =
+      _wire__crate__api__downloader_api__download_global_stat_defaultPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__downloader_api__downloader_add_magnet(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> magnet_link,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_folder,
+    ffi.Pointer<wire_cst_list_String> trackers,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_add_magnet(
+      port_,
+      magnet_link,
+      output_folder,
+      trackers,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_add_magnetPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_String>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_add_magnet',
+      );
+  late final _wire__crate__api__downloader_api__downloader_add_magnet =
+      _wire__crate__api__downloader_api__downloader_add_magnetPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_String>,
+            )
+          >();
+
+  void wire__crate__api__downloader_api__downloader_add_torrent(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> torrent_bytes,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_folder,
+    ffi.Pointer<wire_cst_list_String> trackers,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_add_torrent(
+      port_,
+      torrent_bytes,
+      output_folder,
+      trackers,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_add_torrentPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_String>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_add_torrent',
+      );
+  late final _wire__crate__api__downloader_api__downloader_add_torrent =
+      _wire__crate__api__downloader_api__downloader_add_torrentPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_String>,
+            )
+          >();
+
+  void wire__crate__api__downloader_api__downloader_add_url(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> url,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_folder,
+    ffi.Pointer<wire_cst_list_String> trackers,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_add_url(
+      port_,
+      url,
+      output_folder,
+      trackers,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_add_urlPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_String>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_add_url',
+      );
+  late final _wire__crate__api__downloader_api__downloader_add_url =
+      _wire__crate__api__downloader_api__downloader_add_urlPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_String>,
+            )
+          >();
+
+  void wire__crate__api__downloader_api__downloader_get_all_tasks(int port_) {
+    return _wire__crate__api__downloader_api__downloader_get_all_tasks(port_);
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_get_all_tasksPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_all_tasks',
+      );
+  late final _wire__crate__api__downloader_api__downloader_get_all_tasks =
+      _wire__crate__api__downloader_api__downloader_get_all_tasksPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__downloader_api__downloader_get_global_stats(
+    int port_,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_get_global_stats(
+      port_,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_get_global_statsPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_global_stats',
+      );
+  late final _wire__crate__api__downloader_api__downloader_get_global_stats =
+      _wire__crate__api__downloader_api__downloader_get_global_statsPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__downloader_api__downloader_get_task_info(
+    int port_,
+    int task_id,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_get_task_info(
+      port_,
+      task_id,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_get_task_infoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_get_task_info',
+      );
+  late final _wire__crate__api__downloader_api__downloader_get_task_info =
+      _wire__crate__api__downloader_api__downloader_get_task_infoPtr
+          .asFunction<void Function(int, int)>();
+
+  WireSyncRust2DartDco wire__crate__api__downloader_api__downloader_init(
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> download_dir,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_init(download_dir);
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_initPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_init',
+      );
+  late final _wire__crate__api__downloader_api__downloader_init =
+      _wire__crate__api__downloader_api__downloader_initPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  WireSyncRust2DartDco
+  wire__crate__api__downloader_api__downloader_is_initialized() {
+    return _wire__crate__api__downloader_api__downloader_is_initialized();
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_is_initializedPtr =
+      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_is_initialized',
+      );
+  late final _wire__crate__api__downloader_api__downloader_is_initialized =
+      _wire__crate__api__downloader_api__downloader_is_initializedPtr
+          .asFunction<WireSyncRust2DartDco Function()>();
+
+  void wire__crate__api__downloader_api__downloader_is_name_in_task(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> name,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_is_name_in_task(
+      port_,
+      name,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_is_name_in_taskPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_is_name_in_task',
+      );
+  late final _wire__crate__api__downloader_api__downloader_is_name_in_task =
+      _wire__crate__api__downloader_api__downloader_is_name_in_taskPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__downloader_api__downloader_pause(
+    int port_,
+    int task_id,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_pause(port_, task_id);
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_pausePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_pause',
+      );
+  late final _wire__crate__api__downloader_api__downloader_pause =
+      _wire__crate__api__downloader_api__downloader_pausePtr
+          .asFunction<void Function(int, int)>();
+
+  void wire__crate__api__downloader_api__downloader_pause_all(int port_) {
+    return _wire__crate__api__downloader_api__downloader_pause_all(port_);
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_pause_allPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_pause_all',
+      );
+  late final _wire__crate__api__downloader_api__downloader_pause_all =
+      _wire__crate__api__downloader_api__downloader_pause_allPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__downloader_api__downloader_remove(
+    int port_,
+    int task_id,
+    bool delete_files,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_remove(
+      port_,
+      task_id,
+      delete_files,
+    );
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_removePtr =
+      _lookup<
+        ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr, ffi.Bool)>
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_remove',
+      );
+  late final _wire__crate__api__downloader_api__downloader_remove =
+      _wire__crate__api__downloader_api__downloader_removePtr
+          .asFunction<void Function(int, int, bool)>();
+
+  void wire__crate__api__downloader_api__downloader_resume(
+    int port_,
+    int task_id,
+  ) {
+    return _wire__crate__api__downloader_api__downloader_resume(port_, task_id);
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_resumePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_resume',
+      );
+  late final _wire__crate__api__downloader_api__downloader_resume =
+      _wire__crate__api__downloader_api__downloader_resumePtr
+          .asFunction<void Function(int, int)>();
+
+  void wire__crate__api__downloader_api__downloader_resume_all(int port_) {
+    return _wire__crate__api__downloader_api__downloader_resume_all(port_);
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_resume_allPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_resume_all',
+      );
+  late final _wire__crate__api__downloader_api__downloader_resume_all =
+      _wire__crate__api__downloader_api__downloader_resume_allPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__downloader_api__downloader_stop(int port_) {
+    return _wire__crate__api__downloader_api__downloader_stop(port_);
+  }
+
+  late final _wire__crate__api__downloader_api__downloader_stopPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_stop',
+      );
+  late final _wire__crate__api__downloader_api__downloader_stop =
+      _wire__crate__api__downloader_api__downloader_stopPtr
+          .asFunction<void Function(int)>();
 
   void wire__crate__api__http_api__fetch(
     int port_,
@@ -1506,9 +1961,9 @@ class RustLibWire implements BaseWire {
 
   void wire__crate__api__win32_api__resolve_shortcut(
     int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> lnk_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _lnk_path,
   ) {
-    return _wire__crate__api__win32_api__resolve_shortcut(port_, lnk_path);
+    return _wire__crate__api__win32_api__resolve_shortcut(port_, _lnk_path);
   }
 
   late final _wire__crate__api__win32_api__resolve_shortcutPtr =
@@ -2341,6 +2796,24 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_String = _cst_new_list_StringPtr
       .asFunction<ffi.Pointer<wire_cst_list_String> Function(int)>();
 
+  ffi.Pointer<wire_cst_list_download_task_info> cst_new_list_download_task_info(
+    int len,
+  ) {
+    return _cst_new_list_download_task_info(len);
+  }
+
+  late final _cst_new_list_download_task_infoPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_download_task_info> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_download_task_info');
+  late final _cst_new_list_download_task_info =
+      _cst_new_list_download_task_infoPtr
+          .asFunction<
+            ffi.Pointer<wire_cst_list_download_task_info> Function(int)
+          >();
+
   ffi.Pointer<wire_cst_list_p_4_k_file_item> cst_new_list_p_4_k_file_item(
     int len,
   ) {
@@ -2459,6 +2932,20 @@ final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_list_String extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_record_string_string extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
 
@@ -2472,26 +2959,12 @@ final class wire_cst_list_record_string_string extends ffi.Struct {
   external int len;
 }
 
-final class wire_cst_list_String extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
 final class wire_cst_rsi_launcher_asar_data extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> main_js_path;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> main_js_content;
-}
-
-final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
-  external ffi.Pointer<ffi.Uint8> ptr;
-
-  @ffi.Int32()
-  external int len;
 }
 
 final class wire_cst_web_view_configuration extends ffi.Struct {
@@ -2512,6 +2985,46 @@ final class wire_cst_web_view_configuration extends ffi.Struct {
   external bool transparent;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> user_agent;
+}
+
+final class wire_cst_download_task_info extends ffi.Struct {
+  @ffi.UintPtr()
+  external int id;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> name;
+
+  @ffi.Int32()
+  external int status;
+
+  @ffi.Uint64()
+  external int total_bytes;
+
+  @ffi.Uint64()
+  external int downloaded_bytes;
+
+  @ffi.Uint64()
+  external int uploaded_bytes;
+
+  @ffi.Uint64()
+  external int download_speed;
+
+  @ffi.Uint64()
+  external int upload_speed;
+
+  @ffi.Double()
+  external double progress;
+
+  @ffi.UintPtr()
+  external int num_peers;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> output_folder;
+}
+
+final class wire_cst_list_download_task_info extends ffi.Struct {
+  external ffi.Pointer<wire_cst_download_task_info> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 final class wire_cst_p_4_k_file_item extends ffi.Struct {
@@ -2597,6 +3110,20 @@ final class wire_cst_list_web_view_event extends ffi.Struct {
 
   @ffi.Int32()
   external int len;
+}
+
+final class wire_cst_download_global_stat extends ffi.Struct {
+  @ffi.Uint64()
+  external int download_speed;
+
+  @ffi.Uint64()
+  external int upload_speed;
+
+  @ffi.UintPtr()
+  external int num_active;
+
+  @ffi.UintPtr()
+  external int num_waiting;
 }
 
 final class wire_cst_rs_process_stream_data extends ffi.Struct {
