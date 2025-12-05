@@ -131,8 +131,8 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     switch (status) {
       case DownloadTaskStatus.live:
         return "live";
-      case DownloadTaskStatus.initializing:
-        return "initializing";
+      case DownloadTaskStatus.checking:
+        return "checking";
       case DownloadTaskStatus.paused:
         return "paused";
       case DownloadTaskStatus.error:
@@ -191,7 +191,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
               case DownloadTaskStatus.live:
                 activeTasks.add(task);
                 break;
-              case DownloadTaskStatus.initializing:
+              case DownloadTaskStatus.checking:
               case DownloadTaskStatus.paused:
                 waitingTasks.add(task);
                 break;

@@ -1879,7 +1879,7 @@ impl CstDecode<crate::api::downloader_api::DownloadTaskStatus> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::downloader_api::DownloadTaskStatus {
         match self {
-            0 => crate::api::downloader_api::DownloadTaskStatus::Initializing,
+            0 => crate::api::downloader_api::DownloadTaskStatus::Checking,
             1 => crate::api::downloader_api::DownloadTaskStatus::Live,
             2 => crate::api::downloader_api::DownloadTaskStatus::Paused,
             3 => crate::api::downloader_api::DownloadTaskStatus::Error,
@@ -2074,7 +2074,7 @@ impl SseDecode for crate::api::downloader_api::DownloadTaskStatus {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <i32>::sse_decode(deserializer);
         return match inner {
-            0 => crate::api::downloader_api::DownloadTaskStatus::Initializing,
+            0 => crate::api::downloader_api::DownloadTaskStatus::Checking,
             1 => crate::api::downloader_api::DownloadTaskStatus::Live,
             2 => crate::api::downloader_api::DownloadTaskStatus::Paused,
             3 => crate::api::downloader_api::DownloadTaskStatus::Error,
@@ -2635,7 +2635,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::downloader_api::DownloadTaskI
 impl flutter_rust_bridge::IntoDart for crate::api::downloader_api::DownloadTaskStatus {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
-            Self::Initializing => 0.into_dart(),
+            Self::Checking => 0.into_dart(),
             Self::Live => 1.into_dart(),
             Self::Paused => 2.into_dart(),
             Self::Error => 3.into_dart(),
@@ -3029,7 +3029,7 @@ impl SseEncode for crate::api::downloader_api::DownloadTaskStatus {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(
             match self {
-                crate::api::downloader_api::DownloadTaskStatus::Initializing => 0,
+                crate::api::downloader_api::DownloadTaskStatus::Checking => 0,
                 crate::api::downloader_api::DownloadTaskStatus::Live => 1,
                 crate::api::downloader_api::DownloadTaskStatus::Paused => 2,
                 crate::api::downloader_api::DownloadTaskStatus::Error => 3,

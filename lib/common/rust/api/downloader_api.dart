@@ -234,4 +234,19 @@ class DownloadTaskInfo {
 }
 
 /// Download task status
-enum DownloadTaskStatus { initializing, live, paused, error, finished }
+enum DownloadTaskStatus {
+  /// Checking/verifying existing files
+  checking,
+
+  /// Actively downloading
+  live,
+
+  /// Paused
+  paused,
+
+  /// Error occurred
+  error,
+
+  /// Download completed
+  finished,
+}

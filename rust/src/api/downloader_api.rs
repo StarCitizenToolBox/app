@@ -37,10 +37,15 @@ static TASK_OUTPUT_FOLDERS: once_cell::sync::Lazy<RwLock<HashMap<usize, String>>
 /// Download task status
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum DownloadTaskStatus {
-    Initializing,
+    /// Checking/verifying existing files
+    Checking,
+    /// Actively downloading
     Live,
+    /// Paused
     Paused,
+    /// Error occurred
     Error,
+    /// Download completed
     Finished,
 }
 
@@ -368,9 +373,11 @@ pub async fn downloader_get_task_info(task_id: usize) -> Result<DownloadTaskInfo
         };
 
         // Get speed from live stats
+        // Note: mbps in rqbit is actually MiB/s (bytes_per_second / 1024 / 1024)
+        // So we convert back to bytes per second: mbps * 1024 * 1024
         let (download_speed, upload_speed, num_peers) = if let Some(live) = &stats.live {
-            let down = (live.download_speed.mbps * 1024.0 * 1024.0 / 8.0) as u64;
-            let up = (live.upload_speed.mbps * 1024.0 * 1024.0 / 8.0) as u64;
+            let down = (live.download_speed.mbps * 1024.0 * 1024.0) as u64;
+            let up = (live.upload_speed.mbps * 1024.0 * 1024.0) as u64;
             let peers = (live.snapshot.peer_stats.queued + live.snapshot.peer_stats.connecting + live.snapshot.peer_stats.live) as usize;
             (down, up, peers)
         } else {
@@ -405,7 +412,7 @@ fn get_task_status(stats: &TorrentStats) -> DownloadTaskStatus {
     }
 
     match stats.state {
-        TorrentStatsState::Initializing => DownloadTaskStatus::Initializing,
+        TorrentStatsState::Initializing => DownloadTaskStatus::Checking,
         TorrentStatsState::Live => DownloadTaskStatus::Live,
         TorrentStatsState::Paused => DownloadTaskStatus::Paused,
         TorrentStatsState::Error => DownloadTaskStatus::Error,
@@ -485,7 +492,7 @@ pub async fn downloader_get_global_stats() -> Result<DownloadGlobalStat> {
         
         match task.status {
             DownloadTaskStatus::Live => stat.num_active += 1,
-            DownloadTaskStatus::Paused | DownloadTaskStatus::Initializing => stat.num_waiting += 1,
+            DownloadTaskStatus::Paused | DownloadTaskStatus::Checking => stat.num_waiting += 1,
             _ => {}
         }
     }
