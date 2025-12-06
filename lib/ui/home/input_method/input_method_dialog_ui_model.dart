@@ -257,7 +257,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
       }
       // get torrent Data
       final data = await RSHttp.get(torrentUrl!);
-      final taskId = await downloadManager.addTorrent(data.data!, outputFolder: _localTranslateModelDir);
+      final taskId = await downloadManager.addTorrent(data.data!, outputFolder: "$_localTranslateModelDir/$_localTranslateModelName");
       return taskId.toString();
     } catch (e) {
       dPrint("[InputMethodDialogUIModel] doDownloadTranslateModel error: $e");

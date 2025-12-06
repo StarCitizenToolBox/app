@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -420,6 +419,26 @@ class S {
     return Intl.message(
       'Cancel All',
       name: 'downloader_action_cancel_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear Completed`
+  String get downloader_action_clear_completed {
+    return Intl.message(
+      'Clear Completed',
+      name: 'downloader_action_clear_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove Record`
+  String get downloader_action_remove_record {
+    return Intl.message(
+      'Remove Record',
+      name: 'downloader_action_remove_record',
       desc: '',
       args: [],
     );

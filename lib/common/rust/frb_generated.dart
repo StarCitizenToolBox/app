@@ -148,6 +148,7 @@ abstract class RustLibApi extends BaseApi {
 
   Future<bool> crateApiDownloaderApiDownloaderIsNameInTask({
     required String name,
+    bool? downloadingOnly,
   });
 
   Future<void> crateApiDownloaderApiDownloaderPause({required BigInt taskId});
@@ -912,15 +913,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @override
   Future<bool> crateApiDownloaderApiDownloaderIsNameInTask({
     required String name,
+    bool? downloadingOnly,
   }) {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
           var arg0 = cst_encode_String(name);
+          var arg1 = cst_encode_opt_box_autoadd_bool(downloadingOnly);
           return wire
               .wire__crate__api__downloader_api__downloader_is_name_in_task(
                 port_,
                 arg0,
+                arg1,
               );
         },
         codec: DcoCodec(
@@ -928,7 +932,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: null,
         ),
         constMeta: kCrateApiDownloaderApiDownloaderIsNameInTaskConstMeta,
-        argValues: [name],
+        argValues: [name, downloadingOnly],
         apiImpl: this,
       ),
     );
@@ -937,7 +941,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiDownloaderApiDownloaderIsNameInTaskConstMeta =>
       const TaskConstMeta(
         debugName: "downloader_is_name_in_task",
-        argNames: ["name"],
+        argNames: ["name", "downloadingOnly"],
       );
 
   @override

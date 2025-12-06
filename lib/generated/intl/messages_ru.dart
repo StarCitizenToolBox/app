@@ -579,6 +579,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_cancel_download": MessageLookupByLibrary.simpleMessage(
       "Отменить загрузку",
     ),
+    "downloader_action_clear_completed": MessageLookupByLibrary.simpleMessage(
+      "Очистить завершённые",
+    ),
     "downloader_action_confirm_cancel_all_tasks":
         MessageLookupByLibrary.simpleMessage("Подтвердите отмену всех задач?"),
     "downloader_action_confirm_cancel_download":
@@ -592,6 +595,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "Приостановить загрузку",
+    ),
+    "downloader_action_remove_record": MessageLookupByLibrary.simpleMessage(
+      "Удалить запись",
     ),
     "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
       "Применить позже",

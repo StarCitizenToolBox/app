@@ -86,6 +86,7 @@ Future<void> downloaderResume({required BigInt taskId}) =>
     RustLib.instance.api.crateApiDownloaderApiDownloaderResume(taskId: taskId);
 
 /// Remove a download task
+/// Handles both active tasks (task_id < 10000) and cached completed tasks (task_id >= 10000)
 Future<void> downloaderRemove({
   required BigInt taskId,
   required bool deleteFiles,
@@ -100,7 +101,7 @@ Future<DownloadTaskInfo> downloaderGetTaskInfo({required BigInt taskId}) =>
       taskId: taskId,
     );
 
-/// Get all tasks
+/// Get all tasks (includes both active and completed tasks from cache)
 Future<List<DownloadTaskInfo>> downloaderGetAllTasks() =>
     RustLib.instance.api.crateApiDownloaderApiDownloaderGetAllTasks();
 
@@ -109,10 +110,17 @@ Future<DownloadGlobalStat> downloaderGetGlobalStats() =>
     RustLib.instance.api.crateApiDownloaderApiDownloaderGetGlobalStats();
 
 /// Check if a task with given name exists
-Future<bool> downloaderIsNameInTask({required String name}) => RustLib
-    .instance
-    .api
-    .crateApiDownloaderApiDownloaderIsNameInTask(name: name);
+///
+/// Parameters:
+/// - name: Task name to search for
+/// - downloading_only: If true, only search in active/waiting tasks. If false, include completed tasks (default: true)
+Future<bool> downloaderIsNameInTask({
+  required String name,
+  bool? downloadingOnly,
+}) => RustLib.instance.api.crateApiDownloaderApiDownloaderIsNameInTask(
+  name: name,
+  downloadingOnly: downloadingOnly,
+);
 
 /// Pause all tasks
 Future<void> downloaderPauseAll() =>

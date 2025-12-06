@@ -178,11 +178,11 @@ class DownloadManager extends _$DownloadManager {
     return await downloader_api.downloaderGetAllTasks();
   }
 
-  Future<bool> isNameInTask(String name) async {
+  Future<bool> isNameInTask(String name, {bool downloadingOnly = true}) async {
     if (!state.isInitialized) {
       return false;
     }
-    return await downloader_api.downloaderIsNameInTask(name: name);
+    return await downloader_api.downloaderIsNameInTask(name: name, downloadingOnly: downloadingOnly);
   }
 
   Future<void> pauseAll() async {

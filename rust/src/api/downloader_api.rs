@@ -27,6 +27,7 @@ static TORRENT_HANDLES: once_cell::sync::Lazy<RwLock<HashMap<usize, ManagedTorre
     once_cell::sync::Lazy::new(|| RwLock::new(HashMap::new()));
 
 // Store completed tasks info (in-memory cache, cleared on restart)
+// Task IDs in cache are >= 10000 and are assigned sequentially (10000 + cache_index)
 static COMPLETED_TASKS_CACHE: once_cell::sync::Lazy<RwLock<Vec<DownloadTaskInfo>>> =
     once_cell::sync::Lazy::new(|| RwLock::new(Vec::new()));
 
@@ -369,7 +370,20 @@ pub async fn downloader_resume(task_id: usize) -> Result<()> {
 }
 
 /// Remove a download task
+/// Handles both active tasks (task_id < 10000) and cached completed tasks (task_id >= 10000)
 pub async fn downloader_remove(task_id: usize, delete_files: bool) -> Result<()> {
+    // Check if this is a cached completed task (ID >= 10000)
+    if task_id >= 10000 {
+        // Remove from completed tasks cache by index (10000 + index)
+        let cache_index = task_id - 10000;
+        let mut cache = COMPLETED_TASKS_CACHE.write();
+        if cache_index < cache.len() {
+            cache.remove(cache_index);
+        }
+        return Ok(());
+    }
+
+    // Otherwise, it's an active task
     let session = get_session()?;
 
     session
@@ -454,12 +468,15 @@ fn get_task_status(stats: &TorrentStats) -> DownloadTaskStatus {
     }
 }
 
-/// Get all tasks
+/// Get all tasks (includes both active and completed tasks from cache)
 pub async fn downloader_get_all_tasks() -> Result<Vec<DownloadTaskInfo>> {
     let session_guard = SESSION.read();
     let session = match session_guard.as_ref() {
         Some(s) => s.clone(),
-        None => return Ok(vec![]),
+        None => {
+            // If session is not initialized, return only cached completed tasks
+            return Ok(COMPLETED_TASKS_CACHE.read().clone());
+        }
     };
     drop(session_guard);
 
@@ -516,7 +533,18 @@ pub async fn downloader_get_all_tasks() -> Result<Vec<DownloadTaskInfo>> {
         }
     });
 
-    Ok(tasks.into_inner())
+    // Merge cached completed tasks with IDs based on cache index (10000 + index)
+    let mut result = tasks.into_inner();
+    let completed_tasks_cache = COMPLETED_TASKS_CACHE.read();
+    
+    for (cache_index, task) in completed_tasks_cache.iter().enumerate() {
+        let mut task_with_id = task.clone();
+        // Assign ID based on cache index: 10000, 10001, 10002, etc.
+        task_with_id.id = 10000 + cache_index;
+        result.push(task_with_id);
+    }
+
+    Ok(result)
 }
 
 /// Get global statistics
@@ -540,9 +568,20 @@ pub async fn downloader_get_global_stats() -> Result<DownloadGlobalStat> {
 }
 
 /// Check if a task with given name exists
-pub async fn downloader_is_name_in_task(name: String) -> bool {
+/// 
+/// Parameters:
+/// - name: Task name to search for
+/// - downloading_only: If true, only search in active/waiting tasks. If false, include completed tasks (default: true)
+pub async fn downloader_is_name_in_task(name: String, downloading_only: Option<bool>) -> bool {
+    let downloading_only = downloading_only.unwrap_or(true);
+    
     if let Ok(tasks) = downloader_get_all_tasks().await {
         for task in tasks {
+            // If downloading_only is true, skip finished and error tasks
+            if downloading_only && (task.status == DownloadTaskStatus::Finished || task.status == DownloadTaskStatus::Error) {
+                continue;
+            }
+            
             if task.name.contains(&name) {
                 return true;
             }
@@ -640,16 +679,17 @@ pub async fn downloader_remove_completed_tasks() -> Result<u32> {
     
     for task in tasks {
         if task.status == DownloadTaskStatus::Finished {
-            // Check if handle exists (drop lock before await)
-            let has_handle = TORRENT_HANDLES.read().contains_key(&task.id);
-            if has_handle {
-                // Use TorrentIdOrHash::Id for deletion (TorrentId is just usize)
-                if session.delete(TorrentIdOrHash::Id(task.id), false).await.is_ok() {
-                    // Save task info to cache before removing
-                    COMPLETED_TASKS_CACHE.write().push(task.clone());
-                    
-                    TORRENT_HANDLES.write().remove(&task.id);
-                    removed_count += 1;
+            // Only process active tasks (id < 10000)
+            if task.id < 10000 {
+                let has_handle = TORRENT_HANDLES.read().contains_key(&task.id);
+                if has_handle {
+                    // Use TorrentIdOrHash::Id for deletion
+                    if session.delete(TorrentIdOrHash::Id(task.id), false).await.is_ok() {
+                        // Cache the task - it will get ID based on cache length
+                        COMPLETED_TASKS_CACHE.write().push(task.clone());
+                        TORRENT_HANDLES.write().remove(&task.id);
+                        removed_count += 1;
+                    }
                 }
             }
         }

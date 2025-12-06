@@ -1494,10 +1494,12 @@ class RustLibWire implements BaseWire {
   void wire__crate__api__downloader_api__downloader_is_name_in_task(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> name,
+    ffi.Pointer<ffi.Bool> downloading_only,
   ) {
     return _wire__crate__api__downloader_api__downloader_is_name_in_task(
       port_,
       name,
+      downloading_only,
     );
   }
 
@@ -1507,6 +1509,7 @@ class RustLibWire implements BaseWire {
           ffi.Void Function(
             ffi.Int64,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<ffi.Bool>,
           )
         >
       >(
@@ -1515,7 +1518,11 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__downloader_api__downloader_is_name_in_task =
       _wire__crate__api__downloader_api__downloader_is_name_in_taskPtr
           .asFunction<
-            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<ffi.Bool>,
+            )
           >();
 
   void wire__crate__api__downloader_api__downloader_pause(

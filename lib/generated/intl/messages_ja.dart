@@ -539,6 +539,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_cancel_download": MessageLookupByLibrary.simpleMessage(
       "ダウンロードをキャンセル",
     ),
+    "downloader_action_clear_completed": MessageLookupByLibrary.simpleMessage(
+      "完了をクリア",
+    ),
     "downloader_action_confirm_cancel_all_tasks":
         MessageLookupByLibrary.simpleMessage("すべてのタスクをキャンセルしますか？"),
     "downloader_action_confirm_cancel_download":
@@ -552,6 +555,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "ダウンロードを一時停止",
+    ),
+    "downloader_action_remove_record": MessageLookupByLibrary.simpleMessage(
+      "レコードを削除",
     ),
     "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
       "後で適用",

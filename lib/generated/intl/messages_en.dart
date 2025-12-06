@@ -596,6 +596,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_cancel_download": MessageLookupByLibrary.simpleMessage(
       "Cancel Download",
     ),
+    "downloader_action_clear_completed": MessageLookupByLibrary.simpleMessage(
+      "Clear Completed",
+    ),
     "downloader_action_confirm_cancel_all_tasks":
         MessageLookupByLibrary.simpleMessage(
           "Confirm cancellation of all tasks?",
@@ -615,6 +618,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "Pause Download",
+    ),
+    "downloader_action_remove_record": MessageLookupByLibrary.simpleMessage(
+      "Remove Record",
     ),
     "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
       "Apply Later",

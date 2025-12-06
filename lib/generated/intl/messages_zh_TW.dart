@@ -512,6 +512,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_cancel_download": MessageLookupByLibrary.simpleMessage(
       "取消下載",
     ),
+    "downloader_action_clear_completed": MessageLookupByLibrary.simpleMessage(
+      "清除已完成",
+    ),
     "downloader_action_confirm_cancel_all_tasks":
         MessageLookupByLibrary.simpleMessage("確認取消全部任務？"),
     "downloader_action_confirm_cancel_download":
@@ -523,6 +526,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_pause_all": MessageLookupByLibrary.simpleMessage("全部暫停"),
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "暫停下載",
+    ),
+    "downloader_action_remove_record": MessageLookupByLibrary.simpleMessage(
+      "移除記錄",
     ),
     "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
       "稍後套用",

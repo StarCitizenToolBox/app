@@ -528,6 +528,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_cancel_download": MessageLookupByLibrary.simpleMessage(
       "取消下载",
     ),
+    "downloader_action_clear_completed": MessageLookupByLibrary.simpleMessage(
+      "清除已完成",
+    ),
     "downloader_action_confirm_cancel_all_tasks":
         MessageLookupByLibrary.simpleMessage("确认取消全部任务？"),
     "downloader_action_confirm_cancel_download":
@@ -539,6 +542,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_pause_all": MessageLookupByLibrary.simpleMessage("全部暂停"),
     "downloader_action_pause_download": MessageLookupByLibrary.simpleMessage(
       "暂停下载",
+    ),
+    "downloader_action_remove_record": MessageLookupByLibrary.simpleMessage(
+      "移除记录",
     ),
     "downloader_action_restart_later": MessageLookupByLibrary.simpleMessage(
       "下次启动时生效",

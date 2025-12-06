@@ -22,7 +22,8 @@ abstract class HomeDownloaderUIState with _$HomeDownloaderUIState {
   factory HomeDownloaderUIState({
     @Default([]) List<DownloadTaskInfo> activeTasks,
     @Default([]) List<DownloadTaskInfo> waitingTasks,
-    @Default([]) List<DownloadTaskInfo> stoppedTasks,
+    @Default([]) List<DownloadTaskInfo> completedTasks,
+    @Default([]) List<DownloadTaskInfo> errorTasks,
     DownloadGlobalStat? globalStat,
   }) = _HomeDownloaderUIState;
 }
@@ -48,7 +49,8 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   final listHeaderStatusMap = {
     "active": S.current.downloader_title_downloading,
     "waiting": S.current.downloader_info_waiting,
-    "stopped": S.current.downloader_title_ended,
+    "completed": S.current.downloader_title_ended,
+    "error": S.current.downloader_info_download_failed,
   };
 
   @override
@@ -92,6 +94,17 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
           }
         }
         return;
+      case "clear_completed":
+        if (!downloadManagerState.isRunning) return;
+        try {
+          final allTasks = [...state.completedTasks, ...state.errorTasks];
+          for (var task in allTasks) {
+            await downloadManager.removeTask(task.id.toInt(), deleteFiles: false);
+          }
+        } catch (e) {
+          dPrint("DownloadsUIModel clear_completed Error: $e");
+        }
+        return;
       case "settings":
         _showDownloadSpeedSettings(context);
         return;
@@ -99,19 +112,33 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   }
 
   int getTasksLen() {
-    return state.activeTasks.length + state.waitingTasks.length + state.stoppedTasks.length;
+    return state.activeTasks.length + state.waitingTasks.length + state.completedTasks.length + state.errorTasks.length;
   }
 
   (DownloadTaskInfo, String, bool) getTaskAndType(int index) {
-    final tempList = <DownloadTaskInfo>[...state.activeTasks, ...state.waitingTasks, ...state.stoppedTasks];
+    final tempList = <DownloadTaskInfo>[
+      ...state.activeTasks,
+      ...state.waitingTasks,
+      ...state.completedTasks,
+      ...state.errorTasks,
+    ];
     if (index >= 0 && index < state.activeTasks.length) {
       return (tempList[index], "active", index == 0);
     }
     if (index >= state.activeTasks.length && index < state.activeTasks.length + state.waitingTasks.length) {
       return (tempList[index], "waiting", index == state.activeTasks.length);
     }
-    if (index >= state.activeTasks.length + state.waitingTasks.length && index < tempList.length) {
-      return (tempList[index], "stopped", index == state.activeTasks.length + state.waitingTasks.length);
+    if (index >= state.activeTasks.length + state.waitingTasks.length &&
+        index < state.activeTasks.length + state.waitingTasks.length + state.completedTasks.length) {
+      return (tempList[index], "completed", index == state.activeTasks.length + state.waitingTasks.length);
+    }
+    if (index >= state.activeTasks.length + state.waitingTasks.length + state.completedTasks.length &&
+        index < tempList.length) {
+      return (
+        tempList[index],
+        "error",
+        index == state.activeTasks.length + state.waitingTasks.length + state.completedTasks.length,
+      );
     }
     throw Exception("Index out of range or element is null");
   }
@@ -172,6 +199,11 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     }
   }
 
+  Future<void> removeTask(int taskId) async {
+    final downloadManager = ref.read(downloadManagerProvider.notifier);
+    await downloadManager.removeTask(taskId, deleteFiles: false);
+  }
+
   void openFolder(DownloadTaskInfo task) {
     final outputFolder = task.outputFolder;
     if (outputFolder.isNotEmpty) {
@@ -190,7 +222,8 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
 
           final activeTasks = <DownloadTaskInfo>[];
           final waitingTasks = <DownloadTaskInfo>[];
-          final stoppedTasks = <DownloadTaskInfo>[];
+          final completedTasks = <DownloadTaskInfo>[];
+          final errorTasks = <DownloadTaskInfo>[];
 
           for (var task in allTasks) {
             switch (task.status) {
@@ -202,8 +235,10 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
                 waitingTasks.add(task);
                 break;
               case DownloadTaskStatus.finished:
+                completedTasks.add(task);
+                break;
               case DownloadTaskStatus.error:
-                stoppedTasks.add(task);
+                errorTasks.add(task);
                 break;
             }
           }
@@ -211,11 +246,18 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
           state = state.copyWith(
             activeTasks: activeTasks,
             waitingTasks: waitingTasks,
-            stoppedTasks: stoppedTasks,
+            completedTasks: completedTasks,
+            errorTasks: errorTasks,
             globalStat: downloadManagerState.globalStat,
           );
         } else {
-          state = state.copyWith(activeTasks: [], waitingTasks: [], stoppedTasks: [], globalStat: null);
+          state = state.copyWith(
+            activeTasks: [],
+            waitingTasks: [],
+            completedTasks: [],
+            errorTasks: [],
+            globalStat: null,
+          );
         }
         await Future.delayed(const Duration(seconds: 1));
       }

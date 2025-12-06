@@ -514,6 +514,7 @@ fn wire__crate__api__downloader_api__downloader_is_initialized_impl(
 fn wire__crate__api__downloader_api__downloader_is_name_in_task_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     name: impl CstDecode<String>,
+    downloading_only: impl CstDecode<Option<bool>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -523,11 +524,16 @@ fn wire__crate__api__downloader_api__downloader_is_name_in_task_impl(
         },
         move || {
             let api_name = name.cst_decode();
+            let api_downloading_only = downloading_only.cst_decode();
             move |context| async move {
                 transform_result_dco::<_, _, ()>(
                     (move || async move {
                         let output_ok = Result::<_, ()>::Ok(
-                            crate::api::downloader_api::downloader_is_name_in_task(api_name).await,
+                            crate::api::downloader_api::downloader_is_name_in_task(
+                                api_name,
+                                api_downloading_only,
+                            )
+                            .await,
                         )?;
                         Ok(output_ok)
                     })()
@@ -4200,8 +4206,13 @@ mod io {
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__downloader_api__downloader_is_name_in_task(
         port_: i64,
         name: *mut wire_cst_list_prim_u_8_strict,
+        downloading_only: *mut bool,
     ) {
-        wire__crate__api__downloader_api__downloader_is_name_in_task_impl(port_, name)
+        wire__crate__api__downloader_api__downloader_is_name_in_task_impl(
+            port_,
+            name,
+            downloading_only,
+        )
     }
 
     #[unsafe(no_mangle)]

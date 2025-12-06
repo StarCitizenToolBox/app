@@ -33,6 +33,8 @@ class HomeDownloaderUI extends HookConsumerWidget {
                   const MapEntry("resume_all", FluentIcons.download): S.current.downloader_action_resume_all,
                 if (state.activeTasks.isNotEmpty || state.waitingTasks.isNotEmpty)
                   const MapEntry("cancel_all", FluentIcons.cancel): S.current.downloader_action_cancel_all,
+                if (state.completedTasks.isNotEmpty || state.errorTasks.isNotEmpty)
+                  const MapEntry("clear_completed", FluentIcons.clear): S.current.downloader_action_clear_completed,
               }.entries)
                 Padding(
                   padding: const EdgeInsets.only(left: 6, right: 6),
@@ -151,7 +153,7 @@ class HomeDownloaderUI extends HookConsumerWidget {
                               ],
                             ),
                             const SizedBox(width: 32),
-                            if (type != "stopped")
+                            if (type != "completed" && type != "error")
                               DropDownButton(
                                 closeAfterClick: true,
                                 title: Padding(
@@ -176,6 +178,26 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                     leading: const Icon(FluentIcons.chrome_close, size: 14),
                                     text: Text(S.current.downloader_action_cancel_download),
                                     onPressed: () => model.cancelTask(context, task.id.toInt()),
+                                  ),
+                                  MenuFlyoutItem(
+                                    leading: const Icon(FluentIcons.folder_open, size: 14),
+                                    text: Text(S.current.action_open_folder),
+                                    onPressed: () => model.openFolder(task),
+                                  ),
+                                ],
+                              )
+                            else
+                              DropDownButton(
+                                closeAfterClick: true,
+                                title: Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Text(S.current.downloader_action_options),
+                                ),
+                                items: [
+                                  MenuFlyoutItem(
+                                    leading: const Icon(FluentIcons.chrome_close, size: 14),
+                                    text: Text(S.current.downloader_action_remove_record),
+                                    onPressed: () => model.removeTask(task.id.toInt()),
                                   ),
                                   MenuFlyoutItem(
                                     leading: const Icon(FluentIcons.folder_open, size: 14),
