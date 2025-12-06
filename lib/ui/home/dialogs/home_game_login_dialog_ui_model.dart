@@ -116,8 +116,8 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     );
   }
 
-  // ignore: avoid_build_context_in_providers
   Future<void> goWebView(
+    // ignore: avoid_build_context_in_providers
     BuildContext context,
     String title,
     String url, {

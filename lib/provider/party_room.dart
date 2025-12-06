@@ -916,7 +916,7 @@ class PartyRoom extends _$PartyRoom {
     state = state.copyWith(room: state.room.copyWith(eventStreamDisconnected: false));
   }
 
-  /// 检查事件流是否处于活跃状态
+  //ignore: avoid_public_notifier_properties
   bool get isEventStreamActive => _eventStreamSubscription != null && !(_eventStreamSubscription?.isPaused ?? true);
 
   // ========== 通用服务方法 ==========

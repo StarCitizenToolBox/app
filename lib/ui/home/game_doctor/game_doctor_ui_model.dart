@@ -147,8 +147,8 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     }
   }
 
-  // ignore: avoid_build_context_in_providers
   Future _checkGameRunningLog(
+    // ignore: avoid_build_context_in_providers
     BuildContext context,
     String scInstalledPath,
     List<MapEntry<String, String>> checkResult,
@@ -203,8 +203,8 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
 
   final _cnExp = RegExp(r"[^\x00-\xff]");
 
-  // ignore: avoid_build_context_in_providers
   Future _checkPreInstall(
+    // ignore: avoid_build_context_in_providers
     BuildContext context,
     String scInstalledPath,
     List<MapEntry<String, String>> checkResult,
