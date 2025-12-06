@@ -55,9 +55,7 @@ dependencies:
   fixnum: ^1.1.1
   rust_builder:
     path: rust_builder
-  aria2:
-    git: https://github.com/xkeyC/dart_aria2_rpc.git
-  #    path: ../../xkeyC/dart_aria2_rpc
+  # aria2 has been replaced by rqbit (Rust-based torrent library)
   intl: ^0.20.2
   synchronized: ^3.4.0
   super_sliver_list: ^0.4.1

@@ -13,7 +13,7 @@ import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
-import 'package:starcitizen_doctor/provider/aria2c.dart';
+import 'package:starcitizen_doctor/provider/download_manager.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 class SplashUI extends HookConsumerWidget {
@@ -42,36 +42,36 @@ class SplashUI extends HookConsumerWidget {
         child: diagnosticMode.value
             ? _buildDiagnosticView(diagnosticLogs, step, context)
             : Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              onTap: () {
-                final now = DateTime.now();
-                final lastClick = lastClickTime.value;
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      final now = DateTime.now();
+                      final lastClick = lastClickTime.value;
 
-                // 重置计数器如果距离上次点击超过2秒
-                if (lastClick != null && now.difference(lastClick).inSeconds > 2) {
-                  clickCount.value = 0;
-                }
+                      // 重置计数器如果距离上次点击超过2秒
+                      if (lastClick != null && now.difference(lastClick).inSeconds > 2) {
+                        clickCount.value = 0;
+                      }
 
-                lastClickTime.value = now;
-                clickCount.value++;
+                      lastClickTime.value = now;
+                      clickCount.value++;
 
-                if (clickCount.value >= 10) {
-                  diagnosticMode.value = true;
-                  clickCount.value = 0;
-                }
-              },
-              child: Image.asset("assets/app_logo.png", width: 192, height: 192),
-            ),
-            const SizedBox(height: 32),
-            const ProgressRing(),
-            const SizedBox(height: 32),
-            if (step == 0) Text(S.current.app_splash_checking_availability),
-            if (step == 1) Text(S.current.app_splash_checking_for_updates),
-            if (step == 2) Text(S.current.app_splash_almost_done)
-          ],
-        ),
+                      if (clickCount.value >= 10) {
+                        diagnosticMode.value = true;
+                        clickCount.value = 0;
+                      }
+                    },
+                    child: Image.asset("assets/app_logo.png", width: 192, height: 192),
+                  ),
+                  const SizedBox(height: 32),
+                  const ProgressRing(),
+                  const SizedBox(height: 32),
+                  if (step == 0) Text(S.current.app_splash_checking_availability),
+                  if (step == 1) Text(S.current.app_splash_checking_for_updates),
+                  if (step == 2) Text(S.current.app_splash_almost_done),
+                ],
+              ),
       ),
       automaticallyImplyLeading: false,
       titleRow: Align(
@@ -124,26 +124,28 @@ class SplashUI extends HookConsumerWidget {
                   child: logs.isEmpty
                       ? Center(child: Text(S.current.splash_waiting_log))
                       : ListView.builder(
-                    itemCount: logs.length,
-                    itemBuilder: (context, index) {
-                      final log = logs[index];
-                      Color textColor = Colors.white;
-                      if (log.contains('✓')) {
-                        textColor = Colors.green;
-                      } else if (log.contains('✗') || log.contains(S.current.splash_timeout) || log.contains(S.current.splash_error)) {
-                        textColor = Colors.red;
-                      } else if (log.contains('⚠')) {
-                        textColor = Colors.orange;
-                      }
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: Text(
-                          log,
-                          style: TextStyle(fontFamily: 'Consolas', fontSize: 12, color: textColor),
+                          itemCount: logs.length,
+                          itemBuilder: (context, index) {
+                            final log = logs[index];
+                            Color textColor = Colors.white;
+                            if (log.contains('✓')) {
+                              textColor = Colors.green;
+                            } else if (log.contains('✗') ||
+                                log.contains(S.current.splash_timeout) ||
+                                log.contains(S.current.splash_error)) {
+                              textColor = Colors.red;
+                            } else if (log.contains('⚠')) {
+                              textColor = Colors.orange;
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              child: Text(
+                                log,
+                                style: TextStyle(fontFamily: 'Consolas', fontSize: 12, color: textColor),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
                 );
               },
             ),
@@ -154,12 +156,12 @@ class SplashUI extends HookConsumerWidget {
   }
 
   void _initApp(
-      BuildContext context,
-      AppGlobalModel appModel,
-      ValueNotifier<int> stepState,
-      WidgetRef ref,
-      ValueNotifier<List<String>> diagnosticLogs,
-      ) async {
+    BuildContext context,
+    AppGlobalModel appModel,
+    ValueNotifier<int> stepState,
+    WidgetRef ref,
+    ValueNotifier<List<String>> diagnosticLogs,
+  ) async {
     void addLog(String message) {
       final logMessage = '[${DateTime.now().toString().substring(11, 23)}] $message';
       diagnosticLogs.value = [...diagnosticLogs.value, logMessage];
@@ -263,12 +265,12 @@ class SplashUI extends HookConsumerWidget {
       await appModel
           .checkUpdate(context)
           .timeout(
-        const Duration(seconds: 10),
-        onTimeout: () {
-          addLog(S.current.splash_check_update_timeout);
-          return false;
-        },
-      );
+            const Duration(seconds: 10),
+            onTimeout: () {
+              addLog(S.current.splash_check_update_timeout);
+              return false;
+            },
+          );
       addLog(S.current.splash_check_update_done);
     } catch (e) {
       addLog('⚠ appModel.checkUpdate() 错误: $e - 继续执行');
@@ -277,14 +279,14 @@ class SplashUI extends HookConsumerWidget {
     addLog(S.current.splash_step1_done);
     stepState.value = 2;
 
-    // Step 2: Initialize aria2c
+    // Step 2: Initialize download manager
     addLog(S.current.splash_init_aria2c);
-    dPrint("_initApp aria2cModelProvider");
+    dPrint("_initApp downloadManagerProvider");
     try {
-      ref.read(aria2cModelProvider);
+      ref.read(downloadManagerProvider);
       addLog(S.current.splash_aria2c_done);
     } catch (e) {
-      addLog('⚠ aria2cModelProvider 初始化错误: $e');
+      addLog('⚠ downloadManagerProvider 初始化错误: $e');
     }
 
     if (!context.mounted) {

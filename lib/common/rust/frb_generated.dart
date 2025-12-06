@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/asar_api.dart';
+import 'api/downloader_api.dart';
 import 'api/http_api.dart';
 import 'api/ort_api.dart';
 import 'api/rs_process.dart';
@@ -71,7 +72,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 1161621087;
+  int get rustContentHash => -1482626931;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -96,6 +97,83 @@ abstract class RustLibApi extends BaseApi {
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host});
 
   Future<List<String>> crateApiHttpApiDnsLookupTxt({required String host});
+
+  Future<DownloadGlobalStat> crateApiDownloaderApiDownloadGlobalStatDefault();
+
+  Future<BigInt> crateApiDownloaderApiDownloaderAddMagnet({
+    required String magnetLink,
+    String? outputFolder,
+    List<String>? trackers,
+  });
+
+  Future<BigInt> crateApiDownloaderApiDownloaderAddTorrent({
+    required List<int> torrentBytes,
+    String? outputFolder,
+    List<String>? trackers,
+  });
+
+  Future<BigInt> crateApiDownloaderApiDownloaderAddUrl({
+    required String url,
+    String? outputFolder,
+    List<String>? trackers,
+  });
+
+  void crateApiDownloaderApiDownloaderClearCompletedTasksCache();
+
+  Future<List<DownloadTaskInfo>> crateApiDownloaderApiDownloaderGetAllTasks();
+
+  List<DownloadTaskInfo>
+  crateApiDownloaderApiDownloaderGetCompletedTasksCache();
+
+  Future<DownloadGlobalStat> crateApiDownloaderApiDownloaderGetGlobalStats();
+
+  Future<DownloadTaskInfo> crateApiDownloaderApiDownloaderGetTaskInfo({
+    required BigInt taskId,
+  });
+
+  Future<bool> crateApiDownloaderApiDownloaderHasActiveTasks();
+
+  bool crateApiDownloaderApiDownloaderHasPendingSessionTasks({
+    required String workingDir,
+  });
+
+  Future<void> crateApiDownloaderApiDownloaderInit({
+    required String workingDir,
+    required String defaultDownloadDir,
+    int? uploadLimitBps,
+    int? downloadLimitBps,
+  });
+
+  bool crateApiDownloaderApiDownloaderIsInitialized();
+
+  Future<bool> crateApiDownloaderApiDownloaderIsNameInTask({
+    required String name,
+    bool? downloadingOnly,
+  });
+
+  Future<void> crateApiDownloaderApiDownloaderPause({required BigInt taskId});
+
+  Future<void> crateApiDownloaderApiDownloaderPauseAll();
+
+  Future<void> crateApiDownloaderApiDownloaderRemove({
+    required BigInt taskId,
+    required bool deleteFiles,
+  });
+
+  Future<int> crateApiDownloaderApiDownloaderRemoveCompletedTasks();
+
+  Future<void> crateApiDownloaderApiDownloaderResume({required BigInt taskId});
+
+  Future<void> crateApiDownloaderApiDownloaderResumeAll();
+
+  Future<void> crateApiDownloaderApiDownloaderShutdown();
+
+  Future<void> crateApiDownloaderApiDownloaderStop();
+
+  Future<void> crateApiDownloaderApiDownloaderUpdateSpeedLimits({
+    int? uploadLimitBps,
+    int? downloadLimitBps,
+  });
 
   Future<RustHttpResponse> crateApiHttpApiFetch({
     required MyMethod method,
@@ -429,6 +507,679 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiHttpApiDnsLookupTxtConstMeta =>
       const TaskConstMeta(debugName: "dns_lookup_txt", argNames: ["host"]);
+
+  @override
+  Future<DownloadGlobalStat> crateApiDownloaderApiDownloadGlobalStatDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__downloader_api__download_global_stat_default(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_download_global_stat,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloadGlobalStatDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloadGlobalStatDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "download_global_stat_default",
+        argNames: [],
+      );
+
+  @override
+  Future<BigInt> crateApiDownloaderApiDownloaderAddMagnet({
+    required String magnetLink,
+    String? outputFolder,
+    List<String>? trackers,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(magnetLink);
+          var arg1 = cst_encode_opt_String(outputFolder);
+          var arg2 = cst_encode_opt_list_String(trackers);
+          return wire.wire__crate__api__downloader_api__downloader_add_magnet(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_usize,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderAddMagnetConstMeta,
+        argValues: [magnetLink, outputFolder, trackers],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderAddMagnetConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_add_magnet",
+        argNames: ["magnetLink", "outputFolder", "trackers"],
+      );
+
+  @override
+  Future<BigInt> crateApiDownloaderApiDownloaderAddTorrent({
+    required List<int> torrentBytes,
+    String? outputFolder,
+    List<String>? trackers,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_list_prim_u_8_loose(torrentBytes);
+          var arg1 = cst_encode_opt_String(outputFolder);
+          var arg2 = cst_encode_opt_list_String(trackers);
+          return wire.wire__crate__api__downloader_api__downloader_add_torrent(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_usize,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderAddTorrentConstMeta,
+        argValues: [torrentBytes, outputFolder, trackers],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderAddTorrentConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_add_torrent",
+        argNames: ["torrentBytes", "outputFolder", "trackers"],
+      );
+
+  @override
+  Future<BigInt> crateApiDownloaderApiDownloaderAddUrl({
+    required String url,
+    String? outputFolder,
+    List<String>? trackers,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(url);
+          var arg1 = cst_encode_opt_String(outputFolder);
+          var arg2 = cst_encode_opt_list_String(trackers);
+          return wire.wire__crate__api__downloader_api__downloader_add_url(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_usize,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderAddUrlConstMeta,
+        argValues: [url, outputFolder, trackers],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderAddUrlConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_add_url",
+        argNames: ["url", "outputFolder", "trackers"],
+      );
+
+  @override
+  void crateApiDownloaderApiDownloaderClearCompletedTasksCache() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire
+              .wire__crate__api__downloader_api__downloader_clear_completed_tasks_cache();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiDownloaderApiDownloaderClearCompletedTasksCacheConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderClearCompletedTasksCacheConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_clear_completed_tasks_cache",
+        argNames: [],
+      );
+
+  @override
+  Future<List<DownloadTaskInfo>> crateApiDownloaderApiDownloaderGetAllTasks() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__downloader_api__downloader_get_all_tasks(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_download_task_info,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderGetAllTasksConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderGetAllTasksConstMeta =>
+      const TaskConstMeta(debugName: "downloader_get_all_tasks", argNames: []);
+
+  @override
+  List<DownloadTaskInfo>
+  crateApiDownloaderApiDownloaderGetCompletedTasksCache() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire
+              .wire__crate__api__downloader_api__downloader_get_completed_tasks_cache();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_download_task_info,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiDownloaderApiDownloaderGetCompletedTasksCacheConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderGetCompletedTasksCacheConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_get_completed_tasks_cache",
+        argNames: [],
+      );
+
+  @override
+  Future<DownloadGlobalStat> crateApiDownloaderApiDownloaderGetGlobalStats() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__downloader_api__downloader_get_global_stats(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_download_global_stat,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderGetGlobalStatsConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderGetGlobalStatsConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_get_global_stats",
+        argNames: [],
+      );
+
+  @override
+  Future<DownloadTaskInfo> crateApiDownloaderApiDownloaderGetTaskInfo({
+    required BigInt taskId,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_usize(taskId);
+          return wire
+              .wire__crate__api__downloader_api__downloader_get_task_info(
+                port_,
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_download_task_info,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderGetTaskInfoConstMeta,
+        argValues: [taskId],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderGetTaskInfoConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_get_task_info",
+        argNames: ["taskId"],
+      );
+
+  @override
+  Future<bool> crateApiDownloaderApiDownloaderHasActiveTasks() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__downloader_api__downloader_has_active_tasks(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderHasActiveTasksConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderHasActiveTasksConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_has_active_tasks",
+        argNames: [],
+      );
+
+  @override
+  bool crateApiDownloaderApiDownloaderHasPendingSessionTasks({
+    required String workingDir,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_String(workingDir);
+          return wire
+              .wire__crate__api__downloader_api__downloader_has_pending_session_tasks(
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiDownloaderApiDownloaderHasPendingSessionTasksConstMeta,
+        argValues: [workingDir],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderHasPendingSessionTasksConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_has_pending_session_tasks",
+        argNames: ["workingDir"],
+      );
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderInit({
+    required String workingDir,
+    required String defaultDownloadDir,
+    int? uploadLimitBps,
+    int? downloadLimitBps,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(workingDir);
+          var arg1 = cst_encode_String(defaultDownloadDir);
+          var arg2 = cst_encode_opt_box_autoadd_u_32(uploadLimitBps);
+          var arg3 = cst_encode_opt_box_autoadd_u_32(downloadLimitBps);
+          return wire.wire__crate__api__downloader_api__downloader_init(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+            arg3,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderInitConstMeta,
+        argValues: [
+          workingDir,
+          defaultDownloadDir,
+          uploadLimitBps,
+          downloadLimitBps,
+        ],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderInitConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_init",
+        argNames: [
+          "workingDir",
+          "defaultDownloadDir",
+          "uploadLimitBps",
+          "downloadLimitBps",
+        ],
+      );
+
+  @override
+  bool crateApiDownloaderApiDownloaderIsInitialized() {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          return wire
+              .wire__crate__api__downloader_api__downloader_is_initialized();
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderIsInitializedConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderIsInitializedConstMeta =>
+      const TaskConstMeta(debugName: "downloader_is_initialized", argNames: []);
+
+  @override
+  Future<bool> crateApiDownloaderApiDownloaderIsNameInTask({
+    required String name,
+    bool? downloadingOnly,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(name);
+          var arg1 = cst_encode_opt_box_autoadd_bool(downloadingOnly);
+          return wire
+              .wire__crate__api__downloader_api__downloader_is_name_in_task(
+                port_,
+                arg0,
+                arg1,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderIsNameInTaskConstMeta,
+        argValues: [name, downloadingOnly],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderIsNameInTaskConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_is_name_in_task",
+        argNames: ["name", "downloadingOnly"],
+      );
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderPause({required BigInt taskId}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_usize(taskId);
+          return wire.wire__crate__api__downloader_api__downloader_pause(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderPauseConstMeta,
+        argValues: [taskId],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderPauseConstMeta =>
+      const TaskConstMeta(debugName: "downloader_pause", argNames: ["taskId"]);
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderPauseAll() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__downloader_api__downloader_pause_all(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderPauseAllConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderPauseAllConstMeta =>
+      const TaskConstMeta(debugName: "downloader_pause_all", argNames: []);
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderRemove({
+    required BigInt taskId,
+    required bool deleteFiles,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_usize(taskId);
+          var arg1 = cst_encode_bool(deleteFiles);
+          return wire.wire__crate__api__downloader_api__downloader_remove(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderRemoveConstMeta,
+        argValues: [taskId, deleteFiles],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderRemoveConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_remove",
+        argNames: ["taskId", "deleteFiles"],
+      );
+
+  @override
+  Future<int> crateApiDownloaderApiDownloaderRemoveCompletedTasks() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__downloader_api__downloader_remove_completed_tasks(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_32,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta:
+            kCrateApiDownloaderApiDownloaderRemoveCompletedTasksConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderRemoveCompletedTasksConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_remove_completed_tasks",
+        argNames: [],
+      );
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderResume({required BigInt taskId}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_usize(taskId);
+          return wire.wire__crate__api__downloader_api__downloader_resume(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderResumeConstMeta,
+        argValues: [taskId],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderResumeConstMeta =>
+      const TaskConstMeta(debugName: "downloader_resume", argNames: ["taskId"]);
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderResumeAll() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__downloader_api__downloader_resume_all(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderResumeAllConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderResumeAllConstMeta =>
+      const TaskConstMeta(debugName: "downloader_resume_all", argNames: []);
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderShutdown() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__downloader_api__downloader_shutdown(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderShutdownConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderShutdownConstMeta =>
+      const TaskConstMeta(debugName: "downloader_shutdown", argNames: []);
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderStop() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__downloader_api__downloader_stop(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderStopConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiDownloaderApiDownloaderStopConstMeta =>
+      const TaskConstMeta(debugName: "downloader_stop", argNames: []);
+
+  @override
+  Future<void> crateApiDownloaderApiDownloaderUpdateSpeedLimits({
+    int? uploadLimitBps,
+    int? downloadLimitBps,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_opt_box_autoadd_u_32(uploadLimitBps);
+          var arg1 = cst_encode_opt_box_autoadd_u_32(downloadLimitBps);
+          return wire
+              .wire__crate__api__downloader_api__downloader_update_speed_limits(
+                port_,
+                arg0,
+                arg1,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiDownloaderApiDownloaderUpdateSpeedLimitsConstMeta,
+        argValues: [uploadLimitBps, downloadLimitBps],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiDownloaderApiDownloaderUpdateSpeedLimitsConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloader_update_speed_limits",
+        argNames: ["uploadLimitBps", "downloadLimitBps"],
+      );
 
   @override
   Future<RustHttpResponse> crateApiHttpApiFetch({
@@ -1890,6 +2641,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
   BigInt dco_decode_box_autoadd_u_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_u_64(raw);
@@ -1901,6 +2658,53 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_web_view_configuration(raw);
+  }
+
+  @protected
+  DownloadGlobalStat dco_decode_download_global_stat(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return DownloadGlobalStat(
+      downloadSpeed: dco_decode_u_64(arr[0]),
+      uploadSpeed: dco_decode_u_64(arr[1]),
+      numActive: dco_decode_usize(arr[2]),
+      numWaiting: dco_decode_usize(arr[3]),
+    );
+  }
+
+  @protected
+  DownloadTaskInfo dco_decode_download_task_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 11)
+      throw Exception('unexpected arr length: expect 11 but see ${arr.length}');
+    return DownloadTaskInfo(
+      id: dco_decode_usize(arr[0]),
+      name: dco_decode_String(arr[1]),
+      status: dco_decode_download_task_status(arr[2]),
+      totalBytes: dco_decode_u_64(arr[3]),
+      downloadedBytes: dco_decode_u_64(arr[4]),
+      uploadedBytes: dco_decode_u_64(arr[5]),
+      downloadSpeed: dco_decode_u_64(arr[6]),
+      uploadSpeed: dco_decode_u_64(arr[7]),
+      progress: dco_decode_f_64(arr[8]),
+      numPeers: dco_decode_usize(arr[9]),
+      outputFolder: dco_decode_String(arr[10]),
+    );
+  }
+
+  @protected
+  DownloadTaskStatus dco_decode_download_task_status(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DownloadTaskStatus.values[raw as int];
+  }
+
+  @protected
+  double dco_decode_f_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as double;
   }
 
   @protected
@@ -1919,6 +2723,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<String> dco_decode_list_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_String).toList();
+  }
+
+  @protected
+  List<DownloadTaskInfo> dco_decode_list_download_task_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_download_task_info).toList();
   }
 
   @protected
@@ -1988,9 +2798,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
+  }
+
+  @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_u_64(raw);
+  }
+
+  @protected
+  List<String>? dco_decode_opt_list_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_list_String(raw);
   }
 
   @protected
@@ -2242,6 +3064,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_u_32(deserializer));
+  }
+
+  @protected
   BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_u_64(deserializer));
@@ -2253,6 +3081,67 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_web_view_configuration(deserializer));
+  }
+
+  @protected
+  DownloadGlobalStat sse_decode_download_global_stat(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_downloadSpeed = sse_decode_u_64(deserializer);
+    var var_uploadSpeed = sse_decode_u_64(deserializer);
+    var var_numActive = sse_decode_usize(deserializer);
+    var var_numWaiting = sse_decode_usize(deserializer);
+    return DownloadGlobalStat(
+      downloadSpeed: var_downloadSpeed,
+      uploadSpeed: var_uploadSpeed,
+      numActive: var_numActive,
+      numWaiting: var_numWaiting,
+    );
+  }
+
+  @protected
+  DownloadTaskInfo sse_decode_download_task_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_id = sse_decode_usize(deserializer);
+    var var_name = sse_decode_String(deserializer);
+    var var_status = sse_decode_download_task_status(deserializer);
+    var var_totalBytes = sse_decode_u_64(deserializer);
+    var var_downloadedBytes = sse_decode_u_64(deserializer);
+    var var_uploadedBytes = sse_decode_u_64(deserializer);
+    var var_downloadSpeed = sse_decode_u_64(deserializer);
+    var var_uploadSpeed = sse_decode_u_64(deserializer);
+    var var_progress = sse_decode_f_64(deserializer);
+    var var_numPeers = sse_decode_usize(deserializer);
+    var var_outputFolder = sse_decode_String(deserializer);
+    return DownloadTaskInfo(
+      id: var_id,
+      name: var_name,
+      status: var_status,
+      totalBytes: var_totalBytes,
+      downloadedBytes: var_downloadedBytes,
+      uploadedBytes: var_uploadedBytes,
+      downloadSpeed: var_downloadSpeed,
+      uploadSpeed: var_uploadSpeed,
+      progress: var_progress,
+      numPeers: var_numPeers,
+      outputFolder: var_outputFolder,
+    );
+  }
+
+  @protected
+  DownloadTaskStatus sse_decode_download_task_status(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return DownloadTaskStatus.values[inner];
+  }
+
+  @protected
+  double sse_decode_f_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getFloat64();
   }
 
   @protected
@@ -2275,6 +3164,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var ans_ = <String>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<DownloadTaskInfo> sse_decode_list_download_task_info(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <DownloadTaskInfo>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_download_task_info(deserializer));
     }
     return ans_;
   }
@@ -2397,11 +3300,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_u_32(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_u_64(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  List<String>? sse_decode_opt_list_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_list_String(deserializer));
     } else {
       return null;
     }
@@ -2641,6 +3566,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int cst_encode_download_task_status(DownloadTaskStatus raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_i_32(raw.index);
+  }
+
+  @protected
+  double cst_encode_f_64(double raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw;
+  }
+
+  @protected
   int cst_encode_i_32(int raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw;
@@ -2754,6 +3691,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_u_64(self, serializer);
@@ -2766,6 +3709,52 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_web_view_configuration(self, serializer);
+  }
+
+  @protected
+  void sse_encode_download_global_stat(
+    DownloadGlobalStat self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_64(self.downloadSpeed, serializer);
+    sse_encode_u_64(self.uploadSpeed, serializer);
+    sse_encode_usize(self.numActive, serializer);
+    sse_encode_usize(self.numWaiting, serializer);
+  }
+
+  @protected
+  void sse_encode_download_task_info(
+    DownloadTaskInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(self.id, serializer);
+    sse_encode_String(self.name, serializer);
+    sse_encode_download_task_status(self.status, serializer);
+    sse_encode_u_64(self.totalBytes, serializer);
+    sse_encode_u_64(self.downloadedBytes, serializer);
+    sse_encode_u_64(self.uploadedBytes, serializer);
+    sse_encode_u_64(self.downloadSpeed, serializer);
+    sse_encode_u_64(self.uploadSpeed, serializer);
+    sse_encode_f_64(self.progress, serializer);
+    sse_encode_usize(self.numPeers, serializer);
+    sse_encode_String(self.outputFolder, serializer);
+  }
+
+  @protected
+  void sse_encode_download_task_status(
+    DownloadTaskStatus self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_f_64(double self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putFloat64(self);
   }
 
   @protected
@@ -2786,6 +3775,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_String(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_download_task_info(
+    List<DownloadTaskInfo> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_download_task_info(item, serializer);
     }
   }
 
@@ -2908,12 +3909,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_u_32(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_u_64(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_list_String(
+    List<String>? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_String(self, serializer);
     }
   }
 

@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_build_context_in_providers, avoid_public_notifier_properties
-import 'dart:io';
 
-import 'package:aria2/aria2.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -9,9 +7,9 @@ import 'package:hive_ce/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rust/api/downloader_api.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
-import 'package:starcitizen_doctor/common/utils/provider.dart';
-import 'package:starcitizen_doctor/provider/aria2c.dart';
+import 'package:starcitizen_doctor/provider/download_manager.dart';
 
 import '../../../widgets/widgets.dart';
 
@@ -22,10 +20,11 @@ part 'home_downloader_ui_model.freezed.dart';
 @freezed
 abstract class HomeDownloaderUIState with _$HomeDownloaderUIState {
   factory HomeDownloaderUIState({
-    @Default([]) List<Aria2Task> tasks,
-    @Default([]) List<Aria2Task> waitingTasks,
-    @Default([]) List<Aria2Task> stoppedTasks,
-    Aria2GlobalStat? globalStat,
+    @Default([]) List<DownloadTaskInfo> activeTasks,
+    @Default([]) List<DownloadTaskInfo> waitingTasks,
+    @Default([]) List<DownloadTaskInfo> completedTasks,
+    @Default([]) List<DownloadTaskInfo> errorTasks,
+    DownloadGlobalStat? globalStat,
   }) = _HomeDownloaderUIState;
 }
 
@@ -40,18 +39,18 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   bool _disposed = false;
 
   final statusMap = {
-    "active": S.current.downloader_info_downloading_status,
-    "waiting": S.current.downloader_info_waiting,
+    "live": S.current.downloader_info_downloading_status,
+    "initializing": S.current.downloader_info_waiting,
     "paused": S.current.downloader_info_paused,
     "error": S.current.downloader_info_download_failed,
-    "complete": S.current.downloader_info_download_completed,
-    "removed": S.current.downloader_info_deleted,
+    "finished": S.current.downloader_info_download_completed,
   };
 
   final listHeaderStatusMap = {
     "active": S.current.downloader_title_downloading,
     "waiting": S.current.downloader_info_waiting,
-    "stopped": S.current.downloader_title_ended,
+    "completed": S.current.downloader_title_ended,
+    "error": S.current.downloader_info_download_failed,
   };
 
   @override
@@ -65,17 +64,17 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   }
 
   Future<void> onTapButton(BuildContext context, String key) async {
-    final aria2cState = ref.read(aria2cModelProvider);
+    final downloadManagerState = ref.read(downloadManagerProvider);
+    final downloadManager = ref.read(downloadManagerProvider.notifier);
+
     switch (key) {
       case "pause_all":
-        if (!aria2cState.isRunning) return;
-        await aria2cState.aria2c?.pauseAll();
-        await aria2cState.aria2c?.saveSession();
+        if (!downloadManagerState.isRunning) return;
+        await downloadManager.pauseAll();
         return;
       case "resume_all":
-        if (!aria2cState.isRunning) return;
-        await aria2cState.aria2c?.unpauseAll();
-        await aria2cState.aria2c?.saveSession();
+        if (!downloadManagerState.isRunning) return;
+        await downloadManager.resumeAll();
         return;
       case "cancel_all":
         final userOK = await showConfirmDialogs(
@@ -84,15 +83,26 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
           Text(S.current.downloader_info_manual_file_deletion_note),
         );
         if (userOK == true) {
-          if (!aria2cState.isRunning) return;
+          if (!downloadManagerState.isRunning) return;
           try {
-            for (var value in [...state.tasks, ...state.waitingTasks]) {
-              await aria2cState.aria2c?.remove(value.gid!);
+            final allTasks = [...state.activeTasks, ...state.waitingTasks];
+            for (var task in allTasks) {
+              await downloadManager.removeTask(task.id.toInt(), deleteFiles: false);
             }
-            await aria2cState.aria2c?.saveSession();
           } catch (e) {
             dPrint("DownloadsUIModel cancel_all Error:  $e");
           }
+        }
+        return;
+      case "clear_completed":
+        if (!downloadManagerState.isRunning) return;
+        try {
+          final allTasks = [...state.completedTasks, ...state.errorTasks];
+          for (var task in allTasks) {
+            await downloadManager.removeTask(task.id.toInt(), deleteFiles: false);
+          }
+        } catch (e) {
+          dPrint("DownloadsUIModel clear_completed Error: $e");
         }
         return;
       case "settings":
@@ -102,91 +112,102 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   }
 
   int getTasksLen() {
-    return state.tasks.length + state.waitingTasks.length + state.stoppedTasks.length;
+    return state.activeTasks.length + state.waitingTasks.length + state.completedTasks.length + state.errorTasks.length;
   }
 
-  (Aria2Task, String, bool) getTaskAndType(int index) {
-    final tempList = <Aria2Task>[...state.tasks, ...state.waitingTasks, ...state.stoppedTasks];
-    if (index >= 0 && index < state.tasks.length) {
+  (DownloadTaskInfo, String, bool) getTaskAndType(int index) {
+    final tempList = <DownloadTaskInfo>[
+      ...state.activeTasks,
+      ...state.waitingTasks,
+      ...state.completedTasks,
+      ...state.errorTasks,
+    ];
+    if (index >= 0 && index < state.activeTasks.length) {
       return (tempList[index], "active", index == 0);
     }
-    if (index >= state.tasks.length && index < state.tasks.length + state.waitingTasks.length) {
-      return (tempList[index], "waiting", index == state.tasks.length);
+    if (index >= state.activeTasks.length && index < state.activeTasks.length + state.waitingTasks.length) {
+      return (tempList[index], "waiting", index == state.activeTasks.length);
     }
-    if (index >= state.tasks.length + state.waitingTasks.length && index < tempList.length) {
-      return (tempList[index], "stopped", index == state.tasks.length + state.waitingTasks.length);
+    if (index >= state.activeTasks.length + state.waitingTasks.length &&
+        index < state.activeTasks.length + state.waitingTasks.length + state.completedTasks.length) {
+      return (tempList[index], "completed", index == state.activeTasks.length + state.waitingTasks.length);
+    }
+    if (index >= state.activeTasks.length + state.waitingTasks.length + state.completedTasks.length &&
+        index < tempList.length) {
+      return (
+        tempList[index],
+        "error",
+        index == state.activeTasks.length + state.waitingTasks.length + state.completedTasks.length,
+      );
     }
     throw Exception("Index out of range or element is null");
   }
 
-  static MapEntry<String, String> getTaskTypeAndName(Aria2Task task) {
-    if (task.bittorrent == null) {
-      String uri = task.files?[0]['uris'][0]['uri'] as String;
-      return MapEntry("url", uri.split('/').last);
-    } else if (task.bittorrent != null) {
-      if (task.bittorrent!.containsKey('info')) {
-        var btName = task.bittorrent?["info"]["name"];
-        return MapEntry("torrent", btName ?? 'torrent');
-      } else {
-        return MapEntry("magnet", '[METADATA]${task.infoHash}');
-      }
-    } else {
-      return const MapEntry("metaLink", '==========metaLink============');
+  static MapEntry<String, String> getTaskTypeAndName(DownloadTaskInfo task) {
+    // All tasks in rqbit are torrent-based
+    return MapEntry("torrent", task.name);
+  }
+
+  int getETA(DownloadTaskInfo task) {
+    if (task.downloadSpeed == BigInt.zero) return 0;
+    final remainingBytes = task.totalBytes - task.downloadedBytes;
+    return (remainingBytes ~/ task.downloadSpeed).toInt();
+  }
+
+  String getStatusString(DownloadTaskStatus status) {
+    switch (status) {
+      case DownloadTaskStatus.live:
+        return "live";
+      case DownloadTaskStatus.checking:
+        return "checking";
+      case DownloadTaskStatus.paused:
+        return "paused";
+      case DownloadTaskStatus.error:
+        return "error";
+      case DownloadTaskStatus.finished:
+        return "finished";
     }
   }
 
-  int getETA(Aria2Task task) {
-    if (task.downloadSpeed == null || task.downloadSpeed == 0) return 0;
-    final remainingBytes = (task.totalLength ?? 0) - (task.completedLength ?? 0);
-    return remainingBytes ~/ (task.downloadSpeed!);
+  /// 获取校验进度字符串（百分比）
+  String getCheckingProgressString(DownloadTaskInfo task) {
+    final percent = (task.progress * 100).toStringAsFixed(1);
+    return S.current.downloader_info_checking_progress(percent);
   }
 
-  Future<void> resumeTask(String? gid) async {
-    final aria2c = ref.read(aria2cModelProvider).aria2c;
-    if (gid != null) {
-      await aria2c?.unpause(gid);
-    }
+  Future<void> resumeTask(int taskId) async {
+    final downloadManager = ref.read(downloadManagerProvider.notifier);
+    await downloadManager.resumeTask(taskId);
   }
 
-  Future<void> pauseTask(String? gid) async {
-    final aria2c = ref.read(aria2cModelProvider).aria2c;
-    if (gid != null) {
-      await aria2c?.pause(gid);
-    }
+  Future<void> pauseTask(int taskId) async {
+    final downloadManager = ref.read(downloadManagerProvider.notifier);
+    await downloadManager.pauseTask(taskId);
   }
 
-  Future<void> cancelTask(BuildContext context, String? gid) async {
+  Future<void> cancelTask(BuildContext context, int taskId) async {
     await Future.delayed(const Duration(milliseconds: 300));
-    if (gid != null) {
-      if (!context.mounted) return;
-      final ok = await showConfirmDialogs(
-        context,
-        S.current.downloader_action_confirm_cancel_download,
-        Text(S.current.downloader_info_manual_file_deletion_note),
-      );
-      if (ok == true) {
-        final aria2c = ref.read(aria2cModelProvider).aria2c;
-        await aria2c?.remove(gid);
-        await aria2c?.saveSession();
-      }
+    if (!context.mounted) return;
+    final ok = await showConfirmDialogs(
+      context,
+      S.current.downloader_action_confirm_cancel_download,
+      Text(S.current.downloader_info_manual_file_deletion_note),
+    );
+    if (ok == true) {
+      final downloadManager = ref.read(downloadManagerProvider.notifier);
+      await downloadManager.removeTask(taskId, deleteFiles: false);
     }
   }
 
-  List<Aria2File> getFilesFormTask(Aria2Task task) {
-    List<Aria2File> l = [];
-    if (task.files != null) {
-      for (var element in task.files!) {
-        final f = Aria2File.fromJson(element);
-        l.add(f);
-      }
-    }
-    return l;
+  Future<void> removeTask(int taskId) async {
+    final downloadManager = ref.read(downloadManagerProvider.notifier);
+    await downloadManager.removeTask(taskId, deleteFiles: false);
   }
 
-  void openFolder(Aria2Task task) {
-    final f = getFilesFormTask(task).firstOrNull;
-    if (f != null) {
-      SystemHelper.openDir(File(f.path!).absolute.path.replaceAll("/", "\\"));
+  void openFolder(DownloadTaskInfo task) {
+    final outputFolder = task.outputFolder;
+    if (outputFolder.isNotEmpty) {
+      SystemHelper.openDir(outputFolder.replaceAll("/", "\\"));
     }
   }
 
@@ -194,21 +215,49 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     try {
       while (true) {
         if (_disposed) return;
-        final aria2cState = ref.read(aria2cModelProvider);
-        if (aria2cState.isRunning) {
-          final aria2c = aria2cState.aria2c!;
-          final tasks = await aria2c.tellActive();
-          final waitingTasks = await aria2c.tellWaiting(0, 1000000);
-          final stoppedTasks = await aria2c.tellStopped(0, 1000000);
-          final globalStat = await aria2c.getGlobalStat();
+        final downloadManagerState = ref.read(downloadManagerProvider);
+        if (downloadManagerState.isRunning) {
+          final downloadManager = ref.read(downloadManagerProvider.notifier);
+          final allTasks = await downloadManager.getAllTasks();
+
+          final activeTasks = <DownloadTaskInfo>[];
+          final waitingTasks = <DownloadTaskInfo>[];
+          final completedTasks = <DownloadTaskInfo>[];
+          final errorTasks = <DownloadTaskInfo>[];
+
+          for (var task in allTasks) {
+            switch (task.status) {
+              case DownloadTaskStatus.live:
+                activeTasks.add(task);
+                break;
+              case DownloadTaskStatus.checking:
+              case DownloadTaskStatus.paused:
+                waitingTasks.add(task);
+                break;
+              case DownloadTaskStatus.finished:
+                completedTasks.add(task);
+                break;
+              case DownloadTaskStatus.error:
+                errorTasks.add(task);
+                break;
+            }
+          }
+
           state = state.copyWith(
-            tasks: tasks,
+            activeTasks: activeTasks,
             waitingTasks: waitingTasks,
-            stoppedTasks: stoppedTasks,
-            globalStat: globalStat,
+            completedTasks: completedTasks,
+            errorTasks: errorTasks,
+            globalStat: downloadManagerState.globalStat,
           );
         } else {
-          state = state.copyWith(tasks: [], waitingTasks: [], stoppedTasks: [], globalStat: null);
+          state = state.copyWith(
+            activeTasks: [],
+            waitingTasks: [],
+            completedTasks: [],
+            errorTasks: [],
+            globalStat: null,
+          );
         }
         await Future.delayed(const Duration(seconds: 1));
       }
@@ -266,22 +315,51 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
       ),
     );
     if (ok == true) {
-      final aria2cState = ref.read(aria2cModelProvider);
-      final aria2cModel = ref.read(aria2cModelProvider.notifier);
-      await aria2cModel.launchDaemon(appGlobalState.applicationBinaryModuleDir!);
-      final aria2c = aria2cState.aria2c!;
-      final upByte = aria2cModel.textToByte(upCtrl.text.trim());
-      final downByte = aria2cModel.textToByte(downCtrl.text.trim());
-      final r = await aria2c
-          .changeGlobalOption(
-            Aria2Option()
-              ..maxOverallUploadLimit = upByte
-              ..maxOverallDownloadLimit = downByte,
-          )
-          .unwrap();
-      if (r != null) {
-        await box.put('downloader_up_limit', upCtrl.text.trim());
-        await box.put('downloader_down_limit', downCtrl.text.trim());
+      // Save the settings
+      await box.put('downloader_up_limit', upCtrl.text.trim());
+      await box.put('downloader_down_limit', downCtrl.text.trim());
+
+      // Ask user if they want to restart the download manager now
+      if (context.mounted) {
+        final restartNow = await showDialog<bool>(
+          context: context,
+          builder: (context) => ContentDialog(
+            title: Text(S.current.downloader_speed_limit_settings),
+            content: Text(S.current.downloader_info_restart_manager_to_apply),
+            actions: [
+              Button(
+                child: Text(S.current.downloader_action_restart_later),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              FilledButton(
+                child: Text(S.current.downloader_action_restart_now),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          ),
+        );
+
+        if (restartNow == true) {
+          // Get the download manager and restart it with new settings
+          final downloadManager = ref.read(downloadManagerProvider.notifier);
+          final upLimit = downloadManager.textToByte(upCtrl.text.trim());
+          final downLimit = downloadManager.textToByte(downCtrl.text.trim());
+
+          try {
+            await downloadManager.restart(
+              uploadLimitBps: upLimit > 0 ? upLimit : null,
+              downloadLimitBps: downLimit > 0 ? downLimit : null,
+            );
+            if (context.mounted) {
+              showToast(context, S.current.downloader_info_speed_limit_saved_restart_required);
+            }
+          } catch (e) {
+            dPrint("Failed to restart download manager: $e");
+            if (context.mounted) {
+              showToast(context, "Failed to restart: $e");
+            }
+          }
+        }
       }
     }
   }

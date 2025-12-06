@@ -28,10 +28,9 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -425,6 +424,26 @@ class S {
     );
   }
 
+  /// `Clear Completed`
+  String get downloader_action_clear_completed {
+    return Intl.message(
+      'Clear Completed',
+      name: 'downloader_action_clear_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove Record`
+  String get downloader_action_remove_record {
+    return Intl.message(
+      'Remove Record',
+      name: 'downloader_action_remove_record',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No download tasks`
   String get downloader_info_no_download_tasks {
     return Intl.message(
@@ -442,16 +461,6 @@ class S {
       name: 'downloader_info_total_size',
       desc: '',
       args: [v1],
-    );
-  }
-
-  /// `Verifying... ({v2})`
-  String downloader_info_verifying(Object v2) {
-    return Intl.message(
-      'Verifying... ($v2)',
-      name: 'downloader_info_verifying',
-      desc: '',
-      args: [v2],
     );
   }
 
@@ -490,6 +499,16 @@ class S {
     return Intl.message(
       'Downloaded: $v0',
       name: 'downloader_info_downloaded',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Checked: {v0}`
+  String downloader_info_checked(Object v0) {
+    return Intl.message(
+      'Checked: $v0',
+      name: 'downloader_info_checked',
       desc: '',
       args: [v0],
     );
@@ -562,6 +581,26 @@ class S {
       name: 'downloader_info_downloading_status',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Checking`
+  String get downloader_info_checking {
+    return Intl.message(
+      'Checking',
+      name: 'downloader_info_checking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking... ({v0}%)`
+  String downloader_info_checking_progress(Object v0) {
+    return Intl.message(
+      'Checking... ($v0%)',
+      name: 'downloader_info_checking_progress',
+      desc: '',
+      args: [v0],
     );
   }
 
@@ -710,6 +749,46 @@ class S {
     return Intl.message(
       '* P2P upload only occurs when downloading files and will close p2p connections after download completion. If you want to participate in seeding, please contact us through the About page.',
       name: 'downloader_input_info_p2p_upload_note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed limit settings saved. Will apply on next downloader start.`
+  String get downloader_info_speed_limit_saved_restart_required {
+    return Intl.message(
+      'Speed limit settings saved. Will apply on next downloader start.',
+      name: 'downloader_info_speed_limit_saved_restart_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restart Now`
+  String get downloader_action_restart_now {
+    return Intl.message(
+      'Restart Now',
+      name: 'downloader_action_restart_now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply Later`
+  String get downloader_action_restart_later {
+    return Intl.message(
+      'Apply Later',
+      name: 'downloader_action_restart_later',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed limit settings saved. Restart the download manager now to apply new settings?`
+  String get downloader_info_restart_manager_to_apply {
+    return Intl.message(
+      'Speed limit settings saved. Restart the download manager now to apply new settings?',
+      name: 'downloader_info_restart_manager_to_apply',
       desc: '',
       args: [],
     );

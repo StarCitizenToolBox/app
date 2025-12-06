@@ -8,3 +8,4 @@ pub mod asar_api;
 pub mod ort_api;
 pub mod unp4k_api;
 pub mod webview_api;
+pub mod downloader_api;

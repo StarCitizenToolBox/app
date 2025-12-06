@@ -302,7 +302,7 @@ pub fn get_gpu_info_from_registry() -> anyhow::Result<String> {
 
 /// Resolve shortcut (.lnk) file to get target path
 #[cfg(target_os = "windows")]
-pub fn resolve_shortcut(lnk_path: &str) -> anyhow::Result<String> {
+pub fn resolve_shortcut(lnk_path: String) -> anyhow::Result<String> {
     use windows::core::{HSTRING, Interface};
     use windows::Win32::System::Com::{
         CoCreateInstance, CoInitializeEx, CoUninitialize, 
@@ -327,7 +327,7 @@ pub fn resolve_shortcut(lnk_path: &str) -> anyhow::Result<String> {
             let persist_file: IPersistFile = shell_link.cast()?;
             
             // Load the shortcut file
-            let lnk_path_w = HSTRING::from(lnk_path);
+            let lnk_path_w = HSTRING::from(&lnk_path);
             persist_file.Load(windows::core::PCWSTR(lnk_path_w.as_ptr()), STGM_READ)?;
             
             // Get target path
@@ -351,7 +351,7 @@ pub fn resolve_shortcut(lnk_path: &str) -> anyhow::Result<String> {
 }
 
 #[cfg(not(target_os = "windows"))]
-pub fn resolve_shortcut(_: &str) -> anyhow::Result<String> {
+pub fn resolve_shortcut(_lnk_path: String) -> anyhow::Result<String> {
     Ok(String::new())
 }
 
