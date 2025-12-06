@@ -40,7 +40,8 @@ jobs:
               uses: KyleMayes/install-llvm-action@v2
               with:
                version: "18"
-
+            - name: Set up NASM
+              uses: ilammy/setup-nasm@v1
             - name: Flutter pub get
               run: flutter pub get  
             - name: Flutter build runner
@@ -68,4 +69,3 @@ jobs:
               with:
                 name: windows
                 path: build/windows/x64/runner/Release
-                
