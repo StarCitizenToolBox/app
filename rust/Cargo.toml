@@ -64,7 +64,7 @@ windows = { version = "0.62.2", features = [
     "Win32_System_Ioctl"
 ] }
 win32job = "2.0.3"
-wmi = "0.15"
+wmi = "0.18"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }
