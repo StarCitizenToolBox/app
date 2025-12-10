@@ -3,7 +3,7 @@ use flutter_rust_bridge::frb;
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
-use unp4k::{P4kEntry, P4kFile};
+use unp4k::{CryXmlReader, P4kEntry, P4kFile};
 
 /// P4K 文件项信息
 #[frb(dart_metadata=("freezed"))]
@@ -32,7 +32,11 @@ fn dos_datetime_to_millis(date: u16, time: u16) -> i64 {
     let days_since_epoch = {
         let mut days = 0i64;
         for y in 1970..year {
-            days += if (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0) { 366 } else { 365 };
+            days += if (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0) {
+                366
+            } else {
+                365
+            };
         }
         let days_in_months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
         if month >= 1 && month <= 12 {
@@ -45,7 +49,8 @@ fn dos_datetime_to_millis(date: u16, time: u16) -> i64 {
         days
     };
 
-    (days_since_epoch * 86400 + (hour as i64) * 3600 + (minute as i64) * 60 + (second as i64)) * 1000
+    (days_since_epoch * 86400 + (hour as i64) * 3600 + (minute as i64) * 60 + (second as i64))
+        * 1000
 }
 
 // 全局 P4K 读取器实例（用于保持状态）
@@ -132,6 +137,32 @@ pub async fn p4k_get_all_files() -> Result<Vec<P4kFileItem>> {
 pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
     // 确保文件列表已加载
     tokio::task::spawn_blocking(|| ensure_files_loaded()).await??;
+    // 获取文件 entry 的克隆
+    let entry = p4k_get_entry(file_path).await?;
+
+    // 在后台线程执行阻塞的提取操作
+    let data = tokio::task::spawn_blocking(move || {
+        let mut reader = GLOBAL_P4K_READER.lock().unwrap();
+        if reader.is_none() {
+            return Err(anyhow!("P4K reader not initialized"));
+        }
+        let data = reader.as_mut().unwrap().extract_entry(&entry)?;
+        if (entry.name.ends_with(".xml") || entry.name.ends_with(".mtl"))
+            && CryXmlReader::is_cryxml(&data)
+        {
+            let cry_xml_string = CryXmlReader::parse(&data)?;
+            return Ok(cry_xml_string.into_bytes());
+        }
+        Ok::<_, anyhow::Error>(data)
+    })
+    .await??;
+
+    Ok(data)
+}
+
+async fn p4k_get_entry(file_path: String) -> Result<P4kEntry> {
+    // 确保文件列表已加载
+    tokio::task::spawn_blocking(|| ensure_files_loaded()).await??;
 
     // 规范化路径
     let normalized_path = if file_path.starts_with("\\") {
@@ -149,34 +180,27 @@ pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
             .clone()
     };
 
-    // 在后台线程执行阻塞的提取操作
-    let data = tokio::task::spawn_blocking(move || {
-        let mut reader = GLOBAL_P4K_READER.lock().unwrap();
-        if reader.is_none() {
-            return Err(anyhow!("P4K reader not initialized"));
-        }
-        let data = reader.as_mut().unwrap().extract_entry(&entry)?;
-        Ok::<_, anyhow::Error>(data)
-    })
-    .await??;
-
-    Ok(data)
+    Ok(entry)
 }
 
 /// 提取文件到磁盘
 pub async fn p4k_extract_to_disk(file_path: String, output_path: String) -> Result<()> {
-    let data = p4k_extract_to_memory(file_path).await?;
-    
+    let entry = p4k_get_entry(file_path).await?;
+
     // 在后台线程执行阻塞的文件写入操作
     tokio::task::spawn_blocking(move || {
         let output = PathBuf::from(&output_path);
-
         // 创建父目录
         if let Some(parent) = output.parent() {
             std::fs::create_dir_all(parent)?;
         }
 
-        std::fs::write(output, data)?;
+        let mut reader_guard = GLOBAL_P4K_READER.lock().unwrap();
+        let reader = reader_guard
+            .as_mut()
+            .ok_or_else(|| anyhow!("P4K reader not initialized"))?;
+
+        unp4k::p4k_utils::extract_single_file(reader, &entry, &output, true)?;
         Ok::<_, anyhow::Error>(())
     })
     .await??;

@@ -8,7 +8,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_api.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `dos_datetime_to_millis`, `ensure_files_loaded`
+// These functions are ignored because they are not marked as `pub`: `dos_datetime_to_millis`, `ensure_files_loaded`, `p4k_get_entry`
 
 /// 打开 P4K 文件（仅打开，不读取文件列表）
 Future<void> p4KOpen({required String p4KPath}) =>

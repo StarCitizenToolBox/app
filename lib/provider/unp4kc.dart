@@ -399,10 +399,10 @@ class Unp4kCModel extends _$Unp4kCModel {
       dPrint("extractFile .... $filePath -> $fullOutputPath");
 
       // 使用 Rust API 提取到磁盘
-      await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: fullOutputPath);
+      await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: outputPath);
 
       if (mode == "extract_open") {
-        const textExt = [".txt", ".xml", ".json", ".lua", ".cfg", ".ini"];
+        const textExt = [".txt", ".xml", ".json", ".lua", ".cfg", ".ini", ".mtl"];
         const imgExt = [".png"];
         String openType = "unknown";
         for (var element in textExt) {
@@ -475,9 +475,7 @@ class Unp4kCModel extends _$Unp4kCModel {
 
             current++;
             onProgress?.call(current, total, entryPath);
-
-            final fullOutputPath = "$outputDir\\$entryPath";
-            await unp4k_api.p4KExtractToDisk(filePath: entryPath, outputPath: fullOutputPath);
+            await unp4k_api.p4KExtractToDisk(filePath: entryPath, outputPath: outputDir);
           }
 
           state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(current));
@@ -493,8 +491,7 @@ class Unp4kCModel extends _$Unp4kCModel {
           return (false, 0, S.current.tools_unp4k_extract_cancelled);
         }
 
-        final fullOutputPath = "$outputDir\\$filePath";
-        await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: fullOutputPath);
+        await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: outputDir);
 
         state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(1));
         return (true, 1, null);
@@ -609,9 +606,7 @@ class Unp4kCModel extends _$Unp4kCModel {
 
         current++;
         onProgress?.call(current, total, extractPath);
-
-        final fullOutputPath = "$outputDir\\$extractPath";
-        await unp4k_api.p4KExtractToDisk(filePath: extractPath, outputPath: fullOutputPath);
+        await unp4k_api.p4KExtractToDisk(filePath: extractPath, outputPath: outputDir);
       }
 
       state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(current));
