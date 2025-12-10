@@ -1,5 +1,6 @@
 use anyhow::{anyhow, Result};
 use flutter_rust_bridge::frb;
+use rayon::prelude::*;
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
@@ -329,7 +330,7 @@ pub struct DcbSearchMatch {
 }
 
 /// 全文搜索 DCB 记录
-pub async fn dcb_search_all(query: String, max_results: usize) -> Result<Vec<DcbSearchResult>> {
+pub async fn dcb_search_all(query: String) -> Result<Vec<DcbSearchResult>> {
     tokio::task::spawn_blocking(move || {
         let reader = GLOBAL_DCB_READER.lock().unwrap();
         let df = reader
@@ -337,48 +338,58 @@ pub async fn dcb_search_all(query: String, max_results: usize) -> Result<Vec<Dcb
             .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
 
         let query_lower = query.to_lowercase();
-        let mut results = Vec::new();
 
-        for (path, &index) in df.path_to_record() {
-            if results.len() >= max_results {
-                break;
-            }
+        // 收集所有记录路径和索引
+        let records: Vec<(String, usize)> = df
+            .path_to_record()
+            .iter()
+            .map(|(path, &index)| (path.clone(), index))
+            .collect();
 
-            // 先检查路径是否匹配
-            let path_matches = path.to_lowercase().contains(&query_lower);
+        // 使用 rayon 并发搜索
+        let mut results: Vec<DcbSearchResult> = records
+            .par_iter()
+            .filter_map(|(path, index)| {
+                // 先检查路径是否匹配
+                let path_matches = path.to_lowercase().contains(&query_lower);
 
-            // 尝试获取 XML 并搜索内容
-            if let Ok(xml) = df.record_to_xml_by_index(index, true) {
-                let mut matches = Vec::new();
+                // 尝试获取 XML 并搜索内容
+                if let Ok(xml) = df.record_to_xml_by_index(*index, true) {
+                    let mut matches = Vec::new();
 
-                for (line_num, line) in xml.lines().enumerate() {
-                    if line.to_lowercase().contains(&query_lower) {
-                        let line_content = if line.len() > 200 {
-                            format!("{}...", &line[..200])
-                        } else {
-                            line.to_string()
-                        };
-                        matches.push(DcbSearchMatch {
-                            line_number: line_num + 1,
-                            line_content,
-                        });
+                    for (line_num, line) in xml.lines().enumerate() {
+                        if line.to_lowercase().contains(&query_lower) {
+                            let line_content = if line.len() > 200 {
+                                format!("{}...", &line[..200])
+                            } else {
+                                line.to_string()
+                            };
+                            matches.push(DcbSearchMatch {
+                                line_number: line_num + 1,
+                                line_content,
+                            });
 
-                        // 每条记录最多保留 5 个匹配
-                        if matches.len() >= 5 {
-                            break;
+                            // 每条记录最多保留 5 个匹配
+                            if matches.len() >= 5 {
+                                break;
+                            }
                         }
                     }
-                }
 
-                if path_matches || !matches.is_empty() {
-                    results.push(DcbSearchResult {
-                        path: path.clone(),
-                        index,
-                        matches,
-                    });
+                    if path_matches || !matches.is_empty() {
+                        return Some(DcbSearchResult {
+                            path: path.clone(),
+                            index: *index,
+                            matches,
+                        });
+                    }
                 }
-            }
-        }
+                None
+            })
+            .collect();
+
+        // 按路径排序以保持结果稳定性
+        results.sort_by(|a, b| a.path.cmp(&b.path));
 
         Ok(results)
     })

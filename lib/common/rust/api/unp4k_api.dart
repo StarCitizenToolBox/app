@@ -63,13 +63,8 @@ Future<String> dcbRecordToXmlByIndex({required BigInt index}) =>
     RustLib.instance.api.crateApiUnp4KApiDcbRecordToXmlByIndex(index: index);
 
 /// 全文搜索 DCB 记录
-Future<List<DcbSearchResult>> dcbSearchAll({
-  required String query,
-  required BigInt maxResults,
-}) => RustLib.instance.api.crateApiUnp4KApiDcbSearchAll(
-  query: query,
-  maxResults: maxResults,
-);
+Future<List<DcbSearchResult>> dcbSearchAll({required String query}) =>
+    RustLib.instance.api.crateApiUnp4KApiDcbSearchAll(query: query);
 
 /// 导出 DCB 到磁盘
 /// merge: true = 合并为单个 XML，false = 分离为多个 XML 文件

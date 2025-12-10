@@ -116,7 +116,6 @@ abstract class RustLibApi extends BaseApi {
 
   Future<List<DcbSearchResult>> crateApiUnp4KApiDcbSearchAll({
     required String query,
-    required BigInt maxResults,
   });
 
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host});
@@ -693,35 +692,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @override
   Future<List<DcbSearchResult>> crateApiUnp4KApiDcbSearchAll({
     required String query,
-    required BigInt maxResults,
   }) {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
           var arg0 = cst_encode_String(query);
-          var arg1 = cst_encode_usize(maxResults);
-          return wire.wire__crate__api__unp4k_api__dcb_search_all(
-            port_,
-            arg0,
-            arg1,
-          );
+          return wire.wire__crate__api__unp4k_api__dcb_search_all(port_, arg0);
         },
         codec: DcoCodec(
           decodeSuccessData: dco_decode_list_dcb_search_result,
           decodeErrorData: dco_decode_AnyhowException,
         ),
         constMeta: kCrateApiUnp4KApiDcbSearchAllConstMeta,
-        argValues: [query, maxResults],
+        argValues: [query],
         apiImpl: this,
       ),
     );
   }
 
   TaskConstMeta get kCrateApiUnp4KApiDcbSearchAllConstMeta =>
-      const TaskConstMeta(
-        debugName: "dcb_search_all",
-        argNames: ["query", "maxResults"],
-      );
+      const TaskConstMeta(debugName: "dcb_search_all", argNames: ["query"]);
 
   @override
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host}) {

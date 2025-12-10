@@ -41,7 +41,7 @@ final class DcbViewerModelProvider
   }
 }
 
-String _$dcbViewerModelHash() => r'94c3542282f64917efadbe14a0ee4967220bec77';
+String _$dcbViewerModelHash() => r'f0af2a7b4451f746288e2c9565a418af80f58835';
 
 abstract class _$DcbViewerModel extends $Notifier<DcbViewerState> {
   DcbViewerState build();

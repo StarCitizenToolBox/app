@@ -4916,6 +4916,7 @@ dependencies = [
  "once_cell",
  "ort",
  "parking_lot",
+ "rayon",
  "reqwest",
  "scopeguard",
  "serde",

@@ -261,7 +261,7 @@ class DcbViewerModel extends _$DcbViewerModel {
     state = state.copyWith(isSearching: true, fullTextSearchQuery: query, viewMode: DcbViewMode.searchResults);
 
     try {
-      final apiResults = await unp4k_api.dcbSearchAll(query: query, maxResults: BigInt.from(1000000));
+      final apiResults = await unp4k_api.dcbSearchAll(query: query);
 
       // 转换为本地数据类型
       final results = apiResults.map((r) {

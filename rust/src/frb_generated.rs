@@ -332,7 +332,6 @@ fn wire__crate__api__unp4k_api__dcb_record_to_xml_by_index_impl(
 fn wire__crate__api__unp4k_api__dcb_search_all_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     query: impl CstDecode<String>,
-    max_results: impl CstDecode<usize>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -342,13 +341,10 @@ fn wire__crate__api__unp4k_api__dcb_search_all_impl(
         },
         move || {
             let api_query = query.cst_decode();
-            let api_max_results = max_results.cst_decode();
             move |context| async move {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
-                        let output_ok =
-                            crate::api::unp4k_api::dcb_search_all(api_query, api_max_results)
-                                .await?;
+                        let output_ok = crate::api::unp4k_api::dcb_search_all(api_query).await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -4649,9 +4645,8 @@ mod io {
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_search_all(
         port_: i64,
         query: *mut wire_cst_list_prim_u_8_strict,
-        max_results: usize,
     ) {
-        wire__crate__api__unp4k_api__dcb_search_all_impl(port_, query, max_results)
+        wire__crate__api__unp4k_api__dcb_search_all_impl(port_, query)
     }
 
     #[unsafe(no_mangle)]

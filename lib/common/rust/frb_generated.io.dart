@@ -1450,13 +1450,8 @@ class RustLibWire implements BaseWire {
   void wire__crate__api__unp4k_api__dcb_search_all(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> query,
-    int max_results,
   ) {
-    return _wire__crate__api__unp4k_api__dcb_search_all(
-      port_,
-      query,
-      max_results,
-    );
+    return _wire__crate__api__unp4k_api__dcb_search_all(port_, query);
   }
 
   late final _wire__crate__api__unp4k_api__dcb_search_allPtr =
@@ -1465,7 +1460,6 @@ class RustLibWire implements BaseWire {
           ffi.Void Function(
             ffi.Int64,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-            ffi.UintPtr,
           )
         >
       >(
@@ -1474,7 +1468,7 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__unp4k_api__dcb_search_all =
       _wire__crate__api__unp4k_api__dcb_search_allPtr
           .asFunction<
-            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>, int)
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
   void wire__crate__api__http_api__dns_lookup_ips(
