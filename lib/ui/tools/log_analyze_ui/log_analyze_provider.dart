@@ -40,11 +40,7 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     final result = await GameLogAnalyzer.analyzeLogFile(logFile);
     final (results, _) = result;
 
-    // 逐条添加结果以支持流式显示
-    for (final data in results) {
-      _appendResult(data);
-      await Future.delayed(Duration.zero); // 让 UI 有机会更新
-    }
+    _setResult(results);
 
     _startListenFile(logFile);
   }
@@ -64,13 +60,6 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
       debugPrint("[ToolsLogAnalyze] logFile change: ${change.type}");
       switch (change.type) {
         case ChangeType.MODIFY:
-          // 移除统计信息
-          final newList = state.value?.where((e) => e.type != "statistics").toList();
-          if (listSortReverse) {
-            state = AsyncData(newList?.reversed.toList() ?? []);
-          } else {
-            state = AsyncData(newList ?? []);
-          }
           return _launchLogAnalyze(logFile);
         case ChangeType.ADD:
         case ChangeType.REMOVE:
@@ -83,18 +72,11 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     });
   }
 
-  void _appendResult(LogAnalyzeLineData data) {
-    // 追加结果到 state
-    final currentState = state.value;
-    if (currentState != null) {
-      if (listSortReverse) {
-        // 反向排序
-        state = AsyncData([data, ...currentState]);
-      } else {
-        state = AsyncData([...currentState, data]);
-      }
+  void _setResult(List<LogAnalyzeLineData> data) {
+    if (listSortReverse) {
+      state = AsyncData(data.reversed.toList());
     } else {
-      state = AsyncData([data]);
+      state = AsyncData(data);
     }
   }
 }
