@@ -12,7 +12,7 @@ part of 'unp4kc.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$Unp4kcState implements DiagnosticableTreeMixin {
+mixin _$Unp4kcState {
 
  bool get startUp; Map<String, AppUnp4kP4kItemData>? get files; MemoryFileSystem? get fs; String get curPath; String? get endMessage; MapEntry<String, String>? get tempOpenFile; String get errorMessage; String get searchQuery; bool get isSearching;/// 搜索结果的虚拟文件系统（支持分级展示）
  MemoryFileSystem? get searchFs;/// 搜索匹配的文件路径集合
@@ -26,12 +26,6 @@ mixin _$Unp4kcState implements DiagnosticableTreeMixin {
 $Unp4kcStateCopyWith<Unp4kcState> get copyWith => _$Unp4kcStateCopyWithImpl<Unp4kcState>(this as Unp4kcState, _$identity);
 
 
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'Unp4kcState'))
-    ..add(DiagnosticsProperty('startUp', startUp))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('fs', fs))..add(DiagnosticsProperty('curPath', curPath))..add(DiagnosticsProperty('endMessage', endMessage))..add(DiagnosticsProperty('tempOpenFile', tempOpenFile))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('searchQuery', searchQuery))..add(DiagnosticsProperty('isSearching', isSearching))..add(DiagnosticsProperty('searchFs', searchFs))..add(DiagnosticsProperty('searchMatchedFiles', searchMatchedFiles))..add(DiagnosticsProperty('sortType', sortType))..add(DiagnosticsProperty('isMultiSelectMode', isMultiSelectMode))..add(DiagnosticsProperty('selectedItems', selectedItems));
-}
 
 @override
 bool operator ==(Object other) {
@@ -43,7 +37,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,startUp,const DeepCollectionEquality().hash(files),fs,curPath,endMessage,tempOpenFile,errorMessage,searchQuery,isSearching,searchFs,const DeepCollectionEquality().hash(searchMatchedFiles),sortType,isMultiSelectMode,const DeepCollectionEquality().hash(selectedItems));
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'Unp4kcState(startUp: $startUp, files: $files, fs: $fs, curPath: $curPath, endMessage: $endMessage, tempOpenFile: $tempOpenFile, errorMessage: $errorMessage, searchQuery: $searchQuery, isSearching: $isSearching, searchFs: $searchFs, searchMatchedFiles: $searchMatchedFiles, sortType: $sortType, isMultiSelectMode: $isMultiSelectMode, selectedItems: $selectedItems)';
 }
 
@@ -228,7 +222,7 @@ return $default(_that.startUp,_that.files,_that.fs,_that.curPath,_that.endMessag
 /// @nodoc
 
 
-class _Unp4kcState with DiagnosticableTreeMixin implements Unp4kcState {
+class _Unp4kcState implements Unp4kcState {
   const _Unp4kcState({required this.startUp, final  Map<String, AppUnp4kP4kItemData>? files, this.fs, required this.curPath, this.endMessage, this.tempOpenFile, this.errorMessage = "", this.searchQuery = "", this.isSearching = false, this.searchFs, final  Set<String>? searchMatchedFiles, this.sortType = Unp4kSortType.defaultSort, this.isMultiSelectMode = false, final  Set<String> selectedItems = const {}}): _files = files,_searchMatchedFiles = searchMatchedFiles,_selectedItems = selectedItems;
   
 
@@ -282,12 +276,6 @@ class _Unp4kcState with DiagnosticableTreeMixin implements Unp4kcState {
 _$Unp4kcStateCopyWith<_Unp4kcState> get copyWith => __$Unp4kcStateCopyWithImpl<_Unp4kcState>(this, _$identity);
 
 
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'Unp4kcState'))
-    ..add(DiagnosticsProperty('startUp', startUp))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('fs', fs))..add(DiagnosticsProperty('curPath', curPath))..add(DiagnosticsProperty('endMessage', endMessage))..add(DiagnosticsProperty('tempOpenFile', tempOpenFile))..add(DiagnosticsProperty('errorMessage', errorMessage))..add(DiagnosticsProperty('searchQuery', searchQuery))..add(DiagnosticsProperty('isSearching', isSearching))..add(DiagnosticsProperty('searchFs', searchFs))..add(DiagnosticsProperty('searchMatchedFiles', searchMatchedFiles))..add(DiagnosticsProperty('sortType', sortType))..add(DiagnosticsProperty('isMultiSelectMode', isMultiSelectMode))..add(DiagnosticsProperty('selectedItems', selectedItems));
-}
 
 @override
 bool operator ==(Object other) {
@@ -299,7 +287,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,startUp,const DeepCollectionEquality().hash(_files),fs,curPath,endMessage,tempOpenFile,errorMessage,searchQuery,isSearching,searchFs,const DeepCollectionEquality().hash(_searchMatchedFiles),sortType,isMultiSelectMode,const DeepCollectionEquality().hash(_selectedItems));
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'Unp4kcState(startUp: $startUp, files: $files, fs: $fs, curPath: $curPath, endMessage: $endMessage, tempOpenFile: $tempOpenFile, errorMessage: $errorMessage, searchQuery: $searchQuery, isSearching: $isSearching, searchFs: $searchFs, searchMatchedFiles: $searchMatchedFiles, sortType: $sortType, isMultiSelectMode: $isMultiSelectMode, selectedItems: $selectedItems)';
 }
 

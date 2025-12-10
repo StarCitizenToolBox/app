@@ -6148,7 +6148,6 @@ checksum = "81e544489bf3d8ef66c953931f56617f423cd4b5494be343d9b9d3dda037b9a3"
 [[package]]
 name = "unp4k_rs"
 version = "0.1.0"
-source = "git+https://github.com/StarCitizenToolBox/unp4k_rs?rev=b55d64934bde37bb1079c2c3e2996c8286532914#b55d64934bde37bb1079c2c3e2996c8286532914"
 dependencies = [
  "aes",
  "anyhow",

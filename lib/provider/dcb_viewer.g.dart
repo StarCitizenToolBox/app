@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'unp4kc.dart';
+part of 'dcb_viewer.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,52 +9,52 @@ part of 'unp4kc.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Unp4kCModel)
-const unp4kCModelProvider = Unp4kCModelProvider._();
+@ProviderFor(DcbViewerModel)
+const dcbViewerModelProvider = DcbViewerModelProvider._();
 
-final class Unp4kCModelProvider
-    extends $NotifierProvider<Unp4kCModel, Unp4kcState> {
-  const Unp4kCModelProvider._()
+final class DcbViewerModelProvider
+    extends $NotifierProvider<DcbViewerModel, DcbViewerState> {
+  const DcbViewerModelProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'unp4kCModelProvider',
+        name: r'dcbViewerModelProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$unp4kCModelHash();
+  String debugGetCreateSourceHash() => _$dcbViewerModelHash();
 
   @$internal
   @override
-  Unp4kCModel create() => Unp4kCModel();
+  DcbViewerModel create() => DcbViewerModel();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(Unp4kcState value) {
+  Override overrideWithValue(DcbViewerState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<Unp4kcState>(value),
+      providerOverride: $SyncValueProvider<DcbViewerState>(value),
     );
   }
 }
 
-String _$unp4kCModelHash() => r'68c24d50113e9e734ae8d277f65999bbef05dc05';
+String _$dcbViewerModelHash() => r'94c3542282f64917efadbe14a0ee4967220bec77';
 
-abstract class _$Unp4kCModel extends $Notifier<Unp4kcState> {
-  Unp4kcState build();
+abstract class _$DcbViewerModel extends $Notifier<DcbViewerState> {
+  DcbViewerState build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<Unp4kcState, Unp4kcState>;
+    final ref = this.ref as $Ref<DcbViewerState, DcbViewerState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<Unp4kcState, Unp4kcState>,
-              Unp4kcState,
+              AnyNotifier<DcbViewerState, DcbViewerState>,
+              DcbViewerState,
               Object?,
               Object?
             >;

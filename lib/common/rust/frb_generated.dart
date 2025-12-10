@@ -72,7 +72,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1482626931;
+  int get rustContentHash => -1903117367;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -92,6 +92,31 @@ abstract class RustLibApi extends BaseApi {
   Future<void> crateApiWin32ApiCreateDesktopShortcut({
     required String targetPath,
     required String shortcutName,
+  });
+
+  Future<void> crateApiUnp4KApiDcbClose();
+
+  Future<void> crateApiUnp4KApiDcbExportToDisk({
+    required String outputPath,
+    required String dcbPath,
+    required bool merge,
+  });
+
+  Future<BigInt> crateApiUnp4KApiDcbGetRecordCount();
+
+  Future<List<DcbRecordItem>> crateApiUnp4KApiDcbGetRecordList();
+
+  Future<bool> crateApiUnp4KApiDcbIsDataforge({required List<int> data});
+
+  Future<void> crateApiUnp4KApiDcbOpen({required List<int> data});
+
+  Future<String> crateApiUnp4KApiDcbRecordToXml({required String path});
+
+  Future<String> crateApiUnp4KApiDcbRecordToXmlByIndex({required BigInt index});
+
+  Future<List<DcbSearchResult>> crateApiUnp4KApiDcbSearchAll({
+    required String query,
+    required BigInt maxResults,
   });
 
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host});
@@ -462,6 +487,240 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "create_desktop_shortcut",
         argNames: ["targetPath", "shortcutName"],
+      );
+
+  @override
+  Future<void> crateApiUnp4KApiDcbClose() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_api__dcb_close(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbCloseConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbCloseConstMeta =>
+      const TaskConstMeta(debugName: "dcb_close", argNames: []);
+
+  @override
+  Future<void> crateApiUnp4KApiDcbExportToDisk({
+    required String outputPath,
+    required String dcbPath,
+    required bool merge,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(outputPath);
+          var arg1 = cst_encode_String(dcbPath);
+          var arg2 = cst_encode_bool(merge);
+          return wire.wire__crate__api__unp4k_api__dcb_export_to_disk(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbExportToDiskConstMeta,
+        argValues: [outputPath, dcbPath, merge],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbExportToDiskConstMeta =>
+      const TaskConstMeta(
+        debugName: "dcb_export_to_disk",
+        argNames: ["outputPath", "dcbPath", "merge"],
+      );
+
+  @override
+  Future<BigInt> crateApiUnp4KApiDcbGetRecordCount() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_api__dcb_get_record_count(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_usize,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbGetRecordCountConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbGetRecordCountConstMeta =>
+      const TaskConstMeta(debugName: "dcb_get_record_count", argNames: []);
+
+  @override
+  Future<List<DcbRecordItem>> crateApiUnp4KApiDcbGetRecordList() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_api__dcb_get_record_list(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_dcb_record_item,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbGetRecordListConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbGetRecordListConstMeta =>
+      const TaskConstMeta(debugName: "dcb_get_record_list", argNames: []);
+
+  @override
+  Future<bool> crateApiUnp4KApiDcbIsDataforge({required List<int> data}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_list_prim_u_8_loose(data);
+          return wire.wire__crate__api__unp4k_api__dcb_is_dataforge(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbIsDataforgeConstMeta,
+        argValues: [data],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbIsDataforgeConstMeta =>
+      const TaskConstMeta(debugName: "dcb_is_dataforge", argNames: ["data"]);
+
+  @override
+  Future<void> crateApiUnp4KApiDcbOpen({required List<int> data}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_list_prim_u_8_loose(data);
+          return wire.wire__crate__api__unp4k_api__dcb_open(port_, arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbOpenConstMeta,
+        argValues: [data],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbOpenConstMeta =>
+      const TaskConstMeta(debugName: "dcb_open", argNames: ["data"]);
+
+  @override
+  Future<String> crateApiUnp4KApiDcbRecordToXml({required String path}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(path);
+          return wire.wire__crate__api__unp4k_api__dcb_record_to_xml(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbRecordToXmlConstMeta,
+        argValues: [path],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbRecordToXmlConstMeta =>
+      const TaskConstMeta(debugName: "dcb_record_to_xml", argNames: ["path"]);
+
+  @override
+  Future<String> crateApiUnp4KApiDcbRecordToXmlByIndex({
+    required BigInt index,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_usize(index);
+          return wire.wire__crate__api__unp4k_api__dcb_record_to_xml_by_index(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbRecordToXmlByIndexConstMeta,
+        argValues: [index],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbRecordToXmlByIndexConstMeta =>
+      const TaskConstMeta(
+        debugName: "dcb_record_to_xml_by_index",
+        argNames: ["index"],
+      );
+
+  @override
+  Future<List<DcbSearchResult>> crateApiUnp4KApiDcbSearchAll({
+    required String query,
+    required BigInt maxResults,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(query);
+          var arg1 = cst_encode_usize(maxResults);
+          return wire.wire__crate__api__unp4k_api__dcb_search_all(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_dcb_search_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiDcbSearchAllConstMeta,
+        argValues: [query, maxResults],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDcbSearchAllConstMeta =>
+      const TaskConstMeta(
+        debugName: "dcb_search_all",
+        argNames: ["query", "maxResults"],
       );
 
   @override
@@ -2661,6 +2920,43 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DcbRecordItem dco_decode_dcb_record_item(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return DcbRecordItem(
+      path: dco_decode_String(arr[0]),
+      index: dco_decode_usize(arr[1]),
+    );
+  }
+
+  @protected
+  DcbSearchMatch dco_decode_dcb_search_match(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return DcbSearchMatch(
+      lineNumber: dco_decode_usize(arr[0]),
+      lineContent: dco_decode_String(arr[1]),
+    );
+  }
+
+  @protected
+  DcbSearchResult dco_decode_dcb_search_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return DcbSearchResult(
+      path: dco_decode_String(arr[0]),
+      index: dco_decode_usize(arr[1]),
+      matches: dco_decode_list_dcb_search_match(arr[2]),
+    );
+  }
+
+  @protected
   DownloadGlobalStat dco_decode_download_global_stat(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -2723,6 +3019,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<String> dco_decode_list_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_String).toList();
+  }
+
+  @protected
+  List<DcbRecordItem> dco_decode_list_dcb_record_item(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_dcb_record_item).toList();
+  }
+
+  @protected
+  List<DcbSearchMatch> dco_decode_list_dcb_search_match(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_dcb_search_match).toList();
+  }
+
+  @protected
+  List<DcbSearchResult> dco_decode_list_dcb_search_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_dcb_search_result).toList();
   }
 
   @protected
@@ -3084,6 +3398,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DcbRecordItem sse_decode_dcb_record_item(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_path = sse_decode_String(deserializer);
+    var var_index = sse_decode_usize(deserializer);
+    return DcbRecordItem(path: var_path, index: var_index);
+  }
+
+  @protected
+  DcbSearchMatch sse_decode_dcb_search_match(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_lineNumber = sse_decode_usize(deserializer);
+    var var_lineContent = sse_decode_String(deserializer);
+    return DcbSearchMatch(
+      lineNumber: var_lineNumber,
+      lineContent: var_lineContent,
+    );
+  }
+
+  @protected
+  DcbSearchResult sse_decode_dcb_search_result(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_path = sse_decode_String(deserializer);
+    var var_index = sse_decode_usize(deserializer);
+    var var_matches = sse_decode_list_dcb_search_match(deserializer);
+    return DcbSearchResult(
+      path: var_path,
+      index: var_index,
+      matches: var_matches,
+    );
+  }
+
+  @protected
   DownloadGlobalStat sse_decode_download_global_stat(
     SseDeserializer deserializer,
   ) {
@@ -3164,6 +3510,48 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var ans_ = <String>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<DcbRecordItem> sse_decode_list_dcb_record_item(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <DcbRecordItem>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_dcb_record_item(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<DcbSearchMatch> sse_decode_list_dcb_search_match(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <DcbSearchMatch>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_dcb_search_match(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<DcbSearchResult> sse_decode_list_dcb_search_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <DcbSearchResult>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_dcb_search_result(deserializer));
     }
     return ans_;
   }
@@ -3712,6 +4100,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_dcb_record_item(
+    DcbRecordItem self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.path, serializer);
+    sse_encode_usize(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_dcb_search_match(
+    DcbSearchMatch self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(self.lineNumber, serializer);
+    sse_encode_String(self.lineContent, serializer);
+  }
+
+  @protected
+  void sse_encode_dcb_search_result(
+    DcbSearchResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.path, serializer);
+    sse_encode_usize(self.index, serializer);
+    sse_encode_list_dcb_search_match(self.matches, serializer);
+  }
+
+  @protected
   void sse_encode_download_global_stat(
     DownloadGlobalStat self,
     SseSerializer serializer,
@@ -3775,6 +4194,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_String(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_dcb_record_item(
+    List<DcbRecordItem> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_dcb_record_item(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_dcb_search_match(
+    List<DcbSearchMatch> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_dcb_search_match(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_dcb_search_result(
+    List<DcbSearchResult> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_dcb_search_result(item, serializer);
     }
   }
 

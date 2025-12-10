@@ -31,7 +31,8 @@ tokenizers = { version = "0.22.2", default-features = false, features = ["onig"]
 ndarray = "0.17.1"
 serde_json = "1.0.145"
 serde = { version = "1.0.228", features = ["derive"] }
-unp4k_rs = { git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "b55d64934bde37bb1079c2c3e2996c8286532914" }
+#unp4k_rs = { git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "5553c64b035e54610d9d1c758bae5c24d3161dde" }
+unp4k_rs = { path = "../../unp4k_rs" }
 uuid = { version = "1.19.0", features = ["v4"] }
 parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"

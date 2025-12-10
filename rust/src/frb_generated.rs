@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1482626931;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1903117367;
 
 // Section: executor
 
@@ -131,6 +131,227 @@ fn wire__crate__api__win32_api__create_desktop_shortcut_impl(
                         )?;
                         Ok(output_ok)
                     })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_close_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_close",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::dcb_close().await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_export_to_disk_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    output_path: impl CstDecode<String>,
+    dcb_path: impl CstDecode<String>,
+    merge: impl CstDecode<bool>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_export_to_disk",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_output_path = output_path.cst_decode();
+            let api_dcb_path = dcb_path.cst_decode();
+            let api_merge = merge.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::dcb_export_to_disk(
+                            api_output_path,
+                            api_dcb_path,
+                            api_merge,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_get_record_count_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_get_record_count",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::unp4k_api::dcb_get_record_count()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_get_record_list_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_get_record_list",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::dcb_get_record_list().await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_is_dataforge_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    data: impl CstDecode<Vec<u8>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_is_dataforge",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_data = data.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(crate::api::unp4k_api::dcb_is_dataforge(api_data))?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_open_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    data: impl CstDecode<Vec<u8>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_open",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_data = data.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::dcb_open(api_data).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_record_to_xml_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_record_to_xml",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_path = path.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::dcb_record_to_xml(api_path).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_record_to_xml_by_index_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    index: impl CstDecode<usize>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_record_to_xml_by_index",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_index = index.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::unp4k_api::dcb_record_to_xml_by_index(api_index).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dcb_search_all_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    query: impl CstDecode<String>,
+    max_results: impl CstDecode<usize>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dcb_search_all",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_query = query.cst_decode();
+            let api_max_results = max_results.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::unp4k_api::dcb_search_all(api_query, api_max_results)
+                                .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
                 )
             }
         },
@@ -2086,6 +2307,45 @@ impl SseDecode for bool {
     }
 }
 
+impl SseDecode for crate::api::unp4k_api::DcbRecordItem {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_path = <String>::sse_decode(deserializer);
+        let mut var_index = <usize>::sse_decode(deserializer);
+        return crate::api::unp4k_api::DcbRecordItem {
+            path: var_path,
+            index: var_index,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_api::DcbSearchMatch {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_lineNumber = <usize>::sse_decode(deserializer);
+        let mut var_lineContent = <String>::sse_decode(deserializer);
+        return crate::api::unp4k_api::DcbSearchMatch {
+            line_number: var_lineNumber,
+            line_content: var_lineContent,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_api::DcbSearchResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_path = <String>::sse_decode(deserializer);
+        let mut var_index = <usize>::sse_decode(deserializer);
+        let mut var_matches =
+            <Vec<crate::api::unp4k_api::DcbSearchMatch>>::sse_decode(deserializer);
+        return crate::api::unp4k_api::DcbSearchResult {
+            path: var_path,
+            index: var_index,
+            matches: var_matches,
+        };
+    }
+}
+
 impl SseDecode for crate::api::downloader_api::DownloadGlobalStat {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2176,6 +2436,48 @@ impl SseDecode for Vec<String> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<String>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::unp4k_api::DcbRecordItem> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::unp4k_api::DcbRecordItem>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::unp4k_api::DcbSearchMatch> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::unp4k_api::DcbSearchMatch>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::unp4k_api::DcbSearchResult> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::unp4k_api::DcbSearchResult>::sse_decode(
+                deserializer,
+            ));
         }
         return ans_;
     }
@@ -2643,6 +2945,70 @@ fn pde_ffi_dispatcher_sync_impl(
 // Section: rust2dart
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DcbRecordItem {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.path.into_into_dart().into_dart(),
+            self.index.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_api::DcbRecordItem
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::DcbRecordItem>
+    for crate::api::unp4k_api::DcbRecordItem
+{
+    fn into_into_dart(self) -> crate::api::unp4k_api::DcbRecordItem {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DcbSearchMatch {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.line_number.into_into_dart().into_dart(),
+            self.line_content.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_api::DcbSearchMatch
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::DcbSearchMatch>
+    for crate::api::unp4k_api::DcbSearchMatch
+{
+    fn into_into_dart(self) -> crate::api::unp4k_api::DcbSearchMatch {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DcbSearchResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.path.into_into_dart().into_dart(),
+            self.index.into_into_dart().into_dart(),
+            self.matches.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_api::DcbSearchResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::DcbSearchResult>
+    for crate::api::unp4k_api::DcbSearchResult
+{
+    fn into_into_dart(self) -> crate::api::unp4k_api::DcbSearchResult {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::downloader_api::DownloadGlobalStat {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -3061,6 +3427,31 @@ impl SseEncode for bool {
     }
 }
 
+impl SseEncode for crate::api::unp4k_api::DcbRecordItem {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.path, serializer);
+        <usize>::sse_encode(self.index, serializer);
+    }
+}
+
+impl SseEncode for crate::api::unp4k_api::DcbSearchMatch {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <usize>::sse_encode(self.line_number, serializer);
+        <String>::sse_encode(self.line_content, serializer);
+    }
+}
+
+impl SseEncode for crate::api::unp4k_api::DcbSearchResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.path, serializer);
+        <usize>::sse_encode(self.index, serializer);
+        <Vec<crate::api::unp4k_api::DcbSearchMatch>>::sse_encode(self.matches, serializer);
+    }
+}
+
 impl SseEncode for crate::api::downloader_api::DownloadGlobalStat {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -3134,6 +3525,36 @@ impl SseEncode for Vec<String> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <String>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::unp4k_api::DcbRecordItem> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::unp4k_api::DcbRecordItem>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::unp4k_api::DcbSearchMatch> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::unp4k_api::DcbSearchMatch>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::unp4k_api::DcbSearchResult> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::unp4k_api::DcbSearchResult>::sse_encode(item, serializer);
         }
     }
 }
@@ -3595,6 +4016,34 @@ mod io {
             CstDecode::<crate::api::webview_api::WebViewConfiguration>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<crate::api::unp4k_api::DcbRecordItem> for wire_cst_dcb_record_item {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_api::DcbRecordItem {
+            crate::api::unp4k_api::DcbRecordItem {
+                path: self.path.cst_decode(),
+                index: self.index.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::unp4k_api::DcbSearchMatch> for wire_cst_dcb_search_match {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_api::DcbSearchMatch {
+            crate::api::unp4k_api::DcbSearchMatch {
+                line_number: self.line_number.cst_decode(),
+                line_content: self.line_content.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::unp4k_api::DcbSearchResult> for wire_cst_dcb_search_result {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_api::DcbSearchResult {
+            crate::api::unp4k_api::DcbSearchResult {
+                path: self.path.cst_decode(),
+                index: self.index.cst_decode(),
+                matches: self.matches.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<crate::api::downloader_api::DownloadGlobalStat> for wire_cst_download_global_stat {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::downloader_api::DownloadGlobalStat {
@@ -3627,6 +4076,38 @@ mod io {
     impl CstDecode<Vec<String>> for *mut wire_cst_list_String {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<String> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<crate::api::unp4k_api::DcbRecordItem>> for *mut wire_cst_list_dcb_record_item {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::unp4k_api::DcbRecordItem> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<crate::api::unp4k_api::DcbSearchMatch>> for *mut wire_cst_list_dcb_search_match {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::unp4k_api::DcbSearchMatch> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<crate::api::unp4k_api::DcbSearchResult>>
+        for *mut wire_cst_list_dcb_search_result
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::unp4k_api::DcbSearchResult> {
             let vec = unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -3842,6 +4323,46 @@ mod io {
                 can_go_forward: self.can_go_forward.cst_decode(),
                 is_loading: self.is_loading.cst_decode(),
             }
+        }
+    }
+    impl NewWithNullPtr for wire_cst_dcb_record_item {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                path: core::ptr::null_mut(),
+                index: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_dcb_record_item {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_dcb_search_match {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                line_number: Default::default(),
+                line_content: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_dcb_search_match {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_dcb_search_result {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                path: core::ptr::null_mut(),
+                index: Default::default(),
+                matches: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_dcb_search_result {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
         }
     }
     impl NewWithNullPtr for wire_cst_download_global_stat {
@@ -4061,6 +4582,76 @@ mod io {
         shortcut_name: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__win32_api__create_desktop_shortcut_impl(port_, target_path, shortcut_name)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_close(port_: i64) {
+        wire__crate__api__unp4k_api__dcb_close_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_export_to_disk(
+        port_: i64,
+        output_path: *mut wire_cst_list_prim_u_8_strict,
+        dcb_path: *mut wire_cst_list_prim_u_8_strict,
+        merge: bool,
+    ) {
+        wire__crate__api__unp4k_api__dcb_export_to_disk_impl(port_, output_path, dcb_path, merge)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_get_record_count(
+        port_: i64,
+    ) {
+        wire__crate__api__unp4k_api__dcb_get_record_count_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_get_record_list(
+        port_: i64,
+    ) {
+        wire__crate__api__unp4k_api__dcb_get_record_list_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_is_dataforge(
+        port_: i64,
+        data: *mut wire_cst_list_prim_u_8_loose,
+    ) {
+        wire__crate__api__unp4k_api__dcb_is_dataforge_impl(port_, data)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_open(
+        port_: i64,
+        data: *mut wire_cst_list_prim_u_8_loose,
+    ) {
+        wire__crate__api__unp4k_api__dcb_open_impl(port_, data)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_record_to_xml(
+        port_: i64,
+        path: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__dcb_record_to_xml_impl(port_, path)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_record_to_xml_by_index(
+        port_: i64,
+        index: usize,
+    ) {
+        wire__crate__api__unp4k_api__dcb_record_to_xml_by_index_impl(port_, index)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_search_all(
+        port_: i64,
+        query: *mut wire_cst_list_prim_u_8_strict,
+        max_results: usize,
+    ) {
+        wire__crate__api__unp4k_api__dcb_search_all_impl(port_, query, max_results)
     }
 
     #[unsafe(no_mangle)]
@@ -4748,6 +5339,48 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_dcb_record_item(
+        len: i32,
+    ) -> *mut wire_cst_list_dcb_record_item {
+        let wrap = wire_cst_list_dcb_record_item {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_dcb_record_item>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_dcb_search_match(
+        len: i32,
+    ) -> *mut wire_cst_list_dcb_search_match {
+        let wrap = wire_cst_list_dcb_search_match {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_dcb_search_match>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_dcb_search_result(
+        len: i32,
+    ) -> *mut wire_cst_list_dcb_search_result {
+        let wrap = wire_cst_list_dcb_search_result {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_dcb_search_result>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_download_task_info(
         len: i32,
     ) -> *mut wire_cst_list_download_task_info {
@@ -4841,6 +5474,25 @@ mod io {
 
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_dcb_record_item {
+        path: *mut wire_cst_list_prim_u_8_strict,
+        index: usize,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_dcb_search_match {
+        line_number: usize,
+        line_content: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_dcb_search_result {
+        path: *mut wire_cst_list_prim_u_8_strict,
+        index: usize,
+        matches: *mut wire_cst_list_dcb_search_match,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_download_global_stat {
         download_speed: u64,
         upload_speed: u64,
@@ -4866,6 +5518,24 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_String {
         ptr: *mut *mut wire_cst_list_prim_u_8_strict,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_dcb_record_item {
+        ptr: *mut wire_cst_dcb_record_item,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_dcb_search_match {
+        ptr: *mut wire_cst_dcb_search_match,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_dcb_search_result {
+        ptr: *mut wire_cst_dcb_search_result,
         len: i32,
     }
     #[repr(C)]

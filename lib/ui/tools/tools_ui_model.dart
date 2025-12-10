@@ -124,6 +124,13 @@ class ToolsUIModel extends _$ToolsUIModel {
           const Icon(FontAwesomeIcons.fileZipper, size: 24),
           onTap: () => _unp4kc(context),
         ),
+        ToolsItemData(
+          "dcb_viewer",
+          S.current.tools_action_dcb_viewer,
+          S.current.tools_action_dcb_viewer_info,
+          const Icon(FluentIcons.database, size: 24),
+          onTap: () => _dcbViewer(context),
+        ),
       ]);
 
       state = state.copyWith(items: items);
@@ -700,6 +707,10 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   Future<void> _unp4kc(BuildContext context) async {
     context.push("/tools/unp4kc");
+  }
+
+  Future<void> _dcbViewer(BuildContext context) async {
+    context.push("/tools/dcb_viewer");
   }
 
   static Future<void> rsiEnhance(BuildContext context, {bool showNotGameInstallMsg = false}) async {

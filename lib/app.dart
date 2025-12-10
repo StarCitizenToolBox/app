@@ -32,6 +32,7 @@ import 'ui/home/game_doctor/game_doctor_ui.dart';
 import 'ui/home/localization/advanced_localization_ui.dart';
 import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';
+import 'ui/tools/unp4kc/dcb_viewer_ui.dart';
 import 'ui/tools/unp4kc/unp4kc_ui.dart';
 
 part 'app.g.dart';
@@ -84,6 +85,11 @@ GoRouter router(Ref ref) {
         builder: (_, _) => const SizedBox(),
         routes: [
           GoRoute(path: 'unp4kc', pageBuilder: (context, state) => myPageBuilder(context, state, const UnP4kcUI())),
+          GoRoute(
+            path: 'dcb_viewer',
+            pageBuilder: (context, state) =>
+                myPageBuilder(context, state, DcbViewerUI(initialFilePath: (state.extra as Map?)?['path'])),
+          ),
         ],
       ),
       GoRoute(path: '/guide', pageBuilder: (context, state) => myPageBuilder(context, state, const GuideUI())),

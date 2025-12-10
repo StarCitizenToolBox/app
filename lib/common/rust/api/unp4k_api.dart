@@ -38,6 +38,80 @@ Future<void> p4KExtractToDisk({
 /// 关闭 P4K 读取器
 Future<void> p4KClose() => RustLib.instance.api.crateApiUnp4KApiP4KClose();
 
+/// 检查数据是否为 DataForge/DCB 格式
+Future<bool> dcbIsDataforge({required List<int> data}) =>
+    RustLib.instance.api.crateApiUnp4KApiDcbIsDataforge(data: data);
+
+/// 从内存数据打开 DCB 文件
+Future<void> dcbOpen({required List<int> data}) =>
+    RustLib.instance.api.crateApiUnp4KApiDcbOpen(data: data);
+
+/// 获取 DCB 记录数量
+Future<BigInt> dcbGetRecordCount() =>
+    RustLib.instance.api.crateApiUnp4KApiDcbGetRecordCount();
+
+/// 获取所有 DCB 记录路径列表
+Future<List<DcbRecordItem>> dcbGetRecordList() =>
+    RustLib.instance.api.crateApiUnp4KApiDcbGetRecordList();
+
+/// 根据路径获取单条记录的 XML
+Future<String> dcbRecordToXml({required String path}) =>
+    RustLib.instance.api.crateApiUnp4KApiDcbRecordToXml(path: path);
+
+/// 根据索引获取单条记录的 XML
+Future<String> dcbRecordToXmlByIndex({required BigInt index}) =>
+    RustLib.instance.api.crateApiUnp4KApiDcbRecordToXmlByIndex(index: index);
+
+/// 全文搜索 DCB 记录
+Future<List<DcbSearchResult>> dcbSearchAll({
+  required String query,
+  required BigInt maxResults,
+}) => RustLib.instance.api.crateApiUnp4KApiDcbSearchAll(
+  query: query,
+  maxResults: maxResults,
+);
+
+/// 导出 DCB 到磁盘
+/// merge: true = 合并为单个 XML，false = 分离为多个 XML 文件
+Future<void> dcbExportToDisk({
+  required String outputPath,
+  required String dcbPath,
+  required bool merge,
+}) => RustLib.instance.api.crateApiUnp4KApiDcbExportToDisk(
+  outputPath: outputPath,
+  dcbPath: dcbPath,
+  merge: merge,
+);
+
+/// 关闭 DCB 读取器
+Future<void> dcbClose() => RustLib.instance.api.crateApiUnp4KApiDcbClose();
+
+/// DCB 记录项信息
+@freezed
+sealed class DcbRecordItem with _$DcbRecordItem {
+  const factory DcbRecordItem({required String path, required BigInt index}) =
+      _DcbRecordItem;
+}
+
+@freezed
+sealed class DcbSearchMatch with _$DcbSearchMatch {
+  const factory DcbSearchMatch({
+    required BigInt lineNumber,
+    required String lineContent,
+  }) = _DcbSearchMatch;
+}
+
+/// 全文搜索 DCB 记录
+/// 返回匹配的记录路径和预览摘要
+@freezed
+sealed class DcbSearchResult with _$DcbSearchResult {
+  const factory DcbSearchResult({
+    required String path,
+    required BigInt index,
+    required List<DcbSearchMatch> matches,
+  }) = _DcbSearchResult;
+}
+
 /// P4K 文件项信息
 @freezed
 sealed class P4kFileItem with _$P4kFileItem {

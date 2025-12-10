@@ -359,7 +359,7 @@ class _FileListItem extends HookWidget {
                 final dirName = item.name?.replaceAll(state.curPath.trim(), "") ?? "";
                 model.changeDir(dirName);
               } else {
-                model.openFile(item.name ?? "");
+                model.openFile(item.name ?? "", context: context);
               }
             },
             icon: Padding(

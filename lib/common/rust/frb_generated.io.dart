@@ -62,6 +62,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  DcbRecordItem dco_decode_dcb_record_item(dynamic raw);
+
+  @protected
+  DcbSearchMatch dco_decode_dcb_search_match(dynamic raw);
+
+  @protected
+  DcbSearchResult dco_decode_dcb_search_result(dynamic raw);
+
+  @protected
   DownloadGlobalStat dco_decode_download_global_stat(dynamic raw);
 
   @protected
@@ -81,6 +90,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> dco_decode_list_String(dynamic raw);
+
+  @protected
+  List<DcbRecordItem> dco_decode_list_dcb_record_item(dynamic raw);
+
+  @protected
+  List<DcbSearchMatch> dco_decode_list_dcb_search_match(dynamic raw);
+
+  @protected
+  List<DcbSearchResult> dco_decode_list_dcb_search_result(dynamic raw);
 
   @protected
   List<DownloadTaskInfo> dco_decode_list_download_task_info(dynamic raw);
@@ -221,6 +239,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  DcbRecordItem sse_decode_dcb_record_item(SseDeserializer deserializer);
+
+  @protected
+  DcbSearchMatch sse_decode_dcb_search_match(SseDeserializer deserializer);
+
+  @protected
+  DcbSearchResult sse_decode_dcb_search_result(SseDeserializer deserializer);
+
+  @protected
   DownloadGlobalStat sse_decode_download_global_stat(
     SseDeserializer deserializer,
   );
@@ -244,6 +271,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  List<DcbRecordItem> sse_decode_list_dcb_record_item(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  List<DcbSearchMatch> sse_decode_list_dcb_search_match(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  List<DcbSearchResult> sse_decode_list_dcb_search_result(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<DownloadTaskInfo> sse_decode_list_download_task_info(
@@ -458,6 +500,41 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_dcb_record_item> cst_encode_list_dcb_record_item(
+    List<DcbRecordItem> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_dcb_record_item(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_dcb_record_item(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_dcb_search_match> cst_encode_list_dcb_search_match(
+    List<DcbSearchMatch> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_dcb_search_match(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_dcb_search_match(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_dcb_search_result>
+  cst_encode_list_dcb_search_result(List<DcbSearchResult> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_dcb_search_result(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_dcb_search_result(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_download_task_info>
   cst_encode_list_download_task_info(List<DownloadTaskInfo> raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -609,6 +686,34 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     ffi.Pointer<wire_cst_web_view_configuration> wireObj,
   ) {
     cst_api_fill_to_wire_web_view_configuration(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_dcb_record_item(
+    DcbRecordItem apiObj,
+    wire_cst_dcb_record_item wireObj,
+  ) {
+    wireObj.path = cst_encode_String(apiObj.path);
+    wireObj.index = cst_encode_usize(apiObj.index);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_dcb_search_match(
+    DcbSearchMatch apiObj,
+    wire_cst_dcb_search_match wireObj,
+  ) {
+    wireObj.line_number = cst_encode_usize(apiObj.lineNumber);
+    wireObj.line_content = cst_encode_String(apiObj.lineContent);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_dcb_search_result(
+    DcbSearchResult apiObj,
+    wire_cst_dcb_search_result wireObj,
+  ) {
+    wireObj.path = cst_encode_String(apiObj.path);
+    wireObj.index = cst_encode_usize(apiObj.index);
+    wireObj.matches = cst_encode_list_dcb_search_match(apiObj.matches);
   }
 
   @protected
@@ -866,6 +971,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_dcb_record_item(DcbRecordItem self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_dcb_search_match(
+    DcbSearchMatch self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_dcb_search_result(
+    DcbSearchResult self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_download_global_stat(
     DownloadGlobalStat self,
     SseSerializer serializer,
@@ -894,6 +1014,24 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_dcb_record_item(
+    List<DcbRecordItem> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_dcb_search_match(
+    List<DcbSearchMatch> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_dcb_search_result(
+    List<DcbSearchResult> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_download_task_info(
@@ -1145,6 +1283,198 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
             )
+          >();
+
+  void wire__crate__api__unp4k_api__dcb_close(int port_) {
+    return _wire__crate__api__unp4k_api__dcb_close(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_closePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_close',
+      );
+  late final _wire__crate__api__unp4k_api__dcb_close =
+      _wire__crate__api__unp4k_api__dcb_closePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__dcb_export_to_disk(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> dcb_path,
+    bool merge,
+  ) {
+    return _wire__crate__api__unp4k_api__dcb_export_to_disk(
+      port_,
+      output_path,
+      dcb_path,
+      merge,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_export_to_diskPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Bool,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_export_to_disk',
+      );
+  late final _wire__crate__api__unp4k_api__dcb_export_to_disk =
+      _wire__crate__api__unp4k_api__dcb_export_to_diskPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              bool,
+            )
+          >();
+
+  void wire__crate__api__unp4k_api__dcb_get_record_count(int port_) {
+    return _wire__crate__api__unp4k_api__dcb_get_record_count(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_get_record_countPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_get_record_count',
+      );
+  late final _wire__crate__api__unp4k_api__dcb_get_record_count =
+      _wire__crate__api__unp4k_api__dcb_get_record_countPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__dcb_get_record_list(int port_) {
+    return _wire__crate__api__unp4k_api__dcb_get_record_list(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_get_record_listPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_get_record_list',
+      );
+  late final _wire__crate__api__unp4k_api__dcb_get_record_list =
+      _wire__crate__api__unp4k_api__dcb_get_record_listPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__dcb_is_dataforge(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> data,
+  ) {
+    return _wire__crate__api__unp4k_api__dcb_is_dataforge(port_, data);
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_is_dataforgePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_is_dataforge',
+      );
+  late final _wire__crate__api__unp4k_api__dcb_is_dataforge =
+      _wire__crate__api__unp4k_api__dcb_is_dataforgePtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_loose>)
+          >();
+
+  void wire__crate__api__unp4k_api__dcb_open(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> data,
+  ) {
+    return _wire__crate__api__unp4k_api__dcb_open(port_, data);
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_openPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+          )
+        >
+      >('frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_open');
+  late final _wire__crate__api__unp4k_api__dcb_open =
+      _wire__crate__api__unp4k_api__dcb_openPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_loose>)
+          >();
+
+  void wire__crate__api__unp4k_api__dcb_record_to_xml(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> path,
+  ) {
+    return _wire__crate__api__unp4k_api__dcb_record_to_xml(port_, path);
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_record_to_xmlPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_record_to_xml',
+      );
+  late final _wire__crate__api__unp4k_api__dcb_record_to_xml =
+      _wire__crate__api__unp4k_api__dcb_record_to_xmlPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__unp4k_api__dcb_record_to_xml_by_index(
+    int port_,
+    int index,
+  ) {
+    return _wire__crate__api__unp4k_api__dcb_record_to_xml_by_index(
+      port_,
+      index,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_record_to_xml_by_indexPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_record_to_xml_by_index',
+      );
+  late final _wire__crate__api__unp4k_api__dcb_record_to_xml_by_index =
+      _wire__crate__api__unp4k_api__dcb_record_to_xml_by_indexPtr
+          .asFunction<void Function(int, int)>();
+
+  void wire__crate__api__unp4k_api__dcb_search_all(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> query,
+    int max_results,
+  ) {
+    return _wire__crate__api__unp4k_api__dcb_search_all(
+      port_,
+      query,
+      max_results,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__dcb_search_allPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.UintPtr,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dcb_search_all',
+      );
+  late final _wire__crate__api__unp4k_api__dcb_search_all =
+      _wire__crate__api__unp4k_api__dcb_search_allPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>, int)
           >();
 
   void wire__crate__api__http_api__dns_lookup_ips(
@@ -2989,6 +3319,54 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_String = _cst_new_list_StringPtr
       .asFunction<ffi.Pointer<wire_cst_list_String> Function(int)>();
 
+  ffi.Pointer<wire_cst_list_dcb_record_item> cst_new_list_dcb_record_item(
+    int len,
+  ) {
+    return _cst_new_list_dcb_record_item(len);
+  }
+
+  late final _cst_new_list_dcb_record_itemPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_dcb_record_item> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_dcb_record_item');
+  late final _cst_new_list_dcb_record_item = _cst_new_list_dcb_record_itemPtr
+      .asFunction<ffi.Pointer<wire_cst_list_dcb_record_item> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_dcb_search_match> cst_new_list_dcb_search_match(
+    int len,
+  ) {
+    return _cst_new_list_dcb_search_match(len);
+  }
+
+  late final _cst_new_list_dcb_search_matchPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_dcb_search_match> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_dcb_search_match');
+  late final _cst_new_list_dcb_search_match = _cst_new_list_dcb_search_matchPtr
+      .asFunction<ffi.Pointer<wire_cst_list_dcb_search_match> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_dcb_search_result> cst_new_list_dcb_search_result(
+    int len,
+  ) {
+    return _cst_new_list_dcb_search_result(len);
+  }
+
+  late final _cst_new_list_dcb_search_resultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_dcb_search_result> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_dcb_search_result');
+  late final _cst_new_list_dcb_search_result =
+      _cst_new_list_dcb_search_resultPtr
+          .asFunction<
+            ffi.Pointer<wire_cst_list_dcb_search_result> Function(int)
+          >();
+
   ffi.Pointer<wire_cst_list_download_task_info> cst_new_list_download_task_info(
     int len,
   ) {
@@ -3125,15 +3503,15 @@ final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
   external int len;
 }
 
-final class wire_cst_list_String extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
+final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
 
   @ffi.Int32()
   external int len;
 }
 
-final class wire_cst_list_prim_u_8_loose extends ffi.Struct {
-  external ffi.Pointer<ffi.Uint8> ptr;
+final class wire_cst_list_String extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8_strict>> ptr;
 
   @ffi.Int32()
   external int len;
@@ -3178,6 +3556,50 @@ final class wire_cst_web_view_configuration extends ffi.Struct {
   external bool transparent;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> user_agent;
+}
+
+final class wire_cst_dcb_record_item extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> path;
+
+  @ffi.UintPtr()
+  external int index;
+}
+
+final class wire_cst_list_dcb_record_item extends ffi.Struct {
+  external ffi.Pointer<wire_cst_dcb_record_item> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_dcb_search_match extends ffi.Struct {
+  @ffi.UintPtr()
+  external int line_number;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> line_content;
+}
+
+final class wire_cst_list_dcb_search_match extends ffi.Struct {
+  external ffi.Pointer<wire_cst_dcb_search_match> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_dcb_search_result extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> path;
+
+  @ffi.UintPtr()
+  external int index;
+
+  external ffi.Pointer<wire_cst_list_dcb_search_match> matches;
+}
+
+final class wire_cst_list_dcb_search_result extends ffi.Struct {
+  external ffi.Pointer<wire_cst_dcb_search_result> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 final class wire_cst_download_task_info extends ffi.Struct {

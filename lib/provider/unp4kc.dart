@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_build_context_in_providers
 import 'dart:io';
 
 import 'package:file/memory.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
@@ -378,17 +381,18 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
   }
 
-  Future<void> openFile(String filePath) async {
+  Future<void> openFile(String filePath, {BuildContext? context}) async {
     final tempDir = await getTemporaryDirectory();
     final tempPath = "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
     state = state.copyWith(
       tempOpenFile: const MapEntry("loading", ""),
       endMessage: S.current.tools_unp4k_msg_open_file(filePath),
     );
-    await extractFile(filePath, tempPath, mode: "extract_open");
+    // ignore: use_build_context_synchronously
+    await extractFile(filePath, tempPath, mode: "extract_open", context: context);
   }
 
-  Future<void> extractFile(String filePath, String outputPath, {String mode = "extract"}) async {
+  Future<void> extractFile(String filePath, String outputPath, {String mode = "extract", BuildContext? context}) async {
     try {
       // remove first \\
       if (filePath.startsWith("\\")) {
@@ -402,6 +406,16 @@ class Unp4kCModel extends _$Unp4kCModel {
       await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: outputPath);
 
       if (mode == "extract_open") {
+        if (context != null && filePath.toLowerCase().endsWith(".dcb")) {
+          // 关闭 loading 状态
+          state = state.copyWith(tempOpenFile: null, endMessage: S.current.tools_unp4k_msg_open_file(filePath));
+          // 跳转至 DCBViewer
+          if (context.mounted) {
+            context.push("/tools/dcb_viewer", extra: {"path": fullOutputPath});
+          }
+
+          return;
+        }
         const textExt = [".txt", ".xml", ".json", ".lua", ".cfg", ".ini", ".mtl"];
         const imgExt = [".png"];
         String openType = "unknown";

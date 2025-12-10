@@ -8202,6 +8202,331 @@ class S {
     );
   }
 
+  /// `DataForge Viewer -> {v0}`
+  String dcb_viewer_title(Object v0) {
+    return Intl.message(
+      'DataForge Viewer -> $v0',
+      name: 'dcb_viewer_title',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Loading DCB file...`
+  String get dcb_viewer_loading {
+    return Intl.message(
+      'Loading DCB file...',
+      name: 'dcb_viewer_loading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parsing DataForge data...`
+  String get dcb_viewer_parsing {
+    return Intl.message(
+      'Parsing DataForge data...',
+      name: 'dcb_viewer_parsing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading record list...`
+  String get dcb_viewer_loading_records {
+    return Intl.message(
+      'Loading record list...',
+      name: 'dcb_viewer_loading_records',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} records loaded`
+  String dcb_viewer_loaded_records(Object v0) {
+    return Intl.message(
+      '$v0 records loaded',
+      name: 'dcb_viewer_loaded_records',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Invalid DCB file format`
+  String get dcb_viewer_error_not_dcb {
+    return Intl.message(
+      'Invalid DCB file format',
+      name: 'dcb_viewer_error_not_dcb',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Mode`
+  String get dcb_viewer_search_mode {
+    return Intl.message(
+      'Search Mode',
+      name: 'dcb_viewer_search_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Searching...`
+  String get dcb_viewer_searching {
+    return Intl.message(
+      'Searching...',
+      name: 'dcb_viewer_searching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} results found`
+  String dcb_viewer_search_results(Object v0) {
+    return Intl.message(
+      '$v0 results found',
+      name: 'dcb_viewer_search_results',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Full text search (press Enter)...`
+  String get dcb_viewer_search_fulltext_placeholder {
+    return Intl.message(
+      'Full text search (press Enter)...',
+      name: 'dcb_viewer_search_fulltext_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter record paths...`
+  String get dcb_viewer_search_list_placeholder {
+    return Intl.message(
+      'Filter record paths...',
+      name: 'dcb_viewer_search_list_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search in current file...`
+  String get dcb_viewer_search_in_file {
+    return Intl.message(
+      'Search in current file...',
+      name: 'dcb_viewer_search_in_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No results`
+  String get dcb_viewer_search_no_results {
+    return Intl.message(
+      'No results',
+      name: 'dcb_viewer_search_no_results',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Match Case`
+  String get dcb_viewer_search_case_sensitive {
+    return Intl.message(
+      'Match Case',
+      name: 'dcb_viewer_search_case_sensitive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use Regular Expression`
+  String get dcb_viewer_search_regex {
+    return Intl.message(
+      'Use Regular Expression',
+      name: 'dcb_viewer_search_regex',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fold/Unfold Code Blocks`
+  String get dcb_viewer_fold_all {
+    return Intl.message(
+      'Fold/Unfold Code Blocks',
+      name: 'dcb_viewer_fold_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No records`
+  String get dcb_viewer_no_records {
+    return Intl.message(
+      'No records',
+      name: 'dcb_viewer_no_records',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No search results`
+  String get dcb_viewer_no_search_results {
+    return Intl.message(
+      'No search results',
+      name: 'dcb_viewer_no_search_results',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a record to view XML content`
+  String get dcb_viewer_select_record {
+    return Intl.message(
+      'Select a record to view XML content',
+      name: 'dcb_viewer_select_record',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export`
+  String get dcb_viewer_export {
+    return Intl.message(
+      'Export',
+      name: 'dcb_viewer_export',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export as single XML`
+  String get dcb_viewer_export_single_xml {
+    return Intl.message(
+      'Export as single XML',
+      name: 'dcb_viewer_export_single_xml',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export as multiple XML files`
+  String get dcb_viewer_export_multiple_xml {
+    return Intl.message(
+      'Export as multiple XML files',
+      name: 'dcb_viewer_export_multiple_xml',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export successful`
+  String get dcb_viewer_export_success {
+    return Intl.message(
+      'Export successful',
+      name: 'dcb_viewer_export_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export failed`
+  String get dcb_viewer_export_failed {
+    return Intl.message(
+      'Export failed',
+      name: 'dcb_viewer_export_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DataForge Viewer`
+  String get dcb_viewer_title_standalone {
+    return Intl.message(
+      'DataForge Viewer',
+      name: 'dcb_viewer_title_standalone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select DCB File`
+  String get dcb_viewer_select_file_title {
+    return Intl.message(
+      'Select DCB File',
+      name: 'dcb_viewer_select_file_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a .dcb file or DCB file extracted from P4K`
+  String get dcb_viewer_select_file_description {
+    return Intl.message(
+      'Please select a .dcb file or DCB file extracted from P4K',
+      name: 'dcb_viewer_select_file_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select DCB File`
+  String get dcb_viewer_select_dcb_file {
+    return Intl.message(
+      'Select DCB File',
+      name: 'dcb_viewer_select_dcb_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select P4K File`
+  String get dcb_viewer_select_p4k_file {
+    return Intl.message(
+      'Select P4K File',
+      name: 'dcb_viewer_select_p4k_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Another File`
+  String get dcb_viewer_select_another_file {
+    return Intl.message(
+      'Select Another File',
+      name: 'dcb_viewer_select_another_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DCB/DataForge Viewer`
+  String get tools_action_dcb_viewer {
+    return Intl.message(
+      'DCB/DataForge Viewer',
+      name: 'tools_action_dcb_viewer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View and export DataForge game database (.dcb) file content`
+  String get tools_action_dcb_viewer_info {
+    return Intl.message(
+      'View and export DataForge game database (.dcb) file content',
+      name: 'tools_action_dcb_viewer_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back`
+  String get action_back {
+    return Intl.message('Back', name: 'action_back', desc: '', args: []);
+  }
+
   /// `Switch DirectX/Vulkan Renderer`
   String get tools_action_switch_graphics_renderer {
     return Intl.message(

@@ -3,6 +3,7 @@ use flutter_rust_bridge::frb;
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
+use unp4k::dataforge::DataForge;
 use unp4k::{CryXmlReader, P4kEntry, P4kFile};
 
 /// P4K 文件项信息
@@ -59,6 +60,10 @@ static GLOBAL_P4K_READER: once_cell::sync::Lazy<Arc<Mutex<Option<P4kFile>>>> =
 
 static GLOBAL_P4K_FILES: once_cell::sync::Lazy<Arc<Mutex<HashMap<String, P4kEntry>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(HashMap::new())));
+
+// 全局 DataForge 实例（用于 DCB 文件解析）
+static GLOBAL_DCB_READER: once_cell::sync::Lazy<Arc<Mutex<Option<DataForge>>>> =
+    once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
 
 /// 打开 P4K 文件（仅打开，不读取文件列表）
 pub async fn p4k_open(p4k_path: String) -> Result<()> {
@@ -212,5 +217,199 @@ pub async fn p4k_extract_to_disk(file_path: String, output_path: String) -> Resu
 pub async fn p4k_close() -> Result<()> {
     *GLOBAL_P4K_READER.lock().unwrap() = None;
     GLOBAL_P4K_FILES.lock().unwrap().clear();
+    Ok(())
+}
+
+// ==================== DataForge/DCB API ====================
+
+/// DCB 记录项信息
+#[frb(dart_metadata=("freezed"))]
+pub struct DcbRecordItem {
+    /// 记录路径
+    pub path: String,
+    /// 记录索引
+    pub index: usize,
+}
+
+/// 检查数据是否为 DataForge/DCB 格式
+pub fn dcb_is_dataforge(data: Vec<u8>) -> bool {
+    DataForge::is_dataforge(&data)
+}
+
+/// 从内存数据打开 DCB 文件
+pub async fn dcb_open(data: Vec<u8>) -> Result<()> {
+    let df = tokio::task::spawn_blocking(move || {
+        DataForge::parse(&data).map_err(|e| anyhow!("Failed to parse DataForge: {}", e))
+    })
+    .await??;
+
+    *GLOBAL_DCB_READER.lock().unwrap() = Some(df);
+    Ok(())
+}
+
+/// 获取 DCB 记录数量
+pub fn dcb_get_record_count() -> Result<usize> {
+    let reader = GLOBAL_DCB_READER.lock().unwrap();
+    let df = reader
+        .as_ref()
+        .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
+    Ok(df.record_count())
+}
+
+/// 获取所有 DCB 记录路径列表
+pub async fn dcb_get_record_list() -> Result<Vec<DcbRecordItem>> {
+    tokio::task::spawn_blocking(|| {
+        let reader = GLOBAL_DCB_READER.lock().unwrap();
+        let df = reader
+            .as_ref()
+            .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
+
+        let path_to_record = df.path_to_record();
+        let mut result: Vec<DcbRecordItem> = path_to_record
+            .iter()
+            .map(|(path, &index)| DcbRecordItem {
+                path: path.clone(),
+                index,
+            })
+            .collect();
+
+        // 按路径排序
+        result.sort_by(|a, b| a.path.cmp(&b.path));
+        Ok(result)
+    })
+    .await?
+}
+
+/// 根据路径获取单条记录的 XML
+pub async fn dcb_record_to_xml(path: String) -> Result<String> {
+    tokio::task::spawn_blocking(move || {
+        let reader = GLOBAL_DCB_READER.lock().unwrap();
+        let df = reader
+            .as_ref()
+            .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
+
+        df.record_to_xml(&path, true)
+            .map_err(|e| anyhow!("Failed to convert record to XML: {}", e))
+    })
+    .await?
+}
+
+/// 根据索引获取单条记录的 XML
+pub async fn dcb_record_to_xml_by_index(index: usize) -> Result<String> {
+    tokio::task::spawn_blocking(move || {
+        let reader = GLOBAL_DCB_READER.lock().unwrap();
+        let df = reader
+            .as_ref()
+            .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
+
+        df.record_to_xml_by_index(index, true)
+            .map_err(|e| anyhow!("Failed to convert record to XML: {}", e))
+    })
+    .await?
+}
+
+/// 全文搜索 DCB 记录
+/// 返回匹配的记录路径和预览摘要
+#[frb(dart_metadata=("freezed"))]
+pub struct DcbSearchResult {
+    /// 记录路径
+    pub path: String,
+    /// 记录索引
+    pub index: usize,
+    /// 匹配的行内容和行号列表
+    pub matches: Vec<DcbSearchMatch>,
+}
+
+#[frb(dart_metadata=("freezed"))]
+pub struct DcbSearchMatch {
+    /// 行号（从1开始）
+    pub line_number: usize,
+    /// 匹配行的内容（带上下文）
+    pub line_content: String,
+}
+
+/// 全文搜索 DCB 记录
+pub async fn dcb_search_all(query: String, max_results: usize) -> Result<Vec<DcbSearchResult>> {
+    tokio::task::spawn_blocking(move || {
+        let reader = GLOBAL_DCB_READER.lock().unwrap();
+        let df = reader
+            .as_ref()
+            .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
+
+        let query_lower = query.to_lowercase();
+        let mut results = Vec::new();
+
+        for (path, &index) in df.path_to_record() {
+            if results.len() >= max_results {
+                break;
+            }
+
+            // 先检查路径是否匹配
+            let path_matches = path.to_lowercase().contains(&query_lower);
+
+            // 尝试获取 XML 并搜索内容
+            if let Ok(xml) = df.record_to_xml_by_index(index, true) {
+                let mut matches = Vec::new();
+
+                for (line_num, line) in xml.lines().enumerate() {
+                    if line.to_lowercase().contains(&query_lower) {
+                        let line_content = if line.len() > 200 {
+                            format!("{}...", &line[..200])
+                        } else {
+                            line.to_string()
+                        };
+                        matches.push(DcbSearchMatch {
+                            line_number: line_num + 1,
+                            line_content,
+                        });
+
+                        // 每条记录最多保留 5 个匹配
+                        if matches.len() >= 5 {
+                            break;
+                        }
+                    }
+                }
+
+                if path_matches || !matches.is_empty() {
+                    results.push(DcbSearchResult {
+                        path: path.clone(),
+                        index,
+                        matches,
+                    });
+                }
+            }
+        }
+
+        Ok(results)
+    })
+    .await?
+}
+
+/// 导出 DCB 到磁盘
+/// merge: true = 合并为单个 XML，false = 分离为多个 XML 文件
+pub async fn dcb_export_to_disk(output_path: String, dcb_path: String, merge: bool) -> Result<()> {
+    let output = PathBuf::from(&output_path);
+    let dcb = PathBuf::from(&dcb_path);
+
+    tokio::task::spawn_blocking(move || {
+        let reader = GLOBAL_DCB_READER.lock().unwrap();
+        let df = reader
+            .as_ref()
+            .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
+
+        if merge {
+            unp4k::dataforge::export_merged(&df, &dcb, Some(&output))?;
+        } else {
+            unp4k::dataforge::export_separate(&df, &dcb, Some(&output))?;
+        }
+
+        Ok(())
+    })
+    .await?
+}
+
+/// 关闭 DCB 读取器
+pub async fn dcb_close() -> Result<()> {
+    *GLOBAL_DCB_READER.lock().unwrap() = None;
     Ok(())
 }
