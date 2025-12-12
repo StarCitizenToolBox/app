@@ -1410,12 +1410,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "动态模糊",
     ),
     "performance_json_text_motion_blur_info":
-        MessageLookupByLibrary.simpleMessage("开启以提高运动感，关闭提升观感"),
+        MessageLookupByLibrary.simpleMessage("开启以提高运动感,关闭提升观感"),
     "performance_json_text_object_detail": MessageLookupByLibrary.simpleMessage(
       "对象细节",
     ),
     "performance_json_text_object_detail_info":
         MessageLookupByLibrary.simpleMessage("模型对象细节，影响LOD等.."),
+    "performance_json_text_openxr": MessageLookupByLibrary.simpleMessage(
+      "启用 OpenXR",
+    ),
+    "performance_json_text_openxr_info": MessageLookupByLibrary.simpleMessage(
+      "连接与 OpenXR 兼容的头显，启动游戏后，使用数字小键盘 / 切换 VR 与 宽屏剧院模式",
+    ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
       "粒子细节",
     ),

@@ -87,8 +87,14 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
       for (var m in state.performanceMap!.entries) {
         for (var value in m.value) {
           if (value.key == kv[0].trim()) {
-            final v = int.tryParse(kv[1].trim());
-            if (v != null) value.value = v;
+            var v = int.tryParse(kv[1].trim());
+            if (v != null) {
+              // Special mapping for sys.OpenXR: 42 -> 1
+              if (value.key == "sys.OpenXR" && v == 42) {
+                v = 1;
+              }
+              value.value = v;
+            }
           }
         }
       }
@@ -188,7 +194,18 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     for (var v in state.performanceMap!.entries) {
       for (var c in v.value) {
         if (c.key != "customize") {
-          conf = "$conf${c.key}=${c.value}\n";
+          // Skip writing configuration if value equals default value
+          if (c.value == c.defaultValue) {
+            continue;
+          }
+
+          // Special mapping for sys.OpenXR: 1 -> 42
+          var outputValue = c.value;
+          if (c.key == "sys.OpenXR" && c.value == 1) {
+            outputValue = 42;
+          }
+
+          conf = "$conf${c.key}=$outputValue\n";
         }
       }
     }

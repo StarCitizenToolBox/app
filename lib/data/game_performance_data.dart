@@ -17,6 +17,7 @@ class GamePerformanceData {
     this.min,
     this.value,
     this.group,
+    this.defaultValue,
   });
 
   GamePerformanceData.fromJson(dynamic json) {
@@ -28,6 +29,8 @@ class GamePerformanceData {
     min = json['min'];
     value = json['value'];
     group = json['group'];
+    // Store the initial value as default value
+    defaultValue = json['value'];
   }
   String? key;
   String? name;
@@ -37,6 +40,7 @@ class GamePerformanceData {
   num? min;
   num? value;
   String? group;
+  num? defaultValue;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

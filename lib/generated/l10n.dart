@@ -4576,6 +4576,26 @@ class S {
     );
   }
 
+  /// `Enable OpenXR`
+  String get performance_json_text_openxr {
+    return Intl.message(
+      'Enable OpenXR',
+      name: 'performance_json_text_openxr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect OpenXR-compatible headsets, use Numpad / to switch between VR and widescreen theater mode after game launch`
+  String get performance_json_text_openxr_info {
+    return Intl.message(
+      'Connect OpenXR-compatible headsets, use Numpad / to switch between VR and widescreen theater mode after game launch',
+      name: 'performance_json_text_openxr_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Set FOV`
   String get performance_json_text_fov {
     return Intl.message(
