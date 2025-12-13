@@ -46,10 +46,7 @@ abstract class LocalizationUIState with _$LocalizationUIState {
 
 @riverpod
 class LocalizationUIModel extends _$LocalizationUIModel {
-  static const languageSupport = {
-    "chinese_(simplified)": NoL10n.langZHS,
-    "chinese_(traditional)": NoL10n.langZHT,
-  };
+  static const languageSupport = {"chinese_(simplified)": NoL10n.langZHS, "chinese_(traditional)": NoL10n.langZHT};
 
   Directory get _downloadDir => Directory("${appGlobalState.applicationSupportDir}\\Localizations");
 
@@ -120,12 +117,29 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         if (_isDisposed) return;
         if (lang == state.selectedLanguage) {
           final apiLocalizationData = <String, ScLocalizationData>{};
-          for (var element in l) {
-            final isPTU = !_scInstallPath.contains("LIVE");
-            if (isPTU && element.gameChannel == "PTU") {
-              apiLocalizationData[element.versionName ?? ""] = element;
-            } else if (!isPTU && element.gameChannel == "PU") {
-              apiLocalizationData[element.versionName ?? ""] = element;
+          final isPTU = !_scInstallPath.contains("LIVE");
+
+          if (isPTU) {
+            for (var element in l) {
+              if (element.gameChannel == "PTU") {
+                var e = element;
+                // 获取 PU 相同 info 的数据
+                final puE = l.firstWhere((element) => element.info == e.info && element.gameChannel == "PU");
+                if (puE != null) {
+                  // 检查是否比 PTU 新
+                  if (puE.updateAt?.compareTo(e.updateAt ?? "") > 0) {
+                    e = puE;
+                  }
+                }
+                apiLocalizationData[element.versionName ?? ""] = e;
+              }
+            }
+          } else {
+            // LIVE 频道：只展示 PU 数据
+            for (var element in l) {
+              if (element.gameChannel == "PU") {
+                apiLocalizationData[element.versionName ?? ""] = element;
+              }
             }
           }
           if (_isDisposed) return;
@@ -146,9 +160,12 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       final cfgString = await userCfgFile.readAsString();
       if (cfgString.contains("g_language") && !cfgString.contains("g_language=${state.selectedLanguage}")) {
         if (!context.mounted) return;
-        final ok = await showConfirmDialogs(context, S.current.localization_info_remove_incompatible_translation_params,
-            Text(S.current.localization_info_incompatible_translation_params_warning),
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35));
+        final ok = await showConfirmDialogs(
+          context,
+          S.current.localization_info_remove_incompatible_translation_params,
+          Text(S.current.localization_info_incompatible_translation_params_warning),
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+        );
         if (ok == true) {
           var finalString = "";
           for (var item in cfgString.split("\n")) {
@@ -264,8 +281,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       }
 
       if (communityInputMethodVersion != null) {
-        globalIni
-            .write("_starcitizen_doctor_localization_community_input_method_version=$communityInputMethodVersion\n");
+        globalIni.write(
+          "_starcitizen_doctor_localization_community_input_method_version=$communityInputMethodVersion\n",
+        );
       }
       if (communityInputMethodSupportData != null) {
         for (var line in communityInputMethodSupportData.split("\n")) {
@@ -283,9 +301,12 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if ((context?.mounted ?? false) && isEnableVehicleSorting) {
       if (!context!.mounted) return;
       final iniStringDataVN = ValueNotifier(iniStringData);
-      final ok = await showConfirmDialogs(context, S.current.tools_vehicle_sorting_title, VehicleSortingDialogUi(iniStringData: iniStringDataVN),constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * .75,
-      ));
+      final ok = await showConfirmDialogs(
+        context,
+        S.current.tools_vehicle_sorting_title,
+        VehicleSortingDialogUi(iniStringData: iniStringDataVN),
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .75),
+      );
       if (ok) {
         iniStringData = iniStringDataVN.value;
       }
@@ -354,8 +375,12 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return ("", "");
   }
 
-  Future? doRemoteInstall(BuildContext context, ScLocalizationData value,
-      {bool isEnableCommunityInputMethod = false, bool isEnableVehicleSorting = false}) async {
+  Future? doRemoteInstall(
+    BuildContext context,
+    ScLocalizationData value, {
+    bool isEnableCommunityInputMethod = false,
+    bool isEnableVehicleSorting = false,
+  }) async {
     AnalyticsApi.touch("install_localization");
 
     final savePath = File("${_downloadDir.absolute.path}\\${value.versionName}.sclang");
@@ -391,7 +416,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<String> downloadOrGetCachedCommunityInputMethodSupportFile(
-      InputMethodApiLanguageData communityInputMethodData) async {
+    InputMethodApiLanguageData communityInputMethodData,
+  ) async {
     final lang = state.selectedLanguage ?? "_";
     final box = await Hive.openBox("community_input_method_data");
     final cachedVersion = box.get("${lang}_version");
@@ -463,13 +489,16 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   Future<void> _updateStatus() async {
     final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
-    final patchStatus =
-        MapEntry(await _getLangCfgEnableLang(lang: state.selectedLanguage!), await _getInstalledIniVersion(iniPath));
+    final patchStatus = MapEntry(
+      await _getLangCfgEnableLang(lang: state.selectedLanguage!),
+      await _getInstalledIniVersion(iniPath),
+    );
     final isInstalledAdvanced = await _checkAdvancedStatus(iniPath);
     final installedCommunityInputMethodSupportVersion = await getInstalledCommunityInputMethodSupportVersion(iniPath);
 
     dPrint(
-        "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion");
+      "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion",
+    );
     if (_isDisposed) return;
     state = state.copyWith(
       patchStatus: patchStatus,
@@ -589,10 +618,11 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       }
       await installFormString(StringBuffer(localIniString), versioName, isEnableCommunityInputMethod: true);
       await win32.sendNotify(
-          summary: S.current.input_method_support_updated,
-          body: S.current.input_method_support_updated_to_version(cloudVersion),
-          appName: S.current.home_title_app_name,
-          appId: ConstConf.win32AppId);
+        summary: S.current.input_method_support_updated,
+        body: S.current.input_method_support_updated_to_version(cloudVersion),
+        appName: S.current.home_title_app_name,
+        appId: ConstConf.win32AppId,
+      );
     }
   }
 
@@ -601,7 +631,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<void> onRemoteInsTall(
-      BuildContext context, MapEntry<String, ScLocalizationData> item, LocalizationUIState state) async {
+    BuildContext context,
+    MapEntry<String, ScLocalizationData> item,
+    LocalizationUIState state,
+  ) async {
     final appBox = Hive.box("app_conf");
     bool enableCommunityInputMethod = state.communityInputMethodLanguageData != null;
     bool isEnableVehicleSorting = appBox.get("vehicle_sorting", defaultValue: false) ?? false;
@@ -652,9 +685,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           SizedBox(height: 12),
           Row(
             children: [
-              Text(
-                S.current.input_method_install_community_input_method_support,
-              ),
+              Text(S.current.input_method_install_community_input_method_support),
               Spacer(),
               StatefulBuilder(
                 builder: (BuildContext context, void Function(void Function()) setState) {
@@ -668,15 +699,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
                           },
                   );
                 },
-              )
+              ),
             ],
           ),
           SizedBox(height: 12),
           Row(
             children: [
-              Text(
-                S.current.tools_vehicle_sorting_title,
-              ),
+              Text(S.current.tools_vehicle_sorting_title),
               Spacer(),
               StatefulBuilder(
                 builder: (BuildContext context, void Function(void Function()) setState) {
@@ -689,7 +718,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
                     },
                   );
                 },
-              )
+              ),
             ],
           ),
         ],
