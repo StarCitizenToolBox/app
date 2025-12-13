@@ -1,11 +1,11 @@
 // SCToolbox WebView initialization script
 // Uses IPC (window.ipc.postMessage) to communicate with Rust backend
-(function() {
+(function () {
     'use strict';
-    
+
     if (window._sctInitialized) return;
     window._sctInitialized = true;
-    
+
     // ========== IPC Communication ==========
     // Send message to Rust backend
     function sendToRust(type, payload) {
@@ -13,14 +13,14 @@
             window.ipc.postMessage(JSON.stringify({ type, payload }));
         }
     }
-    
+
     // ========== 导航栏 UI ==========
     const icons = {
         back: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
         forward: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
         reload: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8C13.5 11.0376 11.0376 13.5 8 13.5C4.96243 13.5 2.5 11.0376 2.5 8C2.5 4.96243 4.96243 2.5 8 2.5C10.1012 2.5 11.9254 3.67022 12.8169 5.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 5.5H13V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     };
-    
+
     // Global state from Rust
     window._sctNavState = {
         canGoBack: false,
@@ -28,7 +28,7 @@
         isLoading: true,
         url: window.location.href
     };
-    
+
     function createNavBar() {
         if (window.location.href === 'about:blank') return;
         if (document.getElementById('sct-navbar')) return;
@@ -36,7 +36,7 @@
             setTimeout(createNavBar, 50);
             return;
         }
-        
+
         const nav = document.createElement('div');
         nav.id = 'sct-navbar';
         nav.innerHTML = `
@@ -137,7 +137,7 @@
             <input type="text" id="sct-navbar-url" readonly value="${window.location.href}" />
         `;
         document.body.insertBefore(nav, document.body.firstChild);
-        
+
         // Navigation buttons - send commands to Rust
         document.getElementById('sct-back').onclick = () => {
             sendToRust('nav_back', {});
@@ -148,14 +148,14 @@
         document.getElementById('sct-reload').onclick = () => {
             sendToRust('nav_reload', {});
         };
-        
+
         // Apply initial state from Rust
         updateNavBarFromState();
-        
+
         // Request initial state from Rust
         sendToRust('get_nav_state', {});
     }
-    
+
     // Update navbar UI based on state from Rust
     function updateNavBarFromState() {
         const state = window._sctNavState;
@@ -164,7 +164,7 @@
         const urlEl = document.getElementById('sct-navbar-url');
         const spinner = document.getElementById('sct-spinner');
         const faviconSlot = document.getElementById('sct-favicon-slot');
-        
+
         if (backBtn) {
             backBtn.disabled = !state.canGoBack;
         }
@@ -174,7 +174,7 @@
         if (urlEl && state.url) {
             urlEl.value = state.url;
         }
-        
+
         // Show spinner when loading, show favicon when complete
         if (state.isLoading) {
             if (spinner) {
@@ -195,23 +195,23 @@
             showFaviconIfAvailable();
         }
     }
-    
+
     // Extract and show favicon from page
     function showFaviconIfAvailable() {
         const faviconSlot = document.getElementById('sct-favicon-slot');
         const faviconImg = document.getElementById('sct-favicon');
-        
+
         if (!faviconSlot || !faviconImg) return;
-        
+
         // Try to find favicon from page
         let faviconUrl = null;
-        
+
         // 1. Look for link[rel="icon"] or link[rel="shortcut icon"]
         const linkIcon = document.querySelector('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]');
         if (linkIcon && linkIcon.href) {
             faviconUrl = linkIcon.href;
         }
-        
+
         // 2. Look for og:image in meta tags (fallback)
         if (!faviconUrl) {
             const ogImage = document.querySelector('meta[property="og:image"]');
@@ -219,7 +219,7 @@
                 faviconUrl = ogImage.content;
             }
         }
-        
+
         // 3. Try default favicon.ico
         if (!faviconUrl) {
             try {
@@ -231,7 +231,7 @@
                 // Ignore
             }
         }
-        
+
         // Display favicon if found
         if (faviconUrl) {
             faviconImg.src = faviconUrl;
@@ -245,10 +245,10 @@
             faviconSlot.style.display = 'none';
         }
     }
-    
+
     // ========== Rust -> JS Message Handler ==========
     // Rust will call this function to update navigation state
-    window._sctUpdateNavState = function(state) {
+    window._sctUpdateNavState = function (state) {
         if (state) {
             window._sctNavState = {
                 canGoBack: !!state.can_go_back,
@@ -259,7 +259,7 @@
             updateNavBarFromState();
         }
     };
-    
+
     // 在 DOM 准备好时创建导航栏
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', createNavBar);

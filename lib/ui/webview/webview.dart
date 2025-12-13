@@ -71,8 +71,11 @@ class WebViewModel {
         height: loginMode ? 720 : 1080,
         userDataFolder: "$applicationSupportDir/webview_data",
         enableDevtools: kDebugMode,
+        userAgent:
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0",
       );
 
+      webview.addOnNavigationCallback(_onNavigation);
       // 添加导航完成回调（用于注入脚本）
       webview.addOnNavigationCompletedCallback(_onNavigationCompleted);
 
@@ -103,12 +106,6 @@ class WebViewModel {
   Future<void> _onNavigationCompleted(String newUrl) async {
     dPrint("Navigation completed: $newUrl");
     url = newUrl;
-
-    // 在页面加载时注入拦截器
-    if (requestInterceptorScript.isNotEmpty) {
-      dPrint("Injecting request interceptor for: $url");
-      webview.executeScript(requestInterceptorScript);
-    }
 
     if (localizationResource.isEmpty) return;
 
@@ -285,10 +282,19 @@ class WebViewModel {
 
   FutureOr<void> dispose() {
     webview.removeOnNavigationCompletedCallback(_onNavigationCompleted);
+    webview.removeOnNavigationCallback(_onNavigation);
     if (loginMode && !_loginModeSuccess) {
       loginCallback?.call(null, false);
     }
     _isClosed = true;
     webview.dispose();
+  }
+
+  void _onNavigation(String url) {
+    // 在页面加载时注入拦截器
+    if (requestInterceptorScript.isNotEmpty) {
+      dPrint("Injecting request interceptor for: $url");
+      webview.executeScript(requestInterceptorScript);
+    }
   }
 }
