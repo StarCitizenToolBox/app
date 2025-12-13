@@ -1414,6 +1414,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_json_text_object_detail_info":
         MessageLookupByLibrary.simpleMessage("モデルオブジェクトの詳細、LODに影響など..."),
+    "performance_json_text_openxr": MessageLookupByLibrary.simpleMessage(
+      "OpenXRを有効にする",
+    ),
+    "performance_json_text_openxr_info": MessageLookupByLibrary.simpleMessage(
+      "OpenXR対応ヘッドセットを接続し、ゲーム起動後にテンキーの / でVRとワイドスクリーンシアターモードを切り替え",
+    ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
       "パーティクル詳細",
     ),

@@ -1605,6 +1605,12 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Детализация моделей объектов, влияет на LOD и т.д.",
         ),
+    "performance_json_text_openxr": MessageLookupByLibrary.simpleMessage(
+      "Включить OpenXR",
+    ),
+    "performance_json_text_openxr_info": MessageLookupByLibrary.simpleMessage(
+      "Подключите OpenXR-совместимый шлем, используйте / на цифровой клавиатуре после запуска игры для переключения между VR и широкоэкранным режимом",
+    ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
       "Детализация частиц",
     ),
