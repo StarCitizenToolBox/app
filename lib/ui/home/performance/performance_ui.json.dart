@@ -268,7 +268,7 @@ List get performanceUIConfJsonData => [
     "type": "int",
     "max": 4,
     "min": 0,
-    "value": 1,
+    "value": 0,
     "group": S.current.app_index_menu_settings,
   },
   {
