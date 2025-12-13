@@ -166,6 +166,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
       applicationSupportDir: appGlobalState.applicationSupportDir!,
       appVersionData: appGlobalState.networkVersionData!,
     );
+    await Future.delayed(Duration(milliseconds: 500));
     await webViewModel.launch(url, appGlobalState.networkVersionData!);
   }
 

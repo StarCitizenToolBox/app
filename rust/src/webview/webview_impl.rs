@@ -434,6 +434,16 @@ fn run_webview_loop(
             let proxy = proxy.clone();
             move |event, url| {
                 if url == "about:blank" {
+                    if matches!(event, PageLoadEvent::Finished) {
+                        // if url is about:blank, show loading
+                        let loading_script = format!(
+                            r#"document.open(); document.write({}); document.close();"#,
+                            serde_json::to_string(LOADING_PAGE_HTML).unwrap_or_default()
+                        );
+                        let _ = proxy.send_event(UserEvent::Command(
+                            WebViewCommand::ExecuteScript(loading_script),
+                        ));
+                    }
                     return;
                 }
 
@@ -602,13 +612,6 @@ fn run_webview_loop(
         })
         .build(&window)
         .expect("Failed to create webview");
-
-    // Show loading page while waiting for Navigate command
-    let loading_script = format!(
-        r#"document.open(); document.write({}); document.close();"#,
-        serde_json::to_string(LOADING_PAGE_HTML).unwrap_or_default()
-    );
-    let _ = webview.evaluate_script(&loading_script);
 
     let webview = Arc::new(webview);
     let webview_cmd = Arc::clone(&webview);
