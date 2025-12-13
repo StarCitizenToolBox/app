@@ -27,6 +27,7 @@ import 'dialogs/hosts_booster_dialog_ui.dart';
 import 'dialogs/rsi_launcher_enhance_dialog_ui.dart';
 
 part 'tools_ui_model.g.dart';
+
 part 'tools_ui_model.freezed.dart';
 
 class ToolsItemData {
@@ -518,8 +519,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     state = state.copyWith(working: false);
   }
 
-  Future<void> _cleanShaderCache(BuildContext context) async {
-    state = state.copyWith(working: true);
+  static Future<void> cleanShaderCache() async {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
     final l = await Directory(gameShaderCachePath!).list(recursive: false).toList();
     for (var value in l) {
@@ -535,13 +535,18 @@ class ToolsUIModel extends _$ToolsUIModel {
         }
       }
     }
+  }
+
+  Future<void> _cleanShaderCache(BuildContext context) async {
+    state = state.copyWith(working: true);
+    await cleanShaderCache();
     if (!context.mounted) return;
     loadToolsCard(context, skipPathScan: true);
     state = state.copyWith(working: false);
   }
 
   /// 清理着色器缓存目录，保留 GraphicsSettings 文件夹
-  Future<void> _cleanShaderCacheDirectory(Directory dir) async {
+  static Future<void> _cleanShaderCacheDirectory(Directory dir) async {
     try {
       final contents = await dir.list(recursive: false).toList();
       for (var entity in contents) {

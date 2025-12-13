@@ -11,6 +11,7 @@ import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/data/game_performance_data.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
+import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 
 import 'performance_ui.json.dart';
 
@@ -171,15 +172,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   Future<void> cleanShaderCache(BuildContext? context) async {
-    final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
-    final l = await Directory(gameShaderCachePath!).list(recursive: false).toList();
-    for (var value in l) {
-      if (value is Directory) {
-        if (!value.absolute.path.contains("Crashes")) {
-          await value.delete(recursive: true);
-        }
-      }
-    }
+    await ToolsUIModel.cleanShaderCache();
     await Future.delayed(const Duration(milliseconds: 300));
     if (context != null && context.mounted) {
       showToast(context, S.current.performance_info_shader_clearing_warning);
