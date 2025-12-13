@@ -3015,10 +3015,10 @@ class S {
     );
   }
 
-  /// `If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders (also restores Vulkan to DX11)\n\nCache size: {v0} MB`
+  /// `If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders \n\nCache size: {v0} MB`
   String tools_action_info_shader_cache_issue(Object v0) {
     return Intl.message(
-      'If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders (also restores Vulkan to DX11)\n\nCache size: $v0 MB',
+      'If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders \n\nCache size: $v0 MB',
       name: 'tools_action_info_shader_cache_issue',
       desc: '',
       args: [v0],

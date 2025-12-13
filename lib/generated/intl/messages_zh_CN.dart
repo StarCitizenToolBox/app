@@ -234,8 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m101(v0) =>
       "在某些情况下 RSI启动器 的 log 文件会损坏，导致无法完成问题扫描，使用此工具清理损坏的 log 文件。\n\n当前日志文件大小：${v0} MB";
 
-  static String m102(v0) =>
-      "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（同时会将 Vulkan 还原为 DX11） \n\n缓存大小：${v0} MB";
+  static String m102(v0) => "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器 \n\n缓存大小：${v0} MB";
 
   static String m103(v0, v1, v2, v3, v4) =>
       "系统：${v0}\n\n处理器：${v1}\n\n内存大小：${v2}GB\n\n显卡信息：\n${v3}\n\n硬盘信息：\n${v4}\n\n";

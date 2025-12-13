@@ -595,7 +595,7 @@
   "@tools_action_info_fix_success_restart": {},
   "tools_action_clear_shader_cache": "Clear Shader Cache",
   "@tools_action_clear_shader_cache": {},
-  "tools_action_info_shader_cache_issue": "If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders (also restores Vulkan to DX11)\n\nCache size: {v0} MB",
+  "tools_action_info_shader_cache_issue": "If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders \n\nCache size: {v0} MB",
   "@tools_action_info_shader_cache_issue": {},
   "tools_action_close_photography_mode": "Close Photography Mode",
   "@tools_action_close_photography_mode": {},

@@ -594,7 +594,7 @@
   "@tools_action_info_fix_success_restart": {},
   "tools_action_clear_shader_cache": "清理着色器缓存",
   "@tools_action_clear_shader_cache": {},
-  "tools_action_info_shader_cache_issue": "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器（同时会将 Vulkan 还原为 DX11） \n\n缓存大小：{v0} MB",
+  "tools_action_info_shader_cache_issue": "若游戏画面出现异常或版本更新后可使用本工具清理过期的着色器 \n\n缓存大小：{v0} MB",
   "@tools_action_info_shader_cache_issue": {},
   "tools_action_close_photography_mode": "关闭摄影模式",
   "@tools_action_close_photography_mode": {},

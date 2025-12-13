@@ -256,7 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "In some cases, the log file of the RSI Launcher may be corrupted, preventing problem scanning from completing. Use this tool to clean up corrupted log files.\n\nCurrent log file size: ${v0} MB";
 
   static String m102(v0) =>
-      "If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders (also restores Vulkan to DX11)\n\nCache size: ${v0} MB";
+      "If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders \n\nCache size: ${v0} MB";
 
   static String m103(v0, v1, v2, v3, v4) =>
       "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2}GB\n\nGPU information:\n${v3}\n\nStorage information:\n${v4}\n\n";
