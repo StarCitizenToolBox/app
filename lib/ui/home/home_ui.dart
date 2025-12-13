@@ -211,7 +211,7 @@ class HomeUI extends HookConsumerWidget {
                       icon: Row(children: [SvgPicture.asset("assets/uex.svg", height: 18), const SizedBox(width: 12)]),
                       name: S.current.home_action_uex_localization,
                       webTitle: S.current.home_action_uex_localization,
-                      webURL: "https://uexcorp.space/",
+                      webURL: "https://uexcorp.space/?set_lang=zh_CN",
                       info: S.current.home_action_info_mining_refining_trade_calculator,
                       useLocalization: true,
                       width: width,
