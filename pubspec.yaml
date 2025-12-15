@@ -18,7 +18,7 @@ dependencies:
   flutter_hooks: ^0.21.3+1
   hooks_riverpod: ^3.0.3
   json_annotation: ^4.9.0
-  go_router: ^17.0.0
+  go_router: ^17.0.1
   window_manager:
     git:
       url: https://github.com/boyan01/window_manager.git
