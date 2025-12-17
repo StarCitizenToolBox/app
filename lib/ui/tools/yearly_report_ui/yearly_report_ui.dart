@@ -10,8 +10,9 @@ import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 class YearlyReportUI extends HookConsumerWidget {
   final List<String> gameInstallPaths;
+  final int year;
 
-  const YearlyReportUI({super.key, required this.gameInstallPaths});
+  const YearlyReportUI({super.key, required this.gameInstallPaths, required this.year});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +30,7 @@ class YearlyReportUI extends HookConsumerWidget {
 
     return makeDefaultPage(
       context,
-      title: "星际公民 2025 年度报告",
+      title: S.current.yearly_report_title(year.toString()),
       useBodyContainer: true,
       content: Column(
         children: [
@@ -68,7 +69,7 @@ class YearlyReportUI extends HookConsumerWidget {
 
       // 同时启动进度动画和实际加载
       final progressFuture = progressAnimation();
-      final report = await YearlyReportAnalyzer.generateReport(gameInstallPaths, 2025);
+      final report = await YearlyReportAnalyzer.generateReport(gameInstallPaths, year);
 
       // 停止假进度动画
       isGenerating = false;
@@ -102,12 +103,18 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 40),
           FadeInUp(
             delay: const Duration(milliseconds: 300),
-            child: Text("正在生成您的年度报告...", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            child: Text(
+              S.current.yearly_report_generating,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 16),
           FadeInUp(
             delay: const Duration(milliseconds: 500),
-            child: Text("正在分析游戏日志数据", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6))),
+            child: Text(
+              S.current.yearly_report_analyzing_logs,
+              style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
+            ),
           ),
           const SizedBox(height: 32),
           FadeInUp(
@@ -127,9 +134,12 @@ class YearlyReportUI extends HookConsumerWidget {
           children: [
             Icon(FluentIcons.error, size: 80, color: Colors.red),
             const SizedBox(height: 24),
-            Text("无法生成年度报告", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(S.current.yearly_report_error_title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
-            Text("请确保游戏目录正确且存在日志文件", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6))),
+            Text(
+              S.current.yearly_report_error_description,
+              style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
+            ),
           ],
         ),
       ),
@@ -214,7 +224,7 @@ class YearlyReportUI extends HookConsumerWidget {
           children: [
             Icon(isUp ? FluentIcons.chevron_up : FluentIcons.chevron_down, size: 12),
             const SizedBox(width: 8),
-            Text(isUp ? "上一页" : "继续查看"),
+            Text(isUp ? S.current.yearly_report_nav_prev : S.current.yearly_report_nav_next),
           ],
         ),
         onPressed: () =>
@@ -272,12 +282,18 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 300),
-            child: Text("2025 年度报告", style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold)),
+            child: Text(
+              S.current.yearly_report_welcome_title(year.toString()),
+              style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 16),
           FadeInUp(
             delay: const Duration(milliseconds: 500),
-            child: Text("回顾您在星际公民中的精彩时刻", style: TextStyle(fontSize: 18, color: Colors.white.withValues(alpha: .8))),
+            child: Text(
+              S.current.yearly_report_welcome_subtitle,
+              style: TextStyle(fontSize: 18, color: Colors.white.withValues(alpha: .8)),
+            ),
           ),
           const SizedBox(height: 48),
           FadeInUp(
@@ -285,7 +301,10 @@ class YearlyReportUI extends HookConsumerWidget {
             child: Pulse(
               infinite: true,
               duration: const Duration(seconds: 2),
-              child: Text("向下滚动或点击下方按钮开始", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .5))),
+              child: Text(
+                S.current.yearly_report_welcome_hint,
+                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .5)),
+              ),
             ),
           ),
         ],
@@ -297,12 +316,12 @@ class YearlyReportUI extends HookConsumerWidget {
     return _AnimatedStatPage(
       icon: FontAwesomeIcons.play,
       iconColor: Colors.green,
-      title: "游戏启动次数",
-      description: "今年您启动了游戏",
+      title: S.current.yearly_report_launch_count_title,
+      description: S.current.yearly_report_launch_count_desc,
       mainValue: "${data.yearlyLaunchCount}",
-      mainUnit: "次",
-      secondaryLabel: "累计启动",
-      secondaryValue: "${data.totalLaunchCount} 次",
+      mainUnit: S.current.about_analytics_units_times,
+      secondaryLabel: S.current.yearly_report_launch_count_label,
+      secondaryValue: S.current.yearly_report_launch_count_value(data.totalLaunchCount),
     );
   }
 
@@ -313,12 +332,12 @@ class YearlyReportUI extends HookConsumerWidget {
     return _AnimatedStatPage(
       icon: FontAwesomeIcons.clock,
       iconColor: Colors.blue,
-      title: "游玩时长",
-      description: "今年您在宇宙中遨游了",
+      title: S.current.yearly_report_play_time_title,
+      description: S.current.yearly_report_play_time_desc,
       mainValue: yearlyHours.toStringAsFixed(1),
-      mainUnit: "小时",
-      secondaryLabel: "累计游玩",
-      secondaryValue: "${totalHours.toStringAsFixed(1)} 小时",
+      mainUnit: S.current.yearly_report_play_time_unit,
+      secondaryLabel: S.current.yearly_report_play_time_label,
+      secondaryValue: S.current.yearly_report_play_time_value(totalHours.toStringAsFixed(1)),
     );
   }
 
@@ -326,13 +345,15 @@ class YearlyReportUI extends HookConsumerWidget {
     return _AnimatedStatPage(
       icon: FontAwesomeIcons.bug,
       iconColor: Colors.orange,
-      title: "游戏崩溃次数",
-      description: "今年游戏不太稳定的时刻",
+      title: S.current.yearly_report_crash_title,
+      description: S.current.yearly_report_crash_desc,
       mainValue: "${data.yearlyCrashCount}",
-      mainUnit: "次",
-      secondaryLabel: "累计崩溃",
-      secondaryValue: "${data.totalCrashCount} 次",
-      extraNote: data.yearlyCrashCount > 10 ? "希望明年能更稳定！" : "运气不错！",
+      mainUnit: S.current.about_analytics_units_times,
+      secondaryLabel: S.current.yearly_report_crash_label,
+      secondaryValue: S.current.yearly_report_launch_count_value(data.totalCrashCount),
+      extraNote: data.yearlyCrashCount > 10
+          ? S.current.yearly_report_crash_note_high
+          : S.current.yearly_report_crash_note_low,
     );
   }
 
@@ -352,7 +373,7 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
-            child: Text("击杀统计", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+            child: Text(S.current.yearly_report_kd_title, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 32),
           // K/D 比率大显示
@@ -397,7 +418,10 @@ class YearlyReportUI extends HookConsumerWidget {
                       children: [
                         Icon(FontAwesomeIcons.skull, size: 24, color: Colors.green),
                         const SizedBox(height: 8),
-                        Text("击杀", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
+                        Text(
+                          S.current.yearly_report_kd_kill,
+                          style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           "${data.yearlyKillCount}",
@@ -420,7 +444,10 @@ class YearlyReportUI extends HookConsumerWidget {
                       children: [
                         Icon(FontAwesomeIcons.skullCrossbones, size: 24, color: Colors.red),
                         const SizedBox(height: 8),
-                        Text("死亡", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
+                        Text(
+                          S.current.yearly_report_kd_death,
+                          style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           "${data.yearlyDeathCount}",
@@ -443,7 +470,10 @@ class YearlyReportUI extends HookConsumerWidget {
                       children: [
                         Icon(FontAwesomeIcons.personFalling, size: 24, color: Colors.orange),
                         const SizedBox(height: 8),
-                        Text("自杀", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
+                        Text(
+                          S.current.yearly_report_kd_suicide,
+                          style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           "${data.yearlySelfKillCount}",
@@ -459,7 +489,10 @@ class YearlyReportUI extends HookConsumerWidget {
           if (totalKD == 0)
             FadeInUp(
               delay: const Duration(milliseconds: 400),
-              child: Text("今年没有检测到击杀/死亡记录", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6))),
+              child: Text(
+                S.current.yearly_report_kd_no_record,
+                style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
+              ),
             ),
         ],
       ),
@@ -470,7 +503,7 @@ class YearlyReportUI extends HookConsumerWidget {
     final time = data.earliestPlayDate;
     final timeStr = time != null
         ? "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}"
-        : "暂无数据";
+        : S.current.yearly_report_no_data;
 
     return Center(
       child: Column(
@@ -480,7 +513,10 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
-            child: Text("最早的一次游玩", style: TextStyle(fontSize: 24, color: Colors.white.withValues(alpha: .8))),
+            child: Text(
+              S.current.yearly_report_earliest_play_title,
+              style: TextStyle(fontSize: 24, color: Colors.white.withValues(alpha: .8)),
+            ),
           ),
           const SizedBox(height: 16),
           FadeInUp(
@@ -492,7 +528,7 @@ class YearlyReportUI extends HookConsumerWidget {
             FadeInUp(
               delay: const Duration(milliseconds: 600),
               child: Text(
-                "您在清晨 ${time.month} 月 ${time.day} 日开始了星际之旅",
+                S.current.yearly_report_earliest_play_desc(time.month, time.day),
                 style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
               ),
             ),
@@ -505,7 +541,7 @@ class YearlyReportUI extends HookConsumerWidget {
     final time = data.latestPlayDate;
     final timeStr = time != null
         ? "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}"
-        : "暂无数据";
+        : S.current.yearly_report_no_data;
 
     return Center(
       child: Column(
@@ -515,7 +551,10 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
-            child: Text("最晚的一次游玩", style: TextStyle(fontSize: 24, color: Colors.white.withValues(alpha: .8))),
+            child: Text(
+              S.current.yearly_report_latest_play_title,
+              style: TextStyle(fontSize: 24, color: Colors.white.withValues(alpha: .8)),
+            ),
           ),
           const SizedBox(height: 16),
           FadeInUp(
@@ -527,7 +566,7 @@ class YearlyReportUI extends HookConsumerWidget {
             FadeInUp(
               delay: const Duration(milliseconds: 600),
               child: Text(
-                "深夜 ${time.month} 月 ${time.day} 日还在探索宇宙",
+                S.current.yearly_report_latest_play_desc(time.month, time.day),
                 style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
               ),
             ),
@@ -545,12 +584,18 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
-            child: Text("载具损毁统计", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+            child: Text(
+              S.current.yearly_report_vehicle_destruction_title,
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 24),
           FadeInUp(
             delay: const Duration(milliseconds: 400),
-            child: Text("今年您共炸了", style: TextStyle(fontSize: 18, color: Colors.white.withValues(alpha: .7))),
+            child: Text(
+              S.current.yearly_report_vehicle_destruction_desc,
+              style: TextStyle(fontSize: 18, color: Colors.white.withValues(alpha: .7)),
+            ),
           ),
           const SizedBox(height: 8),
           FadeInUp(
@@ -565,7 +610,7 @@ class YearlyReportUI extends HookConsumerWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10, left: 8),
-                  child: Text("艘船", style: TextStyle(fontSize: 24)),
+                  child: Text(S.current.yearly_report_vehicle_destruction_unit, style: TextStyle(fontSize: 24)),
                 ),
               ],
             ),
@@ -582,11 +627,14 @@ class YearlyReportUI extends HookConsumerWidget {
                 ),
                 child: Column(
                   children: [
-                    Text("炸的最多的船", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                    Text(
+                      S.current.yearly_report_vehicle_destruction_most,
+                      style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
+                    ),
                     const SizedBox(height: 8),
                     Text(data.mostDestroyedVehicle!, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     Text(
-                      "炸了 ${data.mostDestroyedVehicleCount} 次",
+                      S.current.yearly_report_vehicle_destruction_count(data.mostDestroyedVehicleCount),
                       style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .8)),
                     ),
                   ],
@@ -613,7 +661,10 @@ class YearlyReportUI extends HookConsumerWidget {
             const SizedBox(height: 32),
             FadeInUp(
               delay: const Duration(milliseconds: 200),
-              child: Text("载具驾驶统计", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+              child: Text(
+                S.current.yearly_report_vehicle_pilot_title,
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 32),
             if (data.mostPilotedVehicle != null)
@@ -627,11 +678,14 @@ class YearlyReportUI extends HookConsumerWidget {
                   ),
                   child: Column(
                     children: [
-                      Text("最常驾驶的载具", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .9))),
+                      Text(
+                        S.current.yearly_report_vehicle_pilot_most,
+                        style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .9)),
+                      ),
                       const SizedBox(height: 12),
                       Text(data.mostPilotedVehicle!, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                       Text(
-                        "驾驶了 ${data.mostPilotedVehicleCount} 次",
+                        S.current.yearly_report_vehicle_pilot_count(data.mostPilotedVehicleCount),
                         style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .8)),
                       ),
                     ],
@@ -651,7 +705,11 @@ class YearlyReportUI extends HookConsumerWidget {
                         children: [
                           Icon(showDetails.value ? FluentIcons.chevron_up : FluentIcons.chevron_down, size: 12),
                           const SizedBox(width: 8),
-                          Text(showDetails.value ? "收起详情" : "查看全部 ${sortedVehicles.length} 个载具"),
+                          Text(
+                            showDetails.value
+                                ? S.current.yearly_report_vehicle_pilot_collapse
+                                : S.current.yearly_report_vehicle_pilot_expand(sortedVehicles.length),
+                          ),
                         ],
                       ),
                       onPressed: () => showDetails.value = !showDetails.value,
@@ -713,7 +771,7 @@ class YearlyReportUI extends HookConsumerWidget {
                                             ),
                                           ),
                                           Text(
-                                            "次",
+                                            S.current.about_analytics_units_times,
                                             style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .6)),
                                           ),
                                         ],
@@ -748,7 +806,10 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
-            child: Text("账号统计", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+            child: Text(
+              S.current.yearly_report_account_title,
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 32),
           if (data.mostPlayedAccount != null)
@@ -762,11 +823,14 @@ class YearlyReportUI extends HookConsumerWidget {
                 ),
                 child: Column(
                   children: [
-                    Text("最常使用的账号", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .9))),
+                    Text(
+                      S.current.yearly_report_account_most,
+                      style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .9)),
+                    ),
                     const SizedBox(height: 12),
                     Text(data.mostPlayedAccount!, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                     Text(
-                      "登录了 ${data.mostPlayedAccountSessionCount} 次",
+                      S.current.yearly_report_account_count(data.mostPlayedAccountSessionCount),
                       style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .8)),
                     ),
                   ],
@@ -777,7 +841,7 @@ class YearlyReportUI extends HookConsumerWidget {
           FadeInUp(
             delay: const Duration(milliseconds: 600),
             child: Text(
-              "共检测到 ${data.accountCount} 个账号",
+              S.current.yearly_report_account_total(data.accountCount),
               style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .5)),
             ),
           ),
@@ -794,7 +858,11 @@ class YearlyReportUI extends HookConsumerWidget {
                       children: [
                         Icon(showDetails.value ? FluentIcons.chevron_up : FluentIcons.chevron_down, size: 12),
                         const SizedBox(width: 8),
-                        Text(showDetails.value ? "收起详情" : "查看全部账号"),
+                        Text(
+                          showDetails.value
+                              ? S.current.yearly_report_vehicle_pilot_collapse
+                              : S.current.yearly_report_account_expand,
+                        ),
                       ],
                     ),
                     onPressed: () => showDetails.value = !showDetails.value,
@@ -849,7 +917,7 @@ class YearlyReportUI extends HookConsumerWidget {
                                         ),
                                       ),
                                       Text(
-                                        "次",
+                                        S.current.about_analytics_units_times,
                                         style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .6)),
                                       ),
                                     ],
@@ -871,13 +939,13 @@ class YearlyReportUI extends HookConsumerWidget {
 
   /// 格式化时长
   String _formatDuration(Duration? duration) {
-    if (duration == null) return "暂无数据";
+    if (duration == null) return S.current.yearly_report_no_data;
     final hours = duration.inHours;
     final minutes = duration.inMinutes.remainder(60);
     if (hours > 0) {
-      return "$hours 小时 $minutes 分钟";
+      return S.current.yearly_report_duration_hours_minutes(hours, minutes);
     }
-    return "$minutes 分钟";
+    return S.current.yearly_report_duration_minutes(minutes);
   }
 
   Widget _buildSessionStatsPage(BuildContext context, YearlyReportData data) {
@@ -891,7 +959,10 @@ class YearlyReportUI extends HookConsumerWidget {
             const SizedBox(height: 32),
             FadeInUp(
               delay: const Duration(milliseconds: 200),
-              child: Text("游玩时长详情", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+              child: Text(
+                S.current.yearly_report_session_title,
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 32),
             // 横排显示三个时长卡片
@@ -920,7 +991,10 @@ class YearlyReportUI extends HookConsumerWidget {
                                 children: [
                                   Icon(FontAwesomeIcons.chartLine, size: 16, color: Colors.blue),
                                   const SizedBox(width: 8),
-                                  Text("平均", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                                  Text(
+                                    S.current.yearly_report_session_average,
+                                    style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 8),
@@ -950,7 +1024,10 @@ class YearlyReportUI extends HookConsumerWidget {
                                 children: [
                                   Icon(FontAwesomeIcons.arrowUp, size: 16, color: Colors.green),
                                   const SizedBox(width: 8),
-                                  Text("最长", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                                  Text(
+                                    S.current.yearly_report_session_longest,
+                                    style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 8),
@@ -961,7 +1038,10 @@ class YearlyReportUI extends HookConsumerWidget {
                               ),
                               if (data.longestSessionDate != null)
                                 Text(
-                                  "${data.longestSessionDate!.month}月${data.longestSessionDate!.day}日",
+                                  S.current.yearly_report_session_date(
+                                    data.longestSessionDate!.month,
+                                    data.longestSessionDate!.day,
+                                  ),
                                   style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
                                 ),
                             ],
@@ -985,7 +1065,10 @@ class YearlyReportUI extends HookConsumerWidget {
                                 children: [
                                   Icon(FontAwesomeIcons.arrowDown, size: 16, color: Colors.orange),
                                   const SizedBox(width: 8),
-                                  Text("最短", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                                  Text(
+                                    S.current.yearly_report_session_shortest,
+                                    style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 8),
@@ -996,7 +1079,10 @@ class YearlyReportUI extends HookConsumerWidget {
                               ),
                               if (data.shortestSessionDate != null)
                                 Text(
-                                  "${data.shortestSessionDate!.month}月${data.shortestSessionDate!.day}日",
+                                  S.current.yearly_report_session_date(
+                                    data.shortestSessionDate!.month,
+                                    data.shortestSessionDate!.day,
+                                  ),
                                   style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
                                 ),
                             ],
@@ -1012,7 +1098,7 @@ class YearlyReportUI extends HookConsumerWidget {
             FadeInUp(
               delay: const Duration(milliseconds: 600),
               child: Text(
-                "(最短仅统计超过 5 分钟的游戏)",
+                S.current.yearly_report_session_note,
                 style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .5)),
               ),
             ),
@@ -1024,7 +1110,7 @@ class YearlyReportUI extends HookConsumerWidget {
 
   /// 月份名称
   String _getMonthName(int month) {
-    return "$month月";
+    return S.current.yearly_report_month_format(month);
   }
 
   Widget _buildMonthlyStatsPage(BuildContext context, YearlyReportData data) {
@@ -1036,7 +1122,10 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
-            child: Text("月份统计", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+            child: Text(
+              S.current.yearly_report_monthly_title,
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 32),
           // 并排展示
@@ -1061,7 +1150,10 @@ class YearlyReportUI extends HookConsumerWidget {
                           children: [
                             Icon(FontAwesomeIcons.fire, size: 18, color: Colors.orange),
                             const SizedBox(width: 10),
-                            Text("游玩最多", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                            Text(
+                              S.current.yearly_report_monthly_most,
+                              style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -1070,7 +1162,7 @@ class YearlyReportUI extends HookConsumerWidget {
                           style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.orange),
                         ),
                         Text(
-                          "启动了 ${data.mostPlayedMonthCount} 次",
+                          S.current.yearly_report_monthly_most_count(data.mostPlayedMonthCount),
                           style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
                         ),
                       ],
@@ -1092,7 +1184,10 @@ class YearlyReportUI extends HookConsumerWidget {
                           children: [
                             Icon(FontAwesomeIcons.snowflake, size: 18, color: Colors.teal),
                             const SizedBox(width: 10),
-                            Text("游玩最少", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                            Text(
+                              S.current.yearly_report_monthly_least,
+                              style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -1101,7 +1196,7 @@ class YearlyReportUI extends HookConsumerWidget {
                           style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.teal),
                         ),
                         Text(
-                          "仅启动 ${data.leastPlayedMonthCount} 次",
+                          S.current.yearly_report_monthly_least_count(data.leastPlayedMonthCount),
                           style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
                         ),
                       ],
@@ -1118,7 +1213,7 @@ class YearlyReportUI extends HookConsumerWidget {
   Widget _buildStreakStatsPage(BuildContext context, YearlyReportData data) {
     String formatDateRange(DateTime? start, DateTime? end) {
       if (start == null || end == null) return "";
-      return "${start.month}月${start.day}日 - ${end.month}月${end.day}日";
+      return S.current.yearly_report_date_range(start.month, start.day, end.month, end.day);
     }
 
     return Center(
@@ -1129,7 +1224,10 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
-            child: Text("连续记录", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+            child: Text(
+              S.current.yearly_report_streak_title,
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 32),
           // 并排展示
@@ -1154,7 +1252,10 @@ class YearlyReportUI extends HookConsumerWidget {
                           children: [
                             Icon(FontAwesomeIcons.gamepad, size: 18, color: Colors.green),
                             const SizedBox(width: 10),
-                            Text("连续游玩", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                            Text(
+                              S.current.yearly_report_streak_play,
+                              style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -1168,7 +1269,10 @@ class YearlyReportUI extends HookConsumerWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6, left: 4),
-                              child: Text("天", style: TextStyle(fontSize: 18, color: Colors.green)),
+                              child: Text(
+                                S.current.yearly_report_streak_day_unit,
+                                style: TextStyle(fontSize: 18, color: Colors.green),
+                              ),
                             ),
                           ],
                         ),
@@ -1196,7 +1300,10 @@ class YearlyReportUI extends HookConsumerWidget {
                           children: [
                             Icon(FontAwesomeIcons.bed, size: 18, color: Colors.grey),
                             const SizedBox(width: 10),
-                            Text("连续离线", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                            Text(
+                              S.current.yearly_report_streak_offline,
+                              style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9)),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -1210,7 +1317,10 @@ class YearlyReportUI extends HookConsumerWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6, left: 4),
-                              child: Text("天", style: TextStyle(fontSize: 18, color: Colors.grey)),
+                              child: Text(
+                                S.current.yearly_report_streak_day_unit,
+                                style: TextStyle(fontSize: 18, color: Colors.grey),
+                              ),
                             ),
                           ],
                         ),
@@ -1242,12 +1352,18 @@ class YearlyReportUI extends HookConsumerWidget {
             const SizedBox(height: 32),
             FadeInUp(
               delay: const Duration(milliseconds: 200),
-              child: Text("地点统计", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+              child: Text(
+                S.current.yearly_report_location_title,
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 16),
             FadeInUp(
               delay: const Duration(milliseconds: 400),
-              child: Text("暂无地点访问记录", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6))),
+              child: Text(
+                S.current.yearly_report_location_no_record,
+                style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
+              ),
             ),
           ],
         ),
@@ -1270,12 +1386,18 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
-            child: Text("常去的地点", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+            child: Text(
+              S.current.yearly_report_location_frequent,
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 16),
           FadeInUp(
             delay: const Duration(milliseconds: 300),
-            child: Text("基于库存查看记录统计", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
+            child: Text(
+              S.current.yearly_report_location_note,
+              style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
+            ),
           ),
           const SizedBox(height: 24),
           // 三排瀑布流横向滑动
@@ -1364,7 +1486,7 @@ class YearlyReportUI extends HookConsumerWidget {
                                               maxLines: 1,
                                             ),
                                             Text(
-                                              "${location.value} 次",
+                                              S.current.yearly_report_launch_count_value(location.value),
                                               style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .5)),
                                             ),
                                           ],
@@ -1398,13 +1520,16 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 300),
-            child: Text("感谢您的陪伴", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+            child: Text(
+              S.current.yearly_report_thanks_title,
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 16),
           FadeInUp(
             delay: const Duration(milliseconds: 500),
             child: Text(
-              "2025 年，我们一起在星际公民中\n创造了无数精彩回忆",
+              S.current.yearly_report_thanks_message(year.toString()),
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, color: Colors.white.withValues(alpha: .8)),
             ),
@@ -1412,7 +1537,10 @@ class YearlyReportUI extends HookConsumerWidget {
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 700),
-            child: Text("期待 2026 年继续与您相伴！", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6))),
+            child: Text(
+              S.current.yearly_report_thanks_next((year + 1).toString()),
+              style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
+            ),
           ),
         ],
       ),
@@ -1424,38 +1552,59 @@ class YearlyReportUI extends HookConsumerWidget {
 
     // 构建数据项列表
     final dataItems = <_SummaryGridItem>[
-      _SummaryGridItem("启动游戏", "${data.yearlyLaunchCount}", "次", FontAwesomeIcons.play, Colors.green, isWide: false),
       _SummaryGridItem(
-        "游玩时长",
+        S.current.yearly_report_summary_launch_game,
+        "${data.yearlyLaunchCount}",
+        S.current.about_analytics_units_times,
+        FontAwesomeIcons.play,
+        Colors.green,
+        isWide: false,
+      ),
+      _SummaryGridItem(
+        S.current.yearly_report_play_time_title,
         yearlyHours.toStringAsFixed(1),
-        "小时",
+        S.current.yearly_report_play_time_unit,
         FontAwesomeIcons.clock,
         Colors.blue,
         isWide: false,
       ),
-      _SummaryGridItem("游戏崩溃", "${data.yearlyCrashCount}", "次", FontAwesomeIcons.bug, Colors.orange, isWide: false),
       _SummaryGridItem(
-        "击杀",
+        S.current.yearly_report_crash_title,
+        "${data.yearlyCrashCount}",
+        S.current.about_analytics_units_times,
+        FontAwesomeIcons.bug,
+        Colors.orange,
+        isWide: false,
+      ),
+      _SummaryGridItem(
+        S.current.yearly_report_kd_kill,
         "${data.yearlyKillCount}",
-        "次",
+        S.current.about_analytics_units_times,
         FontAwesomeIcons.crosshairs,
         Colors.green,
         isWide: false,
       ),
-      _SummaryGridItem("死亡", "${data.yearlyDeathCount}", "次", FontAwesomeIcons.skull, Colors.red, isWide: false),
       _SummaryGridItem(
-        "载具损毁",
+        S.current.yearly_report_kd_death,
+        "${data.yearlyDeathCount}",
+        S.current.about_analytics_units_times,
+        FontAwesomeIcons.skull,
+        Colors.red,
+        isWide: false,
+      ),
+      _SummaryGridItem(
+        S.current.yearly_report_vehicle_destruction_title,
         "${data.yearlyVehicleDestructionCount}",
-        "次",
+        S.current.about_analytics_units_times,
         FontAwesomeIcons.explosion,
         Colors.red,
         isWide: false,
       ),
       if (data.longestSession != null)
         _SummaryGridItem(
-          "最长在线",
+          S.current.yearly_report_summary_longest_online,
           (data.longestSession!.inMinutes / 60).toStringAsFixed(1),
-          "小时",
+          S.current.yearly_report_play_time_unit,
           FontAwesomeIcons.hourglassHalf,
           Colors.purple,
           isWide: false,
@@ -1463,7 +1612,7 @@ class YearlyReportUI extends HookConsumerWidget {
       // 常去位置单独处理，不放在网格中
       if (data.earliestPlayDate != null)
         _SummaryGridItem(
-          "最早时刻",
+          S.current.yearly_report_summary_earliest_time,
           "${data.earliestPlayDate!.hour.toString().padLeft(2, '0')}:${data.earliestPlayDate!.minute.toString().padLeft(2, '0')}",
           "",
           FontAwesomeIcons.sun,
@@ -1472,7 +1621,7 @@ class YearlyReportUI extends HookConsumerWidget {
         ),
       if (data.latestPlayDate != null)
         _SummaryGridItem(
-          "最晚时刻",
+          S.current.yearly_report_summary_latest_time,
           "${data.latestPlayDate!.hour.toString().padLeft(2, '0')}:${data.latestPlayDate!.minute.toString().padLeft(2, '0')}",
           "",
           FontAwesomeIcons.moon,
@@ -1480,9 +1629,9 @@ class YearlyReportUI extends HookConsumerWidget {
           isWide: false,
         ),
       _SummaryGridItem(
-        "重开次数",
+        S.current.yearly_report_summary_respawn_count,
         "${data.yearlySelfKillCount}",
-        "次",
+        S.current.about_analytics_units_times,
         FontAwesomeIcons.personFalling,
         Colors.grey,
         isWide: false,
@@ -1490,7 +1639,7 @@ class YearlyReportUI extends HookConsumerWidget {
       // 月份统计
       if (data.mostPlayedMonth != null)
         _SummaryGridItem(
-          "最热月",
+          S.current.yearly_report_summary_hottest_month,
           _getMonthName(data.mostPlayedMonth!),
           "",
           FontAwesomeIcons.fire,
@@ -1500,19 +1649,26 @@ class YearlyReportUI extends HookConsumerWidget {
       // 连续游玩/离线
       if (data.longestPlayStreak > 0)
         _SummaryGridItem(
-          "连续游玩",
+          S.current.yearly_report_streak_play,
           "${data.longestPlayStreak}",
-          "天",
+          S.current.yearly_report_streak_day_unit,
           FontAwesomeIcons.gamepad,
           Colors.green,
           isWide: false,
         ),
       if (data.longestOfflineStreak > 0)
-        _SummaryGridItem("连续离线", "${data.longestOfflineStreak}", "天", FontAwesomeIcons.bed, Colors.grey, isWide: false),
+        _SummaryGridItem(
+          S.current.yearly_report_streak_offline,
+          "${data.longestOfflineStreak}",
+          S.current.yearly_report_streak_day_unit,
+          FontAwesomeIcons.bed,
+          Colors.grey,
+          isWide: false,
+        ),
       // 常去位置和最爱载具
       if (data.topLocations.isNotEmpty)
         _SummaryGridItem(
-          "常去位置",
+          S.current.yearly_report_summary_frequent_location,
           data.topLocations.first.key,
           "",
           FontAwesomeIcons.locationDot,
@@ -1521,7 +1677,7 @@ class YearlyReportUI extends HookConsumerWidget {
         ),
       if (data.mostPilotedVehicle != null)
         _SummaryGridItem(
-          "最爱载具",
+          S.current.yearly_report_summary_favorite_vehicle,
           data.mostPilotedVehicle!,
           "",
           FontAwesomeIcons.shuttleSpace,
@@ -1543,7 +1699,7 @@ class YearlyReportUI extends HookConsumerWidget {
                   Icon(FontAwesomeIcons.star, size: 20, color: Colors.yellow),
                   const SizedBox(width: 12),
                   Text(
-                    "星际公民 2025 年度报告",
+                    S.current.yearly_report_title(year.toString()),
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   const SizedBox(width: 12),
@@ -1638,7 +1794,7 @@ class YearlyReportUI extends HookConsumerWidget {
             FadeInUp(
               delay: const Duration(milliseconds: 400),
               child: Text(
-                "由 SC 汉化盒子为您呈现",
+                S.current.yearly_report_powered_by,
                 style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .3)),
               ),
             ),
@@ -1654,7 +1810,7 @@ class YearlyReportUI extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .15)),
       child: Text(
-        "数据使用您的本地日志生成，不会发送到任何第三方。因跨版本 Log 改动较大，数据可能不完整，仅供娱乐。",
+        S.current.yearly_report_disclaimer,
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: .7)),
       ),

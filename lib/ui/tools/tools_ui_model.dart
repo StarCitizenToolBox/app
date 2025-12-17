@@ -81,18 +81,25 @@ class ToolsUIModel extends _$ToolsUIModel {
         ),
       ];
 
-      // 2025 年度报告入口 - 2026年1月20日前显示
-      final deadline = DateTime(2026, 1, 20);
-      if (DateTime.now().isBefore(deadline)) {
+      // 年度报告入口 logic
+      final now = DateTime.now();
+      int? reportYear;
+      if (now.month == 12 && now.day >= 10) {
+        reportYear = now.year;
+      } else if (now.month == 1 && now.day <= 20) {
+        reportYear = now.year - 1;
+      }
+
+      if (reportYear != null) {
         items.insert(
           0,
           ToolsItemData(
             "yearly_report",
-            "2025 年度报告（限时）",
-            "查看您在2025年的星际公民游玩统计，数据来自本地 log ，请确保在常用电脑上查看。",
+            S.current.yearly_report_card_title(reportYear.toString()),
+            S.current.yearly_report_card_desc(reportYear.toString()),
             const Icon(FontAwesomeIcons.star, size: 22),
             onTap: () async {
-              _openYearlyReport(context);
+              _openYearlyReport(context, reportYear!);
             },
           ),
         );
@@ -766,15 +773,17 @@ class ToolsUIModel extends _$ToolsUIModel {
     );
   }
 
-  void _openYearlyReport(BuildContext context) {
+  void _openYearlyReport(BuildContext context, int year) {
     if (state.scInstallPaths.isEmpty) {
       showToast(context, S.current.tools_action_info_valid_game_directory_needed);
       return;
     }
 
-    Navigator.of(
-      context,
-    ).push(FluentPageRoute(builder: (context) => YearlyReportUI(gameInstallPaths: state.scInstallPaths)));
+    Navigator.of(context).push(
+      FluentPageRoute(
+        builder: (context) => YearlyReportUI(gameInstallPaths: state.scInstallPaths, year: year),
+      ),
+    );
   }
 }
 

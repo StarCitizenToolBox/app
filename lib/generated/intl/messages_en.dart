@@ -300,6 +300,54 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m122(v0) => "P4K Viewer -> ${v0}";
 
+  static String m123(v0) => "Logged in ${v0} times";
+
+  static String m124(v0) => "Detected ${v0} accounts in total";
+
+  static String m125(year) =>
+      "View your Star Citizen gameplay statistics for ${year}. Data is from local logs, please check on your main computer.";
+
+  static String m126(year) => "${year} Yearly Report (Limited Time)";
+
+  static String m127(v0, v1, v2, v3) => "${v0}/${v1} - ${v2}/${v3}";
+
+  static String m128(v0, v1) => "${v0} hours ${v1} minutes";
+
+  static String m129(v0) => "${v0} minutes";
+
+  static String m130(v0, v1) =>
+      "You started your space journey at dawn on ${v0}/${v1}";
+
+  static String m131(v0, v1) =>
+      "Late night on ${v0}/${v1}, you were still exploring the universe";
+
+  static String m132(v0) => "${v0} times";
+
+  static String m133(v0) => "Month ${v0}";
+
+  static String m134(v0) => "Only launched ${v0} times";
+
+  static String m135(v0) => "Launched ${v0} times";
+
+  static String m136(v0) => "${v0} hours";
+
+  static String m137(v0, v1) => "${v0}/${v1}";
+
+  static String m138(year) =>
+      "In ${year}, together we created\\ncountless wonderful memories in Star Citizen";
+
+  static String m139(nextYear) => "Looking forward to ${nextYear} with you!";
+
+  static String m140(year) => "Star Citizen ${year} Yearly Report";
+
+  static String m141(v0) => "Destroyed ${v0} times";
+
+  static String m142(v0) => "Piloted ${v0} times";
+
+  static String m143(v0) => "View all ${v0} vehicles";
+
+  static String m144(year) => "${year} Yearly Report";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about_action_btn_faq": MessageLookupByLibrary.simpleMessage("FAQ"),
@@ -2475,5 +2523,208 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Total invitations:"),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("Unfinished invitations"),
+    "yearly_report_account_count": m123,
+    "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
+      "View all accounts",
+    ),
+    "yearly_report_account_most": MessageLookupByLibrary.simpleMessage(
+      "Most used account",
+    ),
+    "yearly_report_account_title": MessageLookupByLibrary.simpleMessage(
+      "Account Statistics",
+    ),
+    "yearly_report_account_total": m124,
+    "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
+      "Analyzing game log data",
+    ),
+    "yearly_report_card_desc": m125,
+    "yearly_report_card_title": m126,
+    "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
+      "Unstable moments this year",
+    ),
+    "yearly_report_crash_label": MessageLookupByLibrary.simpleMessage(
+      "Total Crashes",
+    ),
+    "yearly_report_crash_note_high": MessageLookupByLibrary.simpleMessage(
+      "Hope it\'s more stable next year!",
+    ),
+    "yearly_report_crash_note_low": MessageLookupByLibrary.simpleMessage(
+      "Lucky you!",
+    ),
+    "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage(
+      "Game Crash Count",
+    ),
+    "yearly_report_date_range": m127,
+    "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
+      "Data is generated from your local logs and will not be sent to any third party. Due to significant log changes across versions, data may be incomplete. For entertainment purposes only.",
+    ),
+    "yearly_report_duration_hours_minutes": m128,
+    "yearly_report_duration_minutes": m129,
+    "yearly_report_earliest_play_desc": m130,
+    "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
+      "Earliest Play Session",
+    ),
+    "yearly_report_error_description": MessageLookupByLibrary.simpleMessage(
+      "Please ensure the game directory is correct and log files exist",
+    ),
+    "yearly_report_error_title": MessageLookupByLibrary.simpleMessage(
+      "Unable to generate yearly report",
+    ),
+    "yearly_report_generating": MessageLookupByLibrary.simpleMessage(
+      "Generating your yearly report...",
+    ),
+    "yearly_report_kd_death": MessageLookupByLibrary.simpleMessage("Deaths"),
+    "yearly_report_kd_kill": MessageLookupByLibrary.simpleMessage("Kills"),
+    "yearly_report_kd_no_record": MessageLookupByLibrary.simpleMessage(
+      "No kill/death records detected this year",
+    ),
+    "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage(
+      "Suicides",
+    ),
+    "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage(
+      "Kill Statistics",
+    ),
+    "yearly_report_latest_play_desc": m131,
+    "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
+      "Latest Play Session",
+    ),
+    "yearly_report_launch_count_desc": MessageLookupByLibrary.simpleMessage(
+      "This year you launched the game",
+    ),
+    "yearly_report_launch_count_label": MessageLookupByLibrary.simpleMessage(
+      "Total Launches",
+    ),
+    "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
+      "Game Launch Count",
+    ),
+    "yearly_report_launch_count_value": m132,
+    "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
+      "Frequent Locations",
+    ),
+    "yearly_report_location_no_record": MessageLookupByLibrary.simpleMessage(
+      "No location visit records",
+    ),
+    "yearly_report_location_note": MessageLookupByLibrary.simpleMessage(
+      "Based on inventory viewing records",
+    ),
+    "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
+      "Location Statistics",
+    ),
+    "yearly_report_month_format": m133,
+    "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage(
+      "Least played",
+    ),
+    "yearly_report_monthly_least_count": m134,
+    "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage(
+      "Most played",
+    ),
+    "yearly_report_monthly_most_count": m135,
+    "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage(
+      "Monthly Statistics",
+    ),
+    "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("Continue"),
+    "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage(
+      "Previous Page",
+    ),
+    "yearly_report_no_data": MessageLookupByLibrary.simpleMessage(
+      "No data available",
+    ),
+    "yearly_report_play_time_desc": MessageLookupByLibrary.simpleMessage(
+      "This year you explored the universe for",
+    ),
+    "yearly_report_play_time_label": MessageLookupByLibrary.simpleMessage(
+      "Total Playtime",
+    ),
+    "yearly_report_play_time_title": MessageLookupByLibrary.simpleMessage(
+      "Play Time",
+    ),
+    "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage(
+      "hours",
+    ),
+    "yearly_report_play_time_value": m136,
+    "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
+      "Presented by SCToolbox",
+    ),
+    "yearly_report_session_average": MessageLookupByLibrary.simpleMessage(
+      "Average",
+    ),
+    "yearly_report_session_date": m137,
+    "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage(
+      "Longest",
+    ),
+    "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
+      "(Shortest only counts sessions over 5 minutes)",
+    ),
+    "yearly_report_session_shortest": MessageLookupByLibrary.simpleMessage(
+      "Shortest",
+    ),
+    "yearly_report_session_title": MessageLookupByLibrary.simpleMessage(
+      "Session Time Details",
+    ),
+    "yearly_report_streak_day_unit": MessageLookupByLibrary.simpleMessage(
+      "days",
+    ),
+    "yearly_report_streak_offline": MessageLookupByLibrary.simpleMessage(
+      "Consecutive Offline",
+    ),
+    "yearly_report_streak_play": MessageLookupByLibrary.simpleMessage(
+      "Consecutive Play",
+    ),
+    "yearly_report_streak_title": MessageLookupByLibrary.simpleMessage(
+      "Streak Records",
+    ),
+    "yearly_report_summary_earliest_time": MessageLookupByLibrary.simpleMessage(
+      "Earliest Time",
+    ),
+    "yearly_report_summary_favorite_vehicle":
+        MessageLookupByLibrary.simpleMessage("Favorite Vehicle"),
+    "yearly_report_summary_frequent_location":
+        MessageLookupByLibrary.simpleMessage("Frequent Location"),
+    "yearly_report_summary_hottest_month": MessageLookupByLibrary.simpleMessage(
+      "Hottest Month",
+    ),
+    "yearly_report_summary_latest_time": MessageLookupByLibrary.simpleMessage(
+      "Latest Time",
+    ),
+    "yearly_report_summary_launch_game": MessageLookupByLibrary.simpleMessage(
+      "Launch Game",
+    ),
+    "yearly_report_summary_longest_online":
+        MessageLookupByLibrary.simpleMessage("Longest Online"),
+    "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
+      "Respawn Count",
+    ),
+    "yearly_report_thanks_message": m138,
+    "yearly_report_thanks_next": m139,
+    "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
+      "Thank You for Being With Us",
+    ),
+    "yearly_report_title": m140,
+    "yearly_report_vehicle_destruction_count": m141,
+    "yearly_report_vehicle_destruction_desc":
+        MessageLookupByLibrary.simpleMessage("This year you destroyed"),
+    "yearly_report_vehicle_destruction_most":
+        MessageLookupByLibrary.simpleMessage("Most destroyed ship"),
+    "yearly_report_vehicle_destruction_title":
+        MessageLookupByLibrary.simpleMessage("Vehicle Destruction Statistics"),
+    "yearly_report_vehicle_destruction_unit":
+        MessageLookupByLibrary.simpleMessage("ships"),
+    "yearly_report_vehicle_pilot_collapse":
+        MessageLookupByLibrary.simpleMessage("Collapse details"),
+    "yearly_report_vehicle_pilot_count": m142,
+    "yearly_report_vehicle_pilot_expand": m143,
+    "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
+      "Most piloted vehicle",
+    ),
+    "yearly_report_vehicle_pilot_title": MessageLookupByLibrary.simpleMessage(
+      "Vehicle Piloting Statistics",
+    ),
+    "yearly_report_welcome_hint": MessageLookupByLibrary.simpleMessage(
+      "Scroll down or click the button below to start",
+    ),
+    "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Relive your memorable moments in Star Citizen",
+    ),
+    "yearly_report_welcome_title": m144,
   };
 }

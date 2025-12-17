@@ -249,6 +249,50 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m122(v0) => "P4K 查看器 -> ${v0}";
 
+  static String m123(v0) => "登入了 ${v0} 次";
+
+  static String m124(v0) => "共檢測到 ${v0} 個帳號";
+
+  static String m125(year) => "查看您在${year}年的星際公民遊玩統計，數據來自本地 log ，請確保在常用電腦上查看。";
+
+  static String m126(year) => "${year} 年度報告（限時）";
+
+  static String m127(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
+
+  static String m128(v0, v1) => "${v0} 小時 ${v1} 分鐘";
+
+  static String m129(v0) => "${v0} 分鐘";
+
+  static String m130(v0, v1) => "您在清晨 ${v0} 月 ${v1} 日開始了星際之旅";
+
+  static String m131(v0, v1) => "深夜 ${v0} 月 ${v1} 日還在探索宇宙";
+
+  static String m132(v0) => "${v0} 次";
+
+  static String m133(v0) => "${v0}月";
+
+  static String m134(v0) => "僅啟動 ${v0} 次";
+
+  static String m135(v0) => "啟動了 ${v0} 次";
+
+  static String m136(v0) => "${v0} 小時";
+
+  static String m137(v0, v1) => "${v0}月${v1}日";
+
+  static String m138(year) => "${year} 年，我們一起在星際公民中\\n創造了無數精彩回憶";
+
+  static String m139(nextYear) => "期待 ${nextYear} 年繼續與您相伴！";
+
+  static String m140(year) => "星際公民 ${year} 年度報告";
+
+  static String m141(v0) => "炸了 ${v0} 次";
+
+  static String m142(v0) => "駕駛了 ${v0} 次";
+
+  static String m143(v0) => "查看全部 ${v0} 個載具";
+
+  static String m144(year) => "${year} 年度報告";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about_action_btn_faq": MessageLookupByLibrary.simpleMessage("常見問題"),
@@ -1907,5 +1951,176 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("總邀請數："),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("未完成的邀請"),
+    "yearly_report_account_count": m123,
+    "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
+      "查看全部帳號",
+    ),
+    "yearly_report_account_most": MessageLookupByLibrary.simpleMessage(
+      "最常使用的帳號",
+    ),
+    "yearly_report_account_title": MessageLookupByLibrary.simpleMessage("帳號統計"),
+    "yearly_report_account_total": m124,
+    "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
+      "正在分析遊戲日誌數據",
+    ),
+    "yearly_report_card_desc": m125,
+    "yearly_report_card_title": m126,
+    "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
+      "今年遊戲不太穩定的時刻",
+    ),
+    "yearly_report_crash_label": MessageLookupByLibrary.simpleMessage("累計崩潰"),
+    "yearly_report_crash_note_high": MessageLookupByLibrary.simpleMessage(
+      "希望明年能更穩定！",
+    ),
+    "yearly_report_crash_note_low": MessageLookupByLibrary.simpleMessage(
+      "運氣不錯！",
+    ),
+    "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage("遊戲崩潰次數"),
+    "yearly_report_date_range": m127,
+    "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
+      "數據使用您的本地日誌生成，不會發送到任何第三方。因跨版本 Log 改動較大，數據可能不完整，僅供娛樂。",
+    ),
+    "yearly_report_duration_hours_minutes": m128,
+    "yearly_report_duration_minutes": m129,
+    "yearly_report_earliest_play_desc": m130,
+    "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
+      "最早的一次遊玩",
+    ),
+    "yearly_report_error_description": MessageLookupByLibrary.simpleMessage(
+      "請確保遊戲目錄正確且存在日誌文件",
+    ),
+    "yearly_report_error_title": MessageLookupByLibrary.simpleMessage(
+      "無法生成年度報告",
+    ),
+    "yearly_report_generating": MessageLookupByLibrary.simpleMessage(
+      "正在生成您的年度報告...",
+    ),
+    "yearly_report_kd_death": MessageLookupByLibrary.simpleMessage("死亡"),
+    "yearly_report_kd_kill": MessageLookupByLibrary.simpleMessage("擊殺"),
+    "yearly_report_kd_no_record": MessageLookupByLibrary.simpleMessage(
+      "今年沒有檢測到擊殺/死亡記錄",
+    ),
+    "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage("自殺"),
+    "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage("擊殺統計"),
+    "yearly_report_latest_play_desc": m131,
+    "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
+      "最晚的一次遊玩",
+    ),
+    "yearly_report_launch_count_desc": MessageLookupByLibrary.simpleMessage(
+      "今年您啟動了遊戲",
+    ),
+    "yearly_report_launch_count_label": MessageLookupByLibrary.simpleMessage(
+      "累計啟動",
+    ),
+    "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
+      "遊戲啟動次數",
+    ),
+    "yearly_report_launch_count_value": m132,
+    "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
+      "常去的地點",
+    ),
+    "yearly_report_location_no_record": MessageLookupByLibrary.simpleMessage(
+      "暫無地點訪問記錄",
+    ),
+    "yearly_report_location_note": MessageLookupByLibrary.simpleMessage(
+      "基於庫存查看記錄統計",
+    ),
+    "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
+      "地點統計",
+    ),
+    "yearly_report_month_format": m133,
+    "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage("遊玩最少"),
+    "yearly_report_monthly_least_count": m134,
+    "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage("遊玩最多"),
+    "yearly_report_monthly_most_count": m135,
+    "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage("月份統計"),
+    "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("繼續查看"),
+    "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("上一頁"),
+    "yearly_report_no_data": MessageLookupByLibrary.simpleMessage("暫無數據"),
+    "yearly_report_play_time_desc": MessageLookupByLibrary.simpleMessage(
+      "今年您在宇宙中遨遊了",
+    ),
+    "yearly_report_play_time_label": MessageLookupByLibrary.simpleMessage(
+      "累計遊玩",
+    ),
+    "yearly_report_play_time_title": MessageLookupByLibrary.simpleMessage(
+      "遊玩時長",
+    ),
+    "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("小時"),
+    "yearly_report_play_time_value": m136,
+    "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
+      "由 SC工具箱為您呈現",
+    ),
+    "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
+    "yearly_report_session_date": m137,
+    "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage("最長"),
+    "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
+      "(最短僅統計超過 5 分鐘的遊戲)",
+    ),
+    "yearly_report_session_shortest": MessageLookupByLibrary.simpleMessage(
+      "最短",
+    ),
+    "yearly_report_session_title": MessageLookupByLibrary.simpleMessage(
+      "遊玩時長詳情",
+    ),
+    "yearly_report_streak_day_unit": MessageLookupByLibrary.simpleMessage("天"),
+    "yearly_report_streak_offline": MessageLookupByLibrary.simpleMessage(
+      "連續離線",
+    ),
+    "yearly_report_streak_play": MessageLookupByLibrary.simpleMessage("連續遊玩"),
+    "yearly_report_streak_title": MessageLookupByLibrary.simpleMessage("連續記錄"),
+    "yearly_report_summary_earliest_time": MessageLookupByLibrary.simpleMessage(
+      "最早時刻",
+    ),
+    "yearly_report_summary_favorite_vehicle":
+        MessageLookupByLibrary.simpleMessage("最愛載具"),
+    "yearly_report_summary_frequent_location":
+        MessageLookupByLibrary.simpleMessage("常去位置"),
+    "yearly_report_summary_hottest_month": MessageLookupByLibrary.simpleMessage(
+      "最熱月",
+    ),
+    "yearly_report_summary_latest_time": MessageLookupByLibrary.simpleMessage(
+      "最晚時刻",
+    ),
+    "yearly_report_summary_launch_game": MessageLookupByLibrary.simpleMessage(
+      "啟動遊戲",
+    ),
+    "yearly_report_summary_longest_online":
+        MessageLookupByLibrary.simpleMessage("最長在線"),
+    "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
+      "重開次數",
+    ),
+    "yearly_report_thanks_message": m138,
+    "yearly_report_thanks_next": m139,
+    "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
+      "感謝您的陪伴",
+    ),
+    "yearly_report_title": m140,
+    "yearly_report_vehicle_destruction_count": m141,
+    "yearly_report_vehicle_destruction_desc":
+        MessageLookupByLibrary.simpleMessage("今年您共炸了"),
+    "yearly_report_vehicle_destruction_most":
+        MessageLookupByLibrary.simpleMessage("炸的最多的船"),
+    "yearly_report_vehicle_destruction_title":
+        MessageLookupByLibrary.simpleMessage("載具損毀統計"),
+    "yearly_report_vehicle_destruction_unit":
+        MessageLookupByLibrary.simpleMessage("艘船"),
+    "yearly_report_vehicle_pilot_collapse":
+        MessageLookupByLibrary.simpleMessage("收起詳情"),
+    "yearly_report_vehicle_pilot_count": m142,
+    "yearly_report_vehicle_pilot_expand": m143,
+    "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
+      "最常駕駛的載具",
+    ),
+    "yearly_report_vehicle_pilot_title": MessageLookupByLibrary.simpleMessage(
+      "載具駕駛統計",
+    ),
+    "yearly_report_welcome_hint": MessageLookupByLibrary.simpleMessage(
+      "向下滾動或點擊下方按鈕開始",
+    ),
+    "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
+      "回顧您在星際公民中的精彩時刻",
+    ),
+    "yearly_report_welcome_title": m144,
   };
 }
