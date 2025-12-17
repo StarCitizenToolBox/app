@@ -386,16 +386,19 @@ class YearlyReportAnalyzer {
                   stats._lastDeathTime != null && lineTime.difference(stats._lastDeathTime!).abs().inSeconds <= 2;
 
               // 检测自杀
+              // 自杀逻辑：selfKillCount 独立统计自杀次数
+              // deathCount 包含所有死亡（普通死亡+自杀），因此自杀时不再从 deathCount 回退
               if (victimId == killerId) {
                 if (victimId == stats.currentPlayerName) {
                   if (isRecent) {
-                    // 如果最近已经记录过一次死亡 (可能是通用格式记录的)，则修正为自杀
-                    // 假设通用格式默认为 deathCount++，这里回退并加到 selfKillCount
-                    if (stats.deathCount > 0) stats.deathCount--;
+                    // 如果最近已经记录过一次死亡 (通用格式记录的)，说明已经在 deathCount 中计入
+                    // 只需额外标记为自杀
                     stats.selfKillCount++;
                     // 更新时间以保持锁定
                     stats._lastDeathTime = lineTime;
                   } else {
+                    // 没有被新版格式记录过，需要同时计入 deathCount 和 selfKillCount
+                    stats.deathCount++;
                     stats.selfKillCount++;
                     stats._lastDeathTime = lineTime;
                   }
