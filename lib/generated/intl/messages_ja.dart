@@ -1927,9 +1927,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_valid_game_directory_needed":
         MessageLookupByLibrary.simpleMessage("この機能には有効なゲームインストールディレクトリが必要です"),
     "tools_action_info_view_critical_system_info":
-        MessageLookupByLibrary.simpleMessage(
-          "診断に役立つ重要なシステム情報を表示 \n\n時間のかかる操作です、お待ちください。",
-        ),
+        MessageLookupByLibrary.simpleMessage("診断に役立つ重要なシステム情報を表示"),
     "tools_action_open_photography_mode": MessageLookupByLibrary.simpleMessage(
       "撮影モードを開く",
     ),

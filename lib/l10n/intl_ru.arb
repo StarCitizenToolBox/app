@@ -555,7 +555,7 @@
   "@tools_info_rsi_launcher_location": {},
   "tools_action_view_system_info": "Просмотр информации о системе",
   "@tools_action_view_system_info": {},
-  "tools_action_info_view_critical_system_info": "Просмотр критической информации о системе для быстрой диагностики\n\nЭто может занять время, пожалуйста, подождите.",
+  "tools_action_info_view_critical_system_info": "Просмотр критической информации о системе для быстрой диагностики",
   "@tools_action_info_view_critical_system_info": {},
   "tools_action_p4k_download_repair": "Загрузка/восстановление P4K через зеркало",
   "@tools_action_p4k_download_repair": {},

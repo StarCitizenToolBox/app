@@ -1749,7 +1749,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Enable OpenXR",
     ),
     "performance_json_text_openxr_info": MessageLookupByLibrary.simpleMessage(
-      "Connect OpenXR-compatible headsets, use Numpad / to switch between VR and widescreen theater mode after game launch",
+      "Connect to an OpenXR compatible headset, launch the game, and use left Alt + numeric keypad 5 to switch between VR and widescreen theater modes.",
     ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
       "Particle Detail",

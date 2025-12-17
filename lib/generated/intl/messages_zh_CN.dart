@@ -1463,7 +1463,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "启用 OpenXR",
     ),
     "performance_json_text_openxr_info": MessageLookupByLibrary.simpleMessage(
-      "连接与 OpenXR 兼容的头显，启动游戏后，使用数字小键盘 / 切换 VR 与 宽屏剧院模式",
+      "连接与 OpenXR 兼容的头显，启动游戏后，使用左Alt+数字小键盘5切换 VR 与 宽屏剧院模式",
     ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
       "粒子细节",
@@ -1911,7 +1911,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_valid_game_directory_needed":
         MessageLookupByLibrary.simpleMessage("该功能需要一个有效的游戏安装目录"),
     "tools_action_info_view_critical_system_info":
-        MessageLookupByLibrary.simpleMessage("查看系统关键信息，用于快速问诊 \n\n耗时操作，请耐心等待。"),
+        MessageLookupByLibrary.simpleMessage("查看系统关键信息，用于快速问诊。"),
     "tools_action_open_photography_mode": MessageLookupByLibrary.simpleMessage(
       "开启摄影模式",
     ),

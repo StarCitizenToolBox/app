@@ -1367,7 +1367,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "啟用 OpenXR",
     ),
     "performance_json_text_openxr_info": MessageLookupByLibrary.simpleMessage(
-      "連接與 OpenXR 兼容的頭顯，啟動遊戲後，使用數字小鍵盤 / 切換 VR 與 寬屏劇院模式",
+      "連接與 OpenXR 相容的頭顯，啟動遊戲後，使用左Alt+數位小鍵盤5切換 VR 與 寬螢幕劇院模式",
     ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
       "粒子細節",
@@ -1804,9 +1804,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_valid_game_directory_needed":
         MessageLookupByLibrary.simpleMessage("該功能需要一個有效的遊戲安裝目錄"),
     "tools_action_info_view_critical_system_info":
-        MessageLookupByLibrary.simpleMessage(
-          "查看系統關鍵資訊，用於快速診斷 \n\n此功能較為耗時，請耐心等待。",
-        ),
+        MessageLookupByLibrary.simpleMessage("查看系統關鍵資訊，用於快速診斷"),
     "tools_action_open_photography_mode": MessageLookupByLibrary.simpleMessage(
       "攝影模式",
     ),

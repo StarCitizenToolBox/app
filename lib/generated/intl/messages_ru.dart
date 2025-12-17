@@ -2167,7 +2167,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "tools_action_info_view_critical_system_info":
         MessageLookupByLibrary.simpleMessage(
-          "Просмотр критической информации о системе для быстрой диагностики\n\nЭто может занять время, пожалуйста, подождите.",
+          "Просмотр критической информации о системе для быстрой диагностики",
         ),
     "tools_action_open_photography_mode": MessageLookupByLibrary.simpleMessage(
       "Включить режим фотографии",

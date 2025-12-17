@@ -555,7 +555,7 @@
   "@tools_info_rsi_launcher_location": {},
   "tools_action_view_system_info": "システム情報を表示",
   "@tools_action_view_system_info": {},
-  "tools_action_info_view_critical_system_info": "診断に役立つ重要なシステム情報を表示 \n\n時間のかかる操作です、お待ちください。",
+  "tools_action_info_view_critical_system_info": "診断に役立つ重要なシステム情報を表示",
   "@tools_action_info_view_critical_system_info": {},
   "tools_action_p4k_download_repair": "P4K 分散ダウンロード / 修復",
   "@tools_action_p4k_download_repair": {},

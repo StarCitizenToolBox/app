@@ -4586,10 +4586,10 @@ class S {
     );
   }
 
-  /// `Connect OpenXR-compatible headsets, use Numpad / to switch between VR and widescreen theater mode after game launch`
+  /// `Connect to an OpenXR compatible headset, launch the game, and use left Alt + numeric keypad 5 to switch between VR and widescreen theater modes.`
   String get performance_json_text_openxr_info {
     return Intl.message(
-      'Connect OpenXR-compatible headsets, use Numpad / to switch between VR and widescreen theater mode after game launch',
+      'Connect to an OpenXR compatible headset, launch the game, and use left Alt + numeric keypad 5 to switch between VR and widescreen theater modes.',
       name: 'performance_json_text_openxr_info',
       desc: '',
       args: [],
