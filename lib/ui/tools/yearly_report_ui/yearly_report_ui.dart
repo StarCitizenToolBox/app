@@ -29,7 +29,7 @@ class YearlyReportUI extends HookConsumerWidget {
 
     return makeDefaultPage(
       context,
-      title: "2025 年度报告",
+      title: "星际公民 2025 年度报告",
       useBodyContainer: true,
       content: Column(
         children: [
@@ -233,6 +233,10 @@ class YearlyReportUI extends HookConsumerWidget {
       _buildPlayTimePage(context, data),
       // 游玩时长详情
       _buildSessionStatsPage(context, data),
+      // 月份统计
+      _buildMonthlyStatsPage(context, data),
+      // 连续游玩/离线统计
+      _buildStreakStatsPage(context, data),
       // 崩溃次数
       _buildCrashCountPage(context, data),
       // 击杀统计 (K/D)
@@ -375,69 +379,78 @@ class YearlyReportUI extends HookConsumerWidget {
               ),
             ),
           const SizedBox(height: 32),
-          // 详细数据
+          // 详细数据 - 等宽卡片
           FadeInUp(
             delay: const Duration(milliseconds: 600),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: FluentTheme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    children: [
-                      Icon(FontAwesomeIcons.skull, size: 24, color: Colors.green),
-                      const SizedBox(height: 8),
-                      Text("击杀", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
-                      const SizedBox(height: 4),
-                      Text(
-                        "${data.yearlyKillCount}",
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.green),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: FluentTheme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    children: [
-                      Icon(FontAwesomeIcons.skullCrossbones, size: 24, color: Colors.red),
-                      const SizedBox(height: 8),
-                      Text("死亡", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
-                      const SizedBox(height: 4),
-                      Text(
-                        "${data.yearlyDeathCount}",
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red),
-                      ),
-                    ],
+                SizedBox(
+                  width: 100,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(FontAwesomeIcons.skull, size: 24, color: Colors.green),
+                        const SizedBox(height: 8),
+                        Text("击杀", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
+                        const SizedBox(height: 4),
+                        Text(
+                          "${data.yearlyKillCount}",
+                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.green),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: FluentTheme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(12),
+                SizedBox(
+                  width: 100,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(FontAwesomeIcons.skullCrossbones, size: 24, color: Colors.red),
+                        const SizedBox(height: 8),
+                        Text("死亡", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
+                        const SizedBox(height: 4),
+                        Text(
+                          "${data.yearlyDeathCount}",
+                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    children: [
-                      Icon(FontAwesomeIcons.personFalling, size: 24, color: Colors.orange),
-                      const SizedBox(height: 8),
-                      Text("自杀", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
-                      const SizedBox(height: 4),
-                      Text(
-                        "${data.yearlySelfKillCount}",
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.orange),
-                      ),
-                    ],
+                ),
+                const SizedBox(width: 16),
+                SizedBox(
+                  width: 100,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(FontAwesomeIcons.personFalling, size: 24, color: Colors.orange),
+                        const SizedBox(height: 8),
+                        Text("自杀", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
+                        const SizedBox(height: 4),
+                        Text(
+                          "${data.yearlySelfKillCount}",
+                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.orange),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -653,53 +666,61 @@ class YearlyReportUI extends HookConsumerWidget {
                             onPointerSignal: (event) {
                               if (event is PointerScrollEvent) {
                                 final newOffset = scrollController.offset + event.scrollDelta.dy;
-                                if (newOffset >= scrollController.position.minScrollExtent &&
-                                    newOffset <= scrollController.position.maxScrollExtent) {
+                                final canScroll =
+                                    newOffset >= scrollController.position.minScrollExtent &&
+                                    newOffset <= scrollController.position.maxScrollExtent;
+                                if (canScroll) {
                                   scrollController.jumpTo(newOffset);
                                 }
+                                // 消费滚动事件，阻止向上冒泡触发页面滚动
                               }
                             },
-                            child: SingleChildScrollView(
-                              controller: scrollController,
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: sortedVehicles.map((vehicle) {
-                                  return Container(
-                                    width: 140,
-                                    margin: const EdgeInsets.symmetric(horizontal: 6),
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          vehicle.key,
-                                          style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .9)),
-                                          textAlign: TextAlign.center,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          "${vehicle.value}",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
+                            behavior: HitTestBehavior.opaque,
+                            child: NotificationListener<ScrollNotification>(
+                              onNotification: (_) => true, // 消费所有滚动通知
+                              child: SingleChildScrollView(
+                                controller: scrollController,
+                                scrollDirection: Axis.horizontal,
+                                physics: const ClampingScrollPhysics(),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: sortedVehicles.map((vehicle) {
+                                    return Container(
+                                      width: 140,
+                                      margin: const EdgeInsets.symmetric(horizontal: 6),
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            vehicle.key,
+                                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .9)),
+                                            textAlign: TextAlign.center,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        ),
-                                        Text(
-                                          "次",
-                                          style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .6)),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            "${vehicle.value}",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            "次",
+                                            style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .6)),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                             ),
                           ),
@@ -873,104 +894,126 @@ class YearlyReportUI extends HookConsumerWidget {
               child: Text("游玩时长详情", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 32),
-            // 平均时长
+            // 横排显示三个时长卡片
             FadeInUp(
               delay: const Duration(milliseconds: 400),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.symmetric(horizontal: 24),
-                decoration: BoxDecoration(
-                  color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(FontAwesomeIcons.chartLine, size: 20, color: Colors.blue),
-                        const SizedBox(width: 12),
-                        Text("平均每次游玩", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .9))),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _formatDuration(data.averageSessionTime),
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: IntrinsicHeight(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // 平均时长
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(FontAwesomeIcons.chartLine, size: 16, color: Colors.blue),
+                                  const SizedBox(width: 8),
+                                  Text("平均", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                _formatDuration(data.averageSessionTime),
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      // 最长游玩
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(FontAwesomeIcons.arrowUp, size: 16, color: Colors.green),
+                                  const SizedBox(width: 8),
+                                  Text("最长", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                _formatDuration(data.longestSession),
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
+                                textAlign: TextAlign.center,
+                              ),
+                              if (data.longestSessionDate != null)
+                                Text(
+                                  "${data.longestSessionDate!.month}月${data.longestSessionDate!.day}日",
+                                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      // 最短游玩
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(FontAwesomeIcons.arrowDown, size: 16, color: Colors.orange),
+                                  const SizedBox(width: 8),
+                                  Text("最短", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                _formatDuration(data.shortestSession),
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orange),
+                                textAlign: TextAlign.center,
+                              ),
+                              if (data.shortestSessionDate != null)
+                                Text(
+                                  "${data.shortestSessionDate!.month}月${data.shortestSessionDate!.day}日",
+                                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            // 最长游玩
             FadeInUp(
               delay: const Duration(milliseconds: 600),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.symmetric(horizontal: 24),
-                decoration: BoxDecoration(
-                  color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(FontAwesomeIcons.arrowUp, size: 20, color: Colors.green),
-                        const SizedBox(width: 12),
-                        Text("最长一次游玩", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .9))),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _formatDuration(data.longestSession),
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
-                    ),
-                    if (data.longestSessionDate != null)
-                      Text(
-                        "${data.longestSessionDate!.month} 月 ${data.longestSessionDate!.day} 日",
-                        style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            // 最短游玩
-            FadeInUp(
-              delay: const Duration(milliseconds: 800),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.symmetric(horizontal: 24),
-                decoration: BoxDecoration(
-                  color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(FontAwesomeIcons.arrowDown, size: 20, color: Colors.orange),
-                        const SizedBox(width: 12),
-                        Text("最短一次游玩", style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .9))),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _formatDuration(data.shortestSession),
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.orange),
-                    ),
-                    if (data.shortestSessionDate != null)
-                      Text(
-                        "${data.shortestSessionDate!.month} 月 ${data.shortestSessionDate!.day} 日",
-                        style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
-                      ),
-                    Text("(仅统计超过 5 分钟的游戏)", style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6))),
-                  ],
-                ),
+              child: Text(
+                "(最短仅统计超过 5 分钟的游戏)",
+                style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .5)),
               ),
             ),
           ],
@@ -979,7 +1022,217 @@ class YearlyReportUI extends HookConsumerWidget {
     );
   }
 
+  /// 月份名称
+  String _getMonthName(int month) {
+    return "$month月";
+  }
+
+  Widget _buildMonthlyStatsPage(BuildContext context, YearlyReportData data) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ZoomIn(child: Icon(FontAwesomeIcons.calendarDays, size: 64, color: Colors.blue)),
+          const SizedBox(height: 32),
+          FadeInUp(
+            delay: const Duration(milliseconds: 200),
+            child: Text("月份统计", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+          ),
+          const SizedBox(height: 32),
+          // 并排展示
+          FadeInUp(
+            delay: const Duration(milliseconds: 400),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // 游玩最多的月份
+                if (data.mostPlayedMonth != null)
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(FontAwesomeIcons.fire, size: 18, color: Colors.orange),
+                            const SizedBox(width: 10),
+                            Text("游玩最多", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          _getMonthName(data.mostPlayedMonth!),
+                          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.orange),
+                        ),
+                        Text(
+                          "启动了 ${data.mostPlayedMonthCount} 次",
+                          style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
+                        ),
+                      ],
+                    ),
+                  ),
+                // 游玩最少的月份
+                if (data.leastPlayedMonth != null && data.leastPlayedMonth != data.mostPlayedMonth)
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(FontAwesomeIcons.snowflake, size: 18, color: Colors.teal),
+                            const SizedBox(width: 10),
+                            Text("游玩最少", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          _getMonthName(data.leastPlayedMonth!),
+                          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.teal),
+                        ),
+                        Text(
+                          "仅启动 ${data.leastPlayedMonthCount} 次",
+                          style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStreakStatsPage(BuildContext context, YearlyReportData data) {
+    String formatDateRange(DateTime? start, DateTime? end) {
+      if (start == null || end == null) return "";
+      return "${start.month}月${start.day}日 - ${end.month}月${end.day}日";
+    }
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ZoomIn(child: Icon(FontAwesomeIcons.fire, size: 64, color: Colors.red)),
+          const SizedBox(height: 32),
+          FadeInUp(
+            delay: const Duration(milliseconds: 200),
+            child: Text("连续记录", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+          ),
+          const SizedBox(height: 32),
+          // 并排展示
+          FadeInUp(
+            delay: const Duration(milliseconds: 400),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // 连续游玩天数
+                if (data.longestPlayStreak > 0)
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(FontAwesomeIcons.gamepad, size: 18, color: Colors.green),
+                            const SizedBox(width: 10),
+                            Text("连续游玩", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "${data.longestPlayStreak}",
+                              style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold, color: Colors.green),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 6, left: 4),
+                              child: Text("天", style: TextStyle(fontSize: 18, color: Colors.green)),
+                            ),
+                          ],
+                        ),
+                        if (data.playStreakStartDate != null)
+                          Text(
+                            formatDateRange(data.playStreakStartDate, data.playStreakEndDate),
+                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                          ),
+                      ],
+                    ),
+                  ),
+                // 连续离线天数
+                if (data.longestOfflineStreak > 0)
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(FontAwesomeIcons.bed, size: 18, color: Colors.grey),
+                            const SizedBox(width: 10),
+                            Text("连续离线", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .9))),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "${data.longestOfflineStreak}",
+                              style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold, color: Colors.grey),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 6, left: 4),
+                              child: Text("天", style: TextStyle(fontSize: 18, color: Colors.grey)),
+                            ),
+                          ],
+                        ),
+                        if (data.offlineStreakStartDate != null)
+                          Text(
+                            formatDateRange(data.offlineStreakStartDate, data.offlineStreakEndDate),
+                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                          ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildLocationStatsPage(BuildContext context, YearlyReportData data) {
+    final scrollController = ScrollController();
+
     if (data.topLocations.isEmpty) {
       return Center(
         child: Column(
@@ -1001,77 +1254,137 @@ class YearlyReportUI extends HookConsumerWidget {
       );
     }
 
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 48),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ZoomIn(child: Icon(FontAwesomeIcons.locationDot, size: 64, color: Colors.red)),
-            const SizedBox(height: 32),
-            FadeInUp(
-              delay: const Duration(milliseconds: 200),
-              child: Text("常去的地点", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-            ),
-            const SizedBox(height: 16),
-            FadeInUp(
-              delay: const Duration(milliseconds: 300),
-              child: Text("基于库存查看记录统计", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
-            ),
-            const SizedBox(height: 24),
-            // Top 地点列表
-            ...data.topLocations.asMap().entries.map((entry) {
-              final index = entry.key;
-              final location = entry.value;
-              final isTop3 = index < 3;
+    // 将地点分成3行
+    final locations = data.topLocations;
+    final rowCount = 3;
+    final List<List<MapEntry<String, int>>> rows = List.generate(rowCount, (_) => []);
+    for (int i = 0; i < locations.length; i++) {
+      rows[i % rowCount].add(locations[i]);
+    }
 
-              return FadeInUp(
-                delay: Duration(milliseconds: 400 + index * 100),
-                child: Container(
-                  width: 350,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  margin: const EdgeInsets.symmetric(vertical: 4),
-                  decoration: BoxDecoration(
-                    color: isTop3
-                        ? FluentTheme.of(context).accentColor.withValues(alpha: .2 - index * 0.05)
-                        : FluentTheme.of(context).cardColor.withValues(alpha: .1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 28,
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: isTop3 ? Colors.yellow.withValues(alpha: 1 - index * 0.3) : Colors.grey,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "${index + 1}",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: isTop3 ? Colors.black : Colors.white,
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ZoomIn(child: Icon(FontAwesomeIcons.locationDot, size: 64, color: Colors.red)),
+          const SizedBox(height: 32),
+          FadeInUp(
+            delay: const Duration(milliseconds: 200),
+            child: Text("常去的地点", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+          ),
+          const SizedBox(height: 16),
+          FadeInUp(
+            delay: const Duration(milliseconds: 300),
+            child: Text("基于库存查看记录统计", style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6))),
+          ),
+          const SizedBox(height: 24),
+          // 三排瀑布流横向滑动
+          FadeInUp(
+            delay: const Duration(milliseconds: 400),
+            child: SizedBox(
+              height: 180,
+              width: double.infinity,
+              child: GestureDetector(
+                onVerticalDragUpdate: (_) {}, // 拦截垂直拖拽
+                child: Listener(
+                  onPointerSignal: (event) {
+                    if (event is PointerScrollEvent) {
+                      // 注册为唯一的滚轮事件处理者，阻止冒泡
+                      GestureBinding.instance.pointerSignalResolver.register(event, (event) {
+                        final scrollEvent = event as PointerScrollEvent;
+                        final newOffset = scrollController.offset + scrollEvent.scrollDelta.dy;
+                        final clampedOffset = newOffset.clamp(
+                          scrollController.position.minScrollExtent,
+                          scrollController.position.maxScrollExtent,
+                        );
+                        scrollController.jumpTo(clampedOffset);
+                      });
+                    }
+                  },
+                  child: Center(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      scrollDirection: Axis.horizontal,
+                      physics: const ClampingScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: rows.asMap().entries.map((rowEntry) {
+                          final rowIndex = rowEntry.key;
+                          final rowLocations = rowEntry.value;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              children: rowLocations.asMap().entries.map((locEntry) {
+                                final actualIndex = locEntry.key * rowCount + rowIndex;
+                                final location = locEntry.value;
+                                final isTop3 = actualIndex < 3;
+                                return Container(
+                                  width: 200,
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  margin: const EdgeInsets.only(right: 8),
+                                  decoration: BoxDecoration(
+                                    color: isTop3
+                                        ? FluentTheme.of(context).accentColor.withValues(alpha: .2 - actualIndex * 0.05)
+                                        : FluentTheme.of(context).cardColor.withValues(alpha: .1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 22,
+                                        height: 22,
+                                        decoration: BoxDecoration(
+                                          color: isTop3
+                                              ? Colors.yellow.withValues(alpha: 1 - actualIndex * 0.3)
+                                              : Colors.grey,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "${actualIndex + 1}",
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.bold,
+                                              color: isTop3 ? Colors.black : Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              location.key,
+                                              style: TextStyle(fontSize: 11),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                            Text(
+                                              "${location.value} 次",
+                                              style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .5)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                          ),
-                        ),
+                          );
+                        }).toList(),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(location.key, style: TextStyle(fontSize: 14), overflow: TextOverflow.ellipsis),
-                      ),
-                      Text(
-                        "${location.value} 次",
-                        style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .6)),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              );
-            }),
-          ],
-        ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -1108,21 +1421,36 @@ class YearlyReportUI extends HookConsumerWidget {
 
   Widget _buildDataSummaryPage(BuildContext context, YearlyReportData data) {
     final yearlyHours = data.yearlyPlayTime.inMinutes / 60;
-    final kdRatio = data.yearlyDeathCount > 0
-        ? (data.yearlyKillCount / data.yearlyDeathCount).toStringAsFixed(2)
-        : data.yearlyKillCount > 0
-        ? "∞"
-        : "-";
 
     // 构建数据项列表
     final dataItems = <_SummaryGridItem>[
-      _SummaryGridItem("启动游戏", "${data.yearlyLaunchCount}", "次", FontAwesomeIcons.play, Colors.green),
-      _SummaryGridItem("游玩时长", yearlyHours.toStringAsFixed(1), "小时", FontAwesomeIcons.clock, Colors.blue),
-      _SummaryGridItem("游戏崩溃", "${data.yearlyCrashCount}", "次", FontAwesomeIcons.bug, Colors.orange),
-      _SummaryGridItem("击杀玩家", "${data.yearlyKillCount}", "次", FontAwesomeIcons.crosshairs, Colors.green),
-      _SummaryGridItem("意外死亡", "${data.yearlyDeathCount}", "次", FontAwesomeIcons.skull, Colors.red),
-      _SummaryGridItem("KD 比率", kdRatio, "", FontAwesomeIcons.chartLine, Colors.teal),
-      _SummaryGridItem("载具损毁", "${data.yearlyVehicleDestructionCount}", "次", FontAwesomeIcons.explosion, Colors.red),
+      _SummaryGridItem("启动游戏", "${data.yearlyLaunchCount}", "次", FontAwesomeIcons.play, Colors.green, isWide: false),
+      _SummaryGridItem(
+        "游玩时长",
+        yearlyHours.toStringAsFixed(1),
+        "小时",
+        FontAwesomeIcons.clock,
+        Colors.blue,
+        isWide: false,
+      ),
+      _SummaryGridItem("游戏崩溃", "${data.yearlyCrashCount}", "次", FontAwesomeIcons.bug, Colors.orange, isWide: false),
+      _SummaryGridItem(
+        "击杀",
+        "${data.yearlyKillCount}",
+        "次",
+        FontAwesomeIcons.crosshairs,
+        Colors.green,
+        isWide: false,
+      ),
+      _SummaryGridItem("死亡", "${data.yearlyDeathCount}", "次", FontAwesomeIcons.skull, Colors.red, isWide: false),
+      _SummaryGridItem(
+        "载具损毁",
+        "${data.yearlyVehicleDestructionCount}",
+        "次",
+        FontAwesomeIcons.explosion,
+        Colors.red,
+        isWide: false,
+      ),
       if (data.longestSession != null)
         _SummaryGridItem(
           "最长在线",
@@ -1130,17 +1458,9 @@ class YearlyReportUI extends HookConsumerWidget {
           "小时",
           FontAwesomeIcons.hourglassHalf,
           Colors.purple,
+          isWide: false,
         ),
-      if (data.topLocations.isNotEmpty)
-        _SummaryGridItem(
-          "最常去",
-          data.topLocations.first.key.length > 6
-              ? "${data.topLocations.first.key.substring(0, 5)}..."
-              : data.topLocations.first.key,
-          "",
-          FontAwesomeIcons.locationDot,
-          Colors.grey,
-        ),
+      // 常去位置单独处理，不放在网格中
       if (data.earliestPlayDate != null)
         _SummaryGridItem(
           "最早时刻",
@@ -1148,6 +1468,7 @@ class YearlyReportUI extends HookConsumerWidget {
           "",
           FontAwesomeIcons.sun,
           Colors.orange,
+          isWide: false,
         ),
       if (data.latestPlayDate != null)
         _SummaryGridItem(
@@ -1156,8 +1477,57 @@ class YearlyReportUI extends HookConsumerWidget {
           "",
           FontAwesomeIcons.moon,
           Colors.purple,
+          isWide: false,
         ),
-      _SummaryGridItem("重开次数", "${data.yearlySelfKillCount}", "次", FontAwesomeIcons.personFalling, Colors.grey),
+      _SummaryGridItem(
+        "重开次数",
+        "${data.yearlySelfKillCount}",
+        "次",
+        FontAwesomeIcons.personFalling,
+        Colors.grey,
+        isWide: false,
+      ),
+      // 月份统计
+      if (data.mostPlayedMonth != null)
+        _SummaryGridItem(
+          "最热月",
+          _getMonthName(data.mostPlayedMonth!),
+          "",
+          FontAwesomeIcons.fire,
+          Colors.orange,
+          isWide: false,
+        ),
+      // 连续游玩/离线
+      if (data.longestPlayStreak > 0)
+        _SummaryGridItem(
+          "连续游玩",
+          "${data.longestPlayStreak}",
+          "天",
+          FontAwesomeIcons.gamepad,
+          Colors.green,
+          isWide: false,
+        ),
+      if (data.longestOfflineStreak > 0)
+        _SummaryGridItem("连续离线", "${data.longestOfflineStreak}", "天", FontAwesomeIcons.bed, Colors.grey, isWide: false),
+      // 常去位置和最爱载具
+      if (data.topLocations.isNotEmpty)
+        _SummaryGridItem(
+          "常去位置",
+          data.topLocations.first.key,
+          "",
+          FontAwesomeIcons.locationDot,
+          Colors.red,
+          isWide: true, // 使用较小字体
+        ),
+      if (data.mostPilotedVehicle != null)
+        _SummaryGridItem(
+          "最爱载具",
+          data.mostPilotedVehicle!,
+          "",
+          FontAwesomeIcons.shuttleSpace,
+          Colors.teal,
+          isWide: true, // 使用较小字体
+        ),
     ];
 
     return Center(
@@ -1173,7 +1543,7 @@ class YearlyReportUI extends HookConsumerWidget {
                   Icon(FontAwesomeIcons.star, size: 20, color: Colors.yellow),
                   const SizedBox(width: 12),
                   Text(
-                    "2025 年度报告",
+                    "星际公民 2025 年度报告",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   const SizedBox(width: 12),
@@ -1195,19 +1565,21 @@ class YearlyReportUI extends HookConsumerWidget {
             // 数据网格
             FadeInUp(
               delay: const Duration(milliseconds: 200),
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 400),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: MasonryGridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
                   itemCount: dataItems.length,
                   itemBuilder: (context, index) {
                     final item = dataItems[index];
+                    final isSmallFont = item.isWide; // 载具和位置使用较小字体
                     return Container(
-                      padding: const EdgeInsets.all(12),
+                      height: 150,
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
                         borderRadius: BorderRadius.circular(12),
@@ -1216,8 +1588,8 @@ class YearlyReportUI extends HookConsumerWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(item.icon, size: 14, color: item.color.withValues(alpha: .8)),
-                          const SizedBox(height: 8),
+                          Icon(item.icon, size: 20, color: item.color.withValues(alpha: .8)),
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -1226,30 +1598,32 @@ class YearlyReportUI extends HookConsumerWidget {
                                 child: Text(
                                   item.value,
                                   style: TextStyle(
-                                    fontSize: 34,
+                                    fontSize: isSmallFont ? 16 : 42,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                     height: 1.0,
                                   ),
                                   textAlign: TextAlign.center,
+                                  maxLines: isSmallFont ? 2 : null,
+                                  overflow: isSmallFont ? TextOverflow.ellipsis : null,
                                 ),
                               ),
                               if (item.unit.isNotEmpty) ...[
-                                const SizedBox(width: 2),
+                                const SizedBox(width: 4),
                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 2),
+                                  padding: const EdgeInsets.only(bottom: 4),
                                   child: Text(
                                     item.unit,
-                                    style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .6)),
+                                    style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
                                   ),
                                 ),
                               ],
                             ],
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 6),
                           Text(
                             item.label,
-                            style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: .5)),
+                            style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .5)),
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -1259,37 +1633,13 @@ class YearlyReportUI extends HookConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            // 最爱载具
-            if (data.mostPilotedVehicle != null)
-              FadeInUp(
-                delay: const Duration(milliseconds: 400),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: FluentTheme.of(context).cardColor.withValues(alpha: .1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(FontAwesomeIcons.shuttleSpace, size: 14, color: Colors.teal.withValues(alpha: .7)),
-                      const SizedBox(width: 10),
-                      Text(
-                        "最爱: ${data.mostPilotedVehicle}",
-                        style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .8)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             // 底部标识
             FadeInUp(
-              delay: const Duration(milliseconds: 600),
+              delay: const Duration(milliseconds: 400),
               child: Text(
-                "SC汉化盒子 · 2025年度报告",
-                style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: .3)),
+                "由 SC 汉化盒子为您呈现",
+                style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .3)),
               ),
             ),
           ],
@@ -1302,11 +1652,11 @@ class YearlyReportUI extends HookConsumerWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-      decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .3)),
+      decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .15)),
       child: Text(
         "数据使用您的本地日志生成，不会发送到任何第三方。因跨版本 Log 改动较大，数据可能不完整，仅供娱乐。",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: .5)),
+        style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: .7)),
       ),
     );
   }
@@ -1319,8 +1669,9 @@ class _SummaryGridItem {
   final String unit;
   final IconData icon;
   final Color color;
+  final bool isWide;
 
-  const _SummaryGridItem(this.label, this.value, this.unit, this.icon, this.color);
+  const _SummaryGridItem(this.label, this.value, this.unit, this.icon, this.color, {this.isWide = false});
 }
 
 /// 动画统计页面

@@ -45,6 +45,20 @@ class YearlyReportData {
   final int yearlyDeathCount; // 年度死亡次数
   final int yearlySelfKillCount; // 年度自杀次数
 
+  // 月份统计
+  final int? mostPlayedMonth; // 游玩最多的月份 (1-12)
+  final int mostPlayedMonthCount; // 该月游玩次数
+  final int? leastPlayedMonth; // 游玩最少的月份 (1-12, 不包括完全没上游戏的月份)
+  final int leastPlayedMonthCount; // 该月游玩次数
+
+  // 连续游玩/离线统计
+  final int longestPlayStreak; // 最长连续游玩天数
+  final DateTime? playStreakStartDate; // 连续游玩开始日期
+  final DateTime? playStreakEndDate; // 连续游玩结束日期
+  final int longestOfflineStreak; // 最长连续离线天数
+  final DateTime? offlineStreakStartDate; // 连续离线开始日期
+  final DateTime? offlineStreakEndDate; // 连续离线结束日期
+
   // 详细数据 (用于展示)
   final Map<String, int> vehiclePilotedDetails; // 驾驶载具详情
   final Map<String, int> accountSessionDetails; // 账号会话详情
@@ -77,6 +91,16 @@ class YearlyReportData {
     required this.yearlyKillCount,
     required this.yearlyDeathCount,
     required this.yearlySelfKillCount,
+    this.mostPlayedMonth,
+    required this.mostPlayedMonthCount,
+    this.leastPlayedMonth,
+    required this.leastPlayedMonthCount,
+    required this.longestPlayStreak,
+    this.playStreakStartDate,
+    this.playStreakEndDate,
+    required this.longestOfflineStreak,
+    this.offlineStreakStartDate,
+    this.offlineStreakEndDate,
     required this.vehiclePilotedDetails,
     required this.accountSessionDetails,
     required this.locationDetails,
@@ -140,6 +164,20 @@ class YearlyReportData {
       'yearlyDeathCount': yearlyDeathCount,
       'yearlySelfKillCount': yearlySelfKillCount,
 
+      // 月份统计
+      'mostPlayedMonth': mostPlayedMonth,
+      'mostPlayedMonthCount': mostPlayedMonthCount,
+      'leastPlayedMonth': leastPlayedMonth,
+      'leastPlayedMonthCount': leastPlayedMonthCount,
+
+      // 连续游玩/离线统计
+      'longestPlayStreak': longestPlayStreak,
+      'playStreakStartDateUtc': _toUtcTimestamp(playStreakStartDate),
+      'playStreakEndDateUtc': _toUtcTimestamp(playStreakEndDate),
+      'longestOfflineStreak': longestOfflineStreak,
+      'offlineStreakStartDateUtc': _toUtcTimestamp(offlineStreakStartDate),
+      'offlineStreakEndDateUtc': _toUtcTimestamp(offlineStreakEndDate),
+
       // 详细数据
       'vehiclePilotedDetails': vehiclePilotedDetails,
       'accountSessionDetails': accountSessionDetails,
@@ -192,6 +230,9 @@ class _LogFileStats {
 
   // 地点访问: 地点名 -> 次数
   Map<String, int> locationVisits = {};
+
+  // 上次记录死亡的时间 (用于 2s 内去重)
+  DateTime? _lastDeathTime;
 
   // 年度内的会话记录
   List<_SessionInfo> yearlySessions = [];
@@ -279,9 +320,17 @@ class YearlyReportAnalyzer {
         nameMatch ??= _legacyCharacterNamePattern.firstMatch(line);
         if (nameMatch != null) {
           final playerName = nameMatch.group(1)?.trim();
-          if (playerName != null && playerName.isNotEmpty && !playerName.contains(' ')) {
+          if (playerName != null &&
+              playerName.isNotEmpty &&
+              !playerName.contains(' ') &&
+              !playerName.contains('/') &&
+              !playerName.contains(r'\') &&
+              !playerName.contains('.')) {
             stats.currentPlayerName = playerName;
-            stats.playerNames.add(playerName);
+            // 去重添加到玩家列表 (忽略大小写)
+            if (!stats.playerNames.any((n) => n.toLowerCase() == playerName.toLowerCase())) {
+              stats.playerNames.add(playerName);
+            }
             stats.firstPlayerName ??= playerName;
           }
         }
@@ -318,7 +367,11 @@ class YearlyReportAnalyzer {
           if (deathMatch != null) {
             final victimId = deathMatch.group(1)?.trim();
             if (victimId != null && stats.currentPlayerName != null && victimId == stats.currentPlayerName) {
-              stats.deathCount++;
+              // 防抖去重 (2秒内不重复计数)
+              if (stats._lastDeathTime == null || lineTime.difference(stats._lastDeathTime!).abs().inSeconds > 2) {
+                stats.deathCount++;
+                stats._lastDeathTime = lineTime;
+              }
             }
           }
 
@@ -329,17 +382,34 @@ class YearlyReportAnalyzer {
             final killerId = legacyDeathMatch.group(3)?.trim();
 
             if (victimId != null && stats.currentPlayerName != null) {
+              bool isRecent =
+                  stats._lastDeathTime != null && lineTime.difference(stats._lastDeathTime!).abs().inSeconds <= 2;
+
               // 检测自杀
               if (victimId == killerId) {
                 if (victimId == stats.currentPlayerName) {
-                  stats.selfKillCount++;
+                  if (isRecent) {
+                    // 如果最近已经记录过一次死亡 (可能是通用格式记录的)，则修正为自杀
+                    // 假设通用格式默认为 deathCount++，这里回退并加到 selfKillCount
+                    if (stats.deathCount > 0) stats.deathCount--;
+                    stats.selfKillCount++;
+                    // 更新时间以保持锁定
+                    stats._lastDeathTime = lineTime;
+                  } else {
+                    stats.selfKillCount++;
+                    stats._lastDeathTime = lineTime;
+                  }
                 }
               } else {
-                // 检测死亡
+                // 检测死亡 (被击杀)
                 if (victimId == stats.currentPlayerName) {
-                  stats.deathCount++;
+                  // 如果最近已经记录过 (可能是通用格式)，则认为是同一事件，忽略
+                  if (!isRecent) {
+                    stats.deathCount++;
+                    stats._lastDeathTime = lineTime;
+                  }
                 }
-                // 检测击杀
+                // 检测击杀 (杀别人)
                 if (killerId == stats.currentPlayerName) {
                   stats.killCount++;
                 }
@@ -601,6 +671,90 @@ class YearlyReportAnalyzer {
     final sortedLocations = locationDetails.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
     final topLocations = sortedLocations.take(10).toList();
 
+    // 计算月份统计
+    final Map<int, int> monthlyPlayCount = {};
+    final Set<DateTime> playDates = {}; // 所有游玩的日期 (仅日期部分)
+
+    for (final stats in allStats) {
+      for (final session in stats.yearlySessions) {
+        final month = session.startTime.month;
+        monthlyPlayCount[month] = (monthlyPlayCount[month] ?? 0) + 1;
+        // 记录游玩日期 (只保留年月日)
+        playDates.add(DateTime(session.startTime.year, session.startTime.month, session.startTime.day));
+      }
+    }
+
+    int? mostPlayedMonth;
+    int mostPlayedMonthCount = 0;
+    int? leastPlayedMonth;
+    int leastPlayedMonthCount = 0;
+
+    if (monthlyPlayCount.isNotEmpty) {
+      // 最多游玩的月份
+      for (final entry in monthlyPlayCount.entries) {
+        if (entry.value > mostPlayedMonthCount) {
+          mostPlayedMonth = entry.key;
+          mostPlayedMonthCount = entry.value;
+        }
+      }
+      // 最少游玩的月份 (不包括完全没上游戏的月份)
+      leastPlayedMonthCount = monthlyPlayCount.values.first;
+      for (final entry in monthlyPlayCount.entries) {
+        if (entry.value <= leastPlayedMonthCount) {
+          leastPlayedMonth = entry.key;
+          leastPlayedMonthCount = entry.value;
+        }
+      }
+    }
+
+    // 计算连续游玩天数和连续离线天数
+    int longestPlayStreak = 0;
+    DateTime? playStreakStartDate;
+    DateTime? playStreakEndDate;
+    int longestOfflineStreak = 0;
+    DateTime? offlineStreakStartDate;
+    DateTime? offlineStreakEndDate;
+
+    if (playDates.isNotEmpty) {
+      // 将日期排序
+      final sortedDates = playDates.toList()..sort();
+
+      // 计算连续游玩天数
+      int currentStreak = 1;
+      DateTime streakStart = sortedDates.first;
+
+      for (int i = 1; i < sortedDates.length; i++) {
+        final diff = sortedDates[i].difference(sortedDates[i - 1]).inDays;
+        if (diff == 1) {
+          currentStreak++;
+        } else {
+          if (currentStreak > longestPlayStreak) {
+            longestPlayStreak = currentStreak;
+            playStreakStartDate = streakStart;
+            playStreakEndDate = sortedDates[i - 1];
+          }
+          currentStreak = 1;
+          streakStart = sortedDates[i];
+        }
+      }
+      // 检查最后一段连续
+      if (currentStreak > longestPlayStreak) {
+        longestPlayStreak = currentStreak;
+        playStreakStartDate = streakStart;
+        playStreakEndDate = sortedDates.last;
+      }
+
+      // 计算连续离线天数 (在游玩日期之间的间隔)
+      for (int i = 1; i < sortedDates.length; i++) {
+        final gapDays = sortedDates[i].difference(sortedDates[i - 1]).inDays - 1;
+        if (gapDays > longestOfflineStreak) {
+          longestOfflineStreak = gapDays;
+          offlineStreakStartDate = sortedDates[i - 1].add(const Duration(days: 1));
+          offlineStreakEndDate = sortedDates[i].subtract(const Duration(days: 1));
+        }
+      }
+    }
+
     return YearlyReportData(
       totalLaunchCount: totalLaunchCount,
       totalPlayTime: totalPlayTime,
@@ -628,6 +782,16 @@ class YearlyReportAnalyzer {
       yearlyKillCount: yearlyKillCount,
       yearlyDeathCount: yearlyDeathCount,
       yearlySelfKillCount: yearlySelfKillCount,
+      mostPlayedMonth: mostPlayedMonth,
+      mostPlayedMonthCount: mostPlayedMonthCount,
+      leastPlayedMonth: leastPlayedMonth,
+      leastPlayedMonthCount: leastPlayedMonthCount,
+      longestPlayStreak: longestPlayStreak,
+      playStreakStartDate: playStreakStartDate,
+      playStreakEndDate: playStreakEndDate,
+      longestOfflineStreak: longestOfflineStreak,
+      offlineStreakStartDate: offlineStreakStartDate,
+      offlineStreakEndDate: offlineStreakEndDate,
       vehiclePilotedDetails: vehiclePilotedDetails,
       accountSessionDetails: accountSessionDetails,
       locationDetails: locationDetails,
