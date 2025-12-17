@@ -1657,7 +1657,7 @@
   "yearly_report_location_frequent": "常去的地點",
   "yearly_report_location_note": "基於庫存查看記錄統計",
   "yearly_report_thanks_title": "感謝您的陪伴",
-  "yearly_report_thanks_message": "{year} 年，我們一起在星際公民中\\n創造了無數精彩回憶",
+  "yearly_report_thanks_message": "{year} 年，我們一起在星際公民中\n創造了無數精彩回憶",
   "yearly_report_thanks_next": "期待 {nextYear} 年繼續與您相伴！",
   "yearly_report_summary_launch_game": "啟動遊戲",
   "yearly_report_summary_longest_online": "最長在線",

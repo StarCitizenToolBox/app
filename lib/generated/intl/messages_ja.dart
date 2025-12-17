@@ -288,7 +288,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m137(v0, v1) => "${v0}月${v1}日";
 
   static String m138(year) =>
-      "${year} 年、私たちはStar Citizenで\\n数え切れないほどの素晴らしい思い出を作りました";
+      "${year} 年、私たちはStar Citizenで\n数え切れないほどの素晴らしい思い出を作りました";
 
   static String m139(nextYear) => "${nextYear} 年もよろしくお願いします！";
 

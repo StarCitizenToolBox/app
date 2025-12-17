@@ -9410,7 +9410,7 @@ class S {
   /// `In {year}, together we created\ncountless wonderful memories in Star Citizen`
   String yearly_report_thanks_message(Object year) {
     return Intl.message(
-      'In $year, together we created\\ncountless wonderful memories in Star Citizen',
+      'In $year, together we created\ncountless wonderful memories in Star Citizen',
       name: 'yearly_report_thanks_message',
       desc: '',
       args: [year],

@@ -1315,7 +1315,7 @@
   "yearly_report_location_frequent": "常去的地点",
   "yearly_report_location_note": "基于库存查看记录统计",
   "yearly_report_thanks_title": "感谢您的陪伴",
-  "yearly_report_thanks_message": "{year} 年，我们一起在星际公民中\\n创造了无数精彩回忆",
+  "yearly_report_thanks_message": "{year} 年，我们一起在星际公民中\n创造了无数精彩回忆",
   "yearly_report_thanks_next": "期待 {nextYear} 年继续与您相伴！",
   "yearly_report_summary_launch_game": "启动游戏",
   "yearly_report_summary_longest_online": "最长在线",

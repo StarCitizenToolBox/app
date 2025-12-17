@@ -1635,7 +1635,7 @@
   "yearly_report_location_frequent": "Частые локации",
   "yearly_report_location_note": "Основано на записях просмотра инвентаря",
   "yearly_report_thanks_title": "Спасибо, что вы с нами",
-  "yearly_report_thanks_message": "В {year} году мы вместе создали\\nбесчисленное количество прекрасных воспоминаний в Star Citizen",
+  "yearly_report_thanks_message": "В {year} году мы вместе создали\nбесчисленное количество прекрасных воспоминаний в Star Citizen",
   "yearly_report_thanks_next": "Ждем встречи с вами в {nextYear} году!",
   "yearly_report_summary_launch_game": "Запуск игры",
   "yearly_report_summary_longest_online": "Дольше всего онлайн",

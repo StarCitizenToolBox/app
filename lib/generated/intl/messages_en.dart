@@ -334,7 +334,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m137(v0, v1) => "${v0}/${v1}";
 
   static String m138(year) =>
-      "In ${year}, together we created\\ncountless wonderful memories in Star Citizen";
+      "In ${year}, together we created\ncountless wonderful memories in Star Citizen";
 
   static String m139(nextYear) => "Looking forward to ${nextYear} with you!";
 

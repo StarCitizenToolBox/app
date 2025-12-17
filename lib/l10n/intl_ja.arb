@@ -1635,7 +1635,7 @@
   "yearly_report_location_frequent": "よく行く場所",
   "yearly_report_location_note": "インベントリ閲覧記録に基づく",
   "yearly_report_thanks_title": "ご愛顧ありがとうございます",
-  "yearly_report_thanks_message": "{year} 年、私たちはStar Citizenで\\n数え切れないほどの素晴らしい思い出を作りました",
+  "yearly_report_thanks_message": "{year} 年、私たちはStar Citizenで\n数え切れないほどの素晴らしい思い出を作りました",
   "yearly_report_thanks_next": "{nextYear} 年もよろしくお願いします！",
   "yearly_report_summary_launch_game": "ゲーム起動",
   "yearly_report_summary_longest_online": "最長オンライン",
