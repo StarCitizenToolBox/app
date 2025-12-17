@@ -25,6 +25,7 @@ import 'package:xml/xml.dart';
 
 import 'dialogs/hosts_booster_dialog_ui.dart';
 import 'dialogs/rsi_launcher_enhance_dialog_ui.dart';
+import 'yearly_report_ui/yearly_report_ui.dart';
 
 part 'tools_ui_model.g.dart';
 
@@ -79,6 +80,23 @@ class ToolsUIModel extends _$ToolsUIModel {
           onTap: () => _showSystemInfo(context),
         ),
       ];
+
+      // 2025 年度报告入口 - 2026年1月20日前显示
+      final deadline = DateTime(2026, 1, 20);
+      if (DateTime.now().isBefore(deadline)) {
+        items.insert(
+          0,
+          ToolsItemData(
+            "yearly_report",
+            "2025 年度报告（限时）",
+            "查看您在2025年的星际公民游玩统计，数据来自本地 log ，请确保在常用电脑上查看。",
+            const Icon(FontAwesomeIcons.star, size: 22),
+            onTap: () async {
+              _openYearlyReport(context);
+            },
+          ),
+        );
+      }
 
       if (!context.mounted) return;
       items.add(await _addP4kCard(context));
@@ -746,6 +764,17 @@ class ToolsUIModel extends _$ToolsUIModel {
       S.current.log_analyzer_window_title,
       appGlobalState,
     );
+  }
+
+  void _openYearlyReport(BuildContext context) {
+    if (state.scInstallPaths.isEmpty) {
+      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
+      return;
+    }
+
+    Navigator.of(
+      context,
+    ).push(FluentPageRoute(builder: (context) => YearlyReportUI(gameInstallPaths: state.scInstallPaths)));
   }
 }
 

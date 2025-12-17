@@ -16,7 +16,7 @@ final class ToolsLogAnalyzeProvider
     extends $AsyncNotifierProvider<ToolsLogAnalyze, List<LogAnalyzeLineData>> {
   const ToolsLogAnalyzeProvider._({
     required ToolsLogAnalyzeFamily super.from,
-    required (String, bool) super.argument,
+    required (String, bool, {String? selectedLogFile}) super.argument,
   }) : super(
          retry: null,
          name: r'toolsLogAnalyzeProvider',
@@ -50,7 +50,7 @@ final class ToolsLogAnalyzeProvider
   }
 }
 
-String _$toolsLogAnalyzeHash() => r'4c1aea03394e5c5641b2eb40a31d37892bb978bf';
+String _$toolsLogAnalyzeHash() => r'7fa6e068a3ee33fbf1eb0c718035eececd625ece';
 
 final class ToolsLogAnalyzeFamily extends $Family
     with
@@ -59,7 +59,7 @@ final class ToolsLogAnalyzeFamily extends $Family
           AsyncValue<List<LogAnalyzeLineData>>,
           List<LogAnalyzeLineData>,
           FutureOr<List<LogAnalyzeLineData>>,
-          (String, bool)
+          (String, bool, {String? selectedLogFile})
         > {
   const ToolsLogAnalyzeFamily._()
     : super(
@@ -70,11 +70,18 @@ final class ToolsLogAnalyzeFamily extends $Family
         isAutoDispose: true,
       );
 
-  ToolsLogAnalyzeProvider call(String gameInstallPath, bool listSortReverse) =>
-      ToolsLogAnalyzeProvider._(
-        argument: (gameInstallPath, listSortReverse),
-        from: this,
-      );
+  ToolsLogAnalyzeProvider call(
+    String gameInstallPath,
+    bool listSortReverse, {
+    String? selectedLogFile,
+  }) => ToolsLogAnalyzeProvider._(
+    argument: (
+      gameInstallPath,
+      listSortReverse,
+      selectedLogFile: selectedLogFile,
+    ),
+    from: this,
+  );
 
   @override
   String toString() => r'toolsLogAnalyzeProvider';
@@ -82,18 +89,24 @@ final class ToolsLogAnalyzeFamily extends $Family
 
 abstract class _$ToolsLogAnalyze
     extends $AsyncNotifier<List<LogAnalyzeLineData>> {
-  late final _$args = ref.$arg as (String, bool);
+  late final _$args = ref.$arg as (String, bool, {String? selectedLogFile});
   String get gameInstallPath => _$args.$1;
   bool get listSortReverse => _$args.$2;
+  String? get selectedLogFile => _$args.selectedLogFile;
 
   FutureOr<List<LogAnalyzeLineData>> build(
     String gameInstallPath,
-    bool listSortReverse,
-  );
+    bool listSortReverse, {
+    String? selectedLogFile,
+  });
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args.$1, _$args.$2);
+    final created = build(
+      _$args.$1,
+      _$args.$2,
+      selectedLogFile: _$args.selectedLogFile,
+    );
     final ref =
         this.ref
             as $Ref<

@@ -42,7 +42,7 @@ final class HomeGameLoginUIModelProvider
 }
 
 String _$homeGameLoginUIModelHash() =>
-    r'217a57f797b37f3467be2e7711f220610e9e67d8';
+    r'd81831f54c6b1e98ea8a1e94b5e6049fe552996f';
 
 abstract class _$HomeGameLoginUIModel extends $Notifier<HomeGameLoginState> {
   HomeGameLoginState build();

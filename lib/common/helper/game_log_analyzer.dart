@@ -104,6 +104,22 @@ class GameLogAnalyzer {
   // 本地库存请求解析
   static final _requestLocationInventoryPattern = RegExp(r"Player\[([^\]]+)\].*?Location\[([^\]]+)\]");
 
+  // 载具控制解析
+  static final vehicleControlPattern = RegExp(r"granted control token for '([^']+)'\s+\[(\d+)\]");
+
+  /// 公开的日期时间解析方法，供其他模块使用
+  static DateTime? getLogLineDateTime(String line) => _getLogLineDateTime(line);
+
+  /// 公开的日期时间字符串解析方法
+  static String? getLogLineDateTimeString(String line) => _getLogLineDateTimeString(line);
+
+  /// 从载具名称中移除末尾的ID
+  /// 示例: ANVL_Hornet_F7A_Mk2_3467069517923 -> ANVL_Hornet_F7A_Mk2
+  static String removeVehicleId(String vehicleName) {
+    final regex = RegExp(r'_\d+$');
+    return vehicleName.replaceAll(regex, '');
+  }
+
   /// 分析整个日志文件
   ///
   /// [logFile] 日志文件

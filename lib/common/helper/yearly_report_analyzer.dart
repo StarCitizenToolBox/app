@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:isolate';
 import 'package:starcitizen_doctor/common/helper/game_log_analyzer.dart';
-import 'package:starcitizen_doctor/common/utils/log.dart';
 
 /// 年度报告数据类
 class YearlyReportData {
@@ -18,6 +18,13 @@ class YearlyReportData {
   final DateTime? earliestPlayDate; // 年度游玩最早的一天 (05:00及以后)
   final DateTime? latestPlayDate; // 年度游玩最晚的一天 (04:00及以前)
 
+  // 游玩时长统计
+  final Duration? longestSession; // 最长单次游玩时长
+  final DateTime? longestSessionDate; // 最长游玩那一天
+  final Duration? shortestSession; // 最短单次游玩时长 (超过5分钟的)
+  final DateTime? shortestSessionDate; // 最短游玩那一天
+  final Duration? averageSessionTime; // 平均单次游玩时长
+
   // 载具统计
   final int yearlyVehicleDestructionCount; // 年度炸船次数
   final String? mostDestroyedVehicle; // 年度炸的最多的船
@@ -25,19 +32,23 @@ class YearlyReportData {
   final String? mostPilotedVehicle; // 年度最爱驾驶的载具
   final int mostPilotedVehicleCount; // 驾驶次数
 
-  // 战斗统计
-  final int yearlyKillCount; // 年度击杀次数
-  final int yearlyDeathCount; // 年度死亡次数
-
   // 账号统计
   final int accountCount; // 账号数量
   final String? mostPlayedAccount; // 游玩最多的账号
   final int mostPlayedAccountSessionCount; // 游玩最多的账号的会话次数
 
+  // 地点统计
+  final List<MapEntry<String, int>> topLocations; // Top 地点访问统计
+
+  // 击杀统计 (K/D)
+  final int yearlyKillCount; // 年度击杀次数
+  final int yearlyDeathCount; // 年度死亡次数
+  final int yearlySelfKillCount; // 年度自杀次数
+
   // 详细数据 (用于展示)
-  final Map<String, int> vehicleDestructionDetails; // 载具损毁详情
   final Map<String, int> vehiclePilotedDetails; // 驾驶载具详情
   final Map<String, int> accountSessionDetails; // 账号会话详情
+  final Map<String, int> locationDetails; // 地点访问详情
 
   const YearlyReportData({
     required this.totalLaunchCount,
@@ -49,49 +60,44 @@ class YearlyReportData {
     this.yearlyFirstLaunchTime,
     this.earliestPlayDate,
     this.latestPlayDate,
+    this.longestSession,
+    this.longestSessionDate,
+    this.shortestSession,
+    this.shortestSessionDate,
+    this.averageSessionTime,
     required this.yearlyVehicleDestructionCount,
     this.mostDestroyedVehicle,
     required this.mostDestroyedVehicleCount,
     this.mostPilotedVehicle,
     required this.mostPilotedVehicleCount,
-    required this.yearlyKillCount,
-    required this.yearlyDeathCount,
     required this.accountCount,
     this.mostPlayedAccount,
     required this.mostPlayedAccountSessionCount,
-    required this.vehicleDestructionDetails,
+    required this.topLocations,
+    required this.yearlyKillCount,
+    required this.yearlyDeathCount,
+    required this.yearlySelfKillCount,
     required this.vehiclePilotedDetails,
     required this.accountSessionDetails,
+    required this.locationDetails,
   });
 
-  /// 将 DateTime 转换为带时区的 ISO 8601 字符串
-  /// 输出格式: 2025-12-17T10:30:00.000+08:00
-  static String? _toIso8601WithTimezone(DateTime? dateTime) {
+  /// 将 DateTime 转换为 UTC 毫秒时间戳
+  static int? _toUtcTimestamp(DateTime? dateTime) {
     if (dateTime == null) return null;
-    final local = dateTime.toLocal();
-    final offset = local.timeZoneOffset;
-    final sign = offset.isNegative ? '-' : '+';
-    final hours = offset.inHours.abs().toString().padLeft(2, '0');
-    final minutes = (offset.inMinutes.abs() % 60).toString().padLeft(2, '0');
-    // 使用本地时间的 ISO 字符串，然后附加时区偏移
-    final isoString = local.toIso8601String();
-    // 移除可能的 'Z' 后缀（UTC 标记）
-    final baseString = isoString.endsWith('Z') ? isoString.substring(0, isoString.length - 1) : isoString;
-    return '$baseString$sign$hours:$minutes';
+    return dateTime.toUtc().millisecondsSinceEpoch;
   }
 
   /// 转换为 JSON Map
+  ///
+  /// 时间字段使用 UTC 毫秒时间戳 (int)，配合 timezoneOffsetMinutes 可在客户端还原本地时间
   Map<String, dynamic> toJson() {
     final now = DateTime.now();
     final offset = now.timeZoneOffset;
-    final sign = offset.isNegative ? '-' : '+';
-    final hours = offset.inHours.abs().toString().padLeft(2, '0');
-    final minutes = (offset.inMinutes.abs() % 60).toString().padLeft(2, '0');
 
     return {
       // 元数据
-      'generatedAt': _toIso8601WithTimezone(now),
-      'timezoneOffset': '$sign$hours:$minutes',
+      'generatedAtUtc': _toUtcTimestamp(now),
       'timezoneOffsetMinutes': offset.inMinutes,
 
       // 基础统计
@@ -102,10 +108,17 @@ class YearlyReportData {
       'totalCrashCount': totalCrashCount,
       'yearlyCrashCount': yearlyCrashCount,
 
-      // 时间统计 (带时区)
-      'yearlyFirstLaunchTime': _toIso8601WithTimezone(yearlyFirstLaunchTime),
-      'earliestPlayDate': _toIso8601WithTimezone(earliestPlayDate),
-      'latestPlayDate': _toIso8601WithTimezone(latestPlayDate),
+      // 时间统计 (UTC 毫秒时间戳)
+      'yearlyFirstLaunchTimeUtc': _toUtcTimestamp(yearlyFirstLaunchTime),
+      'earliestPlayDateUtc': _toUtcTimestamp(earliestPlayDate),
+      'latestPlayDateUtc': _toUtcTimestamp(latestPlayDate),
+
+      // 游玩时长统计
+      'longestSessionMs': longestSession?.inMilliseconds,
+      'longestSessionDateUtc': _toUtcTimestamp(longestSessionDate),
+      'shortestSessionMs': shortestSession?.inMilliseconds,
+      'shortestSessionDateUtc': _toUtcTimestamp(shortestSessionDate),
+      'averageSessionTimeMs': averageSessionTime?.inMilliseconds,
 
       // 载具统计
       'yearlyVehicleDestructionCount': yearlyVehicleDestructionCount,
@@ -114,27 +127,25 @@ class YearlyReportData {
       'mostPilotedVehicle': mostPilotedVehicle,
       'mostPilotedVehicleCount': mostPilotedVehicleCount,
 
-      // 战斗统计
-      'yearlyKillCount': yearlyKillCount,
-      'yearlyDeathCount': yearlyDeathCount,
-
       // 账号统计
       'accountCount': accountCount,
       'mostPlayedAccount': mostPlayedAccount,
       'mostPlayedAccountSessionCount': mostPlayedAccountSessionCount,
 
+      // 地点统计
+      'topLocations': topLocations.map((e) => {'location': e.key, 'count': e.value}).toList(),
+
+      // 击杀统计
+      'yearlyKillCount': yearlyKillCount,
+      'yearlyDeathCount': yearlyDeathCount,
+      'yearlySelfKillCount': yearlySelfKillCount,
+
       // 详细数据
-      'vehicleDestructionDetails': vehicleDestructionDetails,
       'vehiclePilotedDetails': vehiclePilotedDetails,
       'accountSessionDetails': accountSessionDetails,
+      'locationDetails': locationDetails,
     };
   }
-
-  /// 转换为 JSON 字符串
-  String toJsonString() => jsonEncode(toJson());
-
-  /// 转换为 Base64 编码的 JSON 字符串
-  String toJsonBase64() => base64Encode(utf8.encode(toJsonString()));
 
   @override
   String toString() {
@@ -148,13 +159,15 @@ class YearlyReportData {
   yearlyFirstLaunchTime: $yearlyFirstLaunchTime,
   earliestPlayDate: $earliestPlayDate,
   latestPlayDate: $latestPlayDate,
+  longestSession: $longestSession (on $longestSessionDate),
+  shortestSession: $shortestSession (on $shortestSessionDate),
+  averageSessionTime: $averageSessionTime,
   yearlyVehicleDestructionCount: $yearlyVehicleDestructionCount,
   mostDestroyedVehicle: $mostDestroyedVehicle ($mostDestroyedVehicleCount),
   mostPilotedVehicle: $mostPilotedVehicle ($mostPilotedVehicleCount),
-  yearlyKillCount: $yearlyKillCount,
-  yearlyDeathCount: $yearlyDeathCount,
   accountCount: $accountCount,
   mostPlayedAccount: $mostPlayedAccount ($mostPlayedAccountSessionCount),
+  topLocations: ${topLocations.take(5).map((e) => '${e.key}: ${e.value}').join(', ')},
 )''';
   }
 }
@@ -166,6 +179,7 @@ class _LogFileStats {
   bool hasCrash = false;
   int killCount = 0;
   int deathCount = 0;
+  int selfKillCount = 0;
   Set<String> playerNames = {};
   String? currentPlayerName;
   String? firstPlayerName; // 第一个检测到的玩家名，用于去重
@@ -176,9 +190,11 @@ class _LogFileStats {
   // 驾驶载具: 载具型号 (去除ID后) -> 次数
   Map<String, int> vehiclePiloted = {};
 
-  // 年度内的时间记录
-  List<DateTime> yearlyStartTimes = [];
-  List<DateTime> yearlyEndTimes = [];
+  // 地点访问: 地点名 -> 次数
+  Map<String, int> locationVisits = {};
+
+  // 年度内的会话记录
+  List<_SessionInfo> yearlySessions = [];
 
   /// 生成用于去重的唯一标识
   /// 基于启动时间和第一个玩家名生成
@@ -190,10 +206,20 @@ class _LogFileStats {
   }
 }
 
+/// 单次游玩会话信息
+class _SessionInfo {
+  final DateTime startTime;
+  final DateTime endTime;
+
+  _SessionInfo({required this.startTime, required this.endTime});
+
+  Duration get duration => endTime.difference(startTime);
+}
+
 /// 年度报告分析器
 class YearlyReportAnalyzer {
-  // 复用 GameLogAnalyzer 中的正则表达式和方法
-  static final _characterNamePattern = RegExp(r"name\s+([^-]+)");
+  // 新版日志格式的正则表达式
+  static final _characterNamePattern = RegExp(r'name\s+(\w+)\s+signedIn');
   static final _vehicleDestructionPattern = RegExp(
     r"Vehicle\s+'([^']+)'.*?" // 载具型号
     r"in zone\s+'([^']+)'.*?" // Zone
@@ -205,6 +231,16 @@ class YearlyReportAnalyzer {
     r"ejected from zone '([^']+)'.*?" // 原载具/区域
     r"to zone '([^']+)'", // 目标区域
   );
+
+  // Legacy 格式的正则表达式 (旧版日志)
+  static final _legacyCharacterNamePattern = RegExp(r"name\s+([^-]+)");
+  static final _legacyActorDeathPattern = RegExp(
+    r"CActor::Kill: '([^']+)'.*?" // 受害者ID
+    r"in zone '([^']+)'.*?" // 死亡位置区域
+    r"killed by '([^']+)'.*?" // 击杀者ID
+    r"with damage type '([^']+)'", // 伤害类型
+  );
+  static final _requestLocationInventoryPattern = RegExp(r"Player\[([^\]]+)\].*?Location\[([^\]]+)\]");
 
   /// 分析单个日志文件
   static Future<_LogFileStats> _analyzeLogFile(File logFile, int targetYear) async {
@@ -231,21 +267,6 @@ class YearlyReportAnalyzer {
         // 更新结束时间 (最后一个有效时间)
         if (lineTime != null) {
           stats.endTime = lineTime;
-
-          // 记录年度内的时间
-          if (lineTime.year == targetYear) {
-            if (stats.yearlyStartTimes.isEmpty ||
-                stats.yearlyStartTimes.last.difference(lineTime).abs().inMinutes > 30) {
-              // 新的会话开始
-              stats.yearlyStartTimes.add(lineTime);
-            }
-            // 总是更新最后的结束时间
-            if (stats.yearlyEndTimes.isEmpty) {
-              stats.yearlyEndTimes.add(lineTime);
-            } else {
-              stats.yearlyEndTimes[stats.yearlyEndTimes.length - 1] = lineTime;
-            }
-          }
         }
 
         // 检测崩溃
@@ -253,20 +274,21 @@ class YearlyReportAnalyzer {
           stats.hasCrash = true;
         }
 
-        // 检测玩家登录
-        final nameMatch = _characterNamePattern.firstMatch(line);
+        // 检测玩家登录 (尝试新版格式，失败则用旧版)
+        var nameMatch = _characterNamePattern.firstMatch(line);
+        nameMatch ??= _legacyCharacterNamePattern.firstMatch(line);
         if (nameMatch != null) {
           final playerName = nameMatch.group(1)?.trim();
-          if (playerName != null && playerName.isNotEmpty) {
+          if (playerName != null && playerName.isNotEmpty && !playerName.contains(' ')) {
             stats.currentPlayerName = playerName;
             stats.playerNames.add(playerName);
-            // 记录第一个玩家名用于去重
             stats.firstPlayerName ??= playerName;
           }
         }
 
-        // 检测载具损毁 (仅年度内)
+        // 年度内的统计
         if (lineTime != null && lineTime.year == targetYear) {
+          // 检测载具损毁
           final destructionMatch = _vehicleDestructionPattern.firstMatch(line);
           if (destructionMatch != null) {
             final vehicleModel = destructionMatch.group(1);
@@ -291,29 +313,86 @@ class YearlyReportAnalyzer {
             }
           }
 
-          // 检测死亡
-          final deathMatch = _actorDeathPattern.firstMatch(line);
+          // 检测死亡 (新版格式)
+          var deathMatch = _actorDeathPattern.firstMatch(line);
           if (deathMatch != null) {
             final victimId = deathMatch.group(1)?.trim();
-
             if (victimId != null && stats.currentPlayerName != null && victimId == stats.currentPlayerName) {
               stats.deathCount++;
             }
           }
+
+          // 检测死亡 (旧版格式 - Legacy)
+          final legacyDeathMatch = _legacyActorDeathPattern.firstMatch(line);
+          if (legacyDeathMatch != null) {
+            final victimId = legacyDeathMatch.group(1)?.trim();
+            final killerId = legacyDeathMatch.group(3)?.trim();
+
+            if (victimId != null && stats.currentPlayerName != null) {
+              // 检测自杀
+              if (victimId == killerId) {
+                if (victimId == stats.currentPlayerName) {
+                  stats.selfKillCount++;
+                }
+              } else {
+                // 检测死亡
+                if (victimId == stats.currentPlayerName) {
+                  stats.deathCount++;
+                }
+                // 检测击杀
+                if (killerId == stats.currentPlayerName) {
+                  stats.killCount++;
+                }
+              }
+            }
+          }
+
+          // 检测地点访问 (RequestLocationInventory)
+          final locationMatch = _requestLocationInventoryPattern.firstMatch(line);
+          if (locationMatch != null) {
+            final location = locationMatch.group(2)?.trim();
+            if (location != null && location.isNotEmpty) {
+              // 清理地点名称，移除数字ID后缀
+              final cleanLocation = _cleanLocationName(location);
+              stats.locationVisits[cleanLocation] = (stats.locationVisits[cleanLocation] ?? 0) + 1;
+            }
+          }
         }
       }
+
+      // 记录会话信息
+      if (stats.startTime != null && stats.endTime != null && stats.startTime!.year == targetYear) {
+        stats.yearlySessions.add(_SessionInfo(startTime: stats.startTime!, endTime: stats.endTime!));
+      }
     } catch (e) {
-      dPrint('[YearlyReportAnalyzer] Error analyzing log file: $e');
+      // Error handled silently in isolate
     }
 
     return stats;
+  }
+
+  /// 清理地点名称，移除数字ID后缀
+  static String _cleanLocationName(String location) {
+    // 移除末尾的数字ID (如 "_12345678")
+    final cleanPattern = RegExp(r'_\d{6,}$');
+    return location.replaceAll(cleanPattern, '');
   }
 
   /// 生成年度报告
   ///
   /// [gameInstallPaths] 游戏安装路径列表 (完整路径，如 ["D:/Games/StarCitizen/LIVE", "D:/Games/StarCitizen/PTU"])
   /// [targetYear] 目标年份
+  ///
+  /// 该方法在独立 Isolate 中运行，避免阻塞 UI
   static Future<YearlyReportData> generateReport(List<String> gameInstallPaths, int targetYear) async {
+    // 在独立 Isolate 中运行以避免阻塞 UI
+    return await Isolate.run(() async {
+      return await _generateReportInIsolate(gameInstallPaths, targetYear);
+    });
+  }
+
+  /// 内部方法：在 Isolate 中执行的报告生成逻辑
+  static Future<YearlyReportData> _generateReportInIsolate(List<String> gameInstallPaths, int targetYear) async {
     final List<File> allLogFiles = [];
 
     // 从所有安装路径收集日志文件
@@ -322,7 +401,6 @@ class YearlyReportAnalyzer {
 
       // 检查安装目录是否存在
       if (!await installDir.exists()) {
-        dPrint('[YearlyReportAnalyzer] Install path does not exist: $installPath');
         continue;
       }
 
@@ -344,10 +422,6 @@ class YearlyReportAnalyzer {
       }
     }
 
-    dPrint(
-      '[YearlyReportAnalyzer] Found ${allLogFiles.length} log files from ${gameInstallPaths.length} install paths',
-    );
-
     // 并发分析所有日志文件
     final futures = allLogFiles.map((file) => _analyzeLogFile(file, targetYear));
     final allStatsRaw = await Future.wait(futures);
@@ -359,17 +433,12 @@ class YearlyReportAnalyzer {
     for (final stats in allStatsRaw) {
       final key = stats.uniqueKey;
       if (key == null) {
-        // 无法生成唯一标识的日志仍然保留
         allStats.add(stats);
       } else if (!seenKeys.contains(key)) {
         seenKeys.add(key);
         allStats.add(stats);
-      } else {
-        dPrint('[YearlyReportAnalyzer] Skipping duplicate log: $key');
       }
     }
-
-    dPrint('[YearlyReportAnalyzer] After deduplication: ${allStats.length} unique logs');
 
     // 合并统计数据
     int totalLaunchCount = allStats.length;
@@ -381,12 +450,23 @@ class YearlyReportAnalyzer {
     DateTime? yearlyFirstLaunchTime;
     DateTime? earliestPlayDate;
     DateTime? latestPlayDate;
+
+    // 会话时长统计
+    Duration? longestSession;
+    DateTime? longestSessionDate;
+    Duration? shortestSession;
+    DateTime? shortestSessionDate;
+    List<Duration> allSessionDurations = [];
+
+    // K/D 统计
     int yearlyKillCount = 0;
     int yearlyDeathCount = 0;
+    int yearlySelfKillCount = 0;
 
     final Map<String, int> vehicleDestructionDetails = {};
     final Map<String, int> vehiclePilotedDetails = {};
     final Map<String, int> accountSessionDetails = {};
+    final Map<String, int> locationDetails = {};
 
     for (final stats in allStats) {
       // 累计游玩时长
@@ -397,46 +477,57 @@ class YearlyReportAnalyzer {
       // 崩溃统计
       if (stats.hasCrash) {
         totalCrashCount++;
-        // 检查是否为年度内的崩溃
         if (stats.endTime != null && stats.endTime!.year == targetYear) {
           yearlyCrashCount++;
         }
       }
 
-      // 年度统计
-      for (int i = 0; i < stats.yearlyStartTimes.length; i++) {
+      // 年度会话统计
+      for (final session in stats.yearlySessions) {
         yearlyLaunchCount++;
-        final startTime = stats.yearlyStartTimes[i];
-        final endTime = i < stats.yearlyEndTimes.length ? stats.yearlyEndTimes[i] : startTime;
-        yearlyPlayTime += endTime.difference(startTime);
+        final sessionDuration = session.duration;
+        yearlyPlayTime += sessionDuration;
+        allSessionDurations.add(sessionDuration);
 
         // 年度第一次启动时间
-        if (yearlyFirstLaunchTime == null || startTime.isBefore(yearlyFirstLaunchTime)) {
-          yearlyFirstLaunchTime = startTime;
+        if (yearlyFirstLaunchTime == null || session.startTime.isBefore(yearlyFirstLaunchTime)) {
+          yearlyFirstLaunchTime = session.startTime;
         }
 
         // 最早游玩的一天 (05:00及以后开始游戏)
-        if (startTime.hour >= 5) {
-          if (earliestPlayDate == null || _timeOfDayIsEarlier(startTime, earliestPlayDate)) {
-            earliestPlayDate = startTime;
+        if (session.startTime.hour >= 5) {
+          if (earliestPlayDate == null || _timeOfDayIsEarlier(session.startTime, earliestPlayDate)) {
+            earliestPlayDate = session.startTime;
           }
         }
 
         // 最晚游玩的一天 (04:00及以前结束游戏)
-        if (endTime.hour <= 4) {
-          if (latestPlayDate == null || _timeOfDayIsLater(endTime, latestPlayDate)) {
-            latestPlayDate = endTime;
+        if (session.endTime.hour <= 4) {
+          if (latestPlayDate == null || _timeOfDayIsLater(session.endTime, latestPlayDate)) {
+            latestPlayDate = session.endTime;
+          }
+        }
+
+        // 最长游玩时长
+        if (longestSession == null || sessionDuration > longestSession) {
+          longestSession = sessionDuration;
+          longestSessionDate = session.startTime;
+        }
+
+        // 最短游玩时长 (超过5分钟的)
+        if (sessionDuration.inMinutes >= 5) {
+          if (shortestSession == null || sessionDuration < shortestSession) {
+            shortestSession = sessionDuration;
+            shortestSessionDate = session.startTime;
           }
         }
       }
 
-      // 累加战斗统计
-      yearlyKillCount += stats.killCount;
-      yearlyDeathCount += stats.deathCount;
-
-      // 合并载具损毁详情
+      // 合并载具损毁详情 (过滤包含 PU 的载具)
       for (final entry in stats.vehicleDestruction.entries) {
-        vehicleDestructionDetails[entry.key] = (vehicleDestructionDetails[entry.key] ?? 0) + entry.value;
+        if (!entry.key.contains('PU_')) {
+          vehicleDestructionDetails[entry.key] = (vehicleDestructionDetails[entry.key] ?? 0) + entry.value;
+        }
       }
 
       // 合并驾驶载具详情
@@ -444,10 +535,36 @@ class YearlyReportAnalyzer {
         vehiclePilotedDetails[entry.key] = (vehiclePilotedDetails[entry.key] ?? 0) + entry.value;
       }
 
+      // 累计 K/D
+      yearlyKillCount += stats.killCount;
+      yearlyDeathCount += stats.deathCount;
+      yearlySelfKillCount += stats.selfKillCount;
+
       // 合并账号会话详情
       for (final playerName in stats.playerNames) {
-        accountSessionDetails[playerName] = (accountSessionDetails[playerName] ?? 0) + 1;
+        if (playerName.length > 16) continue;
+        String targetKey = playerName;
+        // 查找是否存在忽略大小写的相同 key
+        for (final key in accountSessionDetails.keys) {
+          if (key.toLowerCase() == playerName.toLowerCase()) {
+            targetKey = key;
+            break;
+          }
+        }
+        accountSessionDetails[targetKey] = (accountSessionDetails[targetKey] ?? 0) + 1;
       }
+
+      // 合并地点访问详情
+      for (final entry in stats.locationVisits.entries) {
+        locationDetails[entry.key] = (locationDetails[entry.key] ?? 0) + entry.value;
+      }
+    }
+
+    // 计算平均游玩时长
+    Duration? averageSessionTime;
+    if (allSessionDurations.isNotEmpty) {
+      final totalMs = allSessionDurations.fold<int>(0, (sum, d) => sum + d.inMilliseconds);
+      averageSessionTime = Duration(milliseconds: totalMs ~/ allSessionDurations.length);
     }
 
     // 计算派生统计
@@ -480,6 +597,10 @@ class YearlyReportAnalyzer {
       }
     }
 
+    // 计算 Top 10 地点
+    final sortedLocations = locationDetails.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    final topLocations = sortedLocations.take(10).toList();
+
     return YearlyReportData(
       totalLaunchCount: totalLaunchCount,
       totalPlayTime: totalPlayTime,
@@ -490,19 +611,26 @@ class YearlyReportAnalyzer {
       yearlyFirstLaunchTime: yearlyFirstLaunchTime,
       earliestPlayDate: earliestPlayDate,
       latestPlayDate: latestPlayDate,
+      longestSession: longestSession,
+      longestSessionDate: longestSessionDate,
+      shortestSession: shortestSession,
+      shortestSessionDate: shortestSessionDate,
+      averageSessionTime: averageSessionTime,
       yearlyVehicleDestructionCount: yearlyVehicleDestructionCount,
       mostDestroyedVehicle: mostDestroyedVehicle,
       mostDestroyedVehicleCount: mostDestroyedVehicleCount,
       mostPilotedVehicle: mostPilotedVehicle,
       mostPilotedVehicleCount: mostPilotedVehicleCount,
-      yearlyKillCount: yearlyKillCount,
-      yearlyDeathCount: yearlyDeathCount,
       accountCount: accountSessionDetails.length,
       mostPlayedAccount: mostPlayedAccount,
       mostPlayedAccountSessionCount: mostPlayedAccountSessionCount,
-      vehicleDestructionDetails: vehicleDestructionDetails,
+      topLocations: topLocations,
+      yearlyKillCount: yearlyKillCount,
+      yearlyDeathCount: yearlyDeathCount,
+      yearlySelfKillCount: yearlySelfKillCount,
       vehiclePilotedDetails: vehiclePilotedDetails,
       accountSessionDetails: accountSessionDetails,
+      locationDetails: locationDetails,
     );
   }
 

@@ -42,7 +42,7 @@ final class HomePerformanceUIModelProvider
 }
 
 String _$homePerformanceUIModelHash() =>
-    r'4c5c33fe7d85dc8f6bf0d019c1b870d285d594ff';
+    r'ae4771c7804abb1e5ba89bb1687061612f96b46b';
 
 abstract class _$HomePerformanceUIModel
     extends $Notifier<HomePerformanceUIState> {
