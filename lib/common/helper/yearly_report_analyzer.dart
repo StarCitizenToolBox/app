@@ -259,8 +259,7 @@ class _SessionInfo {
 
 /// 年度报告分析器
 class YearlyReportAnalyzer {
-  // 新版日志格式的正则表达式
-  static final _characterNamePattern = RegExp(r'name\s+(\w+)\s+signedIn');
+  static final _characterNamePattern = RegExp(r'name\s+([^-]+)');
   static final _vehicleDestructionPattern = RegExp(
     r"Vehicle\s+'([^']+)'.*?" // 载具型号
     r"in zone\s+'([^']+)'.*?" // Zone
@@ -274,7 +273,6 @@ class YearlyReportAnalyzer {
   );
 
   // Legacy 格式的正则表达式 (旧版日志)
-  static final _legacyCharacterNamePattern = RegExp(r"name\s+([^-]+)");
   static final _legacyActorDeathPattern = RegExp(
     r"CActor::Kill: '([^']+)'.*?" // 受害者ID
     r"in zone '([^']+)'.*?" // 死亡位置区域
@@ -315,23 +313,24 @@ class YearlyReportAnalyzer {
           stats.hasCrash = true;
         }
 
-        // 检测玩家登录 (尝试新版格式，失败则用旧版)
-        var nameMatch = _characterNamePattern.firstMatch(line);
-        nameMatch ??= _legacyCharacterNamePattern.firstMatch(line);
-        if (nameMatch != null) {
-          final playerName = nameMatch.group(1)?.trim();
-          if (playerName != null &&
-              playerName.isNotEmpty &&
-              !playerName.contains(' ') &&
-              !playerName.contains('/') &&
-              !playerName.contains(r'\') &&
-              !playerName.contains('.')) {
-            stats.currentPlayerName = playerName;
-            // 去重添加到玩家列表 (忽略大小写)
-            if (!stats.playerNames.any((n) => n.toLowerCase() == playerName.toLowerCase())) {
-              stats.playerNames.add(playerName);
+        // 检测玩家登录
+        if (line.contains('AccountLoginCharacterStatus_Character')) {
+          final nameMatch = _characterNamePattern.firstMatch(line);
+          if (nameMatch != null) {
+            final playerName = nameMatch.group(1)?.trim();
+            if (playerName != null &&
+                playerName.isNotEmpty &&
+                !playerName.contains(' ') &&
+                !playerName.contains('/') &&
+                !playerName.contains(r'\\') &&
+                !playerName.contains('.')) {
+              stats.currentPlayerName = playerName;
+              // 去重添加到玩家列表 (忽略大小写)
+              if (!stats.playerNames.any((n) => n.toLowerCase() == playerName.toLowerCase())) {
+                stats.playerNames.add(playerName);
+              }
+              stats.firstPlayerName ??= playerName;
             }
-            stats.firstPlayerName ??= playerName;
           }
         }
 
@@ -358,7 +357,10 @@ class YearlyReportAnalyzer {
             final vehicleName = controlMatch.group(1);
             if (vehicleName != null) {
               final cleanVehicleName = GameLogAnalyzer.removeVehicleId(vehicleName);
-              stats.vehiclePiloted[cleanVehicleName] = (stats.vehiclePiloted[cleanVehicleName] ?? 0) + 1;
+              // 过滤掉名为 "Default" 的载具
+              if (cleanVehicleName != 'Default') {
+                stats.vehiclePiloted[cleanVehicleName] = (stats.vehiclePiloted[cleanVehicleName] ?? 0) + 1;
+              }
             }
           }
 
