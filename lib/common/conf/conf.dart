@@ -1,6 +1,6 @@
 class ConstConf {
-  static const String appVersion = "3.0.0 Beta6";
-  static const int appVersionCode = 76;
+  static const String appVersion = "3.0.0 Beta7";
+  static const int appVersionCode = 77;
   static const String appVersionDate = "2025-12-13";
   static const _gameChannels = ["LIVE", "4.0_PREVIEW", "PTU", "EPTU", "TECH-PREVIEW", "HOTFIX"];
   static const isMSE = String.fromEnvironment("MSE", defaultValue: "false") == "true";
