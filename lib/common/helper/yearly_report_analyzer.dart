@@ -285,11 +285,11 @@ class YearlyReportAnalyzer {
   static Future<_LogFileStats> _analyzeLogFile(File logFile, int targetYear) async {
     final stats = _LogFileStats();
 
-    if (!(await logFile.exists())) {
-      return stats;
-    }
-
     try {
+      if (!(await logFile.exists())) {
+        return stats;
+      }
+
       final content = utf8.decode(await logFile.readAsBytes(), allowMalformed: true);
       final lines = content.split('\n');
 
@@ -472,33 +472,53 @@ class YearlyReportAnalyzer {
 
     // 从所有安装路径收集日志文件
     for (final installPath in gameInstallPaths) {
-      final installDir = Directory(installPath);
+      try {
+        final installDir = Directory(installPath);
 
-      // 检查安装目录是否存在
-      if (!await installDir.exists()) {
-        continue;
-      }
-
-      final gameLogFile = File('$installPath/Game.log');
-      final logBackupsDir = Directory('$installPath/logbackups');
-
-      // 添加当前 Game.log
-      if (await gameLogFile.exists()) {
-        allLogFiles.add(gameLogFile);
-      }
-
-      // 添加备份日志
-      if (await logBackupsDir.exists()) {
-        await for (final entity in logBackupsDir.list()) {
-          if (entity is File && entity.path.endsWith('.log')) {
-            allLogFiles.add(entity);
-          }
+        // 检查安装目录是否存在
+        if (!await installDir.exists()) {
+          continue;
         }
+
+        final gameLogFile = File('$installPath/Game.log');
+        final logBackupsDir = Directory('$installPath/logbackups');
+
+        // 添加当前 Game.log
+        try {
+          if (await gameLogFile.exists()) {
+            allLogFiles.add(gameLogFile);
+          }
+        } catch (_) {
+          // 忽略单个文件检查错误
+        }
+
+        // 添加备份日志
+        try {
+          if (await logBackupsDir.exists()) {
+            await for (final entity in logBackupsDir.list()) {
+              if (entity is File && entity.path.endsWith('.log')) {
+                allLogFiles.add(entity);
+              }
+            }
+          }
+        } catch (_) {
+          // 忽略备份目录读取错误
+        }
+      } catch (_) {
+        // 忽略单个安装路径的错误，继续处理其他路径
+        continue;
       }
     }
 
-    // 并发分析所有日志文件
-    final futures = allLogFiles.map((file) => _analyzeLogFile(file, targetYear));
+    // 并发分析所有日志文件，使用错误处理确保单个文件失败不影响其他文件
+    final futures = allLogFiles.map((file) async {
+      try {
+        return await _analyzeLogFile(file, targetYear);
+      } catch (_) {
+        // 单个文件分析失败时返回空的统计数据
+        return _LogFileStats();
+      }
+    });
     final allStatsRaw = await Future.wait(futures);
 
     // 去重: 使用 uniqueKey (启动时间 + 玩家名) 来过滤重复的日志
