@@ -1693,7 +1693,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("時間"),
     "yearly_report_play_time_value": m89,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
-      "SCToolbox 提供",
+      "SCToolbox 提供 | github.com/StarCitizenToolBox/app",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
     "yearly_report_session_date": m90,

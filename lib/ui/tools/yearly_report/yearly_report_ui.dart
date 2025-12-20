@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/helper/yearly_report_analyzer.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 part 'yearly_report_pages.dart';
 

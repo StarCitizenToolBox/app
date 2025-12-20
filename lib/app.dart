@@ -16,9 +16,6 @@ import 'package:starcitizen_doctor/ui/guide/guide_ui.dart';
 import 'package:starcitizen_doctor/ui/home/performance/performance_ui.dart';
 import 'package:starcitizen_doctor/ui/splash_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
-import 'package:uuid/uuid.dart';
-
-import 'api/analytics.dart';
 import 'api/api.dart';
 import 'common/conf/url_conf.dart';
 import 'common/helper/system_helper.dart';

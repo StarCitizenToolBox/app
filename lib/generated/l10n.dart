@@ -6812,10 +6812,10 @@ class S {
     );
   }
 
-  /// `Presented by SCToolbox`
+  /// `Presented by SCToolbox | github.com/StarCitizenToolBox/app`
   String get yearly_report_powered_by {
     return Intl.message(
-      'Presented by SCToolbox',
+      'Presented by SCToolbox | github.com/StarCitizenToolBox/app',
       name: 'yearly_report_powered_by',
       desc: '',
       args: [],

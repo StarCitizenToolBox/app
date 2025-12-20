@@ -7,6 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/app.dart';
+import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:web/web.dart' as web;
 
@@ -65,6 +66,12 @@ class YearlyReportEntryUIRoute extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final globalState = ref.watch(appGlobalModelProvider);
 
+    // 确保 initApp 被调用，以启动背景图片循环
+    useEffect(() {
+      ref.read(appGlobalModelProvider.notifier).initApp();
+      return null;
+    }, const []);
+
     // 使用类似 index_ui.dart 的背景图片布局
     return Container(
       color: const Color(0xFF0a0a12), // 深色背景色作为底色
@@ -94,25 +101,16 @@ class YearlyReportEntryUIRoute extends HookConsumerWidget {
               },
             ),
           ),
-          // 半透明遮罩，增加可读性
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.black.withValues(alpha: .6), Colors.black.withValues(alpha: .75)],
-              ),
-            ),
-          ),
           // 内容区域
           Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1440, maxHeight: 920),
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
-                child: BlurOvalWidget(child: const YearlyReportEntryUI()),
+                child: BlurOvalWidget(
+                  blurColor: Colors.black.withValues(alpha: .65),
+                  child: const YearlyReportEntryUI(),
+                ),
               ),
             ),
           ),
@@ -304,27 +302,31 @@ class YearlyReportEntryUI extends HookConsumerWidget {
       loadingProgress.value = 0;
       errorMessage.value = null;
 
+      dPrint('[YearlyReport] Starting to read log files from directory...');
       final contents = await _readLogFilesFromDirectory(loadingMessage, loadingProgress);
 
       if (contents.isEmpty) {
+        dPrint('[YearlyReport] No log files found');
         errorMessage.value = S.current.yearly_report_web_no_logs_found;
         isLoading.value = false;
         return;
       }
 
+      dPrint('[YearlyReport] Successfully read ${contents.length} log files');
       logContents.value = contents;
-    } catch (e) {
-      errorMessage.value = e.toString();
+    } catch (e, stackTrace) {
+      dPrint('[YearlyReport] Error reading directory: $e');
+      dPrint('[YearlyReport] Stack trace: $stackTrace');
+      errorMessage.value = 'Error: $e\n\nStack trace:\n$stackTrace';
       isLoading.value = false;
     }
   }
 
   bool _isDirectoryPickerSupported() {
-    try {
-      return true;
-    } catch (_) {
-      return false;
-    }
+    // 在 WASM/Web 环境中，直接返回 true，让实际调用时的错误处理来处理不支持的情况
+    // 因为 js_interop 的 @JS 注解不能在类方法内部使用
+    dPrint('[YearlyReport] Assuming showDirectoryPicker API is available (will handle error if not)');
+    return true;
   }
 
   Future<List<String>> _readLogFilesFromDirectory(
@@ -334,18 +336,26 @@ class YearlyReportEntryUI extends HookConsumerWidget {
     final logContents = <String>[];
 
     try {
+      dPrint('[YearlyReport] Calling showDirectoryPicker...');
       final dirHandle = await _showDirectoryPickerWrapper();
-      if (dirHandle == null) return [];
+      if (dirHandle == null) {
+        dPrint('[YearlyReport] User cancelled directory picker');
+        return [];
+      }
+      dPrint('[YearlyReport] Got directory handle');
 
       final dirHandleJS = FileSystemDirectoryHandleJS(dirHandle);
 
       // 尝试获取 LIVE 目录
       FileSystemDirectoryHandleJS? liveHandle;
       try {
+        dPrint('[YearlyReport] Trying to get LIVE directory...');
         final livePromise = dirHandleJS.getDirectoryHandle('LIVE'.toJS);
         final liveResult = await livePromise.toDart;
         liveHandle = FileSystemDirectoryHandleJS(liveResult);
-      } catch (_) {
+        dPrint('[YearlyReport] Found LIVE directory');
+      } catch (e) {
+        dPrint('[YearlyReport] LIVE directory not found, using selected directory: $e');
         liveHandle = dirHandleJS;
       }
 
@@ -354,18 +364,29 @@ class YearlyReportEntryUI extends HookConsumerWidget {
 
       // 读取 Game.log
       try {
+        dPrint('[YearlyReport] Trying to get Game.log...');
         final gameLogPromise = liveHandle.getFileHandle('Game.log'.toJS);
         final gameLogResult = await gameLogPromise.toDart;
         filesToRead.add(FileSystemFileHandleJS(gameLogResult));
-      } catch (_) {}
+        dPrint('[YearlyReport] Found Game.log');
+      } catch (e) {
+        dPrint('[YearlyReport] Game.log not found: $e');
+      }
 
       // 收集 logbackups 目录中的文件
       try {
+        dPrint('[YearlyReport] Trying to get logbackups directory...');
         final logbackupsPromise = liveHandle.getDirectoryHandle('logbackups'.toJS);
         final logbackupsResult = await logbackupsPromise.toDart;
         final logbackupsHandle = FileSystemDirectoryHandleJS(logbackupsResult);
+        dPrint('[YearlyReport] Found logbackups directory');
         await _collectLogbackupsFiles(logbackupsHandle, filesToRead);
-      } catch (_) {}
+        dPrint('[YearlyReport] Collected ${filesToRead.length} files from logbackups');
+      } catch (e) {
+        dPrint('[YearlyReport] logbackups directory not found: $e');
+      }
+
+      dPrint('[YearlyReport] Total files to read: ${filesToRead.length}');
 
       // 依次读取文件，更新进度
       for (var i = 0; i < filesToRead.length; i++) {
@@ -380,12 +401,18 @@ class YearlyReportEntryUI extends HookConsumerWidget {
           final content = await _readFileContent(fileHandle);
           if (content.isNotEmpty) {
             logContents.add(content);
+            dPrint('[YearlyReport] Read file: $fileName (${content.length} chars)');
           }
-        } catch (_) {}
+        } catch (e) {
+          dPrint('[YearlyReport] Error reading file $fileName: $e');
+        }
       }
 
       loadingProgress.value = 1.0;
-    } catch (e) {
+      dPrint('[YearlyReport] Finished reading files, total: ${logContents.length}');
+    } catch (e, stackTrace) {
+      dPrint('[YearlyReport] Error in _readLogFilesFromDirectory: $e');
+      dPrint('[YearlyReport] Stack trace: $stackTrace');
       rethrow;
     }
 
@@ -416,17 +443,29 @@ class YearlyReportEntryUI extends HookConsumerWidget {
           filesToRead.add(handleJS);
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      dPrint('[YearlyReport] Error collecting logbackups files: $e');
+    }
   }
 
   Future<JSObject?> _showDirectoryPickerWrapper() async {
     try {
+      dPrint('[YearlyReport] Calling _showDirectoryPicker JS function...');
       final promise = _showDirectoryPicker();
+      dPrint('[YearlyReport] Got promise, awaiting result...');
       final result = await promise.toDart;
+      dPrint('[YearlyReport] Got result from showDirectoryPicker');
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      dPrint('[YearlyReport] Error in _showDirectoryPickerWrapper: $e');
+      dPrint('[YearlyReport] Stack trace: $stackTrace');
       if (e.toString().contains('AbortError')) {
+        dPrint('[YearlyReport] User aborted the picker');
         return null;
+      }
+      // 检查是否是 API 不支持的错误
+      if (e.toString().contains('TypeError') || e.toString().contains('undefined')) {
+        throw Exception('${S.current.yearly_report_web_browser_not_supported}\n\nTechnical details: $e');
       }
       rethrow;
     }

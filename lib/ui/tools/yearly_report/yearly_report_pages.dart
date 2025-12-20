@@ -1243,6 +1243,26 @@ class _SummaryPage extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: .6)),
             ),
           ),
+          const SizedBox(height: 32),
+          FadeInUp(
+            delay: const Duration(milliseconds: 900),
+            child: Button(
+              onPressed: () {
+                launchUrlString("https://github.com/StarCitizenToolBox/app");
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(FontAwesomeIcons.github),
+                    const SizedBox(width: 12),
+                    Text(S.current.support_dev_github_star_button),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

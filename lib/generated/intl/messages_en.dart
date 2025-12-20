@@ -1883,7 +1883,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearly_report_play_time_value": m89,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
-      "Presented by SCToolbox",
+      "Presented by SCToolbox | github.com/StarCitizenToolBox/app",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage(
       "Average",
