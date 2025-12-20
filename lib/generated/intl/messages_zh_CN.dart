@@ -185,6 +185,50 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m75(v0) => "P4K 查看器 -> ${v0}";
 
+  static String m76(v0) => "登录了 ${v0} 次";
+
+  static String m77(v0) => "共检测到 ${v0} 个账号";
+
+  static String m78(year) => "查看您在${year}年的星际公民游玩统计，数据来自本地 log ，请确保在常用电脑上查看。";
+
+  static String m79(year) => "${year} 年度报告（限时）";
+
+  static String m80(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
+
+  static String m81(v0, v1) => "${v0} 小时 ${v1} 分钟";
+
+  static String m82(v0) => "${v0} 分钟";
+
+  static String m83(v0, v1) => "您在清晨 ${v0} 月 ${v1} 日开始了星际之旅";
+
+  static String m84(v0, v1) => "深夜 ${v0} 月 ${v1} 日还在探索宇宙";
+
+  static String m85(v0) => "${v0} 次";
+
+  static String m86(v0) => "${v0}月";
+
+  static String m87(v0) => "仅启动 ${v0} 次";
+
+  static String m88(v0) => "启动了 ${v0} 次";
+
+  static String m89(v0) => "${v0} 小时";
+
+  static String m90(v0, v1) => "${v0}月${v1}日";
+
+  static String m91(year) => "${year} 年，我们一起在星际公民中\n创造了无数精彩回忆";
+
+  static String m92(nextYear) => "期待 ${nextYear} 年继续与您相伴！";
+
+  static String m93(year) => "星际公民 ${year} 年度报告";
+
+  static String m94(v0) => "炸了 ${v0} 次";
+
+  static String m95(v0) => "驾驶了 ${v0} 次";
+
+  static String m96(v0) => "查看全部 ${v0} 个载具";
+
+  static String m97(year) => "${year} 年度报告";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about_action_btn_faq": MessageLookupByLibrary.simpleMessage("常见问题"),
@@ -1478,5 +1522,196 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("总邀请数："),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("未完成的邀请"),
+    "yearly_report_account_count": m76,
+    "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
+      "查看全部账号",
+    ),
+    "yearly_report_account_most": MessageLookupByLibrary.simpleMessage(
+      "最常使用的账号",
+    ),
+    "yearly_report_account_title": MessageLookupByLibrary.simpleMessage("账号统计"),
+    "yearly_report_account_total": m77,
+    "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
+      "正在分析游戏日志数据",
+    ),
+    "yearly_report_card_desc": m78,
+    "yearly_report_card_title": m79,
+    "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
+      "今年游戏不太稳定的时刻",
+    ),
+    "yearly_report_crash_label": MessageLookupByLibrary.simpleMessage("累计崩溃"),
+    "yearly_report_crash_note_high": MessageLookupByLibrary.simpleMessage(
+      "希望明年能更稳定！",
+    ),
+    "yearly_report_crash_note_low": MessageLookupByLibrary.simpleMessage(
+      "运气不错！",
+    ),
+    "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage("游戏崩溃次数"),
+    "yearly_report_date_range": m80,
+    "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
+      "数据使用您的本地日志生成，不会发送到任何第三方。因跨版本 Log 改动较大，数据可能不完整，仅供娱乐。",
+    ),
+    "yearly_report_duration_hours_minutes": m81,
+    "yearly_report_duration_minutes": m82,
+    "yearly_report_earliest_play_desc": m83,
+    "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
+      "最早的一次游玩",
+    ),
+    "yearly_report_error_description": MessageLookupByLibrary.simpleMessage(
+      "请确保游戏目录正确且存在日志文件",
+    ),
+    "yearly_report_error_title": MessageLookupByLibrary.simpleMessage(
+      "无法生成年度报告",
+    ),
+    "yearly_report_generating": MessageLookupByLibrary.simpleMessage(
+      "正在生成您的年度报告...",
+    ),
+    "yearly_report_kd_death": MessageLookupByLibrary.simpleMessage("死亡"),
+    "yearly_report_kd_kill": MessageLookupByLibrary.simpleMessage("击杀"),
+    "yearly_report_kd_no_record": MessageLookupByLibrary.simpleMessage(
+      "今年没有检测到击杀/死亡记录",
+    ),
+    "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage("自杀"),
+    "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage("击杀统计"),
+    "yearly_report_latest_play_desc": m84,
+    "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
+      "最晚的一次游玩",
+    ),
+    "yearly_report_launch_count_desc": MessageLookupByLibrary.simpleMessage(
+      "今年您启动了游戏",
+    ),
+    "yearly_report_launch_count_label": MessageLookupByLibrary.simpleMessage(
+      "累计启动",
+    ),
+    "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
+      "游戏启动次数",
+    ),
+    "yearly_report_launch_count_value": m85,
+    "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
+      "常去的地点",
+    ),
+    "yearly_report_location_no_record": MessageLookupByLibrary.simpleMessage(
+      "暂无地点访问记录",
+    ),
+    "yearly_report_location_note": MessageLookupByLibrary.simpleMessage(
+      "基于库存查看记录统计",
+    ),
+    "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
+      "地点统计",
+    ),
+    "yearly_report_menu_title": MessageLookupByLibrary.simpleMessage("报告"),
+    "yearly_report_month_format": m86,
+    "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage("游玩最少"),
+    "yearly_report_monthly_least_count": m87,
+    "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage("游玩最多"),
+    "yearly_report_monthly_most_count": m88,
+    "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage("月份统计"),
+    "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("继续查看"),
+    "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("上一页"),
+    "yearly_report_no_data": MessageLookupByLibrary.simpleMessage("暂无数据"),
+    "yearly_report_play_time_desc": MessageLookupByLibrary.simpleMessage(
+      "今年您在宇宙中遨游了",
+    ),
+    "yearly_report_play_time_label": MessageLookupByLibrary.simpleMessage(
+      "累计游玩",
+    ),
+    "yearly_report_play_time_title": MessageLookupByLibrary.simpleMessage(
+      "游玩时长",
+    ),
+    "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("小时"),
+    "yearly_report_play_time_value": m89,
+    "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
+      "由 SC 汉化盒子为您呈现",
+    ),
+    "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
+    "yearly_report_session_date": m90,
+    "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage("最长"),
+    "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
+      "(最短仅统计超过 5 分钟的游戏)",
+    ),
+    "yearly_report_session_shortest": MessageLookupByLibrary.simpleMessage(
+      "最短",
+    ),
+    "yearly_report_session_title": MessageLookupByLibrary.simpleMessage(
+      "游玩时长详情",
+    ),
+    "yearly_report_streak_day_unit": MessageLookupByLibrary.simpleMessage("天"),
+    "yearly_report_streak_offline": MessageLookupByLibrary.simpleMessage(
+      "连续离线",
+    ),
+    "yearly_report_streak_play": MessageLookupByLibrary.simpleMessage("连续游玩"),
+    "yearly_report_streak_title": MessageLookupByLibrary.simpleMessage("连续记录"),
+    "yearly_report_summary_earliest_time": MessageLookupByLibrary.simpleMessage(
+      "最早时刻",
+    ),
+    "yearly_report_summary_favorite_vehicle":
+        MessageLookupByLibrary.simpleMessage("最爱载具"),
+    "yearly_report_summary_frequent_location":
+        MessageLookupByLibrary.simpleMessage("常去位置"),
+    "yearly_report_summary_hottest_month": MessageLookupByLibrary.simpleMessage(
+      "最热月",
+    ),
+    "yearly_report_summary_latest_time": MessageLookupByLibrary.simpleMessage(
+      "最晚时刻",
+    ),
+    "yearly_report_summary_launch_game": MessageLookupByLibrary.simpleMessage(
+      "启动游戏",
+    ),
+    "yearly_report_summary_longest_online":
+        MessageLookupByLibrary.simpleMessage("最长在线"),
+    "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
+      "重开次数",
+    ),
+    "yearly_report_thanks_message": m91,
+    "yearly_report_thanks_next": m92,
+    "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
+      "感谢您的陪伴",
+    ),
+    "yearly_report_title": m93,
+    "yearly_report_vehicle_destruction_count": m94,
+    "yearly_report_vehicle_destruction_desc":
+        MessageLookupByLibrary.simpleMessage("今年您共炸了"),
+    "yearly_report_vehicle_destruction_most":
+        MessageLookupByLibrary.simpleMessage("炸的最多的船"),
+    "yearly_report_vehicle_destruction_title":
+        MessageLookupByLibrary.simpleMessage("载具损毁统计"),
+    "yearly_report_vehicle_destruction_unit":
+        MessageLookupByLibrary.simpleMessage("艘船"),
+    "yearly_report_vehicle_pilot_collapse":
+        MessageLookupByLibrary.simpleMessage("收起详情"),
+    "yearly_report_vehicle_pilot_count": m95,
+    "yearly_report_vehicle_pilot_expand": m96,
+    "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
+      "最常驾驶的载具",
+    ),
+    "yearly_report_vehicle_pilot_title": MessageLookupByLibrary.simpleMessage(
+      "载具驾驶统计",
+    ),
+    "yearly_report_web_browser_not_supported":
+        MessageLookupByLibrary.simpleMessage(
+          "您的浏览器不受支持，请使用 Chrome、Edge 或其他基于 Chromium 的浏览器。",
+        ),
+    "yearly_report_web_generate": MessageLookupByLibrary.simpleMessage("生成报告"),
+    "yearly_report_web_no_logs_found": MessageLookupByLibrary.simpleMessage(
+      "未找到游戏日志",
+    ),
+    "yearly_report_web_reading_files": MessageLookupByLibrary.simpleMessage(
+      "正在读取日志文件...",
+    ),
+    "yearly_report_web_select_folder": MessageLookupByLibrary.simpleMessage(
+      "选择游戏文件夹",
+    ),
+    "yearly_report_web_select_folder_desc":
+        MessageLookupByLibrary.simpleMessage("请选择您的星际公民游戏文件夹（包含 LIVE 目录的父文件夹）"),
+    "yearly_report_web_select_year": MessageLookupByLibrary.simpleMessage(
+      "选择年份",
+    ),
+    "yearly_report_welcome_hint": MessageLookupByLibrary.simpleMessage(
+      "向下滚动或点击下方按钮开始",
+    ),
+    "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
+      "回顾您在星际公民中的精彩时刻",
+    ),
+    "yearly_report_welcome_title": m97,
   };
 }

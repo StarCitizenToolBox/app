@@ -17,6 +17,7 @@ import 'home/home_ui.dart';
 import 'nav/nav_ui.dart';
 import 'settings/settings_ui.dart';
 import 'tools/tools_ui.dart';
+import 'tools/yearly_report/yearly_report_entry.dart';
 
 class IndexUI extends HookConsumerWidget {
   const IndexUI({super.key});
@@ -145,6 +146,8 @@ class IndexUI extends HookConsumerWidget {
   Map<IconData, (String, Widget)> get pageMenus => {
     FluentIcons.home: (S.current.app_index_menu_home, const HomeUI()),
     if (!kIsWeb) FluentIcons.toolbox: (S.current.app_index_menu_tools, const ToolsUI()),
+    if (kIsWeb && isYearlyReportPeriod())
+      FluentIcons.chart: (S.current.yearly_report_menu_title, const YearlyReportEntryUI()),
     FluentIcons.power_apps: ((S.current.nav_title), const NavUI()),
     FluentIcons.settings: (S.current.app_index_menu_settings, const SettingsUI()),
     FluentIcons.info: (S.current.app_index_menu_about, const AboutUI()),

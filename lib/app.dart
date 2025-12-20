@@ -32,6 +32,7 @@ import 'ui/home/localization/advanced_localization_ui.dart';
 import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';
 import 'ui/tools/unp4kc/unp4kc_ui.dart';
+import 'ui/tools/yearly_report/yearly_report_entry.dart';
 
 part 'app.g.dart';
 
@@ -84,6 +85,10 @@ GoRouter router(Ref ref) {
         builder: (_, _) => const SizedBox(),
         routes: [
           GoRoute(path: 'unp4kc', pageBuilder: (context, state) => myPageBuilder(context, state, const UnP4kcUI())),
+          GoRoute(
+            path: 'yearly_report',
+            pageBuilder: (context, state) => myPageBuilder(context, state, const YearlyReportEntryUIRoute()),
+          ),
         ],
       ),
       GoRoute(path: '/guide', pageBuilder: (context, state) => myPageBuilder(context, state, const GuideUI())),

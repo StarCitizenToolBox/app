@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce/hive.dart';
@@ -64,6 +65,16 @@ class SplashUI extends HookConsumerWidget {
     final appConf = await Hive.openBox("app_conf");
     final v = appConf.get("splash_alert_info_version", defaultValue: 0);
     AnalyticsApi.touch("launch");
+
+    // 检查 Web 特殊路由
+    if (kIsWeb) {
+      final uri = Uri.base;
+      if (uri.path.contains('yearly_report') || uri.queryParameters.containsKey('yearly_report')) {
+        if (!context.mounted) return;
+        context.go("/tools/yearly_report");
+        return;
+      }
+    }
     if (v < _alertInfoVersion) {
       if (!context.mounted) return;
       await _showAlert(context, appConf);

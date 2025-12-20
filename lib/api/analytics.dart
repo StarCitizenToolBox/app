@@ -7,15 +7,13 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class AnalyticsApi {
   static Future<void> touch(String key) async {
-    if (kDebugMode || kProfileMode) {
+    if (kDebugMode || kProfileMode || kIsWeb) {
       dPrint("AnalyticsApi.touch === $key skip");
       return;
     }
     dPrint("AnalyticsApi.touch === $key start");
     try {
-      final r = await RSHttp.postData(
-          "${URLConf.analyticsApiHome}/analytics/$key",
-          data: null);
+      final r = await RSHttp.postData("${URLConf.analyticsApiHome}/analytics/$key", data: null);
       dPrint("AnalyticsApi.touch === $key  over statusCode == ${r.statusCode}");
     } catch (e) {
       dPrint("AnalyticsApi.touch === $key Error:$e");

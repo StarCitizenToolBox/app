@@ -199,6 +199,52 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m75(v0) => "Просмотрщик P4K -> ${v0}";
 
+  static String m76(v0) => "Вход выполнен ${v0} раз";
+
+  static String m77(v0) => "Всего обнаружено ${v0} аккаунтов";
+
+  static String m78(year) =>
+      "Посмотрите статистику вашей игры в Star Citizen за ${year} год. Данные из локальных логов, пожалуйста, проверяйте на основном компьютере.";
+
+  static String m79(year) => "Ежегодный отчет ${year} (Ограниченное время)";
+
+  static String m80(v0, v1, v2, v3) => "${v0}/${v1} - ${v2}/${v3}";
+
+  static String m81(v0, v1) => "${v0} ч ${v1} мин";
+
+  static String m82(v0) => "${v0} мин";
+
+  static String m83(v0, v1) =>
+      "Вы начали свое космическое путешествие на рассвете ${v0}/${v1}";
+
+  static String m84(v0, v1) =>
+      "Поздно ночью ${v0}/${v1} вы все еще исследовали вселенную";
+
+  static String m85(v0) => "${v0} раз";
+
+  static String m86(v0) => "Месяц ${v0}";
+
+  static String m87(v0) => "Запущено только ${v0} раз";
+
+  static String m88(v0) => "Запущено ${v0} раз";
+
+  static String m89(v0) => "${v0} часов";
+
+  static String m90(v0, v1) => "${v0}/${v1}";
+
+  static String m91(year) =>
+      "В ${year} году мы вместе создали\nбесчисленное количество прекрасных воспоминаний в Star Citizen";
+
+  static String m92(nextYear) => "Ждем встречи с вами в ${nextYear} году!";
+
+  static String m94(v0) => "Уничтожено ${v0} раз";
+
+  static String m95(v0) => "Пилотировался ${v0} раз";
+
+  static String m96(v0) => "Показать все ${v0} тс";
+
+  static String m97(year) => "Ежегодный отчет ${year}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about_action_btn_faq": MessageLookupByLibrary.simpleMessage(
@@ -1732,5 +1778,227 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Всего приглашений:"),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("Незавершённые приглашения"),
+    "yearly_report_account_count": m76,
+    "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
+      "Показать все аккаунты",
+    ),
+    "yearly_report_account_most": MessageLookupByLibrary.simpleMessage(
+      "Самый используемый аккаунт",
+    ),
+    "yearly_report_account_title": MessageLookupByLibrary.simpleMessage(
+      "Статистика аккаунта",
+    ),
+    "yearly_report_account_total": m77,
+    "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
+      "Анализ данных игровых журналов",
+    ),
+    "yearly_report_card_desc": m78,
+    "yearly_report_card_title": m79,
+    "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
+      "Нестабильные моменты этого года",
+    ),
+    "yearly_report_crash_label": MessageLookupByLibrary.simpleMessage(
+      "Всего сбоев",
+    ),
+    "yearly_report_crash_note_high": MessageLookupByLibrary.simpleMessage(
+      "Надеемся, в следующем году будет стабильнее!",
+    ),
+    "yearly_report_crash_note_low": MessageLookupByLibrary.simpleMessage(
+      "Вам повезло!",
+    ),
+    "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage(
+      "Количество сбоев игры",
+    ),
+    "yearly_report_date_range": m80,
+    "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
+      "Данные генерируются из ваших локальных логов и не отправляются третьим лицам. Из-за значительных изменений логов в разных версиях данные могут быть неполными. Только для развлечения.",
+    ),
+    "yearly_report_duration_hours_minutes": m81,
+    "yearly_report_duration_minutes": m82,
+    "yearly_report_earliest_play_desc": m83,
+    "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
+      "Самая ранняя игровая сессия",
+    ),
+    "yearly_report_error_description": MessageLookupByLibrary.simpleMessage(
+      "Пожалуйста, убедитесь, что путь к игре верен и файлы логов существуют",
+    ),
+    "yearly_report_error_title": MessageLookupByLibrary.simpleMessage(
+      "Не удалось создать ежегодный отчет",
+    ),
+    "yearly_report_generating": MessageLookupByLibrary.simpleMessage(
+      "Генерация вашего ежегодного отчета...",
+    ),
+    "yearly_report_kd_death": MessageLookupByLibrary.simpleMessage("Смерти"),
+    "yearly_report_kd_kill": MessageLookupByLibrary.simpleMessage("Убийства"),
+    "yearly_report_kd_no_record": MessageLookupByLibrary.simpleMessage(
+      "В этом году записей об убийствах/смертях не обнаружено",
+    ),
+    "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage(
+      "Самоубийства",
+    ),
+    "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage(
+      "Статистика убийств",
+    ),
+    "yearly_report_latest_play_desc": m84,
+    "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
+      "Самая поздняя игровая сессия",
+    ),
+    "yearly_report_launch_count_desc": MessageLookupByLibrary.simpleMessage(
+      "В этом году вы запускали игру",
+    ),
+    "yearly_report_launch_count_label": MessageLookupByLibrary.simpleMessage(
+      "Всего запусков",
+    ),
+    "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
+      "Количество запусков игры",
+    ),
+    "yearly_report_launch_count_value": m85,
+    "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
+      "Частые локации",
+    ),
+    "yearly_report_location_no_record": MessageLookupByLibrary.simpleMessage(
+      "Нет записей о посещении локаций",
+    ),
+    "yearly_report_location_note": MessageLookupByLibrary.simpleMessage(
+      "Основано на записях просмотра инвентаря",
+    ),
+    "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
+      "Статистика локаций",
+    ),
+    "yearly_report_menu_title": MessageLookupByLibrary.simpleMessage("Отчет"),
+    "yearly_report_month_format": m86,
+    "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage(
+      "Меньше всего игр",
+    ),
+    "yearly_report_monthly_least_count": m87,
+    "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage(
+      "Больше всего игр",
+    ),
+    "yearly_report_monthly_most_count": m88,
+    "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage(
+      "Ежемесячная статистика",
+    ),
+    "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage(
+      "Продолжить",
+    ),
+    "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("Назад"),
+    "yearly_report_no_data": MessageLookupByLibrary.simpleMessage("Нет данных"),
+    "yearly_report_play_time_desc": MessageLookupByLibrary.simpleMessage(
+      "В этом году вы исследовали вселенную в течение",
+    ),
+    "yearly_report_play_time_label": MessageLookupByLibrary.simpleMessage(
+      "Общее время игры",
+    ),
+    "yearly_report_play_time_title": MessageLookupByLibrary.simpleMessage(
+      "Время игры",
+    ),
+    "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage(
+      "часов",
+    ),
+    "yearly_report_play_time_value": m89,
+    "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
+      "Представлено SCToolbox",
+    ),
+    "yearly_report_session_average": MessageLookupByLibrary.simpleMessage(
+      "Среднее",
+    ),
+    "yearly_report_session_date": m90,
+    "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage(
+      "Самое долгое",
+    ),
+    "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
+      "(Учитываются только сессии более 5 минут)",
+    ),
+    "yearly_report_session_shortest": MessageLookupByLibrary.simpleMessage(
+      "Самое короткое",
+    ),
+    "yearly_report_session_title": MessageLookupByLibrary.simpleMessage(
+      "Детали времени сессии",
+    ),
+    "yearly_report_streak_day_unit": MessageLookupByLibrary.simpleMessage(
+      "дн.",
+    ),
+    "yearly_report_streak_offline": MessageLookupByLibrary.simpleMessage(
+      "Серия оффлайна",
+    ),
+    "yearly_report_streak_play": MessageLookupByLibrary.simpleMessage(
+      "Серия игр",
+    ),
+    "yearly_report_streak_title": MessageLookupByLibrary.simpleMessage(
+      "Рекорды серий",
+    ),
+    "yearly_report_summary_earliest_time": MessageLookupByLibrary.simpleMessage(
+      "Самое раннее время",
+    ),
+    "yearly_report_summary_favorite_vehicle":
+        MessageLookupByLibrary.simpleMessage("Любимый транспорт"),
+    "yearly_report_summary_frequent_location":
+        MessageLookupByLibrary.simpleMessage("Частая локация"),
+    "yearly_report_summary_hottest_month": MessageLookupByLibrary.simpleMessage(
+      "Самый жаркий месяц",
+    ),
+    "yearly_report_summary_latest_time": MessageLookupByLibrary.simpleMessage(
+      "Самое позднее время",
+    ),
+    "yearly_report_summary_launch_game": MessageLookupByLibrary.simpleMessage(
+      "Запуск игры",
+    ),
+    "yearly_report_summary_longest_online":
+        MessageLookupByLibrary.simpleMessage("Дольше всего онлайн"),
+    "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
+      "Количество возрождений",
+    ),
+    "yearly_report_thanks_message": m91,
+    "yearly_report_thanks_next": m92,
+    "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
+      "Спасибо, что вы с нами",
+    ),
+    "yearly_report_vehicle_destruction_count": m94,
+    "yearly_report_vehicle_destruction_desc":
+        MessageLookupByLibrary.simpleMessage("В этом году вы уничтожили"),
+    "yearly_report_vehicle_destruction_most":
+        MessageLookupByLibrary.simpleMessage("Самый уничтожаемый корабль"),
+    "yearly_report_vehicle_destruction_title":
+        MessageLookupByLibrary.simpleMessage("Статистика уничтожения техники"),
+    "yearly_report_vehicle_destruction_unit":
+        MessageLookupByLibrary.simpleMessage("кораблей"),
+    "yearly_report_vehicle_pilot_collapse":
+        MessageLookupByLibrary.simpleMessage("Свернуть детали"),
+    "yearly_report_vehicle_pilot_count": m95,
+    "yearly_report_vehicle_pilot_expand": m96,
+    "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
+      "Самый пилотируемый транспорт",
+    ),
+    "yearly_report_vehicle_pilot_title": MessageLookupByLibrary.simpleMessage(
+      "Статистика пилотирования",
+    ),
+    "yearly_report_web_browser_not_supported": MessageLookupByLibrary.simpleMessage(
+      "Ваш браузер не поддерживается. Используйте Chrome, Edge или другой браузер на базе Chromium.",
+    ),
+    "yearly_report_web_generate": MessageLookupByLibrary.simpleMessage(
+      "Создать отчет",
+    ),
+    "yearly_report_web_no_logs_found": MessageLookupByLibrary.simpleMessage(
+      "Игровые логи не найдены",
+    ),
+    "yearly_report_web_reading_files": MessageLookupByLibrary.simpleMessage(
+      "Чтение файлов логов...",
+    ),
+    "yearly_report_web_select_folder": MessageLookupByLibrary.simpleMessage(
+      "Выберите папку игры",
+    ),
+    "yearly_report_web_select_folder_desc": MessageLookupByLibrary.simpleMessage(
+      "Выберите папку игры Star Citizen (родительская папка, содержащая директорию LIVE)",
+    ),
+    "yearly_report_web_select_year": MessageLookupByLibrary.simpleMessage(
+      "Выберите год",
+    ),
+    "yearly_report_welcome_hint": MessageLookupByLibrary.simpleMessage(
+      "Прокрутите вниз или нажмите кнопку ниже, чтобы начать",
+    ),
+    "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Вспомните свои незабываемые моменты в Star Citizen",
+    ),
+    "yearly_report_welcome_title": m97,
   };
 }

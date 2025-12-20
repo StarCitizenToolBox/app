@@ -191,6 +191,52 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m75(v0) => "P4Kビューア -> ${v0}";
 
+  static String m76(v0) => "${v0} 回ログイン";
+
+  static String m77(v0) => "合計 ${v0} アカウントを検出";
+
+  static String m78(year) =>
+      "${year}年のStar Citizenプレイ統計を表示します。データはローカルログからのものです。メインのコンピュータで確認してください。";
+
+  static String m79(year) => "${year} 年間レポート（期間限定）";
+
+  static String m80(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
+
+  static String m81(v0, v1) => "${v0} 時間 ${v1} 分";
+
+  static String m82(v0) => "${v0} 分";
+
+  static String m83(v0, v1) => "あなたは ${v0}月${v1}日 の夜明けに宇宙の旅を始めました";
+
+  static String m84(v0, v1) => "${v0}月${v1}日 の深夜、あなたはまだ宇宙を探索していました";
+
+  static String m85(v0) => "${v0} 回";
+
+  static String m86(v0) => "${v0}月";
+
+  static String m87(v0) => "わずか ${v0} 回起動";
+
+  static String m88(v0) => "${v0} 回起動";
+
+  static String m89(v0) => "${v0} 時間";
+
+  static String m90(v0, v1) => "${v0}月${v1}日";
+
+  static String m91(year) =>
+      "${year} 年、私たちはStar Citizenで\n数え切れないほどの素晴らしい思い出を作りました";
+
+  static String m92(nextYear) => "${nextYear} 年もよろしくお願いします！";
+
+  static String m93(year) => "Star Citizen ${year} 年間レポート";
+
+  static String m94(v0) => "${v0} 回破壊";
+
+  static String m95(v0) => "${v0} 回操縦";
+
+  static String m96(v0) => "全 ${v0} 車両を表示";
+
+  static String m97(year) => "${year} 年間レポート";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about_action_btn_faq": MessageLookupByLibrary.simpleMessage("よくある質問"),
@@ -1540,5 +1586,208 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("招待総数："),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("未完了の招待"),
+    "yearly_report_account_count": m76,
+    "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
+      "すべてのアカウントを表示",
+    ),
+    "yearly_report_account_most": MessageLookupByLibrary.simpleMessage(
+      "最も使用されたアカウント",
+    ),
+    "yearly_report_account_title": MessageLookupByLibrary.simpleMessage(
+      "アカウント統計",
+    ),
+    "yearly_report_account_total": m77,
+    "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
+      "ゲームログデータを分析中",
+    ),
+    "yearly_report_card_desc": m78,
+    "yearly_report_card_title": m79,
+    "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
+      "今年の不安定な瞬間",
+    ),
+    "yearly_report_crash_label": MessageLookupByLibrary.simpleMessage(
+      "合計クラッシュ数",
+    ),
+    "yearly_report_crash_note_high": MessageLookupByLibrary.simpleMessage(
+      "来年はもっと安定しますように！",
+    ),
+    "yearly_report_crash_note_low": MessageLookupByLibrary.simpleMessage(
+      "ラッキーですね！",
+    ),
+    "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage(
+      "ゲームクラッシュ回数",
+    ),
+    "yearly_report_date_range": m80,
+    "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
+      "データはローカルログから生成され、第三者に送信されることはありません。バージョン間のログの大幅な変更により、データが不完全な場合があります。娯楽目的のみ。",
+    ),
+    "yearly_report_duration_hours_minutes": m81,
+    "yearly_report_duration_minutes": m82,
+    "yearly_report_earliest_play_desc": m83,
+    "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
+      "最も早いプレイ",
+    ),
+    "yearly_report_error_description": MessageLookupByLibrary.simpleMessage(
+      "ゲームディレクトリが正しいか、ログファイルが存在するか確認してください",
+    ),
+    "yearly_report_error_title": MessageLookupByLibrary.simpleMessage(
+      "年間レポートを作成できません",
+    ),
+    "yearly_report_generating": MessageLookupByLibrary.simpleMessage(
+      "年間レポートを作成中...",
+    ),
+    "yearly_report_kd_death": MessageLookupByLibrary.simpleMessage("デス"),
+    "yearly_report_kd_kill": MessageLookupByLibrary.simpleMessage("キル"),
+    "yearly_report_kd_no_record": MessageLookupByLibrary.simpleMessage(
+      "今年はキル/デス記録が検出されませんでした",
+    ),
+    "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage("自殺"),
+    "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage("キル統計"),
+    "yearly_report_latest_play_desc": m84,
+    "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
+      "最も遅いプレイ",
+    ),
+    "yearly_report_launch_count_desc": MessageLookupByLibrary.simpleMessage(
+      "今年あなたはゲームを起動しました",
+    ),
+    "yearly_report_launch_count_label": MessageLookupByLibrary.simpleMessage(
+      "合計起動回数",
+    ),
+    "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
+      "ゲーム起動回数",
+    ),
+    "yearly_report_launch_count_value": m85,
+    "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
+      "よく行く場所",
+    ),
+    "yearly_report_location_no_record": MessageLookupByLibrary.simpleMessage(
+      "場所訪問記録なし",
+    ),
+    "yearly_report_location_note": MessageLookupByLibrary.simpleMessage(
+      "インベントリ閲覧記録に基づく",
+    ),
+    "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
+      "場所統計",
+    ),
+    "yearly_report_menu_title": MessageLookupByLibrary.simpleMessage("レポート"),
+    "yearly_report_month_format": m86,
+    "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage(
+      "最少プレイ",
+    ),
+    "yearly_report_monthly_least_count": m87,
+    "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage("最多プレイ"),
+    "yearly_report_monthly_most_count": m88,
+    "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage("月間統計"),
+    "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("次へ"),
+    "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("前のページ"),
+    "yearly_report_no_data": MessageLookupByLibrary.simpleMessage("データなし"),
+    "yearly_report_play_time_desc": MessageLookupByLibrary.simpleMessage(
+      "今年あなたは宇宙を探索しました",
+    ),
+    "yearly_report_play_time_label": MessageLookupByLibrary.simpleMessage(
+      "合計プレイ時間",
+    ),
+    "yearly_report_play_time_title": MessageLookupByLibrary.simpleMessage(
+      "プレイ時間",
+    ),
+    "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("時間"),
+    "yearly_report_play_time_value": m89,
+    "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
+      "SCToolbox 提供",
+    ),
+    "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
+    "yearly_report_session_date": m90,
+    "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage("最長"),
+    "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
+      "(最短は5分以上のセッションのみ集計)",
+    ),
+    "yearly_report_session_shortest": MessageLookupByLibrary.simpleMessage(
+      "最短",
+    ),
+    "yearly_report_session_title": MessageLookupByLibrary.simpleMessage(
+      "セッション時間詳細",
+    ),
+    "yearly_report_streak_day_unit": MessageLookupByLibrary.simpleMessage("日"),
+    "yearly_report_streak_offline": MessageLookupByLibrary.simpleMessage(
+      "連続オフライン",
+    ),
+    "yearly_report_streak_play": MessageLookupByLibrary.simpleMessage("連続プレイ"),
+    "yearly_report_streak_title": MessageLookupByLibrary.simpleMessage("連続記録"),
+    "yearly_report_summary_earliest_time": MessageLookupByLibrary.simpleMessage(
+      "最も早い時間",
+    ),
+    "yearly_report_summary_favorite_vehicle":
+        MessageLookupByLibrary.simpleMessage("お気に入りの乗り物"),
+    "yearly_report_summary_frequent_location":
+        MessageLookupByLibrary.simpleMessage("頻繁な場所"),
+    "yearly_report_summary_hottest_month": MessageLookupByLibrary.simpleMessage(
+      "最も活発な月",
+    ),
+    "yearly_report_summary_latest_time": MessageLookupByLibrary.simpleMessage(
+      "最も遅い時間",
+    ),
+    "yearly_report_summary_launch_game": MessageLookupByLibrary.simpleMessage(
+      "ゲーム起動",
+    ),
+    "yearly_report_summary_longest_online":
+        MessageLookupByLibrary.simpleMessage("最長オンライン"),
+    "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
+      "リスポーン回数",
+    ),
+    "yearly_report_thanks_message": m91,
+    "yearly_report_thanks_next": m92,
+    "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
+      "ご愛顧ありがとうございます",
+    ),
+    "yearly_report_title": m93,
+    "yearly_report_vehicle_destruction_count": m94,
+    "yearly_report_vehicle_destruction_desc":
+        MessageLookupByLibrary.simpleMessage("今年あなたは破壊しました"),
+    "yearly_report_vehicle_destruction_most":
+        MessageLookupByLibrary.simpleMessage("最も破壊された船"),
+    "yearly_report_vehicle_destruction_title":
+        MessageLookupByLibrary.simpleMessage("ビークル破壊統計"),
+    "yearly_report_vehicle_destruction_unit":
+        MessageLookupByLibrary.simpleMessage("隻の船"),
+    "yearly_report_vehicle_pilot_collapse":
+        MessageLookupByLibrary.simpleMessage("詳細を折りたたむ"),
+    "yearly_report_vehicle_pilot_count": m95,
+    "yearly_report_vehicle_pilot_expand": m96,
+    "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
+      "最も操縦したビークル",
+    ),
+    "yearly_report_vehicle_pilot_title": MessageLookupByLibrary.simpleMessage(
+      "ビークル操縦統計",
+    ),
+    "yearly_report_web_browser_not_supported":
+        MessageLookupByLibrary.simpleMessage(
+          "お使いのブラウザはサポートされていません。Chrome、Edgeまたはその他のChromiumベースのブラウザをご使用ください。",
+        ),
+    "yearly_report_web_generate": MessageLookupByLibrary.simpleMessage(
+      "レポートを生成",
+    ),
+    "yearly_report_web_no_logs_found": MessageLookupByLibrary.simpleMessage(
+      "ゲームログが見つかりません",
+    ),
+    "yearly_report_web_reading_files": MessageLookupByLibrary.simpleMessage(
+      "ログファイルを読み込み中...",
+    ),
+    "yearly_report_web_select_folder": MessageLookupByLibrary.simpleMessage(
+      "ゲームフォルダを選択",
+    ),
+    "yearly_report_web_select_folder_desc":
+        MessageLookupByLibrary.simpleMessage(
+          "Star Citizenゲームフォルダを選択してください（LIVEディレクトリを含む親フォルダ）",
+        ),
+    "yearly_report_web_select_year": MessageLookupByLibrary.simpleMessage(
+      "年を選択",
+    ),
+    "yearly_report_welcome_hint": MessageLookupByLibrary.simpleMessage(
+      "下にスクロールするか、下のボタンをクリックして開始",
+    ),
+    "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Star Citizenでの思い出深い瞬間を振り返る",
+    ),
+    "yearly_report_welcome_title": m97,
   };
 }

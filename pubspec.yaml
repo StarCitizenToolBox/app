@@ -42,6 +42,7 @@ dependencies:
   uuid: ^4.5.1
   flutter_tilt: ^3.3.2
   card_swiper: ^3.0.1
+  animate_do: ^3.3.4
   # ffi: ^2.1.4  # 移除 Rust 依赖
   # flutter_rust_bridge: ^2.11.1  # 移除 Rust 依赖
   freezed_annotation: ^3.1.0

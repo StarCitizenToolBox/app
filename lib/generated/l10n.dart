@@ -5981,6 +5981,956 @@ class S {
       args: [],
     );
   }
+
+  /// `Star Citizen {year} Yearly Report`
+  String yearly_report_title(Object year) {
+    return Intl.message(
+      'Star Citizen $year Yearly Report',
+      name: 'yearly_report_title',
+      desc: '',
+      args: [year],
+    );
+  }
+
+  /// `Generating your yearly report...`
+  String get yearly_report_generating {
+    return Intl.message(
+      'Generating your yearly report...',
+      name: 'yearly_report_generating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Analyzing game log data`
+  String get yearly_report_analyzing_logs {
+    return Intl.message(
+      'Analyzing game log data',
+      name: 'yearly_report_analyzing_logs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to generate yearly report`
+  String get yearly_report_error_title {
+    return Intl.message(
+      'Unable to generate yearly report',
+      name: 'yearly_report_error_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please ensure the game directory is correct and log files exist`
+  String get yearly_report_error_description {
+    return Intl.message(
+      'Please ensure the game directory is correct and log files exist',
+      name: 'yearly_report_error_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous Page`
+  String get yearly_report_nav_prev {
+    return Intl.message(
+      'Previous Page',
+      name: 'yearly_report_nav_prev',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get yearly_report_nav_next {
+    return Intl.message(
+      'Continue',
+      name: 'yearly_report_nav_next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{year} Yearly Report`
+  String yearly_report_welcome_title(Object year) {
+    return Intl.message(
+      '$year Yearly Report',
+      name: 'yearly_report_welcome_title',
+      desc: '',
+      args: [year],
+    );
+  }
+
+  /// `Relive your memorable moments in Star Citizen`
+  String get yearly_report_welcome_subtitle {
+    return Intl.message(
+      'Relive your memorable moments in Star Citizen',
+      name: 'yearly_report_welcome_subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scroll down or click the button below to start`
+  String get yearly_report_welcome_hint {
+    return Intl.message(
+      'Scroll down or click the button below to start',
+      name: 'yearly_report_welcome_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game Launch Count`
+  String get yearly_report_launch_count_title {
+    return Intl.message(
+      'Game Launch Count',
+      name: 'yearly_report_launch_count_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This year you launched the game`
+  String get yearly_report_launch_count_desc {
+    return Intl.message(
+      'This year you launched the game',
+      name: 'yearly_report_launch_count_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Launches`
+  String get yearly_report_launch_count_label {
+    return Intl.message(
+      'Total Launches',
+      name: 'yearly_report_launch_count_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} times`
+  String yearly_report_launch_count_value(Object v0) {
+    return Intl.message(
+      '$v0 times',
+      name: 'yearly_report_launch_count_value',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Play Time`
+  String get yearly_report_play_time_title {
+    return Intl.message(
+      'Play Time',
+      name: 'yearly_report_play_time_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This year you explored the universe for`
+  String get yearly_report_play_time_desc {
+    return Intl.message(
+      'This year you explored the universe for',
+      name: 'yearly_report_play_time_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hours`
+  String get yearly_report_play_time_unit {
+    return Intl.message(
+      'hours',
+      name: 'yearly_report_play_time_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Playtime`
+  String get yearly_report_play_time_label {
+    return Intl.message(
+      'Total Playtime',
+      name: 'yearly_report_play_time_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} hours`
+  String yearly_report_play_time_value(Object v0) {
+    return Intl.message(
+      '$v0 hours',
+      name: 'yearly_report_play_time_value',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Game Crash Count`
+  String get yearly_report_crash_title {
+    return Intl.message(
+      'Game Crash Count',
+      name: 'yearly_report_crash_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unstable moments this year`
+  String get yearly_report_crash_desc {
+    return Intl.message(
+      'Unstable moments this year',
+      name: 'yearly_report_crash_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Crashes`
+  String get yearly_report_crash_label {
+    return Intl.message(
+      'Total Crashes',
+      name: 'yearly_report_crash_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hope it's more stable next year!`
+  String get yearly_report_crash_note_high {
+    return Intl.message(
+      'Hope it\'s more stable next year!',
+      name: 'yearly_report_crash_note_high',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lucky you!`
+  String get yearly_report_crash_note_low {
+    return Intl.message(
+      'Lucky you!',
+      name: 'yearly_report_crash_note_low',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kill Statistics`
+  String get yearly_report_kd_title {
+    return Intl.message(
+      'Kill Statistics',
+      name: 'yearly_report_kd_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kills`
+  String get yearly_report_kd_kill {
+    return Intl.message(
+      'Kills',
+      name: 'yearly_report_kd_kill',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deaths`
+  String get yearly_report_kd_death {
+    return Intl.message(
+      'Deaths',
+      name: 'yearly_report_kd_death',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suicides`
+  String get yearly_report_kd_suicide {
+    return Intl.message(
+      'Suicides',
+      name: 'yearly_report_kd_suicide',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No kill/death records detected this year`
+  String get yearly_report_kd_no_record {
+    return Intl.message(
+      'No kill/death records detected this year',
+      name: 'yearly_report_kd_no_record',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No data available`
+  String get yearly_report_no_data {
+    return Intl.message(
+      'No data available',
+      name: 'yearly_report_no_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earliest Play Session`
+  String get yearly_report_earliest_play_title {
+    return Intl.message(
+      'Earliest Play Session',
+      name: 'yearly_report_earliest_play_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You started your space journey at dawn on {v0}/{v1}`
+  String yearly_report_earliest_play_desc(Object v0, Object v1) {
+    return Intl.message(
+      'You started your space journey at dawn on $v0/$v1',
+      name: 'yearly_report_earliest_play_desc',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Latest Play Session`
+  String get yearly_report_latest_play_title {
+    return Intl.message(
+      'Latest Play Session',
+      name: 'yearly_report_latest_play_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Late night on {v0}/{v1}, you were still exploring the universe`
+  String yearly_report_latest_play_desc(Object v0, Object v1) {
+    return Intl.message(
+      'Late night on $v0/$v1, you were still exploring the universe',
+      name: 'yearly_report_latest_play_desc',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Vehicle Destruction Statistics`
+  String get yearly_report_vehicle_destruction_title {
+    return Intl.message(
+      'Vehicle Destruction Statistics',
+      name: 'yearly_report_vehicle_destruction_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This year you destroyed`
+  String get yearly_report_vehicle_destruction_desc {
+    return Intl.message(
+      'This year you destroyed',
+      name: 'yearly_report_vehicle_destruction_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ships`
+  String get yearly_report_vehicle_destruction_unit {
+    return Intl.message(
+      'ships',
+      name: 'yearly_report_vehicle_destruction_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most destroyed ship`
+  String get yearly_report_vehicle_destruction_most {
+    return Intl.message(
+      'Most destroyed ship',
+      name: 'yearly_report_vehicle_destruction_most',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Destroyed {v0} times`
+  String yearly_report_vehicle_destruction_count(Object v0) {
+    return Intl.message(
+      'Destroyed $v0 times',
+      name: 'yearly_report_vehicle_destruction_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Vehicle Piloting Statistics`
+  String get yearly_report_vehicle_pilot_title {
+    return Intl.message(
+      'Vehicle Piloting Statistics',
+      name: 'yearly_report_vehicle_pilot_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most piloted vehicle`
+  String get yearly_report_vehicle_pilot_most {
+    return Intl.message(
+      'Most piloted vehicle',
+      name: 'yearly_report_vehicle_pilot_most',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Piloted {v0} times`
+  String yearly_report_vehicle_pilot_count(Object v0) {
+    return Intl.message(
+      'Piloted $v0 times',
+      name: 'yearly_report_vehicle_pilot_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Collapse details`
+  String get yearly_report_vehicle_pilot_collapse {
+    return Intl.message(
+      'Collapse details',
+      name: 'yearly_report_vehicle_pilot_collapse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View all {v0} vehicles`
+  String yearly_report_vehicle_pilot_expand(Object v0) {
+    return Intl.message(
+      'View all $v0 vehicles',
+      name: 'yearly_report_vehicle_pilot_expand',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Account Statistics`
+  String get yearly_report_account_title {
+    return Intl.message(
+      'Account Statistics',
+      name: 'yearly_report_account_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most used account`
+  String get yearly_report_account_most {
+    return Intl.message(
+      'Most used account',
+      name: 'yearly_report_account_most',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logged in {v0} times`
+  String yearly_report_account_count(Object v0) {
+    return Intl.message(
+      'Logged in $v0 times',
+      name: 'yearly_report_account_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Detected {v0} accounts in total`
+  String yearly_report_account_total(Object v0) {
+    return Intl.message(
+      'Detected $v0 accounts in total',
+      name: 'yearly_report_account_total',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `View all accounts`
+  String get yearly_report_account_expand {
+    return Intl.message(
+      'View all accounts',
+      name: 'yearly_report_account_expand',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} hours {v1} minutes`
+  String yearly_report_duration_hours_minutes(Object v0, Object v1) {
+    return Intl.message(
+      '$v0 hours $v1 minutes',
+      name: 'yearly_report_duration_hours_minutes',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `{v0} minutes`
+  String yearly_report_duration_minutes(Object v0) {
+    return Intl.message(
+      '$v0 minutes',
+      name: 'yearly_report_duration_minutes',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Session Time Details`
+  String get yearly_report_session_title {
+    return Intl.message(
+      'Session Time Details',
+      name: 'yearly_report_session_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Average`
+  String get yearly_report_session_average {
+    return Intl.message(
+      'Average',
+      name: 'yearly_report_session_average',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Longest`
+  String get yearly_report_session_longest {
+    return Intl.message(
+      'Longest',
+      name: 'yearly_report_session_longest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0}/{v1}`
+  String yearly_report_session_date(Object v0, Object v1) {
+    return Intl.message(
+      '$v0/$v1',
+      name: 'yearly_report_session_date',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Shortest`
+  String get yearly_report_session_shortest {
+    return Intl.message(
+      'Shortest',
+      name: 'yearly_report_session_shortest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(Shortest only counts sessions over 5 minutes)`
+  String get yearly_report_session_note {
+    return Intl.message(
+      '(Shortest only counts sessions over 5 minutes)',
+      name: 'yearly_report_session_note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Month {v0}`
+  String yearly_report_month_format(Object v0) {
+    return Intl.message(
+      'Month $v0',
+      name: 'yearly_report_month_format',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Monthly Statistics`
+  String get yearly_report_monthly_title {
+    return Intl.message(
+      'Monthly Statistics',
+      name: 'yearly_report_monthly_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most played`
+  String get yearly_report_monthly_most {
+    return Intl.message(
+      'Most played',
+      name: 'yearly_report_monthly_most',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Launched {v0} times`
+  String yearly_report_monthly_most_count(Object v0) {
+    return Intl.message(
+      'Launched $v0 times',
+      name: 'yearly_report_monthly_most_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Least played`
+  String get yearly_report_monthly_least {
+    return Intl.message(
+      'Least played',
+      name: 'yearly_report_monthly_least',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only launched {v0} times`
+  String yearly_report_monthly_least_count(Object v0) {
+    return Intl.message(
+      'Only launched $v0 times',
+      name: 'yearly_report_monthly_least_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `{v0}/{v1} - {v2}/{v3}`
+  String yearly_report_date_range(Object v0, Object v1, Object v2, Object v3) {
+    return Intl.message(
+      '$v0/$v1 - $v2/$v3',
+      name: 'yearly_report_date_range',
+      desc: '',
+      args: [v0, v1, v2, v3],
+    );
+  }
+
+  /// `Streak Records`
+  String get yearly_report_streak_title {
+    return Intl.message(
+      'Streak Records',
+      name: 'yearly_report_streak_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consecutive Play`
+  String get yearly_report_streak_play {
+    return Intl.message(
+      'Consecutive Play',
+      name: 'yearly_report_streak_play',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days`
+  String get yearly_report_streak_day_unit {
+    return Intl.message(
+      'days',
+      name: 'yearly_report_streak_day_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consecutive Offline`
+  String get yearly_report_streak_offline {
+    return Intl.message(
+      'Consecutive Offline',
+      name: 'yearly_report_streak_offline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Statistics`
+  String get yearly_report_location_title {
+    return Intl.message(
+      'Location Statistics',
+      name: 'yearly_report_location_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No location visit records`
+  String get yearly_report_location_no_record {
+    return Intl.message(
+      'No location visit records',
+      name: 'yearly_report_location_no_record',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Frequent Locations`
+  String get yearly_report_location_frequent {
+    return Intl.message(
+      'Frequent Locations',
+      name: 'yearly_report_location_frequent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Based on inventory viewing records`
+  String get yearly_report_location_note {
+    return Intl.message(
+      'Based on inventory viewing records',
+      name: 'yearly_report_location_note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank You for Being With Us`
+  String get yearly_report_thanks_title {
+    return Intl.message(
+      'Thank You for Being With Us',
+      name: 'yearly_report_thanks_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In {year}, together we created\ncountless wonderful memories in Star Citizen`
+  String yearly_report_thanks_message(Object year) {
+    return Intl.message(
+      'In $year, together we created\ncountless wonderful memories in Star Citizen',
+      name: 'yearly_report_thanks_message',
+      desc: '',
+      args: [year],
+    );
+  }
+
+  /// `Looking forward to {nextYear} with you!`
+  String yearly_report_thanks_next(Object nextYear) {
+    return Intl.message(
+      'Looking forward to $nextYear with you!',
+      name: 'yearly_report_thanks_next',
+      desc: '',
+      args: [nextYear],
+    );
+  }
+
+  /// `Launch Game`
+  String get yearly_report_summary_launch_game {
+    return Intl.message(
+      'Launch Game',
+      name: 'yearly_report_summary_launch_game',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Longest Online`
+  String get yearly_report_summary_longest_online {
+    return Intl.message(
+      'Longest Online',
+      name: 'yearly_report_summary_longest_online',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earliest Time`
+  String get yearly_report_summary_earliest_time {
+    return Intl.message(
+      'Earliest Time',
+      name: 'yearly_report_summary_earliest_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Latest Time`
+  String get yearly_report_summary_latest_time {
+    return Intl.message(
+      'Latest Time',
+      name: 'yearly_report_summary_latest_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Respawn Count`
+  String get yearly_report_summary_respawn_count {
+    return Intl.message(
+      'Respawn Count',
+      name: 'yearly_report_summary_respawn_count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hottest Month`
+  String get yearly_report_summary_hottest_month {
+    return Intl.message(
+      'Hottest Month',
+      name: 'yearly_report_summary_hottest_month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Frequent Location`
+  String get yearly_report_summary_frequent_location {
+    return Intl.message(
+      'Frequent Location',
+      name: 'yearly_report_summary_frequent_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favorite Vehicle`
+  String get yearly_report_summary_favorite_vehicle {
+    return Intl.message(
+      'Favorite Vehicle',
+      name: 'yearly_report_summary_favorite_vehicle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Presented by SCToolbox`
+  String get yearly_report_powered_by {
+    return Intl.message(
+      'Presented by SCToolbox',
+      name: 'yearly_report_powered_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data is generated from your local logs and will not be sent to any third party. Due to significant log changes across versions, data may be incomplete. For entertainment purposes only.`
+  String get yearly_report_disclaimer {
+    return Intl.message(
+      'Data is generated from your local logs and will not be sent to any third party. Due to significant log changes across versions, data may be incomplete. For entertainment purposes only.',
+      name: 'yearly_report_disclaimer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{year} Yearly Report (Limited Time)`
+  String yearly_report_card_title(Object year) {
+    return Intl.message(
+      '$year Yearly Report (Limited Time)',
+      name: 'yearly_report_card_title',
+      desc: '',
+      args: [year],
+    );
+  }
+
+  /// `View your Star Citizen gameplay statistics for {year}. Data is from local logs, please check on your main computer.`
+  String yearly_report_card_desc(Object year) {
+    return Intl.message(
+      'View your Star Citizen gameplay statistics for $year. Data is from local logs, please check on your main computer.',
+      name: 'yearly_report_card_desc',
+      desc: '',
+      args: [year],
+    );
+  }
+
+  /// `Select Game Folder`
+  String get yearly_report_web_select_folder {
+    return Intl.message(
+      'Select Game Folder',
+      name: 'yearly_report_web_select_folder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select your Star Citizen game folder (the parent folder containing LIVE directory)`
+  String get yearly_report_web_select_folder_desc {
+    return Intl.message(
+      'Please select your Star Citizen game folder (the parent folder containing LIVE directory)',
+      name: 'yearly_report_web_select_folder_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Year`
+  String get yearly_report_web_select_year {
+    return Intl.message(
+      'Select Year',
+      name: 'yearly_report_web_select_year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate Report`
+  String get yearly_report_web_generate {
+    return Intl.message(
+      'Generate Report',
+      name: 'yearly_report_web_generate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reading log files...`
+  String get yearly_report_web_reading_files {
+    return Intl.message(
+      'Reading log files...',
+      name: 'yearly_report_web_reading_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No game logs found`
+  String get yearly_report_web_no_logs_found {
+    return Intl.message(
+      'No game logs found',
+      name: 'yearly_report_web_no_logs_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your browser is not supported. Please use Chrome, Edge, or another Chromium-based browser.`
+  String get yearly_report_web_browser_not_supported {
+    return Intl.message(
+      'Your browser is not supported. Please use Chrome, Edge, or another Chromium-based browser.',
+      name: 'yearly_report_web_browser_not_supported',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report`
+  String get yearly_report_menu_title {
+    return Intl.message(
+      'Report',
+      name: 'yearly_report_menu_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
