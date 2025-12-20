@@ -1,0 +1,39 @@
+{
+    "headers": [
+        {
+            "source": "/*.mjs",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/javascript"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "max-age=43200"
+                }
+            ]
+        },
+        {
+            "source": "/*.wasm",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/wasm"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "max-age=43200"
+                }
+            ]
+        },
+        {
+            "source": "/*",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "max-age=43200"
+                }
+            ]
+        }
+    ]
+}
