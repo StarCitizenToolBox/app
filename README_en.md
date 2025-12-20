@@ -10,6 +10,7 @@ This tool provides Star Citizen players with one-click diagnosis, official websi
 ### ✨ Feature
 - Localization management: install the localization of the community and switch languages with one click
 - Advanced localization: You can choose to translate only parts of the game content, or display it in both languages.
+- Vehicle sorting: Utilizing game mechanics, vehicles are assigned numerical prefixes to help you quickly find your favorite spaceship.
 - One-click diagnosis: log files from hundreds of guinea pig users, which can handle common problems of Star Citizen
 - Website Localization: Provide manual translation for the Star Citizen official website and Star Citizen tool website (thanks to the Star Citizen Chinese Encyclopedia project), and also provide [Browser Extension (Github)] (https://github.com/xkeyC/StarCitizenBoxBrowserEx).
 - Performance optimization: Add more detailed performance parameter control to the Star Citizen game, which can be used to optimize performance and obtain better image quality.
