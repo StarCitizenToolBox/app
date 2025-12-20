@@ -10,7 +10,7 @@ This tool provides Star Citizen players with one-click diagnosis, official websi
 ### ✨ Feature
 - Localization management: install the localization of the community and switch languages with one click
 - One-click diagnosis: log files from hundreds of guinea pig users, which can handle common problems of Star Citizen
-- Website Chineseization: Provide manual translation for the Star Citizen official website and Star Citizen tool website (thanks to the Star Citizen Chinese Encyclopedia project), and also provide [Browser Extension (Github)] (https://github.com/xkeyC/StarCitizenBoxBrowserEx).
+- Website Localization: Provide manual translation for the Star Citizen official website and Star Citizen tool website (thanks to the Star Citizen Chinese Encyclopedia project), and also provide [Browser Extension (Github)] (https://github.com/xkeyC/StarCitizenBoxBrowserEx).
 - Performance optimization: Add more detailed performance parameter control to the Star Citizen game, which can be used to optimize performance and obtain better image quality.
 - Server status indicator: The server status indicator function is added a few hours earlier than the official website launcher, and the indication is more detailed.
 - Other commonly used tools: a toolbox including p4k offload downloads, cleaning shaders, reinstalling EAC and other functions.
