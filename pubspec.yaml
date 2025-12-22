@@ -38,7 +38,7 @@ dependencies:
   extended_image: ^10.0.1
   animate_do: ^4.2.0
   device_info_plus: ^12.3.0
-  file_picker: ^10.3.7
+  file_picker: ^10.3.8
   file_sizes: ^1.0.6
   flutter_svg: ^2.2.3
   archive: ^4.0.7
