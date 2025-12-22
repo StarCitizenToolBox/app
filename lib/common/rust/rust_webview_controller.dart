@@ -27,9 +27,6 @@ class RustWebViewController {
   /// 本地化脚本（从 assets 加载）
   String _localizationScript = "";
 
-  /// 请求拦截器脚本
-  String _requestInterceptorScript = "";
-
   /// 当前 URL
   String _currentUrl = "";
   String get currentUrl => _currentUrl;
@@ -76,7 +73,6 @@ class RustWebViewController {
   Future<void> _loadScripts() async {
     try {
       _localizationScript = await rootBundle.loadString('assets/web_script.js');
-      _requestInterceptorScript = await rootBundle.loadString('assets/request_interceptor.js');
     } catch (e) {
       dPrint("Failed to load scripts: $e");
     }
@@ -120,10 +116,6 @@ class RustWebViewController {
       case rust_webview.WebViewEvent_NavigationCompleted(:final url):
         dPrint("Navigation completed: $url");
         _currentUrl = url;
-        // 注入请求拦截器
-        if (_requestInterceptorScript.isNotEmpty) {
-          executeScript(_requestInterceptorScript);
-        }
         // 导航完成回调（用于注入脚本）
         for (final callback in _navigationCompletedCallbacks) {
           callback(url);

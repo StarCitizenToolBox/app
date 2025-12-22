@@ -36,7 +36,6 @@ class WebViewModel {
   final localizationResource = <String, dynamic>{};
 
   var localizationScript = "";
-  var requestInterceptorScript = "";
 
   bool enableCapture = false;
 
@@ -75,7 +74,6 @@ class WebViewModel {
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0",
       );
 
-      webview.addOnNavigationCallback(_onNavigation);
       // 添加导航完成回调（用于注入脚本）
       webview.addOnNavigationCompletedCallback(_onNavigationCompleted);
 
@@ -208,7 +206,6 @@ class WebViewModel {
 
   Future<void> initLocalization(AppWebLocalizationVersionsData v) async {
     localizationScript = await rootBundle.loadString('assets/web_script.js');
-    requestInterceptorScript = await rootBundle.loadString('assets/request_interceptor.js');
 
     /// https://github.com/CxJuice/Uex_Chinese_Translate
     // get versions
@@ -282,19 +279,10 @@ class WebViewModel {
 
   FutureOr<void> dispose() {
     webview.removeOnNavigationCompletedCallback(_onNavigationCompleted);
-    webview.removeOnNavigationCallback(_onNavigation);
     if (loginMode && !_loginModeSuccess) {
       loginCallback?.call(null, false);
     }
     _isClosed = true;
     webview.dispose();
-  }
-
-  void _onNavigation(String url) {
-    // 在页面加载时注入拦截器
-    if (requestInterceptorScript.isNotEmpty) {
-      dPrint("Injecting request interceptor for: $url");
-      webview.executeScript(requestInterceptorScript);
-    }
   }
 }

@@ -14,6 +14,144 @@
         }
     }
 
+    // ========== Loading Progress Tracker ==========
+    // Tracks page loading progress and updates window title via IPC
+    // Uses Braille spinner characters: ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ (10 frames)
+    (function initProgressTracker() {
+        var dotFrame = 0;
+        var progressInterval = null;
+        var estimatedProgress = 0;
+        var isPageLoading = true;
+        var lastProgressSent = -1;
+
+        // Send progress update to Rust (for window title)
+        function sendProgressUpdate(progress, loading) {
+            // Always send update for animation frames
+            lastProgressSent = (loading ? 1 : 0) * 1000 + Math.round((progress || 0) * 100);
+
+            sendToRust('loading_progress', {
+                progress: progress,
+                is_loading: loading,
+                dot_frame: dotFrame
+            });
+        }
+
+        // Start the dot animation and progress estimation
+        function startProgressAnimation() {
+            if (progressInterval) return;
+            isPageLoading = true;
+            estimatedProgress = 0;
+            dotFrame = 0;
+
+            // Animation interval: update every 80ms for smooth Braille spinner animation
+            // 10 frames at 80ms = 800ms per full cycle
+            progressInterval = setInterval(function () {
+                if (!isPageLoading) {
+                    clearInterval(progressInterval);
+                    progressInterval = null;
+                    return;
+                }
+
+                // Increment frame counter (will be modulo'd by Rust to 10 frames)
+                dotFrame = dotFrame + 1;
+
+                // Estimate progress based on document state
+                var progress = estimateProgress();
+                sendProgressUpdate(progress, true);
+            }, 80);
+
+            // Send initial progress
+            sendProgressUpdate(0, true);
+        }
+
+        // Estimate loading progress based on various signals
+        function estimateProgress() {
+            // Start with a base progress based on document ready state
+            var baseProgress = 0;
+            switch (document.readyState) {
+                case 'loading':
+                    baseProgress = 0.15;
+                    break;
+                case 'interactive':
+                    baseProgress = 0.6;
+                    break;
+                case 'complete':
+                    baseProgress = 1.0;
+                    break;
+            }
+
+            // Use Performance API if available for more accurate estimation
+            if (window.performance && window.performance.timing) {
+                var timing = window.performance.timing;
+                var now = Date.now();
+
+                if (timing.loadEventEnd > 0) {
+                    return 1.0;
+                }
+
+                if (timing.navigationStart > 0) {
+                    // Estimate based on time elapsed (assuming 3-5 second load)
+                    var elapsed = now - timing.navigationStart;
+                    var timeProgress = Math.min(elapsed / 4000, 0.95);
+                    baseProgress = Math.max(baseProgress, timeProgress);
+                }
+            }
+
+            // Use PerformanceObserver data if available
+            if (window.performance && window.performance.getEntriesByType) {
+                var resources = window.performance.getEntriesByType('resource');
+                if (resources.length > 0) {
+                    // Count completed resources vs estimated total
+                    var completedCount = resources.filter(function (r) {
+                        return r.responseEnd > 0;
+                    }).length;
+                    // Assume average page has ~30 resources
+                    var resourceProgress = Math.min(completedCount / 30, 0.9);
+                    baseProgress = Math.max(baseProgress, resourceProgress * 0.9);
+                }
+            }
+
+            // Smooth progress (never go backwards, approach target gradually)
+            if (baseProgress > estimatedProgress) {
+                estimatedProgress = estimatedProgress + (baseProgress - estimatedProgress) * 0.3;
+            }
+
+            return Math.min(estimatedProgress, 0.99);
+        }
+
+        // Stop progress tracking and notify completion
+        function stopProgressAnimation() {
+            isPageLoading = false;
+            if (progressInterval) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+            }
+            // Send final update with 100% and loading=false
+            sendProgressUpdate(1.0, false);
+        }
+
+        // Start tracking when page starts loading
+        startProgressAnimation();
+
+        // Update on ready state changes
+        document.addEventListener('readystatechange', function () {
+            if (document.readyState === 'complete') {
+                setTimeout(stopProgressAnimation, 100);
+            }
+        });
+
+        // Fallback: stop on window load
+        window.addEventListener('load', function () {
+            setTimeout(stopProgressAnimation, 200);
+        });
+
+        // Expose for external control
+        window._sctProgressTracker = {
+            start: startProgressAnimation,
+            stop: stopProgressAnimation
+        };
+    })();
+
     // ========== 导航栏 UI ==========
     const icons = {
         back: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',

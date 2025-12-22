@@ -22,11 +22,25 @@ use crate::api::webview_api::{
     WebViewCommand, WebViewConfiguration, WebViewEvent, WebViewNavigationState,
 };
 
+// ============ Loading Progress Animation ============
+
+/// Braille spinner characters for loading animation
+/// These are standard Unicode characters that work across all platforms
+const SPINNER_CHARS: [char; 10] = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+
+/// Get the progress animation character for the current frame
+fn get_progress_char(frame: usize) -> char {
+    SPINNER_CHARS[frame % SPINNER_CHARS.len()]
+}
+
 // Embed the app icon at compile time
 static APP_ICON_DATA: &[u8] = include_bytes!("../../../windows/runner/resources/app_icon.ico");
 
 // Embed the init script at compile time
 static INIT_SCRIPT: &str = include_str!("webview_init_script.js");
+
+// Embed the request interceptor script at compile time
+static REQUEST_INTERCEPTOR_SCRIPT: &str = include_str!("request_interceptor.js");
 
 // Loading page HTML for about:blank initialization
 static LOADING_PAGE_HTML: &str = r#"<!DOCTYPE html>
@@ -286,10 +300,14 @@ fn run_webview_loop(
     // When CF challenge is detected, we set this to 1, skip next load, then resume normal injection
     let cf_skip_count = Arc::new(AtomicU32::new(0));
 
+    // Store original title for restoration after loading
+    let original_title = Arc::new(RwLock::new(config.title.clone()));
+
     let event_tx_clone = event_tx.clone();
     let nav_history_ipc = Arc::clone(&nav_history);
     let state_ipc = Arc::clone(&state);
     let cf_skip_count_ipc = Arc::clone(&cf_skip_count);
+    let original_title_ipc = Arc::clone(&original_title);
 
     // Create web context with custom data directory if provided
     let mut web_context = config
@@ -302,7 +320,8 @@ fn run_webview_loop(
         .with_url("about:blank")
         .with_devtools(config.enable_devtools)
         .with_transparent(config.transparent)
-        .with_background_color((10, 29, 41, 255));
+        .with_background_color((10, 29, 41, 255))
+        .with_initialization_script(REQUEST_INTERCEPTOR_SCRIPT);
 
     // Set user agent if provided
     if let Some(ref user_agent) = config.user_agent {
@@ -362,6 +381,36 @@ fn run_webview_loop(
                             let _ = proxy_ipc.send_event(UserEvent::Command(WebViewCommand::Reload));
                             return;
                         }
+                        "loading_progress" => {
+                            // Update window title with loading progress
+                            if let Some(payload) = parsed.get("payload") {
+                                let progress = payload.get("progress").and_then(|v| v.as_f64());
+                                let is_loading = payload.get("is_loading").and_then(|v| v.as_bool()).unwrap_or(false);
+                                let dot_frame = payload.get("dot_frame").and_then(|v| v.as_i64()).unwrap_or(0) as usize;
+                                
+                                let base_title = original_title_ipc.read().clone();
+                                
+                                let new_title = if is_loading {
+                                    // Get Windows progress animation character
+                                    let progress_char = get_progress_char(dot_frame);
+                                    
+                                    if let Some(p) = progress {
+                                        let percent = (p * 100.0).round() as i32;
+                                        format!("{} {} {}%", base_title, progress_char, percent)
+                                    } else {
+                                        format!("{} {} Loading", base_title, progress_char)
+                                    }
+                                } else {
+                                    // Loading complete, restore original title
+                                    base_title
+                                };
+                                
+                                let _ = proxy_ipc.send_event(UserEvent::Command(
+                                    WebViewCommand::SetWindowTitle(new_title)
+                                ));
+                            }
+                            return;
+                        }
                         _ => {}
                     }
                 }
@@ -375,6 +424,7 @@ fn run_webview_loop(
             let state = Arc::clone(&state);
             let nav_history = Arc::clone(&nav_history);
             let proxy = proxy.clone();
+            let original_title = Arc::clone(&original_title);
             move |uri| {
                 // Block navigation to about:blank (except initial load)
                 // This prevents users from going back to the blank initial page
@@ -408,6 +458,17 @@ fn run_webview_loop(
                     state_guard.can_go_forward = can_forward;
                 }
 
+                // Update window title immediately to show loading state
+                // This provides instant feedback before JS is injected
+                {
+                    let base_title = original_title.read().clone();
+                    let progress_char = get_progress_char(0);
+                    let loading_title = format!("{} {} 0%", base_title, progress_char);
+                    let _ = proxy.send_event(UserEvent::Command(
+                        WebViewCommand::SetWindowTitle(loading_title)
+                    ));
+                }
+
                 // Send loading state to JS immediately when navigation starts
                 // This makes the spinner appear on the current page before navigating away
                 let state_json = serde_json::json!({
@@ -436,8 +497,15 @@ fn run_webview_loop(
                 if url == "about:blank" {
                     if matches!(event, PageLoadEvent::Finished) {
                         // if url is about:blank, show loading
+                        // Add URL check in JS to prevent injection if page has already navigated away
                         let loading_script = format!(
-                            r#"document.open(); document.write({}); document.close();"#,
+                            r#"(function() {{
+                                if (window.location.href === 'about:blank') {{
+                                    document.open();
+                                    document.write({});
+                                    document.close();
+                                }}
+                            }})();"#,
                             serde_json::to_string(LOADING_PAGE_HTML).unwrap_or_default()
                         );
                         let _ = proxy.send_event(UserEvent::Command(
@@ -727,6 +795,9 @@ fn handle_command(
         }
         WebViewCommand::SetWindowPosition(x, y) => {
             window.set_outer_position(LogicalPosition::new(x, y));
+        }
+        WebViewCommand::SetWindowTitle(title) => {
+            window.set_title(&title);
         }
     }
 }

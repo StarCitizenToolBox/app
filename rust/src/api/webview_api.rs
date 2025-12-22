@@ -5,7 +5,7 @@ use std::sync::atomic::Ordering;
 use flutter_rust_bridge::frb;
 use serde::{Deserialize, Serialize};
 
-use crate::webview::{WEBVIEW_INSTANCES, send_command};
+use crate::webview::{send_command, WEBVIEW_INSTANCES};
 
 // ============ Data Structures ============
 
@@ -84,6 +84,7 @@ pub enum WebViewCommand {
     Close,
     SetWindowSize(u32, u32),
     SetWindowPosition(i32, i32),
+    SetWindowTitle(String),
 }
 
 // ============ Public API ============
