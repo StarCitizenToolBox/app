@@ -1,15 +1,8 @@
 class ConstConf {
-  static const String appVersion = "2.15.0";
-  static const int appVersionCode = 70;
-  static const String appVersionDate = "2025-11-8";
-  static const _gameChannels = [
-    "LIVE",
-    "4.0_PREVIEW",
-    "PTU",
-    "EPTU",
-    "TECH-PREVIEW",
-    "HOTFIX",
-  ];
+  static const String appVersion = "3.0.0";
+  static const int appVersionCode = 79;
+  static const String appVersionDate = "2025-12-23";
+  static const _gameChannels = ["LIVE", "4.0_PREVIEW", "PTU", "EPTU", "TECH-PREVIEW", "HOTFIX"];
   static const isMSE = String.fromEnvironment("MSE", defaultValue: "false") == "true";
   static const win32AppId = isMSE
       ? "56575xkeyC.MSE_bsn1nexg8e4qe!starcitizendoctor"
