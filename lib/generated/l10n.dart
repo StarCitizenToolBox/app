@@ -9546,6 +9546,36 @@ class S {
       args: [year],
     );
   }
+
+  /// `Clear Shader Cache`
+  String get tools_shader_clean_dialog_title {
+    return Intl.message(
+      'Clear Shader Cache',
+      name: 'tools_shader_clean_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep Latest`
+  String get tools_shader_clean_keep_latest {
+    return Intl.message(
+      'Keep Latest',
+      name: 'tools_shader_clean_keep_latest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clean All`
+  String get tools_shader_clean_all {
+    return Intl.message(
+      'Clean All',
+      name: 'tools_shader_clean_all',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

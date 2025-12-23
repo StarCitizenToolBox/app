@@ -2293,6 +2293,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_working_msg2": MessageLookupByLibrary.simpleMessage(
       "Установка патча, это займет некоторое время в зависимости от производительности вашего компьютера...",
     ),
+    "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage(
+      "Очистить всё",
+    ),
+    "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
+      "Очистить кеш шейдеров",
+    ),
+    "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
+      "Сохранить последнее",
+    ),
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "Отсутствует среда выполнения",
     ),

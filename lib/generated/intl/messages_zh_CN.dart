@@ -2044,6 +2044,13 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("生成补丁 ..."),
     "tools_rsi_launcher_enhance_working_msg2":
         MessageLookupByLibrary.simpleMessage("安装补丁，这需要一点时间，取决于您的计算机性能 ..."),
+    "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage("全部清理"),
+    "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
+      "清理着色器缓存",
+    ),
+    "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
+      "保留最新",
+    ),
     "tools_unp4k_action_cancel_multi_select":
         MessageLookupByLibrary.simpleMessage("取消多选"),
     "tools_unp4k_action_deselect_all": MessageLookupByLibrary.simpleMessage(

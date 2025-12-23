@@ -1912,5 +1912,11 @@
   "yearly_report_card_title": "{year} Yearly Report (Limited Time)",
   "@yearly_report_card_title": {},
   "yearly_report_card_desc": "View your Star Citizen gameplay statistics for {year}. Data is from local logs, please check on your main computer.",
-  "@yearly_report_card_desc": {}
+  "@yearly_report_card_desc": {},
+  "tools_shader_clean_dialog_title": "Clear Shader Cache",
+  "@tools_shader_clean_dialog_title": {},
+  "tools_shader_clean_keep_latest": "Keep Latest",
+  "@tools_shader_clean_keep_latest": {},
+  "tools_shader_clean_all": "Clean All",
+  "@tools_shader_clean_all": {}
 }

@@ -2036,6 +2036,13 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "パッチをインストール中、これはコンピュータのパフォーマンスによって時間がかかります...",
         ),
+    "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage("すべてクリア"),
+    "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
+      "シェーダーキャッシュをクリア",
+    ),
+    "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
+      "最新を保持",
+    ),
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "ランタイムがありません",
     ),

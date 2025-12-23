@@ -1734,5 +1734,11 @@
   "yearly_report_card_title": "Ежегодный отчет {year} (Ограниченное время)",
   "@yearly_report_card_title": {},
   "yearly_report_card_desc": "Посмотрите статистику вашей игры в Star Citizen за {year} год. Данные из локальных логов, пожалуйста, проверяйте на основном компьютере.",
-  "@yearly_report_card_desc": {}
+  "@yearly_report_card_desc": {},
+  "tools_shader_clean_dialog_title": "Очистить кеш шейдеров",
+  "@tools_shader_clean_dialog_title": {},
+  "tools_shader_clean_keep_latest": "Сохранить последнее",
+  "@tools_shader_clean_keep_latest": {},
+  "tools_shader_clean_all": "Очистить всё",
+  "@tools_shader_clean_all": {}
 }

@@ -1328,5 +1328,8 @@
   "yearly_report_powered_by": "由 SC 汉化盒子为您呈现",
   "yearly_report_disclaimer": "数据使用您的本地日志生成，不会发送到任何第三方。因跨版本 Log 改动较大，数据可能不完整，仅供娱乐。",
   "yearly_report_card_title": "{year} 年度报告（限时）",
-  "yearly_report_card_desc": "查看您在{year}年的星际公民游玩统计，数据来自本地 log ，请确保在常用电脑上查看。"
+  "yearly_report_card_desc": "查看您在{year}年的星际公民游玩统计，数据来自本地 log ，请确保在常用电脑上查看。",
+  "tools_shader_clean_dialog_title": "清理着色器缓存",
+  "tools_shader_clean_keep_latest": "保留最新",
+  "tools_shader_clean_all": "全部清理"
 }

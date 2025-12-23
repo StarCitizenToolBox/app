@@ -1734,5 +1734,11 @@
   "yearly_report_card_title": "{year} 年間レポート（期間限定）",
   "@yearly_report_card_title": {},
   "yearly_report_card_desc": "{year}年のStar Citizenプレイ統計を表示します。データはローカルログからのものです。メインのコンピュータで確認してください。",
-  "@yearly_report_card_desc": {}
+  "@yearly_report_card_desc": {},
+  "tools_shader_clean_dialog_title": "シェーダーキャッシュをクリア",
+  "@tools_shader_clean_dialog_title": {},
+  "tools_shader_clean_keep_latest": "最新を保持",
+  "@tools_shader_clean_keep_latest": {},
+  "tools_shader_clean_all": "すべてクリア",
+  "@tools_shader_clean_all": {}
 }

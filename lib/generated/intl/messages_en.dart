@@ -2406,6 +2406,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_working_msg2": MessageLookupByLibrary.simpleMessage(
       "Installing patch, this will take some time depending on your computer\'s performance...",
     ),
+    "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage("Clean All"),
+    "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
+      "Clear Shader Cache",
+    ),
+    "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
+      "Keep Latest",
+    ),
     "tools_unp4k_action_cancel_multi_select":
         MessageLookupByLibrary.simpleMessage("Cancel Multi-Select"),
     "tools_unp4k_action_deselect_all": MessageLookupByLibrary.simpleMessage(

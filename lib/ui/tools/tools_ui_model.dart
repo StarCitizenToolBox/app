@@ -544,27 +544,131 @@ class ToolsUIModel extends _$ToolsUIModel {
     state = state.copyWith(working: false);
   }
 
+  /// 清理着色器缓存（全部清理模式），保留最新两个文件夹的 GraphicsSettings
   static Future<void> cleanShaderCache() async {
+    await _cleanShaderCacheWithMode(keepLatest: false);
+  }
+
+  /// 清理着色器缓存（保留最新模式）
+  /// 保留最新文件夹的所有内容，保留第二新文件夹的 GraphicsSettings，清理其他
+  static Future<void> cleanShaderCacheKeepLatest() async {
+    await _cleanShaderCacheWithMode(keepLatest: true);
+  }
+
+  /// 内部清理方法
+  /// [keepLatest] true: 保留最新模式，false: 全部清理模式
+  static Future<void> _cleanShaderCacheWithMode({required bool keepLatest}) async {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
-    final l = await Directory(gameShaderCachePath!).list(recursive: false).toList();
-    for (var value in l) {
-      if (value is Directory) {
-        final dirName = value.path.split(Platform.pathSeparator).last;
+    if (gameShaderCachePath == null) return;
+
+    final dir = Directory(gameShaderCachePath);
+    if (!await dir.exists()) return;
+
+    // 获取所有 starcitizen_* 目录并按创建时间排序
+    final scDirs = <Directory>[];
+    final otherDirs = <Directory>[];
+
+    await for (var entity in dir.list(recursive: false)) {
+      if (entity is Directory) {
+        final dirName = entity.path.split(Platform.pathSeparator).last;
         if (dirName == "Crashes") continue;
 
-        // 对于 starcitizen_* 目录，手动遍历删除，保留 GraphicsSettings 文件夹
         if (dirName.startsWith("starcitizen_")) {
-          await _cleanShaderCacheDirectory(value);
+          scDirs.add(entity);
         } else {
-          await value.delete(recursive: true);
+          otherDirs.add(entity);
         }
+      }
+    }
+
+    // 按目录名（版本号）降序排序，最新的在前面
+    scDirs.sort((a, b) {
+      final aName = a.path.split(Platform.pathSeparator).last;
+      final bName = b.path.split(Platform.pathSeparator).last;
+      return bName.compareTo(aName);
+    });
+
+    // 清理非 starcitizen_* 目录
+    for (var d in otherDirs) {
+      try {
+        await d.delete(recursive: true);
+      } catch (e) {
+        dPrint("_cleanShaderCacheWithMode delete other dir error: $e");
+      }
+    }
+
+    // 根据模式清理 starcitizen_* 目录
+    for (var i = 0; i < scDirs.length; i++) {
+      final scDir = scDirs[i];
+
+      if (keepLatest) {
+        // 保留最新模式：
+        // 第一个（最新）：完全保留
+        // 第二个：仅保留 GraphicsSettings
+        // 其他：仅保留 GraphicsSettings
+        if (i == 0) {
+          // 最新的文件夹完全保留，不做任何操作
+          continue;
+        } else {
+          // 其他文件夹：清理内容，保留 GraphicsSettings
+          await _cleanShaderCacheDirectory(scDir);
+        }
+      } else {
+        // 全部清理模式：
+        // 前两个：仅保留 GraphicsSettings
+        // 其他：仅保留 GraphicsSettings
+        await _cleanShaderCacheDirectory(scDir);
       }
     }
   }
 
   Future<void> _cleanShaderCache(BuildContext context) async {
+    // 显示对话框让用户选择清理模式
+    final result = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => ContentDialog(
+        title: Text(S.current.tools_shader_clean_dialog_title),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(S.current.tools_shader_clean_keep_latest),
+                ),
+                onPressed: () => Navigator.pop(dialogContext, "keep_latest"),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: Button(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(S.current.tools_shader_clean_all),
+                ),
+                onPressed: () => Navigator.pop(dialogContext, "clean_all"),
+              ),
+            ),
+          ],
+        ),
+        actions: [Button(child: Text(S.current.app_common_tip_cancel), onPressed: () => Navigator.pop(dialogContext))],
+      ),
+    );
+
+    if (result == null || !context.mounted) return;
+
     state = state.copyWith(working: true);
-    await cleanShaderCache();
+
+    if (result == "keep_latest") {
+      await cleanShaderCacheKeepLatest();
+    } else {
+      await cleanShaderCache();
+    }
+
     if (!context.mounted) return;
     loadToolsCard(context, skipPathScan: true);
     state = state.copyWith(working: false);
