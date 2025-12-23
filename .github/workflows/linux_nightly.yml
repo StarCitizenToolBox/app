@@ -19,7 +19,7 @@ jobs:
                 sudo apt-get update
                 # libwebkit2gtk-4.1-dev is required for wry webview (4.0 is not available in Ubuntu 24.04+)
                 sudo apt-get install -y \
-                  clang cmake ninja-build pkg-config \
+                  clang cmake ninja-build pkg-config nasm \
                   libgtk-3-dev liblzma-dev \
                   libsecret-1-dev libjsoncpp-dev \
                   libnotify-dev libayatana-appindicator3-dev \
