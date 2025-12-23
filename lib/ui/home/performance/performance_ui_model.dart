@@ -273,7 +273,8 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
 
   Future<void> _generateAndDownloadWebFile(String confContent) async {
     final archive = Archive();
-    archive.addFile(ArchiveFile("USER.cfg", confContent.length, confContent.codeUnits));
+    final confBytes = confContent.codeUnits;
+    archive.addFile(ArchiveFile("USER.cfg", confBytes.length, confBytes));
 
     final zip = await compute(_encodeZipFile, archive);
     if (zip == null) return;

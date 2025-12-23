@@ -48,3 +48,10 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Web-only branch: ignore other platform folders
+/android/
+/ios/
+/linux/
+/macos/
+/windows/

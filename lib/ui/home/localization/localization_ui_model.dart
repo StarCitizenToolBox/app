@@ -348,10 +348,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     final iniFileString = "\uFEFF$iniStringData";
     final cfg = await genLangCfg();
     final archive = Archive();
-    archive.addFile(
-      ArchiveFile("data/Localization/$selectedLanguage/global.ini", iniFileString.length, utf8.encode(iniFileString)),
-    );
-    archive.addFile(ArchiveFile("data/system.cfg", cfg.length, utf8.encode(cfg)));
+    final iniFileBytes = utf8.encode(iniFileString);
+    final cfgBytes = utf8.encode(cfg);
+    archive.addFile(ArchiveFile("data/Localization/$selectedLanguage/global.ini", iniFileBytes.length, iniFileBytes));
+    archive.addFile(ArchiveFile("data/system.cfg", cfgBytes.length, cfgBytes));
     final zip = await compute(_encodeZipFile, archive);
     if (zip == null) return;
     final blob = Blob.fromBytes(zip, opt: {"type": "application/zip"});
