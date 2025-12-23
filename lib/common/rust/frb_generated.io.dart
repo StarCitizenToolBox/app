@@ -2467,9 +2467,9 @@ class RustLibWire implements BaseWire {
 
   void wire__crate__api__win32_api__resolve_shortcut(
     int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> lnk_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _lnk_path,
   ) {
-    return _wire__crate__api__win32_api__resolve_shortcut(port_, lnk_path);
+    return _wire__crate__api__win32_api__resolve_shortcut(port_, _lnk_path);
   }
 
   late final _wire__crate__api__win32_api__resolve_shortcutPtr =

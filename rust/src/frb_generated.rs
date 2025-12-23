@@ -1485,7 +1485,7 @@ fn wire__crate__api__win32_api__remove_nvme_patch_impl(
 }
 fn wire__crate__api__win32_api__resolve_shortcut_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    lnk_path: impl CstDecode<String>,
+    _lnk_path: impl CstDecode<String>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -1494,11 +1494,11 @@ fn wire__crate__api__win32_api__resolve_shortcut_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let api_lnk_path = lnk_path.cst_decode();
+            let api__lnk_path = _lnk_path.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
-                        let output_ok = crate::api::win32_api::resolve_shortcut(api_lnk_path)?;
+                        let output_ok = crate::api::win32_api::resolve_shortcut(api__lnk_path)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -5052,9 +5052,9 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__resolve_shortcut(
         port_: i64,
-        lnk_path: *mut wire_cst_list_prim_u_8_strict,
+        _lnk_path: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__win32_api__resolve_shortcut_impl(port_, lnk_path)
+        wire__crate__api__win32_api__resolve_shortcut_impl(port_, _lnk_path)
     }
 
     #[unsafe(no_mangle)]

@@ -1,0 +1,77 @@
+name: "Linux Nightly Build"
+on:
+    schedule:
+        - cron: "0 0 * * *" # every day at midnight
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Install Linux dependencies
+              run: |
+                sudo apt-get update
+                # libwebkit2gtk-4.1-dev is required for wry webview (4.0 is not available in Ubuntu 24.04+)
+                sudo apt-get install -y \
+                  clang cmake ninja-build pkg-config nasm \
+                  libgtk-3-dev liblzma-dev \
+                  libsecret-1-dev libjsoncpp-dev \
+                  libnotify-dev libayatana-appindicator3-dev \
+                  libwebkit2gtk-4.1-dev
+
+            - name: Set up Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                channel: 'stable'
+                cache: true
+                cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
+                cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
+
+            - run: flutter --version    
+
+            - name: Set up Rust
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Rust Version  
+              run: |
+                    rustup --version  
+                    cargo --version
+            - name: Rust Cache
+              uses: Swatinem/rust-cache@v2
+              with:
+                workspaces: "rust"
+                cache-all-crates: true
+
+            - name: Flutter pub get
+              run: flutter pub get  
+            - name: Flutter build runner
+              run: dart run build_runner build --delete-conflicting-outputs  
+            - name: Rust cargo update
+              run: cargo update  
+              working-directory: rust
+
+            - name: Set up Flutter rust bridge
+              run: |
+                    cargo install cargo-expand 
+                    cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'
+
+            - name: Flutter Rust bridge generate
+              run: flutter_rust_bridge_codegen generate
+            - name: flutter gen l10n
+              run: | 
+                    flutter pub global activate intl_utils
+                    flutter pub global run intl_utils:generate
+            - name: Flutter build Linux
+              run: flutter build linux -v
+
+            - name: Archive build
+              uses: actions/upload-artifact@v4
+              with:
+                name: linux
+                path: build/linux/x64/release/bundle
