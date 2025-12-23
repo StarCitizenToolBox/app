@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=SC汉化盒子
+Comment=Star Citizen Tool Box for Chinese players
+Exec=starcitizen_doctor
+Icon=starcitizen_doctor
+Categories=Utility;Game;
+Terminal=false
+StartupNotify=true

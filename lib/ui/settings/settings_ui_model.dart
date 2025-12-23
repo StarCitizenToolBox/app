@@ -104,11 +104,11 @@ class SettingsUIModel extends _$SettingsUIModel {
     final fileName = r.files.first.path!.platformPath;
     dPrint(fileName);
     final fileNameRegExp = RegExp(
-      r'^(.*\\StarCitizen\\.*\\)Bin64\\StarCitizen\.exe$'.platformPath,
+      r'^(.*[/\\]starcitizen[/\\].*[/\\])bin64[/\\]starcitizen\.exe$',
       caseSensitive: false,
     );
     if (fileNameRegExp.hasMatch(fileName)) {
-      RegExp pathRegex = RegExp(r'\\[^\\]+\\Bin64\\StarCitizen\.exe$'.platformPath, caseSensitive: false);
+      RegExp pathRegex = RegExp(r'[/\\][^/\\]+[/\\]bin64[/\\]starcitizen\.exe$', caseSensitive: false);
       String extractedPath = fileName.replaceFirst(pathRegex, '');
       await _saveCustomPath("custom_game_path", extractedPath);
       if (!context.mounted) return;

@@ -48,13 +48,12 @@ abstract class LocalizationUIState with _$LocalizationUIState {
 class LocalizationUIModel extends _$LocalizationUIModel {
   static const languageSupport = {"chinese_(simplified)": NoL10n.langZHS, "chinese_(traditional)": NoL10n.langZHT};
 
-  Directory get _downloadDir => Directory("${appGlobalState.applicationSupportDir}\\Localizations");
+  Directory get _downloadDir => Directory("${appGlobalState.applicationSupportDir}\\Localizations".platformPath);
 
   Directory getDownloadDir() => _downloadDir;
 
-  Directory get _scDataDir => Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data");
-
-  File get _cfgFile => File("${_scDataDir.absolute.path}\\system.cfg");
+  Directory get _scDataDir => Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data".platformPath);
+  File get _cfgFile => File("${_scDataDir.absolute.path}\\system.cfg".platformPath);
 
   StreamSubscription? _customizeDirListenSub;
 
@@ -155,7 +154,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   void checkUserCfg(BuildContext context) async {
-    final userCfgFile = File("$_scInstallPath\\USER.cfg");
+    final userCfgFile = File("$_scInstallPath\\USER.cfg".platformPath);
     if (await userCfgFile.exists()) {
       final cfgString = await userCfgFile.readAsString();
       if (cfgString.contains("g_language") && !cfgString.contains("g_language=${state.selectedLanguage}")) {
@@ -241,7 +240,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   VoidCallback? doDelIniFile() {
     return () async {
-      final iniFile = File("${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
+      final iniFile = File(
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath,
+      );
       if (await iniFile.exists()) await iniFile.delete();
       await updateLangCfg(false);
       await _updateStatus();
@@ -249,7 +250,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   String getCustomizeFileName(String path) {
-    return path.split("\\").last;
+    return path.split("\\".platformPath).last;
   }
 
   Future<void> installFormString(
@@ -261,7 +262,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     BuildContext? context,
   }) async {
     dPrint("LocalizationUIModel -> installFormString $versionName");
-    final iniFile = File("${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini");
+    final iniFile = File(
+      "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath,
+    );
     if (versionName.isNotEmpty) {
       if (!globalIni.toString().endsWith("\n")) {
         globalIni.write("\n");
@@ -323,7 +326,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<Map<String, String>?> getCommunityInputMethodSupportData() async {
-    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
+    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath;
     final iniFile = File(iniPath);
     if (!await iniFile.exists()) {
       return {};
@@ -351,7 +354,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<(String, String)> getIniContentWithoutCommunityInputMethodSupportData() async {
-    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
+    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath;
     final iniFile = File(iniPath);
     if (!await iniFile.exists()) {
       return ("", "");
@@ -383,7 +386,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }) async {
     AnalyticsApi.touch("install_localization");
 
-    final savePath = File("${_downloadDir.absolute.path}\\${value.versionName}.sclang");
+    final savePath = File("${_downloadDir.absolute.path}\\${value.versionName}.sclang".platformPath);
     try {
       state = state.copyWith(workingVersion: value.versionName!);
       if (!await savePath.exists()) {
@@ -488,7 +491,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<void> _updateStatus() async {
-    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini";
+    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath;
     final patchStatus = MapEntry(
       await _getLangCfgEnableLang(lang: state.selectedLanguage!),
       await _getInstalledIniVersion(iniPath),
@@ -535,7 +538,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if (gamePath.isEmpty) {
       gamePath = _scInstallPath;
     }
-    final cfgFile = File("${_scDataDir.absolute.path}\\system.cfg");
+    final cfgFile = File("${_scDataDir.absolute.path}\\system.cfg".platformPath);
     if (!await cfgFile.exists()) return false;
     final str = (await cfgFile.readAsString()).replaceAll(" ", "");
     return str.contains("sys_languages=$lang") &&
@@ -573,13 +576,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
     for (var scInstallPath in homeState.scInstallPaths) {
       // 读取游戏安装文件夹
-      final scDataDir = Directory("$scInstallPath\\data\\Localization");
+      final scDataDir = Directory("$scInstallPath\\data\\Localization".platformPath);
       // 扫描目录确认已安装的语言
       final dirList = await scDataDir.list().toList();
       for (var element in dirList) {
         for (var lang in languageSupport.keys) {
           if (element.path.contains(lang) && await _getLangCfgEnableLang(lang: lang, gamePath: scInstallPath)) {
-            final installedVersion = await _getInstalledIniVersion("${element.path}\\global.ini");
+            final installedVersion = await _getInstalledIniVersion("${element.path}\\global.ini".platformPath);
             if (installedVersion == S.current.home_action_info_game_built_in ||
                 installedVersion == S.current.localization_info_custom_files) {
               continue;

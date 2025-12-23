@@ -12,11 +12,15 @@ use tao::dpi::{LogicalPosition, LogicalSize};
 use tao::event::{Event, WindowEvent};
 use tao::event_loop::{ControlFlow, EventLoop, EventLoopBuilder};
 use tao::platform::run_return::EventLoopExtRunReturn;
+
 use tao::window::{Icon, Window, WindowBuilder};
 use wry::{NewWindowResponse, PageLoadEvent, WebView, WebViewBuilder};
 
 #[cfg(target_os = "windows")]
 use tao::platform::windows::EventLoopBuilderExtWindows;
+
+#[cfg(target_os = "linux")]
+use tao::platform::unix::EventLoopBuilderExtUnix;
 
 use crate::api::webview_api::{
     WebViewCommand, WebViewConfiguration, WebViewEvent, WebViewNavigationState,
@@ -263,13 +267,9 @@ fn run_webview_loop(
     is_closed: Arc<AtomicBool>,
 ) {
     // Create event loop with any_thread support for non-main thread execution
-    #[cfg(target_os = "windows")]
     let mut event_loop: EventLoop<UserEvent> = EventLoopBuilder::with_user_event()
         .with_any_thread(true)
         .build();
-
-    #[cfg(not(target_os = "windows"))]
-    let mut event_loop: EventLoop<UserEvent> = EventLoopBuilder::with_user_event().build();
 
     let proxy = event_loop.create_proxy();
 

@@ -72,13 +72,14 @@ class ToolsUIModel extends _$ToolsUIModel {
     }
     try {
       items = [
-        ToolsItemData(
-          "systemnfo",
-          S.current.tools_action_view_system_info,
-          S.current.tools_action_info_view_critical_system_info,
-          const Icon(FluentIcons.system, size: 24),
-          onTap: () => _showSystemInfo(context),
-        ),
+        if (Platform.isWindows)
+          ToolsItemData(
+            "systemnfo",
+            S.current.tools_action_view_system_info,
+            S.current.tools_action_info_view_critical_system_info,
+            const Icon(FluentIcons.system, size: 24),
+            onTap: () => _showSystemInfo(context),
+          ),
       ];
 
       // 年度报告入口 logic
@@ -108,13 +109,14 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (!context.mounted) return;
       items.add(await _addP4kCard(context));
       items.addAll([
-        ToolsItemData(
-          "hosts_booster",
-          S.current.tools_action_hosts_acceleration_experimental,
-          S.current.tools_action_info_hosts_acceleration_experimental_tip,
-          const Icon(FluentIcons.virtual_network, size: 24),
-          onTap: () => _doHostsBooster(context),
-        ),
+        if (Platform.isWindows)
+          ToolsItemData(
+            "hosts_booster",
+            S.current.tools_action_hosts_acceleration_experimental,
+            S.current.tools_action_info_hosts_acceleration_experimental_tip,
+            const Icon(FluentIcons.virtual_network, size: 24),
+            onTap: () => _doHostsBooster(context),
+          ),
         ToolsItemData(
           "log_analyze",
           S.current.log_analyzer_title,
@@ -129,20 +131,22 @@ class ToolsUIModel extends _$ToolsUIModel {
           const Icon(FluentIcons.c_plus_plus, size: 24),
           onTap: () => rsiEnhance(context),
         ),
-        ToolsItemData(
-          "reinstall_eac",
-          S.current.tools_action_reinstall_easyanticheat,
-          S.current.tools_action_info_reinstall_eac,
-          const Icon(FluentIcons.game, size: 24),
-          onTap: () => _reinstallEAC(context),
-        ),
-        ToolsItemData(
-          "rsilauncher_admin_mode",
-          S.current.tools_action_rsi_launcher_admin_mode,
-          S.current.tools_action_info_run_rsi_as_admin,
-          const Icon(FluentIcons.admin, size: 24),
-          onTap: () => _adminRSILauncher(context),
-        ),
+        if (Platform.isWindows)
+          ToolsItemData(
+            "reinstall_eac",
+            S.current.tools_action_reinstall_easyanticheat,
+            S.current.tools_action_info_reinstall_eac,
+            const Icon(FluentIcons.game, size: 24),
+            onTap: () => _reinstallEAC(context),
+          ),
+        if (Platform.isWindows)
+          ToolsItemData(
+            "rsilauncher_admin_mode",
+            S.current.tools_action_rsi_launcher_admin_mode,
+            S.current.tools_action_info_run_rsi_as_admin,
+            const Icon(FluentIcons.admin, size: 24),
+            onTap: () => _adminRSILauncher(context),
+          ),
         ToolsItemData(
           "unp4kc",
           S.current.tools_action_unp4k,
@@ -169,8 +173,10 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (!context.mounted) return;
       items.add(await _addPhotographyCard(context));
       state = state.copyWith(items: items);
-      if (!context.mounted) return;
-      items.addAll(await _addNvmePatchCard(context));
+      if (Platform.isWindows) {
+        if (!context.mounted) return;
+        items.addAll(await _addNvmePatchCard(context));
+      }
       state = state.copyWith(items: items, isItemLoading: false);
     } catch (e) {
       if (!context.mounted) return;
@@ -250,7 +256,10 @@ class ToolsUIModel extends _$ToolsUIModel {
   Future<ToolsItemData> _addShaderCard(BuildContext context) async {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
     final shaderSize =
-        ((await SystemHelper.getDirLen(gameShaderCachePath ?? "", skipPath: ["$gameShaderCachePath\\Crashes"])) /
+        ((await SystemHelper.getDirLen(
+                  gameShaderCachePath ?? "",
+                  skipPath: ["$gameShaderCachePath\\Crashes".platformPath],
+                )) /
                 1024 /
                 1024)
             .toStringAsFixed(4);
@@ -300,7 +309,8 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     // 使用最新版本
     final latestVersion = versions.first;
-    final settingsPath = "$gameShaderCachePath\\starcitizen_$latestVersion\\GraphicsSettings\\GraphicsSettings.json";
+    final settingsPath =
+        "$gameShaderCachePath\\starcitizen_$latestVersion\\GraphicsSettings\\GraphicsSettings.json".platformPath;
 
     final file = File(settingsPath);
     if (!await file.exists()) return (-1, latestVersion);
@@ -627,6 +637,7 @@ class ToolsUIModel extends _$ToolsUIModel {
     final result = await showDialog<String>(
       context: context,
       builder: (dialogContext) => ContentDialog(
+        constraints: BoxConstraints(maxWidth: 380),
         title: Text(S.current.tools_shader_clean_dialog_title),
         content: Column(
           mainAxisSize: MainAxisSize.min,

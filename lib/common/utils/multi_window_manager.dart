@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -112,7 +113,7 @@ class MultiWindowManager {
 
     await Window.initialize();
 
-    if (windowAppState.windowsVersion >= 10) {
+    if (Platform.isWindows && windowAppState.windowsVersion >= 10) {
       await Window.setEffect(effect: WindowEffect.acrylic);
     }
 

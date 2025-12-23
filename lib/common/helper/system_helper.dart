@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 
@@ -41,7 +42,7 @@ class SystemHelper {
     if (path != null && path != "") {
       if (await File(path).exists()) {
         if (skipEXE) {
-          return "${path.toString().replaceAll("\\RSI Launcher.exe", "")}\\";
+          return "${path.toString().replaceAll("\\RSI Launcher.exe".platformPath, "")}\\".platformPath;
         }
         return path;
       }

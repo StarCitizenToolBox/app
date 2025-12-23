@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
+import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
@@ -80,7 +81,7 @@ class Unp4kCModel extends _$Unp4kCModel {
 
   void _init() async {
     final gamePath = getGamePath();
-    final gameP4kPath = "$gamePath\\Data.p4k";
+    final gameP4kPath = "$gamePath\\Data.p4k".platformPath;
 
     try {
       state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading);

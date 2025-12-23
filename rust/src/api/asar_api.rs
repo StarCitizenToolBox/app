@@ -71,8 +71,8 @@ pub async fn get_rsi_launcher_asar_data(asar_path: &str) -> anyhow::Result<RsiLa
     let mut main_js_content: Vec<u8> = Vec::new();
     asar.files().iter().for_each(|v| {
         let (path, file) = v;
-        let path_string = path.clone().into_os_string().into_string().unwrap();
-        if path_string.starts_with("app\\static\\js\\main.") && path_string.ends_with(".js") {
+        let path_string = path.clone().into_os_string().into_string().unwrap().replace("\\", "/");
+        if path_string.starts_with("app/static/js/main.") && path_string.ends_with(".js") {
             main_js_path = path_string;
             main_js_content = file.data().to_vec();
         }

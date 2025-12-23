@@ -8,7 +8,15 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 
 class SCLoggerHelper {
   static Future<String?> getLogFilePath() async {
-    if (!Platform.isWindows) return null;
+    if (!Platform.isWindows) {
+      final wineUserPath = await getWineUserPath();
+      if (wineUserPath == null) return null;
+      // /home/xkeyc/Games/star-citizen/drive_c/users/xkeyc/AppData/Roaming/rsilauncher/
+      final rsiLauncherPath = "$wineUserPath/AppData/Roaming/rsilauncher";
+      dPrint("rsiLauncherPath Wine:$rsiLauncherPath");
+      final jsonLogPath = "$rsiLauncherPath/logs/log.log";
+      return jsonLogPath;
+    };
     Map<String, String> envVars = Platform.environment;
     final appDataPath = envVars["appdata"];
     if (appDataPath == null) {
@@ -21,6 +29,14 @@ class SCLoggerHelper {
   }
 
   static Future<String?> getShaderCachePath() async {
+    if (!Platform.isWindows) {
+      final wineUserPath = await getWineUserPath();
+      if (wineUserPath == null) return null;
+      // /home/xkeyc/Games/star-citizen/drive_c/users/xkeyc/AppData/Local/star citizen/
+      final scCachePath = "$wineUserPath/AppData/Local/star citizen";
+      dPrint("getShaderCachePath Wine === $scCachePath");
+      return scCachePath;
+    }
     Map<String, String> envVars = Platform.environment;
     final appDataPath = envVars["LOCALAPPDATA"];
     if (appDataPath == null) {
@@ -29,6 +45,23 @@ class SCLoggerHelper {
     final scCachePath = "$appDataPath\\Star Citizen";
     dPrint("getShaderCachePath === $scCachePath");
     return scCachePath;
+  }
+
+  static Future<String?> getWineUserPath() async {
+    // get game path in hiveBox
+    final confBox = await Hive.openBox("app_conf");
+    final path = confBox.get("custom_game_path");
+    if (path?.isEmpty ?? true) return null;
+    // path eg: /home/xkeyc/Games/star-citizen/drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/
+    // resolve wine c_drive path
+    final wineCDrivePath = path.toString().split('/drive_c/').first;
+    // scan wine user path == current_unix_user
+    final wineUserPath = "$wineCDrivePath/drive_c/users/${Platform.environment['USER']}";
+    // check exists
+    final wineUserDir = Directory(wineUserPath);
+    if (!await wineUserDir.exists()) return null;
+    dPrint("getWineUserPath === $wineUserPath");
+    return wineUserPath;
   }
 
   static Future<List?> getLauncherLogList() async {
