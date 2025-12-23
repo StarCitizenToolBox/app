@@ -216,7 +216,8 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
   }
 
   String getChannelID(String installPath) {
-    if (installPath.endsWith("\\LIVE")) {
+    final pathLower = installPath.platformPath.toLowerCase();
+    if (pathLower.endsWith('\\live'.platformPath)) {
       return "LIVE";
     }
     return "PTU";

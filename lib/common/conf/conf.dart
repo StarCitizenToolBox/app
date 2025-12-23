@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class ConstConf {
   static const String appVersion = "3.0.0 Beta9";
   static const int appVersionCode = 79;
@@ -18,5 +20,12 @@ class AppConf {
     _networkGameChannels = channels;
   }
 
-  static List<String> get gameChannels => _networkGameChannels ?? ConstConf._gameChannels;
+  static List<String> get gameChannels {
+    final baseChannels = _networkGameChannels ?? ConstConf._gameChannels;
+    // On Linux, add lowercase variants for case-sensitive filesystem
+    if (Platform.isLinux) {
+      return [...baseChannels, ...baseChannels.map((c) => c.toLowerCase())];
+    }
+    return baseChannels;
+  }
 }

@@ -80,8 +80,8 @@ class SettingsUIModel extends _$SettingsUIModel {
       lockParentWindow: true,
     );
     if (r == null || r.files.firstOrNull?.path == null) return;
-    final fileName = r.files.first.path!;
-    if (fileName.endsWith("\\RSI Launcher.exe")) {
+    final fileName = r.files.first.path!.platformPath;
+    if (fileName.toLowerCase().endsWith('\\rsi launcher.exe'.platformPath)) {
       await _saveCustomPath("custom_launcher_path", fileName);
       if (!context.mounted) return;
       showToast(context, S.current.setting_action_info_setting_success);
@@ -101,11 +101,14 @@ class SettingsUIModel extends _$SettingsUIModel {
       lockParentWindow: true,
     );
     if (r == null || r.files.firstOrNull?.path == null) return;
-    final fileName = r.files.first.path!;
+    final fileName = r.files.first.path!.platformPath;
     dPrint(fileName);
-    final fileNameRegExp = RegExp(r"^(.*\\StarCitizen\\.*\\)Bin64\\StarCitizen\.exe$", caseSensitive: false);
+    final fileNameRegExp = RegExp(
+      r'^(.*\\StarCitizen\\.*\\)Bin64\\StarCitizen\.exe$'.platformPath,
+      caseSensitive: false,
+    );
     if (fileNameRegExp.hasMatch(fileName)) {
-      RegExp pathRegex = RegExp(r"\\[^\\]+\\Bin64\\StarCitizen\.exe$");
+      RegExp pathRegex = RegExp(r'\\[^\\]+\\Bin64\\StarCitizen\.exe$'.platformPath, caseSensitive: false);
       String extractedPath = fileName.replaceFirst(pathRegex, '');
       await _saveCustomPath("custom_game_path", extractedPath);
       if (!context.mounted) return;

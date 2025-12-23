@@ -36,17 +36,9 @@ class GuideUI extends HookConsumerWidget {
         alignment: AlignmentDirectional.centerStart,
         child: Row(
           children: [
-            Image.asset(
-              "assets/app_logo_mini.png",
-              width: 20,
-              height: 20,
-              fit: BoxFit.cover,
-            ),
+            Image.asset("assets/app_logo_mini.png", width: 20, height: 20, fit: BoxFit.cover),
             const SizedBox(width: 12),
-            Text(
-              S.current.app_index_version_info(
-                  ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev"),
-            )
+            Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
           ],
         ),
       ),
@@ -56,42 +48,34 @@ class GuideUI extends HookConsumerWidget {
           children: [
             Image.asset("assets/app_logo.png", width: 192, height: 192),
             SizedBox(height: 12),
-            Text(
-              S.current.guide_title_welcome,
-              style: TextStyle(
-                fontSize: 38,
-              ),
-            ),
+            Text(S.current.guide_title_welcome, style: TextStyle(fontSize: 38)),
             SizedBox(height: 24),
             Text(S.current.guide_info_check_settings),
             SizedBox(height: 32),
             Container(
-                padding: EdgeInsets.symmetric(horizontal: 32),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          makeGameLauncherPathSelect(
-                              context, toolsModel, toolsState, settingModel),
-                          const SizedBox(height: 12),
-                          makeGamePathSelect(
-                              context, toolsModel, toolsState, settingModel),
-                        ],
-                      ),
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        makeGameLauncherPathSelect(context, toolsModel, toolsState, settingModel),
+                        const SizedBox(height: 12),
+                        makeGamePathSelect(context, toolsModel, toolsState, settingModel),
+                      ],
                     ),
-                    SizedBox(width: 12),
-                    Button(
-                      onPressed: () => toolsModel.reScanPath(context,
-                          checkActive: true, skipToast: true),
-                      child: const Padding(
-                        padding: EdgeInsets.only(
-                            top: 30, bottom: 30, left: 12, right: 12),
-                        child: Icon(FluentIcons.refresh),
-                      ),
+                  ),
+                  SizedBox(width: 12),
+                  Button(
+                    onPressed: () => toolsModel.reScanPath(context, checkActive: true, skipToast: true),
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 30, bottom: 30, left: 12, right: 12),
+                      child: Icon(FluentIcons.refresh),
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.only(right: 32, left: 32),
@@ -100,9 +84,7 @@ class GuideUI extends HookConsumerWidget {
                   Expanded(
                     child: Text(
                       S.current.guide_info_game_download_note,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: .6)),
+                      style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
                       textAlign: TextAlign.end,
                     ),
                   ),
@@ -115,8 +97,7 @@ class GuideUI extends HookConsumerWidget {
                 Spacer(),
                 Button(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Text(S.current.guide_action_get_help),
                   ),
                   onPressed: () {
@@ -126,26 +107,25 @@ class GuideUI extends HookConsumerWidget {
                 SizedBox(width: 24),
                 FilledButton(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Text(S.current.guide_action_complete_setup),
                   ),
                   onPressed: () async {
                     if (toolsState.rsiLauncherInstallPaths.isEmpty) {
                       final ok = await showConfirmDialogs(
-                          context,
-                          S.current.guide_dialog_confirm_complete_setup,
-                          Text(S.current
-                              .guide_action_info_no_launcher_path_warning));
+                        context,
+                        S.current.guide_dialog_confirm_complete_setup,
+                        Text(S.current.guide_action_info_no_launcher_path_warning),
+                      );
                       if (!ok) return;
                     }
                     if (toolsState.scInstallPaths.isEmpty) {
                       if (!context.mounted) return;
                       final ok = await showConfirmDialogs(
-                          context,
-                          S.current.guide_dialog_confirm_complete_setup,
-                          Text(S
-                              .current.guide_action_info_no_game_path_warning));
+                        context,
+                        S.current.guide_dialog_confirm_complete_setup,
+                        Text(S.current.guide_action_info_no_game_path_warning),
+                      );
                       if (!ok) return;
                     }
                     final appConf = await Hive.openBox("app_conf");
@@ -164,8 +144,12 @@ class GuideUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeGameLauncherPathSelect(BuildContext context, ToolsUIModel model,
-      ToolsUIState state, SettingsUIModel settingModel) {
+  Widget makeGameLauncherPathSelect(
+    BuildContext context,
+    ToolsUIModel model,
+    ToolsUIState state,
+    SettingsUIModel settingModel,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -177,13 +161,7 @@ class GuideUI extends HookConsumerWidget {
             child: ComboBox<String>(
               isExpanded: true,
               value: state.rsiLauncherInstalledPath,
-              items: [
-                for (final path in state.rsiLauncherInstallPaths)
-                  ComboBoxItem(
-                    value: path,
-                    child: Text(path),
-                  )
-              ],
+              items: [for (final path in state.rsiLauncherInstallPaths) ComboBoxItem(value: path, child: Text(path))],
               onChanged: (v) {
                 model.onChangeLauncherPath(v!);
               },
@@ -192,10 +170,7 @@ class GuideUI extends HookConsumerWidget {
         ),
         const SizedBox(width: 8),
         Button(
-          child: const Padding(
-            padding: EdgeInsets.all(6),
-            child: Icon(FluentIcons.folder_search),
-          ),
+          child: const Padding(padding: EdgeInsets.all(6), child: Icon(FluentIcons.folder_search)),
           onPressed: () async {
             await settingModel.setLauncherPath(context);
             if (!context.mounted) return;
@@ -206,8 +181,12 @@ class GuideUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeGamePathSelect(BuildContext context, ToolsUIModel model,
-      ToolsUIState state, SettingsUIModel settingModel) {
+  Widget makeGamePathSelect(
+    BuildContext context,
+    ToolsUIModel model,
+    ToolsUIState state,
+    SettingsUIModel settingModel,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -219,13 +198,7 @@ class GuideUI extends HookConsumerWidget {
             child: ComboBox<String>(
               isExpanded: true,
               value: state.scInstalledPath,
-              items: [
-                for (final path in state.scInstallPaths)
-                  ComboBoxItem(
-                    value: path,
-                    child: Text(path),
-                  )
-              ],
+              items: [for (final path in state.scInstallPaths) ComboBoxItem(value: path, child: Text(path))],
               onChanged: (v) {
                 model.onChangeGamePath(v!);
               },
@@ -234,15 +207,13 @@ class GuideUI extends HookConsumerWidget {
         ),
         const SizedBox(width: 8),
         Button(
-            child: const Padding(
-              padding: EdgeInsets.all(6),
-              child: Icon(FluentIcons.folder_search),
-            ),
-            onPressed: () async {
-              await settingModel.setGamePath(context);
-              if (!context.mounted) return;
-              model.reScanPath(context, checkActive: true, skipToast: true);
-            })
+          child: const Padding(padding: EdgeInsets.all(6), child: Icon(FluentIcons.folder_search)),
+          onPressed: () async {
+            await settingModel.setGamePath(context);
+            if (!context.mounted) return;
+            model.reScanPath(context, checkActive: true, skipToast: true);
+          },
+        ),
       ],
     );
   }
