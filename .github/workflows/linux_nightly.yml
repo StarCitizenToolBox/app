@@ -2,7 +2,11 @@ name: "Linux Nightly Build"
 on:
     schedule:
         - cron: "0 0 * * *" # every day at midnight
-    workflow_dispatch:    
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -13,9 +17,10 @@ jobs:
             - name: Install Linux dependencies
               run: |
                 sudo apt-get update
+                # libwebkit2gtk-4.1-dev is required for wry webview (4.0 is not available in Ubuntu 24.04+)
                 sudo apt-get install -y \
                   clang cmake ninja-build pkg-config \
-                  libgtk-3-dev liblzma-dev libstdc++-12-dev \
+                  libgtk-3-dev liblzma-dev \
                   libsecret-1-dev libjsoncpp-dev \
                   libnotify-dev libayatana-appindicator3-dev \
                   libwebkit2gtk-4.1-dev
@@ -25,8 +30,8 @@ jobs:
               with:
                 channel: 'stable'
                 cache: true
-                cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-                cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+                cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
+                cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
 
             - run: flutter --version    
 
