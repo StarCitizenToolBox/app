@@ -4,7 +4,7 @@
 
 该工具为 星际公民玩家 提供 一键诊断，官网及工具网站汉化，游戏汉化，游戏性能优化 等功能，致力于带来更愉快的游戏体验。 
 
-[![Windows Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml)    [![Translate](http://translate.42kit.com/widget/sctoolbox/CoreApp/svg-badge.svg)](http://translate.42kit.com/engage/sctoolbox/)   
+[![Windows Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml)  [![Linux Nightly Build](https://github.com/StarCitizenToolBox/app/actions/workflows/linux_nightly.yml/badge.svg)](https://github.com/StarCitizenToolBox/app/actions/workflows/windows_nightly.yml)    [![Translate](http://translate.42kit.com/widget/sctoolbox/CoreApp/svg-badge.svg)](http://translate.42kit.com/engage/sctoolbox/)   
 
 [![](https://get.microsoft.com/images/zh-cn%20dark.svg)](https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true)
 
