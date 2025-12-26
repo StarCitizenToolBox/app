@@ -41,7 +41,7 @@ final class SettingsUIModelProvider
   }
 }
 
-String _$settingsUIModelHash() => r'c448be241a29891e90d8f17bef9e7f61d66c05be';
+String _$settingsUIModelHash() => r'302b8ce09601218c28c0cf2bd133f1749ec471dc';
 
 abstract class _$SettingsUIModel extends $Notifier<SettingsUIState> {
   SettingsUIState build();

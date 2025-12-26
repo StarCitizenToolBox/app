@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/applinks_api.dart';
 import 'api/asar_api.dart';
 import 'api/downloader_api.dart';
 import 'api/http_api.dart';
@@ -38,6 +39,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String dco_decode_String(dynamic raw);
+
+  @protected
+  ApplinksRegistrationResult dco_decode_applinks_registration_result(
+    dynamic raw,
+  );
 
   @protected
   bool dco_decode_bool(dynamic raw);
@@ -215,6 +221,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
+
+  @protected
+  ApplinksRegistrationResult sse_decode_applinks_registration_result(
+    SseDeserializer deserializer,
+  );
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
@@ -673,6 +684,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_applinks_registration_result(
+    ApplinksRegistrationResult apiObj,
+    wire_cst_applinks_registration_result wireObj,
+  ) {
+    wireObj.success = cst_encode_bool(apiObj.success);
+    wireObj.message = cst_encode_String(apiObj.message);
+    wireObj.was_modified = cst_encode_bool(apiObj.wasModified);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_rsi_launcher_asar_data(
     RsiLauncherAsarData apiObj,
     ffi.Pointer<wire_cst_rsi_launcher_asar_data> wireObj,
@@ -945,6 +966,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_applinks_registration_result(
+    ApplinksRegistrationResult self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
@@ -1226,6 +1253,33 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__win32_api__add_nvme_patch =
       _wire__crate__api__win32_api__add_nvme_patchPtr
           .asFunction<void Function(int)>();
+
+  void wire__crate__api__applinks_api__check_applinks_registration(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> scheme,
+  ) {
+    return _wire__crate__api__applinks_api__check_applinks_registration(
+      port_,
+      scheme,
+    );
+  }
+
+  late final _wire__crate__api__applinks_api__check_applinks_registrationPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__applinks_api__check_applinks_registration',
+      );
+  late final _wire__crate__api__applinks_api__check_applinks_registration =
+      _wire__crate__api__applinks_api__check_applinks_registrationPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
 
   void wire__crate__api__win32_api__check_nvme_patch_status(int port_) {
     return _wire__crate__api__win32_api__check_nvme_patch_status(port_);
@@ -2453,6 +2507,40 @@ class RustLibWire implements BaseWire {
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
+  void wire__crate__api__applinks_api__register_applinks(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> scheme,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> app_name,
+  ) {
+    return _wire__crate__api__applinks_api__register_applinks(
+      port_,
+      scheme,
+      app_name,
+    );
+  }
+
+  late final _wire__crate__api__applinks_api__register_applinksPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__applinks_api__register_applinks',
+      );
+  late final _wire__crate__api__applinks_api__register_applinks =
+      _wire__crate__api__applinks_api__register_applinksPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
   void wire__crate__api__win32_api__remove_nvme_patch(int port_) {
     return _wire__crate__api__win32_api__remove_nvme_patch(port_);
   }
@@ -2467,9 +2555,9 @@ class RustLibWire implements BaseWire {
 
   void wire__crate__api__win32_api__resolve_shortcut(
     int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> _lnk_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> lnk_path,
   ) {
-    return _wire__crate__api__win32_api__resolve_shortcut(port_, _lnk_path);
+    return _wire__crate__api__win32_api__resolve_shortcut(port_, lnk_path);
   }
 
   late final _wire__crate__api__win32_api__resolve_shortcutPtr =
@@ -2795,6 +2883,30 @@ class RustLibWire implements BaseWire {
       );
   late final _wire__crate__api__ort_api__unload_translation_model =
       _wire__crate__api__ort_api__unload_translation_modelPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__applinks_api__unregister_applinks(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> scheme,
+  ) {
+    return _wire__crate__api__applinks_api__unregister_applinks(port_, scheme);
+  }
+
+  late final _wire__crate__api__applinks_api__unregister_applinksPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__applinks_api__unregister_applinks',
+      );
+  late final _wire__crate__api__applinks_api__unregister_applinks =
+      _wire__crate__api__applinks_api__unregister_applinksPtr
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
@@ -3719,6 +3831,16 @@ final class wire_cst_list_web_view_event extends ffi.Struct {
 
   @ffi.Int32()
   external int len;
+}
+
+final class wire_cst_applinks_registration_result extends ffi.Struct {
+  @ffi.Bool()
+  external bool success;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> message;
+
+  @ffi.Bool()
+  external bool was_modified;
 }
 
 final class wire_cst_download_global_stat extends ffi.Struct {

@@ -90,7 +90,7 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.xkeyc.tools.starcitizen.doctor" "\0"
-            VALUE "FileDescription", "starcitizen_doctor" "\0"
+            VALUE "FileDescription", "SCToolBox" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "starcitizen_doctor" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.xkeyc.tools.starcitizen.doctor. All rights reserved." "\0"

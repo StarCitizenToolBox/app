@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
@@ -36,10 +37,16 @@ Future<void> main(List<String> args) async {
 }
 
 Future<void> _initWindow() async {
+  // Initialize flutter_acrylic before runApp (same as official example)
+  await Window.initialize();
+  await Window.hideWindowControls();
   await windowManager.setTitleBarStyle(TitleBarStyle.hidden, windowButtonVisibility: false);
   await windowManager.setSize(const Size(1280, 810));
   await windowManager.setMinimumSize(const Size(1280, 810));
   await windowManager.center(animate: true);
+  if (Platform.isWindows) {
+    await Window.setEffect(effect: WindowEffect.transparent, color: Colors.transparent, dark: true);
+  }
 }
 
 class App extends HookConsumerWidget with WindowListener {

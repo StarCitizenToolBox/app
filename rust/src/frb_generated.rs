@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1903117367;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -351025706;
 
 // Section: executor
 
@@ -59,6 +59,30 @@ fn wire__crate__api__win32_api__add_nvme_patch_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::win32_api::add_nvme_patch()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__applinks_api__check_applinks_registration_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    scheme: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "check_applinks_registration",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_scheme = scheme.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::applinks_api::check_applinks_registration(api_scheme)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -1462,6 +1486,32 @@ fn wire__crate__api__unp4k_api__p4k_open_impl(
         },
     )
 }
+fn wire__crate__api__applinks_api__register_applinks_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    scheme: impl CstDecode<String>,
+    app_name: impl CstDecode<Option<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "register_applinks",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_scheme = scheme.cst_decode();
+            let api_app_name = app_name.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::applinks_api::register_applinks(api_scheme, api_app_name)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__win32_api__remove_nvme_patch_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
 ) {
@@ -1485,7 +1535,7 @@ fn wire__crate__api__win32_api__remove_nvme_patch_impl(
 }
 fn wire__crate__api__win32_api__resolve_shortcut_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    _lnk_path: impl CstDecode<String>,
+    lnk_path: impl CstDecode<String>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -1494,11 +1544,11 @@ fn wire__crate__api__win32_api__resolve_shortcut_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let api__lnk_path = _lnk_path.cst_decode();
+            let api_lnk_path = lnk_path.cst_decode();
             move |context| {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
-                        let output_ok = crate::api::win32_api::resolve_shortcut(api__lnk_path)?;
+                        let output_ok = crate::api::win32_api::resolve_shortcut(api_lnk_path)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -1781,6 +1831,29 @@ fn wire__crate__api__ort_api__unload_translation_model_impl(
                     (move || {
                         let output_ok =
                             crate::api::ort_api::unload_translation_model(api_model_key)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__applinks_api__unregister_applinks_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    scheme: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "unregister_applinks",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_scheme = scheme.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::applinks_api::unregister_applinks(api_scheme)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -2293,6 +2366,20 @@ impl SseDecode for String {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <Vec<u8>>::sse_decode(deserializer);
         return String::from_utf8(inner).unwrap();
+    }
+}
+
+impl SseDecode for crate::api::applinks_api::ApplinksRegistrationResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_success = <bool>::sse_decode(deserializer);
+        let mut var_message = <String>::sse_decode(deserializer);
+        let mut var_wasModified = <bool>::sse_decode(deserializer);
+        return crate::api::applinks_api::ApplinksRegistrationResult {
+            success: var_success,
+            message: var_message,
+            was_modified: var_wasModified,
+        };
     }
 }
 
@@ -2941,6 +3028,28 @@ fn pde_ffi_dispatcher_sync_impl(
 // Section: rust2dart
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::applinks_api::ApplinksRegistrationResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.success.into_into_dart().into_dart(),
+            self.message.into_into_dart().into_dart(),
+            self.was_modified.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::applinks_api::ApplinksRegistrationResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::applinks_api::ApplinksRegistrationResult>
+    for crate::api::applinks_api::ApplinksRegistrationResult
+{
+    fn into_into_dart(self) -> crate::api::applinks_api::ApplinksRegistrationResult {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DcbRecordItem {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -3413,6 +3522,15 @@ impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.into_bytes(), serializer);
+    }
+}
+
+impl SseEncode for crate::api::applinks_api::ApplinksRegistrationResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.success, serializer);
+        <String>::sse_encode(self.message, serializer);
+        <bool>::sse_encode(self.was_modified, serializer);
     }
 }
 
@@ -3978,6 +4096,18 @@ mod io {
             String::from_utf8(vec).unwrap()
         }
     }
+    impl CstDecode<crate::api::applinks_api::ApplinksRegistrationResult>
+        for wire_cst_applinks_registration_result
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::applinks_api::ApplinksRegistrationResult {
+            crate::api::applinks_api::ApplinksRegistrationResult {
+                success: self.success.cst_decode(),
+                message: self.message.cst_decode(),
+                was_modified: self.was_modified.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<bool> for *mut bool {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> bool {
@@ -4321,6 +4451,20 @@ mod io {
             }
         }
     }
+    impl NewWithNullPtr for wire_cst_applinks_registration_result {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                success: Default::default(),
+                message: core::ptr::null_mut(),
+                was_modified: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_applinks_registration_result {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_dcb_record_item {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -4555,6 +4699,14 @@ mod io {
         port_: i64,
     ) {
         wire__crate__api__win32_api__add_nvme_patch_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__applinks_api__check_applinks_registration(
+        port_: i64,
+        scheme: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__applinks_api__check_applinks_registration_impl(port_, scheme)
     }
 
     #[unsafe(no_mangle)]
@@ -5043,6 +5195,15 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__applinks_api__register_applinks(
+        port_: i64,
+        scheme: *mut wire_cst_list_prim_u_8_strict,
+        app_name: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__applinks_api__register_applinks_impl(port_, scheme, app_name)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__remove_nvme_patch(
         port_: i64,
     ) {
@@ -5052,9 +5213,9 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__resolve_shortcut(
         port_: i64,
-        _lnk_path: *mut wire_cst_list_prim_u_8_strict,
+        lnk_path: *mut wire_cst_list_prim_u_8_strict,
     ) {
-        wire__crate__api__win32_api__resolve_shortcut_impl(port_, _lnk_path)
+        wire__crate__api__win32_api__resolve_shortcut_impl(port_, lnk_path)
     }
 
     #[unsafe(no_mangle)]
@@ -5152,6 +5313,14 @@ mod io {
         model_key: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__ort_api__unload_translation_model_impl(port_, model_key)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__applinks_api__unregister_applinks(
+        port_: i64,
+        scheme: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__applinks_api__unregister_applinks_impl(port_, scheme)
     }
 
     #[unsafe(no_mangle)]
@@ -5467,6 +5636,13 @@ mod io {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
     }
 
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_applinks_registration_result {
+        success: bool,
+        message: *mut wire_cst_list_prim_u_8_strict,
+        was_modified: bool,
+    }
     #[repr(C)]
     #[derive(Clone, Copy)]
     pub struct wire_cst_dcb_record_item {

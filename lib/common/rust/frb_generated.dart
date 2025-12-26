@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/applinks_api.dart';
 import 'api/asar_api.dart';
 import 'api/downloader_api.dart';
 import 'api/http_api.dart';
@@ -72,7 +73,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1903117367;
+  int get rustContentHash => -351025706;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -84,6 +85,9 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 
 abstract class RustLibApi extends BaseApi {
   Future<void> crateApiWin32ApiAddNvmePatch();
+
+  Future<ApplinksRegistrationResult>
+  crateApiApplinksApiCheckApplinksRegistration({required String scheme});
 
   Future<bool> crateApiWin32ApiCheckNvmePatchStatus();
 
@@ -268,6 +272,11 @@ abstract class RustLibApi extends BaseApi {
 
   Future<void> crateApiUnp4KApiP4KOpen({required String p4KPath});
 
+  Future<ApplinksRegistrationResult> crateApiApplinksApiRegisterApplinks({
+    required String scheme,
+    String? appName,
+  });
+
   Future<void> crateApiWin32ApiRemoveNvmePatch();
 
   Future<String> crateApiWin32ApiResolveShortcut({required String lnkPath});
@@ -319,6 +328,10 @@ abstract class RustLibApi extends BaseApi {
   });
 
   Future<void> crateApiOrtApiUnloadTranslationModel({required String modelKey});
+
+  Future<ApplinksRegistrationResult> crateApiApplinksApiUnregisterApplinks({
+    required String scheme,
+  });
 
   Future<WebViewConfiguration> crateApiWebviewApiWebViewConfigurationDefault();
 
@@ -410,6 +423,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiWin32ApiAddNvmePatchConstMeta =>
       const TaskConstMeta(debugName: "add_nvme_patch", argNames: []);
+
+  @override
+  Future<ApplinksRegistrationResult>
+  crateApiApplinksApiCheckApplinksRegistration({required String scheme}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(scheme);
+          return wire
+              .wire__crate__api__applinks_api__check_applinks_registration(
+                port_,
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_applinks_registration_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiApplinksApiCheckApplinksRegistrationConstMeta,
+        argValues: [scheme],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiApplinksApiCheckApplinksRegistrationConstMeta =>
+      const TaskConstMeta(
+        debugName: "check_applinks_registration",
+        argNames: ["scheme"],
+      );
 
   @override
   Future<bool> crateApiWin32ApiCheckNvmePatchStatus() {
@@ -1988,6 +2031,39 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "p4k_open", argNames: ["p4KPath"]);
 
   @override
+  Future<ApplinksRegistrationResult> crateApiApplinksApiRegisterApplinks({
+    required String scheme,
+    String? appName,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(scheme);
+          var arg1 = cst_encode_opt_String(appName);
+          return wire.wire__crate__api__applinks_api__register_applinks(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_applinks_registration_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiApplinksApiRegisterApplinksConstMeta,
+        argValues: [scheme, appName],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiApplinksApiRegisterApplinksConstMeta =>
+      const TaskConstMeta(
+        debugName: "register_applinks",
+        argNames: ["scheme", "appName"],
+      );
+
+  @override
   Future<void> crateApiWin32ApiRemoveNvmePatch() {
     return handler.executeNormal(
       NormalTask(
@@ -2367,6 +2443,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "unload_translation_model",
         argNames: ["modelKey"],
+      );
+
+  @override
+  Future<ApplinksRegistrationResult> crateApiApplinksApiUnregisterApplinks({
+    required String scheme,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(scheme);
+          return wire.wire__crate__api__applinks_api__unregister_applinks(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_applinks_registration_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiApplinksApiUnregisterApplinksConstMeta,
+        argValues: [scheme],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiApplinksApiUnregisterApplinksConstMeta =>
+      const TaskConstMeta(
+        debugName: "unregister_applinks",
+        argNames: ["scheme"],
       );
 
   @override
@@ -2870,6 +2976,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ApplinksRegistrationResult dco_decode_applinks_registration_result(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return ApplinksRegistrationResult(
+      success: dco_decode_bool(arr[0]),
+      message: dco_decode_String(arr[1]),
+      wasModified: dco_decode_bool(arr[2]),
+    );
+  }
+
+  @protected
   bool dco_decode_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
@@ -3345,6 +3466,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  ApplinksRegistrationResult sse_decode_applinks_registration_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_success = sse_decode_bool(deserializer);
+    var var_message = sse_decode_String(deserializer);
+    var var_wasModified = sse_decode_bool(deserializer);
+    return ApplinksRegistrationResult(
+      success: var_success,
+      message: var_message,
+      wasModified: var_wasModified,
+    );
   }
 
   @protected
@@ -4045,6 +4181,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_applinks_registration_result(
+    ApplinksRegistrationResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.success, serializer);
+    sse_encode_String(self.message, serializer);
+    sse_encode_bool(self.wasModified, serializer);
   }
 
   @protected

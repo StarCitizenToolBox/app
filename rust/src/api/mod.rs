@@ -1,6 +1,7 @@
 //
 // Do not put code in `mod.rs`, but put in e.g. `simple.rs`.
 //
+pub mod applinks_api;
 pub mod http_api;
 pub mod rs_process;
 pub mod win32_api;

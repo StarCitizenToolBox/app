@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +25,7 @@ import 'api/api.dart';
 import 'common/conf/url_conf.dart';
 import 'common/io/rs_http.dart';
 import 'common/rust/frb_generated.dart';
+import 'common/rust/api/applinks_api.dart' as applinks;
 import 'common/rust/api/win32_api.dart' as win32;
 import 'data/app_version_data.dart';
 import 'generated/no_l10n_strings.dart';
@@ -125,6 +127,11 @@ class AppGlobalModel extends _$AppGlobalModel {
     await RSHttp.init();
     dPrint("---- rust bridge init -----");
 
+    // Register URL scheme
+    if ((!ConstConf.isMSE || kDebugMode) && Platform.isWindows) {
+      await _registerUrlScheme();
+    }
+
     // init Hive
     try {
       Hive.init("$applicationSupportDir/db");
@@ -166,16 +173,19 @@ class AppGlobalModel extends _$AppGlobalModel {
     windowManager.waitUntilReadyToShow().then((_) async {
       await windowManager.setTitle("SCToolBox");
       await windowManager.setSkipTaskbar(false);
-      await windowManager.show();
       if (Platform.isWindows) {
-        await Window.initialize();
-        await Window.hideWindowControls();
         if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
-          await Window.setEffect(effect: WindowEffect.acrylic);
+          // Apply acrylic effect before showing window
+          await Window.setEffect(effect: WindowEffect.acrylic, color: Colors.transparent, dark: true);
           state = state.copyWith(windowsVersion: 11);
-          dPrint("---- Windows 11 Acrylic Effect init -----");
+          dPrint("---- Windows 11 Acrylic Effect applied -----");
+        } else {
+          state = state.copyWith(windowsVersion: 10);
+          await Window.setEffect(effect: WindowEffect.disabled);
         }
       }
+      // Show window after acrylic effect is applied
+      await windowManager.show();
     });
 
     dPrint("---- Window init -----");
@@ -315,6 +325,27 @@ class AppGlobalModel extends _$AppGlobalModel {
       dPrint("changeLocale == $value localeCode=== $localeCode");
       await appConfBox.put("app_locale", localeCode);
       state = state.copyWith(appLocale: value);
+    }
+  }
+
+  /// Register sctoolbox:// URL scheme for non-MSE builds
+  Future<void> _registerUrlScheme() async {
+    try {
+      const scheme = "sctoolbox";
+      const appName = "SCToolBox";
+      final result = await applinks.registerApplinks(scheme: scheme, appName: appName);
+      if (result.success) {
+        if (result.wasModified) {
+          dPrint("URL scheme '$scheme' registered successfully: ${result.message}");
+        } else {
+          dPrint("URL scheme '$scheme' already registered: ${result.message}");
+        }
+      } else {
+        dPrint("URL scheme '$scheme' registration check: ${result.message}");
+        // Even if check fails, the registration might have succeeded
+      }
+    } catch (e) {
+      dPrint("Failed to register URL scheme: $e");
     }
   }
 

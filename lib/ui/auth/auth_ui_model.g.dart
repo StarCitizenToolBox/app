@@ -59,7 +59,7 @@ final class AuthUIModelProvider
   }
 }
 
-String _$authUIModelHash() => r'cef2bc3fecb2c52e507fa24bc352b4553d918a38';
+String _$authUIModelHash() => r'485bf56e488ba01cd1371131e6d92077c76176df';
 
 final class AuthUIModelFamily extends $Family
     with
