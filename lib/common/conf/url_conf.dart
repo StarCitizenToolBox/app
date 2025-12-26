@@ -10,8 +10,10 @@ class URLConf {
   static const String analyticsApiHome = "https://scbox.org";
 
   /// PartyRoom Server
-  static const String partyRoomServerAddress = "ecdn.partyroom.grpc.scbox.xkeyc.cn";
-  static const int partyRoomServerPort = 443;
+  static const String partyRoomServerAddress = "localhost";
+  static const int partyRoomServerPort = 50051;
+  // static const String partyRoomServerAddress = "ecdn.partyroom.grpc.scbox.xkeyc.cn";
+  // static const int partyRoomServerPort = 443;
 
   static bool isUrlCheckPass = false;
 
@@ -51,10 +53,7 @@ class URLConf {
       gitApiHome = fasterGit;
     }
     final newsApiList = _genFinalList(await dnsLookupTxt("news.dns.scbox.org"));
-    final fasterNews = await rust_http.getFasterUrl(
-      urls: newsApiList,
-      pathSuffix: "/api/latest",
-    );
+    final fasterNews = await rust_http.getFasterUrl(urls: newsApiList, pathSuffix: "/api/latest");
     dPrint("DNS newsApiList ==== $newsApiList");
     dPrint("newsApiList.Faster ==== $fasterNews");
     if (fasterNews != null) {

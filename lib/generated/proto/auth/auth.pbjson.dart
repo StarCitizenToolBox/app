@@ -8,11 +8,73 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: curly_braces_in_flow_control_structures
 // ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
-// ignore_for_file: non_constant_identifier_names, unused_import
+// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
+// ignore_for_file: unused_import
 
 import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
+
+@$core.Deprecated('Use generateOIDCAuthCodeRequestDescriptor instead')
+const GenerateOIDCAuthCodeRequest$json = {
+  '1': 'GenerateOIDCAuthCodeRequest',
+  '2': [
+    {'1': 'nonce', '3': 1, '4': 1, '5': 9, '10': 'nonce'},
+    {'1': 'redirect_uri', '3': 2, '4': 1, '5': 9, '10': 'redirectUri'},
+  ],
+};
+
+/// Descriptor for `GenerateOIDCAuthCodeRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List generateOIDCAuthCodeRequestDescriptor =
+    $convert.base64Decode(
+        'ChtHZW5lcmF0ZU9JRENBdXRoQ29kZVJlcXVlc3QSFAoFbm9uY2UYASABKAlSBW5vbmNlEiEKDH'
+        'JlZGlyZWN0X3VyaRgCIAEoCVILcmVkaXJlY3RVcmk=');
+
+@$core.Deprecated('Use generateOIDCAuthCodeResponseDescriptor instead')
+const GenerateOIDCAuthCodeResponse$json = {
+  '1': 'GenerateOIDCAuthCodeResponse',
+  '2': [
+    {'1': 'code', '3': 1, '4': 1, '5': 9, '10': 'code'},
+    {'1': 'expires_at', '3': 2, '4': 1, '5': 3, '10': 'expiresAt'},
+  ],
+};
+
+/// Descriptor for `GenerateOIDCAuthCodeResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List generateOIDCAuthCodeResponseDescriptor =
+    $convert.base64Decode(
+        'ChxHZW5lcmF0ZU9JRENBdXRoQ29kZVJlc3BvbnNlEhIKBGNvZGUYASABKAlSBGNvZGUSHQoKZX'
+        'hwaXJlc19hdBgCIAEoA1IJZXhwaXJlc0F0');
+
+@$core.Deprecated('Use refreshUserProfileRequestDescriptor instead')
+const RefreshUserProfileRequest$json = {
+  '1': 'RefreshUserProfileRequest',
+};
+
+/// Descriptor for `RefreshUserProfileRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List refreshUserProfileRequestDescriptor =
+    $convert.base64Decode('ChlSZWZyZXNoVXNlclByb2ZpbGVSZXF1ZXN0');
+
+@$core.Deprecated('Use refreshUserProfileResponseDescriptor instead')
+const RefreshUserProfileResponse$json = {
+  '1': 'RefreshUserProfileResponse',
+  '2': [
+    {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    {
+      '1': 'user_info',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.auth.GameUserInfo',
+      '10': 'userInfo'
+    },
+  ],
+};
+
+/// Descriptor for `RefreshUserProfileResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List refreshUserProfileResponseDescriptor =
+    $convert.base64Decode(
+        'ChpSZWZyZXNoVXNlclByb2ZpbGVSZXNwb25zZRIYCgdzdWNjZXNzGAEgASgIUgdzdWNjZXNzEi'
+        '8KCXVzZXJfaW5mbxgCIAEoCzISLmF1dGguR2FtZVVzZXJJbmZvUgh1c2VySW5mbw==');
 
 @$core.Deprecated('Use statusRequestDescriptor instead')
 const StatusRequest$json = {
@@ -186,3 +248,104 @@ const UnregisterResponse$json = {
 final $typed_data.Uint8List unregisterResponseDescriptor =
     $convert.base64Decode(
         'ChJVbnJlZ2lzdGVyUmVzcG9uc2USGAoHc3VjY2VzcxgBIAEoCFIHc3VjY2Vzcw==');
+
+@$core.Deprecated('Use validateTokenRequestDescriptor instead')
+const ValidateTokenRequest$json = {
+  '1': 'ValidateTokenRequest',
+  '2': [
+    {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+  ],
+};
+
+/// Descriptor for `ValidateTokenRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List validateTokenRequestDescriptor =
+    $convert.base64Decode(
+        'ChRWYWxpZGF0ZVRva2VuUmVxdWVzdBIUCgV0b2tlbhgBIAEoCVIFdG9rZW4=');
+
+@$core.Deprecated('Use validateTokenResponseDescriptor instead')
+const ValidateTokenResponse$json = {
+  '1': 'ValidateTokenResponse',
+  '2': [
+    {'1': 'valid', '3': 1, '4': 1, '5': 8, '10': 'valid'},
+    {'1': 'domain', '3': 2, '4': 1, '5': 9, '10': 'domain'},
+    {'1': 'issued_at', '3': 3, '4': 1, '5': 3, '10': 'issuedAt'},
+    {'1': 'expires_at', '3': 4, '4': 1, '5': 3, '10': 'expiresAt'},
+    {'1': 'error_message', '3': 5, '4': 1, '5': 9, '10': 'errorMessage'},
+  ],
+};
+
+/// Descriptor for `ValidateTokenResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List validateTokenResponseDescriptor = $convert.base64Decode(
+    'ChVWYWxpZGF0ZVRva2VuUmVzcG9uc2USFAoFdmFsaWQYASABKAhSBXZhbGlkEhYKBmRvbWFpbh'
+    'gCIAEoCVIGZG9tYWluEhsKCWlzc3VlZF9hdBgDIAEoA1IIaXNzdWVkQXQSHQoKZXhwaXJlc19h'
+    'dBgEIAEoA1IJZXhwaXJlc0F0EiMKDWVycm9yX21lc3NhZ2UYBSABKAlSDGVycm9yTWVzc2FnZQ'
+    '==');
+
+@$core.Deprecated('Use getPublicKeyRequestDescriptor instead')
+const GetPublicKeyRequest$json = {
+  '1': 'GetPublicKeyRequest',
+};
+
+/// Descriptor for `GetPublicKeyRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getPublicKeyRequestDescriptor =
+    $convert.base64Decode('ChNHZXRQdWJsaWNLZXlSZXF1ZXN0');
+
+@$core.Deprecated('Use getPublicKeyResponseDescriptor instead')
+const GetPublicKeyResponse$json = {
+  '1': 'GetPublicKeyResponse',
+  '2': [
+    {'1': 'public_key_pem', '3': 1, '4': 1, '5': 9, '10': 'publicKeyPem'},
+    {'1': 'key_id', '3': 2, '4': 1, '5': 9, '10': 'keyId'},
+    {'1': 'algorithm', '3': 3, '4': 1, '5': 9, '10': 'algorithm'},
+  ],
+};
+
+/// Descriptor for `GetPublicKeyResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getPublicKeyResponseDescriptor = $convert.base64Decode(
+    'ChRHZXRQdWJsaWNLZXlSZXNwb25zZRIkCg5wdWJsaWNfa2V5X3BlbRgBIAEoCVIMcHVibGljS2'
+    'V5UGVtEhUKBmtleV9pZBgCIAEoCVIFa2V5SWQSHAoJYWxnb3JpdGhtGAMgASgJUglhbGdvcml0'
+    'aG0=');
+
+@$core.Deprecated('Use jWTDomainInfoDescriptor instead')
+const JWTDomainInfo$json = {
+  '1': 'JWTDomainInfo',
+  '2': [
+    {'1': 'domain', '3': 1, '4': 1, '5': 9, '10': 'domain'},
+    {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+  ],
+};
+
+/// Descriptor for `JWTDomainInfo`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List jWTDomainInfoDescriptor = $convert.base64Decode(
+    'Cg1KV1REb21haW5JbmZvEhYKBmRvbWFpbhgBIAEoCVIGZG9tYWluEhIKBG5hbWUYAiABKAlSBG'
+    '5hbWU=');
+
+@$core.Deprecated('Use getJWTDomainListRequestDescriptor instead')
+const GetJWTDomainListRequest$json = {
+  '1': 'GetJWTDomainListRequest',
+};
+
+/// Descriptor for `GetJWTDomainListRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getJWTDomainListRequestDescriptor =
+    $convert.base64Decode('ChdHZXRKV1REb21haW5MaXN0UmVxdWVzdA==');
+
+@$core.Deprecated('Use getJWTDomainListResponseDescriptor instead')
+const GetJWTDomainListResponse$json = {
+  '1': 'GetJWTDomainListResponse',
+  '2': [
+    {
+      '1': 'domains',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.auth.JWTDomainInfo',
+      '10': 'domains'
+    },
+  ],
+};
+
+/// Descriptor for `GetJWTDomainListResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getJWTDomainListResponseDescriptor =
+    $convert.base64Decode(
+        'ChhHZXRKV1REb21haW5MaXN0UmVzcG9uc2USLQoHZG9tYWlucxgBIAMoCzITLmF1dGguSldURG'
+        '9tYWluSW5mb1IHZG9tYWlucw==');

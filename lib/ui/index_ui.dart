@@ -18,6 +18,7 @@ import 'party_room/party_room_ui_model.dart';
 import 'settings/settings_ui.dart';
 import 'tools/tools_ui.dart';
 import 'index_ui_widgets/user_avatar_widget.dart';
+import 'package:starcitizen_doctor/common/utils/url_scheme_handler.dart';
 
 class IndexUI extends HookConsumerWidget {
   const IndexUI({super.key});
@@ -32,6 +33,13 @@ class IndexUI extends HookConsumerWidget {
     ref.watch(partyRoomUIModelProvider.select((value) => null));
 
     final curIndex = useState(0);
+
+    // Initialize URL scheme handler
+    useEffect(() {
+      UrlSchemeHandler().initialize(context);
+      return () => UrlSchemeHandler().dispose();
+    }, const []);
+
     return NavigationView(
       appBar: NavigationAppBar(
         automaticallyImplyLeading: false,

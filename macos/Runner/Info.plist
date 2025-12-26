@@ -31,6 +31,17 @@
 	<string>$(PRODUCT_COPYRIGHT)</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.xkeyc.sctoolbox</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sctoolbox</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

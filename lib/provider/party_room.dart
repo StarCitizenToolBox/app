@@ -127,11 +127,17 @@ class PartyRoom extends _$PartyRoom {
 
       final serverAddress = URLConf.partyRoomServerAddress;
       final serverPort = URLConf.partyRoomServerPort;
+      var credentials = ChannelCredentials.secure();
+
+      if (serverAddress == '127.0.0.1' || serverAddress == 'localhost') {
+        credentials = ChannelCredentials.insecure();
+      }
 
       final channel = ClientChannel(
         serverAddress,
         port: serverPort,
         options: ChannelOptions(
+          credentials: credentials,
           keepAlive: ClientKeepAliveOptions(
             pingInterval: Duration(seconds: 30),
             timeout: Duration(seconds: 10),
@@ -179,7 +185,7 @@ class PartyRoom extends _$PartyRoom {
   }
 
   /// 获取认证 CallOptions
-  CallOptions _getAuthCallOptions() {
+  CallOptions getAuthCallOptions() {
     return CallOptions(metadata: {'uuid': state.auth.uuid, 'secret-key': state.auth.secretKey});
   }
 
@@ -191,7 +197,7 @@ class PartyRoom extends _$PartyRoom {
       final client = state.client.authClient;
       if (client == null) throw Exception('Not connected to server');
 
-      final response = await client.login(auth.LoginRequest(), options: _getAuthCallOptions());
+      final response = await client.login(auth.LoginRequest(), options: getAuthCallOptions());
 
       state = state.copyWith(
         auth: state.auth.copyWith(
@@ -255,7 +261,7 @@ class PartyRoom extends _$PartyRoom {
       final client = state.client.authClient;
       if (client == null) throw Exception('Not connected to server');
 
-      await client.unregister(auth.UnregisterRequest(), options: _getAuthCallOptions());
+      await client.unregister(auth.UnregisterRequest(), options: getAuthCallOptions());
 
       // 清除本地认证信息
       await _confBox?.delete(_secretKeyKey);
@@ -349,7 +355,7 @@ class PartyRoom extends _$PartyRoom {
           password_5: password ?? '',
           socialLinks: socialLinks ?? [],
         ),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       state = state.copyWith(room: state.room.copyWith(roomUuid: response.roomUuid, isInRoom: true, isOwner: true));
@@ -376,7 +382,7 @@ class PartyRoom extends _$PartyRoom {
 
       await client.joinRoom(
         partroom.JoinRoomRequest(roomUuid: roomUuid, password: password ?? ''),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       state = state.copyWith(room: state.room.copyWith(roomUuid: roomUuid, isInRoom: true, isOwner: false));
@@ -404,7 +410,7 @@ class PartyRoom extends _$PartyRoom {
       final roomUuid = state.room.roomUuid;
       if (roomUuid == null) return;
 
-      await client.leaveRoom(partroom.LeaveRoomRequest(roomUuid: roomUuid), options: _getAuthCallOptions());
+      await client.leaveRoom(partroom.LeaveRoomRequest(roomUuid: roomUuid), options: getAuthCallOptions());
 
       await _stopHeartbeat();
       await _stopEventStream();
@@ -427,7 +433,7 @@ class PartyRoom extends _$PartyRoom {
       final roomUuid = state.room.roomUuid;
       if (roomUuid == null) return;
 
-      await client.dismissRoom(partroom.DismissRoomRequest(roomUuid: roomUuid), options: _getAuthCallOptions());
+      await client.dismissRoom(partroom.DismissRoomRequest(roomUuid: roomUuid), options: getAuthCallOptions());
 
       await _stopHeartbeat();
       await _stopEventStream();
@@ -449,7 +455,7 @@ class PartyRoom extends _$PartyRoom {
 
       final response = await client.getRoomInfo(
         partroom.GetRoomInfoRequest(roomUuid: roomUuid),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       // 检查是否为房主
@@ -477,7 +483,7 @@ class PartyRoom extends _$PartyRoom {
 
       final response = await client.getRoomMembers(
         partroom.GetRoomMembersRequest(roomUuid: roomUuid, page: page, pageSize: pageSize),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       state = state.copyWith(room: state.room.copyWith(members: response.members));
@@ -495,7 +501,7 @@ class PartyRoom extends _$PartyRoom {
       final client = state.client.roomClient;
       if (client == null) return;
 
-      final response = await client.getMyRoom(partroom.GetMyRoomRequest(), options: _getAuthCallOptions());
+      final response = await client.getMyRoom(partroom.GetMyRoomRequest(), options: getAuthCallOptions());
 
       if (response.hasRoom() && response.room.roomUuid.isNotEmpty) {
         final isOwner = response.room.ownerGameId == state.auth.userInfo?.gameUserId;
@@ -553,7 +559,7 @@ class PartyRoom extends _$PartyRoom {
         request.socialLinks.addAll(state.room.currentRoom!.socialLinks);
       }
 
-      await client.updateRoom(request, options: _getAuthCallOptions());
+      await client.updateRoom(request, options: getAuthCallOptions());
 
       // 刷新房间信息
       await getRoomInfo(roomUuid);
@@ -576,7 +582,7 @@ class PartyRoom extends _$PartyRoom {
 
       await client.kickMember(
         partroom.KickMemberRequest(roomUuid: roomUuid, targetGameUserId: targetGameUserId),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       dPrint('[PartyRoom] Member kicked: $targetGameUserId');
@@ -608,7 +614,7 @@ class PartyRoom extends _$PartyRoom {
             playTime: Int64(playTime ?? 0),
           ),
         ),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       dPrint('[PartyRoom] Status updated');
@@ -638,7 +644,7 @@ class PartyRoom extends _$PartyRoom {
         request.params.addAll(params);
       }
 
-      await client.sendSignal(request, options: _getAuthCallOptions());
+      await client.sendSignal(request, options: getAuthCallOptions());
 
       dPrint('[PartyRoom] Signal sent: $signalId');
     } catch (e) {
@@ -658,7 +664,7 @@ class PartyRoom extends _$PartyRoom {
 
       await client.transferOwnership(
         partroom.TransferOwnershipRequest(roomUuid: roomUuid, targetGameUserId: targetGameUserId),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       // 更新房主状态
@@ -685,7 +691,7 @@ class PartyRoom extends _$PartyRoom {
 
       final response = await client.getKickedMembers(
         partroom.GetKickedMembersRequest(roomUuid: roomUuid, page: page, pageSize: pageSize),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       return response;
@@ -706,7 +712,7 @@ class PartyRoom extends _$PartyRoom {
 
       await client.removeKickedMember(
         partroom.RemoveKickedMemberRequest(roomUuid: roomUuid, gameUserId: gameUserId),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       dPrint('[PartyRoom] Kicked member removed: $gameUserId');
@@ -732,7 +738,7 @@ class PartyRoom extends _$PartyRoom {
         final client = state.client.roomClient;
         if (client == null) return;
 
-        await client.heartbeat(partroom.HeartbeatRequest(roomUuid: roomUuid), options: _getAuthCallOptions());
+        await client.heartbeat(partroom.HeartbeatRequest(roomUuid: roomUuid), options: getAuthCallOptions());
 
         dPrint('[PartyRoom] Heartbeat sent');
       } catch (e) {
@@ -760,7 +766,7 @@ class PartyRoom extends _$PartyRoom {
 
       final stream = client.listenRoomEvents(
         partroom.ListenRoomEventsRequest(roomUuid: roomUuid),
-        options: _getAuthCallOptions(),
+        options: getAuthCallOptions(),
       );
 
       _eventStreamSubscription = stream.listen(

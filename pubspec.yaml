@@ -71,8 +71,9 @@ dependencies:
   xml: ^6.6.1
 
   # gRPC and protobuf
-  grpc: ^5.0.0
+  grpc: ^5.1.0
   protobuf: ^6.0.0
+  app_links: ^7.0.0
 dependency_overrides:
   http: ^1.6.0
   intl: ^0.20.2
@@ -118,5 +119,6 @@ msix_config:
   languages: zh-cn
   windows_build_args: --dart-define="MSE=true"
   store: true
+  protocol_activation: sctoolbox
 flutter_intl:
   enabled: true

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=StarCitizen ToolBox
+Comment=StarCitizen ToolBox Application
+Exec=app %u
+Icon=app
+Terminal=false
+Categories=Utility;
+MimeType=x-scheme-handler/sctoolbox;

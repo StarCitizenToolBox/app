@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_multi_window
   flutter_acrylic
+  gtk
   screen_retriever_linux
   url_launcher_linux
   window_manager

@@ -1,4 +1,6 @@
 PODS:
+  - app_links (6.4.1):
+    - FlutterMacOS
   - desktop_multi_window (0.0.1):
     - FlutterMacOS
   - device_info_plus (0.0.1):
@@ -21,6 +23,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - app_links (from `Flutter/ephemeral/.symlinks/plugins/app_links/macos`)
   - desktop_multi_window (from `Flutter/ephemeral/.symlinks/plugins/desktop_multi_window/macos`)
   - device_info_plus (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus/macos`)
   - file_picker (from `Flutter/ephemeral/.symlinks/plugins/file_picker/macos`)
@@ -33,6 +36,8 @@ DEPENDENCIES:
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
 
 EXTERNAL SOURCES:
+  app_links:
+    :path: Flutter/ephemeral/.symlinks/plugins/app_links/macos
   desktop_multi_window:
     :path: Flutter/ephemeral/.symlinks/plugins/desktop_multi_window/macos
   device_info_plus:
@@ -55,6 +60,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
 SPEC CHECKSUMS:
+  app_links: 05a6ec2341985eb05e9f97dc63f5837c39895c3f
   desktop_multi_window: 93667594ccc4b88d91a97972fd3b1b89667fa80a
   device_info_plus: 4fb280989f669696856f8b129e4a5e3cd6c48f76
   file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
