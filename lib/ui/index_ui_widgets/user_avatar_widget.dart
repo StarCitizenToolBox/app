@@ -5,6 +5,7 @@ import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/party_room_ui_model.dart';
 import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
+import 'package:grpc/grpc.dart';
 
 class UserAvatarWidget extends HookConsumerWidget {
   final VoidCallback onTapNavigateToPartyRoom;
@@ -52,14 +53,14 @@ class UserAvatarWidget extends HookConsumerWidget {
                   child: uiState.isLoggingIn
                       ? const Padding(padding: EdgeInsets.all(4), child: ProgressRing(strokeWidth: 2))
                       : (fullAvatarUrl != null
-                      ? CacheNetImage(url: fullAvatarUrl, fit: BoxFit.cover)
-                      : Center(
-                    child: Icon(
-                      isLoggedIn ? FluentIcons.contact : FluentIcons.unknown,
-                      size: 16,
-                      color: Colors.white,
-                    ),
-                  )),
+                            ? CacheNetImage(url: fullAvatarUrl, fit: BoxFit.cover)
+                            : Center(
+                                child: Icon(
+                                  isLoggedIn ? FluentIcons.contact : FluentIcons.unknown,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              )),
                 ),
               ),
               const SizedBox(width: 8),
@@ -85,91 +86,136 @@ class UserAvatarWidget extends HookConsumerWidget {
       barrierDismissible: true,
       barrierColor: Colors.transparent,
       builder: (BuildContext dialogContext) {
-        return Stack(
-          children: [
-            // 透明遮罩，点击关闭
-            GestureDetector(
-              onTap: () => Navigator.of(dialogContext).pop(),
-              child: Container(color: Colors.transparent),
-            ),
-            // 账户卡片
-            Positioned(
-              left: offset.dx - 100,
-              top: offset.dy + (box?.size.height ?? 0) + 8,
-              child: Container(
-                width: 360,
-                decoration: BoxDecoration(
-                  color: FluentTheme
-                      .of(context)
-                      .micaBackgroundColor,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.white.withValues(alpha: .1), width: 1),
-                  boxShadow: [
-                    BoxShadow(color: Colors.black.withValues(alpha: .3), blurRadius: 20, offset: const Offset(0, 8)),
-                  ],
+        return Consumer(
+          builder: (context, ref, child) {
+            final partyRoomState = ref.watch(partyRoomProvider);
+            final userInfo = partyRoomState.auth.userInfo;
+            final displayUserName = userInfo?.gameUserId ?? userName;
+            final displayAvatarUrl = PartyRoomUtils.getAvatarUrl(userInfo?.avatarUrl);
+            final displayEnlistedDate = userInfo?.enlistedDate ?? enlistedDate;
+
+            return Stack(
+              children: [
+                // 透明遮罩，点击关闭
+                GestureDetector(
+                  onTap: () => Navigator.of(dialogContext).pop(),
+                  child: Container(color: Colors.transparent),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // 用户信息
-                      Row(
+                // 账户卡片
+                Positioned(
+                  left: offset.dx - 100,
+                  top: offset.dy + (box?.size.height ?? 0) + 8,
+                  child: Container(
+                    width: 360,
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).micaBackgroundColor,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.white.withValues(alpha: .1), width: 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: .3),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(24)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(24),
-                              child: avatarUrl != null
-                                  ? CacheNetImage(url: avatarUrl, fit: BoxFit.cover)
-                                  : const Center(child: Icon(FluentIcons.contact, size: 24, color: Colors.white)),
-                            ),
+                          // 用户信息
+                          Row(
+                            children: [
+                              Container(
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(24)),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(24),
+                                  child: displayAvatarUrl != null
+                                      ? CacheNetImage(url: displayAvatarUrl, fit: BoxFit.cover)
+                                      : const Center(child: Icon(FluentIcons.contact, size: 24, color: Colors.white)),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      displayUserName,
+                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '注册时间：${PartyRoomUtils.formatDateTime(displayEnlistedDate)}',
+                                      style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  userName,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                          const SizedBox(height: 16),
+                          const Divider(),
+                          const SizedBox(height: 8),
+                          // 按钮组
+                          Row(
+                            children: [
+                              // 刷新按钮
+                              Expanded(
+                                child: Tooltip(
+                                  message: '每小时仅可刷新一次',
+                                  child: FilledButton(
+                                    onPressed: () async {
+                                      try {
+                                        await ref.read(partyRoomProvider.notifier).refreshUserProfile();
+                                        if (context.mounted) {
+                                          showToast(context, '刷新成功');
+                                        }
+                                      } catch (e) {
+                                        if (context.mounted) {
+                                          if (e is GrpcError && e.code == StatusCode.resourceExhausted) {
+                                            showToast(context, '资料刷新过于频繁，请一小时后再试');
+                                          } else {
+                                            showToast(context, '刷新失败: $e');
+                                          }
+                                        }
+                                      }
+                                    },
+                                    child: const Text('刷新资料'),
+                                  ),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '注册时间：${PartyRoomUtils.formatDateTime(enlistedDate)}',
-                                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                              ),
+                              const SizedBox(width: 8),
+                              // 注销按钮
+                              Expanded(
+                                child: FilledButton(
+                                  onPressed: () async {
+                                    Navigator.of(dialogContext).pop();
+                                    await _handleUnregister(context, ref);
+                                  },
+                                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.red)),
+                                  child: Text(
+                                    S.current.user_action_unregister,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                      const Divider(),
-                      const SizedBox(height: 8),
-                      // 注销按钮
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: () async {
-                            Navigator.of(dialogContext).pop();
-                            await _handleUnregister(context, ref);
-                          },
-                          style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.red)),
-                          child: Text(S.current.user_action_unregister, style: const TextStyle(color: Colors.white)),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         );
       },
     );

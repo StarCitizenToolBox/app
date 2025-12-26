@@ -277,6 +277,24 @@ class PartyRoom extends _$PartyRoom {
     }
   }
 
+  /// 刷新用户资料
+  Future<void> refreshUserProfile() async {
+    try {
+      final client = state.client.authClient;
+      if (client == null) throw Exception('Not connected to server');
+
+      final response = await client.refreshUserProfile(auth.RefreshUserProfileRequest(), options: getAuthCallOptions());
+
+      if (response.success && response.hasUserInfo()) {
+        state = state.copyWith(auth: state.auth.copyWith(userInfo: response.userInfo));
+        dPrint('[PartyRoom] User profile refreshed: ${response.userInfo.gameUserId}');
+      }
+    } catch (e) {
+      dPrint('[PartyRoom] RefreshUserProfile error: $e');
+      rethrow;
+    }
+  }
+
   // ========== 房间相关方法 ==========
 
   /// 加载标签和信号类型
