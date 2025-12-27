@@ -34,8 +34,9 @@ sealed class PartyRoomUIState with _$PartyRoomUIState {
     @Default(false) bool isReconnecting,
     @Default(0) int reconnectAttempts,
     @Default(false) bool isMinimized,
-    @Default(true) bool isLoggingIn,
+    @Default(false) bool isLoggingIn,
     @Default(true) bool isGuestMode,
+    @Default(false) bool isRefreshingProfile,
   }) = _PartyRoomUIState;
 }
 
@@ -108,7 +109,9 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
 
     if (next.deathEvents?.isNotEmpty ?? false) {
       for (final event in next.deathEvents!) {
-        ref.read(partyRoomProvider.notifier).sendSignal("special_death", params: {"location": event.$1, "area": event.$2});
+        ref
+            .read(partyRoomProvider.notifier)
+            .sendSignal("special_death", params: {"location": event.$1, "area": event.$2});
       }
     }
   }
@@ -211,6 +214,17 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
     } catch (e) {
       state = state.copyWith(isConnecting: false, errorMessage: '连接失败: $e');
       rethrow;
+    }
+  }
+
+  /// 刷新用户资料
+  Future<void> refreshUserProfile() async {
+    if (state.isRefreshingProfile) return;
+    state = state.copyWith(isRefreshingProfile: true);
+    try {
+      await ref.read(partyRoomProvider.notifier).refreshUserProfile();
+    } finally {
+      state = state.copyWith(isRefreshingProfile: false);
     }
   }
 

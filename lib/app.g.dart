@@ -82,7 +82,7 @@ final class AppGlobalModelProvider
   }
 }
 
-String _$appGlobalModelHash() => r'853586e6ce83942638f0971e08d7b9106a2e7186';
+String _$appGlobalModelHash() => r'74128d2194d00a0e3dbb000dcaf6452e0b966d9c';
 
 abstract class _$AppGlobalModel extends $Notifier<AppGlobalState> {
   AppGlobalState build();

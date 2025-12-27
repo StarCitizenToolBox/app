@@ -89,6 +89,7 @@ class UserAvatarWidget extends HookConsumerWidget {
         return Consumer(
           builder: (context, ref, child) {
             final partyRoomState = ref.watch(partyRoomProvider);
+            final uiState = ref.watch(partyRoomUIModelProvider);
             final userInfo = partyRoomState.auth.userInfo;
             final displayUserName = userInfo?.gameUserId ?? userName;
             final displayAvatarUrl = PartyRoomUtils.getAvatarUrl(userInfo?.avatarUrl);
@@ -171,23 +172,35 @@ class UserAvatarWidget extends HookConsumerWidget {
                                 child: Tooltip(
                                   message: '每小时仅可刷新一次',
                                   child: FilledButton(
-                                    onPressed: () async {
-                                      try {
-                                        await ref.read(partyRoomProvider.notifier).refreshUserProfile();
-                                        if (context.mounted) {
-                                          showToast(context, '刷新成功');
-                                        }
-                                      } catch (e) {
-                                        if (context.mounted) {
-                                          if (e is GrpcError && e.code == StatusCode.resourceExhausted) {
-                                            showToast(context, '资料刷新过于频繁，请一小时后再试');
-                                          } else {
-                                            showToast(context, '刷新失败: $e');
-                                          }
-                                        }
-                                      }
-                                    },
-                                    child: const Text('刷新资料'),
+                                    onPressed: uiState.isRefreshingProfile
+                                        ? null
+                                        : () async {
+                                            try {
+                                              await ref.read(partyRoomUIModelProvider.notifier).refreshUserProfile();
+                                              if (context.mounted) {
+                                                showToast(context, '刷新成功');
+                                              }
+                                            } catch (e) {
+                                              if (context.mounted) {
+                                                if (e is GrpcError && e.code == StatusCode.resourceExhausted) {
+                                                  showToast(context, '资料刷新过于频繁，请一小时后再试');
+                                                } else {
+                                                  showToast(context, '刷新失败: $e');
+                                                }
+                                              }
+                                            }
+                                          },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        if (uiState.isRefreshingProfile)
+                                          const Padding(
+                                            padding: EdgeInsets.only(right: 8),
+                                            child: SizedBox(width: 12, height: 12, child: ProgressRing(strokeWidth: 2)),
+                                          ),
+                                        const Text('刷新资料'),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -199,7 +212,12 @@ class UserAvatarWidget extends HookConsumerWidget {
                                     Navigator.of(dialogContext).pop();
                                     await _handleUnregister(context, ref);
                                   },
-                                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.red)),
+                                  style: ButtonStyle(
+                                    backgroundColor: WidgetStateProperty.resolveWith((states) {
+                                      if (states.isHovered) return Colors.red.withValues(alpha: 0.8);
+                                      return Colors.red;
+                                    }),
+                                  ),
                                   child: Text(
                                     S.current.user_action_unregister,
                                     style: const TextStyle(color: Colors.white),

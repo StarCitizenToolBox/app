@@ -16,7 +16,8 @@ class SCLoggerHelper {
       dPrint("rsiLauncherPath Wine:$rsiLauncherPath");
       final jsonLogPath = "$rsiLauncherPath/logs/log.log";
       return jsonLogPath;
-    };
+    }
+    ;
     Map<String, String> envVars = Platform.environment;
     final appDataPath = envVars["appdata"];
     if (appDataPath == null) {
@@ -85,6 +86,8 @@ class SCLoggerHelper {
     List<String> scInstallPaths = [];
 
     checkAndAddPath(String path, bool checkExists) async {
+      // Handle JSON-escaped backslashes (\\\\) -> single backslash (\\)
+      path = path.replaceAll(r'\\', r'\');
       // Normalize path separators to current platform format
       path = path.platformPath;
 
@@ -110,8 +113,19 @@ class SCLoggerHelper {
 
     try {
       for (var v in withVersion) {
-        // Match both Windows (\\) and Unix (/) path separators in log entries, case-insensitive
-        String pattern = r'([a-zA-Z]:[\\/][^\\/]*[\\/][^\\/]*[\\/]StarCitizen[\\/]' + v + r')';
+        // Platform-specific regex patterns for game install path detection
+        // Uses restrictive character class to avoid matching across JSON delimiters
+        String pattern;
+        if (Platform.isWindows) {
+          // Windows: Match paths like C:\...\StarCitizen\LIVE
+          // Path segments can only contain: letters, numbers, space, dot, underscore, hyphen, parentheses
+          // Handles both single backslash, forward slash, and JSON-escaped double backslash
+          pattern =
+              r'([a-zA-Z]:(?:[/\\]|\\\\)(?:[a-zA-Z0-9 ._()-]+(?:[/\\]|\\\\))*StarCitizen(?:[/\\]|\\\\)' + v + r')';
+        } else {
+          // Unix (Wine): Match paths like /home/user/.../StarCitizen/LIVE
+          pattern = r'(/(?:[a-zA-Z0-9 ._()-]+/)*StarCitizen/' + v + r')';
+        }
         RegExp regExp = RegExp(pattern, caseSensitive: false);
         for (var i = listData.length - 1; i > 0; i--) {
           final line = listData[i];

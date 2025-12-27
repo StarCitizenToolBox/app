@@ -116,7 +116,9 @@ class AuthPage extends HookConsumerWidget {
       );
     }
 
-    final displayDomain = state.domainName ?? state.domain ?? '未知应用';
+    final name = state.domainName ?? state.domain ?? '未知应用';
+    final domain = state.domain;
+    final isTrusted = state.isDomainTrusted;
 
     return SingleChildScrollView(
       child: Column(
@@ -131,32 +133,51 @@ class AuthPage extends HookConsumerWidget {
               style: TextStyle(fontSize: 20, color: Colors.white.withValues(alpha: 0.95), fontFamily: 'Segoe UI'),
               children: [
                 TextSpan(
-                  text: displayDomain,
+                  text: name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const TextSpan(text: ' 申请访问您的账户'),
               ],
             ),
           ),
-
-          if (!state.isDomainTrusted)
+          const SizedBox(height: 8),
+          if (domain != null)
             Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.orange.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(FluentIcons.warning, size: 12, color: Colors.orange),
-                    const SizedBox(width: 6),
-                    Text('未验证的应用', style: TextStyle(fontSize: 12, color: Colors.orange)),
-                  ],
-                ),
+              padding: const EdgeInsets.only(top: 4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (state.domainName != null)
+                    Text(domain, style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.5))),
+                  if (state.domainName != null) const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: (isTrusted ? Colors.green : Colors.orange).withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: (isTrusted ? Colors.green : Colors.orange).withValues(alpha: 0.3)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          isTrusted ? FluentIcons.completed : FluentIcons.warning,
+                          size: 10,
+                          color: isTrusted ? Colors.green : Colors.orange,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          isTrusted ? '已认证' : '未验证',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: isTrusted ? Colors.green : Colors.orange,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
 
@@ -196,10 +217,9 @@ class AuthPage extends HookConsumerWidget {
 
           const SizedBox(height: 32),
 
-          // 3. Permission Scope
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('此操作将允许 $displayDomain：', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+            child: Text('此操作将允许 $domain：', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
           ),
           const SizedBox(height: 16),
 
