@@ -183,6 +183,9 @@ class AppGlobalModel extends _$AppGlobalModel {
           state = state.copyWith(windowsVersion: 10);
           await Window.setEffect(effect: WindowEffect.disabled);
         }
+      } else {
+        state = state.copyWith(windowsVersion: 9);
+        await Window.setEffect(effect: WindowEffect.disabled);
       }
       // Show window after acrylic effect is applied
       await windowManager.show();
@@ -265,6 +268,8 @@ class AppGlobalModel extends _$AppGlobalModel {
   Timer? _activityThemeColorTimer;
 
   void checkActivityThemeColor(AppVersionData networkVersionData) {
+    final isDisableAcrylic = state.windowsVersion <= 11;
+
     if (_activityThemeColorTimer != null) {
       _activityThemeColorTimer?.cancel();
       _activityThemeColorTimer = null;
@@ -288,8 +293,8 @@ class AppGlobalModel extends _$AppGlobalModel {
       final colorCfg = networkVersionData.activityColors;
       state = state.copyWith(
         themeConf: ThemeConf(
-          backgroundColor: HexColor(colorCfg?.background ?? "#132431").withValues(alpha: .75),
-          menuColor: HexColor(colorCfg?.menu ?? "#132431").withValues(alpha: .95),
+          backgroundColor: HexColor(colorCfg?.background ?? "#132431").withValues(alpha: isDisableAcrylic ? 1 : .75),
+          menuColor: HexColor(colorCfg?.menu ?? "#132431").withValues(alpha: isDisableAcrylic ? 1 : .95),
           micaColor: HexColor(colorCfg?.mica ?? "#0A3142"),
         ),
       );
@@ -303,8 +308,8 @@ class AppGlobalModel extends _$AppGlobalModel {
       dPrint("reset Color ....");
       state = state.copyWith(
         themeConf: ThemeConf(
-          backgroundColor: HexColor("#132431").withValues(alpha: .75),
-          menuColor: HexColor("#132431").withValues(alpha: .95),
+          backgroundColor: HexColor("#132431").withValues(alpha: isDisableAcrylic ? 1 : .75),
+          menuColor: HexColor("#132431").withValues(alpha: isDisableAcrylic ? 1 : .95),
           micaColor: HexColor("#0A3142"),
         ),
       );

@@ -10,11 +10,11 @@ part of 'download_manager.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(DownloadManager)
-const downloadManagerProvider = DownloadManagerProvider._();
+final downloadManagerProvider = DownloadManagerProvider._();
 
 final class DownloadManagerProvider
     extends $NotifierProvider<DownloadManager, DownloadManagerState> {
-  const DownloadManagerProvider._()
+  DownloadManagerProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$DownloadManager extends $Notifier<DownloadManagerState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<DownloadManagerState, DownloadManagerState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$DownloadManager extends $Notifier<DownloadManagerState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

@@ -10,11 +10,11 @@ part of 'auth_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(AuthUIModel)
-const authUIModelProvider = AuthUIModelFamily._();
+final authUIModelProvider = AuthUIModelFamily._();
 
 final class AuthUIModelProvider
     extends $NotifierProvider<AuthUIModel, AuthUIState> {
-  const AuthUIModelProvider._({
+  AuthUIModelProvider._({
     required AuthUIModelFamily super.from,
     required ({String? callbackUrl, String? stateParameter, String? nonce})
     super.argument,
@@ -70,7 +70,7 @@ final class AuthUIModelFamily extends $Family
           AuthUIState,
           ({String? callbackUrl, String? stateParameter, String? nonce})
         > {
-  const AuthUIModelFamily._()
+  AuthUIModelFamily._()
     : super(
         retry: null,
         name: r'authUIModelProvider',
@@ -112,11 +112,6 @@ abstract class _$AuthUIModel extends $Notifier<AuthUIState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(
-      callbackUrl: _$args.callbackUrl,
-      stateParameter: _$args.stateParameter,
-      nonce: _$args.nonce,
-    );
     final ref = this.ref as $Ref<AuthUIState, AuthUIState>;
     final element =
         ref.element
@@ -126,6 +121,13 @@ abstract class _$AuthUIModel extends $Notifier<AuthUIState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(
+      ref,
+      () => build(
+        callbackUrl: _$args.callbackUrl,
+        stateParameter: _$args.stateParameter,
+        nonce: _$args.nonce,
+      ),
+    );
   }
 }

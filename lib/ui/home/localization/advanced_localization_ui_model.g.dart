@@ -10,7 +10,7 @@ part of 'advanced_localization_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(AdvancedLocalizationUIModel)
-const advancedLocalizationUIModelProvider =
+final advancedLocalizationUIModelProvider =
     AdvancedLocalizationUIModelProvider._();
 
 final class AdvancedLocalizationUIModelProvider
@@ -19,7 +19,7 @@ final class AdvancedLocalizationUIModelProvider
           AdvancedLocalizationUIModel,
           AdvancedLocalizationUIState
         > {
-  const AdvancedLocalizationUIModelProvider._()
+  AdvancedLocalizationUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -55,7 +55,6 @@ abstract class _$AdvancedLocalizationUIModel
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref =
         this.ref
             as $Ref<AdvancedLocalizationUIState, AdvancedLocalizationUIState>;
@@ -70,6 +69,6 @@ abstract class _$AdvancedLocalizationUIModel
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

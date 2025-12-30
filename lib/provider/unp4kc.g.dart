@@ -10,11 +10,11 @@ part of 'unp4kc.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(Unp4kCModel)
-const unp4kCModelProvider = Unp4kCModelProvider._();
+final unp4kCModelProvider = Unp4kCModelProvider._();
 
 final class Unp4kCModelProvider
     extends $NotifierProvider<Unp4kCModel, Unp4kcState> {
-  const Unp4kCModelProvider._()
+  Unp4kCModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$Unp4kCModel extends $Notifier<Unp4kcState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<Unp4kcState, Unp4kcState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$Unp4kCModel extends $Notifier<Unp4kcState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

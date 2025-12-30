@@ -10,11 +10,11 @@ part of 'log_analyze_provider.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(ToolsLogAnalyze)
-const toolsLogAnalyzeProvider = ToolsLogAnalyzeFamily._();
+final toolsLogAnalyzeProvider = ToolsLogAnalyzeFamily._();
 
 final class ToolsLogAnalyzeProvider
     extends $AsyncNotifierProvider<ToolsLogAnalyze, List<LogAnalyzeLineData>> {
-  const ToolsLogAnalyzeProvider._({
+  ToolsLogAnalyzeProvider._({
     required ToolsLogAnalyzeFamily super.from,
     required (String, bool, {String? selectedLogFile}) super.argument,
   }) : super(
@@ -61,7 +61,7 @@ final class ToolsLogAnalyzeFamily extends $Family
           FutureOr<List<LogAnalyzeLineData>>,
           (String, bool, {String? selectedLogFile})
         > {
-  const ToolsLogAnalyzeFamily._()
+  ToolsLogAnalyzeFamily._()
     : super(
         retry: null,
         name: r'toolsLogAnalyzeProvider',
@@ -102,11 +102,6 @@ abstract class _$ToolsLogAnalyze
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(
-      _$args.$1,
-      _$args.$2,
-      selectedLogFile: _$args.selectedLogFile,
-    );
     final ref =
         this.ref
             as $Ref<
@@ -124,6 +119,10 @@ abstract class _$ToolsLogAnalyze
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(
+      ref,
+      () =>
+          build(_$args.$1, _$args.$2, selectedLogFile: _$args.selectedLogFile),
+    );
   }
 }

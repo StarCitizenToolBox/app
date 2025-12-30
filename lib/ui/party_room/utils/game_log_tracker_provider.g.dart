@@ -10,7 +10,7 @@ part of 'game_log_tracker_provider.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(PartyRoomGameLogTrackerProvider)
-const partyRoomGameLogTrackerProviderProvider =
+final partyRoomGameLogTrackerProviderProvider =
     PartyRoomGameLogTrackerProviderFamily._();
 
 final class PartyRoomGameLogTrackerProviderProvider
@@ -19,7 +19,7 @@ final class PartyRoomGameLogTrackerProviderProvider
           PartyRoomGameLogTrackerProvider,
           PartyRoomGameLogTrackerProviderState
         > {
-  const PartyRoomGameLogTrackerProviderProvider._({
+  PartyRoomGameLogTrackerProviderProvider._({
     required PartyRoomGameLogTrackerProviderFamily super.from,
     required DateTime super.argument,
   }) : super(
@@ -77,7 +77,7 @@ final class PartyRoomGameLogTrackerProviderFamily extends $Family
           PartyRoomGameLogTrackerProviderState,
           DateTime
         > {
-  const PartyRoomGameLogTrackerProviderFamily._()
+  PartyRoomGameLogTrackerProviderFamily._()
     : super(
         retry: null,
         name: r'partyRoomGameLogTrackerProviderProvider',
@@ -105,7 +105,6 @@ abstract class _$PartyRoomGameLogTrackerProvider
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(startTime: _$args);
     final ref =
         this.ref
             as $Ref<
@@ -123,6 +122,6 @@ abstract class _$PartyRoomGameLogTrackerProvider
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(startTime: _$args));
   }
 }

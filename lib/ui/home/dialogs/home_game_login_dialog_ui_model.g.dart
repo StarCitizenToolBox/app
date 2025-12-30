@@ -10,11 +10,11 @@ part of 'home_game_login_dialog_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(HomeGameLoginUIModel)
-const homeGameLoginUIModelProvider = HomeGameLoginUIModelProvider._();
+final homeGameLoginUIModelProvider = HomeGameLoginUIModelProvider._();
 
 final class HomeGameLoginUIModelProvider
     extends $NotifierProvider<HomeGameLoginUIModel, HomeGameLoginState> {
-  const HomeGameLoginUIModelProvider._()
+  HomeGameLoginUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -49,7 +49,6 @@ abstract class _$HomeGameLoginUIModel extends $Notifier<HomeGameLoginState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<HomeGameLoginState, HomeGameLoginState>;
     final element =
         ref.element
@@ -59,6 +58,6 @@ abstract class _$HomeGameLoginUIModel extends $Notifier<HomeGameLoginState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

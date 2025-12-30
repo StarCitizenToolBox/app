@@ -10,12 +10,12 @@ part of 'input_method_dialog_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(InputMethodDialogUIModel)
-const inputMethodDialogUIModelProvider = InputMethodDialogUIModelProvider._();
+final inputMethodDialogUIModelProvider = InputMethodDialogUIModelProvider._();
 
 final class InputMethodDialogUIModelProvider
     extends
         $NotifierProvider<InputMethodDialogUIModel, InputMethodDialogUIState> {
-  const InputMethodDialogUIModelProvider._()
+  InputMethodDialogUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -51,7 +51,6 @@ abstract class _$InputMethodDialogUIModel
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref =
         this.ref as $Ref<InputMethodDialogUIState, InputMethodDialogUIState>;
     final element =
@@ -62,16 +61,16 @@ abstract class _$InputMethodDialogUIModel
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(OnnxTranslation)
-const onnxTranslationProvider = OnnxTranslationFamily._();
+final onnxTranslationProvider = OnnxTranslationFamily._();
 
 final class OnnxTranslationProvider
     extends $NotifierProvider<OnnxTranslation, bool> {
-  const OnnxTranslationProvider._({
+  OnnxTranslationProvider._({
     required OnnxTranslationFamily super.from,
     required (String, String, bool) super.argument,
   }) : super(
@@ -126,7 +125,7 @@ final class OnnxTranslationFamily extends $Family
           bool,
           (String, String, bool)
         > {
-  const OnnxTranslationFamily._()
+  OnnxTranslationFamily._()
     : super(
         retry: null,
         name: r'onnxTranslationProvider',
@@ -158,7 +157,6 @@ abstract class _$OnnxTranslation extends $Notifier<bool> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args.$1, _$args.$2, _$args.$3);
     final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
@@ -168,6 +166,6 @@ abstract class _$OnnxTranslation extends $Notifier<bool> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args.$1, _$args.$2, _$args.$3));
   }
 }
