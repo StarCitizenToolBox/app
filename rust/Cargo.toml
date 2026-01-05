@@ -15,7 +15,7 @@ crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 flutter_rust_bridge = "=2.11.1"
-tokio = { version = "1.48.0", features = ["rt", "rt-multi-thread", "macros", "process", "sync"] }
+tokio = { version = "1.49.0", features = ["rt", "rt-multi-thread", "macros", "process", "sync"] }
 futures = { version = "0.3.31", default-features = false, features = ["executor"] }
 url = "2.5.7"
 once_cell = "1.21.3"
