@@ -17,7 +17,6 @@ class SCLoggerHelper {
       final jsonLogPath = "$rsiLauncherPath/logs/log.log";
       return jsonLogPath;
     }
-    ;
     Map<String, String> envVars = Platform.environment;
     final appDataPath = envVars["appdata"];
     if (appDataPath == null) {

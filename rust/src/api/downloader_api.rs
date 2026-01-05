@@ -143,6 +143,7 @@ pub async fn downloader_init(
                 disable_cooldown_secs: 600,
                 adaptive_increase_threshold: 5,
                 adaptive_decrease_threshold: 10,
+                user_agent: Some(String::from("SCToolBox/librqbit/1.0")),
                 ..Default::default()
             }),
             ..Default::default()
