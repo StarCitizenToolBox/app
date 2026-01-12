@@ -40,7 +40,7 @@ scopeguard = "1.0"
 notify-rust = "4.11.7"
 asar = "0.3.0"
 walkdir = "2.5.0"
-ort = { version = "2.0.0-rc.10", features = [
+ort = { version = "2.0.0-rc.11", features = [
     "xnnpack",
     "download-binaries",
     "ndarray",
