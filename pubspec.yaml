@@ -46,7 +46,7 @@ dependencies:
   uuid: ^4.5.2
   flutter_tilt: ^3.3.2
   card_swiper: ^3.0.1
-  ffi: ^2.1.4
+  ffi: ^2.1.5
   flutter_rust_bridge: ^2.11.1
   freezed_annotation: ^3.1.0
   meta: ^1.17.0
