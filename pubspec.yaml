@@ -65,7 +65,7 @@ dependencies:
   shelf: ^1.4.2
   qr_flutter: ^4.1.0
   desktop_multi_window: ^0.3.0
-  watcher: ^1.2.0
+  watcher: ^1.2.1
   path: ^1.9.1
   crypto: ^3.0.7
   xml: ^6.6.1
