@@ -247,9 +247,21 @@ class HomeUIModel extends _$HomeUIModel {
     final fixedList = list.map((item) {
       if (item.time == null) return item;
       final itemDateTime = DateTime.fromMillisecondsSinceEpoch(item.time!);
-      final itemDatePlusSeven = itemDateTime.add(const Duration(days: 7));
-      if (itemDatePlusSeven.isBefore(now)) {
-        final nextDate = DateTime(
+
+      // 计算今年的节日日期
+      final thisYearDate = DateTime(
+        now.year,
+        itemDateTime.month,
+        itemDateTime.day,
+        itemDateTime.hour,
+        itemDateTime.minute,
+        itemDateTime.second,
+      );
+
+      // 如果今年的节日日期 + 7天已经过了，使用明年的日期
+      final thisYearDatePlusSeven = thisYearDate.add(const Duration(days: 7));
+      if (thisYearDatePlusSeven.isBefore(now)) {
+        final nextYearDate = DateTime(
           now.year + 1,
           itemDateTime.month,
           itemDateTime.day,
@@ -257,11 +269,13 @@ class HomeUIModel extends _$HomeUIModel {
           itemDateTime.minute,
           itemDateTime.second,
         );
-        final newTimestamp = (nextDate.millisecondsSinceEpoch).round();
+        final newTimestamp = (nextYearDate.millisecondsSinceEpoch).round();
         return CountdownFestivalItemData(name: item.name, time: newTimestamp, icon: item.icon);
       }
 
-      return item;
+      // 否则使用今年的日期
+      final newTimestamp = (thisYearDate.millisecondsSinceEpoch).round();
+      return CountdownFestivalItemData(name: item.name, time: newTimestamp, icon: item.icon);
     }).toList();
 
     // Sort by time (ascending order - nearest festival first)
