@@ -62,7 +62,7 @@ bytes = "1.10"
 
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]
-wry = "0.53.5"
+wry = "0.54.1"
 tao = { version = "0.34.5", features = ["serde"] }
 image = { version = "0.25.9", default-features = false, features = ["ico"] }
 
