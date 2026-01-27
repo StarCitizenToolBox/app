@@ -178,7 +178,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
   ) {
     final isWorking = state.workingVersion.isNotEmpty;
     final isMineWorking = state.workingVersion == item.key;
-    final isInstalled = state.patchStatus?.value == item.key;
+    final isInstalled = state.patchStatus?.value == item.key || state.patchStatus?.value == item.value.versionName;
     final isItemEnabled = ((item.value.enable ?? false));
     final tapDisabled = isInstalled || isWorking || !isItemEnabled || isMineWorking;
     return GridItemAnimator(
