@@ -44,9 +44,6 @@ Future<void> _initWindow() async {
   await windowManager.setSize(const Size(1280, 810));
   await windowManager.setMinimumSize(const Size(1280, 810));
   await windowManager.center(animate: true);
-  if (Platform.isWindows) {
-    await Window.setEffect(effect: WindowEffect.transparent, color: Colors.transparent, dark: true);
-  }
 }
 
 class App extends HookConsumerWidget with WindowListener {
