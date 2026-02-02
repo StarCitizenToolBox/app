@@ -10,11 +10,11 @@ part of 'game_doctor_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(HomeGameDoctorUIModel)
-const homeGameDoctorUIModelProvider = HomeGameDoctorUIModelProvider._();
+final homeGameDoctorUIModelProvider = HomeGameDoctorUIModelProvider._();
 
 final class HomeGameDoctorUIModelProvider
     extends $NotifierProvider<HomeGameDoctorUIModel, HomeGameDoctorState> {
-  const HomeGameDoctorUIModelProvider._()
+  HomeGameDoctorUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -49,7 +49,6 @@ abstract class _$HomeGameDoctorUIModel extends $Notifier<HomeGameDoctorState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<HomeGameDoctorState, HomeGameDoctorState>;
     final element =
         ref.element
@@ -59,6 +58,6 @@ abstract class _$HomeGameDoctorUIModel extends $Notifier<HomeGameDoctorState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

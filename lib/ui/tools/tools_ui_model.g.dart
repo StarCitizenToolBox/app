@@ -10,11 +10,11 @@ part of 'tools_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(ToolsUIModel)
-const toolsUIModelProvider = ToolsUIModelProvider._();
+final toolsUIModelProvider = ToolsUIModelProvider._();
 
 final class ToolsUIModelProvider
     extends $NotifierProvider<ToolsUIModel, ToolsUIState> {
-  const ToolsUIModelProvider._()
+  ToolsUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$ToolsUIModel extends $Notifier<ToolsUIState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<ToolsUIState, ToolsUIState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$ToolsUIModel extends $Notifier<ToolsUIState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

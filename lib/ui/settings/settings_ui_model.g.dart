@@ -10,11 +10,11 @@ part of 'settings_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(SettingsUIModel)
-const settingsUIModelProvider = SettingsUIModelProvider._();
+final settingsUIModelProvider = SettingsUIModelProvider._();
 
 final class SettingsUIModelProvider
     extends $NotifierProvider<SettingsUIModel, SettingsUIState> {
-  const SettingsUIModelProvider._()
+  SettingsUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,7 +48,6 @@ abstract class _$SettingsUIModel extends $Notifier<SettingsUIState> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<SettingsUIState, SettingsUIState>;
     final element =
         ref.element
@@ -58,6 +57,6 @@ abstract class _$SettingsUIModel extends $Notifier<SettingsUIState> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

@@ -10,11 +10,11 @@ part of 'home_downloader_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(HomeDownloaderUIModel)
-const homeDownloaderUIModelProvider = HomeDownloaderUIModelProvider._();
+final homeDownloaderUIModelProvider = HomeDownloaderUIModelProvider._();
 
 final class HomeDownloaderUIModelProvider
     extends $NotifierProvider<HomeDownloaderUIModel, HomeDownloaderUIState> {
-  const HomeDownloaderUIModelProvider._()
+  HomeDownloaderUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -50,7 +50,6 @@ abstract class _$HomeDownloaderUIModel
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<HomeDownloaderUIState, HomeDownloaderUIState>;
     final element =
         ref.element
@@ -60,6 +59,6 @@ abstract class _$HomeDownloaderUIModel
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
