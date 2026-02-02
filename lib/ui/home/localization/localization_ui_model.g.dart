@@ -10,11 +10,11 @@ part of 'localization_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(LocalizationUIModel)
-final localizationUIModelProvider = LocalizationUIModelProvider._();
+const localizationUIModelProvider = LocalizationUIModelProvider._();
 
 final class LocalizationUIModelProvider
     extends $NotifierProvider<LocalizationUIModel, LocalizationUIState> {
-  LocalizationUIModelProvider._()
+  const LocalizationUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -49,6 +49,7 @@ abstract class _$LocalizationUIModel extends $Notifier<LocalizationUIState> {
   @$mustCallSuper
   @override
   void runBuild() {
+    final created = build();
     final ref = this.ref as $Ref<LocalizationUIState, LocalizationUIState>;
     final element =
         ref.element
@@ -58,6 +59,6 @@ abstract class _$LocalizationUIModel extends $Notifier<LocalizationUIState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleValue(ref, created);
   }
 }

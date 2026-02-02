@@ -11,13 +11,13 @@ part of 'party_room.dart';
 /// PartyRoom Provider
 
 @ProviderFor(PartyRoom)
-final partyRoomProvider = PartyRoomProvider._();
+const partyRoomProvider = PartyRoomProvider._();
 
 /// PartyRoom Provider
 final class PartyRoomProvider
     extends $NotifierProvider<PartyRoom, PartyRoomFullState> {
   /// PartyRoom Provider
-  PartyRoomProvider._()
+  const PartyRoomProvider._()
     : super(
         from: null,
         argument: null,
@@ -53,6 +53,7 @@ abstract class _$PartyRoom extends $Notifier<PartyRoomFullState> {
   @$mustCallSuper
   @override
   void runBuild() {
+    final created = build();
     final ref = this.ref as $Ref<PartyRoomFullState, PartyRoomFullState>;
     final element =
         ref.element
@@ -62,6 +63,6 @@ abstract class _$PartyRoom extends $Notifier<PartyRoomFullState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleValue(ref, created);
   }
 }

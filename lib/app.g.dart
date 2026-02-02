@@ -10,12 +10,12 @@ part of 'app.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(router)
-final routerProvider = RouterProvider._();
+const routerProvider = RouterProvider._();
 
 final class RouterProvider
     extends $FunctionalProvider<GoRouter, GoRouter, GoRouter>
     with $Provider<GoRouter> {
-  RouterProvider._()
+  const RouterProvider._()
     : super(
         from: null,
         argument: null,
@@ -51,11 +51,11 @@ final class RouterProvider
 String _$routerHash() => r'e89f3f0277879147cdce5373cbe2554821e9cd31';
 
 @ProviderFor(AppGlobalModel)
-final appGlobalModelProvider = AppGlobalModelProvider._();
+const appGlobalModelProvider = AppGlobalModelProvider._();
 
 final class AppGlobalModelProvider
     extends $NotifierProvider<AppGlobalModel, AppGlobalState> {
-  AppGlobalModelProvider._()
+  const AppGlobalModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -89,6 +89,7 @@ abstract class _$AppGlobalModel extends $Notifier<AppGlobalState> {
   @$mustCallSuper
   @override
   void runBuild() {
+    final created = build();
     final ref = this.ref as $Ref<AppGlobalState, AppGlobalState>;
     final element =
         ref.element
@@ -98,6 +99,6 @@ abstract class _$AppGlobalModel extends $Notifier<AppGlobalState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleValue(ref, created);
   }
 }

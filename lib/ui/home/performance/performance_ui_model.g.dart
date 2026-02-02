@@ -10,11 +10,11 @@ part of 'performance_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(HomePerformanceUIModel)
-final homePerformanceUIModelProvider = HomePerformanceUIModelProvider._();
+const homePerformanceUIModelProvider = HomePerformanceUIModelProvider._();
 
 final class HomePerformanceUIModelProvider
     extends $NotifierProvider<HomePerformanceUIModel, HomePerformanceUIState> {
-  HomePerformanceUIModelProvider._()
+  const HomePerformanceUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -50,6 +50,7 @@ abstract class _$HomePerformanceUIModel
   @$mustCallSuper
   @override
   void runBuild() {
+    final created = build();
     final ref =
         this.ref as $Ref<HomePerformanceUIState, HomePerformanceUIState>;
     final element =
@@ -60,6 +61,6 @@ abstract class _$HomePerformanceUIModel
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleValue(ref, created);
   }
 }

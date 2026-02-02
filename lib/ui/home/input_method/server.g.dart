@@ -10,11 +10,11 @@ part of 'server.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(InputMethodServer)
-final inputMethodServerProvider = InputMethodServerProvider._();
+const inputMethodServerProvider = InputMethodServerProvider._();
 
 final class InputMethodServerProvider
     extends $NotifierProvider<InputMethodServer, InputMethodServerState> {
-  InputMethodServerProvider._()
+  const InputMethodServerProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,6 +48,7 @@ abstract class _$InputMethodServer extends $Notifier<InputMethodServerState> {
   @$mustCallSuper
   @override
   void runBuild() {
+    final created = build();
     final ref =
         this.ref as $Ref<InputMethodServerState, InputMethodServerState>;
     final element =
@@ -58,6 +59,6 @@ abstract class _$InputMethodServer extends $Notifier<InputMethodServerState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleValue(ref, created);
   }
 }

@@ -10,11 +10,11 @@ part of 'server_qr_dialog_ui.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(ServerQrState)
-final serverQrStateProvider = ServerQrStateProvider._();
+const serverQrStateProvider = ServerQrStateProvider._();
 
 final class ServerQrStateProvider
     extends $NotifierProvider<ServerQrState, bool> {
-  ServerQrStateProvider._()
+  const ServerQrStateProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,6 +48,7 @@ abstract class _$ServerQrState extends $Notifier<bool> {
   @$mustCallSuper
   @override
   void runBuild() {
+    final created = build();
     final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
@@ -57,6 +58,6 @@ abstract class _$ServerQrState extends $Notifier<bool> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleValue(ref, created);
   }
 }

@@ -10,11 +10,11 @@ part of 'party_room_ui_model.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(PartyRoomUIModel)
-final partyRoomUIModelProvider = PartyRoomUIModelProvider._();
+const partyRoomUIModelProvider = PartyRoomUIModelProvider._();
 
 final class PartyRoomUIModelProvider
     extends $NotifierProvider<PartyRoomUIModel, PartyRoomUIState> {
-  PartyRoomUIModelProvider._()
+  const PartyRoomUIModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,6 +48,7 @@ abstract class _$PartyRoomUIModel extends $Notifier<PartyRoomUIState> {
   @$mustCallSuper
   @override
   void runBuild() {
+    final created = build();
     final ref = this.ref as $Ref<PartyRoomUIState, PartyRoomUIState>;
     final element =
         ref.element
@@ -57,6 +58,6 @@ abstract class _$PartyRoomUIModel extends $Notifier<PartyRoomUIState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleValue(ref, created);
   }
 }

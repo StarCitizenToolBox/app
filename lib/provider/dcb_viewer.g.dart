@@ -10,11 +10,11 @@ part of 'dcb_viewer.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(DcbViewerModel)
-final dcbViewerModelProvider = DcbViewerModelProvider._();
+const dcbViewerModelProvider = DcbViewerModelProvider._();
 
 final class DcbViewerModelProvider
     extends $NotifierProvider<DcbViewerModel, DcbViewerState> {
-  DcbViewerModelProvider._()
+  const DcbViewerModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -48,6 +48,7 @@ abstract class _$DcbViewerModel extends $Notifier<DcbViewerState> {
   @$mustCallSuper
   @override
   void runBuild() {
+    final created = build();
     final ref = this.ref as $Ref<DcbViewerState, DcbViewerState>;
     final element =
         ref.element
@@ -57,6 +58,6 @@ abstract class _$DcbViewerModel extends $Notifier<DcbViewerState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleValue(ref, created);
   }
 }
