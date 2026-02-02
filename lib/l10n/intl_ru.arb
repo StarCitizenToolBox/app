@@ -1740,5 +1740,15 @@
   "tools_shader_clean_keep_latest": "Сохранить последнее",
   "@tools_shader_clean_keep_latest": {},
   "tools_shader_clean_all": "Очистить всё",
-  "@tools_shader_clean_all": {}
+  "@tools_shader_clean_all": {},
+  "tools_shader_clean_keep_latest_desc": "Подходит для использования после обновления игры и завершения первого запуска. Сохранить все файлы последней версии, очистить другие старые версии (сохранить только GraphicsSettings).",
+  "@tools_shader_clean_keep_latest_desc": {},
+  "tools_shader_clean_all_desc": "Очистить кеш всех версий (сохранить только GraphicsSettings). Подходит для графических аномалий или очистки после обновления.",
+  "@tools_shader_clean_all_desc": {},
+  "tools_action_info_cleaning": "Очистка...",
+  "@tools_action_info_cleaning": {},
+  "tools_action_start_cleaning": "Начать очистку",
+  "@tools_action_start_cleaning": {},
+  "app_common_recommended": "Рекомендуется",
+  "@app_common_recommended": {}
 }

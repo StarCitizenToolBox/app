@@ -402,6 +402,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Loading images...",
     ),
     "app_common_network_error": m1,
+    "app_common_recommended": MessageLookupByLibrary.simpleMessage(
+      "Recommended",
+    ),
     "app_common_tip": MessageLookupByLibrary.simpleMessage("Tip"),
     "app_common_tip_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "app_common_tip_confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -2166,6 +2169,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Hosts Acceleration (Experimental)",
         ),
+    "tools_action_info_cleaning": MessageLookupByLibrary.simpleMessage(
+      "Cleaning...",
+    ),
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "Cleanup complete, please complete one installation / game launch operation.",
     ),
@@ -2276,6 +2282,9 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "tools_action_rsi_launcher_log_fix": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher Log Fix",
+    ),
+    "tools_action_start_cleaning": MessageLookupByLibrary.simpleMessage(
+      "Start Cleaning",
     ),
     "tools_action_switch_graphics_renderer":
         MessageLookupByLibrary.simpleMessage("Switch DirectX/Vulkan Renderer"),
@@ -2407,11 +2416,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "Installing patch, this will take some time depending on your computer\'s performance...",
     ),
     "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage("Clean All"),
+    "tools_shader_clean_all_desc": MessageLookupByLibrary.simpleMessage(
+      "Clean all version caches (only keep GraphicsSettings). Suitable for graphics anomalies or post-update cleaning.",
+    ),
     "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
       "Clear Shader Cache",
     ),
     "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
       "Keep Latest",
+    ),
+    "tools_shader_clean_keep_latest_desc": MessageLookupByLibrary.simpleMessage(
+      "Suitable for use after game updates and completing the first launch. Keep all files in the latest version, clean other old versions (only keep GraphicsSettings).",
     ),
     "tools_unp4k_action_cancel_multi_select":
         MessageLookupByLibrary.simpleMessage("Cancel Multi-Select"),

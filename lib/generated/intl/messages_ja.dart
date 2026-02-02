@@ -349,6 +349,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "画像を読み込み中...",
     ),
     "app_common_network_error": m1,
+    "app_common_recommended": MessageLookupByLibrary.simpleMessage("推奨"),
     "app_common_tip": MessageLookupByLibrary.simpleMessage("ヒント"),
     "app_common_tip_cancel": MessageLookupByLibrary.simpleMessage("キャンセル"),
     "app_common_tip_confirm": MessageLookupByLibrary.simpleMessage("確認"),
@@ -1844,6 +1845,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_action_hosts_acceleration_experimental":
         MessageLookupByLibrary.simpleMessage("Hosts加速（実験的）"),
+    "tools_action_info_cleaning": MessageLookupByLibrary.simpleMessage(
+      "クリーニング中...",
+    ),
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "クリーンアップが完了しました。インストールまたはゲーム起動操作を完了してください。",
     ),
@@ -1945,6 +1949,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_rsi_launcher_log_fix": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher ログ修復",
     ),
+    "tools_action_start_cleaning": MessageLookupByLibrary.simpleMessage(
+      "クリーニング開始",
+    ),
     "tools_action_unp4k": MessageLookupByLibrary.simpleMessage("P4Kビューア"),
     "tools_action_unp4k_info": MessageLookupByLibrary.simpleMessage(
       "Star Citizen p4kファイルを解凍",
@@ -2037,11 +2044,17 @@ class MessageLookup extends MessageLookupByLibrary {
           "パッチをインストール中、これはコンピュータのパフォーマンスによって時間がかかります...",
         ),
     "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage("すべてクリア"),
+    "tools_shader_clean_all_desc": MessageLookupByLibrary.simpleMessage(
+      "すべてのバージョンのキャッシュをクリア（GraphicsSettingsのみ保持）。グラフィック異常またはアップデート後のクリーニングに適しています。",
+    ),
     "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
       "シェーダーキャッシュをクリア",
     ),
     "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
       "最新を保持",
+    ),
+    "tools_shader_clean_keep_latest_desc": MessageLookupByLibrary.simpleMessage(
+      "ゲームアップデート後と初回起動完了後の使用に適しています。最新バージョンのすべてのファイルを保持し、他の古いバージョンをクリア（GraphicsSettingsのみ保持）。",
     ),
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "ランタイムがありません",

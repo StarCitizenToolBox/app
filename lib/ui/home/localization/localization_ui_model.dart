@@ -677,9 +677,11 @@ class LocalizationUIModel extends _$LocalizationUIModel {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    item.value.note ?? S.current.home_localization_msg_no_note,
-                    style: const TextStyle(fontSize: 15),
+                  child: SelectionArea(
+                    child: Text(
+                      item.value.note ?? S.current.home_localization_msg_no_note,
+                      style: const TextStyle(fontSize: 15),
+                    ),
                   ),
                 ),
               ],

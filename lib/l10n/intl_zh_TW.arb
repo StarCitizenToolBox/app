@@ -1673,5 +1673,10 @@
   "yearly_report_card_desc": "查看您在{year}年的星際公民遊玩統計，數據來自本地 log ，請確保在常用電腦上查看。",
   "tools_shader_clean_dialog_title": "清理著色器緩存",
   "tools_shader_clean_keep_latest": "保留最新",
-  "tools_shader_clean_all": "全部清理"
+  "tools_shader_clean_all": "全部清理",
+  "tools_shader_clean_keep_latest_desc": "適合遊戲更新並完成首次啟動後使用。保留最新版本的所有檔案，清理其他舊版本（僅保留 GraphicsSettings）。",
+  "tools_shader_clean_all_desc": "清理所有版本的快取（僅保留 GraphicsSettings）。適合畫面異常或更新後清理。",
+  "tools_action_info_cleaning": "正在清理...",
+  "tools_action_start_cleaning": "開始清理",
+  "app_common_recommended": "推薦"
 }

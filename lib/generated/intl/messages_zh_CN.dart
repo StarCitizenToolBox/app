@@ -363,6 +363,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "加载图片...",
     ),
     "app_common_network_error": m1,
+    "app_common_recommended": MessageLookupByLibrary.simpleMessage("推荐"),
     "app_common_tip": MessageLookupByLibrary.simpleMessage("提示"),
     "app_common_tip_cancel": MessageLookupByLibrary.simpleMessage("取消"),
     "app_common_tip_confirm": MessageLookupByLibrary.simpleMessage("确认"),
@@ -1834,6 +1835,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_action_hosts_acceleration_experimental":
         MessageLookupByLibrary.simpleMessage("Hosts 加速（实验性）"),
+    "tools_action_info_cleaning": MessageLookupByLibrary.simpleMessage(
+      "正在清理...",
+    ),
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "清理完毕，请完成一次安装 / 游戏启动 操作。",
     ),
@@ -1929,6 +1933,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_rsi_launcher_log_fix": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher Log 修复",
     ),
+    "tools_action_start_cleaning": MessageLookupByLibrary.simpleMessage("开始清理"),
     "tools_action_switch_graphics_renderer":
         MessageLookupByLibrary.simpleMessage("切换 DirectX/Vulkan 渲染器"),
     "tools_action_switch_graphics_renderer_info": m104,
@@ -2045,11 +2050,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_working_msg2":
         MessageLookupByLibrary.simpleMessage("安装补丁，这需要一点时间，取决于您的计算机性能 ..."),
     "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage("全部清理"),
+    "tools_shader_clean_all_desc": MessageLookupByLibrary.simpleMessage(
+      "清理所有版本的缓存。适合画面异常或更新后清理。",
+    ),
     "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
       "清理着色器缓存",
     ),
     "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
       "保留最新",
+    ),
+    "tools_shader_clean_keep_latest_desc": MessageLookupByLibrary.simpleMessage(
+      "适合游戏更新并完成首次启动后使用。保留最新版本的所有文件，清理其他旧版本。",
     ),
     "tools_unp4k_action_cancel_multi_select":
         MessageLookupByLibrary.simpleMessage("取消多选"),

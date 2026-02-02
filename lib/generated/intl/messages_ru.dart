@@ -372,6 +372,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Загрузка изображений...",
     ),
     "app_common_network_error": m1,
+    "app_common_recommended": MessageLookupByLibrary.simpleMessage(
+      "Рекомендуется",
+    ),
     "app_common_tip": MessageLookupByLibrary.simpleMessage("Подсказка"),
     "app_common_tip_cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
     "app_common_tip_confirm": MessageLookupByLibrary.simpleMessage(
@@ -2078,6 +2081,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Ускорение через Hosts (экспериментально)",
         ),
+    "tools_action_info_cleaning": MessageLookupByLibrary.simpleMessage(
+      "Очистка...",
+    ),
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "Очистка завершена, пожалуйста, выполните установку или запуск игры.",
     ),
@@ -2190,6 +2196,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_rsi_launcher_log_fix": MessageLookupByLibrary.simpleMessage(
       "Исправление лог-файла RSI Launcher",
     ),
+    "tools_action_start_cleaning": MessageLookupByLibrary.simpleMessage(
+      "Начать очистку",
+    ),
     "tools_action_unp4k": MessageLookupByLibrary.simpleMessage(
       "Просмотрщик P4K",
     ),
@@ -2296,11 +2305,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage(
       "Очистить всё",
     ),
+    "tools_shader_clean_all_desc": MessageLookupByLibrary.simpleMessage(
+      "Очистить кеш всех версий (сохранить только GraphicsSettings). Подходит для графических аномалий или очистки после обновления.",
+    ),
     "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
       "Очистить кеш шейдеров",
     ),
     "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
       "Сохранить последнее",
+    ),
+    "tools_shader_clean_keep_latest_desc": MessageLookupByLibrary.simpleMessage(
+      "Подходит для использования после обновления игры и завершения первого запуска. Сохранить все файлы последней версии, очистить другие старые версии (сохранить только GraphicsSettings).",
     ),
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "Отсутствует среда выполнения",

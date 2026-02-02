@@ -25,6 +25,7 @@ import 'package:xml/xml.dart';
 
 import 'dialogs/hosts_booster_dialog_ui.dart';
 import 'dialogs/rsi_launcher_enhance_dialog_ui.dart';
+import 'dialogs/shader_cache_clean_dialog.dart';
 import 'yearly_report_ui/yearly_report_ui.dart';
 
 part 'tools_ui_model.g.dart';
@@ -627,62 +628,28 @@ class ToolsUIModel extends _$ToolsUIModel {
         // 全部清理模式：
         // 前两个：仅保留 GraphicsSettings
         // 其他：仅保留 GraphicsSettings
-        await _cleanShaderCacheDirectory(scDir);
       }
     }
   }
 
   Future<void> _cleanShaderCache(BuildContext context) async {
-    // 显示对话框让用户选择清理模式
-    final result = await showDialog<String>(
+    await showDialog<String>(
       context: context,
-      builder: (dialogContext) => ContentDialog(
-        constraints: BoxConstraints(maxWidth: 380),
-        title: Text(S.current.tools_shader_clean_dialog_title),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(S.current.tools_shader_clean_keep_latest),
-                ),
-                onPressed: () => Navigator.pop(dialogContext, "keep_latest"),
-              ),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: Button(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(S.current.tools_shader_clean_all),
-                ),
-                onPressed: () => Navigator.pop(dialogContext, "clean_all"),
-              ),
-            ),
-          ],
-        ),
-        actions: [Button(child: Text(S.current.app_common_tip_cancel), onPressed: () => Navigator.pop(dialogContext))],
+      builder: (dialogContext) => ShaderCacheCleanDialog(
+        onClean: (mode) async {
+          state = state.copyWith(working: true);
+          if (mode == "keep_latest") {
+            await cleanShaderCacheKeepLatest();
+          } else {
+            await cleanShaderCache();
+          }
+          if (!context.mounted) return;
+          loadToolsCard(context, skipPathScan: true);
+          state = state.copyWith(working: false);
+          Navigator.of(dialogContext).pop();
+        },
       ),
     );
-
-    if (result == null || !context.mounted) return;
-
-    state = state.copyWith(working: true);
-
-    if (result == "keep_latest") {
-      await cleanShaderCacheKeepLatest();
-    } else {
-      await cleanShaderCache();
-    }
-
-    if (!context.mounted) return;
-    loadToolsCard(context, skipPathScan: true);
-    state = state.copyWith(working: false);
   }
 
   /// 清理着色器缓存目录，保留 GraphicsSettings 文件夹

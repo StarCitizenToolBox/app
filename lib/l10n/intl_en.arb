@@ -1918,5 +1918,15 @@
   "tools_shader_clean_keep_latest": "Keep Latest",
   "@tools_shader_clean_keep_latest": {},
   "tools_shader_clean_all": "Clean All",
-  "@tools_shader_clean_all": {}
+  "@tools_shader_clean_all": {},
+  "tools_shader_clean_keep_latest_desc": "Suitable for use after game updates and completing the first launch. Keep all files in the latest version, clean other old versions (only keep GraphicsSettings).",
+  "@tools_shader_clean_keep_latest_desc": {},
+  "tools_shader_clean_all_desc": "Clean all version caches (only keep GraphicsSettings). Suitable for graphics anomalies or post-update cleaning.",
+  "@tools_shader_clean_all_desc": {},
+  "tools_action_info_cleaning": "Cleaning...",
+  "@tools_action_info_cleaning": {},
+  "tools_action_start_cleaning": "Start Cleaning",
+  "@tools_action_start_cleaning": {},
+  "app_common_recommended": "Recommended",
+  "@app_common_recommended": {}
 }

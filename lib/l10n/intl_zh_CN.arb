@@ -1331,5 +1331,10 @@
   "yearly_report_card_desc": "查看您在{year}年的星际公民游玩统计，数据来自本地 log ，请确保在常用电脑上查看。",
   "tools_shader_clean_dialog_title": "清理着色器缓存",
   "tools_shader_clean_keep_latest": "保留最新",
-  "tools_shader_clean_all": "全部清理"
+  "tools_shader_clean_all": "全部清理",
+  "tools_shader_clean_keep_latest_desc": "适合游戏更新并完成首次启动后使用。保留最新版本的所有文件，清理其他旧版本。",
+  "tools_shader_clean_all_desc": "清理所有版本的缓存。适合画面异常或更新后清理。",
+  "tools_action_info_cleaning": "正在清理...",
+  "tools_action_start_cleaning": "开始清理",
+  "app_common_recommended": "推荐"
 }

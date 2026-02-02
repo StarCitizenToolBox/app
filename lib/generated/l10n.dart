@@ -9576,6 +9576,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Suitable for use after game updates and completing the first launch. Keep all files in the latest version, clean other old versions (only keep GraphicsSettings).`
+  String get tools_shader_clean_keep_latest_desc {
+    return Intl.message(
+      'Suitable for use after game updates and completing the first launch. Keep all files in the latest version, clean other old versions (only keep GraphicsSettings).',
+      name: 'tools_shader_clean_keep_latest_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clean all version caches (only keep GraphicsSettings). Suitable for graphics anomalies or post-update cleaning.`
+  String get tools_shader_clean_all_desc {
+    return Intl.message(
+      'Clean all version caches (only keep GraphicsSettings). Suitable for graphics anomalies or post-update cleaning.',
+      name: 'tools_shader_clean_all_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cleaning...`
+  String get tools_action_info_cleaning {
+    return Intl.message(
+      'Cleaning...',
+      name: 'tools_action_info_cleaning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Cleaning`
+  String get tools_action_start_cleaning {
+    return Intl.message(
+      'Start Cleaning',
+      name: 'tools_action_start_cleaning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recommended`
+  String get app_common_recommended {
+    return Intl.message(
+      'Recommended',
+      name: 'app_common_recommended',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

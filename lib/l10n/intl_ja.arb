@@ -1740,5 +1740,15 @@
   "tools_shader_clean_keep_latest": "最新を保持",
   "@tools_shader_clean_keep_latest": {},
   "tools_shader_clean_all": "すべてクリア",
-  "@tools_shader_clean_all": {}
+  "@tools_shader_clean_all": {},
+  "tools_shader_clean_keep_latest_desc": "ゲームアップデート後と初回起動完了後の使用に適しています。最新バージョンのすべてのファイルを保持し、他の古いバージョンをクリア（GraphicsSettingsのみ保持）。",
+  "@tools_shader_clean_keep_latest_desc": {},
+  "tools_shader_clean_all_desc": "すべてのバージョンのキャッシュをクリア（GraphicsSettingsのみ保持）。グラフィック異常またはアップデート後のクリーニングに適しています。",
+  "@tools_shader_clean_all_desc": {},
+  "tools_action_info_cleaning": "クリーニング中...",
+  "@tools_action_info_cleaning": {},
+  "tools_action_start_cleaning": "クリーニング開始",
+  "@tools_action_start_cleaning": {},
+  "app_common_recommended": "推奨",
+  "@app_common_recommended": {}
 }

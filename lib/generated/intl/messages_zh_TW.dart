@@ -334,6 +334,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "載入圖片...",
     ),
     "app_common_network_error": m1,
+    "app_common_recommended": MessageLookupByLibrary.simpleMessage("推薦"),
     "app_common_tip": MessageLookupByLibrary.simpleMessage("提示"),
     "app_common_tip_cancel": MessageLookupByLibrary.simpleMessage("取消"),
     "app_common_tip_confirm": MessageLookupByLibrary.simpleMessage("確認"),
@@ -1729,6 +1730,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_action_hosts_acceleration_experimental":
         MessageLookupByLibrary.simpleMessage("Hosts 加速（Beta）"),
+    "tools_action_info_cleaning": MessageLookupByLibrary.simpleMessage(
+      "正在清理...",
+    ),
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "清理完畢，請完成一次安裝 / 遊戲啟動 操作。",
     ),
@@ -1822,6 +1826,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_rsi_launcher_log_fix": MessageLookupByLibrary.simpleMessage(
       "啟動器日誌修復",
     ),
+    "tools_action_start_cleaning": MessageLookupByLibrary.simpleMessage("開始清理"),
     "tools_action_unp4k": MessageLookupByLibrary.simpleMessage("P4K 查看器"),
     "tools_action_unp4k_info": MessageLookupByLibrary.simpleMessage(
       "解包星際公民 p4k 文件",
@@ -1908,11 +1913,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_working_msg2":
         MessageLookupByLibrary.simpleMessage("安裝補丁，這需要一點時間，取決於您的電腦性能 ..."),
     "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage("全部清理"),
+    "tools_shader_clean_all_desc": MessageLookupByLibrary.simpleMessage(
+      "清理所有版本的快取（僅保留 GraphicsSettings）。適合畫面異常或更新後清理。",
+    ),
     "tools_shader_clean_dialog_title": MessageLookupByLibrary.simpleMessage(
       "清理著色器緩存",
     ),
     "tools_shader_clean_keep_latest": MessageLookupByLibrary.simpleMessage(
       "保留最新",
+    ),
+    "tools_shader_clean_keep_latest_desc": MessageLookupByLibrary.simpleMessage(
+      "適合遊戲更新並完成首次啟動後使用。保留最新版本的所有檔案，清理其他舊版本（僅保留 GraphicsSettings）。",
     ),
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "缺少運行庫",
