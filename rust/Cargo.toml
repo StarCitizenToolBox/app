@@ -59,7 +59,7 @@ parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"
 librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "42adca125d3c4781bcef14c94a899b53814178c0" }
 # librqbit = { path = "../../rqbit/crates/librqbit" }
-bytes = "1.10"
+bytes = "1.11"
 
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]
