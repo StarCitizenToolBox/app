@@ -625,9 +625,8 @@ class ToolsUIModel extends _$ToolsUIModel {
           await _cleanShaderCacheDirectory(scDir);
         }
       } else {
-        // 全部清理模式：
-        // 前两个：仅保留 GraphicsSettings
-        // 其他：仅保留 GraphicsSettings
+        // 全部清理模式：所有 starcitizen_* 目录都清理内容，仅保留 GraphicsSettings
+        await _cleanShaderCacheDirectory(scDir);
       }
     }
   }
