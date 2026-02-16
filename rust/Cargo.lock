@@ -7098,9 +7098,9 @@ checksum = "f17a85883d4e6d00e8a97c586de764dabcc06133f7f1d55dce5cdc070ad7fe59"
 
 [[package]]
 name = "wmi"
-version = "0.18.1"
+version = "0.18.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "746791db82f029aaefc774ccbb8e61306edba18ef2c8998337cadccc0b8067f7"
+checksum = "e49d9da833ef7c4419d8c3a18f0f7a8eca8ccc85f7ab8f359281c24100251211"
 dependencies = [
  "chrono",
  "futures",
