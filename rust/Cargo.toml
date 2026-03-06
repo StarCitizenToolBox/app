@@ -57,7 +57,7 @@ uuid = { version = "1.21.0", features = ["v4"] }
 rayon = "1.10"
 parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"
-librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "42adca125d3c4781bcef14c94a899b53814178c0" }
+librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "206f68d4794e57f230abe2d767c19e98d385a599" }
 # librqbit = { path = "../../rqbit/crates/librqbit" }
 bytes = "1.11"
 
