@@ -46,16 +46,16 @@ impl Default for ModelConfig {
 /// * `use_xnnpack` - 是否使用 XNNPACK 加速
 fn create_session(model_path: &Path, model_name: &str, use_xnnpack: bool) -> Result<Session> {
     let mut builder = Session::builder()
-        .context(format!("Failed to create {} session builder", model_name))?
+        .map_err(|e| anyhow!("Failed to create {} session builder: {}", model_name, e))?
         .with_optimization_level(GraphOptimizationLevel::Level3)
-        .context("Failed to set optimization level")?
+        .map_err(|e| anyhow!("Failed to set optimization level: {}", e))?
         .with_intra_threads(4)
-        .context("Failed to set intra threads")?;
+        .map_err(|e| anyhow!("Failed to set intra threads: {}", e))?;
 
     if use_xnnpack {
         builder = builder
             .with_execution_providers([XNNPACKExecutionProvider::default().build()])
-            .context("Failed to register XNNPACK execution provider")?;
+            .map_err(|e| anyhow!("Failed to register XNNPACK execution provider: {}", e))?;
     }
 
     builder
@@ -73,7 +73,11 @@ impl OpusMtModel {
     ///
     /// # Returns
     /// * `Result<Self>` - 成功返回模型实例，失败返回错误
-    pub fn new<P: AsRef<Path>>(model_path: P, quantization_suffix: &str, use_xnnpack: bool) -> Result<Self> {
+    pub fn new<P: AsRef<Path>>(
+        model_path: P,
+        quantization_suffix: &str,
+        use_xnnpack: bool,
+    ) -> Result<Self> {
         let model_path = model_path.as_ref();
 
         // onnx-community 标准：模型在 onnx 子文件夹中
