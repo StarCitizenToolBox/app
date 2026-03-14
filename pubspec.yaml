@@ -83,7 +83,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
   msix: ^3.16.13
-  build_runner: ^2.11.1
+  build_runner: ^2.12.2
   freezed: ^3.2.3
   json_serializable: ^6.11.2
   riverpod_generator: ^4.0.0+1
