@@ -40,7 +40,7 @@ dependencies:
   device_info_plus: ^12.3.0
   file_picker: ^10.3.10
   file_sizes: ^1.0.6
-  flutter_svg: ^2.2.3
+  flutter_svg: ^2.2.4
   archive: ^4.0.7
   jwt_decode: ^0.3.1
   uuid: ^4.5.3
