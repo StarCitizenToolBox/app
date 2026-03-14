@@ -43,7 +43,7 @@ dependencies:
   flutter_svg: ^2.2.3
   archive: ^4.0.7
   jwt_decode: ^0.3.1
-  uuid: ^4.5.2
+  uuid: ^4.5.3
   flutter_tilt: ^3.3.2
   card_swiper: ^3.0.1
   ffi: ^2.2.0
