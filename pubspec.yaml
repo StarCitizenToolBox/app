@@ -41,7 +41,7 @@ dependencies:
   file_picker: ^10.3.10
   file_sizes: ^1.0.6
   flutter_svg: ^2.2.4
-  archive: ^4.0.7
+  archive: ^4.0.9
   jwt_decode: ^0.3.1
   uuid: ^4.5.3
   flutter_tilt: ^3.3.2
