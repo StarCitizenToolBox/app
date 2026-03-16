@@ -65,7 +65,7 @@ bytes = "1.11"
 [target.'cfg(not(target_os = "macos"))'.dependencies]
 wry = "0.54.3"
 tao = { version = "0.34.6", features = ["serde"] }
-image = { version = "0.25.9", default-features = false, features = ["ico"] }
+image = { version = "0.25.10", default-features = false, features = ["ico"] }
 
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.62.2", features = [
