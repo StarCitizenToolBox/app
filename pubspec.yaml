@@ -29,7 +29,7 @@ dependencies:
   flutter_acrylic: ^1.1.4
   url_launcher: ^6.3.2
   font_awesome_flutter: ^10.12.0
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^1.0.9
   hive_ce: ^2.19.3
   path_provider: ^2.1.5
   dio: ^5.9.2
