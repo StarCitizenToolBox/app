@@ -41,7 +41,10 @@ pub struct IvoNodeMeshComboChunk {
     pub node_names: Vec<String>,
 }
 
-pub fn parse_node_mesh_combo_chunk(data: &[u8], header: ParsedChunk) -> Result<IvoNodeMeshComboChunk> {
+pub fn parse_node_mesh_combo_chunk(
+    data: &[u8],
+    header: ParsedChunk,
+) -> Result<IvoNodeMeshComboChunk> {
     if !matches!(header.chunk_type, ChunkType::NodeMeshCombo) {
         return Err(anyhow!("chunk is not a NodeMeshCombo chunk"));
     }

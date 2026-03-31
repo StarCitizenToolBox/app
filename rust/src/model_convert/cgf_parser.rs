@@ -3,7 +3,10 @@ use std::collections::HashMap;
 
 use super::{
     cryengine::{
-        cgf::{gltf_trs_from_row_major_matrix, parse_cgf_headers, read_u32_le, CHUNK_TYPE_BASE_746, CHUNK_TYPE_DATA_STREAM, CHUNK_TYPE_MESH},
+        cgf::{
+            gltf_trs_from_row_major_matrix, parse_cgf_headers, read_u32_le, CHUNK_TYPE_BASE_746,
+            CHUNK_TYPE_DATA_STREAM, CHUNK_TYPE_MESH,
+        },
         chunks::mesh::parse_mesh_chunk_746,
         chunks::node::parse_cgf_node_chunks,
     },

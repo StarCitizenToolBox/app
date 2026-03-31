@@ -1,0 +1,2421 @@
+<EntityClassDefinition.BANU_Defender Category="Default" Icon="Default.bmp" Invisible="0" BBoxSelection="0" entityDensityClass="b6cc39fd-7c14-4568-b261-197834e51116" __type="EntityClassDefinition" __ref="081236f5-9549-4a60-9123-6ae21f0cd261" __path="libs/foundry/records/entities/spaceships/banu_defender.xml">
+  <tags>
+    <Reference value="5f12dd31-4ff9-41a5-b5e2-916270351ba9" />
+    <Reference value="95b8cab3-5230-46f9-92e6-8e021978f543" />
+    <Reference value="6374bb62-de4e-410a-96a3-a1156dce4802" />
+    <Reference value="ef734509-be28-47c9-87df-2775db104d38" />
+    <Reference value="4d527605-881a-47d8-9cb0-e5407f2d9749" />
+    <Reference value="35aaa0ce-7061-4777-92f3-4489fc701df9" />
+    <Reference value="503443c0-b6d1-4539-b493-688117334ff1" />
+    <Reference value="3069fb30-e0e6-4fd1-a25b-13152bf970f3" />
+    <Reference value="b1f95343-7078-4f5e-83d0-95896dc4630b" />
+    <Reference value="cbf5484a-2262-4105-ae60-48f8b10d0a21" />
+    <Reference value="aad21c30-ad5a-47e2-a899-199fcc77aaf7" />
+  </tags>
+  <StaticEntityClassData>
+    <EntityUIDisplayParams displayName="@LOC_UNINITIALIZED" displayDescription="@LOC_UNINITIALIZED" displayThumbnail="" displayImage="" displayIcon="UI/Textures/EA/VehicleIcons/VehicleIcon_BANU_Defender.tif" sortString="" __type="EntityClassStaticDataParams" __polymorphicType="EntityUIDisplayParams">
+      <trackerProperties>
+      </trackerProperties>
+    </EntityUIDisplayParams>
+    <SurfaceMFXEntityParams customEffect="Ships_Surface_Effects_S1" __type="EntityClassStaticDataParams" __polymorphicType="SurfaceMFXEntityParams" />
+    <CollisionMFXEntityParams customEffect="Ships_Collision_Effects_S3" __type="EntityClassStaticDataParams" __polymorphicType="CollisionMFXEntityParams" />
+    <DefaultEntitlementEntityParams entitlementPolicy="8a1fdd48-7896-4774-a110-2466190e1a07" canEntitleThroughWebsite="1" __type="EntityClassStaticDataParams" __polymorphicType="DefaultEntitlementEntityParams" />
+    <WakeMFXEntityParams customEffect="Ships_Wake_Effects" emissionSizeScaleToShipRatio="0.5" distanceOffSurface="0.25" raycastLengthMultiplier="1" sizeScaleMultiplier="0.25" strengthDistanceFalloffThreshold="0.5" __type="EntityClassStaticDataParams" __polymorphicType="WakeMFXEntityParams" />
+    <SEntityInsuranceProperties restoreOnClaim="1" __type="EntityClassStaticDataParams" __polymorphicType="SEntityInsuranceProperties">
+      <shipInsuranceParams shipEntityClassName="BANU_Defender" baseWaitTimeMinutes="13.61" mandatoryWaitTimeMinutes="4.54" baseExpeditingFee="6168" __type="ShipInsuranceParams" />
+      <displayParams name="@LOC_PLACEHOLDER" role="@LOC_PLACEHOLDER" crewSize="1" career="@LOC_PLACEHOLDER" manufacturer="00000000-0000-0000-0000-000000000000" __type="SEntityInsuranceDisplayParams" />
+    </SEntityInsuranceProperties>
+    <EAEntityDataParams inclusionMode="ReadyToInclude" __type="EntityClassStaticDataParams" __polymorphicType="EAEntityDataParams">
+      <inclusionParams __type="EAEntityInclusionParams">
+        <tags __type="TagList">
+          <tags>
+            <Reference value="2efe0a5d-9b0f-484f-be7f-a666686bcb5a" />
+            <Reference value="f07ed549-0968-4475-92bc-344797a30d43" />
+            <Reference value="44e0e86a-1727-40bb-8c8d-06b10efb3bf7" />
+            <Reference value="449df0f9-b23e-4fb1-8a8c-966fef87753c" />
+            <Reference value="b1c08b95-96f2-4361-abda-fa0816dfc355" />
+            <Reference value="ee36241a-d51f-4f47-b464-365e801fa0a6" />
+            <Reference value="de58fe96-d9cf-4a17-966f-c4015dffc4d0" />
+          </tags>
+        </tags>
+      </inclusionParams>
+    </EAEntityDataParams>
+    <SEntityDynamicLocationProperties dynamicallyUpdatePersistanceLocation="1" __type="EntityClassStaticDataParams" __polymorphicType="SEntityDynamicLocationProperties" />
+  </StaticEntityClassData>
+  <Components>
+    <VehicleComponentParams landingSystem="0c1fba13-9107-4f8c-a0e8-d663101defb7" manufacturer="2b5ba252-e826-4356-ac0d-8d88007ea386" maelstromVehicle="0" vehicleDefinition="scripts/entities/vehicles/implementations/xml/banu_defender.xml" modification="" movementClass="Spaceship" allowSoftDestruction="1" ignoreHostility="0" dogfightEnabled="1" unmoveable="0" isGravlevVehicle="0" vehicleElevatorBehavior="Attach" isAugmentedRealityVehicle="0" vehicleHullDamageNormalizationValue="3500" aiDamageModifiers="4605e5ab-9d52-4e89-82f7-3b118ed30a8a" emergencyStatusDamageThreshold="0.25" emergencyStatusChargeThreshold="0.8" crewSize="1" vehicleName="@vehicle_NameBanu_Defender" vehicleDescription="@vehicle_DescBanu_Defender" vehicleImagePath="" vehicleCareer="@vehicle_focus_combat" vehicleCareerRef="2bf4345e-cf3c-4ecb-91ce-f9daa8ff47f8" vehicleRole="@vehicle_class_lightfighter" vehicleRoleRef="bf73e515-0e01-409e-84fb-acbef27e1686" DashboardCanvasConfig="00000000-0000-0000-0000-000000000000" inventoryContainerParams="3aeea911-0ed8-4788-b1d7-cb9f2613bfde" __type="DataForgeComponentParams" __polymorphicType="VehicleComponentParams">
+      <augmentedRealityMaterial path="Materials/UI/Holograms/GlobalSettings/Character/ui_hologram_character_ping.mtl" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+      <maxBoundingBoxSize x="24.5" y="24.5" z="5" __type="Vec3" />
+      <cargoEntrySize x="0" y="0" __type="Vec2" />
+      <aiProperties>
+        <VehicleAIPropertiesParams __type="VehicleAIPropertiesParams">
+          <aiTargetingParams shipAttackerScore="1" turretAttackerScore="0.5" __type="VehicleAITargetingParams" />
+        </VehicleAIPropertiesParams>
+      </aiProperties>
+      <objectContainers>
+        <SVehicleObjectContainerParams fileName="objectcontainers/ships/banu/defender/base_int_hab_main.socpak" guid="f0efb71a-8215-4cd2-b47f-dee03997aef2" boneName="hardpoint_interior_hab" shouldRequestNavMeshRegenerationOnLoad="0" resourceNetworkItemportName="" __type="SAttachableObjectContainerData" __polymorphicType="SVehicleObjectContainerParams">
+          <Offset __type="QuatT">
+            <Rotation x="0" y="0" z="0" __type="Ang3" />
+            <Position x="-4.808252E-07" y="-7.237913" z="-0.06567016" __type="Vec3" />
+          </Offset>
+        </SVehicleObjectContainerParams>
+        <SVehicleObjectContainerParams fileName="objectcontainers\ships\banu\defender\base_int_left_main.socpak" guid="3e67c38d-03d7-45f8-90f6-9e52749f91fc" boneName="hardpoint_interior_left" shouldRequestNavMeshRegenerationOnLoad="0" resourceNetworkItemportName="" __type="SAttachableObjectContainerData" __polymorphicType="SVehicleObjectContainerParams">
+          <Offset __type="QuatT">
+            <Rotation x="0" y="0" z="0" __type="Ang3" />
+            <Position x="-2.597001" y="-2.390601" z="-0.01867279" __type="Vec3" />
+          </Offset>
+        </SVehicleObjectContainerParams>
+        <SVehicleObjectContainerParams fileName="objectcontainers\ships\banu\defender\base_int_right_main.socpak" guid="a69914e5-7306-4ca4-8114-ec09765e0d58" boneName="hardpoint_interior_right" shouldRequestNavMeshRegenerationOnLoad="0" resourceNetworkItemportName="" __type="SAttachableObjectContainerData" __polymorphicType="SVehicleObjectContainerParams">
+          <Offset __type="QuatT">
+            <Rotation x="0" y="0" z="0" __type="Ang3" />
+            <Position x="2.597" y="-2.390601" z="-0.01867279" __type="Vec3" />
+          </Offset>
+        </SVehicleObjectContainerParams>
+        <SVehicleObjectContainerParams fileName="objectcontainers\ships\banu\defender\base_ext_lg.socpak" guid="21ed8093-1232-42c4-8ad0-b04203a1db92" boneName="hardpoint_exterior_lighting" shouldRequestNavMeshRegenerationOnLoad="0" resourceNetworkItemportName="" __type="SAttachableObjectContainerData" __polymorphicType="SVehicleObjectContainerParams">
+          <Offset __type="QuatT">
+            <Rotation x="0" y="0" z="0" __type="Ang3" />
+            <Position x="-4.808252E-07" y="-9.877643" z="-2" __type="Vec3" />
+          </Offset>
+        </SVehicleObjectContainerParams>
+      </objectContainers>
+      <physicsGrid inheritGravity="0" gridType="Small" cellSize="2" gridPartsOnly="0" portalExclusiveMode="0" voxelDataFile="objects\spaceships\ships\banu\defender\vehiclevoxel_banu_defender.vvg" __type="SEntityBasePhysicsGridParams" __polymorphicType="SVehiclePhysicsGridParams">
+        <gravity x="0" y="0" z="-9.81" __type="Vec3" />
+        <physicsProxy path="objects\spaceships\ships\banu\defender\banu_defender_local_grid.cgf" __type="GlobalResourceBase" __polymorphicType="GlobalResourceCGF" />
+      </physicsGrid>
+      <shieldSDFParams>
+        <SDFSetParams setType="Shield" isoOverride="1.8" surfaceIdName="shield_human" __type="SDFSetParams" />
+      </shieldSDFParams>
+    </VehicleComponentParams>
+    <SEntityComponentDefaultLoadoutParams __type="DataForgeComponentParams" __polymorphicType="SEntityComponentDefaultLoadoutParams">
+      <loadout>
+        <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+          <WearRange>
+          </WearRange>
+          <DirtRange>
+          </DirtRange>
+          <InventoryItems />
+          <entries>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_paint" entityClassName="" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_seat_pilot" entityClassName="BANU_Defender_Seat" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_dashboard_pilot" entityClassName="" entityClassReference="61367034-09d9-4680-8fc3-bc49e7fb4d33" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="Display_HUD" entityClassName="" entityClassReference="4235e818-d96a-4adf-ad1c-790bd0e27330" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_left" entityClassName="" entityClassReference="c08cedfa-fafc-4ea6-9737-59faeb4b1510" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_right" entityClassName="" entityClassReference="c08cedfa-fafc-4ea6-9737-59faeb4b1510" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_center_left" entityClassName="" entityClassReference="c08cedfa-fafc-4ea6-9737-59faeb4b1510" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_center_right" entityClassName="" entityClassReference="c08cedfa-fafc-4ea6-9737-59faeb4b1510" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_radar" entityClassName="" entityClassReference="7a37dc17-4984-4418-a70d-04bf22fea031" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="Screen_Annunciator_Left" entityClassName="" entityClassReference="89d12a4d-4327-45ba-954f-d81d91a6fd13" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="Screen_Annunciator_Right" entityClassName="" entityClassReference="89d12a4d-4327-45ba-954f-d81d91a6fd13" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_seat_copilot" entityClassName="BANU_Defender_Seat_Right" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_dashboard_copilot" entityClassName="BANU_Defender_Dashboard_Pilot" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="Display_HUD" entityClassName="" entityClassReference="eac65871-9378-45e3-a67a-b56011648d97" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_left" entityClassName="" entityClassReference="c08cedfa-fafc-4ea6-9737-59faeb4b1510" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_right" entityClassName="" entityClassReference="c08cedfa-fafc-4ea6-9737-59faeb4b1510" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_center_left" entityClassName="" entityClassReference="c08cedfa-fafc-4ea6-9737-59faeb4b1510" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_center_right" entityClassName="" entityClassReference="c08cedfa-fafc-4ea6-9737-59faeb4b1510" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="rtt_screen_radar" entityClassName="" entityClassReference="7a37dc17-4984-4418-a70d-04bf22fea031" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_target_selector" entityClassName="Controller_TargetSelector" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_self_destruct" entityClassName="VHCL_SelfDestruct_30s" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_door" entityClassName="Controller_Door" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_light" entityClassName="Controller_Light" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_energy" entityClassName="Controller_Energy" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_powerplant_01" entityClassName="POWR_LPLT_S01_IonBurst_SCItem" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_powerplant_02" entityClassName="POWR_LPLT_S01_IonBurst_SCItem" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_cooler" entityClassName="Controller_Cooler" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_cooler_left" entityClassName="COOL_AEGS_S01_Polar_SCItem" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_cooler_right" entityClassName="COOL_AEGS_S01_Polar_SCItem" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_comms" entityClassName="Controller_Comms" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_shield" entityClassName="Controller_Shield_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_shield_generator" entityClassName="SHLD_BANU_S02_Placeholder_SCItem" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_armor" entityClassName="ARMR_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_flight" entityClassName="Controller_Flight_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_radar_right" entityClassName="RADR_GRNP_S01_Ecouter" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_scanner" entityClassName="" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_ping" entityClassName="" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_main_left" entityClassName="BANU_Defender_Thruster_Main" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_main_right" entityClassName="BANU_Defender_Thruster_Main" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_retro_left" entityClassName="BANU_Defender_Thruster_Retro" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_retro_right" entityClassName="BANU_Defender_Thruster_Retro" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_rear_left_top" entityClassName="BANU_Defender_Thruster_Mav_Top" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_rear_left_side" entityClassName="BANU_Defender_Thruster_Mav_Lateral" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_rear_left_bottom" entityClassName="BANU_Defender_Thruster_Mav_Bottom" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_rear_right_top" entityClassName="BANU_Defender_Thruster_Mav_Top" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_rear_right_side" entityClassName="BANU_Defender_Thruster_Mav_Lateral" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_rear_right_bottom" entityClassName="BANU_Defender_Thruster_Mav_Bottom" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_wing_left_top" entityClassName="BANU_Defender_Thruster_Mav_Top" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_wing_left_side" entityClassName="BANU_Defender_Thruster_Mav_Lateral" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_wing_left_bottom" entityClassName="BANU_Defender_Thruster_Mav_Bottom" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_wing_right_top" entityClassName="BANU_Defender_Thruster_Mav_Top" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_wing_right_side" entityClassName="BANU_Defender_Thruster_Mav_Lateral" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_thruster_wing_right_bottom" entityClassName="BANU_Defender_Thruster_Mav_Bottom" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_fuel_intake_left" entityClassName="INTK_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_fuel_intake_right" entityClassName="INTK_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_fuel_tank_left" entityClassName="HTNK_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_fuel_tank_right" entityClassName="HTNK_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_quantum_drive" entityClassName="QDRV_WETK_S01_Beacon_SCItem" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="hardpoint_jump_drive" entityClassName="JDRV_TARS_S01_Explorer_SCItem" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_quantum_fuel_tank" entityClassName="QTNK_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="landingpad_helper" entityClassName="Default_LandingSystem" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_weapon" entityClassName="Controller_Weapon" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_weapon_nose_left" entityClassName="" entityClassReference="8197c45b-eaf4-4836-a8f0-837d1875cd9c" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="hardpoint_class_2" entityClassName="" entityClassReference="f15b742b-1457-4eb7-b7aa-078816297d29" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_weapon_nose_right" entityClassName="" entityClassReference="8197c45b-eaf4-4836-a8f0-837d1875cd9c" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="hardpoint_class_2" entityClassName="" entityClassReference="f15b742b-1457-4eb7-b7aa-078816297d29" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_weapon_wing_left" entityClassName="" entityClassReference="8197c45b-eaf4-4836-a8f0-837d1875cd9c" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="hardpoint_class_2" entityClassName="" entityClassReference="f15b742b-1457-4eb7-b7aa-078816297d29" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_weapon_wing_right" entityClassName="" entityClassReference="8197c45b-eaf4-4836-a8f0-837d1875cd9c" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="hardpoint_class_2" entityClassName="" entityClassReference="f15b742b-1457-4eb7-b7aa-078816297d29" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_missilerack_left" entityClassName="MRCK_S03_BEHR_Dual_S02" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="missile_01_attach" entityClassName="MISL_S02_IR_FSKI_Ignite" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="missile_02_attach" entityClassName="MISL_S02_IR_FSKI_Ignite" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_missilerack_right" entityClassName="MRCK_S03_BEHR_Dual_S02" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="missile_01_attach" entityClassName="MISL_S02_IR_FSKI_Ignite" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="missile_02_attach" entityClassName="MISL_S02_IR_FSKI_Ignite" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_countermeasure_launcher_left" entityClassName="ANVL_Hurricane_CML_Flare" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_countermeasure_launcher_right" entityClassName="ANVL_Hurricane_CML_Chaff" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_door_exterior" entityClassName="Door_RN_RoomConnector_Breachable_OpenClose_IP_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_bed_left" entityClassName="Bed_Single_Defender_BANU_Right" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_bed_right" entityClassName="Bed_Single_Defender_BANU_Left" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_weapon_rack" entityClassName="Weapon_Rack_BANU_Defender_2_Slots" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_missile" entityClassName="Controller_Missile" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_capacitor_assignment" entityClassName="Controller_CapacitorAssignment" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_controller_fuel" entityClassName="Controller_Fuel" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_fuel_port" entityClassName="DockingTube_Fuel_Ports_BANU_Defender" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_air_traffic_controller" entityClassName="BANU_Defender_ShipATCDataManager" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_cockpit_flair_hang" entityClassName="" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_relay" entityClassName="RELAY_3slot" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_lifesupport" entityClassName="LFSP_TYDT_S01_ComfortAir" entityClassReference="00000000-0000-0000-0000-000000000000" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+            <SItemPortLoadoutEntryParams itemPortName="hardpoint_missile_rack_outer" entityClassName="" entityClassReference="6bea95f5-2898-434c-bffe-4b2b332d6440" __type="SItemPortLoadoutEntryParams">
+              <inventoryContainer>
+              </inventoryContainer>
+              <loadout>
+                <SItemPortLoadoutManualParams __type="SItemPortLoadoutBaseParams" __polymorphicType="SItemPortLoadoutManualParams">
+                  <WearRange>
+                  </WearRange>
+                  <DirtRange>
+                  </DirtRange>
+                  <InventoryItems />
+                  <entries>
+                    <SItemPortLoadoutEntryParams itemPortName="missile_01_attach" entityClassName="" entityClassReference="d358cf84-9c78-4929-a2ad-b9caade81962" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                    <SItemPortLoadoutEntryParams itemPortName="missile_02_attach" entityClassName="" entityClassReference="d358cf84-9c78-4929-a2ad-b9caade81962" __type="SItemPortLoadoutEntryParams">
+                      <inventoryContainer>
+                      </inventoryContainer>
+                      <loadout>
+                      </loadout>
+                    </SItemPortLoadoutEntryParams>
+                  </entries>
+                </SItemPortLoadoutManualParams>
+              </loadout>
+            </SItemPortLoadoutEntryParams>
+          </entries>
+        </SItemPortLoadoutManualParams>
+      </loadout>
+    </SEntityComponentDefaultLoadoutParams>
+    <SEntityInteractableParams __type="DataForgeComponentParams" __polymorphicType="SEntityInteractableParams">
+      <Interactable __type="SInteractableParams">
+        <SharedInteractions>
+          <SSharedInteractionParams Name="PowerOn" RoomTag="00000000-0000-0000-0000-000000000000" UsableTag="00000000-0000-0000-0000-000000000000" LinkingTag="00000000-0000-0000-0000-000000000000" DisplayName="@ui_interactor_power_on" DisplayType="Show" GenericCursor="SingleAction" FocusModeOnly="0" Sendable="0" Linkable="1" LockedByLinks="0" RequiresAuthorizedUser="0" available="1" InheritsConditionDisplaysThroughLinks="0" __type="SSharedInteractionParams">
+            <QueryTags />
+            <conditionList>
+            </conditionList>
+            <playerAnimatedInteractionBase>
+            </playerAnimatedInteractionBase>
+          </SSharedInteractionParams>
+          <SSharedInteractionParams Name="PowerOff" RoomTag="00000000-0000-0000-0000-000000000000" UsableTag="00000000-0000-0000-0000-000000000000" LinkingTag="00000000-0000-0000-0000-000000000000" DisplayName="@ui_interactor_power_off" DisplayType="Show" GenericCursor="SingleAction" FocusModeOnly="0" Sendable="0" Linkable="1" LockedByLinks="0" RequiresAuthorizedUser="0" available="1" InheritsConditionDisplaysThroughLinks="0" __type="SSharedInteractionParams">
+            <QueryTags />
+            <conditionList>
+            </conditionList>
+            <playerAnimatedInteractionBase>
+            </playerAnimatedInteractionBase>
+          </SSharedInteractionParams>
+        </SharedInteractions>
+        <InteractionPoints />
+        <interactionTasks />
+        <actionHandlerTasks />
+        <itemActionTasks />
+        <menuTitle>
+        </menuTitle>
+      </Interactable>
+    </SEntityInteractableParams>
+    <SEntityComponentHostilityCompositeParams emptyFactionSC="00000000-0000-0000-0000-000000000000" emptyFaction="00000000-0000-0000-0000-000000000000" useOnlyPrimaryChildForHostility="0" __type="DataForgeComponentParams" __polymorphicType="SEntityComponentHostilityCompositeParams">
+      <wantedLevelHostility>
+      </wantedLevelHostility>
+    </SEntityComponentHostilityCompositeParams>
+    <SEntityComponentCrewManifestParams crewManifest="00000000-0000-0000-0000-000000000000" __type="DataForgeComponentParams" __polymorphicType="SEntityComponentCrewManifestParams" />
+    <SAttachableComponentParams attachToTileItemPort="NoConnection" __type="DataForgeComponentParams" __polymorphicType="SAttachableComponentParams">
+      <AttachDef Type="NOITEM_Vehicle" SubType="Vehicle_Spaceship" Size="2" Grade="1" Manufacturer="2b5ba252-e826-4356-ac0d-8d88007ea386" inheritParentManufacturer="0" Tags="BANU_Defender Ship_Dock_Refuel" RequiredTags="" DisplayType="" ignoredAttachAxis="None" __type="SItemDefinition">
+        <Localization Name="@vehicle_NameBanu_Defender" ShortName="@vehicle_NameBanu_Defender_short" Description="@vehicle_DescBanu_Defender" __type="SCItemLocalization">
+          <displayFeatures LogoSimplifiedWhite="" FrontendBackground="" History="@LOC_EMPTY" Callout1="@LOC_EMPTY" Callout2="@LOC_EMPTY" Callout3="@LOC_EMPTY" UIPriority="0" __type="SCExtendedLocalizationLevelParams">
+            <locationAudioPlayTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+            <locationAudioStopTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+          </displayFeatures>
+        </Localization>
+        <mannequinTags mannequinClassTag="" mannequinTypeTag="" mannequinBaseTag="" __type="SCItemMannequinTags" />
+        <inventoryOccupancyVolume>
+          <SMicroCargoUnit microSCU="1" __type="SBaseCargoUnit" __polymorphicType="SMicroCargoUnit" />
+        </inventoryOccupancyVolume>
+        <inventoryOccupancyDimensions x="0.15" y="0.15" z="0.15" __type="Vec3" />
+        <inventoryOccupancyLocalBoundsMin x="0" y="0" z="0" __type="Vec3" />
+        <inventoryOccupancyLocalBoundsMax x="0" y="0" z="0" __type="Vec3" />
+        <inventoryOccupancyDimensionsUIOverride>
+        </inventoryOccupancyDimensionsUIOverride>
+      </AttachDef>
+      <entityAttachParams>
+      </entityAttachParams>
+    </SAttachableComponentParams>
+    <SCItemPurchasableParams displayName="@vehicle_NameBanu_Defender" displayType="@vehicle_class_lightfighter" displayThumbnail="" allowTryOn="0" allowQuickBuy="0" tryOnInteractionText="@shop_ui_item_action_preview" defaultAttachToPortName="" interactionPointTemplate="00000000-0000-0000-0000-000000000000" __type="DataForgeComponentParams" __polymorphicType="SCItemPurchasableParams">
+      <Display>
+      </Display>
+      <disabledLoadoutInteractions>
+        <DisabledLoadoutInteraction itemType="FlightController" __type="DisabledLoadoutInteraction">
+          <lockedInteractionNames>
+            <String value="EngineOn" />
+            <String value="EngineOff" />
+          </lockedInteractionNames>
+        </DisabledLoadoutInteraction>
+        <DisabledLoadoutInteraction itemType="SeatDashboard" __type="DisabledLoadoutInteraction">
+          <lockedInteractionNames>
+            <String value="FlightReady" />
+            <String value="Flight_Ready" />
+          </lockedInteractionNames>
+        </DisabledLoadoutInteraction>
+        <DisabledLoadoutInteraction itemType="Seat" __type="DisabledLoadoutInteraction">
+          <lockedInteractionNames>
+            <String value="Ejection" />
+            <String value="ejection" />
+          </lockedInteractionNames>
+        </DisabledLoadoutInteraction>
+      </disabledLoadoutInteractions>
+      <tutorialParams>
+      </tutorialParams>
+      <interactionPoints />
+    </SCItemPurchasableParams>
+    <SARDataComponentParams dataType="ShopItem" rangeMin="1" rangeMax="5" labelMovementType="Fixed" visibleThroughWalls="1" labelZOrientationOffset="0" title1="@LOC_EMPTY" title2="@LOC_EMPTY" subtitle1="@LOC_EMPTY" subtitle2="@LOC_EMPTY" description="@LOC_EMPTY" scaleCapDistance="10" __type="DataForgeComponentParams" __polymorphicType="SARDataComponentParams">
+      <labelAttachOffset x="0" y="0" z="0" __type="Vec3" />
+      <queryOffset x="0" y="0" z="0" __type="Vec3" />
+      <labelScale x="1" y="1" z="1" __type="Vec3" />
+    </SARDataComponentParams>
+    <SEntityComponentEffects __type="DataForgeComponentParams" __polymorphicType="SEntityComponentEffects">
+      <entityEffects __type="SEntitityEffectSystem_SystemBase" __polymorphicType="SEntitityEffectSystem_System">
+        <particleEffects>
+          <SEntityEffectSystem_ParticleCategory enabled="1" allowMultipleTags="1" __type="SEntityEffectSystem_Category" __polymorphicType="SEntityEffectSystem_ParticleCategory">
+            <tagEffects>
+              <SEntityEffectSystem_ParticleTagEffect name="Contrail (Left)" enabled="1" primed="0" holographic="0" updateEntityBounds="1" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="b56ebb1c-06e9-4f51-8ed1-bc7258d2dc5b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="f8ccef67-3e07-2354-9738-b09375c0ddc8|Spaceships/Contrails/contrail_generic.contrail.idle_contrail" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_BoneAttachment offsetParameter="00000000-0000-0000-0000-000000000000" attachmentZone="Host" boneAttachment="hardpoint_thruster_main_left" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_BoneAttachment">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="-2" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_BoneAttachment>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="af644870-38bd-4156-8ed6-695410a9b195" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="c076bb86-2c75-4162-9b4f-77bee24bf8e2" particleProperty="alpha" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Contrail (Right)" enabled="1" primed="0" holographic="0" updateEntityBounds="1" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="b56ebb1c-06e9-4f51-8ed1-bc7258d2dc5b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="f8ccef67-3e07-2354-9738-b09375c0ddc8|Spaceships/Contrails/contrail_generic.contrail.idle_contrail" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_BoneAttachment offsetParameter="00000000-0000-0000-0000-000000000000" attachmentZone="Host" boneAttachment="hardpoint_thruster_main_right" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_BoneAttachment">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="-2" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_BoneAttachment>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="af644870-38bd-4156-8ed6-695410a9b195" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="c076bb86-2c75-4162-9b4f-77bee24bf8e2" particleProperty="alpha" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Contrail (Wingtip Vortex)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="b56ebb1c-06e9-4f51-8ed1-bc7258d2dc5b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="033ca200-0438-de5a-d73b-92e89e918ccf|Spaceships/Contrails/contrail_generic.contrail.idle_contrail_wing" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_BoneAttachment offsetParameter="00000000-0000-0000-0000-000000000000" attachmentZone="Host" boneAttachment="contrail_*" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_BoneAttachment">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_BoneAttachment>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="af644870-38bd-4156-8ed6-695410a9b195" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="c076bb86-2c75-4162-9b4f-77bee24bf8e2" particleProperty="alpha" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Atmospheric Entry (Front)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="ba91ec38-d173-4672-bfa0-de6ec45096dc" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="e414200b-4c57-ee43-baf2-1e2f67118319|Spaceships/Atmospheric_Entry/sdf_atmospheric_entry.Small.small_default" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="8f98a162-5e8e-441b-9104-38af743509aa" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="6734810c-a27b-4cc5-9814-d7048fbb02a6" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="8d44e451-70e3-4eaa-91d0-7e0e4cd1f3f3" particleProperty="emissionSize" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="6734810c-a27b-4cc5-9814-d7048fbb02a6" particleProperty="count" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Quantum Travel (Starfield)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="b91e6b01-c903-4ae1-81e2-84886206c8e2" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="5c58994e-e8d3-907c-5d62-7443f11965cf|Spaceships/Quantum_Drive/banu_defender.Banu_Defender_Quantum" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="874a42bd-ff59-494f-b295-4f6fbb36b46c" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Quantum Travel - Spooling (Front)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="61d5cb16-dccd-4bab-8aa9-153caae6052b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="bea923f6-55eb-b76e-8b36-2d0a1e893b71|Spaceships/Quantum_Drive/aegs_eclipse_qt.quantum_drive.qdrive_spooling_head" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="30" z="-0.9928" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="74cb7817-ec56-4256-ab11-e2129bdc8a2d" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Quantum Travel - Spooling (Trail)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="61d5cb16-dccd-4bab-8aa9-153caae6052b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="313d05b0-54c0-4181-0d6a-568f20c3f8fc|Spaceships/Quantum_Drive/aegs_eclipse_qt.quantum_drive.qdrive_spooling_trails" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_BoneAttachment offsetParameter="00000000-0000-0000-0000-000000000000" attachmentZone="Host" boneAttachment="contrail_*" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_BoneAttachment">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_BoneAttachment>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="74cb7817-ec56-4256-ab11-e2129bdc8a2d" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Quantum Travel (Front)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="b91e6b01-c903-4ae1-81e2-84886206c8e2" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="235acda3-b908-d8b1-58c8-121328ba0e37|Spaceships/Quantum_Drive/aegs_eclipse_qt.quantum_drive.qdrive_head" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="30" z="-0.9928" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="874a42bd-ff59-494f-b295-4f6fbb36b46c" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Quantum Travel (Trail)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="b91e6b01-c903-4ae1-81e2-84886206c8e2" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="4fd8c3da-54fe-708f-d0fc-e84f4b67d10b|Spaceships/Quantum_Drive/aegs_eclipse_qt.quantum_drive.qdrive_trails" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_BoneAttachment offsetParameter="00000000-0000-0000-0000-000000000000" attachmentZone="Hosted" boneAttachment="contrail_*" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_BoneAttachment">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_BoneAttachment>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="874a42bd-ff59-494f-b295-4f6fbb36b46c" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTagEffect>
+              <SEntityEffectSystem_ParticleTagEffect name="Quantum Travel (Interdicting)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" tag="d43c12ff-1e92-4e58-bda2-684a93eabf22" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTagEffect">
+                <particleEffect path="df8c820b-0b61-ecf9-8d76-182df39d5b85|Spaceships/Quantum_Drive/Quantum_Drive_Generic.all.qdrive_interdict_loop" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_ParticleTagEffect>
+            </tagEffects>
+            <triggerEffects>
+              <SEntityEffectSystem_ParticleTriggerEffect name="Spawn With QTravel" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" trigger="44708b17-8b03-eb7e-58a8-47ead0c670a1" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTriggerEffect">
+                <particleEffect path="748aa55b-f6c0-56b0-8340-31b52a949823|Spaceships/Quantum_Drive/Quantum_Drive_Generic.AI_Ships.distance_qtflash" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="4e4e8b17-af0f-ac55-7a35-6240497a1497" particleProperty="size" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTriggerEffect>
+              <SEntityEffectSystem_ParticleTriggerEffect name="Quantum Travel (Start)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" trigger="da5af381-1829-42d0-aa5c-4a676502112b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTriggerEffect">
+                <particleEffect path="4392e98d-9c89-fc73-da92-eb5f973f8d0b|Spaceships/Quantum_Drive/aegs_eclipse_qt.quantum_drive.qdrive_flash_start" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="10" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_ParticleTriggerEffect>
+              <SEntityEffectSystem_ParticleTriggerEffect name="Quantum Travel (End)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" trigger="a98eccbc-3c5c-45d0-a3b0-71bea427c585" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTriggerEffect">
+                <particleEffect path="08047a29-12bd-cf80-b22b-7a02be7c490c|Spaceships/Quantum_Drive/aegs_eclipse_qt.quantum_drive.qdrive_flash_end" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="10" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_ParticleTriggerEffect>
+              <SEntityEffectSystem_ParticleTriggerEffect name="Quantum Travel (Pinch)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" trigger="942ad10d-b091-469b-863c-b9e776fd0846" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTriggerEffect">
+                <particleEffect path="6c65b2ef-ec9d-faa4-09a2-c43144cca908|Spaceships/Quantum_Drive/Quantum_Drive_Generic.qdrive_pinch" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks>
+                  <SEntityEffectSystem_ParticlePropertyLink parameterName="48986e79-65f1-4cda-8fc7-51d885db52b8" particleProperty="strength" __type="SEntityEffectSystem_PropertyLink" __polymorphicType="SEntityEffectSystem_ParticlePropertyLink">
+                    <modifiers />
+                  </SEntityEffectSystem_ParticlePropertyLink>
+                </propertyLinks>
+              </SEntityEffectSystem_ParticleTriggerEffect>
+              <SEntityEffectSystem_ParticleTriggerEffect name="Quantum Travel - Trail (End)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" trigger="a98eccbc-3c5c-45d0-a3b0-71bea427c585" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTriggerEffect">
+                <particleEffect path="0492bed6-0304-0940-b300-715a8c398bb8|Spaceships/Quantum_Drive/aegs_eclipse_qt.quantum_drive.qdrive_flash_end_trails" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_BoneAttachment offsetParameter="00000000-0000-0000-0000-000000000000" attachmentZone="Host" boneAttachment="contrail_*" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_BoneAttachment">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_BoneAttachment>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_ParticleTriggerEffect>
+              <SEntityEffectSystem_ParticleTriggerEffect name="Quantum Travel (Interdiction End)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" trigger="0f2d05b6-856c-47f4-ae34-31cfa87b7102" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTriggerEffect">
+                <particleEffect path="c1135555-38ff-12eb-94aa-a0f4fb1c3876|Spaceships/Quantum_Drive/Quantum_Drive_Generic.all.qdrive_interdict_flash_end" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="10" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_ParticleTriggerEffect>
+              <SEntityEffectSystem_ParticleTriggerEffect name="Quantum Travel - Front (Interdiction End)" enabled="1" primed="0" holographic="0" updateEntityBounds="0" clipToVisArea="Local" gpuVisAreaCullingMode="Default" trigger="0f2d05b6-856c-47f4-ae34-31cfa87b7102" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_ParticleTriggerEffect">
+                <particleEffect path="dbb959b2-1e2c-746a-106c-4ffb4540d428|Spaceships/Quantum_Drive/Quantum_Drive_Generic.all.qdrive_interdict_flash_end_front" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="10.5" z="-0.9928" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_ParticleTriggerEffect>
+            </triggerEffects>
+          </SEntityEffectSystem_ParticleCategory>
+        </particleEffects>
+        <materialEffects>
+        </materialEffects>
+        <soundEffects>
+          <SEntityEffectSystem_SoundCategory enabled="1" allowMultipleTags="1" __type="SEntityEffectSystem_Category" __polymorphicType="SEntityEffectSystem_SoundCategory">
+            <tagEffects>
+              <SEntityEffectSystem_SoundTagEffect name="Q Drive Sustain" enabled="1" multiPosition="0" useDefaultProxy="1" tag="b91e6b01-c903-4ae1-81e2-84886206c8e2" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTagEffect">
+                <soundEffect audioTrigger="Play_QDrive_Sustain" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTagEffect>
+              <SEntityEffectSystem_SoundTagEffect name="Q Drive Spool" enabled="1" multiPosition="0" useDefaultProxy="1" tag="61d5cb16-dccd-4bab-8aa9-153caae6052b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTagEffect">
+                <soundEffect audioTrigger="Play_QDrive_Spool" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTagEffect>
+              <SEntityEffectSystem_SoundTagEffect name="Interdiction" enabled="1" multiPosition="0" useDefaultProxy="0" tag="d43c12ff-1e92-4e58-bda2-684a93eabf22" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTagEffect">
+                <soundEffect audioTrigger="Play_QDrive_Interdiction" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTagEffect>
+              <SEntityEffectSystem_SoundTagEffect name="JP_Projectile" enabled="1" multiPosition="0" useDefaultProxy="0" tag="f8d2e918-ab10-44eb-b5d4-577d24853ee3" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTagEffect">
+                <soundEffect audioTrigger="Play_SSJP_Ship_Shooting_Ball" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTagEffect>
+            </tagEffects>
+            <triggerEffects>
+              <SEntityEffectSystem_SoundTriggerEffect name="Shield Power Up" enabled="1" multiPosition="0" useDefaultProxy="0" trigger="2fea78a9-16ad-4074-9873-426769d025c5" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="Play_SSSG_Shared_Human_Regen" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+              <SEntityEffectSystem_SoundTriggerEffect name="Flight System Power On" enabled="1" multiPosition="0" useDefaultProxy="0" trigger="b0ebfa1f-c6b8-479f-bb34-6f797a0f4a2b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="Play_SSMC_Generic_Cockpit_Control_Power_On" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+              <SEntityEffectSystem_SoundTriggerEffect name="Flight System Power Off" enabled="1" multiPosition="0" useDefaultProxy="0" trigger="20a3e66c-4ee0-4e3e-9181-4d6ecfeb6619" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="Play_SSMC_Generic_Cockpit_Control_Power_Off" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_BoneAttachment offsetParameter="00000000-0000-0000-0000-000000000000" attachmentZone="Host" boneAttachment="Hardpoint_Cockpit_Audio" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_BoneAttachment">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_BoneAttachment>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+              <SEntityEffectSystem_SoundTriggerEffect name="Q Drive Exit Flash" enabled="1" multiPosition="0" useDefaultProxy="1" trigger="a98eccbc-3c5c-45d0-a3b0-71bea427c585" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="Play_QDrive_Exit" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_BoneAttachment offsetParameter="00000000-0000-0000-0000-000000000000" attachmentZone="Host" boneAttachment="Hardpoint_Cockpit_Audio" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_BoneAttachment">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_BoneAttachment>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+              <SEntityEffectSystem_SoundTriggerEffect name="Q Drive Enter" enabled="1" multiPosition="0" useDefaultProxy="1" trigger="da5af381-1829-42d0-aa5c-4a676502112b" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="Play_QDrive_Enter" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+              <SEntityEffectSystem_SoundTriggerEffect name="Interdiction" enabled="1" multiPosition="0" useDefaultProxy="0" trigger="0f2d05b6-856c-47f4-ae34-31cfa87b7102" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="Play_QDrive_Interdiction_Exit" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+              <SEntityEffectSystem_SoundTriggerEffect name="ShipExplosion" enabled="1" multiPosition="0" useDefaultProxy="0" trigger="d01ee89c-4358-4004-bb97-04552840efb3" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="Play_SSDM_Shared_Explosion_HighTech_Medium" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+              <SEntityEffectSystem_SoundTriggerEffect name="Spawn With QTravel" enabled="1" multiPosition="0" useDefaultProxy="0" trigger="44708b17-8b03-eb7e-58a8-47ead0c670a1" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="Play_SSQT_Stage_6_Exit" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+              <SEntityEffectSystem_SoundTriggerEffect name="" enabled="1" multiPosition="0" useDefaultProxy="0" trigger="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_SoundTriggerEffect">
+                <soundEffect audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+                <propertyLinks />
+              </SEntityEffectSystem_SoundTriggerEffect>
+            </triggerEffects>
+          </SEntityEffectSystem_SoundCategory>
+        </soundEffects>
+        <audioEnvironmentEffects>
+          <SEntityEffectSystem_AudioEnvironmentCategory enabled="1" allowMultipleTags="1" __type="SEntityEffectSystem_Category" __polymorphicType="SEntityEffectSystem_AudioEnvironmentCategory">
+            <tagEffects />
+            <triggerEffects>
+              <SEntityEffectSystem_AudioEnvironmentFeedbackZoneTriggerEffect name="Explosion Debris" enabled="1" zone="da4a1ab8-a3ba-496b-a014-8918f26eca1c" trigger="c7d52ac4-2a9e-4951-b660-e3c34387ebb0" __type="SEntityEffectSystem_Effect" __polymorphicType="SEntityEffectSystem_AudioEnvironmentFeedbackZoneTriggerEffect">
+                <attachmentSettings>
+                  <SEntityEffectSystem_Attachment_EntitySlot offsetParameter="00000000-0000-0000-0000-000000000000" __type="SEntityEffectSystem_Attachment" __polymorphicType="SEntityEffectSystem_Attachment_EntitySlot">
+                    <offset __type="QuatT">
+                      <Rotation x="0" y="0" z="0" __type="Ang3" />
+                      <Position x="0" y="0" z="0" __type="Vec3" />
+                    </offset>
+                  </SEntityEffectSystem_Attachment_EntitySlot>
+                </attachmentSettings>
+              </SEntityEffectSystem_AudioEnvironmentFeedbackZoneTriggerEffect>
+            </triggerEffects>
+          </SEntityEffectSystem_AudioEnvironmentCategory>
+        </audioEnvironmentEffects>
+        <lightEffects>
+        </lightEffects>
+        <uiOwnerEffects>
+        </uiOwnerEffects>
+        <sequencerTags />
+      </entityEffects>
+      <staticValues />
+      <staticColors />
+      <tagsToEnableOnLoad />
+      <triggersToEnableOnLoad />
+    </SEntityComponentEffects>
+    <SAtmosphericEffectsComponentParams __type="DataForgeComponentParams" __polymorphicType="SAtmosphericEffectsComponentParams">
+      <atmosphericHeatingSettings enable="1" controlTag="ba91ec38-d173-4672-bfa0-de6ec45096dc" exitTag="00000000-0000-0000-0000-000000000000" strengthParameter="6734810c-a27b-4cc5-9814-d7048fbb02a6" exitStrengthParameter="00000000-0000-0000-0000-000000000000" __type="SAtmosphericHeatingParams" />
+      <atmosphericEffectTestSettings overrideAtmosphericTrails="0" overrideAtmosphericTrailValue="1" overrideAtmosphericHeating="0" overrideAtmosphericHeatingValue="1" __type="SAtmosphericEffectTestsParams" />
+    </SAtmosphericEffectsComponentParams>
+    <SSCItemControllableManagerParams defaultMasterMode="SCM" masterModeSpoolTimeToNAV="1" masterModeSpoolTimeToSCM="0.2" __type="DataForgeComponentParams" __polymorphicType="SSCItemControllableManagerParams">
+      <controllerParams>
+      </controllerParams>
+    </SSCItemControllableManagerParams>
+    <SHealthComponentParams Health="1" SerializedDamageMapPath="" ClientOnly="0" UnlockInteractionsOnDeath="0" PushDamageUpPartsHeirarchyWhenDead="1" DetachFromItemPortOnDeath="0" DetachFromEntityOnDeath="0" DestroyChildrenOnDeath="0" PropagateExplosionDamageToChildren="0" UseDirtShaderForDamage="0" UpdateObservableStatus="0" DestroyedGeometryTag="" ExplodedGeometryTag="" DebrisGeometryTag="" ExplosionDelayTime="0" ExplosionRandomDelayRange="0" ExplosionBone="" IsSalvagable="1" IsRepairable="1" MirrorSalvageHit="0" DisableMaterialDamage="0" alwaysPropagateHitToParent="0" __type="DataForgeComponentParams" __polymorphicType="SHealthComponentParams">
+      <DamageResistances>
+        <DamageResistance IgnoreMeleeDamage="0" __type="DamageResistanceBase" __polymorphicType="DamageResistance">
+          <PhysicalResistance Multiplier="1" Threshold="0" __type="DamageResistanceEntry" />
+          <EnergyResistance Multiplier="1" Threshold="0" __type="DamageResistanceEntry" />
+          <DistortionResistance Multiplier="1" Threshold="0" __type="DamageResistanceEntry" />
+          <ThermalResistance Multiplier="1" Threshold="0" __type="DamageResistanceEntry" />
+          <BiochemicalResistance Multiplier="1" Threshold="0" __type="DamageResistanceEntry" />
+          <StunResistance Multiplier="1" Threshold="0" __type="DamageResistanceEntry" />
+        </DamageResistance>
+      </DamageResistances>
+      <InitialDamage>
+      </InitialDamage>
+      <HealthLevelStates />
+      <DeathExplosionParams>
+      </DeathExplosionParams>
+      <DeathGasComposition />
+      <InteractionLocks />
+      <sequencerTasks />
+      <shatterDestroyEvent>
+      </shatterDestroyEvent>
+      <craftingData>
+      </craftingData>
+    </SHealthComponentParams>
+    <SInteractionLinkParams __type="DataForgeComponentParams" __polymorphicType="SInteractionLinkParams">
+      <vehicleItemPortInteractionLinks />
+      <linkPlugs />
+    </SInteractionLinkParams>
+    <SEntityComponentObjectMetadataParams name="@LOC_EMPTY" hasLocalBounds="1" isDynamic="0" __type="DataForgeComponentParams" __polymorphicType="SEntityComponentObjectMetadataParams">
+      <metadata>
+      </metadata>
+    </SEntityComponentObjectMetadataParams>
+    <SSCSignatureSystemParams bindingURLPrefix="Vehicle" scanCustomData="00000000-0000-0000-0000-000000000000" scanDisplayLayoutOverride="00000000-0000-0000-0000-000000000000" isOverridden="0" enableDetectionOnItemPort="0" ignoreHighlightWhenDetectorInsideBounds="0" isObjectOfInterest="0" __type="DataForgeComponentParams" __polymorphicType="SSCSignatureSystemParams">
+      <radarProperties>
+        <SSCRadarContactProperites contactType="ecf2520f-6439-4dce-9e48-ba8e2ac9e3bf" __type="SSCRadarContactProperites">
+          <baseSignatureParams>
+          </baseSignatureParams>
+          <crossSectionParams>
+            <SSCSignatureSystemManualCrossSectionParams __type="SSCSignatureSystemCrossSectionParams" __polymorphicType="SSCSignatureSystemManualCrossSectionParams">
+              <crossSection x="8493" y="3063" z="18100" __type="Vec3" />
+            </SSCSignatureSystemManualCrossSectionParams>
+          </crossSectionParams>
+          <emissionModifierParams>
+          </emissionModifierParams>
+          <scanBounds>
+          </scanBounds>
+        </SSCRadarContactProperites>
+      </radarProperties>
+      <audioParams>
+        <SSCSignatureSystemAudioParams __type="SSCSignatureSystemAudioParams">
+          <rulesets />
+        </SSCSignatureSystemAudioParams>
+      </audioParams>
+      <embeddedScanInfo>
+      </embeddedScanInfo>
+      <detectionTags />
+      <overriddenSize x="0" y="0" z="0" __type="Vec3" />
+    </SSCSignatureSystemParams>
+    <ShipAudioComponentParams shipManufacturerTag="cf147c76-a201-41bf-8d27-9741b80dd037" shipBuildQualityRtpcValue="0.6" useDeprecatedIfcsOutputsToRtpcs="1" vibrationModifierTranslation="1" vibrationModifierRotation="1" vibrationModifierLift="1" vibrationModifierDrag="1.45" expectedCombinedThrusterSize="68" __type="DataForgeComponentParams" __polymorphicType="ShipAudioComponentParams">
+      <shipBuildQualityRtpc rtpc="GP_Ship_Build_Quality" __type="AudioRtpc" />
+      <shipSizeSwitch switch="SW_Spaceship_Size:Small" __type="AudioSwitch" />
+      <isClientDrivingRtpc rtpc="" __type="AudioRtpc" />
+      <landedSweetener audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <contactSweetener audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <shipMovementRealisticStart audioTrigger="Play_SSMS_Spaceship_SimpleProxy_Realistic_Movement_Template_Small_01" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <shipMovementRealisticStop audioTrigger="Stop_SSMS_Spaceship_SimpleProxy_Realistic_Movement_Template_Small_01" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <shipMovementSoundSimStart audioTrigger="Play_SSMS_Spaceship_SimpleProxy_SoundSim_Movement_Template_Small_02" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <shipMovementSoundSimStop audioTrigger="Stop_SSMS_Spaceship_SimpleProxy_SoundSim_Movement_Template_Small_02" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <masterModeSpoolingStartedAudioTrigger audioTrigger="Play_SSTS_Primary_Switch_Master_Modes_LP" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <masterModeSpoolingFinishedAudioTrigger audioTrigger="Play_SSTS_Primary_Switch_Master_Modes_LP_End" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <offsetRotation x="0" y="0" z="180" __type="Ang3" />
+      <offsetTranslation x="-3" y="0" z="0" __type="Vec3" />
+      <ifcsOutputsToRtpcsDEPRECATED>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_FuelRatio" defaultValue="0" calculateOnlyOnPlayerVehicle="1" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Fuel_Ratio" __type="AudioRtpc" />
+              <behavior>
+                <SAverageValue frameCount="60" __type="SRtpcBehaviour" __polymorphicType="SAverageValue" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Aerodynamics_DragMagnitude" defaultValue="0" calculateOnlyOnPlayerVehicle="1" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Atmospheric_Drag" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="50" releaseSlew="50" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Atmospheric_Drag_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="10" releaseSlew="10" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Planet_Altitude" defaultValue="100000" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Atmospheric_Altitude" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Planet_HeightAboveGround" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Atmospheric_Height_Above_Ground" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingWithLerp lerpingFactor="0.1" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingWithLerp" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Atmospheric_Wind_Speed_Translational_Non_Normalised" defaultValue="0" calculateOnlyOnPlayerVehicle="1" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Atmospheric_Translational_Wind_Speed_Non_Normalised" __type="AudioRtpc" />
+              <behavior>
+                <SAverageValue frameCount="60" __type="SRtpcBehaviour" __polymorphicType="SAverageValue" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Planet_AtmosphericDensity" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Atmospheric_Density" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingWithLerp lerpingFactor="0.1" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingWithLerp" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Translation_Speed_NonNormalized" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_Speed_NonNormalised" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_AfterburnerEnabledScaled" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_AfterburnerEnabled" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="0.65" releaseSlew="0.65" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_AfterburnerEnabled_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="0.3" releaseSlew="0.3" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_AfterburnerEnabled_VerySlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="0.15" releaseSlew="0.15" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Translation_Acceleration_MaxAll" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_Acceleration_MaxAll_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="0.33" releaseSlew="0.33" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_CruiseDampener" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="1" releaseSlew="0.025" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_CruiseDampener_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="1" releaseSlew="0.005" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_CruiseDampener_Fast" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="1" releaseSlew="0.08" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_Acceleration_MaxAll" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="1" releaseSlew="1" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_CapacitorSurge_MaxAll_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SAudioCapacitor capacity="1" chargeSpeed="15" dischargeSpeed="2" inputThreshold="0.001" __type="SRtpcBehaviour" __polymorphicType="SAudioCapacitor">
+                  <behavior>
+                    <SSmoothingTimeBased attackSlew="0.8" releaseSlew="0.8" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+                  </behavior>
+                </SAudioCapacitor>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Rotation_Speed_MaxAll" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Rotation_Speed_MaxAll" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="1" releaseSlew="1" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Rotation_Speed_MaxAll_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="0.5" releaseSlew="0.5" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Rotation_Speed_MaxAll_VerySlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="0.3" releaseSlew="0.22" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Rotation_Dampener_All" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="0.13" releaseSlew="1" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Atmospheric_StagnationTemperature" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="EnvironmentFeedback_Atmospheric_StagnationTemperature" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="100" releaseSlew="100" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Translation_Speed" defaultValue="0" calculateOnlyOnPlayerVehicle="1" sendToChildEmitters="1" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_Speed" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Translation_Acceleration_UpDownSigned" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_Translation_Acceleration_UpDown_Signed_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="0.3" releaseSlew="0.3" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_HoverModeAnimationPosition" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="Ship_VTOLEnabled" __type="AudioRtpc" />
+              <behavior>
+                <SSmoothingTimeBased attackSlew="2" releaseSlew="2" clampedBelow="0.001" __type="SRtpcBehaviour" __polymorphicType="SSmoothingTimeBased" />
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+      </ifcsOutputsToRtpcsDEPRECATED>
+      <ifcsOutputsToRtpcs>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Translation_Acceleration_Backward" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Acceleration_Backward_Normalized" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Translation_Acceleration_Forward" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Acceleration_Forward_Normalized" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Rotation_Speed_MaxAll" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Angular_Velocity_Length_LS" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Angular_Velocity_Length_LS_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_IsInControlSurfaceMode" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Is_In_Control_Surface_Mode" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Linear_RealAccelerationLS" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Linear_Real_Acceleration_LS" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Linear_VelocityLengthNormalizedLS" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Linear_Velocity_Length_Normalized_LS" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_NavModeEnabled" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Master_Modes" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Master_Modes_Lerp" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_MaxSpeedNav" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Max_Speed_NAV" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_RawInputRotation" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Raw_Input_Rotation" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Linear_VelocityForwardBackwardNormalizedLS" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Velocity_Forward_Backward_Normalized" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Linear_VelocityGoalLengthNormalizedLS" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Thrusters_Player_Input" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Linear_VelocityRightLeftNormalizedLS" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Velocity_Horizontal_Normalized" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Linear_VelocityUpDownNormalizedLS" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Velocity_Vertical_Normalized" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_AtmosphericDensity" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Atmospheric_Density" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_IsGearDown" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Is_Gear_Down" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_IsLanded" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Is_Landed" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_AfterburnerEnabled" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Thrusters_Afterburner_On" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_AfterburnerCommanded" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Thrusters_Afterburner_Commanded" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Coupled" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Coupled" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_ThrusterDisconnectActive" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Thrusters_Disconnected" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Translation_Acceleration_UpDownSigned" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Acceleration_Vertical_Signed" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Acceleration_Vertical_Signed_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_Translation_Acceleration_LeftRightSigned" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Acceleration_Horizontal_Signed" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Ship_Acceleration_Horizontal_Signed_SlowLerp" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+        <IFCSOutputToRtpcList ifcsOutput="Ship_AfterburnerRampUpRatio" defaultValue="0" calculateOnlyOnPlayerVehicle="0" sendToChildEmitters="0" __type="IFCSOutputToRtpcList">
+          <RTPCs>
+            <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+              <rtpc rtpc="GP_Thrusters_Afterburner_RampUp_Ratio" __type="AudioRtpc" />
+              <behavior>
+              </behavior>
+            </AudioRtpcWithBehaviour>
+          </RTPCs>
+        </IFCSOutputToRtpcList>
+      </ifcsOutputsToRtpcs>
+      <shipWideAudioObjects />
+      <shipHealthRtpc rtpc="Ship_Health" __type="AudioRtpc" />
+      <thrustersSpoolStateRtpc rtpc="Ship_Spool_State" __type="AudioRtpc" />
+      <thrusterHealthRtpc rtpc="Thruster_Health_Global_Average" __type="AudioRtpc" />
+      <thrustersTemperatureRatioRtpc rtpc="Ship_Global_Average_Thruster_Temperature" __type="AudioRtpc" />
+      <thrustersOverheatRtpc rtpc="Ship_HasOverheatedThruster" __type="AudioRtpc" />
+      <misfireRtpc rtpc="Ship_ThrusterMisfiring" __type="AudioRtpc" />
+      <techLevelRtpc rtpc="Thruster_Tech_Level" __type="AudioRtpc" />
+      <civilianLowRtpc rtpc="Thruster_Civilian_Low" __type="AudioRtpc" />
+      <civilianMedRtpc rtpc="Thruster_Civilian_Medium" __type="AudioRtpc" />
+      <civilianHighRtpc rtpc="Thruster_Civilian_High" __type="AudioRtpc" />
+      <industrialRtpc rtpc="Thruster_Industrial" __type="AudioRtpc" />
+      <militaryRtpc rtpc="Thruster_Military" __type="AudioRtpc" />
+      <racingRtpc rtpc="Thruster_Racing" __type="AudioRtpc" />
+      <stealthRtpc rtpc="Thruster_Stealth" __type="AudioRtpc" />
+      <degradationRtpc rtpc="Ship_DegradationLevel" __type="AudioRtpc" />
+      <shipCollisionRelShieldDamageRtpc rtpc="GP_Impact_Projectile_Relative_Shield_Damage" __type="AudioRtpc" />
+      <shipCollisionRelHullDamageRtpc rtpc="GP_Impact_Projectile_Relative_Hull_Damage" __type="AudioRtpc" />
+      <shipCollisionTotalDeliverableDamageRtpc rtpc="GP_Impact_Projectile_Absolute_Damage_Dealt" __type="AudioRtpc" />
+      <shipCollisionFeedback audioTrigger="Play_SSVI_Impact_Direct" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <shipGasCloudFeedback audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <gasCloudDensityRtpc rtpc="GP_Ship_Gas_Clouds_Density" __type="AudioRtpc" />
+      <trackviewParams>
+      </trackviewParams>
+    </ShipAudioComponentParams>
+    <AudioPassByComponentParams chargeMax="25" dischargeTime="4" chargeThreshold="0.2" minChargeForPassByMusicEvent="10" normalizedSpeed="343" modifier="1.4" minTimeBetweenOneShots="4.5" __type="DataForgeComponentParams" __polymorphicType="AudioPassByComponentParams">
+      <loopStart audioTrigger="Play_SSPB_BANU_Defender_Loop" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <loopStop audioTrigger="Stop_SSPB_BANU_Defender_Loop" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <oneShot audioTrigger="Play_SSPB_BANU_Defender_PassBy_Oneshot" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <timeSinceLastOneShotRtpc rtpc="Ship_PassBy_Time_Since_Last" __type="AudioRtpc" />
+      <shiftRtpc setToAllProxies="0" __type="AudioPassByRtpcParams">
+        <RTPCs>
+          <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+            <rtpc rtpc="Ship_PassBy_Shift" __type="AudioRtpc" />
+            <behavior>
+              <SAverageValue frameCount="60" __type="SRtpcBehaviour" __polymorphicType="SAverageValue" />
+            </behavior>
+          </AudioRtpcWithBehaviour>
+        </RTPCs>
+      </shiftRtpc>
+      <shiftChargeRtpc setToAllProxies="0" __type="AudioPassByRtpcParams">
+        <RTPCs>
+          <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+            <rtpc rtpc="Ship_PassBy_Shift_Charge" __type="AudioRtpc" />
+            <behavior>
+              <SAverageValue frameCount="10" __type="SRtpcBehaviour" __polymorphicType="SAverageValue" />
+            </behavior>
+          </AudioRtpcWithBehaviour>
+        </RTPCs>
+      </shiftChargeRtpc>
+      <relativeVelocityRtpc setToAllProxies="1" __type="AudioPassByRtpcParams">
+        <RTPCs>
+          <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+            <rtpc rtpc="Ship_Relative_Velocity" __type="AudioRtpc" />
+            <behavior>
+              <SAverageValue frameCount="60" __type="SRtpcBehaviour" __polymorphicType="SAverageValue" />
+            </behavior>
+          </AudioRtpcWithBehaviour>
+        </RTPCs>
+      </relativeVelocityRtpc>
+      <relativeVelocityAccelerationRtpc setToAllProxies="1" __type="AudioPassByRtpcParams">
+        <RTPCs>
+          <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+            <rtpc rtpc="Ship_Relative_Velocity_Acceleration_FastLerp" __type="AudioRtpc" />
+            <behavior>
+              <SAverageValue frameCount="20" __type="SRtpcBehaviour" __polymorphicType="SAverageValue" />
+            </behavior>
+          </AudioRtpcWithBehaviour>
+          <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+            <rtpc rtpc="Ship_Relative_Velocity_Acceleration" __type="AudioRtpc" />
+            <behavior>
+              <SAverageValue frameCount="60" __type="SRtpcBehaviour" __polymorphicType="SAverageValue" />
+            </behavior>
+          </AudioRtpcWithBehaviour>
+          <AudioRtpcWithBehaviour __type="AudioRtpcWithBehaviour">
+            <rtpc rtpc="Ship_Relative_Velocity_Acceleration_SlowLerp" __type="AudioRtpc" />
+            <behavior>
+              <SAverageValue frameCount="120" __type="SRtpcBehaviour" __polymorphicType="SAverageValue" />
+            </behavior>
+          </AudioRtpcWithBehaviour>
+        </RTPCs>
+      </relativeVelocityAccelerationRtpc>
+    </AudioPassByComponentParams>
+    <SGeometryResourceParams cacheResources="0" rootOverridePaint="1" inheritModelTagFromHost="0" __type="DataForgeComponentParams" __polymorphicType="SGeometryResourceParams">
+      <ModelTag>
+      </ModelTag>
+      <Geometry Tags="" ScaleMultiplier="1" __type="SGeometryNodeParams">
+        <Geometry Slot="Main" MaterialAttachments="" ProxyCDFPath="" ModifiersPath="" AttachFlags="0" DeformerType="Standard" ProtosBShapeExclude="0" VisTP="1" VisFP="1" VisShadow="1" VisSecondaryViews="1" WrinkleMap="0" EnableDecalProjection="0" BBoxJoint="" BBoxRadius="0" Wear="0" Dirt="0" Interference="0" Damage="0" RenderLayer="Exterior" VisAreaMode="AABB_Center" SunShadowMode="Upto_400m" viewDistRatio="00000000-0000-0000-0000-000000000000" LodRatio="100" __type="SGeometryDataParams">
+          <Geometry path="Objects\Spaceships\Ships\BANU\Defender\Banu_Defender.cga" __type="GlobalResourceBase" __polymorphicType="GlobalResourceGeometry" />
+          <Material path="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+          <SimulationGeometry>
+          </SimulationGeometry>
+          <Palette RootRecord="e6427dc8-eeb3-4b48-9efa-879d3f31c2c4" ChildPath="" __type="TintPaletteRef" />
+        </Geometry>
+        <SubGeometry>
+          <SGeometryNodeParams Tags="Paint_Defender_Silver_Red" ScaleMultiplier="1" __type="SGeometryNodeParams">
+            <Geometry Slot="Main" MaterialAttachments="" ProxyCDFPath="" ModifiersPath="" AttachFlags="0" DeformerType="Standard" ProtosBShapeExclude="0" VisTP="1" VisFP="1" VisShadow="1" VisSecondaryViews="1" WrinkleMap="0" EnableDecalProjection="0" BBoxJoint="" BBoxRadius="0" Wear="0" Dirt="0" Interference="0" Damage="0" RenderLayer="Default" VisAreaMode="AABB_Center" SunShadowMode="Upto_400m" viewDistRatio="00000000-0000-0000-0000-000000000000" LodRatio="100" __type="SGeometryDataParams">
+              <Geometry path="Objects\Spaceships\Ships\BANU\Defender\Banu_Defender.cga" __type="GlobalResourceBase" __polymorphicType="GlobalResourceGeometry" />
+              <Material path="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+              <SimulationGeometry>
+              </SimulationGeometry>
+              <Palette RootRecord="6dfb5209-26f0-419d-9706-75ab683f2abe" ChildPath="" __type="TintPaletteRef" />
+            </Geometry>
+            <SubGeometry />
+          </SGeometryNodeParams>
+          <SGeometryNodeParams Tags="Paint_Defender_IAE2951_Grey_White" ScaleMultiplier="1" __type="SGeometryNodeParams">
+            <Geometry Slot="Main" MaterialAttachments="" ProxyCDFPath="" ModifiersPath="" AttachFlags="0" DeformerType="Standard" ProtosBShapeExclude="0" VisTP="1" VisFP="1" VisShadow="1" VisSecondaryViews="1" WrinkleMap="0" EnableDecalProjection="0" BBoxJoint="" BBoxRadius="0" Wear="0" Dirt="0" Interference="0" Damage="0" RenderLayer="Default" VisAreaMode="AABB_Center" SunShadowMode="Upto_400m" viewDistRatio="00000000-0000-0000-0000-000000000000" LodRatio="100" __type="SGeometryDataParams">
+              <Geometry path="Objects\Spaceships\Ships\BANU\Defender\Banu_Defender.cga" __type="GlobalResourceBase" __polymorphicType="GlobalResourceGeometry" />
+              <Material path="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+              <SimulationGeometry>
+              </SimulationGeometry>
+              <Palette RootRecord="509ea14c-1f5d-454f-b3eb-839c05448f5f" ChildPath="" __type="TintPaletteRef" />
+            </Geometry>
+            <SubGeometry />
+          </SGeometryNodeParams>
+          <SGeometryNodeParams Tags="Paint_Defender_IAE2951_Black_Blue" ScaleMultiplier="1" __type="SGeometryNodeParams">
+            <Geometry Slot="Main" MaterialAttachments="" ProxyCDFPath="" ModifiersPath="" AttachFlags="0" DeformerType="Standard" ProtosBShapeExclude="0" VisTP="1" VisFP="1" VisShadow="1" VisSecondaryViews="1" WrinkleMap="0" EnableDecalProjection="0" BBoxJoint="" BBoxRadius="0" Wear="0" Dirt="0" Interference="0" Damage="0" RenderLayer="Default" VisAreaMode="AABB_Center" SunShadowMode="Upto_400m" viewDistRatio="00000000-0000-0000-0000-000000000000" LodRatio="100" __type="SGeometryDataParams">
+              <Geometry path="Objects\Spaceships\Ships\BANU\Defender\Banu_Defender.cga" __type="GlobalResourceBase" __polymorphicType="GlobalResourceGeometry" />
+              <Material path="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+              <SimulationGeometry>
+              </SimulationGeometry>
+              <Palette RootRecord="7d051c5b-b649-4873-a6ee-d79644d79dbf" ChildPath="" __type="TintPaletteRef" />
+            </Geometry>
+            <SubGeometry />
+          </SGeometryNodeParams>
+          <SGeometryNodeParams Tags="Paint_Defender_Teal_Red" ScaleMultiplier="1" __type="SGeometryNodeParams">
+            <Geometry Slot="Main" MaterialAttachments="" ProxyCDFPath="" ModifiersPath="" AttachFlags="0" DeformerType="Standard" ProtosBShapeExclude="0" VisTP="1" VisFP="1" VisShadow="1" VisSecondaryViews="1" WrinkleMap="0" EnableDecalProjection="0" BBoxJoint="" BBoxRadius="0" Wear="0" Dirt="0" Interference="0" Damage="0" RenderLayer="Default" VisAreaMode="AABB_Center" SunShadowMode="Upto_400m" viewDistRatio="00000000-0000-0000-0000-000000000000" LodRatio="100" __type="SGeometryDataParams">
+              <Geometry path="Objects\Spaceships\Ships\BANU\Defender\Banu_Defender.cga" __type="GlobalResourceBase" __polymorphicType="GlobalResourceGeometry" />
+              <Material path="Objects/Spaceships/Ships/BANU/Defender/banu_defender_harmony.mtl" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+              <SimulationGeometry>
+              </SimulationGeometry>
+              <Palette RootRecord="3ad1c1e3-b070-4bdc-9449-f118c4db6622" ChildPath="" __type="TintPaletteRef" />
+            </Geometry>
+            <SubGeometry />
+          </SGeometryNodeParams>
+          <SGeometryNodeParams Tags="Paint_Defender_AlienWeek_Green_Red" ScaleMultiplier="1" __type="SGeometryNodeParams">
+            <Geometry Slot="Main" MaterialAttachments="" ProxyCDFPath="" ModifiersPath="" AttachFlags="0" DeformerType="Standard" ProtosBShapeExclude="0" VisTP="1" VisFP="1" VisShadow="1" VisSecondaryViews="1" WrinkleMap="0" EnableDecalProjection="0" BBoxJoint="" BBoxRadius="0" Wear="0" Dirt="0" Interference="0" Damage="0" RenderLayer="Default" VisAreaMode="AABB_Center" SunShadowMode="Upto_400m" viewDistRatio="00000000-0000-0000-0000-000000000000" LodRatio="100" __type="SGeometryDataParams">
+              <Geometry path="Objects\Spaceships\Ships\BANU\Defender\Banu_Defender.cga" __type="GlobalResourceBase" __polymorphicType="GlobalResourceGeometry" />
+              <Material path="Objects/Spaceships/Ships/BANU/Defender/banu_defender_ocellus.mtl" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+              <SimulationGeometry>
+              </SimulationGeometry>
+              <Palette RootRecord="b998e984-b857-4a15-b70e-994d14b345dd" ChildPath="" __type="TintPaletteRef" />
+            </Geometry>
+            <SubGeometry />
+          </SGeometryNodeParams>
+          <SGeometryNodeParams Tags="Paint_Defender_AlienWeek_Platinum_Silver_Purple_Mosaic" ScaleMultiplier="1" __type="SGeometryNodeParams">
+            <Geometry Slot="Main" MaterialAttachments="" ProxyCDFPath="" ModifiersPath="" AttachFlags="0" DeformerType="Standard" ProtosBShapeExclude="0" VisTP="1" VisFP="1" VisShadow="1" VisSecondaryViews="1" WrinkleMap="0" EnableDecalProjection="0" BBoxJoint="" BBoxRadius="0" Wear="0" Dirt="0" Interference="0" Damage="0" RenderLayer="Default" VisAreaMode="AABB_Center" SunShadowMode="Upto_400m" viewDistRatio="00000000-0000-0000-0000-000000000000" LodRatio="100" __type="SGeometryDataParams">
+              <Geometry path="Objects\Spaceships\Ships\BANU\Defender\Banu_Defender.cga" __type="GlobalResourceBase" __polymorphicType="GlobalResourceGeometry" />
+              <Material path="Objects/Spaceships/Ships/BANU/Defender/banu_defender_platinum_mosaic.mtl" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+              <SimulationGeometry>
+              </SimulationGeometry>
+              <Palette RootRecord="71d20254-2524-431f-b4e7-f4d2592021f5" ChildPath="" __type="TintPaletteRef" />
+            </Geometry>
+            <SubGeometry />
+          </SGeometryNodeParams>
+        </SubGeometry>
+      </Geometry>
+      <Material Tags="" __type="SMaterialNodeParams">
+        <Material path="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceMaterial" />
+        <Palette RootRecord="00000000-0000-0000-0000-000000000000" ChildPath="" __type="TintPaletteRef" />
+        <materialVariants />
+      </Material>
+    </SGeometryResourceParams>
+    <SAnimationControllerParams AnimationDatabase="Spaceships\Ships\BANU\Defender\BANU_Defender_Anims.adb" AnimationController="Spaceships\Ships\BANU\Defender\BANU_Defender_ControllerDefs.xml" __type="DataForgeComponentParams" __polymorphicType="SAnimationControllerParams">
+      <Tags>
+        <String value="BANU_Defender" />
+      </Tags>
+      <ScopeContexts>
+        <SAnimationScopeContext scopeContext="LG_Front_Wing_Left" type="Self" __type="SAnimationScopeContext" />
+        <SAnimationScopeContext scopeContext="LG_Front_Wing_Right" type="Self" __type="SAnimationScopeContext" />
+        <SAnimationScopeContext scopeContext="Ship" type="Self" __type="SAnimationScopeContext" />
+      </ScopeContexts>
+      <AnimationJointControls>
+      </AnimationJointControls>
+      <AnimationControlActorIKs />
+      <AnimationTasks />
+      <defaultAnimation>
+      </defaultAnimation>
+    </SAnimationControllerParams>
+    <EntityComponentAudioEnvironmentFeedbackParams __type="DataForgeComponentParams" __polymorphicType="EntityComponentAudioEnvironmentFeedbackParams">
+      <audioObjects />
+    </EntityComponentAudioEnvironmentFeedbackParams>
+    <EMPoolParams overrideEmValue="0" distortionAffectsRoot="0" __type="DataForgeComponentParams" __polymorphicType="EMPoolParams" />
+    <EntityPhysicalAudioParams minimumImpulseContinuous="10" minimumImpulseTransient="5" minimumVelocityNoImpulse="100" slideThreshold="0.1" rollThreshold="0.1" momentumScale="1" useAABBCentre="0" oneShotTag="7f3a1138-ec2c-4dac-9c5a-2598090c79ec" oneShotCooldown="0.08" dragOnly="0" __type="DataForgeComponentParams" __polymorphicType="EntityPhysicalAudioParams">
+      <collisionTriggers>
+        <PhysicalAudioCollisionTrigger oneShotMinPlayTime="0.12" attachToObject="1" __type="PhysicalAudioCollisionTrigger">
+          <trigger audioTrigger="Play_SSDM_Shared_Collisions_Hull_Large" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+        </PhysicalAudioCollisionTrigger>
+      </collisionTriggers>
+      <slideStartTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <slideStopTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <rollStartTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <rollStopTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <movementStartTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <movementStopTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <pickupTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <pickFromOwnerTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <dropTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <placeTrigger audioTrigger="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceAudio" />
+      <rtpcSlideVelocity rtpc="PhysicalAudio_Velocity_Vehicles" __type="AudioRtpc" />
+      <rtpcMassSelf rtpc="PhysicalAudio_MassSelf_Vehicles" __type="AudioRtpc" />
+      <rtpcMassOther rtpc="PhysicalAudio_MassOther_Vehicles" __type="AudioRtpc" />
+      <rtpcDampening rtpc="PhysicalAudio_Damping" __type="AudioRtpc" />
+      <rtpcRollVelocity rtpc="PhysicalAudio_RollVelocity" __type="AudioRtpc" />
+      <rtpcHealth rtpc="PhysicalAudio_Health" __type="AudioRtpc" />
+      <rtpcMovement rtpc="PhysicalAudio_Movement" __type="AudioRtpc" />
+      <rtpcRotation rtpc="PhysicalAudio_Rotation" __type="AudioRtpc" />
+      <rtpcTimeSinceLastOneshot rtpc="PhysicalAudio_TimeSinceLastOneshot" __type="AudioRtpc" />
+      <rtpcMomentum rtpc="PhysicalAudio_Momentum" __type="AudioRtpc" />
+      <rtpcCarried rtpc="PhysicalAudio_CarryState" __type="AudioRtpc" />
+    </EntityPhysicalAudioParams>
+    <EntityComponentAudioHitListenerParams calculateOnlyWhenPlayerContained="0" hitListenerDefinition="aeefffe0-ed13-4713-adf5-419777ed22c7" __type="DataForgeComponentParams" __polymorphicType="EntityComponentAudioHitListenerParams" />
+    <SEntityAudioControllerParams audioControllerEntityType="Vehicle" randomSeedCount="4" fullLODDistance="9000" fullToLowLODDistance="9050" offToLowLODDistance="10000" offLODDistance="10050" occlusionAttenuationScaler="0.5" __type="DataForgeComponentParams" __polymorphicType="SEntityAudioControllerParams">
+      <tags __type="TagList">
+        <tags />
+      </tags>
+      <tagTriggers />
+    </SEntityAudioControllerParams>
+    <AudioPropagationParams audioEnvironment="" physicalOcclusionValueWhenClosed="1" physicalEncapsulationValue="1" __type="DataForgeComponentParams" __polymorphicType="AudioPropagationParams" />
+    <SItemPortContainerComponentParams PortFlags="" PortTags="BANU_Defender_Base BANU_TachyonCannon" RequiredItemTags="" LinkAllItemsToResourceNetwork="1" cheatResourceNetworkUpdate="0" __type="DataForgeComponentParams" __polymorphicType="SItemPortContainerComponentParams">
+      <masterController>
+        <SItemPortMasterControllerParams __type="SItemPortMasterControllerParams">
+          <Pipes />
+        </SItemPortMasterControllerParams>
+      </masterController>
+      <Ports>
+        <SItemPortDef Name="hardpoint_controller_fuel" DisplayName="" PortTags="" RequiredPortTags="" Flags="" MinSize="1" MaxSize="1" gridBehavior="Both" InteractionPointSize="-1" DefaultWeaponGroup="UNDEFINED" controllableTag="" resourceLinkToParent="0" useHelperAsInteractionPointName="0" __type="SItemPortDef">
+          <Tags />
+          <defaultItem itemPort="" entityClass="00000000-0000-0000-0000-000000000000" __type="SItemPortDefaultItemDef">
+            <childItems />
+          </defaultItem>
+          <PitchLimit x="0" y="0" __type="Vec2" />
+          <YawLimit x="0" y="0" __type="Vec2" />
+          <RollLimit x="0" y="0" __type="Vec2" />
+          <InteractionPointOffset x="0" y="0" z="0" __type="Vec3" />
+          <AttachmentPoints />
+          <control>
+          </control>
+          <Connections />
+          <Types />
+          <Extension>
+          </Extension>
+          <AttachmentImplementation>
+            <SItemPortDefAttachmentImplementationEntity usePhysicalAttachment="0" useEntityAttachment="1" useExteriorAttachment="0" usePhysicalParent="0" useLogicalAttachment="0" hangarPort="0" __type="SItemPortDefAttachmentImplementationBase" __polymorphicType="SItemPortDefAttachmentImplementationEntity">
+              <constraintParams damping="0" noSelfCollisions="1" maxPullForce="0" maxBendTorque="0" constrainToLine="0" constrainToPlane="0" constrainFully="1" useWorldConstraintPosition="0" noRotation="1" xMin="0" xMax="0" yzMax="0" constraintHelper="" constraintMaintainOrientation="0" __type="SAttachmentConstraintParams" />
+              <Helper Tags="" __type="SItemPortDefHelperNode">
+                <Helper Name="BANU_Defender" ItemOffsetHelperName="" __type="SItemPortDefHelper">
+                  <Offset __type="QuatT">
+                    <Rotation x="0" y="0" z="0" __type="Ang3" />
+                    <Position x="0" y="0" z="0" __type="Vec3" />
+                  </Offset>
+                  <SimulationParams>
+                  </SimulationParams>
+                </Helper>
+                <SubHelpers />
+              </Helper>
+            </SItemPortDefAttachmentImplementationEntity>
+          </AttachmentImplementation>
+          <Breakable YoungsModulus="0" BreakStrain="0" YieldStrain="0" Breakable="0" __type="SItemPortBreakable" />
+          <interactions detach="null" allowPlaceInteractionFromInventory="0" placeInteractionBlockText="@interaction_condition_placeOnItemport_noMatchingItem" __type="SItemPortInteractionsParams" />
+          <linkedItemPorts />
+          <itemPortRules />
+          <detachDirection x="0" y="0" z="-1" __type="Vec3" />
+        </SItemPortDef>
+        <SItemPortDef Name="hardpoint_fuel_port" DisplayName="" PortTags="Ship_Dock_Refuel" RequiredPortTags="" Flags="dockingport1" MinSize="1" MaxSize="1" gridBehavior="Both" InteractionPointSize="-1" DefaultWeaponGroup="UNDEFINED" controllableTag="" resourceLinkToParent="0" useHelperAsInteractionPointName="0" __type="SItemPortDef">
+          <Tags />
+          <defaultItem itemPort="" entityClass="00000000-0000-0000-0000-000000000000" __type="SItemPortDefaultItemDef">
+            <childItems />
+          </defaultItem>
+          <PitchLimit x="0" y="0" __type="Vec2" />
+          <YawLimit x="0" y="0" __type="Vec2" />
+          <RollLimit x="0" y="0" __type="Vec2" />
+          <InteractionPointOffset x="0" y="0" z="0" __type="Vec3" />
+          <AttachmentPoints />
+          <control>
+          </control>
+          <Connections />
+          <Types>
+            <SItemPortDefTypes Type="DockingCollar" __type="SItemPortDefTypes">
+              <SubTypes />
+            </SItemPortDefTypes>
+          </Types>
+          <Extension>
+          </Extension>
+          <AttachmentImplementation>
+            <SItemPortDefAttachmentImplementationEntity usePhysicalAttachment="0" useEntityAttachment="1" useExteriorAttachment="0" usePhysicalParent="0" useLogicalAttachment="0" hangarPort="0" __type="SItemPortDefAttachmentImplementationBase" __polymorphicType="SItemPortDefAttachmentImplementationEntity">
+              <constraintParams damping="0" noSelfCollisions="1" maxPullForce="0" maxBendTorque="0" constrainToLine="0" constrainToPlane="0" constrainFully="1" useWorldConstraintPosition="0" noRotation="1" xMin="0" xMax="0" yzMax="0" constraintHelper="" constraintMaintainOrientation="0" __type="SAttachmentConstraintParams" />
+              <Helper Tags="" __type="SItemPortDefHelperNode">
+                <Helper Name="BANU_Defender" ItemOffsetHelperName="" __type="SItemPortDefHelper">
+                  <Offset __type="QuatT">
+                    <Rotation x="0" y="0" z="0" __type="Ang3" />
+                    <Position x="0" y="-7" z="3" __type="Vec3" />
+                  </Offset>
+                  <SimulationParams>
+                  </SimulationParams>
+                </Helper>
+                <SubHelpers />
+              </Helper>
+            </SItemPortDefAttachmentImplementationEntity>
+          </AttachmentImplementation>
+          <Breakable YoungsModulus="0" BreakStrain="0" YieldStrain="0" Breakable="0" __type="SItemPortBreakable" />
+          <interactions detach="null" allowPlaceInteractionFromInventory="0" placeInteractionBlockText="@interaction_condition_placeOnItemport_noMatchingItem" __type="SItemPortInteractionsParams" />
+          <linkedItemPorts />
+          <itemPortRules />
+          <detachDirection x="0" y="0" z="-1" __type="Vec3" />
+        </SItemPortDef>
+        <SItemPortDef Name="hardpoint_air_traffic_controller" DisplayName="" PortTags="" RequiredPortTags="" Flags="" MinSize="1" MaxSize="1" gridBehavior="Both" InteractionPointSize="-1" DefaultWeaponGroup="UNDEFINED" controllableTag="" resourceLinkToParent="0" useHelperAsInteractionPointName="0" __type="SItemPortDef">
+          <Tags />
+          <defaultItem itemPort="" entityClass="00000000-0000-0000-0000-000000000000" __type="SItemPortDefaultItemDef">
+            <childItems />
+          </defaultItem>
+          <PitchLimit x="0" y="0" __type="Vec2" />
+          <YawLimit x="0" y="0" __type="Vec2" />
+          <RollLimit x="0" y="0" __type="Vec2" />
+          <InteractionPointOffset x="0" y="0" z="0" __type="Vec3" />
+          <AttachmentPoints />
+          <control>
+          </control>
+          <Connections />
+          <Types>
+            <SItemPortDefTypes Type="AirTrafficController" __type="SItemPortDefTypes">
+              <SubTypes />
+            </SItemPortDefTypes>
+          </Types>
+          <Extension>
+          </Extension>
+          <AttachmentImplementation>
+            <SItemPortDefAttachmentImplementationEntity usePhysicalAttachment="0" useEntityAttachment="1" useExteriorAttachment="0" usePhysicalParent="0" useLogicalAttachment="0" hangarPort="0" __type="SItemPortDefAttachmentImplementationBase" __polymorphicType="SItemPortDefAttachmentImplementationEntity">
+              <constraintParams damping="0" noSelfCollisions="1" maxPullForce="0" maxBendTorque="0" constrainToLine="0" constrainToPlane="0" constrainFully="1" useWorldConstraintPosition="0" noRotation="1" xMin="0" xMax="0" yzMax="0" constraintHelper="" constraintMaintainOrientation="0" __type="SAttachmentConstraintParams" />
+              <Helper Tags="" __type="SItemPortDefHelperNode">
+                <Helper Name="BANU_Defender" ItemOffsetHelperName="" __type="SItemPortDefHelper">
+                  <Offset __type="QuatT">
+                    <Rotation x="0" y="0" z="0" __type="Ang3" />
+                    <Position x="0" y="0" z="0" __type="Vec3" />
+                  </Offset>
+                  <SimulationParams>
+                  </SimulationParams>
+                </Helper>
+                <SubHelpers />
+              </Helper>
+            </SItemPortDefAttachmentImplementationEntity>
+          </AttachmentImplementation>
+          <Breakable YoungsModulus="0" BreakStrain="0" YieldStrain="0" Breakable="0" __type="SItemPortBreakable" />
+          <interactions detach="null" allowPlaceInteractionFromInventory="0" placeInteractionBlockText="@interaction_condition_placeOnItemport_noMatchingItem" __type="SItemPortInteractionsParams" />
+          <linkedItemPorts />
+          <itemPortRules />
+          <detachDirection x="0" y="0" z="-1" __type="Vec3" />
+        </SItemPortDef>
+        <SItemPortDef Name="hardpoint_relay" DisplayName="" PortTags="" RequiredPortTags="" Flags="invisible uneditable" MinSize="1" MaxSize="3" gridBehavior="Both" InteractionPointSize="-1" DefaultWeaponGroup="UNDEFINED" controllableTag="" resourceLinkToParent="0" useHelperAsInteractionPointName="0" __type="SItemPortDef">
+          <Tags />
+          <defaultItem itemPort="" entityClass="00000000-0000-0000-0000-000000000000" __type="SItemPortDefaultItemDef">
+            <childItems />
+          </defaultItem>
+          <PitchLimit x="0" y="0" __type="Vec2" />
+          <YawLimit x="0" y="0" __type="Vec2" />
+          <RollLimit x="0" y="0" __type="Vec2" />
+          <InteractionPointOffset x="0" y="0" z="0" __type="Vec3" />
+          <AttachmentPoints />
+          <control>
+          </control>
+          <Connections />
+          <Types>
+            <SItemPortDefTypes Type="Relay" __type="SItemPortDefTypes">
+              <SubTypes />
+            </SItemPortDefTypes>
+          </Types>
+          <Extension>
+          </Extension>
+          <AttachmentImplementation>
+            <SItemPortDefAttachmentImplementationBone __type="SItemPortDefAttachmentImplementationBase" __polymorphicType="SItemPortDefAttachmentImplementationBone">
+              <Helper Tags="" __type="SItemPortDefHelperNode">
+                <Helper Name="BANU_Defender" ItemOffsetHelperName="" __type="SItemPortDefHelper">
+                  <Offset __type="QuatT">
+                    <Rotation x="0" y="0" z="0" __type="Ang3" />
+                    <Position x="0" y="0" z="0" __type="Vec3" />
+                  </Offset>
+                  <SimulationParams>
+                  </SimulationParams>
+                </Helper>
+                <SubHelpers />
+              </Helper>
+            </SItemPortDefAttachmentImplementationBone>
+          </AttachmentImplementation>
+          <Breakable YoungsModulus="0" BreakStrain="0" YieldStrain="0" Breakable="0" __type="SItemPortBreakable" />
+          <interactions detach="null" allowPlaceInteractionFromInventory="0" placeInteractionBlockText="@interaction_condition_placeOnItemport_noMatchingItem" __type="SItemPortInteractionsParams" />
+          <linkedItemPorts />
+          <itemPortRules />
+          <detachDirection x="0" y="0" z="-1" __type="Vec3" />
+        </SItemPortDef>
+        <SItemPortDef Name="hardpoint_lifesupport" DisplayName="" PortTags="" RequiredPortTags="" Flags="invisible" MinSize="1" MaxSize="1" gridBehavior="Both" InteractionPointSize="-1" DefaultWeaponGroup="UNDEFINED" controllableTag="" resourceLinkToParent="0" useHelperAsInteractionPointName="0" __type="SItemPortDef">
+          <Tags />
+          <defaultItem itemPort="" entityClass="00000000-0000-0000-0000-000000000000" __type="SItemPortDefaultItemDef">
+            <childItems />
+          </defaultItem>
+          <PitchLimit x="0" y="0" __type="Vec2" />
+          <YawLimit x="0" y="0" __type="Vec2" />
+          <RollLimit x="0" y="0" __type="Vec2" />
+          <InteractionPointOffset x="0" y="0" z="0" __type="Vec3" />
+          <AttachmentPoints />
+          <control>
+          </control>
+          <Connections />
+          <Types>
+            <SItemPortDefTypes Type="LifeSupportGenerator" __type="SItemPortDefTypes">
+              <SubTypes />
+            </SItemPortDefTypes>
+          </Types>
+          <Extension>
+          </Extension>
+          <AttachmentImplementation>
+            <SItemPortDefAttachmentImplementationBone __type="SItemPortDefAttachmentImplementationBase" __polymorphicType="SItemPortDefAttachmentImplementationBone">
+              <Helper Tags="" __type="SItemPortDefHelperNode">
+                <Helper Name="" ItemOffsetHelperName="" __type="SItemPortDefHelper">
+                  <Offset __type="QuatT">
+                    <Rotation x="0" y="0" z="0" __type="Ang3" />
+                    <Position x="0" y="0" z="0" __type="Vec3" />
+                  </Offset>
+                  <SimulationParams>
+                  </SimulationParams>
+                </Helper>
+                <SubHelpers />
+              </Helper>
+            </SItemPortDefAttachmentImplementationBone>
+          </AttachmentImplementation>
+          <Breakable YoungsModulus="0" BreakStrain="0" YieldStrain="0" Breakable="0" __type="SItemPortBreakable" />
+          <interactions detach="null" allowPlaceInteractionFromInventory="0" placeInteractionBlockText="@interaction_condition_placeOnItemport_noMatchingItem" __type="SItemPortInteractionsParams" />
+          <linkedItemPorts />
+          <itemPortRules />
+          <detachDirection x="0" y="0" z="-1" __type="Vec3" />
+        </SItemPortDef>
+        <SItemPortDef Name="hardpoint_missile_rack_outer" DisplayName="port_NameMissileRack03" PortTags="" RequiredPortTags="" Flags="" MinSize="3" MaxSize="3" gridBehavior="Both" InteractionPointSize="-1" DefaultWeaponGroup="UNDEFINED" controllableTag="" resourceLinkToParent="0" useHelperAsInteractionPointName="0" __type="SItemPortDef">
+          <Tags />
+          <defaultItem itemPort="" entityClass="00000000-0000-0000-0000-000000000000" __type="SItemPortDefaultItemDef">
+            <childItems />
+          </defaultItem>
+          <PitchLimit x="0" y="0" __type="Vec2" />
+          <YawLimit x="0" y="0" __type="Vec2" />
+          <RollLimit x="0" y="0" __type="Vec2" />
+          <InteractionPointOffset x="0" y="0" z="0" __type="Vec3" />
+          <AttachmentPoints />
+          <control>
+          </control>
+          <Connections />
+          <Types>
+            <SItemPortDefTypes Type="MissileLauncher" __type="SItemPortDefTypes">
+              <SubTypes>
+                <Enum value="MissileRack" />
+              </SubTypes>
+            </SItemPortDefTypes>
+            <SItemPortDefTypes Type="BombLauncher" __type="SItemPortDefTypes">
+              <SubTypes>
+                <Enum value="BombRack" />
+              </SubTypes>
+            </SItemPortDefTypes>
+          </Types>
+          <Extension>
+          </Extension>
+          <AttachmentImplementation>
+            <SItemPortDefAttachmentImplementationBone __type="SItemPortDefAttachmentImplementationBase" __polymorphicType="SItemPortDefAttachmentImplementationBone">
+              <Helper Tags="" __type="SItemPortDefHelperNode">
+                <Helper Name="hardpoint_missilerack_left" ItemOffsetHelperName="" __type="SItemPortDefHelper">
+                  <Offset __type="QuatT">
+                    <Rotation x="0" y="0" z="0" __type="Ang3" />
+                    <Position x="0.3" y="0" z="-0.38" __type="Vec3" />
+                  </Offset>
+                  <SimulationParams>
+                  </SimulationParams>
+                </Helper>
+                <SubHelpers />
+              </Helper>
+            </SItemPortDefAttachmentImplementationBone>
+          </AttachmentImplementation>
+          <Breakable YoungsModulus="0" BreakStrain="0" YieldStrain="0" Breakable="0" __type="SItemPortBreakable" />
+          <interactions detach="null" allowPlaceInteractionFromInventory="0" placeInteractionBlockText="@interaction_condition_placeOnItemport_noMatchingItem" __type="SItemPortInteractionsParams" />
+          <linkedItemPorts />
+          <itemPortRules />
+          <detachDirection x="0" y="0" z="-1" __type="Vec3" />
+        </SItemPortDef>
+      </Ports>
+      <InternalResourceLinks />
+      <InternalHardpointLinks />
+      <destroyEntitiesOnItemportList />
+      <resourceNetworkPowerPools maxDefaultDistribution="0" __type="ResourceNetworkPowerPoolSetup">
+        <itemPools>
+          <FixedPowerPool itemType="WeaponGun" poolSize="6" __type="PowerPool" __polymorphicType="FixedPowerPool" />
+          <DynamicPowerPool itemType="Shield" __type="PowerPool" __polymorphicType="DynamicPowerPool" />
+          <DynamicPowerPool itemType="FlightController" __type="PowerPool" __polymorphicType="DynamicPowerPool" />
+          <DynamicPowerPool itemType="TractorBeam" __type="PowerPool" __polymorphicType="DynamicPowerPool" />
+          <DynamicPowerPool itemType="TowingBeam" __type="PowerPool" __polymorphicType="DynamicPowerPool" />
+          <DynamicPowerPool itemType="WeaponMining" __type="PowerPool" __polymorphicType="DynamicPowerPool" />
+          <DynamicPowerPool itemType="SalvageHead" __type="PowerPool" __polymorphicType="DynamicPowerPool" />
+        </itemPools>
+      </resourceNetworkPowerPools>
+    </SItemPortContainerComponentParams>
+    <EntityComponentVibrationVehicleParams vibrationRecord="142d5d0d-a547-4912-9ddc-0c5185635d81" vibrationVehicleRecord="84c05aab-4e57-4e4a-a4ba-edd44deb3ce0" __type="DataForgeComponentParams" __polymorphicType="EntityComponentVibrationVehicleParams" />
+    <AITargetableComponentParams targetableSettings="e0616bbe-1ca7-4645-b88f-bdc62740f60f" __type="DataForgeComponentParams" __polymorphicType="AITargetableComponentParams">
+      <formations />
+    </AITargetableComponentParams>
+    <EntityComponentCommsChannelParams channelJoinType="AutoJoin" channelLeaveTimer="60" channelForceLeaveRange="50" __type="DataForgeComponentParams" __polymorphicType="EntityComponentCommsChannelParams" />
+    <LegalRegistrationComponentParams doNotTriggerCrimesAgainstThis="0" nameplateOverride="" nameplateLocalizedOverride="@LOC_EMPTY" displayNameplateOverPilotName="0" serialOverride="" serialLocalizedOverride="@LOC_EMPTY" serialNumberFormat="c454d7d8-6e61-4d52-887f-ce3e90ac77e9" securityNetworkManifest="00000000-0000-0000-0000-000000000000" __type="DataForgeComponentParams" __polymorphicType="LegalRegistrationComponentParams" />
+    <SInteractionStateMachineParams __type="DataForgeComponentParams" __polymorphicType="SInteractionStateMachineParams">
+      <StateTypes />
+    </SInteractionStateMachineParams>
+    <SEntityComponentSequencerParams resetSequence="null" __type="DataForgeComponentParams" __polymorphicType="SEntityComponentSequencerParams">
+      <sequences />
+    </SEntityComponentSequencerParams>
+    <SurfaceRaindropsComponentParams enable="1" inactiveDuration="25" maximumSpeed="200" waterSprayBaseDensity="0.2" __type="DataForgeComponentParams" __polymorphicType="SurfaceRaindropsComponentParams">
+      <surfaceParticleRtt cameraFov="1" aspectRatio="1" sdfTexture="textures/vfx/sdf_textures/abstract/cells_sdf.dds" __type="SurfaceParticleRTTParams">
+        <particleEffect path="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+      </surfaceParticleRtt>
+      <customEmitters>
+        <SurfaceRaindrops_Emitter linkedToSdf="1" fadeOutDuration="10" enableCloudCondensation="1" __type="SurfaceRaindrops_Emitter">
+          <particleEffect path="6e8a3283-5b20-8a03-2933-7010b020f673|master/rtt_effects.water.rain.canopy" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+          <humidityRange minimum="2" maximum="3" __type="Range" />
+          <temperatureRange minimum="270" maximum="276" __type="Range" />
+        </SurfaceRaindrops_Emitter>
+        <SurfaceRaindrops_Emitter linkedToSdf="1" fadeOutDuration="10" enableCloudCondensation="0" __type="SurfaceRaindrops_Emitter">
+          <particleEffect path="2bd2128e-2888-5579-ba5d-beb67cdd3cc7|master/rtt_effects.water.slush.canopy" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+          <humidityRange minimum="2" maximum="3" __type="Range" />
+          <temperatureRange minimum="276" maximum="270" __type="Range" />
+        </SurfaceRaindrops_Emitter>
+      </customEmitters>
+      <wipeEffect path="" __type="GlobalResourceBase" __polymorphicType="GlobalResourceParticle" />
+      <waterSprayHeightRange minimum="0.1" maximum="1" __type="Range" />
+      <acceleration speedMultiplier="0.1" maximumInfluenceSpeed="10" maximumAcceleration="10" helper="" __type="SurfaceRaindrops_Acceleration">
+        <rotationMultiplierSpeedRange minimum="-0.1" maximum="0.1" __type="Range" />
+        <rotationMultiplierAxes x="1" y="1" z="1" __type="Vec3" />
+        <offset __type="QuatT">
+          <Rotation x="135" y="0" z="0" __type="Ang3" />
+          <Position x="0" y="6" z="3" __type="Vec3" />
+        </offset>
+      </acceleration>
+      <occluderSettings distanceToVisor="0.04" numberOfWaveSamples="10" __type="SurfaceRaindrops_Occluder" />
+      <overrideControls enabled="0" useFlatVisor="0" density="0" rainEnabled="0" snowEnabled="0" __type="SurfaceRaindrops_Override" />
+      <renderNodeLoadoutEntries />
+    </SurfaceRaindropsComponentParams>
+    <UIBindingsVendorEntityComponentParams namespace="" __type="DataForgeComponentParams" __polymorphicType="UIBindingsVendorEntityComponentParams" />
+    <CargoControllerParams cargoDeckLoaded="0" cargoRequiresDocking="0" requiredStateForCargoOccupancy="null" StateAnimForCargoOccupancy="null" cargoManifestOverride="00000000-0000-0000-0000-000000000000" __type="DataForgeComponentParams" __polymorphicType="CargoControllerParams">
+      <loadBatchAmount>
+        <SMicroCargoUnit microSCU="1" __type="SBaseCargoUnit" __polymorphicType="SMicroCargoUnit" />
+      </loadBatchAmount>
+      <unloadBatchAmount>
+        <SMicroCargoUnit microSCU="1" __type="SBaseCargoUnit" __polymorphicType="SMicroCargoUnit" />
+      </unloadBatchAmount>
+    </CargoControllerParams>
+    <RParticleFieldNodeComponentParams enableField="1" texture3D="" outerRadius="2" falloff="1" strengthMult="1" useTransformHelperFile="1" matchSizeFromTexture="0" mergeSDFs="1" mergedVoxelCountScaleFrac="1" __type="DataForgeComponentParams" __polymorphicType="RParticleFieldNodeComponentParams">
+      <size x="1" y="1" z="1" __type="Vec3" />
+      <posOffset x="0" y="0" z="0" __type="Vec3" />
+      <rotOffset x="0" y="0" z="0" __type="Ang3" />
+      <mergedPaddingFrac x="0" y="0.45" z="0" __type="Vec3" />
+      <debugDraw drawBoundingBox="0" drawAdvanced="0" densityPerMeter="0" density="1" minMagnitude="0" maxMagnitude="0" arrowScale="1" renderThreshold="0" renderTolerance="0" renderInverted="0" __type="RParticleFieldNodeDebugParams" />
+    </RParticleFieldNodeComponentParams>
+    <EAScoringVehicleComponentParamsDef partDetachedBonus="50" componentDistortionScore="50" totalDistortionScoreAward="500" distortionDisablePercentage="0.8" __type="DataForgeComponentParams" __polymorphicType="EAScoringVehicleComponentParamsDef">
+      <baseComponent totalScore="1600" timeSinceLastHitForAssist="60" awardKill="20" awardKillAssist="10" __type="DataForgeComponentParams" __polymorphicType="EAScoringComponentParamsDef" />
+    </EAScoringVehicleComponentParamsDef>
+    <SCActorCollisionAvoidanceParams passRadiusAgent="0.3" passRadiusObstacleMoving="0.75" passRadiusObstacleStatic="0.5" baseAgentAvoidanceRange="10" baseObstacleAvoidanceRange="20" baseNavmeshEdgeAvoidanceRange="7.5" velocityInfluenceMultiplier="1" timeHorizonScale="1" agentAvoidanceTimeHorizon="1" obstacleAvoidanceTimeHorizon="1" navmeshEdgeAvoidanceTimeHorizon="0.75" alwaysAnObstacle="0" preferMinSpeedDuringAvoidance="0" __type="DataForgeComponentParams" __polymorphicType="SCActorCollisionAvoidanceParams">
+      <offsetAgent x="0" y="0" __type="Vec2" />
+      <offsetObstacle x="0" y="0" __type="Vec2" />
+    </SCActorCollisionAvoidanceParams>
+    <EntranceDisplayComponentParams entrancesRecord="02e33075-97b6-42f7-a091-fcc13a19c187" __type="DataForgeComponentParams" __polymorphicType="EntranceDisplayComponentParams" />
+    <SDegradationParams StopDegradingIfDestroyed="0" __type="DataForgeComponentParams" __polymorphicType="SDegradationParams">
+      <accumulators>
+        <SWearAccumulatorParams InitialAccumulationRatio="0" AccumulateWhenUnstreamed="0" AccumulateOnlyAfterTractorBeam="0" AccumulateOnlyWhenAttached="0" StopAccumulationWhenAttached="0" AccumulationEventThreshold="1" PortTags="" RequiredPortTags="" MaxLifetimeHours="25" UseAsTimer="0" InitialAgeRatio="0" InitialUsageRatio="0" BasePowerMultiplier="0" DrawPowerMultiplier="0" AtmosphereMultiplier="1.5" DamageConversionRate="0.01" __type="SAccumulatorParams" __polymorphicType="SWearAccumulatorParams">
+          <HeatMultipliers NormalTemperatureMultiplier="1" OverheatTemperatureMultiplier="1" __type="HeatDegradation" />
+          <EffectCurve useLUT="0" __type="BezierCurve">
+            <points />
+          </EffectCurve>
+          <degradeFromParentParams>
+          </degradeFromParentParams>
+          <DegradationPercentageRTPC rtpc="" __type="AudioRtpc" />
+        </SWearAccumulatorParams>
+      </accumulators>
+    </SDegradationParams>
+    <UICanvasDecalDescriptorEntityComponentParams canvas="3e245580-cbca-4aa9-a0d1-02884bcccbbf" __type="DataForgeComponentParams" __polymorphicType="UICanvasDecalDescriptorEntityComponentParams" />
+    <UIBindingsConsumerEntityComponentParams linkToPort="0" __type="DataForgeComponentParams" __polymorphicType="UIBindingsConsumerEntityComponentParams" />
+    <AINavigationDynamicTriggerComponent __type="DataForgeComponentParams" __polymorphicType="AINavigationDynamicTriggerComponent">
+      <adapters>
+        <VehicleNavigationTriggerAdapter minSpeedToBeIgnored="5" __type="NavigationTriggerAdapter" __polymorphicType="VehicleNavigationTriggerAdapter" />
+      </adapters>
+    </AINavigationDynamicTriggerComponent>
+    <SObservableComponentParams defaultEntityObservablePoint="null" defaultAimingObservablePoint="null" __type="DataForgeComponentParams" __polymorphicType="SObservableComponentParams">
+      <perceptionTypes>
+        <Enum value="Vehicle" />
+        <Enum value="Spaceship" />
+      </perceptionTypes>
+      <excludedSenses />
+      <observablePoints />
+      <observableExtensions>
+        <AudioObservableExtender hearingRadiusAtFullStrength="800" __type="IObservableExtender" __polymorphicType="AudioObservableExtender" />
+      </observableExtensions>
+    </SObservableComponentParams>
+    <SEntityTraversingTreeParams __type="DataForgeComponentParams" __polymorphicType="SEntityTraversingTreeParams">
+      <TraversingNodes />
+      <TraversingTargets />
+    </SEntityTraversingTreeParams>
+    <ItemControlComponentParams turnedOnByDefault="0" forceOn="0" asopSpawnState="None" __type="DataForgeComponentParams" __polymorphicType="ItemControlComponentParams">
+      <throttleParams />
+      <masterModeExclusionsOverride>
+      </masterModeExclusionsOverride>
+    </ItemControlComponentParams>
+    <AnnunciatorProviderParams shotAlertTime="1" __type="DataForgeComponentParams" __polymorphicType="AnnunciatorProviderParams" />
+  </Components>
+</EntityClassDefinition.BANU_Defender>

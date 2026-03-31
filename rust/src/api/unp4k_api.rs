@@ -149,7 +149,8 @@ pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
             return Err(anyhow!("P4K reader not initialized"));
         }
         let data = reader.as_mut().unwrap().extract_entry(&entry)?;
-        if (entry.name.to_lowercase().ends_with(".xml") || entry.name.to_lowercase().ends_with(".mtl"))
+        if (entry.name.to_lowercase().ends_with(".xml")
+            || entry.name.to_lowercase().ends_with(".mtl"))
             && CryXmlReader::is_cryxml(&data)
         {
             let cry_xml_string = CryXmlReader::parse(&data)?;

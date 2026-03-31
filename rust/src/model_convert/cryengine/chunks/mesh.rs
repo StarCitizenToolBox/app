@@ -222,7 +222,6 @@ fn parse_mesh_refs(chunk: &[u8], version: u16) -> Result<MeshChunkRefs> {
     })
 }
 
-
 fn fallback_single_primitive(num_indices: usize, num_vertices: usize) -> ScenePrimitive {
     ScenePrimitive {
         first_index: 0,

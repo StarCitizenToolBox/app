@@ -21,7 +21,10 @@ pub struct CgfTimingFormatChunk {
     pub num_sub_ranges: i32,
 }
 
-pub fn parse_timing_format_chunk(data: &[u8], header: CgfChunkHeader) -> Result<CgfTimingFormatChunk> {
+pub fn parse_timing_format_chunk(
+    data: &[u8],
+    header: CgfChunkHeader,
+) -> Result<CgfTimingFormatChunk> {
     if !matches!(header.chunk_type, ChunkType::Timing) {
         return Err(anyhow!("chunk is not a Timing chunk"));
     }

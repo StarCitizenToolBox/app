@@ -162,11 +162,7 @@ pub fn row_major_4x4_to_gltf_column_major(m: [f32; 16]) -> [f32; 16] {
 
 pub fn gltf_trs_from_row_major_matrix(m: [f32; 16]) -> ([f32; 3], [f32; 4], [f32; 3]) {
     let translation = swap_axes_for_position([m[3], m[7], m[11]]);
-    let rotation = [
-        [m[0], m[1], m[2]],
-        [m[4], m[5], m[6]],
-        [m[8], m[9], m[10]],
-    ];
+    let rotation = [[m[0], m[1], m[2]], [m[4], m[5], m[6]], [m[8], m[9], m[10]]];
     let rotation = swap_axes_for_layout(matrix3_to_quaternion(rotation));
     (translation, rotation, [1.0, 1.0, 1.0])
 }

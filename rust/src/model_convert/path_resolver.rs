@@ -182,7 +182,10 @@ fn find_by_filename(index: &HashMap<String, String>, file_name: &str) -> Option<
     candidates.into_iter().map(|(_, v)| v).next()
 }
 
-fn find_by_filename_with_context(index: &HashMap<String, String>, requested_path: &str) -> Option<String> {
+fn find_by_filename_with_context(
+    index: &HashMap<String, String>,
+    requested_path: &str,
+) -> Option<String> {
     let requested = requested_path.replace('/', "\\");
     let file_name = Path::new(&requested).file_name().and_then(|v| v.to_str())?;
     let candidates = index
@@ -215,13 +218,16 @@ fn find_by_filename_with_context(index: &HashMap<String, String>, requested_path
     let best = candidates
         .into_iter()
         .map(|path| {
-            let score = parent_segments.iter().filter(|seg| {
-                let pat = format!(r"(^|[\\/]){}([\\/]|$)", regex::escape(seg));
-                regex::Regex::new(&pat)
-                    .ok()
-                    .map(|re| re.is_match(&path))
-                    .unwrap_or(false)
-            }).count();
+            let score = parent_segments
+                .iter()
+                .filter(|seg| {
+                    let pat = format!(r"(^|[\\/]){}([\\/]|$)", regex::escape(seg));
+                    regex::Regex::new(&pat)
+                        .ok()
+                        .map(|re| re.is_match(&path))
+                        .unwrap_or(false)
+                })
+                .count();
             (score, path.len(), path)
         })
         .max_by(|a, b| a.cmp(b));
