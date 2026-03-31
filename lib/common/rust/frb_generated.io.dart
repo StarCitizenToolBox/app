@@ -10,6 +10,7 @@ import 'api/http_api.dart';
 import 'api/ort_api.dart';
 import 'api/rs_process.dart';
 import 'api/unp4k_api.dart';
+import 'api/unp4k_model_api.dart';
 import 'api/webview_api.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
@@ -50,6 +51,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool dco_decode_box_autoadd_bool(dynamic raw);
+
+  @protected
+  ModelConvertOptions dco_decode_box_autoadd_model_convert_options(dynamic raw);
 
   @protected
   RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
@@ -128,6 +132,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<WebViewEvent> dco_decode_list_web_view_event(dynamic raw);
 
   @protected
+  ModelConvertOptions dco_decode_model_convert_options(dynamic raw);
+
+  @protected
+  ModelConvertResult dco_decode_model_convert_result(dynamic raw);
+
+  @protected
   MyHttpVersion dco_decode_my_http_version(dynamic raw);
 
   @protected
@@ -141,6 +151,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool? dco_decode_opt_box_autoadd_bool(dynamic raw);
+
+  @protected
+  ModelConvertOptions? dco_decode_opt_box_autoadd_model_convert_options(
+    dynamic raw,
+  );
 
   @protected
   int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
@@ -232,6 +247,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool sse_decode_box_autoadd_bool(SseDeserializer deserializer);
+
+  @protected
+  ModelConvertOptions sse_decode_box_autoadd_model_convert_options(
+    SseDeserializer deserializer,
+  );
 
   @protected
   RsiLauncherAsarData sse_decode_box_autoadd_rsi_launcher_asar_data(
@@ -328,6 +348,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  ModelConvertOptions sse_decode_model_convert_options(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  ModelConvertResult sse_decode_model_convert_result(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   MyHttpVersion sse_decode_my_http_version(SseDeserializer deserializer);
 
   @protected
@@ -343,6 +373,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer);
+
+  @protected
+  ModelConvertOptions? sse_decode_opt_box_autoadd_model_convert_options(
+    SseDeserializer deserializer,
+  );
 
   @protected
   int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
@@ -462,6 +497,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<ffi.Bool> cst_encode_box_autoadd_bool(bool raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return wire.cst_new_box_autoadd_bool(cst_encode_bool(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_model_convert_options>
+  cst_encode_box_autoadd_model_convert_options(ModelConvertOptions raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_model_convert_options();
+    cst_api_fill_to_wire_model_convert_options(raw, ptr.ref);
+    return ptr;
   }
 
   @protected
@@ -645,6 +689,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_model_convert_options>
+  cst_encode_opt_box_autoadd_model_convert_options(ModelConvertOptions? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null
+        ? ffi.nullptr
+        : cst_encode_box_autoadd_model_convert_options(raw);
+  }
+
+  @protected
   ffi.Pointer<ffi.Uint32> cst_encode_opt_box_autoadd_u_32(int? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_u_32(raw);
@@ -691,6 +744,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.success = cst_encode_bool(apiObj.success);
     wireObj.message = cst_encode_String(apiObj.message);
     wireObj.was_modified = cst_encode_bool(apiObj.wasModified);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_model_convert_options(
+    ModelConvertOptions apiObj,
+    ffi.Pointer<wire_cst_model_convert_options> wireObj,
+  ) {
+    cst_api_fill_to_wire_model_convert_options(apiObj, wireObj.ref);
   }
 
   @protected
@@ -764,6 +825,30 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.progress = cst_encode_f_64(apiObj.progress);
     wireObj.num_peers = cst_encode_usize(apiObj.numPeers);
     wireObj.output_folder = cst_encode_String(apiObj.outputFolder);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_model_convert_options(
+    ModelConvertOptions apiObj,
+    wire_cst_model_convert_options wireObj,
+  ) {
+    wireObj.embed_textures = cst_encode_bool(apiObj.embedTextures);
+    wireObj.overwrite = cst_encode_bool(apiObj.overwrite);
+    wireObj.max_texture_size = cst_encode_opt_box_autoadd_u_32(
+      apiObj.maxTextureSize,
+    );
+  }
+
+  @protected
+  void cst_api_fill_to_wire_model_convert_result(
+    ModelConvertResult apiObj,
+    wire_cst_model_convert_result wireObj,
+  ) {
+    wireObj.success = cst_encode_bool(apiObj.success);
+    wireObj.output_path = cst_encode_opt_String(apiObj.outputPath);
+    wireObj.error_code = cst_encode_opt_String(apiObj.errorCode);
+    wireObj.error_message = cst_encode_opt_String(apiObj.errorMessage);
+    wireObj.warnings = cst_encode_list_String(apiObj.warnings);
   }
 
   @protected
@@ -980,6 +1065,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_model_convert_options(
+    ModelConvertOptions self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_box_autoadd_rsi_launcher_asar_data(
     RsiLauncherAsarData self,
     SseSerializer serializer,
@@ -1100,6 +1191,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_model_convert_options(
+    ModelConvertOptions self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_model_convert_result(
+    ModelConvertResult self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_my_http_version(MyHttpVersion self, SseSerializer serializer);
 
   @protected
@@ -1116,6 +1219,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_model_convert_options(
+    ModelConvertOptions? self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
@@ -2485,6 +2594,75 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__unp4k_api__p4k_get_file_countPtr
           .asFunction<void Function(int)>();
 
+  void wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> p4k_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> model_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_dir,
+    ffi.Pointer<wire_cst_model_convert_options> options,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb(
+      port_,
+      p4k_path,
+      model_path,
+      output_dir,
+      options,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_convert_to_glbPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_model_convert_options>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb =
+      _wire__crate__api__unp4k_model_api__p4k_model_convert_to_glbPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_model_convert_options>,
+            )
+          >();
+
+  void wire__crate__api__unp4k_model_api__p4k_model_is_supported(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_is_supported(
+      port_,
+      file_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_is_supportedPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_is_supported',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_is_supported =
+      _wire__crate__api__unp4k_model_api__p4k_model_is_supportedPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
   void wire__crate__api__unp4k_api__p4k_open(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> p4k_path,
@@ -3356,6 +3534,21 @@ class RustLibWire implements BaseWire {
   late final _cst_new_box_autoadd_bool = _cst_new_box_autoadd_boolPtr
       .asFunction<ffi.Pointer<ffi.Bool> Function(bool)>();
 
+  ffi.Pointer<wire_cst_model_convert_options>
+  cst_new_box_autoadd_model_convert_options() {
+    return _cst_new_box_autoadd_model_convert_options();
+  }
+
+  late final _cst_new_box_autoadd_model_convert_optionsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_model_convert_options> Function()
+        >
+      >('frbgen_starcitizen_doctor_cst_new_box_autoadd_model_convert_options');
+  late final _cst_new_box_autoadd_model_convert_options =
+      _cst_new_box_autoadd_model_convert_optionsPtr
+          .asFunction<ffi.Pointer<wire_cst_model_convert_options> Function()>();
+
   ffi.Pointer<wire_cst_rsi_launcher_asar_data>
   cst_new_box_autoadd_rsi_launcher_asar_data() {
     return _cst_new_box_autoadd_rsi_launcher_asar_data();
@@ -3636,6 +3829,16 @@ final class wire_cst_list_record_string_string extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_model_convert_options extends ffi.Struct {
+  @ffi.Bool()
+  external bool embed_textures;
+
+  @ffi.Bool()
+  external bool overwrite;
+
+  external ffi.Pointer<ffi.Uint32> max_texture_size;
+}
+
 final class wire_cst_rsi_launcher_asar_data extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> asar_path;
 
@@ -3855,6 +4058,19 @@ final class wire_cst_download_global_stat extends ffi.Struct {
 
   @ffi.UintPtr()
   external int num_waiting;
+}
+
+final class wire_cst_model_convert_result extends ffi.Struct {
+  @ffi.Bool()
+  external bool success;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_code;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
+
+  external ffi.Pointer<wire_cst_list_String> warnings;
 }
 
 final class wire_cst_rs_process_stream_data extends ffi.Struct {

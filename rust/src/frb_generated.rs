@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -351025706;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 983920647;
 
 // Section: executor
 
@@ -1462,6 +1462,65 @@ fn wire__crate__api__unp4k_api__p4k_get_file_count_impl(
         },
     )
 }
+fn wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    p4k_path: impl CstDecode<String>,
+    model_path: impl CstDecode<String>,
+    output_dir: impl CstDecode<String>,
+    options: impl CstDecode<Option<crate::api::unp4k_model_api::ModelConvertOptions>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_model_convert_to_glb",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_p4k_path = p4k_path.cst_decode();
+            let api_model_path = model_path.cst_decode();
+            let api_output_dir = output_dir.cst_decode();
+            let api_options = options.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_model_api::p4k_model_convert_to_glb(
+                            api_p4k_path,
+                            api_model_path,
+                            api_output_dir,
+                            api_options,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_model_api__p4k_model_is_supported_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    file_path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_model_is_supported",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_file_path = file_path.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::unp4k_model_api::p4k_model_is_supported(api_file_path),
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
 fn wire__crate__api__unp4k_api__p4k_open_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     p4k_path: impl CstDecode<String>,
@@ -2646,6 +2705,38 @@ impl SseDecode for Vec<crate::api::webview_api::WebViewEvent> {
     }
 }
 
+impl SseDecode for crate::api::unp4k_model_api::ModelConvertOptions {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_embedTextures = <bool>::sse_decode(deserializer);
+        let mut var_overwrite = <bool>::sse_decode(deserializer);
+        let mut var_maxTextureSize = <Option<u32>>::sse_decode(deserializer);
+        return crate::api::unp4k_model_api::ModelConvertOptions {
+            embed_textures: var_embedTextures,
+            overwrite: var_overwrite,
+            max_texture_size: var_maxTextureSize,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_model_api::ModelConvertResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_success = <bool>::sse_decode(deserializer);
+        let mut var_outputPath = <Option<String>>::sse_decode(deserializer);
+        let mut var_errorCode = <Option<String>>::sse_decode(deserializer);
+        let mut var_errorMessage = <Option<String>>::sse_decode(deserializer);
+        let mut var_warnings = <Vec<String>>::sse_decode(deserializer);
+        return crate::api::unp4k_model_api::ModelConvertResult {
+            success: var_success,
+            output_path: var_outputPath,
+            error_code: var_errorCode,
+            error_message: var_errorMessage,
+            warnings: var_warnings,
+        };
+    }
+}
+
 impl SseDecode for crate::http_package::MyHttpVersion {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2710,6 +2801,19 @@ impl SseDecode for Option<bool> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<bool>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::unp4k_model_api::ModelConvertOptions> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(
+                <crate::api::unp4k_model_api::ModelConvertOptions>::sse_decode(deserializer),
+            );
         } else {
             return None;
         }
@@ -3187,6 +3291,52 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::downloader_api::DownloadTaskS
     for crate::api::downloader_api::DownloadTaskStatus
 {
     fn into_into_dart(self) -> crate::api::downloader_api::DownloadTaskStatus {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::ModelConvertOptions {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.embed_textures.into_into_dart().into_dart(),
+            self.overwrite.into_into_dart().into_dart(),
+            self.max_texture_size.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_model_api::ModelConvertOptions
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::ModelConvertOptions>
+    for crate::api::unp4k_model_api::ModelConvertOptions
+{
+    fn into_into_dart(self) -> crate::api::unp4k_model_api::ModelConvertOptions {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::ModelConvertResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.success.into_into_dart().into_dart(),
+            self.output_path.into_into_dart().into_dart(),
+            self.error_code.into_into_dart().into_dart(),
+            self.error_message.into_into_dart().into_dart(),
+            self.warnings.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_model_api::ModelConvertResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::ModelConvertResult>
+    for crate::api::unp4k_model_api::ModelConvertResult
+{
+    fn into_into_dart(self) -> crate::api::unp4k_model_api::ModelConvertResult {
         self
     }
 }
@@ -3733,6 +3883,26 @@ impl SseEncode for Vec<crate::api::webview_api::WebViewEvent> {
     }
 }
 
+impl SseEncode for crate::api::unp4k_model_api::ModelConvertOptions {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.embed_textures, serializer);
+        <bool>::sse_encode(self.overwrite, serializer);
+        <Option<u32>>::sse_encode(self.max_texture_size, serializer);
+    }
+}
+
+impl SseEncode for crate::api::unp4k_model_api::ModelConvertResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.success, serializer);
+        <Option<String>>::sse_encode(self.output_path, serializer);
+        <Option<String>>::sse_encode(self.error_code, serializer);
+        <Option<String>>::sse_encode(self.error_message, serializer);
+        <Vec<String>>::sse_encode(self.warnings, serializer);
+    }
+}
+
 impl SseEncode for crate::http_package::MyHttpVersion {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -3802,6 +3972,16 @@ impl SseEncode for Option<bool> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <bool>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::unp4k_model_api::ModelConvertOptions> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::unp4k_model_api::ModelConvertOptions>::sse_encode(value, serializer);
         }
     }
 }
@@ -4114,6 +4294,15 @@ mod io {
             unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
         }
     }
+    impl CstDecode<crate::api::unp4k_model_api::ModelConvertOptions>
+        for *mut wire_cst_model_convert_options
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::ModelConvertOptions {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::unp4k_model_api::ModelConvertOptions>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<crate::api::asar_api::RsiLauncherAsarData> for *mut wire_cst_rsi_launcher_asar_data {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::asar_api::RsiLauncherAsarData {
@@ -4309,6 +4498,30 @@ mod io {
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
             };
             vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<crate::api::unp4k_model_api::ModelConvertOptions>
+        for wire_cst_model_convert_options
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::ModelConvertOptions {
+            crate::api::unp4k_model_api::ModelConvertOptions {
+                embed_textures: self.embed_textures.cst_decode(),
+                overwrite: self.overwrite.cst_decode(),
+                max_texture_size: self.max_texture_size.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::unp4k_model_api::ModelConvertResult> for wire_cst_model_convert_result {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::ModelConvertResult {
+            crate::api::unp4k_model_api::ModelConvertResult {
+                success: self.success.cst_decode(),
+                output_path: self.output_path.cst_decode(),
+                error_code: self.error_code.cst_decode(),
+                error_message: self.error_message.cst_decode(),
+                warnings: self.warnings.cst_decode(),
+            }
         }
     }
     impl CstDecode<crate::api::unp4k_api::P4kFileItem> for wire_cst_p_4_k_file_item {
@@ -4538,6 +4751,36 @@ mod io {
         }
     }
     impl Default for wire_cst_download_task_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_model_convert_options {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                embed_textures: Default::default(),
+                overwrite: Default::default(),
+                max_texture_size: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_model_convert_options {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_model_convert_result {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                success: Default::default(),
+                output_path: core::ptr::null_mut(),
+                error_code: core::ptr::null_mut(),
+                error_message: core::ptr::null_mut(),
+                warnings: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_model_convert_result {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -5187,6 +5430,27 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb(
+        port_: i64,
+        p4k_path: *mut wire_cst_list_prim_u_8_strict,
+        model_path: *mut wire_cst_list_prim_u_8_strict,
+        output_dir: *mut wire_cst_list_prim_u_8_strict,
+        options: *mut wire_cst_model_convert_options,
+    ) {
+        wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_impl(
+            port_, p4k_path, model_path, output_dir, options,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_is_supported(
+        port_: i64,
+        file_path: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_model_api__p4k_model_is_supported_impl(port_, file_path)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_open(
         port_: i64,
         p4k_path: *mut wire_cst_list_prim_u_8_strict,
@@ -5460,6 +5724,14 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_bool(value: bool) -> *mut bool {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_model_convert_options(
+    ) -> *mut wire_cst_model_convert_options {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_model_convert_options::new_with_null_ptr(),
+        )
     }
 
     #[unsafe(no_mangle)]
@@ -5750,6 +6022,22 @@ mod io {
     pub struct wire_cst_list_web_view_event {
         ptr: *mut wire_cst_web_view_event,
         len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_model_convert_options {
+        embed_textures: bool,
+        overwrite: bool,
+        max_texture_size: *mut u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_model_convert_result {
+        success: bool,
+        output_path: *mut wire_cst_list_prim_u_8_strict,
+        error_code: *mut wire_cst_list_prim_u_8_strict,
+        error_message: *mut wire_cst_list_prim_u_8_strict,
+        warnings: *mut wire_cst_list_String,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

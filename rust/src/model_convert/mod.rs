@@ -1,0 +1,1586 @@
+pub mod cgf_parser;
+pub mod cryengine;
+pub mod gltf_builder;
+pub mod ivo_parser;
+pub mod material_parser;
+pub mod path_resolver;
+pub mod texture_decode;
+
+use std::collections::HashMap;
+use std::fs;
+use std::path::{Path, PathBuf};
+
+use anyhow::Result;
+use walkdir::WalkDir;
+
+use crate::api::unp4k_api;
+
+#[derive(Debug, Clone)]
+pub struct ScenePrimitive {
+    pub first_index: u32,
+    pub num_indices: u32,
+    pub first_vertex: u32,
+    pub num_vertices: u32,
+    pub material_id: i32,
+}
+
+#[derive(Debug, Clone)]
+pub struct SceneMesh {
+    pub positions: Vec<[f32; 3]>,
+    pub normals: Vec<[f32; 3]>,
+    pub uvs: Vec<[f32; 2]>,
+    pub joints: Option<Vec<[u16; 4]>>,
+    pub weights: Option<Vec<[f32; 4]>>,
+    pub indices: Vec<u32>,
+    pub index_accessor_source: Option<Vec<u32>>,
+    pub primitives: Vec<ScenePrimitive>,
+    pub name: Option<String>,
+    pub node_name: Option<String>,
+    pub node_translation: Option<[f32; 3]>,
+    pub node_rotation: Option<[f32; 4]>,
+    pub node_scale: Option<[f32; 3]>,
+    // Optional node transform in glTF matrix order (column-major 4x4).
+    pub node_matrix: Option<[f32; 16]>,
+}
+
+#[derive(Debug, Clone)]
+pub struct SceneData {
+    pub meshes: Vec<SceneMesh>,
+    pub warnings: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct MaterialData {
+    pub name: Option<String>,
+    pub diffuse: Option<[f32; 3]>,
+    pub specular: Option<[f32; 3]>,
+    pub emissive_color: Option<[f32; 3]>,
+    pub glow_amount: Option<f32>,
+    pub opacity: Option<f32>,
+    pub shininess: Option<f32>,
+    pub alpha_test: Option<f32>,
+    pub material_flags: Option<u32>,
+    pub shader: Option<String>,
+    pub string_gen_mask: Option<String>,
+    pub no_draw: bool,
+    pub base_color: Option<String>,
+    pub base_color_candidates: Vec<String>,
+    pub normal: Option<String>,
+    pub normal_candidates: Vec<String>,
+    pub specular_texture: Option<String>,
+    pub specular_texture_candidates: Vec<String>,
+    pub occlusion: Option<String>,
+    pub occlusion_candidates: Vec<String>,
+    pub emissive: Option<String>,
+    pub emissive_candidates: Vec<String>,
+    pub opacity_texture: Option<String>,
+    pub opacity_texture_candidates: Vec<String>,
+    pub sub_materials: Vec<MaterialData>,
+}
+
+#[derive(Debug, Clone)]
+pub struct DecodedTexture {
+    pub name: String,
+    pub uri: String,
+    pub label: Option<String>,
+    pub width: u32,
+    pub height: u32,
+    pub rgba8: Vec<u8>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct GltfMaterialData {
+    pub name: Option<String>,
+    pub base_color_factor: Option<[f32; 4]>,
+    pub specular_factor: Option<[f32; 3]>,
+    pub glossiness_factor: Option<f32>,
+    pub pbr_roughness_factor: Option<f32>,
+    pub double_sided: Option<bool>,
+    pub alpha_mode: Option<String>,
+    pub alpha_cutoff: Option<f32>,
+    pub emissive_strength: Option<f32>,
+    pub no_draw: bool,
+    pub base_color_texture: Option<usize>,
+    pub diffuse_texture: Option<usize>,
+    pub normal_texture: Option<usize>,
+    pub specular_glossiness_texture: Option<usize>,
+}
+
+#[derive(thiserror::Error, Debug)]
+pub enum ModelConvertError {
+    #[error("Unsupported file format")]
+    UnsupportedFormat,
+    #[error("Binary model not supported: {0}")]
+    ParserBinaryNotSupported(String),
+    #[error("Model parse failed: {0}")]
+    ModelParseFailed(String),
+    #[error("Texture decode failed: {0}")]
+    TextureDecodeFailed(String),
+    #[error("Texture is too large")]
+    TextureTooLarge,
+    #[error("Output already exists")]
+    OutputExists,
+    #[error("I/O failed: {0}")]
+    Io(String),
+}
+
+impl ModelConvertError {
+    pub fn code(&self) -> &'static str {
+        match self {
+            Self::UnsupportedFormat => "ERR_UNSUPPORTED_FORMAT",
+            Self::ParserBinaryNotSupported(_) => "ERR_PARSER_BINARY_NOT_SUPPORTED",
+            Self::ModelParseFailed(_) => "ERR_MODEL_PARSE_FAILED",
+            Self::TextureDecodeFailed(_) => "ERR_TEX_DECODE_FAILED",
+            Self::TextureTooLarge => "ERR_TEX_TOO_LARGE",
+            Self::OutputExists => "ERR_OUTPUT_EXISTS",
+            Self::Io(_) => "ERR_IO",
+        }
+    }
+}
+
+fn categorize_parser_error<E: ToString>(error: E) -> ModelConvertError {
+    categorize_parser_error_message(error.to_string())
+}
+
+fn categorize_parser_error_message(message: String) -> ModelConvertError {
+    if is_binary_not_supported_message(&message) {
+        ModelConvertError::ParserBinaryNotSupported(message)
+    } else {
+        ModelConvertError::ModelParseFailed(message)
+    }
+}
+
+fn is_binary_not_supported_message(message: &str) -> bool {
+    let normalized = message.to_lowercase();
+    if !(normalized.contains("unsupported") || normalized.contains("not supported")) {
+        return false;
+    }
+
+    const CONTEXT_KEYWORDS: &[&str] = &[
+        "signature",
+        "version",
+        "file type",
+        "chunk",
+        "binary",
+        "format",
+    ];
+
+    CONTEXT_KEYWORDS
+        .iter()
+        .any(|keyword| normalized.contains(keyword))
+}
+
+fn texture_not_found_warning(texture_name: &str, channel: &str) -> String {
+    format!("Texture not found for {channel}: {texture_name}")
+}
+
+fn texture_decode_failed_warning(path: &str, channel: &str, reason: &str) -> String {
+    format!("Texture decode failed for {channel} at {path}: {reason}")
+}
+
+fn material_fallback_warning(material_id: i32) -> String {
+    format!("Material id {material_id} is missing; fallback to default material")
+}
+
+fn opacity_approximation_warning(material_id: i32) -> String {
+    format!(
+        "Material id {material_id} uses opacity map; exported with glTF alphaMode=BLEND approximation"
+    )
+}
+
+fn material_uses_specular_texture(material: &MaterialData) -> bool {
+    let mask = material
+        .string_gen_mask
+        .as_deref()
+        .unwrap_or_default()
+        .to_ascii_uppercase();
+    mask.contains("SPECULARPOW_GLOSSALPHA")
+}
+
+fn resolve_texture_candidates<'a>(
+    candidates: impl IntoIterator<Item = &'a str>,
+    model_paths: &[String],
+    index: &HashMap<String, String>,
+) -> Option<String> {
+    for candidate in candidates {
+        for model_path in model_paths {
+            if let Some(path) = path_resolver::resolve_texture_path(model_path, candidate, index) {
+                return Some(path);
+            }
+        }
+    }
+    None
+}
+
+fn texture_search_roots_p4k(model_path: &str, index: &HashMap<String, String>) -> Vec<String> {
+    let mut roots = vec![model_path.to_string()];
+    if let Some(companion_name) = find_ivo_companion_name(model_path, index) {
+        if roots.iter().all(|root| !root.eq_ignore_ascii_case(&companion_name)) {
+            roots.push(companion_name);
+        }
+    }
+    roots
+}
+
+fn texture_search_roots_fs(model_path: &str) -> Vec<String> {
+    let mut roots = vec![model_path.to_string()];
+    if let Some(companion_path) = find_ivo_companion_path(model_path) {
+        if companion_path.exists() {
+            let companion = companion_path.to_string_lossy().to_string();
+            if roots.iter().all(|root| !root.eq_ignore_ascii_case(&companion)) {
+                roots.push(companion);
+            }
+        }
+    }
+    roots
+}
+
+#[derive(Debug, Clone)]
+pub struct ConvertOptions {
+    pub embed_textures: bool,
+    pub overwrite: bool,
+    pub max_texture_size: Option<u32>,
+}
+
+impl Default for ConvertOptions {
+    fn default() -> Self {
+        Self {
+            embed_textures: true,
+            overwrite: false,
+            max_texture_size: Some(4096),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct ConvertOutput {
+    pub output_path: String,
+    pub warnings: Vec<String>,
+    pub source_mode: String,
+    pub fallback_reason: Option<String>,
+}
+
+pub async fn convert_from_p4k(
+    p4k_path: &str,
+    model_path: &str,
+    output_dir: &str,
+    options: ConvertOptions,
+) -> std::result::Result<ConvertOutput, ModelConvertError> {
+    let ext = Path::new(model_path)
+        .extension()
+        .and_then(|v| v.to_str())
+        .unwrap_or_default()
+        .to_lowercase();
+    if ext != "cgf" && ext != "cga" {
+        return Err(ModelConvertError::UnsupportedFormat);
+    }
+
+    unp4k_api::p4k_open(p4k_path.to_string())
+        .await
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    let model_bytes = unp4k_api::p4k_extract_to_memory(model_path.to_string())
+        .await
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    let all_files = unp4k_api::p4k_get_all_files()
+        .await
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+    let mut index = HashMap::with_capacity(all_files.len());
+    for item in all_files {
+        index.insert(item.name.to_lowercase(), item.name);
+    }
+
+    if is_ivo_signature(&model_bytes) {
+        return convert_ivo_from_p4k(
+            model_path,
+            output_dir,
+            options,
+            model_bytes,
+            index,
+        )
+        .await;
+    }
+
+    let mut scene =
+        cgf_parser::parse_static_scene(&model_bytes).map_err(categorize_parser_error)?;
+
+    let desired_material_count = scene
+        .meshes
+        .iter()
+        .flat_map(|mesh| mesh.primitives.iter())
+        .map(|primitive| primitive.material_id.max(0) as usize + 1)
+        .max()
+        .unwrap_or(1);
+    let companion_bytes = load_companion_bytes_from_p4k(model_path, &index).await?;
+    let material = load_best_material_from_p4k(
+        model_path,
+        &model_bytes,
+        companion_bytes.as_deref(),
+        &index,
+        desired_material_count,
+    )
+    .await?;
+
+    let mut warnings = std::mem::take(&mut scene.warnings);
+    let (textures, materials, materials_by_id, texture_warnings) = collect_material_textures(
+        &scene,
+        &material,
+        model_path,
+        &index,
+        options.max_texture_size,
+    )
+    .await?;
+    warnings.extend(texture_warnings);
+
+    let output_name = Path::new(model_path)
+        .file_stem()
+        .and_then(|v| v.to_str())
+        .unwrap_or("model");
+    let output_path = PathBuf::from(output_dir).join(format!("{output_name}.glb"));
+    if output_path.exists() && !options.overwrite {
+        return Err(ModelConvertError::OutputExists);
+    }
+
+    if !options.embed_textures {
+        warnings.push(
+            "embed_textures=false is not supported yet; textures are still embedded".to_string(),
+        );
+    }
+
+    gltf_builder::write_glb(
+        &scene,
+        &textures,
+        &materials,
+        &materials_by_id,
+        &output_path,
+    )
+    .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    Ok(ConvertOutput {
+        output_path: output_path.to_string_lossy().to_string(),
+        warnings,
+        source_mode: "rust_crch".to_string(),
+        fallback_reason: None,
+    })
+}
+
+async fn convert_ivo_from_p4k(
+    model_path: &str,
+    output_dir: &str,
+    options: ConvertOptions,
+    model_bytes: Vec<u8>,
+    index: HashMap<String, String>,
+) -> std::result::Result<ConvertOutput, ModelConvertError> {
+    let output_name = Path::new(model_path)
+        .file_stem()
+        .and_then(|v| v.to_str())
+        .unwrap_or("model");
+    let output_path = PathBuf::from(output_dir).join(format!("{output_name}.glb"));
+    if output_path.exists() && !options.overwrite {
+        return Err(ModelConvertError::OutputExists);
+    }
+
+    let companion_bytes = load_companion_bytes_from_p4k(model_path, &index).await?;
+    let native_ivo = ivo_parser::parse_static_scene(&model_bytes);
+    let (mut scene, source_mode, extra_warnings) = match native_ivo {
+        Ok(scene) if !scene.meshes.is_empty() => (scene, "rust_ivo", Vec::new()),
+        Ok(_) => {
+            let primary_reason = "native_ivo_parser produced no meshes".to_string();
+            if let Some(companion_name) = find_ivo_companion_name(model_path, &index) {
+                let companion_bytes = unp4k_api::p4k_extract_to_memory(companion_name.clone())
+                    .await
+                    .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+                if is_ivo_signature(&companion_bytes) {
+                    let companion_ivo = ivo_parser::parse_static_scene_with_layout(
+                        &companion_bytes,
+                        Some(&model_bytes),
+                    )
+                    .map_err(categorize_parser_error)?;
+                    if !companion_ivo.meshes.is_empty() {
+                        (
+                            companion_ivo,
+                            "rust_ivo_companion",
+                            vec![format!(
+                                "native IVO parser used companion file after primary parse fallback: {} ({})",
+                                companion_name, primary_reason
+                            )],
+                        )
+                    } else {
+                        return Err(ModelConvertError::ModelParseFailed(format!(
+                            "IVO conversion failed without external fallback: {primary_reason}; companion_native_ivo_parser produced no meshes: {companion_name}"
+                        )));
+                    }
+                } else {
+                    return Err(ModelConvertError::ModelParseFailed(format!(
+                        "IVO conversion failed without external fallback: {primary_reason}"
+                    )));
+                }
+            } else {
+                return Err(ModelConvertError::ModelParseFailed(format!(
+                    "IVO conversion failed without external fallback: {primary_reason}"
+                )));
+            }
+        }
+        Err(e) => {
+            let primary_reason = format!("native_ivo_parser_failed: {e}");
+            if let Some(companion_name) = find_ivo_companion_name(model_path, &index) {
+                let companion_bytes = unp4k_api::p4k_extract_to_memory(companion_name.clone())
+                    .await
+                    .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+                if is_ivo_signature(&companion_bytes) {
+                    let companion_ivo = ivo_parser::parse_static_scene_with_layout(
+                        &companion_bytes,
+                        Some(&model_bytes),
+                    )
+                    .map_err(categorize_parser_error)?;
+                    if !companion_ivo.meshes.is_empty() {
+                        (
+                            companion_ivo,
+                            "rust_ivo_companion",
+                            vec![format!(
+                                "native IVO parser used companion file after primary parse fallback: {} ({})",
+                                companion_name, primary_reason
+                            )],
+                        )
+                    } else {
+                        return Err(ModelConvertError::ModelParseFailed(format!(
+                            "IVO conversion failed without external fallback: {primary_reason}; companion_native_ivo_parser produced no meshes: {companion_name}"
+                        )));
+                    }
+                } else {
+                    return Err(ModelConvertError::ModelParseFailed(format!(
+                        "IVO conversion failed without external fallback: {primary_reason}"
+                    )));
+                }
+            } else {
+                return Err(ModelConvertError::ModelParseFailed(format!(
+                    "IVO conversion failed without external fallback: {primary_reason}"
+                )));
+            }
+        }
+    };
+
+    let desired_material_count = scene
+        .meshes
+        .iter()
+        .flat_map(|mesh| mesh.primitives.iter())
+        .map(|primitive| primitive.material_id.max(0) as usize + 1)
+        .max()
+        .unwrap_or(1);
+    let material = load_best_material_from_p4k(
+        model_path,
+        &model_bytes,
+        companion_bytes.as_deref(),
+        &index,
+        desired_material_count,
+    )
+    .await?;
+
+    let (textures, materials, materials_by_id, texture_warnings) = collect_material_textures(
+        &scene,
+        &material,
+        model_path,
+        &index,
+        options.max_texture_size,
+    )
+    .await?;
+
+    let mut warnings = std::mem::take(&mut scene.warnings);
+    warnings.extend(extra_warnings);
+    warnings.extend(texture_warnings);
+
+    if !options.embed_textures {
+        warnings.push(
+            "embed_textures=false is not supported yet; textures are still embedded".to_string(),
+        );
+    }
+
+    gltf_builder::write_glb(
+        &scene,
+        &textures,
+        &materials,
+        &materials_by_id,
+        &output_path,
+    )
+    .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    Ok(ConvertOutput {
+        output_path: output_path.to_string_lossy().to_string(),
+        warnings,
+        source_mode: source_mode.to_string(),
+        fallback_reason: None,
+    })
+}
+
+pub async fn convert_from_fs(
+    model_path: &str,
+    asset_root: &str,
+    output_dir: &str,
+    options: ConvertOptions,
+) -> std::result::Result<ConvertOutput, ModelConvertError> {
+    convert_from_fs_internal(model_path, asset_root, output_dir, options, None).await
+}
+
+async fn convert_from_fs_internal(
+    model_path: &str,
+    asset_root: &str,
+    output_dir: &str,
+    options: ConvertOptions,
+    material_override: Option<&str>,
+) -> std::result::Result<ConvertOutput, ModelConvertError> {
+    let ext = Path::new(model_path)
+        .extension()
+        .and_then(|v| v.to_str())
+        .unwrap_or_default()
+        .to_lowercase();
+    if ext != "cgf" && ext != "cga" {
+        return Err(ModelConvertError::UnsupportedFormat);
+    }
+
+    let output_name = Path::new(model_path)
+        .file_stem()
+        .and_then(|v| v.to_str())
+        .unwrap_or("model");
+    let output_path = PathBuf::from(output_dir).join(format!("{output_name}.glb"));
+    if output_path.exists() && !options.overwrite {
+        return Err(ModelConvertError::OutputExists);
+    }
+
+    let model_bytes = fs::read(model_path).map_err(|e| ModelConvertError::Io(e.to_string()))?;
+    if is_ivo_signature(&model_bytes) {
+        let native_ivo = ivo_parser::parse_static_scene(&model_bytes);
+        match native_ivo {
+            Ok(scene) if !scene.meshes.is_empty() => {
+                return write_native_ivo_glb_from_fs(
+                    scene,
+                    model_path,
+                    asset_root,
+                    &output_path,
+                    material_override,
+                    &options,
+                    "rust_ivo",
+                    Vec::new(),
+                );
+            }
+            Ok(_) => {
+                let primary_reason = "native_ivo_parser produced no meshes".to_string();
+
+                if let Some(companion_path) = find_ivo_companion_path(model_path) {
+                    if companion_path.exists() {
+                        let companion_bytes = fs::read(&companion_path)
+                            .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+                        if is_ivo_signature(&companion_bytes) {
+                            let companion_ivo = ivo_parser::parse_static_scene_with_layout(
+                                &companion_bytes,
+                                Some(&model_bytes),
+                            );
+                            match companion_ivo {
+                                Ok(scene) if !scene.meshes.is_empty() => {
+                                    return write_native_ivo_glb_from_fs(
+                                        scene,
+                                        model_path,
+                                        asset_root,
+                                        &output_path,
+                                        material_override,
+                                        &options,
+                                        "rust_ivo_companion",
+                                        vec![format!(
+                                            "native IVO parser used companion file after primary parse fallback: {} ({})",
+                                            companion_path.display(),
+                                            primary_reason
+                                        )],
+                                    );
+                                }
+                                Ok(_) => {
+                                    let reason = format!(
+                                        "{primary_reason}; companion_native_ivo_parser produced no meshes: {}",
+                                        companion_path.display()
+                                    );
+                                    return Err(ModelConvertError::ModelParseFailed(format!(
+                                        "IVO conversion failed without external fallback: {reason}"
+                                    )));
+                                }
+                                Err(e) => {
+                                    let reason = format!(
+                                        "{primary_reason}; companion_native_ivo_parser_failed: {} ({e})",
+                                        companion_path.display()
+                                    );
+                                    return Err(ModelConvertError::ModelParseFailed(format!(
+                                        "IVO conversion failed without external fallback: {reason}"
+                                    )));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return Err(ModelConvertError::ModelParseFailed(format!(
+                    "IVO conversion failed without external fallback: {primary_reason}"
+                )));
+            }
+            Err(e) => {
+                let primary_reason = format!("native_ivo_parser_failed: {e}");
+
+                if let Some(companion_path) = find_ivo_companion_path(model_path) {
+                    if companion_path.exists() {
+                        let companion_bytes = fs::read(&companion_path)
+                            .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+                        if is_ivo_signature(&companion_bytes) {
+                            let companion_ivo = ivo_parser::parse_static_scene_with_layout(
+                                &companion_bytes,
+                                Some(&model_bytes),
+                            );
+                            match companion_ivo {
+                                Ok(scene) if !scene.meshes.is_empty() => {
+                                    return write_native_ivo_glb_from_fs(
+                                        scene,
+                                        model_path,
+                                        asset_root,
+                                        &output_path,
+                                        material_override,
+                                        &options,
+                                        "rust_ivo_companion",
+                                        vec![format!(
+                                            "native IVO parser used companion file after primary parse fallback: {} ({})",
+                                            companion_path.display(),
+                                            primary_reason
+                                        )],
+                                    );
+                                }
+                                Ok(_) => {
+                                    let companion_reason = format!(
+                                        "companion_native_ivo_parser produced no meshes: {}",
+                                        companion_path.display()
+                                    );
+                                    let reason = format!("{primary_reason}; {companion_reason}");
+                                    return Err(ModelConvertError::ModelParseFailed(format!(
+                                        "IVO conversion failed without external fallback: {reason}"
+                                    )));
+                                }
+                                Err(e) => {
+                                    let companion_reason = format!(
+                                        "companion_native_ivo_parser_failed: {} ({e})",
+                                        companion_path.display()
+                                    );
+                                    let reason = format!("{primary_reason}; {companion_reason}");
+                                    return Err(ModelConvertError::ModelParseFailed(format!(
+                                        "IVO conversion failed without external fallback: {reason}"
+                                    )));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return Err(ModelConvertError::ModelParseFailed(format!(
+                    "IVO conversion failed without external fallback: {primary_reason}"
+                )));
+            }
+        }
+    }
+
+    let index = build_fs_index(asset_root).map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    let mut scene =
+        cgf_parser::parse_static_scene(&model_bytes).map_err(categorize_parser_error)?;
+
+    let desired_material_count = scene
+        .meshes
+        .iter()
+        .flat_map(|mesh| mesh.primitives.iter())
+        .map(|primitive| primitive.material_id.max(0) as usize + 1)
+        .max()
+        .unwrap_or(1);
+    let companion_bytes = load_companion_bytes_from_fs(model_path)?;
+    let material = load_best_material_from_fs(
+        model_path,
+        &model_bytes,
+        companion_bytes.as_deref(),
+        material_override,
+        &index,
+        desired_material_count,
+    )?;
+
+    let mut warnings = std::mem::take(&mut scene.warnings);
+    let (textures, materials, materials_by_id, texture_warnings) =
+        collect_material_textures_from_fs(
+            &scene,
+            &material,
+            model_path,
+            &index,
+            options.max_texture_size,
+        )?;
+    warnings.extend(texture_warnings);
+
+    if !options.embed_textures {
+        warnings.push(
+            "embed_textures=false is not supported yet; textures are still embedded".to_string(),
+        );
+    }
+
+    gltf_builder::write_glb(
+        &scene,
+        &textures,
+        &materials,
+        &materials_by_id,
+        &output_path,
+    )
+    .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    Ok(ConvertOutput {
+        output_path: output_path.to_string_lossy().to_string(),
+        warnings,
+        source_mode: "rust_crch".to_string(),
+        fallback_reason: None,
+    })
+}
+pub async fn convert_local_batch_and_merge(
+    _asset_root: &str,
+    _output_dir: &str,
+    _options: ConvertOptions,
+) -> std::result::Result<(), ModelConvertError> {
+    Err(ModelConvertError::UnsupportedFormat)
+}
+
+pub fn is_supported_model(path: &str) -> bool {
+    let ext = Path::new(path)
+        .extension()
+        .and_then(|v| v.to_str())
+        .unwrap_or_default()
+        .to_lowercase();
+    ext == "cgf" || ext == "cga"
+}
+
+pub fn _debug_result(_: Result<()>) {}
+
+async fn collect_material_textures(
+    scene: &SceneData,
+    root_material: &MaterialData,
+    model_path: &str,
+    index: &HashMap<String, String>,
+    max_texture_size: Option<u32>,
+) -> std::result::Result<
+    (
+        Vec<DecodedTexture>,
+        Vec<GltfMaterialData>,
+        HashMap<i32, usize>,
+        Vec<String>,
+    ),
+    ModelConvertError,
+> {
+    let mut warnings = Vec::new();
+    let mut sorted_ids = root_material
+        .sub_materials
+        .iter()
+        .enumerate()
+        .filter_map(|(index, material)| (!material.no_draw).then_some(index as i32))
+        .collect::<Vec<_>>();
+    if sorted_ids.is_empty() {
+        sorted_ids.push(-1);
+    }
+
+    let mut texture_map: HashMap<String, usize> = HashMap::new();
+    let mut textures = Vec::new();
+    let mut materials = Vec::new();
+    let mut materials_by_id = HashMap::new();
+
+    for material_id in sorted_ids {
+        let material_ref = if material_id >= 0 {
+            root_material.sub_materials.get(material_id as usize).unwrap_or_else(|| {
+                warnings.push(material_fallback_warning(material_id));
+                root_material
+            })
+        } else {
+            root_material
+        };
+
+        let mut gltf_material = GltfMaterialData::default();
+        gltf_material.name = material_ref.name.clone();
+        gltf_material.base_color_factor = Some(if material_ref.no_draw {
+            [0.0, 0.0, 0.0, 0.0]
+        } else {
+            let diffuse = material_ref.diffuse.unwrap_or([1.0, 1.0, 1.0]);
+            [diffuse[0], diffuse[1], diffuse[2], material_ref.opacity.unwrap_or(1.0).clamp(0.0, 1.0)]
+        });
+        gltf_material.specular_factor = Some(material_ref.specular.unwrap_or([1.0, 1.0, 1.0]));
+        let shininess = material_ref.shininess.unwrap_or(0.0);
+        let glossiness = (shininess / 255.0).clamp(0.0, 1.0);
+        gltf_material.glossiness_factor = Some(glossiness);
+        gltf_material.pbr_roughness_factor = Some(((255.0 - shininess) / 255.0).clamp(0.0, 1.0));
+        gltf_material.double_sided = Some(material_ref.material_flags.map(|flags| (flags & 0x2) != 0).unwrap_or(false));
+        gltf_material.alpha_mode = Some(if material_ref.no_draw {
+            "MASK".to_string()
+        } else if material_ref.alpha_test.unwrap_or(0.0) == 0.0 {
+            "OPAQUE".to_string()
+        } else {
+            "MASK".to_string()
+        });
+        gltf_material.alpha_cutoff = material_ref.alpha_test;
+        gltf_material.no_draw = material_ref.no_draw;
+        gltf_material.emissive_strength = material_ref.glow_amount;
+        let normal_candidates = material_ref.normal_candidates.clone();
+        let base_candidates = material_ref.base_color_candidates.clone();
+        let spec_candidates = material_ref.specular_texture_candidates.clone();
+        gltf_material.normal_texture = maybe_collect_channel_texture_p4k(
+            material_ref.name.as_deref(),
+            "normal",
+            &normal_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )
+        .await?;
+        gltf_material.base_color_texture = maybe_collect_channel_texture_p4k(
+            material_ref.name.as_deref(),
+            "baseColor",
+            &base_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )
+        .await?;
+        gltf_material.diffuse_texture = gltf_material.base_color_texture;
+        if material_uses_specular_texture(material_ref) {
+            gltf_material.specular_glossiness_texture = maybe_collect_channel_texture_p4k(
+                material_ref.name.as_deref(),
+                "specular",
+                &spec_candidates,
+                model_path,
+                index,
+                max_texture_size,
+                &mut textures,
+                &mut texture_map,
+                &mut warnings,
+            )
+            .await?;
+        }
+        materials_by_id.insert(material_id, materials.len());
+        materials.push(gltf_material);
+    }
+
+    Ok((textures, materials, materials_by_id, warnings))
+}
+
+fn collect_material_textures_from_fs(
+    scene: &SceneData,
+    root_material: &MaterialData,
+    model_path: &str,
+    index: &HashMap<String, String>,
+    max_texture_size: Option<u32>,
+) -> std::result::Result<
+    (
+        Vec<DecodedTexture>,
+        Vec<GltfMaterialData>,
+        HashMap<i32, usize>,
+        Vec<String>,
+    ),
+    ModelConvertError,
+> {
+    let mut warnings = Vec::new();
+    let mut sorted_ids = root_material
+        .sub_materials
+        .iter()
+        .enumerate()
+        .filter_map(|(index, material)| (!material.no_draw).then_some(index as i32))
+        .collect::<Vec<_>>();
+    if sorted_ids.is_empty() {
+        sorted_ids.push(-1);
+    }
+
+    let mut texture_map: HashMap<String, usize> = HashMap::new();
+    let mut textures = Vec::new();
+    let mut materials = Vec::new();
+    let mut materials_by_id = HashMap::new();
+
+    for material_id in sorted_ids {
+        let material_ref = if material_id >= 0 {
+            root_material.sub_materials.get(material_id as usize).unwrap_or_else(|| {
+                warnings.push(material_fallback_warning(material_id));
+                root_material
+            })
+        } else {
+            root_material
+        };
+
+        let mut gltf_material = GltfMaterialData::default();
+        gltf_material.name = material_ref.name.clone();
+        gltf_material.base_color_factor = Some(if material_ref.no_draw {
+            [0.0, 0.0, 0.0, 0.0]
+        } else {
+            let diffuse = material_ref.diffuse.unwrap_or([1.0, 1.0, 1.0]);
+            [diffuse[0], diffuse[1], diffuse[2], material_ref.opacity.unwrap_or(1.0).clamp(0.0, 1.0)]
+        });
+        gltf_material.specular_factor = Some(material_ref.specular.unwrap_or([1.0, 1.0, 1.0]));
+        let shininess = material_ref.shininess.unwrap_or(0.0);
+        let glossiness = (shininess / 255.0).clamp(0.0, 1.0);
+        gltf_material.glossiness_factor = Some(glossiness);
+        gltf_material.pbr_roughness_factor = Some(((255.0 - shininess) / 255.0).clamp(0.0, 1.0));
+        gltf_material.double_sided = Some(material_ref.material_flags.map(|flags| (flags & 0x2) != 0).unwrap_or(false));
+        gltf_material.alpha_mode = Some(if material_ref.no_draw {
+            "MASK".to_string()
+        } else if material_ref.alpha_test.unwrap_or(0.0) == 0.0 {
+            "OPAQUE".to_string()
+        } else {
+            "MASK".to_string()
+        });
+        gltf_material.alpha_cutoff = material_ref.alpha_test;
+        gltf_material.no_draw = material_ref.no_draw;
+        let normal_candidates = material_ref.normal_candidates.clone();
+        let base_candidates = material_ref.base_color_candidates.clone();
+        let spec_candidates = material_ref.specular_texture_candidates.clone();
+        gltf_material.normal_texture = maybe_collect_channel_texture_fs(
+            material_ref.name.as_deref(),
+            "normal",
+            &normal_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )?;
+        gltf_material.base_color_texture = maybe_collect_channel_texture_fs(
+            material_ref.name.as_deref(),
+            "baseColor",
+            &base_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )?;
+        gltf_material.diffuse_texture = gltf_material.base_color_texture;
+        if material_uses_specular_texture(material_ref) {
+            gltf_material.specular_glossiness_texture = maybe_collect_channel_texture_fs(
+                material_ref.name.as_deref(),
+                "specular",
+                &spec_candidates,
+                model_path,
+                index,
+                max_texture_size,
+                &mut textures,
+                &mut texture_map,
+                &mut warnings,
+            )?;
+        }
+        materials_by_id.insert(material_id, materials.len());
+        materials.push(gltf_material);
+    }
+
+    Ok((textures, materials, materials_by_id, warnings))
+}
+
+async fn maybe_collect_channel_texture_p4k(
+    material_name: Option<&str>,
+    channel_name: &str,
+    texture_refs: &[String],
+    model_path: &str,
+    index: &HashMap<String, String>,
+    max_texture_size: Option<u32>,
+    textures: &mut Vec<DecodedTexture>,
+    texture_map: &mut HashMap<String, usize>,
+    warnings: &mut Vec<String>,
+) -> std::result::Result<Option<usize>, ModelConvertError> {
+    let texture_roots = texture_search_roots_p4k(model_path, index);
+    let texture_path =
+        resolve_texture_candidates(texture_refs.iter().map(String::as_str), &texture_roots, index);
+    let texture = if let Some(texture_path) = texture_path {
+        let texture_bytes = unp4k_api::p4k_extract_to_memory(texture_path.clone())
+            .await
+            .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+        match texture_decode::decode_texture(
+            &texture_path,
+            &texture_bytes,
+            max_texture_size,
+        ) {
+            Ok(mut texture) => {
+                texture.label = Some(texture_label(material_name, channel_name));
+                texture
+            }
+            Err(err) => {
+                warnings.push(texture_decode_failed_warning(
+                    &texture_path,
+                    channel_name,
+                    &err.to_string(),
+                ));
+                DecodedTexture {
+                    name: texture_uri_from_path(&texture_path),
+                    uri: texture_uri_from_path(&texture_path),
+                    label: Some(texture_label(material_name, channel_name)),
+                    width: 0,
+                    height: 0,
+                    rgba8: Vec::new(),
+                }
+            }
+        }
+    } else {
+        warnings.push(texture_not_found_warning(
+            texture_refs.first().map(|s| s.as_str()).unwrap_or_default(),
+            channel_name,
+        ));
+        return Ok(None);
+    };
+
+    let idx = textures.len();
+    textures.push(texture);
+    Ok(Some(idx))
+}
+
+fn maybe_collect_channel_texture_fs(
+    material_name: Option<&str>,
+    channel_name: &str,
+    texture_refs: &[String],
+    model_path: &str,
+    index: &HashMap<String, String>,
+    max_texture_size: Option<u32>,
+    textures: &mut Vec<DecodedTexture>,
+    texture_map: &mut HashMap<String, usize>,
+    warnings: &mut Vec<String>,
+) -> std::result::Result<Option<usize>, ModelConvertError> {
+    let texture_roots = texture_search_roots_fs(model_path);
+    let texture_path =
+        resolve_texture_candidates(texture_refs.iter().map(String::as_str), &texture_roots, index);
+    let texture = if let Some(texture_path) = texture_path {
+        DecodedTexture {
+            name: texture_uri_from_path(&texture_path),
+            uri: texture_uri_from_path(&texture_path),
+            label: Some(texture_label(material_name, channel_name)),
+            width: 0,
+            height: 0,
+            rgba8: Vec::new(),
+        }
+    } else {
+        warnings.push(texture_not_found_warning(
+            texture_refs.first().map(|s| s.as_str()).unwrap_or_default(),
+            channel_name,
+        ));
+        return Ok(None);
+    };
+
+    let idx = textures.len();
+    textures.push(texture);
+    Ok(Some(idx))
+}
+
+fn normalize_path_key(path: &Path) -> String {
+    let mut s = path.to_string_lossy().replace('/', "\\");
+    if !s.starts_with('\\') {
+        s = format!("\\{s}");
+    }
+    s.to_lowercase()
+}
+
+fn texture_uri_from_path(path: &str) -> String {
+    let normalized = path.replace('/', "\\");
+    let lower = normalized.to_ascii_lowercase();
+    if let Some(pos) = lower.rfind("\\textures\\") {
+        let name = Path::new(&normalized[pos + "\\textures\\".len()..])
+            .file_name()
+            .and_then(|v| v.to_str())
+            .unwrap_or(&normalized)
+            .to_ascii_lowercase();
+        return format!("textures\\{name}");
+    }
+    if let Some(pos) = lower.rfind("\\texture\\") {
+        let name = Path::new(&normalized[pos + "\\texture\\".len()..])
+            .file_name()
+            .and_then(|v| v.to_str())
+            .unwrap_or(&normalized)
+            .to_ascii_lowercase();
+        return format!("textures\\{name}");
+    }
+    Path::new(&normalized)
+        .file_name()
+        .and_then(|v| v.to_str())
+        .unwrap_or(&normalized)
+        .to_ascii_lowercase()
+}
+
+fn texture_label(material_name: Option<&str>, channel_name: &str) -> String {
+    let channel = match channel_name {
+        "baseColor" => "diffuse",
+        other => other,
+    };
+    match material_name {
+        Some(name) if !name.is_empty() => format!("{name}-{channel}"),
+        _ => format!("texture-{channel}"),
+    }
+}
+
+fn is_ivo_signature(data: &[u8]) -> bool {
+    data.len() >= 4 && data[0..4] == *b"#ivo"
+}
+
+fn find_ivo_companion_path(model_path: &str) -> Option<PathBuf> {
+    let path = Path::new(model_path);
+    let ext = path.extension()?.to_str()?;
+    let companion_ext = if ext.eq_ignore_ascii_case("cga") {
+        "cgam"
+    } else if ext.eq_ignore_ascii_case("cgf") {
+        "cgfm"
+    } else {
+        return None;
+    };
+    Some(path.with_extension(companion_ext))
+}
+
+fn find_ivo_companion_name(model_path: &str, index: &HashMap<String, String>) -> Option<String> {
+    let companion_path = find_ivo_companion_path(model_path)?;
+    index.get(&normalize_path_key(&companion_path)).cloned()
+}
+
+async fn load_companion_bytes_from_p4k(
+    model_path: &str,
+    index: &HashMap<String, String>,
+) -> std::result::Result<Option<Vec<u8>>, ModelConvertError> {
+    let Some(companion_name) = find_ivo_companion_name(model_path, index) else {
+        return Ok(None);
+    };
+
+    let bytes = unp4k_api::p4k_extract_to_memory(companion_name)
+        .await
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+    Ok(Some(bytes))
+}
+
+fn load_companion_bytes_from_fs(
+    model_path: &str,
+) -> std::result::Result<Option<Vec<u8>>, ModelConvertError> {
+    let Some(companion_path) = find_ivo_companion_path(model_path) else {
+        return Ok(None);
+    };
+    if !companion_path.exists() {
+        return Ok(None);
+    }
+    let bytes = fs::read(&companion_path).map_err(|e| ModelConvertError::Io(e.to_string()))?;
+    Ok(Some(bytes))
+}
+
+fn write_native_ivo_glb_from_fs(
+    mut scene: SceneData,
+    model_path: &str,
+    asset_root: &str,
+    output_path: &Path,
+    material_override: Option<&str>,
+    options: &ConvertOptions,
+    source_mode: &str,
+    mut extra_warnings: Vec<String>,
+) -> std::result::Result<ConvertOutput, ModelConvertError> {
+    let index = build_fs_index(asset_root).map_err(|e| ModelConvertError::Io(e.to_string()))?;
+    let mut material = MaterialData::default();
+    if let Some(mtl) = resolve_material_path(model_path, material_override, &index) {
+        let mtl_bytes = fs::read(&mtl).map_err(|e| ModelConvertError::Io(e.to_string()))?;
+        material = material_parser::parse_mtl_bytes(&mtl_bytes);
+    }
+
+    let mut warnings = std::mem::take(&mut scene.warnings);
+    warnings.append(&mut extra_warnings);
+    let (textures, materials, materials_by_id, texture_warnings) =
+        collect_material_textures_from_fs(
+            &scene,
+            &material,
+            model_path,
+            &index,
+            options.max_texture_size,
+        )?;
+    warnings.extend(texture_warnings);
+
+    if !options.embed_textures {
+        warnings.push(
+            "embed_textures=false is not supported yet; textures are still embedded".to_string(),
+        );
+    }
+
+    gltf_builder::write_glb(&scene, &textures, &materials, &materials_by_id, output_path)
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    Ok(ConvertOutput {
+        output_path: output_path.to_string_lossy().to_string(),
+        warnings,
+        source_mode: source_mode.to_string(),
+        fallback_reason: None,
+    })
+}
+
+fn resolve_material_path(
+    model_path: &str,
+    material_override: Option<&str>,
+    index: &HashMap<String, String>,
+) -> Option<String> {
+    if let Some(override_path) = material_override {
+        if let Some(hit) = path_resolver::resolve_texture_path(model_path, override_path, index) {
+            return Some(hit);
+        }
+        let normalized = override_path.replace('/', "\\");
+        let prefixed = if normalized.starts_with('\\') {
+            normalized.clone()
+        } else {
+            format!("\\{normalized}")
+        };
+        if let Some(hit) = index.get(&prefixed.to_lowercase()) {
+            return Some(hit.clone());
+        }
+    }
+    path_resolver::find_mtl_path(model_path, index)
+}
+
+fn find_material_file_candidates(
+    model_path: &str,
+    model_bytes: &[u8],
+    companion_bytes: Option<&[u8]>,
+    material_override: Option<&str>,
+    index: &HashMap<String, String>,
+) -> Vec<String> {
+    let mut candidates = Vec::new();
+    let mut seen = std::collections::HashSet::new();
+    let mut push_unique = |candidate: Option<String>, candidates: &mut Vec<String>| {
+        let Some(candidate) = candidate else {
+            return;
+        };
+        let key = candidate.to_lowercase();
+        if seen.insert(key) {
+            candidates.push(candidate);
+        }
+    };
+
+    if let Some(override_path) = material_override {
+        push_unique(
+            path_resolver::resolve_texture_path(model_path, override_path, index)
+                .or_else(|| path_resolver::find_mtl_path(override_path, index)),
+            &mut candidates,
+        );
+    }
+
+    push_unique(path_resolver::find_mtl_path(model_path, index), &mut candidates);
+
+    for bytes in [Some(model_bytes), companion_bytes].into_iter().flatten() {
+        if let Ok(headers) = cryengine::cgf::parse_cgf_headers(bytes) {
+            if let Ok(chunks) =
+                cryengine::chunks::mtl_name::parse_cgf_mtl_name_chunks(bytes, &headers)
+            {
+                for chunk in chunks {
+                    if chunk.name.is_empty() {
+                        continue;
+                    }
+                    let candidate = if chunk.name.to_lowercase().ends_with(".mtl") {
+                        chunk.name.clone()
+                    } else {
+                        format!("{}.mtl", chunk.name)
+                    };
+                    push_unique(path_resolver::find_mtl_path(&candidate, index), &mut candidates);
+                }
+            }
+        }
+    }
+    candidates
+}
+
+fn load_best_material_from_fs(
+    model_path: &str,
+    model_bytes: &[u8],
+    companion_bytes: Option<&[u8]>,
+    material_override: Option<&str>,
+    index: &HashMap<String, String>,
+    desired_material_count: usize,
+) -> std::result::Result<MaterialData, ModelConvertError> {
+    let candidates = find_material_file_candidates(
+        model_path,
+        model_bytes,
+        companion_bytes,
+        material_override,
+        index,
+    );
+    load_best_material_from_candidates_sync(&candidates, desired_material_count, |path| {
+        fs::read(path).map_err(|e| ModelConvertError::Io(e.to_string()))
+    })
+}
+
+async fn load_best_material_from_p4k(
+    model_path: &str,
+    model_bytes: &[u8],
+    companion_bytes: Option<&[u8]>,
+    index: &HashMap<String, String>,
+    _desired_material_count: usize,
+) -> std::result::Result<MaterialData, ModelConvertError> {
+    let candidates = find_material_file_candidates(model_path, model_bytes, companion_bytes, None, index);
+    for candidate in candidates {
+        let bytes = unp4k_api::p4k_extract_to_memory(candidate.clone())
+            .await
+            .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+        let material = material_parser::parse_mtl_bytes(&bytes);
+        if let Some(material) = finalize_loaded_material(material, &candidate) {
+            return Ok(material);
+        }
+    }
+    Ok(MaterialData::default())
+}
+
+fn load_best_material_from_candidates_sync<F>(
+    candidates: &[String],
+    _desired_material_count: usize,
+    mut load_bytes: F,
+) -> std::result::Result<MaterialData, ModelConvertError>
+where
+    F: FnMut(&str) -> std::result::Result<Vec<u8>, ModelConvertError>,
+{
+    for candidate in candidates {
+        let bytes = load_bytes(candidate)?;
+        let material = material_parser::parse_mtl_bytes(&bytes);
+        if let Some(material) = finalize_loaded_material(material, candidate) {
+            return Ok(material);
+        }
+    }
+    Ok(MaterialData::default())
+}
+
+fn finalize_loaded_material(mut material: MaterialData, candidate: &str) -> Option<MaterialData> {
+    if !material_has_payload(&material) {
+        return None;
+    }
+
+    if material.name.is_none() {
+        material.name = Path::new(candidate)
+            .file_stem()
+            .and_then(|stem| stem.to_str())
+            .map(|stem| stem.to_string());
+    }
+
+    if material.sub_materials.is_empty() {
+        let mut self_material = material.clone();
+        self_material.sub_materials.clear();
+        material.sub_materials = vec![self_material];
+    }
+
+    Some(material)
+}
+
+fn material_has_payload(material: &MaterialData) -> bool {
+    material.name.is_some()
+        || material.diffuse.is_some()
+        || material.specular.is_some()
+        || material.emissive_color.is_some()
+        || material.glow_amount.is_some()
+        || material.opacity.is_some()
+        || material.shininess.is_some()
+        || material.alpha_test.is_some()
+        || material.material_flags.is_some()
+        || material.shader.is_some()
+        || material.string_gen_mask.is_some()
+        || material.base_color.is_some()
+        || !material.base_color_candidates.is_empty()
+        || material.normal.is_some()
+        || !material.normal_candidates.is_empty()
+        || material.specular_texture.is_some()
+        || !material.specular_texture_candidates.is_empty()
+        || material.occlusion.is_some()
+        || !material.occlusion_candidates.is_empty()
+        || material.emissive.is_some()
+        || !material.emissive_candidates.is_empty()
+        || material.opacity_texture.is_some()
+        || !material.opacity_texture_candidates.is_empty()
+        || !material.sub_materials.is_empty()
+}
+
+fn build_fs_index(asset_root: &str) -> std::io::Result<HashMap<String, String>> {
+    let root = Path::new(asset_root);
+    let mut index = HashMap::new();
+    for entry in WalkDir::new(root).into_iter().filter_map(|e| e.ok()) {
+        if !entry.file_type().is_file() {
+            continue;
+        }
+        let path = entry.path();
+        let real = path.to_string_lossy().to_string();
+        index.insert(normalize_path_key(path), real.clone());
+        if let Ok(rel) = path.strip_prefix(root) {
+            let rel_path = Path::new("\\").join(rel);
+            index.insert(normalize_path_key(&rel_path), real.clone());
+        }
+    }
+    Ok(index)
+}
+
+fn is_banu_candidate(path: &Path) -> bool {
+    let name = path
+        .file_name()
+        .and_then(|v| v.to_str())
+        .unwrap_or_default()
+        .to_lowercase();
+    let ext = path
+        .extension()
+        .and_then(|v| v.to_str())
+        .unwrap_or_default()
+        .to_lowercase();
+    if ext != "cga" && ext != "cgf" {
+        return false;
+    }
+    if !name.starts_with("banu_defender") {
+        return false;
+    }
+    if name.contains("local_grid")
+        || name.contains("customvisarea")
+        || name.contains("_damaged")
+        || name.contains("_destroyed")
+        || name.contains("_lod")
+    {
+        return false;
+    }
+    true
+}
+
+#[cfg(test)]
+mod tests {
+    use super::convert_from_fs;
+    use super::{
+        build_fs_index, categorize_parser_error_message, is_banu_candidate,
+        is_binary_not_supported_message, is_ivo_signature, is_supported_model, MaterialData,
+        ModelConvertError, load_best_material_from_candidates_sync,
+    };
+    use sha2::{Digest, Sha256};
+    use std::fs;
+    use std::path::Path;
+
+    #[test]
+    fn categorize_parser_error_marks_binary_not_supported_messages() {
+        let err = categorize_parser_error_message(
+            "Unsupported file version in binary chunk table".to_string(),
+        );
+        assert!(matches!(
+            err,
+            ModelConvertError::ParserBinaryNotSupported(_)
+        ));
+    }
+
+    #[test]
+    fn categorize_parser_error_marks_other_messages_as_parse_failed() {
+        let err = categorize_parser_error_message("failed to parse mesh body".to_string());
+        assert!(matches!(err, ModelConvertError::ModelParseFailed(_)));
+    }
+
+    #[test]
+    fn is_binary_not_supported_requires_support_keyword_and_context() {
+        assert!(is_binary_not_supported_message(
+            "Unsupported binary format: unknown chunk signature"
+        ));
+        assert!(!is_binary_not_supported_message(
+            "unsupported material syntax in xml"
+        ));
+        assert!(!is_binary_not_supported_message("chunk signature mismatch"));
+    }
+
+    #[test]
+    fn is_supported_model_accepts_cgf_and_cga_case_insensitively() {
+        assert!(is_supported_model("Data/Ship/Gladius.CGF"));
+        assert!(is_supported_model("Data/Ship/Gladius.cga"));
+        assert!(!is_supported_model("Data/Ship/Gladius.obj"));
+    }
+
+    #[test]
+    fn material_default_has_no_channels_or_sub_materials() {
+        let material = MaterialData::default();
+        assert!(material.base_color.is_none());
+        assert!(material.normal.is_none());
+        assert!(material.occlusion.is_none());
+        assert!(material.emissive.is_none());
+        assert!(material.opacity_texture.is_none());
+        assert!(material.sub_materials.is_empty());
+    }
+
+    #[test]
+    fn load_best_material_accepts_basic_material_without_submaterials() {
+        let fixture = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("..")
+            .join("Cryengine-Converter-master")
+            .join("Cryengine-Converter-master")
+            .join("CgfConverterIntegrationTests")
+            .join("TestData")
+            .join("SimpleMat.xml");
+        let candidates = vec![fixture.to_string_lossy().to_string()];
+        let material = load_best_material_from_candidates_sync(&candidates, 1, |path| {
+            fs::read(path).map_err(|e| ModelConvertError::Io(e.to_string()))
+        })
+        .expect("load material");
+
+        assert_eq!(material.name.as_deref(), Some("SimpleMat"));
+        assert_eq!(material.sub_materials.len(), 1);
+        assert_eq!(material.sub_materials[0].name.as_deref(), Some("SimpleMat"));
+    }
+
+    #[test]
+    fn build_fs_index_contains_absolute_and_relative_keys() {
+        let temp = std::env::temp_dir().join("scbox_model_convert_index_test");
+        let _ = fs::remove_dir_all(&temp);
+        fs::create_dir_all(temp.join("Defender")).expect("mkdir");
+        fs::write(temp.join("Defender").join("BANU_Defender.mtl"), b"test").expect("write");
+
+        let index = build_fs_index(temp.to_string_lossy().as_ref()).expect("index");
+        assert!(index
+            .keys()
+            .any(|k| k.contains("\\defender\\banu_defender.mtl")));
+
+        let _ = fs::remove_dir_all(&temp);
+    }
+
+    #[test]
+    fn is_banu_candidate_filters_lod_and_non_defender() {
+        assert!(is_banu_candidate(Path::new("BANU_Defender_Door.cga")));
+        assert!(!is_banu_candidate(Path::new("BANU_Defender_Door_lod1.cga")));
+        assert!(!is_banu_candidate(Path::new("OtherShip.cga")));
+    }
+
+    #[test]
+    fn ivo_signature_detection_works() {
+        assert!(is_ivo_signature(b"#ivo\x01\x02\x03"));
+        assert!(!is_ivo_signature(b"CrCh"));
+        assert!(!is_ivo_signature(b"#iv"));
+    }
+
+    #[tokio::test(flavor = "multi_thread")]
+    async fn export_banu_defender_single_glb() {
+        let model_path =
+            r"C:\CODE\ScCode\starcitizen_box\converter-target\BANU\Defender\BANU_Defender.cga";
+        let asset_root = r"C:\CODE\ScCode\starcitizen_box\converter-target\BANU";
+        let output_dir = r"C:\CODE\ScCode\starcitizen_box\converter-target\BANU\_single_export";
+
+        fs::create_dir_all(output_dir).expect("create output dir");
+
+        let result = convert_from_fs(
+            model_path,
+            asset_root,
+            output_dir,
+            super::ConvertOptions {
+                embed_textures: true,
+                overwrite: true,
+                max_texture_size: None,
+            },
+        )
+        .await
+        .expect("export failed");
+
+        assert!(Path::new(&result.output_path).exists());
+
+        if std::env::var_os("SCTOOLBOX_COMPARE_CSHARP_GLB").is_some() {
+            let reference =
+                Path::new(r"C:\CODE\ScCode\starcitizen_box\converter-target\BANU\_cmp_csharp\BANU_Defender.glb");
+            let rust_hash = file_sha256(Path::new(&result.output_path));
+            let csharp_hash = file_sha256(reference);
+            assert_eq!(
+                rust_hash, csharp_hash,
+                "BANU_Defender glb hash mismatch; compare against the C# reference output"
+            );
+        }
+    }
+
+    fn file_sha256(path: &Path) -> String {
+        let bytes = fs::read(path).expect("read glb");
+        let digest = Sha256::digest(&bytes);
+        format!("{digest:x}")
+    }
+}

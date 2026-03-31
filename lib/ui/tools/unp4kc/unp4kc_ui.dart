@@ -55,7 +55,10 @@ class UnP4kcUI extends HookConsumerWidget {
               if (state.endMessage != null)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("${state.endMessage}", style: const TextStyle(fontSize: 12)),
+                  child: Text(
+                    "${state.endMessage}",
+                    style: const TextStyle(fontSize: 12),
+                  ),
                 ),
             ],
           )
@@ -65,7 +68,11 @@ class UnP4kcUI extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .06)),
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(
+                        context,
+                      ).cardColor.withValues(alpha: .06),
+                    ),
                     height: 36,
                     padding: const EdgeInsets.only(left: 12, right: 12),
                     child: Row(
@@ -81,7 +88,10 @@ class UnP4kcUI extends HookConsumerWidget {
                           const SizedBox(width: 8),
                           Text(
                             "[${S.current.tools_unp4k_searching.replaceAll('...', '')}]",
-                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .7)),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white.withValues(alpha: .7),
+                            ),
                           ),
                           const SizedBox(width: 8),
                         ],
@@ -94,7 +104,8 @@ class UnP4kcUI extends HookConsumerWidget {
                               if (path.isEmpty) {
                                 path = "\\";
                               }
-                              final fullPath = "${paths.sublist(0, index + 1).join("\\")}\\";
+                              final fullPath =
+                                  "${paths.sublist(0, index + 1).join("\\")}\\";
                               return Row(
                                 children: [
                                   IconButton(
@@ -103,7 +114,10 @@ class UnP4kcUI extends HookConsumerWidget {
                                       model.changeDir(fullPath, fullPath: true);
                                     },
                                   ),
-                                  const Icon(FluentIcons.chevron_right, size: 12),
+                                  const Icon(
+                                    FluentIcons.chevron_right,
+                                    size: 12,
+                                  ),
                                 ],
                               );
                             },
@@ -117,11 +131,17 @@ class UnP4kcUI extends HookConsumerWidget {
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .3,
-                          child: _FileListPanel(state: state, model: model, files: files),
+                          child: _FileListPanel(
+                            state: state,
+                            model: model,
+                            files: files,
+                          ),
                         ),
                         Expanded(
                           child: state.tempOpenFile == null
-                              ? Center(child: Text(S.current.tools_unp4k_view_file))
+                              ? Center(
+                                  child: Text(S.current.tools_unp4k_view_file),
+                                )
                               : state.tempOpenFile?.key == "loading"
                               ? makeLoading(context)
                               : Padding(
@@ -129,7 +149,11 @@ class UnP4kcUI extends HookConsumerWidget {
                                   child: Column(
                                     children: [
                                       if (state.tempOpenFile?.key == "text")
-                                        Expanded(child: _TextTempWidget(state.tempOpenFile?.value ?? ""))
+                                        Expanded(
+                                          child: _TextTempWidget(
+                                            state.tempOpenFile?.value ?? "",
+                                          ),
+                                        )
                                       else
                                         Expanded(
                                           child: Center(
@@ -137,18 +161,32 @@ class UnP4kcUI extends HookConsumerWidget {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Text(
-                                                  S.current.tools_unp4k_msg_unknown_file_type(
-                                                    state.tempOpenFile?.value ?? "",
-                                                  ),
+                                                  S.current
+                                                      .tools_unp4k_msg_unknown_file_type(
+                                                        state
+                                                                .tempOpenFile
+                                                                ?.value ??
+                                                            "",
+                                                      ),
                                                 ),
                                                 const SizedBox(height: 32),
                                                 FilledButton(
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(4),
-                                                    child: Text(S.current.action_open_folder),
+                                                    padding:
+                                                        const EdgeInsets.all(4),
+                                                    child: Text(
+                                                      S
+                                                          .current
+                                                          .action_open_folder,
+                                                    ),
                                                   ),
                                                   onPressed: () {
-                                                    SystemHelper.openDir(state.tempOpenFile?.value ?? "");
+                                                    SystemHelper.openDir(
+                                                      state
+                                                              .tempOpenFile
+                                                              ?.value ??
+                                                          "",
+                                                    );
                                                   },
                                                 ),
                                               ],
@@ -165,7 +203,10 @@ class UnP4kcUI extends HookConsumerWidget {
                   if (state.endMessage != null)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("${state.endMessage}", style: const TextStyle(fontSize: 12)),
+                      child: Text(
+                        "${state.endMessage}",
+                        style: const TextStyle(fontSize: 12),
+                      ),
                     ),
                 ],
               ),
@@ -179,7 +220,10 @@ class UnP4kcUI extends HookConsumerWidget {
                       children: [
                         const ProgressRing(),
                         const SizedBox(height: 16),
-                        Text(S.current.tools_unp4k_searching, style: const TextStyle(fontSize: 16)),
+                        Text(
+                          S.current.tools_unp4k_searching,
+                          style: const TextStyle(fontSize: 16),
+                        ),
                       ],
                     ),
                   ),
@@ -195,14 +239,20 @@ class _FileListPanel extends HookConsumerWidget {
   final Unp4kCModel model;
   final List<AppUnp4kP4kItemData>? files;
 
-  const _FileListPanel({required this.state, required this.model, required this.files});
+  const _FileListPanel({
+    required this.state,
+    required this.model,
+    required this.files,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchController = useTextEditingController(text: state.searchQuery);
 
     return Container(
-      decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .01)),
+      decoration: BoxDecoration(
+        color: FluentTheme.of(context).cardColor.withValues(alpha: .01),
+      ),
       child: Column(
         children: [
           // 搜索栏和排序选择器
@@ -214,8 +264,13 @@ class _FileListPanel extends HookConsumerWidget {
                   child: TextBox(
                     controller: searchController,
                     placeholder: S.current.tools_unp4k_search_placeholder,
-                    prefix: const Padding(padding: EdgeInsets.only(left: 8), child: Icon(FluentIcons.search, size: 14)),
-                    suffix: searchController.text.isNotEmpty || state.searchFs != null
+                    prefix: const Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Icon(FluentIcons.search, size: 14),
+                    ),
+                    suffix:
+                        searchController.text.isNotEmpty ||
+                            state.searchFs != null
                         ? IconButton(
                             icon: const Icon(FluentIcons.clear, size: 12),
                             onPressed: () {
@@ -233,11 +288,26 @@ class _FileListPanel extends HookConsumerWidget {
                 ComboBox<Unp4kSortType>(
                   value: state.sortType,
                   items: [
-                    ComboBoxItem(value: Unp4kSortType.defaultSort, child: Text(S.current.tools_unp4k_sort_default)),
-                    ComboBoxItem(value: Unp4kSortType.sizeAsc, child: Text(S.current.tools_unp4k_sort_size_asc)),
-                    ComboBoxItem(value: Unp4kSortType.sizeDesc, child: Text(S.current.tools_unp4k_sort_size_desc)),
-                    ComboBoxItem(value: Unp4kSortType.dateAsc, child: Text(S.current.tools_unp4k_sort_date_asc)),
-                    ComboBoxItem(value: Unp4kSortType.dateDesc, child: Text(S.current.tools_unp4k_sort_date_desc)),
+                    ComboBoxItem(
+                      value: Unp4kSortType.defaultSort,
+                      child: Text(S.current.tools_unp4k_sort_default),
+                    ),
+                    ComboBoxItem(
+                      value: Unp4kSortType.sizeAsc,
+                      child: Text(S.current.tools_unp4k_sort_size_asc),
+                    ),
+                    ComboBoxItem(
+                      value: Unp4kSortType.sizeDesc,
+                      child: Text(S.current.tools_unp4k_sort_size_desc),
+                    ),
+                    ComboBoxItem(
+                      value: Unp4kSortType.dateAsc,
+                      child: Text(S.current.tools_unp4k_sort_date_asc),
+                    ),
+                    ComboBoxItem(
+                      value: Unp4kSortType.dateDesc,
+                      child: Text(S.current.tools_unp4k_sort_date_desc),
+                    ),
                   ],
                   onChanged: (value) {
                     if (value != null) {
@@ -251,21 +321,36 @@ class _FileListPanel extends HookConsumerWidget {
           // 多选模式工具栏
           if (state.isMultiSelectMode)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 4.0,
+              ),
               decoration: BoxDecoration(
-                color: FluentTheme.of(context).accentColor.withValues(alpha: .1),
+                color: FluentTheme.of(
+                  context,
+                ).accentColor.withValues(alpha: .1),
                 border: Border(
-                  bottom: BorderSide(color: FluentTheme.of(context).accentColor.withValues(alpha: .3), width: 1),
+                  bottom: BorderSide(
+                    color: FluentTheme.of(
+                      context,
+                    ).accentColor.withValues(alpha: .3),
+                    width: 1,
+                  ),
                 ),
               ),
               child: Row(
                 children: [
                   Text(
-                    S.current.tools_unp4k_action_export_selected(state.selectedItems.length),
+                    S.current.tools_unp4k_action_export_selected(
+                      state.selectedItems.length,
+                    ),
                     style: const TextStyle(fontSize: 12),
                   ),
                   const Spacer(),
-                  Button(child: Text(S.current.tools_unp4k_action_select_all), onPressed: () => model.selectAll(files)),
+                  Button(
+                    child: Text(S.current.tools_unp4k_action_select_all),
+                    onPressed: () => model.selectAll(files),
+                  ),
                   const SizedBox(width: 4),
                   Button(
                     child: Text(S.current.tools_unp4k_action_deselect_all),
@@ -273,7 +358,9 @@ class _FileListPanel extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 4),
                   FilledButton(
-                    onPressed: state.selectedItems.isNotEmpty ? () => _exportSelected(context) : null,
+                    onPressed: state.selectedItems.isNotEmpty
+                        ? () => _exportSelected(context)
+                        : null,
                     child: Text(S.current.tools_unp4k_action_save_as),
                   ),
                   const SizedBox(width: 4),
@@ -289,15 +376,28 @@ class _FileListPanel extends HookConsumerWidget {
             child: files == null || files!.isEmpty
                 ? Center(
                     child: Text(
-                      state.searchFs != null ? S.current.tools_unp4k_search_no_result : '',
-                      style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                      state.searchFs != null
+                          ? S.current.tools_unp4k_search_no_result
+                          : '',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: .6),
+                      ),
                     ),
                   )
                 : SuperListView.builder(
-                    padding: const EdgeInsets.only(top: 6, bottom: 6, left: 3, right: 12),
+                    padding: const EdgeInsets.only(
+                      top: 6,
+                      bottom: 6,
+                      left: 3,
+                      right: 12,
+                    ),
                     itemBuilder: (BuildContext context, int index) {
                       final item = files![index];
-                      return _FileListItem(item: item, state: state, model: model);
+                      return _FileListItem(
+                        item: item,
+                        state: state,
+                        model: model,
+                      );
                     },
                     itemCount: files?.length ?? 0,
                   ),
@@ -308,13 +408,19 @@ class _FileListPanel extends HookConsumerWidget {
   }
 
   Future<void> _exportSelected(BuildContext context) async {
-    final outputDir = await FilePicker.platform.getDirectoryPath(dialogTitle: S.current.tools_unp4k_action_save_as);
+    final outputDir = await FilePicker.platform.getDirectoryPath(
+      dialogTitle: S.current.tools_unp4k_action_save_as,
+    );
     if (outputDir != null && context.mounted) {
       await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (dialogContext) {
-          return _MultiExtractProgressDialog(selectedItems: state.selectedItems, outputDir: outputDir, model: model);
+          return _MultiExtractProgressDialog(
+            selectedItems: state.selectedItems,
+            outputDir: outputDir,
+            model: model,
+          );
         },
       );
       // 提取完成后退出多选模式
@@ -329,7 +435,11 @@ class _FileListItem extends HookWidget {
   final Unp4kcState state;
   final Unp4kCModel model;
 
-  const _FileListItem({required this.item, required this.state, required this.model});
+  const _FileListItem({
+    required this.item,
+    required this.state,
+    required this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -342,7 +452,8 @@ class _FileListItem extends HookWidget {
     return FlyoutTarget(
       controller: flyoutController,
       child: GestureDetector(
-        onSecondaryTapUp: (details) => _showContextMenu(context, flyoutController),
+        onSecondaryTapUp: (details) =>
+            _showContextMenu(context, flyoutController),
         child: Container(
           margin: const EdgeInsets.only(top: 4, bottom: 4),
           decoration: BoxDecoration(
@@ -356,7 +467,8 @@ class _FileListItem extends HookWidget {
                 // 多选模式下点击切换选中状态
                 model.toggleSelectItem(itemPath);
               } else if (item.isDirectory ?? false) {
-                final dirName = item.name?.replaceAll(state.curPath.trim(), "") ?? "";
+                final dirName =
+                    item.name?.replaceAll(state.curPath.trim(), "") ?? "";
                 model.changeDir(dirName);
               } else {
                 model.openFile(item.name ?? "", context: context);
@@ -377,7 +489,10 @@ class _FileListItem extends HookWidget {
                     const SizedBox(width: 8),
                   ],
                   if (item.isDirectory ?? false)
-                    const Icon(FluentIcons.folder_fill, color: Color.fromRGBO(255, 224, 138, 1))
+                    const Icon(
+                      FluentIcons.folder_fill,
+                      color: Color.fromRGBO(255, 224, 138, 1),
+                    )
                   else if (fileName.endsWith(".xml"))
                     const Icon(FluentIcons.file_code)
                   else
@@ -390,7 +505,11 @@ class _FileListItem extends HookWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: Text(fileName, style: const TextStyle(fontSize: 13), textAlign: TextAlign.start),
+                              child: Text(
+                                fileName,
+                                style: const TextStyle(fontSize: 13),
+                                textAlign: TextAlign.start,
+                              ),
                             ),
                           ],
                         ),
@@ -400,7 +519,10 @@ class _FileListItem extends HookWidget {
                             children: [
                               Text(
                                 FileSize.getSize(item.size),
-                                style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .6)),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.white.withValues(alpha: .6),
+                                ),
                               ),
                               const SizedBox(width: 12),
                               Text(
@@ -409,7 +531,10 @@ class _FileListItem extends HookWidget {
                                         item.dateModified!,
                                       ).toString().substring(0, 19)
                                     : "",
-                                style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .6)),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.white.withValues(alpha: .6),
+                                ),
                               ),
                             ],
                           ),
@@ -418,7 +543,11 @@ class _FileListItem extends HookWidget {
                     ),
                   ),
                   const SizedBox(width: 3),
-                  Icon(FluentIcons.chevron_right, size: 14, color: Colors.white.withValues(alpha: .6)),
+                  Icon(
+                    FluentIcons.chevron_right,
+                    size: 14,
+                    color: Colors.white.withValues(alpha: .6),
+                  ),
                 ],
               ),
             ),
@@ -432,7 +561,9 @@ class _FileListItem extends HookWidget {
     // 保存外部 context，因为 flyout 的 context 在关闭后会失效
     final outerContext = context;
     controller.showFlyout(
-      autoModeConfiguration: FlyoutAutoConfiguration(preferredMode: FlyoutPlacementMode.bottomCenter),
+      autoModeConfiguration: FlyoutAutoConfiguration(
+        preferredMode: FlyoutPlacementMode.bottomCenter,
+      ),
       barrierColor: Colors.transparent,
       builder: (flyoutContext) {
         return MenuFlyout(
@@ -445,6 +576,15 @@ class _FileListItem extends HookWidget {
                 await _saveAs(outerContext);
               },
             ),
+            if (_canConvertToGlb(item.name ?? ""))
+              MenuFlyoutItem(
+                leading: const Icon(FluentIcons.export, size: 16),
+                text: Text(S.current.tools_unp4k_action_convert_glb),
+                onPressed: () async {
+                  Navigator.of(flyoutContext).pop();
+                  await _convertToGlb(outerContext);
+                },
+              ),
             // 多选模式切换
             if (!state.isMultiSelectMode)
               MenuFlyoutItem(
@@ -463,21 +603,55 @@ class _FileListItem extends HookWidget {
     );
   }
 
+  bool _canConvertToGlb(String fullPath) {
+    if ((item.isDirectory ?? false)) return false;
+    final lower = fullPath.toLowerCase();
+    return lower.endsWith('.cgf') || lower.endsWith('.cga');
+  }
+
   Future<void> _saveAs(BuildContext context) async {
-    final outputDir = await FilePicker.platform.getDirectoryPath(dialogTitle: S.current.tools_unp4k_action_save_as);
+    final outputDir = await FilePicker.platform.getDirectoryPath(
+      dialogTitle: S.current.tools_unp4k_action_save_as,
+    );
     if (outputDir != null && context.mounted) {
       await _showExtractProgressDialog(context, outputDir);
     }
   }
 
-  Future<void> _showExtractProgressDialog(BuildContext context, String outputDir) async {
+  Future<void> _showExtractProgressDialog(
+    BuildContext context,
+    String outputDir,
+  ) async {
     await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) {
-        return _ExtractProgressDialog(item: item, outputDir: outputDir, model: model);
+        return _ExtractProgressDialog(
+          item: item,
+          outputDir: outputDir,
+          model: model,
+        );
       },
     );
+  }
+
+  Future<void> _convertToGlb(BuildContext context) async {
+    final outputDir = await FilePicker.platform.getDirectoryPath(
+      dialogTitle: S.current.tools_unp4k_action_convert_glb,
+    );
+    if (outputDir != null && context.mounted) {
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (dialogContext) {
+          return _ConvertProgressDialog(
+            filePath: item.name ?? '',
+            outputDir: outputDir,
+            model: model,
+          );
+        },
+      );
+    }
   }
 }
 
@@ -487,7 +661,11 @@ class _ExtractProgressDialog extends HookWidget {
   final String outputDir;
   final Unp4kCModel model;
 
-  const _ExtractProgressDialog({required this.item, required this.outputDir, required this.model});
+  const _ExtractProgressDialog({
+    required this.item,
+    required this.outputDir,
+    required this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -504,11 +682,21 @@ class _ExtractProgressDialog extends HookWidget {
       totalFiles.value = model.getFileCountInDirectory(item);
 
       // 开始提取
-      _startExtraction(isCancelled, currentFile, currentIndex, totalFiles, isCompleted, errorMessage, extractedCount);
+      _startExtraction(
+        isCancelled,
+        currentFile,
+        currentIndex,
+        totalFiles,
+        isCompleted,
+        errorMessage,
+        extractedCount,
+      );
       return null;
     }, const []);
 
-    final progress = totalFiles.value > 0 ? currentIndex.value / totalFiles.value : 0.0;
+    final progress = totalFiles.value > 0
+        ? currentIndex.value / totalFiles.value
+        : 0.0;
 
     return ContentDialog(
       title: Text(S.current.tools_unp4k_extract_dialog_title),
@@ -523,7 +711,10 @@ class _ExtractProgressDialog extends HookWidget {
             const SizedBox(height: 12),
             // 进度文本
             Text(
-              S.current.tools_unp4k_extract_progress(currentIndex.value, totalFiles.value),
+              S.current.tools_unp4k_extract_progress(
+                currentIndex.value,
+                totalFiles.value,
+              ),
               style: const TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 8),
@@ -534,20 +725,34 @@ class _ExtractProgressDialog extends HookWidget {
                     ? "...${currentFile.value.substring(currentFile.value.length - 60)}"
                     : currentFile.value,
               ),
-              style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .7)),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white.withValues(alpha: .7),
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ] else if (errorMessage.value != null) ...[
             // 错误信息
-            const Icon(FluentIcons.error_badge, size: 48, color: Color(0xFFE81123)),
+            const Icon(
+              FluentIcons.error_badge,
+              size: 48,
+              color: Color(0xFFE81123),
+            ),
             const SizedBox(height: 12),
             Text(errorMessage.value!, style: const TextStyle(fontSize: 14)),
           ] else ...[
             // 完成
-            const Icon(FluentIcons.completed_solid, size: 48, color: Color(0xFF107C10)),
+            const Icon(
+              FluentIcons.completed_solid,
+              size: 48,
+              color: Color(0xFF107C10),
+            ),
             const SizedBox(height: 12),
-            Text(S.current.tools_unp4k_extract_completed(extractedCount.value), style: const TextStyle(fontSize: 14)),
+            Text(
+              S.current.tools_unp4k_extract_completed(extractedCount.value),
+              style: const TextStyle(fontSize: 14),
+            ),
           ],
         ],
       ),
@@ -560,7 +765,10 @@ class _ExtractProgressDialog extends HookWidget {
             child: Text(S.current.home_action_cancel),
           )
         else
-          FilledButton(onPressed: () => Navigator.of(context).pop(), child: Text(S.current.action_close)),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(S.current.action_close),
+          ),
       ],
     );
   }
@@ -602,7 +810,11 @@ class _MultiExtractProgressDialog extends HookWidget {
   final String outputDir;
   final Unp4kCModel model;
 
-  const _MultiExtractProgressDialog({required this.selectedItems, required this.outputDir, required this.model});
+  const _MultiExtractProgressDialog({
+    required this.selectedItems,
+    required this.outputDir,
+    required this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -619,11 +831,21 @@ class _MultiExtractProgressDialog extends HookWidget {
       totalFiles.value = model.getFileCountForSelectedItems(selectedItems);
 
       // 开始提取
-      _startExtraction(isCancelled, currentFile, currentIndex, totalFiles, isCompleted, errorMessage, extractedCount);
+      _startExtraction(
+        isCancelled,
+        currentFile,
+        currentIndex,
+        totalFiles,
+        isCompleted,
+        errorMessage,
+        extractedCount,
+      );
       return null;
     }, const []);
 
-    final progress = totalFiles.value > 0 ? currentIndex.value / totalFiles.value : 0.0;
+    final progress = totalFiles.value > 0
+        ? currentIndex.value / totalFiles.value
+        : 0.0;
 
     return ContentDialog(
       title: Text(S.current.tools_unp4k_extract_dialog_title),
@@ -638,7 +860,10 @@ class _MultiExtractProgressDialog extends HookWidget {
             const SizedBox(height: 12),
             // 进度文本
             Text(
-              S.current.tools_unp4k_extract_progress(currentIndex.value, totalFiles.value),
+              S.current.tools_unp4k_extract_progress(
+                currentIndex.value,
+                totalFiles.value,
+              ),
               style: const TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 8),
@@ -649,20 +874,34 @@ class _MultiExtractProgressDialog extends HookWidget {
                     ? "...${currentFile.value.substring(currentFile.value.length - 60)}"
                     : currentFile.value,
               ),
-              style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .7)),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white.withValues(alpha: .7),
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ] else if (errorMessage.value != null) ...[
             // 错误信息
-            const Icon(FluentIcons.error_badge, size: 48, color: Color(0xFFE81123)),
+            const Icon(
+              FluentIcons.error_badge,
+              size: 48,
+              color: Color(0xFFE81123),
+            ),
             const SizedBox(height: 12),
             Text(errorMessage.value!, style: const TextStyle(fontSize: 14)),
           ] else ...[
             // 完成
-            const Icon(FluentIcons.completed_solid, size: 48, color: Color(0xFF107C10)),
+            const Icon(
+              FluentIcons.completed_solid,
+              size: 48,
+              color: Color(0xFF107C10),
+            ),
             const SizedBox(height: 12),
-            Text(S.current.tools_unp4k_extract_completed(extractedCount.value), style: const TextStyle(fontSize: 14)),
+            Text(
+              S.current.tools_unp4k_extract_completed(extractedCount.value),
+              style: const TextStyle(fontSize: 14),
+            ),
           ],
         ],
       ),
@@ -675,7 +914,10 @@ class _MultiExtractProgressDialog extends HookWidget {
             child: Text(S.current.home_action_cancel),
           )
         else
-          FilledButton(onPressed: () => Navigator.of(context).pop(), child: Text(S.current.action_close)),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(S.current.action_close),
+          ),
       ],
     );
   }
@@ -711,6 +953,113 @@ class _MultiExtractProgressDialog extends HookWidget {
   }
 }
 
+/// 模型转换进度对话框
+class _ConvertProgressDialog extends HookWidget {
+  final String filePath;
+  final String outputDir;
+  final Unp4kCModel model;
+
+  const _ConvertProgressDialog({
+    required this.filePath,
+    required this.outputDir,
+    required this.model,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isRunning = useState(true);
+    final errorMessage = useState<String?>(null);
+    final resultPath = useState<String?>(null);
+
+    useEffect(() {
+      _startConversion(isRunning, errorMessage, resultPath);
+      return null;
+    }, const []);
+
+    return ContentDialog(
+      title: Text(S.current.tools_unp4k_action_convert_glb),
+      constraints: const BoxConstraints(maxWidth: 420, maxHeight: 260),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (isRunning.value) ...[
+              const ProgressRing(),
+              const SizedBox(height: 12),
+              Text(
+                S.current.tools_unp4k_convert_in_progress,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ] else if (errorMessage.value != null) ...[
+              const Icon(
+                FluentIcons.error_badge,
+                size: 48,
+                color: Color(0xFFE81123),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                S.current.tools_unp4k_convert_failed(errorMessage.value!),
+                style: const TextStyle(fontSize: 14),
+              ),
+            ] else ...[
+              const Icon(
+                FluentIcons.completed_solid,
+                size: 48,
+                color: Color(0xFF107C10),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                S.current.tools_unp4k_convert_success,
+                style: const TextStyle(fontSize: 14),
+              ),
+              if ((resultPath.value ?? outputDir).isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Text(
+                  resultPath.value ?? outputDir,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white.withValues(alpha: .65),
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ],
+          ],
+        ),
+      ),
+      actions: [
+        if (!isRunning.value && errorMessage.value == null)
+          Button(
+            onPressed: () {
+              SystemHelper.openDir(outputDir);
+            },
+            child: Text(S.current.action_open_folder),
+          ),
+        FilledButton(
+          onPressed: isRunning.value ? null : () => Navigator.of(context).pop(),
+          child: Text(S.current.action_close),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _startConversion(
+    ValueNotifier<bool> isRunning,
+    ValueNotifier<String?> errorMessage,
+    ValueNotifier<String?> resultPath,
+  ) async {
+    final result = await model.convertModelToGlb(filePath, outputDir);
+    final (success, glbPath, error) = result;
+    resultPath.value = glbPath;
+    if (!success) {
+      errorMessage.value = error ?? "Unknown error";
+    }
+    isRunning.value = false;
+  }
+}
+
 class _TextTempWidget extends HookConsumerWidget {
   final String filePath;
 
@@ -723,7 +1072,10 @@ class _TextTempWidget extends HookConsumerWidget {
     useEffect(() {
       File(filePath).readAsBytes().then((data) {
         // 处理可能的 BOM
-        if (data.length > 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
+        if (data.length > 3 &&
+            data[0] == 0xEF &&
+            data[1] == 0xBB &&
+            data[2] == 0xBF) {
           data = data.sublist(3);
         }
         final text = utf8.decode(data, allowMalformed: true);
@@ -734,7 +1086,10 @@ class _TextTempWidget extends HookConsumerWidget {
 
     if (textData.value == null) return makeLoading(context);
 
-    return CodeEditor(controller: CodeLineEditingController.fromText('${textData.value}'), readOnly: true);
+    return CodeEditor(
+      controller: CodeLineEditingController.fromText('${textData.value}'),
+      readOnly: true,
+    );
   }
 }
 
@@ -748,7 +1103,10 @@ class UnP4kErrorWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Center(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [Text(errorMessage)]),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [Text(errorMessage)],
+        ),
       ),
     );
   }

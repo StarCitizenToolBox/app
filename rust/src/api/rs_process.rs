@@ -1,9 +1,9 @@
-use std::collections::HashMap;
-use std::sync::Arc;
 use flutter_rust_bridge::frb;
 use futures::executor::block_on;
 use once_cell::sync::Lazy;
 use scopeguard::defer;
+use std::collections::HashMap;
+use std::sync::Arc;
 use tokio::io::AsyncBufReadExt;
 use tokio::io::AsyncWriteExt;
 use tokio::io::BufReader;
@@ -31,7 +31,8 @@ pub struct RsProcess {
     pub rs_pid: u32,
 }
 
-static RS_PROCESS_MAP: Lazy<Mutex<HashMap<u32, RsProcess>>> = Lazy::new(|| Mutex::new(HashMap::new()));
+static RS_PROCESS_MAP: Lazy<Mutex<HashMap<u32, RsProcess>>> =
+    Lazy::new(|| Mutex::new(HashMap::new()));
 
 pub async fn start(
     executable: &str,
@@ -146,7 +147,6 @@ pub async fn start(
         stream_sink_arc.add(message).unwrap();
     }
 }
-
 
 pub async fn write(rs_pid: &u32, data: String) {
     let mut map = RS_PROCESS_MAP.lock().await;

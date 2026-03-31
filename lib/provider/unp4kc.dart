@@ -15,6 +15,8 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/common/rust/api/unp4k_api.dart' as unp4k_api;
+import 'package:starcitizen_doctor/common/rust/api/unp4k_model_api.dart'
+    as unp4k_model_api;
 
 part 'unp4kc.freezed.dart';
 
@@ -70,7 +72,11 @@ abstract class Unp4kcState with _$Unp4kcState {
 class Unp4kCModel extends _$Unp4kCModel {
   @override
   Unp4kcState build() {
-    state = Unp4kcState(startUp: false, curPath: '\\', endMessage: S.current.tools_unp4k_msg_init);
+    state = Unp4kcState(
+      startUp: false,
+      curPath: '\\',
+      endMessage: S.current.tools_unp4k_msg_init,
+    );
     _init();
     return state;
   }
@@ -111,11 +117,15 @@ class Unp4kCModel extends _$Unp4kCModel {
         files[item.name] = fileData;
 
         if (!item.isDirectory) {
-          await fs.file(item.name.replaceAll("\\", "/")).create(recursive: true);
+          await fs
+              .file(item.name.replaceAll("\\", "/"))
+              .create(recursive: true);
         }
 
         if (i == nextAwait) {
-          state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading3(i, p4kFiles.length));
+          state = state.copyWith(
+            endMessage: S.current.tools_unp4k_msg_reading3(i, p4kFiles.length),
+          );
           await Future.delayed(Duration(milliseconds: 1));
           nextAwait += 30000;
         }
@@ -167,7 +177,12 @@ class Unp4kCModel extends _$Unp4kCModel {
           result.add(f);
         }
       } else {
-        result.add(AppUnp4kP4kItemData(name: file.path.replaceAll("/", "\\"), isDirectory: true));
+        result.add(
+          AppUnp4kP4kItemData(
+            name: file.path.replaceAll("/", "\\"),
+            isDirectory: true,
+          ),
+        );
       }
     }
 
@@ -268,7 +283,11 @@ class Unp4kCModel extends _$Unp4kCModel {
     // 保存当前路径，用于搜索后尝试保持
     final currentPath = state.curPath;
 
-    state = state.copyWith(searchQuery: query, isSearching: true, endMessage: S.current.tools_unp4k_searching);
+    state = state.copyWith(
+      searchQuery: query,
+      isSearching: true,
+      endMessage: S.current.tools_unp4k_searching,
+    );
 
     // 使用 compute 在后台线程执行搜索
     final allFiles = state.files;
@@ -278,13 +297,18 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
 
     try {
-      final searchResult = await compute(_searchFiles, _SearchParams(allFiles, query));
+      final searchResult = await compute(
+        _searchFiles,
+        _SearchParams(allFiles, query),
+      );
       final matchedFiles = searchResult.matchedFiles;
 
       // 构建搜索结果的虚拟文件系统
       final searchFs = MemoryFileSystem(style: FileSystemStyle.posix);
       for (var filePath in matchedFiles) {
-        await searchFs.file(filePath.replaceAll("\\", "/")).create(recursive: true);
+        await searchFs
+            .file(filePath.replaceAll("\\", "/"))
+            .create(recursive: true);
       }
 
       // 检查当前路径是否有搜索结果
@@ -384,16 +408,27 @@ class Unp4kCModel extends _$Unp4kCModel {
 
   Future<void> openFile(String filePath, {BuildContext? context}) async {
     final tempDir = await getTemporaryDirectory();
-    final tempPath = "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
+    final tempPath =
+        "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
     state = state.copyWith(
       tempOpenFile: const MapEntry("loading", ""),
       endMessage: S.current.tools_unp4k_msg_open_file(filePath),
     );
     // ignore: use_build_context_synchronously
-    await extractFile(filePath, tempPath, mode: "extract_open", context: context);
+    await extractFile(
+      filePath,
+      tempPath,
+      mode: "extract_open",
+      context: context,
+    );
   }
 
-  Future<void> extractFile(String filePath, String outputPath, {String mode = "extract", BuildContext? context}) async {
+  Future<void> extractFile(
+    String filePath,
+    String outputPath, {
+    String mode = "extract",
+    BuildContext? context,
+  }) async {
     try {
       // remove first \\
       if (filePath.startsWith("\\")) {
@@ -404,12 +439,18 @@ class Unp4kCModel extends _$Unp4kCModel {
       dPrint("extractFile .... $filePath -> $fullOutputPath");
 
       // 使用 Rust API 提取到磁盘
-      await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: outputPath);
+      await unp4k_api.p4KExtractToDisk(
+        filePath: filePath,
+        outputPath: outputPath,
+      );
 
       if (mode == "extract_open") {
         if (context != null && filePath.toLowerCase().endsWith(".dcb")) {
           // 关闭 loading 状态
-          state = state.copyWith(tempOpenFile: null, endMessage: S.current.tools_unp4k_msg_open_file(filePath));
+          state = state.copyWith(
+            tempOpenFile: null,
+            endMessage: S.current.tools_unp4k_msg_open_file(filePath),
+          );
           // 跳转至 DCBViewer
           if (context.mounted) {
             context.push("/tools/dcb_viewer", extra: {"path": fullOutputPath});
@@ -417,7 +458,15 @@ class Unp4kCModel extends _$Unp4kCModel {
 
           return;
         }
-        const textExt = [".txt", ".xml", ".json", ".lua", ".cfg", ".ini", ".mtl"];
+        const textExt = [
+          ".txt",
+          ".xml",
+          ".json",
+          ".lua",
+          ".cfg",
+          ".ini",
+          ".mtl",
+        ];
         const imgExt = [".png"];
         String openType = "unknown";
         for (var element in textExt) {
@@ -469,7 +518,8 @@ class Unp4kCModel extends _$Unp4kCModel {
           // 收集所有需要提取的文件
           final filesToExtract = <MapEntry<String, AppUnp4kP4kItemData>>[];
           for (var entry in allFiles.entries) {
-            if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+            if (entry.key.startsWith(prefix) &&
+                !(entry.value.isDirectory ?? false)) {
               filesToExtract.add(entry);
             }
           }
@@ -490,10 +540,15 @@ class Unp4kCModel extends _$Unp4kCModel {
 
             current++;
             onProgress?.call(current, total, entryPath);
-            await unp4k_api.p4KExtractToDisk(filePath: entryPath, outputPath: outputDir);
+            await unp4k_api.p4KExtractToDisk(
+              filePath: entryPath,
+              outputPath: outputDir,
+            );
           }
 
-          state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(current));
+          state = state.copyWith(
+            endMessage: S.current.tools_unp4k_extract_completed(current),
+          );
           return (true, current, null);
         }
         return (true, 0, null);
@@ -506,9 +561,14 @@ class Unp4kCModel extends _$Unp4kCModel {
           return (false, 0, S.current.tools_unp4k_extract_cancelled);
         }
 
-        await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: outputDir);
+        await unp4k_api.p4KExtractToDisk(
+          filePath: filePath,
+          outputPath: outputDir,
+        );
 
-        state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(1));
+        state = state.copyWith(
+          endMessage: S.current.tools_unp4k_extract_completed(1),
+        );
         return (true, 1, null);
       }
     } catch (e) {
@@ -556,7 +616,8 @@ class Unp4kCModel extends _$Unp4kCModel {
         // 可能是文件夹（虚拟路径）
         final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
         for (var entry in allFiles.entries) {
-          if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+          if (entry.key.startsWith(prefix) &&
+              !(entry.value.isDirectory ?? false)) {
             count++;
           }
         }
@@ -586,7 +647,8 @@ class Unp4kCModel extends _$Unp4kCModel {
             // 文件夹：收集所有子文件
             final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
             for (var entry in allFiles.entries) {
-              if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+              if (entry.key.startsWith(prefix) &&
+                  !(entry.value.isDirectory ?? false)) {
                 filesToExtract.add(entry.key);
               }
             }
@@ -598,7 +660,8 @@ class Unp4kCModel extends _$Unp4kCModel {
           // 可能是虚拟文件夹路径
           final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
           for (var entry in allFiles.entries) {
-            if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+            if (entry.key.startsWith(prefix) &&
+                !(entry.value.isDirectory ?? false)) {
               filesToExtract.add(entry.key);
             }
           }
@@ -621,10 +684,15 @@ class Unp4kCModel extends _$Unp4kCModel {
 
         current++;
         onProgress?.call(current, total, extractPath);
-        await unp4k_api.p4KExtractToDisk(filePath: extractPath, outputPath: outputDir);
+        await unp4k_api.p4KExtractToDisk(
+          filePath: extractPath,
+          outputPath: outputDir,
+        );
       }
 
-      state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(current));
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_extract_completed(current),
+      );
       return (true, current, null);
     } catch (e) {
       dPrint("[unp4k] extractSelectedItemsWithProgress error: $e");
@@ -635,7 +703,10 @@ class Unp4kCModel extends _$Unp4kCModel {
   /// 从 P4K 文件中提取指定文件到内存
   /// [p4kPath] P4K 文件路径
   /// [filePath] 要提取的文件路径（P4K 内部路径）
-  static Future<Uint8List> extractP4kFileToMemory(String p4kPath, String filePath) async {
+  static Future<Uint8List> extractP4kFileToMemory(
+    String p4kPath,
+    String filePath,
+  ) async {
     try {
       await unp4k_api.p4KOpen(p4KPath: p4kPath);
       final data = await unp4k_api.p4KExtractToMemory(filePath: filePath);
@@ -643,6 +714,66 @@ class Unp4kCModel extends _$Unp4kCModel {
       return Uint8List.fromList(data);
     } catch (e) {
       throw Exception("extractP4kFileToMemory error: $e");
+    }
+  }
+
+  /// 将 P4K 内模型转换为内嵌贴图 GLB 文件
+  /// 返回：(是否成功, 输出路径, 错误信息)
+  Future<(bool, String?, String?)> convertModelToGlb(
+    String filePath,
+    String outputDir,
+  ) async {
+    try {
+      var modelPath = filePath;
+      if (modelPath.startsWith("\\")) {
+        modelPath = modelPath.substring(1);
+      }
+      final supported = await unp4k_model_api.p4KModelIsSupported(
+        filePath: modelPath,
+      );
+      if (!supported) {
+        final err = S.current.tools_unp4k_convert_unsupported;
+        state = state.copyWith(endMessage: err);
+        return (false, null, err);
+      }
+
+      final gameP4kPath = "${getGamePath()}\\Data.p4k".platformPath;
+      final result = await unp4k_model_api.p4KModelConvertToGlb(
+        p4KPath: gameP4kPath,
+        modelPath: modelPath,
+        outputDir: outputDir,
+        options: const unp4k_model_api.ModelConvertOptions(
+          embedTextures: true,
+          overwrite: true,
+          maxTextureSize: 4096,
+        ),
+      );
+
+      if (result.success) {
+        final outputPath = result.outputPath;
+        state = state.copyWith(
+          endMessage: outputPath == null
+              ? S.current.tools_unp4k_convert_success
+              : "${S.current.tools_unp4k_convert_success}\n$outputPath",
+        );
+        return (true, outputPath, null);
+      }
+
+      final errorCode = result.errorCode;
+      final err = errorCode == "ERR_UNSUPPORTED_FORMAT"
+          ? S.current.tools_unp4k_convert_unsupported
+          : (result.errorMessage ?? errorCode ?? "Unknown");
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_convert_failed(err),
+      );
+      return (false, null, err);
+    } catch (e) {
+      dPrint("[unp4k] convertModelToGlb error: $e");
+      final err = e.toString();
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_convert_failed(err),
+      );
+      return (false, null, err);
     }
   }
 }

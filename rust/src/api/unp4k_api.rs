@@ -101,11 +101,7 @@ fn ensure_files_loaded() -> Result<usize> {
 
     let entries = reader.as_ref().unwrap().entries();
     for entry in entries {
-        let name = if entry.name.starts_with("\\") {
-            entry.name.clone()
-        } else {
-            format!("\\{}", entry.name.replace("/", "\\"))
-        };
+        let name = normalize_p4k_path(&entry.name);
         files.insert(name, entry.clone());
     }
 
@@ -153,7 +149,7 @@ pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
             return Err(anyhow!("P4K reader not initialized"));
         }
         let data = reader.as_mut().unwrap().extract_entry(&entry)?;
-        if (entry.name.ends_with(".xml") || entry.name.ends_with(".mtl"))
+        if (entry.name.to_lowercase().ends_with(".xml") || entry.name.to_lowercase().ends_with(".mtl"))
             && CryXmlReader::is_cryxml(&data)
         {
             let cry_xml_string = CryXmlReader::parse(&data)?;
@@ -170,12 +166,8 @@ async fn p4k_get_entry(file_path: String) -> Result<P4kEntry> {
     // 确保文件列表已加载
     tokio::task::spawn_blocking(|| ensure_files_loaded()).await??;
 
-    // 规范化路径
-    let normalized_path = if file_path.starts_with("\\") {
-        file_path.clone()
-    } else {
-        format!("\\{}", file_path)
-    };
+    // 规范化路径，P4K 查找大小写不敏感
+    let normalized_path = normalize_p4k_path(&file_path);
 
     // 获取文件 entry 的克隆
     let entry = {
@@ -187,6 +179,14 @@ async fn p4k_get_entry(file_path: String) -> Result<P4kEntry> {
     };
 
     Ok(entry)
+}
+
+fn normalize_p4k_path(path: &str) -> String {
+    let mut normalized = path.replace('/', "\\");
+    if !normalized.starts_with('\\') {
+        normalized = format!("\\{}", normalized);
+    }
+    normalized.to_lowercase()
 }
 
 /// 提取文件到磁盘

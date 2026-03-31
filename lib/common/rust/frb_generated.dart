@@ -10,6 +10,7 @@ import 'api/http_api.dart';
 import 'api/ort_api.dart';
 import 'api/rs_process.dart';
 import 'api/unp4k_api.dart';
+import 'api/unp4k_model_api.dart';
 import 'api/webview_api.dart';
 import 'api/win32_api.dart';
 import 'dart:async';
@@ -73,7 +74,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -351025706;
+  int get rustContentHash => 983920647;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -269,6 +270,17 @@ abstract class RustLibApi extends BaseApi {
   Future<List<P4kFileItem>> crateApiUnp4KApiP4KGetAllFiles();
 
   Future<BigInt> crateApiUnp4KApiP4KGetFileCount();
+
+  Future<ModelConvertResult> crateApiUnp4KModelApiP4KModelConvertToGlb({
+    required String p4KPath,
+    required String modelPath,
+    required String outputDir,
+    ModelConvertOptions? options,
+  });
+
+  Future<bool> crateApiUnp4KModelApiP4KModelIsSupported({
+    required String filePath,
+  });
 
   Future<void> crateApiUnp4KApiP4KOpen({required String p4KPath});
 
@@ -2009,6 +2021,76 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "p4k_get_file_count", argNames: []);
 
   @override
+  Future<ModelConvertResult> crateApiUnp4KModelApiP4KModelConvertToGlb({
+    required String p4KPath,
+    required String modelPath,
+    required String outputDir,
+    ModelConvertOptions? options,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(p4KPath);
+          var arg1 = cst_encode_String(modelPath);
+          var arg2 = cst_encode_String(outputDir);
+          var arg3 = cst_encode_opt_box_autoadd_model_convert_options(options);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+                arg3,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_model_convert_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelConvertToGlbConstMeta,
+        argValues: [p4KPath, modelPath, outputDir, options],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelConvertToGlbConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_convert_to_glb",
+        argNames: ["p4KPath", "modelPath", "outputDir", "options"],
+      );
+
+  @override
+  Future<bool> crateApiUnp4KModelApiP4KModelIsSupported({
+    required String filePath,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(filePath);
+          return wire.wire__crate__api__unp4k_model_api__p4k_model_is_supported(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelIsSupportedConstMeta,
+        argValues: [filePath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelIsSupportedConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_is_supported",
+        argNames: ["filePath"],
+      );
+
+  @override
   Future<void> crateApiUnp4KApiP4KOpen({required String p4KPath}) {
     return handler.executeNormal(
       NormalTask(
@@ -3003,6 +3085,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ModelConvertOptions dco_decode_box_autoadd_model_convert_options(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_model_convert_options(raw);
+  }
+
+  @protected
   RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
     dynamic raw,
   ) {
@@ -3193,6 +3283,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ModelConvertOptions dco_decode_model_convert_options(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return ModelConvertOptions(
+      embedTextures: dco_decode_bool(arr[0]),
+      overwrite: dco_decode_bool(arr[1]),
+      maxTextureSize: dco_decode_opt_box_autoadd_u_32(arr[2]),
+    );
+  }
+
+  @protected
+  ModelConvertResult dco_decode_model_convert_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return ModelConvertResult(
+      success: dco_decode_bool(arr[0]),
+      outputPath: dco_decode_opt_String(arr[1]),
+      errorCode: dco_decode_opt_String(arr[2]),
+      errorMessage: dco_decode_opt_String(arr[3]),
+      warnings: dco_decode_list_String(arr[4]),
+    );
+  }
+
+  @protected
   MyHttpVersion dco_decode_my_http_version(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return MyHttpVersion.values[raw as int];
@@ -3220,6 +3338,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool? dco_decode_opt_box_autoadd_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_bool(raw);
+  }
+
+  @protected
+  ModelConvertOptions? dco_decode_opt_box_autoadd_model_convert_options(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_model_convert_options(raw);
   }
 
   @protected
@@ -3496,6 +3624,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ModelConvertOptions sse_decode_box_autoadd_model_convert_options(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_model_convert_options(deserializer));
+  }
+
+  @protected
   RsiLauncherAsarData sse_decode_box_autoadd_rsi_launcher_asar_data(
     SseDeserializer deserializer,
   ) {
@@ -3765,6 +3901,40 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ModelConvertOptions sse_decode_model_convert_options(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_embedTextures = sse_decode_bool(deserializer);
+    var var_overwrite = sse_decode_bool(deserializer);
+    var var_maxTextureSize = sse_decode_opt_box_autoadd_u_32(deserializer);
+    return ModelConvertOptions(
+      embedTextures: var_embedTextures,
+      overwrite: var_overwrite,
+      maxTextureSize: var_maxTextureSize,
+    );
+  }
+
+  @protected
+  ModelConvertResult sse_decode_model_convert_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_success = sse_decode_bool(deserializer);
+    var var_outputPath = sse_decode_opt_String(deserializer);
+    var var_errorCode = sse_decode_opt_String(deserializer);
+    var var_errorMessage = sse_decode_opt_String(deserializer);
+    var var_warnings = sse_decode_list_String(deserializer);
+    return ModelConvertResult(
+      success: var_success,
+      outputPath: var_outputPath,
+      errorCode: var_errorCode,
+      errorMessage: var_errorMessage,
+      warnings: var_warnings,
+    );
+  }
+
+  @protected
   MyHttpVersion sse_decode_my_http_version(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
@@ -3808,6 +3978,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_bool(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  ModelConvertOptions? sse_decode_opt_box_autoadd_model_convert_options(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_model_convert_options(deserializer));
     } else {
       return null;
     }
@@ -4207,6 +4390,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_model_convert_options(
+    ModelConvertOptions self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_model_convert_options(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_rsi_launcher_asar_data(
     RsiLauncherAsarData self,
     SseSerializer serializer,
@@ -4453,6 +4645,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_model_convert_options(
+    ModelConvertOptions self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.embedTextures, serializer);
+    sse_encode_bool(self.overwrite, serializer);
+    sse_encode_opt_box_autoadd_u_32(self.maxTextureSize, serializer);
+  }
+
+  @protected
+  void sse_encode_model_convert_result(
+    ModelConvertResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.success, serializer);
+    sse_encode_opt_String(self.outputPath, serializer);
+    sse_encode_opt_String(self.errorCode, serializer);
+    sse_encode_opt_String(self.errorMessage, serializer);
+    sse_encode_list_String(self.warnings, serializer);
+  }
+
+  @protected
   void sse_encode_my_http_version(
     MyHttpVersion self,
     SseSerializer serializer,
@@ -4497,6 +4713,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_bool(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_model_convert_options(
+    ModelConvertOptions? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_model_convert_options(self, serializer);
     }
   }
 
