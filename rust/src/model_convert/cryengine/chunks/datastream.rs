@@ -184,7 +184,9 @@ pub(crate) fn parse_uv_stream(
     if stream_type != STREAM_UVS && stream_type != STREAM_VERTS_UVS {
         return Err(anyhow!(
             "unsupported data stream type: expected {} or {}, got {}",
-            STREAM_UVS, STREAM_VERTS_UVS, stream_type
+            STREAM_UVS,
+            STREAM_VERTS_UVS,
+            stream_type
         ));
     }
     if num_elements != expected_count {
@@ -209,7 +211,10 @@ pub(crate) fn parse_uv_stream(
             }
             for i in 0..num_elements {
                 let base = i * 8;
-                out.push([read_f32_from(payload, base)?, read_f32_from(payload, base + 4)?]);
+                out.push([
+                    read_f32_from(payload, base)?,
+                    read_f32_from(payload, base + 4)?,
+                ]);
             }
         }
         4 => {

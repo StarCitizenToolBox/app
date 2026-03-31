@@ -1,9 +1,7 @@
 use anyhow::{anyhow, Result};
 
 use super::{
-    chunks::node_mesh_combo::{
-        parse_node_mesh_combo_chunk, IvoNodeMeshComboNode,
-    },
+    chunks::node_mesh_combo::{parse_node_mesh_combo_chunk, IvoNodeMeshComboNode},
     ChunkType, ModelFile, ParsedChunk,
 };
 

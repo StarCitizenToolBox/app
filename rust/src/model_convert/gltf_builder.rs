@@ -1,7 +1,7 @@
 use std::collections::HashMap;
+use std::fmt::Write as _;
 use std::fs;
 use std::io::Cursor;
-use std::fmt::Write as _;
 use std::path::Path;
 
 use anyhow::{anyhow, Result};
@@ -82,7 +82,11 @@ fn write_glb_with_config(
     let mut node_entries = Vec::<Value>::new();
 
     for mesh in &scene.meshes {
-        let base_name = mesh.node_name.as_deref().or(mesh.name.as_deref()).unwrap_or("mesh");
+        let base_name = mesh
+            .node_name
+            .as_deref()
+            .or(mesh.name.as_deref())
+            .unwrap_or("mesh");
         let pos_accessor = push_vec3_accessor(
             base_name,
             "vertex",
@@ -327,7 +331,12 @@ fn build_material_entry(index: usize, material: &GltfMaterialData, texture_count
     let mut out = Map::<String, Value>::new();
     out.insert(
         "name".to_string(),
-        Value::from(material.name.clone().unwrap_or_else(|| format!("material{index}"))),
+        Value::from(
+            material
+                .name
+                .clone()
+                .unwrap_or_else(|| format!("material{index}")),
+        ),
     );
     out.insert("pbrMetallicRoughness".to_string(), Value::Object(pbr));
     if let Some(index) = valid_texture_index(material.normal_texture, texture_count) {
@@ -353,7 +362,10 @@ fn build_material_entry(index: usize, material: &GltfMaterialData, texture_count
     );
     spec_gloss.insert("glossinessFactor".to_string(), json!(glossiness));
     if let Some(index) = valid_texture_index(material.specular_glossiness_texture, texture_count) {
-        spec_gloss.insert("specularGlossinessTexture".to_string(), json!({ "index": index }));
+        spec_gloss.insert(
+            "specularGlossinessTexture".to_string(),
+            json!({ "index": index }),
+        );
     }
     extensions.insert(
         "KHR_materials_pbrSpecularGlossiness".to_string(),
@@ -375,7 +387,10 @@ fn build_material_entry(index: usize, material: &GltfMaterialData, texture_count
     if material.no_draw {
         out.insert("alphaMode".to_string(), json!("MASK"));
         out.insert("alphaCutoff".to_string(), json!(1.0));
-        if let Some(pbr) = out.get_mut("pbrMetallicRoughness").and_then(Value::as_object_mut) {
+        if let Some(pbr) = out
+            .get_mut("pbrMetallicRoughness")
+            .and_then(Value::as_object_mut)
+        {
             pbr.insert("baseColorFactor".to_string(), json!([0.0, 0.0, 0.0, 0.0]));
         }
     }

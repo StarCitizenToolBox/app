@@ -3,8 +3,8 @@ use anyhow::{anyhow, Result};
 use super::{
     cryengine::{
         chunks::node_mesh_combo::{
-            node_transform_to_gltf_trs, parse_node_mesh_combo_chunk, IvoNodeMeshComboChunk,
-            resolve_node_mesh_combo_transforms,
+            node_transform_to_gltf_trs, parse_node_mesh_combo_chunk,
+            resolve_node_mesh_combo_transforms, IvoNodeMeshComboChunk,
         },
         ivo::{collect_skin_chunks, find_node_mesh_combo_chunk},
         FileSignature, ModelFile,
@@ -110,17 +110,19 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
     let layout_bytes = layout_data.unwrap_or(data);
     let layout_model = ModelFile::parse(layout_bytes)?;
     let combo_chunk = find_node_mesh_combo_chunk(&layout_model);
-    let combo_layout = combo_chunk
-        .and_then(|chunk| match parse_node_mesh_combo_chunk(layout_bytes, chunk) {
-            Ok(parsed) => Some(parsed),
-            Err(err) => {
-                warnings.push(format!(
+    let combo_layout =
+        combo_chunk.and_then(
+            |chunk| match parse_node_mesh_combo_chunk(layout_bytes, chunk) {
+                Ok(parsed) => Some(parsed),
+                Err(err) => {
+                    warnings.push(format!(
                     "IVO native best-effort: failed to parse NodeMeshCombo layout at offset {}: {}",
                     chunk.offset, err
                 ));
-                None
-            }
-        });
+                    None
+                }
+            },
+        );
 
     let mut meshes = Vec::new();
     for chunk in &skin_chunks {
@@ -414,7 +416,10 @@ fn build_meshes_from_skin_source(source: &IvoSkinMeshSource) -> Vec<SceneMesh> {
 fn build_meshes_from_combo(
     combo: &IvoNodeMeshComboChunk,
     source: &IvoSkinMeshSource,
-    transforms: &std::collections::HashMap<u16, crate::model_convert::cryengine::chunks::node_mesh_combo::NodeTransform>,
+    transforms: &std::collections::HashMap<
+        u16,
+        crate::model_convert::cryengine::chunks::node_mesh_combo::NodeTransform,
+    >,
     warnings: &mut Vec<String>,
 ) -> Vec<SceneMesh> {
     let mut meshes = Vec::new();
@@ -499,7 +504,13 @@ fn build_meshes_from_combo(
         let display_name = combo
             .node_names
             .get(node.node_index as usize)
-            .and_then(|name| if name.is_empty() { None } else { Some(name.clone()) })
+            .and_then(|name| {
+                if name.is_empty() {
+                    None
+                } else {
+                    Some(name.clone())
+                }
+            })
             .or_else(|| Some(format!("ivo_node_{}", node.node_index)));
         let trs = transforms
             .get(&node.node_index)
@@ -1383,5 +1394,4 @@ mod tests {
             panic!("test helper half_bits only supports 0.0 or 1.0");
         }
     }
-
 }
