@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Material MtlFlags="50331648" MatTemplate="" MatSubTemplate="" Shader="Layer" StringGenMask="" SurfaceType="metal_dense" Diffuse="0.24620135,0.19461785,0.1301365" Specular="0.03189604,0.03189604,0.03189604" Emissive="0,0,0" Opacity="1" Shininess="94" vertModifType="0">
+  <Textures>
+    <Texture Map="TexSlot1" File="Objects/Spaceships/Ships/BANU/Textures/banu_hull_a_alpha_diff.tif" TexType="0" Used="1"/>
+    <Texture Map="TexSlot2" File="Objects/Spaceships/Ships/ANVL/textures/exterior/metal/hull_grey_light2_ddna.tif" TexType="0" Used="1">
+      <TexMod TexMod_RotateType="0" TileU="2" TileV="2"/>
+    </Texture>
+    <Texture Map="TexSlot7" File="Textures/unified_detail/default/paintedmetal01_udm.tif" TexType="0" Used="1"/>
+    <Texture Map="TexSlot8" File="Objects/Spaceships/Ships/BANU/Textures/banu_hull_a_blend.tif" TexType="0" Used="1"/>
+  </Textures>
+  <PublicParams WearDirtBlendFalloff="1" LayerTiling="1" ShadingModel="0" DetailDiffuse="0" DetailTiling="3" SubsurfaceScattering="0" TintMode="0" WearDiffuseColor="1,1,1" WearSpecularColor="1,1,1" WearGlossiness="1" DetailBump="1" DetailGloss="0.48895901"/>
+</Material>

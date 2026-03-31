@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Material MtlFlags="50331648" MatTemplate="" MatSubTemplate="" Shader="Layer" StringGenMask="" SurfaceType="metal_dense" Diffuse="1,0.99110222,0.88792324" Specular="1,1,1" Emissive="0,0,0" Opacity="1" Shininess="255" vertModifType="0">
+  <Textures>
+    <Texture Map="TexSlot1" File="Objects/Spaceships/Ships/BANU/Textures/banu_bone_wear_diff.tif" TexType="0" Used="1"/>
+    <Texture Map="TexSlot2" File="Objects/Spaceships/Ships/BANU/Textures/banu_bone_wear_ddna.tif" TexType="0" Used="1"/>
+    <Texture Map="TexSlot3" File="Objects/Spaceships/Ships/BANU/Textures/banu_bone_displ.tif" TexType="0" Used="1"/>
+    <Texture Map="TexSlot6" File="Objects/Spaceships/Ships/BANU/Textures/banu_bone_wear_spec.tif" TexType="0" Used="1"/>
+    <Texture Map="TexSlot8" File="Objects/Spaceships/Ships/AEGS/Textures/Interior/Blend/interior_blnd_a_diff.dds" TexType="0" Used="1"/>
+  </Textures>
+  <PublicParams WearDirtBlendFalloff="0.5" LayerTiling="1" ShadingModel="0" DetailDiffuse="0.5" DetailTiling="8" SubsurfaceScattering="0" TintMode="0" WearDiffuseColor="1,1,1" WearSpecularColor="0.03954624,0.03954624,0.03954624" WearGlossiness="0.1" DetailBump="0.5" DetailGloss="0.5"/>
+</Material>

@@ -1,0 +1,8 @@
+<MeshSetup>
+ <MSNode Joint="BANU_Defender_Door_Exterior">
+  <MSNode Joint="Door_Exterior_Hull" Volume_SoftbodyTopology="0" Volume_TopologyRadius="0.0099999998" Volume_InteriorGrid="0" SDF_Flag="EnabledAllBelow" Volume_Type="Field" SDF_Res="8" SDF_IsoValue="0.0099999998">
+   <MSNode Joint="Door_Int_Hull" Volume_SoftbodyTopology="0" Volume_TopologyRadius="0.0099999998" Volume_InteriorGrid="0" SDF_Flag="DisabledAllBelow" Volume_Type="Field" SDF_Res="32" SDF_IsoValue="0.0099999998"/>
+  </MSNode>
+  <MSNode Joint="door_control_panel" Volume_SoftbodyTopology="0" Volume_TopologyRadius="0.0099999998" Volume_InteriorGrid="0" SDF_Flag="DisabledAllBelow" Volume_Type="Field" SDF_Res="32" SDF_IsoValue="0.0099999998"/>
+ </MSNode>
+</MeshSetup>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Material MtlFlags="50331648" MatTemplate="" MatSubTemplate="" Shader="Layer" StringGenMask="" SurfaceType="metal_dense" Diffuse="0.052860651,0.052860651,0.052860651" Specular="0.023153368,0.023153368,0.023153368" Emissive="0,0,0" Opacity="1" Shininess="90" vertModifType="0">
+  <Textures>
+    <Texture Map="TexSlot2" File="Objects/Spaceships/Ships/BANU/Textures/banu_glass_b_ddna.tif" TexType="0" Used="1">
+      <TexMod TexMod_RotateType="0" TileU="2" TileV="2"/>
+    </Texture>
+    <Texture Map="TexSlot7" File="Textures/unified_detail/paint/car_scratchy_detail.dds" TexType="0" Used="1"/>
+    <Texture Map="TexSlot8" File="Objects/Spaceships/Ships/BANU/Textures/banu_metal_floor_wear_blend.tif" TexType="0" Used="1"/>
+  </Textures>
+  <PublicParams WearDirtBlendFalloff="0.0099999998" LayerTiling="1" ShadingModel="0" DetailDiffuse="0.075709797" DetailTiling="2" SubsurfaceScattering="0" TintMode="0" WearDiffuseColor="1,1,1" WearSpecularColor="1,1,1" WearGlossiness="1" DetailBump="0.51419598" DetailGloss="0"/>
+</Material>
