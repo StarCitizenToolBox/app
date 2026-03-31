@@ -1,5 +1,0 @@
-<MeshSetup>
- <MSNode Joint="BANU_Defender_Thruster_Main_Left">
-  <MSNode Joint="Thruster_Main_Left" Volume_SoftbodyTopology="0" Volume_TopologyRadius="0.0099999998" Volume_InteriorGrid="0" SDF_Flag="EnabledAllBelow" Volume_Type="Field" SDF_Res="6" SDF_IsoValue="0.0099999998"/>
- </MSNode>
-</MeshSetup>

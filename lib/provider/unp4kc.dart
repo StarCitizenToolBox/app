@@ -51,6 +51,8 @@ abstract class Unp4kcState with _$Unp4kcState {
     MapEntry<String, String>? tempOpenFile,
     @Default("") String errorMessage,
     @Default("") String searchQuery,
+    @Default("") String suffixFilter,
+    @Default(<String>[]) List<String> availableSuffixes,
     @Default(false) bool isSearching,
 
     /// 搜索结果的虚拟文件系统（支持分级展示）
@@ -101,6 +103,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       final p4kFiles = await unp4k_api.p4KGetAllFiles();
 
       final files = <String, AppUnp4kP4kItemData>{};
+      final suffixes = <String>{};
       final fs = MemoryFileSystem(style: FileSystemStyle.posix);
 
       var nextAwait = 0;
@@ -115,6 +118,12 @@ class Unp4kCModel extends _$Unp4kCModel {
         );
 
         files[item.name] = fileData;
+        if (!item.isDirectory) {
+          final ext = _extractFileExtension(item.name);
+          if (ext.isNotEmpty) {
+            suffixes.add(ext);
+          }
+        }
 
         if (!item.isDirectory) {
           await fs
@@ -135,6 +144,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       state = state.copyWith(
         files: files,
         fs: fs,
+        availableSuffixes: suffixes.toList()..sort(),
         endMessage: S.current.tools_unp4k_msg_read_completed(
           files.length,
           endTime.difference(loadStartTime).inMilliseconds,
@@ -156,39 +166,75 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   List<AppUnp4kP4kItemData>? getFiles() {
-    final path = state.curPath.replaceAll("\\", "/");
-
-    // 如果有搜索结果，使用搜索的虚拟文件系统
-    final fs = state.searchFs ?? state.fs;
-    if (fs == null) return null;
-
-    final dir = fs.directory(path);
-    if (!dir.existsSync()) return [];
-    final files = dir.listSync(recursive: false, followLinks: false);
-
     final result = <AppUnp4kP4kItemData>[];
-    for (var file in files) {
-      if (file is File) {
-        final f = state.files?[file.path.replaceAll("/", "\\")];
-        if (f != null) {
-          if (!(f.name?.startsWith("\\") ?? true)) {
-            f.name = "\\${f.name}";
-          }
-          result.add(f);
+    final allFiles = state.files;
+    if (allFiles == null) return null;
+
+    if (state.searchMatchedFiles != null) {
+      // 搜索模式：直接平铺显示所有匹配文件
+      for (final filePath in state.searchMatchedFiles!) {
+        final f = allFiles[filePath];
+        if (f == null) continue;
+        if (!(f.name?.startsWith("\\") ?? true)) {
+          f.name = "\\${f.name}";
         }
-      } else {
-        result.add(
-          AppUnp4kP4kItemData(
-            name: file.path.replaceAll("/", "\\"),
-            isDirectory: true,
-          ),
-        );
+        result.add(f);
+      }
+    } else {
+      final path = state.curPath.replaceAll("\\", "/");
+      final fs = state.fs;
+      if (fs == null) return null;
+
+      final dir = fs.directory(path);
+      if (!dir.existsSync()) return [];
+      final files = dir.listSync(recursive: false, followLinks: false);
+
+      for (var file in files) {
+        if (file is File) {
+          final f = allFiles[file.path.replaceAll("/", "\\")];
+          if (f != null) {
+            if (!(f.name?.startsWith("\\") ?? true)) {
+              f.name = "\\${f.name}";
+            }
+            result.add(f);
+          }
+        } else {
+          result.add(
+            AppUnp4kP4kItemData(
+              name: file.path.replaceAll("/", "\\"),
+              isDirectory: true,
+            ),
+          );
+        }
       }
     }
+
+    _applySuffixFilter(result);
 
     // 应用排序
     _sortFiles(result);
     return result;
+  }
+
+  void _applySuffixFilter(List<AppUnp4kP4kItemData> files) {
+    final suffix = state.suffixFilter.trim().toLowerCase();
+    if (suffix.isEmpty) return;
+    files.removeWhere((item) {
+      if (item.isDirectory ?? false) return true;
+      final name = item.name?.toLowerCase() ?? "";
+      return !name.endsWith(suffix);
+    });
+  }
+
+  String _extractFileExtension(String? filePath) {
+    if (filePath == null || filePath.isEmpty) return "";
+    final normalized = filePath.replaceAll("/", "\\");
+    final fileName = normalized.split("\\").last;
+    final dotIndex = fileName.lastIndexOf(".");
+    if (dotIndex <= 0 || dotIndex == fileName.length - 1) {
+      return "";
+    }
+    return fileName.substring(dotIndex).toLowerCase();
   }
 
   /// 对文件列表进行排序
@@ -266,22 +312,23 @@ class Unp4kCModel extends _$Unp4kCModel {
     state = state.copyWith(sortType: sortType);
   }
 
+  /// 设置后缀筛选
+  void setSuffixFilter(String suffix) {
+    state = state.copyWith(suffixFilter: suffix);
+  }
+
   /// 执行搜索（异步）
   Future<void> search(String query) async {
     if (query.isEmpty) {
       // 清除搜索，返回根目录
       state = state.copyWith(
         searchQuery: "",
-        searchFs: null,
         searchMatchedFiles: null,
         isSearching: false,
         curPath: "\\",
       );
       return;
     }
-
-    // 保存当前路径，用于搜索后尝试保持
-    final currentPath = state.curPath;
 
     state = state.copyWith(
       searchQuery: query,
@@ -303,30 +350,10 @@ class Unp4kCModel extends _$Unp4kCModel {
       );
       final matchedFiles = searchResult.matchedFiles;
 
-      // 构建搜索结果的虚拟文件系统
-      final searchFs = MemoryFileSystem(style: FileSystemStyle.posix);
-      for (var filePath in matchedFiles) {
-        await searchFs
-            .file(filePath.replaceAll("\\", "/"))
-            .create(recursive: true);
-      }
-
-      // 检查当前路径是否有搜索结果
-      String targetPath = "\\";
-      if (currentPath != "\\") {
-        final checkPath = currentPath.replaceAll("\\", "/");
-        final dir = searchFs.directory(checkPath);
-        if (dir.existsSync() && dir.listSync().isNotEmpty) {
-          // 当前目录有结果，保持当前路径
-          targetPath = currentPath;
-        }
-      }
-
       state = state.copyWith(
-        searchFs: searchFs,
         searchMatchedFiles: matchedFiles,
         isSearching: false,
-        curPath: targetPath,
+        curPath: "\\",
         endMessage: matchedFiles.isEmpty
             ? S.current.tools_unp4k_search_no_result
             : S.current.tools_unp4k_msg_read_completed(matchedFiles.length, 0),
@@ -341,7 +368,6 @@ class Unp4kCModel extends _$Unp4kCModel {
   void clearSearch() {
     state = state.copyWith(
       searchQuery: "",
-      searchFs: null,
       searchMatchedFiles: null,
       isSearching: false,
       curPath: "\\",
