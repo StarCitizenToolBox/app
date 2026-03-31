@@ -1,0 +1,20 @@
+[package]
+name = "ww2ogg"
+version = "0.1.0"
+edition = "2021"
+authors = ["ww2ogg-rs contributors"]
+description = "Convert Wwise RIFF/RIFX Vorbis audio files (.wem) to standard Ogg Vorbis format"
+license = "BSD-3-Clause"
+repository = "https://github.com/coconutbird/ww2ogg-rs"
+readme = "../README.md"
+keywords = ["wwise", "ogg", "vorbis", "audio", "wem"]
+categories = ["multimedia::audio", "encoding"]
+
+[lib]
+name = "ww2ogg"
+path = "src/lib.rs"
+
+[dependencies]
+thiserror = "2"
+byteorder = "1.5"
+lewton = "0.10.2"

@@ -47,6 +47,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  AssemblyGraphStats dco_decode_assembly_graph_stats(dynamic raw);
+
+  @protected
   bool dco_decode_bool(dynamic raw);
 
   @protected
@@ -114,6 +117,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<DownloadTaskInfo> dco_decode_list_download_task_info(dynamic raw);
 
   @protected
+  List<LocalBatchFileResult> dco_decode_list_local_batch_file_result(
+    dynamic raw,
+  );
+
+  @protected
   List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw);
 
   @protected
@@ -130,6 +138,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<WebViewEvent> dco_decode_list_web_view_event(dynamic raw);
+
+  @protected
+  LocalBatchConvertResult dco_decode_local_batch_convert_result(dynamic raw);
+
+  @protected
+  LocalBatchFileResult dco_decode_local_batch_file_result(dynamic raw);
 
   @protected
   ModelConvertOptions dco_decode_model_convert_options(dynamic raw);
@@ -243,6 +257,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  AssemblyGraphStats sse_decode_assembly_graph_stats(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
@@ -324,6 +343,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  List<LocalBatchFileResult> sse_decode_list_local_batch_file_result(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   List<P4kFileItem> sse_decode_list_p_4_k_file_item(
     SseDeserializer deserializer,
   );
@@ -344,6 +368,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<WebViewEvent> sse_decode_list_web_view_event(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  LocalBatchConvertResult sse_decode_local_batch_convert_result(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  LocalBatchFileResult sse_decode_local_batch_file_result(
     SseDeserializer deserializer,
   );
 
@@ -601,6 +635,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_local_batch_file_result>
+  cst_encode_list_local_batch_file_result(List<LocalBatchFileResult> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_local_batch_file_result(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_local_batch_file_result(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_p_4_k_file_item> cst_encode_list_p_4_k_file_item(
     List<P4kFileItem> raw,
   ) {
@@ -747,6 +792,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_assembly_graph_stats(
+    AssemblyGraphStats apiObj,
+    wire_cst_assembly_graph_stats wireObj,
+  ) {
+    wireObj.nodes = cst_encode_i_32(apiObj.nodes);
+    wireObj.geometry_nodes = cst_encode_i_32(apiObj.geometryNodes);
+    wireObj.object_containers = cst_encode_i_32(apiObj.objectContainers);
+    wireObj.roots = cst_encode_i_32(apiObj.roots);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_model_convert_options(
     ModelConvertOptions apiObj,
     ffi.Pointer<wire_cst_model_convert_options> wireObj,
@@ -825,6 +881,51 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.progress = cst_encode_f_64(apiObj.progress);
     wireObj.num_peers = cst_encode_usize(apiObj.numPeers);
     wireObj.output_folder = cst_encode_String(apiObj.outputFolder);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_local_batch_convert_result(
+    LocalBatchConvertResult apiObj,
+    wire_cst_local_batch_convert_result wireObj,
+  ) {
+    wireObj.success = cst_encode_bool(apiObj.success);
+    wireObj.merged_output_path = cst_encode_opt_String(apiObj.mergedOutputPath);
+    wireObj.assembly_manifest_path = cst_encode_opt_String(
+      apiObj.assemblyManifestPath,
+    );
+    wireObj.assembly_report_path = cst_encode_opt_String(
+      apiObj.assemblyReportPath,
+    );
+    wireObj.success_count = cst_encode_i_32(apiObj.successCount);
+    wireObj.empty_count = cst_encode_i_32(apiObj.emptyCount);
+    wireObj.failed_count = cst_encode_i_32(apiObj.failedCount);
+    wireObj.warnings = cst_encode_list_String(apiObj.warnings);
+    wireObj.files = cst_encode_list_local_batch_file_result(apiObj.files);
+    wireObj.source_mode = cst_encode_String(apiObj.sourceMode);
+    cst_api_fill_to_wire_assembly_graph_stats(
+      apiObj.assemblyGraphStats,
+      wireObj.assembly_graph_stats,
+    );
+    wireObj.fallback_reason_by_file = cst_encode_list_String(
+      apiObj.fallbackReasonByFile,
+    );
+    wireObj.error_code = cst_encode_opt_String(apiObj.errorCode);
+    wireObj.error_message = cst_encode_opt_String(apiObj.errorMessage);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_local_batch_file_result(
+    LocalBatchFileResult apiObj,
+    wire_cst_local_batch_file_result wireObj,
+  ) {
+    wireObj.model_path = cst_encode_String(apiObj.modelPath);
+    wireObj.output_path = cst_encode_opt_String(apiObj.outputPath);
+    wireObj.has_geometry = cst_encode_bool(apiObj.hasGeometry);
+    wireObj.error_code = cst_encode_opt_String(apiObj.errorCode);
+    wireObj.error_message = cst_encode_opt_String(apiObj.errorMessage);
+    wireObj.warnings = cst_encode_list_String(apiObj.warnings);
+    wireObj.source_mode = cst_encode_String(apiObj.sourceMode);
+    wireObj.fallback_reason = cst_encode_opt_String(apiObj.fallbackReason);
   }
 
   @protected
@@ -1059,6 +1160,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_assembly_graph_stats(
+    AssemblyGraphStats self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
@@ -1158,6 +1265,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_local_batch_file_result(
+    List<LocalBatchFileResult> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_p_4_k_file_item(
     List<P4kFileItem> self,
     SseSerializer serializer,
@@ -1187,6 +1300,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_web_view_event(
     List<WebViewEvent> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_local_batch_convert_result(
+    LocalBatchConvertResult self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_local_batch_file_result(
+    LocalBatchFileResult self,
     SseSerializer serializer,
   );
 
@@ -2497,6 +2622,18 @@ class RustLibWire implements BaseWire {
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>, bool)
           >();
 
+  void wire__crate__api__unp4k_api__p4k_cancel_wem_decode(int port_) {
+    return _wire__crate__api__unp4k_api__p4k_cancel_wem_decode(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_cancel_wem_decodePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_cancel_wem_decode',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_cancel_wem_decode =
+      _wire__crate__api__unp4k_api__p4k_cancel_wem_decodePtr
+          .asFunction<void Function(int)>();
+
   void wire__crate__api__unp4k_api__p4k_close(int port_) {
     return _wire__crate__api__unp4k_api__p4k_close(port_);
   }
@@ -2508,6 +2645,78 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__unp4k_api__p4k_close =
       _wire__crate__api__unp4k_api__p4k_closePtr
           .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__p4k_decode_wem_to_wav(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> input_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav(
+      port_,
+      input_path,
+      output_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_wavPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_wav',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav =
+      _wire__crate__api__unp4k_api__p4k_decode_wem_to_wavPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_preview(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> input_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path,
+    int clip_seconds,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_preview(
+      port_,
+      input_path,
+      output_path,
+      clip_seconds,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_previewPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Uint32,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_preview',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_preview =
+      _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_previewPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+            )
+          >();
 
   void wire__crate__api__unp4k_api__p4k_extract_to_disk(
     int port_,
@@ -2593,6 +2802,45 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__unp4k_api__p4k_get_file_count =
       _wire__crate__api__unp4k_api__p4k_get_file_countPtr
           .asFunction<void Function(int)>();
+
+  void
+  wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _asset_root,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _output_dir,
+    ffi.Pointer<wire_cst_model_convert_options> _options,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge(
+      port_,
+      _asset_root,
+      _output_dir,
+      _options,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_mergePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_model_convert_options>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge =
+      _wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_mergePtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_model_convert_options>,
+            )
+          >();
 
   void wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb(
     int port_,
@@ -2681,6 +2929,33 @@ class RustLibWire implements BaseWire {
       >('frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_open');
   late final _wire__crate__api__unp4k_api__p4k_open =
       _wire__crate__api__unp4k_api__p4k_openPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_preview_image_png(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_preview_image_png(
+      port_,
+      file_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_preview_image_pngPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_preview_image_png',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_preview_image_png =
+      _wire__crate__api__unp4k_api__p4k_preview_image_pngPtr
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
@@ -3684,6 +3959,23 @@ class RustLibWire implements BaseWire {
             ffi.Pointer<wire_cst_list_download_task_info> Function(int)
           >();
 
+  ffi.Pointer<wire_cst_list_local_batch_file_result>
+  cst_new_list_local_batch_file_result(int len) {
+    return _cst_new_list_local_batch_file_result(len);
+  }
+
+  late final _cst_new_list_local_batch_file_resultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_local_batch_file_result> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_local_batch_file_result');
+  late final _cst_new_list_local_batch_file_result =
+      _cst_new_list_local_batch_file_resultPtr
+          .asFunction<
+            ffi.Pointer<wire_cst_list_local_batch_file_result> Function(int)
+          >();
+
   ffi.Pointer<wire_cst_list_p_4_k_file_item> cst_new_list_p_4_k_file_item(
     int len,
   ) {
@@ -3951,6 +4243,32 @@ final class wire_cst_list_download_task_info extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_local_batch_file_result extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> model_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path;
+
+  @ffi.Bool()
+  external bool has_geometry;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_code;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
+
+  external ffi.Pointer<wire_cst_list_String> warnings;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> source_mode;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> fallback_reason;
+}
+
+final class wire_cst_list_local_batch_file_result extends ffi.Struct {
+  external ffi.Pointer<wire_cst_local_batch_file_result> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_p_4_k_file_item extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> name;
 
@@ -4046,6 +4364,20 @@ final class wire_cst_applinks_registration_result extends ffi.Struct {
   external bool was_modified;
 }
 
+final class wire_cst_assembly_graph_stats extends ffi.Struct {
+  @ffi.Int32()
+  external int nodes;
+
+  @ffi.Int32()
+  external int geometry_nodes;
+
+  @ffi.Int32()
+  external int object_containers;
+
+  @ffi.Int32()
+  external int roots;
+}
+
 final class wire_cst_download_global_stat extends ffi.Struct {
   @ffi.Uint64()
   external int download_speed;
@@ -4058,6 +4390,40 @@ final class wire_cst_download_global_stat extends ffi.Struct {
 
   @ffi.UintPtr()
   external int num_waiting;
+}
+
+final class wire_cst_local_batch_convert_result extends ffi.Struct {
+  @ffi.Bool()
+  external bool success;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> merged_output_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> assembly_manifest_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> assembly_report_path;
+
+  @ffi.Int32()
+  external int success_count;
+
+  @ffi.Int32()
+  external int empty_count;
+
+  @ffi.Int32()
+  external int failed_count;
+
+  external ffi.Pointer<wire_cst_list_String> warnings;
+
+  external ffi.Pointer<wire_cst_list_local_batch_file_result> files;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> source_mode;
+
+  external wire_cst_assembly_graph_stats assembly_graph_stats;
+
+  external ffi.Pointer<wire_cst_list_String> fallback_reason_by_file;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_code;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
 }
 
 final class wire_cst_model_convert_result extends ffi.Struct {
@@ -4125,3 +4491,19 @@ final class wire_cst_web_view_navigation_state extends ffi.Struct {
   @ffi.Bool()
   external bool is_loading;
 }
+
+const int CHUNK_TYPE_BASE_746 = 3435917312;
+
+const int CHUNK_TYPE_MESH = 3435921408;
+
+const int CHUNK_TYPE_DATA_STREAM = 3435921430;
+
+const int STREAM_VERTICES = 0;
+
+const int STREAM_NORMALS = 1;
+
+const int STREAM_UVS = 2;
+
+const int STREAM_INDICES = 5;
+
+const int STREAM_VERTS_UVS = 15;

@@ -27,6 +27,61 @@ Future<ModelConvertResult> p4KModelConvertToGlb({
   options: options,
 );
 
+Future<LocalBatchConvertResult> p4KModelConvertLocalBatchAndMerge({
+  required String assetRoot,
+  required String outputDir,
+  ModelConvertOptions? options,
+}) =>
+    RustLib.instance.api.crateApiUnp4KModelApiP4KModelConvertLocalBatchAndMerge(
+      assetRoot: assetRoot,
+      outputDir: outputDir,
+      options: options,
+    );
+
+@freezed
+sealed class AssemblyGraphStats with _$AssemblyGraphStats {
+  const factory AssemblyGraphStats({
+    required int nodes,
+    required int geometryNodes,
+    required int objectContainers,
+    required int roots,
+  }) = _AssemblyGraphStats;
+}
+
+@freezed
+sealed class LocalBatchConvertResult with _$LocalBatchConvertResult {
+  const factory LocalBatchConvertResult({
+    required bool success,
+    String? mergedOutputPath,
+    String? assemblyManifestPath,
+    String? assemblyReportPath,
+    required int successCount,
+    required int emptyCount,
+    required int failedCount,
+    required List<String> warnings,
+    required List<LocalBatchFileResult> files,
+    required String sourceMode,
+    required AssemblyGraphStats assemblyGraphStats,
+    required List<String> fallbackReasonByFile,
+    String? errorCode,
+    String? errorMessage,
+  }) = _LocalBatchConvertResult;
+}
+
+@freezed
+sealed class LocalBatchFileResult with _$LocalBatchFileResult {
+  const factory LocalBatchFileResult({
+    required String modelPath,
+    String? outputPath,
+    required bool hasGeometry,
+    String? errorCode,
+    String? errorMessage,
+    required List<String> warnings,
+    required String sourceMode,
+    String? fallbackReason,
+  }) = _LocalBatchFileResult;
+}
+
 @freezed
 sealed class ModelConvertOptions with _$ModelConvertOptions {
   const factory ModelConvertOptions({

@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 983920647;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -616289294;
 
 // Section: executor
 
@@ -1341,6 +1341,27 @@ fn wire__crate__api__win32_api__open_dir_with_explorer_impl(
         },
     )
 }
+fn wire__crate__api__unp4k_api__p4k_cancel_wem_decode_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_cancel_wem_decode",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok({
+                        crate::api::unp4k_api::p4k_cancel_wem_decode();
+                    })?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
 fn wire__crate__api__unp4k_api__p4k_close_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
 ) {
@@ -1355,6 +1376,69 @@ fn wire__crate__api__unp4k_api__p4k_close_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
                         let output_ok = crate::api::unp4k_api::p4k_close().await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    input_path: impl CstDecode<String>,
+    output_path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_decode_wem_to_wav",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_input_path = input_path.cst_decode();
+            let api_output_path = output_path.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::p4k_decode_wem_to_wav(
+                            api_input_path,
+                            api_output_path,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_preview_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    input_path: impl CstDecode<String>,
+    output_path: impl CstDecode<String>,
+    clip_seconds: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_decode_wem_to_wav_preview",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_input_path = input_path.cst_decode();
+            let api_output_path = output_path.cst_decode();
+            let api_clip_seconds = clip_seconds.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::p4k_decode_wem_to_wav_preview(
+                            api_input_path,
+                            api_output_path,
+                            api_clip_seconds,
+                        )
+                        .await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -1462,6 +1546,40 @@ fn wire__crate__api__unp4k_api__p4k_get_file_count_impl(
         },
     )
 }
+fn wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    _asset_root: impl CstDecode<String>,
+    _output_dir: impl CstDecode<String>,
+    _options: impl CstDecode<Option<crate::api::unp4k_model_api::ModelConvertOptions>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_model_convert_local_batch_and_merge",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api__asset_root = _asset_root.cst_decode();
+            let api__output_dir = _output_dir.cst_decode();
+            let api__options = _options.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::unp4k_model_api::p4k_model_convert_local_batch_and_merge(
+                                api__asset_root,
+                                api__output_dir,
+                                api__options,
+                            )
+                            .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     p4k_path: impl CstDecode<String>,
@@ -1537,6 +1655,31 @@ fn wire__crate__api__unp4k_api__p4k_open_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
                         let output_ok = crate::api::unp4k_api::p4k_open(api_p4k_path).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__p4k_preview_image_png_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    file_path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_preview_image_png",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_file_path = file_path.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::unp4k_api::p4k_preview_image_png(api_file_path).await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -2442,6 +2585,22 @@ impl SseDecode for crate::api::applinks_api::ApplinksRegistrationResult {
     }
 }
 
+impl SseDecode for crate::api::unp4k_model_api::AssemblyGraphStats {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_nodes = <i32>::sse_decode(deserializer);
+        let mut var_geometryNodes = <i32>::sse_decode(deserializer);
+        let mut var_objectContainers = <i32>::sse_decode(deserializer);
+        let mut var_roots = <i32>::sse_decode(deserializer);
+        return crate::api::unp4k_model_api::AssemblyGraphStats {
+            nodes: var_nodes,
+            geometry_nodes: var_geometryNodes,
+            object_containers: var_objectContainers,
+            roots: var_roots,
+        };
+    }
+}
+
 impl SseDecode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2639,6 +2798,20 @@ impl SseDecode for Vec<crate::api::downloader_api::DownloadTaskInfo> {
     }
 }
 
+impl SseDecode for Vec<crate::api::unp4k_model_api::LocalBatchFileResult> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(
+                <crate::api::unp4k_model_api::LocalBatchFileResult>::sse_decode(deserializer),
+            );
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<crate::api::unp4k_api::P4kFileItem> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2702,6 +2875,68 @@ impl SseDecode for Vec<crate::api::webview_api::WebViewEvent> {
             ));
         }
         return ans_;
+    }
+}
+
+impl SseDecode for crate::api::unp4k_model_api::LocalBatchConvertResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_success = <bool>::sse_decode(deserializer);
+        let mut var_mergedOutputPath = <Option<String>>::sse_decode(deserializer);
+        let mut var_assemblyManifestPath = <Option<String>>::sse_decode(deserializer);
+        let mut var_assemblyReportPath = <Option<String>>::sse_decode(deserializer);
+        let mut var_successCount = <i32>::sse_decode(deserializer);
+        let mut var_emptyCount = <i32>::sse_decode(deserializer);
+        let mut var_failedCount = <i32>::sse_decode(deserializer);
+        let mut var_warnings = <Vec<String>>::sse_decode(deserializer);
+        let mut var_files =
+            <Vec<crate::api::unp4k_model_api::LocalBatchFileResult>>::sse_decode(deserializer);
+        let mut var_sourceMode = <String>::sse_decode(deserializer);
+        let mut var_assemblyGraphStats =
+            <crate::api::unp4k_model_api::AssemblyGraphStats>::sse_decode(deserializer);
+        let mut var_fallbackReasonByFile = <Vec<String>>::sse_decode(deserializer);
+        let mut var_errorCode = <Option<String>>::sse_decode(deserializer);
+        let mut var_errorMessage = <Option<String>>::sse_decode(deserializer);
+        return crate::api::unp4k_model_api::LocalBatchConvertResult {
+            success: var_success,
+            merged_output_path: var_mergedOutputPath,
+            assembly_manifest_path: var_assemblyManifestPath,
+            assembly_report_path: var_assemblyReportPath,
+            success_count: var_successCount,
+            empty_count: var_emptyCount,
+            failed_count: var_failedCount,
+            warnings: var_warnings,
+            files: var_files,
+            source_mode: var_sourceMode,
+            assembly_graph_stats: var_assemblyGraphStats,
+            fallback_reason_by_file: var_fallbackReasonByFile,
+            error_code: var_errorCode,
+            error_message: var_errorMessage,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_model_api::LocalBatchFileResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_modelPath = <String>::sse_decode(deserializer);
+        let mut var_outputPath = <Option<String>>::sse_decode(deserializer);
+        let mut var_hasGeometry = <bool>::sse_decode(deserializer);
+        let mut var_errorCode = <Option<String>>::sse_decode(deserializer);
+        let mut var_errorMessage = <Option<String>>::sse_decode(deserializer);
+        let mut var_warnings = <Vec<String>>::sse_decode(deserializer);
+        let mut var_sourceMode = <String>::sse_decode(deserializer);
+        let mut var_fallbackReason = <Option<String>>::sse_decode(deserializer);
+        return crate::api::unp4k_model_api::LocalBatchFileResult {
+            model_path: var_modelPath,
+            output_path: var_outputPath,
+            has_geometry: var_hasGeometry,
+            error_code: var_errorCode,
+            error_message: var_errorMessage,
+            warnings: var_warnings,
+            source_mode: var_sourceMode,
+            fallback_reason: var_fallbackReason,
+        };
     }
 }
 
@@ -3154,6 +3389,29 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::applinks_api::ApplinksRegistr
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::AssemblyGraphStats {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.nodes.into_into_dart().into_dart(),
+            self.geometry_nodes.into_into_dart().into_dart(),
+            self.object_containers.into_into_dart().into_dart(),
+            self.roots.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_model_api::AssemblyGraphStats
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::AssemblyGraphStats>
+    for crate::api::unp4k_model_api::AssemblyGraphStats
+{
+    fn into_into_dart(self) -> crate::api::unp4k_model_api::AssemblyGraphStats {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DcbRecordItem {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -3291,6 +3549,66 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::downloader_api::DownloadTaskS
     for crate::api::downloader_api::DownloadTaskStatus
 {
     fn into_into_dart(self) -> crate::api::downloader_api::DownloadTaskStatus {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::LocalBatchConvertResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.success.into_into_dart().into_dart(),
+            self.merged_output_path.into_into_dart().into_dart(),
+            self.assembly_manifest_path.into_into_dart().into_dart(),
+            self.assembly_report_path.into_into_dart().into_dart(),
+            self.success_count.into_into_dart().into_dart(),
+            self.empty_count.into_into_dart().into_dart(),
+            self.failed_count.into_into_dart().into_dart(),
+            self.warnings.into_into_dart().into_dart(),
+            self.files.into_into_dart().into_dart(),
+            self.source_mode.into_into_dart().into_dart(),
+            self.assembly_graph_stats.into_into_dart().into_dart(),
+            self.fallback_reason_by_file.into_into_dart().into_dart(),
+            self.error_code.into_into_dart().into_dart(),
+            self.error_message.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_model_api::LocalBatchConvertResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::LocalBatchConvertResult>
+    for crate::api::unp4k_model_api::LocalBatchConvertResult
+{
+    fn into_into_dart(self) -> crate::api::unp4k_model_api::LocalBatchConvertResult {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::LocalBatchFileResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.model_path.into_into_dart().into_dart(),
+            self.output_path.into_into_dart().into_dart(),
+            self.has_geometry.into_into_dart().into_dart(),
+            self.error_code.into_into_dart().into_dart(),
+            self.error_message.into_into_dart().into_dart(),
+            self.warnings.into_into_dart().into_dart(),
+            self.source_mode.into_into_dart().into_dart(),
+            self.fallback_reason.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_model_api::LocalBatchFileResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::LocalBatchFileResult>
+    for crate::api::unp4k_model_api::LocalBatchFileResult
+{
+    fn into_into_dart(self) -> crate::api::unp4k_model_api::LocalBatchFileResult {
         self
     }
 }
@@ -3684,6 +4002,16 @@ impl SseEncode for crate::api::applinks_api::ApplinksRegistrationResult {
     }
 }
 
+impl SseEncode for crate::api::unp4k_model_api::AssemblyGraphStats {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.nodes, serializer);
+        <i32>::sse_encode(self.geometry_nodes, serializer);
+        <i32>::sse_encode(self.object_containers, serializer);
+        <i32>::sse_encode(self.roots, serializer);
+    }
+}
+
 impl SseEncode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -3833,6 +4161,16 @@ impl SseEncode for Vec<crate::api::downloader_api::DownloadTaskInfo> {
     }
 }
 
+impl SseEncode for Vec<crate::api::unp4k_model_api::LocalBatchFileResult> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::unp4k_model_api::LocalBatchFileResult>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<crate::api::unp4k_api::P4kFileItem> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -3880,6 +4218,45 @@ impl SseEncode for Vec<crate::api::webview_api::WebViewEvent> {
         for item in self {
             <crate::api::webview_api::WebViewEvent>::sse_encode(item, serializer);
         }
+    }
+}
+
+impl SseEncode for crate::api::unp4k_model_api::LocalBatchConvertResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.success, serializer);
+        <Option<String>>::sse_encode(self.merged_output_path, serializer);
+        <Option<String>>::sse_encode(self.assembly_manifest_path, serializer);
+        <Option<String>>::sse_encode(self.assembly_report_path, serializer);
+        <i32>::sse_encode(self.success_count, serializer);
+        <i32>::sse_encode(self.empty_count, serializer);
+        <i32>::sse_encode(self.failed_count, serializer);
+        <Vec<String>>::sse_encode(self.warnings, serializer);
+        <Vec<crate::api::unp4k_model_api::LocalBatchFileResult>>::sse_encode(
+            self.files, serializer,
+        );
+        <String>::sse_encode(self.source_mode, serializer);
+        <crate::api::unp4k_model_api::AssemblyGraphStats>::sse_encode(
+            self.assembly_graph_stats,
+            serializer,
+        );
+        <Vec<String>>::sse_encode(self.fallback_reason_by_file, serializer);
+        <Option<String>>::sse_encode(self.error_code, serializer);
+        <Option<String>>::sse_encode(self.error_message, serializer);
+    }
+}
+
+impl SseEncode for crate::api::unp4k_model_api::LocalBatchFileResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.model_path, serializer);
+        <Option<String>>::sse_encode(self.output_path, serializer);
+        <bool>::sse_encode(self.has_geometry, serializer);
+        <Option<String>>::sse_encode(self.error_code, serializer);
+        <Option<String>>::sse_encode(self.error_message, serializer);
+        <Vec<String>>::sse_encode(self.warnings, serializer);
+        <String>::sse_encode(self.source_mode, serializer);
+        <Option<String>>::sse_encode(self.fallback_reason, serializer);
     }
 }
 
@@ -4288,6 +4665,17 @@ mod io {
             }
         }
     }
+    impl CstDecode<crate::api::unp4k_model_api::AssemblyGraphStats> for wire_cst_assembly_graph_stats {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::AssemblyGraphStats {
+            crate::api::unp4k_model_api::AssemblyGraphStats {
+                nodes: self.nodes.cst_decode(),
+                geometry_nodes: self.geometry_nodes.cst_decode(),
+                object_containers: self.object_containers.cst_decode(),
+                roots: self.roots.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<bool> for *mut bool {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> bool {
@@ -4442,6 +4830,18 @@ mod io {
             vec.into_iter().map(CstDecode::cst_decode).collect()
         }
     }
+    impl CstDecode<Vec<crate::api::unp4k_model_api::LocalBatchFileResult>>
+        for *mut wire_cst_list_local_batch_file_result
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::unp4k_model_api::LocalBatchFileResult> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
     impl CstDecode<Vec<crate::api::unp4k_api::P4kFileItem>> for *mut wire_cst_list_p_4_k_file_item {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<crate::api::unp4k_api::P4kFileItem> {
@@ -4498,6 +4898,46 @@ mod io {
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
             };
             vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<crate::api::unp4k_model_api::LocalBatchConvertResult>
+        for wire_cst_local_batch_convert_result
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::LocalBatchConvertResult {
+            crate::api::unp4k_model_api::LocalBatchConvertResult {
+                success: self.success.cst_decode(),
+                merged_output_path: self.merged_output_path.cst_decode(),
+                assembly_manifest_path: self.assembly_manifest_path.cst_decode(),
+                assembly_report_path: self.assembly_report_path.cst_decode(),
+                success_count: self.success_count.cst_decode(),
+                empty_count: self.empty_count.cst_decode(),
+                failed_count: self.failed_count.cst_decode(),
+                warnings: self.warnings.cst_decode(),
+                files: self.files.cst_decode(),
+                source_mode: self.source_mode.cst_decode(),
+                assembly_graph_stats: self.assembly_graph_stats.cst_decode(),
+                fallback_reason_by_file: self.fallback_reason_by_file.cst_decode(),
+                error_code: self.error_code.cst_decode(),
+                error_message: self.error_message.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::unp4k_model_api::LocalBatchFileResult>
+        for wire_cst_local_batch_file_result
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::LocalBatchFileResult {
+            crate::api::unp4k_model_api::LocalBatchFileResult {
+                model_path: self.model_path.cst_decode(),
+                output_path: self.output_path.cst_decode(),
+                has_geometry: self.has_geometry.cst_decode(),
+                error_code: self.error_code.cst_decode(),
+                error_message: self.error_message.cst_decode(),
+                warnings: self.warnings.cst_decode(),
+                source_mode: self.source_mode.cst_decode(),
+                fallback_reason: self.fallback_reason.cst_decode(),
+            }
         }
     }
     impl CstDecode<crate::api::unp4k_model_api::ModelConvertOptions>
@@ -4678,6 +5118,21 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_assembly_graph_stats {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                nodes: Default::default(),
+                geometry_nodes: Default::default(),
+                object_containers: Default::default(),
+                roots: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_assembly_graph_stats {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_dcb_record_item {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -4751,6 +5206,50 @@ mod io {
         }
     }
     impl Default for wire_cst_download_task_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_local_batch_convert_result {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                success: Default::default(),
+                merged_output_path: core::ptr::null_mut(),
+                assembly_manifest_path: core::ptr::null_mut(),
+                assembly_report_path: core::ptr::null_mut(),
+                success_count: Default::default(),
+                empty_count: Default::default(),
+                failed_count: Default::default(),
+                warnings: core::ptr::null_mut(),
+                files: core::ptr::null_mut(),
+                source_mode: core::ptr::null_mut(),
+                assembly_graph_stats: Default::default(),
+                fallback_reason_by_file: core::ptr::null_mut(),
+                error_code: core::ptr::null_mut(),
+                error_message: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_local_batch_convert_result {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_local_batch_file_result {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                model_path: core::ptr::null_mut(),
+                output_path: core::ptr::null_mut(),
+                has_geometry: Default::default(),
+                error_code: core::ptr::null_mut(),
+                error_message: core::ptr::null_mut(),
+                warnings: core::ptr::null_mut(),
+                source_mode: core::ptr::null_mut(),
+                fallback_reason: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_local_batch_file_result {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -5394,8 +5893,39 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_cancel_wem_decode(
+        port_: i64,
+    ) {
+        wire__crate__api__unp4k_api__p4k_cancel_wem_decode_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_close(port_: i64) {
         wire__crate__api__unp4k_api__p4k_close_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_wav(
+        port_: i64,
+        input_path: *mut wire_cst_list_prim_u_8_strict,
+        output_path: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_impl(port_, input_path, output_path)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_preview(
+        port_: i64,
+        input_path: *mut wire_cst_list_prim_u_8_strict,
+        output_path: *mut wire_cst_list_prim_u_8_strict,
+        clip_seconds: u32,
+    ) {
+        wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_preview_impl(
+            port_,
+            input_path,
+            output_path,
+            clip_seconds,
+        )
     }
 
     #[unsafe(no_mangle)]
@@ -5430,6 +5960,21 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge(
+        port_: i64,
+        _asset_root: *mut wire_cst_list_prim_u_8_strict,
+        _output_dir: *mut wire_cst_list_prim_u_8_strict,
+        _options: *mut wire_cst_model_convert_options,
+    ) {
+        wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge_impl(
+            port_,
+            _asset_root,
+            _output_dir,
+            _options,
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb(
         port_: i64,
         p4k_path: *mut wire_cst_list_prim_u_8_strict,
@@ -5456,6 +6001,14 @@ mod io {
         p4k_path: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__unp4k_api__p4k_open_impl(port_, p4k_path)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_preview_image_png(
+        port_: i64,
+        file_path: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__p4k_preview_image_png_impl(port_, file_path)
     }
 
     #[unsafe(no_mangle)]
@@ -5831,6 +6384,20 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_local_batch_file_result(
+        len: i32,
+    ) -> *mut wire_cst_list_local_batch_file_result {
+        let wrap = wire_cst_list_local_batch_file_result {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_local_batch_file_result>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_p_4_k_file_item(
         len: i32,
     ) -> *mut wire_cst_list_p_4_k_file_item {
@@ -5917,6 +6484,14 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_assembly_graph_stats {
+        nodes: i32,
+        geometry_nodes: i32,
+        object_containers: i32,
+        roots: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_dcb_record_item {
         path: *mut wire_cst_list_prim_u_8_strict,
         index: usize,
@@ -5989,6 +6564,12 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_list_local_batch_file_result {
+        ptr: *mut wire_cst_local_batch_file_result,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_list_p_4_k_file_item {
         ptr: *mut wire_cst_p_4_k_file_item,
         len: i32,
@@ -6022,6 +6603,36 @@ mod io {
     pub struct wire_cst_list_web_view_event {
         ptr: *mut wire_cst_web_view_event,
         len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_local_batch_convert_result {
+        success: bool,
+        merged_output_path: *mut wire_cst_list_prim_u_8_strict,
+        assembly_manifest_path: *mut wire_cst_list_prim_u_8_strict,
+        assembly_report_path: *mut wire_cst_list_prim_u_8_strict,
+        success_count: i32,
+        empty_count: i32,
+        failed_count: i32,
+        warnings: *mut wire_cst_list_String,
+        files: *mut wire_cst_list_local_batch_file_result,
+        source_mode: *mut wire_cst_list_prim_u_8_strict,
+        assembly_graph_stats: wire_cst_assembly_graph_stats,
+        fallback_reason_by_file: *mut wire_cst_list_String,
+        error_code: *mut wire_cst_list_prim_u_8_strict,
+        error_message: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_local_batch_file_result {
+        model_path: *mut wire_cst_list_prim_u_8_strict,
+        output_path: *mut wire_cst_list_prim_u_8_strict,
+        has_geometry: bool,
+        error_code: *mut wire_cst_list_prim_u_8_strict,
+        error_message: *mut wire_cst_list_prim_u_8_strict,
+        warnings: *mut wire_cst_list_String,
+        source_mode: *mut wire_cst_list_prim_u_8_strict,
+        fallback_reason: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

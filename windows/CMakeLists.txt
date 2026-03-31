@@ -9,6 +9,13 @@ set(BINARY_NAME "starcitizen_doctor")
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
 cmake_policy(SET CMP0063 NEW)
+if(POLICY CMP0175)
+  # Compatibility for flutter_inappwebview_windows:
+  # it still uses add_custom_command(TARGET ... DEPENDS ...).
+  cmake_policy(SET CMP0175 OLD)
+endif()
+# Equivalent to CMake -Wno-dev for third-party plugin scripts.
+set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 
 # Define build configuration option.
 get_property(IS_MULTICONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)

@@ -66,6 +66,9 @@ gltf-json = "1.4.1"
 image = { version = "0.25.10", default-features = false, features = ["png", "jpeg", "tga", "tiff", "dds", "ico"] }
 regex = "1.12.2"
 sha2 = "0.10.9"
+ww2ogg = { path = "vendor/ww2ogg" }
+lewton = "0.10.2"
+hound = "3.5.1"
 
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]
