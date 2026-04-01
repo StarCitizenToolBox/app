@@ -16,15 +16,15 @@ import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/rust/rust_audio_player.dart';
-import 'package:starcitizen_doctor/common/rust/api/unp4k_api.dart'
-    as unp4k_api;
+import 'package:starcitizen_doctor/common/rust/api/unp4k_api.dart' as unp4k_api;
 import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
 final Map<String, List<double>> _audioWaveformCache = <String, List<double>>{};
-final Map<String, Future<void>> _wemFullDecodeInFlight = <String, Future<void>>{};
+final Map<String, Future<void>> _wemFullDecodeInFlight =
+    <String, Future<void>>{};
 double _audioLastVolume = 1.0;
 
 class UnP4kcUI extends HookConsumerWidget {
@@ -244,7 +244,10 @@ class UnP4kcUI extends HookConsumerWidget {
                                           itemCount: paths.length - 1,
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder:
-                                              (BuildContext context, int index) {
+                                              (
+                                                BuildContext context,
+                                                int index,
+                                              ) {
                                                 var path = paths[index];
                                                 if (path.isEmpty) {
                                                   path = "\\";
@@ -256,10 +259,11 @@ class UnP4kcUI extends HookConsumerWidget {
                                                     IconButton(
                                                       icon: Text(path),
                                                       onPressed: () {
-                                                        model.changeDirValidated(
-                                                          fullPath,
-                                                          fullPath: true,
-                                                        );
+                                                        model
+                                                            .changeDirValidated(
+                                                              fullPath,
+                                                              fullPath: true,
+                                                            );
                                                       },
                                                     ),
                                                     const Icon(
@@ -461,9 +465,7 @@ class _FileListPanel extends HookConsumerWidget {
     );
     void applySuffixFilter() {
       final raw = suffixController.text.trim();
-      final normalized = raw.isEmpty || raw.startsWith(".")
-          ? raw
-          : ".$raw";
+      final normalized = raw.isEmpty || raw.startsWith(".") ? raw : ".$raw";
       model.setSuffixFilter(normalized.toLowerCase());
     }
 
@@ -655,9 +657,18 @@ class _FileListPanel extends HookConsumerWidget {
                       value: state.sizeFilterUnit,
                       items: const [
                         ComboBoxItem(value: Unp4kSizeUnit.k, child: Text("K")),
-                        ComboBoxItem(value: Unp4kSizeUnit.kb, child: Text("KB")),
-                        ComboBoxItem(value: Unp4kSizeUnit.mb, child: Text("MB")),
-                        ComboBoxItem(value: Unp4kSizeUnit.gb, child: Text("GB")),
+                        ComboBoxItem(
+                          value: Unp4kSizeUnit.kb,
+                          child: Text("KB"),
+                        ),
+                        ComboBoxItem(
+                          value: Unp4kSizeUnit.mb,
+                          child: Text("MB"),
+                        ),
+                        ComboBoxItem(
+                          value: Unp4kSizeUnit.gb,
+                          child: Text("GB"),
+                        ),
                       ],
                       onChanged: (v) {
                         if (v != null) model.setSizeFilterUnit(v);
@@ -721,7 +732,8 @@ class _FileListPanel extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                    ] else if (state.dateFilterMode != Unp4kFilterMode.none) ...[
+                    ] else if (state.dateFilterMode !=
+                        Unp4kFilterMode.none) ...[
                       Expanded(
                         child: DatePicker(
                           selected: state.dateFilterSingleDate,
@@ -922,7 +934,8 @@ class _FileListPanel extends HookConsumerWidget {
       }
       final prefix = selected.endsWith("\\") ? selected : "$selected\\";
       for (final entry in allFiles.entries) {
-        if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+        if (entry.key.startsWith(prefix) &&
+            !(entry.value.isDirectory ?? false)) {
           result.add(entry.key);
         }
       }
@@ -986,11 +999,14 @@ class _FileListItem extends HookWidget {
     final fullPath = item.name ?? "?";
     final isFlatResultMode =
         state.searchMatchedFiles != null ||
-        (state.searchQuery.trim().isEmpty && state.suffixFilter.trim().isNotEmpty);
+        (state.searchQuery.trim().isEmpty &&
+            state.suffixFilter.trim().isNotEmpty);
     final normalized = fullPath.replaceAll("/", "\\");
     final lowerPath = normalized.toLowerCase();
     final lastSep = normalized.lastIndexOf("\\");
-    final baseName = lastSep >= 0 ? normalized.substring(lastSep + 1) : normalized;
+    final baseName = lastSep >= 0
+        ? normalized.substring(lastSep + 1)
+        : normalized;
     final parentPath = lastSep > 0 ? normalized.substring(0, lastSep) : "\\";
     // 非搜索模式显示相对当前目录；搜索模式标题显示文件名
     final fileName = isFlatResultMode
@@ -1137,7 +1153,8 @@ class _FileListItem extends HookWidget {
   }
 
   bool _isConvertibleDds(String lowerPath) {
-    return (lowerPath.endsWith(".dds") || RegExp(r"\.dds\.\d+$").hasMatch(lowerPath)) &&
+    return (lowerPath.endsWith(".dds") ||
+            RegExp(r"\.dds\.\d+$").hasMatch(lowerPath)) &&
         !RegExp(r"_ddna\.dds(\.\d+)?$").hasMatch(lowerPath);
   }
 
@@ -1189,7 +1206,10 @@ class _FileListItem extends HookWidget {
               ),
             if (state.searchMatchedFiles != null)
               MenuFlyoutItem(
-                leading: const Icon(FluentIcons.open_folder_horizontal, size: 16),
+                leading: const Icon(
+                  FluentIcons.open_folder_horizontal,
+                  size: 16,
+                ),
                 text: const Text("跳转到文件位置"),
                 onPressed: () {
                   Navigator.of(flyoutContext).pop();
@@ -1391,7 +1411,9 @@ class _FileListItem extends HookWidget {
       context: context,
       builder: (dialogContext) => ContentDialog(
         title: Text(success ? "转换成功" : "转换失败"),
-        content: Text(success ? (outputPath ?? outputDir) : (error ?? "Unknown")),
+        content: Text(
+          success ? (outputPath ?? outputDir) : (error ?? "Unknown"),
+        ),
         actions: [
           if (success)
             Button(
@@ -1589,7 +1611,9 @@ class _BatchExportOptionsDialog extends HookWidget {
             ToggleSwitch(
               checked: convert.value,
               onChanged: (v) => convert.value = v,
-              content: const Text("可转换格式自动转换导出（WEM->WAV, DDS->PNG, CGA/CGF->GLB）"),
+              content: const Text(
+                "可转换格式自动转换导出（WEM->WAV, DDS->PNG, CGA/CGF->GLB）",
+              ),
             )
           else
             const Text("当前选择中没有可转换格式，将按原文件导出。"),
@@ -1601,10 +1625,11 @@ class _BatchExportOptionsDialog extends HookWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            includePath.value
-                ? "导出时包含原始路径。"
-                : "直接按文件名导出；单文件时将直接选择保存文件。",
-            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .7)),
+            includePath.value ? "导出时包含原始路径。" : "直接按文件名导出；单文件时将直接选择保存文件。",
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.white.withValues(alpha: .7),
+            ),
           ),
         ],
       ),
@@ -1667,7 +1692,9 @@ class _AdvancedExportProgressDialog extends HookWidget {
       return null;
     }, const []);
 
-    final progress = totalFiles.value > 0 ? currentIndex.value / totalFiles.value : 0.0;
+    final progress = totalFiles.value > 0
+        ? currentIndex.value / totalFiles.value
+        : 0.0;
 
     return ContentDialog(
       title: const Text("批量导出"),
@@ -1683,16 +1710,27 @@ class _AdvancedExportProgressDialog extends HookWidget {
             const SizedBox(height: 8),
             Text(
               currentFile.value,
-              style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .7)),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white.withValues(alpha: .7),
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ] else if (errorMessage.value != null) ...[
-            const Icon(FluentIcons.error_badge, size: 48, color: Color(0xFFE81123)),
+            const Icon(
+              FluentIcons.error_badge,
+              size: 48,
+              color: Color(0xFFE81123),
+            ),
             const SizedBox(height: 8),
             Text(errorMessage.value!),
           ] else ...[
-            const Icon(FluentIcons.completed_solid, size: 48, color: Color(0xFF107C10)),
+            const Icon(
+              FluentIcons.completed_solid,
+              size: 48,
+              color: Color(0xFF107C10),
+            ),
             const SizedBox(height: 8),
             Text("导出完成，共 ${exportedCount.value} 个文件"),
           ],
@@ -1805,13 +1843,20 @@ class _AdvancedExportProgressDialog extends HookWidget {
         return;
       }
       final wemBytes = await unp4k_api.p4KExtractToMemory(filePath: normalized);
-      final tempDir = Directory("${Directory.systemTemp.path}\\SCToolbox_unp4kc_export");
+      final tempDir = Directory(
+        "${Directory.systemTemp.path}\\SCToolbox_unp4kc_export",
+      );
       await tempDir.create(recursive: true);
       final safeName = normalized.replaceAll(RegExp(r'[^a-zA-Z0-9._-]'), '_');
-      final tempWem = File("${tempDir.path}\\${DateTime.now().microsecondsSinceEpoch}_$safeName.wem");
+      final tempWem = File(
+        "${tempDir.path}\\${DateTime.now().microsecondsSinceEpoch}_$safeName.wem",
+      );
       await tempWem.writeAsBytes(wemBytes, flush: true);
       try {
-        await unp4k_api.p4KDecodeWemToWav(inputPath: tempWem.path, outputPath: outputPath);
+        await unp4k_api.p4KDecodeWemToWav(
+          inputPath: tempWem.path,
+          outputPath: outputPath,
+        );
       } finally {
         if (await tempWem.exists()) {
           await tempWem.delete();
@@ -1842,7 +1887,8 @@ class _AdvancedExportProgressDialog extends HookWidget {
         throw Exception("GLB output missing: $glbPath");
       }
       final samePath =
-          produced.absolute.path.toLowerCase() == outFile.absolute.path.toLowerCase();
+          produced.absolute.path.toLowerCase() ==
+          outFile.absolute.path.toLowerCase();
       if (!samePath) {
         if (await outFile.exists()) {
           await outFile.delete();
@@ -1868,11 +1914,16 @@ class _AdvancedExportProgressDialog extends HookWidget {
     return file.readAsBytes();
   }
 
-  Future<String> _buildOutputPath(String sourcePath, Map<String, int> usedNames) async {
+  Future<String> _buildOutputPath(
+    String sourcePath,
+    Map<String, int> usedNames,
+  ) async {
     if (singleOutputPath != null) return singleOutputPath!;
     final dir = outputDir!;
     final relative = _buildRelativeOutputPath(sourcePath);
-    final safeRelative = options.includePath ? relative : relative.split("\\").last;
+    final safeRelative = options.includePath
+        ? relative
+        : relative.split("\\").last;
     var candidate = "$dir\\$safeRelative";
     if (options.includePath) {
       return candidate;
@@ -1892,7 +1943,9 @@ class _AdvancedExportProgressDialog extends HookWidget {
   }
 
   String _buildRelativeOutputPath(String sourcePath) {
-    final normalized = sourcePath.startsWith("\\") ? sourcePath.substring(1) : sourcePath;
+    final normalized = sourcePath.startsWith("\\")
+        ? sourcePath.substring(1)
+        : sourcePath;
     if (!options.convertWhenPossible) return normalized;
     final lower = normalized.toLowerCase();
     if (lower.endsWith(".wem")) {
@@ -2128,6 +2181,7 @@ class _AudioTempWidget extends HookWidget {
     final previewTip = useState<String?>(null);
     final prepareTokenRef = useRef<int>(0);
     final pollTimerRef = useRef<Timer?>(null);
+    final seekRequestRef = useRef<int>(0);
 
     void syncPlayerState(AudioPlaybackState state) {
       if (state.durationMs != null) {
@@ -2199,32 +2253,30 @@ class _AudioTempWidget extends HookWidget {
             }
           }
           if (prepared.fullDecodeFuture != null) {
-            unawaited(
-              () async {
-                try {
-                  await prepared.fullDecodeFuture;
-                } catch (_) {}
-                if (disposed || prepareTokenRef.value != currentToken) return;
-                isFullDecodeInProgress.value = false;
-                isPreviewMode.value = false;
-                previewTip.value = null;
-                final fullPath = prepared.fullWavPath;
-                if (fullPath == null || !await File(fullPath).exists()) return;
-                playablePath.value = fullPath;
-                final cached = _audioWaveformCache[fullPath];
-                if (cached != null) {
-                  waveform.value = cached;
-                  return;
-                }
-                final data = await File(fullPath).readAsBytes();
-                if (disposed || prepareTokenRef.value != currentToken) return;
-                estimatedDuration.value = _estimateDurationFromAudioBytes(data);
-                final computed = await compute(_computeWaveformFromBytes, data);
-                if (disposed || prepareTokenRef.value != currentToken) return;
-                _audioWaveformCache[fullPath] = computed;
-                waveform.value = computed;
-              }(),
-            );
+            unawaited(() async {
+              try {
+                await prepared.fullDecodeFuture;
+              } catch (_) {}
+              if (disposed || prepareTokenRef.value != currentToken) return;
+              isFullDecodeInProgress.value = false;
+              isPreviewMode.value = false;
+              previewTip.value = null;
+              final fullPath = prepared.fullWavPath;
+              if (fullPath == null || !await File(fullPath).exists()) return;
+              playablePath.value = fullPath;
+              final cached = _audioWaveformCache[fullPath];
+              if (cached != null) {
+                waveform.value = cached;
+                return;
+              }
+              final data = await File(fullPath).readAsBytes();
+              if (disposed || prepareTokenRef.value != currentToken) return;
+              estimatedDuration.value = _estimateDurationFromAudioBytes(data);
+              final computed = await compute(_computeWaveformFromBytes, data);
+              if (disposed || prepareTokenRef.value != currentToken) return;
+              _audioWaveformCache[fullPath] = computed;
+              waveform.value = computed;
+            }());
           }
         } catch (e) {
           if (disposed) return;
@@ -2290,8 +2342,45 @@ class _AudioTempWidget extends HookWidget {
       totalMs > 0 ? totalMs : 0,
     );
     final effectiveMs = dragMs.value ?? currentMs.toDouble();
-    final progress = totalMs > 0 ? (effectiveMs / totalMs).clamp(0.0, 1.0) : 0.0;
+    final progress = totalMs > 0
+        ? (effectiveMs / totalMs).clamp(0.0, 1.0)
+        : 0.0;
     final effectiveVolume = (dragVolume.value ?? volume.value).clamp(0.0, 3.0);
+
+    Future<void> seekToPosition(
+      int targetMs, {
+      required bool resumeIfPlaying,
+    }) async {
+      final requestId = ++seekRequestRef.value;
+      final clampedTargetMs = targetMs.clamp(0, totalMs);
+      final previousPosition = position.value;
+      position.value = Duration(milliseconds: clampedTargetMs);
+      dragMs.value = clampedTargetMs.toDouble();
+
+      try {
+        final state = await player.seek(
+          Duration(milliseconds: clampedTargetMs),
+        );
+        if (requestId != seekRequestRef.value) return;
+        syncPlayerState(state);
+        position.value = Duration(milliseconds: clampedTargetMs);
+        if (resumeIfPlaying && state.isPaused) {
+          final resumed = await player.resume();
+          if (requestId != seekRequestRef.value) return;
+          syncPlayerState(resumed);
+          position.value = Duration(milliseconds: clampedTargetMs);
+        }
+      } catch (e) {
+        if (requestId != seekRequestRef.value) return;
+        position.value = previousPosition;
+        errorMessage.value = e.toString();
+      } finally {
+        if (requestId == seekRequestRef.value) {
+          dragMs.value = null;
+        }
+      }
+    }
+
     Future<void> togglePlay() async {
       final sourcePath = playablePath.value;
       if (sourcePath == null) return;
@@ -2378,36 +2467,68 @@ class _AudioTempWidget extends HookWidget {
           Expanded(
             child: LayoutBuilder(
               builder: (context, constraints) {
-                final width = constraints.maxWidth <= 0 ? 1.0 : constraints.maxWidth;
+                final width = constraints.maxWidth <= 0
+                    ? 1.0
+                    : constraints.maxWidth;
+                Offset? localOffsetFromGlobal(Offset globalPosition) {
+                  final renderObject = context.findRenderObject();
+                  if (renderObject is! RenderBox || !renderObject.hasSize) {
+                    return null;
+                  }
+                  return renderObject.globalToLocal(globalPosition);
+                }
+
+                double dxToRatio(double dx) => (dx / width).clamp(0.0, 1.0);
+
                 return GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onTapDown: (details) async {
+                  onTapUp: (details) async {
                     if (totalMs <= 0) return;
-                    final ratio = (details.localPosition.dx / width).clamp(0.0, 1.0);
+                    final localPosition = localOffsetFromGlobal(
+                      details.globalPosition,
+                    );
+                    if (localPosition == null) return;
+                    final ratio = dxToRatio(localPosition.dx);
                     final target = (ratio * totalMs).round();
-                    dragMs.value = target.toDouble();
-                    final state = await player.seek(Duration(milliseconds: target));
-                    syncPlayerState(state);
-                    dragMs.value = null;
+                    await seekToPosition(
+                      target,
+                      resumeIfPlaying: isPlaying.value,
+                    );
                   },
-                  onHorizontalDragStart: (_) {
+                  onHorizontalDragStart: (details) {
                     if (totalMs <= 0) return;
-                    dragMs.value = currentMs.toDouble();
+                    final localPosition = localOffsetFromGlobal(
+                      details.globalPosition,
+                    );
+                    if (localPosition == null) return;
+                    dragMs.value = (dxToRatio(localPosition.dx) * totalMs)
+                        .toDouble();
                   },
                   onHorizontalDragUpdate: (details) {
                     if (totalMs <= 0) return;
-                    final ratio = (details.localPosition.dx / width).clamp(0.0, 1.0);
+                    final localPosition = localOffsetFromGlobal(
+                      details.globalPosition,
+                    );
+                    if (localPosition == null) return;
+                    final ratio = dxToRatio(localPosition.dx);
                     dragMs.value = ratio * totalMs;
                   },
                   onHorizontalDragEnd: (_) async {
                     if (totalMs <= 0 || dragMs.value == null) return;
                     final target = dragMs.value!.round();
-                    final state = await player.seek(Duration(milliseconds: target));
-                    syncPlayerState(state);
+                    await seekToPosition(
+                      target,
+                      resumeIfPlaying: isPlaying.value,
+                    );
+                  },
+                  onHorizontalDragCancel: () {
                     dragMs.value = null;
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       gradient: const LinearGradient(
@@ -2468,9 +2589,7 @@ class _AudioTempWidget extends HookWidget {
               const SizedBox(width: 4),
               Text(
                 "${_fmtDuration(position.value)} / ${_fmtDuration(displayDuration)}",
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: .75),
-                ),
+                style: TextStyle(color: Colors.white.withValues(alpha: .75)),
               ),
             ],
           ),
@@ -2482,7 +2601,9 @@ class _AudioTempWidget extends HookWidget {
                 width: 43,
                 height: 43,
                 decoration: BoxDecoration(
-                  color: FluentTheme.of(context).accentColor.withValues(alpha: .22),
+                  color: FluentTheme.of(
+                    context,
+                  ).accentColor.withValues(alpha: .22),
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: Colors.white.withValues(alpha: .35),
@@ -2512,8 +2633,8 @@ class _AudioTempWidget extends HookWidget {
                   effectiveVolume <= 0.001
                       ? FluentIcons.volume_disabled
                       : (effectiveVolume < 1.0
-                          ? FluentIcons.volume1
-                          : FluentIcons.volume3),
+                            ? FluentIcons.volume1
+                            : FluentIcons.volume3),
                   size: 14,
                 ),
                 onPressed: () async {
@@ -2527,11 +2648,27 @@ class _AudioTempWidget extends HookWidget {
               Expanded(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    final width = constraints.maxWidth <= 0 ? 1.0 : constraints.maxWidth;
+                    final width = constraints.maxWidth <= 0
+                        ? 1.0
+                        : constraints.maxWidth;
+                    Offset? localOffsetFromGlobal(Offset globalPosition) {
+                      final renderObject = context.findRenderObject();
+                      if (renderObject is! RenderBox || !renderObject.hasSize) {
+                        return null;
+                      }
+                      return renderObject.globalToLocal(globalPosition);
+                    }
+
+                    double dxToRatio(double dx) => (dx / width).clamp(0.0, 1.0);
+
                     return GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      onTapDown: (details) async {
-                        final ratio = (details.localPosition.dx / width).clamp(0.0, 1.0);
+                      onTapUp: (details) async {
+                        final localPosition = localOffsetFromGlobal(
+                          details.globalPosition,
+                        );
+                        if (localPosition == null) return;
+                        final ratio = dxToRatio(localPosition.dx);
                         final v = ratio * 3.0;
                         dragVolume.value = v;
                         volume.value = v;
@@ -2539,11 +2676,19 @@ class _AudioTempWidget extends HookWidget {
                         syncPlayerState(state);
                         dragVolume.value = null;
                       },
-                      onHorizontalDragStart: (_) {
-                        dragVolume.value = volume.value;
+                      onHorizontalDragStart: (details) {
+                        final localPosition = localOffsetFromGlobal(
+                          details.globalPosition,
+                        );
+                        if (localPosition == null) return;
+                        dragVolume.value = dxToRatio(localPosition.dx) * 3.0;
                       },
                       onHorizontalDragUpdate: (details) {
-                        final ratio = (details.localPosition.dx / width).clamp(0.0, 1.0);
+                        final localPosition = localOffsetFromGlobal(
+                          details.globalPosition,
+                        );
+                        if (localPosition == null) return;
+                        final ratio = dxToRatio(localPosition.dx);
                         dragVolume.value = ratio * 3.0;
                       },
                       onHorizontalDragEnd: (_) async {
@@ -2552,6 +2697,9 @@ class _AudioTempWidget extends HookWidget {
                         volume.value = v;
                         final state = await player.setVolume(v);
                         syncPlayerState(state);
+                        dragVolume.value = null;
+                      },
+                      onHorizontalDragCancel: () {
                         dragVolume.value = null;
                       },
                       child: Container(
@@ -2565,8 +2713,9 @@ class _AudioTempWidget extends HookWidget {
                           child: Container(
                             width: width * (effectiveVolume / 3.0),
                             decoration: BoxDecoration(
-                              color: FluentTheme.of(context).accentColor
-                                  .defaultBrushFor(Brightness.dark),
+                              color: FluentTheme.of(
+                                context,
+                              ).accentColor.defaultBrushFor(Brightness.dark),
                               borderRadius: BorderRadius.circular(6),
                             ),
                           ),
@@ -2717,7 +2866,9 @@ class _AudioTempWidget extends HookWidget {
 
   String _friendlyAudioError(Object error) {
     final raw = error.toString();
-    final unsupported = RegExp(r"unsupported wem codec format=0x([0-9a-fA-F]+)");
+    final unsupported = RegExp(
+      r"unsupported wem codec format=0x([0-9a-fA-F]+)",
+    );
     final match = unsupported.firstMatch(raw);
     if (match != null) {
       final codec = match.group(1)?.toLowerCase() ?? "unknown";
@@ -2757,7 +2908,10 @@ class _AudioTempWidget extends HookWidget {
 
     while (offset + 8 <= bytes.length) {
       final chunkId = String.fromCharCodes(bytes.sublist(offset, offset + 4));
-      final chunkSize = bytes.buffer.asByteData().getUint32(offset + 4, Endian.little);
+      final chunkSize = bytes.buffer.asByteData().getUint32(
+        offset + 4,
+        Endian.little,
+      );
       final chunkDataStart = offset + 8;
       final chunkDataEnd = chunkDataStart + chunkSize;
       if (chunkDataEnd > bytes.length) break;
@@ -2774,7 +2928,10 @@ class _AudioTempWidget extends HookWidget {
       offset = chunkDataEnd + (chunkSize.isOdd ? 1 : 0);
     }
 
-    if (audioFormat != 1 || bitsPerSample != 16 || dataOffset == null || dataLength == null) {
+    if (audioFormat != 1 ||
+        bitsPerSample != 16 ||
+        dataOffset == null ||
+        dataLength == null) {
       return null;
     }
     return Uint8List.sublistView(bytes, dataOffset, dataOffset + dataLength);
@@ -2815,8 +2972,10 @@ class _AudioTempWidget extends HookWidget {
 
   static Duration _estimateDurationFromAudioBytes(Uint8List bytes) {
     if (bytes.length < 44) return Duration.zero;
-    if (String.fromCharCodes(bytes.sublist(0, 4)) != "RIFF") return Duration.zero;
-    if (String.fromCharCodes(bytes.sublist(8, 12)) != "WAVE") return Duration.zero;
+    if (String.fromCharCodes(bytes.sublist(0, 4)) != "RIFF")
+      return Duration.zero;
+    if (String.fromCharCodes(bytes.sublist(8, 12)) != "WAVE")
+      return Duration.zero;
 
     int? channels;
     int? sampleRate;
@@ -2826,7 +2985,10 @@ class _AudioTempWidget extends HookWidget {
 
     while (offset + 8 <= bytes.length) {
       final chunkId = String.fromCharCodes(bytes.sublist(offset, offset + 4));
-      final chunkSize = bytes.buffer.asByteData().getUint32(offset + 4, Endian.little);
+      final chunkSize = bytes.buffer.asByteData().getUint32(
+        offset + 4,
+        Endian.little,
+      );
       final chunkDataStart = offset + 8;
       final chunkDataEnd = chunkDataStart + chunkSize;
       if (chunkDataEnd > bytes.length) break;
@@ -2948,15 +3110,27 @@ class _WaveformPainter extends CustomPainter {
     }
 
     final timelineY = size.height - bottomLabelH - (timelineH / 2);
-    canvas.drawLine(Offset(0, timelineY), Offset(size.width, timelineY), timelinePaint);
+    canvas.drawLine(
+      Offset(0, timelineY),
+      Offset(size.width, timelineY),
+      timelinePaint,
+    );
     canvas.drawLine(
       Offset(progressX, waveTop - 2),
       Offset(progressX, size.height - 1),
       progressPaint,
     );
 
-    final currentSec = totalMs <= 0 ? 0 : ((totalMs * progress.clamp(0.0, 1.0)) / 1000).round();
-    _paintCurrentTag(canvas, _fmtSeconds(currentSec), progressX, timelineY - 16, size.width);
+    final currentSec = totalMs <= 0
+        ? 0
+        : ((totalMs * progress.clamp(0.0, 1.0)) / 1000).round();
+    _paintCurrentTag(
+      canvas,
+      _fmtSeconds(currentSec),
+      progressX,
+      timelineY - 16,
+      size.width,
+    );
   }
 
   static List<_WaveMark> _buildMarks(int totalMs) {
@@ -3004,13 +3178,21 @@ class _WaveformPainter extends CustomPainter {
       textDirection: TextDirection.ltr,
       maxLines: 1,
     )..layout();
-    final dx =
-        ((x - (tp.width / 2)).clamp(0.0, math.max(0.0, canvasWidth - tp.width))).toDouble();
+    final dx = ((x - (tp.width / 2)).clamp(
+      0.0,
+      math.max(0.0, canvasWidth - tp.width),
+    )).toDouble();
     final dy = alignTop ? y : (y + (14 - tp.height));
     tp.paint(canvas, Offset(dx, dy));
   }
 
-  void _paintCurrentTag(Canvas canvas, String text, double x, double y, double canvasWidth) {
+  void _paintCurrentTag(
+    Canvas canvas,
+    String text,
+    double x,
+    double y,
+    double canvasWidth,
+  ) {
     final tp = TextPainter(
       text: TextSpan(
         text: text,
@@ -3025,8 +3207,10 @@ class _WaveformPainter extends CustomPainter {
     )..layout();
     final pad = 4.0;
     final rect = Rect.fromLTWH(
-      ((x - tp.width / 2 - pad).clamp(0.0, math.max(0.0, canvasWidth - tp.width - pad * 2)))
-          .toDouble(),
+      ((x - tp.width / 2 - pad).clamp(
+        0.0,
+        math.max(0.0, canvasWidth - tp.width - pad * 2),
+      )).toDouble(),
       y - tp.height / 2 - 2,
       tp.width + pad * 2,
       tp.height + 4,
