@@ -40,7 +40,36 @@ Future<void> p4KExtractToDisk({
   outputPath: outputPath,
 );
 
-/// 内置 WEM(PCM) -> WAV 转换（用于预览播放，不依赖外部工具）
+/// 内置 WEM -> OGG 转换（用于预览播放，不依赖外部工具）
+Future<void> p4KDecodeWemToOgg({
+  required String inputPath,
+  required String outputPath,
+}) => RustLib.instance.api.crateApiUnp4KApiP4KDecodeWemToOgg(
+  inputPath: inputPath,
+  outputPath: outputPath,
+);
+
+/// 内置 WEM -> OGG 预览转换（估算中段并仅输出短片段）
+Future<void> p4KDecodeWemToOggPreview({
+  required String inputPath,
+  required String outputPath,
+  required int clipSeconds,
+}) => RustLib.instance.api.crateApiUnp4KApiP4KDecodeWemToOggPreview(
+  inputPath: inputPath,
+  outputPath: outputPath,
+  clipSeconds: clipSeconds,
+);
+
+/// 将 OGG 转为 WAV（导出时用于复用缓存）
+Future<void> p4KDecodeOggToWav({
+  required String inputPath,
+  required String outputPath,
+}) => RustLib.instance.api.crateApiUnp4KApiP4KDecodeOggToWav(
+  inputPath: inputPath,
+  outputPath: outputPath,
+);
+
+/// 内置 WEM(PCM) -> WAV 转换（用于预览播放或导出兜底，不依赖外部工具）
 Future<void> p4KDecodeWemToWav({
   required String inputPath,
   required String outputPath,
@@ -49,7 +78,7 @@ Future<void> p4KDecodeWemToWav({
   outputPath: outputPath,
 );
 
-/// 内置 WEM -> WAV 预览转换（估算中段并仅输出短片段）
+/// 内置 WEM -> WAV 预览转换（估算中段并仅输出短片段，导出兜底用）
 Future<void> p4KDecodeWemToWavPreview({
   required String inputPath,
   required String outputPath,

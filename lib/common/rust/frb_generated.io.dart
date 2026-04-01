@@ -5,6 +5,7 @@
 
 import 'api/applinks_api.dart';
 import 'api/asar_api.dart';
+import 'api/audio_api.dart';
 import 'api/downloader_api.dart';
 import 'api/http_api.dart';
 import 'api/ort_api.dart';
@@ -48,6 +49,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   AssemblyGraphStats dco_decode_assembly_graph_stats(dynamic raw);
+
+  @protected
+  AudioPlaybackState dco_decode_audio_playback_state(dynamic raw);
 
   @protected
   bool dco_decode_bool(dynamic raw);
@@ -258,6 +262,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   AssemblyGraphStats sse_decode_assembly_graph_stats(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  AudioPlaybackState sse_decode_audio_playback_state(
     SseDeserializer deserializer,
   );
 
@@ -803,6 +812,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_audio_playback_state(
+    AudioPlaybackState apiObj,
+    wire_cst_audio_playback_state wireObj,
+  ) {
+    wireObj.current_source_path = cst_encode_opt_String(
+      apiObj.currentSourcePath,
+    );
+    wireObj.duration_ms = cst_encode_opt_box_autoadd_u_32(apiObj.durationMs);
+    wireObj.position_ms = cst_encode_u_32(apiObj.positionMs);
+    wireObj.is_playing = cst_encode_bool(apiObj.isPlaying);
+    wireObj.is_paused = cst_encode_bool(apiObj.isPaused);
+    wireObj.volume = cst_encode_f_64(apiObj.volume);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_model_convert_options(
     ModelConvertOptions apiObj,
     ffi.Pointer<wire_cst_model_convert_options> wireObj,
@@ -1166,6 +1190,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_audio_playback_state(
+    AudioPlaybackState self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
@@ -1486,6 +1516,120 @@ class RustLibWire implements BaseWire {
       );
   late final _wire__crate__api__win32_api__add_nvme_patch =
       _wire__crate__api__win32_api__add_nvme_patchPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__audio_api__audio_dispose(int port_) {
+    return _wire__crate__api__audio_api__audio_dispose(port_);
+  }
+
+  late final _wire__crate__api__audio_api__audio_disposePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_dispose',
+      );
+  late final _wire__crate__api__audio_api__audio_dispose =
+      _wire__crate__api__audio_api__audio_disposePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__audio_api__audio_get_state(int port_) {
+    return _wire__crate__api__audio_api__audio_get_state(port_);
+  }
+
+  late final _wire__crate__api__audio_api__audio_get_statePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_get_state',
+      );
+  late final _wire__crate__api__audio_api__audio_get_state =
+      _wire__crate__api__audio_api__audio_get_statePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__audio_api__audio_pause(int port_) {
+    return _wire__crate__api__audio_api__audio_pause(port_);
+  }
+
+  late final _wire__crate__api__audio_api__audio_pausePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_pause',
+      );
+  late final _wire__crate__api__audio_api__audio_pause =
+      _wire__crate__api__audio_api__audio_pausePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__audio_api__audio_play_file(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> path,
+    int position_ms,
+  ) {
+    return _wire__crate__api__audio_api__audio_play_file(
+      port_,
+      path,
+      position_ms,
+    );
+  }
+
+  late final _wire__crate__api__audio_api__audio_play_filePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Uint32,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_play_file',
+      );
+  late final _wire__crate__api__audio_api__audio_play_file =
+      _wire__crate__api__audio_api__audio_play_filePtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>, int)
+          >();
+
+  void wire__crate__api__audio_api__audio_resume(int port_) {
+    return _wire__crate__api__audio_api__audio_resume(port_);
+  }
+
+  late final _wire__crate__api__audio_api__audio_resumePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_resume',
+      );
+  late final _wire__crate__api__audio_api__audio_resume =
+      _wire__crate__api__audio_api__audio_resumePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__audio_api__audio_seek(int port_, int position_ms) {
+    return _wire__crate__api__audio_api__audio_seek(port_, position_ms);
+  }
+
+  late final _wire__crate__api__audio_api__audio_seekPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Uint32)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_seek',
+      );
+  late final _wire__crate__api__audio_api__audio_seek =
+      _wire__crate__api__audio_api__audio_seekPtr
+          .asFunction<void Function(int, int)>();
+
+  void wire__crate__api__audio_api__audio_set_volume(int port_, double volume) {
+    return _wire__crate__api__audio_api__audio_set_volume(port_, volume);
+  }
+
+  late final _wire__crate__api__audio_api__audio_set_volumePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Double)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_set_volume',
+      );
+  late final _wire__crate__api__audio_api__audio_set_volume =
+      _wire__crate__api__audio_api__audio_set_volumePtr
+          .asFunction<void Function(int, double)>();
+
+  void wire__crate__api__audio_api__audio_stop(int port_) {
+    return _wire__crate__api__audio_api__audio_stop(port_);
+  }
+
+  late final _wire__crate__api__audio_api__audio_stopPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_stop',
+      );
+  late final _wire__crate__api__audio_api__audio_stop =
+      _wire__crate__api__audio_api__audio_stopPtr
           .asFunction<void Function(int)>();
 
   void wire__crate__api__applinks_api__check_applinks_registration(
@@ -2645,6 +2789,112 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__unp4k_api__p4k_close =
       _wire__crate__api__unp4k_api__p4k_closePtr
           .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> input_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav(
+      port_,
+      input_path,
+      output_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_decode_ogg_to_wavPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav =
+      _wire__crate__api__unp4k_api__p4k_decode_ogg_to_wavPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> input_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg(
+      port_,
+      input_path,
+      output_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_oggPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg =
+      _wire__crate__api__unp4k_api__p4k_decode_wem_to_oggPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_preview(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> input_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> output_path,
+    int clip_seconds,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_preview(
+      port_,
+      input_path,
+      output_path,
+      clip_seconds,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_previewPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Uint32,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_preview',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_preview =
+      _wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_previewPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+            )
+          >();
 
   void wire__crate__api__unp4k_api__p4k_decode_wem_to_wav(
     int port_,
@@ -4376,6 +4626,24 @@ final class wire_cst_assembly_graph_stats extends ffi.Struct {
 
   @ffi.Int32()
   external int roots;
+}
+
+final class wire_cst_audio_playback_state extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> current_source_path;
+
+  external ffi.Pointer<ffi.Uint32> duration_ms;
+
+  @ffi.Uint32()
+  external int position_ms;
+
+  @ffi.Bool()
+  external bool is_playing;
+
+  @ffi.Bool()
+  external bool is_paused;
+
+  @ffi.Double()
+  external double volume;
 }
 
 final class wire_cst_download_global_stat extends ffi.Struct {

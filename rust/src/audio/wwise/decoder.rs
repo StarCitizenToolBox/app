@@ -111,6 +111,28 @@ fn build_wav_from_pcm_payload(
     wav
 }
 
+pub(crate) fn decode_ogg_bytes_to_wav(ogg_bytes: &[u8]) -> Result<Vec<u8>> {
+    let mut ogg = lewton::inside_ogg::OggStreamReader::new(Cursor::new(ogg_bytes))
+        .map_err(|e| anyhow!("ogg parse failed: {}", e))?;
+
+    let channels = ogg.ident_hdr.audio_channels as u16;
+    let sample_rate = ogg.ident_hdr.audio_sample_rate;
+    let mut pcm = Vec::<i16>::new();
+    loop {
+        match ogg.read_dec_packet_itl() {
+            Ok(Some(packet)) => pcm.extend(packet),
+            Ok(None) => break,
+            Err(e) => return Err(anyhow!("vorbis decode failed: {}", e)),
+        }
+    }
+
+    if pcm.is_empty() {
+        return Err(anyhow!("decoded pcm is empty"));
+    }
+
+    build_wav_from_pcm_i16(channels, sample_rate, &pcm)
+}
+
 fn decode_wem_pcm_preview_to_wav(header: &super::types::WwiseHeader, clip_seconds: u32) -> Result<Vec<u8>> {
     let bytes_per_frame = if header.block_align > 0 {
         header.block_align as usize
@@ -168,27 +190,8 @@ where
         .generate_ogg(&mut ogg_bytes)
         .map_err(|e| anyhow!("ww2ogg convert failed: {}", e))?;
 
-    ensure_not_cancelled(is_cancelled)?;
-    let mut ogg = lewton::inside_ogg::OggStreamReader::new(Cursor::new(ogg_bytes))
-        .map_err(|e| anyhow!("ogg parse failed: {}", e))?;
-
-    let channels = ogg.ident_hdr.audio_channels as u16;
-    let sample_rate = ogg.ident_hdr.audio_sample_rate;
-    let mut pcm = Vec::<i16>::new();
-    loop {
-        ensure_not_cancelled(is_cancelled)?;
-        match ogg.read_dec_packet_itl() {
-            Ok(Some(packet)) => pcm.extend(packet),
-            Ok(None) => break,
-            Err(e) => return Err(anyhow!("vorbis decode failed: {}", e)),
-        }
-    }
-    if pcm.is_empty() {
-        return Err(anyhow!("decoded pcm is empty"));
-    }
-
-    ensure_not_cancelled(is_cancelled)?;
-    build_wav_from_pcm_i16(channels, sample_rate, &pcm)
+    ww2ogg::validate(&ogg_bytes).map_err(|e| anyhow!("ww2ogg validate failed: {}", e))?;
+    Ok(ogg_bytes)
 }
 
 fn decode_wem_vorbis_preview_with_codebooks<F>(
@@ -232,56 +235,15 @@ where
         .generate_ogg_window(&mut ogg_bytes, start_seconds, clip_seconds_f)
         .map_err(|e| anyhow!("ww2ogg window convert failed: {}", e))?;
 
-    ensure_not_cancelled(is_cancelled)?;
-    let mut ogg = lewton::inside_ogg::OggStreamReader::new(Cursor::new(ogg_bytes))
-        .map_err(|e| anyhow!("ogg parse failed: {}", e))?;
-
-    let channels = ogg.ident_hdr.audio_channels as usize;
-    let sample_rate = ogg.ident_hdr.audio_sample_rate as usize;
-    if channels == 0 || sample_rate == 0 {
-        return Err(anyhow!("invalid decoded stream info"));
-    }
-
-    let clip_frames = sample_rate.saturating_mul(clip_seconds as usize);
-    if clip_frames == 0 {
-        return Err(anyhow!("invalid preview clip seconds"));
-    }
-
-    let target_samples = clip_frames.saturating_mul(channels);
-    let mut pcm = Vec::<i16>::with_capacity(target_samples);
-    while pcm.len() < target_samples {
-        ensure_not_cancelled(is_cancelled)?;
-        match ogg.read_dec_packet_itl() {
-            Ok(Some(packet)) => {
-                if packet.is_empty() {
-                    continue;
-                }
-                let remain = target_samples - pcm.len();
-                if packet.len() <= remain {
-                    pcm.extend(packet);
-                } else {
-                    pcm.extend_from_slice(&packet[..remain]);
-                    break;
-                }
-            }
-            Ok(None) => break,
-            Err(e) => return Err(anyhow!("vorbis decode failed: {}", e)),
-        }
-    }
-
-    if pcm.is_empty() {
-        return Err(anyhow!("decoded preview pcm is empty"));
-    }
-
-    ensure_not_cancelled(is_cancelled)?;
-    build_wav_from_pcm_i16(channels as u16, sample_rate as u32, &pcm)
+    ww2ogg::validate(&ogg_bytes).map_err(|e| anyhow!("ww2ogg validate failed: {}", e))?;
+    Ok(ogg_bytes)
 }
 
-pub(crate) fn decode_wem_vorbis_to_wav(wem: &[u8]) -> Result<Vec<u8>> {
-    decode_wem_vorbis_to_wav_with_cancel(wem, &|| false)
+pub(crate) fn decode_wem_vorbis_to_ogg(wem: &[u8]) -> Result<Vec<u8>> {
+    decode_wem_vorbis_to_ogg_with_cancel(wem, &|| false)
 }
 
-pub(crate) fn decode_wem_vorbis_to_wav_with_cancel<F>(wem: &[u8], is_cancelled: &F) -> Result<Vec<u8>>
+pub(crate) fn decode_wem_vorbis_to_ogg_with_cancel<F>(wem: &[u8], is_cancelled: &F) -> Result<Vec<u8>>
 where
     F: Fn() -> bool + Sync,
 {
@@ -305,8 +267,8 @@ where
         .map(|aotuv| (*aotuv, decode_wem_vorbis_with_codebooks(wem, *aotuv, is_cancelled)))
         .collect();
 
-    if let Some((_, Ok(wav))) = results.iter().find(|(_, r)| r.is_ok()) {
-        return Ok(wav.clone());
+    if let Some((_, Ok(ogg))) = results.iter().find(|(_, r)| r.is_ok()) {
+        return Ok(ogg.clone());
     }
 
     let mut errs = Vec::new();
@@ -324,6 +286,18 @@ where
         "failed to decode Wwise Vorbis WEM with built-in pipeline: {}",
         errs.join(" | ")
     ))
+}
+
+pub(crate) fn decode_wem_vorbis_to_wav(wem: &[u8]) -> Result<Vec<u8>> {
+    decode_wem_vorbis_to_wav_with_cancel(wem, &|| false)
+}
+
+pub(crate) fn decode_wem_vorbis_to_wav_with_cancel<F>(wem: &[u8], is_cancelled: &F) -> Result<Vec<u8>>
+where
+    F: Fn() -> bool + Sync,
+{
+    let ogg = decode_wem_vorbis_to_ogg_with_cancel(wem, is_cancelled)?;
+    decode_ogg_bytes_to_wav(&ogg)
 }
 
 pub(crate) fn decode_wem_to_wav(wem: &[u8]) -> Result<Vec<u8>> {
@@ -347,7 +321,7 @@ where
     }
 }
 
-pub(crate) fn decode_wem_preview_to_wav_with_cancel<F>(
+pub(crate) fn decode_wem_preview_to_ogg_with_cancel<F>(
     wem: &[u8],
     clip_seconds: u32,
     is_cancelled: &F,
@@ -359,7 +333,9 @@ where
     ensure_not_cancelled(is_cancelled)?;
     let header = parse_wem_header(wem)?;
     match header.codec {
-        WwiseCodec::Pcm => decode_wem_pcm_preview_to_wav(&header, clip_seconds),
+        WwiseCodec::Pcm => Err(anyhow!(
+            "pcm wem preview cannot be converted to ogg; use wav fallback instead"
+        )),
         WwiseCodec::Vorbis => {
             let workers = std::thread::available_parallelism()
                 .map(|n| n.get())
@@ -379,8 +355,8 @@ where
                     )
                 })
                 .collect();
-            if let Some((_, Ok(wav))) = results.iter().find(|(_, r)| r.is_ok()) {
-                return Ok(wav.clone());
+            if let Some((_, Ok(ogg))) = results.iter().find(|(_, r)| r.is_ok()) {
+                return Ok(ogg.clone());
             }
             let mut errs = Vec::new();
             for (aotuv, r) in &results {
@@ -396,6 +372,30 @@ where
                 "failed to decode WEM preview with built-in pipeline: {}",
                 errs.join(" | ")
             ))
+        }
+        WwiseCodec::Unsupported(format) => Err(anyhow!(
+            "unsupported wem codec format=0x{:04x}; built-in decoder supports PCM (0x0001/0xFFFE) and Wwise Vorbis (0xFFFF)",
+            format
+        )),
+    }
+}
+
+pub(crate) fn decode_wem_preview_to_wav_with_cancel<F>(
+    wem: &[u8],
+    clip_seconds: u32,
+    is_cancelled: &F,
+) -> Result<Vec<u8>>
+where
+    F: Fn() -> bool + Sync,
+{
+    ensure_rayon_pool_initialized();
+    ensure_not_cancelled(is_cancelled)?;
+    let header = parse_wem_header(wem)?;
+    match header.codec {
+        WwiseCodec::Pcm => decode_wem_pcm_preview_to_wav(&header, clip_seconds),
+        WwiseCodec::Vorbis => {
+            let ogg = decode_wem_preview_to_ogg_with_cancel(wem, clip_seconds, is_cancelled)?;
+            decode_ogg_bytes_to_wav(&ogg)
         }
         WwiseCodec::Unsupported(format) => Err(anyhow!(
             "unsupported wem codec format=0x{:04x}; built-in decoder supports PCM (0x0001/0xFFFE) and Wwise Vorbis (0xFFFF)",

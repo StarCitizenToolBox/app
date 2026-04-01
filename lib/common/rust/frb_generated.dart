@@ -5,6 +5,7 @@
 
 import 'api/applinks_api.dart';
 import 'api/asar_api.dart';
+import 'api/audio_api.dart';
 import 'api/downloader_api.dart';
 import 'api/http_api.dart';
 import 'api/ort_api.dart';
@@ -74,7 +75,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -616289294;
+  int get rustContentHash => -631513841;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -86,6 +87,29 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 
 abstract class RustLibApi extends BaseApi {
   Future<void> crateApiWin32ApiAddNvmePatch();
+
+  Future<void> crateApiAudioApiAudioDispose();
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioGetState();
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioPause();
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioPlayFile({
+    required String path,
+    required int positionMs,
+  });
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioResume();
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioSeek({
+    required int positionMs,
+  });
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioSetVolume({
+    required double volume,
+  });
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioStop();
 
   Future<ApplinksRegistrationResult>
   crateApiApplinksApiCheckApplinksRegistration({required String scheme});
@@ -259,6 +283,22 @@ abstract class RustLibApi extends BaseApi {
   Future<void> crateApiUnp4KApiP4KCancelWemDecode();
 
   Future<void> crateApiUnp4KApiP4KClose();
+
+  Future<void> crateApiUnp4KApiP4KDecodeOggToWav({
+    required String inputPath,
+    required String outputPath,
+  });
+
+  Future<void> crateApiUnp4KApiP4KDecodeWemToOgg({
+    required String inputPath,
+    required String outputPath,
+  });
+
+  Future<void> crateApiUnp4KApiP4KDecodeWemToOggPreview({
+    required String inputPath,
+    required String outputPath,
+    required int clipSeconds,
+  });
 
   Future<void> crateApiUnp4KApiP4KDecodeWemToWav({
     required String inputPath,
@@ -459,6 +499,195 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiWin32ApiAddNvmePatchConstMeta =>
       const TaskConstMeta(debugName: "add_nvme_patch", argNames: []);
+
+  @override
+  Future<void> crateApiAudioApiAudioDispose() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__audio_api__audio_dispose(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioDisposeConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioDisposeConstMeta =>
+      const TaskConstMeta(debugName: "audio_dispose", argNames: []);
+
+  @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioGetState() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__audio_api__audio_get_state(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioGetStateConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioGetStateConstMeta =>
+      const TaskConstMeta(debugName: "audio_get_state", argNames: []);
+
+  @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioPause() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__audio_api__audio_pause(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioPauseConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioPauseConstMeta =>
+      const TaskConstMeta(debugName: "audio_pause", argNames: []);
+
+  @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioPlayFile({
+    required String path,
+    required int positionMs,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(path);
+          var arg1 = cst_encode_u_32(positionMs);
+          return wire.wire__crate__api__audio_api__audio_play_file(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioPlayFileConstMeta,
+        argValues: [path, positionMs],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioPlayFileConstMeta =>
+      const TaskConstMeta(
+        debugName: "audio_play_file",
+        argNames: ["path", "positionMs"],
+      );
+
+  @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioResume() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__audio_api__audio_resume(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioResumeConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioResumeConstMeta =>
+      const TaskConstMeta(debugName: "audio_resume", argNames: []);
+
+  @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioSeek({
+    required int positionMs,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_u_32(positionMs);
+          return wire.wire__crate__api__audio_api__audio_seek(port_, arg0);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioSeekConstMeta,
+        argValues: [positionMs],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioSeekConstMeta =>
+      const TaskConstMeta(debugName: "audio_seek", argNames: ["positionMs"]);
+
+  @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioSetVolume({
+    required double volume,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_f_64(volume);
+          return wire.wire__crate__api__audio_api__audio_set_volume(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioSetVolumeConstMeta,
+        argValues: [volume],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioSetVolumeConstMeta =>
+      const TaskConstMeta(debugName: "audio_set_volume", argNames: ["volume"]);
+
+  @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioStop() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__audio_api__audio_stop(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioStopConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioStopConstMeta =>
+      const TaskConstMeta(debugName: "audio_stop", argNames: []);
 
   @override
   Future<ApplinksRegistrationResult>
@@ -1961,6 +2190,109 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "p4k_close", argNames: []);
 
   @override
+  Future<void> crateApiUnp4KApiP4KDecodeOggToWav({
+    required String inputPath,
+    required String outputPath,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(inputPath);
+          var arg1 = cst_encode_String(outputPath);
+          return wire.wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KDecodeOggToWavConstMeta,
+        argValues: [inputPath, outputPath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KDecodeOggToWavConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_decode_ogg_to_wav",
+        argNames: ["inputPath", "outputPath"],
+      );
+
+  @override
+  Future<void> crateApiUnp4KApiP4KDecodeWemToOgg({
+    required String inputPath,
+    required String outputPath,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(inputPath);
+          var arg1 = cst_encode_String(outputPath);
+          return wire.wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KDecodeWemToOggConstMeta,
+        argValues: [inputPath, outputPath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KDecodeWemToOggConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_decode_wem_to_ogg",
+        argNames: ["inputPath", "outputPath"],
+      );
+
+  @override
+  Future<void> crateApiUnp4KApiP4KDecodeWemToOggPreview({
+    required String inputPath,
+    required String outputPath,
+    required int clipSeconds,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(inputPath);
+          var arg1 = cst_encode_String(outputPath);
+          var arg2 = cst_encode_u_32(clipSeconds);
+          return wire
+              .wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_preview(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KDecodeWemToOggPreviewConstMeta,
+        argValues: [inputPath, outputPath, clipSeconds],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KDecodeWemToOggPreviewConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_decode_wem_to_ogg_preview",
+        argNames: ["inputPath", "outputPath", "clipSeconds"],
+      );
+
+  @override
   Future<void> crateApiUnp4KApiP4KDecodeWemToWav({
     required String inputPath,
     required String outputPath,
@@ -3272,6 +3604,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AudioPlaybackState dco_decode_audio_playback_state(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return AudioPlaybackState(
+      currentSourcePath: dco_decode_opt_String(arr[0]),
+      durationMs: dco_decode_opt_box_autoadd_u_32(arr[1]),
+      positionMs: dco_decode_u_32(arr[2]),
+      isPlaying: dco_decode_bool(arr[3]),
+      isPaused: dco_decode_bool(arr[4]),
+      volume: dco_decode_f_64(arr[5]),
+    );
+  }
+
+  @protected
   bool dco_decode_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
@@ -3876,6 +4224,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       geometryNodes: var_geometryNodes,
       objectContainers: var_objectContainers,
       roots: var_roots,
+    );
+  }
+
+  @protected
+  AudioPlaybackState sse_decode_audio_playback_state(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_currentSourcePath = sse_decode_opt_String(deserializer);
+    var var_durationMs = sse_decode_opt_box_autoadd_u_32(deserializer);
+    var var_positionMs = sse_decode_u_32(deserializer);
+    var var_isPlaying = sse_decode_bool(deserializer);
+    var var_isPaused = sse_decode_bool(deserializer);
+    var var_volume = sse_decode_f_64(deserializer);
+    return AudioPlaybackState(
+      currentSourcePath: var_currentSourcePath,
+      durationMs: var_durationMs,
+      positionMs: var_positionMs,
+      isPlaying: var_isPlaying,
+      isPaused: var_isPaused,
+      volume: var_volume,
     );
   }
 
@@ -4731,6 +5100,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.geometryNodes, serializer);
     sse_encode_i_32(self.objectContainers, serializer);
     sse_encode_i_32(self.roots, serializer);
+  }
+
+  @protected
+  void sse_encode_audio_playback_state(
+    AudioPlaybackState self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.currentSourcePath, serializer);
+    sse_encode_opt_box_autoadd_u_32(self.durationMs, serializer);
+    sse_encode_u_32(self.positionMs, serializer);
+    sse_encode_bool(self.isPlaying, serializer);
+    sse_encode_bool(self.isPaused, serializer);
+    sse_encode_f_64(self.volume, serializer);
   }
 
   @protected

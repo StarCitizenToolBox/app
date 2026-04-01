@@ -69,7 +69,6 @@ dependencies:
   path: ^1.9.1
   crypto: ^3.0.7
   xml: ^6.6.1
-  audioplayers: ^6.5.1
 
   # gRPC and protobuf
   grpc: ^5.1.0
@@ -78,8 +77,6 @@ dependencies:
 dependency_overrides:
   http: ^1.6.0
   intl: ^0.20.2
-  audioplayers_windows:
-    path: packages/audioplayers_windows_patched
 
 dev_dependencies:
   flutter_test:

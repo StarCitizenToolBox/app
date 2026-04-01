@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math' as math;
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_sizes/file_sizes.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -16,6 +15,7 @@ import 'package:re_editor/re_editor.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
+import 'package:starcitizen_doctor/common/rust/rust_audio_player.dart';
 import 'package:starcitizen_doctor/common/rust/api/unp4k_api.dart'
     as unp4k_api;
 import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
@@ -2110,10 +2110,11 @@ class _AudioTempWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final player = useMemoized(() => AudioPlayer());
+    final player = useMemoized(() => RustAudioPlayer());
     final duration = useState(Duration.zero);
     final position = useState(Duration.zero);
     final isPlaying = useState(false);
+    final isPaused = useState(false);
     final waveform = useState<List<double>>([]);
     final dragMs = useState<double?>(null);
     final dragVolume = useState<double?>(null);
@@ -2126,29 +2127,35 @@ class _AudioTempWidget extends HookWidget {
     final isFullDecodeInProgress = useState(false);
     final previewTip = useState<String?>(null);
     final prepareTokenRef = useRef<int>(0);
+    final pollTimerRef = useRef<Timer?>(null);
+
+    void syncPlayerState(AudioPlaybackState state) {
+      if (state.durationMs != null) {
+        duration.value = Duration(milliseconds: state.durationMs!);
+      }
+      position.value = Duration(milliseconds: state.positionMs);
+      isPlaying.value = state.isPlaying;
+      isPaused.value = state.isPaused;
+      volume.value = state.volume;
+    }
 
     useEffect(() {
       var disposed = false;
       final currentToken = ++prepareTokenRef.value;
-      final subs = <StreamSubscription<dynamic>>[];
-      subs.add(
-        player.onDurationChanged.listen((d) {
-          if (disposed) return;
-          duration.value = d;
-        }),
-      );
-      subs.add(
-        player.onPositionChanged.listen((p) {
-          if (disposed) return;
-          position.value = p;
-        }),
-      );
-      subs.add(
-        player.onPlayerStateChanged.listen((s) {
-          if (disposed) return;
-          isPlaying.value = s == PlayerState.playing;
-        }),
-      );
+      pollTimerRef.value?.cancel();
+      pollTimerRef.value = Timer.periodic(const Duration(milliseconds: 200), (
+        _,
+      ) async {
+        if (disposed) return;
+        try {
+          final state = await player.refresh();
+          if (disposed || prepareTokenRef.value != currentToken) return;
+          syncPlayerState(state);
+        } catch (e) {
+          if (disposed || prepareTokenRef.value != currentToken) return;
+          errorMessage.value = _friendlyAudioError(e);
+        }
+      });
 
       () async {
         try {
@@ -2180,6 +2187,16 @@ class _AudioTempWidget extends HookWidget {
             if (disposed || prepareTokenRef.value != currentToken) return;
             _audioWaveformCache[prepared.playPath] = computed;
             waveform.value = computed;
+          }
+          try {
+            final state = await player.refresh();
+            if (!disposed && prepareTokenRef.value == currentToken) {
+              syncPlayerState(state);
+            }
+          } catch (e) {
+            if (!disposed && prepareTokenRef.value == currentToken) {
+              errorMessage.value = _friendlyAudioError(e);
+            }
           }
           if (prepared.fullDecodeFuture != null) {
             unawaited(
@@ -2222,36 +2239,45 @@ class _AudioTempWidget extends HookWidget {
 
       return () {
         disposed = true;
+        pollTimerRef.value?.cancel();
         unawaited(unp4k_api.p4KCancelWemDecode());
-        for (final s in subs) {
-          s.cancel();
-        }
-        player.dispose();
+        unawaited(player.dispose());
       };
     }, [filePath]);
 
     useEffect(() {
       final v = volume.value.clamp(0.0, 3.0);
       _audioLastVolume = v;
-      player.setVolume(v);
+      unawaited(player.setVolume(v));
       return null;
     }, [volume.value]);
 
     if (isPreparing.value) {
       return makeLoading(context);
     }
-    if (errorMessage.value != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Text(
-            "音频预览失败：${errorMessage.value}",
-            textAlign: TextAlign.center,
-          ),
-        ),
-      );
-    }
     if (playablePath.value == null) {
+      if (errorMessage.value != null) {
+        return Padding(
+          padding: const EdgeInsets.all(12),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 720),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF5A1E1E),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: const Color(0xFFB94A4A)),
+                ),
+                child: Text(
+                  "音频预览失败：${errorMessage.value}",
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
       return const Center(child: Text("音频预览失败：未找到可播放文件"));
     }
 
@@ -2271,16 +2297,17 @@ class _AudioTempWidget extends HookWidget {
       if (sourcePath == null) return;
       if (isPlaying.value) {
         try {
-          await player.pause();
+          final state = await player.pause();
+          syncPlayerState(state);
         } catch (_) {}
         return;
       }
       final startAt = Duration(milliseconds: effectiveMs.round());
       try {
-        await player.play(
-          DeviceFileSource(sourcePath),
-          position: startAt,
-        );
+        final state = player.currentSourcePath == sourcePath && isPaused.value
+            ? await player.resume()
+            : await player.playFile(sourcePath, position: startAt);
+        syncPlayerState(state);
       } catch (e) {
         errorMessage.value = e.toString();
       }
@@ -2291,6 +2318,39 @@ class _AudioTempWidget extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (errorMessage.value != null) ...[
+            Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFF5A1E1E),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFFB94A4A)),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    FluentIcons.error_badge,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      "音频预览失败：${errorMessage.value}",
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Button(
+                    onPressed: () => errorMessage.value = null,
+                    child: const Text("关闭"),
+                  ),
+                ],
+              ),
+            ),
+          ],
           if (isPreviewMode.value && isFullDecodeInProgress.value)
             Container(
               margin: const EdgeInsets.only(bottom: 8),
@@ -2326,7 +2386,8 @@ class _AudioTempWidget extends HookWidget {
                     final ratio = (details.localPosition.dx / width).clamp(0.0, 1.0);
                     final target = (ratio * totalMs).round();
                     dragMs.value = target.toDouble();
-                    await player.seek(Duration(milliseconds: target));
+                    final state = await player.seek(Duration(milliseconds: target));
+                    syncPlayerState(state);
                     dragMs.value = null;
                   },
                   onHorizontalDragStart: (_) {
@@ -2341,7 +2402,8 @@ class _AudioTempWidget extends HookWidget {
                   onHorizontalDragEnd: (_) async {
                     if (totalMs <= 0 || dragMs.value == null) return;
                     final target = dragMs.value!.round();
-                    await player.seek(Duration(milliseconds: target));
+                    final state = await player.seek(Duration(milliseconds: target));
+                    syncPlayerState(state);
                     dragMs.value = null;
                   },
                   child: Container(
@@ -2457,7 +2519,8 @@ class _AudioTempWidget extends HookWidget {
                 onPressed: () async {
                   final target = effectiveVolume <= 0.001 ? 1.0 : 0.0;
                   volume.value = target;
-                  await player.setVolume(target);
+                  final state = await player.setVolume(target);
+                  syncPlayerState(state);
                 },
               ),
               const SizedBox(width: 8),
@@ -2472,7 +2535,8 @@ class _AudioTempWidget extends HookWidget {
                         final v = ratio * 3.0;
                         dragVolume.value = v;
                         volume.value = v;
-                        await player.setVolume(v);
+                        final state = await player.setVolume(v);
+                        syncPlayerState(state);
                         dragVolume.value = null;
                       },
                       onHorizontalDragStart: (_) {
@@ -2486,7 +2550,8 @@ class _AudioTempWidget extends HookWidget {
                         if (dragVolume.value == null) return;
                         final v = dragVolume.value!.clamp(0.0, 3.0);
                         volume.value = v;
-                        await player.setVolume(v);
+                        final state = await player.setVolume(v);
+                        syncPlayerState(state);
                         dragVolume.value = null;
                       },
                       child: Container(
@@ -2536,12 +2601,28 @@ class _AudioTempWidget extends HookWidget {
       final sourceFile = File(sourcePath);
       final previewFile = File(previewPath);
       final targetFile = File(targetPath);
+      final legacyPreviewOgg = File("$sourcePath.preview.mid10s.v1.ogg");
+      final legacyTargetOgg = File("$sourcePath.preview.v2.ogg");
+      String? previewDecodeError;
+      String? fullDecodeError;
+
+      Future<void> clearLegacyOggCache() async {
+        for (final file in [legacyPreviewOgg, legacyTargetOgg]) {
+          if (await file.exists()) {
+            try {
+              await file.delete();
+            } catch (_) {}
+          }
+        }
+      }
+
+      await clearLegacyOggCache();
 
       bool isFreshCache(File f) {
         if (!f.existsSync()) return false;
         final srcStat = sourceFile.statSync();
         final outStat = f.statSync();
-        return outStat.size > 44 &&
+        return outStat.size > 0 &&
             (outStat.modified.isAfter(srcStat.modified) ||
                 outStat.modified.isAtSameMomentAs(srcStat.modified));
       }
@@ -2556,6 +2637,9 @@ class _AudioTempWidget extends HookWidget {
               inputPath: sourcePath,
               outputPath: targetPath,
             );
+          } catch (e) {
+            fullDecodeError ??= e.toString();
+            rethrow;
           } finally {
             _wemFullDecodeInFlight.remove(targetPath);
           }
@@ -2579,11 +2663,15 @@ class _AudioTempWidget extends HookWidget {
       }
 
       // 预览优先：直接生成中段10秒 clip（估算时长后取中段）
-      await unp4k_api.p4KDecodeWemToWavPreview(
-        inputPath: sourcePath,
-        outputPath: previewPath,
-        clipSeconds: 10,
-      );
+      try {
+        await unp4k_api.p4KDecodeWemToWavPreview(
+          inputPath: sourcePath,
+          outputPath: previewPath,
+          clipSeconds: 10,
+        );
+      } catch (e) {
+        previewDecodeError = e.toString();
+      }
       final ok = isFreshCache(previewFile);
 
       // 同时继续完整输出
@@ -2597,9 +2685,31 @@ class _AudioTempWidget extends HookWidget {
         );
       }
       if (fullTask != null) {
-        await fullTask;
+        try {
+          await fullTask;
+        } catch (e) {
+          fullDecodeError ??= e.toString();
+        }
       }
-      return _PreparedPlayableFile(playPath: targetPath);
+      if (await targetFile.exists()) {
+        final stat = await targetFile.stat();
+        if (stat.size > 44) {
+          return _PreparedPlayableFile(playPath: targetPath);
+        }
+      }
+      if (await previewFile.exists()) {
+        final stat = await previewFile.stat();
+        if (stat.size > 44) {
+          return _PreparedPlayableFile(playPath: previewPath);
+        }
+      }
+      throw Exception(
+        "WEM 转 WAV 失败：未生成可播放文件\n"
+        "preview=${previewFile.path}\n"
+        "full=${targetFile.path}\n"
+        "previewError=${previewDecodeError ?? 'none'}\n"
+        "fullError=${fullDecodeError ?? 'none'}",
+      );
     }
 
     return _PreparedPlayableFile(playPath: sourcePath);

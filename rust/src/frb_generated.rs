@@ -37,7 +37,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -616289294;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -631513841;
 
 // Section: executor
 
@@ -59,6 +59,183 @@ fn wire__crate__api__win32_api__add_nvme_patch_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::win32_api::add_nvme_patch()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_dispose_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_dispose",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_dispose()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_get_state_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_get_state",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_get_state()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_pause_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_pause",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_pause()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_play_file_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    path: impl CstDecode<String>,
+    position_ms: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_play_file",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_path = path.cst_decode();
+            let api_position_ms = position_ms.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::audio_api::audio_play_file(api_path, api_position_ms)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_resume_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_resume",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_resume()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_seek_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    position_ms: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_seek",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_position_ms = position_ms.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_seek(api_position_ms)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_set_volume_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    volume: impl CstDecode<f64>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_set_volume",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_volume = volume.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_set_volume(api_volume)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_stop_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_stop",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_stop()?;
                         Ok(output_ok)
                     })(),
                 )
@@ -1384,6 +1561,99 @@ fn wire__crate__api__unp4k_api__p4k_close_impl(
         },
     )
 }
+fn wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    input_path: impl CstDecode<String>,
+    output_path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_decode_ogg_to_wav",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_input_path = input_path.cst_decode();
+            let api_output_path = output_path.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::p4k_decode_ogg_to_wav(
+                            api_input_path,
+                            api_output_path,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    input_path: impl CstDecode<String>,
+    output_path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_decode_wem_to_ogg",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_input_path = input_path.cst_decode();
+            let api_output_path = output_path.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::p4k_decode_wem_to_ogg(
+                            api_input_path,
+                            api_output_path,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_preview_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    input_path: impl CstDecode<String>,
+    output_path: impl CstDecode<String>,
+    clip_seconds: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_decode_wem_to_ogg_preview",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_input_path = input_path.cst_decode();
+            let api_output_path = output_path.cst_decode();
+            let api_clip_seconds = clip_seconds.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::p4k_decode_wem_to_ogg_preview(
+                            api_input_path,
+                            api_output_path,
+                            api_clip_seconds,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     input_path: impl CstDecode<String>,
@@ -2601,6 +2871,26 @@ impl SseDecode for crate::api::unp4k_model_api::AssemblyGraphStats {
     }
 }
 
+impl SseDecode for crate::api::audio_api::AudioPlaybackState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_currentSourcePath = <Option<String>>::sse_decode(deserializer);
+        let mut var_durationMs = <Option<u32>>::sse_decode(deserializer);
+        let mut var_positionMs = <u32>::sse_decode(deserializer);
+        let mut var_isPlaying = <bool>::sse_decode(deserializer);
+        let mut var_isPaused = <bool>::sse_decode(deserializer);
+        let mut var_volume = <f64>::sse_decode(deserializer);
+        return crate::api::audio_api::AudioPlaybackState {
+            current_source_path: var_currentSourcePath,
+            duration_ms: var_durationMs,
+            position_ms: var_positionMs,
+            is_playing: var_isPlaying,
+            is_paused: var_isPaused,
+            volume: var_volume,
+        };
+    }
+}
+
 impl SseDecode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3412,6 +3702,31 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::AssemblyGrap
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::audio_api::AudioPlaybackState {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.current_source_path.into_into_dart().into_dart(),
+            self.duration_ms.into_into_dart().into_dart(),
+            self.position_ms.into_into_dart().into_dart(),
+            self.is_playing.into_into_dart().into_dart(),
+            self.is_paused.into_into_dart().into_dart(),
+            self.volume.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::audio_api::AudioPlaybackState
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::audio_api::AudioPlaybackState>
+    for crate::api::audio_api::AudioPlaybackState
+{
+    fn into_into_dart(self) -> crate::api::audio_api::AudioPlaybackState {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DcbRecordItem {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -4009,6 +4324,18 @@ impl SseEncode for crate::api::unp4k_model_api::AssemblyGraphStats {
         <i32>::sse_encode(self.geometry_nodes, serializer);
         <i32>::sse_encode(self.object_containers, serializer);
         <i32>::sse_encode(self.roots, serializer);
+    }
+}
+
+impl SseEncode for crate::api::audio_api::AudioPlaybackState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<String>>::sse_encode(self.current_source_path, serializer);
+        <Option<u32>>::sse_encode(self.duration_ms, serializer);
+        <u32>::sse_encode(self.position_ms, serializer);
+        <bool>::sse_encode(self.is_playing, serializer);
+        <bool>::sse_encode(self.is_paused, serializer);
+        <f64>::sse_encode(self.volume, serializer);
     }
 }
 
@@ -4676,6 +5003,19 @@ mod io {
             }
         }
     }
+    impl CstDecode<crate::api::audio_api::AudioPlaybackState> for wire_cst_audio_playback_state {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::audio_api::AudioPlaybackState {
+            crate::api::audio_api::AudioPlaybackState {
+                current_source_path: self.current_source_path.cst_decode(),
+                duration_ms: self.duration_ms.cst_decode(),
+                position_ms: self.position_ms.cst_decode(),
+                is_playing: self.is_playing.cst_decode(),
+                is_paused: self.is_paused.cst_decode(),
+                volume: self.volume.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<bool> for *mut bool {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> bool {
@@ -5133,6 +5473,23 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_audio_playback_state {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                current_source_path: core::ptr::null_mut(),
+                duration_ms: core::ptr::null_mut(),
+                position_ms: Default::default(),
+                is_playing: Default::default(),
+                is_paused: Default::default(),
+                volume: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_audio_playback_state {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_dcb_record_item {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -5441,6 +5798,66 @@ mod io {
         port_: i64,
     ) {
         wire__crate__api__win32_api__add_nvme_patch_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_dispose(
+        port_: i64,
+    ) {
+        wire__crate__api__audio_api__audio_dispose_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_get_state(
+        port_: i64,
+    ) {
+        wire__crate__api__audio_api__audio_get_state_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_pause(
+        port_: i64,
+    ) {
+        wire__crate__api__audio_api__audio_pause_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_play_file(
+        port_: i64,
+        path: *mut wire_cst_list_prim_u_8_strict,
+        position_ms: u32,
+    ) {
+        wire__crate__api__audio_api__audio_play_file_impl(port_, path, position_ms)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_resume(
+        port_: i64,
+    ) {
+        wire__crate__api__audio_api__audio_resume_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_seek(
+        port_: i64,
+        position_ms: u32,
+    ) {
+        wire__crate__api__audio_api__audio_seek_impl(port_, position_ms)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_set_volume(
+        port_: i64,
+        volume: f64,
+    ) {
+        wire__crate__api__audio_api__audio_set_volume_impl(port_, volume)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_stop(
+        port_: i64,
+    ) {
+        wire__crate__api__audio_api__audio_stop_impl(port_)
     }
 
     #[unsafe(no_mangle)]
@@ -5902,6 +6319,39 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_close(port_: i64) {
         wire__crate__api__unp4k_api__p4k_close_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav(
+        port_: i64,
+        input_path: *mut wire_cst_list_prim_u_8_strict,
+        output_path: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav_impl(port_, input_path, output_path)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg(
+        port_: i64,
+        input_path: *mut wire_cst_list_prim_u_8_strict,
+        output_path: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_impl(port_, input_path, output_path)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_preview(
+        port_: i64,
+        input_path: *mut wire_cst_list_prim_u_8_strict,
+        output_path: *mut wire_cst_list_prim_u_8_strict,
+        clip_seconds: u32,
+    ) {
+        wire__crate__api__unp4k_api__p4k_decode_wem_to_ogg_preview_impl(
+            port_,
+            input_path,
+            output_path,
+            clip_seconds,
+        )
     }
 
     #[unsafe(no_mangle)]
@@ -6489,6 +6939,16 @@ mod io {
         geometry_nodes: i32,
         object_containers: i32,
         roots: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_audio_playback_state {
+        current_source_path: *mut wire_cst_list_prim_u_8_strict,
+        duration_ms: *mut u32,
+        position_ms: u32,
+        is_playing: bool,
+        is_paused: bool,
+        volume: f64,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

@@ -557,7 +557,7 @@ pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
 mod tests {
     use super::{decode_image_for_preview, has_dds_signature, reconstruct_dds_stream};
     use anyhow::{anyhow, Result};
-    use crate::audio::wwise::decode_wem_vorbis_to_wav;
+    use crate::audio::wwise::decode_wem_vorbis_to_ogg;
     use image::ImageFormat;
     use std::fs;
     use std::io::Cursor;
@@ -765,7 +765,7 @@ mod tests {
     }
 
     #[test]
-    fn decode_all_live_wem_to_wav_if_present() -> Result<()> {
+    fn decode_all_live_wem_to_ogg_if_present() -> Result<()> {
         let root = PathBuf::from(r"C:\WINDOWS\TEMP\SCToolbox_unp4kc\LIVE");
         if !root.exists() {
             println!("[SKIP] live wem folder not found: {}", root.display());
@@ -792,10 +792,10 @@ mod tests {
         let mut failed = Vec::<String>::new();
         for p in wem_files {
             let wem = fs::read(&p)?;
-            match decode_wem_vorbis_to_wav(&wem) {
-                Ok(wav) => {
-                    if wav.len() <= 44 {
-                        failed.push(format!("{} -> wav too small", p.display()));
+            match decode_wem_vorbis_to_ogg(&wem) {
+                Ok(ogg) => {
+                    if ogg.len() <= 4 || !ogg.starts_with(b"OggS") {
+                        failed.push(format!("{} -> ogg too small", p.display()));
                     }
                 }
                 Err(e) => failed.push(format!("{} -> {}", p.display(), e)),
@@ -861,7 +861,96 @@ pub async fn p4k_extract_to_disk(file_path: String, output_path: String) -> Resu
     Ok(())
 }
 
-/// 内置 WEM(PCM) -> WAV 转换（用于预览播放，不依赖外部工具）
+/// 内置 WEM -> OGG 转换（用于预览播放，不依赖外部工具）
+pub async fn p4k_decode_wem_to_ogg(input_path: String, output_path: String) -> Result<()> {
+    tokio::task::spawn_blocking(move || {
+        let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
+        let is_cancelled = || GLOBAL_WEM_DECODE_REQUEST_ID.load(Ordering::SeqCst) != request_id;
+
+        let input = PathBuf::from(&input_path);
+        if !input.exists() {
+            return Err(anyhow!("input wem not found: {}", input_path));
+        }
+
+        let wem = std::fs::read(&input)?;
+        let ogg = match crate::audio::wwise::decode_wem_to_ogg_with_cancel(&wem, &is_cancelled) {
+            Ok(w) => w,
+            Err(e) if e.to_string().contains("wem decode cancelled") => {
+                return Err(anyhow!("wem decode interrupted by newer request"));
+            }
+            Err(e) => return Err(e),
+        };
+
+        let output = PathBuf::from(&output_path);
+        if let Some(parent) = output.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(output, ogg)?;
+        Ok(())
+    })
+    .await?
+}
+
+/// 内置 WEM -> OGG 预览转换（估算中段并仅输出短片段）
+pub async fn p4k_decode_wem_to_ogg_preview(
+    input_path: String,
+    output_path: String,
+    clip_seconds: u32,
+) -> Result<()> {
+    tokio::task::spawn_blocking(move || {
+        let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
+        let is_cancelled = || GLOBAL_WEM_DECODE_REQUEST_ID.load(Ordering::SeqCst) != request_id;
+
+        let input = PathBuf::from(&input_path);
+        if !input.exists() {
+            return Err(anyhow!("input wem not found: {}", input_path));
+        }
+
+        let wem = std::fs::read(&input)?;
+        let ogg = match crate::audio::wwise::decode_wem_preview_to_ogg_with_cancel(
+            &wem,
+            clip_seconds.max(1),
+            &is_cancelled,
+        ) {
+            Ok(w) => w,
+            Err(e) if e.to_string().contains("wem decode cancelled") => {
+                return Err(anyhow!("wem decode interrupted by newer request"));
+            }
+            Err(e) => return Err(e),
+        };
+
+        let output = PathBuf::from(&output_path);
+        if let Some(parent) = output.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(output, ogg)?;
+        Ok(())
+    })
+    .await?
+}
+
+/// 将 OGG 转为 WAV（导出时用于复用缓存）
+pub async fn p4k_decode_ogg_to_wav(input_path: String, output_path: String) -> Result<()> {
+    tokio::task::spawn_blocking(move || {
+        let input = PathBuf::from(&input_path);
+        if !input.exists() {
+            return Err(anyhow!("input ogg not found: {}", input_path));
+        }
+
+        let ogg = std::fs::read(&input)?;
+        let wav = crate::audio::wwise::decode_ogg_to_wav(&ogg)?;
+
+        let output = PathBuf::from(&output_path);
+        if let Some(parent) = output.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(output, wav)?;
+        Ok(())
+    })
+    .await?
+}
+
+/// 内置 WEM(PCM) -> WAV 转换（用于预览播放或导出兜底，不依赖外部工具）
 pub async fn p4k_decode_wem_to_wav(input_path: String, output_path: String) -> Result<()> {
     tokio::task::spawn_blocking(move || {
         let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
@@ -891,7 +980,7 @@ pub async fn p4k_decode_wem_to_wav(input_path: String, output_path: String) -> R
     .await?
 }
 
-/// 内置 WEM -> WAV 预览转换（估算中段并仅输出短片段）
+/// 内置 WEM -> WAV 预览转换（估算中段并仅输出短片段，导出兜底用）
 pub async fn p4k_decode_wem_to_wav_preview(
     input_path: String,
     output_path: String,

@@ -226,7 +226,7 @@ class Unp4kCModel extends _$Unp4kCModel {
     });
   }
 
-  /// 清理 P4K 预览临时音频缓存（.wem 与 .preview.v2.wav）
+  /// 清理 P4K 预览临时音频缓存（.wem、旧 .ogg 预览缓存与 .preview.v2.wav）
   Future<void> clearTempWemCache() async {
     try {
       final tempDir = await getTemporaryDirectory();
@@ -238,7 +238,11 @@ class Unp4kCModel extends _$Unp4kCModel {
       await for (final entity in rootDir.list(recursive: true, followLinks: false)) {
         if (entity is! File) continue;
         final lower = entity.path.toLowerCase();
-        if (lower.endsWith(".wem") || lower.endsWith(".preview.v2.wav")) {
+        if (lower.endsWith(".wem") ||
+            lower.endsWith(".preview.v2.wav") ||
+            lower.endsWith(".preview.mid10s.v1.wav") ||
+            lower.endsWith(".preview.v2.ogg") ||
+            lower.endsWith(".preview.mid10s.v1.ogg")) {
           try {
             await entity.delete();
           } catch (_) {}
