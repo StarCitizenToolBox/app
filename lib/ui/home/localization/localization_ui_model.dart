@@ -17,6 +17,7 @@ import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/input_method_api_data.dart';
+import 'package:starcitizen_doctor/data/localization_extension_api_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
@@ -41,6 +42,8 @@ abstract class LocalizationUIState with _$LocalizationUIState {
     MapEntry<bool, String>? patchStatus,
     bool? isInstalledAdvanced,
     List<String>? customizeList,
+    List<LocalizationExtensionItemData>? localizationExtensionList,
+    List<String>? selectedExtensions,
   }) = _LocalizationUIState;
 }
 
@@ -106,10 +109,29 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
   }
 
+  Future<void> _loadLocalizationExtensionData() async {
+    try {
+      final data = await Api.getLocalizationExtensionIndexData();
+      if (data.enable ?? false) {
+        final lang = state.selectedLanguage;
+        if (lang != null) {
+          final l = data.languages?[lang];
+          if (l != null && l.isNotEmpty) {
+            state = state.copyWith(localizationExtensionList: l);
+            dPrint("loadLocalizationExtensionData: ${l.length} extensions");
+          }
+        }
+      }
+    } catch (e) {
+      dPrint("loadLocalizationExtensionData error: $e");
+    }
+  }
+
   Future<void> _loadData() async {
     _allVersionLocalizationData.clear();
     await _updateStatus();
     await _loadCommunityInputMethodData();
+    await _loadLocalizationExtensionData();
     for (var lang in languageSupport.keys) {
       final l = await Api.getScLocalizationData(lang).unwrap();
       if (l != null) {
@@ -259,6 +281,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     bool? advanced,
     bool isEnableCommunityInputMethod = false,
     bool isEnableVehicleSorting = false,
+    List<LocalizationExtensionItemData>? extensions,
     BuildContext? context,
   }) async {
     dPrint("LocalizationUIModel -> installFormString $versionName");
@@ -296,6 +319,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       if (advanced ?? false) {
         globalIni.write("_starcitizen_doctor_localization_advanced=true\n");
       }
+
+      if (extensions != null && extensions.isNotEmpty) {
+        globalIni.write("_starcitizen_doctor_localization_extensions=${extensions.map((e) => e.file).join(',')}\n");
+        final extensionData = await _loadExtensionData(extensions);
+        _applyExtensions(globalIni, extensionData);
+      }
+
       globalIni.write("_starcitizen_doctor_localization_version=$versionName\n");
     }
 
@@ -323,6 +353,83 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     await iniFile.writeAsString("\uFEFF$iniStringData", flush: true);
     await updateLangCfg(true);
     await _updateStatus();
+  }
+
+  Future<Map<String, String>> _loadExtensionData(List<LocalizationExtensionItemData> extensions) async {
+    final extensionData = <String, String>{};
+    final box = await Hive.openBox("localization_extension_data");
+
+    for (var ext in extensions) {
+      if (ext.file == null) continue;
+
+      final cacheKey = "${state.selectedLanguage}_${ext.file}";
+      final cachedVersion = box.get("${cacheKey}_version");
+
+      if (cachedVersion != ext.version) {
+        try {
+          final data = await Api.getLocalizationExtensionData(ext.file!);
+          await box.put("${cacheKey}_data", data);
+          await box.put("${cacheKey}_version", ext.version);
+          extensionData[ext.file!] = data;
+        } catch (e) {
+          dPrint("Error loading extension ${ext.file}: $e");
+        }
+      } else {
+        extensionData[ext.file!] = box.get("${cacheKey}_data")?.toString() ?? "";
+      }
+    }
+
+    return extensionData;
+  }
+
+  void _applyExtensions(StringBuffer globalIni, Map<String, String> extensionData) {
+    final globalIniLines = globalIni.toString().split("\n");
+    final globalIniMap = <String, String>{};
+
+    for (var line in globalIniLines) {
+      final idx = line.indexOf("=");
+      if (idx > 0) {
+        final key = line.substring(0, idx);
+        final value = line.substring(idx + 1);
+        globalIniMap[key] = value;
+      }
+    }
+
+    for (var extContent in extensionData.values) {
+      for (var line in extContent.split("\n")) {
+        final idx = line.indexOf("=");
+        if (idx > 0) {
+          final key = line.substring(0, idx);
+          final extValue = line.substring(idx + 1);
+
+          if (globalIniMap.containsKey(key)) {
+            final originalValue = globalIniMap[key]!;
+            final lowerKey = key.toLowerCase();
+
+            if (lowerKey.contains("_title_") && _countChineseChars(originalValue) <= 10) {
+              globalIniMap[key] = "$extValue$originalValue";
+            } else {
+              globalIniMap[key] = "$originalValue$extValue";
+            }
+          }
+        }
+      }
+    }
+
+    globalIni.clear();
+    for (var entry in globalIniMap.entries) {
+      globalIni.writeln("${entry.key}=${entry.value}");
+    }
+  }
+
+  int _countChineseChars(String text) {
+    int count = 0;
+    for (var char in text.runes) {
+      if (char >= 0x4e00 && char <= 0x9fff) {
+        count++;
+      }
+    }
+    return count;
   }
 
   Future<Map<String, String>?> getCommunityInputMethodSupportData() async {
@@ -383,6 +490,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     ScLocalizationData value, {
     bool isEnableCommunityInputMethod = false,
     bool isEnableVehicleSorting = false,
+    List<LocalizationExtensionItemData>? extensions,
   }) async {
     AnalyticsApi.touch("install_localization");
 
@@ -408,6 +516,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         value.versionName ?? "",
         isEnableCommunityInputMethod: isEnableCommunityInputMethod,
         isEnableVehicleSorting: isEnableVehicleSorting,
+        extensions: extensions,
         context: context,
       );
     } catch (e) {
@@ -641,6 +750,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     final appBox = Hive.box("app_conf");
     bool enableCommunityInputMethod = state.communityInputMethodLanguageData != null;
     bool isEnableVehicleSorting = appBox.get("vehicle_sorting", defaultValue: false) ?? false;
+    List<LocalizationExtensionItemData> selectedExtensions = [];
     if (!context.mounted) return;
     final userOK = await showConfirmDialogs(
       context,
@@ -726,6 +836,50 @@ class LocalizationUIModel extends _$LocalizationUIModel {
               ),
             ],
           ),
+          if (state.localizationExtensionList != null && state.localizationExtensionList!.isNotEmpty) ...[
+            SizedBox(height: 12),
+            Text(S.current.localization_extension_title, style: TextStyle(fontSize: 14)),
+            SizedBox(height: 8),
+            StatefulBuilder(
+              builder: (BuildContext context, void Function(void Function()) setState) {
+                return Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: state.localizationExtensionList!.map((ext) {
+                    final isSelected = selectedExtensions.any((e) => e.file == ext.file);
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (isSelected) {
+                            selectedExtensions.removeWhere((e) => e.file == ext.file);
+                          } else {
+                            selectedExtensions.add(ext);
+                          }
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: isSelected ? Color(0xFF4A9EFF) : Colors.white.withValues(alpha: .1),
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(
+                            color: isSelected ? Color(0xFF4A9EFF) : Colors.white.withValues(alpha: .2),
+                          ),
+                        ),
+                        child: Text(
+                          ext.name ?? ext.file ?? "Unknown",
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : Colors.white.withValues(alpha: .8),
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          ],
         ],
       ),
       confirm: S.current.localization_action_install,
@@ -735,12 +889,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if (userOK) {
       await appBox.put("vehicle_sorting", isEnableVehicleSorting);
       if (!context.mounted) return;
-      dPrint("doRemoteInstall ${item.value} $enableCommunityInputMethod");
+      dPrint("doRemoteInstall ${item.value} $enableCommunityInputMethod $selectedExtensions");
       await doRemoteInstall(
         context,
         item.value,
         isEnableCommunityInputMethod: enableCommunityInputMethod,
         isEnableVehicleSorting: isEnableVehicleSorting,
+        extensions: selectedExtensions.isNotEmpty ? selectedExtensions : null,
       );
     }
   }

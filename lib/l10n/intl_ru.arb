@@ -379,6 +379,8 @@
   "@localization_info_installation_error": {},
   "localization_info_custom_files": "Пользовательские файлы",
   "@localization_info_custom_files": {},
+  "localization_extension_title": "Расширение локализации",
+  "@localization_extension_title": {},
   "performance_info_graphic_optimization_hint": "Подсказка по оптимизации графики",
   "@performance_info_graphic_optimization_hint": {},
   "performance_info_graphic_optimization_warning": "Эта функция очень помогает при оптимизации узких мест видеокарты, но может иметь обратный эффект при узких местах CPU. Если у вас мощная видеокарта, попробуйте использовать более высокое качество графики для повышения утилизации видеокарты.",

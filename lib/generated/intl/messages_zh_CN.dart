@@ -1033,6 +1033,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("汉化反馈"),
     "localization_action_uninstall_translation":
         MessageLookupByLibrary.simpleMessage("卸载汉化"),
+    "localization_extension_title": MessageLookupByLibrary.simpleMessage(
+      "汉化拓展",
+    ),
     "localization_info_channel": m44,
     "localization_info_community_translation":
         MessageLookupByLibrary.simpleMessage("社区汉化"),

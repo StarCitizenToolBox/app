@@ -379,6 +379,8 @@
   "@localization_info_installation_error": {},
   "localization_info_custom_files": "カスタムファイル",
   "@localization_info_custom_files": {},
+  "localization_extension_title": "ローカライズ拡張",
+  "@localization_extension_title": {},
   "performance_info_graphic_optimization_hint": "グラフィック最適化のヒント",
   "@performance_info_graphic_optimization_hint": {},
   "performance_info_graphic_optimization_warning": "この機能はグラフィックカードのボトルネックの最適化に役立ちますが、CPUのボトルネックには逆効果になることがあります。グラフィックカードの性能が高い場合は、より良い画質を使用してグラフィックカードの利用率を高めることができます。",

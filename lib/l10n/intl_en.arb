@@ -379,6 +379,8 @@
   "@localization_info_installation_error": {},
   "localization_info_custom_files": "Custom Files",
   "@localization_info_custom_files": {},
+  "localization_extension_title": "Localization Extension",
+  "@localization_extension_title": {},
   "performance_info_graphic_optimization_hint": "Graphics Optimization Tips",
   "@performance_info_graphic_optimization_hint": {},
   "performance_info_graphic_optimization_warning": "This feature helps significantly with GPU bottlenecks but may have the opposite effect for CPU bottlenecks. If you have a powerful GPU, you can try using better quality settings to achieve higher GPU utilization.",

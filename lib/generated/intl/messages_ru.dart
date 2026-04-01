@@ -1086,6 +1086,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Отзыв о локализации"),
     "localization_action_uninstall_translation":
         MessageLookupByLibrary.simpleMessage("Удалить локализацию"),
+    "localization_extension_title": MessageLookupByLibrary.simpleMessage(
+      "Расширение локализации",
+    ),
     "localization_info_channel": m44,
     "localization_info_community_translation":
         MessageLookupByLibrary.simpleMessage("Локализация сообщества"),

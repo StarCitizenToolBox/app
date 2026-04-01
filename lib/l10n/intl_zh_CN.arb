@@ -378,6 +378,8 @@
   "@localization_info_installation_error": {},
   "localization_info_custom_files": "自定义文件",
   "@localization_info_custom_files": {},
+  "localization_extension_title": "汉化拓展",
+  "@localization_extension_title": {},
   "performance_info_graphic_optimization_hint": "图形优化提示",
   "@performance_info_graphic_optimization_hint": {},
   "performance_info_graphic_optimization_warning": "该功能对优化显卡瓶颈有很大帮助，但对 CPU 瓶颈可能起反效果，如果您显卡性能强劲，可以尝试使用更好的画质来获得更高的显卡利用率。",

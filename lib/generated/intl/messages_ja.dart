@@ -983,6 +983,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("ローカリゼーションフィードバック"),
     "localization_action_uninstall_translation":
         MessageLookupByLibrary.simpleMessage("ローカリゼーションをアンインストール"),
+    "localization_extension_title": MessageLookupByLibrary.simpleMessage(
+      "ローカライズ拡張",
+    ),
     "localization_info_channel": m44,
     "localization_info_community_translation":
         MessageLookupByLibrary.simpleMessage("コミュニティローカリゼーション"),

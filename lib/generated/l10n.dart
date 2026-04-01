@@ -1940,6 +1940,16 @@ class S {
     );
   }
 
+  /// `Localization Extension`
+  String get localization_extension_title {
+    return Intl.message(
+      'Localization Extension',
+      name: 'localization_extension_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Graphics Optimization Tips`
   String get performance_info_graphic_optimization_hint {
     return Intl.message(
