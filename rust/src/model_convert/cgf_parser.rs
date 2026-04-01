@@ -73,7 +73,7 @@ pub fn parse_static_scene(data: &[u8]) -> Result<SceneData> {
                     node.name.clone()
                 };
                 let (translation, rotation, scale) =
-                    gltf_trs_from_row_major_matrix(node.local_matrix);
+                    gltf_trs_from_row_major_matrix(node.world_matrix);
                 mesh.name = Some(name.clone());
                 mesh.node_name = Some(name);
                 mesh.node_translation = Some(translation);
@@ -1033,5 +1033,37 @@ mod tests {
         let scene = parse_static_scene(&data).expect("parse");
         assert_eq!(scene.meshes.len(), 1);
         assert_eq!(scene.meshes[0].node_translation, Some([-2.0, 4.0, 3.0]));
+    }
+
+    #[test]
+    fn parse_static_scene_resolves_world_matrix_for_parented_nodes() {
+        use crate::model_convert::cryengine::cgf::parse_cgf_headers;
+        use crate::model_convert::cryengine::chunks::node::parse_cgf_node_chunks;
+
+        let chunks = vec![
+            (
+                0xCCCC_000B,
+                0x0823,
+                1,
+                build_node_chunk("parent", -1, -1, 0, [10.0, 0.0, 0.0]),
+            ),
+            (
+                0xCCCC_000B,
+                0x0823,
+                2,
+                build_node_chunk("cargo_hull", 10, 1, 0, [2.0, 3.0, 4.0]),
+            ),
+        ];
+        let data = build_crch_file(0x746, chunks);
+        let headers = parse_cgf_headers(&data).expect("parse headers");
+        let nodes = parse_cgf_node_chunks(&data, &headers).expect("parse nodes");
+        let child = nodes
+            .iter()
+            .find(|node| node.id == 2)
+            .expect("child node present");
+        assert_eq!(child.local_matrix[3], 2.0);
+        assert_eq!(child.world_matrix[3], 12.0);
+        assert_eq!(child.world_matrix[7], 3.0);
+        assert_eq!(child.world_matrix[11], 4.0);
     }
 }

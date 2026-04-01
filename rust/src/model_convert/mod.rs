@@ -1,5 +1,6 @@
 pub mod cgf_parser;
 pub mod cryengine;
+pub mod glb_merge;
 pub mod gltf_builder;
 pub mod ivo_parser;
 pub mod material_parser;
@@ -63,6 +64,9 @@ fn material_uses_specular_texture(material: &MaterialData) -> bool {
         .unwrap_or_default()
         .to_ascii_uppercase();
     mask.contains("SPECULARPOW_GLOSSALPHA")
+}
+fn material_uses_opacity_texture(material: &MaterialData) -> bool {
+    material.opacity_texture.is_some() || !material.opacity_texture_candidates.is_empty()
 }
 fn resolve_texture_candidates<'a>(
     candidates: impl IntoIterator<Item = &'a str>,
@@ -160,6 +164,12 @@ async fn collect_material_textures(
             ]
         });
         gltf_material.specular_factor = Some(material_ref.specular.unwrap_or([1.0, 1.0, 1.0]));
+        gltf_material.emissive_factor = material_ref.emissive_color.or_else(|| {
+            material_ref
+                .glow_amount
+                .filter(|value| *value > 0.0)
+                .map(|_| [1.0, 1.0, 1.0])
+        });
         let shininess = material_ref.shininess.unwrap_or(0.0);
         let glossiness = (shininess / 255.0).clamp(0.0, 1.0);
         gltf_material.glossiness_factor = Some(glossiness);
@@ -170,12 +180,15 @@ async fn collect_material_textures(
                 .map(|flags| (flags & 0x2) != 0)
                 .unwrap_or(false),
         );
+        let opacity = material_ref.opacity.unwrap_or(1.0).clamp(0.0, 1.0);
         gltf_material.alpha_mode = Some(if material_ref.no_draw {
             "MASK".to_string()
-        } else if material_ref.alpha_test.unwrap_or(0.0) == 0.0 {
-            "OPAQUE".to_string()
-        } else {
+        } else if material_ref.alpha_test.unwrap_or(0.0) > 0.0 {
             "MASK".to_string()
+        } else if opacity < 1.0 || material_uses_opacity_texture(material_ref) {
+            "BLEND".to_string()
+        } else {
+            "OPAQUE".to_string()
         });
         gltf_material.alpha_cutoff = material_ref.alpha_test;
         gltf_material.no_draw = material_ref.no_draw;
@@ -222,9 +235,56 @@ async fn collect_material_textures(
             )
             .await?;
         }
+        if let Some(emissive) = maybe_collect_channel_texture_p4k(
+            material_ref.name.as_deref(),
+            "emissive",
+            &material_ref.emissive_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )
+        .await?
+        {
+            gltf_material.emissive_texture = Some(emissive);
+        }
+        if let Some(occlusion) = maybe_collect_channel_texture_p4k(
+            material_ref.name.as_deref(),
+            "occlusion",
+            &material_ref.occlusion_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )
+        .await?
+        {
+            gltf_material.occlusion_texture = Some(occlusion);
+        }
+        if let Some(opacity) = maybe_collect_channel_texture_p4k(
+            material_ref.name.as_deref(),
+            "opacity",
+            &material_ref.opacity_texture_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )
+        .await?
+        {
+            gltf_material.opacity_texture = Some(opacity);
+            warnings.push(opacity_approximation_warning(material_id));
+        }
         materials_by_id.insert(material_id, materials.len());
         materials.push(gltf_material);
     }
+    apply_opacity_textures(&mut textures, &mut materials, &mut warnings);
     Ok((textures, materials, materials_by_id, warnings))
 }
 fn collect_material_textures_from_fs(
@@ -292,12 +352,15 @@ fn collect_material_textures_from_fs(
                 .map(|flags| (flags & 0x2) != 0)
                 .unwrap_or(false),
         );
+        let opacity = material_ref.opacity.unwrap_or(1.0).clamp(0.0, 1.0);
         gltf_material.alpha_mode = Some(if material_ref.no_draw {
             "MASK".to_string()
-        } else if material_ref.alpha_test.unwrap_or(0.0) == 0.0 {
-            "OPAQUE".to_string()
-        } else {
+        } else if material_ref.alpha_test.unwrap_or(0.0) > 0.0 {
             "MASK".to_string()
+        } else if opacity < 1.0 || material_uses_opacity_texture(material_ref) {
+            "BLEND".to_string()
+        } else {
+            "OPAQUE".to_string()
         });
         gltf_material.alpha_cutoff = material_ref.alpha_test;
         gltf_material.no_draw = material_ref.no_draw;
@@ -340,9 +403,46 @@ fn collect_material_textures_from_fs(
                 &mut warnings,
             )?;
         }
+        gltf_material.emissive_texture = maybe_collect_channel_texture_fs(
+            material_ref.name.as_deref(),
+            "emissive",
+            &material_ref.emissive_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )?;
+        gltf_material.occlusion_texture = maybe_collect_channel_texture_fs(
+            material_ref.name.as_deref(),
+            "occlusion",
+            &material_ref.occlusion_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )?;
+        gltf_material.opacity_texture = maybe_collect_channel_texture_fs(
+            material_ref.name.as_deref(),
+            "opacity",
+            &material_ref.opacity_texture_candidates,
+            model_path,
+            index,
+            max_texture_size,
+            &mut textures,
+            &mut texture_map,
+            &mut warnings,
+        )?;
+        if gltf_material.opacity_texture.is_some() {
+            warnings.push(opacity_approximation_warning(material_id));
+        }
         materials_by_id.insert(material_id, materials.len());
         materials.push(gltf_material);
     }
+    apply_opacity_textures(&mut textures, &mut materials, &mut warnings);
     Ok((textures, materials, materials_by_id, warnings))
 }
 async fn maybe_collect_channel_texture_p4k(
@@ -416,13 +516,28 @@ fn maybe_collect_channel_texture_fs(
         index,
     );
     let texture = if let Some(texture_path) = texture_path {
-        DecodedTexture {
-            name: texture_uri_from_path(&texture_path),
-            uri: texture_uri_from_path(&texture_path),
-            label: Some(texture_label(material_name, channel_name)),
-            width: 0,
-            height: 0,
-            rgba8: Vec::new(),
+        let texture_bytes = std::fs::read(&texture_path)
+            .map_err(|e| ModelConvertError::Io(format!("read texture {texture_path}: {e}")))?;
+        match texture_decode::decode_texture(&texture_path, &texture_bytes, max_texture_size) {
+            Ok(mut texture) => {
+                texture.label = Some(texture_label(material_name, channel_name));
+                texture
+            }
+            Err(err) => {
+                warnings.push(texture_decode_failed_warning(
+                    &texture_path,
+                    channel_name,
+                    &err.to_string(),
+                ));
+                DecodedTexture {
+                    name: texture_uri_from_path(&texture_path),
+                    uri: texture_uri_from_path(&texture_path),
+                    label: Some(texture_label(material_name, channel_name)),
+                    width: 0,
+                    height: 0,
+                    rgba8: Vec::new(),
+                }
+            }
         }
     } else {
         warnings.push(texture_not_found_warning(
@@ -476,6 +591,100 @@ fn texture_label(material_name: Option<&str>, channel_name: &str) -> String {
         Some(name) if !name.is_empty() => format!("{name}-{channel}"),
         _ => format!("texture-{channel}"),
     }
+}
+fn apply_opacity_textures(
+    textures: &mut Vec<DecodedTexture>,
+    materials: &mut [GltfMaterialData],
+    warnings: &mut Vec<String>,
+) {
+    for material in materials {
+        let Some(opacity_index) = material.opacity_texture else {
+            continue;
+        };
+        let Some(base_index) = material.base_color_texture.or(material.diffuse_texture) else {
+            continue;
+        };
+        if base_index == opacity_index {
+            continue;
+        }
+        if base_index < textures.len() && opacity_index < textures.len() {
+            let (base, opacity) = texture_pair_mut(textures, base_index, opacity_index);
+            if let Some((base, opacity)) = base.zip(opacity) {
+                if composite_opacity_texture(base, opacity) {
+                    warnings.push(format!(
+                        "Applied opacity texture to base color texture for {}",
+                        material.name.as_deref().unwrap_or("material")
+                    ));
+                }
+            }
+        }
+    }
+}
+fn texture_pair_mut(
+    textures: &mut [DecodedTexture],
+    a: usize,
+    b: usize,
+) -> (Option<&mut DecodedTexture>, Option<&mut DecodedTexture>) {
+    if a == b {
+        return (textures.get_mut(a), None);
+    }
+    let (low, high, low_is_a) = if a < b { (a, b, true) } else { (b, a, false) };
+    let (left, right) = textures.split_at_mut(high);
+    let first = left.get_mut(low);
+    let second = right.get_mut(0);
+    if low_is_a {
+        (first, second)
+    } else {
+        (second, first)
+    }
+}
+fn composite_opacity_texture(base: &mut DecodedTexture, opacity: &DecodedTexture) -> bool {
+    if base.width == 0 || base.height == 0 || opacity.width == 0 || opacity.height == 0 {
+        return false;
+    }
+    let expected = (base.width as usize)
+        .saturating_mul(base.height as usize)
+        .saturating_mul(4);
+    if base.rgba8.len() != expected || opacity.rgba8.len() < 4 {
+        return false;
+    }
+    let mut changed = false;
+    let base_width = base.width;
+    let base_height = base.height;
+    let opacity_width = opacity.width;
+    let opacity_height = opacity.height;
+    for y in 0..base_height {
+        let sample_y = if base_height <= 1 {
+            0
+        } else {
+            ((y as u64 * opacity_height as u64) / base_height as u64) as u32
+        };
+        for x in 0..base_width {
+            let sample_x = if base_width <= 1 {
+                0
+            } else {
+                ((x as u64 * opacity_width as u64) / base_width as u64) as u32
+            };
+            let base_idx = ((y * base_width + x) * 4) as usize;
+            let opacity_idx = ((sample_y * opacity_width + sample_x) * 4) as usize;
+            let sr = opacity.rgba8.get(opacity_idx).copied().unwrap_or(255) as u32;
+            let sg = opacity.rgba8.get(opacity_idx + 1).copied().unwrap_or(255) as u32;
+            let sb = opacity.rgba8.get(opacity_idx + 2).copied().unwrap_or(255) as u32;
+            let sa = opacity.rgba8.get(opacity_idx + 3).copied().unwrap_or(255) as u32;
+            let opacity_alpha = if sa < 255 {
+                sa
+            } else {
+                ((sr * 299 + sg * 587 + sb * 114) / 1000).min(255)
+            } as u8;
+            let base_alpha = base.rgba8.get(base_idx + 3).copied().unwrap_or(255);
+            let merged = ((base_alpha as u32 * opacity_alpha as u32) / 255) as u8;
+            if let Some(pixel_alpha) = base.rgba8.get_mut(base_idx + 3) {
+                *pixel_alpha = merged;
+                changed = true;
+            }
+        }
+    }
+    changed
 }
 fn is_ivo_signature(data: &[u8]) -> bool {
     data.len() >= 4 && data[0..4] == *b"#ivo"
@@ -784,7 +993,8 @@ mod tests {
     use super::{
         build_fs_index, categorize_parser_error_message, is_banu_candidate,
         is_binary_not_supported_message, is_ivo_signature, is_supported_model,
-        load_best_material_from_candidates_sync, MaterialData, ModelConvertError,
+        load_best_material_from_candidates_sync, DecodedTexture, GltfMaterialData, MaterialData,
+        ModelConvertError,
     };
     use sha2::{Digest, Sha256};
     use std::fs;
@@ -865,6 +1075,45 @@ mod tests {
             .keys()
             .any(|k| k.contains("\\defender\\banu_defender.mtl")));
         let _ = fs::remove_dir_all(&temp);
+    }
+    #[test]
+    fn opacity_texture_is_applied_to_base_color_alpha() {
+        let mut textures = vec![
+            DecodedTexture {
+                name: "base.png".to_string(),
+                uri: "base.png".to_string(),
+                label: Some("base".to_string()),
+                width: 2,
+                height: 2,
+                rgba8: vec![
+                    255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255,
+                ],
+            },
+            DecodedTexture {
+                name: "opacity.png".to_string(),
+                uri: "opacity.png".to_string(),
+                label: Some("opacity".to_string()),
+                width: 2,
+                height: 2,
+                rgba8: vec![
+                    128, 128, 128, 255, 128, 128, 128, 255, 128, 128, 128, 255, 128, 128, 128, 255,
+                ],
+            },
+        ];
+        let mut materials = vec![GltfMaterialData {
+            base_color_texture: Some(0),
+            diffuse_texture: Some(0),
+            opacity_texture: Some(1),
+            ..Default::default()
+        }];
+        let mut warnings = Vec::new();
+
+        super::apply_opacity_textures(&mut textures, &mut materials, &mut warnings);
+
+        assert_eq!(textures[0].rgba8[3], 128);
+        assert_eq!(textures[0].rgba8[7], 128);
+        assert_eq!(textures[0].rgba8[11], 128);
+        assert_eq!(textures[0].rgba8[15], 128);
     }
     #[test]
     fn is_banu_candidate_filters_lod_and_non_defender() {

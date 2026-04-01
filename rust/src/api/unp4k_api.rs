@@ -361,7 +361,12 @@ fn dds_block_bytes(fourcc: &[u8]) -> Option<usize> {
     }
 }
 
-fn compute_dds_mip_sizes(width: u32, height: u32, mip_count: u32, block_bytes: usize) -> Vec<usize> {
+fn compute_dds_mip_sizes(
+    width: u32,
+    height: u32,
+    mip_count: u32,
+    block_bytes: usize,
+) -> Vec<usize> {
     let mut sizes = Vec::new();
     let mut w = width.max(1);
     let mut h = height.max(1);
@@ -556,8 +561,8 @@ pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
 #[cfg(test)]
 mod tests {
     use super::{decode_image_for_preview, has_dds_signature, reconstruct_dds_stream};
-    use anyhow::{anyhow, Result};
     use crate::audio::wwise::decode_wem_vorbis_to_ogg;
+    use anyhow::{anyhow, Result};
     use image::ImageFormat;
     use std::fs;
     use std::io::Cursor;
@@ -631,7 +636,11 @@ mod tests {
         let img = decode_image_for_preview("fallback.dds", &dds)?;
         let rgba = img.to_rgba8();
         if rgba.width() != 2 || rgba.height() != 2 {
-            return Err(anyhow!("unexpected output size {}x{}", rgba.width(), rgba.height()));
+            return Err(anyhow!(
+                "unexpected output size {}x{}",
+                rgba.width(),
+                rgba.height()
+            ));
         }
         if rgba.get_pixel(0, 0).0 != [255, 0, 0, 255] {
             return Err(anyhow!(
@@ -717,8 +726,10 @@ mod tests {
                 for (_, p) in &parts {
                     chunks.push(p.clone());
                 }
-                if let Some((header_idx, header_chunk)) =
-                    chunks.iter().enumerate().find(|(_, c)| has_dds_signature(c))
+                if let Some((header_idx, header_chunk)) = chunks
+                    .iter()
+                    .enumerate()
+                    .find(|(_, c)| has_dds_signature(c))
                 {
                     let mut merged = Vec::new();
                     merged.extend_from_slice(header_chunk);

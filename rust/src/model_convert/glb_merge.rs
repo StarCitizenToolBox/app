@@ -196,6 +196,9 @@ pub fn merge_glbs_with_attachments_and_transforms(
         "scenes": [ { "name": "MergedScene", "nodes": [] } ],
         "nodes": [],
         "meshes": [],
+        "skins": [],
+        "animations": [],
+        "cameras": [],
         "materials": [],
         "accessors": [],
         "bufferViews": [],
@@ -232,6 +235,8 @@ pub fn merge_glbs_with_attachments_and_transforms(
 
         let node_base = get_array_len(&merged, "nodes");
         let mesh_base = get_array_len(&merged, "meshes");
+        let skin_base = get_array_len(&merged, "skins");
+        let camera_base = get_array_len(&merged, "cameras");
         let material_base = get_array_len(&merged, "materials");
         let accessor_base = get_array_len(&merged, "accessors");
         let buffer_view_base = get_array_len(&merged, "bufferViews");
@@ -275,6 +280,52 @@ pub fn merge_glbs_with_attachments_and_transforms(
 
         if let Some(arr) = part.json.get_mut("materials").and_then(|v| v.as_array_mut()) {
             get_array_mut(&mut merged, "materials")?.append(arr);
+        }
+
+        if let Some(arr) = part.json.get_mut("skins").and_then(|v| v.as_array_mut()) {
+            for skin in arr.iter_mut() {
+                if let Some(joints) = skin.get_mut("joints").and_then(|v| v.as_array_mut()) {
+                    for joint in joints.iter_mut() {
+                        if let Some(old) = joint.as_u64() {
+                            *joint = Value::from((old as usize + node_base) as u64);
+                        }
+                    }
+                }
+                remap_index_field(skin, "inverseBindMatrices", accessor_base);
+                remap_index_field(skin, "skeleton", node_base);
+            }
+            get_array_mut(&mut merged, "skins")?.append(arr);
+        }
+
+        if let Some(arr) = part.json.get_mut("animations").and_then(|v| v.as_array_mut()) {
+            for animation in arr.iter_mut() {
+                if let Some(samplers) = animation.get_mut("samplers").and_then(|v| v.as_array_mut())
+                {
+                    for sampler in samplers.iter_mut() {
+                        remap_index_field(sampler, "input", accessor_base);
+                        remap_index_field(sampler, "output", accessor_base);
+                    }
+                }
+                if let Some(channels) = animation.get_mut("channels").and_then(|v| v.as_array_mut())
+                {
+                    for channel in channels.iter_mut() {
+                        if let Some(target) = channel.get_mut("target").and_then(|v| v.as_object_mut())
+                        {
+                            if let Some(old) = target.get("node").and_then(|v| v.as_u64()) {
+                                target.insert(
+                                    "node".to_string(),
+                                    Value::from((old as usize + node_base) as u64),
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+            get_array_mut(&mut merged, "animations")?.append(arr);
+        }
+
+        if let Some(arr) = part.json.get_mut("cameras").and_then(|v| v.as_array_mut()) {
+            get_array_mut(&mut merged, "cameras")?.append(arr);
         }
 
         if let Some(arr) = part.json.get_mut("bufferViews").and_then(|v| v.as_array_mut()) {
@@ -346,7 +397,8 @@ pub fn merge_glbs_with_attachments_and_transforms(
         if let Some(arr) = part.json.get_mut("nodes").and_then(|v| v.as_array_mut()) {
             for node in arr.iter_mut() {
                 remap_index_field(node, "mesh", mesh_base);
-                remap_index_field(node, "skin", 0);
+                remap_index_field(node, "skin", skin_base);
+                remap_index_field(node, "camera", camera_base);
                 if let Some(children) = node.get_mut("children").and_then(|v| v.as_array_mut()) {
                     for child in children.iter_mut() {
                         if let Some(old) = child.as_u64() {
@@ -411,4 +463,125 @@ pub fn merge_glbs_with_attachments_and_transforms(
 
     write_glb(output_path, &merged, &merged_bin)?;
     inspect_glb(output_path)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+    use std::fs;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    fn unique_path(name: &str) -> PathBuf {
+        let mut path = std::env::temp_dir();
+        let stamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("time went backwards")
+            .as_nanos();
+        path.push(format!("{}_{}_{}.glb", name, std::process::id(), stamp));
+        path
+    }
+
+    fn write_test_glb(path: &Path, node_name: &str) {
+        let doc = json!({
+            "asset": { "version": "2.0" },
+            "scene": 0,
+            "scenes": [{ "nodes": [0] }],
+            "nodes": [{
+                "name": node_name,
+                "skin": 0,
+                "camera": 0
+            }],
+            "skins": [{
+                "joints": [0],
+                "skeleton": 0,
+                "inverseBindMatrices": 0
+            }],
+            "animations": [{
+                "samplers": [{
+                    "input": 0,
+                    "output": 0
+                }],
+                "channels": [{
+                    "sampler": 0,
+                    "target": { "node": 0, "path": "translation" }
+                }]
+            }],
+            "cameras": [{
+                "type": "perspective",
+                "perspective": { "yfov": 1.0, "znear": 0.1 }
+            }],
+            "accessors": [{
+                "bufferView": 0,
+                "componentType": 5126,
+                "count": 1,
+                "type": "MAT4"
+            }],
+            "bufferViews": [{
+                "buffer": 0,
+                "byteOffset": 0,
+                "byteLength": 16
+            }],
+            "buffers": [{
+                "byteLength": 16
+            }]
+        });
+        write_glb(path, &doc, &[0u8; 16]).expect("write test glb");
+    }
+
+    #[test]
+    fn merge_glbs_preserves_skins_animations_and_cameras() {
+        let input_a = unique_path("merge_a");
+        let input_b = unique_path("merge_b");
+        let output = unique_path("merge_out");
+
+        write_test_glb(&input_a, "input_a");
+        write_test_glb(&input_b, "input_b");
+
+        let result = merge_glbs(&[input_a.clone(), input_b.clone()], &output)
+            .expect("merge should succeed");
+        assert_eq!(result.nodes, 3);
+
+        let merged = parse_glb(&output).expect("parse merged glb");
+        let skins = merged.json["skins"].as_array().expect("skins array");
+        let animations = merged.json["animations"].as_array().expect("animations array");
+        let cameras = merged.json["cameras"].as_array().expect("cameras array");
+        let nodes = merged.json["nodes"].as_array().expect("nodes array");
+
+        assert_eq!(skins.len(), 2);
+        assert_eq!(animations.len(), 2);
+        assert_eq!(cameras.len(), 2);
+        assert_eq!(nodes.len(), 3);
+
+        assert_eq!(nodes[1]["skin"].as_u64(), Some(0));
+        assert_eq!(nodes[1]["camera"].as_u64(), Some(0));
+        assert_eq!(nodes[2]["skin"].as_u64(), Some(1));
+        assert_eq!(nodes[2]["camera"].as_u64(), Some(1));
+
+        assert_eq!(skins[0]["joints"][0].as_u64(), Some(1));
+        assert_eq!(skins[0]["skeleton"].as_u64(), Some(1));
+        assert_eq!(skins[1]["joints"][0].as_u64(), Some(2));
+        assert_eq!(skins[1]["skeleton"].as_u64(), Some(2));
+
+        assert_eq!(
+            animations[0]["samplers"][0]["input"].as_u64(),
+            Some(0)
+        );
+        assert_eq!(
+            animations[0]["samplers"][0]["output"].as_u64(),
+            Some(0)
+        );
+        assert_eq!(
+            animations[1]["samplers"][0]["input"].as_u64(),
+            Some(1)
+        );
+        assert_eq!(
+            animations[1]["samplers"][0]["output"].as_u64(),
+            Some(1)
+        );
+
+        let _ = fs::remove_file(input_a);
+        let _ = fs::remove_file(input_b);
+        let _ = fs::remove_file(output);
+    }
 }

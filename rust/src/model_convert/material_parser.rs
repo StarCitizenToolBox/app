@@ -376,6 +376,10 @@ fn is_base_color(key: &str) -> bool {
         || key.contains("albedo")
         || key.contains("basecolor")
         || key.contains("base_color")
+        || key.contains("diffusemap")
+        || key.contains("albedomap")
+        || key.contains("basecolormap")
+        || key.contains("colormap")
         || key.contains("texslot1")
         || key.contains("texslot9")
 }
@@ -384,6 +388,9 @@ fn is_normal(key: &str) -> bool {
     key.contains("bump")
         || key.contains("normal")
         || key.contains("normalmap")
+        || key.contains("bumpmap")
+        || contains_token(key, "nrm")
+        || contains_token(key, "ddn")
         || key.contains("texslot2")
 }
 
@@ -547,6 +554,27 @@ mod tests {
         assert_eq!(
             result.base_color.as_deref(),
             Some("textures/ship_diff_slot9.dds")
+        );
+    }
+
+    #[test]
+    fn parse_mtl_handles_more_common_aliases_for_basecolor_and_normal() {
+        let text = r#"
+            <Material>
+              <Texture Map="DiffuseMap" File="textures/ship_diffuse.dds" />
+              <Texture Map="BumpMap" File="textures/ship_bump.dds" />
+              <Texture Map="ship_nrm" File="textures/ship_nrm.dds" />
+            </Material>
+        "#;
+        let result = parse_mtl(text);
+        assert_eq!(
+            result.base_color.as_deref(),
+            Some("textures/ship_diffuse.dds")
+        );
+        assert_eq!(result.normal.as_deref(), Some("textures/ship_bump.dds"));
+        assert_eq!(
+            result.normal_candidates.last().map(String::as_str),
+            Some("textures/ship_nrm.dds")
         );
     }
 

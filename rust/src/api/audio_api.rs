@@ -5,8 +5,8 @@ use rodio::{buffer::SamplesBuffer, Decoder, DeviceSinkBuilder, Player, Source};
 use std::fs::File;
 use std::io::BufReader;
 use std::num::{NonZeroU16, NonZeroU32};
-use std::path::PathBuf;
 use std::panic::{catch_unwind, AssertUnwindSafe};
+use std::path::PathBuf;
 use std::sync::Mutex;
 use std::time::Duration;
 
@@ -31,7 +31,9 @@ struct AudioRuntime {
 static AUDIO_RUNTIME: Lazy<Mutex<Option<AudioRuntime>>> = Lazy::new(|| Mutex::new(None));
 
 fn lock_audio_runtime() -> std::sync::MutexGuard<'static, Option<AudioRuntime>> {
-    AUDIO_RUNTIME.lock().unwrap_or_else(|poison| poison.into_inner())
+    AUDIO_RUNTIME
+        .lock()
+        .unwrap_or_else(|poison| poison.into_inner())
 }
 
 fn ensure_runtime() -> Result<()> {
@@ -58,11 +60,7 @@ fn ensure_runtime() -> Result<()> {
 }
 
 fn build_snapshot(runtime: &AudioRuntime) -> AudioPlaybackState {
-    let position = runtime
-        .player
-        .get_pos()
-        .as_millis()
-        .min(u32::MAX as u128) as u32;
+    let position = runtime.player.get_pos().as_millis().min(u32::MAX as u128) as u32;
     let is_paused = runtime.player.is_paused();
     let is_playing = !runtime.player.empty() && !is_paused;
 
@@ -162,10 +160,9 @@ fn load_decoder(path: &str) -> Result<(Decoder<BufReader<File>>, Option<u32>)> {
     let decoder = catch_unwind(AssertUnwindSafe(|| Decoder::try_from(BufReader::new(file))))
         .map_err(|_| anyhow!("audio decoder panicked while opening {}", path))?
         .map_err(|e| anyhow!("failed to decode audio file {}: {}", path, e))?;
-    let duration_ms = decoder.total_duration().map(|d| {
-        d.as_millis()
-            .min(u32::MAX as u128) as u32
-    });
+    let duration_ms = decoder
+        .total_duration()
+        .map(|d| d.as_millis().min(u32::MAX as u128) as u32);
     Ok((decoder, duration_ms))
 }
 
@@ -184,7 +181,11 @@ fn load_ogg_source(path: &str) -> Result<(AudioSource, Option<u32>)> {
     loop {
         match ogg.read_dec_packet_itl() {
             Ok(Some(packet)) => {
-                samples.extend(packet.into_iter().map(|s| (s as f32 / 32768.0).clamp(-1.0, 1.0)));
+                samples.extend(
+                    packet
+                        .into_iter()
+                        .map(|s| (s as f32 / 32768.0).clamp(-1.0, 1.0)),
+                );
             }
             Ok(None) => break,
             Err(e) => return Err(anyhow!("failed to decode ogg audio file {}: {}", path, e)),

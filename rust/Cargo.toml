@@ -59,7 +59,7 @@ uuid = { version = "1.23.0", features = ["v4"] }
 rayon = "1.10"
 parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"
-librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc21896b39008825204762c61e7e956b5ca3" }
+librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc21896b39008825204762c61e7e956b5ca3", default-features = false, features = ["default-tls", "http-api-client"] }
 # librqbit = { path = "../../rqbit/crates/librqbit" }
 bytes = "1.11"
 gltf-json = "1.4.1"

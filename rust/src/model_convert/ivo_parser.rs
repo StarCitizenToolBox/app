@@ -123,6 +123,21 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
                 }
             },
         );
+    let combo_transforms = if let Some(combo) = combo_chunk {
+        match resolve_node_mesh_combo_transforms(layout_bytes, combo) {
+            Ok(transforms) => Some(transforms),
+            Err(err) => {
+                warnings.push(format!(
+                    "IVO native best-effort: failed to resolve NodeMeshCombo transforms at offset {}: {}",
+                    combo.offset, err
+                ));
+                Some(Default::default())
+            }
+        }
+    } else {
+        None
+    };
+    let empty_transforms = std::collections::HashMap::new();
 
     let mut meshes = Vec::new();
     for chunk in &skin_chunks {
@@ -136,24 +151,11 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
         match parse_skin_mesh_source(data, header, chunk_end, &mut warnings) {
             Ok(source) => {
                 if let Some(combo_layout) = combo_layout.as_ref() {
-                    let transforms = if let Some(combo) = combo_chunk {
-                        match resolve_node_mesh_combo_transforms(layout_bytes, combo) {
-                            Ok(transforms) => transforms,
-                            Err(err) => {
-                                warnings.push(format!(
-                                    "IVO native best-effort: failed to resolve NodeMeshCombo transforms at offset {}: {}",
-                                    combo.offset, err
-                                ));
-                                Default::default()
-                            }
-                        }
-                    } else {
-                        Default::default()
-                    };
+                    let transforms = combo_transforms.as_ref().unwrap_or(&empty_transforms);
                     meshes.extend(build_meshes_from_combo(
                         combo_layout,
                         &source,
-                        &transforms,
+                        transforms,
                         &mut warnings,
                     ));
                 } else {

@@ -76,6 +76,7 @@ pub struct DecodedTexture {
 pub struct GltfMaterialData {
     pub name: Option<String>,
     pub base_color_factor: Option<[f32; 4]>,
+    pub emissive_factor: Option<[f32; 3]>,
     pub specular_factor: Option<[f32; 3]>,
     pub glossiness_factor: Option<f32>,
     pub pbr_roughness_factor: Option<f32>,
@@ -87,6 +88,9 @@ pub struct GltfMaterialData {
     pub base_color_texture: Option<usize>,
     pub diffuse_texture: Option<usize>,
     pub normal_texture: Option<usize>,
+    pub emissive_texture: Option<usize>,
+    pub occlusion_texture: Option<usize>,
+    pub opacity_texture: Option<usize>,
     pub specular_glossiness_texture: Option<usize>,
 }
 

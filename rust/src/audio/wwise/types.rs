@@ -15,4 +15,3 @@ pub(crate) struct WwiseHeader {
     pub bits_per_sample: u16,
     pub data_chunk: Vec<u8>,
 }
-

@@ -230,11 +230,27 @@ fn write_glb_with_config(
     let mut images = Vec::<Value>::new();
     let mut tex_entries = Vec::<Value>::new();
     for tex in textures {
-        images.push(json!({
-            "name": format!("{}/image", tex.label.as_deref().unwrap_or(&tex.name)),
-            "uri": tex.uri,
-            "mimeType": "image/vnd-ms.dds"
-        }));
+        let image_name = format!("{}/image", tex.label.as_deref().unwrap_or(&tex.name));
+        if !tex.rgba8.is_empty() && tex.width > 0 && tex.height > 0 {
+            let png_bytes = encode_png(tex)?;
+            let image_buffer_view = push_blob(
+                &format!("{image_name}/bufferView"),
+                &png_bytes,
+                &mut bin,
+                &mut buffer_views,
+            );
+            images.push(json!({
+                "name": image_name,
+                "bufferView": image_buffer_view,
+                "mimeType": "image/png"
+            }));
+        } else {
+            images.push(json!({
+                "name": image_name,
+                "uri": tex.uri,
+                "mimeType": "image/vnd-ms.dds"
+            }));
+        }
         tex_entries.push(json!({
             "name": format!("{}/texture", tex.label.as_deref().unwrap_or(&tex.name)),
             "source": images.len() - 1
@@ -310,6 +326,9 @@ fn material_uses_uv(material: &GltfMaterialData) -> bool {
     material.base_color_texture.is_some()
         || material.diffuse_texture.is_some()
         || material.normal_texture.is_some()
+        || material.emissive_texture.is_some()
+        || material.occlusion_texture.is_some()
+        || material.opacity_texture.is_some()
         || material.specular_glossiness_texture.is_some()
 }
 
@@ -342,6 +361,12 @@ fn build_material_entry(index: usize, material: &GltfMaterialData, texture_count
     if let Some(index) = valid_texture_index(material.normal_texture, texture_count) {
         out.insert("normalTexture".to_string(), json!({ "index": index }));
     }
+    if let Some(index) = valid_texture_index(material.occlusion_texture, texture_count) {
+        out.insert("occlusionTexture".to_string(), json!({ "index": index }));
+    }
+    if let Some(index) = valid_texture_index(material.emissive_texture, texture_count) {
+        out.insert("emissiveTexture".to_string(), json!({ "index": index }));
+    }
     if let Some(alpha_cutoff) = material.alpha_cutoff {
         out.insert("alphaCutoff".to_string(), json!(alpha_cutoff));
     }
@@ -349,6 +374,11 @@ fn build_material_entry(index: usize, material: &GltfMaterialData, texture_count
         "doubleSided".to_string(),
         json!(material.double_sided.unwrap_or(false)),
     );
+    if let Some(emissive_factor) = material.emissive_factor {
+        out.insert("emissiveFactor".to_string(), json!(emissive_factor));
+    } else if material.emissive_texture.is_some() || material.emissive_strength.is_some() {
+        out.insert("emissiveFactor".to_string(), json!([1.0, 1.0, 1.0]));
+    }
 
     let mut extensions = Map::<String, Value>::new();
     let mut spec_gloss = Map::<String, Value>::new();
@@ -384,6 +414,9 @@ fn build_material_entry(index: usize, material: &GltfMaterialData, texture_count
         "alphaMode".to_string(),
         json!(material.alpha_mode.as_deref().unwrap_or("OPAQUE")),
     );
+    if material.opacity_texture.is_some() {
+        out.insert("alphaMode".to_string(), json!("BLEND"));
+    }
     if material.no_draw {
         out.insert("alphaMode".to_string(), json!("MASK"));
         out.insert("alphaCutoff".to_string(), json!(1.0));
@@ -701,6 +734,21 @@ fn encode_png(tex: &DecodedTexture) -> Result<Vec<u8>> {
     Ok(out.into_inner())
 }
 
+fn push_blob(name: &str, bytes: &[u8], bin: &mut Vec<u8>, buffer_views: &mut Vec<Value>) -> usize {
+    align_4(bin);
+    let offset = bin.len();
+    bin.extend_from_slice(bytes);
+    align_4(bin);
+    let view_index = buffer_views.len();
+    buffer_views.push(json!({
+        "name": name,
+        "buffer": 0,
+        "byteLength": bytes.len(),
+        "byteOffset": offset
+    }));
+    view_index
+}
+
 fn align_4(buf: &mut Vec<u8>) {
     while buf.len() % 4 != 0 {
         buf.push(0);
@@ -986,6 +1034,7 @@ mod tests {
         let material = GltfMaterialData {
             name: Some("material0".to_string()),
             base_color_factor: Some([1.0, 1.0, 1.0, 1.0]),
+            emissive_factor: Some([1.0, 1.0, 1.0]),
             specular_factor: Some([1.0, 1.0, 1.0]),
             glossiness_factor: Some(0.0),
             pbr_roughness_factor: Some(1.0),
@@ -997,6 +1046,9 @@ mod tests {
             base_color_texture: Some(0),
             diffuse_texture: Some(0),
             normal_texture: Some(0),
+            emissive_texture: Some(0),
+            occlusion_texture: Some(0),
+            opacity_texture: Some(0),
             specular_glossiness_texture: Some(0),
         };
         let mut by_id = HashMap::new();
@@ -1008,6 +1060,8 @@ mod tests {
         let doc = extract_json_chunk(&glb);
 
         assert_eq!(doc["images"].as_array().map(|v| v.len()), Some(1));
+        assert!(doc["images"][0].get("bufferView").is_some());
+        assert_eq!(doc["images"][0]["mimeType"].as_str(), Some("image/png"));
         assert_eq!(doc["textures"].as_array().map(|v| v.len()), Some(1));
         assert_eq!(
             doc["materials"][0]["pbrMetallicRoughness"]["baseColorTexture"]["index"].as_u64(),
@@ -1017,7 +1071,7 @@ mod tests {
             doc["materials"][0]["normalTexture"]["index"].as_u64(),
             Some(0)
         );
-        assert_eq!(doc["materials"][0]["alphaMode"].as_str(), Some("OPAQUE"));
+        assert_eq!(doc["materials"][0]["alphaMode"].as_str(), Some("BLEND"));
 
         let _ = fs::remove_file(output);
     }

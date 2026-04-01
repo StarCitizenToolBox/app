@@ -947,9 +947,10 @@ impl<R: Read + Seek> WwiseRiffVorbis<R> {
         };
         let target_start_granule = (start_seconds * self.sample_rate as f64) as u64;
         let target_end_granule = if duration_seconds > 0.0 {
-            Some(target_start_granule.saturating_add(
-                (duration_seconds * self.sample_rate as f64) as u64,
-            ))
+            Some(
+                target_start_granule
+                    .saturating_add((duration_seconds * self.sample_rate as f64) as u64),
+            )
         } else {
             None
         };
@@ -1095,7 +1096,8 @@ impl<R: Read + Seek> WwiseRiffVorbis<R> {
                             if next_packet.size > 0 {
                                 self.input.seek(SeekFrom::Start(next_packet.offset))?;
                                 let mut next_bit_reader = BitReader::new(&mut self.input);
-                                let next_mode_number = next_bit_reader.read_bits(mode_bits as u8)?;
+                                let next_mode_number =
+                                    next_bit_reader.read_bits(mode_bits as u8)?;
                                 mbf[next_mode_number as usize]
                             } else {
                                 false

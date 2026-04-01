@@ -120,6 +120,8 @@ abstract class Unp4kcState with _$Unp4kcState {
 class Unp4kCModel extends _$Unp4kCModel {
   final List<String> _backPathHistory = <String>[];
   final List<String> _forwardPathHistory = <String>[];
+  final Map<String, List<String>> _suffixFilesIndex =
+      <String, List<String>>{};
 
   bool _isDdnaDdsPath(String lowerPath) {
     return RegExp(r"_ddna\.dds(\.\d+)?$").hasMatch(lowerPath);
@@ -162,6 +164,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       final files = <String, AppUnp4kP4kItemData>{};
       final suffixes = <String>{};
       final fs = MemoryFileSystem(style: FileSystemStyle.posix);
+      _suffixFilesIndex.clear();
 
       var nextAwait = 0;
       for (var i = 0; i < p4kFiles.length; i++) {
@@ -179,6 +182,7 @@ class Unp4kCModel extends _$Unp4kCModel {
           final ext = _extractFileExtension(item.name);
           if (ext.isNotEmpty) {
             suffixes.add(ext);
+            (_suffixFilesIndex[ext] ??= <String>[]).add(item.name);
           }
         }
 
@@ -271,13 +275,18 @@ class Unp4kCModel extends _$Unp4kCModel {
         result.add(f);
       }
     } else if (hasSuffixOnlyFilter) {
-      // 仅后缀筛选：平铺全量文件后再按后缀过滤
-      for (final f in allFiles.values) {
-        if (f.isDirectory ?? false) continue;
-        if (!(f.name?.startsWith("\\") ?? true)) {
-          f.name = "\\${f.name}";
+      // 仅后缀筛选：直接使用初始化阶段构建的后缀索引，避免全量扫描
+      final suffix = state.suffixFilter.trim().toLowerCase();
+      final matchedPaths = _suffixFilesIndex[suffix];
+      if (matchedPaths != null) {
+        for (final filePath in matchedPaths) {
+          final f = allFiles[filePath];
+          if (f == null || (f.isDirectory ?? false)) continue;
+          if (!(f.name?.startsWith("\\") ?? true)) {
+            f.name = "\\${f.name}";
+          }
+          result.add(f);
         }
-        result.add(f);
       }
     } else {
       final path = state.curPath.replaceAll("\\", "/");
@@ -308,7 +317,9 @@ class Unp4kCModel extends _$Unp4kCModel {
       }
     }
 
-    _applySuffixFilter(result);
+    if (!hasSuffixOnlyFilter) {
+      _applySuffixFilter(result);
+    }
     _applyAdvancedFilters(result);
 
     // 应用排序

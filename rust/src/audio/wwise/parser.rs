@@ -33,7 +33,8 @@ pub(super) fn parse_wem_header(wem: &[u8]) -> Result<WwiseHeader> {
     let mut offset = 12usize;
     while offset + 8 <= wem.len() {
         let id = &wem[offset..offset + 4];
-        let size = read_u32_le(wem, offset + 4).ok_or_else(|| anyhow!("invalid chunk size"))? as usize;
+        let size =
+            read_u32_le(wem, offset + 4).ok_or_else(|| anyhow!("invalid chunk size"))? as usize;
         let chunk_start = offset + 8;
         let chunk_end = chunk_start + size;
         if chunk_end > wem.len() {
@@ -45,14 +46,14 @@ pub(super) fn parse_wem_header(wem: &[u8]) -> Result<WwiseHeader> {
                 read_u16_le(wem, chunk_start).ok_or_else(|| anyhow!("invalid fmt chunk"))?;
             channels =
                 read_u16_le(wem, chunk_start + 2).ok_or_else(|| anyhow!("invalid fmt chunk"))?;
-            sample_rate = read_u32_le(wem, chunk_start + 4)
-                .ok_or_else(|| anyhow!("invalid fmt chunk"))?;
-            avg_bytes_per_sec = read_u32_le(wem, chunk_start + 8)
-                .ok_or_else(|| anyhow!("invalid fmt chunk"))?;
-            block_align = read_u16_le(wem, chunk_start + 12)
-                .ok_or_else(|| anyhow!("invalid fmt chunk"))?;
-            bits_per_sample = read_u16_le(wem, chunk_start + 14)
-                .ok_or_else(|| anyhow!("invalid fmt chunk"))?;
+            sample_rate =
+                read_u32_le(wem, chunk_start + 4).ok_or_else(|| anyhow!("invalid fmt chunk"))?;
+            avg_bytes_per_sec =
+                read_u32_le(wem, chunk_start + 8).ok_or_else(|| anyhow!("invalid fmt chunk"))?;
+            block_align =
+                read_u16_le(wem, chunk_start + 12).ok_or_else(|| anyhow!("invalid fmt chunk"))?;
+            bits_per_sample =
+                read_u16_le(wem, chunk_start + 14).ok_or_else(|| anyhow!("invalid fmt chunk"))?;
             codec = match audio_format {
                 0x0001 | 0xFFFE => WwiseCodec::Pcm,
                 0xFFFF => WwiseCodec::Vorbis,
@@ -82,4 +83,3 @@ pub(super) fn parse_wem_header(wem: &[u8]) -> Result<WwiseHeader> {
         data_chunk: payload,
     })
 }
-
