@@ -14,7 +14,7 @@ strip = "debuginfo"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
-flutter_rust_bridge = "=2.11.1"
+flutter_rust_bridge = "=2.12.0"
 tokio = { version = "1.50.0", features = [
     "rt",
     "rt-multi-thread",
@@ -55,11 +55,11 @@ serde = { version = "1.0.228", features = ["derive"] }
 ryu = "1.0.20"
 unp4k_rs = { git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "29430002d6f3a8d87feabac26c03ae0311c81263" }
 #unp4k_rs = { path = "../../unp4k_rs" }
-uuid = { version = "1.22.0", features = ["v4"] }
+uuid = { version = "1.23.0", features = ["v4"] }
 rayon = "1.10"
 parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"
-librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "206f68d4794e57f230abe2d767c19e98d385a599", default-features = false, features = ["default-tls", "http-api-client"] }
+librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc21896b39008825204762c61e7e956b5ca3" }
 # librqbit = { path = "../../rqbit/crates/librqbit" }
 bytes = "1.11"
 gltf-json = "1.4.1"
@@ -74,7 +74,8 @@ rodio = "0.22.2"
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]
 wry = "0.55.0"
-tao = { version = "0.34.8", features = ["serde"] }
+tao = { version = "0.35.0", features = ["serde"] }
+image = { version = "0.25.10", default-features = false, features = ["ico"] }
 
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.62.2", features = [
