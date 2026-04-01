@@ -418,9 +418,9 @@ checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 
 [[package]]
 name = "aws-lc-rs"
-version = "1.16.1"
+version = "1.16.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94bffc006df10ac2a68c83692d734a465f8ee6c5b384d8545a636f81d858f4bf"
+checksum = "a054912289d18629dc78375ba2c3726a3afe3ff71b4edba9dedfca0e3446d1fc"
 dependencies = [
  "aws-lc-sys",
  "untrusted 0.7.1",
@@ -429,9 +429,9 @@ dependencies = [
 
 [[package]]
 name = "aws-lc-sys"
-version = "0.38.0"
+version = "0.39.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4321e568ed89bb5a7d291a7f37997c2c0df89809d7b6d12062c81ddb54aa782e"
+checksum = "83a25cf98105baa966497416dbd42565ce3a8cf8dbfd59803ec9ad46f3126399"
 dependencies = [
  "cc",
  "cmake",
@@ -3026,7 +3026,7 @@ dependencies = [
 [[package]]
 name = "librqbit"
 version = "9.0.0-beta.2"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -3090,7 +3090,7 @@ dependencies = [
 [[package]]
 name = "librqbit-bencode"
 version = "3.1.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "anyhow",
  "arrayvec",
@@ -3106,7 +3106,7 @@ dependencies = [
 [[package]]
 name = "librqbit-buffers"
 version = "4.2.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "bytes",
  "librqbit-clone-to-owned",
@@ -3117,7 +3117,7 @@ dependencies = [
 [[package]]
 name = "librqbit-clone-to-owned"
 version = "3.0.1"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "bytes",
 ]
@@ -3125,7 +3125,7 @@ dependencies = [
 [[package]]
 name = "librqbit-core"
 version = "5.0.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "anyhow",
  "bytes",
@@ -3154,7 +3154,7 @@ dependencies = [
 [[package]]
 name = "librqbit-dht"
 version = "5.3.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "anyhow",
  "backon",
@@ -3201,7 +3201,7 @@ dependencies = [
 [[package]]
 name = "librqbit-lsd"
 version = "0.1.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "anyhow",
  "atoi",
@@ -3221,7 +3221,7 @@ dependencies = [
 [[package]]
 name = "librqbit-peer-protocol"
 version = "4.3.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "anyhow",
  "bitvec",
@@ -3241,7 +3241,7 @@ dependencies = [
 [[package]]
 name = "librqbit-sha1-wrapper"
 version = "4.1.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "assert_cfg",
  "aws-lc-rs",
@@ -3250,7 +3250,7 @@ dependencies = [
 [[package]]
 name = "librqbit-tracker-comms"
 version = "3.0.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "anyhow",
  "async-stream",
@@ -3278,7 +3278,7 @@ dependencies = [
 [[package]]
 name = "librqbit-upnp"
 version = "1.0.0"
-source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=206f68d4794e57f230abe2d767c19e98d385a599#206f68d4794e57f230abe2d767c19e98d385a599"
+source = "git+https://github.com/StarCitizenToolBox/rqbit?rev=fcd9fc21896b39008825204762c61e7e956b5ca3#fcd9fc21896b39008825204762c61e7e956b5ca3"
 dependencies = [
  "anyhow",
  "bstr",
