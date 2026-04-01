@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Result};
 use rayon::prelude::*;
-use std::sync::Once;
 use std::io::Cursor;
+use std::sync::Once;
 
 use super::parser::parse_wem_header;
 use super::types::WwiseCodec;
@@ -133,7 +133,10 @@ pub(crate) fn decode_ogg_bytes_to_wav(ogg_bytes: &[u8]) -> Result<Vec<u8>> {
     build_wav_from_pcm_i16(channels, sample_rate, &pcm)
 }
 
-fn decode_wem_pcm_preview_to_wav(header: &super::types::WwiseHeader, clip_seconds: u32) -> Result<Vec<u8>> {
+fn decode_wem_pcm_preview_to_wav(
+    header: &super::types::WwiseHeader,
+    clip_seconds: u32,
+) -> Result<Vec<u8>> {
     let bytes_per_frame = if header.block_align > 0 {
         header.block_align as usize
     } else {
@@ -181,8 +184,8 @@ where
 
     ensure_not_cancelled(is_cancelled)?;
     let input = Cursor::new(wem);
-    let mut converter =
-        ww2ogg::WwiseRiffVorbis::new(input, codebooks).map_err(|e| anyhow!("ww2ogg parse failed: {}", e))?;
+    let mut converter = ww2ogg::WwiseRiffVorbis::new(input, codebooks)
+        .map_err(|e| anyhow!("ww2ogg parse failed: {}", e))?;
 
     let mut ogg_bytes = Vec::<u8>::new();
     ensure_not_cancelled(is_cancelled)?;
@@ -214,8 +217,8 @@ where
 
     ensure_not_cancelled(is_cancelled)?;
     let input = Cursor::new(wem);
-    let mut converter =
-        ww2ogg::WwiseRiffVorbis::new(input, codebooks).map_err(|e| anyhow!("ww2ogg parse failed: {}", e))?;
+    let mut converter = ww2ogg::WwiseRiffVorbis::new(input, codebooks)
+        .map_err(|e| anyhow!("ww2ogg parse failed: {}", e))?;
 
     let estimated_total_seconds = if header.avg_bytes_per_sec > 0 {
         header.data_chunk.len() as f64 / header.avg_bytes_per_sec as f64
@@ -243,28 +246,26 @@ pub(crate) fn decode_wem_vorbis_to_ogg(wem: &[u8]) -> Result<Vec<u8>> {
     decode_wem_vorbis_to_ogg_with_cancel(wem, &|| false)
 }
 
-pub(crate) fn decode_wem_vorbis_to_ogg_with_cancel<F>(wem: &[u8], is_cancelled: &F) -> Result<Vec<u8>>
+pub(crate) fn decode_wem_vorbis_to_ogg_with_cancel<F>(
+    wem: &[u8],
+    is_cancelled: &F,
+) -> Result<Vec<u8>>
 where
     F: Fn() -> bool + Sync,
 {
     ensure_rayon_pool_initialized();
     ensure_not_cancelled(is_cancelled)?;
-    let workers = std::thread::available_parallelism()
-        .map(|n| n.get())
-        .unwrap_or(1)
-        .max(1);
-
-    // Multi-core only path: launch N attempts (N = available cores), alternating codebooks.
-    // On single-core machines this naturally degrades to single-thread execution.
-    let attempts: Vec<bool> = if workers == 1 {
-        vec![false, true]
-    } else {
-        (0..workers).map(|i| i % 2 == 1).collect()
-    };
+    // We only have two viable codebook variants, so run exactly two attempts in parallel.
+    let attempts = [false, true];
     ensure_not_cancelled(is_cancelled)?;
     let results: Vec<(bool, Result<Vec<u8>>)> = attempts
         .par_iter()
-        .map(|aotuv| (*aotuv, decode_wem_vorbis_with_codebooks(wem, *aotuv, is_cancelled)))
+        .map(|aotuv| {
+            (
+                *aotuv,
+                decode_wem_vorbis_with_codebooks(wem, *aotuv, is_cancelled),
+            )
+        })
         .collect();
 
     if let Some((_, Ok(ogg))) = results.iter().find(|(_, r)| r.is_ok()) {
@@ -292,7 +293,10 @@ pub(crate) fn decode_wem_vorbis_to_wav(wem: &[u8]) -> Result<Vec<u8>> {
     decode_wem_vorbis_to_wav_with_cancel(wem, &|| false)
 }
 
-pub(crate) fn decode_wem_vorbis_to_wav_with_cancel<F>(wem: &[u8], is_cancelled: &F) -> Result<Vec<u8>>
+pub(crate) fn decode_wem_vorbis_to_wav_with_cancel<F>(
+    wem: &[u8],
+    is_cancelled: &F,
+) -> Result<Vec<u8>>
 where
     F: Fn() -> bool + Sync,
 {
@@ -337,15 +341,8 @@ where
             "pcm wem preview cannot be converted to ogg; use wav fallback instead"
         )),
         WwiseCodec::Vorbis => {
-            let workers = std::thread::available_parallelism()
-                .map(|n| n.get())
-                .unwrap_or(1)
-                .max(1);
-            let attempts: Vec<bool> = if workers == 1 {
-                vec![false, true]
-            } else {
-                (0..workers).map(|i| i % 2 == 1).collect()
-            };
+            // Preview decoding also has only two codebook candidates, so keep the search bounded.
+            let attempts = [false, true];
             let results: Vec<(bool, Result<Vec<u8>>)> = attempts
                 .par_iter()
                 .map(|aotuv| {

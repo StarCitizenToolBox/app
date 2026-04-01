@@ -65,7 +65,10 @@ fn parse_cgf_node_chunk(data: &[u8], header: CgfChunkHeader) -> Result<CgfNodeCh
     for value in &mut raw_matrix {
         *value = read_f32_chunk(chunk, &mut cursor)?;
     }
-    let local_matrix = transpose_4x4(raw_matrix);
+    // CryEngine node matrices are consumed downstream as row-major matrices.
+    // Keep the raw layout intact so world-matrix composition and TRS extraction
+    // read the translation terms from the expected row-major slots.
+    let local_matrix = raw_matrix;
 
     Ok(CgfNodeChunk {
         id: header.id,
@@ -120,15 +123,6 @@ fn read_fixed_string(chunk: &[u8], cursor: &mut usize, max_len: usize) -> Result
     *cursor = end;
     let nul = raw.iter().position(|&b| b == 0).unwrap_or(raw.len());
     Ok(String::from_utf8_lossy(&raw[..nul]).trim().to_string())
-}
-
-fn transpose_4x4(m: [f32; 16]) -> [f32; 16] {
-    [
-        m[0], m[4], m[8], m[12], //
-        m[1], m[5], m[9], m[13], //
-        m[2], m[6], m[10], m[14], //
-        m[3], m[7], m[11], m[15],
-    ]
 }
 
 fn mul_4x4(a: [f32; 16], b: [f32; 16]) -> [f32; 16] {

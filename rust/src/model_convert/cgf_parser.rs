@@ -262,6 +262,7 @@ mod tests {
         object_node_id: i32,
         parent_node_id: i32,
         material_id: i32,
+        translation: [f32; 3],
     ) -> Vec<u8> {
         let mut out = Vec::new();
         let mut name_bytes = [0u8; 64];
@@ -275,10 +276,22 @@ mod tests {
         out.extend_from_slice(&material_id.to_le_bytes());
         out.extend_from_slice(&0u32.to_le_bytes());
         for value in [
-            1.0f32, 0.0, 0.0, 0.0, //
-            0.0, 1.0, 0.0, 0.0, //
-            0.0, 0.0, 1.0, 0.0, //
-            0.0, 0.0, 0.0, 1.0,
+            1.0f32,
+            0.0,
+            0.0,
+            translation[0], //
+            0.0,
+            1.0,
+            0.0,
+            translation[1], //
+            0.0,
+            0.0,
+            1.0,
+            translation[2], //
+            0.0,
+            0.0,
+            0.0,
+            1.0,
         ] {
             out.extend_from_slice(&value.to_le_bytes());
         }
@@ -912,7 +925,7 @@ mod tests {
                 0xCCCC_000B,
                 0x0823,
                 1,
-                build_node_chunk("cargo_hull", 10, -1, 0),
+                build_node_chunk("cargo_hull", 10, -1, 0, [0.0, 0.0, 0.0]),
             ),
             (
                 CHUNK_TYPE_DATA_STREAM,
@@ -948,5 +961,77 @@ mod tests {
         assert_eq!(scene.meshes[0].node_rotation, Some([0.0, 0.0, 0.0, 1.0]));
         assert_eq!(scene.meshes[0].node_scale, Some([1.0, 1.0, 1.0]));
         assert_eq!(scene.meshes[0].node_matrix, None);
+    }
+
+    #[test]
+    fn parse_static_scene_extracts_node_translation_from_row_major_matrix() {
+        let vertices_payload = [
+            0.0f32, 0.0, 0.0, //
+            1.0, 0.0, 0.0, //
+            0.0, 1.0, 0.0,
+        ]
+        .into_iter()
+        .flat_map(|v| v.to_le_bytes())
+        .collect::<Vec<_>>();
+        let normals_payload = [
+            0.0f32, 0.0, 1.0, //
+            0.0, 0.0, 1.0, //
+            0.0, 0.0, 1.0,
+        ]
+        .into_iter()
+        .flat_map(|v| v.to_le_bytes())
+        .collect::<Vec<_>>();
+        let uvs_payload = [
+            0.0f32, 0.0, //
+            1.0, 0.0, //
+            0.0, 1.0,
+        ]
+        .into_iter()
+        .flat_map(|v| v.to_le_bytes())
+        .collect::<Vec<_>>();
+        let indices_payload = vec![0u8, 0, 1, 0, 2, 0];
+
+        let chunks = vec![
+            (
+                CHUNK_TYPE_MESH,
+                0x0800,
+                10,
+                build_mesh_chunk(3, 3, 0, -1, 2, 3, 4, 5),
+            ),
+            (
+                0xCCCC_000B,
+                0x0823,
+                1,
+                build_node_chunk("cargo_hull", 10, -1, 0, [2.0, 3.0, 4.0]),
+            ),
+            (
+                CHUNK_TYPE_DATA_STREAM,
+                0x0800,
+                2,
+                build_datastream_chunk(0, 3, 12, &vertices_payload),
+            ),
+            (
+                CHUNK_TYPE_DATA_STREAM,
+                0x0800,
+                3,
+                build_datastream_chunk(1, 3, 12, &normals_payload),
+            ),
+            (
+                CHUNK_TYPE_DATA_STREAM,
+                0x0800,
+                4,
+                build_datastream_chunk(2, 3, 8, &uvs_payload),
+            ),
+            (
+                CHUNK_TYPE_DATA_STREAM,
+                0x0800,
+                5,
+                build_datastream_chunk(5, 3, 2, &indices_payload),
+            ),
+        ];
+        let data = build_crch_file(0x746, chunks);
+        let scene = parse_static_scene(&data).expect("parse");
+        assert_eq!(scene.meshes.len(), 1);
+        assert_eq!(scene.meshes[0].node_translation, Some([-2.0, 4.0, 3.0]));
     }
 }

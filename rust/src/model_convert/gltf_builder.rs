@@ -841,7 +841,7 @@ fn write_json_value_like_csharp(value: &Value, out: &mut String) -> Result<()> {
             } else if let Some(value) = number.as_u64() {
                 write!(out, "{value}")?;
             } else {
-                let value = number.as_f64().unwrap_or(0.0) as f32;
+                let value = number.as_f64().unwrap_or(0.0);
                 let mut buffer = ryu::Buffer::new();
                 out.push_str(buffer.format_finite(value));
             }
@@ -886,7 +886,7 @@ mod tests {
 
     use serde_json::Value;
 
-    use super::{write_glb, write_glb_with_config, ValidationConfig};
+    use super::{serialize_json_like_csharp, write_glb, write_glb_with_config, ValidationConfig};
     use crate::model_convert::{
         DecodedTexture, GltfMaterialData, SceneData, SceneMesh, ScenePrimitive,
     };
@@ -1099,5 +1099,26 @@ mod tests {
             err.to_string().contains("index 5"),
             "got unexpected validation message: {err}"
         );
+    }
+
+    #[test]
+    fn serialize_json_like_csharp_preserves_f64_precision() {
+        let value = serde_json::json!({
+            "value": 0.12345678901234567_f64,
+            "nested": [1.0_f64, 9876543.210987654_f64]
+        });
+
+        let bytes = serialize_json_like_csharp(&value).expect("serialize json");
+        let roundtrip: Value = serde_json::from_slice(&bytes).expect("parse json");
+
+        let expected = value["value"].as_f64().expect("original f64");
+        let actual = roundtrip["value"].as_f64().expect("roundtripped f64");
+        assert_eq!(actual.to_bits(), expected.to_bits());
+
+        let expected_nested = value["nested"][1].as_f64().expect("nested f64");
+        let actual_nested = roundtrip["nested"][1]
+            .as_f64()
+            .expect("nested roundtripped f64");
+        assert_eq!(actual_nested.to_bits(), expected_nested.to_bits());
     }
 }

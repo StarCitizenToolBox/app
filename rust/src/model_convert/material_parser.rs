@@ -41,6 +41,8 @@ struct PbxmlCursor<'a> {
     pos: usize,
 }
 
+const MAX_CRY_INT_BYTES: usize = (usize::BITS as usize + 6) / 7;
+
 impl<'a> PbxmlCursor<'a> {
     fn new(bytes: &'a [u8]) -> Self {
         Self { bytes, pos: 0 }
@@ -112,11 +114,19 @@ impl<'a> PbxmlCursor<'a> {
     }
 
     fn read_cry_int(&mut self) -> Result<usize, String> {
+        let mut bytes_read = 1usize;
         let mut current = self.read_u8()?;
         let mut result = (current & 0x7F) as usize;
         while (current & 0x80) != 0 {
+            if bytes_read >= MAX_CRY_INT_BYTES {
+                return Err("pbxml integer exceeds usize range".to_string());
+            }
+            if result > (usize::MAX >> 7) {
+                return Err("pbxml integer exceeds usize range".to_string());
+            }
             current = self.read_u8()?;
             result = (result << 7) | ((current & 0x7F) as usize);
+            bytes_read += 1;
         }
         Ok(result)
     }
@@ -414,7 +424,7 @@ fn contains_token(haystack: &str, needle: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::{parse_mtl, parse_mtl_bytes};
+    use super::{parse_mtl, parse_mtl_bytes, parse_pbxml_to_xml, MAX_CRY_INT_BYTES};
     use std::path::PathBuf;
 
     fn test_data_path(name: &str) -> PathBuf {
@@ -575,6 +585,19 @@ mod tests {
         assert_eq!(
             result.sub_materials[1].name.as_deref(),
             Some("Anodized_01_A")
+        );
+    }
+
+    #[test]
+    fn parse_pbxml_rejects_overlong_integer_encoding() {
+        let mut bytes = b"pbxml\0".to_vec();
+        bytes.extend(std::iter::repeat(0x81u8).take(MAX_CRY_INT_BYTES + 1));
+        bytes.push(0x00);
+
+        let err = parse_pbxml_to_xml(&bytes).expect_err("expected overlong varint rejection");
+        assert!(
+            err.contains("exceeds usize range"),
+            "unexpected error: {err}"
         );
     }
 }
