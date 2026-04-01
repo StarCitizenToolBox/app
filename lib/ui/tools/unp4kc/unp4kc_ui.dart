@@ -2352,7 +2352,7 @@ class _AudioTempWidget extends HookWidget {
       required bool resumeIfPlaying,
     }) async {
       final requestId = ++seekRequestRef.value;
-      final clampedTargetMs = targetMs.clamp(0, totalMs);
+      final int clampedTargetMs = targetMs.clamp(0, totalMs).toInt();
       final previousPosition = position.value;
       position.value = Duration(milliseconds: clampedTargetMs);
       dragMs.value = clampedTargetMs.toDouble();

@@ -285,14 +285,13 @@ pub fn audio_seek(position_ms: u32) -> Result<AudioPlaybackState> {
             .duration_ms
             .map(|total| position_ms.min(total))
             .unwrap_or(position_ms);
+        let can_seek_in_place = clamped_position_ms >= runtime.base_offset_ms;
         let relative_target_ms = clamped_position_ms.saturating_sub(runtime.base_offset_ms);
         let relative_target = Duration::from_millis(relative_target_ms as u64);
 
         // Preferred path: seek in-place for lower latency and less decoder churn.
-        if runtime.player.try_seek(relative_target).is_ok() {
-            let mut snapshot = build_snapshot(runtime);
-            snapshot.position_ms = clamped_position_ms;
-            return Ok(snapshot);
+        if can_seek_in_place && runtime.player.try_seek(relative_target).is_ok() {
+            return Ok(build_snapshot(runtime));
         }
 
         // Fallback path: rebuild source and skip to target when decoder seek is unsupported.
@@ -321,16 +320,7 @@ pub fn audio_seek(position_ms: u32) -> Result<AudioPlaybackState> {
         runtime.current_source_path = Some(path);
         runtime.duration_ms = duration_ms;
         runtime.base_offset_ms = clamped_position_ms;
-        let mut snapshot = build_snapshot(runtime);
-        snapshot.position_ms = runtime
-            .duration_ms
-            .map(|total| clamped_position_ms.min(total))
-            .unwrap_or(clamped_position_ms);
-        if was_paused {
-            snapshot.is_playing = false;
-            snapshot.is_paused = true;
-        }
-        Ok(snapshot)
+        Ok(build_snapshot(runtime))
     })
 }
 
