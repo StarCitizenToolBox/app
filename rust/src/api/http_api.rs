@@ -47,7 +47,7 @@ pub async fn fetch(
         headers,
         input_data,
         with_ip_address,
-        with_custom_dns
+        with_custom_dns,
     )
     .await
 }
@@ -62,7 +62,7 @@ pub async fn dns_lookup_ips(host: String) -> anyhow::Result<Vec<String>> {
 
 /// Get the fastest URL from a list of URLs by testing them concurrently.
 /// Returns the first URL that responds successfully, canceling other requests.
-/// 
+///
 /// # Arguments
 /// * `urls` - List of base URLs to test
 /// * `path_suffix` - Optional path suffix to append to each URL (e.g., "/api/version")

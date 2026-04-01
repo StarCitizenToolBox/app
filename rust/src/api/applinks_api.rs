@@ -16,8 +16,7 @@ pub struct ApplinksRegistrationResult {
 pub fn check_applinks_registration(scheme: String) -> anyhow::Result<ApplinksRegistrationResult> {
     use windows::core::{HSTRING, PCWSTR};
     use windows::Win32::System::Registry::{
-        RegCloseKey, RegOpenKeyExW, RegQueryValueExW, HKEY_CURRENT_USER, KEY_READ,
-        REG_VALUE_TYPE,
+        RegCloseKey, RegOpenKeyExW, RegQueryValueExW, HKEY_CURRENT_USER, KEY_READ, REG_VALUE_TYPE,
     };
 
     let app_path = env::current_exe()
@@ -183,13 +182,16 @@ pub fn check_applinks_registration(scheme: String) -> anyhow::Result<ApplinksReg
 
 /// Register URL scheme in Windows registry
 /// This will create or update the registry keys for the custom URL scheme
-/// 
+///
 /// # Arguments
 /// * `scheme` - The URL scheme to register (e.g., "sctoolbox")
-/// * `app_name` - Optional application display name (e.g., "SCToolBox"). If provided, 
+/// * `app_name` - Optional application display name (e.g., "SCToolBox"). If provided,
 ///                the registry will show "URL:{app_name} Protocol" as the scheme description.
 #[cfg(target_os = "windows")]
-pub fn register_applinks(scheme: String, app_name: Option<String>) -> anyhow::Result<ApplinksRegistrationResult> {
+pub fn register_applinks(
+    scheme: String,
+    app_name: Option<String>,
+) -> anyhow::Result<ApplinksRegistrationResult> {
     use windows::core::{HSTRING, PCWSTR};
     use windows::Win32::System::Registry::{
         RegCloseKey, RegCreateKeyExW, RegSetValueExW, HKEY_CURRENT_USER, KEY_WRITE,
@@ -337,7 +339,10 @@ pub fn register_applinks(scheme: String, app_name: Option<String>) -> anyhow::Re
 }
 
 #[cfg(not(target_os = "windows"))]
-pub fn register_applinks(scheme: String, _app_name: Option<String>) -> anyhow::Result<ApplinksRegistrationResult> {
+pub fn register_applinks(
+    scheme: String,
+    _app_name: Option<String>,
+) -> anyhow::Result<ApplinksRegistrationResult> {
     Ok(ApplinksRegistrationResult {
         success: false,
         message: format!(

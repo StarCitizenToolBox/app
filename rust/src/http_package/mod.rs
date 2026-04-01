@@ -8,9 +8,9 @@ use std::collections::HashMap;
 use std::str::FromStr;
 use std::sync::{Arc, RwLock};
 use std::time::Duration;
-use url::Url;
 use tokio::sync::mpsc;
 use tokio::task::JoinHandle;
+use url::Url;
 
 #[derive(Debug)]
 #[allow(non_camel_case_types)]
@@ -50,11 +50,12 @@ static DEFAULT_HEADER: Lazy<RwLock<HeaderMap>> = Lazy::new(|| RwLock::from(Heade
 static DNS_CLIENT: Lazy<Arc<dns::MyHickoryDnsResolver>> =
     Lazy::new(|| Arc::from(dns::MyHickoryDnsResolver::default()));
 
-static HTTP_CLIENT: Lazy<reqwest::Client> = Lazy::new(|| new_http_client(true,true));
+static HTTP_CLIENT: Lazy<reqwest::Client> = Lazy::new(|| new_http_client(true, true));
 
-static HTTP_CLIENT_NO_CUSTOM_DNS: Lazy<reqwest::Client> = Lazy::new(|| new_http_client(true,false));
+static HTTP_CLIENT_NO_CUSTOM_DNS: Lazy<reqwest::Client> =
+    Lazy::new(|| new_http_client(true, false));
 
-fn new_http_client(keep_alive: bool,with_custom_dns: bool) -> reqwest::Client {
+fn new_http_client(keep_alive: bool, with_custom_dns: bool) -> reqwest::Client {
     let mut c = reqwest::Client::builder()
         .use_rustls_tls()
         .connect_timeout(Duration::from_secs(10))
@@ -96,10 +97,7 @@ pub async fn fetch(
     if address_clone.is_some() {
         let addr = std::net::IpAddr::from_str(with_ip_address.unwrap().as_str())?;
         let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
-        let url_host = Url::from_str(url.as_str())?
-            .host()
-            .unwrap()
-            .to_string();
+        let url_host = Url::from_str(url.as_str())?.host().unwrap().to_string();
         hosts.insert(url_host, addr);
     }
 
@@ -111,12 +109,18 @@ pub async fn fetch(
     }
 
     let mut req = if address_clone.is_some() {
-        _mix_header(new_http_client(false,with_custom_dns.unwrap_or(false)).request(method, url_clone), headers)
+        _mix_header(
+            new_http_client(false, with_custom_dns.unwrap_or(false)).request(method, url_clone),
+            headers,
+        )
     } else {
         if with_custom_dns.unwrap_or(false) {
             _mix_header(HTTP_CLIENT.request(method, url_clone), headers)
-        }else {
-            _mix_header(HTTP_CLIENT_NO_CUSTOM_DNS.request(method, url_clone), headers)
+        } else {
+            _mix_header(
+                HTTP_CLIENT_NO_CUSTOM_DNS.request(method, url_clone),
+                headers,
+            )
         }
     };
     if input_data.is_some() {
@@ -188,12 +192,12 @@ fn _mix_header(
 
 /// Get the fastest URL from a list of URLs by testing them concurrently.
 /// Returns the first URL that responds successfully (HTTP 200), and cancels all other pending requests.
-/// 
+///
 /// # Arguments
 /// * `urls` - List of base URLs to test
 /// * `path_suffix` - Optional path suffix to append to each URL for testing
 ///   If None, tests the base URL directly
-/// 
+///
 /// # Returns
 /// * `Ok(Some(url))` - The first base URL that responded successfully
 /// * `Ok(None)` - All URLs failed or the list was empty
@@ -213,7 +217,7 @@ pub async fn get_faster_url(
         let url_clone = url.clone();
         let tx_clone = tx.clone();
         let path_suffix_clone = path_suffix.clone();
-        
+
         let handle = tokio::spawn(async move {
             // Build request URL
             let req_url = if let Some(suffix) = path_suffix_clone {
@@ -223,14 +227,7 @@ pub async fn get_faster_url(
             };
 
             // Perform HEAD request
-            let result = fetch(
-                Method::HEAD,
-                req_url,
-                None,
-                None,
-                None,
-                Some(false),
-            ).await;
+            let result = fetch(Method::HEAD, req_url, None, None, None, Some(false)).await;
 
             // Send result back through channel
             if let Ok(response) = result {
@@ -239,7 +236,7 @@ pub async fn get_faster_url(
                     return;
                 }
             }
-            
+
             // Send None if request failed
             let _ = tx_clone.send(None).await;
         });
@@ -253,7 +250,7 @@ pub async fn get_faster_url(
     // Wait for the first successful response
     let mut completed = 0;
     let total = urls.len();
-    
+
     while let Some(result) = rx.recv().await {
         if let Some(url) = result {
             // Found a successful URL - abort all other tasks
@@ -262,7 +259,7 @@ pub async fn get_faster_url(
             }
             return Ok(Some(url));
         }
-        
+
         completed += 1;
         if completed >= total {
             // All requests completed without success

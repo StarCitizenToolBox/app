@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_build_context_in_providers
+import 'dart:async';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:file/memory.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -15,6 +17,8 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/app_unp4k_p4k_item_data.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/common/rust/api/unp4k_api.dart' as unp4k_api;
+import 'package:starcitizen_doctor/common/rust/api/unp4k_model_api.dart'
+    as unp4k_model_api;
 
 part 'unp4kc.freezed.dart';
 
@@ -38,6 +42,20 @@ enum Unp4kSortType {
   dateDesc,
 }
 
+enum Unp4kFilterMode {
+  none,
+  before,
+  after,
+  range,
+}
+
+enum Unp4kSizeUnit {
+  k,
+  kb,
+  mb,
+  gb,
+}
+
 @freezed
 abstract class Unp4kcState with _$Unp4kcState {
   const factory Unp4kcState({
@@ -47,8 +65,13 @@ abstract class Unp4kcState with _$Unp4kcState {
     required String curPath,
     String? endMessage,
     MapEntry<String, String>? tempOpenFile,
+    String? currentPreviewPath,
     @Default("") String errorMessage,
+    @Default(0) int loadingCurrent,
+    @Default(0) int loadingTotal,
     @Default("") String searchQuery,
+    @Default("") String suffixFilter,
+    @Default(<String>[]) List<String> availableSuffixes,
     @Default(false) bool isSearching,
 
     /// 搜索结果的虚拟文件系统（支持分级展示）
@@ -63,14 +86,54 @@ abstract class Unp4kcState with _$Unp4kcState {
 
     /// 多选模式下选中的文件路径集合
     @Default({}) Set<String> selectedItems,
+
+    /// 大小筛选模式
+    @Default(Unp4kFilterMode.none) Unp4kFilterMode sizeFilterMode,
+
+    /// 大小筛选单位
+    @Default(Unp4kSizeUnit.mb) Unp4kSizeUnit sizeFilterUnit,
+
+    /// 大小筛选单值（用于前/后）
+    double? sizeFilterSingleValue,
+
+    /// 大小筛选范围起点
+    double? sizeFilterRangeStart,
+
+    /// 大小筛选范围终点
+    double? sizeFilterRangeEnd,
+
+    /// 日期筛选模式
+    @Default(Unp4kFilterMode.none) Unp4kFilterMode dateFilterMode,
+
+    /// 日期筛选单值（用于前/后）
+    DateTime? dateFilterSingleDate,
+
+    /// 日期筛选范围起点
+    DateTime? dateFilterRangeStart,
+
+    /// 日期筛选范围终点
+    DateTime? dateFilterRangeEnd,
   }) = _Unp4kcState;
 }
 
 @riverpod
 class Unp4kCModel extends _$Unp4kCModel {
+  final List<String> _backPathHistory = <String>[];
+  final List<String> _forwardPathHistory = <String>[];
+  final Map<String, List<String>> _suffixFilesIndex =
+      <String, List<String>>{};
+
+  bool _isDdnaDdsPath(String lowerPath) {
+    return RegExp(r"_ddna\.dds(\.\d+)?$").hasMatch(lowerPath);
+  }
+
   @override
   Unp4kcState build() {
-    state = Unp4kcState(startUp: false, curPath: '\\', endMessage: S.current.tools_unp4k_msg_init);
+    state = Unp4kcState(
+      startUp: false,
+      curPath: '\\',
+      endMessage: S.current.tools_unp4k_msg_init,
+    );
     _init();
     return state;
   }
@@ -93,9 +156,15 @@ class Unp4kCModel extends _$Unp4kCModel {
       state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading2);
 
       final p4kFiles = await unp4k_api.p4KGetAllFiles();
+      state = state.copyWith(
+        loadingCurrent: 0,
+        loadingTotal: p4kFiles.length,
+      );
 
       final files = <String, AppUnp4kP4kItemData>{};
+      final suffixes = <String>{};
       final fs = MemoryFileSystem(style: FileSystemStyle.posix);
+      _suffixFilesIndex.clear();
 
       var nextAwait = 0;
       for (var i = 0; i < p4kFiles.length; i++) {
@@ -109,13 +178,25 @@ class Unp4kCModel extends _$Unp4kCModel {
         );
 
         files[item.name] = fileData;
+        if (!item.isDirectory) {
+          final ext = _extractFileExtension(item.name);
+          if (ext.isNotEmpty) {
+            suffixes.add(ext);
+            (_suffixFilesIndex[ext] ??= <String>[]).add(item.name);
+          }
+        }
 
         if (!item.isDirectory) {
-          await fs.file(item.name.replaceAll("\\", "/")).create(recursive: true);
+          await fs
+              .file(item.name.replaceAll("\\", "/"))
+              .create(recursive: true);
         }
 
         if (i == nextAwait) {
-          state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading3(i, p4kFiles.length));
+          state = state.copyWith(
+            endMessage: S.current.tools_unp4k_msg_reading3(i, p4kFiles.length),
+            loadingCurrent: i,
+          );
           await Future.delayed(Duration(milliseconds: 1));
           nextAwait += 30000;
         }
@@ -125,6 +206,9 @@ class Unp4kCModel extends _$Unp4kCModel {
       state = state.copyWith(
         files: files,
         fs: fs,
+        availableSuffixes: suffixes.toList()..sort(),
+        loadingCurrent: p4kFiles.length,
+        loadingTotal: p4kFiles.length,
         endMessage: S.current.tools_unp4k_msg_read_completed(
           files.length,
           endTime.difference(loadStartTime).inMilliseconds,
@@ -138,6 +222,7 @@ class Unp4kCModel extends _$Unp4kCModel {
 
     ref.onDispose(() async {
       try {
+        unawaited(clearTempWemCache());
         await unp4k_api.p4KClose();
       } catch (e) {
         dPrint("[unp4k] close error: $e");
@@ -145,35 +230,214 @@ class Unp4kCModel extends _$Unp4kCModel {
     });
   }
 
+  /// 清理 P4K 预览临时音频缓存（.wem、旧 .ogg 预览缓存与 .preview.v2.wav）
+  Future<void> clearTempWemCache() async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final rootPath =
+          "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
+      final rootDir = Directory(rootPath.platformPath);
+      if (!await rootDir.exists()) return;
+
+      await for (final entity in rootDir.list(recursive: true, followLinks: false)) {
+        if (entity is! File) continue;
+        final lower = entity.path.toLowerCase();
+        if (lower.endsWith(".wem") ||
+            lower.endsWith(".preview.v2.wav") ||
+            lower.endsWith(".preview.mid10s.v1.wav") ||
+            lower.endsWith(".preview.v2.ogg") ||
+            lower.endsWith(".preview.mid10s.v1.ogg")) {
+          try {
+            await entity.delete();
+          } catch (_) {}
+        }
+      }
+    } catch (e) {
+      dPrint("[unp4k] clearTempWemCache error: $e");
+    }
+  }
+
   List<AppUnp4kP4kItemData>? getFiles() {
-    final path = state.curPath.replaceAll("\\", "/");
-
-    // 如果有搜索结果，使用搜索的虚拟文件系统
-    final fs = state.searchFs ?? state.fs;
-    if (fs == null) return null;
-
-    final dir = fs.directory(path);
-    if (!dir.existsSync()) return [];
-    final files = dir.listSync(recursive: false, followLinks: false);
-
     final result = <AppUnp4kP4kItemData>[];
-    for (var file in files) {
-      if (file is File) {
-        final f = state.files?[file.path.replaceAll("/", "\\")];
-        if (f != null) {
+    final allFiles = state.files;
+    if (allFiles == null) return null;
+    final hasSuffixOnlyFilter =
+        state.searchMatchedFiles == null && state.suffixFilter.trim().isNotEmpty;
+
+    if (state.searchMatchedFiles != null) {
+      // 搜索模式：直接平铺显示所有匹配文件
+      for (final filePath in state.searchMatchedFiles!) {
+        final f = allFiles[filePath];
+        if (f == null) continue;
+        if (!(f.name?.startsWith("\\") ?? true)) {
+          f.name = "\\${f.name}";
+        }
+        result.add(f);
+      }
+    } else if (hasSuffixOnlyFilter) {
+      // 仅后缀筛选：直接使用初始化阶段构建的后缀索引，避免全量扫描
+      final suffix = state.suffixFilter.trim().toLowerCase();
+      final matchedPaths = _suffixFilesIndex[suffix];
+      if (matchedPaths != null) {
+        for (final filePath in matchedPaths) {
+          final f = allFiles[filePath];
+          if (f == null || (f.isDirectory ?? false)) continue;
           if (!(f.name?.startsWith("\\") ?? true)) {
             f.name = "\\${f.name}";
           }
           result.add(f);
         }
-      } else {
-        result.add(AppUnp4kP4kItemData(name: file.path.replaceAll("/", "\\"), isDirectory: true));
+      }
+    } else {
+      final path = state.curPath.replaceAll("\\", "/");
+      final fs = state.fs;
+      if (fs == null) return null;
+
+      final dir = fs.directory(path);
+      if (!dir.existsSync()) return [];
+      final files = dir.listSync(recursive: false, followLinks: false);
+
+      for (var file in files) {
+        if (file is File) {
+          final f = allFiles[file.path.replaceAll("/", "\\")];
+          if (f != null) {
+            if (!(f.name?.startsWith("\\") ?? true)) {
+              f.name = "\\${f.name}";
+            }
+            result.add(f);
+          }
+        } else {
+          result.add(
+            AppUnp4kP4kItemData(
+              name: file.path.replaceAll("/", "\\"),
+              isDirectory: true,
+            ),
+          );
+        }
       }
     }
+
+    if (!hasSuffixOnlyFilter) {
+      _applySuffixFilter(result);
+    }
+    _applyAdvancedFilters(result);
 
     // 应用排序
     _sortFiles(result);
     return result;
+  }
+
+  void _applySuffixFilter(List<AppUnp4kP4kItemData> files) {
+    final suffix = state.suffixFilter.trim().toLowerCase();
+    if (suffix.isEmpty) return;
+    files.removeWhere((item) {
+      if (item.isDirectory ?? false) return true;
+      final name = item.name?.toLowerCase() ?? "";
+      return !name.endsWith(suffix);
+    });
+  }
+
+  void _applyAdvancedFilters(List<AppUnp4kP4kItemData> files) {
+    _applySizeFilter(files);
+    _applyDateFilter(files);
+  }
+
+  void _applySizeFilter(List<AppUnp4kP4kItemData> files) {
+    if (state.sizeFilterMode == Unp4kFilterMode.none) return;
+    final unitBytes = _sizeUnitToBytes(state.sizeFilterUnit);
+    final single = (state.sizeFilterSingleValue ?? 0) * unitBytes;
+    final rangeStart = (state.sizeFilterRangeStart ?? 0) * unitBytes;
+    final rangeEnd = (state.sizeFilterRangeEnd ?? 0) * unitBytes;
+
+    files.removeWhere((item) {
+      if (item.isDirectory ?? false) return true;
+      final size = (item.size ?? 0).toDouble();
+      switch (state.sizeFilterMode) {
+        case Unp4kFilterMode.none:
+          return false;
+        case Unp4kFilterMode.before:
+          return size > single;
+        case Unp4kFilterMode.after:
+          return size < single;
+        case Unp4kFilterMode.range:
+          final minV = math.min(rangeStart, rangeEnd);
+          final maxV = math.max(rangeStart, rangeEnd);
+          return size < minV || size > maxV;
+      }
+    });
+  }
+
+  void _applyDateFilter(List<AppUnp4kP4kItemData> files) {
+    if (state.dateFilterMode == Unp4kFilterMode.none) return;
+    files.removeWhere((item) {
+      if (item.isDirectory ?? false) return true;
+      final ms = item.dateModified;
+      if (ms == null) return true;
+      final dt = DateTime.fromMillisecondsSinceEpoch(ms);
+      final day = DateTime(dt.year, dt.month, dt.day);
+      switch (state.dateFilterMode) {
+        case Unp4kFilterMode.none:
+          return false;
+        case Unp4kFilterMode.before:
+          if (state.dateFilterSingleDate == null) return false;
+          final d = DateTime(
+            state.dateFilterSingleDate!.year,
+            state.dateFilterSingleDate!.month,
+            state.dateFilterSingleDate!.day,
+          );
+          return day.isAfter(d);
+        case Unp4kFilterMode.after:
+          if (state.dateFilterSingleDate == null) return false;
+          final d = DateTime(
+            state.dateFilterSingleDate!.year,
+            state.dateFilterSingleDate!.month,
+            state.dateFilterSingleDate!.day,
+          );
+          return day.isBefore(d);
+        case Unp4kFilterMode.range:
+          if (state.dateFilterRangeStart == null ||
+              state.dateFilterRangeEnd == null) {
+            return false;
+          }
+          final start = DateTime(
+            state.dateFilterRangeStart!.year,
+            state.dateFilterRangeStart!.month,
+            state.dateFilterRangeStart!.day,
+          );
+          final end = DateTime(
+            state.dateFilterRangeEnd!.year,
+            state.dateFilterRangeEnd!.month,
+            state.dateFilterRangeEnd!.day,
+          );
+          final minD = start.isBefore(end) ? start : end;
+          final maxD = start.isBefore(end) ? end : start;
+          return day.isBefore(minD) || day.isAfter(maxD);
+      }
+    });
+  }
+
+  double _sizeUnitToBytes(Unp4kSizeUnit unit) {
+    switch (unit) {
+      case Unp4kSizeUnit.k:
+        return 1000;
+      case Unp4kSizeUnit.kb:
+        return 1024;
+      case Unp4kSizeUnit.mb:
+        return 1024 * 1024;
+      case Unp4kSizeUnit.gb:
+        return 1024 * 1024 * 1024;
+    }
+  }
+
+  String _extractFileExtension(String? filePath) {
+    if (filePath == null || filePath.isEmpty) return "";
+    final normalized = filePath.replaceAll("/", "\\");
+    final fileName = normalized.split("\\").last;
+    final dotIndex = fileName.lastIndexOf(".");
+    if (dotIndex <= 0 || dotIndex == fileName.length - 1) {
+      return "";
+    }
+    return fileName.substring(dotIndex).toLowerCase();
   }
 
   /// 对文件列表进行排序
@@ -251,13 +515,63 @@ class Unp4kCModel extends _$Unp4kCModel {
     state = state.copyWith(sortType: sortType);
   }
 
+  /// 设置后缀筛选
+  void setSuffixFilter(String suffix) {
+    state = state.copyWith(suffixFilter: suffix);
+  }
+
+  void setSizeFilterMode(Unp4kFilterMode mode) {
+    state = state.copyWith(sizeFilterMode: mode);
+  }
+
+  void setSizeFilterUnit(Unp4kSizeUnit unit) {
+    state = state.copyWith(sizeFilterUnit: unit);
+  }
+
+  void setSizeFilterSingleValue(double? value) {
+    state = state.copyWith(sizeFilterSingleValue: value);
+  }
+
+  void setSizeFilterRange(double? start, double? end) {
+    state = state.copyWith(sizeFilterRangeStart: start, sizeFilterRangeEnd: end);
+  }
+
+  void clearSizeFilter() {
+    state = state.copyWith(
+      sizeFilterMode: Unp4kFilterMode.none,
+      sizeFilterSingleValue: null,
+      sizeFilterRangeStart: null,
+      sizeFilterRangeEnd: null,
+    );
+  }
+
+  void setDateFilterMode(Unp4kFilterMode mode) {
+    state = state.copyWith(dateFilterMode: mode);
+  }
+
+  void setDateFilterSingleDate(DateTime? date) {
+    state = state.copyWith(dateFilterSingleDate: date);
+  }
+
+  void setDateFilterRange(DateTime? start, DateTime? end) {
+    state = state.copyWith(dateFilterRangeStart: start, dateFilterRangeEnd: end);
+  }
+
+  void clearDateFilter() {
+    state = state.copyWith(
+      dateFilterMode: Unp4kFilterMode.none,
+      dateFilterSingleDate: null,
+      dateFilterRangeStart: null,
+      dateFilterRangeEnd: null,
+    );
+  }
+
   /// 执行搜索（异步）
   Future<void> search(String query) async {
     if (query.isEmpty) {
       // 清除搜索，返回根目录
       state = state.copyWith(
         searchQuery: "",
-        searchFs: null,
         searchMatchedFiles: null,
         isSearching: false,
         curPath: "\\",
@@ -265,10 +579,11 @@ class Unp4kCModel extends _$Unp4kCModel {
       return;
     }
 
-    // 保存当前路径，用于搜索后尝试保持
-    final currentPath = state.curPath;
-
-    state = state.copyWith(searchQuery: query, isSearching: true, endMessage: S.current.tools_unp4k_searching);
+    state = state.copyWith(
+      searchQuery: query,
+      isSearching: true,
+      endMessage: S.current.tools_unp4k_searching,
+    );
 
     // 使用 compute 在后台线程执行搜索
     final allFiles = state.files;
@@ -278,31 +593,16 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
 
     try {
-      final searchResult = await compute(_searchFiles, _SearchParams(allFiles, query));
+      final searchResult = await compute(
+        _searchFiles,
+        _SearchParams(allFiles, query),
+      );
       final matchedFiles = searchResult.matchedFiles;
 
-      // 构建搜索结果的虚拟文件系统
-      final searchFs = MemoryFileSystem(style: FileSystemStyle.posix);
-      for (var filePath in matchedFiles) {
-        await searchFs.file(filePath.replaceAll("\\", "/")).create(recursive: true);
-      }
-
-      // 检查当前路径是否有搜索结果
-      String targetPath = "\\";
-      if (currentPath != "\\") {
-        final checkPath = currentPath.replaceAll("\\", "/");
-        final dir = searchFs.directory(checkPath);
-        if (dir.existsSync() && dir.listSync().isNotEmpty) {
-          // 当前目录有结果，保持当前路径
-          targetPath = currentPath;
-        }
-      }
-
       state = state.copyWith(
-        searchFs: searchFs,
         searchMatchedFiles: matchedFiles,
         isSearching: false,
-        curPath: targetPath,
+        curPath: "\\",
         endMessage: matchedFiles.isEmpty
             ? S.current.tools_unp4k_search_no_result
             : S.current.tools_unp4k_msg_read_completed(matchedFiles.length, 0),
@@ -317,7 +617,6 @@ class Unp4kCModel extends _$Unp4kCModel {
   void clearSearch() {
     state = state.copyWith(
       searchQuery: "",
-      searchFs: null,
       searchMatchedFiles: null,
       isSearching: false,
       curPath: "\\",
@@ -375,25 +674,114 @@ class Unp4kCModel extends _$Unp4kCModel {
       state = state.copyWith(isMultiSelectMode: false, selectedItems: {});
     }
     // 切换目录时不清除搜索，只改变当前路径
-    if (fullPath) {
-      state = state.copyWith(curPath: name);
-    } else {
-      state = state.copyWith(curPath: "${state.curPath}$name\\");
+    final targetPath = fullPath ? name : "${state.curPath}$name\\";
+    _navigateToPath(targetPath);
+  }
+
+  bool canGoBackPath() => _backPathHistory.isNotEmpty;
+
+  bool canGoForwardPath() => _forwardPathHistory.isNotEmpty;
+
+  void goBackPath() {
+    if (_backPathHistory.isEmpty) return;
+    final target = _backPathHistory.removeLast();
+    final current = state.curPath;
+    if (current != target) {
+      _forwardPathHistory.add(current);
+      state = state.copyWith(curPath: target);
     }
+  }
+
+  void goForwardPath() {
+    if (_forwardPathHistory.isEmpty) return;
+    final target = _forwardPathHistory.removeLast();
+    final current = state.curPath;
+    if (current != target) {
+      _backPathHistory.add(current);
+      state = state.copyWith(curPath: target);
+    }
+  }
+
+  void _navigateToPath(String targetPath) {
+    if (targetPath == state.curPath) return;
+    if (_backPathHistory.isEmpty || _backPathHistory.last != state.curPath) {
+      _backPathHistory.add(state.curPath);
+    }
+    _forwardPathHistory.clear();
+    state = state.copyWith(curPath: targetPath);
+  }
+
+  /// 带路径存在性校验的目录切换
+  bool changeDirValidated(String name, {bool fullPath = false}) {
+    var targetPath = fullPath ? name : "${state.curPath}$name\\";
+    targetPath = _normalizeDirPath(targetPath);
+
+    final fs = state.fs;
+    if (fs == null) return false;
+
+    final exists = fs.directory(targetPath.replaceAll("\\", "/")).existsSync();
+    if (!exists) {
+      state = state.copyWith(endMessage: "路径不存在: $targetPath");
+      return false;
+    }
+
+    changeDir(targetPath, fullPath: true);
+    return true;
+  }
+
+  /// 搜索结果中跳转到文件所在目录
+  void jumpToFileLocation(String filePath) {
+    var normalized = filePath.replaceAll("/", "\\");
+    if (!normalized.startsWith("\\")) {
+      normalized = "\\$normalized";
+    }
+
+    final idx = normalized.lastIndexOf("\\");
+    final dir = idx > 0 ? normalized.substring(0, idx + 1) : "\\";
+    final ok = changeDirValidated(dir, fullPath: true);
+    if (!ok) return;
+
+    // 跳转到真实目录后退出搜索模式，便于继续浏览
+    clearSearch();
+    state = state.copyWith(curPath: dir);
+  }
+
+  String _normalizeDirPath(String path) {
+    var normalized = path.trim().replaceAll("/", "\\");
+    if (normalized.isEmpty) return "\\";
+    if (!normalized.startsWith("\\")) {
+      normalized = "\\$normalized";
+    }
+    if (!normalized.endsWith("\\")) {
+      normalized = "$normalized\\";
+    }
+    return normalized;
   }
 
   Future<void> openFile(String filePath, {BuildContext? context}) async {
     final tempDir = await getTemporaryDirectory();
-    final tempPath = "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
+    final tempPath =
+        "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
     state = state.copyWith(
       tempOpenFile: const MapEntry("loading", ""),
+      currentPreviewPath: filePath,
       endMessage: S.current.tools_unp4k_msg_open_file(filePath),
     );
     // ignore: use_build_context_synchronously
-    await extractFile(filePath, tempPath, mode: "extract_open", context: context);
+    await extractFile(
+      filePath,
+      tempPath,
+      mode: "extract_open",
+      context: context,
+    );
   }
 
-  Future<void> extractFile(String filePath, String outputPath, {String mode = "extract", BuildContext? context}) async {
+  Future<void> extractFile(
+    String filePath,
+    String outputPath, {
+    String mode = "extract",
+    BuildContext? context,
+  }) async {
     try {
       // remove first \\
       if (filePath.startsWith("\\")) {
@@ -404,12 +792,19 @@ class Unp4kCModel extends _$Unp4kCModel {
       dPrint("extractFile .... $filePath -> $fullOutputPath");
 
       // 使用 Rust API 提取到磁盘
-      await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: outputPath);
+      await unp4k_api.p4KExtractToDisk(
+        filePath: filePath,
+        outputPath: outputPath,
+      );
 
       if (mode == "extract_open") {
-        if (context != null && filePath.toLowerCase().endsWith(".dcb")) {
+        final lowerFilePath = filePath.toLowerCase();
+        if (context != null && lowerFilePath.endsWith(".dcb")) {
           // 关闭 loading 状态
-          state = state.copyWith(tempOpenFile: null, endMessage: S.current.tools_unp4k_msg_open_file(filePath));
+          state = state.copyWith(
+            tempOpenFile: null,
+            endMessage: S.current.tools_unp4k_msg_open_file(filePath),
+          );
           // 跳转至 DCBViewer
           if (context.mounted) {
             context.push("/tools/dcb_viewer", extra: {"path": fullOutputPath});
@@ -417,17 +812,56 @@ class Unp4kCModel extends _$Unp4kCModel {
 
           return;
         }
-        const textExt = [".txt", ".xml", ".json", ".lua", ".cfg", ".ini", ".mtl"];
-        const imgExt = [".png"];
+
+        final isDdsChain =
+            lowerFilePath.endsWith(".dds") ||
+            RegExp(r"\.dds\.\d+$").hasMatch(lowerFilePath);
+        if (isDdsChain && !_isDdnaDdsPath(lowerFilePath)) {
+          try {
+            final pngBytes = await unp4k_api.p4KPreviewImagePng(
+              filePath: filePath,
+            );
+            final previewPath =
+                "$fullOutputPath.preview.${DateTime.now().millisecondsSinceEpoch}.png";
+            final previewFile = File(previewPath);
+            await previewFile.parent.create(recursive: true);
+            await previewFile.writeAsBytes(pngBytes, flush: true);
+
+            state = state.copyWith(
+              tempOpenFile: MapEntry("image", previewPath),
+              endMessage: S.current.tools_unp4k_msg_open_file(filePath),
+            );
+            return;
+          } catch (e) {
+            dPrint("[unp4k] dds preview decode failed: $e");
+          }
+        }
+
+        const textExt = [
+          ".txt",
+          ".xml",
+          ".json",
+          ".lua",
+          ".cfg",
+          ".ini",
+          ".mtl",
+        ];
+        const imgExt = [".png", ".jpg", ".jpeg", ".bmp", ".gif", ".webp"];
+        const audioExt = [".wem"];
         String openType = "unknown";
         for (var element in textExt) {
-          if (filePath.toLowerCase().endsWith(element)) {
+          if (lowerFilePath.endsWith(element)) {
             openType = "text";
           }
         }
         for (var element in imgExt) {
-          if (filePath.endsWith(element)) {
+          if (lowerFilePath.endsWith(element)) {
             openType = "image";
+          }
+        }
+        for (var element in audioExt) {
+          if (lowerFilePath.endsWith(element)) {
+            openType = "audio";
           }
         }
         state = state.copyWith(
@@ -469,7 +903,8 @@ class Unp4kCModel extends _$Unp4kCModel {
           // 收集所有需要提取的文件
           final filesToExtract = <MapEntry<String, AppUnp4kP4kItemData>>[];
           for (var entry in allFiles.entries) {
-            if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+            if (entry.key.startsWith(prefix) &&
+                !(entry.value.isDirectory ?? false)) {
               filesToExtract.add(entry);
             }
           }
@@ -490,10 +925,15 @@ class Unp4kCModel extends _$Unp4kCModel {
 
             current++;
             onProgress?.call(current, total, entryPath);
-            await unp4k_api.p4KExtractToDisk(filePath: entryPath, outputPath: outputDir);
+            await unp4k_api.p4KExtractToDisk(
+              filePath: entryPath,
+              outputPath: outputDir,
+            );
           }
 
-          state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(current));
+          state = state.copyWith(
+            endMessage: S.current.tools_unp4k_extract_completed(current),
+          );
           return (true, current, null);
         }
         return (true, 0, null);
@@ -506,9 +946,14 @@ class Unp4kCModel extends _$Unp4kCModel {
           return (false, 0, S.current.tools_unp4k_extract_cancelled);
         }
 
-        await unp4k_api.p4KExtractToDisk(filePath: filePath, outputPath: outputDir);
+        await unp4k_api.p4KExtractToDisk(
+          filePath: filePath,
+          outputPath: outputDir,
+        );
 
-        state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(1));
+        state = state.copyWith(
+          endMessage: S.current.tools_unp4k_extract_completed(1),
+        );
         return (true, 1, null);
       }
     } catch (e) {
@@ -556,7 +1001,8 @@ class Unp4kCModel extends _$Unp4kCModel {
         // 可能是文件夹（虚拟路径）
         final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
         for (var entry in allFiles.entries) {
-          if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+          if (entry.key.startsWith(prefix) &&
+              !(entry.value.isDirectory ?? false)) {
             count++;
           }
         }
@@ -586,7 +1032,8 @@ class Unp4kCModel extends _$Unp4kCModel {
             // 文件夹：收集所有子文件
             final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
             for (var entry in allFiles.entries) {
-              if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+              if (entry.key.startsWith(prefix) &&
+                  !(entry.value.isDirectory ?? false)) {
                 filesToExtract.add(entry.key);
               }
             }
@@ -598,7 +1045,8 @@ class Unp4kCModel extends _$Unp4kCModel {
           // 可能是虚拟文件夹路径
           final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
           for (var entry in allFiles.entries) {
-            if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
+            if (entry.key.startsWith(prefix) &&
+                !(entry.value.isDirectory ?? false)) {
               filesToExtract.add(entry.key);
             }
           }
@@ -621,10 +1069,15 @@ class Unp4kCModel extends _$Unp4kCModel {
 
         current++;
         onProgress?.call(current, total, extractPath);
-        await unp4k_api.p4KExtractToDisk(filePath: extractPath, outputPath: outputDir);
+        await unp4k_api.p4KExtractToDisk(
+          filePath: extractPath,
+          outputPath: outputDir,
+        );
       }
 
-      state = state.copyWith(endMessage: S.current.tools_unp4k_extract_completed(current));
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_extract_completed(current),
+      );
       return (true, current, null);
     } catch (e) {
       dPrint("[unp4k] extractSelectedItemsWithProgress error: $e");
@@ -635,7 +1088,10 @@ class Unp4kCModel extends _$Unp4kCModel {
   /// 从 P4K 文件中提取指定文件到内存
   /// [p4kPath] P4K 文件路径
   /// [filePath] 要提取的文件路径（P4K 内部路径）
-  static Future<Uint8List> extractP4kFileToMemory(String p4kPath, String filePath) async {
+  static Future<Uint8List> extractP4kFileToMemory(
+    String p4kPath,
+    String filePath,
+  ) async {
     try {
       await unp4k_api.p4KOpen(p4KPath: p4kPath);
       final data = await unp4k_api.p4KExtractToMemory(filePath: filePath);
@@ -643,6 +1099,115 @@ class Unp4kCModel extends _$Unp4kCModel {
       return Uint8List.fromList(data);
     } catch (e) {
       throw Exception("extractP4kFileToMemory error: $e");
+    }
+  }
+
+  /// 将 P4K 内模型转换为内嵌贴图 GLB 文件
+  /// 返回：(是否成功, 输出路径, 错误信息)
+  Future<(bool, String?, String?)> convertModelToGlb(
+    String filePath,
+    String outputDir,
+  ) async {
+    try {
+      var modelPath = filePath;
+      if (modelPath.startsWith("\\")) {
+        modelPath = modelPath.substring(1);
+      }
+      final supported = await unp4k_model_api.p4KModelIsSupported(
+        filePath: modelPath,
+      );
+      if (!supported) {
+        final err = S.current.tools_unp4k_convert_unsupported;
+        state = state.copyWith(endMessage: err);
+        return (false, null, err);
+      }
+
+      final gameP4kPath = "${getGamePath()}\\Data.p4k".platformPath;
+      final result = await unp4k_model_api.p4KModelConvertToGlb(
+        p4KPath: gameP4kPath,
+        modelPath: modelPath,
+        outputDir: outputDir,
+        options: const unp4k_model_api.ModelConvertOptions(
+          embedTextures: true,
+          overwrite: true,
+          maxTextureSize: 4096,
+        ),
+      );
+
+      if (result.success) {
+        final outputPath = result.outputPath;
+        state = state.copyWith(
+          endMessage: outputPath == null
+              ? S.current.tools_unp4k_convert_success
+              : "${S.current.tools_unp4k_convert_success}\n$outputPath",
+        );
+        return (true, outputPath, null);
+      }
+
+      final errorCode = result.errorCode;
+      final err = errorCode == "ERR_UNSUPPORTED_FORMAT"
+          ? S.current.tools_unp4k_convert_unsupported
+          : (result.errorMessage ?? errorCode ?? "Unknown");
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_convert_failed(err),
+      );
+      return (false, null, err);
+    } catch (e) {
+      dPrint("[unp4k] convertModelToGlb error: $e");
+      final err = e.toString();
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_convert_failed(err),
+      );
+      return (false, null, err);
+    }
+  }
+
+  /// 将 P4K 内的 DDS（含 .dds.x）按预览解码链路转换为 PNG 并写入指定目录
+  /// 返回：(是否成功, 输出路径, 错误信息)
+  Future<(bool, String?, String?)> convertDdsToPng(
+    String filePath,
+    String outputDir,
+  ) async {
+    try {
+      var normalizedPath = filePath;
+      if (normalizedPath.startsWith("\\")) {
+        normalizedPath = normalizedPath.substring(1);
+      }
+      final lower = normalizedPath.toLowerCase();
+      if (_isDdnaDdsPath(lower)) {
+        const err = "跳过 _ddna DDS：该类型不进行预览解码";
+        state = state.copyWith(endMessage: "DDS 转 PNG 失败: $err");
+        return (false, null, err);
+      }
+
+      final pngBytes = await unp4k_api.p4KPreviewImagePng(
+        filePath: normalizedPath,
+      );
+
+      String relativeOutput = normalizedPath;
+      final ddsChainIndex = lower.indexOf(".dds.");
+      if (ddsChainIndex != -1) {
+        relativeOutput = "${normalizedPath.substring(0, ddsChainIndex)}.dds";
+      }
+      if (relativeOutput.toLowerCase().endsWith(".dds")) {
+        relativeOutput =
+            "${relativeOutput.substring(0, relativeOutput.length - 4)}.png";
+      } else {
+        relativeOutput = "$relativeOutput.png";
+      }
+
+      final outputFile = File("$outputDir\\$relativeOutput".platformPath);
+      await outputFile.parent.create(recursive: true);
+      await outputFile.writeAsBytes(pngBytes, flush: true);
+
+      state = state.copyWith(
+        endMessage: "DDS 转 PNG 成功: ${outputFile.path}",
+      );
+      return (true, outputFile.path, null);
+    } catch (e) {
+      final err = e.toString();
+      state = state.copyWith(endMessage: "DDS 转 PNG 失败: $err");
+      return (false, null, err);
     }
   }
 }

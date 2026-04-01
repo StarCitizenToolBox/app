@@ -259,67 +259,69 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m113(v0) => "正在提取：${v0}";
 
-  static String m114(v0) => "提取完成，共 ${v0} 个文件";
+  static String m114(v0) => "转换失败：${v0}";
 
-  static String m115(v0) => "当前文件：${v0}";
+  static String m115(v0) => "提取完成，共 ${v0} 个文件";
 
-  static String m116(v0, v1) => "正在提取 (${v0}/${v1})";
+  static String m116(v0) => "当前文件：${v0}";
 
-  static String m117(v0) => "打开文件：${v0}";
+  static String m117(v0, v1) => "正在提取 (${v0}/${v1})";
 
-  static String m118(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
+  static String m118(v0) => "打开文件：${v0}";
 
-  static String m119(v0) => "读取文件：${v0} ...";
+  static String m119(v0, v1) => "加载完毕：${v0} 个文件，用时：${v1} ms";
 
-  static String m120(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
+  static String m120(v0) => "读取文件：${v0} ...";
 
-  static String m121(v0) => "未知文件类型\n${v0}";
+  static String m121(v0, v1) => "正在处理文件 (${v0}/${v1}) ...";
 
-  static String m122(v0) => "P4K 查看器 -> ${v0}";
+  static String m122(v0) => "未知文件类型\n${v0}";
 
-  static String m123(v0) => "登录了 ${v0} 次";
+  static String m123(v0) => "P4K 查看器 -> ${v0}";
 
-  static String m124(v0) => "共检测到 ${v0} 个账号";
+  static String m124(v0) => "登录了 ${v0} 次";
 
-  static String m125(year) => "查看您在${year}年的星际公民游玩统计，数据来自本地 log ，请确保在常用电脑上查看。";
+  static String m125(v0) => "共检测到 ${v0} 个账号";
 
-  static String m126(year) => "${year} 年度报告（限时）";
+  static String m126(year) => "查看您在${year}年的星际公民游玩统计，数据来自本地 log ，请确保在常用电脑上查看。";
 
-  static String m127(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
+  static String m127(year) => "${year} 年度报告（限时）";
 
-  static String m128(v0, v1) => "${v0} 小时 ${v1} 分钟";
+  static String m128(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
 
-  static String m129(v0) => "${v0} 分钟";
+  static String m129(v0, v1) => "${v0} 小时 ${v1} 分钟";
 
-  static String m130(v0, v1) => "您在清晨 ${v0} 月 ${v1} 日开始了星际之旅";
+  static String m130(v0) => "${v0} 分钟";
 
-  static String m131(v0, v1) => "深夜 ${v0} 月 ${v1} 日还在探索宇宙";
+  static String m131(v0, v1) => "您在清晨 ${v0} 月 ${v1} 日开始了星际之旅";
 
-  static String m132(v0) => "${v0} 次";
+  static String m132(v0, v1) => "深夜 ${v0} 月 ${v1} 日还在探索宇宙";
 
-  static String m133(v0) => "${v0}月";
+  static String m133(v0) => "${v0} 次";
 
-  static String m134(v0) => "仅启动 ${v0} 次";
+  static String m134(v0) => "${v0}月";
 
-  static String m135(v0) => "启动了 ${v0} 次";
+  static String m135(v0) => "仅启动 ${v0} 次";
 
-  static String m136(v0) => "${v0} 小时";
+  static String m136(v0) => "启动了 ${v0} 次";
 
-  static String m137(v0, v1) => "${v0}月${v1}日";
+  static String m137(v0) => "${v0} 小时";
 
-  static String m138(year) => "${year} 年，我们一起在星际公民中\n创造了无数精彩回忆";
+  static String m138(v0, v1) => "${v0}月${v1}日";
 
-  static String m139(nextYear) => "期待 ${nextYear} 年继续与您相伴！";
+  static String m139(year) => "${year} 年，我们一起在星际公民中\n创造了无数精彩回忆";
 
-  static String m140(year) => "星际公民 ${year} 年度报告";
+  static String m140(nextYear) => "期待 ${nextYear} 年继续与您相伴！";
 
-  static String m141(v0) => "炸了 ${v0} 次";
+  static String m141(year) => "星际公民 ${year} 年度报告";
 
-  static String m142(v0) => "驾驶了 ${v0} 次";
+  static String m142(v0) => "炸了 ${v0} 次";
 
-  static String m143(v0) => "查看全部 ${v0} 个载具";
+  static String m143(v0) => "驾驶了 ${v0} 次";
 
-  static String m144(year) => "${year} 年度报告";
+  static String m144(v0) => "查看全部 ${v0} 个载具";
+
+  static String m145(year) => "${year} 年度报告";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2064,6 +2066,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_unp4k_action_cancel_multi_select":
         MessageLookupByLibrary.simpleMessage("取消多选"),
+    "tools_unp4k_action_convert_glb": MessageLookupByLibrary.simpleMessage(
+      "转换为 GLB",
+    ),
     "tools_unp4k_action_deselect_all": MessageLookupByLibrary.simpleMessage(
       "取消全选",
     ),
@@ -2078,15 +2083,25 @@ class MessageLookup extends MessageLookupByLibrary {
       "另存为...",
     ),
     "tools_unp4k_action_select_all": MessageLookupByLibrary.simpleMessage("全选"),
+    "tools_unp4k_convert_failed": m114,
+    "tools_unp4k_convert_in_progress": MessageLookupByLibrary.simpleMessage(
+      "正在转换...",
+    ),
+    "tools_unp4k_convert_success": MessageLookupByLibrary.simpleMessage(
+      "转换成功！",
+    ),
+    "tools_unp4k_convert_unsupported": MessageLookupByLibrary.simpleMessage(
+      "此文件类型无法转换为 GLB。",
+    ),
     "tools_unp4k_extract_cancelled": MessageLookupByLibrary.simpleMessage(
       "提取已取消",
     ),
-    "tools_unp4k_extract_completed": m114,
-    "tools_unp4k_extract_current_file": m115,
+    "tools_unp4k_extract_completed": m115,
+    "tools_unp4k_extract_current_file": m116,
     "tools_unp4k_extract_dialog_title": MessageLookupByLibrary.simpleMessage(
       "提取文件",
     ),
-    "tools_unp4k_extract_progress": m116,
+    "tools_unp4k_extract_progress": m117,
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "缺少运行库",
     ),
@@ -2096,17 +2111,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "使用此功能需安装 .NET8 运行库，请点击下方按钮下载安装，安装成功后重新打开此页面即可继续使用。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-    "tools_unp4k_msg_open_file": m117,
-    "tools_unp4k_msg_read_completed": m118,
-    "tools_unp4k_msg_read_file": m119,
+    "tools_unp4k_msg_open_file": m118,
+    "tools_unp4k_msg_read_completed": m119,
+    "tools_unp4k_msg_read_file": m120,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "正在读取P4K 文件 ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "正在处理文件 ...",
     ),
-    "tools_unp4k_msg_reading3": m120,
-    "tools_unp4k_msg_unknown_file_type": m121,
+    "tools_unp4k_msg_reading3": m121,
+    "tools_unp4k_msg_unknown_file_type": m122,
     "tools_unp4k_search_no_result": MessageLookupByLibrary.simpleMessage(
       "未找到匹配文件",
     ),
@@ -2119,7 +2134,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_sort_default": MessageLookupByLibrary.simpleMessage("默认排序"),
     "tools_unp4k_sort_size_asc": MessageLookupByLibrary.simpleMessage("小文件优先"),
     "tools_unp4k_sort_size_desc": MessageLookupByLibrary.simpleMessage("大文件优先"),
-    "tools_unp4k_title": m122,
+    "tools_unp4k_title": m123,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("单击文件以预览"),
     "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
       "将左侧载具拖动到右侧列表中，这将会为载具名称增加 001、002 .. 等前缀，方便您在游戏内 UI 快速定位载具。在右侧列表上下拖动可以调整载具的顺序。",
@@ -2151,7 +2166,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("总邀请数："),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("未完成的邀请"),
-    "yearly_report_account_count": m123,
+    "yearly_report_account_count": m124,
     "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
       "查看全部账号",
     ),
@@ -2159,12 +2174,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "最常使用的账号",
     ),
     "yearly_report_account_title": MessageLookupByLibrary.simpleMessage("账号统计"),
-    "yearly_report_account_total": m124,
+    "yearly_report_account_total": m125,
     "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
       "正在分析游戏日志数据",
     ),
-    "yearly_report_card_desc": m125,
-    "yearly_report_card_title": m126,
+    "yearly_report_card_desc": m126,
+    "yearly_report_card_title": m127,
     "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
       "今年游戏不太稳定的时刻",
     ),
@@ -2176,13 +2191,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "运气不错！",
     ),
     "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage("游戏崩溃次数"),
-    "yearly_report_date_range": m127,
+    "yearly_report_date_range": m128,
     "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
       "数据使用您的本地日志生成，不会发送到任何第三方。因跨版本 Log 改动较大，数据可能不完整，仅供娱乐。",
     ),
-    "yearly_report_duration_hours_minutes": m128,
-    "yearly_report_duration_minutes": m129,
-    "yearly_report_earliest_play_desc": m130,
+    "yearly_report_duration_hours_minutes": m129,
+    "yearly_report_duration_minutes": m130,
+    "yearly_report_earliest_play_desc": m131,
     "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
       "最早的一次游玩",
     ),
@@ -2202,7 +2217,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage("自杀"),
     "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage("击杀统计"),
-    "yearly_report_latest_play_desc": m131,
+    "yearly_report_latest_play_desc": m132,
     "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
       "最晚的一次游玩",
     ),
@@ -2215,7 +2230,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
       "游戏启动次数",
     ),
-    "yearly_report_launch_count_value": m132,
+    "yearly_report_launch_count_value": m133,
     "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
       "常去的地点",
     ),
@@ -2228,11 +2243,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
       "地点统计",
     ),
-    "yearly_report_month_format": m133,
+    "yearly_report_month_format": m134,
     "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage("游玩最少"),
-    "yearly_report_monthly_least_count": m134,
+    "yearly_report_monthly_least_count": m135,
     "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage("游玩最多"),
-    "yearly_report_monthly_most_count": m135,
+    "yearly_report_monthly_most_count": m136,
     "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage("月份统计"),
     "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("继续查看"),
     "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("上一页"),
@@ -2247,12 +2262,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "游玩时长",
     ),
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("小时"),
-    "yearly_report_play_time_value": m136,
+    "yearly_report_play_time_value": m137,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
       "由 SC 汉化盒子为您呈现",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
-    "yearly_report_session_date": m137,
+    "yearly_report_session_date": m138,
     "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage("最长"),
     "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
       "(最短仅统计超过 5 分钟的游戏)",
@@ -2290,13 +2305,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
       "重开次数",
     ),
-    "yearly_report_thanks_message": m138,
-    "yearly_report_thanks_next": m139,
+    "yearly_report_thanks_message": m139,
+    "yearly_report_thanks_next": m140,
     "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
       "感谢您的陪伴",
     ),
-    "yearly_report_title": m140,
-    "yearly_report_vehicle_destruction_count": m141,
+    "yearly_report_title": m141,
+    "yearly_report_vehicle_destruction_count": m142,
     "yearly_report_vehicle_destruction_desc":
         MessageLookupByLibrary.simpleMessage("今年您共炸了"),
     "yearly_report_vehicle_destruction_most":
@@ -2307,8 +2322,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("艘船"),
     "yearly_report_vehicle_pilot_collapse":
         MessageLookupByLibrary.simpleMessage("收起详情"),
-    "yearly_report_vehicle_pilot_count": m142,
-    "yearly_report_vehicle_pilot_expand": m143,
+    "yearly_report_vehicle_pilot_count": m143,
+    "yearly_report_vehicle_pilot_expand": m144,
     "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
       "最常驾驶的载具",
     ),
@@ -2321,6 +2336,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
       "回顾您在星际公民中的精彩时刻",
     ),
-    "yearly_report_welcome_title": m144,
+    "yearly_report_welcome_title": m145,
   };
 }

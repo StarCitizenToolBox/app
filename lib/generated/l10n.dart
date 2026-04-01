@@ -8102,6 +8102,56 @@ class S {
     );
   }
 
+  /// `Convert to GLB`
+  String get tools_unp4k_action_convert_glb {
+    return Intl.message(
+      'Convert to GLB',
+      name: 'tools_unp4k_action_convert_glb',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion in progress...`
+  String get tools_unp4k_convert_in_progress {
+    return Intl.message(
+      'Conversion in progress...',
+      name: 'tools_unp4k_convert_in_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion succeeded!`
+  String get tools_unp4k_convert_success {
+    return Intl.message(
+      'Conversion succeeded!',
+      name: 'tools_unp4k_convert_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion failed: {v0}`
+  String tools_unp4k_convert_failed(Object v0) {
+    return Intl.message(
+      'Conversion failed: $v0',
+      name: 'tools_unp4k_convert_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `This file type cannot be converted to GLB.`
+  String get tools_unp4k_convert_unsupported {
+    return Intl.message(
+      'This file type cannot be converted to GLB.',
+      name: 'tools_unp4k_convert_unsupported',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No matching files found`
   String get tools_unp4k_search_no_result {
     return Intl.message(

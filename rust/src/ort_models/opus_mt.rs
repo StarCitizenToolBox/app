@@ -395,15 +395,20 @@ impl OpusMtModel {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::path::Path;
 
     #[test]
     fn test_translation() {
-        let model = OpusMtModel::new(
-            "E:\\Project\\StarCtizen\\Opus-MT-StarCitizen\\results\\final_model",
-            "_q4f16",
-            true,
-        )
-        .unwrap();
+        let Ok(model_dir) = std::env::var("OPUS_MT_MODEL_DIR") else {
+            eprintln!("Skipping Opus-MT test: set OPUS_MT_MODEL_DIR to run this integration test");
+            return;
+        };
+        if !Path::new(&model_dir).join("tokenizer.json").exists() {
+            eprintln!("Skipping Opus-MT test: missing tokenizer.json in {model_dir}");
+            return;
+        }
+
+        let model = OpusMtModel::new(&model_dir, "_q4f16", true).unwrap();
         let result = model.translate("北极星要炸了，快撤！").unwrap();
         println!("Translation: {}", result);
     }

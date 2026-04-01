@@ -45,7 +45,7 @@ impl RsiLauncherAsarData {
                 if f_path.is_file() {
                     let relative_path = f_path.strip_prefix(&symlink_path)?;
                     let relative_path_str = relative_path.to_str().unwrap();
-                    asar_writer.write_file(relative_path, &fs::read(f_path).await?, true, )?;
+                    asar_writer.write_file(relative_path, &fs::read(f_path).await?, true)?;
                     // asar_writer.write_symlink(relative_path_str, f_path)?;
                     println!(
                         "[RsiLauncherAsarData] write symlink file: {} -> {}",

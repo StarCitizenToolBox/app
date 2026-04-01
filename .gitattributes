@@ -1,0 +1,5 @@
+* text=auto eol=lf
+# Keep common Windows scripts if they appear.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf

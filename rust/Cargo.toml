@@ -36,6 +36,7 @@ reqwest = { version = "0.12.26", features = [
 ] }
 hickory-resolver = { version = "0.25.2" }
 anyhow = "1.0.102"
+thiserror = "2.0.17"
 scopeguard = "1.0"
 notify-rust = "4.12.0"
 asar = "0.3.0"
@@ -49,17 +50,26 @@ tokenizers = { version = "0.22.2", default-features = false, features = [
     "onig",
 ] }
 ndarray = "0.17.2"
-serde_json = "1.0.149"
+serde_json = { version = "1.0.149", features = ["preserve_order"] }
 serde = { version = "1.0.228", features = ["derive"] }
+ryu = "1.0.20"
 unp4k_rs = { git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "29430002d6f3a8d87feabac26c03ae0311c81263" }
 #unp4k_rs = { path = "../../unp4k_rs" }
 uuid = { version = "1.23.0", features = ["v4"] }
 rayon = "1.10"
 parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"
-librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc21896b39008825204762c61e7e956b5ca3" }
+librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc21896b39008825204762c61e7e956b5ca3", default-features = false, features = ["default-tls", "http-api-client"] }
 # librqbit = { path = "../../rqbit/crates/librqbit" }
 bytes = "1.11"
+gltf-json = "1.4.1"
+image = { version = "0.25.10", default-features = false, features = ["png", "jpeg", "tga", "tiff", "dds", "ico"] }
+regex = "1.12.2"
+sha2 = "0.10.9"
+ww2ogg = { path = "vendor/ww2ogg" }
+lewton = "0.10.2"
+hound = "3.5.1"
+rodio = "0.22.2"
 
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]

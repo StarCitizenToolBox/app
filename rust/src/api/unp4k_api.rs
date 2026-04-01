@@ -1,8 +1,11 @@
 use anyhow::{anyhow, Result};
 use flutter_rust_bridge::frb;
+use image::{DynamicImage, ImageFormat, RgbaImage};
 use rayon::prelude::*;
 use std::collections::HashMap;
+use std::io::Cursor;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use unp4k::dataforge::DataForge;
 use unp4k::{CryXmlReader, P4kEntry, P4kFile};
@@ -66,6 +69,8 @@ static GLOBAL_P4K_FILES: once_cell::sync::Lazy<Arc<Mutex<HashMap<String, P4kEntr
 static GLOBAL_DCB_READER: once_cell::sync::Lazy<Arc<Mutex<Option<DataForge>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
 
+static GLOBAL_WEM_DECODE_REQUEST_ID: AtomicU64 = AtomicU64::new(0);
+
 /// 打开 P4K 文件（仅打开，不读取文件列表）
 pub async fn p4k_open(p4k_path: String) -> Result<()> {
     let path = PathBuf::from(&p4k_path);
@@ -101,11 +106,7 @@ fn ensure_files_loaded() -> Result<usize> {
 
     let entries = reader.as_ref().unwrap().entries();
     for entry in entries {
-        let name = if entry.name.starts_with("\\") {
-            entry.name.clone()
-        } else {
-            format!("\\{}", entry.name.replace("/", "\\"))
-        };
+        let name = normalize_p4k_path(&entry.name);
         files.insert(name, entry.clone());
     }
 
@@ -153,7 +154,8 @@ pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
             return Err(anyhow!("P4K reader not initialized"));
         }
         let data = reader.as_mut().unwrap().extract_entry(&entry)?;
-        if (entry.name.ends_with(".xml") || entry.name.ends_with(".mtl"))
+        if (entry.name.to_lowercase().ends_with(".xml")
+            || entry.name.to_lowercase().ends_with(".mtl"))
             && CryXmlReader::is_cryxml(&data)
         {
             let cry_xml_string = CryXmlReader::parse(&data)?;
@@ -166,16 +168,664 @@ pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
     Ok(data)
 }
 
+fn build_preview_candidates(normalized_path: &str) -> Vec<String> {
+    let mut candidates = vec![normalized_path.to_string()];
+    if normalized_path.ends_with(".dds") {
+        for level in 0..=15 {
+            candidates.push(format!("{}.{}", normalized_path, level));
+        }
+    } else if let Some(idx) = normalized_path.find(".dds.") {
+        // 点击 .dds.x 时，也把基础 .dds 放到候选集前面，方便获取头部并做拼接解码
+        let base = format!("{}{}", &normalized_path[..idx], ".dds");
+        candidates.insert(0, base);
+    }
+    candidates
+}
+
+fn dds_base_path(normalized_path: &str) -> Option<String> {
+    if normalized_path.ends_with(".dds") {
+        return Some(normalized_path.to_string());
+    }
+    normalized_path
+        .find(".dds.")
+        .map(|idx| format!("{}{}", &normalized_path[..idx], ".dds"))
+}
+
+fn collect_dds_parts(
+    files: &HashMap<String, P4kEntry>,
+    base_path: &str,
+    max_parts: usize,
+) -> Vec<(usize, P4kEntry)> {
+    let prefix = format!("{base_path}.");
+    let mut parts = Vec::new();
+    for (name, entry) in files {
+        if let Some(suffix) = name.strip_prefix(&prefix) {
+            if let Ok(idx) = suffix.parse::<usize>() {
+                if idx <= max_parts {
+                    parts.push((idx, entry.clone()));
+                }
+            }
+        }
+    }
+    parts.sort_by_key(|(idx, _)| *idx);
+    parts
+}
+
+fn decode_image_for_preview(path: &str, data: &[u8]) -> Result<DynamicImage> {
+    let lower = path.to_lowercase();
+    if lower.ends_with(".dds") || lower.contains(".dds.") {
+        return image::load_from_memory_with_format(data, ImageFormat::Dds).or_else(|e| {
+            decode_uncompressed_dds(data).map_err(|fallback_err| {
+                anyhow!(
+                    "decode dds failed: {}; uncompressed fallback failed: {}",
+                    e,
+                    fallback_err
+                )
+            })
+        });
+    }
+
+    let ext = PathBuf::from(path)
+        .extension()
+        .and_then(|s| s.to_str())
+        .unwrap_or_default()
+        .to_lowercase();
+    let decoded = match ext.as_str() {
+        "png" => image::load_from_memory_with_format(data, ImageFormat::Png),
+        "jpg" | "jpeg" => image::load_from_memory_with_format(data, ImageFormat::Jpeg),
+        "bmp" => image::load_from_memory_with_format(data, ImageFormat::Bmp),
+        "gif" => image::load_from_memory_with_format(data, ImageFormat::Gif),
+        "webp" => image::load_from_memory_with_format(data, ImageFormat::WebP),
+        "tga" => image::load_from_memory_with_format(data, ImageFormat::Tga),
+        "tif" | "tiff" => image::load_from_memory_with_format(data, ImageFormat::Tiff),
+        _ => image::load_from_memory(data),
+    };
+    decoded.map_err(|e| anyhow!("decode image failed: {}", e))
+}
+
+fn decode_uncompressed_dds(data: &[u8]) -> Result<DynamicImage> {
+    if data.len() < 128 || !has_dds_signature(data) {
+        return Err(anyhow!("DDS signature not found or header too small"));
+    }
+
+    let height = le_u32(data, 12).ok_or_else(|| anyhow!("missing height"))?;
+    let width = le_u32(data, 16).ok_or_else(|| anyhow!("missing width"))?;
+    if width == 0 || height == 0 {
+        return Err(anyhow!("invalid dds size {}x{}", width, height));
+    }
+
+    // DDS_PIXELFORMAT
+    let fourcc = le_u32(data, 84).ok_or_else(|| anyhow!("missing fourcc"))?;
+    let rgb_bit_count = le_u32(data, 88).ok_or_else(|| anyhow!("missing rgb bit count"))?;
+    let r_mask = le_u32(data, 92).ok_or_else(|| anyhow!("missing r mask"))?;
+    let g_mask = le_u32(data, 96).ok_or_else(|| anyhow!("missing g mask"))?;
+    let b_mask = le_u32(data, 100).ok_or_else(|| anyhow!("missing b mask"))?;
+    let a_mask = le_u32(data, 104).ok_or_else(|| anyhow!("missing a mask"))?;
+
+    if fourcc != 0 {
+        return Err(anyhow!("compressed/dx10 dds (fourcc={:#x})", fourcc));
+    }
+    if rgb_bit_count != 32 && rgb_bit_count != 24 {
+        return Err(anyhow!("unsupported rgb bit count {}", rgb_bit_count));
+    }
+
+    let pixel_bytes = (rgb_bit_count / 8) as usize;
+    let min_row_stride = (width as usize)
+        .checked_mul(pixel_bytes)
+        .ok_or_else(|| anyhow!("row stride overflow"))?;
+    let mut row_stride = min_row_stride;
+    let pitch = le_u32(data, 20).unwrap_or(0) as usize;
+    if pitch >= min_row_stride {
+        row_stride = pitch;
+    }
+
+    let data_offset = 128usize;
+    let required_len = data_offset
+        .checked_add(
+            row_stride
+                .checked_mul(height as usize)
+                .ok_or_else(|| anyhow!("image size overflow"))?,
+        )
+        .ok_or_else(|| anyhow!("image size overflow"))?;
+    if data.len() < required_len {
+        return Err(anyhow!(
+            "dds data too short: expected at least {}, got {}",
+            required_len,
+            data.len()
+        ));
+    }
+
+    let mut rgba = Vec::with_capacity(
+        (width as usize)
+            .checked_mul(height as usize)
+            .and_then(|v| v.checked_mul(4))
+            .ok_or_else(|| anyhow!("rgba buffer overflow"))?,
+    );
+
+    for y in 0..height as usize {
+        let row_start = data_offset + y * row_stride;
+        for x in 0..width as usize {
+            let p = row_start + x * pixel_bytes;
+            let raw = if pixel_bytes == 4 {
+                u32::from_le_bytes([data[p], data[p + 1], data[p + 2], data[p + 3]])
+            } else {
+                (data[p] as u32) | ((data[p + 1] as u32) << 8) | ((data[p + 2] as u32) << 16)
+            };
+            rgba.push(extract_masked_component(raw, r_mask, 0));
+            rgba.push(extract_masked_component(raw, g_mask, 0));
+            rgba.push(extract_masked_component(raw, b_mask, 0));
+            // 无 alpha 掩码时默认不透明
+            rgba.push(extract_masked_component(raw, a_mask, 255));
+        }
+    }
+
+    let img = RgbaImage::from_raw(width, height, rgba)
+        .ok_or_else(|| anyhow!("failed to build rgba image"))?;
+    Ok(DynamicImage::ImageRgba8(img))
+}
+
+fn extract_masked_component(raw: u32, mask: u32, fallback: u8) -> u8 {
+    if mask == 0 {
+        return fallback;
+    }
+    let shift = mask.trailing_zeros();
+    let max = mask >> shift;
+    if max == 0 {
+        return fallback;
+    }
+    let value = (raw & mask) >> shift;
+    ((value * 255 + (max / 2)) / max) as u8
+}
+
+fn has_dds_signature(data: &[u8]) -> bool {
+    data.len() >= 4 && &data[0..4] == b"DDS "
+}
+
+fn le_u32(data: &[u8], offset: usize) -> Option<u32> {
+    if data.len() < offset + 4 {
+        return None;
+    }
+    Some(u32::from_le_bytes([
+        data[offset],
+        data[offset + 1],
+        data[offset + 2],
+        data[offset + 3],
+    ]))
+}
+
+fn dds_block_bytes(fourcc: &[u8]) -> Option<usize> {
+    match fourcc {
+        b"DXT1" | b"BC4U" | b"BC4S" | b"ATI1" => Some(8),
+        b"DXT3" | b"DXT5" | b"BC5U" | b"BC5S" | b"ATI2" | b"BC7 " | b"BC6H" => Some(16),
+        _ => None,
+    }
+}
+
+fn compute_dds_mip_sizes(
+    width: u32,
+    height: u32,
+    mip_count: u32,
+    block_bytes: usize,
+) -> Vec<usize> {
+    let mut sizes = Vec::new();
+    let mut w = width.max(1);
+    let mut h = height.max(1);
+    let count = mip_count.max(1);
+    for _ in 0..count {
+        let bw = w.div_ceil(4).max(1);
+        let bh = h.div_ceil(4).max(1);
+        sizes.push((bw as usize) * (bh as usize) * block_bytes);
+        w = (w / 2).max(1);
+        h = (h / 2).max(1);
+    }
+    sizes
+}
+
+fn reconstruct_dds_stream(base_dds: &[u8], dds_parts: &[(usize, Vec<u8>)]) -> Option<Vec<u8>> {
+    if !has_dds_signature(base_dds) || base_dds.len() < 128 {
+        return None;
+    }
+
+    let width = le_u32(base_dds, 16)?;
+    let height = le_u32(base_dds, 12)?;
+    let mip_count = le_u32(base_dds, 28).unwrap_or(1);
+    let fourcc = base_dds.get(84..88)?;
+    let block_bytes = dds_block_bytes(fourcc)?;
+    let expected_total = compute_dds_mip_sizes(width, height, mip_count, block_bytes)
+        .into_iter()
+        .sum::<usize>();
+
+    let header = &base_dds[..128];
+    let tail = &base_dds[128..];
+
+    let mut sorted_parts = dds_parts.to_vec();
+    // Star Citizen 资源中 .dds.N 常见为 N 越大 mip 越大，这里按降序拼接。
+    sorted_parts.sort_by(|a, b| b.0.cmp(&a.0));
+
+    let mut data = Vec::new();
+    for (_, chunk) in sorted_parts {
+        data.extend_from_slice(&chunk);
+    }
+    data.extend_from_slice(tail);
+
+    if data.len() < expected_total {
+        return None;
+    }
+    if data.len() > expected_total {
+        data.truncate(expected_total);
+    }
+
+    let mut merged = Vec::with_capacity(128 + data.len());
+    merged.extend_from_slice(header);
+    merged.extend_from_slice(&data);
+    Some(merged)
+}
+
+/// 提取并解码图片为 PNG（用于 UI 预览）
+/// 对 .dds 会自动尝试 .dds.0 ~ .dds.15 的层级文件
+pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
+    let normalized_path = normalize_p4k_path(&file_path);
+    tokio::task::spawn_blocking(move || {
+        ensure_files_loaded()?;
+        let is_dds_request = normalized_path.contains(".dds");
+        let candidates = build_preview_candidates(&normalized_path);
+
+        let (entries, dds_parts) = {
+            let files = GLOBAL_P4K_FILES.lock().unwrap();
+            let mut matched = Vec::new();
+            for candidate in candidates {
+                if let Some(entry) = files.get(&candidate) {
+                    matched.push(entry.clone());
+                }
+            }
+            let parts = if let Some(base) = dds_base_path(&normalized_path) {
+                collect_dds_parts(&files, &base, 64)
+            } else {
+                Vec::new()
+            };
+            (matched, parts)
+        };
+
+        if entries.is_empty() {
+            return Err(anyhow!("File not found: {}", file_path));
+        }
+
+        let mut reader_guard = GLOBAL_P4K_READER.lock().unwrap();
+        let reader = reader_guard
+            .as_mut()
+            .ok_or_else(|| anyhow!("P4K reader not initialized"))?;
+
+        // 缓存基础 dds 头（Star Citizen 的 .dds 常见为仅头部，数据在 .dds.x）
+        let mut base_dds_header: Option<Vec<u8>> = None;
+        let mut extracted_dds_chunks: Vec<(String, Vec<u8>)> = Vec::new();
+        let mut last_error = String::new();
+        for entry in entries {
+            let raw = reader.extract_entry(&entry)?;
+            let lower_name = entry.name.to_lowercase();
+            extracted_dds_chunks.push((entry.name.clone(), raw.clone()));
+
+            if lower_name.ends_with(".dds") && base_dds_header.is_none() {
+                base_dds_header = Some(raw.clone());
+            }
+
+            // DDS 请求优先走重组逻辑，避免基础 .dds（仅头+尾mip）被“错误但可解码”地提前返回
+            if !is_dds_request {
+                match decode_image_for_preview(&entry.name, &raw) {
+                    Ok(img) => {
+                        let mut cursor = Cursor::new(Vec::new());
+                        img.write_to(&mut cursor, ImageFormat::Png)
+                            .map_err(|e| anyhow!("encode png failed: {}", e))?;
+                        return Ok(cursor.into_inner());
+                    }
+                    Err(err) => {
+                        last_error = err.to_string();
+                    }
+                }
+            }
+        }
+
+        // 回退：尝试“头 + 所有 .dds.N 分片拼接”解码
+        if let Some(header) = &base_dds_header {
+            if !dds_parts.is_empty() {
+                let mut extracted_parts: Vec<(usize, Vec<u8>)> = Vec::new();
+                for (idx, part_entry) in &dds_parts {
+                    if let Ok(bytes) = reader.extract_entry(part_entry) {
+                        extracted_parts.push((*idx, bytes));
+                    }
+                }
+
+                if let Some(reconstructed) = reconstruct_dds_stream(header, &extracted_parts) {
+                    if let Ok(img) = decode_image_for_preview(&file_path, &reconstructed) {
+                        let mut cursor = Cursor::new(Vec::new());
+                        img.write_to(&mut cursor, ImageFormat::Png)
+                            .map_err(|e| anyhow!("encode png failed: {}", e))?;
+                        return Ok(cursor.into_inner());
+                    }
+                }
+            }
+        }
+
+        // 回退：若基础 .dds 本身不带 DDS 签名，则在所有分片中找真实 DDS 头，再拼接其余分片
+        if let Some((header_idx, (_, header_chunk))) = extracted_dds_chunks
+            .iter()
+            .enumerate()
+            .find(|(_, (_, chunk))| has_dds_signature(chunk))
+        {
+            let mut merged = Vec::new();
+            merged.extend_from_slice(header_chunk);
+
+            for (idx, (_, chunk)) in extracted_dds_chunks.iter().enumerate() {
+                if idx == header_idx {
+                    continue;
+                }
+                // 跳过其他也带 DDS 头的块，避免把第二个独立 DDS 拼进去
+                if has_dds_signature(chunk) {
+                    continue;
+                }
+                merged.extend_from_slice(chunk);
+            }
+
+            if let Ok(img) = decode_image_for_preview(&file_path, &merged) {
+                let mut cursor = Cursor::new(Vec::new());
+                img.write_to(&mut cursor, ImageFormat::Png)
+                    .map_err(|e| anyhow!("encode png failed: {}", e))?;
+                return Ok(cursor.into_inner());
+            }
+        }
+
+        // 最后兜底：DDS 重组均失败时，再尝试逐个直接解码
+        if is_dds_request {
+            for (name, raw) in &extracted_dds_chunks {
+                if let Ok(img) = decode_image_for_preview(name, raw) {
+                    let mut cursor = Cursor::new(Vec::new());
+                    img.write_to(&mut cursor, ImageFormat::Png)
+                        .map_err(|e| anyhow!("encode png failed: {}", e))?;
+                    return Ok(cursor.into_inner());
+                }
+            }
+        }
+
+        Err(anyhow!(
+            "Failed to decode preview image from {}: {}",
+            file_path,
+            if last_error.is_empty() {
+                "unknown error"
+            } else {
+                &last_error
+            }
+        ))
+    })
+    .await?
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{decode_image_for_preview, has_dds_signature, reconstruct_dds_stream};
+    use crate::audio::wwise::decode_wem_vorbis_to_ogg;
+    use anyhow::{anyhow, Result};
+    use image::ImageFormat;
+    use std::fs;
+    use std::io::Cursor;
+    use std::path::PathBuf;
+
+    fn read_file(path: &PathBuf) -> Result<Vec<u8>> {
+        fs::read(path).map_err(|e| anyhow!("read {} failed: {}", path.display(), e))
+    }
+
+    #[test]
+    fn convert_dds_target_sample_to_png() -> Result<()> {
+        let base_name = "poster_advert_1_hammerhead_9x16_a_diff.dds";
+        let target_dir = PathBuf::from("../dds_target");
+        let base_path = target_dir.join(base_name);
+        if !base_path.exists() {
+            return Err(anyhow!("sample not found: {}", base_path.display()));
+        }
+
+        let base_dds = read_file(&base_path)?;
+        let mut parts = Vec::<(usize, Vec<u8>)>::new();
+        for idx in 1..=64 {
+            let part_path = target_dir.join(format!("{base_name}.{idx}"));
+            if !part_path.exists() {
+                continue;
+            }
+            parts.push((idx, read_file(&part_path)?));
+        }
+        if parts.is_empty() {
+            return Err(anyhow!("no dds parts found for {}", base_name));
+        }
+
+        let reconstructed = reconstruct_dds_stream(&base_dds, &parts)
+            .ok_or_else(|| anyhow!("reconstruct_dds_stream returned None"))?;
+        let img = decode_image_for_preview(base_name, &reconstructed)?;
+
+        let mut cursor = Cursor::new(Vec::new());
+        img.write_to(&mut cursor, ImageFormat::Png)?;
+        let out_path = target_dir.join("poster_advert_1_hammerhead_9x16_a_diff.test.png");
+        fs::write(&out_path, cursor.into_inner())
+            .map_err(|e| anyhow!("write {} failed: {}", out_path.display(), e))?;
+        println!("wrote {}", out_path.display());
+        Ok(())
+    }
+
+    #[test]
+    fn decode_uncompressed_bgra_dds_fallback() -> Result<()> {
+        let mut dds = vec![0u8; 128];
+        dds[0..4].copy_from_slice(b"DDS ");
+        dds[4..8].copy_from_slice(&124u32.to_le_bytes());
+        dds[8..12].copy_from_slice(&0x00021007u32.to_le_bytes());
+        dds[12..16].copy_from_slice(&2u32.to_le_bytes()); // height
+        dds[16..20].copy_from_slice(&2u32.to_le_bytes()); // width
+        dds[20..24].copy_from_slice(&8u32.to_le_bytes()); // pitch
+        dds[28..32].copy_from_slice(&1u32.to_le_bytes()); // mip count
+        dds[76..80].copy_from_slice(&32u32.to_le_bytes()); // pf size
+        dds[80..84].copy_from_slice(&0x41u32.to_le_bytes()); // rgb + alpha
+        dds[84..88].copy_from_slice(&0u32.to_le_bytes()); // fourcc
+        dds[88..92].copy_from_slice(&32u32.to_le_bytes()); // bpp
+        dds[92..96].copy_from_slice(&0x00FF0000u32.to_le_bytes()); // r mask
+        dds[96..100].copy_from_slice(&0x0000FF00u32.to_le_bytes()); // g mask
+        dds[100..104].copy_from_slice(&0x000000FFu32.to_le_bytes()); // b mask
+        dds[104..108].copy_from_slice(&0xFF000000u32.to_le_bytes()); // a mask
+        dds[108..112].copy_from_slice(&0x1000u32.to_le_bytes()); // caps
+
+        // 2x2 BGRA pixels: red, green, blue, white (all opaque)
+        dds.extend_from_slice(&[0x00, 0x00, 0xFF, 0xFF]);
+        dds.extend_from_slice(&[0x00, 0xFF, 0x00, 0xFF]);
+        dds.extend_from_slice(&[0xFF, 0x00, 0x00, 0xFF]);
+        dds.extend_from_slice(&[0xFF, 0xFF, 0xFF, 0xFF]);
+
+        let img = decode_image_for_preview("fallback.dds", &dds)?;
+        let rgba = img.to_rgba8();
+        if rgba.width() != 2 || rgba.height() != 2 {
+            return Err(anyhow!(
+                "unexpected output size {}x{}",
+                rgba.width(),
+                rgba.height()
+            ));
+        }
+        if rgba.get_pixel(0, 0).0 != [255, 0, 0, 255] {
+            return Err(anyhow!(
+                "unexpected first pixel {:?}",
+                rgba.get_pixel(0, 0).0
+            ));
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn convert_all_dds_target_files_to_png() -> Result<()> {
+        let target_dir = PathBuf::from("../dds_target");
+        if !target_dir.exists() {
+            return Err(anyhow!("dds_target not found: {}", target_dir.display()));
+        }
+
+        let mut dds_targets = Vec::new();
+        for entry in fs::read_dir(&target_dir)? {
+            let entry = entry?;
+            let path = entry.path();
+            if !path.is_file() {
+                continue;
+            }
+            let name = path
+                .file_name()
+                .and_then(|s| s.to_str())
+                .ok_or_else(|| anyhow!("invalid utf-8 path: {}", path.display()))?
+                .to_string();
+            let lower = name.to_lowercase();
+            if lower.ends_with(".dds") || lower.contains(".dds.") {
+                dds_targets.push(name);
+            }
+        }
+        dds_targets.sort();
+
+        if dds_targets.is_empty() {
+            return Err(anyhow!(
+                "no .dds/.dds.N files found in {}",
+                target_dir.display()
+            ));
+        }
+
+        let mut success = 0usize;
+        let mut failed = Vec::new();
+
+        for target_name in dds_targets {
+            let lower_target = target_name.to_lowercase();
+            let base_name = if let Some(idx) = lower_target.find(".dds.") {
+                format!("{}{}", &target_name[..idx], ".dds")
+            } else {
+                target_name.clone()
+            };
+            let base_path = target_dir.join(&base_name);
+            if !base_path.exists() {
+                println!("[SKIP] {} (base missing: {})", target_name, base_name);
+                continue;
+            }
+            let base_dds = read_file(&base_path)?;
+
+            let mut parts = Vec::<(usize, Vec<u8>)>::new();
+            for idx in 1..=64 {
+                let part_path = target_dir.join(format!("{base_name}.{idx}"));
+                if part_path.exists() {
+                    parts.push((idx, read_file(&part_path)?));
+                }
+            }
+
+            let mut decoded = None;
+
+            if !parts.is_empty() {
+                if let Some(reconstructed) = reconstruct_dds_stream(&base_dds, &parts) {
+                    if let Ok(img) = decode_image_for_preview(&base_name, &reconstructed) {
+                        decoded = Some(img);
+                    }
+                }
+            }
+
+            if decoded.is_none() {
+                // fallback: find any chunk with DDS signature then append non-signature chunks
+                let mut chunks = Vec::<Vec<u8>>::new();
+                chunks.push(base_dds.clone());
+                for (_, p) in &parts {
+                    chunks.push(p.clone());
+                }
+                if let Some((header_idx, header_chunk)) = chunks
+                    .iter()
+                    .enumerate()
+                    .find(|(_, c)| has_dds_signature(c))
+                {
+                    let mut merged = Vec::new();
+                    merged.extend_from_slice(header_chunk);
+                    for (idx, chunk) in chunks.iter().enumerate() {
+                        if idx == header_idx || has_dds_signature(chunk) {
+                            continue;
+                        }
+                        merged.extend_from_slice(chunk);
+                    }
+                    if let Ok(img) = decode_image_for_preview(&base_name, &merged) {
+                        decoded = Some(img);
+                    }
+                }
+            }
+
+            if decoded.is_none() {
+                if let Ok(img) = decode_image_for_preview(&base_name, &base_dds) {
+                    decoded = Some(img);
+                }
+            }
+
+            match decoded {
+                Some(img) => {
+                    let mut cursor = Cursor::new(Vec::new());
+                    img.write_to(&mut cursor, ImageFormat::Png)?;
+                    let output_name = format!("{target_name}.test.png");
+                    let out_path = target_dir.join(output_name);
+                    fs::write(&out_path, cursor.into_inner())?;
+                    println!("[OK] {} -> {}", target_name, out_path.display());
+                    success += 1;
+                }
+                None => {
+                    println!("[FAIL] {}", target_name);
+                    failed.push(target_name);
+                }
+            }
+        }
+
+        println!("summary: success={}, failed={}", success, failed.len());
+        if !failed.is_empty() {
+            return Err(anyhow!("failed files: {}", failed.join(", ")));
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn decode_all_live_wem_to_ogg_if_present() -> Result<()> {
+        let root = PathBuf::from(r"C:\WINDOWS\TEMP\SCToolbox_unp4kc\LIVE");
+        if !root.exists() {
+            println!("[SKIP] live wem folder not found: {}", root.display());
+            return Ok(());
+        }
+
+        let mut wem_files = Vec::<PathBuf>::new();
+        for entry in walkdir::WalkDir::new(&root).into_iter().flatten() {
+            if !entry.file_type().is_file() {
+                continue;
+            }
+            let p = entry.path();
+            let lower = p.to_string_lossy().to_lowercase();
+            if lower.ends_with(".wem") {
+                wem_files.push(p.to_path_buf());
+            }
+        }
+        wem_files.sort();
+        if wem_files.is_empty() {
+            println!("[SKIP] no .wem in {}", root.display());
+            return Ok(());
+        }
+
+        let mut failed = Vec::<String>::new();
+        for p in wem_files {
+            let wem = fs::read(&p)?;
+            match decode_wem_vorbis_to_ogg(&wem) {
+                Ok(ogg) => {
+                    if ogg.len() <= 4 || !ogg.starts_with(b"OggS") {
+                        failed.push(format!("{} -> ogg too small", p.display()));
+                    }
+                }
+                Err(e) => failed.push(format!("{} -> {}", p.display(), e)),
+            }
+        }
+
+        if !failed.is_empty() {
+            return Err(anyhow!("wem decode failed:\n{}", failed.join("\n")));
+        }
+        Ok(())
+    }
+}
+
 async fn p4k_get_entry(file_path: String) -> Result<P4kEntry> {
     // 确保文件列表已加载
     tokio::task::spawn_blocking(|| ensure_files_loaded()).await??;
 
-    // 规范化路径
-    let normalized_path = if file_path.starts_with("\\") {
-        file_path.clone()
-    } else {
-        format!("\\{}", file_path)
-    };
+    // 规范化路径，P4K 查找大小写不敏感
+    let normalized_path = normalize_p4k_path(&file_path);
 
     // 获取文件 entry 的克隆
     let entry = {
@@ -187,6 +837,14 @@ async fn p4k_get_entry(file_path: String) -> Result<P4kEntry> {
     };
 
     Ok(entry)
+}
+
+fn normalize_p4k_path(path: &str) -> String {
+    let mut normalized = path.replace('/', "\\");
+    if !normalized.starts_with('\\') {
+        normalized = format!("\\{}", normalized);
+    }
+    normalized.to_lowercase()
 }
 
 /// 提取文件到磁盘
@@ -212,6 +870,168 @@ pub async fn p4k_extract_to_disk(file_path: String, output_path: String) -> Resu
     .await??;
 
     Ok(())
+}
+
+/// 内置 WEM -> OGG 转换（用于预览播放，不依赖外部工具）
+pub async fn p4k_decode_wem_to_ogg(input_path: String, output_path: String) -> Result<()> {
+    tokio::task::spawn_blocking(move || {
+        let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
+        let is_cancelled = || GLOBAL_WEM_DECODE_REQUEST_ID.load(Ordering::SeqCst) != request_id;
+
+        let input = PathBuf::from(&input_path);
+        if !input.exists() {
+            return Err(anyhow!("input wem not found: {}", input_path));
+        }
+
+        let wem = std::fs::read(&input)?;
+        let ogg = match crate::audio::wwise::decode_wem_to_ogg_with_cancel(&wem, &is_cancelled) {
+            Ok(w) => w,
+            Err(e) if e.to_string().contains("wem decode cancelled") => {
+                return Err(anyhow!("wem decode interrupted by newer request"));
+            }
+            Err(e) => return Err(e),
+        };
+
+        let output = PathBuf::from(&output_path);
+        if let Some(parent) = output.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(output, ogg)?;
+        Ok(())
+    })
+    .await?
+}
+
+/// 内置 WEM -> OGG 预览转换（估算中段并仅输出短片段）
+pub async fn p4k_decode_wem_to_ogg_preview(
+    input_path: String,
+    output_path: String,
+    clip_seconds: u32,
+) -> Result<()> {
+    tokio::task::spawn_blocking(move || {
+        let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
+        let is_cancelled = || GLOBAL_WEM_DECODE_REQUEST_ID.load(Ordering::SeqCst) != request_id;
+
+        let input = PathBuf::from(&input_path);
+        if !input.exists() {
+            return Err(anyhow!("input wem not found: {}", input_path));
+        }
+
+        let wem = std::fs::read(&input)?;
+        let ogg = match crate::audio::wwise::decode_wem_preview_to_ogg_with_cancel(
+            &wem,
+            clip_seconds.max(1),
+            &is_cancelled,
+        ) {
+            Ok(w) => w,
+            Err(e) if e.to_string().contains("wem decode cancelled") => {
+                return Err(anyhow!("wem decode interrupted by newer request"));
+            }
+            Err(e) => return Err(e),
+        };
+
+        let output = PathBuf::from(&output_path);
+        if let Some(parent) = output.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(output, ogg)?;
+        Ok(())
+    })
+    .await?
+}
+
+/// 将 OGG 转为 WAV（导出时用于复用缓存）
+pub async fn p4k_decode_ogg_to_wav(input_path: String, output_path: String) -> Result<()> {
+    tokio::task::spawn_blocking(move || {
+        let input = PathBuf::from(&input_path);
+        if !input.exists() {
+            return Err(anyhow!("input ogg not found: {}", input_path));
+        }
+
+        let ogg = std::fs::read(&input)?;
+        let wav = crate::audio::wwise::decode_ogg_to_wav(&ogg)?;
+
+        let output = PathBuf::from(&output_path);
+        if let Some(parent) = output.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(output, wav)?;
+        Ok(())
+    })
+    .await?
+}
+
+/// 内置 WEM(PCM) -> WAV 转换（用于预览播放或导出兜底，不依赖外部工具）
+pub async fn p4k_decode_wem_to_wav(input_path: String, output_path: String) -> Result<()> {
+    tokio::task::spawn_blocking(move || {
+        let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
+        let is_cancelled = || GLOBAL_WEM_DECODE_REQUEST_ID.load(Ordering::SeqCst) != request_id;
+
+        let input = PathBuf::from(&input_path);
+        if !input.exists() {
+            return Err(anyhow!("input wem not found: {}", input_path));
+        }
+
+        let wem = std::fs::read(&input)?;
+        let wav = match crate::audio::wwise::decode_wem_to_wav_with_cancel(&wem, &is_cancelled) {
+            Ok(w) => w,
+            Err(e) if e.to_string().contains("wem decode cancelled") => {
+                return Err(anyhow!("wem decode interrupted by newer request"));
+            }
+            Err(e) => return Err(e),
+        };
+
+        let output = PathBuf::from(&output_path);
+        if let Some(parent) = output.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(output, wav)?;
+        Ok(())
+    })
+    .await?
+}
+
+/// 内置 WEM -> WAV 预览转换（估算中段并仅输出短片段，导出兜底用）
+pub async fn p4k_decode_wem_to_wav_preview(
+    input_path: String,
+    output_path: String,
+    clip_seconds: u32,
+) -> Result<()> {
+    tokio::task::spawn_blocking(move || {
+        let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
+        let is_cancelled = || GLOBAL_WEM_DECODE_REQUEST_ID.load(Ordering::SeqCst) != request_id;
+
+        let input = PathBuf::from(&input_path);
+        if !input.exists() {
+            return Err(anyhow!("input wem not found: {}", input_path));
+        }
+
+        let wem = std::fs::read(&input)?;
+        let wav = match crate::audio::wwise::decode_wem_preview_to_wav_with_cancel(
+            &wem,
+            clip_seconds.max(1),
+            &is_cancelled,
+        ) {
+            Ok(w) => w,
+            Err(e) if e.to_string().contains("wem decode cancelled") => {
+                return Err(anyhow!("wem decode interrupted by newer request"));
+            }
+            Err(e) => return Err(e),
+        };
+
+        let output = PathBuf::from(&output_path);
+        if let Some(parent) = output.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        std::fs::write(output, wav)?;
+        Ok(())
+    })
+    .await?
+}
+
+/// 取消正在进行的 WEM 解码任务（通过提升全局请求 id）
+pub fn p4k_cancel_wem_decode() {
+    GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst);
 }
 
 /// 关闭 P4K 读取器
