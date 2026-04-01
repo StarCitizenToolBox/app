@@ -43,7 +43,6 @@ abstract class LocalizationUIState with _$LocalizationUIState {
     bool? isInstalledAdvanced,
     List<String>? customizeList,
     List<LocalizationExtensionItemData>? localizationExtensionList,
-    List<String>? selectedExtensions,
   }) = _LocalizationUIState;
 }
 
@@ -119,11 +118,16 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           if (l != null && l.isNotEmpty) {
             state = state.copyWith(localizationExtensionList: l);
             dPrint("loadLocalizationExtensionData: ${l.length} extensions");
+          } else {
+            state = state.copyWith(localizationExtensionList: []);
           }
         }
+      } else {
+        state = state.copyWith(localizationExtensionList: []);
       }
     } catch (e) {
       dPrint("loadLocalizationExtensionData error: $e");
+      state = state.copyWith(localizationExtensionList: []);
     }
   }
 
@@ -382,31 +386,39 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return extensionData;
   }
 
+  static const int _maxChineseCharsForTitlePrefix = 10;
+
+  (String, String)? _parseIniLine(String line) {
+    final idx = line.indexOf("=");
+    if (idx > 0) {
+      return (line.substring(0, idx), line.substring(idx + 1));
+    }
+    return null;
+  }
+
   void _applyExtensions(StringBuffer globalIni, Map<String, String> extensionData) {
     final globalIniLines = globalIni.toString().split("\n");
     final globalIniMap = <String, String>{};
 
     for (var line in globalIniLines) {
-      final idx = line.indexOf("=");
-      if (idx > 0) {
-        final key = line.substring(0, idx);
-        final value = line.substring(idx + 1);
-        globalIniMap[key] = value;
+      final parsed = _parseIniLine(line);
+      if (parsed != null) {
+        globalIniMap[parsed.$1] = parsed.$2;
       }
     }
 
     for (var extContent in extensionData.values) {
       for (var line in extContent.split("\n")) {
-        final idx = line.indexOf("=");
-        if (idx > 0) {
-          final key = line.substring(0, idx);
-          final extValue = line.substring(idx + 1);
+        final parsed = _parseIniLine(line);
+        if (parsed != null) {
+          final key = parsed.$1;
+          final extValue = parsed.$2;
 
           if (globalIniMap.containsKey(key)) {
             final originalValue = globalIniMap[key]!;
             final lowerKey = key.toLowerCase();
 
-            if (lowerKey.contains("_title_") && _countChineseChars(originalValue) <= 10) {
+            if (lowerKey.contains("_title_") && _countChineseChars(originalValue) <= _maxChineseCharsForTitlePrefix) {
               globalIniMap[key] = "$extValue$originalValue";
             } else {
               globalIniMap[key] = "$originalValue$extValue";
@@ -417,8 +429,18 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
 
     globalIni.clear();
-    for (var entry in globalIniMap.entries) {
-      globalIni.writeln("${entry.key}=${entry.value}");
+    for (var line in globalIniLines) {
+      final parsed = _parseIniLine(line);
+      if (parsed != null) {
+        final key = parsed.$1;
+        if (globalIniMap.containsKey(key)) {
+          globalIni.writeln("$key=${globalIniMap[key]}");
+        } else {
+          globalIni.writeln(line);
+        }
+      } else {
+        globalIni.writeln(line);
+      }
     }
   }
 
@@ -836,50 +858,51 @@ class LocalizationUIModel extends _$LocalizationUIModel {
               ),
             ],
           ),
-          if (state.localizationExtensionList != null && state.localizationExtensionList!.isNotEmpty) ...[
-            SizedBox(height: 12),
-            Text(S.current.localization_extension_title, style: TextStyle(fontSize: 14)),
-            SizedBox(height: 8),
-            StatefulBuilder(
-              builder: (BuildContext context, void Function(void Function()) setState) {
-                return Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: state.localizationExtensionList!.map((ext) {
-                    final isSelected = selectedExtensions.any((e) => e.file == ext.file);
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (isSelected) {
-                            selectedExtensions.removeWhere((e) => e.file == ext.file);
-                          } else {
-                            selectedExtensions.add(ext);
-                          }
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: isSelected ? Color(0xFF4A9EFF) : Colors.white.withValues(alpha: .1),
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(
-                            color: isSelected ? Color(0xFF4A9EFF) : Colors.white.withValues(alpha: .2),
-                          ),
-                        ),
-                        child: Text(
-                          ext.name ?? ext.file ?? "Unknown",
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.white.withValues(alpha: .8),
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-          ],
+           if (state.localizationExtensionList != null && state.localizationExtensionList!.isNotEmpty) ...[
+             SizedBox(height: 12),
+             Text(S.current.localization_extension_title, style: TextStyle(fontSize: 14)),
+             SizedBox(height: 8),
+             StatefulBuilder(
+               builder: (BuildContext context, void Function(void Function()) setState) {
+                 final accentColor = FluentTheme.of(context).accentColor;
+                 return Wrap(
+                   spacing: 8,
+                   runSpacing: 8,
+                   children: state.localizationExtensionList!.map((ext) {
+                     final isSelected = selectedExtensions.any((e) => e.file == ext.file);
+                     return GestureDetector(
+                       onTap: () {
+                         setState(() {
+                           if (isSelected) {
+                             selectedExtensions.removeWhere((e) => e.file == ext.file);
+                           } else {
+                             selectedExtensions.add(ext);
+                           }
+                         });
+                       },
+                       child: Container(
+                         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                         decoration: BoxDecoration(
+                           color: isSelected ? accentColor : Colors.white.withValues(alpha: .1),
+                           borderRadius: BorderRadius.circular(4),
+                           border: Border.all(
+                             color: isSelected ? accentColor : Colors.white.withValues(alpha: .2),
+                           ),
+                         ),
+                         child: Text(
+                           ext.name ?? ext.file ?? "Unknown",
+                           style: TextStyle(
+                             color: isSelected ? Colors.white : Colors.white.withValues(alpha: .8),
+                             fontSize: 13,
+                           ),
+                         ),
+                       ),
+                     );
+                   }).toList(),
+                 );
+               },
+             ),
+           ],
         ],
       ),
       confirm: S.current.localization_action_install,

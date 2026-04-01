@@ -7,8 +7,9 @@ class LocalizationExtensionApiData {
   LocalizationExtensionApiData.fromJson(dynamic json) {
     enable = json['enable'];
     if (json['languages'] != null) {
+      final langs = json['languages'] as Map<String, dynamic>;
       languages = <String, List<LocalizationExtensionItemData>>{};
-      json['languages'].forEach((String key, dynamic v) {
+      langs.forEach((key, v) {
         if (v is List) {
           languages![key] = v.map((e) => LocalizationExtensionItemData.fromJson(e)).toList();
         }
