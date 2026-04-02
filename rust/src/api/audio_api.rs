@@ -25,6 +25,7 @@ struct AudioRuntime {
     player: Player,
     current_source_path: Option<String>,
     duration_ms: Option<u32>,
+    base_offset_ms: u32,
     volume: f64,
 }
 
@@ -54,13 +55,15 @@ fn ensure_runtime() -> Result<()> {
         player,
         current_source_path: None,
         duration_ms: None,
+        base_offset_ms: 0,
         volume: 1.0,
     });
     Ok(())
 }
 
 fn build_snapshot(runtime: &AudioRuntime) -> AudioPlaybackState {
-    let position = runtime.player.get_pos().as_millis().min(u32::MAX as u128) as u32;
+    let relative = runtime.player.get_pos().as_millis().min(u32::MAX as u128) as u32;
+    let position = runtime.base_offset_ms.saturating_add(relative);
     let is_paused = runtime.player.is_paused();
     let is_playing = !runtime.player.empty() && !is_paused;
 
@@ -206,41 +209,46 @@ fn load_ogg_source(path: &str) -> Result<(AudioSource, Option<u32>)> {
     ))
 }
 
+fn load_audio_source(path: &str) -> Result<(AudioSource, Option<u32>)> {
+    let lower = path.to_lowercase();
+    match load_decoder(path) {
+        Ok((decoder, duration_ms)) => Ok((AudioSource::Decoder(decoder), duration_ms)),
+        Err(decoder_err) if lower.ends_with(".ogg") => match load_ogg_source(path) {
+            Ok((source, duration_ms)) => Ok((source, duration_ms)),
+            Err(ogg_err) => Err(anyhow!(
+                "failed to decode audio file {}: {}; ogg fallback failed: {}",
+                path,
+                decoder_err,
+                ogg_err
+            )),
+        },
+        Err(err) => Err(err),
+    }
+}
+
 /// Stop and forget the currently loaded source.
 pub fn audio_stop() -> Result<AudioPlaybackState> {
     with_runtime_mut(|runtime| {
         runtime.player.stop();
         runtime.current_source_path = None;
         runtime.duration_ms = None;
+        runtime.base_offset_ms = 0;
         Ok(build_snapshot(runtime))
     })
 }
 
 /// Load a file into the player and start playback at the requested position.
 pub fn audio_play_file(path: String, position_ms: u32) -> Result<AudioPlaybackState> {
-    let lower = path.to_lowercase();
-    let decoded = load_decoder(&path);
-    let (source, duration_ms) = match decoded {
-        Ok((decoder, duration_ms)) => (AudioSource::Decoder(decoder), duration_ms),
-        Err(decoder_err) if lower.ends_with(".ogg") => match load_ogg_source(&path) {
-            Ok((source, duration_ms)) => (source, duration_ms),
-            Err(ogg_err) => {
-                return Err(anyhow!(
-                    "failed to decode audio file {}: {}; ogg fallback failed: {}",
-                    path,
-                    decoder_err,
-                    ogg_err
-                ))
-            }
-        },
-        Err(err) => return Err(err),
-    };
+    let (source, duration_ms) = load_audio_source(&path)?;
+    let start_ms = duration_ms
+        .map(|total| position_ms.min(total))
+        .unwrap_or(position_ms);
 
     with_runtime_mut(|runtime| {
         runtime.player.stop();
         runtime.player.set_volume(runtime.volume as f32);
 
-        let start = Duration::from_millis(position_ms as u64);
+        let start = Duration::from_millis(start_ms as u64);
         if start.is_zero() {
             runtime.player.append(source);
         } else {
@@ -249,6 +257,7 @@ pub fn audio_play_file(path: String, position_ms: u32) -> Result<AudioPlaybackSt
         runtime.player.play();
         runtime.current_source_path = Some(path);
         runtime.duration_ms = duration_ms;
+        runtime.base_offset_ms = start_ms;
         Ok(build_snapshot(runtime))
     })
 }
@@ -272,11 +281,45 @@ pub fn audio_pause() -> Result<AudioPlaybackState> {
 /// Seek the current source.
 pub fn audio_seek(position_ms: u32) -> Result<AudioPlaybackState> {
     with_runtime_mut(|runtime| {
-        let position = Duration::from_millis(position_ms as u64);
-        runtime
-            .player
-            .try_seek(position)
-            .map_err(|e| anyhow!("failed to seek audio: {}", e))?;
+        let clamped_position_ms = runtime
+            .duration_ms
+            .map(|total| position_ms.min(total))
+            .unwrap_or(position_ms);
+        let can_seek_in_place = clamped_position_ms >= runtime.base_offset_ms;
+        let relative_target_ms = clamped_position_ms.saturating_sub(runtime.base_offset_ms);
+        let relative_target = Duration::from_millis(relative_target_ms as u64);
+
+        // Preferred path: seek in-place for lower latency and less decoder churn.
+        if can_seek_in_place && runtime.player.try_seek(relative_target).is_ok() {
+            return Ok(build_snapshot(runtime));
+        }
+
+        // Fallback path: rebuild source and skip to target when decoder seek is unsupported.
+        let path = runtime
+            .current_source_path
+            .clone()
+            .ok_or_else(|| anyhow!("failed to seek audio: no audio source loaded"))?;
+        let was_paused = runtime.player.is_paused();
+        let (source, duration_ms) = load_audio_source(&path)
+            .map_err(|e| anyhow!("failed to seek audio: fallback reload failed: {}", e))?;
+
+        runtime.player.stop();
+        runtime.player.set_volume(runtime.volume as f32);
+        let position = Duration::from_millis(clamped_position_ms as u64);
+        if position.is_zero() {
+            runtime.player.append(source);
+        } else {
+            runtime.player.append(source.skip_duration(position));
+        }
+        if was_paused {
+            runtime.player.pause();
+        } else {
+            runtime.player.play();
+        }
+
+        runtime.current_source_path = Some(path);
+        runtime.duration_ms = duration_ms;
+        runtime.base_offset_ms = clamped_position_ms;
         Ok(build_snapshot(runtime))
     })
 }
