@@ -14,6 +14,10 @@ use super::{
     ModelConvertError, SceneData,
 };
 
+fn is_supported_model_ext(ext: &str) -> bool {
+    matches!(ext, "cgf" | "cga" | "chr" | "skin")
+}
+
 pub async fn convert_from_p4k(
     p4k_path: &str,
     model_path: &str,
@@ -25,7 +29,7 @@ pub async fn convert_from_p4k(
         .and_then(|v| v.to_str())
         .unwrap_or_default()
         .to_lowercase();
-    if ext != "cgf" && ext != "cga" {
+    if !is_supported_model_ext(&ext) {
         return Err(ModelConvertError::UnsupportedFormat);
     }
 
@@ -135,7 +139,7 @@ pub fn is_supported_model(path: &str) -> bool {
         .and_then(|v| v.to_str())
         .unwrap_or_default()
         .to_lowercase();
-    ext == "cgf" || ext == "cga"
+    is_supported_model_ext(&ext)
 }
 
 pub fn _debug_result(_: Result<()>) {}
@@ -300,7 +304,7 @@ async fn convert_from_fs_internal(
         .and_then(|v| v.to_str())
         .unwrap_or_default()
         .to_lowercase();
-    if ext != "cgf" && ext != "cga" {
+    if !is_supported_model_ext(&ext) {
         return Err(ModelConvertError::UnsupportedFormat);
     }
 

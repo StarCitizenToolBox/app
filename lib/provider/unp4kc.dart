@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_build_context_in_providers
 import 'dart:async';
+import 'dart:collection';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -42,19 +43,9 @@ enum Unp4kSortType {
   dateDesc,
 }
 
-enum Unp4kFilterMode {
-  none,
-  before,
-  after,
-  range,
-}
+enum Unp4kFilterMode { none, before, after, range }
 
-enum Unp4kSizeUnit {
-  k,
-  kb,
-  mb,
-  gb,
-}
+enum Unp4kSizeUnit { k, kb, mb, gb }
 
 @freezed
 abstract class Unp4kcState with _$Unp4kcState {
@@ -120,8 +111,8 @@ abstract class Unp4kcState with _$Unp4kcState {
 class Unp4kCModel extends _$Unp4kCModel {
   final List<String> _backPathHistory = <String>[];
   final List<String> _forwardPathHistory = <String>[];
-  final Map<String, List<String>> _suffixFilesIndex =
-      <String, List<String>>{};
+  final Map<String, List<String>> _suffixFilesIndex = <String, List<String>>{};
+  final Map<String, String> _normalizedP4kFileLookup = <String, String>{};
 
   bool _isDdnaDdsPath(String lowerPath) {
     return RegExp(r"_ddna\.dds(\.\d+)?$").hasMatch(lowerPath);
@@ -156,10 +147,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading2);
 
       final p4kFiles = await unp4k_api.p4KGetAllFiles();
-      state = state.copyWith(
-        loadingCurrent: 0,
-        loadingTotal: p4kFiles.length,
-      );
+      state = state.copyWith(loadingCurrent: 0, loadingTotal: p4kFiles.length);
 
       final files = <String, AppUnp4kP4kItemData>{};
       final suffixes = <String>{};
@@ -214,9 +202,11 @@ class Unp4kCModel extends _$Unp4kCModel {
           endTime.difference(loadStartTime).inMilliseconds,
         ),
       );
+      _rebuildNormalizedP4kFileLookup(files);
     } catch (e) {
       dPrint("[unp4k] error: $e");
       state = state.copyWith(errorMessage: e.toString());
+      _rebuildNormalizedP4kFileLookup(null);
       AnalyticsApi.touch("unp4k_error");
     }
 
@@ -239,7 +229,10 @@ class Unp4kCModel extends _$Unp4kCModel {
       final rootDir = Directory(rootPath.platformPath);
       if (!await rootDir.exists()) return;
 
-      await for (final entity in rootDir.list(recursive: true, followLinks: false)) {
+      await for (final entity in rootDir.list(
+        recursive: true,
+        followLinks: false,
+      )) {
         if (entity is! File) continue;
         final lower = entity.path.toLowerCase();
         if (lower.endsWith(".wem") ||
@@ -262,7 +255,8 @@ class Unp4kCModel extends _$Unp4kCModel {
     final allFiles = state.files;
     if (allFiles == null) return null;
     final hasSuffixOnlyFilter =
-        state.searchMatchedFiles == null && state.suffixFilter.trim().isNotEmpty;
+        state.searchMatchedFiles == null &&
+        state.suffixFilter.trim().isNotEmpty;
 
     if (state.searchMatchedFiles != null) {
       // 搜索模式：直接平铺显示所有匹配文件
@@ -440,6 +434,122 @@ class Unp4kCModel extends _$Unp4kCModel {
     return fileName.substring(dotIndex).toLowerCase();
   }
 
+  bool _isModelLikePath(String lowerPath) {
+    return lowerPath.endsWith(".cga") ||
+        lowerPath.endsWith(".cgf") ||
+        lowerPath.endsWith(".chr") ||
+        lowerPath.endsWith(".skin");
+  }
+
+  bool _isMtlPath(String lowerPath) {
+    return lowerPath.endsWith(".mtl");
+  }
+
+  String _normalizeP4kFilePath(String path) {
+    var normalized = path.trim().replaceAll("/", "\\");
+    while (normalized.startsWith("\\")) {
+      normalized = normalized.substring(1);
+    }
+    return normalized;
+  }
+
+  String _toLookupKey(String path) {
+    return _normalizeP4kFilePath(path).toLowerCase();
+  }
+
+  void _rebuildNormalizedP4kFileLookup(
+    Map<String, AppUnp4kP4kItemData>? allFiles,
+  ) {
+    _normalizedP4kFileLookup.clear();
+    if (allFiles == null) return;
+    for (final entry in allFiles.entries) {
+      if (entry.value.isDirectory ?? false) continue;
+      final normalized = _normalizeP4kFilePath(entry.key);
+      _normalizedP4kFileLookup[_toLookupKey(normalized)] = normalized;
+    }
+  }
+
+  String _replaceExtensionP4k(String path, String newExtWithDot) {
+    final normalized = _normalizeP4kFilePath(path);
+    final dot = normalized.lastIndexOf(".");
+    if (dot <= 0) {
+      return "$normalized$newExtWithDot";
+    }
+    return "${normalized.substring(0, dot)}$newExtWithDot";
+  }
+
+  String? _resolveExistingP4kPath(String candidatePath) {
+    final key = _toLookupKey(candidatePath);
+    return _normalizedP4kFileLookup[key];
+  }
+
+  List<String> _expandModelDependencies(Iterable<String> inputPaths) {
+    final allFiles = state.files;
+    if (allFiles == null) return inputPaths.toList();
+
+    final expanded = LinkedHashSet<String>();
+    final lookup = <String>{};
+    final queue = Queue<String>();
+
+    void enqueueIfExists(String candidatePath) {
+      final resolved = _resolveExistingP4kPath(candidatePath);
+      if (resolved == null) return;
+      final key = _toLookupKey(resolved);
+      if (!lookup.add(key)) return;
+      expanded.add(resolved);
+      queue.add(resolved);
+    }
+
+    for (final path in inputPaths) {
+      enqueueIfExists(path);
+    }
+
+    const sidecarExts = <String>[
+      ".mtl",
+      ".chrparams",
+      ".cdf",
+      ".skin",
+      ".chr",
+      ".cgf",
+      ".cga",
+    ];
+
+    while (queue.isNotEmpty) {
+      final current = queue.removeFirst();
+      final lower = _toLookupKey(current);
+      if (!_isModelLikePath(lower) && !_isMtlPath(lower)) {
+        continue;
+      }
+
+      final stem = _replaceExtensionP4k(current, "");
+      for (final ext in sidecarExts) {
+        enqueueIfExists("$stem$ext");
+      }
+    }
+
+    return expanded.toList();
+  }
+
+  List<String> _expandExtractionSet(Iterable<String> paths) {
+    final normalized = LinkedHashSet<String>();
+    for (final path in paths) {
+      final value = _normalizeP4kFilePath(path);
+      if (value.isNotEmpty) {
+        normalized.add(value);
+      }
+    }
+    if (normalized.isEmpty) return const [];
+
+    final hasModelLike = normalized.any((path) {
+      final lower = path.toLowerCase();
+      return _isModelLikePath(lower) || _isMtlPath(lower);
+    });
+    if (!hasModelLike) return normalized.toList();
+
+    final expanded = _expandModelDependencies(normalized);
+    return expanded.isEmpty ? normalized.toList() : expanded;
+  }
+
   /// 对文件列表进行排序
   void _sortFiles(List<AppUnp4kP4kItemData> files) {
     switch (state.sortType) {
@@ -533,7 +643,10 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   void setSizeFilterRange(double? start, double? end) {
-    state = state.copyWith(sizeFilterRangeStart: start, sizeFilterRangeEnd: end);
+    state = state.copyWith(
+      sizeFilterRangeStart: start,
+      sizeFilterRangeEnd: end,
+    );
   }
 
   void clearSizeFilter() {
@@ -554,7 +667,10 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   void setDateFilterRange(DateTime? start, DateTime? end) {
-    state = state.copyWith(dateFilterRangeStart: start, dateFilterRangeEnd: end);
+    state = state.copyWith(
+      dateFilterRangeStart: start,
+      dateFilterRangeEnd: end,
+    );
   }
 
   void clearDateFilter() {
@@ -895,38 +1011,33 @@ class Unp4kCModel extends _$Unp4kCModel {
       }
 
       if (item.isDirectory ?? false) {
-        // 提取文件夹：遍历所有以该路径为前缀的文件
         final allFiles = state.files;
         if (allFiles != null) {
           final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
-
-          // 收集所有需要提取的文件
-          final filesToExtract = <MapEntry<String, AppUnp4kP4kItemData>>[];
-          for (var entry in allFiles.entries) {
+          final filesToExtract = <String>[];
+          for (final entry in allFiles.entries) {
             if (entry.key.startsWith(prefix) &&
                 !(entry.value.isDirectory ?? false)) {
-              filesToExtract.add(entry);
+              filesToExtract.add(entry.key);
             }
           }
 
-          final total = filesToExtract.length;
+          final expandedPaths = _expandExtractionSet(filesToExtract);
+          final total = expandedPaths.length;
           var current = 0;
 
-          for (var entry in filesToExtract) {
-            // 检查是否取消
+          for (var extractPath in expandedPaths) {
             if (isCancelled?.call() == true) {
               return (false, current, S.current.tools_unp4k_extract_cancelled);
             }
-
-            var entryPath = entry.key;
-            if (entryPath.startsWith("\\")) {
-              entryPath = entryPath.substring(1);
+            if (extractPath.startsWith("\\")) {
+              extractPath = extractPath.substring(1);
             }
 
             current++;
-            onProgress?.call(current, total, entryPath);
+            onProgress?.call(current, total, extractPath);
             await unp4k_api.p4KExtractToDisk(
-              filePath: entryPath,
+              filePath: extractPath,
               outputPath: outputDir,
             );
           }
@@ -937,35 +1048,44 @@ class Unp4kCModel extends _$Unp4kCModel {
           return (true, current, null);
         }
         return (true, 0, null);
-      } else {
-        // 提取单个文件
-        onProgress?.call(1, 1, filePath);
+      }
 
-        // 检查是否取消
+      final expandedSingle = _expandExtractionSet([filePath]);
+      final total = expandedSingle.length;
+      if (total == 0) {
+        return (false, 0, "No extractable files resolved");
+      }
+
+      var current = 0;
+      for (var extractPath in expandedSingle) {
+        onProgress?.call(current + 1, total, extractPath);
         if (isCancelled?.call() == true) {
-          return (false, 0, S.current.tools_unp4k_extract_cancelled);
+          return (false, current, S.current.tools_unp4k_extract_cancelled);
+        }
+        if (extractPath.startsWith("\\")) {
+          extractPath = extractPath.substring(1);
         }
 
         await unp4k_api.p4KExtractToDisk(
-          filePath: filePath,
+          filePath: extractPath,
           outputPath: outputDir,
         );
-
-        state = state.copyWith(
-          endMessage: S.current.tools_unp4k_extract_completed(1),
-        );
-        return (true, 1, null);
+        current++;
       }
+
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_extract_completed(current),
+      );
+      return (true, current, null);
     } catch (e) {
       dPrint("[unp4k] extractToDirectoryWithProgress error: $e");
       return (false, 0, e.toString());
     }
   }
 
-  /// 获取文件夹中需要提取的文件数量
   int getFileCountInDirectory(AppUnp4kP4kItemData item) {
     if (!(item.isDirectory ?? false)) {
-      return 1;
+      return _expandExtractionSet([item.name ?? ""]).length;
     }
 
     final itemPath = item.name ?? "";
@@ -974,44 +1094,47 @@ class Unp4kCModel extends _$Unp4kCModel {
 
     if (allFiles == null) return 0;
 
-    int count = 0;
-    for (var entry in allFiles.entries) {
+    final filesToExtract = <String>[];
+    for (final entry in allFiles.entries) {
       if (entry.key.startsWith(prefix) && !(entry.value.isDirectory ?? false)) {
-        count++;
+        filesToExtract.add(entry.key);
       }
     }
-    return count;
+    return _expandExtractionSet(filesToExtract).length;
   }
 
-  /// 获取多选项的总文件数量
   int getFileCountForSelectedItems(Set<String> selectedItems) {
-    int count = 0;
     final allFiles = state.files;
     if (allFiles == null) return 0;
 
-    for (var itemPath in selectedItems) {
+    final filesToExtract = <String>[];
+    for (final itemPath in selectedItems) {
       final item = allFiles[itemPath];
       if (item != null) {
         if (item.isDirectory ?? false) {
-          count += getFileCountInDirectory(item);
+          final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
+          for (final entry in allFiles.entries) {
+            if (entry.key.startsWith(prefix) &&
+                !(entry.value.isDirectory ?? false)) {
+              filesToExtract.add(entry.key);
+            }
+          }
         } else {
-          count += 1;
+          filesToExtract.add(itemPath);
         }
       } else {
-        // 可能是文件夹（虚拟路径）
         final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
-        for (var entry in allFiles.entries) {
+        for (final entry in allFiles.entries) {
           if (entry.key.startsWith(prefix) &&
               !(entry.value.isDirectory ?? false)) {
-            count++;
+            filesToExtract.add(entry.key);
           }
         }
       }
     }
-    return count;
+    return _expandExtractionSet(filesToExtract).length;
   }
 
-  /// 批量提取多个选中项到指定目录（带进度回调和取消支持）
   Future<(bool, int, String?)> extractSelectedItemsWithProgress(
     Set<String> selectedItems,
     String outputDir, {
@@ -1022,29 +1145,24 @@ class Unp4kCModel extends _$Unp4kCModel {
       final allFiles = state.files;
       if (allFiles == null) return (true, 0, null);
 
-      // 收集所有需要提取的文件
       final filesToExtract = <String>[];
-
-      for (var itemPath in selectedItems) {
+      for (final itemPath in selectedItems) {
         final item = allFiles[itemPath];
         if (item != null) {
           if (item.isDirectory ?? false) {
-            // 文件夹：收集所有子文件
             final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
-            for (var entry in allFiles.entries) {
+            for (final entry in allFiles.entries) {
               if (entry.key.startsWith(prefix) &&
                   !(entry.value.isDirectory ?? false)) {
                 filesToExtract.add(entry.key);
               }
             }
           } else {
-            // 单个文件
             filesToExtract.add(itemPath);
           }
         } else {
-          // 可能是虚拟文件夹路径
           final prefix = itemPath.endsWith("\\") ? itemPath : "$itemPath\\";
-          for (var entry in allFiles.entries) {
+          for (final entry in allFiles.entries) {
             if (entry.key.startsWith(prefix) &&
                 !(entry.value.isDirectory ?? false)) {
               filesToExtract.add(entry.key);
@@ -1053,16 +1171,15 @@ class Unp4kCModel extends _$Unp4kCModel {
         }
       }
 
-      final total = filesToExtract.length;
+      final expandedPaths = _expandExtractionSet(filesToExtract);
+      final total = expandedPaths.length;
       var current = 0;
 
-      for (var filePath in filesToExtract) {
-        // 检查是否取消
+      for (var extractPath in expandedPaths) {
         if (isCancelled?.call() == true) {
           return (false, current, S.current.tools_unp4k_extract_cancelled);
         }
 
-        var extractPath = filePath;
         if (extractPath.startsWith("\\")) {
           extractPath = extractPath.substring(1);
         }
@@ -1087,7 +1204,7 @@ class Unp4kCModel extends _$Unp4kCModel {
 
   /// 从 P4K 文件中提取指定文件到内存
   /// [p4kPath] P4K 文件路径
-  /// [filePath] 要提取的文件路径（P4K 内部路径）
+  /// Extract specified file from P4K into memory.
   static Future<Uint8List> extractP4kFileToMemory(
     String p4kPath,
     String filePath,
@@ -1200,9 +1317,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       await outputFile.parent.create(recursive: true);
       await outputFile.writeAsBytes(pngBytes, flush: true);
 
-      state = state.copyWith(
-        endMessage: "DDS 转 PNG 成功: ${outputFile.path}",
-      );
+      state = state.copyWith(endMessage: "DDS 转 PNG 成功: ${outputFile.path}");
       return (true, outputFile.path, null);
     } catch (e) {
       final err = e.toString();

@@ -950,7 +950,9 @@ class _FileListPanel extends HookConsumerWidget {
         lower.endsWith(".dds") ||
         RegExp(r"\.dds\.\d+$").hasMatch(lower) ||
         lower.endsWith(".cgf") ||
-        lower.endsWith(".cga");
+        lower.endsWith(".cga") ||
+        lower.endsWith(".chr") ||
+        lower.endsWith(".skin");
   }
 
   String _defaultExportName(String p4kPath, bool convert) {
@@ -967,8 +969,15 @@ class _FileListPanel extends HookConsumerWidget {
     if (lower.endsWith(".dds")) {
       return "${raw.substring(0, raw.length - 4)}.png";
     }
-    if (lower.endsWith(".cgf") || lower.endsWith(".cga")) {
-      return "${raw.substring(0, raw.length - 4)}.glb";
+    if (lower.endsWith(".cgf") ||
+        lower.endsWith(".cga") ||
+        lower.endsWith(".chr") ||
+        lower.endsWith(".skin")) {
+      final dot = raw.lastIndexOf(".");
+      if (dot > 0) {
+        return "${raw.substring(0, dot)}.glb";
+      }
+      return "$raw.glb";
     }
     return raw;
   }
@@ -1145,7 +1154,10 @@ class _FileListItem extends HookWidget {
   }
 
   bool _isConvertibleModel(String lowerPath) {
-    return lowerPath.endsWith(".cgf") || lowerPath.endsWith(".cga");
+    return lowerPath.endsWith(".cgf") ||
+        lowerPath.endsWith(".cga") ||
+        lowerPath.endsWith(".chr") ||
+        lowerPath.endsWith(".skin");
   }
 
   bool _isConvertibleAudio(String lowerPath) {
@@ -1237,7 +1249,10 @@ class _FileListItem extends HookWidget {
   bool _canConvertToGlb(String fullPath) {
     if ((item.isDirectory ?? false)) return false;
     final lower = fullPath.toLowerCase();
-    return lower.endsWith('.cgf') || lower.endsWith('.cga');
+    return lower.endsWith('.cgf') ||
+        lower.endsWith('.cga') ||
+        lower.endsWith('.chr') ||
+        lower.endsWith('.skin');
   }
 
   bool _canConvertDdsToPng(String fullPath) {
@@ -1874,7 +1889,10 @@ class _AdvancedExportProgressDialog extends HookWidget {
     }
 
     if (options.convertWhenPossible &&
-        (lower.endsWith(".cgf") || lower.endsWith(".cga"))) {
+        (lower.endsWith(".cgf") ||
+            lower.endsWith(".cga") ||
+            lower.endsWith(".chr") ||
+            lower.endsWith(".skin"))) {
       final (success, glbPath, error) = await model.convertModelToGlb(
         sourcePath,
         outFile.parent.path,
@@ -1958,8 +1976,15 @@ class _AdvancedExportProgressDialog extends HookWidget {
     if (lower.endsWith(".dds") && !RegExp(r"_ddna\.dds$").hasMatch(lower)) {
       return "${normalized.substring(0, normalized.length - 4)}.png";
     }
-    if (lower.endsWith(".cgf") || lower.endsWith(".cga")) {
-      return "${normalized.substring(0, normalized.length - 4)}.glb";
+    if (lower.endsWith(".cgf") ||
+        lower.endsWith(".cga") ||
+        lower.endsWith(".chr") ||
+        lower.endsWith(".skin")) {
+      final dot = normalized.lastIndexOf(".");
+      if (dot > 0) {
+        return "${normalized.substring(0, dot)}.glb";
+      }
+      return "$normalized.glb";
     }
     return normalized;
   }
