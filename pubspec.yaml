@@ -50,7 +50,7 @@ dependencies:
   flutter_rust_bridge: ^2.12.0
   freezed_annotation: ^3.1.0
   meta: ^1.17.0
-  hexcolor: ^3.0.2
+  hexcolor: ^3.1.3
   html: ^0.15.6
   fixnum: ^1.1.1
   rust_builder:
