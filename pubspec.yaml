@@ -69,6 +69,7 @@ dependencies:
   path: ^1.9.1
   crypto: ^3.0.7
   xml: ^6.6.1
+  local_hero: ^0.3.0
 
   # gRPC and protobuf
   grpc: ^5.1.0

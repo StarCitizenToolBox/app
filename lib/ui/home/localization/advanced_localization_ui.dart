@@ -10,7 +10,7 @@ import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
 import 'package:starcitizen_doctor/ui/home/localization/advanced_localization_ui_model.dart';
-import 'package:starcitizen_doctor/ui/tools/unp4kc/unp4kc_ui.dart';
+import 'package:starcitizen_doctor/ui/tools/unp4kc/widgets/error_widget.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 

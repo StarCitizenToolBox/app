@@ -50,6 +50,11 @@ class RustAudioPlayer {
     return state;
   }
 
+  Future<void> stop() async {
+    await audioStop();
+    _currentSourcePath = null;
+  }
+
   Future<void> dispose() async {
     await audioDispose();
     _currentSourcePath = null;
