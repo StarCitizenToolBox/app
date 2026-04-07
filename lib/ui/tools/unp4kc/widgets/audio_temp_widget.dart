@@ -788,7 +788,10 @@ class AudioTempWidget extends HookWidget {
                           details.globalPosition,
                         );
                         if (localPosition == null) return;
-                        dragVolume.value = dxToRatio(localPosition.dx) * 3.0;
+                        final v = dxToRatio(localPosition.dx) * 3.0;
+                        dragVolume.value = v;
+                        volume.value = v;
+                        unawaited(player.setVolume(v));
                       },
                       onHorizontalDragUpdate: (details) {
                         final localPosition = localOffsetFromGlobal(
@@ -796,14 +799,16 @@ class AudioTempWidget extends HookWidget {
                         );
                         if (localPosition == null) return;
                         final ratio = dxToRatio(localPosition.dx);
-                        dragVolume.value = ratio * 3.0;
+                        final v = ratio * 3.0;
+                        dragVolume.value = v;
+                        volume.value = v;
+                        unawaited(player.setVolume(v));
                       },
-                      onHorizontalDragEnd: (_) async {
+                      onHorizontalDragEnd: (_) {
                         if (dragVolume.value == null) return;
                         final v = dragVolume.value!.clamp(0.0, 3.0);
                         volume.value = v;
-                        final state = await player.setVolume(v);
-                        syncPlayerState(state);
+                        unawaited(player.setVolume(v));
                         dragVolume.value = null;
                       },
                       onHorizontalDragCancel: () {
