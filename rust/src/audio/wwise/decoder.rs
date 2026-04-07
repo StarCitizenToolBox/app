@@ -400,3 +400,192 @@ where
         )),
     }
 }
+
+pub(crate) struct WemStreamInfo {
+    pub codec: WwiseCodec,
+    pub channels: u16,
+    pub sample_rate: u32,
+    pub bits_per_sample: u16,
+    pub total_samples: usize,
+}
+
+pub(crate) fn get_wem_stream_info(wem: &[u8]) -> Result<WemStreamInfo> {
+    let header = parse_wem_header(wem)?;
+    let bytes_per_sample = (header.bits_per_sample / 8).max(1) as usize;
+    let frame_size = header.block_align as usize;
+    let bytes_per_frame = if frame_size > 0 {
+        frame_size
+    } else {
+        header.channels as usize * bytes_per_sample
+    };
+    let total_samples = if bytes_per_frame > 0 {
+        header.data_chunk.len() / bytes_per_frame
+    } else {
+        0
+    };
+    Ok(WemStreamInfo {
+        codec: header.codec,
+        channels: header.channels,
+        sample_rate: header.sample_rate,
+        bits_per_sample: header.bits_per_sample,
+        total_samples,
+    })
+}
+
+pub(crate) fn decode_wem_pcm_stream<F, C>(
+    wem: &[u8],
+    chunk_duration_ms: u32,
+    mut on_chunk: C,
+    is_cancelled: &F,
+) -> Result<(u16, u32, usize)>
+where
+    F: Fn() -> bool + Sync,
+    C: FnMut(&[i16], usize, usize) -> Result<()>,
+{
+    ensure_not_cancelled(is_cancelled)?;
+    let header = parse_wem_header(wem)?;
+    if header.codec != WwiseCodec::Pcm {
+        return Err(anyhow!("decode_wem_pcm_stream only supports PCM WEM"));
+    }
+
+    let bytes_per_sample = ((header.bits_per_sample / 8).max(1)) as usize;
+    if bytes_per_sample != 2 {
+        return Err(anyhow!(
+            "PCM WEM with {} bits per sample not supported for streaming (expected 16-bit)",
+            header.bits_per_sample
+        ));
+    }
+
+    let frame_size = header.block_align as usize;
+    let bytes_per_frame = if frame_size > 0 {
+        frame_size
+    } else {
+        header.channels as usize * bytes_per_sample
+    };
+
+    if bytes_per_frame == 0 {
+        return Err(anyhow!("invalid PCM WEM: zero frame size"));
+    }
+
+    let samples_per_frame = bytes_per_frame / bytes_per_sample;
+    let sample_rate = header.sample_rate as usize;
+    let chunk_frames = sample_rate.saturating_mul(chunk_duration_ms as usize / 1000);
+    let chunk_bytes = chunk_frames.saturating_mul(bytes_per_frame);
+
+    let data = &header.data_chunk;
+    let total_frames = data.len() / bytes_per_frame;
+    let mut offset = 0usize;
+    let mut chunk_index = 0usize;
+
+    while offset < data.len() {
+        ensure_not_cancelled(is_cancelled)?;
+        let end = (offset + chunk_bytes).min(data.len());
+        let chunk_data = &data[offset..end];
+
+        let samples_in_chunk = chunk_data.len() / bytes_per_sample;
+        let mut pcm = Vec::<i16>::with_capacity(samples_in_chunk);
+        for i in (0..chunk_data.len()).step_by(2) {
+            if i + 1 < chunk_data.len() {
+                pcm.push(i16::from_le_bytes([chunk_data[i], chunk_data[i + 1]]));
+            }
+        }
+
+        if !pcm.is_empty() {
+            on_chunk(&pcm, chunk_index, total_frames)?;
+            chunk_index += 1;
+        }
+
+        offset = end;
+    }
+
+    Ok((header.channels, header.sample_rate, total_frames))
+}
+
+pub(crate) fn decode_wem_vorbis_stream<F, C>(
+    wem: &[u8],
+    chunk_duration_ms: u32,
+    mut on_chunk: C,
+    is_cancelled: &F,
+) -> Result<(u16, u32, usize)>
+where
+    F: Fn() -> bool + Sync,
+    C: FnMut(&[i16], usize, usize) -> Result<()>,
+{
+    ensure_not_cancelled(is_cancelled)?;
+    let header = parse_wem_header(wem)?;
+    if header.codec != WwiseCodec::Vorbis {
+        return Err(anyhow!("decode_wem_vorbis_stream only supports Vorbis WEM"));
+    }
+
+    ensure_rayon_pool_initialized();
+
+    let ogg_bytes = decode_wem_vorbis_to_ogg_with_cancel(wem, is_cancelled)?;
+
+    ensure_not_cancelled(is_cancelled)?;
+    let mut ogg = lewton::inside_ogg::OggStreamReader::new(Cursor::new(&ogg_bytes))
+        .map_err(|e| anyhow!("ogg parse failed: {}", e))?;
+
+    let channels = ogg.ident_hdr.audio_channels as u16;
+    let sample_rate = ogg.ident_hdr.audio_sample_rate;
+
+    let chunk_samples =
+        (sample_rate as u64 * chunk_duration_ms as u64 / 1000 * channels as u64) as usize;
+    let mut chunk_index = 0usize;
+    let mut total_samples = 0usize;
+
+    loop {
+        ensure_not_cancelled(is_cancelled)?;
+        let mut chunk_pcm = Vec::<i16>::new();
+
+        while chunk_pcm.len() < chunk_samples {
+            match ogg.read_dec_packet_itl() {
+                Ok(Some(packet)) => {
+                    let packet_len = packet.len();
+                    chunk_pcm.extend(packet);
+                    total_samples += packet_len;
+                }
+                Ok(None) => break,
+                Err(e) => return Err(anyhow!("vorbis decode failed: {}", e)),
+            }
+        }
+
+        if chunk_pcm.is_empty() {
+            break;
+        }
+
+        on_chunk(&chunk_pcm, chunk_index, 0)?;
+        chunk_index += 1;
+    }
+
+    let total_frames = total_samples / channels as usize;
+    Ok((channels, sample_rate, total_frames))
+}
+
+pub(crate) fn decode_wem_stream<F, C>(
+    wem: &[u8],
+    chunk_duration_ms: u32,
+    on_chunk: C,
+    is_cancelled: &F,
+) -> Result<(WwiseCodec, u16, u32, usize)>
+where
+    F: Fn() -> bool + Sync,
+    C: FnMut(&[i16], usize, usize) -> Result<()>,
+{
+    ensure_not_cancelled(is_cancelled)?;
+    let info = get_wem_stream_info(wem)?;
+
+    match info.codec {
+        WwiseCodec::Pcm => {
+            let (ch, sr, frames) = decode_wem_pcm_stream(wem, chunk_duration_ms, on_chunk, is_cancelled)?;
+            Ok((WwiseCodec::Pcm, ch, sr, frames))
+        }
+        WwiseCodec::Vorbis => {
+            let (ch, sr, frames) = decode_wem_vorbis_stream(wem, chunk_duration_ms, on_chunk, is_cancelled)?;
+            Ok((WwiseCodec::Vorbis, ch, sr, frames))
+        }
+        WwiseCodec::Unsupported(format) => Err(anyhow!(
+            "unsupported wem codec format=0x{:04x}; built-in decoder supports PCM (0x0001/0xFFFE) and Wwise Vorbis (0xFFFF)",
+            format
+        )),
+    }
+}

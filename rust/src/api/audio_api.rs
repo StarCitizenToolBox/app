@@ -20,13 +20,25 @@ pub struct AudioPlaybackState {
     pub volume: f64,
 }
 
+#[frb(dart_metadata=("freezed"))]
+pub struct StreamingAudioConfig {
+    pub sample_rate: i32,
+    pub channels: i32,
+    pub estimated_duration_ms: Option<i32>,
+}
+
 struct AudioRuntime {
     _device_sink: rodio::stream::MixerDeviceSink,
     player: Player,
     current_source_path: Option<String>,
     duration_ms: Option<u32>,
     base_offset_ms: u32,
+    streaming_sample_offset: u64,
+    last_relative_samples: u64,
+    current_source_samples: u64,
     volume: f64,
+    streaming_config: Option<StreamingAudioConfig>,
+    streaming_buffer: Vec<i16>,
 }
 
 static AUDIO_RUNTIME: Lazy<Mutex<Option<AudioRuntime>>> = Lazy::new(|| Mutex::new(None));
@@ -56,24 +68,65 @@ fn ensure_runtime() -> Result<()> {
         current_source_path: None,
         duration_ms: None,
         base_offset_ms: 0,
+        streaming_sample_offset: 0,
+        last_relative_samples: 0,
+        current_source_samples: 0,
         volume: 1.0,
+        streaming_config: None,
+        streaming_buffer: Vec::new(),
     });
     Ok(())
 }
 
-fn build_snapshot(runtime: &AudioRuntime) -> AudioPlaybackState {
+fn build_snapshot(runtime: &mut AudioRuntime) -> AudioPlaybackState {
     let relative = runtime.player.get_pos().as_millis().min(u32::MAX as u128) as u32;
-    let position = runtime.base_offset_ms.saturating_add(relative);
     let is_paused = runtime.player.is_paused();
     let is_playing = !runtime.player.empty() && !is_paused;
+
+    let position = if let Some(config) = &runtime.streaming_config {
+        let sr = config.sample_rate as u64;
+        let ch = config.channels as u64;
+        let relative_samples = (relative as u64 * sr / 1000) * ch;
+
+        if is_playing && runtime.current_source_samples > 0 {
+            let expected_end = runtime.current_source_samples;
+            if relative_samples < runtime.last_relative_samples
+                && runtime.last_relative_samples > expected_end / 2
+            {
+                runtime.streaming_sample_offset += runtime.current_source_samples;
+            }
+        }
+
+        if is_playing {
+            runtime.last_relative_samples = relative_samples;
+        }
+
+        let total_samples = runtime.streaming_sample_offset + relative_samples;
+        (total_samples * 1000 / (sr * ch)) as u32
+    } else {
+        runtime.base_offset_ms.saturating_add(relative)
+    };
+
+    let position_ms = if runtime.streaming_config.is_some() {
+        position
+    } else {
+        runtime
+            .duration_ms
+            .map(|total| position.min(total))
+            .unwrap_or(position)
+    };
+
+    //    if runtime.streaming_config.is_some() {
+    //        println!(
+    //            "[build_snapshot] streaming: sample_offset={}, relative={}ms, position_ms={}, is_playing={}",
+    //            runtime.streaming_sample_offset, relative, position_ms, is_playing
+    //        );
+    //    }
 
     AudioPlaybackState {
         current_source_path: runtime.current_source_path.clone(),
         duration_ms: runtime.duration_ms,
-        position_ms: runtime
-            .duration_ms
-            .map(|total| position.min(total))
-            .unwrap_or(position),
+        position_ms,
         is_playing,
         is_paused,
         volume: runtime.volume,
@@ -88,18 +141,6 @@ where
     let mut guard = lock_audio_runtime();
     let runtime = guard
         .as_mut()
-        .ok_or_else(|| anyhow!("audio runtime not initialized"))?;
-    f(runtime)
-}
-
-fn with_runtime<F, T>(f: F) -> Result<T>
-where
-    F: FnOnce(&AudioRuntime) -> Result<T>,
-{
-    ensure_runtime()?;
-    let guard = lock_audio_runtime();
-    let runtime = guard
-        .as_ref()
         .ok_or_else(|| anyhow!("audio runtime not initialized"))?;
     f(runtime)
 }
@@ -335,7 +376,7 @@ pub fn audio_set_volume(volume: f64) -> Result<AudioPlaybackState> {
 
 /// Get the latest player snapshot.
 pub fn audio_get_state() -> Result<AudioPlaybackState> {
-    with_runtime(|runtime| Ok(build_snapshot(runtime)))
+    with_runtime_mut(|runtime| Ok(build_snapshot(runtime)))
 }
 
 /// Dispose the player and release all audio resources.
@@ -346,4 +387,154 @@ pub fn audio_dispose() -> Result<()> {
     }
     *guard = None;
     Ok(())
+}
+
+/// Start streaming playback with initial PCM chunk.
+pub fn audio_start_stream(
+    pcm_data: Vec<i16>,
+    sample_rate: i32,
+    channels: i32,
+    source_path: String,
+    duration_ms: i32,
+    auto_play: bool,
+) -> Result<AudioPlaybackState> {
+    let sr = NonZeroU32::new(sample_rate as u32).ok_or_else(|| anyhow!("invalid sample rate"))?;
+    let ch = NonZeroU16::new(channels as u16).ok_or_else(|| anyhow!("invalid channel count"))?;
+
+    let source_samples = pcm_data.len() as u64;
+    let samples: Vec<f32> = pcm_data.iter().map(|&s| s as f32 / 32768.0).collect();
+    let buffer = SamplesBuffer::new(ch, sr, samples);
+
+    with_runtime_mut(|runtime| {
+        runtime.player.stop();
+        runtime.player.set_volume(runtime.volume as f32);
+        runtime.player.append(buffer);
+        if auto_play {
+            runtime.player.play();
+        } else {
+            runtime.player.pause();
+        }
+        runtime.current_source_path = Some(source_path);
+        runtime.duration_ms = Some(duration_ms as u32);
+        runtime.base_offset_ms = 0;
+        runtime.streaming_sample_offset = 0;
+        runtime.last_relative_samples = 0;
+        runtime.current_source_samples = source_samples;
+        runtime.streaming_config = Some(StreamingAudioConfig {
+            sample_rate,
+            channels,
+            estimated_duration_ms: Some(duration_ms),
+        });
+        runtime.streaming_buffer = pcm_data;
+        Ok(build_snapshot(runtime))
+    })
+}
+
+/// Append PCM chunk to currently playing stream.
+pub fn audio_append_stream(pcm_data: Vec<i16>) -> Result<AudioPlaybackState> {
+    with_runtime_mut(|runtime| {
+        let config = runtime
+            .streaming_config
+            .as_ref()
+            .ok_or_else(|| anyhow!("no streaming audio in progress"))?;
+
+        let sr = NonZeroU32::new(config.sample_rate as u32).unwrap();
+        let ch = NonZeroU16::new(config.channels as u16).unwrap();
+
+        let source_samples = pcm_data.len() as u64;
+        let samples: Vec<f32> = pcm_data.iter().map(|&s| s as f32 / 32768.0).collect();
+        let buffer = SamplesBuffer::new(ch, sr, samples);
+
+        runtime.player.append(buffer);
+        runtime.current_source_samples = source_samples;
+        runtime.streaming_buffer.extend(pcm_data);
+        Ok(build_snapshot(runtime))
+    })
+}
+
+/// Stop streaming and clear streaming config.
+pub fn audio_stop_stream() -> Result<AudioPlaybackState> {
+    with_runtime_mut(|runtime| {
+        runtime.player.stop();
+        runtime.current_source_path = None;
+        runtime.duration_ms = None;
+        runtime.base_offset_ms = 0;
+        runtime.streaming_sample_offset = 0;
+        runtime.last_relative_samples = 0;
+        runtime.current_source_samples = 0;
+        runtime.streaming_config = None;
+        runtime.streaming_buffer.clear();
+        Ok(build_snapshot(runtime))
+    })
+}
+
+/// Seek during streaming playback. Can only seek to already buffered position.
+pub fn audio_seek_stream(position_ms: u32) -> Result<AudioPlaybackState> {
+    with_runtime_mut(|runtime| {
+        let config = runtime
+            .streaming_config
+            .as_ref()
+            .ok_or_else(|| anyhow!("no streaming audio in progress"))?;
+
+        let sr = config.sample_rate as u64;
+        let ch = config.channels as u64;
+        let buffered_samples = runtime.streaming_buffer.len() as u64;
+        let buffered_duration_ms = (buffered_samples * 1000 / (sr * ch)) as u32;
+
+        println!(
+            "[audio_seek_stream] position_ms={}, sample_rate={}, channels={}, buffered_samples={}, buffered_duration_ms={}",
+            position_ms, sr, ch, buffered_samples, buffered_duration_ms
+        );
+
+        if position_ms > buffered_duration_ms {
+            println!(
+                "[audio_seek_stream] seek failed: position {}ms > buffered {}ms",
+                position_ms, buffered_duration_ms
+            );
+            return Err(anyhow!(
+                "seek position {}ms exceeds buffered duration {}ms",
+                position_ms,
+                buffered_duration_ms
+            ));
+        }
+
+        let sample_offset = (position_ms as u64 * sr / 1000 * ch) as usize;
+        let remaining_samples = buffered_samples - sample_offset as u64;
+        println!(
+            "[audio_seek_stream] sample_offset={}, remaining_samples={}",
+            sample_offset, remaining_samples
+        );
+
+        let was_paused = runtime.player.is_paused();
+
+        let sr_nz = NonZeroU32::new(sr as u32).unwrap();
+        let ch_nz = NonZeroU16::new(ch as u16).unwrap();
+
+        let samples_f32: Vec<f32> = runtime.streaming_buffer[sample_offset..]
+            .iter()
+            .map(|&s| s as f32 / 32768.0)
+            .collect();
+        let buffer = SamplesBuffer::new(ch_nz, sr_nz, samples_f32);
+
+        runtime.player.stop();
+        runtime.player.set_volume(runtime.volume as f32);
+        runtime.player.append(buffer);
+
+        if was_paused {
+            runtime.player.pause();
+        } else {
+            runtime.player.play();
+        }
+
+        runtime.streaming_sample_offset = sample_offset as u64;
+        runtime.last_relative_samples = 0;
+        runtime.current_source_samples = remaining_samples;
+
+        let snapshot = build_snapshot(runtime);
+        println!(
+            "[audio_seek_stream] seek success, returning position_ms={}, sample_offset={}, is_playing={}",
+            snapshot.position_ms, sample_offset, snapshot.is_playing
+        );
+        Ok(snapshot)
+    })
 }

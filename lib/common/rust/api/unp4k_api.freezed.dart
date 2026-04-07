@@ -1045,4 +1045,279 @@ as PlatformInt64,
 
 }
 
+/// @nodoc
+mixin _$WemDecodeProgress {
+
+ double get progress; Float64List? get waveform; int? get durationMs; bool get isComplete; String? get error; Int16List? get pcmChunk; int? get sampleRate; int? get channels; int get chunkIndex;
+/// Create a copy of WemDecodeProgress
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WemDecodeProgressCopyWith<WemDecodeProgress> get copyWith => _$WemDecodeProgressCopyWithImpl<WemDecodeProgress>(this as WemDecodeProgress, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WemDecodeProgress&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other.waveform, waveform)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other.pcmChunk, pcmChunk)&&(identical(other.sampleRate, sampleRate) || other.sampleRate == sampleRate)&&(identical(other.channels, channels) || other.channels == channels)&&(identical(other.chunkIndex, chunkIndex) || other.chunkIndex == chunkIndex));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(waveform),durationMs,isComplete,error,const DeepCollectionEquality().hash(pcmChunk),sampleRate,channels,chunkIndex);
+
+@override
+String toString() {
+  return 'WemDecodeProgress(progress: $progress, waveform: $waveform, durationMs: $durationMs, isComplete: $isComplete, error: $error, pcmChunk: $pcmChunk, sampleRate: $sampleRate, channels: $channels, chunkIndex: $chunkIndex)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $WemDecodeProgressCopyWith<$Res>  {
+  factory $WemDecodeProgressCopyWith(WemDecodeProgress value, $Res Function(WemDecodeProgress) _then) = _$WemDecodeProgressCopyWithImpl;
+@useResult
+$Res call({
+ double progress, Float64List? waveform, int? durationMs, bool isComplete, String? error, Int16List? pcmChunk, int? sampleRate, int? channels, int chunkIndex
+});
+
+
+
+
+}
+/// @nodoc
+class _$WemDecodeProgressCopyWithImpl<$Res>
+    implements $WemDecodeProgressCopyWith<$Res> {
+  _$WemDecodeProgressCopyWithImpl(this._self, this._then);
+
+  final WemDecodeProgress _self;
+  final $Res Function(WemDecodeProgress) _then;
+
+/// Create a copy of WemDecodeProgress
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? progress = null,Object? waveform = freezed,Object? durationMs = freezed,Object? isComplete = null,Object? error = freezed,Object? pcmChunk = freezed,Object? sampleRate = freezed,Object? channels = freezed,Object? chunkIndex = null,}) {
+  return _then(_self.copyWith(
+progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as double,waveform: freezed == waveform ? _self.waveform : waveform // ignore: cast_nullable_to_non_nullable
+as Float64List?,durationMs: freezed == durationMs ? _self.durationMs : durationMs // ignore: cast_nullable_to_non_nullable
+as int?,isComplete: null == isComplete ? _self.isComplete : isComplete // ignore: cast_nullable_to_non_nullable
+as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as String?,pcmChunk: freezed == pcmChunk ? _self.pcmChunk : pcmChunk // ignore: cast_nullable_to_non_nullable
+as Int16List?,sampleRate: freezed == sampleRate ? _self.sampleRate : sampleRate // ignore: cast_nullable_to_non_nullable
+as int?,channels: freezed == channels ? _self.channels : channels // ignore: cast_nullable_to_non_nullable
+as int?,chunkIndex: null == chunkIndex ? _self.chunkIndex : chunkIndex // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [WemDecodeProgress].
+extension WemDecodeProgressPatterns on WemDecodeProgress {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WemDecodeProgress value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WemDecodeProgress() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WemDecodeProgress value)  $default,){
+final _that = this;
+switch (_that) {
+case _WemDecodeProgress():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WemDecodeProgress value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WemDecodeProgress() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double progress,  Float64List? waveform,  int? durationMs,  bool isComplete,  String? error,  Int16List? pcmChunk,  int? sampleRate,  int? channels,  int chunkIndex)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WemDecodeProgress() when $default != null:
+return $default(_that.progress,_that.waveform,_that.durationMs,_that.isComplete,_that.error,_that.pcmChunk,_that.sampleRate,_that.channels,_that.chunkIndex);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double progress,  Float64List? waveform,  int? durationMs,  bool isComplete,  String? error,  Int16List? pcmChunk,  int? sampleRate,  int? channels,  int chunkIndex)  $default,) {final _that = this;
+switch (_that) {
+case _WemDecodeProgress():
+return $default(_that.progress,_that.waveform,_that.durationMs,_that.isComplete,_that.error,_that.pcmChunk,_that.sampleRate,_that.channels,_that.chunkIndex);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double progress,  Float64List? waveform,  int? durationMs,  bool isComplete,  String? error,  Int16List? pcmChunk,  int? sampleRate,  int? channels,  int chunkIndex)?  $default,) {final _that = this;
+switch (_that) {
+case _WemDecodeProgress() when $default != null:
+return $default(_that.progress,_that.waveform,_that.durationMs,_that.isComplete,_that.error,_that.pcmChunk,_that.sampleRate,_that.channels,_that.chunkIndex);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _WemDecodeProgress implements WemDecodeProgress {
+  const _WemDecodeProgress({required this.progress, this.waveform, this.durationMs, required this.isComplete, this.error, this.pcmChunk, this.sampleRate, this.channels, required this.chunkIndex});
+  
+
+@override final  double progress;
+@override final  Float64List? waveform;
+@override final  int? durationMs;
+@override final  bool isComplete;
+@override final  String? error;
+@override final  Int16List? pcmChunk;
+@override final  int? sampleRate;
+@override final  int? channels;
+@override final  int chunkIndex;
+
+/// Create a copy of WemDecodeProgress
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WemDecodeProgressCopyWith<_WemDecodeProgress> get copyWith => __$WemDecodeProgressCopyWithImpl<_WemDecodeProgress>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WemDecodeProgress&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other.waveform, waveform)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other.pcmChunk, pcmChunk)&&(identical(other.sampleRate, sampleRate) || other.sampleRate == sampleRate)&&(identical(other.channels, channels) || other.channels == channels)&&(identical(other.chunkIndex, chunkIndex) || other.chunkIndex == chunkIndex));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(waveform),durationMs,isComplete,error,const DeepCollectionEquality().hash(pcmChunk),sampleRate,channels,chunkIndex);
+
+@override
+String toString() {
+  return 'WemDecodeProgress(progress: $progress, waveform: $waveform, durationMs: $durationMs, isComplete: $isComplete, error: $error, pcmChunk: $pcmChunk, sampleRate: $sampleRate, channels: $channels, chunkIndex: $chunkIndex)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$WemDecodeProgressCopyWith<$Res> implements $WemDecodeProgressCopyWith<$Res> {
+  factory _$WemDecodeProgressCopyWith(_WemDecodeProgress value, $Res Function(_WemDecodeProgress) _then) = __$WemDecodeProgressCopyWithImpl;
+@override @useResult
+$Res call({
+ double progress, Float64List? waveform, int? durationMs, bool isComplete, String? error, Int16List? pcmChunk, int? sampleRate, int? channels, int chunkIndex
+});
+
+
+
+
+}
+/// @nodoc
+class __$WemDecodeProgressCopyWithImpl<$Res>
+    implements _$WemDecodeProgressCopyWith<$Res> {
+  __$WemDecodeProgressCopyWithImpl(this._self, this._then);
+
+  final _WemDecodeProgress _self;
+  final $Res Function(_WemDecodeProgress) _then;
+
+/// Create a copy of WemDecodeProgress
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? progress = null,Object? waveform = freezed,Object? durationMs = freezed,Object? isComplete = null,Object? error = freezed,Object? pcmChunk = freezed,Object? sampleRate = freezed,Object? channels = freezed,Object? chunkIndex = null,}) {
+  return _then(_WemDecodeProgress(
+progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as double,waveform: freezed == waveform ? _self.waveform : waveform // ignore: cast_nullable_to_non_nullable
+as Float64List?,durationMs: freezed == durationMs ? _self.durationMs : durationMs // ignore: cast_nullable_to_non_nullable
+as int?,isComplete: null == isComplete ? _self.isComplete : isComplete // ignore: cast_nullable_to_non_nullable
+as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as String?,pcmChunk: freezed == pcmChunk ? _self.pcmChunk : pcmChunk // ignore: cast_nullable_to_non_nullable
+as Int16List?,sampleRate: freezed == sampleRate ? _self.sampleRate : sampleRate // ignore: cast_nullable_to_non_nullable
+as int?,channels: freezed == channels ? _self.channels : channels // ignore: cast_nullable_to_non_nullable
+as int?,chunkIndex: null == chunkIndex ? _self.chunkIndex : chunkIndex // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
 // dart format on

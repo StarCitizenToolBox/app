@@ -18,11 +18,15 @@ pub fn ilog(v: u32) -> u8 {
 /// This is used in codebook decoding to determine how many values
 /// to read for a multiplicative lookup table.
 pub fn book_map_type1_quantvals(entries: u32, dimensions: u32) -> u32 {
-    if dimensions == 0 {
+    if dimensions == 0 || entries == 0 {
         return 0;
     }
 
     let bits = ilog(entries);
+    if bits == 0 {
+        return 0;
+    }
+
     let mut vals = entries >> ((bits as u32 - 1) * (dimensions - 1) / dimensions);
 
     loop {
@@ -39,7 +43,10 @@ pub fn book_map_type1_quantvals(entries: u32, dimensions: u32) -> u32 {
         }
 
         if acc > entries as u64 {
-            vals -= 1;
+            vals = vals.saturating_sub(1);
+            if vals == 0 {
+                return 0;
+            }
         } else {
             vals += 1;
         }
@@ -72,5 +79,14 @@ mod tests {
         assert_eq!(book_map_type1_quantvals(16, 2), 4); // 4^2 = 16
         assert_eq!(book_map_type1_quantvals(9, 2), 3); // 3^2 = 9 <= 9, 4^2 = 16 > 9
         assert_eq!(book_map_type1_quantvals(1, 1), 1); // 1^1 = 1
+    }
+
+    #[test]
+    fn test_book_map_type1_quantvals_edge_cases() {
+        // Edge cases that could cause underflow
+        assert_eq!(book_map_type1_quantvals(0, 1), 0); // entries = 0
+        assert_eq!(book_map_type1_quantvals(0, 2), 0);
+        assert_eq!(book_map_type1_quantvals(1, 0), 0); // dimensions = 0
+        assert_eq!(book_map_type1_quantvals(0, 0), 0); // both zero
     }
 }

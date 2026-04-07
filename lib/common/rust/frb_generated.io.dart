@@ -40,6 +40,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   dco_decode_StreamSink_rs_process_stream_data_Dco(dynamic raw);
 
   @protected
+  RustStreamSink<WemDecodeProgress>
+  dco_decode_StreamSink_wem_decode_progress_Dco(dynamic raw);
+
+  @protected
   String dco_decode_String(dynamic raw);
 
   @protected
@@ -58,6 +62,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool dco_decode_box_autoadd_bool(dynamic raw);
+
+  @protected
+  int dco_decode_box_autoadd_i_32(dynamic raw);
 
   @protected
   ModelConvertOptions dco_decode_box_autoadd_model_convert_options(dynamic raw);
@@ -100,6 +107,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   double dco_decode_f_64(dynamic raw);
 
   @protected
+  int dco_decode_i_16(dynamic raw);
+
+  @protected
   int dco_decode_i_32(dynamic raw);
 
   @protected
@@ -127,6 +137,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw);
+
+  @protected
+  Float64List dco_decode_list_prim_f_64_strict(dynamic raw);
+
+  @protected
+  List<int> dco_decode_list_prim_i_16_loose(dynamic raw);
+
+  @protected
+  Int16List dco_decode_list_prim_i_16_strict(dynamic raw);
 
   @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
@@ -171,6 +190,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool? dco_decode_opt_box_autoadd_bool(dynamic raw);
 
   @protected
+  int? dco_decode_opt_box_autoadd_i_32(dynamic raw);
+
+  @protected
   ModelConvertOptions? dco_decode_opt_box_autoadd_model_convert_options(
     dynamic raw,
   );
@@ -183,6 +205,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String>? dco_decode_opt_list_String(dynamic raw);
+
+  @protected
+  Float64List? dco_decode_opt_list_prim_f_64_strict(dynamic raw);
+
+  @protected
+  Int16List? dco_decode_opt_list_prim_i_16_strict(dynamic raw);
 
   @protected
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw);
@@ -239,6 +267,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   WebViewNavigationState dco_decode_web_view_navigation_state(dynamic raw);
 
   @protected
+  WemDecodeProgress dco_decode_wem_decode_progress(dynamic raw);
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
@@ -251,6 +282,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   sse_decode_StreamSink_rs_process_stream_data_Dco(
     SseDeserializer deserializer,
   );
+
+  @protected
+  RustStreamSink<WemDecodeProgress>
+  sse_decode_StreamSink_wem_decode_progress_Dco(SseDeserializer deserializer);
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
@@ -275,6 +310,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool sse_decode_box_autoadd_bool(SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_box_autoadd_i_32(SseDeserializer deserializer);
 
   @protected
   ModelConvertOptions sse_decode_box_autoadd_model_convert_options(
@@ -323,6 +361,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   double sse_decode_f_64(SseDeserializer deserializer);
 
   @protected
+  int sse_decode_i_16(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
@@ -360,6 +401,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<P4kFileItem> sse_decode_list_p_4_k_file_item(
     SseDeserializer deserializer,
   );
+
+  @protected
+  Float64List sse_decode_list_prim_f_64_strict(SseDeserializer deserializer);
+
+  @protected
+  List<int> sse_decode_list_prim_i_16_loose(SseDeserializer deserializer);
+
+  @protected
+  Int16List sse_decode_list_prim_i_16_strict(SseDeserializer deserializer);
 
   @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
@@ -418,6 +468,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer);
 
   @protected
+  int? sse_decode_opt_box_autoadd_i_32(SseDeserializer deserializer);
+
+  @protected
   ModelConvertOptions? sse_decode_opt_box_autoadd_model_convert_options(
     SseDeserializer deserializer,
   );
@@ -430,6 +483,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String>? sse_decode_opt_list_String(SseDeserializer deserializer);
+
+  @protected
+  Float64List? sse_decode_opt_list_prim_f_64_strict(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  Int16List? sse_decode_opt_list_prim_i_16_strict(SseDeserializer deserializer);
 
   @protected
   Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer);
@@ -498,6 +559,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  WemDecodeProgress sse_decode_wem_decode_progress(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_AnyhowException(
     AnyhowException raw,
   ) {
@@ -531,6 +597,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_strict>
+  cst_encode_StreamSink_wem_decode_progress_Dco(
+    RustStreamSink<WemDecodeProgress> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_String(
+      raw.setupAndSerialize(
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_wem_decode_progress,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+      ),
+    );
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict> cst_encode_String(String raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_list_prim_u_8_strict(utf8.encoder.convert(raw));
@@ -540,6 +622,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<ffi.Bool> cst_encode_box_autoadd_bool(bool raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return wire.cst_new_box_autoadd_bool(cst_encode_bool(raw));
+  }
+
+  @protected
+  ffi.Pointer<ffi.Int32> cst_encode_box_autoadd_i_32(int raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return wire.cst_new_box_autoadd_i_32(cst_encode_i_32(raw));
   }
 
   @protected
@@ -667,6 +755,36 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_prim_f_64_strict> cst_encode_list_prim_f_64_strict(
+    Float64List raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_f_64_strict(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_i_16_loose> cst_encode_list_prim_i_16_loose(
+    List<int> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_i_16_loose(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_i_16_strict> cst_encode_list_prim_i_16_strict(
+    Int16List raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_i_16_strict(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_encode_list_prim_u_8_loose(
     List<int> raw,
   ) {
@@ -743,6 +861,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.Int32> cst_encode_opt_box_autoadd_i_32(int? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_i_32(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_cst_model_convert_options>
   cst_encode_opt_box_autoadd_model_convert_options(ModelConvertOptions? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -769,6 +893,20 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_list_String(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_f_64_strict>
+  cst_encode_opt_list_prim_f_64_strict(Float64List? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_list_prim_f_64_strict(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_i_16_strict>
+  cst_encode_opt_list_prim_i_16_strict(Int16List? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_list_prim_i_16_strict(raw);
   }
 
   @protected
@@ -1124,6 +1262,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_wem_decode_progress(
+    WemDecodeProgress apiObj,
+    wire_cst_wem_decode_progress wireObj,
+  ) {
+    wireObj.progress = cst_encode_f_64(apiObj.progress);
+    wireObj.waveform = cst_encode_opt_list_prim_f_64_strict(apiObj.waveform);
+    wireObj.duration_ms = cst_encode_opt_box_autoadd_i_32(apiObj.durationMs);
+    wireObj.is_complete = cst_encode_bool(apiObj.isComplete);
+    wireObj.error = cst_encode_opt_String(apiObj.error);
+    wireObj.pcm_chunk = cst_encode_opt_list_prim_i_16_strict(apiObj.pcmChunk);
+    wireObj.sample_rate = cst_encode_opt_box_autoadd_i_32(apiObj.sampleRate);
+    wireObj.channels = cst_encode_opt_box_autoadd_i_32(apiObj.channels);
+    wireObj.chunk_index = cst_encode_i_32(apiObj.chunkIndex);
+  }
+
+  @protected
   bool cst_encode_bool(bool raw);
 
   @protected
@@ -1131,6 +1285,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   double cst_encode_f_64(double raw);
+
+  @protected
+  int cst_encode_i_16(int raw);
 
   @protected
   int cst_encode_i_32(int raw);
@@ -1175,6 +1332,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_StreamSink_wem_decode_progress_Dco(
+    RustStreamSink<WemDecodeProgress> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
@@ -1200,6 +1363,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_model_convert_options(
@@ -1262,6 +1428,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_f_64(double self, SseSerializer serializer);
 
   @protected
+  void sse_encode_i_16(int self, SseSerializer serializer);
+
+  @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
@@ -1303,6 +1472,24 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_p_4_k_file_item(
     List<P4kFileItem> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_prim_f_64_strict(
+    Float64List self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_prim_i_16_loose(
+    List<int> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_prim_i_16_strict(
+    Int16List self,
     SseSerializer serializer,
   );
 
@@ -1376,6 +1563,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_i_32(int? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_model_convert_options(
     ModelConvertOptions? self,
     SseSerializer serializer,
@@ -1389,6 +1579,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_list_String(List<String>? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_list_prim_f_64_strict(
+    Float64List? self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_opt_list_prim_i_16_strict(
+    Int16List? self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_opt_list_prim_u_8_strict(
@@ -1467,6 +1669,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     WebViewNavigationState self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_wem_decode_progress(
+    WemDecodeProgress self,
+    SseSerializer serializer,
+  );
 }
 
 // Section: wire_class
@@ -1517,6 +1725,30 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__win32_api__add_nvme_patch =
       _wire__crate__api__win32_api__add_nvme_patchPtr
           .asFunction<void Function(int)>();
+
+  void wire__crate__api__audio_api__audio_append_stream(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_i_16_loose> pcm_data,
+  ) {
+    return _wire__crate__api__audio_api__audio_append_stream(port_, pcm_data);
+  }
+
+  late final _wire__crate__api__audio_api__audio_append_streamPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_i_16_loose>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_append_stream',
+      );
+  late final _wire__crate__api__audio_api__audio_append_stream =
+      _wire__crate__api__audio_api__audio_append_streamPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_i_16_loose>)
+          >();
 
   void wire__crate__api__audio_api__audio_dispose(int port_) {
     return _wire__crate__api__audio_api__audio_dispose(port_);
@@ -1608,6 +1840,21 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__audio_api__audio_seekPtr
           .asFunction<void Function(int, int)>();
 
+  void wire__crate__api__audio_api__audio_seek_stream(
+    int port_,
+    int position_ms,
+  ) {
+    return _wire__crate__api__audio_api__audio_seek_stream(port_, position_ms);
+  }
+
+  late final _wire__crate__api__audio_api__audio_seek_streamPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Uint32)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_seek_stream',
+      );
+  late final _wire__crate__api__audio_api__audio_seek_stream =
+      _wire__crate__api__audio_api__audio_seek_streamPtr
+          .asFunction<void Function(int, int)>();
+
   void wire__crate__api__audio_api__audio_set_volume(int port_, double volume) {
     return _wire__crate__api__audio_api__audio_set_volume(port_, volume);
   }
@@ -1620,6 +1867,56 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__audio_api__audio_set_volumePtr
           .asFunction<void Function(int, double)>();
 
+  void wire__crate__api__audio_api__audio_start_stream(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_i_16_loose> pcm_data,
+    int sample_rate,
+    int channels,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> source_path,
+    int duration_ms,
+    bool auto_play,
+  ) {
+    return _wire__crate__api__audio_api__audio_start_stream(
+      port_,
+      pcm_data,
+      sample_rate,
+      channels,
+      source_path,
+      duration_ms,
+      auto_play,
+    );
+  }
+
+  late final _wire__crate__api__audio_api__audio_start_streamPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_i_16_loose>,
+            ffi.Int32,
+            ffi.Int32,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Int32,
+            ffi.Bool,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_start_stream',
+      );
+  late final _wire__crate__api__audio_api__audio_start_stream =
+      _wire__crate__api__audio_api__audio_start_streamPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_i_16_loose>,
+              int,
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+              bool,
+            )
+          >();
+
   void wire__crate__api__audio_api__audio_stop(int port_) {
     return _wire__crate__api__audio_api__audio_stop(port_);
   }
@@ -1630,6 +1927,18 @@ class RustLibWire implements BaseWire {
       );
   late final _wire__crate__api__audio_api__audio_stop =
       _wire__crate__api__audio_api__audio_stopPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__audio_api__audio_stop_stream(int port_) {
+    return _wire__crate__api__audio_api__audio_stop_stream(port_);
+  }
+
+  late final _wire__crate__api__audio_api__audio_stop_streamPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_stop_stream',
+      );
+  late final _wire__crate__api__audio_api__audio_stop_stream =
+      _wire__crate__api__audio_api__audio_stop_streamPtr
           .asFunction<void Function(int)>();
 
   void wire__crate__api__applinks_api__check_applinks_registration(
@@ -2968,6 +3277,40 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> input_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> stream_sink,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream(
+      port_,
+      input_path,
+      stream_sink,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_streamPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream =
+      _wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_streamPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
   void wire__crate__api__unp4k_api__p4k_extract_to_disk(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
@@ -4059,6 +4402,17 @@ class RustLibWire implements BaseWire {
   late final _cst_new_box_autoadd_bool = _cst_new_box_autoadd_boolPtr
       .asFunction<ffi.Pointer<ffi.Bool> Function(bool)>();
 
+  ffi.Pointer<ffi.Int32> cst_new_box_autoadd_i_32(int value) {
+    return _cst_new_box_autoadd_i_32(value);
+  }
+
+  late final _cst_new_box_autoadd_i_32Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
+        'frbgen_starcitizen_doctor_cst_new_box_autoadd_i_32',
+      );
+  late final _cst_new_box_autoadd_i_32 = _cst_new_box_autoadd_i_32Ptr
+      .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
+
   ffi.Pointer<wire_cst_model_convert_options>
   cst_new_box_autoadd_model_convert_options() {
     return _cst_new_box_autoadd_model_convert_options();
@@ -4241,6 +4595,51 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_p_4_k_file_item = _cst_new_list_p_4_k_file_itemPtr
       .asFunction<ffi.Pointer<wire_cst_list_p_4_k_file_item> Function(int)>();
 
+  ffi.Pointer<wire_cst_list_prim_f_64_strict> cst_new_list_prim_f_64_strict(
+    int len,
+  ) {
+    return _cst_new_list_prim_f_64_strict(len);
+  }
+
+  late final _cst_new_list_prim_f_64_strictPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_prim_f_64_strict> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_prim_f_64_strict');
+  late final _cst_new_list_prim_f_64_strict = _cst_new_list_prim_f_64_strictPtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_f_64_strict> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_prim_i_16_loose> cst_new_list_prim_i_16_loose(
+    int len,
+  ) {
+    return _cst_new_list_prim_i_16_loose(len);
+  }
+
+  late final _cst_new_list_prim_i_16_loosePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_prim_i_16_loose> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_prim_i_16_loose');
+  late final _cst_new_list_prim_i_16_loose = _cst_new_list_prim_i_16_loosePtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_i_16_loose> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_prim_i_16_strict> cst_new_list_prim_i_16_strict(
+    int len,
+  ) {
+    return _cst_new_list_prim_i_16_strict(len);
+  }
+
+  late final _cst_new_list_prim_i_16_strictPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_prim_i_16_strict> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_prim_i_16_strict');
+  late final _cst_new_list_prim_i_16_strict = _cst_new_list_prim_i_16_strictPtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_i_16_strict> Function(int)>();
+
   ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_new_list_prim_u_8_loose(
     int len,
   ) {
@@ -4336,6 +4735,13 @@ typedef DartDartPostCObjectFnTypeFunction =
     bool Function(DartDartPort port_id, ffi.Pointer<ffi.Void> message);
 typedef DartPostCObjectFnType =
     ffi.Pointer<ffi.NativeFunction<DartPostCObjectFnTypeFunction>>;
+
+final class wire_cst_list_prim_i_16_loose extends ffi.Struct {
+  external ffi.Pointer<ffi.Int16> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
 
 final class wire_cst_list_prim_u_8_strict extends ffi.Struct {
   external ffi.Pointer<ffi.Uint8> ptr;
@@ -4537,6 +4943,20 @@ final class wire_cst_p_4_k_file_item extends ffi.Struct {
 
 final class wire_cst_list_p_4_k_file_item extends ffi.Struct {
   external ffi.Pointer<wire_cst_p_4_k_file_item> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_list_prim_f_64_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Double> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_list_prim_i_16_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Int16> ptr;
 
   @ffi.Int32()
   external int len;
@@ -4758,6 +5178,29 @@ final class wire_cst_web_view_navigation_state extends ffi.Struct {
 
   @ffi.Bool()
   external bool is_loading;
+}
+
+final class wire_cst_wem_decode_progress extends ffi.Struct {
+  @ffi.Double()
+  external double progress;
+
+  external ffi.Pointer<wire_cst_list_prim_f_64_strict> waveform;
+
+  external ffi.Pointer<ffi.Int32> duration_ms;
+
+  @ffi.Bool()
+  external bool is_complete;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error;
+
+  external ffi.Pointer<wire_cst_list_prim_i_16_strict> pcm_chunk;
+
+  external ffi.Pointer<ffi.Int32> sample_rate;
+
+  external ffi.Pointer<ffi.Int32> channels;
+
+  @ffi.Int32()
+  external int chunk_index;
 }
 
 const int CHUNK_TYPE_BASE_746 = 3435917312;

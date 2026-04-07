@@ -8,8 +8,8 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'audio_api.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `build_snapshot`, `ensure_runtime`, `load_decoder`, `load_ogg_source`, `lock_audio_runtime`, `with_runtime_mut`, `with_runtime`
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `AudioRuntime`, `AudioSource`
+// These functions are ignored because they are not marked as `pub`: `build_snapshot`, `ensure_runtime`, `load_audio_source`, `load_decoder`, `load_ogg_source`, `lock_audio_runtime`, `with_runtime_mut`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `AudioRuntime`, `AudioSource`, `StreamingAudioConfig`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `channels`, `current_span_len`, `next`, `sample_rate`, `total_duration`, `try_seek`
 
 /// Stop and forget the currently loaded source.
@@ -48,6 +48,37 @@ Future<AudioPlaybackState> audioGetState() =>
 /// Dispose the player and release all audio resources.
 Future<void> audioDispose() =>
     RustLib.instance.api.crateApiAudioApiAudioDispose();
+
+/// Start streaming playback with initial PCM chunk.
+Future<AudioPlaybackState> audioStartStream({
+  required List<int> pcmData,
+  required int sampleRate,
+  required int channels,
+  required String sourcePath,
+  required int durationMs,
+  required bool autoPlay,
+}) => RustLib.instance.api.crateApiAudioApiAudioStartStream(
+  pcmData: pcmData,
+  sampleRate: sampleRate,
+  channels: channels,
+  sourcePath: sourcePath,
+  durationMs: durationMs,
+  autoPlay: autoPlay,
+);
+
+/// Append PCM chunk to currently playing stream.
+Future<AudioPlaybackState> audioAppendStream({required List<int> pcmData}) =>
+    RustLib.instance.api.crateApiAudioApiAudioAppendStream(pcmData: pcmData);
+
+/// Stop streaming and clear streaming config.
+Future<AudioPlaybackState> audioStopStream() =>
+    RustLib.instance.api.crateApiAudioApiAudioStopStream();
+
+/// Seek during streaming playback. Can only seek to already buffered position.
+Future<AudioPlaybackState> audioSeekStream({required int positionMs}) => RustLib
+    .instance
+    .api
+    .crateApiAudioApiAudioSeekStream(positionMs: positionMs);
 
 @freezed
 sealed class AudioPlaybackState with _$AudioPlaybackState {

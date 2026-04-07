@@ -15,20 +15,6 @@ class ExportJob {
   const ExportJob({required this.sourcePath, required this.outputPath});
 }
 
-class PreparedPlayableFile {
-  final String playPath;
-  final bool isPreviewMode;
-  final String? fullWavPath;
-  final Future<void>? fullDecodeFuture;
-
-  const PreparedPlayableFile({
-    required this.playPath,
-    this.isPreviewMode = false,
-    this.fullWavPath,
-    this.fullDecodeFuture,
-  });
-}
-
 class WaveMark {
   final double ratio;
   final int second;

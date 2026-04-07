@@ -75,7 +75,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => -631513841;
+  int get rustContentHash => -1318190315;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -88,6 +88,10 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 
 abstract class RustLibApi extends BaseApi {
   Future<void> crateApiWin32ApiAddNvmePatch();
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioAppendStream({
+    required List<int> pcmData,
+  });
 
   Future<void> crateApiAudioApiAudioDispose();
 
@@ -106,11 +110,26 @@ abstract class RustLibApi extends BaseApi {
     required int positionMs,
   });
 
+  Future<AudioPlaybackState> crateApiAudioApiAudioSeekStream({
+    required int positionMs,
+  });
+
   Future<AudioPlaybackState> crateApiAudioApiAudioSetVolume({
     required double volume,
   });
 
+  Future<AudioPlaybackState> crateApiAudioApiAudioStartStream({
+    required List<int> pcmData,
+    required int sampleRate,
+    required int channels,
+    required String sourcePath,
+    required int durationMs,
+    required bool autoPlay,
+  });
+
   Future<AudioPlaybackState> crateApiAudioApiAudioStop();
+
+  Future<AudioPlaybackState> crateApiAudioApiAudioStopStream();
 
   Future<ApplinksRegistrationResult>
   crateApiApplinksApiCheckApplinksRegistration({required String scheme});
@@ -312,6 +331,10 @@ abstract class RustLibApi extends BaseApi {
     required int clipSeconds,
   });
 
+  Stream<WemDecodeProgress> crateApiUnp4KApiP4KDecodeWemToWavStream({
+    required String inputPath,
+  });
+
   Future<void> crateApiUnp4KApiP4KExtractToDisk({
     required String filePath,
     required String outputPath,
@@ -502,6 +525,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "add_nvme_patch", argNames: []);
 
   @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioAppendStream({
+    required List<int> pcmData,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_list_prim_i_16_loose(pcmData);
+          return wire.wire__crate__api__audio_api__audio_append_stream(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioAppendStreamConstMeta,
+        argValues: [pcmData],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioAppendStreamConstMeta =>
+      const TaskConstMeta(
+        debugName: "audio_append_stream",
+        argNames: ["pcmData"],
+      );
+
+  @override
   Future<void> crateApiAudioApiAudioDispose() {
     return handler.executeNormal(
       NormalTask(
@@ -643,6 +696,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "audio_seek", argNames: ["positionMs"]);
 
   @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioSeekStream({
+    required int positionMs,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_u_32(positionMs);
+          return wire.wire__crate__api__audio_api__audio_seek_stream(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioSeekStreamConstMeta,
+        argValues: [positionMs],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioSeekStreamConstMeta =>
+      const TaskConstMeta(
+        debugName: "audio_seek_stream",
+        argNames: ["positionMs"],
+      );
+
+  @override
   Future<AudioPlaybackState> crateApiAudioApiAudioSetVolume({
     required double volume,
   }) {
@@ -670,6 +753,65 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "audio_set_volume", argNames: ["volume"]);
 
   @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioStartStream({
+    required List<int> pcmData,
+    required int sampleRate,
+    required int channels,
+    required String sourcePath,
+    required int durationMs,
+    required bool autoPlay,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_list_prim_i_16_loose(pcmData);
+          var arg1 = cst_encode_i_32(sampleRate);
+          var arg2 = cst_encode_i_32(channels);
+          var arg3 = cst_encode_String(sourcePath);
+          var arg4 = cst_encode_i_32(durationMs);
+          var arg5 = cst_encode_bool(autoPlay);
+          return wire.wire__crate__api__audio_api__audio_start_stream(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+            arg3,
+            arg4,
+            arg5,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioStartStreamConstMeta,
+        argValues: [
+          pcmData,
+          sampleRate,
+          channels,
+          sourcePath,
+          durationMs,
+          autoPlay,
+        ],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioStartStreamConstMeta =>
+      const TaskConstMeta(
+        debugName: "audio_start_stream",
+        argNames: [
+          "pcmData",
+          "sampleRate",
+          "channels",
+          "sourcePath",
+          "durationMs",
+          "autoPlay",
+        ],
+      );
+
+  @override
   Future<AudioPlaybackState> crateApiAudioApiAudioStop() {
     return handler.executeNormal(
       NormalTask(
@@ -689,6 +831,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiAudioApiAudioStopConstMeta =>
       const TaskConstMeta(debugName: "audio_stop", argNames: []);
+
+  @override
+  Future<AudioPlaybackState> crateApiAudioApiAudioStopStream() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__audio_api__audio_stop_stream(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_audio_playback_state,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiAudioApiAudioStopStreamConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAudioApiAudioStopStreamConstMeta =>
+      const TaskConstMeta(debugName: "audio_stop_stream", argNames: []);
 
   @override
   Future<ApplinksRegistrationResult>
@@ -2364,6 +2527,45 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Stream<WemDecodeProgress> crateApiUnp4KApiP4KDecodeWemToWavStream({
+    required String inputPath,
+  }) {
+    final streamSink = RustStreamSink<WemDecodeProgress>();
+    unawaited(
+      handler.executeNormal(
+        NormalTask(
+          callFfi: (port_) {
+            var arg0 = cst_encode_String(inputPath);
+            var arg1 = cst_encode_StreamSink_wem_decode_progress_Dco(
+              streamSink,
+            );
+            return wire
+                .wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream(
+                  port_,
+                  arg0,
+                  arg1,
+                );
+          },
+          codec: DcoCodec(
+            decodeSuccessData: dco_decode_unit,
+            decodeErrorData: null,
+          ),
+          constMeta: kCrateApiUnp4KApiP4KDecodeWemToWavStreamConstMeta,
+          argValues: [inputPath, streamSink],
+          apiImpl: this,
+        ),
+      ),
+    );
+    return streamSink.stream;
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KDecodeWemToWavStreamConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_decode_wem_to_wav_stream",
+        argNames: ["inputPath", "streamSink"],
+      );
+
+  @override
   Future<void> crateApiUnp4KApiP4KExtractToDisk({
     required String filePath,
     required String outputPath,
@@ -3570,6 +3772,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  RustStreamSink<WemDecodeProgress>
+  dco_decode_StreamSink_wem_decode_progress_Dco(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    throw UnimplementedError();
+  }
+
+  @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
@@ -3630,6 +3839,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool dco_decode_box_autoadd_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
+  }
+
+  @protected
+  int dco_decode_box_autoadd_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
   }
 
   @protected
@@ -3753,6 +3968,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int dco_decode_i_16(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
   int dco_decode_i_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -3808,6 +4029,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_p_4_k_file_item).toList();
+  }
+
+  @protected
+  Float64List dco_decode_list_prim_f_64_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Float64List;
+  }
+
+  @protected
+  List<int> dco_decode_list_prim_i_16_loose(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as List<int>;
+  }
+
+  @protected
+  Int16List dco_decode_list_prim_i_16_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Int16List;
   }
 
   @protected
@@ -3941,6 +4180,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int? dco_decode_opt_box_autoadd_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_i_32(raw);
+  }
+
+  @protected
   ModelConvertOptions? dco_decode_opt_box_autoadd_model_convert_options(
     dynamic raw,
   ) {
@@ -3966,6 +4211,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<String>? dco_decode_opt_list_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_list_String(raw);
+  }
+
+  @protected
+  Float64List? dco_decode_opt_list_prim_f_64_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_list_prim_f_64_strict(raw);
+  }
+
+  @protected
+  Int16List? dco_decode_opt_list_prim_i_16_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_list_prim_i_16_strict(raw);
   }
 
   @protected
@@ -4165,6 +4422,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  WemDecodeProgress dco_decode_wem_decode_progress(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 9)
+      throw Exception('unexpected arr length: expect 9 but see ${arr.length}');
+    return WemDecodeProgress(
+      progress: dco_decode_f_64(arr[0]),
+      waveform: dco_decode_opt_list_prim_f_64_strict(arr[1]),
+      durationMs: dco_decode_opt_box_autoadd_i_32(arr[2]),
+      isComplete: dco_decode_bool(arr[3]),
+      error: dco_decode_opt_String(arr[4]),
+      pcmChunk: dco_decode_opt_list_prim_i_16_strict(arr[5]),
+      sampleRate: dco_decode_opt_box_autoadd_i_32(arr[6]),
+      channels: dco_decode_opt_box_autoadd_i_32(arr[7]),
+      chunkIndex: dco_decode_i_32(arr[8]),
+    );
+  }
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_String(deserializer);
@@ -4185,6 +4461,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   sse_decode_StreamSink_rs_process_stream_data_Dco(
     SseDeserializer deserializer,
   ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    throw UnimplementedError('Unreachable ()');
+  }
+
+  @protected
+  RustStreamSink<WemDecodeProgress>
+  sse_decode_StreamSink_wem_decode_progress_Dco(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     throw UnimplementedError('Unreachable ()');
   }
@@ -4259,6 +4542,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   bool sse_decode_box_autoadd_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_bool(deserializer));
+  }
+
+  @protected
+  int sse_decode_box_autoadd_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_i_32(deserializer));
   }
 
   @protected
@@ -4391,6 +4680,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int sse_decode_i_16(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt16();
+  }
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getInt32();
@@ -4496,6 +4791,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       ans_.add(sse_decode_p_4_k_file_item(deserializer));
     }
     return ans_;
+  }
+
+  @protected
+  Float64List sse_decode_list_prim_f_64_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getFloat64List(len_);
+  }
+
+  @protected
+  List<int> sse_decode_list_prim_i_16_loose(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getInt16List(len_);
+  }
+
+  @protected
+  Int16List sse_decode_list_prim_i_16_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getInt16List(len_);
   }
 
   @protected
@@ -4698,6 +5014,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int? sse_decode_opt_box_autoadd_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_i_32(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   ModelConvertOptions? sse_decode_opt_box_autoadd_model_convert_options(
     SseDeserializer deserializer,
   ) {
@@ -4738,6 +5065,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_list_String(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  Float64List? sse_decode_opt_list_prim_f_64_strict(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_list_prim_f_64_strict(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  Int16List? sse_decode_opt_list_prim_i_16_strict(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_list_prim_i_16_strict(deserializer));
     } else {
       return null;
     }
@@ -4971,6 +5324,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  WemDecodeProgress sse_decode_wem_decode_progress(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_progress = sse_decode_f_64(deserializer);
+    var var_waveform = sse_decode_opt_list_prim_f_64_strict(deserializer);
+    var var_durationMs = sse_decode_opt_box_autoadd_i_32(deserializer);
+    var var_isComplete = sse_decode_bool(deserializer);
+    var var_error = sse_decode_opt_String(deserializer);
+    var var_pcmChunk = sse_decode_opt_list_prim_i_16_strict(deserializer);
+    var var_sampleRate = sse_decode_opt_box_autoadd_i_32(deserializer);
+    var var_channels = sse_decode_opt_box_autoadd_i_32(deserializer);
+    var var_chunkIndex = sse_decode_i_32(deserializer);
+    return WemDecodeProgress(
+      progress: var_progress,
+      waveform: var_waveform,
+      durationMs: var_durationMs,
+      isComplete: var_isComplete,
+      error: var_error,
+      pcmChunk: var_pcmChunk,
+      sampleRate: var_sampleRate,
+      channels: var_channels,
+      chunkIndex: var_chunkIndex,
+    );
+  }
+
+  @protected
   bool cst_encode_bool(bool raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw;
@@ -4984,6 +5364,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   double cst_encode_f_64(double raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw;
+  }
+
+  @protected
+  int cst_encode_i_16(int raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw;
   }
@@ -5075,6 +5461,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_StreamSink_wem_decode_progress_Dco(
+    RustStreamSink<WemDecodeProgress> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(
+      self.setupAndSerialize(
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_wem_decode_progress,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+      ),
+      serializer,
+    );
+  }
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
@@ -5127,6 +5530,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_bool(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self, serializer);
   }
 
   @protected
@@ -5246,6 +5655,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_i_16(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt16(self);
+  }
+
+  @protected
   void sse_encode_i_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt32(self);
@@ -5336,6 +5751,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     for (final item in self) {
       sse_encode_p_4_k_file_item(item, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_list_prim_f_64_strict(
+    Float64List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putFloat64List(self);
+  }
+
+  @protected
+  void sse_encode_list_prim_i_16_loose(
+    List<int> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putInt16List(
+      self is Int16List ? self : Int16List.fromList(self),
+    );
+  }
+
+  @protected
+  void sse_encode_list_prim_i_16_strict(
+    Int16List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putInt16List(self);
   }
 
   @protected
@@ -5507,6 +5954,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_i_32(int? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_i_32(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_model_convert_options(
     ModelConvertOptions? self,
     SseSerializer serializer,
@@ -5549,6 +6006,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_list_String(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_list_prim_f_64_strict(
+    Float64List? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_prim_f_64_strict(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_list_prim_i_16_strict(
+    Int16List? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_prim_i_16_strict(self, serializer);
     }
   }
 
@@ -5733,5 +6216,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self.canGoBack, serializer);
     sse_encode_bool(self.canGoForward, serializer);
     sse_encode_bool(self.isLoading, serializer);
+  }
+
+  @protected
+  void sse_encode_wem_decode_progress(
+    WemDecodeProgress self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_f_64(self.progress, serializer);
+    sse_encode_opt_list_prim_f_64_strict(self.waveform, serializer);
+    sse_encode_opt_box_autoadd_i_32(self.durationMs, serializer);
+    sse_encode_bool(self.isComplete, serializer);
+    sse_encode_opt_String(self.error, serializer);
+    sse_encode_opt_list_prim_i_16_strict(self.pcmChunk, serializer);
+    sse_encode_opt_box_autoadd_i_32(self.sampleRate, serializer);
+    sse_encode_opt_box_autoadd_i_32(self.channels, serializer);
+    sse_encode_i_32(self.chunkIndex, serializer);
   }
 }

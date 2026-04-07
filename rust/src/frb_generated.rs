@@ -38,7 +38,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -631513841;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1318190315;
 
 // Section: executor
 
@@ -60,6 +60,29 @@ fn wire__crate__api__win32_api__add_nvme_patch_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::win32_api::add_nvme_patch()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_append_stream_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    pcm_data: impl CstDecode<Vec<i16>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_append_stream",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_pcm_data = pcm_data.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_append_stream(api_pcm_data)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -200,6 +223,29 @@ fn wire__crate__api__audio_api__audio_seek_impl(
         },
     )
 }
+fn wire__crate__api__audio_api__audio_seek_stream_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    position_ms: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_seek_stream",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_position_ms = position_ms.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_seek_stream(api_position_ms)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__audio_api__audio_set_volume_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     volume: impl CstDecode<f64>,
@@ -223,6 +269,46 @@ fn wire__crate__api__audio_api__audio_set_volume_impl(
         },
     )
 }
+fn wire__crate__api__audio_api__audio_start_stream_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    pcm_data: impl CstDecode<Vec<i16>>,
+    sample_rate: impl CstDecode<i32>,
+    channels: impl CstDecode<i32>,
+    source_path: impl CstDecode<String>,
+    duration_ms: impl CstDecode<i32>,
+    auto_play: impl CstDecode<bool>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_start_stream",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_pcm_data = pcm_data.cst_decode();
+            let api_sample_rate = sample_rate.cst_decode();
+            let api_channels = channels.cst_decode();
+            let api_source_path = source_path.cst_decode();
+            let api_duration_ms = duration_ms.cst_decode();
+            let api_auto_play = auto_play.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_start_stream(
+                            api_pcm_data,
+                            api_sample_rate,
+                            api_channels,
+                            api_source_path,
+                            api_duration_ms,
+                            api_auto_play,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__audio_api__audio_stop_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
 ) {
@@ -237,6 +323,27 @@ fn wire__crate__api__audio_api__audio_stop_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::audio_api::audio_stop()?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__audio_api__audio_stop_stream_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "audio_stop_stream",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::audio_api::audio_stop_stream()?;
                         Ok(output_ok)
                     })(),
                 )
@@ -1718,6 +1825,43 @@ fn wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_preview_impl(
         },
     )
 }
+fn wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    input_path: impl CstDecode<String>,
+    stream_sink: impl CstDecode<
+        StreamSink<
+            crate::api::unp4k_api::WemDecodeProgress,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        >,
+    >,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_decode_wem_to_wav_stream",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_input_path = input_path.cst_decode();
+            let api_stream_sink = stream_sink.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, ()>(
+                    (move || async move {
+                        let output_ok = Result::<_, ()>::Ok({
+                            crate::api::unp4k_api::p4k_decode_wem_to_wav_stream(
+                                api_input_path,
+                                api_stream_sink,
+                            )
+                            .await;
+                        })?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__unp4k_api__p4k_extract_to_disk_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     file_path: impl CstDecode<String>,
@@ -2721,6 +2865,12 @@ impl CstDecode<f64> for f64 {
         self
     }
 }
+impl CstDecode<i16> for i16 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> i16 {
+        self
+    }
+}
 impl CstDecode<i32> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> i32 {
@@ -2824,6 +2974,19 @@ impl SseDecode for std::collections::HashMap<String, String> {
 impl SseDecode
     for StreamSink<
         crate::api::rs_process::RsProcessStreamData,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    >
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <String>::sse_decode(deserializer);
+        return StreamSink::deserialize(inner);
+    }
+}
+
+impl SseDecode
+    for StreamSink<
+        crate::api::unp4k_api::WemDecodeProgress,
         flutter_rust_bridge::for_generated::DcoCodec,
     >
 {
@@ -3007,6 +3170,13 @@ impl SseDecode for f64 {
     }
 }
 
+impl SseDecode for i16 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i16::<NativeEndian>().unwrap()
+    }
+}
+
 impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3112,6 +3282,30 @@ impl SseDecode for Vec<crate::api::unp4k_api::P4kFileItem> {
             ans_.push(<crate::api::unp4k_api::P4kFileItem>::sse_decode(
                 deserializer,
             ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<f64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<f64>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<i16> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<i16>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -3333,6 +3527,17 @@ impl SseDecode for Option<bool> {
     }
 }
 
+impl SseDecode for Option<i32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<i32>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<crate::api::unp4k_model_api::ModelConvertOptions> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3373,6 +3578,28 @@ impl SseDecode for Option<Vec<String>> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<Vec<String>>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<Vec<f64>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<Vec<f64>>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<Vec<i16>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<Vec<i16>>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -3626,6 +3853,32 @@ impl SseDecode for crate::api::webview_api::WebViewNavigationState {
             can_go_back: var_canGoBack,
             can_go_forward: var_canGoForward,
             is_loading: var_isLoading,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_api::WemDecodeProgress {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_progress = <f64>::sse_decode(deserializer);
+        let mut var_waveform = <Option<Vec<f64>>>::sse_decode(deserializer);
+        let mut var_durationMs = <Option<i32>>::sse_decode(deserializer);
+        let mut var_isComplete = <bool>::sse_decode(deserializer);
+        let mut var_error = <Option<String>>::sse_decode(deserializer);
+        let mut var_pcmChunk = <Option<Vec<i16>>>::sse_decode(deserializer);
+        let mut var_sampleRate = <Option<i32>>::sse_decode(deserializer);
+        let mut var_channels = <Option<i32>>::sse_decode(deserializer);
+        let mut var_chunkIndex = <i32>::sse_decode(deserializer);
+        return crate::api::unp4k_api::WemDecodeProgress {
+            progress: var_progress,
+            waveform: var_waveform,
+            duration_ms: var_durationMs,
+            is_complete: var_isComplete,
+            error: var_error,
+            pcm_chunk: var_pcmChunk,
+            sample_rate: var_sampleRate,
+            channels: var_channels,
+            chunk_index: var_chunkIndex,
         };
     }
 }
@@ -4275,6 +4528,34 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::webview_api::WebViewNavigatio
         self
     }
 }
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::WemDecodeProgress {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.progress.into_into_dart().into_dart(),
+            self.waveform.into_into_dart().into_dart(),
+            self.duration_ms.into_into_dart().into_dart(),
+            self.is_complete.into_into_dart().into_dart(),
+            self.error.into_into_dart().into_dart(),
+            self.pcm_chunk.into_into_dart().into_dart(),
+            self.sample_rate.into_into_dart().into_dart(),
+            self.channels.into_into_dart().into_dart(),
+            self.chunk_index.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_api::WemDecodeProgress
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::WemDecodeProgress>
+    for crate::api::unp4k_api::WemDecodeProgress
+{
+    fn into_into_dart(self) -> crate::api::unp4k_api::WemDecodeProgress {
+        self
+    }
+}
 
 impl SseEncode for flutter_rust_bridge::for_generated::anyhow::Error {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -4293,6 +4574,18 @@ impl SseEncode for std::collections::HashMap<String, String> {
 impl SseEncode
     for StreamSink<
         crate::api::rs_process::RsProcessStreamData,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    >
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        unimplemented!("")
+    }
+}
+
+impl SseEncode
+    for StreamSink<
+        crate::api::unp4k_api::WemDecodeProgress,
         flutter_rust_bridge::for_generated::DcoCodec,
     >
 {
@@ -4425,6 +4718,13 @@ impl SseEncode for f64 {
     }
 }
 
+impl SseEncode for i16 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i16::<NativeEndian>(self).unwrap();
+    }
+}
+
 impl SseEncode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -4505,6 +4805,26 @@ impl SseEncode for Vec<crate::api::unp4k_api::P4kFileItem> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::unp4k_api::P4kFileItem>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<f64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <f64>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<i16> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <i16>::sse_encode(item, serializer);
         }
     }
 }
@@ -4681,6 +5001,16 @@ impl SseEncode for Option<bool> {
     }
 }
 
+impl SseEncode for Option<i32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <i32>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<crate::api::unp4k_model_api::ModelConvertOptions> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -4717,6 +5047,26 @@ impl SseEncode for Option<Vec<String>> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <Vec<String>>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<Vec<f64>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <Vec<f64>>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<Vec<i16>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <Vec<i16>>::sse_encode(value, serializer);
         }
     }
 }
@@ -4918,6 +5268,21 @@ impl SseEncode for crate::api::webview_api::WebViewNavigationState {
     }
 }
 
+impl SseEncode for crate::api::unp4k_api::WemDecodeProgress {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <f64>::sse_encode(self.progress, serializer);
+        <Option<Vec<f64>>>::sse_encode(self.waveform, serializer);
+        <Option<i32>>::sse_encode(self.duration_ms, serializer);
+        <bool>::sse_encode(self.is_complete, serializer);
+        <Option<String>>::sse_encode(self.error, serializer);
+        <Option<Vec<i16>>>::sse_encode(self.pcm_chunk, serializer);
+        <Option<i32>>::sse_encode(self.sample_rate, serializer);
+        <Option<i32>>::sse_encode(self.channels, serializer);
+        <i32>::sse_encode(self.chunk_index, serializer);
+    }
+}
+
 #[cfg(not(target_family = "wasm"))]
 mod io {
     // This file is automatically generated, so please do not edit it.
@@ -4974,6 +5339,25 @@ mod io {
             StreamSink::deserialize(raw)
         }
     }
+    impl
+        CstDecode<
+            StreamSink<
+                crate::api::unp4k_api::WemDecodeProgress,
+                flutter_rust_bridge::for_generated::DcoCodec,
+            >,
+        > for *mut wire_cst_list_prim_u_8_strict
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(
+            self,
+        ) -> StreamSink<
+            crate::api::unp4k_api::WemDecodeProgress,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        > {
+            let raw: String = self.cst_decode();
+            StreamSink::deserialize(raw)
+        }
+    }
     impl CstDecode<String> for *mut wire_cst_list_prim_u_8_strict {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> String {
@@ -5020,6 +5404,12 @@ mod io {
     impl CstDecode<bool> for *mut bool {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> bool {
+            unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
+        }
+    }
+    impl CstDecode<i32> for *mut i32 {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> i32 {
             unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
         }
     }
@@ -5191,6 +5581,33 @@ mod io {
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
             };
             vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<f64>> for *mut wire_cst_list_prim_f_64_strict {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<f64> {
+            unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            }
+        }
+    }
+    impl CstDecode<Vec<i16>> for *mut wire_cst_list_prim_i_16_loose {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<i16> {
+            unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            }
+        }
+    }
+    impl CstDecode<Vec<i16>> for *mut wire_cst_list_prim_i_16_strict {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<i16> {
+            unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            }
         }
     }
     impl CstDecode<Vec<u8>> for *mut wire_cst_list_prim_u_8_loose {
@@ -5442,6 +5859,22 @@ mod io {
                 can_go_back: self.can_go_back.cst_decode(),
                 can_go_forward: self.can_go_forward.cst_decode(),
                 is_loading: self.is_loading.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::unp4k_api::WemDecodeProgress> for wire_cst_wem_decode_progress {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_api::WemDecodeProgress {
+            crate::api::unp4k_api::WemDecodeProgress {
+                progress: self.progress.cst_decode(),
+                waveform: self.waveform.cst_decode(),
+                duration_ms: self.duration_ms.cst_decode(),
+                is_complete: self.is_complete.cst_decode(),
+                error: self.error.cst_decode(),
+                pcm_chunk: self.pcm_chunk.cst_decode(),
+                sample_rate: self.sample_rate.cst_decode(),
+                channels: self.channels.cst_decode(),
+                chunk_index: self.chunk_index.cst_decode(),
             }
         }
     }
@@ -5793,12 +6226,40 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_wem_decode_progress {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                progress: Default::default(),
+                waveform: core::ptr::null_mut(),
+                duration_ms: core::ptr::null_mut(),
+                is_complete: Default::default(),
+                error: core::ptr::null_mut(),
+                pcm_chunk: core::ptr::null_mut(),
+                sample_rate: core::ptr::null_mut(),
+                channels: core::ptr::null_mut(),
+                chunk_index: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_wem_decode_progress {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__add_nvme_patch(
         port_: i64,
     ) {
         wire__crate__api__win32_api__add_nvme_patch_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_append_stream(
+        port_: i64,
+        pcm_data: *mut wire_cst_list_prim_i_16_loose,
+    ) {
+        wire__crate__api__audio_api__audio_append_stream_impl(port_, pcm_data)
     }
 
     #[unsafe(no_mangle)]
@@ -5847,6 +6308,14 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_seek_stream(
+        port_: i64,
+        position_ms: u32,
+    ) {
+        wire__crate__api__audio_api__audio_seek_stream_impl(port_, position_ms)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_set_volume(
         port_: i64,
         volume: f64,
@@ -5855,10 +6324,38 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_start_stream(
+        port_: i64,
+        pcm_data: *mut wire_cst_list_prim_i_16_loose,
+        sample_rate: i32,
+        channels: i32,
+        source_path: *mut wire_cst_list_prim_u_8_strict,
+        duration_ms: i32,
+        auto_play: bool,
+    ) {
+        wire__crate__api__audio_api__audio_start_stream_impl(
+            port_,
+            pcm_data,
+            sample_rate,
+            channels,
+            source_path,
+            duration_ms,
+            auto_play,
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_stop(
         port_: i64,
     ) {
         wire__crate__api__audio_api__audio_stop_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__audio_api__audio_stop_stream(
+        port_: i64,
+    ) {
+        wire__crate__api__audio_api__audio_stop_stream_impl(port_)
     }
 
     #[unsafe(no_mangle)]
@@ -6380,6 +6877,19 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream(
+        port_: i64,
+        input_path: *mut wire_cst_list_prim_u_8_strict,
+        stream_sink: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream_impl(
+            port_,
+            input_path,
+            stream_sink,
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_extract_to_disk(
         port_: i64,
         file_path: *mut wire_cst_list_prim_u_8_strict,
@@ -6731,6 +7241,11 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_i_32(value: i32) -> *mut i32 {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_model_convert_options(
     ) -> *mut wire_cst_model_convert_options {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
@@ -6860,6 +7375,39 @@ mod io {
             len,
         };
         flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_f_64_strict(
+        len: i32,
+    ) -> *mut wire_cst_list_prim_f_64_strict {
+        let ans = wire_cst_list_prim_f_64_strict {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_i_16_loose(
+        len: i32,
+    ) -> *mut wire_cst_list_prim_i_16_loose {
+        let ans = wire_cst_list_prim_i_16_loose {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_i_16_strict(
+        len: i32,
+    ) -> *mut wire_cst_list_prim_i_16_strict {
+        let ans = wire_cst_list_prim_i_16_strict {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
     }
 
     #[unsafe(no_mangle)]
@@ -7033,6 +7581,24 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_p_4_k_file_item {
         ptr: *mut wire_cst_p_4_k_file_item,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_prim_f_64_strict {
+        ptr: *mut f64,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_prim_i_16_loose {
+        ptr: *mut i16,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_prim_i_16_strict {
+        ptr: *mut i16,
         len: i32,
     }
     #[repr(C)]
@@ -7226,6 +7792,19 @@ mod io {
         can_go_back: bool,
         can_go_forward: bool,
         is_loading: bool,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_wem_decode_progress {
+        progress: f64,
+        waveform: *mut wire_cst_list_prim_f_64_strict,
+        duration_ms: *mut i32,
+        is_complete: bool,
+        error: *mut wire_cst_list_prim_u_8_strict,
+        pcm_chunk: *mut wire_cst_list_prim_i_16_strict,
+        sample_rate: *mut i32,
+        channels: *mut i32,
+        chunk_index: i32,
     }
 }
 #[cfg(not(target_family = "wasm"))]

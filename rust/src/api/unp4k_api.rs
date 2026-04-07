@@ -10,6 +10,8 @@ use std::sync::{Arc, Mutex};
 use unp4k::dataforge::DataForge;
 use unp4k::{CryXmlReader, P4kEntry, P4kFile};
 
+use crate::frb_generated::StreamSink;
+
 /// P4K 文件项信息
 #[frb(dart_metadata=("freezed"))]
 pub struct P4kFileItem {
@@ -70,6 +72,19 @@ static GLOBAL_DCB_READER: once_cell::sync::Lazy<Arc<Mutex<Option<DataForge>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
 
 static GLOBAL_WEM_DECODE_REQUEST_ID: AtomicU64 = AtomicU64::new(0);
+
+#[frb(dart_metadata=("freezed"))]
+pub struct WemDecodeProgress {
+    pub progress: f64,
+    pub waveform: Option<Vec<f64>>,
+    pub duration_ms: Option<i32>,
+    pub is_complete: bool,
+    pub error: Option<String>,
+    pub pcm_chunk: Option<Vec<i16>>,
+    pub sample_rate: Option<i32>,
+    pub channels: Option<i32>,
+    pub chunk_index: i32,
+}
 
 /// 打开 P4K 文件（仅打开，不读取文件列表）
 pub async fn p4k_open(p4k_path: String) -> Result<()> {
@@ -1032,6 +1047,379 @@ pub async fn p4k_decode_wem_to_wav_preview(
 /// 取消正在进行的 WEM 解码任务（通过提升全局请求 id）
 pub fn p4k_cancel_wem_decode() {
     GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst);
+}
+
+/// 流式解码 WEM 到内存，返回进度和波形数据
+/// 每2秒发送一次进度更新，支持流式播放
+pub async fn p4k_decode_wem_to_wav_stream(
+    input_path: String,
+    stream_sink: StreamSink<WemDecodeProgress>,
+) {
+    let stream_sink = Arc::new(stream_sink);
+    let input = input_path.clone();
+
+    let sink = stream_sink.clone();
+    let handle = tokio::task::spawn_blocking(move || {
+        let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
+        let is_cancelled = || GLOBAL_WEM_DECODE_REQUEST_ID.load(Ordering::SeqCst) != request_id;
+
+        let input_pb = PathBuf::from(&input);
+        if !input_pb.exists() {
+            let _ = sink.add(WemDecodeProgress {
+                progress: 0.0,
+                waveform: None,
+                duration_ms: None,
+                is_complete: true,
+                error: Some(format!("input wem not found: {}", input)),
+                pcm_chunk: None,
+                sample_rate: None,
+                channels: None,
+                chunk_index: 0,
+            });
+            return;
+        }
+
+        let wem = match std::fs::read(&input_pb) {
+            Ok(w) => w,
+            Err(e) => {
+                let _ = sink.add(WemDecodeProgress {
+                    progress: 0.0,
+                    waveform: None,
+                    duration_ms: None,
+                    is_complete: true,
+                    error: Some(format!("read wem failed: {}", e)),
+                    pcm_chunk: None,
+                    sample_rate: None,
+                    channels: None,
+                    chunk_index: 0,
+                });
+                return;
+            }
+        };
+
+        let info = match crate::audio::wwise::get_wem_stream_info(&wem) {
+            Ok(i) => i,
+            Err(e) => {
+                let _ = sink.add(WemDecodeProgress {
+                    progress: 0.0,
+                    waveform: None,
+                    duration_ms: None,
+                    is_complete: true,
+                    error: Some(format!("parse wem header failed: {}", e)),
+                    pcm_chunk: None,
+                    sample_rate: None,
+                    channels: None,
+                    chunk_index: 0,
+                });
+                return;
+            }
+        };
+
+        let _ = sink.add(WemDecodeProgress {
+            progress: 0.05,
+            waveform: None,
+            duration_ms: None,
+            is_complete: false,
+            error: None,
+            pcm_chunk: None,
+            sample_rate: Some(info.sample_rate as i32),
+            channels: Some(info.channels as i32),
+            chunk_index: 0,
+        });
+
+        let mut all_pcm: Vec<i16> = Vec::new();
+        let mut waveform_samples: Vec<f64> = Vec::new();
+        let sample_rate = info.sample_rate;
+        let channels = info.channels;
+        let total_frames = info.total_samples;
+
+        let chunk_duration_ms = 2000u32;
+        let sink_clone = sink.clone();
+
+        let result = crate::audio::wwise::decode_wem_stream(
+            &wem,
+            chunk_duration_ms,
+            |pcm_chunk: &[i16], chunk_index: usize, _total_frames: usize| {
+                if is_cancelled() {
+                    return Err(anyhow!("wem decode cancelled"));
+                }
+
+                all_pcm.extend_from_slice(pcm_chunk);
+
+                let chunk_waveform = compute_waveform_from_pcm(pcm_chunk, 10);
+                waveform_samples.extend(chunk_waveform);
+
+                let frames_decoded = all_pcm.len() / channels as usize;
+                let progress = if total_frames > 0 {
+                    (frames_decoded as f64 / total_frames as f64).min(0.95)
+                } else {
+                    0.5
+                };
+
+                let _ = sink_clone.add(WemDecodeProgress {
+                    progress,
+                    waveform: None,
+                    duration_ms: None,
+                    is_complete: false,
+                    error: None,
+                    pcm_chunk: Some(pcm_chunk.to_vec()),
+                    sample_rate: Some(sample_rate as i32),
+                    channels: Some(channels as i32),
+                    chunk_index: chunk_index as i32,
+                });
+
+                Ok(())
+            },
+            &is_cancelled,
+        );
+
+        let (codec, ch, sr, frames) = match result {
+            Ok(r) => r,
+            Err(e) => {
+                let err_msg = if e.to_string().contains("wem decode cancelled") {
+                    "wem decode interrupted by newer request".to_string()
+                } else {
+                    e.to_string()
+                };
+                let _ = sink.add(WemDecodeProgress {
+                    progress: 0.0,
+                    waveform: None,
+                    duration_ms: None,
+                    is_complete: true,
+                    error: Some(err_msg),
+                    pcm_chunk: None,
+                    sample_rate: None,
+                    channels: None,
+                    chunk_index: 0,
+                });
+                return;
+            }
+        };
+
+        let duration_ms = if sr > 0 && ch > 0 {
+            ((frames as f64 / sr as f64) * 1000.0) as i32
+        } else {
+            0
+        };
+
+        let final_waveform = compute_waveform_from_pcm(&all_pcm, 160);
+
+        let _ = sink.add(WemDecodeProgress {
+            progress: 1.0,
+            waveform: Some(final_waveform),
+            duration_ms: Some(duration_ms),
+            is_complete: true,
+            error: None,
+            pcm_chunk: None,
+            sample_rate: Some(sr as i32),
+            channels: Some(ch as i32),
+            chunk_index: -1,
+        });
+    });
+
+    let _ = handle.await;
+}
+
+fn compute_waveform_from_pcm(pcm: &[i16], points: usize) -> Vec<f64> {
+    if pcm.is_empty() || points == 0 {
+        return vec![0.0; points.max(1)];
+    }
+
+    let bucket = (pcm.len() / points).max(1);
+    let mut result = Vec::with_capacity(points);
+    for i in (0..pcm.len()).step_by(bucket) {
+        let end = (i + bucket).min(pcm.len());
+        let mut peak = 0.0f64;
+        for j in i..end {
+            let sample = (pcm[j] as f64).abs() / 32768.0;
+            if sample > peak {
+                peak = sample;
+            }
+        }
+        result.push(peak.clamp(0.0, 1.0));
+    }
+
+    while result.len() < points {
+        result.push(0.0);
+    }
+    result.truncate(points);
+    result
+}
+
+fn build_wav_from_pcm(channels: u16, sample_rate: u32, pcm: &[i16]) -> Result<Vec<u8>> {
+    let mut payload = vec![0u8; pcm.len() * 2];
+    for (i, sample) in pcm.iter().enumerate() {
+        let b = sample.to_le_bytes();
+        payload[i * 2] = b[0];
+        payload[i * 2 + 1] = b[1];
+    }
+
+    let block_align = channels.saturating_mul(2);
+    let avg_bytes_per_sec = sample_rate.saturating_mul(block_align as u32);
+
+    let mut wav = Vec::<u8>::with_capacity(44 + payload.len());
+    wav.extend_from_slice(b"RIFF");
+    wav.extend_from_slice(&(36u32.saturating_add(payload.len() as u32)).to_le_bytes());
+    wav.extend_from_slice(b"WAVE");
+    wav.extend_from_slice(b"fmt ");
+    wav.extend_from_slice(&16u32.to_le_bytes());
+    wav.extend_from_slice(&1u16.to_le_bytes());
+    wav.extend_from_slice(&channels.to_le_bytes());
+    wav.extend_from_slice(&sample_rate.to_le_bytes());
+    wav.extend_from_slice(&avg_bytes_per_sec.to_le_bytes());
+    wav.extend_from_slice(&block_align.to_le_bytes());
+    wav.extend_from_slice(&16u16.to_le_bytes());
+    wav.extend_from_slice(b"data");
+    wav.extend_from_slice(&(payload.len() as u32).to_le_bytes());
+    wav.extend_from_slice(&payload);
+    Ok(wav)
+}
+
+fn compute_waveform_from_wav(wav: &[u8]) -> Vec<f64> {
+    let points = 160usize;
+    if wav.len() < 44 {
+        return vec![0.0; points];
+    }
+
+    if &wav[0..4] != b"RIFF" || &wav[8..12] != b"WAVE" {
+        return vec![0.0; points];
+    }
+
+    let mut data_offset: Option<usize> = None;
+    let mut data_length: Option<usize> = None;
+    let mut channels: Option<u16> = None;
+    let mut bits_per_sample: Option<u16> = None;
+    let mut offset = 12;
+
+    while offset + 8 <= wav.len() {
+        let chunk_id = &wav[offset..offset + 4];
+        let chunk_size = u32::from_le_bytes([wav[offset + 4], wav[offset + 5], wav[offset + 6], wav[offset + 7]]) as usize;
+        let chunk_data_start = offset + 8;
+
+        if chunk_id == b"fmt " && chunk_size >= 16 {
+            channels = Some(u16::from_le_bytes([wav[chunk_data_start + 2], wav[chunk_data_start + 3]]));
+            bits_per_sample = Some(u16::from_le_bytes([wav[chunk_data_start + 14], wav[chunk_data_start + 15]]));
+        } else if chunk_id == b"data" {
+            data_offset = Some(chunk_data_start);
+            data_length = Some(chunk_size);
+        }
+
+        offset = chunk_data_start + chunk_size + (chunk_size % 2);
+    }
+
+    let data_offset = match data_offset {
+        Some(o) => o,
+        None => return vec![0.0; points],
+    };
+    let data_length = match data_length {
+        Some(l) => l,
+        None => return vec![0.0; points],
+    };
+    let _channels = channels.unwrap_or(2);
+    let bits = bits_per_sample.unwrap_or(16);
+
+    let pcm_data = &wav[data_offset..data_offset + data_length.min(wav.len() - data_offset)];
+
+    if bits == 16 {
+        let sample_count = pcm_data.len() / 2;
+        if sample_count == 0 {
+            return vec![0.0; points];
+        }
+        let bucket = (sample_count / points).max(1);
+        let mut result = Vec::with_capacity(points);
+        for i in (0..sample_count).step_by(bucket) {
+            let end = (i + bucket).min(sample_count);
+            let mut peak = 0.0f64;
+            for j in i..end {
+                let sample = (i16::from_le_bytes([pcm_data[j * 2], pcm_data[j * 2 + 1]]) as f64).abs() / 32768.0;
+                if sample > peak {
+                    peak = sample;
+                }
+            }
+            result.push(peak.clamp(0.0, 1.0));
+        }
+        result
+    } else {
+        let bucket = (pcm_data.len() / points).max(1);
+        let mut result = Vec::with_capacity(points);
+        for i in (0..pcm_data.len()).step_by(bucket) {
+            let end = (i + bucket).min(pcm_data.len());
+            let mut peak = 0.0f64;
+            for j in i..end {
+                let sample = (pcm_data[j] as i32 - 128).abs() as f64 / 128.0;
+                if sample > peak {
+                    peak = sample;
+                }
+            }
+            result.push(peak.clamp(0.0, 1.0));
+        }
+        result
+    }
+}
+
+fn estimate_duration_from_wav(wav: &[u8]) -> i32 {
+    if wav.len() < 44 {
+        return 0;
+    }
+
+    if &wav[0..4] != b"RIFF" || &wav[8..12] != b"WAVE" {
+        return 0;
+    }
+
+    let mut sample_rate: Option<u32> = None;
+    let mut channels: Option<u16> = None;
+    let mut bits_per_sample: Option<u16> = None;
+    let mut data_length: Option<usize> = None;
+    let mut offset = 12;
+
+    while offset + 8 <= wav.len() {
+        let chunk_id = &wav[offset..offset + 4];
+        let chunk_size = u32::from_le_bytes([wav[offset + 4], wav[offset + 5], wav[offset + 6], wav[offset + 7]]) as usize;
+        let chunk_data_start = offset + 8;
+
+        if chunk_id == b"fmt " && chunk_size >= 16 {
+            channels = Some(u16::from_le_bytes([wav[chunk_data_start + 2], wav[chunk_data_start + 3]]));
+            sample_rate = Some(u32::from_le_bytes([
+                wav[chunk_data_start + 4],
+                wav[chunk_data_start + 5],
+                wav[chunk_data_start + 6],
+                wav[chunk_data_start + 7],
+            ]));
+            bits_per_sample = Some(u16::from_le_bytes([wav[chunk_data_start + 14], wav[chunk_data_start + 15]]));
+        } else if chunk_id == b"data" {
+            data_length = Some(chunk_size);
+        }
+
+        offset = chunk_data_start + chunk_size + (chunk_size % 2);
+    }
+
+    let sample_rate = match sample_rate {
+        Some(s) => s,
+        None => return 0,
+    };
+    let channels = match channels {
+        Some(c) => c,
+        None => return 0,
+    };
+    let bits = match bits_per_sample {
+        Some(b) => b,
+        None => return 0,
+    };
+    let data_length = match data_length {
+        Some(l) => l,
+        None => return 0,
+    };
+
+    if sample_rate == 0 || channels == 0 || bits == 0 {
+        return 0;
+    }
+
+    let bytes_per_second = sample_rate as f64 * channels as f64 * (bits as f64 / 8.0);
+    if bytes_per_second <= 0.0 {
+        return 0;
+    }
+
+    ((data_length as f64 / bytes_per_second) * 1000.0) as i32
 }
 
 /// 关闭 P4K 读取器

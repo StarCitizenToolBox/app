@@ -2,7 +2,13 @@ mod decoder;
 mod parser;
 mod types;
 
+#[cfg(test)]
+mod tests;
+
 use anyhow::Result;
+
+pub(crate) use decoder::{decode_wem_stream, get_wem_stream_info, WemStreamInfo};
+pub(crate) use types::WwiseCodec;
 
 pub(crate) fn decode_wem_to_wav(wem: &[u8]) -> Result<Vec<u8>> {
     decoder::decode_wem_to_wav(wem)

@@ -8,7 +8,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_api.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `build_preview_candidates`, `collect_dds_parts`, `compute_dds_mip_sizes`, `dds_base_path`, `dds_block_bytes`, `decode_image_for_preview`, `decode_uncompressed_dds`, `dos_datetime_to_millis`, `ensure_files_loaded`, `extract_masked_component`, `has_dds_signature`, `le_u32`, `normalize_p4k_path`, `p4k_get_entry`, `reconstruct_dds_stream`
+// These functions are ignored because they are not marked as `pub`: `build_preview_candidates`, `build_wav_from_pcm`, `collect_dds_parts`, `compute_dds_mip_sizes`, `compute_waveform_from_pcm`, `compute_waveform_from_wav`, `dds_base_path`, `dds_block_bytes`, `decode_image_for_preview`, `decode_uncompressed_dds`, `dos_datetime_to_millis`, `ensure_files_loaded`, `estimate_duration_from_wav`, `extract_masked_component`, `has_dds_signature`, `le_u32`, `normalize_p4k_path`, `p4k_get_entry`, `reconstruct_dds_stream`
 
 /// 打开 P4K 文件（仅打开，不读取文件列表）
 Future<void> p4KOpen({required String p4KPath}) =>
@@ -93,6 +93,14 @@ Future<void> p4KDecodeWemToWavPreview({
 Future<void> p4KCancelWemDecode() =>
     RustLib.instance.api.crateApiUnp4KApiP4KCancelWemDecode();
 
+/// 流式解码 WEM 到内存，返回进度和波形数据
+/// 每2秒发送一次进度更新，支持流式播放
+Stream<WemDecodeProgress> p4KDecodeWemToWavStream({
+  required String inputPath,
+}) => RustLib.instance.api.crateApiUnp4KApiP4KDecodeWemToWavStream(
+  inputPath: inputPath,
+);
+
 /// 关闭 P4K 读取器
 Future<void> p4KClose() => RustLib.instance.api.crateApiUnp4KApiP4KClose();
 
@@ -175,4 +183,19 @@ sealed class P4kFileItem with _$P4kFileItem {
     required BigInt compressedSize,
     required PlatformInt64 dateModified,
   }) = _P4kFileItem;
+}
+
+@freezed
+sealed class WemDecodeProgress with _$WemDecodeProgress {
+  const factory WemDecodeProgress({
+    required double progress,
+    Float64List? waveform,
+    int? durationMs,
+    required bool isComplete,
+    String? error,
+    Int16List? pcmChunk,
+    int? sampleRate,
+    int? channels,
+    required int chunkIndex,
+  }) = _WemDecodeProgress;
 }
