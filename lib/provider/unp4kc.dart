@@ -42,19 +42,9 @@ enum Unp4kSortType {
   dateDesc,
 }
 
-enum Unp4kFilterMode {
-  none,
-  before,
-  after,
-  range,
-}
+enum Unp4kFilterMode { none, before, after, range }
 
-enum Unp4kSizeUnit {
-  k,
-  kb,
-  mb,
-  gb,
-}
+enum Unp4kSizeUnit { k, kb, mb, gb }
 
 @freezed
 abstract class Unp4kcState with _$Unp4kcState {
@@ -70,7 +60,6 @@ abstract class Unp4kcState with _$Unp4kcState {
     @Default(0) int loadingCurrent,
     @Default(0) int loadingTotal,
     @Default("") String searchQuery,
-    @Default("") String suffixFilter,
     @Default(<String>[]) List<String> availableSuffixes,
     @Default(false) bool isSearching,
 
@@ -79,6 +68,16 @@ abstract class Unp4kcState with _$Unp4kcState {
 
     /// 搜索匹配的文件路径集合
     Set<String>? searchMatchedFiles,
+
+    /// 搜索时保留的文件夹（当前目录模式下置顶显示）
+    Set<String>? searchKeptDirectories,
+
+    /// 搜索范围：true=全局搜索，false=当前目录
+    @Default(false) bool isGlobalSearchScope,
+
+    /// 搜索时的目录路径（当前目录模式时保存）
+    String? searchPath,
+
     @Default(Unp4kSortType.defaultSort) Unp4kSortType sortType,
 
     /// 是否处于多选模式
@@ -120,11 +119,59 @@ abstract class Unp4kcState with _$Unp4kcState {
 class Unp4kCModel extends _$Unp4kCModel {
   final List<String> _backPathHistory = <String>[];
   final List<String> _forwardPathHistory = <String>[];
-  final Map<String, List<String>> _suffixFilesIndex =
-      <String, List<String>>{};
+  final Map<String, List<String>> _suffixFilesIndex = <String, List<String>>{};
+
+  _FilterState _browseFilters = _FilterState();
+  _FilterState _searchFilters = _FilterState();
+  String _savedCurPath = "\\";
 
   bool _isDdnaDdsPath(String lowerPath) {
     return RegExp(r"_ddna\.dds(\.\d+)?$").hasMatch(lowerPath);
+  }
+
+  void _saveCurrentFilters() {
+    if (state.isSearching) {
+      _searchFilters = _FilterState(
+        sortType: state.sortType,
+        sizeFilterMode: state.sizeFilterMode,
+        sizeFilterUnit: state.sizeFilterUnit,
+        sizeFilterSingleValue: state.sizeFilterSingleValue,
+        sizeFilterRangeStart: state.sizeFilterRangeStart,
+        sizeFilterRangeEnd: state.sizeFilterRangeEnd,
+        dateFilterMode: state.dateFilterMode,
+        dateFilterSingleDate: state.dateFilterSingleDate,
+        dateFilterRangeStart: state.dateFilterRangeStart,
+        dateFilterRangeEnd: state.dateFilterRangeEnd,
+      );
+    } else {
+      _browseFilters = _FilterState(
+        sortType: state.sortType,
+        sizeFilterMode: state.sizeFilterMode,
+        sizeFilterUnit: state.sizeFilterUnit,
+        sizeFilterSingleValue: state.sizeFilterSingleValue,
+        sizeFilterRangeStart: state.sizeFilterRangeStart,
+        sizeFilterRangeEnd: state.sizeFilterRangeEnd,
+        dateFilterMode: state.dateFilterMode,
+        dateFilterSingleDate: state.dateFilterSingleDate,
+        dateFilterRangeStart: state.dateFilterRangeStart,
+        dateFilterRangeEnd: state.dateFilterRangeEnd,
+      );
+    }
+  }
+
+  Unp4kcState _applyFilterState(Unp4kcState s, _FilterState f) {
+    return s.copyWith(
+      sortType: f.sortType,
+      sizeFilterMode: f.sizeFilterMode,
+      sizeFilterUnit: f.sizeFilterUnit,
+      sizeFilterSingleValue: f.sizeFilterSingleValue,
+      sizeFilterRangeStart: f.sizeFilterRangeStart,
+      sizeFilterRangeEnd: f.sizeFilterRangeEnd,
+      dateFilterMode: f.dateFilterMode,
+      dateFilterSingleDate: f.dateFilterSingleDate,
+      dateFilterRangeStart: f.dateFilterRangeStart,
+      dateFilterRangeEnd: f.dateFilterRangeEnd,
+    );
   }
 
   @override
@@ -156,10 +203,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading2);
 
       final p4kFiles = await unp4k_api.p4KGetAllFiles();
-      state = state.copyWith(
-        loadingCurrent: 0,
-        loadingTotal: p4kFiles.length,
-      );
+      state = state.copyWith(loadingCurrent: 0, loadingTotal: p4kFiles.length);
 
       final files = <String, AppUnp4kP4kItemData>{};
       final suffixes = <String>{};
@@ -239,7 +283,10 @@ class Unp4kCModel extends _$Unp4kCModel {
       final rootDir = Directory(rootPath.platformPath);
       if (!await rootDir.exists()) return;
 
-      await for (final entity in rootDir.list(recursive: true, followLinks: false)) {
+      await for (final entity in rootDir.list(
+        recursive: true,
+        followLinks: false,
+      )) {
         if (entity is! File) continue;
         final lower = entity.path.toLowerCase();
         if (lower.endsWith(".wem") ||
@@ -261,11 +308,24 @@ class Unp4kCModel extends _$Unp4kCModel {
     final result = <AppUnp4kP4kItemData>[];
     final allFiles = state.files;
     if (allFiles == null) return null;
-    final hasSuffixOnlyFilter =
-        state.searchMatchedFiles == null && state.suffixFilter.trim().isNotEmpty;
 
     if (state.searchMatchedFiles != null) {
-      // 搜索模式：直接平铺显示所有匹配文件
+      // 先添加保留的文件夹（当前目录搜索模式下）
+      if (state.searchKeptDirectories != null) {
+        for (final dirPath in state.searchKeptDirectories!) {
+          final d = allFiles[dirPath];
+          if (d != null) {
+            if (!(d.name?.startsWith("\\") ?? true)) {
+              d.name = "\\${d.name}";
+            }
+            result.add(d);
+          } else {
+            // 创建虚拟文件夹项
+            result.add(AppUnp4kP4kItemData(name: dirPath, isDirectory: true));
+          }
+        }
+      }
+      // 再添加匹配的文件
       for (final filePath in state.searchMatchedFiles!) {
         final f = allFiles[filePath];
         if (f == null) continue;
@@ -273,20 +333,6 @@ class Unp4kCModel extends _$Unp4kCModel {
           f.name = "\\${f.name}";
         }
         result.add(f);
-      }
-    } else if (hasSuffixOnlyFilter) {
-      // 仅后缀筛选：直接使用初始化阶段构建的后缀索引，避免全量扫描
-      final suffix = state.suffixFilter.trim().toLowerCase();
-      final matchedPaths = _suffixFilesIndex[suffix];
-      if (matchedPaths != null) {
-        for (final filePath in matchedPaths) {
-          final f = allFiles[filePath];
-          if (f == null || (f.isDirectory ?? false)) continue;
-          if (!(f.name?.startsWith("\\") ?? true)) {
-            f.name = "\\${f.name}";
-          }
-          result.add(f);
-        }
       }
     } else {
       final path = state.curPath.replaceAll("\\", "/");
@@ -317,24 +363,9 @@ class Unp4kCModel extends _$Unp4kCModel {
       }
     }
 
-    if (!hasSuffixOnlyFilter) {
-      _applySuffixFilter(result);
-    }
     _applyAdvancedFilters(result);
-
-    // 应用排序
     _sortFiles(result);
     return result;
-  }
-
-  void _applySuffixFilter(List<AppUnp4kP4kItemData> files) {
-    final suffix = state.suffixFilter.trim().toLowerCase();
-    if (suffix.isEmpty) return;
-    files.removeWhere((item) {
-      if (item.isDirectory ?? false) return true;
-      final name = item.name?.toLowerCase() ?? "";
-      return !name.endsWith(suffix);
-    });
   }
 
   void _applyAdvancedFilters(List<AppUnp4kP4kItemData> files) {
@@ -344,13 +375,26 @@ class Unp4kCModel extends _$Unp4kCModel {
 
   void _applySizeFilter(List<AppUnp4kP4kItemData> files) {
     if (state.sizeFilterMode == Unp4kFilterMode.none) return;
+
+    // 检查必要的值是否已输入
+    bool hasValidValue = false;
+    if (state.sizeFilterMode == Unp4kFilterMode.range) {
+      hasValidValue =
+          state.sizeFilterRangeStart != null &&
+          state.sizeFilterRangeEnd != null;
+    } else {
+      hasValidValue = state.sizeFilterSingleValue != null;
+    }
+    if (!hasValidValue) return;
+
     final unitBytes = _sizeUnitToBytes(state.sizeFilterUnit);
     final single = (state.sizeFilterSingleValue ?? 0) * unitBytes;
     final rangeStart = (state.sizeFilterRangeStart ?? 0) * unitBytes;
     final rangeEnd = (state.sizeFilterRangeEnd ?? 0) * unitBytes;
 
     files.removeWhere((item) {
-      if (item.isDirectory ?? false) return true;
+      // 文件夹始终保留
+      if (item.isDirectory ?? false) return false;
       final size = (item.size ?? 0).toDouble();
       switch (state.sizeFilterMode) {
         case Unp4kFilterMode.none:
@@ -369,8 +413,21 @@ class Unp4kCModel extends _$Unp4kCModel {
 
   void _applyDateFilter(List<AppUnp4kP4kItemData> files) {
     if (state.dateFilterMode == Unp4kFilterMode.none) return;
+
+    // 检查必要的值是否已输入
+    bool hasValidValue = false;
+    if (state.dateFilterMode == Unp4kFilterMode.range) {
+      hasValidValue =
+          state.dateFilterRangeStart != null &&
+          state.dateFilterRangeEnd != null;
+    } else {
+      hasValidValue = state.dateFilterSingleDate != null;
+    }
+    if (!hasValidValue) return;
+
     files.removeWhere((item) {
-      if (item.isDirectory ?? false) return true;
+      // 文件夹始终保留
+      if (item.isDirectory ?? false) return false;
       final ms = item.dateModified;
       if (ms == null) return true;
       final dt = DateTime.fromMillisecondsSinceEpoch(ms);
@@ -379,7 +436,6 @@ class Unp4kCModel extends _$Unp4kCModel {
         case Unp4kFilterMode.none:
           return false;
         case Unp4kFilterMode.before:
-          if (state.dateFilterSingleDate == null) return false;
           final d = DateTime(
             state.dateFilterSingleDate!.year,
             state.dateFilterSingleDate!.month,
@@ -387,7 +443,6 @@ class Unp4kCModel extends _$Unp4kCModel {
           );
           return day.isAfter(d);
         case Unp4kFilterMode.after:
-          if (state.dateFilterSingleDate == null) return false;
           final d = DateTime(
             state.dateFilterSingleDate!.year,
             state.dateFilterSingleDate!.month,
@@ -395,10 +450,6 @@ class Unp4kCModel extends _$Unp4kCModel {
           );
           return day.isBefore(d);
         case Unp4kFilterMode.range:
-          if (state.dateFilterRangeStart == null ||
-              state.dateFilterRangeEnd == null) {
-            return false;
-          }
           final start = DateTime(
             state.dateFilterRangeStart!.year,
             state.dateFilterRangeStart!.month,
@@ -515,11 +566,6 @@ class Unp4kCModel extends _$Unp4kCModel {
     state = state.copyWith(sortType: sortType);
   }
 
-  /// 设置后缀筛选
-  void setSuffixFilter(String suffix) {
-    state = state.copyWith(suffixFilter: suffix);
-  }
-
   void setSizeFilterMode(Unp4kFilterMode mode) {
     state = state.copyWith(sizeFilterMode: mode);
   }
@@ -533,7 +579,10 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   void setSizeFilterRange(double? start, double? end) {
-    state = state.copyWith(sizeFilterRangeStart: start, sizeFilterRangeEnd: end);
+    state = state.copyWith(
+      sizeFilterRangeStart: start,
+      sizeFilterRangeEnd: end,
+    );
   }
 
   void clearSizeFilter() {
@@ -554,7 +603,10 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   void setDateFilterRange(DateTime? start, DateTime? end) {
-    state = state.copyWith(dateFilterRangeStart: start, dateFilterRangeEnd: end);
+    state = state.copyWith(
+      dateFilterRangeStart: start,
+      dateFilterRangeEnd: end,
+    );
   }
 
   void clearDateFilter() {
@@ -566,26 +618,46 @@ class Unp4kCModel extends _$Unp4kCModel {
     );
   }
 
+  /// 设置搜索范围
+  void setSearchScope(bool isGlobal) {
+    state = state.copyWith(isGlobalSearchScope: isGlobal);
+  }
+
   /// 执行搜索（异步）
   Future<void> search(String query) async {
     if (query.isEmpty) {
-      // 清除搜索，返回根目录
-      state = state.copyWith(
-        searchQuery: "",
-        searchMatchedFiles: null,
-        isSearching: false,
-        curPath: "\\",
-      );
+      clearSearch();
       return;
     }
 
-    state = state.copyWith(
-      searchQuery: query,
-      isSearching: true,
-      endMessage: S.current.tools_unp4k_searching,
+    _saveCurrentFilters();
+
+    // 只在浏览模式下保存当前路径（搜索模式下 curPath 是根目录）
+    if (state.searchMatchedFiles == null) {
+      _savedCurPath = state.curPath;
+    }
+
+    final isGlobal = state.isGlobalSearchScope;
+    String? pathPrefix;
+    String? searchPath;
+    if (!isGlobal) {
+      pathPrefix = _savedCurPath.replaceAll("\\", "/");
+      if (!pathPrefix.endsWith("/")) {
+        pathPrefix = "$pathPrefix/";
+      }
+      searchPath = _savedCurPath;
+    }
+
+    state = _applyFilterState(
+      state.copyWith(
+        searchQuery: query,
+        isSearching: true,
+        searchPath: searchPath,
+        endMessage: S.current.tools_unp4k_searching,
+      ),
+      _searchFilters,
     );
 
-    // 使用 compute 在后台线程执行搜索
     final allFiles = state.files;
     if (allFiles == null) {
       state = state.copyWith(isSearching: false);
@@ -595,17 +667,22 @@ class Unp4kCModel extends _$Unp4kCModel {
     try {
       final searchResult = await compute(
         _searchFiles,
-        _SearchParams(allFiles, query),
+        _SearchParams(allFiles, query, pathPrefix),
       );
       final matchedFiles = searchResult.matchedFiles;
+      final keptDirs = searchResult.keptDirectories;
 
       state = state.copyWith(
         searchMatchedFiles: matchedFiles,
+        searchKeptDirectories: keptDirs,
         isSearching: false,
         curPath: "\\",
-        endMessage: matchedFiles.isEmpty
+        endMessage: matchedFiles.isEmpty && keptDirs.isEmpty
             ? S.current.tools_unp4k_search_no_result
-            : S.current.tools_unp4k_msg_read_completed(matchedFiles.length, 0),
+            : S.current.tools_unp4k_msg_read_completed(
+                matchedFiles.length + keptDirs.length,
+                0,
+              ),
       );
     } catch (e) {
       dPrint("[unp4k] search error: $e");
@@ -613,13 +690,22 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
   }
 
-  /// 清除搜索
-  void clearSearch() {
-    state = state.copyWith(
-      searchQuery: "",
-      searchMatchedFiles: null,
-      isSearching: false,
-      curPath: "\\",
+  /// 清除搜索（恢复浏览模式筛选状态）
+  /// [targetPath] 可选的目标路径，用于直接切换到新目录
+  void clearSearch({String? targetPath}) {
+    _saveCurrentFilters();
+    final newPath = targetPath ?? _savedCurPath;
+    _savedCurPath = newPath;
+    state = _applyFilterState(
+      state.copyWith(
+        searchQuery: "",
+        searchMatchedFiles: null,
+        searchKeptDirectories: null,
+        isSearching: false,
+        curPath: newPath,
+        searchPath: null,
+      ),
+      _browseFilters,
     );
   }
 
@@ -1200,9 +1286,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       await outputFile.parent.create(recursive: true);
       await outputFile.writeAsBytes(pngBytes, flush: true);
 
-      state = state.copyWith(
-        endMessage: "DDS 转 PNG 成功: ${outputFile.path}",
-      );
+      state = state.copyWith(endMessage: "DDS 转 PNG 成功: ${outputFile.path}");
       return (true, outputFile.path, null);
     } catch (e) {
       final err = e.toString();
@@ -1216,20 +1300,24 @@ class Unp4kCModel extends _$Unp4kCModel {
 class _SearchParams {
   final Map<String, AppUnp4kP4kItemData> files;
   final String query;
+  final String? pathPrefix;
 
-  _SearchParams(this.files, this.query);
+  _SearchParams(this.files, this.query, this.pathPrefix);
 }
 
 /// 搜索结果类
 class _SearchResult {
   final Set<String> matchedFiles;
+  final Set<String> keptDirectories;
 
-  _SearchResult(this.matchedFiles);
+  _SearchResult(this.matchedFiles, this.keptDirectories);
 }
 
 /// 在后台线程执行搜索
 _SearchResult _searchFiles(_SearchParams params) {
   final matchedFiles = <String>{};
+  final keptDirectories = <String>{};
+  final pathPrefix = params.pathPrefix;
 
   // 尝试编译正则表达式，如果失败则使用普通字符串匹配
   RegExp? regex;
@@ -1240,12 +1328,40 @@ _SearchResult _searchFiles(_SearchParams params) {
     regex = null;
   }
 
+  // 如果有路径前缀（当前目录搜索），收集该目录下的直接子文件夹
+  if (pathPrefix != null && pathPrefix.isNotEmpty) {
+    for (var entry in params.files.entries) {
+      final item = entry.value;
+      final name = item.name ?? "";
+
+      // 只处理文件夹
+      if (!(item.isDirectory ?? false)) continue;
+
+      final normalizedName = name.replaceAll("\\", "/");
+      // 检查是否在目标目录下
+      if (!normalizedName.startsWith(pathPrefix)) continue;
+
+      // 获取相对于搜索目录的路径
+      final relativePath = normalizedName.substring(pathPrefix.length);
+      // 只保留直接子文件夹（不包含更多层级的）
+      if (!relativePath.contains("/")) {
+        keptDirectories.add(name.startsWith("\\") ? name : "\\$name");
+      }
+    }
+  }
+
   for (var entry in params.files.entries) {
     final item = entry.value;
     final name = item.name ?? "";
 
     // 跳过文件夹本身
     if (item.isDirectory ?? false) continue;
+
+    // 如果有路径前缀，只搜索该目录下的文件
+    if (pathPrefix != null && pathPrefix.isNotEmpty) {
+      final normalizedName = name.replaceAll("\\", "/");
+      if (!normalizedName.startsWith(pathPrefix)) continue;
+    }
 
     bool matches = false;
     if (regex != null) {
@@ -1260,5 +1376,58 @@ _SearchResult _searchFiles(_SearchParams params) {
     }
   }
 
-  return _SearchResult(matchedFiles);
+  return _SearchResult(matchedFiles, keptDirectories);
+}
+
+class _FilterState {
+  final Unp4kSortType sortType;
+  final Unp4kFilterMode sizeFilterMode;
+  final Unp4kSizeUnit sizeFilterUnit;
+  final double? sizeFilterSingleValue;
+  final double? sizeFilterRangeStart;
+  final double? sizeFilterRangeEnd;
+  final Unp4kFilterMode dateFilterMode;
+  final DateTime? dateFilterSingleDate;
+  final DateTime? dateFilterRangeStart;
+  final DateTime? dateFilterRangeEnd;
+
+  _FilterState({
+    this.sortType = Unp4kSortType.defaultSort,
+    this.sizeFilterMode = Unp4kFilterMode.none,
+    this.sizeFilterUnit = Unp4kSizeUnit.mb,
+    this.sizeFilterSingleValue,
+    this.sizeFilterRangeStart,
+    this.sizeFilterRangeEnd,
+    this.dateFilterMode = Unp4kFilterMode.none,
+    this.dateFilterSingleDate,
+    this.dateFilterRangeStart,
+    this.dateFilterRangeEnd,
+  });
+
+  _FilterState copyWith({
+    Unp4kSortType? sortType,
+    Unp4kFilterMode? sizeFilterMode,
+    Unp4kSizeUnit? sizeFilterUnit,
+    double? sizeFilterSingleValue,
+    double? sizeFilterRangeStart,
+    double? sizeFilterRangeEnd,
+    Unp4kFilterMode? dateFilterMode,
+    DateTime? dateFilterSingleDate,
+    DateTime? dateFilterRangeStart,
+    DateTime? dateFilterRangeEnd,
+  }) {
+    return _FilterState(
+      sortType: sortType ?? this.sortType,
+      sizeFilterMode: sizeFilterMode ?? this.sizeFilterMode,
+      sizeFilterUnit: sizeFilterUnit ?? this.sizeFilterUnit,
+      sizeFilterSingleValue:
+          sizeFilterSingleValue ?? this.sizeFilterSingleValue,
+      sizeFilterRangeStart: sizeFilterRangeStart ?? this.sizeFilterRangeStart,
+      sizeFilterRangeEnd: sizeFilterRangeEnd ?? this.sizeFilterRangeEnd,
+      dateFilterMode: dateFilterMode ?? this.dateFilterMode,
+      dateFilterSingleDate: dateFilterSingleDate ?? this.dateFilterSingleDate,
+      dateFilterRangeStart: dateFilterRangeStart ?? this.dateFilterRangeStart,
+      dateFilterRangeEnd: dateFilterRangeEnd ?? this.dateFilterRangeEnd,
+    );
+  }
 }

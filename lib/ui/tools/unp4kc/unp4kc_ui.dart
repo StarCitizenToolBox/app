@@ -18,17 +18,21 @@ class UnP4kcUI extends HookConsumerWidget {
     final state = ref.watch(unp4kCModelProvider);
     final model = ref.read(unp4kCModelProvider.notifier);
     final files = model.getFiles();
-    final paths = state.curPath.trim().split("\\");
-    final pathController = useTextEditingController(text: state.curPath);
+    final displayPath =
+        state.searchMatchedFiles != null && state.searchPath != null
+        ? state.searchPath!
+        : state.curPath;
+    final paths = displayPath.trim().split("\\");
+    final pathController = useTextEditingController(text: displayPath);
     final isPathEditing = useState(false);
     final pathFocusNode = useFocusNode();
 
     useEffect(() {
-      if (!isPathEditing.value && pathController.text != state.curPath) {
-        pathController.text = state.curPath;
+      if (!isPathEditing.value && pathController.text != displayPath) {
+        pathController.text = displayPath;
       }
       return null;
-    }, [state.curPath, isPathEditing.value]);
+    }, [displayPath, isPathEditing.value]);
 
     useEffect(() {
       void listener() {
@@ -205,12 +209,17 @@ class UnP4kcUI extends HookConsumerWidget {
                                     final normalized = _normalizeInputPath(
                                       value,
                                     );
-                                    final ok = model.changeDirValidated(
-                                      normalized,
-                                      fullPath: true,
-                                    );
-                                    if (ok) {
+                                    if (state.searchMatchedFiles != null) {
+                                      model.clearSearch(targetPath: normalized);
                                       isPathEditing.value = false;
+                                    } else {
+                                      final ok = model.changeDirValidated(
+                                        normalized,
+                                        fullPath: true,
+                                      );
+                                      if (ok) {
+                                        isPathEditing.value = false;
+                                      }
                                     }
                                   },
                                 )
@@ -225,36 +234,39 @@ class UnP4kcUI extends HookConsumerWidget {
                                         child: SuperListView.builder(
                                           itemCount: paths.length - 1,
                                           scrollDirection: Axis.horizontal,
-                                          itemBuilder:
-                                              (
-                                                BuildContext context,
-                                                int index,
-                                              ) {
-                                                var path = paths[index];
-                                                if (path.isEmpty) {
-                                                  path = "\\";
-                                                }
-                                                final fullPath =
-                                                    "${paths.sublist(0, index + 1).join("\\")}\\";
-                                                return Row(
-                                                  children: [
-                                                    IconButton(
-                                                      icon: Text(path),
-                                                      onPressed: () {
-                                                        model
-                                                            .changeDirValidated(
-                                                              fullPath,
-                                                              fullPath: true,
-                                                            );
-                                                      },
-                                                    ),
-                                                    const Icon(
-                                                      FluentIcons.chevron_right,
-                                                      size: 12,
-                                                    ),
-                                                  ],
-                                                );
-                                              },
+                                          itemBuilder: (BuildContext context, int index) {
+                                            var path = paths[index];
+                                            if (path.isEmpty) {
+                                              path = "\\";
+                                            }
+                                            final fullPath =
+                                                "${paths.sublist(0, index + 1).join("\\")}\\";
+                                            return Row(
+                                              children: [
+                                                IconButton(
+                                                  icon: Text(path),
+                                                  onPressed: () {
+                                                    if (state
+                                                            .searchMatchedFiles !=
+                                                        null) {
+                                                      model.clearSearch(
+                                                        targetPath: fullPath,
+                                                      );
+                                                    } else {
+                                                      model.changeDirValidated(
+                                                        fullPath,
+                                                        fullPath: true,
+                                                      );
+                                                    }
+                                                  },
+                                                ),
+                                                const Icon(
+                                                  FluentIcons.chevron_right,
+                                                  size: 12,
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),
@@ -264,6 +276,7 @@ class UnP4kcUI extends HookConsumerWidget {
                       ],
                     ),
                   ),
+                  FilterToolbar(state: state, model: model),
                   Expanded(
                     child: Row(
                       children: [

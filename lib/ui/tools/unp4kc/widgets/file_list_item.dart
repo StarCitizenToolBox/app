@@ -30,10 +30,7 @@ class FileListItem extends HookWidget {
   Widget build(BuildContext context) {
     final flyoutController = useMemoized(() => FlyoutController());
     final fullPath = item.name ?? "?";
-    final isFlatResultMode =
-        state.searchMatchedFiles != null ||
-        (state.searchQuery.trim().isEmpty &&
-            state.suffixFilter.trim().isNotEmpty);
+    final isFlatResultMode = state.searchMatchedFiles != null;
     final normalized = fullPath.replaceAll("/", "\\");
     final lowerPath = normalized.toLowerCase();
     final lastSep = normalized.lastIndexOf("\\");
