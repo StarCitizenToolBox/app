@@ -56,6 +56,7 @@ ryu = "1.0.20"
 unp4k_rs = { git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "29430002d6f3a8d87feabac26c03ae0311c81263" }
 #unp4k_rs = { path = "../../unp4k_rs" }
 uuid = { version = "1.23.0", features = ["v4"] }
+lazy_static = "1.5"
 rayon = "1.10"
 parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"
@@ -63,7 +64,12 @@ librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc2
 # librqbit = { path = "../../rqbit/crates/librqbit" }
 bytes = "1.11"
 gltf-json = "1.4.1"
+gltf = { version = "1.4.1", features = ["import", "utils"] }
 image = { version = "0.25.10", default-features = false, features = ["png", "jpeg", "tga", "tiff", "dds", "ico"] }
+bytemuck = { version = "1.22", features = ["derive"] }
+pollster = "0.4"
+renderling = { git = "https://github.com/schell/renderling", rev = "a7b44f796a38cb2c734d69354fa35f1288aa02a1" }
+futures-lite = "1.13"
 regex = "1.12.2"
 sha2 = "0.10.9"
 ww2ogg = { path = "vendor/ww2ogg" }

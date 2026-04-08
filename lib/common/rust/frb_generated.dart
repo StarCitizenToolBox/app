@@ -75,7 +75,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => -1318190315;
+  int get rustContentHash => -1049645911;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -362,8 +362,44 @@ abstract class RustLibApi extends BaseApi {
     ModelConvertOptions? options,
   });
 
+  Future<bool> crateApiUnp4KModelApiP4KModelInitContext();
+
   Future<bool> crateApiUnp4KModelApiP4KModelIsSupported({
     required String filePath,
+  });
+
+  Future<ModelRenderResult> crateApiUnp4KModelApiP4KModelRenderPreview({
+    required String glbPath,
+    required int width,
+    required int height,
+    required double pitch,
+    required double yaw,
+    required double roll,
+  });
+
+  Future<SessionCreateResult> crateApiUnp4KModelApiP4KModelSessionCreate({
+    required String glbPath,
+    required int width,
+    required int height,
+    Float32List? bgColor,
+  });
+
+  Future<bool> crateApiUnp4KModelApiP4KModelSessionExists({
+    required String sessionId,
+  });
+
+  Future<bool> crateApiUnp4KModelApiP4KModelSessionRelease({
+    required String sessionId,
+  });
+
+  Future<ModelRenderResult> crateApiUnp4KModelApiP4KModelSessionRender({
+    required String sessionId,
+    required double cameraX,
+    required double cameraY,
+    required double cameraZ,
+    required double targetX,
+    required double targetY,
+    required double targetZ,
   });
 
   Future<void> crateApiUnp4KApiP4KOpen({required String p4KPath});
@@ -2751,6 +2787,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<bool> crateApiUnp4KModelApiP4KModelInitContext() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_model_api__p4k_model_init_context(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelInitContextConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelInitContextConstMeta =>
+      const TaskConstMeta(debugName: "p4k_model_init_context", argNames: []);
+
+  @override
   Future<bool> crateApiUnp4KModelApiP4KModelIsSupported({
     required String filePath,
   }) {
@@ -2778,6 +2837,219 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "p4k_model_is_supported",
         argNames: ["filePath"],
+      );
+
+  @override
+  Future<ModelRenderResult> crateApiUnp4KModelApiP4KModelRenderPreview({
+    required String glbPath,
+    required int width,
+    required int height,
+    required double pitch,
+    required double yaw,
+    required double roll,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(glbPath);
+          var arg1 = cst_encode_u_32(width);
+          var arg2 = cst_encode_u_32(height);
+          var arg3 = cst_encode_f_32(pitch);
+          var arg4 = cst_encode_f_32(yaw);
+          var arg5 = cst_encode_f_32(roll);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_render_preview(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_model_render_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelRenderPreviewConstMeta,
+        argValues: [glbPath, width, height, pitch, yaw, roll],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelRenderPreviewConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_render_preview",
+        argNames: ["glbPath", "width", "height", "pitch", "yaw", "roll"],
+      );
+
+  @override
+  Future<SessionCreateResult> crateApiUnp4KModelApiP4KModelSessionCreate({
+    required String glbPath,
+    required int width,
+    required int height,
+    Float32List? bgColor,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(glbPath);
+          var arg1 = cst_encode_u_32(width);
+          var arg2 = cst_encode_u_32(height);
+          var arg3 = cst_encode_opt_list_prim_f_32_strict(bgColor);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_create(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+                arg3,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_session_create_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelSessionCreateConstMeta,
+        argValues: [glbPath, width, height, bgColor],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelSessionCreateConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_create",
+        argNames: ["glbPath", "width", "height", "bgColor"],
+      );
+
+  @override
+  Future<bool> crateApiUnp4KModelApiP4KModelSessionExists({
+    required String sessionId,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(sessionId);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_exists(
+                port_,
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelSessionExistsConstMeta,
+        argValues: [sessionId],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelSessionExistsConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_exists",
+        argNames: ["sessionId"],
+      );
+
+  @override
+  Future<bool> crateApiUnp4KModelApiP4KModelSessionRelease({
+    required String sessionId,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(sessionId);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_release(
+                port_,
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelSessionReleaseConstMeta,
+        argValues: [sessionId],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelSessionReleaseConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_release",
+        argNames: ["sessionId"],
+      );
+
+  @override
+  Future<ModelRenderResult> crateApiUnp4KModelApiP4KModelSessionRender({
+    required String sessionId,
+    required double cameraX,
+    required double cameraY,
+    required double cameraZ,
+    required double targetX,
+    required double targetY,
+    required double targetZ,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(sessionId);
+          var arg1 = cst_encode_f_32(cameraX);
+          var arg2 = cst_encode_f_32(cameraY);
+          var arg3 = cst_encode_f_32(cameraZ);
+          var arg4 = cst_encode_f_32(targetX);
+          var arg5 = cst_encode_f_32(targetY);
+          var arg6 = cst_encode_f_32(targetZ);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_render(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_model_render_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelSessionRenderConstMeta,
+        argValues: [
+          sessionId,
+          cameraX,
+          cameraY,
+          cameraZ,
+          targetX,
+          targetY,
+          targetZ,
+        ],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelSessionRenderConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_render",
+        argNames: [
+          "sessionId",
+          "cameraX",
+          "cameraY",
+          "cameraZ",
+          "targetX",
+          "targetY",
+          "targetZ",
+        ],
       );
 
   @override
@@ -3962,6 +4234,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  double dco_decode_f_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as double;
+  }
+
+  @protected
   double dco_decode_f_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as double;
@@ -4029,6 +4307,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_p_4_k_file_item).toList();
+  }
+
+  @protected
+  Float32List dco_decode_list_prim_f_32_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Float32List;
   }
 
   @protected
@@ -4150,6 +4434,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ModelRenderResult dco_decode_model_render_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return ModelRenderResult(
+      success: dco_decode_bool(arr[0]),
+      width: dco_decode_u_32(arr[1]),
+      height: dco_decode_u_32(arr[2]),
+      rgbaData: dco_decode_opt_list_prim_u_8_strict(arr[3]),
+      errorMessage: dco_decode_opt_String(arr[4]),
+    );
+  }
+
+  @protected
   MyHttpVersion dco_decode_my_http_version(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return MyHttpVersion.values[raw as int];
@@ -4211,6 +4510,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<String>? dco_decode_opt_list_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_list_String(raw);
+  }
+
+  @protected
+  Float32List? dco_decode_opt_list_prim_f_32_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_list_prim_f_32_strict(raw);
   }
 
   @protected
@@ -4315,6 +4620,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       version: dco_decode_my_http_version(arr[4]),
       remoteAddr: dco_decode_String(arr[5]),
       data: dco_decode_opt_list_prim_u_8_strict(arr[6]),
+    );
+  }
+
+  @protected
+  SessionCreateResult dco_decode_session_create_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return SessionCreateResult(
+      success: dco_decode_bool(arr[0]),
+      sessionId: dco_decode_opt_String(arr[1]),
+      modelRadius: dco_decode_f_32(arr[2]),
+      errorMessage: dco_decode_opt_String(arr[3]),
     );
   }
 
@@ -4674,6 +4993,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  double sse_decode_f_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getFloat32();
+  }
+
+  @protected
   double sse_decode_f_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getFloat64();
@@ -4791,6 +5116,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       ans_.add(sse_decode_p_4_k_file_item(deserializer));
     }
     return ans_;
+  }
+
+  @protected
+  Float32List sse_decode_list_prim_f_32_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getFloat32List(len_);
   }
 
   @protected
@@ -4965,6 +5297,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ModelRenderResult sse_decode_model_render_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_success = sse_decode_bool(deserializer);
+    var var_width = sse_decode_u_32(deserializer);
+    var var_height = sse_decode_u_32(deserializer);
+    var var_rgbaData = sse_decode_opt_list_prim_u_8_strict(deserializer);
+    var var_errorMessage = sse_decode_opt_String(deserializer);
+    return ModelRenderResult(
+      success: var_success,
+      width: var_width,
+      height: var_height,
+      rgbaData: var_rgbaData,
+      errorMessage: var_errorMessage,
+    );
+  }
+
+  @protected
   MyHttpVersion sse_decode_my_http_version(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
@@ -5065,6 +5416,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_list_String(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  Float32List? sse_decode_opt_list_prim_f_32_strict(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_list_prim_f_32_strict(deserializer));
     } else {
       return null;
     }
@@ -5200,6 +5564,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       version: var_version,
       remoteAddr: var_remoteAddr,
       data: var_data,
+    );
+  }
+
+  @protected
+  SessionCreateResult sse_decode_session_create_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_success = sse_decode_bool(deserializer);
+    var var_sessionId = sse_decode_opt_String(deserializer);
+    var var_modelRadius = sse_decode_f_32(deserializer);
+    var var_errorMessage = sse_decode_opt_String(deserializer);
+    return SessionCreateResult(
+      success: var_success,
+      sessionId: var_sessionId,
+      modelRadius: var_modelRadius,
+      errorMessage: var_errorMessage,
     );
   }
 
@@ -5360,6 +5741,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   int cst_encode_download_task_status(DownloadTaskStatus raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_i_32(raw.index);
+  }
+
+  @protected
+  double cst_encode_f_32(double raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw;
   }
 
   @protected
@@ -5649,6 +6036,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_f_32(double self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putFloat32(self);
+  }
+
+  @protected
   void sse_encode_f_64(double self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putFloat64(self);
@@ -5751,6 +6144,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     for (final item in self) {
       sse_encode_p_4_k_file_item(item, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_list_prim_f_32_strict(
+    Float32List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putFloat32List(self);
   }
 
   @protected
@@ -5906,6 +6309,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_model_render_result(
+    ModelRenderResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.success, serializer);
+    sse_encode_u_32(self.width, serializer);
+    sse_encode_u_32(self.height, serializer);
+    sse_encode_opt_list_prim_u_8_strict(self.rgbaData, serializer);
+    sse_encode_opt_String(self.errorMessage, serializer);
+  }
+
+  @protected
   void sse_encode_my_http_version(
     MyHttpVersion self,
     SseSerializer serializer,
@@ -6006,6 +6422,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_list_String(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_list_prim_f_32_strict(
+    Float32List? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_prim_f_32_strict(self, serializer);
     }
   }
 
@@ -6120,6 +6549,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_my_http_version(self.version, serializer);
     sse_encode_String(self.remoteAddr, serializer);
     sse_encode_opt_list_prim_u_8_strict(self.data, serializer);
+  }
+
+  @protected
+  void sse_encode_session_create_result(
+    SessionCreateResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.success, serializer);
+    sse_encode_opt_String(self.sessionId, serializer);
+    sse_encode_f_32(self.modelRadius, serializer);
+    sse_encode_opt_String(self.errorMessage, serializer);
   }
 
   @protected

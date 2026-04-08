@@ -934,6 +934,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         ];
         const imgExt = [".png", ".jpg", ".jpeg", ".bmp", ".gif", ".webp"];
         const audioExt = [".wem"];
+        const modelExt = [".cgf", ".cga"];
         String openType = "unknown";
         for (var element in textExt) {
           if (lowerFilePath.endsWith(element)) {
@@ -948,6 +949,23 @@ class Unp4kCModel extends _$Unp4kCModel {
         for (var element in audioExt) {
           if (lowerFilePath.endsWith(element)) {
             openType = "audio";
+          }
+        }
+        for (var element in modelExt) {
+          if (lowerFilePath.endsWith(element)) {
+            try {
+              final glbResult = await convertModelToGlb(filePath, outputPath);
+              if (glbResult.$1 && glbResult.$2 != null) {
+                openType = "model";
+                state = state.copyWith(
+                  tempOpenFile: MapEntry(openType, glbResult.$2!),
+                  endMessage: S.current.tools_unp4k_msg_open_file(filePath),
+                );
+                return;
+              }
+            } catch (e) {
+              dPrint("[unp4k] model convert failed: $e");
+            }
           }
         }
         state = state.copyWith(

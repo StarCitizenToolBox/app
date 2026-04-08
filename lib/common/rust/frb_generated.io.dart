@@ -104,6 +104,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DownloadTaskStatus dco_decode_download_task_status(dynamic raw);
 
   @protected
+  double dco_decode_f_32(dynamic raw);
+
+  @protected
   double dco_decode_f_64(dynamic raw);
 
   @protected
@@ -137,6 +140,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw);
+
+  @protected
+  Float32List dco_decode_list_prim_f_32_strict(dynamic raw);
 
   @protected
   Float64List dco_decode_list_prim_f_64_strict(dynamic raw);
@@ -175,6 +181,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ModelConvertResult dco_decode_model_convert_result(dynamic raw);
 
   @protected
+  ModelRenderResult dco_decode_model_render_result(dynamic raw);
+
+  @protected
   MyHttpVersion dco_decode_my_http_version(dynamic raw);
 
   @protected
@@ -207,6 +216,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<String>? dco_decode_opt_list_String(dynamic raw);
 
   @protected
+  Float32List? dco_decode_opt_list_prim_f_32_strict(dynamic raw);
+
+  @protected
   Float64List? dco_decode_opt_list_prim_f_64_strict(dynamic raw);
 
   @protected
@@ -235,6 +247,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RustHttpResponse dco_decode_rust_http_response(dynamic raw);
+
+  @protected
+  SessionCreateResult dco_decode_session_create_result(dynamic raw);
 
   @protected
   SystemInfo dco_decode_system_info(dynamic raw);
@@ -358,6 +373,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  double sse_decode_f_32(SseDeserializer deserializer);
+
+  @protected
   double sse_decode_f_64(SseDeserializer deserializer);
 
   @protected
@@ -401,6 +419,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<P4kFileItem> sse_decode_list_p_4_k_file_item(
     SseDeserializer deserializer,
   );
+
+  @protected
+  Float32List sse_decode_list_prim_f_32_strict(SseDeserializer deserializer);
 
   @protected
   Float64List sse_decode_list_prim_f_64_strict(SseDeserializer deserializer);
@@ -451,6 +472,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  ModelRenderResult sse_decode_model_render_result(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   MyHttpVersion sse_decode_my_http_version(SseDeserializer deserializer);
 
   @protected
@@ -483,6 +509,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<String>? sse_decode_opt_list_String(SseDeserializer deserializer);
+
+  @protected
+  Float32List? sse_decode_opt_list_prim_f_32_strict(
+    SseDeserializer deserializer,
+  );
 
   @protected
   Float64List? sse_decode_opt_list_prim_f_64_strict(
@@ -523,6 +554,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RustHttpResponse sse_decode_rust_http_response(SseDeserializer deserializer);
+
+  @protected
+  SessionCreateResult sse_decode_session_create_result(
+    SseDeserializer deserializer,
+  );
 
   @protected
   SystemInfo sse_decode_system_info(SseDeserializer deserializer);
@@ -755,6 +791,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_list_prim_f_32_strict> cst_encode_list_prim_f_32_strict(
+    Float32List raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_f_32_strict(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_cst_list_prim_f_64_strict> cst_encode_list_prim_f_64_strict(
     Float64List raw,
   ) {
@@ -893,6 +939,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw == null ? ffi.nullptr : cst_encode_list_String(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_f_32_strict>
+  cst_encode_opt_list_prim_f_32_strict(Float32List? raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_list_prim_f_32_strict(raw);
   }
 
   @protected
@@ -1115,6 +1168,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_model_render_result(
+    ModelRenderResult apiObj,
+    wire_cst_model_render_result wireObj,
+  ) {
+    wireObj.success = cst_encode_bool(apiObj.success);
+    wireObj.width = cst_encode_u_32(apiObj.width);
+    wireObj.height = cst_encode_u_32(apiObj.height);
+    wireObj.rgba_data = cst_encode_opt_list_prim_u_8_strict(apiObj.rgbaData);
+    wireObj.error_message = cst_encode_opt_String(apiObj.errorMessage);
+  }
+
+  @protected
   void cst_api_fill_to_wire_p_4_k_file_item(
     P4kFileItem apiObj,
     wire_cst_p_4_k_file_item wireObj,
@@ -1181,6 +1246,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.version = cst_encode_my_http_version(apiObj.version);
     wireObj.remote_addr = cst_encode_String(apiObj.remoteAddr);
     wireObj.data = cst_encode_opt_list_prim_u_8_strict(apiObj.data);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_session_create_result(
+    SessionCreateResult apiObj,
+    wire_cst_session_create_result wireObj,
+  ) {
+    wireObj.success = cst_encode_bool(apiObj.success);
+    wireObj.session_id = cst_encode_opt_String(apiObj.sessionId);
+    wireObj.model_radius = cst_encode_f_32(apiObj.modelRadius);
+    wireObj.error_message = cst_encode_opt_String(apiObj.errorMessage);
   }
 
   @protected
@@ -1282,6 +1358,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int cst_encode_download_task_status(DownloadTaskStatus raw);
+
+  @protected
+  double cst_encode_f_32(double raw);
 
   @protected
   double cst_encode_f_64(double raw);
@@ -1425,6 +1504,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_f_32(double self, SseSerializer serializer);
+
+  @protected
   void sse_encode_f_64(double self, SseSerializer serializer);
 
   @protected
@@ -1472,6 +1554,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_p_4_k_file_item(
     List<P4kFileItem> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_prim_f_32_strict(
+    Float32List self,
     SseSerializer serializer,
   );
 
@@ -1545,6 +1633,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_model_render_result(
+    ModelRenderResult self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_my_http_version(MyHttpVersion self, SseSerializer serializer);
 
   @protected
@@ -1579,6 +1673,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_list_String(List<String>? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_list_prim_f_32_strict(
+    Float32List? self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_opt_list_prim_f_64_strict(
@@ -1631,6 +1731,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_rust_http_response(
     RustHttpResponse self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_session_create_result(
+    SessionCreateResult self,
     SseSerializer serializer,
   );
 
@@ -3477,6 +3583,18 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__unp4k_model_api__p4k_model_init_context(int port_) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_init_context(port_);
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_init_contextPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_init_context',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_init_context =
+      _wire__crate__api__unp4k_model_api__p4k_model_init_contextPtr
+          .asFunction<void Function(int)>();
+
   void wire__crate__api__unp4k_model_api__p4k_model_is_supported(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
@@ -3502,6 +3620,206 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__unp4k_model_api__p4k_model_is_supportedPtr
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__unp4k_model_api__p4k_model_render_preview(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> glb_path,
+    int width,
+    int height,
+    double pitch,
+    double yaw,
+    double roll,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_render_preview(
+      port_,
+      glb_path,
+      width,
+      height,
+      pitch,
+      yaw,
+      roll,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_render_previewPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Uint32,
+            ffi.Uint32,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_render_preview',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_render_preview =
+      _wire__crate__api__unp4k_model_api__p4k_model_render_previewPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+              int,
+              double,
+              double,
+              double,
+            )
+          >();
+
+  void wire__crate__api__unp4k_model_api__p4k_model_session_create(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> glb_path,
+    int width,
+    int height,
+    ffi.Pointer<wire_cst_list_prim_f_32_strict> bg_color,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_session_create(
+      port_,
+      glb_path,
+      width,
+      height,
+      bg_color,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_createPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Uint32,
+            ffi.Uint32,
+            ffi.Pointer<wire_cst_list_prim_f_32_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_create',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_create =
+      _wire__crate__api__unp4k_model_api__p4k_model_session_createPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+              int,
+              ffi.Pointer<wire_cst_list_prim_f_32_strict>,
+            )
+          >();
+
+  void wire__crate__api__unp4k_model_api__p4k_model_session_exists(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> session_id,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_session_exists(
+      port_,
+      session_id,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_existsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_exists',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_exists =
+      _wire__crate__api__unp4k_model_api__p4k_model_session_existsPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__unp4k_model_api__p4k_model_session_release(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> session_id,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_session_release(
+      port_,
+      session_id,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_releasePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_release',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_release =
+      _wire__crate__api__unp4k_model_api__p4k_model_session_releasePtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__unp4k_model_api__p4k_model_session_render(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> session_id,
+    double camera_x,
+    double camera_y,
+    double camera_z,
+    double target_x,
+    double target_y,
+    double target_z,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_session_render(
+      port_,
+      session_id,
+      camera_x,
+      camera_y,
+      camera_z,
+      target_x,
+      target_y,
+      target_z,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_renderPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_render',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_render =
+      _wire__crate__api__unp4k_model_api__p4k_model_session_renderPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              double,
+              double,
+              double,
+              double,
+              double,
+              double,
+            )
           >();
 
   void wire__crate__api__unp4k_api__p4k_open(
@@ -4595,6 +4913,21 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_p_4_k_file_item = _cst_new_list_p_4_k_file_itemPtr
       .asFunction<ffi.Pointer<wire_cst_list_p_4_k_file_item> Function(int)>();
 
+  ffi.Pointer<wire_cst_list_prim_f_32_strict> cst_new_list_prim_f_32_strict(
+    int len,
+  ) {
+    return _cst_new_list_prim_f_32_strict(len);
+  }
+
+  late final _cst_new_list_prim_f_32_strictPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_prim_f_32_strict> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_prim_f_32_strict');
+  late final _cst_new_list_prim_f_32_strict = _cst_new_list_prim_f_32_strictPtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_f_32_strict> Function(int)>();
+
   ffi.Pointer<wire_cst_list_prim_f_64_strict> cst_new_list_prim_f_64_strict(
     int len,
   ) {
@@ -4785,6 +5118,13 @@ final class wire_cst_model_convert_options extends ffi.Struct {
   external bool overwrite;
 
   external ffi.Pointer<ffi.Uint32> max_texture_size;
+}
+
+final class wire_cst_list_prim_f_32_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Float> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 final class wire_cst_rsi_launcher_asar_data extends ffi.Struct {
@@ -5127,6 +5467,21 @@ final class wire_cst_model_convert_result extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_String> warnings;
 }
 
+final class wire_cst_model_render_result extends ffi.Struct {
+  @ffi.Bool()
+  external bool success;
+
+  @ffi.Uint32()
+  external int width;
+
+  @ffi.Uint32()
+  external int height;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> rgba_data;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
+}
+
 final class wire_cst_rs_process_stream_data extends ffi.Struct {
   @ffi.Int32()
   external int data_type;
@@ -5153,6 +5508,18 @@ final class wire_cst_rust_http_response extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> remote_addr;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> data;
+}
+
+final class wire_cst_session_create_result extends ffi.Struct {
+  @ffi.Bool()
+  external bool success;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> session_id;
+
+  @ffi.Float()
+  external double model_radius;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
 }
 
 final class wire_cst_system_info extends ffi.Struct {

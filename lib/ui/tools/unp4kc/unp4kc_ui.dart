@@ -329,6 +329,13 @@ class UnP4kcUI extends HookConsumerWidget {
                                             ),
                                           ),
                                         )
+                                      else if (state.tempOpenFile?.key ==
+                                          "model")
+                                        Expanded(
+                                          child: ModelTempWidget(
+                                            state.tempOpenFile?.value ?? "",
+                                          ),
+                                        )
                                       else
                                         Expanded(
                                           child: Center(

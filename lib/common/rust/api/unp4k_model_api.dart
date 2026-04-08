@@ -10,6 +10,12 @@ part 'unp4k_model_api.freezed.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`
 
+/// Initialize the OpenGL context for model rendering.
+/// Should be called once at application startup before any model rendering.
+/// Returns true if context was initialized, false if already initialized.
+Future<bool> p4KModelInitContext() =>
+    RustLib.instance.api.crateApiUnp4KModelApiP4KModelInitContext();
+
 Future<bool> p4KModelIsSupported({required String filePath}) => RustLib
     .instance
     .api
@@ -37,6 +43,62 @@ Future<LocalBatchConvertResult> p4KModelConvertLocalBatchAndMerge({
       outputDir: outputDir,
       options: options,
     );
+
+Future<ModelRenderResult> p4KModelRenderPreview({
+  required String glbPath,
+  required int width,
+  required int height,
+  required double pitch,
+  required double yaw,
+  required double roll,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelRenderPreview(
+  glbPath: glbPath,
+  width: width,
+  height: height,
+  pitch: pitch,
+  yaw: yaw,
+  roll: roll,
+);
+
+Future<SessionCreateResult> p4KModelSessionCreate({
+  required String glbPath,
+  required int width,
+  required int height,
+  Float32List? bgColor,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionCreate(
+  glbPath: glbPath,
+  width: width,
+  height: height,
+  bgColor: bgColor,
+);
+
+Future<ModelRenderResult> p4KModelSessionRender({
+  required String sessionId,
+  required double cameraX,
+  required double cameraY,
+  required double cameraZ,
+  required double targetX,
+  required double targetY,
+  required double targetZ,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionRender(
+  sessionId: sessionId,
+  cameraX: cameraX,
+  cameraY: cameraY,
+  cameraZ: cameraZ,
+  targetX: targetX,
+  targetY: targetY,
+  targetZ: targetZ,
+);
+
+Future<bool> p4KModelSessionRelease({required String sessionId}) => RustLib
+    .instance
+    .api
+    .crateApiUnp4KModelApiP4KModelSessionRelease(sessionId: sessionId);
+
+Future<bool> p4KModelSessionExists({required String sessionId}) => RustLib
+    .instance
+    .api
+    .crateApiUnp4KModelApiP4KModelSessionExists(sessionId: sessionId);
 
 @freezed
 sealed class AssemblyGraphStats with _$AssemblyGraphStats {
@@ -100,4 +162,25 @@ sealed class ModelConvertResult with _$ModelConvertResult {
     String? errorMessage,
     required List<String> warnings,
   }) = _ModelConvertResult;
+}
+
+@freezed
+sealed class ModelRenderResult with _$ModelRenderResult {
+  const factory ModelRenderResult({
+    required bool success,
+    required int width,
+    required int height,
+    Uint8List? rgbaData,
+    String? errorMessage,
+  }) = _ModelRenderResult;
+}
+
+@freezed
+sealed class SessionCreateResult with _$SessionCreateResult {
+  const factory SessionCreateResult({
+    required bool success,
+    String? sessionId,
+    required double modelRadius,
+    String? errorMessage,
+  }) = _SessionCreateResult;
 }

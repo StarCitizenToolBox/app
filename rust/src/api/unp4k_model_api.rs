@@ -2,6 +2,7 @@ use anyhow::Result;
 use flutter_rust_bridge::frb;
 
 use crate::model_convert::{self, ConvertOptions};
+use crate::model_render;
 
 #[frb(dart_metadata=("freezed"))]
 pub struct ModelConvertResult {
@@ -10,6 +11,23 @@ pub struct ModelConvertResult {
     pub error_code: Option<String>,
     pub error_message: Option<String>,
     pub warnings: Vec<String>,
+}
+
+#[frb(dart_metadata=("freezed"))]
+pub struct ModelRenderResult {
+    pub success: bool,
+    pub width: u32,
+    pub height: u32,
+    pub rgba_data: Option<Vec<u8>>,
+    pub error_message: Option<String>,
+}
+
+#[frb(dart_metadata=("freezed"))]
+pub struct SessionCreateResult {
+    pub success: bool,
+    pub session_id: Option<String>,
+    pub model_radius: f32,
+    pub error_message: Option<String>,
 }
 
 #[frb(dart_metadata=("freezed"))]
@@ -69,6 +87,13 @@ impl From<Option<ModelConvertOptions>> for ConvertOptions {
             ConvertOptions::default()
         }
     }
+}
+
+/// Initialize the OpenGL context for model rendering.
+/// Should be called once at application startup before any model rendering.
+/// Returns true if context was initialized, false if already initialized.
+pub fn p4k_model_init_context() -> Result<bool> {
+    model_render::init_context()
 }
 
 pub fn p4k_model_is_supported(file_path: String) -> bool {
@@ -132,4 +157,101 @@ pub async fn p4k_model_convert_local_batch_and_merge(
             "assembly/merge export has been removed; use single GLB export instead".to_string(),
         ),
     })
+}
+
+pub async fn p4k_model_render_preview(
+    glb_path: String,
+    width: u32,
+    height: u32,
+    pitch: f32,
+    yaw: f32,
+    roll: f32,
+) -> Result<ModelRenderResult> {
+    let glb_data = tokio::fs::read(&glb_path).await?;
+
+    let rotation = (pitch, yaw, roll);
+    
+    match model_render::render_glb_to_rgba(&glb_data, width, height, rotation) {
+        Ok(rgba_data) => Ok(ModelRenderResult {
+            success: true,
+            width,
+            height,
+            rgba_data: Some(rgba_data),
+            error_message: None,
+        }),
+        Err(e) => Ok(ModelRenderResult {
+            success: false,
+            width,
+            height,
+            rgba_data: None,
+            error_message: Some(e.to_string()),
+        }),
+    }
+}
+
+pub async fn p4k_model_session_create(
+    glb_path: String,
+    width: u32,
+    height: u32,
+    bg_color: Option<Vec<f32>>,
+) -> Result<SessionCreateResult> {
+    let glb_data = tokio::fs::read(&glb_path).await?;
+    let bg = bg_color.and_then(|c| {
+        if c.len() == 4 {
+            Some([c[0], c[1], c[2], c[3]])
+        } else {
+            None
+        }
+    });
+    match model_render::create_session(&glb_data, width, height, bg) {
+        Ok((session_id, model_radius)) => Ok(SessionCreateResult {
+            success: true,
+            session_id: Some(session_id),
+            model_radius,
+            error_message: None,
+        }),
+        Err(e) => Ok(SessionCreateResult {
+            success: false,
+            session_id: None,
+            model_radius: 1.0,
+            error_message: Some(e.to_string()),
+        }),
+    }
+}
+
+pub fn p4k_model_session_render(
+    session_id: String,
+    camera_x: f32,
+    camera_y: f32,
+    camera_z: f32,
+    target_x: f32,
+    target_y: f32,
+    target_z: f32,
+) -> Result<ModelRenderResult> {
+    let camera_pos = [camera_x, camera_y, camera_z];
+    let camera_target = [target_x, target_y, target_z];
+    match model_render::render_session(&session_id, camera_pos, camera_target) {
+        Ok((rgba_data, width, height)) => Ok(ModelRenderResult {
+            success: true,
+            width,
+            height,
+            rgba_data: Some(rgba_data),
+            error_message: None,
+        }),
+        Err(e) => Ok(ModelRenderResult {
+            success: false,
+            width: 0,
+            height: 0,
+            rgba_data: None,
+            error_message: Some(e.to_string()),
+        }),
+    }
+}
+
+pub fn p4k_model_session_release(session_id: String) -> bool {
+    model_render::release_session(&session_id)
+}
+
+pub fn p4k_model_session_exists(session_id: String) -> bool {
+    model_render::session_exists(&session_id)
 }
