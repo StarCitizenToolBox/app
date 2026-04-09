@@ -244,15 +244,7 @@ fn collect_dds_parts(
 fn decode_image_for_preview(path: &str, data: &[u8]) -> Result<DynamicImage> {
     let lower = path.to_lowercase();
     if lower.ends_with(".dds") || lower.contains(".dds.") {
-        return decode_dds_image(data).or_else(|e| {
-            decode_uncompressed_dds(data).map_err(|fallback_err| {
-                anyhow!(
-                    "decode dds failed: {}; uncompressed fallback failed: {}",
-                    e,
-                    fallback_err
-                )
-            })
-        });
+        return decode_dds_image(data);
     }
 
     let ext = PathBuf::from(path)
@@ -620,17 +612,21 @@ pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
 }
 
 fn decode_dds_image(data: &[u8]) -> Result<DynamicImage> {
-    match image::load_from_memory_with_format(data, ImageFormat::Dds) {
-        Ok(img) => Ok(img),
-        Err(first_err) => {
-            let mut cursor = Cursor::new(data);
-            let dds = Dds::read(&mut cursor)
-                .map_err(|dds_err| anyhow!("{first_err}; ddsfile parse failed: {dds_err}"))?;
-            let rgba = image_from_dds(&dds, 0)
-                .map_err(|dds_err| anyhow!("{first_err}; image_dds decode failed: {dds_err}"))?;
-            Ok(DynamicImage::ImageRgba8(rgba))
+    // 首先尝试 image crate 原生 DDS 支持
+    if let Ok(img) = image::load_from_memory_with_format(data, ImageFormat::Dds) {
+        return Ok(img);
+    }
+
+    // 尝试使用 image_dds 库解码
+    let mut cursor = Cursor::new(data);
+    if let Ok(dds) = Dds::read(&mut cursor) {
+        if let Ok(rgba) = image_from_dds(&dds, 0) {
+            return Ok(DynamicImage::ImageRgba8(rgba));
         }
     }
+
+    // 回退到自定义未压缩 DDS 解码（支持 X8R8G8B8, A8R8G8B8, R8G8B8 等格式）
+    decode_uncompressed_dds(data)
 }
 
 fn collect_dds_part_paths(

@@ -121,6 +121,9 @@ abstract class Unp4kcState with _$Unp4kcState {
 
     /// 日期筛选范围终点
     DateTime? dateFilterRangeEnd,
+
+    /// 后缀筛选（多选）
+    @Default({}) Set<String> suffixFilter,
   }) = _Unp4kcState;
 }
 
@@ -151,6 +154,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         dateFilterSingleDate: state.dateFilterSingleDate,
         dateFilterRangeStart: state.dateFilterRangeStart,
         dateFilterRangeEnd: state.dateFilterRangeEnd,
+        suffixFilter: state.suffixFilter,
       );
     } else {
       _browseFilters = _FilterState(
@@ -164,6 +168,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         dateFilterSingleDate: state.dateFilterSingleDate,
         dateFilterRangeStart: state.dateFilterRangeStart,
         dateFilterRangeEnd: state.dateFilterRangeEnd,
+        suffixFilter: state.suffixFilter,
       );
     }
   }
@@ -180,6 +185,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       dateFilterSingleDate: f.dateFilterSingleDate,
       dateFilterRangeStart: f.dateFilterRangeStart,
       dateFilterRangeEnd: f.dateFilterRangeEnd,
+      suffixFilter: f.suffixFilter,
     );
   }
 
@@ -378,8 +384,22 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   void _applyAdvancedFilters(List<AppUnp4kP4kItemData> files) {
+    _applySuffixFilter(files);
     _applySizeFilter(files);
     _applyDateFilter(files);
+  }
+
+  void _applySuffixFilter(List<AppUnp4kP4kItemData> files) {
+    if (state.suffixFilter.isEmpty) return;
+
+    files.removeWhere((item) {
+      // 文件夹始终保留
+      if (item.isDirectory ?? false) return false;
+      final name = item.name ?? "";
+      final ext = _extractFileExtension(name);
+      // 不在后缀列表中的文件移除
+      return !state.suffixFilter.contains(ext);
+    });
   }
 
   void _applySizeFilter(List<AppUnp4kP4kItemData> files) {
@@ -625,6 +645,27 @@ class Unp4kCModel extends _$Unp4kCModel {
       dateFilterRangeStart: null,
       dateFilterRangeEnd: null,
     );
+  }
+
+  /// 切换后缀筛选
+  void toggleSuffixFilter(String suffix) {
+    final current = Set<String>.from(state.suffixFilter);
+    if (current.contains(suffix)) {
+      current.remove(suffix);
+    } else {
+      current.add(suffix);
+    }
+    state = state.copyWith(suffixFilter: current);
+  }
+
+  /// 设置后缀筛选
+  void setSuffixFilter(Set<String> suffixes) {
+    state = state.copyWith(suffixFilter: suffixes);
+  }
+
+  /// 清除后缀筛选
+  void clearSuffixFilter() {
+    state = state.copyWith(suffixFilter: {});
   }
 
   /// 设置搜索范围
@@ -1479,7 +1520,9 @@ _SearchResult _searchFiles(_SearchParams params) {
 
     bool matches = false;
     if (regex != null) {
-      matches = regex.hasMatch(name);
+      // 对文件名进行匹配（不是完整路径）
+      final fileName = name.split("\\").last;
+      matches = regex.hasMatch(fileName);
     } else {
       matches = name.toLowerCase().contains(params.query.toLowerCase());
     }
@@ -1504,6 +1547,7 @@ class _FilterState {
   final DateTime? dateFilterSingleDate;
   final DateTime? dateFilterRangeStart;
   final DateTime? dateFilterRangeEnd;
+  final Set<String> suffixFilter;
 
   _FilterState({
     this.sortType = Unp4kSortType.defaultSort,
@@ -1516,6 +1560,7 @@ class _FilterState {
     this.dateFilterSingleDate,
     this.dateFilterRangeStart,
     this.dateFilterRangeEnd,
+    this.suffixFilter = const {},
   });
 
   _FilterState copyWith({
@@ -1529,6 +1574,7 @@ class _FilterState {
     DateTime? dateFilterSingleDate,
     DateTime? dateFilterRangeStart,
     DateTime? dateFilterRangeEnd,
+    Set<String>? suffixFilter,
   }) {
     return _FilterState(
       sortType: sortType ?? this.sortType,
@@ -1542,6 +1588,7 @@ class _FilterState {
       dateFilterSingleDate: dateFilterSingleDate ?? this.dateFilterSingleDate,
       dateFilterRangeStart: dateFilterRangeStart ?? this.dateFilterRangeStart,
       dateFilterRangeEnd: dateFilterRangeEnd ?? this.dateFilterRangeEnd,
+      suffixFilter: suffixFilter ?? this.suffixFilter,
     );
   }
 }

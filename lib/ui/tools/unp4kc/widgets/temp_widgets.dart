@@ -66,7 +66,9 @@ class ImageTempWidget extends HookConsumerWidget {
           ));
         }
       } finally {
-        isCopying.value = false;
+        if (context.mounted) {
+          isCopying.value = false;
+        }
       }
     }
 
