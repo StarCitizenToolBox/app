@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/data/localization_extension_api_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/ui/tools/tools_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -98,6 +99,10 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                   state.installedCommunityInputMethodSupportVersion ?? "?",
                                 ),
                               ),
+                            SizedBox(width: 24),
+                            if (state.installedLocalizationExtensions != null &&
+                                state.installedLocalizationExtensions!.isNotEmpty)
+                              Text(S.current.localization_extension_installed),
                           ],
                         ),
                       ),
@@ -180,86 +185,27 @@ class LocalizationDialogUI extends HookConsumerWidget {
     final isMineWorking = state.workingVersion == item.key;
     final isInstalled = state.patchStatus?.value == item.key || state.patchStatus?.value == item.value.versionName;
     final isItemEnabled = ((item.value.enable ?? false));
-    final tapDisabled = isInstalled || isWorking || !isItemEnabled || isMineWorking;
+    final tapDisabled = isWorking || !isItemEnabled || isMineWorking;
     return GridItemAnimator(
       index: index,
       child: Tilt(
         shadowConfig: const ShadowConfig(maxIntensity: .3),
         borderRadius: BorderRadius.circular(7),
         disable: tapDisabled,
-        child: GestureDetector(
-          onTap: tapDisabled ? null : () => model.onRemoteInsTall(context, item, state),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: tapDisabled ? .03 : .05),
-              borderRadius: BorderRadius.circular(7),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("${item.value.info}", style: const TextStyle(fontSize: 19)),
-                          const SizedBox(height: 4),
-                          Text(
-                            S.current.localization_info_version_number(item.value.versionName ?? ""),
-                            style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            S.current.localization_info_channel(item.value.gameChannel ?? ""),
-                            style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            S.current.localization_info_update_time(item.value.updateAt ?? ""),
-                            style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (isMineWorking)
-                      const Padding(padding: EdgeInsets.only(right: 12), child: ProgressRing())
-                    else ...[
-                      Icon(
-                        isInstalled
-                            ? FluentIcons.check_mark
-                            : isItemEnabled
-                            ? FluentIcons.download
-                            : FluentIcons.disable_updates,
-                        color: Colors.white.withValues(alpha: .8),
-                        size: 18,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        isInstalled
-                            ? S.current.localization_info_installed
-                            : (isItemEnabled
-                                  ? S.current.localization_action_install
-                                  : S.current.localization_info_unavailable),
-                        style: TextStyle(color: Colors.white.withValues(alpha: .8)),
-                      ),
-                      const SizedBox(width: 6),
-                      if ((!isInstalled) && isItemEnabled)
-                        Icon(FluentIcons.chevron_right, size: 14, color: Colors.white.withValues(alpha: .6)),
-                    ],
-                  ],
-                ),
-                if (item.value.note != null) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    "${item.value.note}",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.white.withValues(alpha: .4), fontSize: 13),
-                  ),
-                ],
-              ],
+        child: MouseRegion(
+          cursor: tapDisabled ? SystemMouseCursors.basic : SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: tapDisabled
+                ? null
+                : () async {
+                    await model.onRemoteInsTall(context, item, state);
+                  },
+            child: _LocalizationItemCard(
+              item: item,
+              isInstalled: isInstalled,
+              isItemEnabled: isItemEnabled,
+              isMineWorking: isMineWorking,
+              tapDisabled: tapDisabled,
             ),
           ),
         ),
@@ -403,12 +349,14 @@ class LocalizationDialogUI extends HookConsumerWidget {
                             context: context,
                             builder: (BuildContext context) => const LocalizationFromFileDialogUI(),
                           );
-                          if (sb is (StringBuffer, bool)) {
+                          if (sb is (StringBuffer, bool, List<dynamic>)) {
                             if (!context.mounted) return;
+                            final extensions = sb.$3.whereType<LocalizationExtensionItemData>().toList();
                             await model.installFormString(
                               sb.$1,
                               S.current.localization_info_custom_files,
                               isEnableCommunityInputMethod: sb.$2,
+                              extensions: extensions.isNotEmpty ? extensions : null,
                               context: context,
                             );
                           }
@@ -440,5 +388,127 @@ class LocalizationDialogUI extends HookConsumerWidget {
       gridViewMode: true,
       gridViewCrossAxisCount: 3,
     );
+  }
+}
+
+/// 汉化项目卡片组件，支持悬浮显示重新安装
+class _LocalizationItemCard extends StatefulWidget {
+  final MapEntry<String, ScLocalizationData> item;
+  final bool isInstalled;
+  final bool isItemEnabled;
+  final bool isMineWorking;
+  final bool tapDisabled;
+
+  const _LocalizationItemCard({
+    required this.item,
+    required this.isInstalled,
+    required this.isItemEnabled,
+    required this.isMineWorking,
+    required this.tapDisabled,
+  });
+
+  @override
+  State<_LocalizationItemCard> createState() => _LocalizationItemCardState();
+}
+
+class _LocalizationItemCardState extends State<_LocalizationItemCard> {
+  bool _isHovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovering = true),
+      onExit: (_) => setState(() => _isHovering = false),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: widget.tapDisabled ? .03 : .05),
+          borderRadius: BorderRadius.circular(7),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("${widget.item.value.info}", style: const TextStyle(fontSize: 19)),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.current.localization_info_version_number(widget.item.value.versionName ?? ""),
+                        style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.current.localization_info_channel(widget.item.value.gameChannel ?? ""),
+                        style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.current.localization_info_update_time(widget.item.value.updateAt ?? ""),
+                        style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                      ),
+                    ],
+                  ),
+                ),
+                if (widget.isMineWorking)
+                  const Padding(padding: EdgeInsets.only(right: 12), child: ProgressRing())
+                else ...[
+                  Icon(
+                    _getIcon(),
+                    color: Colors.white.withValues(alpha: .8),
+                    size: 18,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(_getStatusText(), style: TextStyle(color: Colors.white.withValues(alpha: .8))),
+                  const SizedBox(width: 6),
+                  if (!widget.isInstalled && widget.isItemEnabled)
+                    Icon(FluentIcons.chevron_right, size: 14, color: Colors.white.withValues(alpha: .6)),
+                ],
+              ],
+            ),
+            if (widget.item.value.note != null) ...[
+              const SizedBox(height: 6),
+              Text(
+                "${widget.item.value.note}",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Colors.white.withValues(alpha: .4), fontSize: 13),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _getStatusText() {
+    if (widget.isInstalled) {
+      // 悬浮时显示重新安装
+      if (_isHovering && !widget.tapDisabled) {
+        return S.current.localization_action_reinstall;
+      }
+      return S.current.localization_info_installed;
+    }
+    if (widget.isItemEnabled) {
+      return S.current.localization_action_install;
+    }
+    return S.current.localization_info_unavailable;
+  }
+
+  IconData _getIcon() {
+    if (widget.isInstalled) {
+      // 悬浮时显示刷新图标
+      if (_isHovering && !widget.tapDisabled) {
+        return FluentIcons.sync;
+      }
+      return FluentIcons.check_mark;
+    }
+    if (widget.isItemEnabled) {
+      return FluentIcons.download;
+    }
+    return FluentIcons.disable_updates;
   }
 }

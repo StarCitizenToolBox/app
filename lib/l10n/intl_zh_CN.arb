@@ -1357,5 +1357,15 @@
   "tools_shader_clean_all_desc": "清理所有版本的缓存。适合画面异常或更新后清理。",
   "tools_action_info_cleaning": "正在清理...",
   "tools_action_start_cleaning": "开始清理",
-  "app_common_recommended": "推荐"
+  "app_common_recommended": "推荐",
+  "localization_extension_update_available": "汉化拓展有更新",
+  "@localization_extension_update_available": {},
+  "localization_extension_update_single": "{v0} 有新版本 {v1}，请前往汉化管理重新安装。",
+  "@localization_extension_update_single": {},
+  "localization_extension_update_multiple": "共有 {v0} 个拓展有更新：{v1}。请前往汉化管理重新安装。",
+  "@localization_extension_update_multiple": {},
+  "localization_extension_installed": "[已安装拓展]",
+  "@localization_extension_installed": {},
+  "localization_action_reinstall": "重新安装",
+  "@localization_action_reinstall": {}
 }

@@ -4,29 +4,34 @@ import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
+import 'package:starcitizen_doctor/ui/home/localization/localization_extension_selector.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 class LocalizationFromFileDialogUI extends HookConsumerWidget {
   final bool isInAdvancedMode;
 
-  const LocalizationFromFileDialogUI(
-      {super.key, this.isInAdvancedMode = false});
+  const LocalizationFromFileDialogUI({super.key, this.isInAdvancedMode = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedStringBuffer = useState<StringBuffer?>(null);
-    final enableCommunityInputMethod = useState(true);
     final isLoading = useState(false);
+    final installOptions = useState<LocalizationInstallOptions>(
+      LocalizationInstallOptions(),
+    );
+
     void onSelectFile() async {
       final result = await FilePicker.platform.pickFiles(
-          dialogTitle: S.current.home_localization_select_customize_file_ini,
-          type: FileType.custom,
-          allowedExtensions: ["ini"],
-          allowMultiple: false,
-          lockParentWindow: true);
+        dialogTitle: S.current.home_localization_select_customize_file_ini,
+        type: FileType.custom,
+        allowedExtensions: ["ini"],
+        allowMultiple: false,
+        lockParentWindow: true,
+      );
       if (result == null || result.files.firstOrNull == null) return;
       isLoading.value = true;
       final file = result.files.first;
@@ -37,6 +42,19 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
         buffer.writeln(line);
       }
       selectedStringBuffer.value = buffer;
+
+      // 加载用户缓存的选项
+      final localizationState = ref.read(localizationUIModelProvider);
+      final appBox = Hive.box("app_conf");
+      final savedExtensionFiles = appBox.get("localization_extensions", defaultValue: <String>[]);
+      final options = await LocalizationInstallOptions.loadFromCache(
+        hasCommunityInputMethodData: localizationState.communityInputMethodLanguageData != null,
+        defaultVehicleSorting: appBox.get("vehicle_sorting", defaultValue: false) ?? false,
+        availableExtensions: localizationState.localizationExtensionList,
+        savedExtensionFiles: savedExtensionFiles,
+      );
+      installOptions.value = options;
+
       isLoading.value = false;
     }
 
@@ -58,27 +76,33 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-              icon: const Icon(
-                FluentIcons.back,
-                size: 22,
-              ),
-              onPressed: () => context.pop()),
+            icon: const Icon(FluentIcons.back, size: 22),
+            onPressed: () => context.pop(),
+          ),
           const SizedBox(width: 12),
           Text(S.current.home_localization_select_customize_file),
           const Spacer(),
           if (selectedStringBuffer.value != null)
             FilledButton(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                  child: Text(S.current.app_common_tip_confirm),
-                ),
-                onPressed: () {
-                  Navigator.pop(context, (
-                    selectedStringBuffer.value,
-                    enableCommunityInputMethod.value
-                  ));
-                })
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                child: Text(S.current.app_common_tip_confirm),
+              ),
+              onPressed: () async {
+                final appBox = Hive.box("app_conf");
+                await appBox.put("vehicle_sorting", installOptions.value.enableVehicleSorting);
+                await appBox.put(
+                  "localization_extensions",
+                  installOptions.value.selectedExtensions.map((e) => e.file).toList(),
+                );
+                if (!context.mounted) return;
+                Navigator.pop(context, (
+                  selectedStringBuffer.value,
+                  installOptions.value.enableCommunityInputMethod,
+                  installOptions.value.selectedExtensions,
+                ));
+              },
+            ),
         ],
       ),
       content: AnimatedSize(
@@ -107,8 +131,7 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                             color: Colors.white.withValues(alpha: .6),
                           ),
                           const SizedBox(height: 12),
-                          Text(S.current
-                              .home_localization_action_select_customize_file)
+                          Text(S.current.home_localization_action_select_customize_file),
                         ],
                       ),
                     ),
@@ -127,33 +150,18 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                   ),
                   padding: const EdgeInsets.all(6),
                   child: CodeEditor(
-                    controller: CodeLineEditingController.fromText(
-                        selectedStringBuffer.value.toString()),
+                    controller: CodeLineEditingController.fromText(selectedStringBuffer.value.toString()),
                     readOnly: true,
                   ),
                 ),
               ),
               if (!isInAdvancedMode) ...[
-                SizedBox(height: 16),
-                Row(
-                  children: [
-                    Text(
-                      S.current
-                          .input_method_install_community_input_method_support,
-                    ),
-                    Spacer(),
-                    ToggleSwitch(
-                      checked: enableCommunityInputMethod.value,
-                      onChanged:
-                          localizationState.communityInputMethodLanguageData ==
-                                  null
-                              ? null
-                              : (v) {
-                                  enableCommunityInputMethod.value = v;
-                                },
-                    )
-                  ],
-                )
+                const SizedBox(height: 16),
+                LocalizationInstallOptionsPanel(
+                  options: installOptions.value,
+                  hasCommunityInputMethodData: localizationState.communityInputMethodLanguageData != null,
+                  availableExtensions: localizationState.localizationExtensionList,
+                ),
               ],
             ],
           ],

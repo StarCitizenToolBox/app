@@ -27,6 +27,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 
+import 'localization_extension_selector.dart';
+
 part 'localization_ui_model.g.dart';
 
 part 'localization_ui_model.freezed.dart';
@@ -43,6 +45,7 @@ abstract class LocalizationUIState with _$LocalizationUIState {
     bool? isInstalledAdvanced,
     List<String>? customizeList,
     List<LocalizationExtensionItemData>? localizationExtensionList,
+    Map<String, String>? installedLocalizationExtensions, // file -> version
   }) = _LocalizationUIState;
 }
 
@@ -55,6 +58,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   Directory getDownloadDir() => _downloadDir;
 
   Directory get _scDataDir => Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data".platformPath);
+
   File get _cfgFile => File("${_scDataDir.absolute.path}\\system.cfg".platformPath);
 
   StreamSubscription? _customizeDirListenSub;
@@ -286,6 +290,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     bool isEnableCommunityInputMethod = false,
     bool isEnableVehicleSorting = false,
     List<LocalizationExtensionItemData>? extensions,
+    Map<String, String>? preserveExtensions, // 保留的拓展信息（高级汉化时使用）
     BuildContext? context,
   }) async {
     dPrint("LocalizationUIModel -> installFormString $versionName");
@@ -325,9 +330,19 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       }
 
       if (extensions != null && extensions.isNotEmpty) {
-        globalIni.write("_starcitizen_doctor_localization_extensions=${extensions.map((e) => e.file).join(',')}\n");
+        // 新格式：每个拓展一行，带版本号
+        for (var ext in extensions) {
+          if (ext.file != null && ext.version != null) {
+            globalIni.write("_starcitizen_doctor_localization_extensions_${ext.file}=${ext.version}\n");
+          }
+        }
         final extensionData = await _loadExtensionData(extensions);
         _applyExtensions(globalIni, extensionData);
+      } else if (preserveExtensions != null && preserveExtensions.isNotEmpty) {
+        // 没有新拓展要安装，但有需要保留的拓展（高级汉化场景）
+        for (var entry in preserveExtensions.entries) {
+          globalIni.write("_starcitizen_doctor_localization_extensions_${entry.key}=${entry.value}\n");
+        }
       }
 
       globalIni.write("_starcitizen_doctor_localization_version=$versionName\n");
@@ -418,7 +433,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
             final originalValue = globalIniMap[key]!;
             final lowerKey = key.toLowerCase();
 
-            if (lowerKey.contains("_title_") && _countChineseChars(originalValue) <= _maxChineseCharsForTitlePrefix) {
+            if (lowerKey.contains("_title") && _countChineseChars(originalValue) <= _maxChineseCharsForTitlePrefix) {
               globalIniMap[key] = "$extValue$originalValue";
             } else {
               globalIniMap[key] = "$originalValue$extValue";
@@ -629,15 +644,17 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     );
     final isInstalledAdvanced = await _checkAdvancedStatus(iniPath);
     final installedCommunityInputMethodSupportVersion = await getInstalledCommunityInputMethodSupportVersion(iniPath);
+    final installedLocalizationExtensions = await getInstalledLocalizationExtensions(iniPath);
 
     dPrint(
-      "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion",
+      "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion, installedLocalizationExtensions: $installedLocalizationExtensions",
     );
     if (_isDisposed) return;
     state = state.copyWith(
       patchStatus: patchStatus,
       isInstalledAdvanced: isInstalledAdvanced,
       installedCommunityInputMethodSupportVersion: installedCommunityInputMethodSupportVersion,
+      installedLocalizationExtensions: installedLocalizationExtensions,
     );
   }
 
@@ -663,6 +680,44 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
     final iniString = (await iniFile.readAsString());
     return iniString.contains("_starcitizen_doctor_localization_advanced=true");
+  }
+
+  Future<Map<String, String>> getInstalledLocalizationExtensions(String path) async {
+    final iniFile = File(path);
+    if (!await iniFile.exists()) {
+      return {};
+    }
+    final iniStringSplit = (await iniFile.readAsString()).split("\n");
+    final extensions = <String, String>{};
+
+    for (var line in iniStringSplit) {
+      final trimmedLine = line.trim();
+
+      // 新格式解析：_starcitizen_doctor_localization_extensions_xxx=version
+      if (trimmedLine.startsWith("_starcitizen_doctor_localization_extensions_") &&
+          !trimmedLine.startsWith("_starcitizen_doctor_localization_extensions=")) {
+        final idx = trimmedLine.indexOf("=");
+        if (idx > 0) {
+          final key = trimmedLine.substring(0, idx);
+          final value = trimmedLine.substring(idx + 1);
+          // 提取文件名：去掉前缀
+          final fileName = key.replaceFirst("_starcitizen_doctor_localization_extensions_", "");
+          extensions[fileName] = value;
+        }
+      }
+
+      // 兼容旧格式解析：_starcitizen_doctor_localization_extensions=file1,file2
+      if (trimmedLine.startsWith("_starcitizen_doctor_localization_extensions=")) {
+        final v = trimmedLine.split("_starcitizen_doctor_localization_extensions=")[1];
+        final files = v.split(',').where((e) => e.isNotEmpty).toList();
+        for (var file in files) {
+          // 旧格式没有版本号，使用空字符串标记
+          extensions[file] = "";
+        }
+      }
+    }
+
+    return extensions;
   }
 
   Future<bool> _getLangCfgEnableLang({String lang = "", String gamePath = ""}) async {
@@ -760,6 +815,86 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
   }
 
+  /// 拓展更新信息
+  ({String file, String oldVersion, String newVersion, String name}) _createExtensionUpdateInfo({
+    required String file,
+    required String oldVersion,
+    required String newVersion,
+    required String name,
+  }) {
+    return (file: file, oldVersion: oldVersion, newVersion: newVersion, name: name);
+  }
+
+  /// 检查已安装的拓展是否有更新，返回有更新的拓展列表
+  /// 不再自动安装，只返回更新信息供调用方处理
+  Future<List<({String file, String oldVersion, String newVersion, String name})>> checkLocalizationExtensionUpdate() async {
+    final installedExtensions = state.installedLocalizationExtensions;
+    if (installedExtensions == null || installedExtensions.isEmpty) return [];
+
+    final extensionList = state.localizationExtensionList;
+    if (extensionList == null || extensionList.isEmpty) return [];
+
+    final updates = <({String file, String oldVersion, String newVersion, String name})>[];
+    final box = await Hive.openBox("localization_extension_data");
+
+    for (final entry in installedExtensions.entries) {
+      final installedFile = entry.key;
+      final installedVersion = entry.value;
+
+      // 查找云端拓展信息
+      final cloudExt = extensionList.where((e) => e.file == installedFile).firstOrNull;
+      if (cloudExt == null || cloudExt.version == null) continue;
+
+      // 比较版本：如果本地版本为空（旧格式）或版本不同
+      if (installedVersion.isEmpty || installedVersion != cloudExt.version) {
+        dPrint("[LocalizationExtension] Extension ${cloudExt.file} has update: $installedVersion -> ${cloudExt.version}");
+        updates.add(_createExtensionUpdateInfo(
+          file: installedFile,
+          oldVersion: installedVersion.isEmpty ? "未知" : installedVersion,
+          newVersion: cloudExt.version!,
+          name: cloudExt.name ?? installedFile,
+        ));
+
+        // 更新缓存数据（但不重新安装）
+        final cacheKey = "${state.selectedLanguage}_$installedFile";
+        try {
+          final data = await Api.getLocalizationExtensionData(cloudExt.file!);
+          await box.put("${cacheKey}_data", data);
+          await box.put("${cacheKey}_version", cloudExt.version);
+        } catch (e) {
+          dPrint("[LocalizationExtension] Error updating cache for ${cloudExt.file}: $e");
+        }
+      }
+    }
+
+    return updates;
+  }
+
+  /// 发送拓展更新通知（汇总所有更新）
+  Future<void> sendExtensionUpdateNotification(
+    List<({String file, String oldVersion, String newVersion, String name})> updates,
+  ) async {
+    if (updates.isEmpty) return;
+
+    // 构建通知内容
+    String body;
+    if (updates.length == 1) {
+      final update = updates.first;
+      body = S.current.localization_extension_update_single(update.name, update.newVersion);
+    } else {
+      // 多个拓展更新时，显示汇总列表
+      final extList = updates.map((u) => "${u.name} (${u.newVersion})").join("、");
+      body = S.current.localization_extension_update_multiple(updates.length.toString(), extList);
+    }
+
+    await win32.sendNotify(
+      summary: S.current.localization_extension_update_available,
+      body: body,
+      appName: S.current.home_title_app_name,
+      appId: ConstConf.win32AppId,
+    );
+  }
+
   Future<void> onChangeGameInstallPath(String value) async {
     await _loadData();
   }
@@ -773,137 +908,94 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     bool enableCommunityInputMethod = state.communityInputMethodLanguageData != null;
     bool isEnableVehicleSorting = appBox.get("vehicle_sorting", defaultValue: false) ?? false;
     List<LocalizationExtensionItemData> selectedExtensions = [];
+    bool isExtensionExpanded = false;
+
+    // 尝试回填用户上次选择的拓展
+    final savedExtensionFiles = appBox.get("localization_extensions", defaultValue: <String>[]) as List;
+    if (savedExtensionFiles.isNotEmpty && state.localizationExtensionList != null) {
+      for (final ext in state.localizationExtensionList!) {
+        if (savedExtensionFiles.contains(ext.file)) {
+          selectedExtensions.add(ext);
+        }
+      }
+      if (selectedExtensions.isNotEmpty) {
+        isExtensionExpanded = true;
+      }
+    }
     if (!context.mounted) return;
     final userOK = await showConfirmDialogs(
       context,
       "${item.value.info}",
-      Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
+      StatefulBuilder(
+        builder: (BuildContext context, void Function(void Function()) setDialogState) {
+          return Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                S.current.localization_info_version_number(item.value.versionName ?? ""),
-                style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                S.current.localization_info_channel(item.value.gameChannel ?? ""),
-                style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                S.current.localization_info_update_time(item.value.updateAt ?? ""),
-                style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    S.current.localization_info_version_number(item.value.versionName ?? ""),
+                    style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    S.current.localization_info_channel(item.value.gameChannel ?? ""),
+                    style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    S.current.localization_info_update_time(item.value.updateAt ?? ""),
+                    style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                  ),
+                  const SizedBox(height: 12),
+                ],
               ),
               const SizedBox(height: 12),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Container(
-            decoration: BoxDecoration(color: FluentTheme.of(context).cardColor, borderRadius: BorderRadius.circular(7)),
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              children: [
-                Expanded(
-                  child: SelectionArea(
-                    child: Text(
-                      item.value.note ?? S.current.home_localization_msg_no_note,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  ),
+              Container(
+                decoration: BoxDecoration(
+                  color: FluentTheme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(7),
                 ),
-              ],
-            ),
-          ),
-          SizedBox(height: 12),
-          Row(
-            children: [
-              Text(S.current.input_method_install_community_input_method_support),
-              Spacer(),
-              StatefulBuilder(
-                builder: (BuildContext context, void Function(void Function()) setState) {
-                  return ToggleSwitch(
-                    checked: enableCommunityInputMethod,
-                    onChanged: state.communityInputMethodLanguageData == null
-                        ? null
-                        : (v) {
-                            enableCommunityInputMethod = v;
-                            setState(() {});
-                          },
-                  );
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SelectionArea(
+                        child: Text(
+                          item.value.note ?? S.current.home_localization_msg_no_note,
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              LocalizationInstallOptionsPanel.buildForStatefulBuilder(
+                context: context,
+                enableCommunityInputMethod: enableCommunityInputMethod,
+                hasCommunityInputMethodData: state.communityInputMethodLanguageData != null,
+                isEnableVehicleSorting: isEnableVehicleSorting,
+                availableExtensions: state.localizationExtensionList,
+                selectedExtensions: selectedExtensions,
+                isExtensionExpanded: isExtensionExpanded,
+                setState: setDialogState,
+                onEnableCommunityInputMethodChanged: (v) {
+                  enableCommunityInputMethod = v;
+                },
+                onEnableVehicleSortingChanged: (v) {
+                  isEnableVehicleSorting = v;
+                },
+                onExtensionExpandedChanged: (v) {
+                  isExtensionExpanded = v;
                 },
               ),
             ],
-          ),
-          SizedBox(height: 12),
-          Row(
-            children: [
-              Text(S.current.tools_vehicle_sorting_title),
-              Spacer(),
-              StatefulBuilder(
-                builder: (BuildContext context, void Function(void Function()) setState) {
-                  return ToggleSwitch(
-                    checked: isEnableVehicleSorting,
-                    onChanged: (v) async {
-                      setState(() {
-                        isEnableVehicleSorting = v;
-                      });
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-           if (state.localizationExtensionList != null && state.localizationExtensionList!.isNotEmpty) ...[
-             SizedBox(height: 12),
-             Text(S.current.localization_extension_title, style: TextStyle(fontSize: 14)),
-             SizedBox(height: 8),
-             StatefulBuilder(
-               builder: (BuildContext context, void Function(void Function()) setState) {
-                 final accentColor = FluentTheme.of(context).accentColor;
-                 return Wrap(
-                   spacing: 8,
-                   runSpacing: 8,
-                   children: state.localizationExtensionList!.map((ext) {
-                     final isSelected = selectedExtensions.any((e) => e.file == ext.file);
-                     return GestureDetector(
-                       onTap: () {
-                         setState(() {
-                           if (isSelected) {
-                             selectedExtensions.removeWhere((e) => e.file == ext.file);
-                           } else {
-                             selectedExtensions.add(ext);
-                           }
-                         });
-                       },
-                       child: Container(
-                         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                         decoration: BoxDecoration(
-                           color: isSelected ? accentColor : Colors.white.withValues(alpha: .1),
-                           borderRadius: BorderRadius.circular(4),
-                           border: Border.all(
-                             color: isSelected ? accentColor : Colors.white.withValues(alpha: .2),
-                           ),
-                         ),
-                         child: Text(
-                           ext.name ?? ext.file ?? "Unknown",
-                           style: TextStyle(
-                             color: isSelected ? Colors.white : Colors.white.withValues(alpha: .8),
-                             fontSize: 13,
-                           ),
-                         ),
-                       ),
-                     );
-                   }).toList(),
-                 );
-               },
-             ),
-           ],
-        ],
+          );
+        },
       ),
       confirm: S.current.localization_action_install,
       cancel: S.current.home_action_cancel,
@@ -911,6 +1003,11 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     );
     if (userOK) {
       await appBox.put("vehicle_sorting", isEnableVehicleSorting);
+      // 保存用户选择的拓展
+      await appBox.put(
+        "localization_extensions",
+        selectedExtensions.map((e) => e.file).toList(),
+      );
       if (!context.mounted) return;
       dPrint("doRemoteInstall ${item.value} $enableCommunityInputMethod $selectedExtensions");
       await doRemoteInstall(

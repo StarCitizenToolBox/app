@@ -1754,5 +1754,15 @@
   "tools_action_start_cleaning": "クリーニング開始",
   "@tools_action_start_cleaning": {},
   "app_common_recommended": "推奨",
-  "@app_common_recommended": {}
+  "@app_common_recommended": {},
+  "localization_extension_update_available": "ローカライズ拡張の更新があります",
+  "@localization_extension_update_available": {},
+  "localization_extension_update_single": "{v0}に新バージョン{v1}があります。ローカライズ管理で再インストールしてください。",
+  "@localization_extension_update_single": {},
+  "localization_extension_update_multiple": "{v0}個の拡張に更新があります：{v1}。ローカライズ管理で再インストールしてください。",
+  "@localization_extension_update_multiple": {},
+  "localization_extension_installed": "[インストール済み拡張]",
+  "@localization_extension_installed": {},
+  "localization_action_reinstall": "再インストール",
+  "@localization_action_reinstall": {}
 }

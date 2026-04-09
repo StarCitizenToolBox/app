@@ -9721,6 +9721,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Localization Extensions Update Available`
+  String get localization_extension_update_available {
+    return Intl.message(
+      'Localization Extensions Update Available',
+      name: 'localization_extension_update_available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} has a new version {v1}. Please go to Localization Management to reinstall.`
+  String localization_extension_update_single(Object v0, Object v1) {
+    return Intl.message(
+      '$v0 has a new version $v1. Please go to Localization Management to reinstall.',
+      name: 'localization_extension_update_single',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `{v0} extensions have updates: {v1}. Please go to Localization Management to reinstall.`
+  String localization_extension_update_multiple(Object v0, Object v1) {
+    return Intl.message(
+      '$v0 extensions have updates: $v1. Please go to Localization Management to reinstall.',
+      name: 'localization_extension_update_multiple',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `[Installed extensions]`
+  String get localization_extension_installed {
+    return Intl.message(
+      '[Installed extensions]',
+      name: 'localization_extension_installed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reinstall`
+  String get localization_action_reinstall {
+    return Intl.message(
+      'Reinstall',
+      name: 'localization_action_reinstall',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

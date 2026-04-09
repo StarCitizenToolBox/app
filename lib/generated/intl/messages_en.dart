@@ -123,234 +123,240 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m43(v0) => "Community input method support updated to: ${v0}";
 
-  static String m44(v0) => "Channel: ${v0}";
+  static String m44(v0, v1) =>
+      "${v0} extensions have updates: ${v1}. Please go to Localization Management to reinstall.";
 
-  static String m45(v0) => "Enabled (${v0}):";
+  static String m45(v0, v1) =>
+      "${v0} has a new version ${v1}. Please go to Localization Management to reinstall.";
 
-  static String m46(v0) => "Installation error!\n\n ${v0}";
+  static String m46(v0) => "Channel: ${v0}";
 
-  static String m47(v0) => "Installed version: ${v0}";
+  static String m47(v0) => "Enabled (${v0}):";
 
-  static String m48(v0) => "Update time: ${v0}";
+  static String m48(v0) => "Installation error!\n\n ${v0}";
 
-  static String m49(v0) => "Version number: ${v0}";
+  static String m49(v0) => "Installed version: ${v0}";
 
-  static String m50(v0, v1, v2, v3, v4) =>
+  static String m50(v0) => "Update time: ${v0}";
+
+  static String m51(v0) => "Version number: ${v0}";
+
+  static String m52(v0, v1, v2, v3, v4) =>
       "Area: ${v0}   Player driving: ${v1}   Collision entity: ${v2} \nCollision vehicle: ${v3}   Collision distance: ${v4} ";
 
-  static String m51(v0, v2, v3) =>
+  static String m53(v0, v2, v3) =>
       "Victim ID: ${v0}   \nLocation: ${v2}  \nArea: ${v3}";
 
-  static String m52(v0) => "Detailed information: ${v0}";
+  static String m54(v0) => "Detailed information: ${v0}";
 
-  static String m53(v0, v1, v2, v3, v4) =>
+  static String m55(v0, v1, v2, v3, v4) =>
       "Kills: ${v0}   Deaths: ${v1}   Suicides: ${v2}  \nVehicle Destruction (Soft Death): ${v3}   Vehicle Destruction (Disintegration): ${v4}";
 
-  static String m54(v0, v1) => "Mode: ${v0}   Time taken: ${v1} seconds";
+  static String m56(v0, v1) => "Mode: ${v0}   Time taken: ${v1} seconds";
 
-  static String m55(v0, v1, v2) => "${v0} hours ${v1} minutes ${v2} seconds";
+  static String m57(v0, v1, v2) => "${v0} hours ${v1} minutes ${v2} seconds";
 
-  static String m56(v0, v1) => "Player ID: ${v0}   Location: ${v1}";
+  static String m58(v0, v1) => "Player ID: ${v0}   Location: ${v1}";
 
-  static String m57(v0) => "Player ${v0} logged in...";
+  static String m59(v0) => "Player ${v0} logged in...";
 
-  static String m58(v0, v1, v2, v3, v4) =>
+  static String m60(v0, v1, v2, v3, v4) =>
       "Vehicle model: ${v0}   \nArea: ${v1} \nDamage level: ${v2} (${v3})   Responsible party: ${v4}";
 
-  static String m59(v0) => "Connection failed: ${v0}";
+  static String m61(v0) => "Connection failed: ${v0}";
 
-  static String m60(v0) => "${v0} days ago";
+  static String m62(v0) => "${v0} days ago";
 
-  static String m61(v0) => "Failed to exit room: ${v0}";
+  static String m63(v0) => "Failed to exit room: ${v0}";
 
-  static String m62(v0) => "Failed to get verification code: ${v0}";
+  static String m64(v0) => "Failed to get verification code: ${v0}";
 
-  static String m63(v0) => "${v0} hours ago";
+  static String m65(v0) => "${v0} hours ago";
 
-  static String m64(v0) => "Are you sure you want to kick ${v0}?";
+  static String m66(v0) => "Are you sure you want to kick ${v0}?";
 
-  static String m65(v0) => "Failed to kick member: ${v0}";
+  static String m67(v0) => "Failed to kick member: ${v0}";
 
-  static String m66(v0) => "Failed to load room list: ${v0}";
+  static String m68(v0) => "Failed to load room list: ${v0}";
 
-  static String m67(v0, v1) => "${v0}/${v1} members";
+  static String m69(v0, v1) => "${v0}/${v1} members";
 
-  static String m68(v0) => "${v0} minutes ago";
+  static String m70(v0) => "${v0} minutes ago";
 
-  static String m69(v0) => "Reconnect failed: ${v0}";
+  static String m71(v0) => "Reconnect failed: ${v0}";
 
-  static String m70(v0) => "Reconnect failed, attempted ${v0} times";
+  static String m72(v0) => "Reconnect failed, attempted ${v0} times";
 
-  static String m71(v0) => "Registration failed: ${v0}";
+  static String m73(v0) => "Registration failed: ${v0}";
 
-  static String m72(v0) =>
+  static String m74(v0) =>
       "Are you sure you want to transfer ownership to ${v0}?";
 
-  static String m73(v0) => "Failed to transfer ownership: ${v0}";
+  static String m75(v0) => "Failed to transfer ownership: ${v0}";
 
-  static String m74(v0) => "Current status: ${v0}";
+  static String m76(v0) => "Current status: ${v0}";
 
-  static String m75(v0, v1, v2) =>
+  static String m77(v0, v1, v2) =>
       "${v0}    Min value: ${v1} / Max value: ${v2}";
 
-  static String m76(v0) => "Performance Optimization -> ${v0}";
-
-  static String m77(v0) =>
-      "Cache size ${v0}MB, clears the localization file cache downloaded by SCToolbox, does not affect installed localizations";
-
-  static String m78(v0) =>
-      "Number of cores set: ${v0} (This feature applies to SCToolbox one-click launch on the homepage or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled)";
+  static String m78(v0) => "Performance Optimization -> ${v0}";
 
   static String m79(v0) =>
+      "Cache size ${v0}MB, clears the localization file cache downloaded by SCToolbox, does not affect installed localizations";
+
+  static String m80(v0) =>
+      "Number of cores set: ${v0} (This feature applies to SCToolbox one-click launch on the homepage or RSI Launcher admin mode in tools. When set to 0, this feature is not enabled)";
+
+  static String m81(v0) =>
       "⚠ AnalyticsApi.touch(\"launch\") error: ${v0} - continuing";
 
-  static String m80(v0) => "✗ appModel.initApp() error: ${v0}";
+  static String m82(v0) => "✗ appModel.initApp() error: ${v0}";
 
-  static String m81(v0) => "⚠ aria2cModelProvider initialization error: ${v0}";
+  static String m83(v0) => "⚠ aria2cModelProvider initialization error: ${v0}";
 
-  static String m82(v0) => "⚠ URLConf.checkHost() error: ${v0} - continuing";
+  static String m84(v0) => "⚠ URLConf.checkHost() error: ${v0} - continuing";
 
-  static String m83(v0) => "⚠ appModel.checkUpdate() error: ${v0} - continuing";
+  static String m85(v0) => "⚠ appModel.checkUpdate() error: ${v0} - continuing";
 
-  static String m84(v0) => "[Diagnostic] Failed to close Hive boxes: ${v0}";
+  static String m86(v0) => "[Diagnostic] Failed to close Hive boxes: ${v0}";
 
-  static String m85(v0) =>
+  static String m87(v0) =>
       "[Diagnostic] Database directory does not exist: ${v0}";
 
-  static String m86(v0) => "[Diagnostic] Deleting database directory: ${v0}";
+  static String m88(v0) => "[Diagnostic] Deleting database directory: ${v0}";
 
-  static String m87(v0) => "[Diagnostic] ${v0}";
+  static String m89(v0) => "[Diagnostic] ${v0}";
 
-  static String m88(v0) => "Diagnostic Mode - Step ${v0}";
+  static String m90(v0) => "Diagnostic Mode - Step ${v0}";
 
-  static String m89(v0) => "✗ Hive.openBox(\"app_conf\") error: ${v0}";
+  static String m91(v0) => "✗ Hive.openBox(\"app_conf\") error: ${v0}";
 
-  static String m90(v0) => "[${v0}] ⚠ Log file does not exist";
+  static String m92(v0) => "[${v0}] ⚠ Log file does not exist";
 
-  static String m91(v0) =>
+  static String m93(v0) =>
       "[${v0}] --- Log reading complete (showing last 1000 lines) ---";
 
-  static String m92(v0, v1) => "[${v0}] ✗ Failed to read log: ${v1}";
+  static String m94(v0, v1) => "[${v0}] ✗ Failed to read log: ${v1}";
 
-  static String m93(v0) => "[Diagnostic] Failed to reset database: ${v0}";
+  static String m95(v0) => "[Diagnostic] Failed to reset database: ${v0}";
 
-  static String m94(v0) => "[${v0}] Starting initialization...";
+  static String m96(v0) => "[${v0}] Starting initialization...";
 
-  static String m95(v0) => "[${v0}] --- Starting to read full log file ---";
-
-  static String m96(v0) =>
-      "Cleanup failed, please remove manually, file location: ${v0}";
-
-  static String m97(v0) => "An error occurred: ${v0}";
+  static String m97(v0) => "[${v0}] --- Starting to read full log file ---";
 
   static String m98(v0) =>
-      "Initialization failed, please take a screenshot to report to the developer. ${v0}";
+      "Cleanup failed, please remove manually, file location: ${v0}";
 
-  static String m99(v0) =>
-      "If you have issues with the nvme patch, please run this tool. (May cause game installation/updates to be unavailable.)\n\nCurrent patch status: ${v0}";
+  static String m99(v0) => "An error occurred: ${v0}";
 
   static String m100(v0) =>
-      "Use the diversion download service provided by Star Citizen Chinese Wiki for downloading or repairing p4k.\nVersion info: ${v0}";
+      "Initialization failed, please take a screenshot to report to the developer. ${v0}";
 
   static String m101(v0) =>
-      "In some cases, the log file of the RSI Launcher may be corrupted, preventing problem scanning from completing. Use this tool to clean up corrupted log files.\n\nCurrent log file size: ${v0} MB";
+      "If you have issues with the nvme patch, please run this tool. (May cause game installation/updates to be unavailable.)\n\nCurrent patch status: ${v0}";
 
   static String m102(v0) =>
+      "Use the diversion download service provided by Star Citizen Chinese Wiki for downloading or repairing p4k.\nVersion info: ${v0}";
+
+  static String m103(v0) =>
+      "In some cases, the log file of the RSI Launcher may be corrupted, preventing problem scanning from completing. Use this tool to clean up corrupted log files.\n\nCurrent log file size: ${v0} MB";
+
+  static String m104(v0) =>
       "If game graphics appear abnormal or after version updates, you can use this tool to clear expired shaders \n\nCache size: ${v0} MB";
 
-  static String m103(v0, v1, v2, v3, v4) =>
+  static String m105(v0, v1, v2, v3, v4) =>
       "System: ${v0}\n\nProcessor: ${v1}\n\nMemory size: ${v2}GB\n\nGPU information:\n${v3}\n\nStorage information:\n${v4}\n\n";
 
-  static String m104(v0) => "Current Renderer: ${v0}";
+  static String m106(v0) => "Current Renderer: ${v0}";
 
-  static String m105(v0) => "Save failed: ${v0}";
+  static String m107(v0) => "Save failed: ${v0}";
 
-  static String m106(v0) => "Processing failed!: ${v0}";
+  static String m108(v0) => "Processing failed!: ${v0}";
 
-  static String m107(v0) => "Failed to read launcher information: ${v0}";
+  static String m109(v0) => "Failed to read launcher information: ${v0}";
 
-  static String m108(v0) => "Patch status: ${v0}";
+  static String m110(v0) => "Patch status: ${v0}";
 
-  static String m109(v0) => "Launcher internal version information: ${v0}";
+  static String m111(v0) => "Launcher internal version information: ${v0}";
 
-  static String m110(v0) => "Failed to copy image: ${v0}";
+  static String m112(v0) => "Failed to copy image: ${v0}";
 
-  static String m111(v0) => "Export Selected (${v0})";
+  static String m113(v0) => "Export Selected (${v0})";
 
-  static String m112(v0) => "Extraction failed: ${v0}";
+  static String m114(v0) => "Extraction failed: ${v0}";
 
-  static String m113(v0) => "Extraction complete: ${v0}";
+  static String m115(v0) => "Extraction complete: ${v0}";
 
-  static String m114(v0) => "Extracting: ${v0}";
+  static String m116(v0) => "Extracting: ${v0}";
 
-  static String m115(v0) => "Conversion failed: ${v0}";
+  static String m117(v0) => "Conversion failed: ${v0}";
 
-  static String m116(v0) => "Extraction completed, ${v0} files total";
+  static String m118(v0) => "Extraction completed, ${v0} files total";
 
-  static String m117(v0) => "Current file: ${v0}";
+  static String m119(v0) => "Current file: ${v0}";
 
-  static String m118(v0, v1) => "Extracting (${v0}/${v1})";
+  static String m120(v0, v1) => "Extracting (${v0}/${v1})";
 
-  static String m119(v0) => "Opening file: ${v0}";
+  static String m121(v0) => "Opening file: ${v0}";
 
-  static String m120(v0, v1) =>
+  static String m122(v0, v1) =>
       "Loading complete: ${v0} files, time taken: ${v1} ms";
 
-  static String m121(v0) => "Reading file: ${v0}...";
+  static String m123(v0) => "Reading file: ${v0}...";
 
-  static String m122(v0, v1) => "Processing files (${v0}/${v1})...";
+  static String m124(v0, v1) => "Processing files (${v0}/${v1})...";
 
-  static String m123(v0) => "Unknown file type\n${v0}";
+  static String m125(v0) => "Unknown file type\n${v0}";
 
-  static String m124(v0) => "P4K Viewer -> ${v0}";
+  static String m126(v0) => "P4K Viewer -> ${v0}";
 
-  static String m125(v0) => "Logged in ${v0} times";
+  static String m127(v0) => "Logged in ${v0} times";
 
-  static String m126(v0) => "Detected ${v0} accounts in total";
+  static String m128(v0) => "Detected ${v0} accounts in total";
 
-  static String m127(year) =>
+  static String m129(year) =>
       "View your Star Citizen gameplay statistics for ${year}. Data is from local logs, please check on your main computer.";
 
-  static String m128(year) => "${year} Yearly Report (Limited Time)";
+  static String m130(year) => "${year} Yearly Report (Limited Time)";
 
-  static String m129(v0, v1, v2, v3) => "${v0}/${v1} - ${v2}/${v3}";
+  static String m131(v0, v1, v2, v3) => "${v0}/${v1} - ${v2}/${v3}";
 
-  static String m130(v0, v1) => "${v0} hours ${v1} minutes";
+  static String m132(v0, v1) => "${v0} hours ${v1} minutes";
 
-  static String m131(v0) => "${v0} minutes";
+  static String m133(v0) => "${v0} minutes";
 
-  static String m132(v0, v1) =>
+  static String m134(v0, v1) =>
       "You started your space journey at dawn on ${v0}/${v1}";
 
-  static String m133(v0, v1) =>
+  static String m135(v0, v1) =>
       "Late night on ${v0}/${v1}, you were still exploring the universe";
 
-  static String m134(v0) => "${v0} times";
+  static String m136(v0) => "${v0} times";
 
-  static String m135(v0) => "Month ${v0}";
+  static String m137(v0) => "Month ${v0}";
 
-  static String m136(v0) => "Only launched ${v0} times";
+  static String m138(v0) => "Only launched ${v0} times";
 
-  static String m137(v0) => "Launched ${v0} times";
+  static String m139(v0) => "Launched ${v0} times";
 
-  static String m138(v0) => "${v0} hours";
+  static String m140(v0) => "${v0} hours";
 
-  static String m139(v0, v1) => "${v0}/${v1}";
+  static String m141(v0, v1) => "${v0}/${v1}";
 
-  static String m140(year) =>
+  static String m142(year) =>
       "In ${year}, together we created\ncountless wonderful memories in Star Citizen";
 
-  static String m141(nextYear) => "Looking forward to ${nextYear} with you!";
+  static String m143(nextYear) => "Looking forward to ${nextYear} with you!";
 
-  static String m142(year) => "Star Citizen ${year} Yearly Report";
+  static String m144(year) => "Star Citizen ${year} Yearly Report";
 
-  static String m143(v0) => "Destroyed ${v0} times";
+  static String m145(v0) => "Destroyed ${v0} times";
 
-  static String m144(v0) => "Piloted ${v0} times";
+  static String m146(v0) => "Piloted ${v0} times";
 
-  static String m145(v0) => "View all ${v0} vehicles";
+  static String m147(v0) => "View all ${v0} vehicles";
 
-  static String m146(year) => "${year} Yearly Report";
+  static String m148(year) => "${year} Yearly Report";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1196,14 +1202,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_action_install": MessageLookupByLibrary.simpleMessage(
       "Install",
     ),
+    "localization_action_reinstall": MessageLookupByLibrary.simpleMessage(
+      "Reinstall",
+    ),
     "localization_action_translation_feedback":
         MessageLookupByLibrary.simpleMessage("Localization Feedback"),
     "localization_action_uninstall_translation":
         MessageLookupByLibrary.simpleMessage("Uninstall Localization"),
+    "localization_extension_installed": MessageLookupByLibrary.simpleMessage(
+      "[Installed extensions]",
+    ),
     "localization_extension_title": MessageLookupByLibrary.simpleMessage(
       "Localization Extension",
     ),
-    "localization_info_channel": m44,
+    "localization_extension_update_available":
+        MessageLookupByLibrary.simpleMessage(
+          "Localization Extensions Update Available",
+        ),
+    "localization_extension_update_multiple": m44,
+    "localization_extension_update_single": m45,
+    "localization_info_channel": m46,
     "localization_info_community_translation":
         MessageLookupByLibrary.simpleMessage("Community Localization"),
     "localization_info_corrupted_file": MessageLookupByLibrary.simpleMessage(
@@ -1212,16 +1230,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_info_custom_files": MessageLookupByLibrary.simpleMessage(
       "Custom Files",
     ),
-    "localization_info_enabled": m45,
+    "localization_info_enabled": m47,
     "localization_info_incompatible_translation_params_warning":
         MessageLookupByLibrary.simpleMessage(
           "USER.cfg contains incompatible localization parameters, which may be residual information from previous localization files.\n\nThis may cause the localization to be invalid or display garbled characters. Click confirm to remove these with one click (will not affect other configurations).",
         ),
-    "localization_info_installation_error": m46,
+    "localization_info_installation_error": m48,
     "localization_info_installed": MessageLookupByLibrary.simpleMessage(
       "Installed",
     ),
-    "localization_info_installed_version": m47,
+    "localization_info_installed_version": m49,
     "localization_info_language": MessageLookupByLibrary.simpleMessage(
       "Language: ",
     ),
@@ -1244,14 +1262,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_info_unavailable": MessageLookupByLibrary.simpleMessage(
       "Unavailable",
     ),
-    "localization_info_update_time": m48,
-    "localization_info_version_number": m49,
-    "log_analyzer_collision_details": m50,
-    "log_analyzer_death_details": m51,
+    "localization_info_update_time": m50,
+    "localization_info_version_number": m51,
+    "log_analyzer_collision_details": m52,
+    "log_analyzer_death_details": m53,
     "log_analyzer_description": MessageLookupByLibrary.simpleMessage(
       "Analyze your gameplay records (login, death, kills, and other information)",
     ),
-    "log_analyzer_details_info": m52,
+    "log_analyzer_details_info": m54,
     "log_analyzer_disintegration": MessageLookupByLibrary.simpleMessage(
       "Disintegration",
     ),
@@ -1295,11 +1313,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_game_start": MessageLookupByLibrary.simpleMessage(
       "Game Start",
     ),
-    "log_analyzer_kill_death_suicide_count": m53,
+    "log_analyzer_kill_death_suicide_count": m55,
     "log_analyzer_kill_summary": MessageLookupByLibrary.simpleMessage(
       "Kill Summary",
     ),
-    "log_analyzer_mode_loading_time": m54,
+    "log_analyzer_mode_loading_time": m56,
     "log_analyzer_no_crash_detected": MessageLookupByLibrary.simpleMessage(
       "No game crash information detected",
     ),
@@ -1311,9 +1329,9 @@ class MessageLookup extends MessageLookupByLibrary {
           "----- SCToolbox One-Click Diagnosis -----",
         ),
     "log_analyzer_play_time": MessageLookupByLibrary.simpleMessage("Play Time"),
-    "log_analyzer_play_time_format": m55,
-    "log_analyzer_player_location": m56,
-    "log_analyzer_player_login": m57,
+    "log_analyzer_play_time_format": m57,
+    "log_analyzer_player_location": m58,
+    "log_analyzer_player_login": m59,
     "log_analyzer_search_placeholder": MessageLookupByLibrary.simpleMessage(
       "Enter keywords to search content",
     ),
@@ -1324,7 +1342,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Soft Death",
     ),
     "log_analyzer_title": MessageLookupByLibrary.simpleMessage("Log Analyzer"),
-    "log_analyzer_vehicle_damage_details": m58,
+    "log_analyzer_vehicle_damage_details": m60,
     "log_analyzer_view_local_inventory": MessageLookupByLibrary.simpleMessage(
       "View Local Inventory",
     ),
@@ -1369,7 +1387,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_confirm_dismiss": MessageLookupByLibrary.simpleMessage(
       "Confirm Dismiss",
     ),
-    "party_room_connect_error": m59,
+    "party_room_connect_error": m61,
     "party_room_connect_failed": MessageLookupByLibrary.simpleMessage(
       "Connection failed",
     ),
@@ -1400,7 +1418,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_create_room": MessageLookupByLibrary.simpleMessage(
       "Create Room",
     ),
-    "party_room_days_ago": m60,
+    "party_room_days_ago": m62,
     "party_room_disconnected": MessageLookupByLibrary.simpleMessage(
       "Connection lost",
     ),
@@ -1435,7 +1453,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "party_room_error": MessageLookupByLibrary.simpleMessage("Error"),
     "party_room_exit_room": MessageLookupByLibrary.simpleMessage("Exit Room"),
-    "party_room_exit_room_failed": m61,
+    "party_room_exit_room_failed": m63,
     "party_room_game_id_empty": MessageLookupByLibrary.simpleMessage(
       "Game ID cannot be empty",
     ),
@@ -1445,12 +1463,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_game_not_started": MessageLookupByLibrary.simpleMessage(
       "<Game Not Started>",
     ),
-    "party_room_get_code_failed": m62,
+    "party_room_get_code_failed": m64,
     "party_room_go_login": MessageLookupByLibrary.simpleMessage("Login"),
     "party_room_guest_mode_hint": MessageLookupByLibrary.simpleMessage(
       "You are browsing as a guest. Log in to create or join rooms.",
     ),
-    "party_room_hours_ago": m63,
+    "party_room_hours_ago": m65,
     "party_room_info_updated": MessageLookupByLibrary.simpleMessage(
       "Room information updated",
     ),
@@ -1469,8 +1487,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_kick_member": MessageLookupByLibrary.simpleMessage(
       "Kick Member",
     ),
-    "party_room_kick_member_confirm": m64,
-    "party_room_kick_member_failed": m65,
+    "party_room_kick_member_confirm": m66,
+    "party_room_kick_member_failed": m67,
     "party_room_kicked": MessageLookupByLibrary.simpleMessage(
       "was kicked from the room",
     ),
@@ -1485,13 +1503,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_link_format_error": MessageLookupByLibrary.simpleMessage(
       "Link format error!",
     ),
-    "party_room_load_list_failed": m66,
+    "party_room_load_list_failed": m68,
     "party_room_loading": MessageLookupByLibrary.simpleMessage("Loading..."),
     "party_room_location": MessageLookupByLibrary.simpleMessage("Location"),
     "party_room_login": MessageLookupByLibrary.simpleMessage("Login"),
     "party_room_main_menu": MessageLookupByLibrary.simpleMessage("<Main Menu>"),
-    "party_room_members_count": m67,
-    "party_room_minutes_ago": m68,
+    "party_room_members_count": m69,
+    "party_room_minutes_ago": m70,
     "party_room_need_login": MessageLookupByLibrary.simpleMessage(
       "Login Required",
     ),
@@ -1528,12 +1546,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "party_room_prev_step": MessageLookupByLibrary.simpleMessage("Previous"),
     "party_room_reconnect": MessageLookupByLibrary.simpleMessage("Reconnect"),
-    "party_room_reconnect_failed": m69,
+    "party_room_reconnect_failed": m71,
     "party_room_reconnect_prompt": MessageLookupByLibrary.simpleMessage(
       "The connection to the room server has been lost. Do you want to reconnect?",
     ),
-    "party_room_reconnect_retry": m70,
-    "party_room_register_failed": m71,
+    "party_room_reconnect_retry": m72,
+    "party_room_register_failed": m73,
     "party_room_register_success": MessageLookupByLibrary.simpleMessage(
       "Registration Successful!",
     ),
@@ -1623,8 +1641,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_transfer_owner": MessageLookupByLibrary.simpleMessage(
       "Transfer Ownership",
     ),
-    "party_room_transfer_owner_confirm": m72,
-    "party_room_transfer_owner_failed": m73,
+    "party_room_transfer_owner_confirm": m74,
+    "party_room_transfer_owner_failed": m75,
     "party_room_unknown_area": MessageLookupByLibrary.simpleMessage(
       "Unknown Area",
     ),
@@ -1676,7 +1694,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_action_super": MessageLookupByLibrary.simpleMessage("Super"),
     "performance_info_applied": MessageLookupByLibrary.simpleMessage("Applied"),
-    "performance_info_current_status": m74,
+    "performance_info_current_status": m76,
     "performance_info_delete_config_file": MessageLookupByLibrary.simpleMessage(
       "Deleting config file...",
     ),
@@ -1692,7 +1710,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_info_graphics": MessageLookupByLibrary.simpleMessage(
       "Graphics",
     ),
-    "performance_info_min_max_values": m75,
+    "performance_info_min_max_values": m77,
     "performance_info_not_applied": MessageLookupByLibrary.simpleMessage(
       "Not applied",
     ),
@@ -1879,7 +1897,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_water_info": MessageLookupByLibrary.simpleMessage(
       "Various water level effects",
     ),
-    "performance_title_performance_optimization": m76,
+    "performance_title_performance_optimization": m78,
     "setting_action_clear_translation_file_cache":
         MessageLookupByLibrary.simpleMessage("Clear Localization File Cache"),
     "setting_action_create_desktop_shortcut":
@@ -1894,7 +1912,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "setting_action_info_autofill_data_cleared":
         MessageLookupByLibrary.simpleMessage("Auto-fill data cleared"),
-    "setting_action_info_cache_clearing_info": m77,
+    "setting_action_info_cache_clearing_info": m79,
     "setting_action_info_clear_cache_warning":
         MessageLookupByLibrary.simpleMessage(
           "This will not affect installed localizations.",
@@ -1954,7 +1972,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setting_action_reset_auto_password_fill":
         MessageLookupByLibrary.simpleMessage("Reset Auto Password Fill"),
-    "setting_action_set_core_count": m78,
+    "setting_action_set_core_count": m80,
     "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
       "Set Game File (StarCitizen.exe)",
     ),
@@ -1998,39 +2016,39 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_analytics_done": MessageLookupByLibrary.simpleMessage(
       "✓ AnalyticsApi.touch(\"launch\") completed",
     ),
-    "splash_analytics_error": m79,
+    "splash_analytics_error": m81,
     "splash_analytics_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ AnalyticsApi.touch() timeout (10s) - continuing",
     ),
     "splash_app_init_done": MessageLookupByLibrary.simpleMessage(
       "✓ appModel.initApp() completed",
     ),
-    "splash_app_init_error": m80,
+    "splash_app_init_error": m82,
     "splash_app_init_timeout": MessageLookupByLibrary.simpleMessage(
       "✗ appModel.initApp() timeout (10s)",
     ),
     "splash_aria2c_done": MessageLookupByLibrary.simpleMessage(
       "✓ aria2cModelProvider initialization complete",
     ),
-    "splash_aria2c_error": m81,
+    "splash_aria2c_error": m83,
     "splash_check_host_done": MessageLookupByLibrary.simpleMessage(
       "✓ URLConf.checkHost() completed",
     ),
-    "splash_check_host_error": m82,
+    "splash_check_host_error": m84,
     "splash_check_host_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ URLConf.checkHost() timeout (10s) - continuing",
     ),
     "splash_check_update_done": MessageLookupByLibrary.simpleMessage(
       "✓ appModel.checkUpdate() completed",
     ),
-    "splash_check_update_error": m83,
+    "splash_check_update_error": m85,
     "splash_check_update_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ appModel.checkUpdate() timeout (10s) - continuing",
     ),
     "splash_check_version": MessageLookupByLibrary.simpleMessage(
       "Checking splash_alert_info_version...",
     ),
-    "splash_close_hive_failed": m84,
+    "splash_close_hive_failed": m86,
     "splash_context_unmounted": MessageLookupByLibrary.simpleMessage(
       "✗ Context unmounted",
     ),
@@ -2046,16 +2064,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_db_deleted": MessageLookupByLibrary.simpleMessage(
       "[Diagnostic] Database directory deleted",
     ),
-    "splash_db_not_exist": m85,
+    "splash_db_not_exist": m87,
     "splash_db_reset_done": MessageLookupByLibrary.simpleMessage(
       "[Diagnostic] Database reset complete, preparing to exit application",
     ),
     "splash_db_reset_msg": MessageLookupByLibrary.simpleMessage(
       "Database has been reset, application will exit. Please restart the application.",
     ),
-    "splash_deleting_db": m86,
-    "splash_diagnostic_log": m87,
-    "splash_diagnostic_mode": m88,
+    "splash_deleting_db": m88,
+    "splash_diagnostic_log": m89,
+    "splash_diagnostic_mode": m90,
     "splash_error": MessageLookupByLibrary.simpleMessage("Error"),
     "splash_exec_analytics": MessageLookupByLibrary.simpleMessage(
       "Executing AnalyticsApi.touch(\"launch\")...",
@@ -2075,7 +2093,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_hive_done": MessageLookupByLibrary.simpleMessage(
       "✓ Hive.openBox(\"app_conf\") completed",
     ),
-    "splash_hive_error": m89,
+    "splash_hive_error": m91,
     "splash_hive_timeout": MessageLookupByLibrary.simpleMessage(
       "✗ Hive.openBox(\"app_conf\") timeout (10s)",
     ),
@@ -2085,24 +2103,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_init_task_status": MessageLookupByLibrary.simpleMessage(
       "Initialization Task Status:",
     ),
-    "splash_log_not_exist": m90,
-    "splash_log_read_done": m91,
+    "splash_log_not_exist": m92,
+    "splash_log_read_done": m93,
     "splash_open_hive_box": MessageLookupByLibrary.simpleMessage(
       "Opening Hive app_conf box...",
     ),
     "splash_read_full_log": MessageLookupByLibrary.simpleMessage(
       "Read Full Log",
     ),
-    "splash_read_log_failed": m92,
+    "splash_read_log_failed": m94,
     "splash_reset_database": MessageLookupByLibrary.simpleMessage(
       "Reset Database",
     ),
-    "splash_reset_db_failed": m93,
+    "splash_reset_db_failed": m95,
     "splash_show_agreement": MessageLookupByLibrary.simpleMessage(
       "Need to show user agreement dialog...",
     ),
-    "splash_start_init": m94,
-    "splash_start_read_log": m95,
+    "splash_start_init": m96,
+    "splash_start_read_log": m97,
     "splash_step0_done": MessageLookupByLibrary.simpleMessage(
       "--- Step 0 complete, entering Step 1 ---",
     ),
@@ -2183,7 +2201,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "Cleanup complete, please complete one installation / game launch operation.",
     ),
-    "tools_action_info_cleanup_failed": m96,
+    "tools_action_info_cleanup_failed": m98,
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage(
           "Configuration file does not exist, please try running the game once",
@@ -2191,7 +2209,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
       "EAC files have been removed for you. Next, we\'ll open the RSI launcher for you. Please go to SETTINGS -> VERIFY to reinstall EAC.",
     ),
-    "tools_action_info_error_occurred": m97,
+    "tools_action_info_error_occurred": m99,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
       "Fixed successfully, please try restarting your computer and then continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME Registry Cleanup in Tools.",
     ),
@@ -2203,7 +2221,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Write IP information to the Hosts file to solve issues such as DNS pollution in some regions that prevent logging in to the official website.\nThis feature is in its first testing phase, please provide feedback if you encounter any issues.",
         ),
-    "tools_action_info_init_failed": m98,
+    "tools_action_info_init_failed": m100,
     "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
       "Log file does not exist. Please try launching the game or installing the game once and then exit the launcher. If the problem persists, please try updating the launcher to the latest version!",
     ),
@@ -2216,7 +2234,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_not_installed": MessageLookupByLibrary.simpleMessage(
       "Not installed",
     ),
-    "tools_action_info_nvme_patch_issue": m99,
+    "tools_action_info_nvme_patch_issue": m101,
     "tools_action_info_one_key_close_lens_shake":
         MessageLookupByLibrary.simpleMessage(
           "One-click disable in-game lens shake for better photography operations.\n\n@Lapernum provides parameter information.",
@@ -2225,7 +2243,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "A p4k download task is already in progress, please check the download manager!",
         ),
-    "tools_action_info_p4k_download_repair_tip": m100,
+    "tools_action_info_p4k_download_repair_tip": m102,
     "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
       "P4k is Star Citizen\'s core game file, over 100GB+. The offline download provided by SCToolbox is to help users who have extremely slow p4k file downloads or to repair p4k files that the official launcher cannot fix.\n\nNext, a dialog will ask for your save location (you can choose the Star Citizen folder or elsewhere). After downloading, please make sure the P4K file is placed in the LIVE folder, then verify and update using the Star Citizen launcher.",
     ),
@@ -2243,7 +2261,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "RSI launcher directory not found, please try manual operation.",
         ),
-    "tools_action_info_rsi_launcher_log_issue": m101,
+    "tools_action_info_rsi_launcher_log_issue": m103,
     "tools_action_info_rsi_launcher_not_found":
         MessageLookupByLibrary.simpleMessage(
           "RSI launcher not found, please try reinstalling or manually adding it in settings.",
@@ -2255,12 +2273,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
       "Run the RSI launcher as administrator, which may solve some issues.\n\nIf efficiency core blocking parameters are set, they will also be applied here.",
     ),
-    "tools_action_info_shader_cache_issue": m102,
+    "tools_action_info_shader_cache_issue": m104,
     "tools_action_info_star_citizen_not_found":
         MessageLookupByLibrary.simpleMessage(
           "Star Citizen game installation location not found, please complete at least one game launch operation or manually add it in settings.",
         ),
-    "tools_action_info_system_info_content": m103,
+    "tools_action_info_system_info_content": m105,
     "tools_action_info_system_info_title": MessageLookupByLibrary.simpleMessage(
       "System Information",
     ),
@@ -2296,7 +2314,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_action_switch_graphics_renderer":
         MessageLookupByLibrary.simpleMessage("Switch DirectX/Vulkan Renderer"),
-    "tools_action_switch_graphics_renderer_info": m104,
+    "tools_action_switch_graphics_renderer_info": m106,
     "tools_action_unp4k": MessageLookupByLibrary.simpleMessage("P4K Viewer"),
     "tools_action_unp4k_info": MessageLookupByLibrary.simpleMessage(
       "Unpack Star Citizen p4k files",
@@ -2315,7 +2333,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_graphics_renderer_dialog_save": MessageLookupByLibrary.simpleMessage(
       "Save",
     ),
-    "tools_graphics_renderer_dialog_save_failed": m105,
+    "tools_graphics_renderer_dialog_save_failed": m107,
     "tools_graphics_renderer_dialog_save_success":
         MessageLookupByLibrary.simpleMessage("Renderer settings saved"),
     "tools_graphics_renderer_dialog_title":
@@ -2360,7 +2378,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "Game installation location: ",
     ),
-    "tools_info_processing_failed": m106,
+    "tools_info_processing_failed": m108,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher location:",
     ),
@@ -2385,15 +2403,15 @@ class MessageLookup extends MessageLookupByLibrary {
           "Failed to read launcher information!",
         ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m107,
+        m109,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("RSI launcher not found"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m108,
+    "tools_rsi_launcher_enhance_msg_patch_status": m110,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
           "* To uninstall the enhancement patch, please reinstall the RSI launcher.",
         ),
-    "tools_rsi_launcher_enhance_msg_version": m109,
+    "tools_rsi_launcher_enhance_msg_version": m111,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher Enhancement is a community feature that unpacks the \"RSI Launcher\" on your computer and adds additional enhancement features. Which features to use is up to you.\n\nCurrently, only multi-language operations are officially permitted by CIG. Launcher download enhancement is an extra feature we consider useful, but violating the CIG user agreement (https://robertsspaceindustries.com/eula) may result in serious consequences such as account banning. Whether to enable it is your decision, and we are not responsible for any consequences (game damage, account banning, etc.) that may arise.\n\nThe modifications to the launcher are open-sourced at: https://github.com/StarCitizenToolBox/RSILauncherEnhance, which you can check if needed.\n\nIf for any reason you need to cancel this enhancement patch, please directly reinstall the official launcher.",
     ),
@@ -2444,16 +2462,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_action_copy_image": MessageLookupByLibrary.simpleMessage(
       "Copy Image",
     ),
-    "tools_unp4k_action_copy_image_failed": m110,
+    "tools_unp4k_action_copy_image_failed": m112,
     "tools_unp4k_action_copy_image_success":
         MessageLookupByLibrary.simpleMessage("Image copied to clipboard"),
     "tools_unp4k_action_deselect_all": MessageLookupByLibrary.simpleMessage(
       "Deselect All",
     ),
-    "tools_unp4k_action_export_selected": m111,
-    "tools_unp4k_action_extract_failed": m112,
-    "tools_unp4k_action_extract_success": m113,
-    "tools_unp4k_action_extracting": m114,
+    "tools_unp4k_action_export_selected": m113,
+    "tools_unp4k_action_extract_failed": m114,
+    "tools_unp4k_action_extract_success": m115,
+    "tools_unp4k_action_extracting": m116,
     "tools_unp4k_action_multi_select": MessageLookupByLibrary.simpleMessage(
       "Multi-Select",
     ),
@@ -2463,7 +2481,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_action_select_all": MessageLookupByLibrary.simpleMessage(
       "Select All",
     ),
-    "tools_unp4k_convert_failed": m115,
+    "tools_unp4k_convert_failed": m117,
     "tools_unp4k_convert_in_progress": MessageLookupByLibrary.simpleMessage(
       "Conversion in progress...",
     ),
@@ -2476,12 +2494,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_extract_cancelled": MessageLookupByLibrary.simpleMessage(
       "Extraction cancelled",
     ),
-    "tools_unp4k_extract_completed": m116,
-    "tools_unp4k_extract_current_file": m117,
+    "tools_unp4k_extract_completed": m118,
+    "tools_unp4k_extract_current_file": m119,
     "tools_unp4k_extract_dialog_title": MessageLookupByLibrary.simpleMessage(
       "Extract Files",
     ),
-    "tools_unp4k_extract_progress": m118,
+    "tools_unp4k_extract_progress": m120,
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "Missing Runtime",
     ),
@@ -2493,17 +2511,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Initializing...",
     ),
-    "tools_unp4k_msg_open_file": m119,
-    "tools_unp4k_msg_read_completed": m120,
-    "tools_unp4k_msg_read_file": m121,
+    "tools_unp4k_msg_open_file": m121,
+    "tools_unp4k_msg_read_completed": m122,
+    "tools_unp4k_msg_read_file": m123,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Reading P4K file...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Processing files...",
     ),
-    "tools_unp4k_msg_reading3": m122,
-    "tools_unp4k_msg_unknown_file_type": m123,
+    "tools_unp4k_msg_reading3": m124,
+    "tools_unp4k_msg_unknown_file_type": m125,
     "tools_unp4k_search_no_result": MessageLookupByLibrary.simpleMessage(
       "No matching files found",
     ),
@@ -2528,7 +2546,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_sort_size_desc": MessageLookupByLibrary.simpleMessage(
       "Larger First",
     ),
-    "tools_unp4k_title": m124,
+    "tools_unp4k_title": m126,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Click file to preview",
     ),
@@ -2572,7 +2590,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Total invitations:"),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("Unfinished invitations"),
-    "yearly_report_account_count": m125,
+    "yearly_report_account_count": m127,
     "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
       "View all accounts",
     ),
@@ -2582,12 +2600,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_account_title": MessageLookupByLibrary.simpleMessage(
       "Account Statistics",
     ),
-    "yearly_report_account_total": m126,
+    "yearly_report_account_total": m128,
     "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
       "Analyzing game log data",
     ),
-    "yearly_report_card_desc": m127,
-    "yearly_report_card_title": m128,
+    "yearly_report_card_desc": m129,
+    "yearly_report_card_title": m130,
     "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
       "Unstable moments this year",
     ),
@@ -2603,13 +2621,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage(
       "Game Crash Count",
     ),
-    "yearly_report_date_range": m129,
+    "yearly_report_date_range": m131,
     "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
       "Data is generated from your local logs and will not be sent to any third party. Due to significant log changes across versions, data may be incomplete. For entertainment purposes only.",
     ),
-    "yearly_report_duration_hours_minutes": m130,
-    "yearly_report_duration_minutes": m131,
-    "yearly_report_earliest_play_desc": m132,
+    "yearly_report_duration_hours_minutes": m132,
+    "yearly_report_duration_minutes": m133,
+    "yearly_report_earliest_play_desc": m134,
     "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
       "Earliest Play Session",
     ),
@@ -2633,7 +2651,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage(
       "Kill Statistics",
     ),
-    "yearly_report_latest_play_desc": m133,
+    "yearly_report_latest_play_desc": m135,
     "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
       "Latest Play Session",
     ),
@@ -2646,7 +2664,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
       "Game Launch Count",
     ),
-    "yearly_report_launch_count_value": m134,
+    "yearly_report_launch_count_value": m136,
     "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
       "Frequent Locations",
     ),
@@ -2659,15 +2677,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
       "Location Statistics",
     ),
-    "yearly_report_month_format": m135,
+    "yearly_report_month_format": m137,
     "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage(
       "Least played",
     ),
-    "yearly_report_monthly_least_count": m136,
+    "yearly_report_monthly_least_count": m138,
     "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage(
       "Most played",
     ),
-    "yearly_report_monthly_most_count": m137,
+    "yearly_report_monthly_most_count": m139,
     "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage(
       "Monthly Statistics",
     ),
@@ -2690,14 +2708,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage(
       "hours",
     ),
-    "yearly_report_play_time_value": m138,
+    "yearly_report_play_time_value": m140,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
       "Presented by SCToolbox",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage(
       "Average",
     ),
-    "yearly_report_session_date": m139,
+    "yearly_report_session_date": m141,
     "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage(
       "Longest",
     ),
@@ -2743,13 +2761,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
       "Respawn Count",
     ),
-    "yearly_report_thanks_message": m140,
-    "yearly_report_thanks_next": m141,
+    "yearly_report_thanks_message": m142,
+    "yearly_report_thanks_next": m143,
     "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
       "Thank You for Being With Us",
     ),
-    "yearly_report_title": m142,
-    "yearly_report_vehicle_destruction_count": m143,
+    "yearly_report_title": m144,
+    "yearly_report_vehicle_destruction_count": m145,
     "yearly_report_vehicle_destruction_desc":
         MessageLookupByLibrary.simpleMessage("This year you destroyed"),
     "yearly_report_vehicle_destruction_most":
@@ -2760,8 +2778,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("ships"),
     "yearly_report_vehicle_pilot_collapse":
         MessageLookupByLibrary.simpleMessage("Collapse details"),
-    "yearly_report_vehicle_pilot_count": m144,
-    "yearly_report_vehicle_pilot_expand": m145,
+    "yearly_report_vehicle_pilot_count": m146,
+    "yearly_report_vehicle_pilot_expand": m147,
     "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
       "Most piloted vehicle",
     ),
@@ -2774,6 +2792,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
       "Relive your memorable moments in Star Citizen",
     ),
-    "yearly_report_welcome_title": m146,
+    "yearly_report_welcome_title": m148,
   };
 }
