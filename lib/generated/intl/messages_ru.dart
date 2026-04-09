@@ -258,66 +258,66 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m109(v0) => "Внутренняя версия лаунчера: ${v0}";
 
-  static String m117(v0) => "Открытие файла: ${v0}";
+  static String m119(v0) => "Открытие файла: ${v0}";
 
-  static String m118(v0, v1) =>
+  static String m120(v0, v1) =>
       "Загрузка завершена: ${v0} файлов, время: ${v1} мс";
 
-  static String m119(v0) => "Чтение файла: ${v0}...";
+  static String m121(v0) => "Чтение файла: ${v0}...";
 
-  static String m120(v0, v1) => "Обработка файлов (${v0}/${v1})...";
+  static String m122(v0, v1) => "Обработка файлов (${v0}/${v1})...";
 
-  static String m121(v0) => "Неизвестный тип файла\n${v0}";
+  static String m123(v0) => "Неизвестный тип файла\n${v0}";
 
-  static String m122(v0) => "Просмотрщик P4K -> ${v0}";
+  static String m124(v0) => "Просмотрщик P4K -> ${v0}";
 
-  static String m123(v0) => "Вход выполнен ${v0} раз";
+  static String m125(v0) => "Вход выполнен ${v0} раз";
 
-  static String m124(v0) => "Всего обнаружено ${v0} аккаунтов";
+  static String m126(v0) => "Всего обнаружено ${v0} аккаунтов";
 
-  static String m125(year) =>
+  static String m127(year) =>
       "Посмотрите статистику вашей игры в Star Citizen за ${year} год. Данные из локальных логов, пожалуйста, проверяйте на основном компьютере.";
 
-  static String m126(year) => "Ежегодный отчет ${year} (Ограниченное время)";
+  static String m128(year) => "Ежегодный отчет ${year} (Ограниченное время)";
 
-  static String m127(v0, v1, v2, v3) => "${v0}/${v1} - ${v2}/${v3}";
+  static String m129(v0, v1, v2, v3) => "${v0}/${v1} - ${v2}/${v3}";
 
-  static String m128(v0, v1) => "${v0} ч ${v1} мин";
+  static String m130(v0, v1) => "${v0} ч ${v1} мин";
 
-  static String m129(v0) => "${v0} мин";
+  static String m131(v0) => "${v0} мин";
 
-  static String m130(v0, v1) =>
+  static String m132(v0, v1) =>
       "Вы начали свое космическое путешествие на рассвете ${v0}/${v1}";
 
-  static String m131(v0, v1) =>
+  static String m133(v0, v1) =>
       "Поздно ночью ${v0}/${v1} вы все еще исследовали вселенную";
 
-  static String m132(v0) => "${v0} раз";
+  static String m134(v0) => "${v0} раз";
 
-  static String m133(v0) => "Месяц ${v0}";
+  static String m135(v0) => "Месяц ${v0}";
 
-  static String m134(v0) => "Запущено только ${v0} раз";
+  static String m136(v0) => "Запущено только ${v0} раз";
 
-  static String m135(v0) => "Запущено ${v0} раз";
+  static String m137(v0) => "Запущено ${v0} раз";
 
-  static String m136(v0) => "${v0} часов";
+  static String m138(v0) => "${v0} часов";
 
-  static String m137(v0, v1) => "${v0}/${v1}";
+  static String m139(v0, v1) => "${v0}/${v1}";
 
-  static String m138(year) =>
+  static String m140(year) =>
       "В ${year} году мы вместе создали\nбесчисленное количество прекрасных воспоминаний в Star Citizen";
 
-  static String m139(nextYear) => "Ждем встречи с вами в ${nextYear} году!";
+  static String m141(nextYear) => "Ждем встречи с вами в ${nextYear} году!";
 
-  static String m140(year) => "Ежегодный отчет Star Citizen за ${year} год";
+  static String m142(year) => "Ежегодный отчет Star Citizen за ${year} год";
 
-  static String m141(v0) => "Уничтожено ${v0} раз";
+  static String m143(v0) => "Уничтожено ${v0} раз";
 
-  static String m142(v0) => "Пилотировался ${v0} раз";
+  static String m144(v0) => "Пилотировался ${v0} раз";
 
-  static String m143(v0) => "Показать все ${v0} тс";
+  static String m145(v0) => "Показать все ${v0} тс";
 
-  static String m144(year) => "Ежегодный отчет ${year}";
+  static String m146(year) => "Ежегодный отчет ${year}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -366,6 +366,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Обратная связь онлайн",
     ),
     "action_close": MessageLookupByLibrary.simpleMessage("Закрыть"),
+    "action_export": MessageLookupByLibrary.simpleMessage("Экспорт"),
     "action_open_folder": MessageLookupByLibrary.simpleMessage("Открыть папку"),
     "app_common_error_info": m0,
     "app_common_loading_images": MessageLookupByLibrary.simpleMessage(
@@ -2328,18 +2329,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Инициализация...",
     ),
-    "tools_unp4k_msg_open_file": m117,
-    "tools_unp4k_msg_read_completed": m118,
-    "tools_unp4k_msg_read_file": m119,
+    "tools_unp4k_msg_open_file": m119,
+    "tools_unp4k_msg_read_completed": m120,
+    "tools_unp4k_msg_read_file": m121,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Чтение файла P4K...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Обработка файлов...",
     ),
-    "tools_unp4k_msg_reading3": m120,
-    "tools_unp4k_msg_unknown_file_type": m121,
-    "tools_unp4k_title": m122,
+    "tools_unp4k_msg_reading3": m122,
+    "tools_unp4k_msg_unknown_file_type": m123,
+    "tools_unp4k_title": m124,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Нажмите на файл для предварительного просмотра",
     ),
@@ -2352,7 +2353,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Всего приглашений:"),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("Незавершённые приглашения"),
-    "yearly_report_account_count": m123,
+    "yearly_report_account_count": m125,
     "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
       "Показать все аккаунты",
     ),
@@ -2362,12 +2363,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_account_title": MessageLookupByLibrary.simpleMessage(
       "Статистика аккаунта",
     ),
-    "yearly_report_account_total": m124,
+    "yearly_report_account_total": m126,
     "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
       "Анализ данных игровых журналов",
     ),
-    "yearly_report_card_desc": m125,
-    "yearly_report_card_title": m126,
+    "yearly_report_card_desc": m127,
+    "yearly_report_card_title": m128,
     "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
       "Нестабильные моменты этого года",
     ),
@@ -2383,13 +2384,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage(
       "Количество сбоев игры",
     ),
-    "yearly_report_date_range": m127,
+    "yearly_report_date_range": m129,
     "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
       "Данные генерируются из ваших локальных логов и не отправляются третьим лицам. Из-за значительных изменений логов в разных версиях данные могут быть неполными. Только для развлечения.",
     ),
-    "yearly_report_duration_hours_minutes": m128,
-    "yearly_report_duration_minutes": m129,
-    "yearly_report_earliest_play_desc": m130,
+    "yearly_report_duration_hours_minutes": m130,
+    "yearly_report_duration_minutes": m131,
+    "yearly_report_earliest_play_desc": m132,
     "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
       "Самая ранняя игровая сессия",
     ),
@@ -2413,7 +2414,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage(
       "Статистика убийств",
     ),
-    "yearly_report_latest_play_desc": m131,
+    "yearly_report_latest_play_desc": m133,
     "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
       "Самая поздняя игровая сессия",
     ),
@@ -2426,7 +2427,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
       "Количество запусков игры",
     ),
-    "yearly_report_launch_count_value": m132,
+    "yearly_report_launch_count_value": m134,
     "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
       "Частые локации",
     ),
@@ -2439,15 +2440,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
       "Статистика локаций",
     ),
-    "yearly_report_month_format": m133,
+    "yearly_report_month_format": m135,
     "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage(
       "Меньше всего игр",
     ),
-    "yearly_report_monthly_least_count": m134,
+    "yearly_report_monthly_least_count": m136,
     "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage(
       "Больше всего игр",
     ),
-    "yearly_report_monthly_most_count": m135,
+    "yearly_report_monthly_most_count": m137,
     "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage(
       "Ежемесячная статистика",
     ),
@@ -2468,14 +2469,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage(
       "часов",
     ),
-    "yearly_report_play_time_value": m136,
+    "yearly_report_play_time_value": m138,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
       "Представлено SCToolbox",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage(
       "Среднее",
     ),
-    "yearly_report_session_date": m137,
+    "yearly_report_session_date": m139,
     "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage(
       "Самое долгое",
     ),
@@ -2521,13 +2522,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
       "Количество возрождений",
     ),
-    "yearly_report_thanks_message": m138,
-    "yearly_report_thanks_next": m139,
+    "yearly_report_thanks_message": m140,
+    "yearly_report_thanks_next": m141,
     "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
       "Спасибо, что вы с нами",
     ),
-    "yearly_report_title": m140,
-    "yearly_report_vehicle_destruction_count": m141,
+    "yearly_report_title": m142,
+    "yearly_report_vehicle_destruction_count": m143,
     "yearly_report_vehicle_destruction_desc":
         MessageLookupByLibrary.simpleMessage("В этом году вы уничтожили"),
     "yearly_report_vehicle_destruction_most":
@@ -2538,8 +2539,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("кораблей"),
     "yearly_report_vehicle_pilot_collapse":
         MessageLookupByLibrary.simpleMessage("Свернуть детали"),
-    "yearly_report_vehicle_pilot_count": m142,
-    "yearly_report_vehicle_pilot_expand": m143,
+    "yearly_report_vehicle_pilot_count": m144,
+    "yearly_report_vehicle_pilot_expand": m145,
     "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
       "Самый пилотируемый транспорт",
     ),
@@ -2552,6 +2553,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
       "Вспомните свои незабываемые моменты в Star Citizen",
     ),
-    "yearly_report_welcome_title": m144,
+    "yearly_report_welcome_title": m146,
   };
 }

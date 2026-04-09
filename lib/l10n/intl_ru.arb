@@ -105,6 +105,8 @@
   "@downloader_action_cancel_download": {},
   "action_open_folder": "Открыть папку",
   "@action_open_folder": {},
+  "action_export": "Экспорт",
+  "@action_export": {},
   "downloader_info_download_upload_speed": "Загрузка: {v0}/с    Отдача: {v1}/с",
   "@downloader_info_download_upload_speed": {},
   "downloader_info_downloading_status": "Загрузка...",

@@ -564,6 +564,11 @@ class S {
     );
   }
 
+  /// `Export`
+  String get action_export {
+    return Intl.message('Export', name: 'action_export', desc: '', args: []);
+  }
+
   /// `Download: {v0}/s    Upload: {v1}/s`
   String downloader_info_download_upload_speed(Object v0, Object v1) {
     return Intl.message(
@@ -8102,6 +8107,56 @@ class S {
     );
   }
 
+  /// `Convert to GLB`
+  String get tools_unp4k_action_convert_glb {
+    return Intl.message(
+      'Convert to GLB',
+      name: 'tools_unp4k_action_convert_glb',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion in progress...`
+  String get tools_unp4k_convert_in_progress {
+    return Intl.message(
+      'Conversion in progress...',
+      name: 'tools_unp4k_convert_in_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion succeeded!`
+  String get tools_unp4k_convert_success {
+    return Intl.message(
+      'Conversion succeeded!',
+      name: 'tools_unp4k_convert_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion failed: {v0}`
+  String tools_unp4k_convert_failed(Object v0) {
+    return Intl.message(
+      'Conversion failed: $v0',
+      name: 'tools_unp4k_convert_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `This file type cannot be converted to GLB.`
+  String get tools_unp4k_convert_unsupported {
+    return Intl.message(
+      'This file type cannot be converted to GLB.',
+      name: 'tools_unp4k_convert_unsupported',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No matching files found`
   String get tools_unp4k_search_no_result {
     return Intl.message(
@@ -8219,6 +8274,36 @@ class S {
       name: 'tools_unp4k_action_deselect_all',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Copy Image`
+  String get tools_unp4k_action_copy_image {
+    return Intl.message(
+      'Copy Image',
+      name: 'tools_unp4k_action_copy_image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image copied to clipboard`
+  String get tools_unp4k_action_copy_image_success {
+    return Intl.message(
+      'Image copied to clipboard',
+      name: 'tools_unp4k_action_copy_image_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to copy image: {v0}`
+  String tools_unp4k_action_copy_image_failed(Object v0) {
+    return Intl.message(
+      'Failed to copy image: $v0',
+      name: 'tools_unp4k_action_copy_image_failed',
+      desc: '',
+      args: [v0],
     );
   }
 
