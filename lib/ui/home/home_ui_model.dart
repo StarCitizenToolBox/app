@@ -311,19 +311,30 @@ class HomeUIModel extends _$HomeUIModel {
     )).checkLangUpdate(skipReload: skipReload).unwrap<List<String>>();
     if (updates == null || updates.isEmpty) {
       state = state.copyWith(localizationUpdateInfo: null);
-      return;
+    } else {
+      state = state.copyWith(localizationUpdateInfo: MapEntry(updates.first, true));
+      if (_appUpdateTimer != null) {
+        _appUpdateTimer?.cancel();
+        _appUpdateTimer = null;
+        // 发送通知
+        await win32.sendNotify(
+          summary: S.current.home_localization_new_version_available,
+          body: S.current.home_localization_new_version_installed(updates.first),
+          appName: S.current.home_title_app_name,
+          appId: ConstConf.win32AppId,
+        );
+      }
     }
-    state = state.copyWith(localizationUpdateInfo: MapEntry(updates.first, true));
-    if (_appUpdateTimer != null) {
-      _appUpdateTimer?.cancel();
-      _appUpdateTimer = null;
-      // 发送通知
-      await win32.sendNotify(
-        summary: S.current.home_localization_new_version_available,
-        body: S.current.home_localization_new_version_installed(updates.first),
-        appName: S.current.home_title_app_name,
-        appId: ConstConf.win32AppId,
-      );
+
+    // 检查拓展更新
+    final extUpdates = await (ref.read(
+      localizationUIModelProvider.notifier,
+    )).checkLocalizationExtensionUpdate();
+
+    if (extUpdates.isNotEmpty) {
+      await (ref.read(
+        localizationUIModelProvider.notifier,
+      )).sendExtensionUpdateNotification(extUpdates);
     }
   }
 

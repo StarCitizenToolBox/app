@@ -15,12 +15,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/app_advanced_localization_data.dart';
+import 'package:starcitizen_doctor/data/localization_extension_api_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 import '../home_ui_model.dart';
 import 'advanced_localization_ui.json.dart';
+import 'localization_extension_selector.dart';
 import 'localization_ui_model.dart';
 
 part 'advanced_localization_ui_model.g.dart';
@@ -280,6 +282,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     BuildContext context, {
     bool isEnableCommunityInputMethod = false,
     bool isEnableVehicleSorting = false,
+    List<LocalizationExtensionItemData>? extensions,
   }) async {
     AnalyticsApi.touch("advanced_localization_apply");
     state = state.copyWith(workingText: S.current.home_localization_advanced_msg_gen_localization_text);
@@ -293,6 +296,10 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     }
     state = state.copyWith(workingText: S.current.home_localization_advanced_msg_gen_localization_install);
     final localizationUIModel = ref.read(localizationUIModelProvider.notifier);
+
+    // 获取当前已安装的拓展信息（用于保留，当没有新拓展要安装时）
+    final installedExtensions = ref.read(localizationUIModelProvider).installedLocalizationExtensions;
+
     if (!context.mounted) return false;
     await localizationUIModel.installFormString(
       globalIni,
@@ -300,6 +307,8 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       advanced: true,
       isEnableCommunityInputMethod: isEnableCommunityInputMethod,
       isEnableVehicleSorting: isEnableVehicleSorting,
+      extensions: extensions,
+      preserveExtensions: (extensions == null || extensions.isEmpty) ? installedExtensions : null,
       context: context,
     );
     state = state.copyWith(workingText: "");
@@ -309,17 +318,24 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   // ignore: avoid_build_context_in_providers
   Future<void> onInstall(BuildContext context) async {
     final appBox = Hive.box("app_conf");
-    var isEnableCommunityInputMethod = true;
-    var isEnableVehicleSorting = appBox.get("vehicle_sorting", defaultValue: false) ?? false;
+    final localizationState = ref.read(localizationUIModelProvider);
+
+    // 加载用户缓存的选项
+    final savedExtensionFiles = appBox.get("localization_extensions", defaultValue: <String>[]);
+    final installOptions = await LocalizationInstallOptions.loadFromCache(
+      hasCommunityInputMethodData: localizationState.communityInputMethodLanguageData != null,
+      defaultVehicleSorting: appBox.get("vehicle_sorting", defaultValue: false) ?? false,
+      availableExtensions: localizationState.localizationExtensionList,
+      savedExtensionFiles: savedExtensionFiles,
+    );
+
+    if (!context.mounted) return;
     final userOK = await showConfirmDialogs(
       context,
       S.current.input_method_confirm_install_advanced_localization,
       HookConsumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           final globalIni = useState<StringBuffer?>(null);
-          final enableCommunityInputMethod = useState(true);
-          final enableVehicleSorting = useState(isEnableVehicleSorting);
-          final localizationState = ref.read(localizationUIModelProvider);
           useEffect(() {
             () async {
               final classMap = state.classMap!;
@@ -356,35 +372,12 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
                         ),
                 ),
               ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Text(S.current.input_method_install_community_input_method_support),
-                  Spacer(),
-                  ToggleSwitch(
-                    checked: enableCommunityInputMethod.value,
-                    onChanged: localizationState.communityInputMethodLanguageData == null
-                        ? null
-                        : (v) {
-                            isEnableCommunityInputMethod = v;
-                            enableCommunityInputMethod.value = v;
-                          },
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Row(
-                children: [
-                  Text(S.current.tools_vehicle_sorting_title),
-                  Spacer(),
-                  ToggleSwitch(
-                    checked: enableVehicleSorting.value,
-                    onChanged: (v) {
-                      isEnableVehicleSorting = v;
-                      enableVehicleSorting.value = v;
-                    },
-                  ),
-                ],
+              const SizedBox(height: 16),
+              LocalizationInstallOptionsPanel(
+                options: installOptions,
+                hasCommunityInputMethodData: localizationState.communityInputMethodLanguageData != null,
+                availableExtensions: localizationState.localizationExtensionList,
+                hideCommunityInputMethod: false,
               ),
             ],
           );
@@ -393,12 +386,17 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .8),
     );
     if (userOK) {
-      await appBox.put("vehicle_sorting", isEnableVehicleSorting);
+      await appBox.put("vehicle_sorting", installOptions.enableVehicleSorting);
+      await appBox.put(
+        "localization_extensions",
+        installOptions.selectedExtensions.map((e) => e.file).toList(),
+      );
       if (!context.mounted) return;
       await doInstall(
         context,
-        isEnableCommunityInputMethod: isEnableCommunityInputMethod,
-        isEnableVehicleSorting: isEnableVehicleSorting,
+        isEnableCommunityInputMethod: installOptions.enableCommunityInputMethod,
+        isEnableVehicleSorting: installOptions.enableVehicleSorting,
+        extensions: installOptions.selectedExtensions.isNotEmpty ? installOptions.selectedExtensions : null,
       );
     }
   }

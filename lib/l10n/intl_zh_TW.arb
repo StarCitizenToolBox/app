@@ -381,6 +381,8 @@
   "@localization_info_installation_error": {},
   "localization_info_custom_files": "自訂文件",
   "@localization_info_custom_files": {},
+  "localization_extension_title": "漢化拓展",
+  "@localization_extension_title": {},
   "performance_info_graphic_optimization_hint": "畫面改善提示",
   "@performance_info_graphic_optimization_hint": {},
   "performance_info_graphic_optimization_warning": "此功能對改善因 GPU 造成的瓶頸，但對於因 CPU 造成瓶頸的裝置可能引發負面效果，如果您 GPU 性能強勁，可以嘗試更改為更高的畫質來獲得更高的 GPU 使用率並改善畫面表現。",
@@ -1680,5 +1682,15 @@
   "tools_shader_clean_all_desc": "清理所有版本的快取（僅保留 GraphicsSettings）。適合畫面異常或更新後清理。",
   "tools_action_info_cleaning": "正在清理...",
   "tools_action_start_cleaning": "開始清理",
-  "app_common_recommended": "推薦"
+  "app_common_recommended": "推薦",
+  "localization_extension_update_available": "漢化拓展有更新",
+  "@localization_extension_update_available": {},
+  "localization_extension_update_single": "{v0} 有新版本 {v1}，請前往漢化管理重新安裝。",
+  "@localization_extension_update_single": {},
+  "localization_extension_update_multiple": "共有 {v0} 個拓展有更新：{v1}。請前往漢化管理重新安裝。",
+  "@localization_extension_update_multiple": {},
+  "localization_extension_installed": "[已安裝拓展]",
+  "@localization_extension_installed": {},
+  "localization_action_reinstall": "重新安裝",
+  "@localization_action_reinstall": {}
 }

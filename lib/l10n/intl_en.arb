@@ -381,6 +381,8 @@
   "@localization_info_installation_error": {},
   "localization_info_custom_files": "Custom Files",
   "@localization_info_custom_files": {},
+  "localization_extension_title": "Localization Extension",
+  "@localization_extension_title": {},
   "performance_info_graphic_optimization_hint": "Graphics Optimization Tips",
   "@performance_info_graphic_optimization_hint": {},
   "performance_info_graphic_optimization_warning": "This feature helps significantly with GPU bottlenecks but may have the opposite effect for CPU bottlenecks. If you have a powerful GPU, you can try using better quality settings to achieve higher GPU utilization.",
@@ -1946,5 +1948,15 @@
   "tools_action_start_cleaning": "Start Cleaning",
   "@tools_action_start_cleaning": {},
   "app_common_recommended": "Recommended",
-  "@app_common_recommended": {}
+  "@app_common_recommended": {},
+  "localization_extension_update_available": "Localization Extensions Update Available",
+  "@localization_extension_update_available": {},
+  "localization_extension_update_single": "{v0} has a new version {v1}. Please go to Localization Management to reinstall.",
+  "@localization_extension_update_single": {},
+  "localization_extension_update_multiple": "{v0} extensions have updates: {v1}. Please go to Localization Management to reinstall.",
+  "@localization_extension_update_multiple": {},
+  "localization_extension_installed": "[Installed extensions]",
+  "@localization_extension_installed": {},
+  "localization_action_reinstall": "Reinstall",
+  "@localization_action_reinstall": {}
 }

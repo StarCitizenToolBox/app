@@ -381,6 +381,8 @@
   "@localization_info_installation_error": {},
   "localization_info_custom_files": "Пользовательские файлы",
   "@localization_info_custom_files": {},
+  "localization_extension_title": "Расширение локализации",
+  "@localization_extension_title": {},
   "performance_info_graphic_optimization_hint": "Подсказка по оптимизации графики",
   "@performance_info_graphic_optimization_hint": {},
   "performance_info_graphic_optimization_warning": "Эта функция очень помогает при оптимизации узких мест видеокарты, но может иметь обратный эффект при узких местах CPU. Если у вас мощная видеокарта, попробуйте использовать более высокое качество графики для повышения утилизации видеокарты.",
@@ -1752,5 +1754,15 @@
   "tools_action_start_cleaning": "Начать очистку",
   "@tools_action_start_cleaning": {},
   "app_common_recommended": "Рекомендуется",
-  "@app_common_recommended": {}
+  "@app_common_recommended": {},
+  "localization_extension_update_available": "Доступны обновления расширений локализации",
+  "@localization_extension_update_available": {},
+  "localization_extension_update_single": "{v0} имеет новую версию {v1}. Пожалуйста, переустановите в управлении локализацией.",
+  "@localization_extension_update_single": {},
+  "localization_extension_update_multiple": "{v0} расширений имеют обновления: {v1}. Пожалуйста, переустановите в управлении локализацией.",
+  "@localization_extension_update_multiple": {},
+  "localization_extension_installed": "[Установленных расширений]",
+  "@localization_extension_installed": {},
+  "localization_action_reinstall": "Переустановить",
+  "@localization_action_reinstall": {}
 }

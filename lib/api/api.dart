@@ -8,6 +8,7 @@ import 'package:starcitizen_doctor/data/app_torrent_data.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/data/input_method_api_data.dart';
+import 'package:starcitizen_doctor/data/localization_extension_api_data.dart';
 import 'package:starcitizen_doctor/data/sc_localization_data.dart';
 
 class Api {
@@ -53,6 +54,15 @@ class Api {
 
   static Future<String> getCommunityInputMethodData(String file) async {
     return getRepoData("input_method", file);
+  }
+
+  static Future<LocalizationExtensionApiData> getLocalizationExtensionIndexData() async {
+    final data = await getLocalizationExtensionData("index.json");
+    return LocalizationExtensionApiData.fromJson(json.decode(data));
+  }
+
+  static Future<String> getLocalizationExtensionData(String file) async {
+    return getRepoData("localizations/extension", file);
   }
 
   static Future<List<AppTorrentData>> getAppTorrentDataList() async {
