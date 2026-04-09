@@ -244,63 +244,63 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m109(v0) => "ランチャー内部バージョン情報：${v0}";
 
-  static String m118(v0) => "ファイルを開く：${v0}";
+  static String m119(v0) => "ファイルを開く：${v0}";
 
-  static String m119(v0, v1) => "読み込み完了：${v0}ファイル、所要時間：${v1} ms";
+  static String m120(v0, v1) => "読み込み完了：${v0}ファイル、所要時間：${v1} ms";
 
-  static String m120(v0) => "ファイルを読み込み中：${v0}...";
+  static String m121(v0) => "ファイルを読み込み中：${v0}...";
 
-  static String m121(v0, v1) => "ファイルを処理中(${v0}/${v1})...";
+  static String m122(v0, v1) => "ファイルを処理中(${v0}/${v1})...";
 
-  static String m122(v0) => "不明なファイルタイプ\n${v0}";
+  static String m123(v0) => "不明なファイルタイプ\n${v0}";
 
-  static String m123(v0) => "P4Kビューア -> ${v0}";
+  static String m124(v0) => "P4Kビューア -> ${v0}";
 
-  static String m124(v0) => "${v0} 回ログイン";
+  static String m125(v0) => "${v0} 回ログイン";
 
-  static String m125(v0) => "合計 ${v0} アカウントを検出";
+  static String m126(v0) => "合計 ${v0} アカウントを検出";
 
-  static String m126(year) =>
+  static String m127(year) =>
       "${year}年のStar Citizenプレイ統計を表示します。データはローカルログからのものです。メインのコンピュータで確認してください。";
 
-  static String m127(year) => "${year} 年間レポート（期間限定）";
+  static String m128(year) => "${year} 年間レポート（期間限定）";
 
-  static String m128(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
+  static String m129(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
 
-  static String m129(v0, v1) => "${v0} 時間 ${v1} 分";
+  static String m130(v0, v1) => "${v0} 時間 ${v1} 分";
 
-  static String m130(v0) => "${v0} 分";
+  static String m131(v0) => "${v0} 分";
 
-  static String m131(v0, v1) => "あなたは ${v0}月${v1}日 の夜明けに宇宙の旅を始めました";
+  static String m132(v0, v1) => "あなたは ${v0}月${v1}日 の夜明けに宇宙の旅を始めました";
 
-  static String m132(v0, v1) => "${v0}月${v1}日 の深夜、あなたはまだ宇宙を探索していました";
+  static String m133(v0, v1) => "${v0}月${v1}日 の深夜、あなたはまだ宇宙を探索していました";
 
-  static String m133(v0) => "${v0} 回";
+  static String m134(v0) => "${v0} 回";
 
-  static String m134(v0) => "${v0}月";
+  static String m135(v0) => "${v0}月";
 
-  static String m135(v0) => "わずか ${v0} 回起動";
+  static String m136(v0) => "わずか ${v0} 回起動";
 
-  static String m136(v0) => "${v0} 回起動";
+  static String m137(v0) => "${v0} 回起動";
 
-  static String m137(v0) => "${v0} 時間";
+  static String m138(v0) => "${v0} 時間";
 
-  static String m138(v0, v1) => "${v0}月${v1}日";
+  static String m139(v0, v1) => "${v0}月${v1}日";
 
-  static String m139(year) =>
+  static String m140(year) =>
       "${year} 年、私たちはStar Citizenで\n数え切れないほどの素晴らしい思い出を作りました";
 
-  static String m140(nextYear) => "${nextYear} 年もよろしくお願いします！";
+  static String m141(nextYear) => "${nextYear} 年もよろしくお願いします！";
 
-  static String m141(year) => "Star Citizen ${year} 年間レポート";
+  static String m142(year) => "Star Citizen ${year} 年間レポート";
 
-  static String m142(v0) => "${v0} 回破壊";
+  static String m143(v0) => "${v0} 回破壊";
 
-  static String m143(v0) => "${v0} 回操縦";
+  static String m144(v0) => "${v0} 回操縦";
 
-  static String m144(v0) => "全 ${v0} 車両を表示";
+  static String m145(v0) => "全 ${v0} 車両を表示";
 
-  static String m145(year) => "${year} 年間レポート";
+  static String m146(year) => "${year} 年間レポート";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -2066,18 +2066,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "この機能を使用するには.NET8ランタイムをインストールする必要があります。下のボタンをクリックしてダウンロードしてインストールし、インストールが成功したらこのページを再度開いて使用を続行してください。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初期化中..."),
-    "tools_unp4k_msg_open_file": m118,
-    "tools_unp4k_msg_read_completed": m119,
-    "tools_unp4k_msg_read_file": m120,
+    "tools_unp4k_msg_open_file": m119,
+    "tools_unp4k_msg_read_completed": m120,
+    "tools_unp4k_msg_read_file": m121,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "P4Kファイルを読み込み中...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "ファイルを処理中...",
     ),
-    "tools_unp4k_msg_reading3": m121,
-    "tools_unp4k_msg_unknown_file_type": m122,
-    "tools_unp4k_title": m123,
+    "tools_unp4k_msg_reading3": m122,
+    "tools_unp4k_msg_unknown_file_type": m123,
+    "tools_unp4k_title": m124,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "プレビューするファイルをクリック",
     ),
@@ -2090,7 +2090,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("招待総数："),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("未完了の招待"),
-    "yearly_report_account_count": m124,
+    "yearly_report_account_count": m125,
     "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
       "すべてのアカウントを表示",
     ),
@@ -2100,12 +2100,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_account_title": MessageLookupByLibrary.simpleMessage(
       "アカウント統計",
     ),
-    "yearly_report_account_total": m125,
+    "yearly_report_account_total": m126,
     "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
       "ゲームログデータを分析中",
     ),
-    "yearly_report_card_desc": m126,
-    "yearly_report_card_title": m127,
+    "yearly_report_card_desc": m127,
+    "yearly_report_card_title": m128,
     "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
       "今年の不安定な瞬間",
     ),
@@ -2121,13 +2121,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage(
       "ゲームクラッシュ回数",
     ),
-    "yearly_report_date_range": m128,
+    "yearly_report_date_range": m129,
     "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
       "データはローカルログから生成され、第三者に送信されることはありません。バージョン間のログの大幅な変更により、データが不完全な場合があります。娯楽目的のみ。",
     ),
-    "yearly_report_duration_hours_minutes": m129,
-    "yearly_report_duration_minutes": m130,
-    "yearly_report_earliest_play_desc": m131,
+    "yearly_report_duration_hours_minutes": m130,
+    "yearly_report_duration_minutes": m131,
+    "yearly_report_earliest_play_desc": m132,
     "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
       "最も早いプレイ",
     ),
@@ -2147,7 +2147,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage("自殺"),
     "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage("キル統計"),
-    "yearly_report_latest_play_desc": m132,
+    "yearly_report_latest_play_desc": m133,
     "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
       "最も遅いプレイ",
     ),
@@ -2160,7 +2160,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
       "ゲーム起動回数",
     ),
-    "yearly_report_launch_count_value": m133,
+    "yearly_report_launch_count_value": m134,
     "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
       "よく行く場所",
     ),
@@ -2173,13 +2173,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
       "場所統計",
     ),
-    "yearly_report_month_format": m134,
+    "yearly_report_month_format": m135,
     "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage(
       "最少プレイ",
     ),
-    "yearly_report_monthly_least_count": m135,
+    "yearly_report_monthly_least_count": m136,
     "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage("最多プレイ"),
-    "yearly_report_monthly_most_count": m136,
+    "yearly_report_monthly_most_count": m137,
     "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage("月間統計"),
     "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("次へ"),
     "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("前のページ"),
@@ -2194,12 +2194,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "プレイ時間",
     ),
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("時間"),
-    "yearly_report_play_time_value": m137,
+    "yearly_report_play_time_value": m138,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
       "SCToolbox 提供",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
-    "yearly_report_session_date": m138,
+    "yearly_report_session_date": m139,
     "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage("最長"),
     "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
       "(最短は5分以上のセッションのみ集計)",
@@ -2237,13 +2237,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
       "リスポーン回数",
     ),
-    "yearly_report_thanks_message": m139,
-    "yearly_report_thanks_next": m140,
+    "yearly_report_thanks_message": m140,
+    "yearly_report_thanks_next": m141,
     "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
       "ご愛顧ありがとうございます",
     ),
-    "yearly_report_title": m141,
-    "yearly_report_vehicle_destruction_count": m142,
+    "yearly_report_title": m142,
+    "yearly_report_vehicle_destruction_count": m143,
     "yearly_report_vehicle_destruction_desc":
         MessageLookupByLibrary.simpleMessage("今年あなたは破壊しました"),
     "yearly_report_vehicle_destruction_most":
@@ -2254,8 +2254,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("隻の船"),
     "yearly_report_vehicle_pilot_collapse":
         MessageLookupByLibrary.simpleMessage("詳細を折りたたむ"),
-    "yearly_report_vehicle_pilot_count": m143,
-    "yearly_report_vehicle_pilot_expand": m144,
+    "yearly_report_vehicle_pilot_count": m144,
+    "yearly_report_vehicle_pilot_expand": m145,
     "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
       "最も操縦したビークル",
     ),
@@ -2268,6 +2268,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
       "Star Citizenでの思い出深い瞬間を振り返る",
     ),
-    "yearly_report_welcome_title": m145,
+    "yearly_report_welcome_title": m146,
   };
 }

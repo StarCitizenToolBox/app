@@ -75,7 +75,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => -1335578069;
+  int get rustContentHash => -1543242902;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -461,6 +461,10 @@ abstract class RustLibApi extends BaseApi {
     String? body,
     String? appName,
     String? appId,
+  });
+
+  Future<void> crateApiWin32ApiSetClipboardImage({
+    required List<int> imageData,
   });
 
   Future<void> crateApiHttpApiSetDefaultHeader({
@@ -3517,6 +3521,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     debugName: "send_notify",
     argNames: ["summary", "body", "appName", "appId"],
   );
+
+  @override
+  Future<void> crateApiWin32ApiSetClipboardImage({
+    required List<int> imageData,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_list_prim_u_8_loose(imageData);
+          return wire.wire__crate__api__win32_api__set_clipboard_image(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiSetClipboardImageConstMeta,
+        argValues: [imageData],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiSetClipboardImageConstMeta =>
+      const TaskConstMeta(
+        debugName: "set_clipboard_image",
+        argNames: ["imageData"],
+      );
 
   @override
   Future<void> crateApiHttpApiSetDefaultHeader({

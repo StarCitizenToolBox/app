@@ -237,61 +237,61 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m109(v0) => "啟動器內部版本資訊：${v0}";
 
-  static String m118(v0) => "打開文件：${v0}";
+  static String m119(v0) => "打開文件：${v0}";
 
-  static String m119(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
+  static String m120(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
 
-  static String m120(v0) => "讀取文件：${v0} ...";
+  static String m121(v0) => "讀取文件：${v0} ...";
 
-  static String m121(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
+  static String m122(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
 
-  static String m122(v0) => "未知文件類型\n${v0}";
+  static String m123(v0) => "未知文件類型\n${v0}";
 
-  static String m123(v0) => "P4K 查看器 -> ${v0}";
+  static String m124(v0) => "P4K 查看器 -> ${v0}";
 
-  static String m124(v0) => "登入了 ${v0} 次";
+  static String m125(v0) => "登入了 ${v0} 次";
 
-  static String m125(v0) => "共檢測到 ${v0} 個帳號";
+  static String m126(v0) => "共檢測到 ${v0} 個帳號";
 
-  static String m126(year) => "查看您在${year}年的星際公民遊玩統計，數據來自本地 log ，請確保在常用電腦上查看。";
+  static String m127(year) => "查看您在${year}年的星際公民遊玩統計，數據來自本地 log ，請確保在常用電腦上查看。";
 
-  static String m127(year) => "${year} 年度報告（限時）";
+  static String m128(year) => "${year} 年度報告（限時）";
 
-  static String m128(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
+  static String m129(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
 
-  static String m129(v0, v1) => "${v0} 小時 ${v1} 分鐘";
+  static String m130(v0, v1) => "${v0} 小時 ${v1} 分鐘";
 
-  static String m130(v0) => "${v0} 分鐘";
+  static String m131(v0) => "${v0} 分鐘";
 
-  static String m131(v0, v1) => "您在清晨 ${v0} 月 ${v1} 日開始了星際之旅";
+  static String m132(v0, v1) => "您在清晨 ${v0} 月 ${v1} 日開始了星際之旅";
 
-  static String m132(v0, v1) => "深夜 ${v0} 月 ${v1} 日還在探索宇宙";
+  static String m133(v0, v1) => "深夜 ${v0} 月 ${v1} 日還在探索宇宙";
 
-  static String m133(v0) => "${v0} 次";
+  static String m134(v0) => "${v0} 次";
 
-  static String m134(v0) => "${v0}月";
+  static String m135(v0) => "${v0}月";
 
-  static String m135(v0) => "僅啟動 ${v0} 次";
+  static String m136(v0) => "僅啟動 ${v0} 次";
 
-  static String m136(v0) => "啟動了 ${v0} 次";
+  static String m137(v0) => "啟動了 ${v0} 次";
 
-  static String m137(v0) => "${v0} 小時";
+  static String m138(v0) => "${v0} 小時";
 
-  static String m138(v0, v1) => "${v0}月${v1}日";
+  static String m139(v0, v1) => "${v0}月${v1}日";
 
-  static String m139(year) => "${year} 年，我們一起在星際公民中\n創造了無數精彩回憶";
+  static String m140(year) => "${year} 年，我們一起在星際公民中\n創造了無數精彩回憶";
 
-  static String m140(nextYear) => "期待 ${nextYear} 年繼續與您相伴！";
+  static String m141(nextYear) => "期待 ${nextYear} 年繼續與您相伴！";
 
-  static String m141(year) => "星際公民 ${year} 年度報告";
+  static String m142(year) => "星際公民 ${year} 年度報告";
 
-  static String m142(v0) => "炸了 ${v0} 次";
+  static String m143(v0) => "炸了 ${v0} 次";
 
-  static String m143(v0) => "駕駛了 ${v0} 次";
+  static String m144(v0) => "駕駛了 ${v0} 次";
 
-  static String m144(v0) => "查看全部 ${v0} 個載具";
+  static String m145(v0) => "查看全部 ${v0} 個載具";
 
-  static String m145(year) => "${year} 年度報告";
+  static String m146(year) => "${year} 年度報告";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1935,18 +1935,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-    "tools_unp4k_msg_open_file": m118,
-    "tools_unp4k_msg_read_completed": m119,
-    "tools_unp4k_msg_read_file": m120,
+    "tools_unp4k_msg_open_file": m119,
+    "tools_unp4k_msg_read_completed": m120,
+    "tools_unp4k_msg_read_file": m121,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "正在讀取P4K 文件 ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "正在處理文件 ...",
     ),
-    "tools_unp4k_msg_reading3": m121,
-    "tools_unp4k_msg_unknown_file_type": m122,
-    "tools_unp4k_title": m123,
+    "tools_unp4k_msg_reading3": m122,
+    "tools_unp4k_msg_unknown_file_type": m123,
+    "tools_unp4k_title": m124,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("單擊文件以預覽"),
     "tools_vehicle_sorting_info": MessageLookupByLibrary.simpleMessage(
       "將左側載具拖動到右側列表中，這將會為載具名稱增加 001、002 .. 等前綴，方便您在遊戲內 UI 快速定位載具。在右側列表上下拖動可以調整載具的順序。",
@@ -1968,7 +1968,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("總邀請數："),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("未完成的邀請"),
-    "yearly_report_account_count": m124,
+    "yearly_report_account_count": m125,
     "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
       "查看全部帳號",
     ),
@@ -1976,12 +1976,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "最常使用的帳號",
     ),
     "yearly_report_account_title": MessageLookupByLibrary.simpleMessage("帳號統計"),
-    "yearly_report_account_total": m125,
+    "yearly_report_account_total": m126,
     "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
       "正在分析遊戲日誌數據",
     ),
-    "yearly_report_card_desc": m126,
-    "yearly_report_card_title": m127,
+    "yearly_report_card_desc": m127,
+    "yearly_report_card_title": m128,
     "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
       "今年遊戲不太穩定的時刻",
     ),
@@ -1993,13 +1993,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "運氣不錯！",
     ),
     "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage("遊戲崩潰次數"),
-    "yearly_report_date_range": m128,
+    "yearly_report_date_range": m129,
     "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
       "數據使用您的本地日誌生成，不會發送到任何第三方。因跨版本 Log 改動較大，數據可能不完整，僅供娛樂。",
     ),
-    "yearly_report_duration_hours_minutes": m129,
-    "yearly_report_duration_minutes": m130,
-    "yearly_report_earliest_play_desc": m131,
+    "yearly_report_duration_hours_minutes": m130,
+    "yearly_report_duration_minutes": m131,
+    "yearly_report_earliest_play_desc": m132,
     "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
       "最早的一次遊玩",
     ),
@@ -2019,7 +2019,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage("自殺"),
     "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage("擊殺統計"),
-    "yearly_report_latest_play_desc": m132,
+    "yearly_report_latest_play_desc": m133,
     "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
       "最晚的一次遊玩",
     ),
@@ -2032,7 +2032,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
       "遊戲啟動次數",
     ),
-    "yearly_report_launch_count_value": m133,
+    "yearly_report_launch_count_value": m134,
     "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
       "常去的地點",
     ),
@@ -2045,11 +2045,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
       "地點統計",
     ),
-    "yearly_report_month_format": m134,
+    "yearly_report_month_format": m135,
     "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage("遊玩最少"),
-    "yearly_report_monthly_least_count": m135,
+    "yearly_report_monthly_least_count": m136,
     "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage("遊玩最多"),
-    "yearly_report_monthly_most_count": m136,
+    "yearly_report_monthly_most_count": m137,
     "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage("月份統計"),
     "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("繼續查看"),
     "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("上一頁"),
@@ -2064,12 +2064,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "遊玩時長",
     ),
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("小時"),
-    "yearly_report_play_time_value": m137,
+    "yearly_report_play_time_value": m138,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
       "由 SC工具箱為您呈現",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
-    "yearly_report_session_date": m138,
+    "yearly_report_session_date": m139,
     "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage("最長"),
     "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
       "(最短僅統計超過 5 分鐘的遊戲)",
@@ -2107,13 +2107,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
       "重開次數",
     ),
-    "yearly_report_thanks_message": m139,
-    "yearly_report_thanks_next": m140,
+    "yearly_report_thanks_message": m140,
+    "yearly_report_thanks_next": m141,
     "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
       "感謝您的陪伴",
     ),
-    "yearly_report_title": m141,
-    "yearly_report_vehicle_destruction_count": m142,
+    "yearly_report_title": m142,
+    "yearly_report_vehicle_destruction_count": m143,
     "yearly_report_vehicle_destruction_desc":
         MessageLookupByLibrary.simpleMessage("今年您共炸了"),
     "yearly_report_vehicle_destruction_most":
@@ -2124,8 +2124,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("艘船"),
     "yearly_report_vehicle_pilot_collapse":
         MessageLookupByLibrary.simpleMessage("收起詳情"),
-    "yearly_report_vehicle_pilot_count": m143,
-    "yearly_report_vehicle_pilot_expand": m144,
+    "yearly_report_vehicle_pilot_count": m144,
+    "yearly_report_vehicle_pilot_expand": m145,
     "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
       "最常駕駛的載具",
     ),
@@ -2138,6 +2138,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
       "回顧您在星際公民中的精彩時刻",
     ),
-    "yearly_report_welcome_title": m145,
+    "yearly_report_welcome_title": m146,
   };
 }

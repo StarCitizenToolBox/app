@@ -38,7 +38,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1335578069;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1543242902;
 
 // Section: executor
 
@@ -2620,6 +2620,29 @@ fn wire__crate__api__win32_api__send_notify_impl(
                             api_app_name,
                             api_app_id,
                         )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__set_clipboard_image_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    image_data: impl CstDecode<Vec<u8>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "set_clipboard_image",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_image_data = image_data.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::win32_api::set_clipboard_image(api_image_data)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -8143,6 +8166,14 @@ mod io {
         app_id: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__win32_api__send_notify_impl(port_, summary, body, app_name, app_id)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__set_clipboard_image(
+        port_: i64,
+        image_data: *mut wire_cst_list_prim_u_8_loose,
+    ) {
+        wire__crate__api__win32_api__set_clipboard_image_impl(port_, image_data)
     }
 
     #[unsafe(no_mangle)]

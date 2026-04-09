@@ -4358,6 +4358,30 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__win32_api__set_clipboard_image(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> image_data,
+  ) {
+    return _wire__crate__api__win32_api__set_clipboard_image(port_, image_data);
+  }
+
+  late final _wire__crate__api__win32_api__set_clipboard_imagePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__set_clipboard_image',
+      );
+  late final _wire__crate__api__win32_api__set_clipboard_image =
+      _wire__crate__api__win32_api__set_clipboard_imagePtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_loose>)
+          >();
+
   void wire__crate__api__http_api__set_default_header(
     int port_,
     ffi.Pointer<wire_cst_list_record_string_string> headers,

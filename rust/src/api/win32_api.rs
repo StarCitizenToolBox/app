@@ -951,3 +951,18 @@ pub fn remove_nvme_patch() -> anyhow::Result<()> {
 pub fn remove_nvme_patch() -> anyhow::Result<()> {
     Err(anyhow::anyhow!("NVME patch is only supported on Windows"))
 }
+
+/// Copy image data to clipboard
+pub fn set_clipboard_image(image_data: Vec<u8>) -> anyhow::Result<()> {
+    use clipboard_rs::common::RustImage;
+    use clipboard_rs::{Clipboard, ClipboardContext, RustImageData};
+
+    let clipboard = ClipboardContext::new().map_err(|e| anyhow::anyhow!("{}", e))?;
+
+    // Create RustImageData from bytes
+    let img = RustImageData::from_bytes(&image_data).map_err(|e| anyhow::anyhow!("{}", e))?;
+
+    clipboard.set_image(img).map_err(|e| anyhow::anyhow!("{}", e))?;
+
+    Ok(())
+}

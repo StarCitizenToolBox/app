@@ -114,6 +114,12 @@ Future<void> addNvmePatch() =>
 Future<void> removeNvmePatch() =>
     RustLib.instance.api.crateApiWin32ApiRemoveNvmePatch();
 
+/// Copy image data to clipboard
+Future<void> setClipboardImage({required List<int> imageData}) => RustLib
+    .instance
+    .api
+    .crateApiWin32ApiSetClipboardImage(imageData: imageData);
+
 class ProcessInfo {
   final int pid;
   final String name;

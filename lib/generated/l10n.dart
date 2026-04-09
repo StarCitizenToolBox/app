@@ -8277,6 +8277,36 @@ class S {
     );
   }
 
+  /// `Copy Image`
+  String get tools_unp4k_action_copy_image {
+    return Intl.message(
+      'Copy Image',
+      name: 'tools_unp4k_action_copy_image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image copied to clipboard`
+  String get tools_unp4k_action_copy_image_success {
+    return Intl.message(
+      'Image copied to clipboard',
+      name: 'tools_unp4k_action_copy_image_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to copy image: {v0}`
+  String tools_unp4k_action_copy_image_failed(Object v0) {
+    return Intl.message(
+      'Failed to copy image: $v0',
+      name: 'tools_unp4k_action_copy_image_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
   /// `DataForge Viewer -> {v0}`
   String dcb_viewer_title(Object v0) {
     return Intl.message(
