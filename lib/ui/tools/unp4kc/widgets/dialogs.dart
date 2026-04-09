@@ -432,7 +432,7 @@ class AdvancedExportProgressDialog extends HookWidget {
     if (options.convertWhenPossible &&
         (lower.endsWith(".dds") || RegExp(r"\.dds\.\d+$").hasMatch(lower)) &&
         !RegExp(r"_ddna\.dds(\.\d+)?$").hasMatch(lower)) {
-      final png = await unp4k_api.p4KPreviewImagePng(filePath: normalized);
+      final png = (await unp4k_api.p4KExtractDdsAsPng(filePath: normalized)).$1;
       await outFile.writeAsBytes(png, flush: true);
       return;
     }

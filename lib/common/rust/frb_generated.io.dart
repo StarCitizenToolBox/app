@@ -95,6 +95,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DcbSearchResult dco_decode_dcb_search_result(dynamic raw);
 
   @protected
+  DdsDebugInfo dco_decode_dds_debug_info(dynamic raw);
+
+  @protected
+  DdsPartInfo dco_decode_dds_part_info(dynamic raw);
+
+  @protected
+  DdsPngDebug dco_decode_dds_png_debug(dynamic raw);
+
+  @protected
   DownloadGlobalStat dco_decode_download_global_stat(dynamic raw);
 
   @protected
@@ -129,6 +138,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<DcbSearchResult> dco_decode_list_dcb_search_result(dynamic raw);
+
+  @protected
+  List<DdsPartInfo> dco_decode_list_dds_part_info(dynamic raw);
 
   @protected
   List<DownloadTaskInfo> dco_decode_list_download_task_info(dynamic raw);
@@ -173,6 +185,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   LocalBatchFileResult dco_decode_local_batch_file_result(dynamic raw);
+
+  @protected
+  ModelConvertBytesResult dco_decode_model_convert_bytes_result(dynamic raw);
 
   @protected
   ModelConvertOptions dco_decode_model_convert_options(dynamic raw);
@@ -232,6 +247,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ProcessInfo dco_decode_process_info(dynamic raw);
+
+  @protected
+  (Uint8List, DdsPngDebug) dco_decode_record_list_prim_u_8_strict_dds_png_debug(
+    dynamic raw,
+  );
 
   @protected
   (String, String) dco_decode_record_string_string(dynamic raw);
@@ -360,6 +380,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DcbSearchResult sse_decode_dcb_search_result(SseDeserializer deserializer);
 
   @protected
+  DdsDebugInfo sse_decode_dds_debug_info(SseDeserializer deserializer);
+
+  @protected
+  DdsPartInfo sse_decode_dds_part_info(SseDeserializer deserializer);
+
+  @protected
+  DdsPngDebug sse_decode_dds_png_debug(SseDeserializer deserializer);
+
+  @protected
   DownloadGlobalStat sse_decode_download_global_stat(
     SseDeserializer deserializer,
   );
@@ -404,6 +433,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<DcbSearchResult> sse_decode_list_dcb_search_result(
     SseDeserializer deserializer,
   );
+
+  @protected
+  List<DdsPartInfo> sse_decode_list_dds_part_info(SseDeserializer deserializer);
 
   @protected
   List<DownloadTaskInfo> sse_decode_list_download_task_info(
@@ -458,6 +490,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   LocalBatchFileResult sse_decode_local_batch_file_result(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  ModelConvertBytesResult sse_decode_model_convert_bytes_result(
     SseDeserializer deserializer,
   );
 
@@ -531,6 +568,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ProcessInfo sse_decode_process_info(SseDeserializer deserializer);
+
+  @protected
+  (Uint8List, DdsPngDebug) sse_decode_record_list_prim_u_8_strict_dds_png_debug(
+    SseDeserializer deserializer,
+  );
 
   @protected
   (String, String) sse_decode_record_string_string(
@@ -752,6 +794,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     final ans = wire.cst_new_list_dcb_search_result(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       cst_api_fill_to_wire_dcb_search_result(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_dds_part_info> cst_encode_list_dds_part_info(
+    List<DdsPartInfo> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_dds_part_info(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_dds_part_info(raw[i], ans.ref.ptr[i]);
     }
     return ans;
   }
@@ -1070,6 +1124,42 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_dds_debug_info(
+    DdsDebugInfo apiObj,
+    wire_cst_dds_debug_info wireObj,
+  ) {
+    wireObj.requested_path = cst_encode_String(apiObj.requestedPath);
+    wireObj.base_path = cst_encode_String(apiObj.basePath);
+    wireObj.base_key = cst_encode_String(apiObj.baseKey);
+    wireObj.base_real = cst_encode_opt_String(apiObj.baseReal);
+    wireObj.part_count = cst_encode_usize(apiObj.partCount);
+    wireObj.parts = cst_encode_list_dds_part_info(apiObj.parts);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_dds_part_info(
+    DdsPartInfo apiObj,
+    wire_cst_dds_part_info wireObj,
+  ) {
+    wireObj.index = cst_encode_usize(apiObj.index);
+    wireObj.path = cst_encode_String(apiObj.path);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_dds_png_debug(
+    DdsPngDebug apiObj,
+    wire_cst_dds_png_debug wireObj,
+  ) {
+    wireObj.requested_path = cst_encode_String(apiObj.requestedPath);
+    wireObj.base_path = cst_encode_String(apiObj.basePath);
+    wireObj.part_count = cst_encode_usize(apiObj.partCount);
+    wireObj.reconstructed = cst_encode_bool(apiObj.reconstructed);
+    wireObj.decode_mode = cst_encode_String(apiObj.decodeMode);
+    wireObj.width = cst_encode_u_32(apiObj.width);
+    wireObj.height = cst_encode_u_32(apiObj.height);
+  }
+
+  @protected
   void cst_api_fill_to_wire_download_global_stat(
     DownloadGlobalStat apiObj,
     wire_cst_download_global_stat wireObj,
@@ -1144,6 +1234,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_model_convert_bytes_result(
+    ModelConvertBytesResult apiObj,
+    wire_cst_model_convert_bytes_result wireObj,
+  ) {
+    wireObj.success = cst_encode_bool(apiObj.success);
+    wireObj.glb_bytes = cst_encode_opt_list_prim_u_8_strict(apiObj.glbBytes);
+    wireObj.error_code = cst_encode_opt_String(apiObj.errorCode);
+    wireObj.error_message = cst_encode_opt_String(apiObj.errorMessage);
+    wireObj.warnings = cst_encode_list_String(apiObj.warnings);
+  }
+
+  @protected
   void cst_api_fill_to_wire_model_convert_options(
     ModelConvertOptions apiObj,
     wire_cst_model_convert_options wireObj,
@@ -1199,6 +1301,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.pid = cst_encode_u_32(apiObj.pid);
     wireObj.name = cst_encode_String(apiObj.name);
     wireObj.path = cst_encode_String(apiObj.path);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_record_list_prim_u_8_strict_dds_png_debug(
+    (Uint8List, DdsPngDebug) apiObj,
+    wire_cst_record_list_prim_u_8_strict_dds_png_debug wireObj,
+  ) {
+    wireObj.field0 = cst_encode_list_prim_u_8_strict(apiObj.$1);
+    cst_api_fill_to_wire_dds_png_debug(apiObj.$2, wireObj.field1);
   }
 
   @protected
@@ -1486,6 +1597,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_dds_debug_info(DdsDebugInfo self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_dds_part_info(DdsPartInfo self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_dds_png_debug(DdsPngDebug self, SseSerializer serializer);
+
+  @protected
   void sse_encode_download_global_stat(
     DownloadGlobalStat self,
     SseSerializer serializer,
@@ -1536,6 +1656,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_dcb_search_result(
     List<DcbSearchResult> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_dds_part_info(
+    List<DdsPartInfo> self,
     SseSerializer serializer,
   );
 
@@ -1617,6 +1743,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_local_batch_file_result(
     LocalBatchFileResult self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_model_convert_bytes_result(
+    ModelConvertBytesResult self,
     SseSerializer serializer,
   );
 
@@ -1703,6 +1835,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_process_info(ProcessInfo self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_record_list_prim_u_8_strict_dds_png_debug(
+    (Uint8List, DdsPngDebug) self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_record_string_string(
@@ -2317,6 +2455,18 @@ class RustLibWire implements BaseWire {
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
+
+  void wire__crate__api__unp4k_api__dds_png_debug_default(int port_) {
+    return _wire__crate__api__unp4k_api__dds_png_debug_default(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__dds_png_debug_defaultPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dds_png_debug_default',
+      );
+  late final _wire__crate__api__unp4k_api__dds_png_debug_default =
+      _wire__crate__api__unp4k_api__dds_png_debug_defaultPtr
+          .asFunction<void Function(int)>();
 
   void wire__crate__api__http_api__dns_lookup_ips(
     int port_,
@@ -3205,6 +3355,30 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__unp4k_api__p4k_closePtr
           .asFunction<void Function(int)>();
 
+  void wire__crate__api__unp4k_api__p4k_debug_dds_parts(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_debug_dds_parts(port_, file_path);
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_debug_dds_partsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_debug_dds_parts',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_debug_dds_parts =
+      _wire__crate__api__unp4k_api__p4k_debug_dds_partsPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
   void wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> input_path,
@@ -3235,6 +3409,40 @@ class RustLibWire implements BaseWire {
             void Function(
               int,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  void wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_stream(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> wem_bytes,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> stream_sink,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_stream(
+      port_,
+      wem_bytes,
+      stream_sink,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_streamPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_stream',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_stream =
+      _wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_streamPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_loose>,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
             )
           >();
@@ -3417,6 +3625,33 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__unp4k_api__p4k_extract_dds_as_png(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_extract_dds_as_png(
+      port_,
+      file_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_extract_dds_as_pngPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_extract_dds_as_png',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_extract_dds_as_png =
+      _wire__crate__api__unp4k_api__p4k_extract_dds_as_pngPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
   void wire__crate__api__unp4k_api__p4k_extract_to_disk(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> file_path,
@@ -3583,6 +3818,44 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytes(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> p4k_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> model_path,
+    ffi.Pointer<wire_cst_model_convert_options> options,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytes(
+      port_,
+      p4k_path,
+      model_path,
+      options,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytesPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_model_convert_options>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytes',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytes =
+      _wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytesPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_model_convert_options>,
+            )
+          >();
+
   void wire__crate__api__unp4k_model_api__p4k_model_init_context(int port_) {
     return _wire__crate__api__unp4k_model_api__p4k_model_init_context(port_);
   }
@@ -3708,6 +3981,48 @@ class RustLibWire implements BaseWire {
             void Function(
               int,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+              int,
+              ffi.Pointer<wire_cst_list_prim_f_32_strict>,
+            )
+          >();
+
+  void wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_loose> glb_bytes,
+    int width,
+    int height,
+    ffi.Pointer<wire_cst_list_prim_f_32_strict> bg_color,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes(
+      port_,
+      glb_bytes,
+      width,
+      height,
+      bg_color,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytesPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_loose>,
+            ffi.Uint32,
+            ffi.Uint32,
+            ffi.Pointer<wire_cst_list_prim_f_32_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes =
+      _wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytesPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_loose>,
               int,
               int,
               ffi.Pointer<wire_cst_list_prim_f_32_strict>,
@@ -4863,6 +5178,19 @@ class RustLibWire implements BaseWire {
             ffi.Pointer<wire_cst_list_dcb_search_result> Function(int)
           >();
 
+  ffi.Pointer<wire_cst_list_dds_part_info> cst_new_list_dds_part_info(int len) {
+    return _cst_new_list_dds_part_info(len);
+  }
+
+  late final _cst_new_list_dds_part_infoPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_dds_part_info> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_dds_part_info');
+  late final _cst_new_list_dds_part_info = _cst_new_list_dds_part_infoPtr
+      .asFunction<ffi.Pointer<wire_cst_list_dds_part_info> Function(int)>();
+
   ffi.Pointer<wire_cst_list_download_task_info> cst_new_list_download_task_info(
     int len,
   ) {
@@ -5199,6 +5527,20 @@ final class wire_cst_list_dcb_search_result extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_dds_part_info extends ffi.Struct {
+  @ffi.UintPtr()
+  external int index;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> path;
+}
+
+final class wire_cst_list_dds_part_info extends ffi.Struct {
+  external ffi.Pointer<wire_cst_dds_part_info> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_download_task_info extends ffi.Struct {
   @ffi.UintPtr()
   external int id;
@@ -5406,6 +5748,41 @@ final class wire_cst_audio_playback_state extends ffi.Struct {
   external double volume;
 }
 
+final class wire_cst_dds_debug_info extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> requested_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> base_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> base_key;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> base_real;
+
+  @ffi.UintPtr()
+  external int part_count;
+
+  external ffi.Pointer<wire_cst_list_dds_part_info> parts;
+}
+
+final class wire_cst_dds_png_debug extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> requested_path;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> base_path;
+
+  @ffi.UintPtr()
+  external int part_count;
+
+  @ffi.Bool()
+  external bool reconstructed;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> decode_mode;
+
+  @ffi.Uint32()
+  external int width;
+
+  @ffi.Uint32()
+  external int height;
+}
+
 final class wire_cst_download_global_stat extends ffi.Struct {
   @ffi.Uint64()
   external int download_speed;
@@ -5454,6 +5831,19 @@ final class wire_cst_local_batch_convert_result extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
 }
 
+final class wire_cst_model_convert_bytes_result extends ffi.Struct {
+  @ffi.Bool()
+  external bool success;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> glb_bytes;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_code;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
+
+  external ffi.Pointer<wire_cst_list_String> warnings;
+}
+
 final class wire_cst_model_convert_result extends ffi.Struct {
   @ffi.Bool()
   external bool success;
@@ -5480,6 +5870,13 @@ final class wire_cst_model_render_result extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> rgba_data;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
+}
+
+final class wire_cst_record_list_prim_u_8_strict_dds_png_debug
+    extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> field0;
+
+  external wire_cst_dds_png_debug field1;
 }
 
 final class wire_cst_rs_process_stream_data extends ffi.Struct {

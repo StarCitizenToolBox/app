@@ -75,7 +75,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => -1049645911;
+  int get rustContentHash => -1335578069;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -166,6 +166,8 @@ abstract class RustLibApi extends BaseApi {
   Future<List<DcbSearchResult>> crateApiUnp4KApiDcbSearchAll({
     required String query,
   });
+
+  Future<DdsPngDebug> crateApiUnp4KApiDdsPngDebugDefault();
 
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host});
 
@@ -304,9 +306,17 @@ abstract class RustLibApi extends BaseApi {
 
   Future<void> crateApiUnp4KApiP4KClose();
 
+  Future<DdsDebugInfo> crateApiUnp4KApiP4KDebugDdsParts({
+    required String filePath,
+  });
+
   Future<void> crateApiUnp4KApiP4KDecodeOggToWav({
     required String inputPath,
     required String outputPath,
+  });
+
+  Stream<WemDecodeProgress> crateApiUnp4KApiP4KDecodeWemBytesToWavStream({
+    required List<int> wemBytes,
   });
 
   Future<void> crateApiUnp4KApiP4KDecodeWemToOgg({
@@ -333,6 +343,10 @@ abstract class RustLibApi extends BaseApi {
 
   Stream<WemDecodeProgress> crateApiUnp4KApiP4KDecodeWemToWavStream({
     required String inputPath,
+  });
+
+  Future<(Uint8List, DdsPngDebug)> crateApiUnp4KApiP4KExtractDdsAsPng({
+    required String filePath,
   });
 
   Future<void> crateApiUnp4KApiP4KExtractToDisk({
@@ -362,6 +376,13 @@ abstract class RustLibApi extends BaseApi {
     ModelConvertOptions? options,
   });
 
+  Future<ModelConvertBytesResult>
+  crateApiUnp4KModelApiP4KModelConvertToGlbBytes({
+    required String p4KPath,
+    required String modelPath,
+    ModelConvertOptions? options,
+  });
+
   Future<bool> crateApiUnp4KModelApiP4KModelInitContext();
 
   Future<bool> crateApiUnp4KModelApiP4KModelIsSupported({
@@ -379,6 +400,14 @@ abstract class RustLibApi extends BaseApi {
 
   Future<SessionCreateResult> crateApiUnp4KModelApiP4KModelSessionCreate({
     required String glbPath,
+    required int width,
+    required int height,
+    Float32List? bgColor,
+  });
+
+  Future<SessionCreateResult>
+  crateApiUnp4KModelApiP4KModelSessionCreateFromBytes({
+    required List<int> glbBytes,
     required int width,
     required int height,
     Float32List? bgColor,
@@ -1220,6 +1249,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiUnp4KApiDcbSearchAllConstMeta =>
       const TaskConstMeta(debugName: "dcb_search_all", argNames: ["query"]);
+
+  @override
+  Future<DdsPngDebug> crateApiUnp4KApiDdsPngDebugDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_api__dds_png_debug_default(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_dds_png_debug,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiUnp4KApiDdsPngDebugDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiDdsPngDebugDefaultConstMeta =>
+      const TaskConstMeta(debugName: "dds_png_debug_default", argNames: []);
 
   @override
   Future<List<String>> crateApiHttpApiDnsLookupIps({required String host}) {
@@ -2390,6 +2440,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "p4k_close", argNames: []);
 
   @override
+  Future<DdsDebugInfo> crateApiUnp4KApiP4KDebugDdsParts({
+    required String filePath,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(filePath);
+          return wire.wire__crate__api__unp4k_api__p4k_debug_dds_parts(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_dds_debug_info,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KDebugDdsPartsConstMeta,
+        argValues: [filePath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KDebugDdsPartsConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_debug_dds_parts",
+        argNames: ["filePath"],
+      );
+
+  @override
   Future<void> crateApiUnp4KApiP4KDecodeOggToWav({
     required String inputPath,
     required String outputPath,
@@ -2420,6 +2500,45 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "p4k_decode_ogg_to_wav",
         argNames: ["inputPath", "outputPath"],
+      );
+
+  @override
+  Stream<WemDecodeProgress> crateApiUnp4KApiP4KDecodeWemBytesToWavStream({
+    required List<int> wemBytes,
+  }) {
+    final streamSink = RustStreamSink<WemDecodeProgress>();
+    unawaited(
+      handler.executeNormal(
+        NormalTask(
+          callFfi: (port_) {
+            var arg0 = cst_encode_list_prim_u_8_loose(wemBytes);
+            var arg1 = cst_encode_StreamSink_wem_decode_progress_Dco(
+              streamSink,
+            );
+            return wire
+                .wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_stream(
+                  port_,
+                  arg0,
+                  arg1,
+                );
+          },
+          codec: DcoCodec(
+            decodeSuccessData: dco_decode_unit,
+            decodeErrorData: null,
+          ),
+          constMeta: kCrateApiUnp4KApiP4KDecodeWemBytesToWavStreamConstMeta,
+          argValues: [wemBytes, streamSink],
+          apiImpl: this,
+        ),
+      ),
+    );
+    return streamSink.stream;
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KDecodeWemBytesToWavStreamConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_decode_wem_bytes_to_wav_stream",
+        argNames: ["wemBytes", "streamSink"],
       );
 
   @override
@@ -2599,6 +2718,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "p4k_decode_wem_to_wav_stream",
         argNames: ["inputPath", "streamSink"],
+      );
+
+  @override
+  Future<(Uint8List, DdsPngDebug)> crateApiUnp4KApiP4KExtractDdsAsPng({
+    required String filePath,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(filePath);
+          return wire.wire__crate__api__unp4k_api__p4k_extract_dds_as_png(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData:
+              dco_decode_record_list_prim_u_8_strict_dds_png_debug,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KExtractDdsAsPngConstMeta,
+        argValues: [filePath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KExtractDdsAsPngConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_extract_dds_as_png",
+        argNames: ["filePath"],
       );
 
   @override
@@ -2787,6 +2937,44 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<ModelConvertBytesResult>
+  crateApiUnp4KModelApiP4KModelConvertToGlbBytes({
+    required String p4KPath,
+    required String modelPath,
+    ModelConvertOptions? options,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(p4KPath);
+          var arg1 = cst_encode_String(modelPath);
+          var arg2 = cst_encode_opt_box_autoadd_model_convert_options(options);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytes(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_model_convert_bytes_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelConvertToGlbBytesConstMeta,
+        argValues: [p4KPath, modelPath, options],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelConvertToGlbBytesConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_convert_to_glb_bytes",
+        argNames: ["p4KPath", "modelPath", "options"],
+      );
+
+  @override
   Future<bool> crateApiUnp4KModelApiP4KModelInitContext() {
     return handler.executeNormal(
       NormalTask(
@@ -2923,6 +3111,49 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "p4k_model_session_create",
         argNames: ["glbPath", "width", "height", "bgColor"],
+      );
+
+  @override
+  Future<SessionCreateResult>
+  crateApiUnp4KModelApiP4KModelSessionCreateFromBytes({
+    required List<int> glbBytes,
+    required int width,
+    required int height,
+    Float32List? bgColor,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_list_prim_u_8_loose(glbBytes);
+          var arg1 = cst_encode_u_32(width);
+          var arg2 = cst_encode_u_32(height);
+          var arg3 = cst_encode_opt_list_prim_f_32_strict(bgColor);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+                arg3,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_session_create_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta:
+            kCrateApiUnp4KModelApiP4KModelSessionCreateFromBytesConstMeta,
+        argValues: [glbBytes, width, height, bgColor],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiUnp4KModelApiP4KModelSessionCreateFromBytesConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_create_from_bytes",
+        argNames: ["glbBytes", "width", "height", "bgColor"],
       );
 
   @override
@@ -4193,6 +4424,51 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DdsDebugInfo dco_decode_dds_debug_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return DdsDebugInfo(
+      requestedPath: dco_decode_String(arr[0]),
+      basePath: dco_decode_String(arr[1]),
+      baseKey: dco_decode_String(arr[2]),
+      baseReal: dco_decode_opt_String(arr[3]),
+      partCount: dco_decode_usize(arr[4]),
+      parts: dco_decode_list_dds_part_info(arr[5]),
+    );
+  }
+
+  @protected
+  DdsPartInfo dco_decode_dds_part_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return DdsPartInfo(
+      index: dco_decode_usize(arr[0]),
+      path: dco_decode_String(arr[1]),
+    );
+  }
+
+  @protected
+  DdsPngDebug dco_decode_dds_png_debug(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
+    return DdsPngDebug(
+      requestedPath: dco_decode_String(arr[0]),
+      basePath: dco_decode_String(arr[1]),
+      partCount: dco_decode_usize(arr[2]),
+      reconstructed: dco_decode_bool(arr[3]),
+      decodeMode: dco_decode_String(arr[4]),
+      width: dco_decode_u_32(arr[5]),
+      height: dco_decode_u_32(arr[6]),
+    );
+  }
+
+  @protected
   DownloadGlobalStat dco_decode_download_global_stat(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -4285,6 +4561,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<DcbSearchResult> dco_decode_list_dcb_search_result(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_dcb_search_result).toList();
+  }
+
+  @protected
+  List<DdsPartInfo> dco_decode_list_dds_part_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_dds_part_info).toList();
   }
 
   @protected
@@ -4402,6 +4684,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       warnings: dco_decode_list_String(arr[5]),
       sourceMode: dco_decode_String(arr[6]),
       fallbackReason: dco_decode_opt_String(arr[7]),
+    );
+  }
+
+  @protected
+  ModelConvertBytesResult dco_decode_model_convert_bytes_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return ModelConvertBytesResult(
+      success: dco_decode_bool(arr[0]),
+      glbBytes: dco_decode_opt_list_prim_u_8_strict(arr[1]),
+      errorCode: dco_decode_opt_String(arr[2]),
+      errorMessage: dco_decode_opt_String(arr[3]),
+      warnings: dco_decode_list_String(arr[4]),
     );
   }
 
@@ -4561,6 +4858,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       pid: dco_decode_u_32(arr[0]),
       name: dco_decode_String(arr[1]),
       path: dco_decode_String(arr[2]),
+    );
+  }
+
+  @protected
+  (Uint8List, DdsPngDebug) dco_decode_record_list_prim_u_8_strict_dds_png_debug(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) {
+      throw Exception('Expected 2 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_list_prim_u_8_strict(arr[0]),
+      dco_decode_dds_png_debug(arr[1]),
     );
   }
 
@@ -4938,6 +5250,54 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DdsDebugInfo sse_decode_dds_debug_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_requestedPath = sse_decode_String(deserializer);
+    var var_basePath = sse_decode_String(deserializer);
+    var var_baseKey = sse_decode_String(deserializer);
+    var var_baseReal = sse_decode_opt_String(deserializer);
+    var var_partCount = sse_decode_usize(deserializer);
+    var var_parts = sse_decode_list_dds_part_info(deserializer);
+    return DdsDebugInfo(
+      requestedPath: var_requestedPath,
+      basePath: var_basePath,
+      baseKey: var_baseKey,
+      baseReal: var_baseReal,
+      partCount: var_partCount,
+      parts: var_parts,
+    );
+  }
+
+  @protected
+  DdsPartInfo sse_decode_dds_part_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_index = sse_decode_usize(deserializer);
+    var var_path = sse_decode_String(deserializer);
+    return DdsPartInfo(index: var_index, path: var_path);
+  }
+
+  @protected
+  DdsPngDebug sse_decode_dds_png_debug(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_requestedPath = sse_decode_String(deserializer);
+    var var_basePath = sse_decode_String(deserializer);
+    var var_partCount = sse_decode_usize(deserializer);
+    var var_reconstructed = sse_decode_bool(deserializer);
+    var var_decodeMode = sse_decode_String(deserializer);
+    var var_width = sse_decode_u_32(deserializer);
+    var var_height = sse_decode_u_32(deserializer);
+    return DdsPngDebug(
+      requestedPath: var_requestedPath,
+      basePath: var_basePath,
+      partCount: var_partCount,
+      reconstructed: var_reconstructed,
+      decodeMode: var_decodeMode,
+      width: var_width,
+      height: var_height,
+    );
+  }
+
+  @protected
   DownloadGlobalStat sse_decode_download_global_stat(
     SseDeserializer deserializer,
   ) {
@@ -5072,6 +5432,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var ans_ = <DcbSearchResult>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_dcb_search_result(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<DdsPartInfo> sse_decode_list_dds_part_info(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <DdsPartInfo>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_dds_part_info(deserializer));
     }
     return ans_;
   }
@@ -5259,6 +5633,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       warnings: var_warnings,
       sourceMode: var_sourceMode,
       fallbackReason: var_fallbackReason,
+    );
+  }
+
+  @protected
+  ModelConvertBytesResult sse_decode_model_convert_bytes_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_success = sse_decode_bool(deserializer);
+    var var_glbBytes = sse_decode_opt_list_prim_u_8_strict(deserializer);
+    var var_errorCode = sse_decode_opt_String(deserializer);
+    var var_errorMessage = sse_decode_opt_String(deserializer);
+    var var_warnings = sse_decode_list_String(deserializer);
+    return ModelConvertBytesResult(
+      success: var_success,
+      glbBytes: var_glbBytes,
+      errorCode: var_errorCode,
+      errorMessage: var_errorMessage,
+      warnings: var_warnings,
     );
   }
 
@@ -5495,6 +5888,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_name = sse_decode_String(deserializer);
     var var_path = sse_decode_String(deserializer);
     return ProcessInfo(pid: var_pid, name: var_name, path: var_path);
+  }
+
+  @protected
+  (Uint8List, DdsPngDebug) sse_decode_record_list_prim_u_8_strict_dds_png_debug(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_list_prim_u_8_strict(deserializer);
+    var var_field1 = sse_decode_dds_png_debug(deserializer);
+    return (var_field0, var_field1);
   }
 
   @protected
@@ -5996,6 +6399,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_dds_debug_info(DdsDebugInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.requestedPath, serializer);
+    sse_encode_String(self.basePath, serializer);
+    sse_encode_String(self.baseKey, serializer);
+    sse_encode_opt_String(self.baseReal, serializer);
+    sse_encode_usize(self.partCount, serializer);
+    sse_encode_list_dds_part_info(self.parts, serializer);
+  }
+
+  @protected
+  void sse_encode_dds_part_info(DdsPartInfo self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(self.index, serializer);
+    sse_encode_String(self.path, serializer);
+  }
+
+  @protected
+  void sse_encode_dds_png_debug(DdsPngDebug self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.requestedPath, serializer);
+    sse_encode_String(self.basePath, serializer);
+    sse_encode_usize(self.partCount, serializer);
+    sse_encode_bool(self.reconstructed, serializer);
+    sse_encode_String(self.decodeMode, serializer);
+    sse_encode_u_32(self.width, serializer);
+    sse_encode_u_32(self.height, serializer);
+  }
+
+  @protected
   void sse_encode_download_global_stat(
     DownloadGlobalStat self,
     SseSerializer serializer,
@@ -6107,6 +6540,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_dcb_search_result(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_dds_part_info(
+    List<DdsPartInfo> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_dds_part_info(item, serializer);
     }
   }
 
@@ -6282,6 +6727,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_list_String(self.warnings, serializer);
     sse_encode_String(self.sourceMode, serializer);
     sse_encode_opt_String(self.fallbackReason, serializer);
+  }
+
+  @protected
+  void sse_encode_model_convert_bytes_result(
+    ModelConvertBytesResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.success, serializer);
+    sse_encode_opt_list_prim_u_8_strict(self.glbBytes, serializer);
+    sse_encode_opt_String(self.errorCode, serializer);
+    sse_encode_opt_String(self.errorMessage, serializer);
+    sse_encode_list_String(self.warnings, serializer);
   }
 
   @protected
@@ -6493,6 +6951,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_u_32(self.pid, serializer);
     sse_encode_String(self.name, serializer);
     sse_encode_String(self.path, serializer);
+  }
+
+  @protected
+  void sse_encode_record_list_prim_u_8_strict_dds_png_debug(
+    (Uint8List, DdsPngDebug) self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_u_8_strict(self.$1, serializer);
+    sse_encode_dds_png_debug(self.$2, serializer);
   }
 
   @protected

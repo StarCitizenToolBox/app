@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Unp4kcState {
 
- bool get startUp; Map<String, AppUnp4kP4kItemData>? get files; MemoryFileSystem? get fs; String get curPath; String? get endMessage; MapEntry<String, String>? get tempOpenFile; String? get currentPreviewPath; String get errorMessage; int get loadingCurrent; int get loadingTotal; String get searchQuery; List<String> get availableSuffixes; bool get isSearching;/// 搜索结果的虚拟文件系统（支持分级展示）
+ bool get startUp; Map<String, AppUnp4kP4kItemData>? get files; MemoryFileSystem? get fs; String get curPath; String? get endMessage; PreviewFile? get tempOpenFile; String? get currentPreviewPath; String get errorMessage; int get loadingCurrent; int get loadingTotal; String get searchQuery; List<String> get availableSuffixes; bool get isSearching;/// 搜索结果的虚拟文件系统（支持分级展示）
  MemoryFileSystem? get searchFs;/// 搜索匹配的文件路径集合
  Set<String>? get searchMatchedFiles;/// 搜索时保留的文件夹（当前目录模式下置顶显示）
  Set<String>? get searchKeptDirectories;/// 搜索范围：true=全局搜索，false=当前目录
@@ -61,7 +61,7 @@ abstract mixin class $Unp4kcStateCopyWith<$Res>  {
   factory $Unp4kcStateCopyWith(Unp4kcState value, $Res Function(Unp4kcState) _then) = _$Unp4kcStateCopyWithImpl;
 @useResult
 $Res call({
- bool startUp, Map<String, AppUnp4kP4kItemData>? files, MemoryFileSystem? fs, String curPath, String? endMessage, MapEntry<String, String>? tempOpenFile, String? currentPreviewPath, String errorMessage, int loadingCurrent, int loadingTotal, String searchQuery, List<String> availableSuffixes, bool isSearching, MemoryFileSystem? searchFs, Set<String>? searchMatchedFiles, Set<String>? searchKeptDirectories, bool isGlobalSearchScope, String? searchPath, Unp4kSortType sortType, bool isMultiSelectMode, Set<String> selectedItems, Unp4kFilterMode sizeFilterMode, Unp4kSizeUnit sizeFilterUnit, double? sizeFilterSingleValue, double? sizeFilterRangeStart, double? sizeFilterRangeEnd, Unp4kFilterMode dateFilterMode, DateTime? dateFilterSingleDate, DateTime? dateFilterRangeStart, DateTime? dateFilterRangeEnd
+ bool startUp, Map<String, AppUnp4kP4kItemData>? files, MemoryFileSystem? fs, String curPath, String? endMessage, PreviewFile? tempOpenFile, String? currentPreviewPath, String errorMessage, int loadingCurrent, int loadingTotal, String searchQuery, List<String> availableSuffixes, bool isSearching, MemoryFileSystem? searchFs, Set<String>? searchMatchedFiles, Set<String>? searchKeptDirectories, bool isGlobalSearchScope, String? searchPath, Unp4kSortType sortType, bool isMultiSelectMode, Set<String> selectedItems, Unp4kFilterMode sizeFilterMode, Unp4kSizeUnit sizeFilterUnit, double? sizeFilterSingleValue, double? sizeFilterRangeStart, double? sizeFilterRangeEnd, Unp4kFilterMode dateFilterMode, DateTime? dateFilterSingleDate, DateTime? dateFilterRangeStart, DateTime? dateFilterRangeEnd
 });
 
 
@@ -86,7 +86,7 @@ as Map<String, AppUnp4kP4kItemData>?,fs: freezed == fs ? _self.fs : fs // ignore
 as MemoryFileSystem?,curPath: null == curPath ? _self.curPath : curPath // ignore: cast_nullable_to_non_nullable
 as String,endMessage: freezed == endMessage ? _self.endMessage : endMessage // ignore: cast_nullable_to_non_nullable
 as String?,tempOpenFile: freezed == tempOpenFile ? _self.tempOpenFile : tempOpenFile // ignore: cast_nullable_to_non_nullable
-as MapEntry<String, String>?,currentPreviewPath: freezed == currentPreviewPath ? _self.currentPreviewPath : currentPreviewPath // ignore: cast_nullable_to_non_nullable
+as PreviewFile?,currentPreviewPath: freezed == currentPreviewPath ? _self.currentPreviewPath : currentPreviewPath // ignore: cast_nullable_to_non_nullable
 as String?,errorMessage: null == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String,loadingCurrent: null == loadingCurrent ? _self.loadingCurrent : loadingCurrent // ignore: cast_nullable_to_non_nullable
 as int,loadingTotal: null == loadingTotal ? _self.loadingTotal : loadingTotal // ignore: cast_nullable_to_non_nullable
@@ -195,7 +195,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool startUp,  Map<String, AppUnp4kP4kItemData>? files,  MemoryFileSystem? fs,  String curPath,  String? endMessage,  MapEntry<String, String>? tempOpenFile,  String? currentPreviewPath,  String errorMessage,  int loadingCurrent,  int loadingTotal,  String searchQuery,  List<String> availableSuffixes,  bool isSearching,  MemoryFileSystem? searchFs,  Set<String>? searchMatchedFiles,  Set<String>? searchKeptDirectories,  bool isGlobalSearchScope,  String? searchPath,  Unp4kSortType sortType,  bool isMultiSelectMode,  Set<String> selectedItems,  Unp4kFilterMode sizeFilterMode,  Unp4kSizeUnit sizeFilterUnit,  double? sizeFilterSingleValue,  double? sizeFilterRangeStart,  double? sizeFilterRangeEnd,  Unp4kFilterMode dateFilterMode,  DateTime? dateFilterSingleDate,  DateTime? dateFilterRangeStart,  DateTime? dateFilterRangeEnd)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool startUp,  Map<String, AppUnp4kP4kItemData>? files,  MemoryFileSystem? fs,  String curPath,  String? endMessage,  PreviewFile? tempOpenFile,  String? currentPreviewPath,  String errorMessage,  int loadingCurrent,  int loadingTotal,  String searchQuery,  List<String> availableSuffixes,  bool isSearching,  MemoryFileSystem? searchFs,  Set<String>? searchMatchedFiles,  Set<String>? searchKeptDirectories,  bool isGlobalSearchScope,  String? searchPath,  Unp4kSortType sortType,  bool isMultiSelectMode,  Set<String> selectedItems,  Unp4kFilterMode sizeFilterMode,  Unp4kSizeUnit sizeFilterUnit,  double? sizeFilterSingleValue,  double? sizeFilterRangeStart,  double? sizeFilterRangeEnd,  Unp4kFilterMode dateFilterMode,  DateTime? dateFilterSingleDate,  DateTime? dateFilterRangeStart,  DateTime? dateFilterRangeEnd)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Unp4kcState() when $default != null:
 return $default(_that.startUp,_that.files,_that.fs,_that.curPath,_that.endMessage,_that.tempOpenFile,_that.currentPreviewPath,_that.errorMessage,_that.loadingCurrent,_that.loadingTotal,_that.searchQuery,_that.availableSuffixes,_that.isSearching,_that.searchFs,_that.searchMatchedFiles,_that.searchKeptDirectories,_that.isGlobalSearchScope,_that.searchPath,_that.sortType,_that.isMultiSelectMode,_that.selectedItems,_that.sizeFilterMode,_that.sizeFilterUnit,_that.sizeFilterSingleValue,_that.sizeFilterRangeStart,_that.sizeFilterRangeEnd,_that.dateFilterMode,_that.dateFilterSingleDate,_that.dateFilterRangeStart,_that.dateFilterRangeEnd);case _:
@@ -216,7 +216,7 @@ return $default(_that.startUp,_that.files,_that.fs,_that.curPath,_that.endMessag
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool startUp,  Map<String, AppUnp4kP4kItemData>? files,  MemoryFileSystem? fs,  String curPath,  String? endMessage,  MapEntry<String, String>? tempOpenFile,  String? currentPreviewPath,  String errorMessage,  int loadingCurrent,  int loadingTotal,  String searchQuery,  List<String> availableSuffixes,  bool isSearching,  MemoryFileSystem? searchFs,  Set<String>? searchMatchedFiles,  Set<String>? searchKeptDirectories,  bool isGlobalSearchScope,  String? searchPath,  Unp4kSortType sortType,  bool isMultiSelectMode,  Set<String> selectedItems,  Unp4kFilterMode sizeFilterMode,  Unp4kSizeUnit sizeFilterUnit,  double? sizeFilterSingleValue,  double? sizeFilterRangeStart,  double? sizeFilterRangeEnd,  Unp4kFilterMode dateFilterMode,  DateTime? dateFilterSingleDate,  DateTime? dateFilterRangeStart,  DateTime? dateFilterRangeEnd)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool startUp,  Map<String, AppUnp4kP4kItemData>? files,  MemoryFileSystem? fs,  String curPath,  String? endMessage,  PreviewFile? tempOpenFile,  String? currentPreviewPath,  String errorMessage,  int loadingCurrent,  int loadingTotal,  String searchQuery,  List<String> availableSuffixes,  bool isSearching,  MemoryFileSystem? searchFs,  Set<String>? searchMatchedFiles,  Set<String>? searchKeptDirectories,  bool isGlobalSearchScope,  String? searchPath,  Unp4kSortType sortType,  bool isMultiSelectMode,  Set<String> selectedItems,  Unp4kFilterMode sizeFilterMode,  Unp4kSizeUnit sizeFilterUnit,  double? sizeFilterSingleValue,  double? sizeFilterRangeStart,  double? sizeFilterRangeEnd,  Unp4kFilterMode dateFilterMode,  DateTime? dateFilterSingleDate,  DateTime? dateFilterRangeStart,  DateTime? dateFilterRangeEnd)  $default,) {final _that = this;
 switch (_that) {
 case _Unp4kcState():
 return $default(_that.startUp,_that.files,_that.fs,_that.curPath,_that.endMessage,_that.tempOpenFile,_that.currentPreviewPath,_that.errorMessage,_that.loadingCurrent,_that.loadingTotal,_that.searchQuery,_that.availableSuffixes,_that.isSearching,_that.searchFs,_that.searchMatchedFiles,_that.searchKeptDirectories,_that.isGlobalSearchScope,_that.searchPath,_that.sortType,_that.isMultiSelectMode,_that.selectedItems,_that.sizeFilterMode,_that.sizeFilterUnit,_that.sizeFilterSingleValue,_that.sizeFilterRangeStart,_that.sizeFilterRangeEnd,_that.dateFilterMode,_that.dateFilterSingleDate,_that.dateFilterRangeStart,_that.dateFilterRangeEnd);case _:
@@ -236,7 +236,7 @@ return $default(_that.startUp,_that.files,_that.fs,_that.curPath,_that.endMessag
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool startUp,  Map<String, AppUnp4kP4kItemData>? files,  MemoryFileSystem? fs,  String curPath,  String? endMessage,  MapEntry<String, String>? tempOpenFile,  String? currentPreviewPath,  String errorMessage,  int loadingCurrent,  int loadingTotal,  String searchQuery,  List<String> availableSuffixes,  bool isSearching,  MemoryFileSystem? searchFs,  Set<String>? searchMatchedFiles,  Set<String>? searchKeptDirectories,  bool isGlobalSearchScope,  String? searchPath,  Unp4kSortType sortType,  bool isMultiSelectMode,  Set<String> selectedItems,  Unp4kFilterMode sizeFilterMode,  Unp4kSizeUnit sizeFilterUnit,  double? sizeFilterSingleValue,  double? sizeFilterRangeStart,  double? sizeFilterRangeEnd,  Unp4kFilterMode dateFilterMode,  DateTime? dateFilterSingleDate,  DateTime? dateFilterRangeStart,  DateTime? dateFilterRangeEnd)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool startUp,  Map<String, AppUnp4kP4kItemData>? files,  MemoryFileSystem? fs,  String curPath,  String? endMessage,  PreviewFile? tempOpenFile,  String? currentPreviewPath,  String errorMessage,  int loadingCurrent,  int loadingTotal,  String searchQuery,  List<String> availableSuffixes,  bool isSearching,  MemoryFileSystem? searchFs,  Set<String>? searchMatchedFiles,  Set<String>? searchKeptDirectories,  bool isGlobalSearchScope,  String? searchPath,  Unp4kSortType sortType,  bool isMultiSelectMode,  Set<String> selectedItems,  Unp4kFilterMode sizeFilterMode,  Unp4kSizeUnit sizeFilterUnit,  double? sizeFilterSingleValue,  double? sizeFilterRangeStart,  double? sizeFilterRangeEnd,  Unp4kFilterMode dateFilterMode,  DateTime? dateFilterSingleDate,  DateTime? dateFilterRangeStart,  DateTime? dateFilterRangeEnd)?  $default,) {final _that = this;
 switch (_that) {
 case _Unp4kcState() when $default != null:
 return $default(_that.startUp,_that.files,_that.fs,_that.curPath,_that.endMessage,_that.tempOpenFile,_that.currentPreviewPath,_that.errorMessage,_that.loadingCurrent,_that.loadingTotal,_that.searchQuery,_that.availableSuffixes,_that.isSearching,_that.searchFs,_that.searchMatchedFiles,_that.searchKeptDirectories,_that.isGlobalSearchScope,_that.searchPath,_that.sortType,_that.isMultiSelectMode,_that.selectedItems,_that.sizeFilterMode,_that.sizeFilterUnit,_that.sizeFilterSingleValue,_that.sizeFilterRangeStart,_that.sizeFilterRangeEnd,_that.dateFilterMode,_that.dateFilterSingleDate,_that.dateFilterRangeStart,_that.dateFilterRangeEnd);case _:
@@ -267,7 +267,7 @@ class _Unp4kcState implements Unp4kcState {
 @override final  MemoryFileSystem? fs;
 @override final  String curPath;
 @override final  String? endMessage;
-@override final  MapEntry<String, String>? tempOpenFile;
+@override final  PreviewFile? tempOpenFile;
 @override final  String? currentPreviewPath;
 @override@JsonKey() final  String errorMessage;
 @override@JsonKey() final  int loadingCurrent;
@@ -370,7 +370,7 @@ abstract mixin class _$Unp4kcStateCopyWith<$Res> implements $Unp4kcStateCopyWith
   factory _$Unp4kcStateCopyWith(_Unp4kcState value, $Res Function(_Unp4kcState) _then) = __$Unp4kcStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool startUp, Map<String, AppUnp4kP4kItemData>? files, MemoryFileSystem? fs, String curPath, String? endMessage, MapEntry<String, String>? tempOpenFile, String? currentPreviewPath, String errorMessage, int loadingCurrent, int loadingTotal, String searchQuery, List<String> availableSuffixes, bool isSearching, MemoryFileSystem? searchFs, Set<String>? searchMatchedFiles, Set<String>? searchKeptDirectories, bool isGlobalSearchScope, String? searchPath, Unp4kSortType sortType, bool isMultiSelectMode, Set<String> selectedItems, Unp4kFilterMode sizeFilterMode, Unp4kSizeUnit sizeFilterUnit, double? sizeFilterSingleValue, double? sizeFilterRangeStart, double? sizeFilterRangeEnd, Unp4kFilterMode dateFilterMode, DateTime? dateFilterSingleDate, DateTime? dateFilterRangeStart, DateTime? dateFilterRangeEnd
+ bool startUp, Map<String, AppUnp4kP4kItemData>? files, MemoryFileSystem? fs, String curPath, String? endMessage, PreviewFile? tempOpenFile, String? currentPreviewPath, String errorMessage, int loadingCurrent, int loadingTotal, String searchQuery, List<String> availableSuffixes, bool isSearching, MemoryFileSystem? searchFs, Set<String>? searchMatchedFiles, Set<String>? searchKeptDirectories, bool isGlobalSearchScope, String? searchPath, Unp4kSortType sortType, bool isMultiSelectMode, Set<String> selectedItems, Unp4kFilterMode sizeFilterMode, Unp4kSizeUnit sizeFilterUnit, double? sizeFilterSingleValue, double? sizeFilterRangeStart, double? sizeFilterRangeEnd, Unp4kFilterMode dateFilterMode, DateTime? dateFilterSingleDate, DateTime? dateFilterRangeStart, DateTime? dateFilterRangeEnd
 });
 
 
@@ -395,7 +395,7 @@ as Map<String, AppUnp4kP4kItemData>?,fs: freezed == fs ? _self.fs : fs // ignore
 as MemoryFileSystem?,curPath: null == curPath ? _self.curPath : curPath // ignore: cast_nullable_to_non_nullable
 as String,endMessage: freezed == endMessage ? _self.endMessage : endMessage // ignore: cast_nullable_to_non_nullable
 as String?,tempOpenFile: freezed == tempOpenFile ? _self.tempOpenFile : tempOpenFile // ignore: cast_nullable_to_non_nullable
-as MapEntry<String, String>?,currentPreviewPath: freezed == currentPreviewPath ? _self.currentPreviewPath : currentPreviewPath // ignore: cast_nullable_to_non_nullable
+as PreviewFile?,currentPreviewPath: freezed == currentPreviewPath ? _self.currentPreviewPath : currentPreviewPath // ignore: cast_nullable_to_non_nullable
 as String?,errorMessage: null == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String,loadingCurrent: null == loadingCurrent ? _self.loadingCurrent : loadingCurrent // ignore: cast_nullable_to_non_nullable
 as int,loadingTotal: null == loadingTotal ? _self.loadingTotal : loadingTotal // ignore: cast_nullable_to_non_nullable

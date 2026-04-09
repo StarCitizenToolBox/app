@@ -366,6 +366,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Обратная связь онлайн",
     ),
     "action_close": MessageLookupByLibrary.simpleMessage("Закрыть"),
+    "action_export": MessageLookupByLibrary.simpleMessage("Экспорт"),
     "action_open_folder": MessageLookupByLibrary.simpleMessage("Открыть папку"),
     "app_common_error_info": m0,
     "app_common_loading_images": MessageLookupByLibrary.simpleMessage(

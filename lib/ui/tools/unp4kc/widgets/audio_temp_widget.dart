@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
@@ -19,12 +18,14 @@ double _audioLastVolume = 1.0;
 bool _audioAutoPlay = true;
 
 class AudioTempWidget extends HookWidget {
-  final String filePath;
+  final Uint8List bytes;
+  final String sourcePath;
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
 
   const AudioTempWidget(
-    this.filePath, {
+    this.bytes,
+    this.sourcePath, {
     super.key,
     this.onPrevious,
     this.onNext,
@@ -120,169 +121,135 @@ class AudioTempWidget extends HookWidget {
           errorMessage.value = null;
           decodeProgress.value = 0.0;
 
-          final prepared = await _preparePlayableFile(filePath);
-          if (disposed) return;
-          if (prepareTokenRef.value != currentToken) return;
+          int? sampleRate;
+          int? channels;
+          int totalDurationMs = 0;
+          final waveformSamples = <double>[];
+          DateTime lastWaveformUpdate = DateTime.now();
 
-          if (prepared.needsDecode) {
-            int? sampleRate;
-            int? channels;
-            int totalDurationMs = 0;
-            final waveformSamples = <double>[];
-            DateTime lastWaveformUpdate = DateTime.now();
+          final stream = unp4k_api.p4KDecodeWemBytesToWavStream(
+            wemBytes: bytes,
+          );
 
-            final stream = unp4k_api.p4KDecodeWemToWavStream(
-              inputPath: filePath,
-            );
+          await for (final progress in stream) {
+            if (disposed || prepareTokenRef.value != currentToken) return;
 
-            await for (final progress in stream) {
-              if (disposed || prepareTokenRef.value != currentToken) return;
+            decodeProgress.value = progress.progress;
 
-              decodeProgress.value = progress.progress;
+            if (progress.error != null) {
+              errorMessage.value = progress.error;
+              isDecoding.value = false;
+              return;
+            }
 
-              if (progress.error != null) {
-                errorMessage.value = progress.error;
+            if (progress.sampleRate != null) {
+              sampleRate = progress.sampleRate;
+            }
+            if (progress.channels != null) {
+              channels = progress.channels;
+            }
+
+            if (progress.pcmChunk != null &&
+                progress.pcmChunk!.isNotEmpty &&
+                sampleRate != null &&
+                channels != null) {
+              final pcmData = Int16List.fromList(progress.pcmChunk!);
+              final chunkDurationMs =
+                  ((pcmData.length / channels) * 1000) ~/ sampleRate;
+              totalDurationMs += chunkDurationMs;
+
+              final chunkWaveform = _computeWaveformFromPcm(pcmData, 10);
+              waveformSamples.addAll(chunkWaveform);
+
+              final now = DateTime.now();
+              if (now.difference(lastWaveformUpdate).inMilliseconds >= 100) {
+                lastWaveformUpdate = now;
+                waveform.value = _finalizeWaveform(waveformSamples, 160);
+              }
+
+              if (!streamStarted.value) {
+                streamStarted.value = true;
                 isDecoding.value = false;
-                return;
-              }
-
-              if (progress.sampleRate != null) {
-                sampleRate = progress.sampleRate;
-              }
-              if (progress.channels != null) {
-                channels = progress.channels;
-              }
-
-              if (progress.pcmChunk != null &&
-                  progress.pcmChunk!.isNotEmpty &&
-                  sampleRate != null &&
-                  channels != null) {
-                final pcmData = Int16List.fromList(progress.pcmChunk!);
-                final chunkDurationMs =
-                    ((pcmData.length / channels) * 1000) ~/ sampleRate;
-                totalDurationMs += chunkDurationMs;
-
-                final chunkWaveform = _computeWaveformFromPcm(pcmData, 10);
-                waveformSamples.addAll(chunkWaveform);
-
-                final now = DateTime.now();
-                if (now.difference(lastWaveformUpdate).inMilliseconds >= 100) {
-                  lastWaveformUpdate = now;
-                  waveform.value = _finalizeWaveform(waveformSamples, 160);
-                }
-
-                if (!streamStarted.value) {
-                  streamStarted.value = true;
-                  isDecoding.value = false;
-                  playablePath.value = filePath;
-                  try {
-                    await audio_api.audioStopStream();
-                    final state = await audio_api.audioStartStream(
-                      pcmData: pcmData,
-                      sampleRate: sampleRate,
-                      channels: channels,
-                      sourcePath: filePath,
-                      durationMs: totalDurationMs,
-                      autoPlay: autoPlay.value,
-                    );
-                    if (!disposed && prepareTokenRef.value == currentToken) {
-                      duration.value = Duration(milliseconds: totalDurationMs);
-                      estimatedDuration.value = Duration(
-                        milliseconds: totalDurationMs,
-                      );
-                      isPlaying.value = state.isPlaying;
-                      isPaused.value = state.isPaused;
-                    }
-                  } catch (e) {
-                    if (!disposed && prepareTokenRef.value == currentToken) {
-                      errorMessage.value = _friendlyAudioError(e);
-                    }
-                  }
-                } else {
-                  try {
-                    await audio_api.audioAppendStream(pcmData: pcmData);
-                    if (!disposed && prepareTokenRef.value == currentToken) {
-                      duration.value = Duration(milliseconds: totalDurationMs);
-                      estimatedDuration.value = Duration(
-                        milliseconds: totalDurationMs,
-                      );
-                    }
-                  } catch (e) {
-                    if (!disposed && prepareTokenRef.value == currentToken) {
-                      errorMessage.value = _friendlyAudioError(e);
-                    }
-                  }
-                }
-              }
-
-              if (progress.isComplete) {
-                if (progress.waveform != null) {
-                  final wf = progress.waveform!.toList();
-                  audioWaveformCache[filePath] = wf;
-                  waveform.value = wf;
-                } else if (waveformSamples.isNotEmpty) {
-                  final finalWaveform = _finalizeWaveform(waveformSamples, 160);
-                  audioWaveformCache[filePath] = finalWaveform;
-                  waveform.value = finalWaveform;
-                }
-
-                if (progress.durationMs != null) {
-                  estimatedDuration.value = Duration(
-                    milliseconds: progress.durationMs!,
-                  );
-                  duration.value = Duration(milliseconds: progress.durationMs!);
-                }
-
-                playablePath.value = filePath;
-                isDecoding.value = false;
-
+                playablePath.value = sourcePath;
                 try {
-                  final state = await audio_api.audioGetState();
+                  await audio_api.audioStopStream();
+                  final state = await audio_api.audioStartStream(
+                    pcmData: pcmData,
+                    sampleRate: sampleRate,
+                    channels: channels,
+                    sourcePath: sourcePath,
+                    durationMs: totalDurationMs,
+                    autoPlay: autoPlay.value,
+                  );
                   if (!disposed && prepareTokenRef.value == currentToken) {
-                    syncPlayerState(state);
+                    duration.value = Duration(milliseconds: totalDurationMs);
+                    estimatedDuration.value = Duration(
+                      milliseconds: totalDurationMs,
+                    );
+                    isPlaying.value = state.isPlaying;
+                    isPaused.value = state.isPaused;
                   }
                 } catch (e) {
                   if (!disposed && prepareTokenRef.value == currentToken) {
                     errorMessage.value = _friendlyAudioError(e);
                   }
                 }
-
-                if (streamStarted.value &&
-                    !disposed &&
-                    prepareTokenRef.value == currentToken) {
-                  pendingSwitchToFull.value = true;
-                  overlayKeyRef.value.currentState?.startExitAnimation();
-                } else {
-                  isDecodeComplete.value = true;
+              } else {
+                try {
+                  await audio_api.audioAppendStream(pcmData: pcmData);
+                  if (!disposed && prepareTokenRef.value == currentToken) {
+                    duration.value = Duration(milliseconds: totalDurationMs);
+                    estimatedDuration.value = Duration(
+                      milliseconds: totalDurationMs,
+                    );
+                  }
+                } catch (e) {
+                  if (!disposed && prepareTokenRef.value == currentToken) {
+                    errorMessage.value = _friendlyAudioError(e);
+                  }
                 }
               }
             }
-          } else {
-            playablePath.value = prepared.playPath;
-            isDecoding.value = false;
 
-            final cachedWaveform = audioWaveformCache[prepared.playPath];
-            if (cachedWaveform != null) {
-              waveform.value = cachedWaveform;
-            } else {
-              final data = await File(prepared.playPath).readAsBytes();
-              if (disposed) return;
-              if (prepareTokenRef.value != currentToken) return;
-              estimatedDuration.value = _estimateDurationFromAudioBytes(data);
-              final computed = await compute(_computeWaveformFromBytes, data);
-              if (disposed || prepareTokenRef.value != currentToken) return;
-              audioWaveformCache[prepared.playPath] = computed;
-              waveform.value = computed;
-            }
-
-            try {
-              final state = await player.refresh();
-              if (!disposed && prepareTokenRef.value == currentToken) {
-                syncPlayerState(state);
+            if (progress.isComplete) {
+              if (progress.waveform != null) {
+                final wf = progress.waveform!.toList();
+                audioWaveformCache[sourcePath] = wf;
+                waveform.value = wf;
+              } else if (waveformSamples.isNotEmpty) {
+                final finalWaveform = _finalizeWaveform(waveformSamples, 160);
+                audioWaveformCache[sourcePath] = finalWaveform;
+                waveform.value = finalWaveform;
               }
-            } catch (e) {
-              if (!disposed && prepareTokenRef.value == currentToken) {
-                errorMessage.value = _friendlyAudioError(e);
+
+              if (progress.durationMs != null) {
+                estimatedDuration.value = Duration(
+                  milliseconds: progress.durationMs!,
+                );
+                duration.value = Duration(milliseconds: progress.durationMs!);
+              }
+
+              playablePath.value = sourcePath;
+              isDecoding.value = false;
+
+              try {
+                final state = await audio_api.audioGetState();
+                if (!disposed && prepareTokenRef.value == currentToken) {
+                  syncPlayerState(state);
+                }
+              } catch (e) {
+                if (!disposed && prepareTokenRef.value == currentToken) {
+                  errorMessage.value = _friendlyAudioError(e);
+                }
+              }
+
+              if (streamStarted.value &&
+                  !disposed &&
+                  prepareTokenRef.value == currentToken) {
+                pendingSwitchToFull.value = true;
+                overlayKeyRef.value.currentState?.startExitAnimation();
+              } else {
+                isDecodeComplete.value = true;
               }
             }
           }
@@ -291,22 +258,6 @@ class AudioTempWidget extends HookWidget {
           if (prepareTokenRef.value != currentToken) return;
           errorMessage.value = _friendlyAudioError(e);
           isDecoding.value = false;
-        }
-
-        if (!disposed && prepareTokenRef.value == currentToken) {
-          if (autoPlay.value &&
-              playablePath.value != null &&
-              !isPlaying.value &&
-              !streamStarted.value) {
-            await Future.delayed(const Duration(milliseconds: 100));
-            if (disposed || prepareTokenRef.value != currentToken) return;
-            try {
-              final state = await player.playFile(playablePath.value!);
-              syncPlayerState(state);
-            } catch (e) {
-              errorMessage.value = _friendlyAudioError(e);
-            }
-          }
         }
       }();
 
@@ -317,7 +268,7 @@ class AudioTempWidget extends HookWidget {
         unawaited(audio_api.audioStopStream());
         unawaited(player.dispose());
       };
-    }, [filePath]);
+    }, [sourcePath]);
 
     useEffect(() {
       final v = volume.value.clamp(0.0, 3.0);
@@ -883,23 +834,6 @@ class AudioTempWidget extends HookWidget {
     );
   }
 
-  Future<_PreparedPlayableFile> _preparePlayableFile(String sourcePath) async {
-    final lower = sourcePath.toLowerCase();
-    if (lower.endsWith(".wav") ||
-        lower.endsWith(".mp3") ||
-        lower.endsWith(".ogg") ||
-        lower.endsWith(".flac") ||
-        lower.endsWith(".m4a")) {
-      return _PreparedPlayableFile(playPath: sourcePath, needsDecode: false);
-    }
-
-    if (lower.endsWith(".wem")) {
-      return _PreparedPlayableFile(playPath: sourcePath, needsDecode: true);
-    }
-
-    return _PreparedPlayableFile(playPath: sourcePath, needsDecode: false);
-  }
-
   String _friendlyAudioError(Object error) {
     final raw = error.toString();
     final unsupported = RegExp(
@@ -920,90 +854,6 @@ class AudioTempWidget extends HookWidget {
     final h = d.inHours;
     if (h > 0) return "$h:$m:$s";
     return "$m:$s";
-  }
-
-  static List<double> _buildWaveform(Uint8List data, {int points = 120}) {
-    if (data.isEmpty) return const [];
-    final pcm = _extractPcm16Data(data);
-    if (pcm != null) {
-      return _bucketizePcm16(pcm, points);
-    }
-    return _bucketizeBytes(data, points);
-  }
-
-  static Uint8List? _extractPcm16Data(Uint8List bytes) {
-    if (bytes.length < 44) return null;
-    if (String.fromCharCodes(bytes.sublist(0, 4)) != "RIFF") return null;
-    if (String.fromCharCodes(bytes.sublist(8, 12)) != "WAVE") return null;
-
-    int? audioFormat;
-    int? bitsPerSample;
-    int? dataOffset;
-    int? dataLength;
-    int offset = 12;
-
-    while (offset + 8 <= bytes.length) {
-      final chunkId = String.fromCharCodes(bytes.sublist(offset, offset + 4));
-      final chunkSize = bytes.buffer.asByteData().getUint32(
-        offset + 4,
-        Endian.little,
-      );
-      final chunkDataStart = offset + 8;
-      final chunkDataEnd = chunkDataStart + chunkSize;
-      if (chunkDataEnd > bytes.length) break;
-
-      if (chunkId == "fmt " && chunkSize >= 16) {
-        final bd = bytes.buffer.asByteData();
-        audioFormat = bd.getUint16(chunkDataStart, Endian.little);
-        bitsPerSample = bd.getUint16(chunkDataStart + 14, Endian.little);
-      } else if (chunkId == "data") {
-        dataOffset = chunkDataStart;
-        dataLength = chunkSize;
-      }
-
-      offset = chunkDataEnd + (chunkSize.isOdd ? 1 : 0);
-    }
-
-    if (audioFormat != 1 ||
-        bitsPerSample != 16 ||
-        dataOffset == null ||
-        dataLength == null) {
-      return null;
-    }
-    return Uint8List.sublistView(bytes, dataOffset, dataOffset + dataLength);
-  }
-
-  static List<double> _bucketizePcm16(Uint8List pcm, int points) {
-    final sampleCount = pcm.length ~/ 2;
-    if (sampleCount == 0) return const [];
-    final bd = pcm.buffer.asByteData(pcm.offsetInBytes, pcm.lengthInBytes);
-    final bucket = math.max(1, sampleCount ~/ points).toInt();
-    final out = <double>[];
-    for (int i = 0; i < sampleCount; i += bucket) {
-      final end = math.min(sampleCount, i + bucket);
-      double peak = 0;
-      for (int j = i; j < end; j++) {
-        final v = bd.getInt16(j * 2, Endian.little).abs() / 32768.0;
-        if (v > peak) peak = v;
-      }
-      out.add(peak.clamp(0.0, 1.0));
-    }
-    return out;
-  }
-
-  static List<double> _bucketizeBytes(Uint8List data, int points) {
-    final bucket = math.max(1, data.length ~/ points).toInt();
-    final out = <double>[];
-    for (int i = 0; i < data.length; i += bucket) {
-      final end = math.min(data.length, i + bucket);
-      double peak = 0;
-      for (int j = i; j < end; j++) {
-        final v = (data[j] - 128).abs() / 128.0;
-        if (v > peak) peak = v;
-      }
-      out.add(peak.clamp(0.0, 1.0));
-    }
-    return out;
   }
 
   static List<double> _computeWaveformFromPcm(Int16List pcm, int points) {
@@ -1050,73 +900,8 @@ class AudioTempWidget extends HookWidget {
     return out;
   }
 
-  static Duration _estimateDurationFromAudioBytes(Uint8List bytes) {
-    if (bytes.length < 44) return Duration.zero;
-    if (String.fromCharCodes(bytes.sublist(0, 4)) != "RIFF") {
-      return Duration.zero;
-    }
-    if (String.fromCharCodes(bytes.sublist(8, 12)) != "WAVE") {
-      return Duration.zero;
-    }
-
-    int? channels;
-    int? sampleRate;
-    int? bitsPerSample;
-    int? dataLength;
-    int offset = 12;
-
-    while (offset + 8 <= bytes.length) {
-      final chunkId = String.fromCharCodes(bytes.sublist(offset, offset + 4));
-      final chunkSize = bytes.buffer.asByteData().getUint32(
-        offset + 4,
-        Endian.little,
-      );
-      final chunkDataStart = offset + 8;
-      final chunkDataEnd = chunkDataStart + chunkSize;
-      if (chunkDataEnd > bytes.length) break;
-
-      if (chunkId == "fmt " && chunkSize >= 16) {
-        final bd = bytes.buffer.asByteData();
-        channels = bd.getUint16(chunkDataStart + 2, Endian.little);
-        sampleRate = bd.getUint32(chunkDataStart + 4, Endian.little);
-        bitsPerSample = bd.getUint16(chunkDataStart + 14, Endian.little);
-      } else if (chunkId == "data") {
-        dataLength = chunkSize;
-      }
-
-      offset = chunkDataEnd + (chunkSize.isOdd ? 1 : 0);
-    }
-
-    if (channels == null ||
-        sampleRate == null ||
-        bitsPerSample == null ||
-        dataLength == null ||
-        channels <= 0 ||
-        sampleRate <= 0 ||
-        bitsPerSample <= 0) {
-      return Duration.zero;
-    }
-
-    final bytesPerSecond = sampleRate * channels * (bitsPerSample / 8.0);
-    if (bytesPerSecond <= 0) return Duration.zero;
-    final ms = (dataLength * 1000.0 / bytesPerSecond).round();
-    return Duration(milliseconds: ms);
-  }
 }
 
-class _PreparedPlayableFile {
-  final String playPath;
-  final bool needsDecode;
-
-  const _PreparedPlayableFile({
-    required this.playPath,
-    required this.needsDecode,
-  });
-}
-
-List<double> _computeWaveformFromBytes(Uint8List data) {
-  return AudioTempWidget._buildWaveform(data, points: 160);
-}
 
 class _PreviewModeOverlay extends StatefulWidget {
   final VoidCallback? onComplete;

@@ -1,7 +1,9 @@
 use anyhow::{anyhow, Result};
 use flutter_rust_bridge::frb;
 use image::{DynamicImage, ImageFormat, RgbaImage};
+use image_dds::{ddsfile::Dds, image_from_dds};
 use rayon::prelude::*;
+use serde::Serialize;
 use std::collections::HashMap;
 use std::io::Cursor;
 use std::path::PathBuf;
@@ -84,6 +86,19 @@ pub struct WemDecodeProgress {
     pub sample_rate: Option<i32>,
     pub channels: Option<i32>,
     pub chunk_index: i32,
+}
+
+/// DDS 转 PNG 调试信息
+#[frb(dart_metadata=("freezed"))]
+#[derive(Debug, Clone, Serialize, Default)]
+pub struct DdsPngDebug {
+    pub requested_path: String,
+    pub base_path: String,
+    pub part_count: usize,
+    pub reconstructed: bool,
+    pub decode_mode: String,
+    pub width: u32,
+    pub height: u32,
 }
 
 /// 打开 P4K 文件（仅打开，不读取文件列表）
@@ -229,7 +244,7 @@ fn collect_dds_parts(
 fn decode_image_for_preview(path: &str, data: &[u8]) -> Result<DynamicImage> {
     let lower = path.to_lowercase();
     if lower.ends_with(".dds") || lower.contains(".dds.") {
-        return image::load_from_memory_with_format(data, ImageFormat::Dds).or_else(|e| {
+        return decode_dds_image(data).or_else(|e| {
             decode_uncompressed_dds(data).map_err(|fallback_err| {
                 anyhow!(
                     "decode dds failed: {}; uncompressed fallback failed: {}",
@@ -396,22 +411,51 @@ fn compute_dds_mip_sizes(
     sizes
 }
 
+fn dds_block_bytes_dxgi(format: u32) -> Option<usize> {
+    match format {
+        70..=72 => Some(8),
+        73..=78 | 82..=84 | 94..=99 => Some(16),
+        79..=81 => Some(8),
+        _ => None,
+    }
+}
+
+fn dds_payload_layout(base_dds: &[u8]) -> Option<(usize, Option<usize>)> {
+    if !has_dds_signature(base_dds) || base_dds.len() < 128 {
+        return None;
+    }
+    let width = le_u32(base_dds, 16)?;
+    let height = le_u32(base_dds, 12)?;
+    let mip_count = le_u32(base_dds, 28).unwrap_or(1);
+    let fourcc = base_dds.get(84..88)?;
+    if fourcc == b"DX10" {
+        if base_dds.len() < 148 {
+            return None;
+        }
+        let dxgi_format = le_u32(base_dds, 128)?;
+        let expected_total = dds_block_bytes_dxgi(dxgi_format).map(|block_bytes| {
+            compute_dds_mip_sizes(width, height, mip_count, block_bytes)
+                .into_iter()
+                .sum::<usize>()
+        });
+        return Some((148, expected_total));
+    }
+    let expected_total = dds_block_bytes(fourcc).map(|block_bytes| {
+        compute_dds_mip_sizes(width, height, mip_count, block_bytes)
+            .into_iter()
+            .sum::<usize>()
+    });
+    Some((128, expected_total))
+}
+
 fn reconstruct_dds_stream(base_dds: &[u8], dds_parts: &[(usize, Vec<u8>)]) -> Option<Vec<u8>> {
     if !has_dds_signature(base_dds) || base_dds.len() < 128 {
         return None;
     }
 
-    let width = le_u32(base_dds, 16)?;
-    let height = le_u32(base_dds, 12)?;
-    let mip_count = le_u32(base_dds, 28).unwrap_or(1);
-    let fourcc = base_dds.get(84..88)?;
-    let block_bytes = dds_block_bytes(fourcc)?;
-    let expected_total = compute_dds_mip_sizes(width, height, mip_count, block_bytes)
-        .into_iter()
-        .sum::<usize>();
-
-    let header = &base_dds[..128];
-    let tail = &base_dds[128..];
+    let (header_size, expected_total) = dds_payload_layout(base_dds)?;
+    let header = &base_dds[..header_size];
+    let tail = &base_dds[header_size..];
 
     let mut sorted_parts = dds_parts.to_vec();
     // Star Citizen 资源中 .dds.N 常见为 N 越大 mip 越大，这里按降序拼接。
@@ -423,14 +467,16 @@ fn reconstruct_dds_stream(base_dds: &[u8], dds_parts: &[(usize, Vec<u8>)]) -> Op
     }
     data.extend_from_slice(tail);
 
-    if data.len() < expected_total {
-        return None;
-    }
-    if data.len() > expected_total {
-        data.truncate(expected_total);
+    if let Some(expected_total) = expected_total {
+        if data.len() < expected_total {
+            return None;
+        }
+        if data.len() > expected_total {
+            data.truncate(expected_total);
+        }
     }
 
-    let mut merged = Vec::with_capacity(128 + data.len());
+    let mut merged = Vec::with_capacity(header_size + data.len());
     merged.extend_from_slice(header);
     merged.extend_from_slice(&data);
     Some(merged)
@@ -571,6 +617,151 @@ pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
         ))
     })
     .await?
+}
+
+fn decode_dds_image(data: &[u8]) -> Result<DynamicImage> {
+    match image::load_from_memory_with_format(data, ImageFormat::Dds) {
+        Ok(img) => Ok(img),
+        Err(first_err) => {
+            let mut cursor = Cursor::new(data);
+            let dds = Dds::read(&mut cursor)
+                .map_err(|dds_err| anyhow!("{first_err}; ddsfile parse failed: {dds_err}"))?;
+            let rgba = image_from_dds(&dds, 0)
+                .map_err(|dds_err| anyhow!("{first_err}; image_dds decode failed: {dds_err}"))?;
+            Ok(DynamicImage::ImageRgba8(rgba))
+        }
+    }
+}
+
+fn collect_dds_part_paths(
+    index: &HashMap<String, String>,
+    base_path: &str,
+    max_parts: usize,
+) -> Vec<(usize, String)> {
+    let mut out = Vec::new();
+    let prefix = format!("{}.", normalize_p4k_path(base_path));
+    for (key, real) in index {
+        if let Some(suffix) = key.strip_prefix(&prefix) {
+            if let Ok(idx) = suffix.parse::<usize>() {
+                if idx <= max_parts {
+                    out.push((idx, real.clone()));
+                }
+            }
+        }
+    }
+    out.sort_by_key(|(idx, _)| *idx);
+    out
+}
+
+/// 提取 DDS 文件并转换为 PNG，返回 PNG 字节和调试信息
+pub async fn p4k_extract_dds_as_png(file_path: String) -> Result<(Vec<u8>, DdsPngDebug)> {
+    let requested = normalize_slashes(&file_path);
+    let base_path = dds_base_path(&requested).unwrap_or_else(|| requested.clone());
+
+    let files = GLOBAL_P4K_FILES.lock().unwrap().clone();
+    let mut index = HashMap::<String, String>::with_capacity(files.len());
+    for (name, entry) in files {
+        index.insert(normalize_p4k_path(&name), entry.name);
+    }
+
+    let base_real = index
+        .get(&normalize_p4k_path(&base_path))
+        .cloned()
+        .ok_or_else(|| anyhow!("DDS base entry not found: {}", base_path))?;
+    let base_bytes = p4k_extract_to_memory(base_real.clone()).await?;
+
+    let part_paths = collect_dds_part_paths(&index, &base_path, 64);
+    let mut part_bytes = Vec::<(usize, Vec<u8>)>::new();
+    for (idx, real) in &part_paths {
+        if let Ok(bytes) = p4k_extract_to_memory(real.clone()).await {
+            part_bytes.push((*idx, bytes));
+        }
+    }
+
+    let reconstructed = reconstruct_dds_stream(&base_bytes, &part_bytes);
+    let (decoded, decode_mode) = if let Some(bytes) = reconstructed.as_ref() {
+        match decode_dds_image(bytes) {
+            Ok(img) => (img, "reconstructed".to_string()),
+            Err(_recon_err) => match decode_dds_image(&base_bytes) {
+                Ok(img) => (img, "base".to_string()),
+                Err(base_err) => {
+                    return Err(anyhow!(
+                        "dds decode failed (part_count={}, reconstructed=true): base_error={}",
+                        part_bytes.len(),
+                        base_err
+                    ));
+                }
+            },
+        }
+    } else {
+        let img = decode_dds_image(&base_bytes).map_err(|e| {
+            anyhow!(
+                "dds decode failed (part_count={}, reconstructed=false): {}",
+                part_bytes.len(),
+                e
+            )
+        })?;
+        (img, "base".to_string())
+    };
+
+    let mut out = Cursor::new(Vec::new());
+    decoded
+        .write_to(&mut out, ImageFormat::Png)
+        .map_err(|e| anyhow!("encode png failed: {e}"))?;
+
+    let debug = DdsPngDebug {
+        requested_path: requested,
+        base_path: base_real,
+        part_count: part_bytes.len(),
+        reconstructed: reconstructed.is_some() && decode_mode == "reconstructed",
+        decode_mode,
+        width: decoded.width(),
+        height: decoded.height(),
+    };
+    Ok((out.into_inner(), debug))
+}
+
+/// DDS 分片信息
+#[frb(dart_metadata=("freezed"))]
+pub struct DdsPartInfo {
+    pub index: usize,
+    pub path: String,
+}
+
+/// DDS 调试信息
+#[frb(dart_metadata=("freezed"))]
+pub struct DdsDebugInfo {
+    pub requested_path: String,
+    pub base_path: String,
+    pub base_key: String,
+    pub base_real: Option<String>,
+    pub part_count: usize,
+    pub parts: Vec<DdsPartInfo>,
+}
+
+/// 调试 DDS 分片信息
+pub async fn p4k_debug_dds_parts(file_path: String) -> Result<DdsDebugInfo> {
+    let requested = normalize_slashes(&file_path);
+    let base_path = dds_base_path(&requested).unwrap_or_else(|| requested.clone());
+    let files = GLOBAL_P4K_FILES.lock().unwrap().clone();
+    let mut index = HashMap::<String, String>::with_capacity(files.len());
+    for (name, entry) in files {
+        index.insert(normalize_p4k_path(&name), entry.name);
+    }
+    let base_key = normalize_p4k_path(&base_path);
+    let base_real = index.get(&base_key).cloned();
+    let parts = collect_dds_part_paths(&index, &base_path, 64);
+    Ok(DdsDebugInfo {
+        requested_path: requested,
+        base_path,
+        base_key,
+        base_real,
+        part_count: parts.len(),
+        parts: parts
+            .into_iter()
+            .map(|(i, p)| DdsPartInfo { index: i, path: p })
+            .collect(),
+    })
 }
 
 #[cfg(test)]
@@ -852,6 +1043,10 @@ async fn p4k_get_entry(file_path: String) -> Result<P4kEntry> {
     };
 
     Ok(entry)
+}
+
+fn normalize_slashes(path: &str) -> String {
+    path.replace('/', "\\")
 }
 
 fn normalize_p4k_path(path: &str) -> String {
@@ -1174,6 +1369,142 @@ pub async fn p4k_decode_wem_to_wav_stream(
         );
 
         let (codec, ch, sr, frames) = match result {
+            Ok(r) => r,
+            Err(e) => {
+                let err_msg = if e.to_string().contains("wem decode cancelled") {
+                    "wem decode interrupted by newer request".to_string()
+                } else {
+                    e.to_string()
+                };
+                let _ = sink.add(WemDecodeProgress {
+                    progress: 0.0,
+                    waveform: None,
+                    duration_ms: None,
+                    is_complete: true,
+                    error: Some(err_msg),
+                    pcm_chunk: None,
+                    sample_rate: None,
+                    channels: None,
+                    chunk_index: 0,
+                });
+                return;
+            }
+        };
+
+        let duration_ms = if sr > 0 && ch > 0 {
+            ((frames as f64 / sr as f64) * 1000.0) as i32
+        } else {
+            0
+        };
+
+        let final_waveform = compute_waveform_from_pcm(&all_pcm, 160);
+
+        let _ = sink.add(WemDecodeProgress {
+            progress: 1.0,
+            waveform: Some(final_waveform),
+            duration_ms: Some(duration_ms),
+            is_complete: true,
+            error: None,
+            pcm_chunk: None,
+            sample_rate: Some(sr as i32),
+            channels: Some(ch as i32),
+            chunk_index: -1,
+        });
+    });
+
+    let _ = handle.await;
+}
+
+/// In-memory variant of `p4k_decode_wem_to_wav_stream` — accepts raw WEM bytes instead of a file path.
+pub async fn p4k_decode_wem_bytes_to_wav_stream(
+    wem_bytes: Vec<u8>,
+    stream_sink: StreamSink<WemDecodeProgress>,
+) {
+    let stream_sink = Arc::new(stream_sink);
+
+    let sink = stream_sink.clone();
+    let handle = tokio::task::spawn_blocking(move || {
+        let request_id = GLOBAL_WEM_DECODE_REQUEST_ID.fetch_add(1, Ordering::SeqCst) + 1;
+        let is_cancelled = || GLOBAL_WEM_DECODE_REQUEST_ID.load(Ordering::SeqCst) != request_id;
+
+        let wem = &wem_bytes;
+        let info = match crate::audio::wwise::get_wem_stream_info(wem) {
+            Ok(i) => i,
+            Err(e) => {
+                let _ = sink.add(WemDecodeProgress {
+                    progress: 0.0,
+                    waveform: None,
+                    duration_ms: None,
+                    is_complete: true,
+                    error: Some(format!("parse wem header failed: {}", e)),
+                    pcm_chunk: None,
+                    sample_rate: None,
+                    channels: None,
+                    chunk_index: 0,
+                });
+                return;
+            }
+        };
+
+        let _ = sink.add(WemDecodeProgress {
+            progress: 0.05,
+            waveform: None,
+            duration_ms: None,
+            is_complete: false,
+            error: None,
+            pcm_chunk: None,
+            sample_rate: Some(info.sample_rate as i32),
+            channels: Some(info.channels as i32),
+            chunk_index: 0,
+        });
+
+        let mut all_pcm: Vec<i16> = Vec::new();
+        let mut waveform_samples: Vec<f64> = Vec::new();
+        let sample_rate = info.sample_rate;
+        let channels = info.channels;
+        let total_frames = info.total_samples;
+
+        let chunk_duration_ms = 2000u32;
+        let sink_clone = sink.clone();
+
+        let result = crate::audio::wwise::decode_wem_stream(
+            wem,
+            chunk_duration_ms,
+            |pcm_chunk: &[i16], chunk_index: usize, _total_frames: usize| {
+                if is_cancelled() {
+                    return Err(anyhow!("wem decode cancelled"));
+                }
+
+                all_pcm.extend_from_slice(pcm_chunk);
+
+                let chunk_waveform = compute_waveform_from_pcm(pcm_chunk, 10);
+                waveform_samples.extend(chunk_waveform);
+
+                let frames_decoded = all_pcm.len() / channels as usize;
+                let progress = if total_frames > 0 {
+                    (frames_decoded as f64 / total_frames as f64).min(0.95)
+                } else {
+                    0.5
+                };
+
+                let _ = sink_clone.add(WemDecodeProgress {
+                    progress,
+                    waveform: None,
+                    duration_ms: None,
+                    is_complete: false,
+                    error: None,
+                    pcm_chunk: Some(pcm_chunk.to_vec()),
+                    sample_rate: Some(sample_rate as i32),
+                    channels: Some(channels as i32),
+                    chunk_index: chunk_index as i32,
+                });
+
+                Ok(())
+            },
+            &is_cancelled,
+        );
+
+        let (_codec, ch, sr, frames) = match result {
             Ok(r) => r,
             Err(e) => {
                 let err_msg = if e.to_string().contains("wem decode cancelled") {

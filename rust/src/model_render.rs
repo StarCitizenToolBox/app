@@ -189,6 +189,8 @@ pub fn render_session(
 }
 
 pub fn release_session(session_id: &str) -> bool {
+    // 先从 HashMap 中移除 Arc，阻止新的 render_session 获取引用
+    // 已持有 Arc 克隆的渲染操作会继续完成，RenderSession 在最后一个 Arc 释放时 Drop
     let mut sessions = SESSIONS.lock();
     sessions.remove(session_id).is_some()
 }

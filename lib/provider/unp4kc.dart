@@ -24,6 +24,15 @@ part 'unp4kc.freezed.dart';
 
 part 'unp4kc.g.dart';
 
+/// 预览文件数据（内存中）
+class PreviewFile {
+  final String type; // "text", "image", "audio", "model", "loading", "unknown"
+  final Uint8List? bytes;
+  final String? filePath; // P4K 内部路径（用于显示/缓存键）
+
+  const PreviewFile({required this.type, this.bytes, this.filePath});
+}
+
 /// 排序类型枚举
 enum Unp4kSortType {
   /// 默认排序（文件夹优先，按名称）
@@ -54,7 +63,7 @@ abstract class Unp4kcState with _$Unp4kcState {
     MemoryFileSystem? fs,
     required String curPath,
     String? endMessage,
-    MapEntry<String, String>? tempOpenFile,
+    PreviewFile? tempOpenFile,
     String? currentPreviewPath,
     @Default("") String errorMessage,
     @Default(0) int loadingCurrent,
@@ -845,27 +854,22 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   Future<void> openFile(String filePath, {BuildContext? context}) async {
-    final tempDir = await getTemporaryDirectory();
-    final tempPath =
-        "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
     state = state.copyWith(
-      tempOpenFile: const MapEntry("loading", ""),
+      tempOpenFile: const PreviewFile(type: "loading"),
       currentPreviewPath: filePath,
       endMessage: S.current.tools_unp4k_msg_open_file(filePath),
     );
-    // ignore: use_build_context_synchronously
     await extractFile(
       filePath,
-      tempPath,
       mode: "extract_open",
       context: context,
     );
   }
 
   Future<void> extractFile(
-    String filePath,
-    String outputPath, {
+    String filePath, {
     String mode = "extract",
+    String? outputPath,
     BuildContext? context,
   }) async {
     try {
@@ -874,18 +878,20 @@ class Unp4kCModel extends _$Unp4kCModel {
         filePath = filePath.substring(1);
       }
 
-      final fullOutputPath = "$outputPath$filePath";
-      dPrint("extractFile .... $filePath -> $fullOutputPath");
-
-      // 使用 Rust API 提取到磁盘
-      await unp4k_api.p4KExtractToDisk(
-        filePath: filePath,
-        outputPath: outputPath,
-      );
-
       if (mode == "extract_open") {
+        // 预览模式：直接在内存中完成解码，不写临时文件
         final lowerFilePath = filePath.toLowerCase();
+
+        // DCB 仍走磁盘（DCB Viewer 需要文件路径）
         if (context != null && lowerFilePath.endsWith(".dcb")) {
+          final tempDir = await getTemporaryDirectory();
+          final tempPath =
+              "${tempDir.absolute.path}\\SCToolbox_unp4kc\\${SCLoggerHelper.getGameChannelID(getGamePath())}\\";
+          final fullOutputPath = "$tempPath$filePath";
+          await unp4k_api.p4KExtractToDisk(
+            filePath: filePath,
+            outputPath: tempPath,
+          );
           // 关闭 loading 状态
           state = state.copyWith(
             tempOpenFile: null,
@@ -895,26 +901,25 @@ class Unp4kCModel extends _$Unp4kCModel {
           if (context.mounted) {
             context.push("/tools/dcb_viewer", extra: {"path": fullOutputPath});
           }
-
           return;
         }
 
+        // DDS: 使用内存解码
         final isDdsChain =
             lowerFilePath.endsWith(".dds") ||
             RegExp(r"\.dds\.\d+$").hasMatch(lowerFilePath);
         if (isDdsChain && !_isDdnaDdsPath(lowerFilePath)) {
           try {
-            final pngBytes = await unp4k_api.p4KPreviewImagePng(
+            final result = await unp4k_api.p4KExtractDdsAsPng(
               filePath: filePath,
             );
-            final previewPath =
-                "$fullOutputPath.preview.${DateTime.now().millisecondsSinceEpoch}.png";
-            final previewFile = File(previewPath);
-            await previewFile.parent.create(recursive: true);
-            await previewFile.writeAsBytes(pngBytes, flush: true);
-
+            final pngBytes = result.$1;
             state = state.copyWith(
-              tempOpenFile: MapEntry("image", previewPath),
+              tempOpenFile: PreviewFile(
+                type: "image",
+                bytes: pngBytes,
+                filePath: filePath,
+              ),
               endMessage: S.current.tools_unp4k_msg_open_file(filePath),
             );
             return;
@@ -923,6 +928,7 @@ class Unp4kCModel extends _$Unp4kCModel {
           }
         }
 
+        // 文件类型判断
         const textExt = [
           ".txt",
           ".xml",
@@ -954,11 +960,14 @@ class Unp4kCModel extends _$Unp4kCModel {
         for (var element in modelExt) {
           if (lowerFilePath.endsWith(element)) {
             try {
-              final glbResult = await convertModelToGlb(filePath, outputPath);
+              final glbResult = await convertModelToGlbBytes(filePath);
               if (glbResult.$1 && glbResult.$2 != null) {
-                openType = "model";
                 state = state.copyWith(
-                  tempOpenFile: MapEntry(openType, glbResult.$2!),
+                  tempOpenFile: PreviewFile(
+                    type: "model",
+                    bytes: glbResult.$2!,
+                    filePath: filePath,
+                  ),
                   endMessage: S.current.tools_unp4k_msg_open_file(filePath),
                 );
                 return;
@@ -968,9 +977,40 @@ class Unp4kCModel extends _$Unp4kCModel {
             }
           }
         }
-        state = state.copyWith(
-          tempOpenFile: MapEntry(openType, fullOutputPath),
-          endMessage: S.current.tools_unp4k_msg_open_file(filePath),
+
+        // 对于已知可预览类型或 unknown，提取原始字节到内存
+        if (openType != "unknown") {
+          final rawBytes = await unp4k_api.p4KExtractToMemory(
+            filePath: filePath,
+          );
+          state = state.copyWith(
+            tempOpenFile: PreviewFile(
+              type: openType,
+              bytes: Uint8List.fromList(rawBytes),
+              filePath: filePath,
+            ),
+            endMessage: S.current.tools_unp4k_msg_open_file(filePath),
+          );
+        } else {
+          // 不可预览：提取原始字节用于导出
+          final rawBytes = await unp4k_api.p4KExtractToMemory(
+            filePath: filePath,
+          );
+          state = state.copyWith(
+            tempOpenFile: PreviewFile(
+              type: "unknown",
+              bytes: Uint8List.fromList(rawBytes),
+              filePath: filePath,
+            ),
+            endMessage: S.current.tools_unp4k_msg_open_file(filePath),
+          );
+        }
+      } else {
+        // 导出模式：仍走磁盘
+        if (outputPath == null) return;
+        await unp4k_api.p4KExtractToDisk(
+          filePath: filePath,
+          outputPath: outputPath,
         );
       }
     } catch (e) {
@@ -1266,6 +1306,61 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
   }
 
+  /// 将 P4K 内模型转换为 GLB 字节（内存中）
+  /// 返回：(是否成功, GLB字节, 错误信息)
+  Future<(bool, Uint8List?, String?)> convertModelToGlbBytes(
+    String filePath,
+  ) async {
+    try {
+      var modelPath = filePath;
+      if (modelPath.startsWith("\\")) {
+        modelPath = modelPath.substring(1);
+      }
+      final supported = await unp4k_model_api.p4KModelIsSupported(
+        filePath: modelPath,
+      );
+      if (!supported) {
+        final err = S.current.tools_unp4k_convert_unsupported;
+        state = state.copyWith(endMessage: err);
+        return (false, null, err);
+      }
+
+      final gameP4kPath = "${getGamePath()}\\Data.p4k".platformPath;
+      final result = await unp4k_model_api.p4KModelConvertToGlbBytes(
+        p4KPath: gameP4kPath,
+        modelPath: modelPath,
+        options: const unp4k_model_api.ModelConvertOptions(
+          embedTextures: true,
+          overwrite: true,
+          maxTextureSize: 4096,
+        ),
+      );
+
+      if (result.success && result.glbBytes != null) {
+        state = state.copyWith(
+          endMessage: S.current.tools_unp4k_convert_success,
+        );
+        return (true, result.glbBytes!, null);
+      }
+
+      final errorCode = result.errorCode;
+      final err = errorCode == "ERR_UNSUPPORTED_FORMAT"
+          ? S.current.tools_unp4k_convert_unsupported
+          : (result.errorMessage ?? errorCode ?? "Unknown");
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_convert_failed(err),
+      );
+      return (false, null, err);
+    } catch (e) {
+      dPrint("[unp4k] convertModelToGlbBytes error: $e");
+      final err = e.toString();
+      state = state.copyWith(
+        endMessage: S.current.tools_unp4k_convert_failed(err),
+      );
+      return (false, null, err);
+    }
+  }
+
   /// 将 P4K 内的 DDS（含 .dds.x）按预览解码链路转换为 PNG 并写入指定目录
   /// 返回：(是否成功, 输出路径, 错误信息)
   Future<(bool, String?, String?)> convertDdsToPng(
@@ -1284,9 +1379,10 @@ class Unp4kCModel extends _$Unp4kCModel {
         return (false, null, err);
       }
 
-      final pngBytes = await unp4k_api.p4KPreviewImagePng(
+      final pngBytes = (await unp4k_api.p4KExtractDdsAsPng(
         filePath: normalizedPath,
-      );
+      ))
+          .$1;
 
       String relativeOutput = normalizedPath;
       final ddsChainIndex = lower.indexOf(".dds.");

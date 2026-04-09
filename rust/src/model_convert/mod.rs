@@ -10,8 +10,8 @@ pub mod texture_decode;
 pub mod types;
 use crate::api::unp4k_api;
 pub use pipeline::{
-    _debug_result, convert_from_fs, convert_from_p4k, convert_local_batch_and_merge,
-    is_supported_model,
+    _debug_result, convert_from_fs, convert_from_p4k, convert_from_p4k_to_bytes,
+    convert_local_batch_and_merge, is_supported_model,
 };
 use std::collections::HashMap;
 use std::fs;

@@ -343,6 +343,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "オンラインフィードバック",
     ),
     "action_close": MessageLookupByLibrary.simpleMessage("閉じる"),
+    "action_export": MessageLookupByLibrary.simpleMessage("エクスポート"),
     "action_open_folder": MessageLookupByLibrary.simpleMessage("フォルダを開く"),
     "app_common_error_info": m0,
     "app_common_loading_images": MessageLookupByLibrary.simpleMessage(

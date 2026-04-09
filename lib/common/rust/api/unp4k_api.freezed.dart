@@ -783,6 +783,801 @@ as List<DcbSearchMatch>,
 }
 
 /// @nodoc
+mixin _$DdsDebugInfo {
+
+ String get requestedPath; String get basePath; String get baseKey; String? get baseReal; BigInt get partCount; List<DdsPartInfo> get parts;
+/// Create a copy of DdsDebugInfo
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DdsDebugInfoCopyWith<DdsDebugInfo> get copyWith => _$DdsDebugInfoCopyWithImpl<DdsDebugInfo>(this as DdsDebugInfo, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsDebugInfo&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.baseKey, baseKey) || other.baseKey == baseKey)&&(identical(other.baseReal, baseReal) || other.baseReal == baseReal)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&const DeepCollectionEquality().equals(other.parts, parts));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,requestedPath,basePath,baseKey,baseReal,partCount,const DeepCollectionEquality().hash(parts));
+
+@override
+String toString() {
+  return 'DdsDebugInfo(requestedPath: $requestedPath, basePath: $basePath, baseKey: $baseKey, baseReal: $baseReal, partCount: $partCount, parts: $parts)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DdsDebugInfoCopyWith<$Res>  {
+  factory $DdsDebugInfoCopyWith(DdsDebugInfo value, $Res Function(DdsDebugInfo) _then) = _$DdsDebugInfoCopyWithImpl;
+@useResult
+$Res call({
+ String requestedPath, String basePath, String baseKey, String? baseReal, BigInt partCount, List<DdsPartInfo> parts
+});
+
+
+
+
+}
+/// @nodoc
+class _$DdsDebugInfoCopyWithImpl<$Res>
+    implements $DdsDebugInfoCopyWith<$Res> {
+  _$DdsDebugInfoCopyWithImpl(this._self, this._then);
+
+  final DdsDebugInfo _self;
+  final $Res Function(DdsDebugInfo) _then;
+
+/// Create a copy of DdsDebugInfo
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? requestedPath = null,Object? basePath = null,Object? baseKey = null,Object? baseReal = freezed,Object? partCount = null,Object? parts = null,}) {
+  return _then(_self.copyWith(
+requestedPath: null == requestedPath ? _self.requestedPath : requestedPath // ignore: cast_nullable_to_non_nullable
+as String,basePath: null == basePath ? _self.basePath : basePath // ignore: cast_nullable_to_non_nullable
+as String,baseKey: null == baseKey ? _self.baseKey : baseKey // ignore: cast_nullable_to_non_nullable
+as String,baseReal: freezed == baseReal ? _self.baseReal : baseReal // ignore: cast_nullable_to_non_nullable
+as String?,partCount: null == partCount ? _self.partCount : partCount // ignore: cast_nullable_to_non_nullable
+as BigInt,parts: null == parts ? _self.parts : parts // ignore: cast_nullable_to_non_nullable
+as List<DdsPartInfo>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DdsDebugInfo].
+extension DdsDebugInfoPatterns on DdsDebugInfo {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DdsDebugInfo value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DdsDebugInfo() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DdsDebugInfo value)  $default,){
+final _that = this;
+switch (_that) {
+case _DdsDebugInfo():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DdsDebugInfo value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DdsDebugInfo() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String requestedPath,  String basePath,  String baseKey,  String? baseReal,  BigInt partCount,  List<DdsPartInfo> parts)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DdsDebugInfo() when $default != null:
+return $default(_that.requestedPath,_that.basePath,_that.baseKey,_that.baseReal,_that.partCount,_that.parts);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String requestedPath,  String basePath,  String baseKey,  String? baseReal,  BigInt partCount,  List<DdsPartInfo> parts)  $default,) {final _that = this;
+switch (_that) {
+case _DdsDebugInfo():
+return $default(_that.requestedPath,_that.basePath,_that.baseKey,_that.baseReal,_that.partCount,_that.parts);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String requestedPath,  String basePath,  String baseKey,  String? baseReal,  BigInt partCount,  List<DdsPartInfo> parts)?  $default,) {final _that = this;
+switch (_that) {
+case _DdsDebugInfo() when $default != null:
+return $default(_that.requestedPath,_that.basePath,_that.baseKey,_that.baseReal,_that.partCount,_that.parts);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _DdsDebugInfo implements DdsDebugInfo {
+  const _DdsDebugInfo({required this.requestedPath, required this.basePath, required this.baseKey, this.baseReal, required this.partCount, required final  List<DdsPartInfo> parts}): _parts = parts;
+  
+
+@override final  String requestedPath;
+@override final  String basePath;
+@override final  String baseKey;
+@override final  String? baseReal;
+@override final  BigInt partCount;
+ final  List<DdsPartInfo> _parts;
+@override List<DdsPartInfo> get parts {
+  if (_parts is EqualUnmodifiableListView) return _parts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_parts);
+}
+
+
+/// Create a copy of DdsDebugInfo
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DdsDebugInfoCopyWith<_DdsDebugInfo> get copyWith => __$DdsDebugInfoCopyWithImpl<_DdsDebugInfo>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsDebugInfo&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.baseKey, baseKey) || other.baseKey == baseKey)&&(identical(other.baseReal, baseReal) || other.baseReal == baseReal)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&const DeepCollectionEquality().equals(other._parts, _parts));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,requestedPath,basePath,baseKey,baseReal,partCount,const DeepCollectionEquality().hash(_parts));
+
+@override
+String toString() {
+  return 'DdsDebugInfo(requestedPath: $requestedPath, basePath: $basePath, baseKey: $baseKey, baseReal: $baseReal, partCount: $partCount, parts: $parts)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DdsDebugInfoCopyWith<$Res> implements $DdsDebugInfoCopyWith<$Res> {
+  factory _$DdsDebugInfoCopyWith(_DdsDebugInfo value, $Res Function(_DdsDebugInfo) _then) = __$DdsDebugInfoCopyWithImpl;
+@override @useResult
+$Res call({
+ String requestedPath, String basePath, String baseKey, String? baseReal, BigInt partCount, List<DdsPartInfo> parts
+});
+
+
+
+
+}
+/// @nodoc
+class __$DdsDebugInfoCopyWithImpl<$Res>
+    implements _$DdsDebugInfoCopyWith<$Res> {
+  __$DdsDebugInfoCopyWithImpl(this._self, this._then);
+
+  final _DdsDebugInfo _self;
+  final $Res Function(_DdsDebugInfo) _then;
+
+/// Create a copy of DdsDebugInfo
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? requestedPath = null,Object? basePath = null,Object? baseKey = null,Object? baseReal = freezed,Object? partCount = null,Object? parts = null,}) {
+  return _then(_DdsDebugInfo(
+requestedPath: null == requestedPath ? _self.requestedPath : requestedPath // ignore: cast_nullable_to_non_nullable
+as String,basePath: null == basePath ? _self.basePath : basePath // ignore: cast_nullable_to_non_nullable
+as String,baseKey: null == baseKey ? _self.baseKey : baseKey // ignore: cast_nullable_to_non_nullable
+as String,baseReal: freezed == baseReal ? _self.baseReal : baseReal // ignore: cast_nullable_to_non_nullable
+as String?,partCount: null == partCount ? _self.partCount : partCount // ignore: cast_nullable_to_non_nullable
+as BigInt,parts: null == parts ? _self._parts : parts // ignore: cast_nullable_to_non_nullable
+as List<DdsPartInfo>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$DdsPartInfo {
+
+ BigInt get index; String get path;
+/// Create a copy of DdsPartInfo
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DdsPartInfoCopyWith<DdsPartInfo> get copyWith => _$DdsPartInfoCopyWithImpl<DdsPartInfo>(this as DdsPartInfo, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsPartInfo&&(identical(other.index, index) || other.index == index)&&(identical(other.path, path) || other.path == path));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,index,path);
+
+@override
+String toString() {
+  return 'DdsPartInfo(index: $index, path: $path)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DdsPartInfoCopyWith<$Res>  {
+  factory $DdsPartInfoCopyWith(DdsPartInfo value, $Res Function(DdsPartInfo) _then) = _$DdsPartInfoCopyWithImpl;
+@useResult
+$Res call({
+ BigInt index, String path
+});
+
+
+
+
+}
+/// @nodoc
+class _$DdsPartInfoCopyWithImpl<$Res>
+    implements $DdsPartInfoCopyWith<$Res> {
+  _$DdsPartInfoCopyWithImpl(this._self, this._then);
+
+  final DdsPartInfo _self;
+  final $Res Function(DdsPartInfo) _then;
+
+/// Create a copy of DdsPartInfo
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? index = null,Object? path = null,}) {
+  return _then(_self.copyWith(
+index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as BigInt,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DdsPartInfo].
+extension DdsPartInfoPatterns on DdsPartInfo {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DdsPartInfo value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DdsPartInfo() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DdsPartInfo value)  $default,){
+final _that = this;
+switch (_that) {
+case _DdsPartInfo():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DdsPartInfo value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DdsPartInfo() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BigInt index,  String path)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DdsPartInfo() when $default != null:
+return $default(_that.index,_that.path);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BigInt index,  String path)  $default,) {final _that = this;
+switch (_that) {
+case _DdsPartInfo():
+return $default(_that.index,_that.path);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BigInt index,  String path)?  $default,) {final _that = this;
+switch (_that) {
+case _DdsPartInfo() when $default != null:
+return $default(_that.index,_that.path);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _DdsPartInfo implements DdsPartInfo {
+  const _DdsPartInfo({required this.index, required this.path});
+  
+
+@override final  BigInt index;
+@override final  String path;
+
+/// Create a copy of DdsPartInfo
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DdsPartInfoCopyWith<_DdsPartInfo> get copyWith => __$DdsPartInfoCopyWithImpl<_DdsPartInfo>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsPartInfo&&(identical(other.index, index) || other.index == index)&&(identical(other.path, path) || other.path == path));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,index,path);
+
+@override
+String toString() {
+  return 'DdsPartInfo(index: $index, path: $path)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DdsPartInfoCopyWith<$Res> implements $DdsPartInfoCopyWith<$Res> {
+  factory _$DdsPartInfoCopyWith(_DdsPartInfo value, $Res Function(_DdsPartInfo) _then) = __$DdsPartInfoCopyWithImpl;
+@override @useResult
+$Res call({
+ BigInt index, String path
+});
+
+
+
+
+}
+/// @nodoc
+class __$DdsPartInfoCopyWithImpl<$Res>
+    implements _$DdsPartInfoCopyWith<$Res> {
+  __$DdsPartInfoCopyWithImpl(this._self, this._then);
+
+  final _DdsPartInfo _self;
+  final $Res Function(_DdsPartInfo) _then;
+
+/// Create a copy of DdsPartInfo
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? index = null,Object? path = null,}) {
+  return _then(_DdsPartInfo(
+index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as BigInt,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$DdsPngDebug {
+
+ String get requestedPath; String get basePath; BigInt get partCount; bool get reconstructed; String get decodeMode; int get width; int get height;
+/// Create a copy of DdsPngDebug
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DdsPngDebugCopyWith<DdsPngDebug> get copyWith => _$DdsPngDebugCopyWithImpl<DdsPngDebug>(this as DdsPngDebug, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsPngDebug&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&(identical(other.reconstructed, reconstructed) || other.reconstructed == reconstructed)&&(identical(other.decodeMode, decodeMode) || other.decodeMode == decodeMode)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,requestedPath,basePath,partCount,reconstructed,decodeMode,width,height);
+
+@override
+String toString() {
+  return 'DdsPngDebug(requestedPath: $requestedPath, basePath: $basePath, partCount: $partCount, reconstructed: $reconstructed, decodeMode: $decodeMode, width: $width, height: $height)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DdsPngDebugCopyWith<$Res>  {
+  factory $DdsPngDebugCopyWith(DdsPngDebug value, $Res Function(DdsPngDebug) _then) = _$DdsPngDebugCopyWithImpl;
+@useResult
+$Res call({
+ String requestedPath, String basePath, BigInt partCount, bool reconstructed, String decodeMode, int width, int height
+});
+
+
+
+
+}
+/// @nodoc
+class _$DdsPngDebugCopyWithImpl<$Res>
+    implements $DdsPngDebugCopyWith<$Res> {
+  _$DdsPngDebugCopyWithImpl(this._self, this._then);
+
+  final DdsPngDebug _self;
+  final $Res Function(DdsPngDebug) _then;
+
+/// Create a copy of DdsPngDebug
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? requestedPath = null,Object? basePath = null,Object? partCount = null,Object? reconstructed = null,Object? decodeMode = null,Object? width = null,Object? height = null,}) {
+  return _then(_self.copyWith(
+requestedPath: null == requestedPath ? _self.requestedPath : requestedPath // ignore: cast_nullable_to_non_nullable
+as String,basePath: null == basePath ? _self.basePath : basePath // ignore: cast_nullable_to_non_nullable
+as String,partCount: null == partCount ? _self.partCount : partCount // ignore: cast_nullable_to_non_nullable
+as BigInt,reconstructed: null == reconstructed ? _self.reconstructed : reconstructed // ignore: cast_nullable_to_non_nullable
+as bool,decodeMode: null == decodeMode ? _self.decodeMode : decodeMode // ignore: cast_nullable_to_non_nullable
+as String,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
+as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DdsPngDebug].
+extension DdsPngDebugPatterns on DdsPngDebug {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DdsPngDebug value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DdsPngDebug() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DdsPngDebug value)  $default,){
+final _that = this;
+switch (_that) {
+case _DdsPngDebug():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DdsPngDebug value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DdsPngDebug() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String requestedPath,  String basePath,  BigInt partCount,  bool reconstructed,  String decodeMode,  int width,  int height)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DdsPngDebug() when $default != null:
+return $default(_that.requestedPath,_that.basePath,_that.partCount,_that.reconstructed,_that.decodeMode,_that.width,_that.height);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String requestedPath,  String basePath,  BigInt partCount,  bool reconstructed,  String decodeMode,  int width,  int height)  $default,) {final _that = this;
+switch (_that) {
+case _DdsPngDebug():
+return $default(_that.requestedPath,_that.basePath,_that.partCount,_that.reconstructed,_that.decodeMode,_that.width,_that.height);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String requestedPath,  String basePath,  BigInt partCount,  bool reconstructed,  String decodeMode,  int width,  int height)?  $default,) {final _that = this;
+switch (_that) {
+case _DdsPngDebug() when $default != null:
+return $default(_that.requestedPath,_that.basePath,_that.partCount,_that.reconstructed,_that.decodeMode,_that.width,_that.height);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _DdsPngDebug extends DdsPngDebug {
+  const _DdsPngDebug({required this.requestedPath, required this.basePath, required this.partCount, required this.reconstructed, required this.decodeMode, required this.width, required this.height}): super._();
+  
+
+@override final  String requestedPath;
+@override final  String basePath;
+@override final  BigInt partCount;
+@override final  bool reconstructed;
+@override final  String decodeMode;
+@override final  int width;
+@override final  int height;
+
+/// Create a copy of DdsPngDebug
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DdsPngDebugCopyWith<_DdsPngDebug> get copyWith => __$DdsPngDebugCopyWithImpl<_DdsPngDebug>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsPngDebug&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&(identical(other.reconstructed, reconstructed) || other.reconstructed == reconstructed)&&(identical(other.decodeMode, decodeMode) || other.decodeMode == decodeMode)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,requestedPath,basePath,partCount,reconstructed,decodeMode,width,height);
+
+@override
+String toString() {
+  return 'DdsPngDebug(requestedPath: $requestedPath, basePath: $basePath, partCount: $partCount, reconstructed: $reconstructed, decodeMode: $decodeMode, width: $width, height: $height)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DdsPngDebugCopyWith<$Res> implements $DdsPngDebugCopyWith<$Res> {
+  factory _$DdsPngDebugCopyWith(_DdsPngDebug value, $Res Function(_DdsPngDebug) _then) = __$DdsPngDebugCopyWithImpl;
+@override @useResult
+$Res call({
+ String requestedPath, String basePath, BigInt partCount, bool reconstructed, String decodeMode, int width, int height
+});
+
+
+
+
+}
+/// @nodoc
+class __$DdsPngDebugCopyWithImpl<$Res>
+    implements _$DdsPngDebugCopyWith<$Res> {
+  __$DdsPngDebugCopyWithImpl(this._self, this._then);
+
+  final _DdsPngDebug _self;
+  final $Res Function(_DdsPngDebug) _then;
+
+/// Create a copy of DdsPngDebug
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? requestedPath = null,Object? basePath = null,Object? partCount = null,Object? reconstructed = null,Object? decodeMode = null,Object? width = null,Object? height = null,}) {
+  return _then(_DdsPngDebug(
+requestedPath: null == requestedPath ? _self.requestedPath : requestedPath // ignore: cast_nullable_to_non_nullable
+as String,basePath: null == basePath ? _self.basePath : basePath // ignore: cast_nullable_to_non_nullable
+as String,partCount: null == partCount ? _self.partCount : partCount // ignore: cast_nullable_to_non_nullable
+as BigInt,reconstructed: null == reconstructed ? _self.reconstructed : reconstructed // ignore: cast_nullable_to_non_nullable
+as bool,decodeMode: null == decodeMode ? _self.decodeMode : decodeMode // ignore: cast_nullable_to_non_nullable
+as String,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
+as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$P4kFileItem {
 
  String get name; bool get isDirectory; BigInt get size; BigInt get compressedSize; PlatformInt64 get dateModified;

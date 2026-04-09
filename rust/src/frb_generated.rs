@@ -38,7 +38,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1049645911;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1335578069;
 
 // Section: executor
 
@@ -658,6 +658,26 @@ fn wire__crate__api__unp4k_api__dcb_search_all_impl(
                     })()
                     .await,
                 )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__dds_png_debug_default_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dds_png_debug_default",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Result::<_, ()>::Ok(crate::api::unp4k_api::DdsPngDebug::default())?;
+                    Ok(output_ok)
+                })())
             }
         },
     )
@@ -1669,6 +1689,31 @@ fn wire__crate__api__unp4k_api__p4k_close_impl(
         },
     )
 }
+fn wire__crate__api__unp4k_api__p4k_debug_dds_parts_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    file_path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_debug_dds_parts",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_file_path = file_path.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::unp4k_api::p4k_debug_dds_parts(api_file_path).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     input_path: impl CstDecode<String>,
@@ -1691,6 +1736,43 @@ fn wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav_impl(
                             api_output_path,
                         )
                         .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_stream_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    wem_bytes: impl CstDecode<Vec<u8>>,
+    stream_sink: impl CstDecode<
+        StreamSink<
+            crate::api::unp4k_api::WemDecodeProgress,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        >,
+    >,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_decode_wem_bytes_to_wav_stream",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_wem_bytes = wem_bytes.cst_decode();
+            let api_stream_sink = stream_sink.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, ()>(
+                    (move || async move {
+                        let output_ok = Result::<_, ()>::Ok({
+                            crate::api::unp4k_api::p4k_decode_wem_bytes_to_wav_stream(
+                                api_wem_bytes,
+                                api_stream_sink,
+                            )
+                            .await;
+                        })?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -1854,6 +1936,31 @@ fn wire__crate__api__unp4k_api__p4k_decode_wem_to_wav_stream_impl(
                             )
                             .await;
                         })?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__p4k_extract_dds_as_png_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    file_path: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_extract_dds_as_png",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_file_path = file_path.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::unp4k_api::p4k_extract_dds_as_png(api_file_path).await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -2031,6 +2138,40 @@ fn wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_impl(
         },
     )
 }
+fn wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytes_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    p4k_path: impl CstDecode<String>,
+    model_path: impl CstDecode<String>,
+    options: impl CstDecode<Option<crate::api::unp4k_model_api::ModelConvertOptions>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_model_convert_to_glb_bytes",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_p4k_path = p4k_path.cst_decode();
+            let api_model_path = model_path.cst_decode();
+            let api_options = options.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::unp4k_model_api::p4k_model_convert_to_glb_bytes(
+                                api_p4k_path,
+                                api_model_path,
+                                api_options,
+                            )
+                            .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__unp4k_model_api__p4k_model_init_context_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
 ) {
@@ -2148,6 +2289,41 @@ fn wire__crate__api__unp4k_model_api__p4k_model_session_create_impl(
                         Ok(output_ok)
                     })()
                     .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    glb_bytes: impl CstDecode<Vec<u8>>,
+    width: impl CstDecode<u32>,
+    height: impl CstDecode<u32>,
+    bg_color: impl CstDecode<Option<Vec<f32>>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_model_session_create_from_bytes",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_glb_bytes = glb_bytes.cst_decode();
+            let api_width = width.cst_decode();
+            let api_height = height.cst_decode();
+            let api_bg_color = bg_color.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::unp4k_model_api::p4k_model_session_create_from_bytes(
+                                api_glb_bytes,
+                                api_width,
+                                api_height,
+                                api_bg_color,
+                            )?;
+                        Ok(output_ok)
+                    })(),
                 )
             }
         },
@@ -3295,6 +3471,60 @@ impl SseDecode for crate::api::unp4k_api::DcbSearchResult {
     }
 }
 
+impl SseDecode for crate::api::unp4k_api::DdsDebugInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_requestedPath = <String>::sse_decode(deserializer);
+        let mut var_basePath = <String>::sse_decode(deserializer);
+        let mut var_baseKey = <String>::sse_decode(deserializer);
+        let mut var_baseReal = <Option<String>>::sse_decode(deserializer);
+        let mut var_partCount = <usize>::sse_decode(deserializer);
+        let mut var_parts = <Vec<crate::api::unp4k_api::DdsPartInfo>>::sse_decode(deserializer);
+        return crate::api::unp4k_api::DdsDebugInfo {
+            requested_path: var_requestedPath,
+            base_path: var_basePath,
+            base_key: var_baseKey,
+            base_real: var_baseReal,
+            part_count: var_partCount,
+            parts: var_parts,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_api::DdsPartInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_index = <usize>::sse_decode(deserializer);
+        let mut var_path = <String>::sse_decode(deserializer);
+        return crate::api::unp4k_api::DdsPartInfo {
+            index: var_index,
+            path: var_path,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_api::DdsPngDebug {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_requestedPath = <String>::sse_decode(deserializer);
+        let mut var_basePath = <String>::sse_decode(deserializer);
+        let mut var_partCount = <usize>::sse_decode(deserializer);
+        let mut var_reconstructed = <bool>::sse_decode(deserializer);
+        let mut var_decodeMode = <String>::sse_decode(deserializer);
+        let mut var_width = <u32>::sse_decode(deserializer);
+        let mut var_height = <u32>::sse_decode(deserializer);
+        return crate::api::unp4k_api::DdsPngDebug {
+            requested_path: var_requestedPath,
+            base_path: var_basePath,
+            part_count: var_partCount,
+            reconstructed: var_reconstructed,
+            decode_mode: var_decodeMode,
+            width: var_width,
+            height: var_height,
+        };
+    }
+}
+
 impl SseDecode for crate::api::downloader_api::DownloadGlobalStat {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3439,6 +3669,20 @@ impl SseDecode for Vec<crate::api::unp4k_api::DcbSearchResult> {
         let mut ans_ = Vec::with_capacity(len_ as usize);
         for idx_ in 0..len_ {
             ans_.push(<crate::api::unp4k_api::DcbSearchResult>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::unp4k_api::DdsPartInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::unp4k_api::DdsPartInfo>::sse_decode(
                 deserializer,
             ));
         }
@@ -3634,6 +3878,24 @@ impl SseDecode for crate::api::unp4k_model_api::LocalBatchFileResult {
             warnings: var_warnings,
             source_mode: var_sourceMode,
             fallback_reason: var_fallbackReason,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_model_api::ModelConvertBytesResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_success = <bool>::sse_decode(deserializer);
+        let mut var_glbBytes = <Option<Vec<u8>>>::sse_decode(deserializer);
+        let mut var_errorCode = <Option<String>>::sse_decode(deserializer);
+        let mut var_errorMessage = <Option<String>>::sse_decode(deserializer);
+        let mut var_warnings = <Vec<String>>::sse_decode(deserializer);
+        return crate::api::unp4k_model_api::ModelConvertBytesResult {
+            success: var_success,
+            glb_bytes: var_glbBytes,
+            error_code: var_errorCode,
+            error_message: var_errorMessage,
+            warnings: var_warnings,
         };
     }
 }
@@ -3888,6 +4150,15 @@ impl SseDecode for crate::api::win32_api::ProcessInfo {
             name: var_name,
             path: var_path,
         };
+    }
+}
+
+impl SseDecode for (Vec<u8>, crate::api::unp4k_api::DdsPngDebug) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_field0 = <Vec<u8>>::sse_decode(deserializer);
+        let mut var_field1 = <crate::api::unp4k_api::DdsPngDebug>::sse_decode(deserializer);
+        return (var_field0, var_field1);
     }
 }
 
@@ -4303,6 +4574,78 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::DcbSearchResult>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DdsDebugInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.requested_path.into_into_dart().into_dart(),
+            self.base_path.into_into_dart().into_dart(),
+            self.base_key.into_into_dart().into_dart(),
+            self.base_real.into_into_dart().into_dart(),
+            self.part_count.into_into_dart().into_dart(),
+            self.parts.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_api::DdsDebugInfo
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::DdsDebugInfo>
+    for crate::api::unp4k_api::DdsDebugInfo
+{
+    fn into_into_dart(self) -> crate::api::unp4k_api::DdsDebugInfo {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DdsPartInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.index.into_into_dart().into_dart(),
+            self.path.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_api::DdsPartInfo
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::DdsPartInfo>
+    for crate::api::unp4k_api::DdsPartInfo
+{
+    fn into_into_dart(self) -> crate::api::unp4k_api::DdsPartInfo {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::DdsPngDebug {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.requested_path.into_into_dart().into_dart(),
+            self.base_path.into_into_dart().into_dart(),
+            self.part_count.into_into_dart().into_dart(),
+            self.reconstructed.into_into_dart().into_dart(),
+            self.decode_mode.into_into_dart().into_dart(),
+            self.width.into_into_dart().into_dart(),
+            self.height.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_api::DdsPngDebug
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::DdsPngDebug>
+    for crate::api::unp4k_api::DdsPngDebug
+{
+    fn into_into_dart(self) -> crate::api::unp4k_api::DdsPngDebug {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::downloader_api::DownloadGlobalStat {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -4436,6 +4779,30 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::LocalBatchFi
     for crate::api::unp4k_model_api::LocalBatchFileResult
 {
     fn into_into_dart(self) -> crate::api::unp4k_model_api::LocalBatchFileResult {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::ModelConvertBytesResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.success.into_into_dart().into_dart(),
+            self.glb_bytes.into_into_dart().into_dart(),
+            self.error_code.into_into_dart().into_dart(),
+            self.error_message.into_into_dart().into_dart(),
+            self.warnings.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_model_api::ModelConvertBytesResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::ModelConvertBytesResult>
+    for crate::api::unp4k_model_api::ModelConvertBytesResult
+{
+    fn into_into_dart(self) -> crate::api::unp4k_model_api::ModelConvertBytesResult {
         self
     }
 }
@@ -4970,6 +5337,39 @@ impl SseEncode for crate::api::unp4k_api::DcbSearchResult {
     }
 }
 
+impl SseEncode for crate::api::unp4k_api::DdsDebugInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.requested_path, serializer);
+        <String>::sse_encode(self.base_path, serializer);
+        <String>::sse_encode(self.base_key, serializer);
+        <Option<String>>::sse_encode(self.base_real, serializer);
+        <usize>::sse_encode(self.part_count, serializer);
+        <Vec<crate::api::unp4k_api::DdsPartInfo>>::sse_encode(self.parts, serializer);
+    }
+}
+
+impl SseEncode for crate::api::unp4k_api::DdsPartInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <usize>::sse_encode(self.index, serializer);
+        <String>::sse_encode(self.path, serializer);
+    }
+}
+
+impl SseEncode for crate::api::unp4k_api::DdsPngDebug {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.requested_path, serializer);
+        <String>::sse_encode(self.base_path, serializer);
+        <usize>::sse_encode(self.part_count, serializer);
+        <bool>::sse_encode(self.reconstructed, serializer);
+        <String>::sse_encode(self.decode_mode, serializer);
+        <u32>::sse_encode(self.width, serializer);
+        <u32>::sse_encode(self.height, serializer);
+    }
+}
+
 impl SseEncode for crate::api::downloader_api::DownloadGlobalStat {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -5087,6 +5487,16 @@ impl SseEncode for Vec<crate::api::unp4k_api::DcbSearchResult> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::unp4k_api::DcbSearchResult>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::unp4k_api::DdsPartInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::unp4k_api::DdsPartInfo>::sse_encode(item, serializer);
         }
     }
 }
@@ -5227,6 +5637,17 @@ impl SseEncode for crate::api::unp4k_model_api::LocalBatchFileResult {
         <Vec<String>>::sse_encode(self.warnings, serializer);
         <String>::sse_encode(self.source_mode, serializer);
         <Option<String>>::sse_encode(self.fallback_reason, serializer);
+    }
+}
+
+impl SseEncode for crate::api::unp4k_model_api::ModelConvertBytesResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.success, serializer);
+        <Option<Vec<u8>>>::sse_encode(self.glb_bytes, serializer);
+        <Option<String>>::sse_encode(self.error_code, serializer);
+        <Option<String>>::sse_encode(self.error_message, serializer);
+        <Vec<String>>::sse_encode(self.warnings, serializer);
     }
 }
 
@@ -5441,6 +5862,14 @@ impl SseEncode for crate::api::win32_api::ProcessInfo {
         <u32>::sse_encode(self.pid, serializer);
         <String>::sse_encode(self.name, serializer);
         <String>::sse_encode(self.path, serializer);
+    }
+}
+
+impl SseEncode for (Vec<u8>, crate::api::unp4k_api::DdsPngDebug) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<u8>>::sse_encode(self.0, serializer);
+        <crate::api::unp4k_api::DdsPngDebug>::sse_encode(self.1, serializer);
     }
 }
 
@@ -5831,6 +6260,42 @@ mod io {
             }
         }
     }
+    impl CstDecode<crate::api::unp4k_api::DdsDebugInfo> for wire_cst_dds_debug_info {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_api::DdsDebugInfo {
+            crate::api::unp4k_api::DdsDebugInfo {
+                requested_path: self.requested_path.cst_decode(),
+                base_path: self.base_path.cst_decode(),
+                base_key: self.base_key.cst_decode(),
+                base_real: self.base_real.cst_decode(),
+                part_count: self.part_count.cst_decode(),
+                parts: self.parts.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::unp4k_api::DdsPartInfo> for wire_cst_dds_part_info {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_api::DdsPartInfo {
+            crate::api::unp4k_api::DdsPartInfo {
+                index: self.index.cst_decode(),
+                path: self.path.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::unp4k_api::DdsPngDebug> for wire_cst_dds_png_debug {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_api::DdsPngDebug {
+            crate::api::unp4k_api::DdsPngDebug {
+                requested_path: self.requested_path.cst_decode(),
+                base_path: self.base_path.cst_decode(),
+                part_count: self.part_count.cst_decode(),
+                reconstructed: self.reconstructed.cst_decode(),
+                decode_mode: self.decode_mode.cst_decode(),
+                width: self.width.cst_decode(),
+                height: self.height.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<crate::api::downloader_api::DownloadGlobalStat> for wire_cst_download_global_stat {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::downloader_api::DownloadGlobalStat {
@@ -5895,6 +6360,16 @@ mod io {
     {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<crate::api::unp4k_api::DcbSearchResult> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<crate::api::unp4k_api::DdsPartInfo>> for *mut wire_cst_list_dds_part_info {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::unp4k_api::DdsPartInfo> {
             let vec = unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -6060,6 +6535,20 @@ mod io {
             }
         }
     }
+    impl CstDecode<crate::api::unp4k_model_api::ModelConvertBytesResult>
+        for wire_cst_model_convert_bytes_result
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::ModelConvertBytesResult {
+            crate::api::unp4k_model_api::ModelConvertBytesResult {
+                success: self.success.cst_decode(),
+                glb_bytes: self.glb_bytes.cst_decode(),
+                error_code: self.error_code.cst_decode(),
+                error_message: self.error_message.cst_decode(),
+                warnings: self.warnings.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<crate::api::unp4k_model_api::ModelConvertOptions>
         for wire_cst_model_convert_options
     {
@@ -6116,6 +6605,14 @@ mod io {
                 name: self.name.cst_decode(),
                 path: self.path.cst_decode(),
             }
+        }
+    }
+    impl CstDecode<(Vec<u8>, crate::api::unp4k_api::DdsPngDebug)>
+        for wire_cst_record_list_prim_u_8_strict_dds_png_debug
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> (Vec<u8>, crate::api::unp4k_api::DdsPngDebug) {
+            (self.field0.cst_decode(), self.field1.cst_decode())
         }
     }
     impl CstDecode<(String, String)> for wire_cst_record_string_string {
@@ -6351,6 +6848,54 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_dds_debug_info {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                requested_path: core::ptr::null_mut(),
+                base_path: core::ptr::null_mut(),
+                base_key: core::ptr::null_mut(),
+                base_real: core::ptr::null_mut(),
+                part_count: Default::default(),
+                parts: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_dds_debug_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_dds_part_info {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                index: Default::default(),
+                path: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_dds_part_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_dds_png_debug {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                requested_path: core::ptr::null_mut(),
+                base_path: core::ptr::null_mut(),
+                part_count: Default::default(),
+                reconstructed: Default::default(),
+                decode_mode: core::ptr::null_mut(),
+                width: Default::default(),
+                height: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_dds_png_debug {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_download_global_stat {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -6432,6 +6977,22 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
+    impl NewWithNullPtr for wire_cst_model_convert_bytes_result {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                success: Default::default(),
+                glb_bytes: core::ptr::null_mut(),
+                error_code: core::ptr::null_mut(),
+                error_message: core::ptr::null_mut(),
+                warnings: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_model_convert_bytes_result {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
     impl NewWithNullPtr for wire_cst_model_convert_options {
         fn new_with_null_ptr() -> Self {
             Self {
@@ -6504,6 +7065,19 @@ mod io {
         }
     }
     impl Default for wire_cst_process_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_record_list_prim_u_8_strict_dds_png_debug {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                field0: core::ptr::null_mut(),
+                field1: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_record_list_prim_u_8_strict_dds_png_debug {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -6877,6 +7451,13 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__dds_png_debug_default(
+        port_: i64,
+    ) {
+        wire__crate__api__unp4k_api__dds_png_debug_default_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__http_api__dns_lookup_ips(
         port_: i64,
         host: *mut wire_cst_list_prim_u_8_strict,
@@ -7238,12 +7819,33 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_debug_dds_parts(
+        port_: i64,
+        file_path: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__p4k_debug_dds_parts_impl(port_, file_path)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav(
         port_: i64,
         input_path: *mut wire_cst_list_prim_u_8_strict,
         output_path: *mut wire_cst_list_prim_u_8_strict,
     ) {
         wire__crate__api__unp4k_api__p4k_decode_ogg_to_wav_impl(port_, input_path, output_path)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_stream(
+        port_: i64,
+        wem_bytes: *mut wire_cst_list_prim_u_8_loose,
+        stream_sink: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__p4k_decode_wem_bytes_to_wav_stream_impl(
+            port_,
+            wem_bytes,
+            stream_sink,
+        )
     }
 
     #[unsafe(no_mangle)]
@@ -7308,6 +7910,14 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_extract_dds_as_png(
+        port_: i64,
+        file_path: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_api__p4k_extract_dds_as_png_impl(port_, file_path)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_extract_to_disk(
         port_: i64,
         file_path: *mut wire_cst_list_prim_u_8_strict,
@@ -7367,6 +7977,18 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytes(
+        port_: i64,
+        p4k_path: *mut wire_cst_list_prim_u_8_strict,
+        model_path: *mut wire_cst_list_prim_u_8_strict,
+        options: *mut wire_cst_model_convert_options,
+    ) {
+        wire__crate__api__unp4k_model_api__p4k_model_convert_to_glb_bytes_impl(
+            port_, p4k_path, model_path, options,
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_init_context(
         port_: i64,
     ) {
@@ -7406,6 +8028,19 @@ mod io {
     ) {
         wire__crate__api__unp4k_model_api__p4k_model_session_create_impl(
             port_, glb_path, width, height, bg_color,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes(
+        port_: i64,
+        glb_bytes: *mut wire_cst_list_prim_u_8_loose,
+        width: u32,
+        height: u32,
+        bg_color: *mut wire_cst_list_prim_f_32_strict,
+    ) {
+        wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes_impl(
+            port_, glb_bytes, width, height, bg_color,
         )
     }
 
@@ -7821,6 +8456,20 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_dds_part_info(
+        len: i32,
+    ) -> *mut wire_cst_list_dds_part_info {
+        let wrap = wire_cst_list_dds_part_info {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_dds_part_info>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_download_task_info(
         len: i32,
     ) -> *mut wire_cst_list_download_task_info {
@@ -8016,6 +8665,33 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_dds_debug_info {
+        requested_path: *mut wire_cst_list_prim_u_8_strict,
+        base_path: *mut wire_cst_list_prim_u_8_strict,
+        base_key: *mut wire_cst_list_prim_u_8_strict,
+        base_real: *mut wire_cst_list_prim_u_8_strict,
+        part_count: usize,
+        parts: *mut wire_cst_list_dds_part_info,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_dds_part_info {
+        index: usize,
+        path: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_dds_png_debug {
+        requested_path: *mut wire_cst_list_prim_u_8_strict,
+        base_path: *mut wire_cst_list_prim_u_8_strict,
+        part_count: usize,
+        reconstructed: bool,
+        decode_mode: *mut wire_cst_list_prim_u_8_strict,
+        width: u32,
+        height: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_download_global_stat {
         download_speed: u64,
         upload_speed: u64,
@@ -8059,6 +8735,12 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_dcb_search_result {
         ptr: *mut wire_cst_dcb_search_result,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_dds_part_info {
+        ptr: *mut wire_cst_dds_part_info,
         len: i32,
     }
     #[repr(C)]
@@ -8165,6 +8847,15 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_model_convert_bytes_result {
+        success: bool,
+        glb_bytes: *mut wire_cst_list_prim_u_8_strict,
+        error_code: *mut wire_cst_list_prim_u_8_strict,
+        error_message: *mut wire_cst_list_prim_u_8_strict,
+        warnings: *mut wire_cst_list_String,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_model_convert_options {
         embed_textures: bool,
         overwrite: bool,
@@ -8203,6 +8894,12 @@ mod io {
         pid: u32,
         name: *mut wire_cst_list_prim_u_8_strict,
         path: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_record_list_prim_u_8_strict_dds_png_debug {
+        field0: *mut wire_cst_list_prim_u_8_strict,
+        field1: wire_cst_dds_png_debug,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

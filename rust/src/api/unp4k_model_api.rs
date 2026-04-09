@@ -14,6 +14,15 @@ pub struct ModelConvertResult {
 }
 
 #[frb(dart_metadata=("freezed"))]
+pub struct ModelConvertBytesResult {
+    pub success: bool,
+    pub glb_bytes: Option<Vec<u8>>,
+    pub error_code: Option<String>,
+    pub error_message: Option<String>,
+    pub warnings: Vec<String>,
+}
+
+#[frb(dart_metadata=("freezed"))]
 pub struct ModelRenderResult {
     pub success: bool,
     pub width: u32,
@@ -127,6 +136,32 @@ pub async fn p4k_model_convert_to_glb(
     }
 }
 
+pub async fn p4k_model_convert_to_glb_bytes(
+    p4k_path: String,
+    model_path: String,
+    options: Option<ModelConvertOptions>,
+) -> Result<ModelConvertBytesResult> {
+    let options: ConvertOptions = options.into();
+    let result =
+        model_convert::convert_from_p4k_to_bytes(&p4k_path, &model_path, options).await;
+    match result {
+        Ok(ok) => Ok(ModelConvertBytesResult {
+            success: true,
+            glb_bytes: Some(ok.glb_bytes),
+            error_code: None,
+            error_message: None,
+            warnings: ok.warnings,
+        }),
+        Err(e) => Ok(ModelConvertBytesResult {
+            success: false,
+            glb_bytes: None,
+            error_code: Some(e.code().to_string()),
+            error_message: Some(e.to_string()),
+            warnings: vec![],
+        }),
+    }
+}
+
 pub async fn p4k_model_convert_local_batch_and_merge(
     _asset_root: String,
     _output_dir: String,
@@ -204,6 +239,35 @@ pub async fn p4k_model_session_create(
         }
     });
     match model_render::create_session(&glb_data, width, height, bg) {
+        Ok((session_id, model_radius)) => Ok(SessionCreateResult {
+            success: true,
+            session_id: Some(session_id),
+            model_radius,
+            error_message: None,
+        }),
+        Err(e) => Ok(SessionCreateResult {
+            success: false,
+            session_id: None,
+            model_radius: 1.0,
+            error_message: Some(e.to_string()),
+        }),
+    }
+}
+
+pub fn p4k_model_session_create_from_bytes(
+    glb_bytes: Vec<u8>,
+    width: u32,
+    height: u32,
+    bg_color: Option<Vec<f32>>,
+) -> Result<SessionCreateResult> {
+    let bg = bg_color.and_then(|c| {
+        if c.len() == 4 {
+            Some([c[0], c[1], c[2], c[3]])
+        } else {
+            None
+        }
+    });
+    match model_render::create_session(&glb_bytes, width, height, bg) {
         Ok((session_id, model_radius)) => Ok(SessionCreateResult {
             success: true,
             session_id: Some(session_id),

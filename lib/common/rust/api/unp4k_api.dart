@@ -8,7 +8,8 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_api.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `build_preview_candidates`, `build_wav_from_pcm`, `collect_dds_parts`, `compute_dds_mip_sizes`, `compute_waveform_from_pcm`, `compute_waveform_from_wav`, `dds_base_path`, `dds_block_bytes`, `decode_image_for_preview`, `decode_uncompressed_dds`, `dos_datetime_to_millis`, `ensure_files_loaded`, `estimate_duration_from_wav`, `extract_masked_component`, `has_dds_signature`, `le_u32`, `normalize_p4k_path`, `p4k_get_entry`, `reconstruct_dds_stream`
+// These functions are ignored because they are not marked as `pub`: `build_preview_candidates`, `build_wav_from_pcm`, `collect_dds_part_paths`, `collect_dds_parts`, `compute_dds_mip_sizes`, `compute_waveform_from_pcm`, `compute_waveform_from_wav`, `dds_base_path`, `dds_block_bytes_dxgi`, `dds_block_bytes`, `dds_payload_layout`, `decode_dds_image`, `decode_image_for_preview`, `decode_uncompressed_dds`, `dos_datetime_to_millis`, `ensure_files_loaded`, `estimate_duration_from_wav`, `extract_masked_component`, `has_dds_signature`, `le_u32`, `normalize_p4k_path`, `normalize_slashes`, `p4k_get_entry`, `reconstruct_dds_stream`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`
 
 /// 打开 P4K 文件（仅打开，不读取文件列表）
 Future<void> p4KOpen({required String p4KPath}) =>
@@ -30,6 +31,16 @@ Future<Uint8List> p4KExtractToMemory({required String filePath}) =>
 /// 对 .dds 会自动尝试 .dds.0 ~ .dds.15 的层级文件
 Future<Uint8List> p4KPreviewImagePng({required String filePath}) =>
     RustLib.instance.api.crateApiUnp4KApiP4KPreviewImagePng(filePath: filePath);
+
+/// 提取 DDS 文件并转换为 PNG，返回 PNG 字节和调试信息
+Future<(Uint8List, DdsPngDebug)> p4KExtractDdsAsPng({
+  required String filePath,
+}) =>
+    RustLib.instance.api.crateApiUnp4KApiP4KExtractDdsAsPng(filePath: filePath);
+
+/// 调试 DDS 分片信息
+Future<DdsDebugInfo> p4KDebugDdsParts({required String filePath}) =>
+    RustLib.instance.api.crateApiUnp4KApiP4KDebugDdsParts(filePath: filePath);
 
 /// 提取文件到磁盘
 Future<void> p4KExtractToDisk({
@@ -99,6 +110,13 @@ Stream<WemDecodeProgress> p4KDecodeWemToWavStream({
   required String inputPath,
 }) => RustLib.instance.api.crateApiUnp4KApiP4KDecodeWemToWavStream(
   inputPath: inputPath,
+);
+
+/// In-memory variant of `p4k_decode_wem_to_wav_stream` — accepts raw WEM bytes instead of a file path.
+Stream<WemDecodeProgress> p4KDecodeWemBytesToWavStream({
+  required List<int> wemBytes,
+}) => RustLib.instance.api.crateApiUnp4KApiP4KDecodeWemBytesToWavStream(
+  wemBytes: wemBytes,
 );
 
 /// 关闭 P4K 读取器
@@ -171,6 +189,43 @@ sealed class DcbSearchResult with _$DcbSearchResult {
     required BigInt index,
     required List<DcbSearchMatch> matches,
   }) = _DcbSearchResult;
+}
+
+/// DDS 调试信息
+@freezed
+sealed class DdsDebugInfo with _$DdsDebugInfo {
+  const factory DdsDebugInfo({
+    required String requestedPath,
+    required String basePath,
+    required String baseKey,
+    String? baseReal,
+    required BigInt partCount,
+    required List<DdsPartInfo> parts,
+  }) = _DdsDebugInfo;
+}
+
+/// DDS 分片信息
+@freezed
+sealed class DdsPartInfo with _$DdsPartInfo {
+  const factory DdsPartInfo({required BigInt index, required String path}) =
+      _DdsPartInfo;
+}
+
+/// DDS 转 PNG 调试信息
+@freezed
+sealed class DdsPngDebug with _$DdsPngDebug {
+  const DdsPngDebug._();
+  const factory DdsPngDebug({
+    required String requestedPath,
+    required String basePath,
+    required BigInt partCount,
+    required bool reconstructed,
+    required String decodeMode,
+    required int width,
+    required int height,
+  }) = _DdsPngDebug;
+  static Future<DdsPngDebug> default_() =>
+      RustLib.instance.api.crateApiUnp4KApiDdsPngDebugDefault();
 }
 
 /// P4K 文件项信息

@@ -876,6 +876,275 @@ as String?,
 }
 
 /// @nodoc
+mixin _$ModelConvertBytesResult {
+
+ bool get success; Uint8List? get glbBytes; String? get errorCode; String? get errorMessage; List<String> get warnings;
+/// Create a copy of ModelConvertBytesResult
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ModelConvertBytesResultCopyWith<ModelConvertBytesResult> get copyWith => _$ModelConvertBytesResultCopyWithImpl<ModelConvertBytesResult>(this as ModelConvertBytesResult, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelConvertBytesResult&&(identical(other.success, success) || other.success == success)&&const DeepCollectionEquality().equals(other.glbBytes, glbBytes)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&const DeepCollectionEquality().equals(other.warnings, warnings));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,success,const DeepCollectionEquality().hash(glbBytes),errorCode,errorMessage,const DeepCollectionEquality().hash(warnings));
+
+@override
+String toString() {
+  return 'ModelConvertBytesResult(success: $success, glbBytes: $glbBytes, errorCode: $errorCode, errorMessage: $errorMessage, warnings: $warnings)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ModelConvertBytesResultCopyWith<$Res>  {
+  factory $ModelConvertBytesResultCopyWith(ModelConvertBytesResult value, $Res Function(ModelConvertBytesResult) _then) = _$ModelConvertBytesResultCopyWithImpl;
+@useResult
+$Res call({
+ bool success, Uint8List? glbBytes, String? errorCode, String? errorMessage, List<String> warnings
+});
+
+
+
+
+}
+/// @nodoc
+class _$ModelConvertBytesResultCopyWithImpl<$Res>
+    implements $ModelConvertBytesResultCopyWith<$Res> {
+  _$ModelConvertBytesResultCopyWithImpl(this._self, this._then);
+
+  final ModelConvertBytesResult _self;
+  final $Res Function(ModelConvertBytesResult) _then;
+
+/// Create a copy of ModelConvertBytesResult
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? glbBytes = freezed,Object? errorCode = freezed,Object? errorMessage = freezed,Object? warnings = null,}) {
+  return _then(_self.copyWith(
+success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
+as bool,glbBytes: freezed == glbBytes ? _self.glbBytes : glbBytes // ignore: cast_nullable_to_non_nullable
+as Uint8List?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
+as String?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,warnings: null == warnings ? _self.warnings : warnings // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ModelConvertBytesResult].
+extension ModelConvertBytesResultPatterns on ModelConvertBytesResult {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ModelConvertBytesResult value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ModelConvertBytesResult() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ModelConvertBytesResult value)  $default,){
+final _that = this;
+switch (_that) {
+case _ModelConvertBytesResult():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ModelConvertBytesResult value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ModelConvertBytesResult() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  Uint8List? glbBytes,  String? errorCode,  String? errorMessage,  List<String> warnings)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ModelConvertBytesResult() when $default != null:
+return $default(_that.success,_that.glbBytes,_that.errorCode,_that.errorMessage,_that.warnings);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  Uint8List? glbBytes,  String? errorCode,  String? errorMessage,  List<String> warnings)  $default,) {final _that = this;
+switch (_that) {
+case _ModelConvertBytesResult():
+return $default(_that.success,_that.glbBytes,_that.errorCode,_that.errorMessage,_that.warnings);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  Uint8List? glbBytes,  String? errorCode,  String? errorMessage,  List<String> warnings)?  $default,) {final _that = this;
+switch (_that) {
+case _ModelConvertBytesResult() when $default != null:
+return $default(_that.success,_that.glbBytes,_that.errorCode,_that.errorMessage,_that.warnings);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _ModelConvertBytesResult implements ModelConvertBytesResult {
+  const _ModelConvertBytesResult({required this.success, this.glbBytes, this.errorCode, this.errorMessage, required final  List<String> warnings}): _warnings = warnings;
+  
+
+@override final  bool success;
+@override final  Uint8List? glbBytes;
+@override final  String? errorCode;
+@override final  String? errorMessage;
+ final  List<String> _warnings;
+@override List<String> get warnings {
+  if (_warnings is EqualUnmodifiableListView) return _warnings;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_warnings);
+}
+
+
+/// Create a copy of ModelConvertBytesResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ModelConvertBytesResultCopyWith<_ModelConvertBytesResult> get copyWith => __$ModelConvertBytesResultCopyWithImpl<_ModelConvertBytesResult>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelConvertBytesResult&&(identical(other.success, success) || other.success == success)&&const DeepCollectionEquality().equals(other.glbBytes, glbBytes)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&const DeepCollectionEquality().equals(other._warnings, _warnings));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,success,const DeepCollectionEquality().hash(glbBytes),errorCode,errorMessage,const DeepCollectionEquality().hash(_warnings));
+
+@override
+String toString() {
+  return 'ModelConvertBytesResult(success: $success, glbBytes: $glbBytes, errorCode: $errorCode, errorMessage: $errorMessage, warnings: $warnings)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ModelConvertBytesResultCopyWith<$Res> implements $ModelConvertBytesResultCopyWith<$Res> {
+  factory _$ModelConvertBytesResultCopyWith(_ModelConvertBytesResult value, $Res Function(_ModelConvertBytesResult) _then) = __$ModelConvertBytesResultCopyWithImpl;
+@override @useResult
+$Res call({
+ bool success, Uint8List? glbBytes, String? errorCode, String? errorMessage, List<String> warnings
+});
+
+
+
+
+}
+/// @nodoc
+class __$ModelConvertBytesResultCopyWithImpl<$Res>
+    implements _$ModelConvertBytesResultCopyWith<$Res> {
+  __$ModelConvertBytesResultCopyWithImpl(this._self, this._then);
+
+  final _ModelConvertBytesResult _self;
+  final $Res Function(_ModelConvertBytesResult) _then;
+
+/// Create a copy of ModelConvertBytesResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? glbBytes = freezed,Object? errorCode = freezed,Object? errorMessage = freezed,Object? warnings = null,}) {
+  return _then(_ModelConvertBytesResult(
+success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
+as bool,glbBytes: freezed == glbBytes ? _self.glbBytes : glbBytes // ignore: cast_nullable_to_non_nullable
+as Uint8List?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
+as String?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,warnings: null == warnings ? _self._warnings : warnings // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$ModelConvertOptions {
 
  bool get embedTextures; bool get overwrite; int? get maxTextureSize;

@@ -66,6 +66,7 @@ bytes = "1.11"
 gltf-json = "1.4.1"
 gltf = { version = "1.4.1", features = ["import", "utils"] }
 image = { version = "0.25.10", default-features = false, features = ["png", "jpeg", "tga", "tiff", "dds", "ico"] }
+image_dds = "0.7"
 bytemuck = { version = "1.22", features = ["derive"] }
 pollster = "0.4"
 renderling = { git = "https://github.com/schell/renderling", rev = "a7b44f796a38cb2c734d69354fa35f1288aa02a1" }

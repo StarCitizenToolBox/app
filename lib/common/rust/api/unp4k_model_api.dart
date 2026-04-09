@@ -33,6 +33,16 @@ Future<ModelConvertResult> p4KModelConvertToGlb({
   options: options,
 );
 
+Future<ModelConvertBytesResult> p4KModelConvertToGlbBytes({
+  required String p4KPath,
+  required String modelPath,
+  ModelConvertOptions? options,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelConvertToGlbBytes(
+  p4KPath: p4KPath,
+  modelPath: modelPath,
+  options: options,
+);
+
 Future<LocalBatchConvertResult> p4KModelConvertLocalBatchAndMerge({
   required String assetRoot,
   required String outputDir,
@@ -67,6 +77,18 @@ Future<SessionCreateResult> p4KModelSessionCreate({
   Float32List? bgColor,
 }) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionCreate(
   glbPath: glbPath,
+  width: width,
+  height: height,
+  bgColor: bgColor,
+);
+
+Future<SessionCreateResult> p4KModelSessionCreateFromBytes({
+  required List<int> glbBytes,
+  required int width,
+  required int height,
+  Float32List? bgColor,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionCreateFromBytes(
+  glbBytes: glbBytes,
   width: width,
   height: height,
   bgColor: bgColor,
@@ -142,6 +164,17 @@ sealed class LocalBatchFileResult with _$LocalBatchFileResult {
     required String sourceMode,
     String? fallbackReason,
   }) = _LocalBatchFileResult;
+}
+
+@freezed
+sealed class ModelConvertBytesResult with _$ModelConvertBytesResult {
+  const factory ModelConvertBytesResult({
+    required bool success,
+    Uint8List? glbBytes,
+    String? errorCode,
+    String? errorMessage,
+    required List<String> warnings,
+  }) = _ModelConvertBytesResult;
 }
 
 @freezed

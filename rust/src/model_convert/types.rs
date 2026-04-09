@@ -119,6 +119,14 @@ pub struct ConvertOutput {
     pub fallback_reason: Option<String>,
 }
 
+#[derive(Debug, Clone)]
+pub struct ConvertBytesOutput {
+    pub glb_bytes: Vec<u8>,
+    pub warnings: Vec<String>,
+    pub source_mode: String,
+    pub fallback_reason: Option<String>,
+}
+
 #[derive(Error, Debug)]
 pub enum ModelConvertError {
     #[error("Unsupported file format")]

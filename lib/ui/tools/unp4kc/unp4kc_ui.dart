@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -18,8 +21,7 @@ class UnP4kcUI extends HookConsumerWidget {
     final state = ref.watch(unp4kCModelProvider);
     final model = ref.read(unp4kCModelProvider.notifier);
     final files = model.getFiles();
-    final displayPath =
-        state.searchMatchedFiles != null && state.searchPath != null
+    final displayPath = state.searchMatchedFiles != null && state.searchPath != null
         ? state.searchPath!
         : state.curPath;
     final paths = displayPath.trim().split("\\");
@@ -69,25 +71,11 @@ class UnP4kcUI extends HookConsumerWidget {
             },
           ),
           const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              S.current.tools_unp4k_title(model.getGamePath()),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          Expanded(child: Text(S.current.tools_unp4k_title(model.getGamePath()), overflow: TextOverflow.ellipsis)),
         ],
       ),
       useBodyContainer: false,
-      content: makeBody(
-        context,
-        state,
-        model,
-        files,
-        paths,
-        pathController,
-        isPathEditing,
-        pathFocusNode,
-      ),
+      content: makeBody(context, state, model, files, paths, pathController, isPathEditing, pathFocusNode),
     );
   }
 
@@ -117,18 +105,11 @@ class UnP4kcUI extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         if (state.loadingTotal > 0) ...[
-                          ProgressBar(
-                            value:
-                                (state.loadingCurrent / state.loadingTotal) *
-                                100,
-                          ),
+                          ProgressBar(value: (state.loadingCurrent / state.loadingTotal) * 100),
                           const SizedBox(height: 8),
                           Text(
                             "${state.loadingCurrent}/${state.loadingTotal} (${((state.loadingCurrent / state.loadingTotal) * 100).toStringAsFixed(1)}%)",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white.withValues(alpha: .75),
-                            ),
+                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .75)),
                             textAlign: TextAlign.center,
                           ),
                         ] else ...[
@@ -142,10 +123,7 @@ class UnP4kcUI extends HookConsumerWidget {
               if (state.endMessage != null)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "${state.endMessage}",
-                    style: const TextStyle(fontSize: 12),
-                  ),
+                  child: Text("${state.endMessage}", style: const TextStyle(fontSize: 12)),
                 ),
             ],
           )
@@ -155,11 +133,7 @@ class UnP4kcUI extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    decoration: BoxDecoration(
-                      color: FluentTheme.of(
-                        context,
-                      ).cardColor.withValues(alpha: .06),
-                    ),
+                    decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .06)),
                     height: 36,
                     padding: const EdgeInsets.only(left: 12, right: 12),
                     child: Row(
@@ -174,10 +148,7 @@ class UnP4kcUI extends HookConsumerWidget {
                           const SizedBox(width: 8),
                           Text(
                             "[${S.current.tools_unp4k_searching.replaceAll('...', '')}]",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white.withValues(alpha: .7),
-                            ),
+                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .7)),
                           ),
                           const SizedBox(width: 8),
                         ],
@@ -206,17 +177,12 @@ class UnP4kcUI extends HookConsumerWidget {
                                   placeholder: r"\data\...",
                                   autofocus: true,
                                   onSubmitted: (value) {
-                                    final normalized = _normalizeInputPath(
-                                      value,
-                                    );
+                                    final normalized = _normalizeInputPath(value);
                                     if (state.searchMatchedFiles != null) {
                                       model.clearSearch(targetPath: normalized);
                                       isPathEditing.value = false;
                                     } else {
-                                      final ok = model.changeDirValidated(
-                                        normalized,
-                                        fullPath: true,
-                                      );
+                                      final ok = model.changeDirValidated(normalized, fullPath: true);
                                       if (ok) {
                                         isPathEditing.value = false;
                                       }
@@ -239,31 +205,20 @@ class UnP4kcUI extends HookConsumerWidget {
                                             if (path.isEmpty) {
                                               path = "\\";
                                             }
-                                            final fullPath =
-                                                "${paths.sublist(0, index + 1).join("\\")}\\";
+                                            final fullPath = "${paths.sublist(0, index + 1).join("\\")}\\";
                                             return Row(
                                               children: [
                                                 IconButton(
                                                   icon: Text(path),
                                                   onPressed: () {
-                                                    if (state
-                                                            .searchMatchedFiles !=
-                                                        null) {
-                                                      model.clearSearch(
-                                                        targetPath: fullPath,
-                                                      );
+                                                    if (state.searchMatchedFiles != null) {
+                                                      model.clearSearch(targetPath: fullPath);
                                                     } else {
-                                                      model.changeDirValidated(
-                                                        fullPath,
-                                                        fullPath: true,
-                                                      );
+                                                      model.changeDirValidated(fullPath, fullPath: true);
                                                     }
                                                   },
                                                 ),
-                                                const Icon(
-                                                  FluentIcons.chevron_right,
-                                                  size: 12,
-                                                ),
+                                                const Icon(FluentIcons.chevron_right, size: 12),
                                               ],
                                             );
                                           },
@@ -282,60 +237,32 @@ class UnP4kcUI extends HookConsumerWidget {
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .3,
-                          child: FileListPanel(
-                            state: state,
-                            model: model,
-                            files: files,
-                          ),
+                          child: FileListPanel(state: state, model: model, files: files),
                         ),
                         Expanded(
                           child: state.tempOpenFile == null
-                              ? Center(
-                                  child: Text(S.current.tools_unp4k_view_file),
-                                )
-                              : state.tempOpenFile?.key == "loading"
+                              ? Center(child: Text(S.current.tools_unp4k_view_file))
+                              : state.tempOpenFile?.type == "loading"
                               ? makeLoading(context)
                               : Padding(
                                   padding: const EdgeInsets.all(12),
                                   child: Column(
                                     children: [
-                                      if (state.tempOpenFile?.key == "text")
-                                        Expanded(
-                                          child: TextTempWidget(
-                                            state.tempOpenFile?.value ?? "",
-                                          ),
-                                        )
-                                      else if (state.tempOpenFile?.key ==
-                                          "image")
-                                        Expanded(
-                                          child: ImageTempWidget(
-                                            state.tempOpenFile?.value ?? "",
-                                          ),
-                                        )
-                                      else if (state.tempOpenFile?.key ==
-                                          "audio")
+                                      if (state.tempOpenFile?.type == "text")
+                                        Expanded(child: TextTempWidget(state.tempOpenFile!.bytes!))
+                                      else if (state.tempOpenFile?.type == "image")
+                                        Expanded(child: ImageTempWidget(state.tempOpenFile!.bytes!))
+                                      else if (state.tempOpenFile?.type == "audio")
                                         Expanded(
                                           child: AudioTempWidget(
-                                            state.tempOpenFile?.value ?? "",
-                                            onPrevious: _getPrevAudioFile(
-                                              state,
-                                              files,
-                                              model,
-                                            ),
-                                            onNext: _getNextAudioFile(
-                                              state,
-                                              files,
-                                              model,
-                                            ),
+                                            state.tempOpenFile!.bytes!,
+                                            state.tempOpenFile!.filePath ?? "",
+                                            onPrevious: _getPrevAudioFile(state, files, model),
+                                            onNext: _getNextAudioFile(state, files, model),
                                           ),
                                         )
-                                      else if (state.tempOpenFile?.key ==
-                                          "model")
-                                        Expanded(
-                                          child: ModelTempWidget(
-                                            state.tempOpenFile?.value ?? "",
-                                          ),
-                                        )
+                                      else if (state.tempOpenFile?.type == "model")
+                                        Expanded(child: ModelTempWidget(state.tempOpenFile!.bytes!))
                                       else
                                         Expanded(
                                           child: Center(
@@ -343,34 +270,34 @@ class UnP4kcUI extends HookConsumerWidget {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Text(
-                                                  S.current
-                                                      .tools_unp4k_msg_unknown_file_type(
-                                                        state
-                                                                .tempOpenFile
-                                                                ?.value ??
-                                                            "",
-                                                      ),
-                                                ),
-                                                const SizedBox(height: 32),
-                                                FilledButton(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(4),
-                                                    child: Text(
-                                                      S
-                                                          .current
-                                                          .action_open_folder,
-                                                    ),
+                                                  S.current.tools_unp4k_msg_unknown_file_type(
+                                                    state.tempOpenFile?.filePath ?? "",
                                                   ),
-                                                  onPressed: () {
-                                                    SystemHelper.openDir(
-                                                      state
-                                                              .tempOpenFile
-                                                              ?.value ??
-                                                          "",
-                                                    );
-                                                  },
                                                 ),
+                                                const SizedBox(height: 16),
+                                                if (state.tempOpenFile?.bytes != null) ...[
+                                                  FilledButton(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(4),
+                                                      child: Text(S.current.action_export),
+                                                    ),
+                                                    onPressed: () async {
+                                                      final fileName =
+                                                          state.tempOpenFile?.filePath?.split("\\").last ?? "file";
+                                                      final savePath = await FilePicker.platform.saveFile(
+                                                        dialogTitle: S.current.action_export,
+                                                        fileName: fileName,
+                                                      );
+                                                      if (savePath != null && state.tempOpenFile?.bytes != null) {
+                                                        await File(
+                                                          savePath,
+                                                        ).writeAsBytes(state.tempOpenFile!.bytes!, flush: true);
+                                                        SystemHelper.openDir(savePath);
+                                                      }
+                                                    },
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                ],
                                               ],
                                             ),
                                           ),
@@ -385,10 +312,7 @@ class UnP4kcUI extends HookConsumerWidget {
                   if (state.endMessage != null)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "${state.endMessage}",
-                        style: const TextStyle(fontSize: 12),
-                      ),
+                      child: Text("${state.endMessage}", style: const TextStyle(fontSize: 12)),
                     ),
                 ],
               ),
@@ -401,10 +325,7 @@ class UnP4kcUI extends HookConsumerWidget {
                       children: [
                         const ProgressRing(),
                         const SizedBox(height: 16),
-                        Text(
-                          S.current.tools_unp4k_searching,
-                          style: const TextStyle(fontSize: 16),
-                        ),
+                        Text(S.current.tools_unp4k_searching, style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                   ),
@@ -433,14 +354,8 @@ class UnP4kcUI extends HookConsumerWidget {
           title: const Text("返回首页"),
           content: const Text("退出后需要重新加载 P4K，确认返回首页吗？"),
           actions: [
-            Button(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: Text(S.current.home_action_cancel),
-            ),
-            FilledButton(
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text("确认返回"),
-            ),
+            Button(onPressed: () => Navigator.of(dialogContext).pop(false), child: Text(S.current.home_action_cancel)),
+            FilledButton(onPressed: () => Navigator.of(dialogContext).pop(true), child: const Text("确认返回")),
           ],
         );
       },
@@ -448,33 +363,21 @@ class UnP4kcUI extends HookConsumerWidget {
     return result ?? false;
   }
 
-  VoidCallback? _getPrevAudioFile(
-    Unp4kcState state,
-    List<AppUnp4kP4kItemData>? files,
-    Unp4kCModel model,
-  ) {
+  VoidCallback? _getPrevAudioFile(Unp4kcState state, List<AppUnp4kP4kItemData>? files, Unp4kCModel model) {
     final audioFiles = _getAudioFiles(files);
     if (audioFiles.isEmpty) return null;
 
-    final currentIndex = audioFiles.indexWhere(
-      (f) => f.name == state.currentPreviewPath,
-    );
+    final currentIndex = audioFiles.indexWhere((f) => f.name == state.currentPreviewPath);
     if (currentIndex <= 0) return null;
 
     return () => model.openFile(audioFiles[currentIndex - 1].name ?? "");
   }
 
-  VoidCallback? _getNextAudioFile(
-    Unp4kcState state,
-    List<AppUnp4kP4kItemData>? files,
-    Unp4kCModel model,
-  ) {
+  VoidCallback? _getNextAudioFile(Unp4kcState state, List<AppUnp4kP4kItemData>? files, Unp4kCModel model) {
     final audioFiles = _getAudioFiles(files);
     if (audioFiles.isEmpty) return null;
 
-    final currentIndex = audioFiles.indexWhere(
-      (f) => f.name == state.currentPreviewPath,
-    );
+    final currentIndex = audioFiles.indexWhere((f) => f.name == state.currentPreviewPath);
     if (currentIndex < 0 || currentIndex >= audioFiles.length - 1) return null;
 
     return () => model.openFile(audioFiles[currentIndex + 1].name ?? "");

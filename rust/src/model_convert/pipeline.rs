@@ -10,8 +10,8 @@ use super::{
     collect_material_textures_from_fs, find_ivo_companion_name, find_ivo_companion_path,
     gltf_builder, is_ivo_signature, ivo_parser, load_best_material_from_fs,
     load_best_material_from_p4k, load_companion_bytes_from_fs, load_companion_bytes_from_p4k,
-    material_parser, resolve_material_path, ConvertOptions, ConvertOutput, MaterialData,
-    ModelConvertError, SceneData,
+    material_parser, resolve_material_path, ConvertBytesOutput, ConvertOptions, ConvertOutput,
+    MaterialData, ModelConvertError, SceneData,
 };
 
 pub async fn convert_from_p4k(
@@ -106,6 +106,89 @@ pub async fn convert_from_p4k(
 
     Ok(ConvertOutput {
         output_path: output_path.to_string_lossy().to_string(),
+        warnings,
+        source_mode: "rust_crch".to_string(),
+        fallback_reason: None,
+    })
+}
+
+/// In-memory variant of `convert_from_p4k` — returns GLB bytes instead of writing to disk.
+pub async fn convert_from_p4k_to_bytes(
+    p4k_path: &str,
+    model_path: &str,
+    options: ConvertOptions,
+) -> std::result::Result<ConvertBytesOutput, ModelConvertError> {
+    let ext = Path::new(model_path)
+        .extension()
+        .and_then(|v| v.to_str())
+        .unwrap_or_default()
+        .to_lowercase();
+    if ext != "cgf" && ext != "cga" {
+        return Err(ModelConvertError::UnsupportedFormat);
+    }
+
+    unp4k_api::p4k_open(p4k_path.to_string())
+        .await
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    let model_bytes = unp4k_api::p4k_extract_to_memory(model_path.to_string())
+        .await
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    let all_files = unp4k_api::p4k_get_all_files()
+        .await
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+    let mut index = HashMap::with_capacity(all_files.len());
+    for item in all_files {
+        index.insert(item.name.to_lowercase(), item.name);
+    }
+
+    if is_ivo_signature(&model_bytes) {
+        return convert_ivo_from_p4k_to_bytes(model_path, options, model_bytes, index).await;
+    }
+
+    let mut scene =
+        cgf_parser::parse_static_scene(&model_bytes).map_err(categorize_parser_error)?;
+
+    let desired_material_count = scene
+        .meshes
+        .iter()
+        .flat_map(|mesh| mesh.primitives.iter())
+        .map(|primitive| primitive.material_id.max(0) as usize + 1)
+        .max()
+        .unwrap_or(1);
+    let companion_bytes = load_companion_bytes_from_p4k(model_path, &index).await?;
+    let material = load_best_material_from_p4k(
+        model_path,
+        &model_bytes,
+        companion_bytes.as_deref(),
+        &index,
+        desired_material_count,
+    )
+    .await?;
+
+    let mut warnings = std::mem::take(&mut scene.warnings);
+    let (textures, materials, materials_by_id, texture_warnings) = collect_material_textures(
+        &scene,
+        &material,
+        model_path,
+        &index,
+        options.max_texture_size,
+    )
+    .await?;
+    warnings.extend(texture_warnings);
+
+    if !options.embed_textures {
+        warnings.push(
+            "embed_textures=false is not supported yet; textures are still embedded".to_string(),
+        );
+    }
+
+    let glb_bytes = gltf_builder::build_glb_bytes(&scene, &textures, &materials, &materials_by_id)
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    Ok(ConvertBytesOutput {
+        glb_bytes,
         warnings,
         source_mode: "rust_crch".to_string(),
         fallback_reason: None,
@@ -282,6 +365,139 @@ async fn convert_ivo_from_p4k(
 
     Ok(ConvertOutput {
         output_path: output_path.to_string_lossy().to_string(),
+        warnings,
+        source_mode: source_mode.to_string(),
+        fallback_reason: None,
+    })
+}
+
+/// In-memory variant of `convert_ivo_from_p4k` — returns GLB bytes instead of writing to disk.
+async fn convert_ivo_from_p4k_to_bytes(
+    model_path: &str,
+    options: ConvertOptions,
+    model_bytes: Vec<u8>,
+    index: HashMap<String, String>,
+) -> std::result::Result<ConvertBytesOutput, ModelConvertError> {
+    let companion_bytes = load_companion_bytes_from_p4k(model_path, &index).await?;
+    let native_ivo = ivo_parser::parse_static_scene(&model_bytes);
+    let (mut scene, source_mode, extra_warnings) = match native_ivo {
+        Ok(scene) if !scene.meshes.is_empty() => (scene, "rust_ivo", Vec::new()),
+        Ok(_) => {
+            let primary_reason = "native_ivo_parser produced no meshes".to_string();
+            if let Some(companion_name) = find_ivo_companion_name(model_path, &index) {
+                let companion_bytes = unp4k_api::p4k_extract_to_memory(companion_name.clone())
+                    .await
+                    .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+                if is_ivo_signature(&companion_bytes) {
+                    let companion_ivo = ivo_parser::parse_static_scene_with_layout(
+                        &companion_bytes,
+                        Some(&model_bytes),
+                    )
+                    .map_err(categorize_parser_error)?;
+                    if !companion_ivo.meshes.is_empty() {
+                        (
+                            companion_ivo,
+                            "rust_ivo_companion",
+                            vec![format!(
+                                "native IVO parser used companion file after primary parse fallback: {} ({})",
+                                companion_name, primary_reason
+                            )],
+                        )
+                    } else {
+                        return Err(ModelConvertError::ModelParseFailed(format!(
+                            "IVO conversion failed without external fallback: {primary_reason}; companion_native_ivo_parser produced no meshes: {companion_name}"
+                        )));
+                    }
+                } else {
+                    return Err(ModelConvertError::ModelParseFailed(format!(
+                        "IVO conversion failed without external fallback: {primary_reason}"
+                    )));
+                }
+            } else {
+                return Err(ModelConvertError::ModelParseFailed(format!(
+                    "IVO conversion failed without external fallback: {primary_reason}"
+                )));
+            }
+        }
+        Err(e) => {
+            let primary_reason = format!("native_ivo_parser_failed: {e}");
+            if let Some(companion_name) = find_ivo_companion_name(model_path, &index) {
+                let companion_bytes = unp4k_api::p4k_extract_to_memory(companion_name.clone())
+                    .await
+                    .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+                if is_ivo_signature(&companion_bytes) {
+                    let companion_ivo = ivo_parser::parse_static_scene_with_layout(
+                        &companion_bytes,
+                        Some(&model_bytes),
+                    )
+                    .map_err(categorize_parser_error)?;
+                    if !companion_ivo.meshes.is_empty() {
+                        (
+                            companion_ivo,
+                            "rust_ivo_companion",
+                            vec![format!(
+                                "native IVO parser used companion file after primary parse fallback: {} ({})",
+                                companion_name, primary_reason
+                            )],
+                        )
+                    } else {
+                        return Err(ModelConvertError::ModelParseFailed(format!(
+                            "IVO conversion failed without external fallback: {primary_reason}; companion_native_ivo_parser produced no meshes: {companion_name}"
+                        )));
+                    }
+                } else {
+                    return Err(ModelConvertError::ModelParseFailed(format!(
+                        "IVO conversion failed without external fallback: {primary_reason}"
+                    )));
+                }
+            } else {
+                return Err(ModelConvertError::ModelParseFailed(format!(
+                    "IVO conversion failed without external fallback: {primary_reason}"
+                )));
+            }
+        }
+    };
+
+    let desired_material_count = scene
+        .meshes
+        .iter()
+        .flat_map(|mesh| mesh.primitives.iter())
+        .map(|primitive| primitive.material_id.max(0) as usize + 1)
+        .max()
+        .unwrap_or(1);
+    let material = load_best_material_from_p4k(
+        model_path,
+        &model_bytes,
+        companion_bytes.as_deref(),
+        &index,
+        desired_material_count,
+    )
+    .await?;
+
+    let (textures, materials, materials_by_id, texture_warnings) = collect_material_textures(
+        &scene,
+        &material,
+        model_path,
+        &index,
+        options.max_texture_size,
+    )
+    .await?;
+
+    let mut warnings = std::mem::take(&mut scene.warnings);
+    warnings.extend(extra_warnings);
+    warnings.extend(texture_warnings);
+
+    if !options.embed_textures {
+        warnings.push(
+            "embed_textures=false is not supported yet; textures are still embedded".to_string(),
+        );
+    }
+
+    let glb_bytes = gltf_builder::build_glb_bytes(&scene, &textures, &materials, &materials_by_id)
+        .map_err(|e| ModelConvertError::Io(e.to_string()))?;
+
+    Ok(ConvertBytesOutput {
+        glb_bytes,
         warnings,
         source_mode: source_mode.to_string(),
         fallback_reason: None,

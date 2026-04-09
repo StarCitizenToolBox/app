@@ -44,29 +44,44 @@ pub fn write_glb(
     materials_by_id: &HashMap<i32, usize>,
     output: &Path,
 ) -> Result<()> {
-    write_glb_with_config(
+    let glb = build_glb_bytes_with_config(
         scene,
         textures,
         materials,
         materials_by_id,
-        output,
         ValidationConfig::from_env(),
-    )
+    )?;
+    if let Some(parent) = output.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    fs::write(output, glb)?;
+    Ok(())
 }
 
-fn write_glb_with_config(
+pub fn build_glb_bytes(
     scene: &SceneData,
     textures: &[DecodedTexture],
     materials: &[GltfMaterialData],
     materials_by_id: &HashMap<i32, usize>,
-    output: &Path,
+) -> Result<Vec<u8>> {
+    build_glb_bytes_with_config(
+        scene,
+        textures,
+        materials,
+        materials_by_id,
+        ValidationConfig::from_env(),
+    )
+}
+
+fn build_glb_bytes_with_config(
+    scene: &SceneData,
+    textures: &[DecodedTexture],
+    materials: &[GltfMaterialData],
+    materials_by_id: &HashMap<i32, usize>,
     config: ValidationConfig,
-) -> Result<()> {
+) -> Result<Vec<u8>> {
     if scene.meshes.is_empty() {
         return Err(anyhow!("empty scene"));
-    }
-    if let Some(parent) = output.parent() {
-        fs::create_dir_all(parent)?;
     }
 
     if config.verify_indices {
@@ -297,8 +312,7 @@ fn write_glb_with_config(
     glb.extend_from_slice(&0x004E4942u32.to_le_bytes());
     glb.extend_from_slice(&bin);
 
-    fs::write(output, glb)?;
-    Ok(())
+    Ok(glb)
 }
 
 fn build_material_entries(materials: &[GltfMaterialData], texture_count: usize) -> Vec<Value> {
@@ -934,7 +948,7 @@ mod tests {
 
     use serde_json::Value;
 
-    use super::{serialize_json_like_csharp, write_glb, write_glb_with_config, ValidationConfig};
+    use super::{serialize_json_like_csharp, write_glb, build_glb_bytes_with_config, ValidationConfig};
     use crate::model_convert::{
         DecodedTexture, GltfMaterialData, SceneData, SceneMesh, ScenePrimitive,
     };
@@ -1139,12 +1153,11 @@ mod tests {
         let mut scene = sample_scene();
         scene.meshes[0].indices = vec![0, 1, 5];
 
-        let err = write_glb_with_config(
+        let err = build_glb_bytes_with_config(
             &scene,
             &[],
             &[],
             &HashMap::new(),
-            &output,
             ValidationConfig::test_mode(true),
         )
         .expect_err("expected index validation error");

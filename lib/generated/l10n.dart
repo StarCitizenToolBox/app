@@ -564,6 +564,11 @@ class S {
     );
   }
 
+  /// `Export`
+  String get action_export {
+    return Intl.message('Export', name: 'action_export', desc: '', args: []);
+  }
+
   /// `Download: {v0}/s    Upload: {v1}/s`
   String downloader_info_download_upload_speed(Object v0, Object v1) {
     return Intl.message(

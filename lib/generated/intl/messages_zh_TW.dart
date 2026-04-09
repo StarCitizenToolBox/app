@@ -328,6 +328,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "about_online_feedback": MessageLookupByLibrary.simpleMessage("意見反饋"),
     "action_close": MessageLookupByLibrary.simpleMessage("關閉"),
+    "action_export": MessageLookupByLibrary.simpleMessage("匯出"),
     "action_open_folder": MessageLookupByLibrary.simpleMessage("打開資料夾"),
     "app_common_error_info": m0,
     "app_common_loading_images": MessageLookupByLibrary.simpleMessage(
