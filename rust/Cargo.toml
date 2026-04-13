@@ -72,7 +72,7 @@ pollster = "0.4"
 renderling = { git = "https://github.com/schell/renderling", rev = "a7b44f796a38cb2c734d69354fa35f1288aa02a1" }
 futures-lite = "1.13"
 regex = "1.12.2"
-sha2 = "0.10.9"
+sha2 = "0.11.0"
 ww2ogg = { path = "vendor/ww2ogg" }
 lewton = "0.10.2"
 hound = "3.5.1"
