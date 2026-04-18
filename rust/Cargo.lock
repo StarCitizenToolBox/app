@@ -6668,7 +6668,7 @@ dependencies = [
  "crossbeam-channel",
  "flutter_rust_bridge",
  "futures",
- "futures-lite 1.13.0",
+ "futures-lite 2.6.1",
  "gltf",
  "gltf-json",
  "hickory-resolver",
