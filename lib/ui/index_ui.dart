@@ -10,7 +10,6 @@ import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
-
 import 'about/about_ui.dart';
 import 'home/home_ui.dart';
 import 'nav/nav_ui.dart';
@@ -41,12 +40,24 @@ class IndexUI extends HookConsumerWidget {
     }, const []);
 
     return NavigationView(
-      titleBar: TitleBar(
-        isBackButtonVisible: false,
-        icon: Image.asset("assets/app_logo_mini.png", width: 20, height: 20, fit: BoxFit.cover),
-        title: Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
-        endHeader: Row(
-          mainAxisSize: MainAxisSize.min,
+      appBar: NavigationAppBar(
+        automaticallyImplyLeading: false,
+        title: () {
+          return DragToMoveArea(
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Row(
+                children: [
+                  Image.asset("assets/app_logo_mini.png", width: 20, height: 20, fit: BoxFit.cover),
+                  const SizedBox(width: 12),
+                  Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
+                ],
+              ),
+            ),
+          );
+        }(),
+        actions: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             UserAvatarWidget(onTapNavigateToPartyRoom: () => _navigateToPartyRoom(curIndex)),
             const SizedBox(width: 12),
@@ -62,10 +73,10 @@ class IndexUI extends HookConsumerWidget {
               ),
               onPressed: () => _goDownloader(context),
             ),
+            const SizedBox(width: 24),
+            const WindowButtons(),
           ],
         ),
-        captionControls: const WindowButtons(),
-        onDragStarted: windowManager.startDragging,
       ),
       pane: NavigationPane(
         key: Key("NavigationPane_${S.current.app_language_code}"),
@@ -73,7 +84,9 @@ class IndexUI extends HookConsumerWidget {
         items: getNavigationPaneItems(curIndex),
         size: NavigationPaneSize(openWidth: S.current.app_language_code.startsWith("zh") ? 64 : 74),
       ),
-      paneBodyBuilder: (item, child) => child ?? const SizedBox.shrink(),
+      paneBodyBuilder: (item, child) {
+        return item!.body;
+      },
     );
   }
 

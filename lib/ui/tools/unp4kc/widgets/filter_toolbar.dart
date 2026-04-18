@@ -340,28 +340,28 @@ class _SearchOptionsPanel extends HookConsumerWidget {
           ),
         ],
       ),
-      child: RadioGroup<bool>(
-        groupValue: state.isGlobalSearchScope,
-        onChanged: (value) {
-          if (value == null) return;
-          model.setSearchScope(value);
-          Navigator.of(context).pop();
-        },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            RadioButton<bool>(
-              value: false,
-              content: Text("当前目录"),
-            ),
-            SizedBox(height: 4),
-            RadioButton<bool>(
-              value: true,
-              content: Text("全局搜索"),
-            ),
-          ],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          RadioButton(
+            checked: !state.isGlobalSearchScope,
+            onChanged: (value) {
+              model.setSearchScope(false);
+              Navigator.of(context).pop();
+            },
+            content: const Text("当前目录"),
+          ),
+          const SizedBox(height: 4),
+          RadioButton(
+            checked: state.isGlobalSearchScope,
+            onChanged: (value) {
+              model.setSearchScope(true);
+              Navigator.of(context).pop();
+            },
+            content: const Text("全局搜索"),
+          ),
+        ],
       ),
     );
   }

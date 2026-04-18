@@ -67,6 +67,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   bool _isDisposed = false;
 
+  bool get _isAlive => !_isDisposed && ref.mounted;
+
+  void _updateStateIfAlive(LocalizationUIState Function(LocalizationUIState current) updater) {
+    if (!_isAlive) return;
+    state = updater(state);
+  }
+
   @override
   LocalizationUIState build() {
     state = LocalizationUIState(selectedLanguage: languageSupport.keys.first);
@@ -85,10 +92,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
     final appConfBox = await Hive.openBox("app_conf");
     final lang = await appConfBox.get("localization_selectedLanguage", defaultValue: languageSupport.keys.first);
-    state = state.copyWith(selectedLanguage: lang);
+    _updateStateIfAlive((current) => current.copyWith(selectedLanguage: lang));
     // fix for ui performance
     await Future.delayed(Duration(milliseconds: 250));
-    if (_isDisposed) return;
+    if (!_isAlive) return;
     await _loadData();
   }
 
@@ -97,12 +104,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   Future<void> _loadCommunityInputMethodData() async {
     try {
       final data = await Api.getCommunityInputMethodIndexData();
+      if (!_isAlive) return;
       if (data.enable ?? false) {
         final lang = state.selectedLanguage;
         if (lang != null) {
           final l = data.languages?[lang];
           if (l != null) {
-            state = state.copyWith(communityInputMethodLanguageData: l);
+            _updateStateIfAlive((current) => current.copyWith(communityInputMethodLanguageData: l));
             dPrint("loadCommunityInputMethodData: ${l.toJson()}");
           }
         }
@@ -115,35 +123,39 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   Future<void> _loadLocalizationExtensionData() async {
     try {
       final data = await Api.getLocalizationExtensionIndexData();
+      if (!_isAlive) return;
       if (data.enable ?? false) {
         final lang = state.selectedLanguage;
         if (lang != null) {
           final l = data.languages?[lang];
           if (l != null && l.isNotEmpty) {
-            state = state.copyWith(localizationExtensionList: l);
+            _updateStateIfAlive((current) => current.copyWith(localizationExtensionList: l));
             dPrint("loadLocalizationExtensionData: ${l.length} extensions");
           } else {
-            state = state.copyWith(localizationExtensionList: []);
+            _updateStateIfAlive((current) => current.copyWith(localizationExtensionList: []));
           }
         }
       } else {
-        state = state.copyWith(localizationExtensionList: []);
+        _updateStateIfAlive((current) => current.copyWith(localizationExtensionList: []));
       }
     } catch (e) {
       dPrint("loadLocalizationExtensionData error: $e");
-      state = state.copyWith(localizationExtensionList: []);
+      _updateStateIfAlive((current) => current.copyWith(localizationExtensionList: []));
     }
   }
 
   Future<void> _loadData() async {
     _allVersionLocalizationData.clear();
     await _updateStatus();
+    if (!_isAlive) return;
     await _loadCommunityInputMethodData();
+    if (!_isAlive) return;
     await _loadLocalizationExtensionData();
+    if (!_isAlive) return;
     for (var lang in languageSupport.keys) {
       final l = await Api.getScLocalizationData(lang).unwrap();
       if (l != null) {
-        if (_isDisposed) return;
+        if (!_isAlive) return;
         if (lang == state.selectedLanguage) {
           final apiLocalizationData = <String, ScLocalizationData>{};
           final isPTU = !_scInstallPath.contains("LIVE");
@@ -171,8 +183,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
               }
             }
           }
-          if (_isDisposed) return;
-          state = state.copyWith(apiLocalizationData: apiLocalizationData);
+          if (!_isAlive) return;
+          _updateStateIfAlive((current) => current.copyWith(apiLocalizationData: apiLocalizationData));
         }
         final map = <String, ScLocalizationData>{};
         for (var element in l) {
