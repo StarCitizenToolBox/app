@@ -21,7 +21,7 @@ class _ShaderCacheCleanDialogState extends State<ShaderCacheCleanDialog> {
     return ContentDialog(
       title: Row(
         children: [
-          const Icon(FontAwesomeIcons.shapes, size: 20),
+          const FaIcon(FontAwesomeIcons.shapes, size: 20),
           const SizedBox(width: 12),
           Text(S.current.tools_shader_clean_dialog_title),
         ],

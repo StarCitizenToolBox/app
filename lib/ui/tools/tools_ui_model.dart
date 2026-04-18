@@ -99,7 +99,7 @@ class ToolsUIModel extends _$ToolsUIModel {
             "yearly_report",
             S.current.yearly_report_card_title(reportYear.toString()),
             S.current.yearly_report_card_desc(reportYear.toString()),
-            const Icon(FontAwesomeIcons.star, size: 22),
+            const FaIcon(FontAwesomeIcons.star, size: 22),
             onTap: () async {
               _openYearlyReport(context, reportYear!);
             },
@@ -152,7 +152,7 @@ class ToolsUIModel extends _$ToolsUIModel {
           "unp4kc",
           S.current.tools_action_unp4k,
           S.current.tools_action_unp4k_info,
-          const Icon(FontAwesomeIcons.fileZipper, size: 24),
+          const FaIcon(FontAwesomeIcons.fileZipper, size: 24),
           onTap: () => _unp4kc(context),
         ),
         ToolsItemData(
@@ -204,7 +204,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       "p4k_downloader",
       S.current.tools_action_p4k_download_repair,
       S.current.tools_action_info_p4k_download_repair_tip(versionInfo),
-      const Icon(FontAwesomeIcons.download, size: 24),
+      const FaIcon(FontAwesomeIcons.download, size: 24),
       onTap: () => _downloadP4k(context, torrentUrl),
     );
   }
@@ -236,7 +236,7 @@ class ToolsUIModel extends _$ToolsUIModel {
           "add_nvme_settings",
           S.current.tools_action_write_nvme_registry_patch,
           S.current.tools_action_info_manual_nvme_patch,
-          const Icon(FontAwesomeIcons.cashRegister, size: 24),
+          const FaIcon(FontAwesomeIcons.cashRegister, size: 24),
           onTap: () async {
             state = state.copyWith(working: true);
             final r = await SystemHelper.addNvmePatch();
@@ -268,7 +268,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       "clean_shaders",
       S.current.tools_action_clear_shader_cache,
       S.current.tools_action_info_shader_cache_issue(shaderSize),
-      const Icon(FontAwesomeIcons.shapes, size: 24),
+      const FaIcon(FontAwesomeIcons.shapes, size: 24),
       onTap: () => _cleanShaderCache(context),
     );
   }
@@ -407,7 +407,7 @@ class ToolsUIModel extends _$ToolsUIModel {
       "photography_mode",
       isEnable ? S.current.tools_action_close_photography_mode : S.current.tools_action_open_photography_mode,
       isEnable ? S.current.tools_action_info_restore_lens_shake : S.current.tools_action_info_one_key_close_lens_shake,
-      const Icon(FontAwesomeIcons.camera, size: 24),
+      const FaIcon(FontAwesomeIcons.camera, size: 24),
       onTap: () => _onChangePhotographyMode(context, isEnable),
     );
   }
@@ -712,7 +712,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         return;
       }
 
-      final userSelect = await FilePicker.platform.saveFile(
+      final userSelect = await FilePicker.saveFile(
         initialDirectory: savePath,
         fileName: fileName,
         lockParentWindow: true,

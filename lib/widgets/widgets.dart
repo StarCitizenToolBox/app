@@ -40,18 +40,18 @@ Widget makeDefaultPage(
   bool useBodyContainer = false,
 }) {
   return NavigationView(
-    appBar: NavigationAppBar(
-      automaticallyImplyLeading: automaticallyImplyLeading,
-      title: DragToMoveArea(
-        child:
-            titleRow ??
-            Column(
-              children: [
-                Expanded(child: Row(children: [Text(title)])),
-              ],
-            ),
-      ),
-      actions: Row(mainAxisAlignment: MainAxisAlignment.end, children: [...?actions, const WindowButtons()]),
+    titleBar: TitleBar(
+      isBackButtonVisible: automaticallyImplyLeading,
+      title:
+          titleRow ??
+          Column(
+            children: [
+              Expanded(child: Row(children: [Text(title)])),
+            ],
+          ),
+      endHeader: actions == null ? null : Row(mainAxisSize: MainAxisSize.min, children: actions),
+      captionControls: const WindowButtons(),
+      onDragStarted: windowManager.startDragging,
     ),
     content: useBodyContainer
         ? Container(

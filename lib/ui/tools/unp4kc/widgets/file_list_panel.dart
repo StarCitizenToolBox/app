@@ -138,13 +138,13 @@ class FileListPanel extends HookConsumerWidget {
         filesToExport.first,
         options.convertWhenPossible,
       );
-      singleOutputPath = await FilePicker.platform.saveFile(
+      singleOutputPath = await FilePicker.saveFile(
         dialogTitle: options.convertWhenPossible ? "选择转换导出文件" : "选择导出文件",
         fileName: defaultName,
       );
       if (singleOutputPath == null) return;
     } else {
-      outputDir = await FilePicker.platform.getDirectoryPath(
+      outputDir = await FilePicker.getDirectoryPath(
         dialogTitle: options.convertWhenPossible
             ? "选择转换导出位置"
             : S.current.tools_unp4k_action_save_as,

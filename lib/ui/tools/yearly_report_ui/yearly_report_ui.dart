@@ -98,7 +98,7 @@ class YearlyReportUI extends HookConsumerWidget {
           SpinPerfect(
             infinite: true,
             duration: const Duration(seconds: 3),
-            child: FadeIn(child: Icon(FontAwesomeIcons.rocket, size: 80, color: FluentTheme.of(context).accentColor)),
+            child: FadeIn(child: FaIcon(FontAwesomeIcons.rocket, size: 80, color: FluentTheme.of(context).accentColor)),
           ),
           const SizedBox(height: 40),
           FadeInUp(
@@ -277,7 +277,7 @@ class YearlyReportUI extends HookConsumerWidget {
         children: [
           ZoomIn(
             duration: const Duration(milliseconds: 600),
-            child: Icon(FontAwesomeIcons.star, size: 80, color: Colors.yellow),
+            child: FaIcon(FontAwesomeIcons.star, size: 80, color: Colors.yellow),
           ),
           const SizedBox(height: 32),
           FadeInUp(
@@ -314,7 +314,7 @@ class YearlyReportUI extends HookConsumerWidget {
 
   Widget _buildLaunchCountPage(BuildContext context, YearlyReportData data) {
     return _AnimatedStatPage(
-      icon: FontAwesomeIcons.play,
+      icon: FontAwesomeIcons.play.data,
       iconColor: Colors.green,
       title: S.current.yearly_report_launch_count_title,
       description: S.current.yearly_report_launch_count_desc,
@@ -330,7 +330,7 @@ class YearlyReportUI extends HookConsumerWidget {
     final totalHours = data.totalPlayTime.inMinutes / 60;
 
     return _AnimatedStatPage(
-      icon: FontAwesomeIcons.clock,
+      icon: FontAwesomeIcons.clock.data,
       iconColor: Colors.blue,
       title: S.current.yearly_report_play_time_title,
       description: S.current.yearly_report_play_time_desc,
@@ -343,7 +343,7 @@ class YearlyReportUI extends HookConsumerWidget {
 
   Widget _buildCrashCountPage(BuildContext context, YearlyReportData data) {
     return _AnimatedStatPage(
-      icon: FontAwesomeIcons.bug,
+      icon: FontAwesomeIcons.bug.data,
       iconColor: Colors.orange,
       title: S.current.yearly_report_crash_title,
       description: S.current.yearly_report_crash_desc,
@@ -369,7 +369,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.crosshairs, size: 64, color: Colors.red)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.crosshairs, size: 64, color: Colors.red)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
@@ -416,7 +416,7 @@ class YearlyReportUI extends HookConsumerWidget {
                     ),
                     child: Column(
                       children: [
-                        Icon(FontAwesomeIcons.skull, size: 24, color: Colors.green),
+                        FaIcon(FontAwesomeIcons.skull, size: 24, color: Colors.green),
                         const SizedBox(height: 8),
                         Text(
                           S.current.yearly_report_kd_kill,
@@ -442,7 +442,7 @@ class YearlyReportUI extends HookConsumerWidget {
                     ),
                     child: Column(
                       children: [
-                        Icon(FontAwesomeIcons.skullCrossbones, size: 24, color: Colors.red),
+                        FaIcon(FontAwesomeIcons.skullCrossbones, size: 24, color: Colors.red),
                         const SizedBox(height: 8),
                         Text(
                           S.current.yearly_report_kd_death,
@@ -468,7 +468,7 @@ class YearlyReportUI extends HookConsumerWidget {
                     ),
                     child: Column(
                       children: [
-                        Icon(FontAwesomeIcons.personFalling, size: 24, color: Colors.orange),
+                        FaIcon(FontAwesomeIcons.personFalling, size: 24, color: Colors.orange),
                         const SizedBox(height: 8),
                         Text(
                           S.current.yearly_report_kd_suicide,
@@ -509,7 +509,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.sun, size: 64, color: Colors.orange)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.sun, size: 64, color: Colors.orange)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
@@ -547,7 +547,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.moon, size: 64, color: Colors.purple)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.moon, size: 64, color: Colors.purple)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
@@ -580,7 +580,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.explosion, size: 64, color: Colors.red)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.explosion, size: 64, color: Colors.red)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
@@ -657,7 +657,7 @@ class YearlyReportUI extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ZoomIn(child: Icon(FontAwesomeIcons.shuttleSpace, size: 64, color: Colors.teal)),
+            ZoomIn(child: FaIcon(FontAwesomeIcons.shuttleSpace, size: 64, color: Colors.teal)),
             const SizedBox(height: 32),
             FadeInUp(
               delay: const Duration(milliseconds: 200),
@@ -802,7 +802,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.userAstronaut, size: 64, color: Colors.blue)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.userAstronaut, size: 64, color: Colors.blue)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
@@ -955,7 +955,7 @@ class YearlyReportUI extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ZoomIn(child: Icon(FontAwesomeIcons.stopwatch, size: 64, color: Colors.teal)),
+            ZoomIn(child: FaIcon(FontAwesomeIcons.stopwatch, size: 64, color: Colors.teal)),
             const SizedBox(height: 32),
             FadeInUp(
               delay: const Duration(milliseconds: 200),
@@ -989,7 +989,7 @@ class YearlyReportUI extends HookConsumerWidget {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(FontAwesomeIcons.chartLine, size: 16, color: Colors.blue),
+                                  FaIcon(FontAwesomeIcons.chartLine, size: 16, color: Colors.blue),
                                   const SizedBox(width: 8),
                                   Text(
                                     S.current.yearly_report_session_average,
@@ -1022,7 +1022,7 @@ class YearlyReportUI extends HookConsumerWidget {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(FontAwesomeIcons.arrowUp, size: 16, color: Colors.green),
+                                  FaIcon(FontAwesomeIcons.arrowUp, size: 16, color: Colors.green),
                                   const SizedBox(width: 8),
                                   Text(
                                     S.current.yearly_report_session_longest,
@@ -1063,7 +1063,7 @@ class YearlyReportUI extends HookConsumerWidget {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(FontAwesomeIcons.arrowDown, size: 16, color: Colors.orange),
+                                  FaIcon(FontAwesomeIcons.arrowDown, size: 16, color: Colors.orange),
                                   const SizedBox(width: 8),
                                   Text(
                                     S.current.yearly_report_session_shortest,
@@ -1118,7 +1118,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.calendarDays, size: 64, color: Colors.blue)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.calendarDays, size: 64, color: Colors.blue)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
@@ -1148,7 +1148,7 @@ class YearlyReportUI extends HookConsumerWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(FontAwesomeIcons.fire, size: 18, color: Colors.orange),
+                            FaIcon(FontAwesomeIcons.fire, size: 18, color: Colors.orange),
                             const SizedBox(width: 10),
                             Text(
                               S.current.yearly_report_monthly_most,
@@ -1182,7 +1182,7 @@ class YearlyReportUI extends HookConsumerWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(FontAwesomeIcons.snowflake, size: 18, color: Colors.teal),
+                            FaIcon(FontAwesomeIcons.snowflake, size: 18, color: Colors.teal),
                             const SizedBox(width: 10),
                             Text(
                               S.current.yearly_report_monthly_least,
@@ -1220,7 +1220,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.fire, size: 64, color: Colors.red)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.fire, size: 64, color: Colors.red)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
@@ -1250,7 +1250,7 @@ class YearlyReportUI extends HookConsumerWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(FontAwesomeIcons.gamepad, size: 18, color: Colors.green),
+                            FaIcon(FontAwesomeIcons.gamepad, size: 18, color: Colors.green),
                             const SizedBox(width: 10),
                             Text(
                               S.current.yearly_report_streak_play,
@@ -1298,7 +1298,7 @@ class YearlyReportUI extends HookConsumerWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(FontAwesomeIcons.bed, size: 18, color: Colors.grey),
+                            FaIcon(FontAwesomeIcons.bed, size: 18, color: Colors.grey),
                             const SizedBox(width: 10),
                             Text(
                               S.current.yearly_report_streak_offline,
@@ -1348,7 +1348,7 @@ class YearlyReportUI extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ZoomIn(child: Icon(FontAwesomeIcons.locationDot, size: 64, color: Colors.grey)),
+            ZoomIn(child: FaIcon(FontAwesomeIcons.locationDot, size: 64, color: Colors.grey)),
             const SizedBox(height: 32),
             FadeInUp(
               delay: const Duration(milliseconds: 200),
@@ -1382,7 +1382,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.locationDot, size: 64, color: Colors.red)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.locationDot, size: 64, color: Colors.red)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 200),
@@ -1516,7 +1516,7 @@ class YearlyReportUI extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ZoomIn(child: Icon(FontAwesomeIcons.trophy, size: 80, color: Colors.yellow)),
+          ZoomIn(child: FaIcon(FontAwesomeIcons.trophy, size: 80, color: Colors.yellow)),
           const SizedBox(height: 32),
           FadeInUp(
             delay: const Duration(milliseconds: 300),
@@ -1556,7 +1556,7 @@ class YearlyReportUI extends HookConsumerWidget {
         S.current.yearly_report_summary_launch_game,
         "${data.yearlyLaunchCount}",
         S.current.about_analytics_units_times,
-        FontAwesomeIcons.play,
+        FontAwesomeIcons.play.data,
         Colors.green,
         isWide: false,
       ),
@@ -1564,7 +1564,7 @@ class YearlyReportUI extends HookConsumerWidget {
         S.current.yearly_report_play_time_title,
         yearlyHours.toStringAsFixed(1),
         S.current.yearly_report_play_time_unit,
-        FontAwesomeIcons.clock,
+        FontAwesomeIcons.clock.data,
         Colors.blue,
         isWide: false,
       ),
@@ -1572,7 +1572,7 @@ class YearlyReportUI extends HookConsumerWidget {
         S.current.yearly_report_crash_title,
         "${data.yearlyCrashCount}",
         S.current.about_analytics_units_times,
-        FontAwesomeIcons.bug,
+        FontAwesomeIcons.bug.data,
         Colors.orange,
         isWide: false,
       ),
@@ -1580,7 +1580,7 @@ class YearlyReportUI extends HookConsumerWidget {
         S.current.yearly_report_kd_kill,
         "${data.yearlyKillCount}",
         S.current.about_analytics_units_times,
-        FontAwesomeIcons.crosshairs,
+        FontAwesomeIcons.crosshairs.data,
         Colors.green,
         isWide: false,
       ),
@@ -1588,7 +1588,7 @@ class YearlyReportUI extends HookConsumerWidget {
         S.current.yearly_report_kd_death,
         "${data.yearlyDeathCount}",
         S.current.about_analytics_units_times,
-        FontAwesomeIcons.skull,
+        FontAwesomeIcons.skull.data,
         Colors.red,
         isWide: false,
       ),
@@ -1596,7 +1596,7 @@ class YearlyReportUI extends HookConsumerWidget {
         S.current.yearly_report_vehicle_destruction_title,
         "${data.yearlyVehicleDestructionCount}",
         S.current.about_analytics_units_times,
-        FontAwesomeIcons.explosion,
+        FontAwesomeIcons.explosion.data,
         Colors.red,
         isWide: false,
       ),
@@ -1605,7 +1605,7 @@ class YearlyReportUI extends HookConsumerWidget {
           S.current.yearly_report_summary_longest_online,
           (data.longestSession!.inMinutes / 60).toStringAsFixed(1),
           S.current.yearly_report_play_time_unit,
-          FontAwesomeIcons.hourglassHalf,
+          FontAwesomeIcons.hourglassHalf.data,
           Colors.purple,
           isWide: false,
         ),
@@ -1615,7 +1615,7 @@ class YearlyReportUI extends HookConsumerWidget {
           S.current.yearly_report_summary_earliest_time,
           "${data.earliestPlayDate!.hour.toString().padLeft(2, '0')}:${data.earliestPlayDate!.minute.toString().padLeft(2, '0')}",
           "",
-          FontAwesomeIcons.sun,
+          FontAwesomeIcons.sun.data,
           Colors.orange,
           isWide: false,
         ),
@@ -1624,7 +1624,7 @@ class YearlyReportUI extends HookConsumerWidget {
           S.current.yearly_report_summary_latest_time,
           "${data.latestPlayDate!.hour.toString().padLeft(2, '0')}:${data.latestPlayDate!.minute.toString().padLeft(2, '0')}",
           "",
-          FontAwesomeIcons.moon,
+          FontAwesomeIcons.moon.data,
           Colors.purple,
           isWide: false,
         ),
@@ -1632,7 +1632,7 @@ class YearlyReportUI extends HookConsumerWidget {
         S.current.yearly_report_summary_respawn_count,
         "${data.yearlySelfKillCount}",
         S.current.about_analytics_units_times,
-        FontAwesomeIcons.personFalling,
+        FontAwesomeIcons.personFalling.data,
         Colors.grey,
         isWide: false,
       ),
@@ -1642,7 +1642,7 @@ class YearlyReportUI extends HookConsumerWidget {
           S.current.yearly_report_summary_hottest_month,
           _getMonthName(data.mostPlayedMonth!),
           "",
-          FontAwesomeIcons.fire,
+          FontAwesomeIcons.fire.data,
           Colors.orange,
           isWide: false,
         ),
@@ -1652,7 +1652,7 @@ class YearlyReportUI extends HookConsumerWidget {
           S.current.yearly_report_streak_play,
           "${data.longestPlayStreak}",
           S.current.yearly_report_streak_day_unit,
-          FontAwesomeIcons.gamepad,
+          FontAwesomeIcons.gamepad.data,
           Colors.green,
           isWide: false,
         ),
@@ -1661,7 +1661,7 @@ class YearlyReportUI extends HookConsumerWidget {
           S.current.yearly_report_streak_offline,
           "${data.longestOfflineStreak}",
           S.current.yearly_report_streak_day_unit,
-          FontAwesomeIcons.bed,
+          FontAwesomeIcons.bed.data,
           Colors.grey,
           isWide: false,
         ),
@@ -1671,7 +1671,7 @@ class YearlyReportUI extends HookConsumerWidget {
           S.current.yearly_report_summary_frequent_location,
           data.topLocations.first.key,
           "",
-          FontAwesomeIcons.locationDot,
+          FontAwesomeIcons.locationDot.data,
           Colors.red,
           isWide: true, // 使用较小字体
         ),
@@ -1680,7 +1680,7 @@ class YearlyReportUI extends HookConsumerWidget {
           S.current.yearly_report_summary_favorite_vehicle,
           data.mostPilotedVehicle!,
           "",
-          FontAwesomeIcons.shuttleSpace,
+          FontAwesomeIcons.shuttleSpace.data,
           Colors.teal,
           isWide: true, // 使用较小字体
         ),
@@ -1696,14 +1696,14 @@ class YearlyReportUI extends HookConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(FontAwesomeIcons.star, size: 20, color: Colors.yellow),
+                  FaIcon(FontAwesomeIcons.star, size: 20, color: Colors.yellow),
                   const SizedBox(width: 12),
                   Text(
                     S.current.yearly_report_title(year.toString()),
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   const SizedBox(width: 12),
-                  Icon(FontAwesomeIcons.star, size: 20, color: Colors.yellow),
+                  FaIcon(FontAwesomeIcons.star, size: 20, color: Colors.yellow),
                 ],
               ),
             ),

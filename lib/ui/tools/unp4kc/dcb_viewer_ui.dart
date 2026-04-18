@@ -272,7 +272,7 @@ class _FileSelectionView extends StatelessWidget {
   }
 
   Future<void> _selectDcbFile(BuildContext context) async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       dialogTitle: S.current.dcb_viewer_select_dcb_file,
       type: FileType.custom,
       allowedExtensions: ['dcb'],
@@ -287,7 +287,7 @@ class _FileSelectionView extends StatelessWidget {
   }
 
   Future<void> _selectP4kFile(BuildContext context) async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       dialogTitle: S.current.dcb_viewer_select_p4k_file,
       type: FileType.custom,
       allowedExtensions: ['p4k'],
@@ -361,7 +361,7 @@ class _ExportButton extends HookWidget {
   }
 
   Future<void> _exportMerged(BuildContext context) async {
-    final outputPath = await FilePicker.platform.saveFile(
+    final outputPath = await FilePicker.saveFile(
       dialogTitle: S.current.dcb_viewer_export_single_xml,
       fileName: 'dataforge.xml',
       type: FileType.custom,
@@ -399,7 +399,7 @@ class _ExportButton extends HookWidget {
   }
 
   Future<void> _exportSeparate(BuildContext context) async {
-    final outputDir = await FilePicker.platform.getDirectoryPath(dialogTitle: S.current.dcb_viewer_export_multiple_xml);
+    final outputDir = await FilePicker.getDirectoryPath(dialogTitle: S.current.dcb_viewer_export_multiple_xml);
     if (outputDir != null) {
       final error = await model.exportToDisk(outputDir, false);
       if (context.mounted) {

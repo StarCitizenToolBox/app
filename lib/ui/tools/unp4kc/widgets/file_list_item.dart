@@ -276,7 +276,7 @@ class FileListItem extends HookWidget {
   }
 
   Future<void> _saveAs(BuildContext context) async {
-    final outputDir = await FilePicker.platform.getDirectoryPath(
+    final outputDir = await FilePicker.getDirectoryPath(
       dialogTitle: S.current.tools_unp4k_action_save_as,
     );
     if (outputDir != null && context.mounted) {
@@ -302,7 +302,7 @@ class FileListItem extends HookWidget {
   }
 
   Future<void> _convertToGlb(BuildContext context) async {
-    final outputDir = await FilePicker.platform.getDirectoryPath(
+    final outputDir = await FilePicker.getDirectoryPath(
       dialogTitle: S.current.tools_unp4k_action_convert_glb,
     );
     if (outputDir != null && context.mounted) {
@@ -330,7 +330,7 @@ class FileListItem extends HookWidget {
           ? "${sourceName.substring(0, sourceName.length - 4)}.wav"
           : "$sourceName.wav";
 
-      final outputPath = await FilePicker.platform.saveFile(
+      final outputPath = await FilePicker.saveFile(
         dialogTitle: "导出 WAV",
         fileName: wavName,
         type: FileType.custom,
@@ -420,7 +420,7 @@ class FileListItem extends HookWidget {
   }
 
   Future<void> _convertDdsToPng(BuildContext context) async {
-    final outputDir = await FilePicker.platform.getDirectoryPath(
+    final outputDir = await FilePicker.getDirectoryPath(
       dialogTitle: "DDS 转 PNG",
     );
     if (outputDir == null || !context.mounted) return;

@@ -115,9 +115,9 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
                   ),
                   child: Row(
                     children: [
-                      if (workingState == null) Icon(FontAwesomeIcons.xmark, size: 24, color: Colors.red),
+                      if (workingState == null) FaIcon(FontAwesomeIcons.xmark, size: 24, color: Colors.red),
                       if (workingState == 0) const SizedBox(width: 24, height: 24, child: ProgressRing()),
-                      if (workingState == 1) Icon(FontAwesomeIcons.check, size: 24, color: Colors.green),
+                      if (workingState == 1) FaIcon(FontAwesomeIcons.check, size: 24, color: Colors.green),
                       const SizedBox(width: 24),
                       const SizedBox(width: 12),
                       Text(_hostsMap.keys.elementAt(index)),

@@ -73,7 +73,7 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> setLauncherPath(BuildContext context) async {
     await showToast(context, S.current.setting_toast_select_launcher_exe);
-    final r = await FilePicker.platform.pickFiles(
+    final r = await FilePicker.pickFiles(
       dialogTitle: S.current.setting_action_info_select_rsi_launcher_location,
       type: FileType.custom,
       allowedExtensions: ["exe"],
@@ -94,7 +94,7 @@ class SettingsUIModel extends _$SettingsUIModel {
 
   Future<void> setGamePath(BuildContext context) async {
     await showToast(context, S.current.setting_toast_select_game_file);
-    final r = await FilePicker.platform.pickFiles(
+    final r = await FilePicker.pickFiles(
       dialogTitle: S.current.setting_action_info_select_game_install_location,
       type: FileType.custom,
       allowedExtensions: ["exe"],

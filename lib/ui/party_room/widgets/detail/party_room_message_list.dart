@@ -184,8 +184,8 @@ class PartyRoomMessageList extends ConsumerWidget {
   }
 
   IconData _getSocialIcon(String link) {
-    if (link.contains('qq.com')) return FontAwesomeIcons.qq;
-    if (link.contains('discord')) return FontAwesomeIcons.discord;
+    if (link.contains('qq.com')) return FontAwesomeIcons.qq.data;
+    if (link.contains('discord')) return FontAwesomeIcons.discord.data;
     if (link.contains('kook')) return FluentIcons.chat;
     return FluentIcons.link;
   }

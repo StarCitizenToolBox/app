@@ -250,13 +250,13 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
     const iconMap = {
       "info": Icon(FluentIcons.info),
       "account_login": Icon(FluentIcons.accounts),
-      "player_login": Icon(FontAwesomeIcons.solidIdCard),
-      "fatal_collision": Icon(FontAwesomeIcons.personFallingBurst),
-      "vehicle_destruction": Icon(FontAwesomeIcons.carBurst),
-      "actor_death": Icon(FontAwesomeIcons.skull),
-      "statistics": Icon(FontAwesomeIcons.chartSimple),
-      "game_crash": Icon(FontAwesomeIcons.bug),
-      "request_location_inventory": Icon(FontAwesomeIcons.box),
+      "player_login": FaIcon(FontAwesomeIcons.solidIdCard),
+      "fatal_collision": FaIcon(FontAwesomeIcons.personFallingBurst),
+      "vehicle_destruction": FaIcon(FontAwesomeIcons.carBurst),
+      "actor_death": FaIcon(FontAwesomeIcons.skull),
+      "statistics": FaIcon(FontAwesomeIcons.chartSimple),
+      "game_crash": FaIcon(FontAwesomeIcons.bug),
+      "request_location_inventory": FaIcon(FontAwesomeIcons.box),
     };
     return iconMap[key] ?? const Icon(FluentIcons.info);
   }

@@ -284,7 +284,7 @@ class UnP4kcUI extends HookConsumerWidget {
                                                     onPressed: () async {
                                                       final fileName =
                                                           state.tempOpenFile?.filePath?.split("\\").last ?? "file";
-                                                      final savePath = await FilePicker.platform.saveFile(
+                                                      final savePath = await FilePicker.saveFile(
                                                         dialogTitle: S.current.action_export,
                                                         fileName: fileName,
                                                       );

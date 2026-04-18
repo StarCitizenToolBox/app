@@ -164,7 +164,7 @@ class AboutUI extends HookConsumerWidget {
               _donationMethodButton(
                 context: context,
                 title: 'AliPay',
-                icon: FontAwesomeIcons.alipay,
+                icon: const FaIcon(FontAwesomeIcons.alipay, color: Color(0xFF1677FF), size: 24),
                 isSelected: donationTypeNotifier.value == 'alipay',
                 color: const Color(0xFF1677FF),
                 onTap: () => donationTypeNotifier.value = 'alipay',
@@ -172,7 +172,7 @@ class AboutUI extends HookConsumerWidget {
               _donationMethodButton(
                 context: context,
                 title: 'WeChat',
-                icon: FontAwesomeIcons.weixin,
+                icon: const FaIcon(FontAwesomeIcons.weixin, color: Color(0xFF07C160), size: 24),
                 isSelected: donationTypeNotifier.value == 'wechat',
                 color: const Color(0xFF07C160),
                 onTap: () => donationTypeNotifier.value = 'wechat',
@@ -180,7 +180,7 @@ class AboutUI extends HookConsumerWidget {
               _donationMethodButton(
                 context: context,
                 title: 'QQ',
-                icon: FontAwesomeIcons.qq,
+                icon: const FaIcon(FontAwesomeIcons.qq, color: Color(0xFF12B7F5), size: 24),
                 isSelected: donationTypeNotifier.value == 'qq',
                 color: const Color(0xFF12B7F5),
                 onTap: () => donationTypeNotifier.value = 'qq',
@@ -188,8 +188,7 @@ class AboutUI extends HookConsumerWidget {
               _donationMethodButton(
                 context: context,
                 title: 'FPS',
-                icon: FontAwesomeIcons.dollarSign,
-                iconWidget: Image.asset("assets/ic_hk_fps.png", width: 24, height: 24),
+                icon: Image.asset("assets/ic_hk_fps.png", width: 24, height: 24),
                 isSelected: donationTypeNotifier.value == 'fps',
                 color: const Color(0xFFFF6B6B),
                 onTap: () => donationTypeNotifier.value = 'fps',
@@ -197,7 +196,7 @@ class AboutUI extends HookConsumerWidget {
               _donationMethodButton(
                 context: context,
                 title: 'aUEC',
-                icon: FontAwesomeIcons.gamepad,
+                icon: const FaIcon(FontAwesomeIcons.gamepad, color: Color(0xFFFFD700), size: 24),
                 isSelected: donationTypeNotifier.value == 'uec',
                 color: const Color(0xFFFFD700),
                 onTap: () => donationTypeNotifier.value = 'uec',
@@ -205,7 +204,7 @@ class AboutUI extends HookConsumerWidget {
               _donationMethodButton(
                 context: context,
                 title: 'GitHub',
-                icon: FontAwesomeIcons.github,
+                icon: const FaIcon(FontAwesomeIcons.github, color: Colors.white, size: 24),
                 isSelected: donationTypeNotifier.value == 'github',
                 color: Colors.white,
                 onTap: () => donationTypeNotifier.value = 'github',
@@ -236,11 +235,10 @@ class AboutUI extends HookConsumerWidget {
   Widget _donationMethodButton({
     required BuildContext context,
     required String title,
-    required IconData icon,
+    required Widget icon,
     required bool isSelected,
     required Color color,
     required VoidCallback onTap,
-    Widget? iconWidget,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -257,7 +255,7 @@ class AboutUI extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            iconWidget ?? Icon(icon, color: color, size: 24),
+            icon,
             const SizedBox(height: 4),
             Text(title, style: TextStyle(fontSize: 12)),
           ],
@@ -274,7 +272,7 @@ class AboutUI extends HookConsumerWidget {
         key: ValueKey('github'),
         children: [
           SizedBox(height: 28),
-          const Icon(FontAwesomeIcons.github, size: 64),
+          const FaIcon(FontAwesomeIcons.github, size: 64),
           const SizedBox(height: 32),
           Text(S.current.support_dev_github_star_message),
           const SizedBox(height: 32),
@@ -287,7 +285,7 @@ class AboutUI extends HookConsumerWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(FontAwesomeIcons.github),
+                  const FaIcon(FontAwesomeIcons.github),
                   const SizedBox(width: 12),
                   Text(S.current.support_dev_github_star_button),
                 ],
@@ -441,7 +439,7 @@ class AboutUI extends HookConsumerWidget {
         IconButton(
           icon: Row(
             children: [
-              const Icon(FontAwesomeIcons.question),
+              const FaIcon(FontAwesomeIcons.question),
               const SizedBox(width: 8),
               Text(
                 S.current.about_action_btn_faq,
@@ -457,7 +455,7 @@ class AboutUI extends HookConsumerWidget {
         IconButton(
           icon: Row(
             children: [
-              const Icon(FontAwesomeIcons.link),
+              const FaIcon(FontAwesomeIcons.link),
               const SizedBox(width: 8),
               Text(
                 S.current.about_online_feedback,
@@ -473,7 +471,7 @@ class AboutUI extends HookConsumerWidget {
         IconButton(
           icon: Row(
             children: [
-              const Icon(FontAwesomeIcons.qq),
+              const FaIcon(FontAwesomeIcons.qq),
               const SizedBox(width: 8),
               Text(
                 S.current.about_action_qq_group,
@@ -491,7 +489,7 @@ class AboutUI extends HookConsumerWidget {
         IconButton(
           icon: Row(
             children: [
-              const Icon(FontAwesomeIcons.envelope),
+              const FaIcon(FontAwesomeIcons.envelope),
               const SizedBox(width: 8),
               Text(
                 S.current.about_action_email,
@@ -507,7 +505,7 @@ class AboutUI extends HookConsumerWidget {
         IconButton(
           icon: Row(
             children: [
-              const Icon(FontAwesomeIcons.github),
+              const FaIcon(FontAwesomeIcons.github),
               const SizedBox(width: 8),
               Text(
                 S.current.about_action_open_source,

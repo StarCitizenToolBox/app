@@ -25,7 +25,7 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
     );
 
     void onSelectFile() async {
-      final result = await FilePicker.platform.pickFiles(
+      final result = await FilePicker.pickFiles(
         dialogTitle: S.current.home_localization_select_customize_file_ini,
         type: FileType.custom,
         allowedExtensions: ["ini"],

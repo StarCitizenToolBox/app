@@ -17,7 +17,7 @@ class SettingsUI extends HookConsumerWidget {
     return ListView(padding: const EdgeInsets.all(16), children: [
       makeTitle(S.current.settings_title_general),
       makeSettingsItem(
-        const Icon(FontAwesomeIcons.language, size: 20),
+        const FaIcon(FontAwesomeIcons.language, size: 20),
         S.current.settings_app_language,
         subTitle: S.current.settings_app_language_switch_info,
         onTap: () {},
@@ -32,7 +32,7 @@ class SettingsUI extends HookConsumerWidget {
           subTitle: S.current.setting_action_create_desktop_shortcut,
           onTap: () => model.addShortCut(context)),
       const SizedBox(height: 12),
-      makeSettingsItem(const Icon(FontAwesomeIcons.networkWired, size: 20),
+      makeSettingsItem(const FaIcon(FontAwesomeIcons.networkWired, size: 20),
           S.current.settings_item_dns,
           subTitle: S.current.settings_item_dns_info,
           switchStatus: sate.isUseInternalDNS,
@@ -65,7 +65,7 @@ class SettingsUI extends HookConsumerWidget {
           onTap: () => model.showLogs(),
           subTitle: S.current.setting_action_info_view_log_file),
       makeTitle(S.current.settings_title_game),
-      makeSettingsItem(const Icon(FontAwesomeIcons.microchip, size: 20),
+      makeSettingsItem(const FaIcon(FontAwesomeIcons.microchip, size: 20),
           S.current.setting_action_ignore_efficiency_cores_on_launch,
           subTitle: S.current
               .setting_action_set_core_count(sate.inputGameLaunchECore),

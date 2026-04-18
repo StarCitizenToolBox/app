@@ -608,7 +608,7 @@ class HomeUI extends HookConsumerWidget {
                             SizedBox(
                               height: 14,
                               child: Center(
-                                child: Icon(
+                                child: FaIcon(
                                   FontAwesomeIcons.solidCircle,
                                   color: model.isRSIServerStatusOK(item) ? Colors.green : Colors.red,
                                   size: 12,
