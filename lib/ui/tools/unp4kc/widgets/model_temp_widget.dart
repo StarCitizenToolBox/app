@@ -345,7 +345,8 @@ class ModelTempWidget extends HookConsumerWidget {
           child: Stack(
             children: [
               // 模型渲染区域 - 填充整个容器
-              if (image.value != null) Positioned.fill(child: CustomPaint(painter: _ImagePainter(image.value!))),
+              if (image.value != null)
+                Positioned.fill(child: CustomPaint(painter: _ImagePainter(image.value!, fitContainer: true))),
               // 信息面板
               Positioned(
                 top: 8,
