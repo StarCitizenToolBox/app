@@ -57,7 +57,7 @@ unp4k_rs = { git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "2943
 #unp4k_rs = { path = "../../unp4k_rs" }
 uuid = { version = "1.23.0", features = ["v4"] }
 lazy_static = "1.5"
-rayon = "1.10"
+rayon = "1.12"
 parking_lot = "0.12.5"
 crossbeam-channel = "0.5.15"
 librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc21896b39008825204762c61e7e956b5ca3", default-features = false, features = ["default-tls", "http-api-client"] }
