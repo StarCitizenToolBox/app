@@ -55,7 +55,7 @@ serde = { version = "1.0.228", features = ["derive"] }
 ryu = "1.0.20"
 unp4k_rs = { git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "29430002d6f3a8d87feabac26c03ae0311c81263" }
 #unp4k_rs = { path = "../../unp4k_rs" }
-uuid = { version = "1.23.0", features = ["v4"] }
+uuid = { version = "1.23.1", features = ["v4"] }
 lazy_static = "1.5"
 rayon = "1.10"
 parking_lot = "0.12.5"
