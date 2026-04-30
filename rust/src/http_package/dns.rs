@@ -1,12 +1,14 @@
-use hickory_resolver::config::{NameServerConfigGroup, ResolverConfig, ResolverOpts};
-use hickory_resolver::name_server::TokioConnectionProvider;
-use hickory_resolver::{lookup_ip::LookupIpIntoIter, TokioResolver};
+use hickory_resolver::config::{ConnectionConfig, NameServerConfig, ResolverConfig, ResolverOpts};
+use hickory_resolver::net::runtime::TokioRuntimeProvider;
+use hickory_resolver::proto::rr::RData;
+use hickory_resolver::TokioResolver;
 use once_cell::sync::{Lazy, OnceCell};
 use reqwest::dns::{Addrs, Name, Resolve, Resolving};
 use std::collections::HashMap;
 use std::io;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::{Arc, RwLock};
+use std::vec::IntoIter;
 
 pub static MY_HOSTS_MAP: Lazy<RwLock<HashMap<String, IpAddr>>> =
     Lazy::new(|| RwLock::from(HashMap::new()));
@@ -21,7 +23,7 @@ pub(crate) struct MyHickoryDnsResolver {
 }
 
 struct SocketAddrs {
-    iter: LookupIpIntoIter,
+    iter: IntoIter<IpAddr>,
 }
 
 impl Resolve for MyHickoryDnsResolver {
@@ -39,7 +41,7 @@ impl Resolve for MyHickoryDnsResolver {
             let resolver = resolver.state.get_or_try_init(new_resolver)?;
             let lookup = resolver.lookup_ip(name.as_str()).await?;
             let addrs: Addrs = Box::new(SocketAddrs {
-                iter: lookup.into_iter(),
+                iter: lookup.iter().collect::<Vec<_>>().into_iter(),
             });
             Ok(addrs)
         })
@@ -51,15 +53,26 @@ impl MyHickoryDnsResolver {
         let resolver = self.state.get_or_try_init(new_resolver)?;
         let txt = resolver.txt_lookup(name).await?;
         let t = txt
+            .answers()
             .iter()
-            .map(|rdata| rdata.to_string())
+            .filter_map(|record| match &record.data {
+                RData::TXT(txt) => Some(txt.to_string()),
+                _ => None,
+            })
             .collect::<Vec<_>>();
         Ok(t)
     }
     pub(crate) async fn lookup_ips(&self, name: String) -> anyhow::Result<Vec<String>> {
         let resolver = self.state.get_or_try_init(new_resolver)?;
         let ips = resolver.ipv4_lookup(name).await?;
-        let t = ips.iter().map(|ip| ip.to_string()).collect::<Vec<_>>();
+        let t = ips
+            .answers()
+            .iter()
+            .filter_map(|record| match &record.data {
+                RData::A(ip) => Some(Ipv4Addr::from(*ip).to_string()),
+                _ => None,
+            })
+            .collect::<Vec<_>>();
         Ok(t)
     }
 }
@@ -73,30 +86,36 @@ impl Iterator for SocketAddrs {
 }
 
 fn new_resolver() -> io::Result<TokioResolver> {
-    let group = NameServerConfigGroup::from_ips_clear(
-        &[
-            IpAddr::V4(Ipv4Addr::new(119, 29, 29, 29)),
-            IpAddr::V4(Ipv4Addr::new(223, 6, 6, 6)),
-            IpAddr::V4(Ipv4Addr::new(1, 1, 1, 1)),
-            IpAddr::V4(Ipv4Addr::new(8, 8, 8, 8)),
-            IpAddr::V4(Ipv4Addr::new(180, 76, 76, 76)),
-            IpAddr::V4(Ipv4Addr::new(1, 2, 4, 8)),
-            IpAddr::V4(Ipv4Addr::new(166, 111, 8, 28)),
-            IpAddr::V4(Ipv4Addr::new(101, 226, 4, 6)),
-            IpAddr::V4(Ipv4Addr::new(114, 114, 114, 114)),
-        ],
-        53,
-        false,
-    );
-    let cfg = ResolverConfig::from_parts(None, vec![], group);
+    let group = [
+        IpAddr::V4(Ipv4Addr::new(119, 29, 29, 29)),
+        IpAddr::V4(Ipv4Addr::new(223, 6, 6, 6)),
+        IpAddr::V4(Ipv4Addr::new(1, 1, 1, 1)),
+        IpAddr::V4(Ipv4Addr::new(8, 8, 8, 8)),
+        IpAddr::V4(Ipv4Addr::new(180, 76, 76, 76)),
+        IpAddr::V4(Ipv4Addr::new(1, 2, 4, 8)),
+        IpAddr::V4(Ipv4Addr::new(166, 111, 8, 28)),
+        IpAddr::V4(Ipv4Addr::new(101, 226, 4, 6)),
+        IpAddr::V4(Ipv4Addr::new(114, 114, 114, 114)),
+    ];
+    let name_servers = group
+        .into_iter()
+        .map(|ip| {
+            NameServerConfig::new(
+                ip,
+                false,
+                vec![ConnectionConfig::udp(), ConnectionConfig::tcp()],
+            )
+        })
+        .collect();
+    let cfg = ResolverConfig::from_parts(None, vec![], name_servers);
     let mut opts = ResolverOpts::default();
     opts.edns0 = true;
     opts.timeout = std::time::Duration::from_secs(5);
     opts.try_tcp_on_error = true;
     opts.ip_strategy = hickory_resolver::config::LookupIpStrategy::Ipv4thenIpv6;
     opts.num_concurrent_reqs = 3;
-    let provider = TokioConnectionProvider::default();
+    let provider = TokioRuntimeProvider::default();
     let mut builder = TokioResolver::builder_with_config(cfg, provider);
     *builder.options_mut() = opts;
-    Ok(builder.build())
+    builder.build().map_err(io::Error::other)
 }
