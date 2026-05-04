@@ -46,7 +46,7 @@ ort = { version = "2.0.0-rc.12", features = [
     "download-binaries",
     "ndarray",
 ] }
-tokenizers = { version = "0.22.2", default-features = false, features = [
+tokenizers = { version = "0.23.1", default-features = false, features = [
     "onig",
 ] }
 ndarray = "0.17.2"
