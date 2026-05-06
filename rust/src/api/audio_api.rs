@@ -274,6 +274,11 @@ pub fn audio_stop() -> Result<AudioPlaybackState> {
         runtime.current_source_path = None;
         runtime.duration_ms = None;
         runtime.base_offset_ms = 0;
+        runtime.streaming_sample_offset = 0;
+        runtime.last_relative_samples = 0;
+        runtime.current_source_samples = 0;
+        runtime.streaming_config = None;
+        runtime.streaming_buffer.clear();
         Ok(build_snapshot(runtime))
     })
 }
