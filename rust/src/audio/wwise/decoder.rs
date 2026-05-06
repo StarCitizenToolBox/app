@@ -5,6 +5,7 @@ use std::sync::Once;
 
 use super::parser::parse_wem_header;
 use super::types::WwiseCodec;
+use ww2ogg::ForcePacketFormat;
 
 static INIT_RAYON: Once = Once::new();
 const CANCELLED_MSG: &str = "wem decode cancelled";
@@ -170,12 +171,67 @@ fn decode_wem_pcm_preview_to_wav(
     ))
 }
 
-fn decode_wem_vorbis_with_codebooks<F>(wem: &[u8], aotuv: bool, is_cancelled: &F) -> Result<Vec<u8>>
+#[derive(Clone, Copy)]
+struct VorbisDecodeAttempt {
+    aotuv: bool,
+    packet_format: ForcePacketFormat,
+}
+
+fn vorbis_decode_attempts() -> [VorbisDecodeAttempt; 6] {
+    [
+        VorbisDecodeAttempt {
+            aotuv: false,
+            packet_format: ForcePacketFormat::NoForce,
+        },
+        VorbisDecodeAttempt {
+            aotuv: true,
+            packet_format: ForcePacketFormat::NoForce,
+        },
+        VorbisDecodeAttempt {
+            aotuv: false,
+            packet_format: ForcePacketFormat::ForceModPackets,
+        },
+        VorbisDecodeAttempt {
+            aotuv: true,
+            packet_format: ForcePacketFormat::ForceModPackets,
+        },
+        VorbisDecodeAttempt {
+            aotuv: false,
+            packet_format: ForcePacketFormat::ForceNoModPackets,
+        },
+        VorbisDecodeAttempt {
+            aotuv: true,
+            packet_format: ForcePacketFormat::ForceNoModPackets,
+        },
+    ]
+}
+
+fn packet_format_name(format: ForcePacketFormat) -> &'static str {
+    match format {
+        ForcePacketFormat::NoForce => "auto",
+        ForcePacketFormat::ForceModPackets => "mod",
+        ForcePacketFormat::ForceNoModPackets => "no_mod",
+    }
+}
+
+fn attempt_name(attempt: VorbisDecodeAttempt) -> String {
+    format!(
+        "{}+{}",
+        if attempt.aotuv { "aotuv" } else { "default" },
+        packet_format_name(attempt.packet_format)
+    )
+}
+
+fn decode_wem_vorbis_with_codebooks<F>(
+    wem: &[u8],
+    attempt: VorbisDecodeAttempt,
+    is_cancelled: &F,
+) -> Result<Vec<u8>>
 where
     F: Fn() -> bool + Sync,
 {
     ensure_not_cancelled(is_cancelled)?;
-    let codebooks = if aotuv {
+    let codebooks = if attempt.aotuv {
         ww2ogg::CodebookLibrary::aotuv_codebooks()
     } else {
         ww2ogg::CodebookLibrary::default_codebooks()
@@ -184,7 +240,9 @@ where
 
     ensure_not_cancelled(is_cancelled)?;
     let input = Cursor::new(wem);
-    let mut converter = ww2ogg::WwiseRiffVorbis::new(input, codebooks)
+    let mut converter = ww2ogg::WwiseRiffVorbis::builder(input, codebooks)
+        .force_packet_format(attempt.packet_format)
+        .build()
         .map_err(|e| anyhow!("ww2ogg parse failed: {}", e))?;
 
     let mut ogg_bytes = Vec::<u8>::new();
@@ -199,7 +257,7 @@ where
 
 fn decode_wem_vorbis_preview_with_codebooks<F>(
     wem: &[u8],
-    aotuv: bool,
+    attempt: VorbisDecodeAttempt,
     clip_seconds: u32,
     is_cancelled: &F,
 ) -> Result<Vec<u8>>
@@ -208,7 +266,7 @@ where
 {
     ensure_not_cancelled(is_cancelled)?;
     let header = parse_wem_header(wem)?;
-    let codebooks = if aotuv {
+    let codebooks = if attempt.aotuv {
         ww2ogg::CodebookLibrary::aotuv_codebooks()
     } else {
         ww2ogg::CodebookLibrary::default_codebooks()
@@ -217,7 +275,9 @@ where
 
     ensure_not_cancelled(is_cancelled)?;
     let input = Cursor::new(wem);
-    let mut converter = ww2ogg::WwiseRiffVorbis::new(input, codebooks)
+    let mut converter = ww2ogg::WwiseRiffVorbis::builder(input, codebooks)
+        .force_packet_format(attempt.packet_format)
+        .build()
         .map_err(|e| anyhow!("ww2ogg parse failed: {}", e))?;
 
     let estimated_total_seconds = if header.avg_bytes_per_sec > 0 {
@@ -255,15 +315,14 @@ where
 {
     ensure_rayon_pool_initialized();
     ensure_not_cancelled(is_cancelled)?;
-    // We only have two viable codebook variants, so run exactly two attempts in parallel.
-    let attempts = [false, true];
+    let attempts = vorbis_decode_attempts();
     ensure_not_cancelled(is_cancelled)?;
-    let results: Vec<(bool, Result<Vec<u8>>)> = attempts
+    let results: Vec<(VorbisDecodeAttempt, Result<Vec<u8>>)> = attempts
         .par_iter()
-        .map(|aotuv| {
+        .map(|attempt| {
             (
-                *aotuv,
-                decode_wem_vorbis_with_codebooks(wem, *aotuv, is_cancelled),
+                *attempt,
+                decode_wem_vorbis_with_codebooks(wem, *attempt, is_cancelled),
             )
         })
         .collect();
@@ -273,13 +332,9 @@ where
     }
 
     let mut errs = Vec::new();
-    for (aotuv, r) in &results {
+    for (attempt, r) in &results {
         if let Err(e) = r {
-            errs.push(format!(
-                "{}={}",
-                if *aotuv { "aotuv" } else { "default" },
-                e
-            ));
+            errs.push(format!("{}={}", attempt_name(*attempt), e));
         }
     }
 
@@ -341,14 +396,18 @@ where
             "pcm wem preview cannot be converted to ogg; use wav fallback instead"
         )),
         WwiseCodec::Vorbis => {
-            // Preview decoding also has only two codebook candidates, so keep the search bounded.
-            let attempts = [false, true];
-            let results: Vec<(bool, Result<Vec<u8>>)> = attempts
+            let attempts = vorbis_decode_attempts();
+            let results: Vec<(VorbisDecodeAttempt, Result<Vec<u8>>)> = attempts
                 .par_iter()
-                .map(|aotuv| {
+                .map(|attempt| {
                     (
-                        *aotuv,
-                        decode_wem_vorbis_preview_with_codebooks(wem, *aotuv, clip_seconds, is_cancelled),
+                        *attempt,
+                        decode_wem_vorbis_preview_with_codebooks(
+                            wem,
+                            *attempt,
+                            clip_seconds,
+                            is_cancelled,
+                        ),
                     )
                 })
                 .collect();
@@ -356,13 +415,9 @@ where
                 return Ok(ogg.clone());
             }
             let mut errs = Vec::new();
-            for (aotuv, r) in &results {
+            for (attempt, r) in &results {
                 if let Err(e) = r {
-                    errs.push(format!(
-                        "{}={}",
-                        if *aotuv { "aotuv" } else { "default" },
-                        e
-                    ));
+                    errs.push(format!("{}={}", attempt_name(*attempt), e));
                 }
             }
             Err(anyhow!(

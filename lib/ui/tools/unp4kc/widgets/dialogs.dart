@@ -242,6 +242,8 @@ class AdvancedExportProgressDialog extends HookWidget {
     final isCompleted = useState(false);
     final errorMessage = useState<String?>(null);
     final exportedCount = useState(0);
+    final failedCount = useState(0);
+    final failedExports = useRef<List<ExportFailure>>([]);
 
     useEffect(() {
       _startExport(
@@ -252,6 +254,8 @@ class AdvancedExportProgressDialog extends HookWidget {
         isCompleted,
         errorMessage,
         exportedCount,
+        failedCount,
+        failedExports.value,
       );
       return null;
     }, const []);
@@ -290,13 +294,33 @@ class AdvancedExportProgressDialog extends HookWidget {
             const SizedBox(height: 8),
             Text(errorMessage.value!),
           ] else ...[
-            const Icon(
-              FluentIcons.completed_solid,
+            Icon(
+              failedCount.value > 0
+                  ? FluentIcons.warning
+                  : FluentIcons.completed_solid,
               size: 48,
-              color: Color(0xFF107C10),
+              color: failedCount.value > 0
+                  ? const Color(0xFFFFB900)
+                  : const Color(0xFF107C10),
             ),
             const SizedBox(height: 8),
-            Text("导出完成，共 ${exportedCount.value} 个文件"),
+            Text(
+              failedCount.value > 0
+                  ? "导出完成，成功 ${exportedCount.value} 个，跳过 ${failedCount.value} 个"
+                  : "导出完成，共 ${exportedCount.value} 个文件",
+            ),
+            if (failedCount.value > 0) ...[
+              const SizedBox(height: 8),
+              Text(
+                _buildFailureSummary(failedExports.value),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white.withValues(alpha: .7),
+                ),
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ],
         ],
       ),
@@ -332,6 +356,8 @@ class AdvancedExportProgressDialog extends HookWidget {
     ValueNotifier<bool> isCompleted,
     ValueNotifier<String?> errorMessage,
     ValueNotifier<int> exportedCount,
+    ValueNotifier<int> failedCount,
+    List<ExportFailure> failedExports,
   ) async {
     try {
       final usedNames = <String, int>{};
@@ -344,27 +370,30 @@ class AdvancedExportProgressDialog extends HookWidget {
       totalFiles.value = jobs.length;
       final workerCount = _computeWorkerCount(jobs.length);
       var nextJobIndex = 0;
-      Object? firstError;
-      StackTrace? firstStack;
 
       Future<void> workerLoop() async {
         while (true) {
-          if (isCancelled.value || firstError != null) return;
+          if (isCancelled.value) return;
           if (nextJobIndex >= jobs.length) return;
 
           final job = jobs[nextJobIndex];
           nextJobIndex += 1;
           currentFile.value = job.sourcePath;
+          final outputExistedBefore = await File(job.outputPath).exists();
 
           try {
             await _exportOne(job.sourcePath, job.outputPath);
             exportedCount.value = exportedCount.value + 1;
-            currentIndex.value = exportedCount.value;
-          } catch (e, st) {
-            firstError ??= e;
-            firstStack ??= st;
-            return;
+          } catch (e) {
+            if (!outputExistedBefore) {
+              await _deletePartialOutput(job.outputPath);
+            }
+            failedExports.add(
+              ExportFailure(sourcePath: job.sourcePath, error: e.toString()),
+            );
+            failedCount.value = failedExports.length;
           }
+          currentIndex.value = currentIndex.value + 1;
         }
       }
 
@@ -374,17 +403,30 @@ class AdvancedExportProgressDialog extends HookWidget {
         errorMessage.value = S.current.tools_unp4k_extract_cancelled;
         return;
       }
-      if (firstError != null) {
-        errorMessage.value = firstStack == null
-            ? firstError.toString()
-            : "$firstError\n$firstStack";
-        return;
-      }
 
       isCompleted.value = true;
     } catch (e) {
       errorMessage.value = e.toString();
     }
+  }
+
+  Future<void> _deletePartialOutput(String outputPath) async {
+    try {
+      final file = File(outputPath);
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (_) {}
+  }
+
+  String _buildFailureSummary(List<ExportFailure> failures) {
+    final preview = failures
+        .take(3)
+        .map((f) => "${f.sourcePath}: ${f.error}")
+        .join("\n");
+    final rest = failures.length - 3;
+    if (rest <= 0) return preview;
+    return "$preview\n还有 $rest 个失败文件已跳过";
   }
 
   int _computeWorkerCount(int totalJobs) {

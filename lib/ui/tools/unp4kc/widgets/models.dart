@@ -15,6 +15,13 @@ class ExportJob {
   const ExportJob({required this.sourcePath, required this.outputPath});
 }
 
+class ExportFailure {
+  final String sourcePath;
+  final String error;
+
+  const ExportFailure({required this.sourcePath, required this.error});
+}
+
 class WaveMark {
   final double ratio;
   final int second;
