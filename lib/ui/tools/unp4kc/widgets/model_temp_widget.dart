@@ -104,6 +104,7 @@ class ModelTempWidget extends HookConsumerWidget {
     final lastRenderedYaw = useRef<double>(0.0);
     final lastRenderedPitch = useRef<double>(0.0);
     final initGeneration = useRef<int>(0);
+    final resizeRenderTimer = useRef<Timer?>(null);
 
     // 渲染计数和 FPS 计算
     final renderCount = useRef<int>(0);
@@ -120,6 +121,10 @@ class ModelTempWidget extends HookConsumerWidget {
     final height = (size.height * 0.6 * devicePixelRatio)
         .clamp(512, 1024)
         .toInt();
+    final renderWidth = useRef(width);
+    final renderHeight = useRef(height);
+    renderWidth.value = width;
+    renderHeight.value = height;
 
     Future<void> renderModel() async {
       final renderSessionId = sessionId.value;
@@ -146,8 +151,10 @@ class ModelTempWidget extends HookConsumerWidget {
                 math.cos(cameraPitch.value) +
             targetZ.value;
 
-        final result = await model_api.p4KModelSessionRender(
+        final result = await model_api.p4KModelSessionRenderResized(
           sessionId: renderSessionId,
+          width: renderWidth.value,
+          height: renderHeight.value,
           cameraX: camX,
           cameraY: camY,
           cameraZ: camZ,
@@ -191,11 +198,7 @@ class ModelTempWidget extends HookConsumerWidget {
           }
         }
       } catch (e) {
-        if (!isMounted.value) return;
-        if (loadingStage.value == "upgrading_renderer" &&
-            e.toString().contains("Session not found")) {
-          return;
-        }
+        if (!isMounted.value || sessionId.value != renderSessionId) return;
         errorMessage.value = e.toString();
       } finally {
         isRendering.value = false;
@@ -211,6 +214,17 @@ class ModelTempWidget extends HookConsumerWidget {
     // 直接渲染，无防抖
     void scheduleRender({bool immediate = false}) {
       renderModel();
+    }
+
+    void scheduleResizeRender() {
+      resizeRenderTimer.value?.cancel();
+      resizeRenderTimer.value = Timer(const Duration(milliseconds: 220), () {
+        if (sessionId.value != null &&
+            !isInitializing.value &&
+            !isDragging.value) {
+          scheduleRender();
+        }
+      });
     }
 
     // 基于角度变化的采样防抖
@@ -250,9 +264,9 @@ class ModelTempWidget extends HookConsumerWidget {
             height: height,
             bgColor: bgColor,
             options: const model_api.ModelConvertOptions(
-              embedTextures: true,
+              embedTextures: false,
               overwrite: true,
-              maxTextureSize: 1024,
+              maxTextureSize: null,
             ),
           );
           if (!isMounted.value || initGeneration.value != generation) {
@@ -268,7 +282,6 @@ class ModelTempWidget extends HookConsumerWidget {
             return;
           }
           sessionId.value = start.sessionId;
-          var hasRenderedPreview = false;
           while (isMounted.value) {
             await Future<void>.delayed(const Duration(milliseconds: 180));
             final status = await model_api.p4KModelSessionStatus(
@@ -282,20 +295,13 @@ class ModelTempWidget extends HookConsumerWidget {
               return;
             }
             if (status.ready) {
-              if (!hasRenderedPreview || status.stage == "ready") {
-                modelRadius.value = status.modelRadius;
-                cameraDistance.value = status.modelRadius * 2.75;
-                lastRenderedYaw.value = cameraYaw.value;
-                lastRenderedPitch.value = cameraPitch.value;
-                await renderModel();
-                hasRenderedPreview = true;
-                isInitializing.value = false;
-              }
-              if (status.stage == "ready" ||
-                  status.stage == "previewing_geometry_texture_failed" ||
-                  status.stage == "previewing_untextured_texture_failed") {
-                return;
-              }
+              modelRadius.value = status.modelRadius;
+              cameraDistance.value = status.modelRadius * 2.75;
+              lastRenderedYaw.value = cameraYaw.value;
+              lastRenderedPitch.value = cameraPitch.value;
+              await renderModel();
+              isInitializing.value = false;
+              return;
             }
           }
           return;
@@ -362,6 +368,7 @@ class ModelTempWidget extends HookConsumerWidget {
       if (previousSessionId != null) {
         model_api.p4KModelSessionRelease(sessionId: previousSessionId);
       }
+      resizeRenderTimer.value?.cancel();
       final oldImage = image.value;
       image.value = null;
       oldImage?.dispose();
@@ -372,6 +379,7 @@ class ModelTempWidget extends HookConsumerWidget {
         if (isCurrentGeneration) {
           isMounted.value = false;
         }
+        resizeRenderTimer.value?.cancel();
         final oldImage = image.value;
         // 不设置 image.value = null，避免在 defunct element 上触发 setState
         // dispose 后 ValueNotifier 会被 GC 回收，无需清空
@@ -382,7 +390,16 @@ class ModelTempWidget extends HookConsumerWidget {
           model_api.p4KModelSessionRelease(sessionId: currentSessionId);
         }
       };
-    }, [glbBytes, glbPath, p4kPath, modelPath, width, height]);
+    }, [glbBytes, glbPath, p4kPath, modelPath]);
+
+    useEffect(() {
+      if (sessionId.value != null &&
+          !isInitializing.value &&
+          !isDragging.value) {
+        scheduleResizeRender();
+      }
+      return null;
+    }, [width, height]);
 
     useEffect(
       () {

@@ -6,9 +6,8 @@ use crate::model_convert::{
     DecodedTexture as ConvertTexture, GltfMaterialData, SceneData, ScenePrimitive,
 };
 use bytemuck::{Pod, Zeroable};
+use glam::{Mat4, Quat, Vec2, Vec3};
 use parking_lot::Mutex;
-use renderling::glam::{Mat4, Quat, Vec2, Vec3, Vec4};
-use renderling::{camera::Camera, context::Context, gltf::GltfDocument, light::Lux, stage::Stage};
 use uuid::Uuid;
 use wgpu::util::DeviceExt;
 
@@ -22,11 +21,6 @@ pub struct RenderSession {
 
 enum RenderSessionBackend {
     Wgpu(WgpuModelSession),
-    Renderling {
-        ctx: Context,
-        stage: Stage,
-        camera: Camera,
-    },
 }
 
 #[derive(Clone, Copy)]
@@ -183,7 +177,6 @@ unsafe impl Send for RenderSession {}
 lazy_static::lazy_static! {
     // 每个 session 有独立的锁，减少锁竞争
     pub static ref SESSIONS: Arc<Mutex<HashMap<String, Arc<Mutex<RenderSession>>>>> = Arc::new(Mutex::new(HashMap::new()));
-    static ref GLOBAL_CONTEXT: Arc<Mutex<Option<Context>>> = Arc::new(Mutex::new(None));
     static ref WGPU_SHARED_CONTEXT: Mutex<Option<Arc<WgpuSharedContext>>> = Mutex::new(None);
     static ref RENDER_PANIC_HOOK_LOCK: Mutex<()> = Mutex::new(());
 }
@@ -192,62 +185,16 @@ lazy_static::lazy_static! {
 /// This should be called once at application startup.
 /// Returns Ok(true) if context was initialized, Ok(false) if already initialized.
 pub fn init_context() -> Result<bool> {
-    let mut ctx = GLOBAL_CONTEXT.lock();
-    if ctx.is_some() {
-        return Ok(false); // Already initialized
+    if WGPU_SHARED_CONTEXT.lock().is_some() {
+        return Ok(false);
     }
-
-    // Create a small headless context for initialization
-    // Note: Context::headless panics on failure, not returning Result
-    let context = futures_lite::future::block_on(Context::headless(1, 1));
-    *ctx = Some(context);
+    let _ = wgpu_shared_context()?;
     Ok(true)
-}
-
-/// Compute the bounding box of a GLTF document
-fn compute_bounding_box(document: &GltfDocument) -> (Vec3, Vec3) {
-    let mut min = Vec3::splat(f32::INFINITY);
-    let mut max = Vec3::splat(f32::NEG_INFINITY);
-
-    // Get the default scene or scene 0
-    let scene = document.default_scene.unwrap_or(0);
-
-    // Iterate through all nodes in the scene
-    for node in document.recursive_nodes_in_scene(scene) {
-        let transform = Mat4::from(node.global_transform());
-        if let Some(mesh_index) = node.mesh {
-            if let Some(mesh) = document.meshes.get(mesh_index) {
-                for primitive in &mesh.primitives {
-                    let primitive_min = primitive.bounding_box.0;
-                    let primitive_max = primitive.bounding_box.1;
-                    for x in [primitive_min.x, primitive_max.x] {
-                        for y in [primitive_min.y, primitive_max.y] {
-                            for z in [primitive_min.z, primitive_max.z] {
-                                let corner = transform.transform_point3(Vec3::new(x, y, z));
-                                min = min.min(corner);
-                                max = max.max(corner);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Fallback if no geometry found
-    if min.x.is_infinite() {
-        (Vec3::NEG_ONE, Vec3::ONE)
-    } else {
-        (min, max)
-    }
 }
 
 impl RenderSession {
     fn new(width: u32, height: u32, glb_data: &[u8], bg_color: Option<[f32; 4]>) -> Result<Self> {
-        if !prefers_renderling_session() {
-            return Self::new_wgpu(width, height, glb_data, bg_color);
-        }
-        Self::new_renderling(width, height, glb_data, bg_color)
+        Self::new_wgpu(width, height, glb_data, bg_color)
     }
 
     fn new_wgpu(
@@ -277,66 +224,6 @@ impl RenderSession {
         })
     }
 
-    fn new_renderling(
-        width: u32,
-        height: u32,
-        glb_data: &[u8],
-        bg_color: Option<[f32; 4]>,
-    ) -> Result<Self> {
-        // Create headless context with the specified size
-        // Note: Context::headless panics on failure
-        let ctx = futures_lite::future::block_on(Context::headless(width, height));
-
-        // Default background color: #3B4750
-        let bg = bg_color.unwrap_or([0.231, 0.278, 0.314, 1.0]);
-
-        // Create a stage for rendering
-        let stage = ctx
-            .new_stage()
-            .with_background_color(Vec4::from(bg))
-            .with_lighting(true);
-
-        // Load GLB from bytes
-        let document = stage
-            .load_gltf_document_from_bytes(glb_data)
-            .map_err(|e| anyhow!("Failed to load GLB: {:?}", e))?;
-
-        // Compute bounding box to get model radius
-        let (min, max) = compute_bounding_box(&document);
-        let model_center = (min + max) * 0.5;
-        let model_radius = (max - min).length() / 2.0;
-
-        // Create camera with default perspective
-        let (projection, view) =
-            renderling::camera::default_perspective(width as f32, height as f32);
-        let camera = stage
-            .new_camera()
-            .with_projection_and_view(projection, view);
-
-        // Add balanced lighting for model preview
-        // Main key light
-        let _light1 = stage
-            .new_directional_light()
-            .with_direction(Vec3::new(-1.0, -1.0, -0.5).normalize())
-            .with_color(Vec4::ONE)
-            .with_intensity(Lux::INDOOR_OFFICE_HIGH);
-
-        // Fill light - softer and slightly cooler
-        let _light2 = stage
-            .new_directional_light()
-            .with_direction(Vec3::new(1.0, -0.5, 0.5).normalize())
-            .with_color(Vec4::new(0.85, 0.88, 0.95, 1.0))
-            .with_intensity(Lux::INDOOR_HALLWAY);
-
-        Ok(Self {
-            backend: RenderSessionBackend::Renderling { ctx, stage, camera },
-            width,
-            height,
-            model_center,
-            model_radius: model_radius.max(1.0),
-        })
-    }
-
     fn render(&self, camera_pos: [f32; 3], camera_target: [f32; 3]) -> Result<Vec<u8>> {
         match &self.backend {
             RenderSessionBackend::Wgpu(session) => session.render(
@@ -344,30 +231,22 @@ impl RenderSession {
                 Vec3::from(camera_target),
                 self.model_radius,
             ),
-            RenderSessionBackend::Renderling { ctx, stage, camera } => {
-                // Update camera view matrix
-                let view =
-                    Mat4::look_at_rh(Vec3::from(camera_pos), Vec3::from(camera_target), Vec3::Y);
-                camera.set_view(view);
-
-                // Get the next frame
-                let frame = ctx
-                    .get_next_frame()
-                    .map_err(|e| anyhow!("Failed to get next frame: {:?}", e))?;
-
-                // Render the stage
-                stage.render(&frame.view());
-
-                // Read the rendered image
-                let img = futures_lite::future::block_on(frame.read_image())
-                    .map_err(|e| anyhow!("Failed to read image: {:?}", e))?;
-
-                frame.present();
-
-                // Convert to raw RGBA bytes
-                Ok(img.into_raw())
-            }
         }
+    }
+
+    fn resize(&mut self, width: u32, height: u32) -> Result<()> {
+        if width == 0 || height == 0 {
+            return Err(anyhow!("renderer: invalid output size {width}x{height}"));
+        }
+        if self.width == width && self.height == height {
+            return Ok(());
+        }
+        match &mut self.backend {
+            RenderSessionBackend::Wgpu(session) => session.resize(width, height)?,
+        }
+        self.width = width;
+        self.height = height;
+        Ok(())
     }
 }
 
@@ -538,13 +417,6 @@ fn converted_material(material: Option<&GltfMaterialData>) -> Option<ParsedMater
         ),
         texture_index: material.base_color_texture.or(material.diffuse_texture),
     })
-}
-
-fn prefers_renderling_session() -> bool {
-    std::env::var("SCTB_MODEL_SESSION_RENDERER")
-        .or_else(|_| std::env::var("SCTB_MODEL_RENDERER"))
-        .map(|value| value.eq_ignore_ascii_case("renderling"))
-        .unwrap_or(false)
 }
 
 fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
@@ -769,6 +641,34 @@ impl WgpuModelSession {
             width,
             height,
         })
+    }
+
+    fn resize(&mut self, width: u32, height: u32) -> Result<()> {
+        if width == 0 || height == 0 {
+            return Err(anyhow!(
+                "wgpu renderer: invalid output size {width}x{height}"
+            ));
+        }
+        if self.width == width && self.height == height {
+            return Ok(());
+        }
+        let device = &self.shared.device;
+        let target = create_wgpu_target(device, width, height, 1);
+        let target_view = target.create_view(&wgpu::TextureViewDescriptor::default());
+        let msaa_target = create_wgpu_target(device, width, height, WGPU_SAMPLE_COUNT);
+        let msaa_target_view = msaa_target.create_view(&wgpu::TextureViewDescriptor::default());
+        let depth = create_wgpu_depth(device, width, height, WGPU_SAMPLE_COUNT);
+        let depth_view = depth.create_view(&wgpu::TextureViewDescriptor::default());
+
+        self.target = target;
+        self.target_view = target_view;
+        self._msaa_target = msaa_target;
+        self.msaa_target_view = msaa_target_view;
+        self._depth = depth;
+        self.depth_view = depth_view;
+        self.width = width;
+        self.height = height;
+        Ok(())
     }
 
     fn render(&self, camera_pos: Vec3, camera_target: Vec3, model_radius: f32) -> Result<Vec<u8>> {
@@ -1337,6 +1237,25 @@ pub fn render_session(
     camera_pos: [f32; 3],
     camera_target: [f32; 3],
 ) -> Result<(Vec<u8>, u32, u32)> {
+    let session_arc = {
+        let sessions = SESSIONS.lock();
+        sessions
+            .get(session_id)
+            .cloned()
+            .ok_or_else(|| anyhow!("Session not found: {}", session_id))?
+    };
+    let session = session_arc.lock();
+    let rgba_data = session.render(camera_pos, camera_target)?;
+    Ok((rgba_data, session.width, session.height))
+}
+
+pub fn render_session_resized(
+    session_id: &str,
+    width: u32,
+    height: u32,
+    camera_pos: [f32; 3],
+    camera_target: [f32; 3],
+) -> Result<(Vec<u8>, u32, u32)> {
     // 只在获取 session 引用时持锁
     let session_arc = {
         let sessions = SESSIONS.lock();
@@ -1346,7 +1265,8 @@ pub fn render_session(
             .ok_or_else(|| anyhow!("Session not found: {}", session_id))?
     };
     // 释放全局锁后，使用 session 独立锁进行渲染
-    let session = session_arc.lock();
+    let mut session = session_arc.lock();
+    session.resize(width, height)?;
     let rgba_data = session.render(camera_pos, camera_target)?;
     Ok((rgba_data, session.width, session.height))
 }
@@ -1374,6 +1294,16 @@ pub fn release_session(session_id: &str) -> bool {
 
 pub fn release_session_preserve_shared_context(session_id: &str) -> bool {
     release_session_inner(session_id, false)
+}
+
+pub fn release_all_sessions_except(active_session_id: Option<&str>) -> usize {
+    let mut sessions = SESSIONS.lock();
+    let before = sessions.len();
+    sessions.retain(|session_id, _| active_session_id.is_some_and(|active| active == session_id));
+    if !has_wgpu_sessions(&sessions) {
+        *WGPU_SHARED_CONTEXT.lock() = None;
+    }
+    before.saturating_sub(sessions.len())
 }
 
 pub fn session_exists(session_id: &str) -> bool {

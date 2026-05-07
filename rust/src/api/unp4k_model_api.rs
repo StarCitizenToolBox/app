@@ -2,6 +2,8 @@ use anyhow::Result;
 use flutter_rust_bridge::frb;
 use parking_lot::Mutex;
 use std::collections::HashMap;
+use std::fs;
+use std::path::{Path, PathBuf};
 use uuid::Uuid;
 
 use crate::model_convert::{self, ConvertCancelToken, ConvertOptions};
@@ -148,6 +150,27 @@ fn preview_session_exists(session_id: &str) -> bool {
     PREVIEW_SESSION_STATUS.lock().contains_key(session_id)
 }
 
+fn release_stale_preview_sessions(active_session_id: Option<&str>) {
+    let stale_statuses = {
+        let mut statuses = PREVIEW_SESSION_STATUS.lock();
+        let stale_ids = statuses
+            .keys()
+            .filter(|session_id| {
+                active_session_id.is_none_or(|active| active != session_id.as_str())
+            })
+            .cloned()
+            .collect::<Vec<_>>();
+        stale_ids
+            .into_iter()
+            .filter_map(|session_id| statuses.remove(&session_id))
+            .collect::<Vec<_>>()
+    };
+    for status in stale_statuses {
+        status.cancel_token.cancel();
+    }
+    model_render::release_all_sessions_except(active_session_id);
+}
+
 /// Initialize the OpenGL context for model rendering.
 /// Should be called once at application startup before any model rendering.
 /// Returns true if context was initialized, false if already initialized.
@@ -166,8 +189,13 @@ pub async fn p4k_model_convert_to_glb(
     options: Option<ModelConvertOptions>,
 ) -> Result<ModelConvertResult> {
     let options: ConvertOptions = options.into();
-    let result =
-        model_convert::convert_from_p4k(&p4k_path, &model_path, &output_dir, options).await;
+    let result = p4k_model_convert_to_glb_without_textures_inner(
+        &p4k_path,
+        &model_path,
+        &output_dir,
+        options,
+    )
+    .await;
     match result {
         Ok(ok) => Ok(ModelConvertResult {
             success: true,
@@ -184,6 +212,44 @@ pub async fn p4k_model_convert_to_glb(
             warnings: vec![],
         }),
     }
+}
+
+async fn p4k_model_convert_to_glb_without_textures_inner(
+    p4k_path: &str,
+    model_path: &str,
+    output_dir: &str,
+    options: ConvertOptions,
+) -> std::result::Result<model_convert::ConvertOutput, model_convert::ModelConvertError> {
+    options.check_cancelled()?;
+    fs::create_dir_all(output_dir)
+        .map_err(|e| model_convert::ModelConvertError::Io(e.to_string()))?;
+    let output_name = Path::new(model_path)
+        .file_stem()
+        .and_then(|v| v.to_str())
+        .unwrap_or("model");
+    let output_path = PathBuf::from(output_dir).join(format!("{output_name}.glb"));
+    if output_path.exists() && !options.overwrite {
+        return Err(model_convert::ModelConvertError::OutputExists);
+    }
+
+    let output =
+        model_convert::convert_from_p4k_to_scene_without_textures(p4k_path, model_path, options)
+            .await?;
+    model_convert::gltf_builder::write_glb(
+        &output.scene,
+        &output.textures,
+        &output.materials,
+        &output.materials_by_id,
+        &output_path,
+    )
+    .map_err(|e| model_convert::ModelConvertError::Io(e.to_string()))?;
+
+    Ok(model_convert::ConvertOutput {
+        output_path: output_path.to_string_lossy().to_string(),
+        warnings: output.warnings,
+        source_mode: output.source_mode,
+        fallback_reason: output.fallback_reason,
+    })
 }
 
 pub async fn p4k_model_convert_to_glb_bytes(
@@ -314,6 +380,7 @@ pub async fn p4k_model_session_create(
     height: u32,
     bg_color: Option<Vec<f32>>,
 ) -> Result<SessionCreateResult> {
+    release_stale_preview_sessions(None);
     let glb_data = tokio::fs::read(&glb_path).await?;
     let bg = session_bg_color(bg_color);
     match model_render::create_session(&glb_data, width, height, bg) {
@@ -338,6 +405,7 @@ pub fn p4k_model_session_create_from_bytes(
     height: u32,
     bg_color: Option<Vec<f32>>,
 ) -> Result<SessionCreateResult> {
+    release_stale_preview_sessions(None);
     let bg = session_bg_color(bg_color);
     match model_render::create_session(&glb_bytes, width, height, bg) {
         Ok((session_id, model_radius)) => Ok(SessionCreateResult {
@@ -363,6 +431,7 @@ pub async fn p4k_model_session_create_from_p4k(
     bg_color: Option<Vec<f32>>,
     options: Option<ModelConvertOptions>,
 ) -> Result<SessionCreateResult> {
+    release_stale_preview_sessions(None);
     let options: ConvertOptions = options.into();
     let bg = session_bg_color(bg_color);
     match model_convert::convert_from_p4k_to_scene(&p4k_path, &model_path, options).await {
@@ -407,6 +476,7 @@ pub fn p4k_model_session_start_from_p4k(
 ) -> Result<SessionStartResult> {
     let session_id = Uuid::new_v4().to_string();
     let cancel_token = ConvertCancelToken::new();
+    release_stale_preview_sessions(Some(&session_id));
     PREVIEW_SESSION_STATUS.lock().insert(
         session_id.clone(),
         PreviewSessionStatus {
@@ -512,86 +582,8 @@ pub fn p4k_model_session_start_from_p4k(
                         let mut status = PREVIEW_SESSION_STATUS.lock();
                         if let Some(entry) = status.get_mut(&task_session_id) {
                             entry.ready = true;
-                            entry.stage = "previewing_untextured".to_string();
-                            entry.model_radius = model_radius;
-                        }
-                    }
-                    Err(err) => {
-                        let mut status = PREVIEW_SESSION_STATUS.lock();
-                        if let Some(entry) = status.get_mut(&task_session_id) {
-                            entry.failed = true;
-                            entry.stage = "failed".to_string();
-                            entry.error_message = Some(err.to_string());
-                        }
-                    }
-                }
-                if !preview_session_exists(&task_session_id) {
-                    model_render::release_session(&task_session_id);
-                    return;
-                }
-                if cancel_token.is_cancelled() {
-                    model_render::release_session(&task_session_id);
-                    return;
-                }
-
-                {
-                    let mut status = PREVIEW_SESSION_STATUS.lock();
-                    if let Some(entry) = status.get_mut(&task_session_id) {
-                        entry.stage = "loading_textures".to_string();
-                    } else {
-                        model_render::release_session(&task_session_id);
-                        return;
-                    }
-                }
-
-                let full_result =
-                    model_convert::convert_from_p4k_to_bytes(&p4k_path, &model_path, options).await;
-                let full_glb_bytes = match full_result {
-                    Ok(ok) => ok.glb_bytes,
-                    Err(err) => {
-                        let mut status = PREVIEW_SESSION_STATUS.lock();
-                        if let Some(entry) = status.get_mut(&task_session_id) {
-                            entry.stage = "previewing_untextured_texture_failed".to_string();
-                            entry.error_message = Some(err.to_string());
-                        }
-                        return;
-                    }
-                };
-                if !preview_session_exists(&task_session_id) {
-                    model_render::release_session(&task_session_id);
-                    return;
-                }
-                if cancel_token.is_cancelled() {
-                    model_render::release_session(&task_session_id);
-                    return;
-                }
-
-                {
-                    let mut status = PREVIEW_SESSION_STATUS.lock();
-                    if let Some(entry) = status.get_mut(&task_session_id) {
-                        entry.ready = false;
-                        entry.stage = "upgrading_renderer".to_string();
-                    } else {
-                        model_render::release_session(&task_session_id);
-                        return;
-                    }
-                }
-
-                model_render::release_session_preserve_shared_context(&task_session_id);
-                match model_render::create_session_with_id(
-                    task_session_id.clone(),
-                    &full_glb_bytes,
-                    width,
-                    height,
-                    bg,
-                ) {
-                    Ok((_, model_radius)) => {
-                        let mut status = PREVIEW_SESSION_STATUS.lock();
-                        if let Some(entry) = status.get_mut(&task_session_id) {
-                            entry.ready = true;
                             entry.stage = "ready".to_string();
                             entry.model_radius = model_radius;
-                            entry.error_message = None;
                         }
                     }
                     Err(err) => {
@@ -602,6 +594,9 @@ pub fn p4k_model_session_start_from_p4k(
                             entry.error_message = Some(err.to_string());
                         }
                     }
+                }
+                if cancel_token.is_cancelled() || !preview_session_exists(&task_session_id) {
+                    model_render::release_session(&task_session_id);
                 }
             });
         });
@@ -655,6 +650,43 @@ pub fn p4k_model_session_render(
     let camera_pos = [camera_x, camera_y, camera_z];
     let camera_target = [target_x, target_y, target_z];
     match model_render::render_session(&session_id, camera_pos, camera_target) {
+        Ok((rgba_data, width, height)) => Ok(ModelRenderResult {
+            success: true,
+            width,
+            height,
+            rgba_data: Some(rgba_data),
+            error_message: None,
+        }),
+        Err(e) => Ok(ModelRenderResult {
+            success: false,
+            width: 0,
+            height: 0,
+            rgba_data: None,
+            error_message: Some(e.to_string()),
+        }),
+    }
+}
+
+pub fn p4k_model_session_render_resized(
+    session_id: String,
+    width: u32,
+    height: u32,
+    camera_x: f32,
+    camera_y: f32,
+    camera_z: f32,
+    target_x: f32,
+    target_y: f32,
+    target_z: f32,
+) -> Result<ModelRenderResult> {
+    let camera_pos = [camera_x, camera_y, camera_z];
+    let camera_target = [target_x, target_y, target_z];
+    match model_render::render_session_resized(
+        &session_id,
+        width,
+        height,
+        camera_pos,
+        camera_target,
+    ) {
         Ok((rgba_data, width, height)) => Ok(ModelRenderResult {
             success: true,
             width,

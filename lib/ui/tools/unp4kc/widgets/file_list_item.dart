@@ -30,7 +30,11 @@ class FileListItem extends HookWidget {
   Widget build(BuildContext context) {
     final flyoutController = useMemoized(() => FlyoutController());
     final fullPath = item.name ?? "?";
-    final isFlatResultMode = state.searchMatchedFiles != null;
+    final isDirectory = item.isDirectory ?? false;
+    final isFlatResultMode =
+        !isDirectory &&
+        (state.searchMatchedFiles != null ||
+            state.viewMode != Unp4kViewMode.fileBrowser);
     final normalized = fullPath.replaceAll("/", "\\");
     final lowerPath = normalized.toLowerCase();
     final lastSep = normalized.lastIndexOf("\\");
@@ -63,7 +67,7 @@ class FileListItem extends HookWidget {
             onPressed: () {
               if (state.isMultiSelectMode) {
                 model.toggleSelectItem(itemPath);
-              } else if (item.isDirectory ?? false) {
+              } else if (isDirectory) {
                 final dirName =
                     item.name?.replaceAll(state.curPath.trim(), "") ?? "";
                 model.changeDir(dirName);
@@ -84,7 +88,7 @@ class FileListItem extends HookWidget {
                     ),
                     const SizedBox(width: 8),
                   ],
-                  if (item.isDirectory ?? false)
+                  if (isDirectory)
                     const Icon(
                       FluentIcons.folder_fill,
                       color: Color.fromRGBO(255, 224, 138, 1),
@@ -127,7 +131,7 @@ class FileListItem extends HookWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
-                        if (!(item.isDirectory ?? true)) ...[
+                        if (!isDirectory) ...[
                           const SizedBox(height: 1),
                           Row(
                             children: [

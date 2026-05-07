@@ -8,7 +8,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_model_api.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `session_bg_color`
+// These functions are ignored because they are not marked as `pub`: `preview_session_exists`, `session_bg_color`
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `PREVIEW_SESSION_STATUS`, `PreviewSessionStatus`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `deref`, `from`, `initialize`
 
@@ -144,6 +144,28 @@ Future<ModelRenderResult> p4KModelSessionRender({
   required double targetZ,
 }) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionRender(
   sessionId: sessionId,
+  cameraX: cameraX,
+  cameraY: cameraY,
+  cameraZ: cameraZ,
+  targetX: targetX,
+  targetY: targetY,
+  targetZ: targetZ,
+);
+
+Future<ModelRenderResult> p4KModelSessionRenderResized({
+  required String sessionId,
+  required int width,
+  required int height,
+  required double cameraX,
+  required double cameraY,
+  required double cameraZ,
+  required double targetX,
+  required double targetY,
+  required double targetZ,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionRenderResized(
+  sessionId: sessionId,
+  width: width,
+  height: height,
   cameraX: cameraX,
   cameraY: cameraY,
   cameraZ: cameraZ,

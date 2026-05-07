@@ -29,11 +29,27 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     required super.portManager,
   });
 
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_ArcDataForgePtr => wire
+      ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForgePtr;
+
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
 
   @protected
+  ArcDataForge
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    dynamic raw,
+  );
+
+  @protected
   Map<String, String> dco_decode_Map_String_String_None(dynamic raw);
+
+  @protected
+  ArcDataForge
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    dynamic raw,
+  );
 
   @protected
   RustStreamSink<RsProcessStreamData>
@@ -314,7 +330,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
+  ArcDataForge
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   Map<String, String> sse_decode_Map_String_String_None(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  ArcDataForge
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
     SseDeserializer deserializer,
   );
 
@@ -1504,6 +1532,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  int
+  cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ArcDataForge raw,
+  );
+
+  @protected
+  int
+  cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ArcDataForge raw,
+  );
+
+  @protected
   bool cst_encode_bool(bool raw);
 
   @protected
@@ -1549,8 +1589,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ArcDataForge self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_Map_String_String_None(
     Map<String, String> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ArcDataForge self,
     SseSerializer serializer,
   );
 
@@ -3394,6 +3448,18 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__unp4k_api__p4k_cancel_wem_decodePtr
           .asFunction<void Function(int)>();
 
+  void wire__crate__api__unp4k_api__p4k_clear_model_dcb_cache(int port_) {
+    return _wire__crate__api__unp4k_api__p4k_clear_model_dcb_cache(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_clear_model_dcb_cachePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_clear_model_dcb_cache',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_clear_model_dcb_cache =
+      _wire__crate__api__unp4k_api__p4k_clear_model_dcb_cachePtr
+          .asFunction<void Function(int)>();
+
   void wire__crate__api__unp4k_api__p4k_close(int port_) {
     return _wire__crate__api__unp4k_api__p4k_close(port_);
   }
@@ -3787,6 +3853,33 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__unp4k_api__p4k_get_file_count =
       _wire__crate__api__unp4k_api__p4k_get_file_countPtr
           .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__p4k_get_or_load_model_dcb(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> p4k_path,
+  ) {
+    return _wire__crate__api__unp4k_api__p4k_get_or_load_model_dcb(
+      port_,
+      p4k_path,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_get_or_load_model_dcbPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_or_load_model_dcb',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_get_or_load_model_dcb =
+      _wire__crate__api__unp4k_api__p4k_get_or_load_model_dcbPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
 
   void
   wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge(
@@ -4229,6 +4322,68 @@ class RustLibWire implements BaseWire {
             void Function(
               int,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              double,
+              double,
+              double,
+              double,
+              double,
+              double,
+            )
+          >();
+
+  void wire__crate__api__unp4k_model_api__p4k_model_session_render_resized(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> session_id,
+    int width,
+    int height,
+    double camera_x,
+    double camera_y,
+    double camera_z,
+    double target_x,
+    double target_y,
+    double target_z,
+  ) {
+    return _wire__crate__api__unp4k_model_api__p4k_model_session_render_resized(
+      port_,
+      session_id,
+      width,
+      height,
+      camera_x,
+      camera_y,
+      camera_z,
+      target_x,
+      target_y,
+      target_z,
+    );
+  }
+
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_render_resizedPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Uint32,
+            ffi.Uint32,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+            ffi.Float,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_render_resized',
+      );
+  late final _wire__crate__api__unp4k_model_api__p4k_model_session_render_resized =
+      _wire__crate__api__unp4k_model_api__p4k_model_session_render_resizedPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+              int,
               double,
               double,
               double,
@@ -5225,6 +5380,40 @@ class RustLibWire implements BaseWire {
           .asFunction<
             void Function(int, int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
+
+  void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForgePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_starcitizen_doctor_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge',
+      );
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge =
+      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForgePtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForgePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_starcitizen_doctor_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge',
+      );
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge =
+      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForgePtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   ffi.Pointer<ffi.Bool> cst_new_box_autoadd_bool(bool value) {
     return _cst_new_box_autoadd_bool(value);

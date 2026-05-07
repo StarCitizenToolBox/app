@@ -9,7 +9,7 @@ use std::io::Cursor;
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
-use unp4k::dataforge::DataForge;
+pub use unp4k::dataforge::DataForge;
 use unp4k::{CryXmlReader, P4kEntry, P4kFile};
 
 use crate::frb_generated::StreamSink;
