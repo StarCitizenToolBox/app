@@ -1,7 +1,7 @@
 use std::env;
 use std::path::{Path, PathBuf};
 
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use image::{ImageBuffer, Rgba};
 use rust::model_render;
 
@@ -43,7 +43,7 @@ fn render_view(
     let count = image
         .as_raw()
         .chunks_exact(4)
-        .filter(|px| px[0] != 0x8B || px[1] != 0x98 || px[2] != 0x9E)
+        .filter(|px| px[0] != 59 || px[1] != 71 || px[2] != 80)
         .count();
     if count == 0 {
         return Err(anyhow!("rendered image is blank: {}", output.display()));

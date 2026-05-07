@@ -1,5 +1,6 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use std::collections::HashMap;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 
 use parking_lot::Mutex;
@@ -8,13 +9,23 @@ use renderling::{camera::Camera, context::Context, gltf::GltfDocument, light::Lu
 use uuid::Uuid;
 
 pub struct RenderSession {
-    ctx: Context,
-    stage: Stage,
-    camera: Camera,
+    backend: RenderSessionBackend,
     pub width: u32,
     pub height: u32,
     pub model_center: Vec3,
     pub model_radius: f32,
+}
+
+enum RenderSessionBackend {
+    Renderling {
+        ctx: Context,
+        stage: Stage,
+        camera: Camera,
+    },
+    Software {
+        triangles: Vec<SoftwareTriangle>,
+        bg: [u8; 4],
+    },
 }
 
 #[derive(Clone, Copy)]
@@ -38,6 +49,8 @@ lazy_static::lazy_static! {
     static ref GLOBAL_CONTEXT: Arc<Mutex<Option<Context>>> = Arc::new(Mutex::new(None));
     static ref RENDER_PANIC_HOOK_LOCK: Mutex<()> = Mutex::new(());
 }
+
+static RENDERLING_ONESHOT_UNAVAILABLE: AtomicBool = AtomicBool::new(false);
 
 /// Initialize the global rendering context.
 /// This should be called once at application startup.
@@ -95,6 +108,21 @@ fn compute_bounding_box(document: &GltfDocument) -> (Vec3, Vec3) {
 
 impl RenderSession {
     fn new(width: u32, height: u32, glb_data: &[u8], bg_color: Option<[f32; 4]>) -> Result<Self> {
+        if !std::env::var("SCTB_MODEL_SESSION_RENDERER")
+            .map(|value| value.eq_ignore_ascii_case("renderling"))
+            .unwrap_or(false)
+        {
+            return Self::new_software(width, height, glb_data, bg_color);
+        }
+        Self::new_renderling(width, height, glb_data, bg_color)
+    }
+
+    fn new_renderling(
+        width: u32,
+        height: u32,
+        glb_data: &[u8],
+        bg_color: Option<[f32; 4]>,
+    ) -> Result<Self> {
         // Create headless context with the specified size
         // Note: Context::headless panics on failure
         let ctx = futures_lite::future::block_on(Context::headless(width, height));
@@ -141,9 +169,34 @@ impl RenderSession {
             .with_intensity(Lux::INDOOR_HALLWAY);
 
         Ok(Self {
-            ctx,
-            stage,
-            camera,
+            backend: RenderSessionBackend::Renderling { ctx, stage, camera },
+            width,
+            height,
+            model_center,
+            model_radius: model_radius.max(1.0),
+        })
+    }
+
+    fn new_software(
+        width: u32,
+        height: u32,
+        glb_data: &[u8],
+        bg_color: Option<[f32; 4]>,
+    ) -> Result<Self> {
+        let triangles = load_software_triangles(glb_data)?;
+        let (model_center, model_radius) = software_bounds(&triangles)?;
+        let bg = bg_color
+            .map(|color| {
+                [
+                    (color[0] * 255.0).clamp(0.0, 255.0) as u8,
+                    (color[1] * 255.0).clamp(0.0, 255.0) as u8,
+                    (color[2] * 255.0).clamp(0.0, 255.0) as u8,
+                    (color[3] * 255.0).clamp(0.0, 255.0) as u8,
+                ]
+            })
+            .unwrap_or([59, 71, 80, 255]);
+        Ok(Self {
+            backend: RenderSessionBackend::Software { triangles, bg },
             width,
             height,
             model_center,
@@ -152,27 +205,40 @@ impl RenderSession {
     }
 
     fn render(&self, camera_pos: [f32; 3], camera_target: [f32; 3]) -> Result<Vec<u8>> {
-        // Update camera view matrix
-        let view = Mat4::look_at_rh(Vec3::from(camera_pos), Vec3::from(camera_target), Vec3::Y);
-        self.camera.set_view(view);
+        match &self.backend {
+            RenderSessionBackend::Renderling { ctx, stage, camera } => {
+                // Update camera view matrix
+                let view =
+                    Mat4::look_at_rh(Vec3::from(camera_pos), Vec3::from(camera_target), Vec3::Y);
+                camera.set_view(view);
 
-        // Get the next frame
-        let frame = self
-            .ctx
-            .get_next_frame()
-            .map_err(|e| anyhow!("Failed to get next frame: {:?}", e))?;
+                // Get the next frame
+                let frame = ctx
+                    .get_next_frame()
+                    .map_err(|e| anyhow!("Failed to get next frame: {:?}", e))?;
 
-        // Render the stage
-        self.stage.render(&frame.view());
+                // Render the stage
+                stage.render(&frame.view());
 
-        // Read the rendered image
-        let img = futures_lite::future::block_on(frame.read_image())
-            .map_err(|e| anyhow!("Failed to read image: {:?}", e))?;
+                // Read the rendered image
+                let img = futures_lite::future::block_on(frame.read_image())
+                    .map_err(|e| anyhow!("Failed to read image: {:?}", e))?;
 
-        frame.present();
+                frame.present();
 
-        // Convert to raw RGBA bytes
-        Ok(img.into_raw())
+                // Convert to raw RGBA bytes
+                Ok(img.into_raw())
+            }
+            RenderSessionBackend::Software { triangles, bg } => render_software_triangles_camera(
+                triangles,
+                self.width,
+                self.height,
+                Vec3::from(camera_pos),
+                Vec3::from(camera_target),
+                self.model_radius,
+                *bg,
+            ),
+        }
     }
 }
 
@@ -227,6 +293,18 @@ pub fn render_glb_to_rgba(
     height: u32,
     rotation: (f32, f32, f32),
 ) -> Result<Vec<u8>> {
+    if width == 0 || height == 0 {
+        return Err(anyhow!("renderer: invalid output size {width}x{height}"));
+    }
+
+    if std::env::var("SCTB_MODEL_RENDERER")
+        .map(|value| value.eq_ignore_ascii_case("software"))
+        .unwrap_or(false)
+        || RENDERLING_ONESHOT_UNAVAILABLE.load(Ordering::Relaxed)
+    {
+        return software_render_glb_to_rgba(glb_data, width, height, rotation);
+    }
+
     let _hook_guard = RENDER_PANIC_HOOK_LOCK.lock();
     let previous_hook = std::panic::take_hook();
     std::panic::set_hook(Box::new(|_| {}));
@@ -238,9 +316,13 @@ pub fn render_glb_to_rgba(
 
     match render_result {
         Ok(Ok(rgba)) => Ok(rgba),
-        Ok(Err(err)) => software_render_glb_to_rgba(glb_data, width, height, rotation)
-            .map_err(|fallback_err| anyhow!("{err}; software fallback failed: {fallback_err}")),
+        Ok(Err(err)) => {
+            RENDERLING_ONESHOT_UNAVAILABLE.store(true, Ordering::Relaxed);
+            software_render_glb_to_rgba(glb_data, width, height, rotation)
+                .map_err(|fallback_err| anyhow!("{err}; software fallback failed: {fallback_err}"))
+        }
         Err(panic) => {
+            RENDERLING_ONESHOT_UNAVAILABLE.store(true, Ordering::Relaxed);
             software_render_glb_to_rgba(glb_data, width, height, rotation).map_err(|fallback_err| {
                 anyhow!(
                     "renderer panicked: {}; software fallback failed: {fallback_err}",
@@ -285,6 +367,11 @@ fn software_render_glb_to_rgba(
     height: u32,
     rotation: (f32, f32, f32),
 ) -> Result<Vec<u8>> {
+    let triangles = load_software_triangles(glb_data)?;
+    render_software_triangles_rotation(&triangles, width, height, rotation, [59, 71, 80, 255])
+}
+
+fn load_software_triangles(glb_data: &[u8]) -> Result<Vec<SoftwareTriangle>> {
     let (json, bin) = parse_glb_chunks(glb_data)?;
     let nodes = json
         .get("nodes")
@@ -315,7 +402,33 @@ fn software_render_glb_to_rgba(
     if triangles.is_empty() {
         return Err(anyhow!("software render: no triangles"));
     }
+    Ok(triangles)
+}
 
+fn software_bounds(triangles: &[SoftwareTriangle]) -> Result<(Vec3, f32)> {
+    let mut min = Vec3::splat(f32::INFINITY);
+    let mut max = Vec3::splat(f32::NEG_INFINITY);
+    for tri in triangles {
+        for vertex in &tri.vertices {
+            min = min.min(vertex.position);
+            max = max.max(vertex.position);
+        }
+    }
+    if min.x.is_infinite() {
+        return Err(anyhow!("software render: invalid bounds"));
+    }
+    let center = (min + max) * 0.5;
+    let radius = (max - min).length() * 0.5;
+    Ok((center, radius))
+}
+
+fn render_software_triangles_rotation(
+    triangles: &[SoftwareTriangle],
+    width: u32,
+    height: u32,
+    rotation: (f32, f32, f32),
+    bg: [u8; 4],
+) -> Result<Vec<u8>> {
     let view_rot = Mat4::from_quat(Quat::from_euler(
         EulerRot::XYZ,
         rotation.0,
@@ -324,7 +437,7 @@ fn software_render_glb_to_rgba(
     ));
     let mut min = Vec3::splat(f32::INFINITY);
     let mut max = Vec3::splat(f32::NEG_INFINITY);
-    for tri in &triangles {
+    for tri in triangles {
         for vertex in &tri.vertices {
             let p = view_rot.transform_point3(vertex.position);
             min = min.min(p);
@@ -338,7 +451,6 @@ fn software_render_glb_to_rgba(
     let extent = (max - min).max(Vec3::splat(1.0));
     let scale = 0.84 * (width.min(height) as f32) / extent.x.max(extent.y).max(1.0);
 
-    let bg = [59u8, 71u8, 80u8, 255u8];
     let mut rgba = vec![0u8; width as usize * height as usize * 4];
     for pixel in rgba.chunks_exact_mut(4) {
         pixel.copy_from_slice(&bg);
@@ -358,6 +470,44 @@ fn software_render_glb_to_rgba(
                     normal: view_rot
                         .transform_vector3(vertex.normal)
                         .normalize_or_zero(),
+                }
+            }),
+            base_color: tri.base_color,
+        };
+        rasterize_triangle(&projected, width, height, &mut rgba, &mut depth);
+    }
+
+    Ok(rgba)
+}
+
+fn render_software_triangles_camera(
+    triangles: &[SoftwareTriangle],
+    width: u32,
+    height: u32,
+    camera_pos: Vec3,
+    camera_target: Vec3,
+    model_radius: f32,
+    bg: [u8; 4],
+) -> Result<Vec<u8>> {
+    let view = Mat4::look_at_rh(camera_pos, camera_target, Vec3::Y);
+    let scale = 0.48 * (width.min(height) as f32) / model_radius.max(1.0);
+    let mut rgba = vec![0u8; width as usize * height as usize * 4];
+    for pixel in rgba.chunks_exact_mut(4) {
+        pixel.copy_from_slice(&bg);
+    }
+    let mut depth = vec![f32::INFINITY; width as usize * height as usize];
+
+    for tri in triangles {
+        let projected = SoftwareTriangle {
+            vertices: tri.vertices.map(|vertex| {
+                let p = view.transform_point3(vertex.position);
+                SoftwareVertex {
+                    position: Vec3::new(
+                        width as f32 * 0.5 + p.x * scale,
+                        height as f32 * 0.5 - p.y * scale,
+                        -p.z,
+                    ),
+                    normal: view.transform_vector3(vertex.normal).normalize_or_zero(),
                 }
             }),
             base_color: tri.base_color,
@@ -810,9 +960,9 @@ fn rasterize_triangle(
                         .normalize_or_zero();
                     let diffuse = normal.dot(light_dir).max(0.0);
                     let facing = normal.z.abs();
-                    let edge_factor = w0.min(w1).min(w2).mul_add(18.0, 0.0).clamp(0.72, 1.0);
+                    let edge_factor = w0.min(w1).min(w2).mul_add(24.0, 0.0).clamp(0.9, 1.0);
                     let shade =
-                        (0.18 + 0.62 * diffuse + 0.24 * facing).clamp(0.18, 1.15) * edge_factor;
+                        (0.22 + 0.52 * diffuse + 0.22 * facing).clamp(0.22, 0.95) * edge_factor;
                     let color = [
                         (tri.base_color.x * 255.0 * shade).clamp(0.0, 255.0) as u8,
                         (tri.base_color.y * 255.0 * shade).clamp(0.0, 255.0) as u8,
