@@ -1,16 +1,16 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use std::collections::{BTreeMap, HashMap};
 
 use super::{
-    SceneData, SceneMesh, SceneNode, ScenePrimitive,
     cryengine::{
-        FileSignature, ModelFile,
         chunks::node_mesh_combo::{
-            IvoNodeMeshComboChunk, node_transform_to_gltf_matrix, node_transform_to_gltf_trs,
-            parse_node_mesh_combo_chunk, resolve_node_mesh_combo_transforms,
+            node_transform_to_gltf_matrix, node_transform_to_gltf_trs, parse_node_mesh_combo_chunk,
+            resolve_node_mesh_combo_transforms, IvoNodeMeshComboChunk,
         },
         ivo::{collect_skin_chunks, find_node_mesh_combo_chunk},
+        FileSignature, ModelFile,
     },
+    SceneData, SceneMesh, SceneNode, ScenePrimitive,
 };
 
 const FILE_SIGNATURE_IVO: &[u8; 4] = b"#ivo";
@@ -1462,7 +1462,7 @@ fn parse_ivo_node_index(name: &str) -> Option<u16> {
 #[cfg(test)]
 mod tests {
     use super::{
-        CHUNK_TYPE_IVO_SKIN, STREAM_IVO_INDICES, STREAM_IVO_VERTS_UVS2, parse_static_scene,
+        parse_static_scene, CHUNK_TYPE_IVO_SKIN, STREAM_IVO_INDICES, STREAM_IVO_VERTS_UVS2,
     };
 
     #[test]

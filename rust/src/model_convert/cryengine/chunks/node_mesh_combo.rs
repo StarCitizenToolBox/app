@@ -1,4 +1,4 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use std::collections::HashMap;
 
 use crate::model_convert::cryengine::{ChunkType, ModelFile, ParsedChunk};
@@ -179,8 +179,8 @@ pub fn node_mesh_combo_node_name(node_index: u16, fallback_index: usize) -> Opti
 }
 
 pub fn node_transform_to_gltf_matrix(transform: NodeTransform) -> [f32; 16] {
-    let r = transform.rotation;
-    let t = transform.translation;
+    let r = convert_rotation_axes(transform.rotation);
+    let t = swap_axes_for_position(transform.translation);
     [
         r[0][0], r[1][0], r[2][0], 0.0, //
         r[0][1], r[1][1], r[2][1], 0.0, //
@@ -191,17 +191,20 @@ pub fn node_transform_to_gltf_matrix(transform: NodeTransform) -> [f32; 16] {
 
 pub fn node_transform_to_gltf_trs(transform: NodeTransform) -> ([f32; 3], [f32; 4], [f32; 3]) {
     let translation = swap_axes_for_position(transform.translation);
-    let rotation = matrix3_to_quaternion(transform.rotation);
-    let rotation = swap_axes_for_layout(rotation);
+    let rotation = matrix3_to_quaternion(convert_rotation_axes(transform.rotation));
     (translation, rotation, [1.0, 1.0, 1.0])
 }
 
 fn swap_axes_for_position(val: [f32; 3]) -> [f32; 3] {
-    [-val[0], val[2], val[1]]
+    [val[0], val[2], -val[1]]
 }
 
-fn swap_axes_for_layout(val: [f32; 4]) -> [f32; 4] {
-    [-val[0], -val[2], val[1], val[3]]
+fn convert_rotation_axes(r: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
+    [
+        [r[0][0], r[0][2], -r[0][1]],
+        [r[2][0], r[2][2], -r[2][1]],
+        [-r[1][0], -r[1][2], r[1][1]],
+    ]
 }
 
 fn matrix3_to_quaternion(m: [[f32; 3]; 3]) -> [f32; 4] {
