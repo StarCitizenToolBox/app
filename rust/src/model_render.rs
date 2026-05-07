@@ -544,6 +544,7 @@ fn render_software_scene_rotation(
         );
     }
 
+    remove_detached_small_components(&mut rgba, width, height, bg);
     Ok(rgba)
 }
 
@@ -557,7 +558,8 @@ fn render_software_scene_camera(
     bg: [u8; 4],
 ) -> Result<Vec<u8>> {
     let view = Mat4::look_at_rh(camera_pos, camera_target, Vec3::Y);
-    let scale = 0.48 * (width.min(height) as f32) / model_radius.max(1.0);
+    let focal = width.min(height) as f32 * 1.25;
+    let near = model_radius.max(1.0) * 0.02;
     let mut rgba = vec![0u8; width as usize * height as usize * 4];
     for pixel in rgba.chunks_exact_mut(4) {
         pixel.copy_from_slice(&bg);
@@ -565,19 +567,30 @@ fn render_software_scene_camera(
     let mut depth = vec![f32::INFINITY; width as usize * height as usize];
 
     for tri in &scene.triangles {
+        let mut projected_vertices = [tri.vertices[0]; 3];
+        let mut clipped = false;
+        for (index, vertex) in tri.vertices.iter().enumerate() {
+            let p = view.transform_point3(vertex.position);
+            let depth = -p.z;
+            if depth <= near {
+                clipped = true;
+                break;
+            }
+            projected_vertices[index] = SoftwareVertex {
+                position: Vec3::new(
+                    width as f32 * 0.5 + (p.x / depth) * focal,
+                    height as f32 * 0.5 - (p.y / depth) * focal,
+                    depth,
+                ),
+                normal: view.transform_vector3(vertex.normal).normalize_or_zero(),
+                uv: vertex.uv,
+            };
+        }
+        if clipped {
+            continue;
+        }
         let projected = SoftwareTriangle {
-            vertices: tri.vertices.map(|vertex| {
-                let p = view.transform_point3(vertex.position);
-                SoftwareVertex {
-                    position: Vec3::new(
-                        width as f32 * 0.5 + p.x * scale,
-                        height as f32 * 0.5 - p.y * scale,
-                        -p.z,
-                    ),
-                    normal: view.transform_vector3(vertex.normal).normalize_or_zero(),
-                    uv: vertex.uv,
-                }
-            }),
+            vertices: projected_vertices,
             base_color: tri.base_color,
             base_texture: tri.base_texture,
             normal_texture: tri.normal_texture,
@@ -596,7 +609,59 @@ fn render_software_scene_camera(
         );
     }
 
+    remove_detached_small_components(&mut rgba, width, height, bg);
     Ok(rgba)
+}
+
+fn remove_detached_small_components(rgba: &mut [u8], width: u32, height: u32, bg: [u8; 4]) {
+    let pixel_count = width as usize * height as usize;
+    if pixel_count == 0 || rgba.len() < pixel_count * 4 {
+        return;
+    }
+    let min_component_area = ((pixel_count / 1200).clamp(24, 512)).max(1);
+    let mut visited = vec![false; pixel_count];
+    let mut stack = Vec::<usize>::new();
+    let mut component = Vec::<usize>::new();
+
+    for start in 0..pixel_count {
+        if visited[start] || is_background_pixel(rgba, start, bg) {
+            continue;
+        }
+        visited[start] = true;
+        stack.clear();
+        component.clear();
+        stack.push(start);
+        while let Some(index) = stack.pop() {
+            component.push(index);
+            let x = index % width as usize;
+            let y = index / width as usize;
+            let x0 = x.saturating_sub(1);
+            let y0 = y.saturating_sub(1);
+            let x1 = (x + 1).min(width as usize - 1);
+            let y1 = (y + 1).min(height as usize - 1);
+            for ny in y0..=y1 {
+                for nx in x0..=x1 {
+                    let next = ny * width as usize + nx;
+                    if next == index || visited[next] || is_background_pixel(rgba, next, bg) {
+                        continue;
+                    }
+                    visited[next] = true;
+                    stack.push(next);
+                }
+            }
+        }
+        if component.len() < min_component_area {
+            for index in &component {
+                let offset = index * 4;
+                rgba[offset..offset + 4].copy_from_slice(&bg);
+            }
+        }
+    }
+}
+
+fn is_background_pixel(rgba: &[u8], pixel_index: usize, bg: [u8; 4]) -> bool {
+    let offset = pixel_index * 4;
+    rgba.get(offset..offset + 4) == Some(bg.as_slice())
 }
 
 fn parse_glb_chunks(glb_data: &[u8]) -> Result<(serde_json::Value, Vec<u8>)> {
@@ -1459,4 +1524,100 @@ fn read_u32_at(data: &[u8], offset: usize) -> Result<u32> {
 
 fn read_f32_at(data: &[u8], offset: usize) -> Result<f32> {
     Ok(f32::from_bits(read_u32_at(data, offset)?))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn software_camera_distance_changes_projected_size() {
+        let scene = SoftwareScene {
+            textures: Vec::new(),
+            triangles: vec![SoftwareTriangle {
+                vertices: [
+                    SoftwareVertex {
+                        position: Vec3::new(-0.6, -0.4, 0.0),
+                        normal: Vec3::Z,
+                        uv: Vec2::ZERO,
+                    },
+                    SoftwareVertex {
+                        position: Vec3::new(0.6, -0.4, 0.0),
+                        normal: Vec3::Z,
+                        uv: Vec2::X,
+                    },
+                    SoftwareVertex {
+                        position: Vec3::new(0.0, 0.6, 0.0),
+                        normal: Vec3::Z,
+                        uv: Vec2::Y,
+                    },
+                ],
+                base_color: Vec3::ONE,
+                base_texture: None,
+                normal_texture: None,
+                emissive_factor: Vec3::ZERO,
+                emissive_strength: 0.0,
+                specular_factor: Vec3::ZERO,
+                glossiness: 0.0,
+            }],
+        };
+        let bg = [9, 13, 16, 255];
+        let near = render_software_scene_camera(
+            &scene,
+            128,
+            128,
+            Vec3::new(0.0, 0.0, 3.0),
+            Vec3::ZERO,
+            1.0,
+            bg,
+        )
+        .expect("near render");
+        let far = render_software_scene_camera(
+            &scene,
+            128,
+            128,
+            Vec3::new(0.0, 0.0, 6.0),
+            Vec3::ZERO,
+            1.0,
+            bg,
+        )
+        .expect("far render");
+        let count_non_bg = |rgba: &[u8]| {
+            rgba.chunks_exact(4)
+                .filter(|pixel| pixel[0..4] != bg)
+                .count()
+        };
+        assert!(count_non_bg(&near) > count_non_bg(&far) * 2);
+    }
+
+    #[test]
+    fn detached_component_cleanup_removes_small_islands() {
+        let bg = [1, 2, 3, 255];
+        let fg = [200, 210, 220, 255];
+        let width = 64u32;
+        let height = 64u32;
+        let mut rgba = vec![0u8; width as usize * height as usize * 4];
+        for pixel in rgba.chunks_exact_mut(4) {
+            pixel.copy_from_slice(&bg);
+        }
+        for y in 10..40 {
+            for x in 10..40 {
+                let offset = (y * width as usize + x) * 4;
+                rgba[offset..offset + 4].copy_from_slice(&fg);
+            }
+        }
+        for y in 50..53 {
+            for x in 50..53 {
+                let offset = (y * width as usize + x) * 4;
+                rgba[offset..offset + 4].copy_from_slice(&fg);
+            }
+        }
+
+        remove_detached_small_components(&mut rgba, width, height, bg);
+
+        let large_offset = (20 * width as usize + 20) * 4;
+        let small_offset = (51 * width as usize + 51) * 4;
+        assert_eq!(&rgba[large_offset..large_offset + 4], fg.as_slice());
+        assert_eq!(&rgba[small_offset..small_offset + 4], bg.as_slice());
+    }
 }

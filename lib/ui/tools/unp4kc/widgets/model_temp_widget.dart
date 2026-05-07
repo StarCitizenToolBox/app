@@ -92,10 +92,10 @@ class ModelTempWidget extends HookConsumerWidget {
       context,
     ).clamp(1.0, 2.0);
     final width = (size.width * 0.5 * devicePixelRatio)
-        .clamp(512, 1600)
+        .clamp(512, 1024)
         .toInt();
     final height = (size.height * 0.6 * devicePixelRatio)
-        .clamp(512, 1600)
+        .clamp(512, 1024)
         .toInt();
 
     Future<void> renderModel() async {

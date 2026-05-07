@@ -71,6 +71,9 @@ fn find_node_by_path(doc: &Value, path: &[String]) -> Option<usize> {
 
 fn find_node_by_path_with_synthetic_root(doc: &Value, path: &[String]) -> Option<usize> {
     find_node_by_path(doc, path).or_else(|| {
+        if path.len() < 2 {
+            return None;
+        }
         let first = path.first()?;
         let synthetic = format!("anchor::{first}");
         let synthetic_idx = find_node_by_name(doc, &synthetic)?;
@@ -124,18 +127,6 @@ fn ensure_descendant_node_path(
     Ok(Some(current_idx))
 }
 
-fn find_deepest_node_by_path(doc: &Value, path: &[String]) -> Option<usize> {
-    let first = path.first()?.as_str();
-    let nodes = doc.get("nodes")?.as_array()?;
-    nodes
-        .iter()
-        .enumerate()
-        .filter(|(_, node)| node.get("name").and_then(|v| v.as_str()) == Some(first))
-        .map(|(idx, _)| deepest_descendant_path(doc, idx, &path[1..]))
-        .max_by_key(|(_, depth)| *depth)
-        .map(|(idx, _)| idx)
-}
-
 fn find_descendant_path(doc: &Value, node_index: usize, remaining: &[String]) -> Option<usize> {
     if remaining.is_empty() {
         return Some(node_index);
@@ -157,42 +148,6 @@ fn find_descendant_path(doc: &Value, node_index: usize, remaining: &[String]) ->
         }
     }
     None
-}
-
-fn deepest_descendant_path(doc: &Value, node_index: usize, remaining: &[String]) -> (usize, usize) {
-    if remaining.is_empty() {
-        return (node_index, 0);
-    }
-    let target = remaining[0].as_str();
-    let Some(nodes) = doc.get("nodes").and_then(|v| v.as_array()) else {
-        return (node_index, 0);
-    };
-    let Some(node) = nodes.get(node_index) else {
-        return (node_index, 0);
-    };
-    let Some(children) = node.get("children").and_then(|v| v.as_array()) else {
-        return (node_index, 0);
-    };
-
-    let mut best = (node_index, 0usize);
-    for child in children.iter().filter_map(|v| v.as_u64()) {
-        let child_index = child as usize;
-        let Some(child_node) = nodes.get(child_index) else {
-            continue;
-        };
-        if child_node.get("name").and_then(|v| v.as_str()) == Some(target) {
-            let (idx, depth) = deepest_descendant_path(doc, child_index, &remaining[1..]);
-            let candidate = (idx, depth + 1);
-            if candidate.1 > best.1 {
-                best = candidate;
-            }
-        }
-        let candidate = deepest_descendant_path(doc, child_index, remaining);
-        if candidate.1 > best.1 {
-            best = candidate;
-        }
-    }
-    best
 }
 
 fn get_node_children_mut(doc: &mut Value, node_index: usize) -> Result<&mut Vec<Value>> {
@@ -424,14 +379,11 @@ pub fn merge_glbs_with_attachments_and_transforms(
                         None
                     }
                 })
-                .or_else(|| {
-                    input
-                        .anchor_path
-                        .as_deref()
-                        .and_then(|path| find_deepest_node_by_path(&merged, path))
-                })
                 .or_else(|| find_node_by_name(&merged, selected_anchor))
         };
+        if selected_anchor != "root" && existing_anchor_idx.is_none() {
+            continue;
+        }
 
         let node_base = get_array_len(&merged, "nodes");
         let mesh_base = get_array_len(&merged, "meshes");
@@ -967,7 +919,7 @@ mod tests {
     }
 
     #[test]
-    fn merge_glbs_falls_back_to_deepest_existing_anchor_path_node() {
+    fn merge_glbs_skips_unresolved_deep_anchor_path_node() {
         let input_root = unique_path("merge_root_deepest_path");
         let input_weapon = unique_path("merge_weapon_deepest_path");
         let output = unique_path("merge_out_deepest_path");
@@ -1005,22 +957,9 @@ mod tests {
 
         let merged = parse_glb(&output).expect("parse merged glb");
         let nodes = merged.json["nodes"].as_array().expect("nodes array");
-        let right_hardpoint_idx = nodes
+        assert!(nodes
             .iter()
-            .position(|node| {
-                node.get("name").and_then(|v| v.as_str()) == Some("hardpoint_weapon_right")
-            })
-            .expect("right hardpoint");
-        let weapon_idx = nodes
-            .iter()
-            .position(|node| node.get("name").and_then(|v| v.as_str()) == Some("weapon"))
-            .expect("weapon node");
-        let children = nodes[right_hardpoint_idx]["children"]
-            .as_array()
-            .expect("right children");
-        assert!(children
-            .iter()
-            .any(|child| child.as_u64() == Some(weapon_idx as u64)));
+            .all(|node| node.get("name").and_then(|v| v.as_str()) != Some("weapon")));
 
         let _ = fs::remove_file(input_root);
         let _ = fs::remove_file(input_weapon);
@@ -1028,7 +967,7 @@ mod tests {
     }
 
     #[test]
-    fn merge_glbs_falls_back_to_synthetic_parent_anchor_from_path() {
+    fn merge_glbs_skips_unresolved_synthetic_parent_anchor_from_path() {
         let input_root = unique_path("merge_root_synthetic_parent");
         let input_weapon = unique_path("merge_weapon_synthetic_parent");
         let output = unique_path("merge_out_synthetic_parent");
@@ -1066,23 +1005,9 @@ mod tests {
 
         let merged = parse_glb(&output).expect("parse merged glb");
         let nodes = merged.json["nodes"].as_array().expect("nodes array");
-        let parent_anchor_idx = nodes
+        assert!(nodes
             .iter()
-            .position(|node| {
-                node.get("name").and_then(|v| v.as_str())
-                    == Some("anchor::hardpoint_weapon_wing_right")
-            })
-            .expect("synthetic parent anchor");
-        let weapon_idx = nodes
-            .iter()
-            .position(|node| node.get("name").and_then(|v| v.as_str()) == Some("weapon"))
-            .expect("weapon node");
-        let children = nodes[parent_anchor_idx]["children"]
-            .as_array()
-            .expect("parent anchor children");
-        assert!(children
-            .iter()
-            .any(|child| child.as_u64() == Some(weapon_idx as u64)));
+            .all(|node| node.get("name").and_then(|v| v.as_str()) != Some("weapon")));
 
         let _ = fs::remove_file(input_root);
         let _ = fs::remove_file(input_weapon);
@@ -1090,7 +1015,7 @@ mod tests {
     }
 
     #[test]
-    fn merge_glbs_searches_inside_synthetic_parent_anchor_path() {
+    fn merge_glbs_skips_children_of_unresolved_synthetic_parent_anchor_path() {
         let input_root = unique_path("merge_root_synthetic_path");
         let input_rack = unique_path("merge_rack_synthetic_path");
         let input_missile = unique_path("merge_missile_synthetic_path");
@@ -1136,20 +1061,12 @@ mod tests {
 
         let merged = parse_glb(&output).expect("parse merged glb");
         let nodes = merged.json["nodes"].as_array().expect("nodes array");
-        let attach_idx = nodes
-            .iter()
-            .position(|node| node.get("name").and_then(|v| v.as_str()) == Some("missile_01_attach"))
-            .expect("missile attach");
-        let missile_idx = nodes
-            .iter()
-            .position(|node| node.get("name").and_then(|v| v.as_str()) == Some("missile"))
-            .expect("missile node");
-        let children = nodes[attach_idx]["children"]
-            .as_array()
-            .expect("attach children");
-        assert!(children
-            .iter()
-            .any(|child| child.as_u64() == Some(missile_idx as u64)));
+        assert!(nodes.iter().all(|node| {
+            !matches!(
+                node.get("name").and_then(|v| v.as_str()),
+                Some("missile_01_attach" | "missile")
+            )
+        }));
 
         let _ = fs::remove_file(input_root);
         let _ = fs::remove_file(input_rack);
