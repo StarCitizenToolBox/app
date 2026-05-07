@@ -44,7 +44,11 @@ class ModelTempWidget extends HookConsumerWidget {
   final Uint8List glbBytes;
   final ModelViewerConfig config;
 
-  const ModelTempWidget(this.glbBytes, {super.key, this.config = const ModelViewerConfig()});
+  const ModelTempWidget(
+    this.glbBytes, {
+    super.key,
+    this.config = const ModelViewerConfig(),
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -84,8 +88,15 @@ class ModelTempWidget extends HookConsumerWidget {
     final fps = useState<double>(0.0);
 
     final size = MediaQuery.of(context).size;
-    final width = (size.width * 0.5).toInt();
-    final height = (size.height * 0.6).toInt();
+    final devicePixelRatio = MediaQuery.devicePixelRatioOf(
+      context,
+    ).clamp(1.0, 2.0);
+    final width = (size.width * 0.5 * devicePixelRatio)
+        .clamp(512, 1600)
+        .toInt();
+    final height = (size.height * 0.6 * devicePixelRatio)
+        .clamp(512, 1600)
+        .toInt();
 
     Future<void> renderModel() async {
       if (sessionId.value == null) return;
@@ -98,9 +109,18 @@ class ModelTempWidget extends HookConsumerWidget {
 
       isRendering.value = true;
       try {
-        final camX = cameraDistance.value * math.cos(cameraYaw.value) * math.cos(cameraPitch.value) + targetX.value;
-        final camY = cameraDistance.value * math.sin(cameraPitch.value) + targetY.value;
-        final camZ = cameraDistance.value * math.sin(cameraYaw.value) * math.cos(cameraPitch.value) + targetZ.value;
+        final camX =
+            cameraDistance.value *
+                math.cos(cameraYaw.value) *
+                math.cos(cameraPitch.value) +
+            targetX.value;
+        final camY =
+            cameraDistance.value * math.sin(cameraPitch.value) + targetY.value;
+        final camZ =
+            cameraDistance.value *
+                math.sin(cameraYaw.value) *
+                math.cos(cameraPitch.value) +
+            targetZ.value;
 
         final result = await model_api.p4KModelSessionRender(
           sessionId: sessionId.value!,
@@ -211,7 +231,8 @@ class ModelTempWidget extends HookConsumerWidget {
           lastRenderedPitch.value = cameraPitch.value;
           await renderModel();
         } else {
-          errorMessage.value = result.errorMessage ?? "Failed to create session";
+          errorMessage.value =
+              result.errorMessage ?? "Failed to create session";
         }
       } catch (e) {
         if (!isMounted.value) return;
@@ -250,15 +271,27 @@ class ModelTempWidget extends HookConsumerWidget {
           }
         }
       };
-    }, [glbBytes]);
+    }, [glbBytes, width, height]);
 
-    useEffect(() {
-      // 拖动时不通过 useEffect 触发渲染（避免高频触发）
-      if (sessionId.value != null && !isInitializing.value && !isDragging.value) {
-        scheduleRender();
-      }
-      return null;
-    }, [cameraDistance.value, cameraYaw.value, cameraPitch.value, targetX.value, targetY.value, targetZ.value]);
+    useEffect(
+      () {
+        // 拖动时不通过 useEffect 触发渲染（避免高频触发）
+        if (sessionId.value != null &&
+            !isInitializing.value &&
+            !isDragging.value) {
+          scheduleRender();
+        }
+        return null;
+      },
+      [
+        cameraDistance.value,
+        cameraYaw.value,
+        cameraPitch.value,
+        targetX.value,
+        targetY.value,
+        targetZ.value,
+      ],
+    );
 
     if (isInitializing.value) {
       return Center(child: makeLoading(context));
@@ -269,7 +302,11 @@ class ModelTempWidget extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(FluentIcons.error, size: 48, color: Colors.errorPrimaryColor),
+            const Icon(
+              FluentIcons.error,
+              size: 48,
+              color: Colors.errorPrimaryColor,
+            ),
             const SizedBox(height: 16),
             Text(
               S.current.tools_unp4k_msg_unknown_file_type(errorMessage.value!),
@@ -287,8 +324,13 @@ class ModelTempWidget extends HookConsumerWidget {
     return Listener(
       onPointerSignal: (signal) {
         if (signal is PointerScrollEvent) {
-          final delta = signal.scrollDelta.dy > 0 ? config.zoomSpeed : 1.0 / config.zoomSpeed;
-          cameraDistance.value = (cameraDistance.value * delta).clamp(config.minDistance, config.maxDistance);
+          final delta = signal.scrollDelta.dy > 0
+              ? config.zoomSpeed
+              : 1.0 / config.zoomSpeed;
+          cameraDistance.value = (cameraDistance.value * delta).clamp(
+            config.minDistance,
+            config.maxDistance,
+          );
         }
       },
       onPointerDown: (event) {
@@ -316,10 +358,11 @@ class ModelTempWidget extends HookConsumerWidget {
         } else {
           // 左键：旋转
           cameraYaw.value += delta.dx * config.rotationSpeed;
-          cameraPitch.value = (cameraPitch.value + delta.dy * config.rotationSpeed).clamp(
-            -math.pi / 2 + 0.01,
-            math.pi / 2 - 0.01,
-          );
+          cameraPitch.value =
+              (cameraPitch.value + delta.dy * config.rotationSpeed).clamp(
+                -math.pi / 2 + 0.01,
+                math.pi / 2 - 0.01,
+              );
           tryScheduleRenderByAngle();
         }
 
@@ -346,19 +389,30 @@ class ModelTempWidget extends HookConsumerWidget {
             children: [
               // 模型渲染区域 - 填充整个容器
               if (image.value != null)
-                Positioned.fill(child: CustomPaint(painter: _ImagePainter(image.value!, fitContainer: true))),
+                Positioned.fill(
+                  child: CustomPaint(
+                    painter: _ImagePainter(image.value!, fitContainer: true),
+                  ),
+                ),
               // 信息面板
               Positioned(
                 top: 8,
                 left: 8,
-                child: _InfoPanel(fps: fps.value, distance: cameraDistance.value, modelRadius: modelRadius.value),
+                child: _InfoPanel(
+                  fps: fps.value,
+                  distance: cameraDistance.value,
+                  modelRadius: modelRadius.value,
+                ),
               ),
               // 操作提示
               Positioned(
                 bottom: 8,
                 left: 8,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(4),
@@ -378,8 +432,12 @@ class ModelTempWidget extends HookConsumerWidget {
                   child: IconButton(
                     icon: const Icon(FluentIcons.reset, size: 16),
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.black.withValues(alpha: 0.5)),
-                      foregroundColor: const WidgetStatePropertyAll(Colors.white),
+                      backgroundColor: WidgetStatePropertyAll(
+                        Colors.black.withValues(alpha: 0.5),
+                      ),
+                      foregroundColor: const WidgetStatePropertyAll(
+                        Colors.white,
+                      ),
                     ),
                     onPressed: resetView,
                   ),
@@ -399,22 +457,40 @@ class _InfoPanel extends StatelessWidget {
   final double distance;
   final double modelRadius;
 
-  const _InfoPanel({required this.fps, required this.distance, required this.modelRadius});
+  const _InfoPanel({
+    required this.fps,
+    required this.distance,
+    required this.modelRadius,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 32),
-      decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(4)),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 32,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(4),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (fps > 0)
-            Text('FPS: ${fps.toStringAsFixed(1)}', style: const TextStyle(color: Colors.white, fontSize: 11)),
-          Text('Distance: ${distance.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white, fontSize: 11)),
-          Text('Radius: ${modelRadius.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white, fontSize: 11)),
+            Text(
+              'FPS: ${fps.toStringAsFixed(1)}',
+              style: const TextStyle(color: Colors.white, fontSize: 11),
+            ),
+          Text(
+            'Distance: ${distance.toStringAsFixed(2)}',
+            style: const TextStyle(color: Colors.white, fontSize: 11),
+          ),
+          Text(
+            'Radius: ${modelRadius.toStringAsFixed(2)}',
+            style: const TextStyle(color: Colors.white, fontSize: 11),
+          ),
         ],
       ),
     );
@@ -454,7 +530,12 @@ class _ImagePainter extends CustomPainter {
       final dx = (size.width - drawWidth) / 2;
       final dy = (size.height - drawHeight) / 2;
 
-      final srcRect = Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
+      final srcRect = Rect.fromLTWH(
+        0,
+        0,
+        image.width.toDouble(),
+        image.height.toDouble(),
+      );
       final dstRect = Rect.fromLTWH(dx, dy, drawWidth, drawHeight);
 
       canvas.drawImageRect(image, srcRect, dstRect, paint);
@@ -465,6 +546,7 @@ class _ImagePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _ImagePainter oldDelegate) {
-    return oldDelegate.image != image || oldDelegate.fitContainer != fitContainer;
+    return oldDelegate.image != image ||
+        oldDelegate.fitContainer != fitContainer;
   }
 }

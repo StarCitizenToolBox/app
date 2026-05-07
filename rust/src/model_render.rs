@@ -23,7 +23,7 @@ enum RenderSessionBackend {
         camera: Camera,
     },
     Software {
-        triangles: Vec<SoftwareTriangle>,
+        scene: SoftwareScene,
         bg: [u8; 4],
     },
 }
@@ -32,12 +32,31 @@ enum RenderSessionBackend {
 struct SoftwareVertex {
     position: Vec3,
     normal: Vec3,
+    uv: Vec2,
 }
 
 #[derive(Clone, Copy)]
 struct SoftwareTriangle {
     vertices: [SoftwareVertex; 3],
     base_color: Vec3,
+    base_texture: Option<usize>,
+}
+
+struct SoftwareScene {
+    triangles: Vec<SoftwareTriangle>,
+    textures: Vec<SoftwareTexture>,
+}
+
+struct SoftwareTexture {
+    width: u32,
+    height: u32,
+    rgba: Vec<u8>,
+}
+
+#[derive(Clone, Copy)]
+struct SoftwareMaterial {
+    base_color: Vec3,
+    base_texture: Option<usize>,
 }
 
 // SAFETY: We ensure the context is only used from a single thread at a time via the Mutex
@@ -183,8 +202,8 @@ impl RenderSession {
         glb_data: &[u8],
         bg_color: Option<[f32; 4]>,
     ) -> Result<Self> {
-        let triangles = load_software_triangles(glb_data)?;
-        let (model_center, model_radius) = software_bounds(&triangles)?;
+        let scene = load_software_scene(glb_data)?;
+        let (model_center, model_radius) = software_bounds(&scene.triangles)?;
         let bg = bg_color
             .map(|color| {
                 [
@@ -196,7 +215,7 @@ impl RenderSession {
             })
             .unwrap_or([59, 71, 80, 255]);
         Ok(Self {
-            backend: RenderSessionBackend::Software { triangles, bg },
+            backend: RenderSessionBackend::Software { scene, bg },
             width,
             height,
             model_center,
@@ -229,8 +248,8 @@ impl RenderSession {
                 // Convert to raw RGBA bytes
                 Ok(img.into_raw())
             }
-            RenderSessionBackend::Software { triangles, bg } => render_software_triangles_camera(
-                triangles,
+            RenderSessionBackend::Software { scene, bg } => render_software_scene_camera(
+                scene,
                 self.width,
                 self.height,
                 Vec3::from(camera_pos),
@@ -367,11 +386,11 @@ fn software_render_glb_to_rgba(
     height: u32,
     rotation: (f32, f32, f32),
 ) -> Result<Vec<u8>> {
-    let triangles = load_software_triangles(glb_data)?;
-    render_software_triangles_rotation(&triangles, width, height, rotation, [59, 71, 80, 255])
+    let scene = load_software_scene(glb_data)?;
+    render_software_scene_rotation(&scene, width, height, rotation, [59, 71, 80, 255])
 }
 
-fn load_software_triangles(glb_data: &[u8]) -> Result<Vec<SoftwareTriangle>> {
+fn load_software_scene(glb_data: &[u8]) -> Result<SoftwareScene> {
     let (json, bin) = parse_glb_chunks(glb_data)?;
     let nodes = json
         .get("nodes")
@@ -388,6 +407,7 @@ fn load_software_triangles(glb_data: &[u8]) -> Result<Vec<SoftwareTriangle>> {
         .and_then(|v| v.as_array())
         .ok_or_else(|| anyhow!("software render: missing scene nodes"))?;
 
+    let textures = load_software_textures(&json, &bin);
     let mut triangles = Vec::<SoftwareTriangle>::new();
     for root in scene_nodes.iter().filter_map(|v| v.as_u64()) {
         collect_node_triangles(
@@ -402,7 +422,10 @@ fn load_software_triangles(glb_data: &[u8]) -> Result<Vec<SoftwareTriangle>> {
     if triangles.is_empty() {
         return Err(anyhow!("software render: no triangles"));
     }
-    Ok(triangles)
+    Ok(SoftwareScene {
+        triangles,
+        textures,
+    })
 }
 
 fn software_bounds(triangles: &[SoftwareTriangle]) -> Result<(Vec3, f32)> {
@@ -422,8 +445,8 @@ fn software_bounds(triangles: &[SoftwareTriangle]) -> Result<(Vec3, f32)> {
     Ok((center, radius))
 }
 
-fn render_software_triangles_rotation(
-    triangles: &[SoftwareTriangle],
+fn render_software_scene_rotation(
+    scene: &SoftwareScene,
     width: u32,
     height: u32,
     rotation: (f32, f32, f32),
@@ -437,7 +460,7 @@ fn render_software_triangles_rotation(
     ));
     let mut min = Vec3::splat(f32::INFINITY);
     let mut max = Vec3::splat(f32::NEG_INFINITY);
-    for tri in triangles {
+    for tri in &scene.triangles {
         for vertex in &tri.vertices {
             let p = view_rot.transform_point3(vertex.position);
             min = min.min(p);
@@ -457,7 +480,7 @@ fn render_software_triangles_rotation(
     }
     let mut depth = vec![f32::INFINITY; width as usize * height as usize];
 
-    for tri in triangles {
+    for tri in &scene.triangles {
         let projected = SoftwareTriangle {
             vertices: tri.vertices.map(|vertex| {
                 let p = view_rot.transform_point3(vertex.position) - center;
@@ -470,18 +493,27 @@ fn render_software_triangles_rotation(
                     normal: view_rot
                         .transform_vector3(vertex.normal)
                         .normalize_or_zero(),
+                    uv: vertex.uv,
                 }
             }),
             base_color: tri.base_color,
+            base_texture: tri.base_texture,
         };
-        rasterize_triangle(&projected, width, height, &mut rgba, &mut depth);
+        rasterize_triangle(
+            &projected,
+            &scene.textures,
+            width,
+            height,
+            &mut rgba,
+            &mut depth,
+        );
     }
 
     Ok(rgba)
 }
 
-fn render_software_triangles_camera(
-    triangles: &[SoftwareTriangle],
+fn render_software_scene_camera(
+    scene: &SoftwareScene,
     width: u32,
     height: u32,
     camera_pos: Vec3,
@@ -497,7 +529,7 @@ fn render_software_triangles_camera(
     }
     let mut depth = vec![f32::INFINITY; width as usize * height as usize];
 
-    for tri in triangles {
+    for tri in &scene.triangles {
         let projected = SoftwareTriangle {
             vertices: tri.vertices.map(|vertex| {
                 let p = view.transform_point3(vertex.position);
@@ -508,11 +540,20 @@ fn render_software_triangles_camera(
                         -p.z,
                     ),
                     normal: view.transform_vector3(vertex.normal).normalize_or_zero(),
+                    uv: vertex.uv,
                 }
             }),
             base_color: tri.base_color,
+            base_texture: tri.base_texture,
         };
-        rasterize_triangle(&projected, width, height, &mut rgba, &mut depth);
+        rasterize_triangle(
+            &projected,
+            &scene.textures,
+            width,
+            height,
+            &mut rgba,
+            &mut depth,
+        );
     }
 
     Ok(rgba)
@@ -557,6 +598,60 @@ fn parse_glb_chunks(glb_data: &[u8]) -> Result<(serde_json::Value, Vec<u8>)> {
         json.ok_or_else(|| anyhow!("software render: missing JSON"))?,
         bin,
     ))
+}
+
+fn load_software_textures(json: &serde_json::Value, bin: &[u8]) -> Vec<SoftwareTexture> {
+    let Some(images) = json.get("images").and_then(|v| v.as_array()) else {
+        return Vec::new();
+    };
+    images
+        .iter()
+        .map(|image| {
+            image
+                .get("bufferView")
+                .and_then(|v| v.as_u64())
+                .and_then(|buffer_view| {
+                    read_buffer_view_bytes(json, bin, buffer_view as usize).ok()
+                })
+                .and_then(|bytes| image::load_from_memory(bytes).ok())
+                .map(|dynamic| {
+                    let rgba = dynamic.to_rgba8();
+                    SoftwareTexture {
+                        width: rgba.width(),
+                        height: rgba.height(),
+                        rgba: rgba.into_raw(),
+                    }
+                })
+                .unwrap_or_else(|| SoftwareTexture {
+                    width: 1,
+                    height: 1,
+                    rgba: vec![255, 255, 255, 255],
+                })
+        })
+        .collect()
+}
+
+fn read_buffer_view_bytes<'a>(
+    json: &serde_json::Value,
+    bin: &'a [u8],
+    buffer_view_index: usize,
+) -> Result<&'a [u8]> {
+    let buffer_view = json
+        .get("bufferViews")
+        .and_then(|v| v.as_array())
+        .and_then(|views| views.get(buffer_view_index))
+        .ok_or_else(|| anyhow!("software render: invalid bufferView {buffer_view_index}"))?;
+    let offset = buffer_view
+        .get("byteOffset")
+        .and_then(|v| v.as_u64())
+        .unwrap_or(0) as usize;
+    let length = buffer_view
+        .get("byteLength")
+        .and_then(|v| v.as_u64())
+        .ok_or_else(|| anyhow!("software render: bufferView without byteLength"))?
+        as usize;
+    bin.get(offset..offset + length)
+        .ok_or_else(|| anyhow!("software render: bufferView out of bounds"))
 }
 
 fn collect_node_triangles(
@@ -635,11 +730,19 @@ fn collect_mesh_triangles(
             .and_then(|attrs| attrs.get("NORMAL"))
             .and_then(|v| v.as_u64())
             .and_then(|accessor| read_vec3_accessor(json, bin, accessor as usize).ok());
-        let Some(base_color) = primitive
+        let uvs = primitive
+            .get("attributes")
+            .and_then(|attrs| attrs.get("TEXCOORD_0"))
+            .and_then(|v| v.as_u64())
+            .and_then(|accessor| read_vec2_accessor(json, bin, accessor as usize).ok());
+        let Some(material) = primitive
             .get("material")
             .and_then(|v| v.as_u64())
-            .map(|material_index| material_base_color(json, material_index as usize))
-            .unwrap_or(Some(Vec3::new(0.62, 0.68, 0.72)))
+            .map(|material_index| software_material(json, material_index as usize))
+            .unwrap_or(Some(SoftwareMaterial {
+                base_color: Vec3::new(0.62, 0.68, 0.72),
+                base_texture: None,
+            }))
         else {
             continue;
         };
@@ -675,45 +778,81 @@ fn collect_mesh_triangles(
                     .and_then(|values| values.get(face[2] as usize))
                     .copied()
                     .unwrap_or(face_normal);
+                let ua = uvs
+                    .as_ref()
+                    .and_then(|values| values.get(face[0] as usize))
+                    .copied()
+                    .unwrap_or(Vec2::ZERO);
+                let ub = uvs
+                    .as_ref()
+                    .and_then(|values| values.get(face[1] as usize))
+                    .copied()
+                    .unwrap_or(Vec2::ZERO);
+                let uc = uvs
+                    .as_ref()
+                    .and_then(|values| values.get(face[2] as usize))
+                    .copied()
+                    .unwrap_or(Vec2::ZERO);
                 out.push(SoftwareTriangle {
                     vertices: [
                         SoftwareVertex {
                             position: transform.transform_point3(*a),
                             normal: transform.transform_vector3(na).normalize_or_zero(),
+                            uv: ua,
                         },
                         SoftwareVertex {
                             position: transform.transform_point3(*b),
                             normal: transform.transform_vector3(nb).normalize_or_zero(),
+                            uv: ub,
                         },
                         SoftwareVertex {
                             position: transform.transform_point3(*c),
                             normal: transform.transform_vector3(nc).normalize_or_zero(),
+                            uv: uc,
                         },
                     ],
-                    base_color,
+                    base_color: material.base_color,
+                    base_texture: material.base_texture,
                 });
             }
         } else {
-            for face in positions.chunks_exact(3) {
+            for (face_index, face) in positions.chunks_exact(3).enumerate() {
                 let face_normal = (face[1] - face[0])
                     .cross(face[2] - face[0])
                     .normalize_or_zero();
+                let uv_base = face_index * 3;
                 out.push(SoftwareTriangle {
                     vertices: [
                         SoftwareVertex {
                             position: transform.transform_point3(face[0]),
                             normal: transform.transform_vector3(face_normal).normalize_or_zero(),
+                            uv: uvs
+                                .as_ref()
+                                .and_then(|values| values.get(uv_base))
+                                .copied()
+                                .unwrap_or(Vec2::ZERO),
                         },
                         SoftwareVertex {
                             position: transform.transform_point3(face[1]),
                             normal: transform.transform_vector3(face_normal).normalize_or_zero(),
+                            uv: uvs
+                                .as_ref()
+                                .and_then(|values| values.get(uv_base + 1))
+                                .copied()
+                                .unwrap_or(Vec2::ZERO),
                         },
                         SoftwareVertex {
                             position: transform.transform_point3(face[2]),
                             normal: transform.transform_vector3(face_normal).normalize_or_zero(),
+                            uv: uvs
+                                .as_ref()
+                                .and_then(|values| values.get(uv_base + 2))
+                                .copied()
+                                .unwrap_or(Vec2::ZERO),
                         },
                     ],
-                    base_color,
+                    base_color: material.base_color,
+                    base_texture: material.base_texture,
                 });
             }
         }
@@ -721,13 +860,16 @@ fn collect_mesh_triangles(
     Ok(())
 }
 
-fn material_base_color(json: &serde_json::Value, material_index: usize) -> Option<Vec3> {
+fn software_material(json: &serde_json::Value, material_index: usize) -> Option<SoftwareMaterial> {
     let Some(material) = json
         .get("materials")
         .and_then(|v| v.as_array())
         .and_then(|materials| materials.get(material_index))
     else {
-        return Some(Vec3::new(0.62, 0.68, 0.72));
+        return Some(SoftwareMaterial {
+            base_color: Vec3::new(0.62, 0.68, 0.72),
+            base_texture: None,
+        });
     };
     if is_preview_hidden_material(material) {
         return None;
@@ -752,7 +894,10 @@ fn material_base_color(json: &serde_json::Value, material_index: usize) -> Optio
         {
             return None;
         }
-        return Some(read_factor_rgb(values, Vec3::new(0.62, 0.68, 0.72)));
+        return Some(SoftwareMaterial {
+            base_color: read_factor_rgb(values, Vec3::ONE),
+            base_texture: material_base_texture(json, material),
+        });
     }
     if let Some(values) = material
         .get("extensions")
@@ -767,15 +912,38 @@ fn material_base_color(json: &serde_json::Value, material_index: usize) -> Optio
         {
             return None;
         }
-        return Some(read_factor_rgb(values, Vec3::new(0.62, 0.68, 0.72)));
+        return Some(SoftwareMaterial {
+            base_color: read_factor_rgb(values, Vec3::ONE),
+            base_texture: material_base_texture(json, material),
+        });
     }
     if let Some(values) = material.get("emissiveFactor").and_then(|v| v.as_array()) {
         let emissive = read_factor_rgb(values, Vec3::ZERO);
         if emissive.length_squared() > 0.0 {
-            return Some(emissive);
+            return Some(SoftwareMaterial {
+                base_color: emissive,
+                base_texture: material_base_texture(json, material),
+            });
         }
     }
-    Some(Vec3::new(0.62, 0.68, 0.72))
+    Some(SoftwareMaterial {
+        base_color: Vec3::new(0.62, 0.68, 0.72),
+        base_texture: material_base_texture(json, material),
+    })
+}
+
+fn material_base_texture(json: &serde_json::Value, material: &serde_json::Value) -> Option<usize> {
+    let texture_index = material
+        .get("pbrMetallicRoughness")
+        .and_then(|pbr| pbr.get("baseColorTexture"))
+        .and_then(|tex| tex.get("index"))
+        .and_then(|v| v.as_u64())? as usize;
+    json.get("textures")
+        .and_then(|v| v.as_array())
+        .and_then(|textures| textures.get(texture_index))
+        .and_then(|texture| texture.get("source"))
+        .and_then(|v| v.as_u64())
+        .map(|v| v as usize)
 }
 
 fn is_preview_hidden_material(material: &serde_json::Value) -> bool {
@@ -829,6 +997,27 @@ fn read_vec3_accessor(
             read_f32_at(bin, base)?,
             read_f32_at(bin, base + 4)?,
             read_f32_at(bin, base + 8)?,
+        ));
+    }
+    Ok(out)
+}
+
+fn read_vec2_accessor(
+    json: &serde_json::Value,
+    bin: &[u8],
+    accessor_index: usize,
+) -> Result<Vec<Vec2>> {
+    let (offset, stride, count, component_type, accessor_type) =
+        accessor_layout(json, accessor_index, 8)?;
+    if component_type != 5126 || accessor_type != "VEC2" {
+        return Err(anyhow!("software render: unsupported TEXCOORD_0 accessor"));
+    }
+    let mut out = Vec::with_capacity(count);
+    for i in 0..count {
+        let base = offset + i * stride;
+        out.push(Vec2::new(
+            read_f32_at(bin, base)?,
+            read_f32_at(bin, base + 4)?,
         ));
     }
     Ok(out)
@@ -915,6 +1104,7 @@ fn accessor_layout(
 
 fn rasterize_triangle(
     tri: &SoftwareTriangle,
+    textures: &[SoftwareTexture],
     width: u32,
     height: u32,
     rgba: &mut [u8],
@@ -963,10 +1153,21 @@ fn rasterize_triangle(
                     let edge_factor = w0.min(w1).min(w2).mul_add(24.0, 0.0).clamp(0.9, 1.0);
                     let shade =
                         (0.22 + 0.52 * diffuse + 0.22 * facing).clamp(0.22, 0.95) * edge_factor;
+                    let uv =
+                        tri.vertices[0].uv * w0 + tri.vertices[1].uv * w1 + tri.vertices[2].uv * w2;
+                    let texel = tri
+                        .base_texture
+                        .and_then(|texture_index| textures.get(texture_index))
+                        .map(|texture| sample_texture(texture, uv))
+                        .unwrap_or(Vec4::ONE);
+                    if texel.w < 0.1 {
+                        continue;
+                    }
+                    let base = tri.base_color * Vec3::new(texel.x, texel.y, texel.z);
                     let color = [
-                        (tri.base_color.x * 255.0 * shade).clamp(0.0, 255.0) as u8,
-                        (tri.base_color.y * 255.0 * shade).clamp(0.0, 255.0) as u8,
-                        (tri.base_color.z * 255.0 * shade).clamp(0.0, 255.0) as u8,
+                        (base.x * 255.0 * shade).clamp(0.0, 255.0) as u8,
+                        (base.y * 255.0 * shade).clamp(0.0, 255.0) as u8,
+                        (base.z * 255.0 * shade).clamp(0.0, 255.0) as u8,
                         255u8,
                     ];
                     rgba[idx * 4..idx * 4 + 4].copy_from_slice(&color);
@@ -974,6 +1175,39 @@ fn rasterize_triangle(
             }
         }
     }
+}
+
+fn sample_texture(texture: &SoftwareTexture, uv: Vec2) -> Vec4 {
+    if texture.width == 0 || texture.height == 0 || texture.rgba.is_empty() {
+        return Vec4::ONE;
+    }
+    let u = uv.x.rem_euclid(1.0);
+    let v = (1.0 - uv.y).rem_euclid(1.0);
+    let x = u * texture.width.saturating_sub(1) as f32;
+    let y = v * texture.height.saturating_sub(1) as f32;
+    let x0 = x.floor() as u32;
+    let y0 = y.floor() as u32;
+    let x1 = (x0 + 1).min(texture.width - 1);
+    let y1 = (y0 + 1).min(texture.height - 1);
+    let tx = x - x0 as f32;
+    let ty = y - y0 as f32;
+    let top = texture_pixel(texture, x0, y0).lerp(texture_pixel(texture, x1, y0), tx);
+    let bottom = texture_pixel(texture, x0, y1).lerp(texture_pixel(texture, x1, y1), tx);
+    top.lerp(bottom, ty)
+}
+
+fn texture_pixel(texture: &SoftwareTexture, x: u32, y: u32) -> Vec4 {
+    let idx = (y as usize * texture.width as usize + x as usize) * 4;
+    let px = texture
+        .rgba
+        .get(idx..idx + 4)
+        .unwrap_or(&[255, 255, 255, 255]);
+    Vec4::new(
+        px[0] as f32 / 255.0,
+        px[1] as f32 / 255.0,
+        px[2] as f32 / 255.0,
+        px[3] as f32 / 255.0,
+    )
 }
 
 fn draw_point(point: Vec2, z: f32, width: u32, height: u32, rgba: &mut [u8], depth: &mut [f32]) {
