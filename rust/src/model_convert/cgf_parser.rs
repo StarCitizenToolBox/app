@@ -1,16 +1,16 @@
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use std::collections::HashMap;
 
 use super::{
+    SceneData, SceneNode,
     cryengine::{
         cgf::{
-            gltf_trs_from_row_major_matrix, parse_cgf_headers, read_u32_le, CHUNK_TYPE_BASE_746,
-            CHUNK_TYPE_DATA_STREAM, CHUNK_TYPE_MESH,
+            CHUNK_TYPE_BASE_746, CHUNK_TYPE_DATA_STREAM, CHUNK_TYPE_MESH,
+            gltf_trs_from_row_major_matrix, parse_cgf_headers, read_u32_le,
         },
         chunks::mesh::parse_mesh_chunk_746,
         chunks::node::parse_cgf_node_chunks,
     },
-    SceneData,
 };
 
 const FILE_SIGNATURE_CRCH: &[u8; 4] = b"CrCh";
@@ -60,6 +60,35 @@ pub fn parse_static_scene(data: &[u8]) -> Result<SceneData> {
             "best-effort parse for CrCh version 0x{file_version:X} (validated baseline is 0x{FILE_VERSION_746:X})"
         ));
     }
+
+    let node_name_by_id = nodes
+        .iter()
+        .map(|node| {
+            let name = if node.name.is_empty() {
+                format!("node_{}", node.id)
+            } else {
+                node.name.clone()
+            };
+            (node.id, name)
+        })
+        .collect::<HashMap<_, _>>();
+    let scene_nodes = nodes
+        .iter()
+        .filter_map(|node| {
+            let name = node_name_by_id.get(&node.id)?.clone();
+            let parent = node_name_by_id.get(&node.parent_node_id).cloned();
+            let (translation, rotation, scale) = gltf_trs_from_row_major_matrix(node.local_matrix);
+            Some(SceneNode {
+                name,
+                parent,
+                translation: Some(translation),
+                rotation: Some(rotation),
+                scale: Some(scale),
+                matrix: None,
+            })
+        })
+        .collect::<Vec<_>>();
+
     let mut meshes = Vec::new();
     for node in &nodes {
         let Some(mesh_header) = mesh_headers_by_id.get(&node.object_node_id).copied() else {
@@ -72,13 +101,11 @@ pub fn parse_static_scene(data: &[u8]) -> Result<SceneData> {
                 } else {
                     node.name.clone()
                 };
-                let (translation, rotation, scale) =
-                    gltf_trs_from_row_major_matrix(node.world_matrix);
                 mesh.name = Some(name.clone());
-                mesh.node_name = Some(name);
-                mesh.node_translation = Some(translation);
-                mesh.node_rotation = Some(rotation);
-                mesh.node_scale = Some(scale);
+                mesh.node_name = node_name_by_id.get(&node.id).cloned().or(Some(name));
+                mesh.node_translation = None;
+                mesh.node_rotation = None;
+                mesh.node_scale = None;
                 mesh.node_matrix = None;
                 meshes.push(mesh);
             }
@@ -105,11 +132,15 @@ pub fn parse_static_scene(data: &[u8]) -> Result<SceneData> {
         return Err(anyhow!("no exportable mesh found"));
     }
 
-    Ok(SceneData { meshes, warnings })
+    Ok(SceneData {
+        nodes: scene_nodes,
+        meshes,
+        warnings,
+    })
 }
 #[cfg(test)]
 mod tests {
-    use super::{parse_static_scene, CHUNK_TYPE_BASE_746, CHUNK_TYPE_DATA_STREAM, CHUNK_TYPE_MESH};
+    use super::{CHUNK_TYPE_BASE_746, CHUNK_TYPE_DATA_STREAM, CHUNK_TYPE_MESH, parse_static_scene};
 
     fn push_i32(out: &mut Vec<u8>, v: i32) {
         out.extend_from_slice(&v.to_le_bytes());
@@ -957,10 +988,15 @@ mod tests {
         assert_eq!(scene.meshes.len(), 1);
         assert_eq!(scene.meshes[0].name.as_deref(), Some("cargo_hull"));
         assert_eq!(scene.meshes[0].node_name.as_deref(), Some("cargo_hull"));
-        assert_eq!(scene.meshes[0].node_translation, Some([0.0, 0.0, 0.0]));
-        assert_eq!(scene.meshes[0].node_rotation, Some([0.0, 0.0, 0.0, 1.0]));
-        assert_eq!(scene.meshes[0].node_scale, Some([1.0, 1.0, 1.0]));
+        assert_eq!(scene.meshes[0].node_translation, None);
+        assert_eq!(scene.meshes[0].node_rotation, None);
+        assert_eq!(scene.meshes[0].node_scale, None);
         assert_eq!(scene.meshes[0].node_matrix, None);
+        assert_eq!(scene.nodes.len(), 1);
+        assert_eq!(scene.nodes[0].name, "cargo_hull");
+        assert_eq!(scene.nodes[0].translation, Some([0.0, 0.0, 0.0]));
+        assert_eq!(scene.nodes[0].rotation, Some([0.0, 0.0, 0.0, 1.0]));
+        assert_eq!(scene.nodes[0].scale, Some([1.0, 1.0, 1.0]));
     }
 
     #[test]
@@ -1032,7 +1068,8 @@ mod tests {
         let data = build_crch_file(0x746, chunks);
         let scene = parse_static_scene(&data).expect("parse");
         assert_eq!(scene.meshes.len(), 1);
-        assert_eq!(scene.meshes[0].node_translation, Some([-2.0, 4.0, 3.0]));
+        assert_eq!(scene.meshes[0].node_translation, None);
+        assert_eq!(scene.nodes[0].translation, Some([-2.0, 4.0, 3.0]));
     }
 
     #[test]

@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use flutter_rust_bridge::frb;
 use image::{DynamicImage, ImageFormat, RgbaImage};
 use image_dds::{ddsfile::Dds, image_from_dds};
@@ -9,7 +9,7 @@ use std::io::Cursor;
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
-use unp4k::dataforge::DataForge;
+pub use unp4k::dataforge::DataForge;
 use unp4k::{CryXmlReader, P4kEntry, P4kFile};
 
 use crate::frb_generated::StreamSink;
@@ -73,6 +73,10 @@ static GLOBAL_P4K_FILES: once_cell::sync::Lazy<Arc<Mutex<HashMap<String, P4kEntr
 static GLOBAL_DCB_READER: once_cell::sync::Lazy<Arc<Mutex<Option<DataForge>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
 
+// 模型拼装用 DCB 缓存。按 P4K 路径懒加载 Game2.dcb/Game.dcb，避免每次预览重复解析。
+static GLOBAL_MODEL_DCB_CACHE: once_cell::sync::Lazy<Arc<Mutex<HashMap<String, Arc<DataForge>>>>> =
+    once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(HashMap::new())));
+
 static GLOBAL_WEM_DECODE_REQUEST_ID: AtomicU64 = AtomicU64::new(0);
 
 #[frb(dart_metadata=("freezed"))]
@@ -120,6 +124,45 @@ pub async fn p4k_open(p4k_path: String) -> Result<()> {
     GLOBAL_P4K_FILES.lock().unwrap().clear();
 
     Ok(())
+}
+
+fn model_dcb_cache_key(p4k_path: &str) -> String {
+    std::fs::canonicalize(p4k_path)
+        .unwrap_or_else(|_| PathBuf::from(p4k_path))
+        .to_string_lossy()
+        .replace('/', "\\")
+        .to_ascii_lowercase()
+}
+
+pub async fn p4k_get_or_load_model_dcb(p4k_path: String) -> Result<Arc<DataForge>> {
+    let cache_key = model_dcb_cache_key(&p4k_path);
+    {
+        let cache = GLOBAL_MODEL_DCB_CACHE.lock().unwrap();
+        if let Some(df) = cache.get(&cache_key) {
+            return Ok(df.clone());
+        }
+    }
+
+    let df = tokio::task::spawn_blocking(move || {
+        let mut p4k = P4kFile::open(&p4k_path)
+            .map_err(|e| anyhow!("failed to open P4K for DCB cache: {e}"))?;
+        let dcb_bytes = p4k
+            .extract("Data\\Game2.dcb")
+            .or_else(|_| p4k.extract("Data/Game2.dcb"))
+            .or_else(|_| p4k.extract("Data\\Game.dcb"))
+            .or_else(|_| p4k.extract("Data/Game.dcb"))
+            .map_err(|e| anyhow!("failed to extract Game2.dcb/Game.dcb from P4K: {e}"))?;
+        DataForge::parse(&dcb_bytes).map_err(|e| anyhow!("failed to parse model DCB: {e}"))
+    })
+    .await??;
+    let df = Arc::new(df);
+
+    let mut cache = GLOBAL_MODEL_DCB_CACHE.lock().unwrap();
+    Ok(cache.entry(cache_key).or_insert_with(|| df.clone()).clone())
+}
+
+pub fn p4k_clear_model_dcb_cache() {
+    GLOBAL_MODEL_DCB_CACHE.lock().unwrap().clear();
 }
 
 /// 确保文件列表已加载（内部使用）
@@ -764,7 +807,7 @@ pub async fn p4k_debug_dds_parts(file_path: String) -> Result<DdsDebugInfo> {
 mod tests {
     use super::{decode_image_for_preview, has_dds_signature, reconstruct_dds_stream};
     use crate::audio::wwise::decode_wem_vorbis_to_ogg;
-    use anyhow::{anyhow, Result};
+    use anyhow::{Result, anyhow};
     use image::ImageFormat;
     use std::fs;
     use std::io::Cursor;
@@ -1620,12 +1663,23 @@ fn compute_waveform_from_wav(wav: &[u8]) -> Vec<f64> {
 
     while offset + 8 <= wav.len() {
         let chunk_id = &wav[offset..offset + 4];
-        let chunk_size = u32::from_le_bytes([wav[offset + 4], wav[offset + 5], wav[offset + 6], wav[offset + 7]]) as usize;
+        let chunk_size = u32::from_le_bytes([
+            wav[offset + 4],
+            wav[offset + 5],
+            wav[offset + 6],
+            wav[offset + 7],
+        ]) as usize;
         let chunk_data_start = offset + 8;
 
         if chunk_id == b"fmt " && chunk_size >= 16 {
-            channels = Some(u16::from_le_bytes([wav[chunk_data_start + 2], wav[chunk_data_start + 3]]));
-            bits_per_sample = Some(u16::from_le_bytes([wav[chunk_data_start + 14], wav[chunk_data_start + 15]]));
+            channels = Some(u16::from_le_bytes([
+                wav[chunk_data_start + 2],
+                wav[chunk_data_start + 3],
+            ]));
+            bits_per_sample = Some(u16::from_le_bytes([
+                wav[chunk_data_start + 14],
+                wav[chunk_data_start + 15],
+            ]));
         } else if chunk_id == b"data" {
             data_offset = Some(chunk_data_start);
             data_length = Some(chunk_size);
@@ -1658,7 +1712,9 @@ fn compute_waveform_from_wav(wav: &[u8]) -> Vec<f64> {
             let end = (i + bucket).min(sample_count);
             let mut peak = 0.0f64;
             for j in i..end {
-                let sample = (i16::from_le_bytes([pcm_data[j * 2], pcm_data[j * 2 + 1]]) as f64).abs() / 32768.0;
+                let sample = (i16::from_le_bytes([pcm_data[j * 2], pcm_data[j * 2 + 1]]) as f64)
+                    .abs()
+                    / 32768.0;
                 if sample > peak {
                     peak = sample;
                 }
@@ -1701,18 +1757,29 @@ fn estimate_duration_from_wav(wav: &[u8]) -> i32 {
 
     while offset + 8 <= wav.len() {
         let chunk_id = &wav[offset..offset + 4];
-        let chunk_size = u32::from_le_bytes([wav[offset + 4], wav[offset + 5], wav[offset + 6], wav[offset + 7]]) as usize;
+        let chunk_size = u32::from_le_bytes([
+            wav[offset + 4],
+            wav[offset + 5],
+            wav[offset + 6],
+            wav[offset + 7],
+        ]) as usize;
         let chunk_data_start = offset + 8;
 
         if chunk_id == b"fmt " && chunk_size >= 16 {
-            channels = Some(u16::from_le_bytes([wav[chunk_data_start + 2], wav[chunk_data_start + 3]]));
+            channels = Some(u16::from_le_bytes([
+                wav[chunk_data_start + 2],
+                wav[chunk_data_start + 3],
+            ]));
             sample_rate = Some(u32::from_le_bytes([
                 wav[chunk_data_start + 4],
                 wav[chunk_data_start + 5],
                 wav[chunk_data_start + 6],
                 wav[chunk_data_start + 7],
             ]));
-            bits_per_sample = Some(u16::from_le_bytes([wav[chunk_data_start + 14], wav[chunk_data_start + 15]]));
+            bits_per_sample = Some(u16::from_le_bytes([
+                wav[chunk_data_start + 14],
+                wav[chunk_data_start + 15],
+            ]));
         } else if chunk_id == b"data" {
             data_length = Some(chunk_size);
         }
@@ -1753,6 +1820,7 @@ fn estimate_duration_from_wav(wav: &[u8]) -> i32 {
 pub async fn p4k_close() -> Result<()> {
     *GLOBAL_P4K_READER.lock().unwrap() = None;
     GLOBAL_P4K_FILES.lock().unwrap().clear();
+    p4k_clear_model_dcb_cache();
     Ok(())
 }
 

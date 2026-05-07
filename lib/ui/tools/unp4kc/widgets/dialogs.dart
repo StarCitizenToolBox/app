@@ -438,7 +438,7 @@ class AdvancedExportProgressDialog extends HookWidget {
     }
 
     if (options.convertWhenPossible &&
-        (lower.endsWith(".cgf") || lower.endsWith(".cga"))) {
+        _isModelConvertible(lower)) {
       final (success, glbPath, error) = await model.convertModelToGlb(
         sourcePath,
         outFile.parent.path,
@@ -522,10 +522,20 @@ class AdvancedExportProgressDialog extends HookWidget {
     if (lower.endsWith(".dds") && !RegExp(r"_ddna\.dds$").hasMatch(lower)) {
       return "${normalized.substring(0, normalized.length - 4)}.png";
     }
-    if (lower.endsWith(".cgf") || lower.endsWith(".cga")) {
-      return "${normalized.substring(0, normalized.length - 4)}.glb";
+    for (final ext in [".skin", ".cgf", ".cga", ".cdf", ".chr"]) {
+      if (lower.endsWith(ext)) {
+        return "${normalized.substring(0, normalized.length - ext.length)}.glb";
+      }
     }
     return normalized;
+  }
+
+  bool _isModelConvertible(String lowerPath) {
+    return lowerPath.endsWith(".cgf") ||
+        lowerPath.endsWith(".cga") ||
+        lowerPath.endsWith(".skin") ||
+        lowerPath.endsWith(".cdf") ||
+        lowerPath.endsWith(".chr");
   }
 
   String _normalizeP4kPath(String filePath) {
