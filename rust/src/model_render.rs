@@ -77,11 +77,19 @@ lazy_static::lazy_static! {
     pub static ref SESSIONS: Arc<Mutex<HashMap<String, Arc<Mutex<RenderSession>>>>> = Arc::new(Mutex::new(HashMap::new()));
     static ref GLOBAL_CONTEXT: Arc<Mutex<Option<Context>>> = Arc::new(Mutex::new(None));
     static ref RENDER_PANIC_HOOK_LOCK: Mutex<()> = Mutex::new(());
+    static ref SOFTWARE_NORMAL_MAP_STRENGTH: f32 =
+        if std::env::var("SCTB_MODEL_SOFTWARE_NORMALS")
+            .map(|value| value == "1" || value.eq_ignore_ascii_case("true"))
+            .unwrap_or(false)
+        {
+            0.28
+        } else {
+            0.0
+        };
 }
 
 static RENDERLING_ONESHOT_UNAVAILABLE: AtomicBool = AtomicBool::new(false);
 
-const NORMAL_MAP_STRENGTH: f32 = 0.28;
 const SPECULAR_STRENGTH: f32 = 0.06;
 const EMISSIVE_STRENGTH: f32 = 0.18;
 
@@ -277,6 +285,10 @@ fn prefers_renderling_session() -> bool {
         .or_else(|_| std::env::var("SCTB_MODEL_RENDERER"))
         .map(|value| value.eq_ignore_ascii_case("renderling"))
         .unwrap_or(false)
+}
+
+fn software_normal_map_strength() -> f32 {
+    *SOFTWARE_NORMAL_MAP_STRENGTH
 }
 
 pub fn create_session(
@@ -1242,7 +1254,12 @@ fn rasterize_triangle(
     }
 
     let light_dir = Vec3::new(-0.35, 0.45, 0.82).normalize();
-    let tangent_frame = triangle_tangent_frame(tri);
+    let normal_map_strength = software_normal_map_strength();
+    let tangent_frame = if normal_map_strength > 0.0 {
+        triangle_tangent_frame(tri)
+    } else {
+        None
+    };
 
     for y in min_y..=max_y {
         for x in min_x..=max_x {
@@ -1263,28 +1280,32 @@ fn rasterize_triangle(
                         .normalize_or_zero();
                     let uv =
                         tri.vertices[0].uv * w0 + tri.vertices[1].uv * w1 + tri.vertices[2].uv * w2;
-                    let normal = tri
-                        .normal_texture
-                        .and_then(|texture_index| textures.get(texture_index))
-                        .and_then(|texture| tangent_frame.map(|frame| (texture, frame)))
-                        .map(|(texture, (tangent, bitangent))| {
-                            let mapped = sample_normal_texture(texture, uv);
-                            let tangent = (tangent - vertex_normal * tangent.dot(vertex_normal))
+                    let normal = if normal_map_strength > 0.0 {
+                        tri.normal_texture
+                            .and_then(|texture_index| textures.get(texture_index))
+                            .and_then(|texture| tangent_frame.map(|frame| (texture, frame)))
+                            .map(|(texture, (tangent, bitangent))| {
+                                let mapped = sample_normal_texture(texture, uv);
+                                let tangent = (tangent
+                                    - vertex_normal * tangent.dot(vertex_normal))
                                 .normalize_or_zero();
-                            let bitangent = (bitangent
-                                - vertex_normal * bitangent.dot(vertex_normal)
-                                - tangent * bitangent.dot(tangent))
-                            .normalize_or_zero();
-                            let mapped_normal = (tangent * mapped.x
-                                + bitangent * mapped.y
-                                + vertex_normal * mapped.z)
+                                let bitangent = (bitangent
+                                    - vertex_normal * bitangent.dot(vertex_normal)
+                                    - tangent * bitangent.dot(tangent))
                                 .normalize_or_zero();
-                            vertex_normal
-                                .lerp(mapped_normal, NORMAL_MAP_STRENGTH)
-                                .normalize_or_zero()
-                        })
-                        .filter(|normal| normal.length_squared() > 0.0)
-                        .unwrap_or(vertex_normal);
+                                let mapped_normal = (tangent * mapped.x
+                                    + bitangent * mapped.y
+                                    + vertex_normal * mapped.z)
+                                    .normalize_or_zero();
+                                vertex_normal
+                                    .lerp(mapped_normal, normal_map_strength)
+                                    .normalize_or_zero()
+                            })
+                            .filter(|normal| normal.length_squared() > 0.0)
+                            .unwrap_or(vertex_normal)
+                    } else {
+                        vertex_normal
+                    };
                     let diffuse = normal.dot(light_dir).max(0.0);
                     let facing = normal.z.abs();
                     let edge_factor = w0.min(w1).min(w2).mul_add(24.0, 0.0).clamp(0.9, 1.0);

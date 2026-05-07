@@ -320,16 +320,25 @@ class ModelTempWidget extends HookConsumerWidget {
 
     // 平移速度因子
     const panSpeedFactor = 0.002;
+    final minCameraDistance = math.min(
+      config.minDistance,
+      modelRadius.value * 0.05,
+    );
+    final maxCameraDistance = math.max(
+      config.maxDistance,
+      modelRadius.value * 20.0,
+    );
 
     return Listener(
+      behavior: HitTestBehavior.opaque,
       onPointerSignal: (signal) {
         if (signal is PointerScrollEvent) {
           final delta = signal.scrollDelta.dy > 0
               ? config.zoomSpeed
               : 1.0 / config.zoomSpeed;
           cameraDistance.value = (cameraDistance.value * delta).clamp(
-            config.minDistance,
-            config.maxDistance,
+            minCameraDistance,
+            maxCameraDistance,
           );
         }
       },
