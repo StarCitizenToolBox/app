@@ -1373,7 +1373,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         options: const unp4k_model_api.ModelConvertOptions(
           embedTextures: true,
           overwrite: true,
-          maxTextureSize: 1024,
+          maxTextureSize: 4096,
         ),
       );
 

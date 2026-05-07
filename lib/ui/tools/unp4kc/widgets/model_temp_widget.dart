@@ -78,8 +78,6 @@ class ModelTempWidget extends HookConsumerWidget {
     final hasPendingRender = useRef<bool>(false);
     // 是否正在拖动（拖动时不通过 useEffect 触发渲染）
     final isDragging = useRef<bool>(false);
-    // 合并高频交互产生的渲染请求
-    final renderTimer = useRef<Timer?>(null);
     // 上次渲染时的相机角度（用于采样防抖）
     final lastRenderedYaw = useRef<double>(0.0);
     final lastRenderedPitch = useRef<double>(0.0);
@@ -93,9 +91,11 @@ class ModelTempWidget extends HookConsumerWidget {
     final devicePixelRatio = MediaQuery.devicePixelRatioOf(
       context,
     ).clamp(1.0, 2.0);
-    final width = (size.width * 0.5 * devicePixelRatio).clamp(512, 768).toInt();
+    final width = (size.width * 0.5 * devicePixelRatio)
+        .clamp(512, 1024)
+        .toInt();
     final height = (size.height * 0.6 * devicePixelRatio)
-        .clamp(512, 768)
+        .clamp(512, 1024)
         .toInt();
 
     Future<void> renderModel() async {
@@ -180,13 +180,9 @@ class ModelTempWidget extends HookConsumerWidget {
       }
     }
 
+    // 直接渲染，无防抖
     void scheduleRender({bool immediate = false}) {
-      renderTimer.value?.cancel();
-      if (immediate) {
-        renderModel();
-        return;
-      }
-      renderTimer.value = Timer(const Duration(milliseconds: 33), renderModel);
+      renderModel();
     }
 
     // 基于角度变化的采样防抖
@@ -263,7 +259,6 @@ class ModelTempWidget extends HookConsumerWidget {
       return () {
         isMounted.value = false;
         final oldImage = image.value;
-        renderTimer.value?.cancel();
         // 不设置 image.value = null，避免在 defunct element 上触发 setState
         // dispose 后 ValueNotifier 会被 GC 回收，无需清空
         oldImage?.dispose();

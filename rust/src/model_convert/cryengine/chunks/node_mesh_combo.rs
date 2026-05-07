@@ -1,4 +1,4 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use std::collections::HashMap;
 
 use crate::model_convert::cryengine::{ChunkType, ModelFile, ParsedChunk};
@@ -162,16 +162,10 @@ pub fn resolve_node_mesh_combo_transforms(
     let parsed = parse_node_mesh_combo_chunk(data, header)?;
     let mut transforms = HashMap::<u16, NodeTransform>::new();
     for node in &parsed.nodes {
-        let world = matrix3x4_to_transform(&node.bone_to_world);
-        let local = node
-            .parent_index
-            .and_then(|parent_index| parsed.nodes.get(parent_index as usize))
-            .map(|parent| {
-                let parent_world = matrix3x4_to_transform(&parent.bone_to_world);
-                world_to_local_transform(parent_world, world)
-            })
-            .unwrap_or(world);
-        transforms.insert(node.node_index, local);
+        transforms.insert(
+            node.node_index,
+            matrix3x4_to_local_transform(&node.bone_to_world),
+        );
     }
     Ok(transforms)
 }
@@ -285,92 +279,11 @@ fn read_matrix3x4(data: &[u8], offset: usize) -> Result<[f32; 12]> {
     Ok(out)
 }
 
-fn matrix3x4_to_transform(m: &[f32; 12]) -> NodeTransform {
+fn matrix3x4_to_local_transform(m: &[f32; 12]) -> NodeTransform {
     let rotation = [[m[0], m[1], m[2]], [m[4], m[5], m[6]], [m[8], m[9], m[10]]];
     let translation = [m[3], m[7], m[11]];
     NodeTransform {
         rotation,
         translation,
-    }
-}
-
-fn world_to_local_transform(parent: NodeTransform, child: NodeTransform) -> NodeTransform {
-    let parent_inv_rotation = transpose3(parent.rotation);
-    let child_offset = [
-        child.translation[0] - parent.translation[0],
-        child.translation[1] - parent.translation[1],
-        child.translation[2] - parent.translation[2],
-    ];
-    NodeTransform {
-        rotation: mul3(parent_inv_rotation, child.rotation),
-        translation: mul3_vec(parent_inv_rotation, child_offset),
-    }
-}
-
-fn transpose3(m: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
-    [
-        [m[0][0], m[1][0], m[2][0]],
-        [m[0][1], m[1][1], m[2][1]],
-        [m[0][2], m[1][2], m[2][2]],
-    ]
-}
-
-fn mul3(a: [[f32; 3]; 3], b: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
-    [
-        [
-            a[0][0] * b[0][0] + a[0][1] * b[1][0] + a[0][2] * b[2][0],
-            a[0][0] * b[0][1] + a[0][1] * b[1][1] + a[0][2] * b[2][1],
-            a[0][0] * b[0][2] + a[0][1] * b[1][2] + a[0][2] * b[2][2],
-        ],
-        [
-            a[1][0] * b[0][0] + a[1][1] * b[1][0] + a[1][2] * b[2][0],
-            a[1][0] * b[0][1] + a[1][1] * b[1][1] + a[1][2] * b[2][1],
-            a[1][0] * b[0][2] + a[1][1] * b[1][2] + a[1][2] * b[2][2],
-        ],
-        [
-            a[2][0] * b[0][0] + a[2][1] * b[1][0] + a[2][2] * b[2][0],
-            a[2][0] * b[0][1] + a[2][1] * b[1][1] + a[2][2] * b[2][1],
-            a[2][0] * b[0][2] + a[2][1] * b[1][2] + a[2][2] * b[2][2],
-        ],
-    ]
-}
-
-fn mul3_vec(m: [[f32; 3]; 3], v: [f32; 3]) -> [f32; 3] {
-    [
-        m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2],
-        m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2],
-        m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2],
-    ]
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn identity_at(translation: [f32; 3]) -> NodeTransform {
-        NodeTransform {
-            rotation: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
-            translation,
-        }
-    }
-
-    #[test]
-    fn world_to_local_transform_removes_parent_translation() {
-        let local =
-            world_to_local_transform(identity_at([10.0, 0.0, 0.0]), identity_at([12.0, 3.0, 4.0]));
-        assert_eq!(local.translation, [2.0, 3.0, 4.0]);
-    }
-
-    #[test]
-    fn world_to_local_transform_removes_parent_rotation() {
-        let parent = NodeTransform {
-            rotation: [[0.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
-            translation: [0.0, 0.0, 0.0],
-        };
-        let child = identity_at([0.0, 2.0, 0.0]);
-        let local = world_to_local_transform(parent, child);
-        assert!((local.translation[0] - 2.0).abs() < 0.0001);
-        assert!(local.translation[1].abs() < 0.0001);
-        assert!(local.translation[2].abs() < 0.0001);
     }
 }
