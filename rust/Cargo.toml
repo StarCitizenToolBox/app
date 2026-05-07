@@ -70,8 +70,8 @@ ndarray = "0.17.2"
 serde_json = { version = "1.0.149", features = ["preserve_order"] }
 serde = { version = "1.0.228", features = ["derive"] }
 ryu = "1.0.20"
-#unp4k = { package = "unp4k_rs", git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "29430002d6f3a8d87feabac26c03ae0311c81263" }
-unp4k = { package = "unp4k", path = "../../unp4k_rs" }
+unp4k = { package = "unp4k", git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "20d26c7660434e0108332022fd0bcef50cf0a0db" }
+#unp4k = { package = "unp4k", path = "../../unp4k_rs" }
 uuid = { version = "1.23.1", features = ["v4"] }
 lazy_static = "1.5"
 rayon = "1.12"
