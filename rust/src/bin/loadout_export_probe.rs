@@ -44,6 +44,7 @@ async fn main() -> Result<()> {
         embed_textures: true,
         overwrite: true,
         max_texture_size: Some(1024),
+        cancel_token: None,
     };
 
     let mut inputs = Vec::<MergeInput>::new();

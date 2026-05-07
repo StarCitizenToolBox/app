@@ -38,7 +38,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1543242902;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1782137224;
 
 // Section: executor
 
@@ -2070,9 +2070,9 @@ fn wire__crate__api__unp4k_api__p4k_get_file_count_impl(
 }
 fn wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
-    _asset_root: impl CstDecode<String>,
-    _output_dir: impl CstDecode<String>,
-    _options: impl CstDecode<Option<crate::api::unp4k_model_api::ModelConvertOptions>>,
+    asset_root: impl CstDecode<String>,
+    output_dir: impl CstDecode<String>,
+    options: impl CstDecode<Option<crate::api::unp4k_model_api::ModelConvertOptions>>,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -2081,17 +2081,17 @@ fn wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge_im
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let api__asset_root = _asset_root.cst_decode();
-            let api__output_dir = _output_dir.cst_decode();
-            let api__options = _options.cst_decode();
+            let api_asset_root = asset_root.cst_decode();
+            let api_output_dir = output_dir.cst_decode();
+            let api_options = options.cst_decode();
             move |context| async move {
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
                         let output_ok =
                             crate::api::unp4k_model_api::p4k_model_convert_local_batch_and_merge(
-                                api__asset_root,
-                                api__output_dir,
-                                api__options,
+                                api_asset_root,
+                                api_output_dir,
+                                api_options,
                             )
                             .await?;
                         Ok(output_ok)
@@ -2329,6 +2329,49 @@ fn wire__crate__api__unp4k_model_api__p4k_model_session_create_from_bytes_impl(
         },
     )
 }
+fn wire__crate__api__unp4k_model_api__p4k_model_session_create_from_p4k_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    p4k_path: impl CstDecode<String>,
+    model_path: impl CstDecode<String>,
+    width: impl CstDecode<u32>,
+    height: impl CstDecode<u32>,
+    bg_color: impl CstDecode<Option<Vec<f32>>>,
+    options: impl CstDecode<Option<crate::api::unp4k_model_api::ModelConvertOptions>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_model_session_create_from_p4k",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_p4k_path = p4k_path.cst_decode();
+            let api_model_path = model_path.cst_decode();
+            let api_width = width.cst_decode();
+            let api_height = height.cst_decode();
+            let api_bg_color = bg_color.cst_decode();
+            let api_options = options.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::unp4k_model_api::p4k_model_session_create_from_p4k(
+                                api_p4k_path,
+                                api_model_path,
+                                api_width,
+                                api_height,
+                                api_bg_color,
+                                api_options,
+                            )
+                            .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__unp4k_model_api__p4k_model_session_exists_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     session_id: impl CstDecode<String>,
@@ -2411,6 +2454,71 @@ fn wire__crate__api__unp4k_model_api__p4k_model_session_render_impl(
                             api_target_y,
                             api_target_z,
                         )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_model_api__p4k_model_session_start_from_p4k_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    p4k_path: impl CstDecode<String>,
+    model_path: impl CstDecode<String>,
+    width: impl CstDecode<u32>,
+    height: impl CstDecode<u32>,
+    bg_color: impl CstDecode<Option<Vec<f32>>>,
+    options: impl CstDecode<Option<crate::api::unp4k_model_api::ModelConvertOptions>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_model_session_start_from_p4k",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_p4k_path = p4k_path.cst_decode();
+            let api_model_path = model_path.cst_decode();
+            let api_width = width.cst_decode();
+            let api_height = height.cst_decode();
+            let api_bg_color = bg_color.cst_decode();
+            let api_options = options.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::unp4k_model_api::p4k_model_session_start_from_p4k(
+                                api_p4k_path,
+                                api_model_path,
+                                api_width,
+                                api_height,
+                                api_bg_color,
+                                api_options,
+                            )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_model_api__p4k_model_session_status_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    session_id: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_model_session_status",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_session_id = session_id.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::unp4k_model_api::p4k_model_session_status(api_session_id)?;
                         Ok(output_ok)
                     })(),
                 )
@@ -4274,6 +4382,40 @@ impl SseDecode for crate::api::unp4k_model_api::SessionCreateResult {
     }
 }
 
+impl SseDecode for crate::api::unp4k_model_api::SessionStartResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_success = <bool>::sse_decode(deserializer);
+        let mut var_sessionId = <Option<String>>::sse_decode(deserializer);
+        let mut var_errorMessage = <Option<String>>::sse_decode(deserializer);
+        return crate::api::unp4k_model_api::SessionStartResult {
+            success: var_success,
+            session_id: var_sessionId,
+            error_message: var_errorMessage,
+        };
+    }
+}
+
+impl SseDecode for crate::api::unp4k_model_api::SessionStatusResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_exists = <bool>::sse_decode(deserializer);
+        let mut var_ready = <bool>::sse_decode(deserializer);
+        let mut var_failed = <bool>::sse_decode(deserializer);
+        let mut var_stage = <String>::sse_decode(deserializer);
+        let mut var_modelRadius = <f32>::sse_decode(deserializer);
+        let mut var_errorMessage = <Option<String>>::sse_decode(deserializer);
+        return crate::api::unp4k_model_api::SessionStatusResult {
+            exists: var_exists,
+            ready: var_ready,
+            failed: var_failed,
+            stage: var_stage,
+            model_radius: var_modelRadius,
+            error_message: var_errorMessage,
+        };
+    }
+}
+
 impl SseDecode for crate::api::win32_api::SystemInfo {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -5110,6 +5252,53 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::SessionCreat
     for crate::api::unp4k_model_api::SessionCreateResult
 {
     fn into_into_dart(self) -> crate::api::unp4k_model_api::SessionCreateResult {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::SessionStartResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.success.into_into_dart().into_dart(),
+            self.session_id.into_into_dart().into_dart(),
+            self.error_message.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_model_api::SessionStartResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::SessionStartResult>
+    for crate::api::unp4k_model_api::SessionStartResult
+{
+    fn into_into_dart(self) -> crate::api::unp4k_model_api::SessionStartResult {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::SessionStatusResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.exists.into_into_dart().into_dart(),
+            self.ready.into_into_dart().into_dart(),
+            self.failed.into_into_dart().into_dart(),
+            self.stage.into_into_dart().into_dart(),
+            self.model_radius.into_into_dart().into_dart(),
+            self.error_message.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::unp4k_model_api::SessionStatusResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_model_api::SessionStatusResult>
+    for crate::api::unp4k_model_api::SessionStatusResult
+{
+    fn into_into_dart(self) -> crate::api::unp4k_model_api::SessionStatusResult {
         self
     }
 }
@@ -5962,6 +6151,27 @@ impl SseEncode for crate::api::unp4k_model_api::SessionCreateResult {
     }
 }
 
+impl SseEncode for crate::api::unp4k_model_api::SessionStartResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.success, serializer);
+        <Option<String>>::sse_encode(self.session_id, serializer);
+        <Option<String>>::sse_encode(self.error_message, serializer);
+    }
+}
+
+impl SseEncode for crate::api::unp4k_model_api::SessionStatusResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.exists, serializer);
+        <bool>::sse_encode(self.ready, serializer);
+        <bool>::sse_encode(self.failed, serializer);
+        <String>::sse_encode(self.stage, serializer);
+        <f32>::sse_encode(self.model_radius, serializer);
+        <Option<String>>::sse_encode(self.error_message, serializer);
+    }
+}
+
 impl SseEncode for crate::api::win32_api::SystemInfo {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6691,6 +6901,31 @@ mod io {
             }
         }
     }
+    impl CstDecode<crate::api::unp4k_model_api::SessionStartResult> for wire_cst_session_start_result {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::SessionStartResult {
+            crate::api::unp4k_model_api::SessionStartResult {
+                success: self.success.cst_decode(),
+                session_id: self.session_id.cst_decode(),
+                error_message: self.error_message.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::unp4k_model_api::SessionStatusResult>
+        for wire_cst_session_status_result
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::unp4k_model_api::SessionStatusResult {
+            crate::api::unp4k_model_api::SessionStatusResult {
+                exists: self.exists.cst_decode(),
+                ready: self.ready.cst_decode(),
+                failed: self.failed.cst_decode(),
+                stage: self.stage.cst_decode(),
+                model_radius: self.model_radius.cst_decode(),
+                error_message: self.error_message.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<crate::api::win32_api::SystemInfo> for wire_cst_system_info {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::win32_api::SystemInfo {
@@ -7175,6 +7410,37 @@ mod io {
         }
     }
     impl Default for wire_cst_session_create_result {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_session_start_result {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                success: Default::default(),
+                session_id: core::ptr::null_mut(),
+                error_message: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_session_start_result {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_session_status_result {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                exists: Default::default(),
+                ready: Default::default(),
+                failed: Default::default(),
+                stage: core::ptr::null_mut(),
+                model_radius: Default::default(),
+                error_message: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_session_status_result {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -7974,15 +8240,12 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge(
         port_: i64,
-        _asset_root: *mut wire_cst_list_prim_u_8_strict,
-        _output_dir: *mut wire_cst_list_prim_u_8_strict,
-        _options: *mut wire_cst_model_convert_options,
+        asset_root: *mut wire_cst_list_prim_u_8_strict,
+        output_dir: *mut wire_cst_list_prim_u_8_strict,
+        options: *mut wire_cst_model_convert_options,
     ) {
         wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge_impl(
-            port_,
-            _asset_root,
-            _output_dir,
-            _options,
+            port_, asset_root, output_dir, options,
         )
     }
 
@@ -8068,6 +8331,21 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_create_from_p4k(
+        port_: i64,
+        p4k_path: *mut wire_cst_list_prim_u_8_strict,
+        model_path: *mut wire_cst_list_prim_u_8_strict,
+        width: u32,
+        height: u32,
+        bg_color: *mut wire_cst_list_prim_f_32_strict,
+        options: *mut wire_cst_model_convert_options,
+    ) {
+        wire__crate__api__unp4k_model_api__p4k_model_session_create_from_p4k_impl(
+            port_, p4k_path, model_path, width, height, bg_color, options,
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_exists(
         port_: i64,
         session_id: *mut wire_cst_list_prim_u_8_strict,
@@ -8097,6 +8375,29 @@ mod io {
         wire__crate__api__unp4k_model_api__p4k_model_session_render_impl(
             port_, session_id, camera_x, camera_y, camera_z, target_x, target_y, target_z,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_start_from_p4k(
+        port_: i64,
+        p4k_path: *mut wire_cst_list_prim_u_8_strict,
+        model_path: *mut wire_cst_list_prim_u_8_strict,
+        width: u32,
+        height: u32,
+        bg_color: *mut wire_cst_list_prim_f_32_strict,
+        options: *mut wire_cst_model_convert_options,
+    ) {
+        wire__crate__api__unp4k_model_api__p4k_model_session_start_from_p4k_impl(
+            port_, p4k_path, model_path, width, height, bg_color, options,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_model_api__p4k_model_session_status(
+        port_: i64,
+        session_id: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__unp4k_model_api__p4k_model_session_status_impl(port_, session_id)
     }
 
     #[unsafe(no_mangle)]
@@ -8968,6 +9269,23 @@ mod io {
     pub struct wire_cst_session_create_result {
         success: bool,
         session_id: *mut wire_cst_list_prim_u_8_strict,
+        model_radius: f32,
+        error_message: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_session_start_result {
+        success: bool,
+        session_id: *mut wire_cst_list_prim_u_8_strict,
+        error_message: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_session_status_result {
+        exists: bool,
+        ready: bool,
+        failed: bool,
+        stage: *mut wire_cst_list_prim_u_8_strict,
         model_radius: f32,
         error_message: *mut wire_cst_list_prim_u_8_strict,
     }

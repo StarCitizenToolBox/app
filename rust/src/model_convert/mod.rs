@@ -10,8 +10,10 @@ pub mod pipeline;
 pub mod texture_decode;
 pub mod types;
 use crate::api::unp4k_api;
+pub use crate::api::unp4k_api::p4k_get_or_load_model_dcb;
 pub use pipeline::{
     _debug_result, convert_from_fs, convert_from_p4k, convert_from_p4k_to_bytes,
+    convert_from_p4k_to_scene, convert_from_p4k_to_scene_without_textures,
     convert_local_batch_and_merge, is_supported_model,
 };
 use std::collections::HashMap;
@@ -56,7 +58,9 @@ fn material_fallback_warning(material_id: i32) -> String {
     format!("Material id {material_id} is missing; fallback to default material")
 }
 fn opacity_approximation_warning(material_id: i32) -> String {
-    format!(        "Material id {material_id} uses opacity map; exported with glTF alphaMode=BLEND approximation"    )
+    format!(
+        "Material id {material_id} uses opacity map; exported with glTF alphaMode=BLEND approximation"
+    )
 }
 fn material_uses_specular_texture(material: &MaterialData) -> bool {
     let mask = material
@@ -111,11 +115,12 @@ fn texture_search_roots_fs(model_path: &str) -> Vec<String> {
     roots
 }
 async fn collect_material_textures(
-    scene: &SceneData,
+    _scene: &SceneData,
     root_material: &MaterialData,
     model_path: &str,
     index: &HashMap<String, String>,
     max_texture_size: Option<u32>,
+    cancel_token: Option<&ConvertCancelToken>,
 ) -> std::result::Result<
     (
         Vec<DecodedTexture>,
@@ -130,7 +135,7 @@ async fn collect_material_textures(
         .sub_materials
         .iter()
         .enumerate()
-        .filter_map(|(index, material)| (!material.no_draw).then_some(index as i32))
+        .map(|(index, _)| index as i32)
         .collect::<Vec<_>>();
     if sorted_ids.is_empty() {
         sorted_ids.push(-1);
@@ -140,6 +145,7 @@ async fn collect_material_textures(
     let mut materials = Vec::new();
     let mut materials_by_id = HashMap::new();
     for material_id in sorted_ids {
+        check_cancelled(cancel_token)?;
         let material_ref = if material_id >= 0 {
             root_material
                 .sub_materials
@@ -207,8 +213,10 @@ async fn collect_material_textures(
             &mut textures,
             &mut texture_map,
             &mut warnings,
+            cancel_token,
         )
         .await?;
+        check_cancelled(cancel_token)?;
         gltf_material.base_color_texture = maybe_collect_channel_texture_p4k(
             material_ref.name.as_deref(),
             "baseColor",
@@ -219,8 +227,10 @@ async fn collect_material_textures(
             &mut textures,
             &mut texture_map,
             &mut warnings,
+            cancel_token,
         )
         .await?;
+        check_cancelled(cancel_token)?;
         gltf_material.diffuse_texture = gltf_material.base_color_texture;
         if material_uses_specular_texture(material_ref) {
             gltf_material.specular_glossiness_texture = maybe_collect_channel_texture_p4k(
@@ -233,8 +243,10 @@ async fn collect_material_textures(
                 &mut textures,
                 &mut texture_map,
                 &mut warnings,
+                cancel_token,
             )
             .await?;
+            check_cancelled(cancel_token)?;
         }
         if let Some(emissive) = maybe_collect_channel_texture_p4k(
             material_ref.name.as_deref(),
@@ -246,6 +258,7 @@ async fn collect_material_textures(
             &mut textures,
             &mut texture_map,
             &mut warnings,
+            cancel_token,
         )
         .await?
         {
@@ -261,6 +274,7 @@ async fn collect_material_textures(
             &mut textures,
             &mut texture_map,
             &mut warnings,
+            cancel_token,
         )
         .await?
         {
@@ -276,6 +290,7 @@ async fn collect_material_textures(
             &mut textures,
             &mut texture_map,
             &mut warnings,
+            cancel_token,
         )
         .await?
         {
@@ -288,8 +303,83 @@ async fn collect_material_textures(
     apply_opacity_textures(&mut textures, &mut materials, &mut warnings);
     Ok((textures, materials, materials_by_id, warnings))
 }
+
+fn collect_materials_without_textures(
+    root_material: &MaterialData,
+) -> (Vec<GltfMaterialData>, HashMap<i32, usize>, Vec<String>) {
+    let mut warnings = Vec::new();
+    let mut sorted_ids = root_material
+        .sub_materials
+        .iter()
+        .enumerate()
+        .map(|(index, _)| index as i32)
+        .collect::<Vec<_>>();
+    if sorted_ids.is_empty() {
+        sorted_ids.push(-1);
+    }
+    let mut materials = Vec::new();
+    let mut materials_by_id = HashMap::new();
+    for material_id in sorted_ids {
+        let material_ref = if material_id >= 0 {
+            root_material
+                .sub_materials
+                .get(material_id as usize)
+                .unwrap_or_else(|| {
+                    warnings.push(material_fallback_warning(material_id));
+                    root_material
+                })
+        } else {
+            root_material
+        };
+        let mut gltf_material = GltfMaterialData::default();
+        gltf_material.name = material_ref.name.clone();
+        gltf_material.base_color_factor = Some(if material_ref.no_draw {
+            [0.0, 0.0, 0.0, 0.0]
+        } else {
+            let diffuse = material_ref.diffuse.unwrap_or([0.62, 0.68, 0.72]);
+            [
+                diffuse[0],
+                diffuse[1],
+                diffuse[2],
+                material_ref.opacity.unwrap_or(1.0).clamp(0.0, 1.0),
+            ]
+        });
+        gltf_material.specular_factor = Some(material_ref.specular.unwrap_or([1.0, 1.0, 1.0]));
+        gltf_material.emissive_factor = material_ref.emissive_color.or_else(|| {
+            material_ref
+                .glow_amount
+                .filter(|value| *value > 0.0)
+                .map(|_| [1.0, 1.0, 1.0])
+        });
+        let shininess = material_ref.shininess.unwrap_or(0.0);
+        gltf_material.glossiness_factor = Some((shininess / 255.0).clamp(0.0, 1.0));
+        gltf_material.pbr_roughness_factor = Some(((255.0 - shininess) / 255.0).clamp(0.0, 1.0));
+        gltf_material.double_sided = Some(
+            material_ref
+                .material_flags
+                .map(|flags| (flags & 0x2) != 0)
+                .unwrap_or(false),
+        );
+        let opacity = material_ref.opacity.unwrap_or(1.0).clamp(0.0, 1.0);
+        gltf_material.alpha_mode = Some(if material_ref.no_draw {
+            "MASK".to_string()
+        } else if material_ref.alpha_test.unwrap_or(0.0) > 0.0 {
+            "MASK".to_string()
+        } else if opacity < 1.0 || material_uses_opacity_texture(material_ref) {
+            "BLEND".to_string()
+        } else {
+            "OPAQUE".to_string()
+        });
+        gltf_material.alpha_cutoff = material_ref.alpha_test;
+        gltf_material.no_draw = material_ref.no_draw;
+        gltf_material.emissive_strength = material_ref.glow_amount;
+        materials_by_id.insert(material_id, materials.len());
+        materials.push(gltf_material);
+    }
+    (materials, materials_by_id, warnings)
+}
 fn collect_material_textures_from_fs(
-    scene: &SceneData,
+    _scene: &SceneData,
     root_material: &MaterialData,
     model_path: &str,
     index: &HashMap<String, String>,
@@ -308,7 +398,7 @@ fn collect_material_textures_from_fs(
         .sub_materials
         .iter()
         .enumerate()
-        .filter_map(|(index, material)| (!material.no_draw).then_some(index as i32))
+        .map(|(index, _)| index as i32)
         .collect::<Vec<_>>();
     if sorted_ids.is_empty() {
         sorted_ids.push(-1);
@@ -456,38 +546,113 @@ async fn maybe_collect_channel_texture_p4k(
     textures: &mut Vec<DecodedTexture>,
     texture_map: &mut HashMap<String, usize>,
     warnings: &mut Vec<String>,
+    cancel_token: Option<&ConvertCancelToken>,
 ) -> std::result::Result<Option<usize>, ModelConvertError> {
+    check_cancelled(cancel_token)?;
+    if texture_refs.is_empty() {
+        return Ok(None);
+    }
     let texture_roots = texture_search_roots_p4k(model_path, index);
     let texture_path = resolve_texture_candidates(
         texture_refs.iter().map(String::as_str),
         &texture_roots,
         index,
     );
-    let texture = if let Some(texture_path) = texture_path {
+    let (texture_key, texture) = if let Some(texture_path) = texture_path {
+        let texture_key = texture_path.to_ascii_lowercase();
+        if let Some(existing_index) = texture_map.get(&texture_key).copied() {
+            return Ok(Some(existing_index));
+        }
+        check_cancelled(cancel_token)?;
         let texture_bytes = unp4k_api::p4k_extract_to_memory(texture_path.clone())
             .await
             .map_err(|e| ModelConvertError::Io(e.to_string()))?;
-        match texture_decode::decode_texture(&texture_path, &texture_bytes, max_texture_size) {
-            Ok(mut texture) => {
-                texture.label = Some(texture_label(material_name, channel_name));
-                texture
-            }
-            Err(err) => {
-                warnings.push(texture_decode_failed_warning(
-                    &texture_path,
-                    channel_name,
-                    &err.to_string(),
-                ));
-                DecodedTexture {
-                    name: texture_uri_from_path(&texture_path),
-                    uri: texture_uri_from_path(&texture_path),
-                    label: Some(texture_label(material_name, channel_name)),
-                    width: 0,
-                    height: 0,
-                    rgba8: Vec::new(),
+        check_cancelled(cancel_token)?;
+        let texture =
+            match texture_decode::decode_texture(&texture_path, &texture_bytes, max_texture_size) {
+                Ok(mut texture) => {
+                    texture.label = Some(texture_label(material_name, channel_name));
+                    texture
                 }
-            }
-        }
+                Err(err) => {
+                    let lower = texture_path.to_ascii_lowercase();
+                    if lower.ends_with(".dds") || lower.contains(".dds.") {
+                        check_cancelled(cancel_token)?;
+                        match unp4k_api::p4k_extract_dds_as_png(texture_path.clone()).await {
+                            Ok((png, _debug)) => {
+                                check_cancelled(cancel_token)?;
+                                match image::load_from_memory_with_format(
+                                    &png,
+                                    image::ImageFormat::Png,
+                                )
+                                .map_err(anyhow::Error::from)
+                                .and_then(|img| {
+                                    texture_decode::decoded_texture_from_image(
+                                        &texture_path,
+                                        img,
+                                        max_texture_size,
+                                    )
+                                }) {
+                                    Ok(mut texture) => {
+                                        texture.label =
+                                            Some(texture_label(material_name, channel_name));
+                                        texture
+                                    }
+                                    Err(png_err) => {
+                                        warnings.push(texture_decode_failed_warning(
+                                        &texture_path,
+                                        channel_name,
+                                        &format!(
+                                            "{err}; dds reconstruction fallback failed: {png_err}"
+                                        ),
+                                    ));
+                                        DecodedTexture {
+                                            name: texture_uri_from_path(&texture_path),
+                                            uri: texture_uri_from_path(&texture_path),
+                                            label: Some(texture_label(material_name, channel_name)),
+                                            width: 0,
+                                            height: 0,
+                                            rgba8: Vec::new(),
+                                        }
+                                    }
+                                }
+                            }
+                            Err(dds_err) => {
+                                warnings.push(texture_decode_failed_warning(
+                                    &texture_path,
+                                    channel_name,
+                                    &format!(
+                                        "{err}; dds reconstruction fallback failed: {dds_err}"
+                                    ),
+                                ));
+                                DecodedTexture {
+                                    name: texture_uri_from_path(&texture_path),
+                                    uri: texture_uri_from_path(&texture_path),
+                                    label: Some(texture_label(material_name, channel_name)),
+                                    width: 0,
+                                    height: 0,
+                                    rgba8: Vec::new(),
+                                }
+                            }
+                        }
+                    } else {
+                        warnings.push(texture_decode_failed_warning(
+                            &texture_path,
+                            channel_name,
+                            &err.to_string(),
+                        ));
+                        DecodedTexture {
+                            name: texture_uri_from_path(&texture_path),
+                            uri: texture_uri_from_path(&texture_path),
+                            label: Some(texture_label(material_name, channel_name)),
+                            width: 0,
+                            height: 0,
+                            rgba8: Vec::new(),
+                        }
+                    }
+                }
+            };
+        (texture_key, texture)
     } else {
         warnings.push(texture_not_found_warning(
             texture_refs.first().map(|s| s.as_str()).unwrap_or_default(),
@@ -495,9 +660,21 @@ async fn maybe_collect_channel_texture_p4k(
         ));
         return Ok(None);
     };
+    check_cancelled(cancel_token)?;
     let idx = textures.len();
+    texture_map.insert(texture_key, idx);
     textures.push(texture);
     Ok(Some(idx))
+}
+
+fn check_cancelled(
+    cancel_token: Option<&ConvertCancelToken>,
+) -> std::result::Result<(), ModelConvertError> {
+    if cancel_token.is_some_and(ConvertCancelToken::is_cancelled) {
+        Err(ModelConvertError::Cancelled)
+    } else {
+        Ok(())
+    }
 }
 fn maybe_collect_channel_texture_fs(
     material_name: Option<&str>,
@@ -510,36 +687,45 @@ fn maybe_collect_channel_texture_fs(
     texture_map: &mut HashMap<String, usize>,
     warnings: &mut Vec<String>,
 ) -> std::result::Result<Option<usize>, ModelConvertError> {
+    if texture_refs.is_empty() {
+        return Ok(None);
+    }
     let texture_roots = texture_search_roots_fs(model_path);
     let texture_path = resolve_texture_candidates(
         texture_refs.iter().map(String::as_str),
         &texture_roots,
         index,
     );
-    let texture = if let Some(texture_path) = texture_path {
+    let (texture_key, texture) = if let Some(texture_path) = texture_path {
+        let texture_key = texture_path.to_ascii_lowercase();
+        if let Some(existing_index) = texture_map.get(&texture_key).copied() {
+            return Ok(Some(existing_index));
+        }
         let texture_bytes = std::fs::read(&texture_path)
             .map_err(|e| ModelConvertError::Io(format!("read texture {texture_path}: {e}")))?;
-        match texture_decode::decode_texture(&texture_path, &texture_bytes, max_texture_size) {
-            Ok(mut texture) => {
-                texture.label = Some(texture_label(material_name, channel_name));
-                texture
-            }
-            Err(err) => {
-                warnings.push(texture_decode_failed_warning(
-                    &texture_path,
-                    channel_name,
-                    &err.to_string(),
-                ));
-                DecodedTexture {
-                    name: texture_uri_from_path(&texture_path),
-                    uri: texture_uri_from_path(&texture_path),
-                    label: Some(texture_label(material_name, channel_name)),
-                    width: 0,
-                    height: 0,
-                    rgba8: Vec::new(),
+        let texture =
+            match texture_decode::decode_texture(&texture_path, &texture_bytes, max_texture_size) {
+                Ok(mut texture) => {
+                    texture.label = Some(texture_label(material_name, channel_name));
+                    texture
                 }
-            }
-        }
+                Err(err) => {
+                    warnings.push(texture_decode_failed_warning(
+                        &texture_path,
+                        channel_name,
+                        &err.to_string(),
+                    ));
+                    DecodedTexture {
+                        name: texture_uri_from_path(&texture_path),
+                        uri: texture_uri_from_path(&texture_path),
+                        label: Some(texture_label(material_name, channel_name)),
+                        width: 0,
+                        height: 0,
+                        rgba8: Vec::new(),
+                    }
+                }
+            };
+        (texture_key, texture)
     } else {
         warnings.push(texture_not_found_warning(
             texture_refs.first().map(|s| s.as_str()).unwrap_or_default(),
@@ -548,6 +734,7 @@ fn maybe_collect_channel_texture_fs(
         return Ok(None);
     };
     let idx = textures.len();
+    texture_map.insert(texture_key, idx);
     textures.push(texture);
     Ok(Some(idx))
 }
@@ -992,10 +1179,9 @@ fn is_banu_candidate(path: &Path) -> bool {
 mod tests {
     use super::convert_from_fs;
     use super::{
-        build_fs_index, categorize_parser_error_message, is_banu_candidate,
-        is_binary_not_supported_message, is_ivo_signature, is_supported_model,
-        load_best_material_from_candidates_sync, DecodedTexture, GltfMaterialData, MaterialData,
-        ModelConvertError,
+        DecodedTexture, GltfMaterialData, MaterialData, ModelConvertError, build_fs_index,
+        categorize_parser_error_message, is_banu_candidate, is_binary_not_supported_message,
+        is_ivo_signature, is_supported_model, load_best_material_from_candidates_sync,
     };
     use sha2::{Digest, Sha256};
     use std::fs;
@@ -1072,9 +1258,11 @@ mod tests {
         fs::create_dir_all(temp.join("Defender")).expect("mkdir");
         fs::write(temp.join("Defender").join("BANU_Defender.mtl"), b"test").expect("write");
         let index = build_fs_index(temp.to_string_lossy().as_ref()).expect("index");
-        assert!(index
-            .keys()
-            .any(|k| k.contains("\\defender\\banu_defender.mtl")));
+        assert!(
+            index
+                .keys()
+                .any(|k| k.contains("\\defender\\banu_defender.mtl"))
+        );
         let _ = fs::remove_dir_all(&temp);
     }
     #[test]
@@ -1143,6 +1331,7 @@ mod tests {
                 embed_textures: true,
                 overwrite: true,
                 max_texture_size: None,
+                cancel_token: None,
             },
         )
         .await

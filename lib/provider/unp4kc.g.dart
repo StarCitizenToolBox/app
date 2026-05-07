@@ -41,7 +41,7 @@ final class Unp4kCModelProvider
   }
 }
 
-String _$unp4kCModelHash() => r'4ae56ca5f0c21ca1e71c036fd2b3bf7a3a0e9b89';
+String _$unp4kCModelHash() => r'e9ddaf302a743031be547b2d62dd583da50896b0';
 
 abstract class _$Unp4kCModel extends $Notifier<Unp4kcState> {
   Unp4kcState build();

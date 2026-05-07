@@ -1,16 +1,16 @@
-use anyhow::{anyhow, Result};
-use std::collections::{BTreeMap, HashMap};
+use anyhow::{Result, anyhow};
+use std::collections::BTreeMap;
 
 use super::{
+    SceneData, SceneMesh, SceneNode, ScenePrimitive,
     cryengine::{
+        FileSignature, ModelFile,
         chunks::node_mesh_combo::{
-            node_transform_to_gltf_matrix, node_transform_to_gltf_trs, parse_node_mesh_combo_chunk,
-            resolve_node_mesh_combo_transforms, IvoNodeMeshComboChunk,
+            IvoNodeMeshComboChunk, node_transform_to_gltf_trs, parse_node_mesh_combo_chunk,
+            resolve_node_mesh_combo_transforms,
         },
         ivo::{collect_skin_chunks, find_node_mesh_combo_chunk},
-        FileSignature, ModelFile,
     },
-    SceneData, SceneMesh, SceneNode, ScenePrimitive,
 };
 
 const FILE_SIGNATURE_IVO: &[u8; 4] = b"#ivo";
@@ -125,22 +125,6 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
                 }
             },
         );
-    let combo_transforms = if let Some(combo) = combo_chunk {
-        match resolve_node_mesh_combo_transforms(layout_bytes, combo) {
-            Ok(transforms) => Some(transforms),
-            Err(err) => {
-                warnings.push(format!(
-                    "IVO native best-effort: failed to resolve NodeMeshCombo transforms at offset {}: {}",
-                    combo.offset, err
-                ));
-                Some(Default::default())
-            }
-        }
-    } else {
-        None
-    };
-    let empty_transforms = std::collections::HashMap::new();
-
     let mut meshes = Vec::new();
     for chunk in &skin_chunks {
         let header = IvoChunkHeader {
@@ -175,10 +159,7 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
 
     let nodes = combo_layout
         .as_ref()
-        .map(|combo| {
-            let transforms = combo_transforms.as_ref().unwrap_or(&empty_transforms);
-            scene_nodes_from_combo(combo, transforms)
-        })
+        .map(scene_nodes_from_combo)
         .unwrap_or_default();
 
     Ok(SceneData {
@@ -188,13 +169,7 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
     })
 }
 
-fn scene_nodes_from_combo(
-    combo: &IvoNodeMeshComboChunk,
-    transforms: &std::collections::HashMap<
-        u16,
-        crate::model_convert::cryengine::chunks::node_mesh_combo::NodeTransform,
-    >,
-) -> Vec<SceneNode> {
+fn scene_nodes_from_combo(combo: &IvoNodeMeshComboChunk) -> Vec<SceneNode> {
     combo
         .nodes
         .iter()
@@ -204,10 +179,6 @@ fn scene_nodes_from_combo(
                 .get(node.node_index as usize)
                 .filter(|name| !name.is_empty())?
                 .clone();
-            let trs = transforms
-                .get(&node.node_index)
-                .copied()
-                .map(node_transform_to_gltf_matrix);
             let parent = node.parent_index.and_then(|parent_index| {
                 combo
                     .node_names
@@ -221,10 +192,87 @@ fn scene_nodes_from_combo(
                 translation: None,
                 rotation: None,
                 scale: None,
-                matrix: trs,
+                matrix: node_combo_matrix_to_scene_matrix(&node.bone_to_world),
             })
         })
         .collect()
+}
+
+fn node_combo_matrix_to_scene_matrix(matrix: &[f32; 12]) -> Option<[f32; 16]> {
+    if is_identity_or_zero_3x4(matrix) {
+        return None;
+    }
+
+    let source = [
+        [matrix[0], matrix[1], matrix[2]],
+        [matrix[4], matrix[5], matrix[6]],
+        [matrix[8], matrix[9], matrix[10]],
+    ];
+    let rotation = convert_node_rotation_to_scene_axes(source);
+    let translation = convert_node_translation_to_scene_axes([matrix[3], matrix[7], matrix[11]]);
+    Some([
+        rotation[0][0],
+        rotation[1][0],
+        rotation[2][0],
+        0.0,
+        rotation[0][1],
+        rotation[1][1],
+        rotation[2][1],
+        0.0,
+        rotation[0][2],
+        rotation[1][2],
+        rotation[2][2],
+        0.0,
+        translation[0],
+        translation[1],
+        translation[2],
+        1.0,
+    ])
+}
+
+fn is_identity_or_zero_3x4(matrix: &[f32; 12]) -> bool {
+    let all_zero = matrix.iter().all(|value| *value == 0.0);
+    if all_zero {
+        return true;
+    }
+
+    let identity = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0];
+    matrix
+        .iter()
+        .zip(identity)
+        .all(|(actual, expected)| (*actual - expected).abs() <= 1e-6)
+}
+
+fn convert_node_translation_to_scene_axes(value: [f32; 3]) -> [f32; 3] {
+    [-value[0], value[2], value[1]]
+}
+
+fn convert_node_rotation_to_scene_axes(rotation: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
+    // glTF vertices in this exporter are already converted with
+    // [-x, z, y], so NMC node matrices must be conjugated by that same
+    // axis transform instead of using StarBreaker's root wrapper matrix.
+    let axis = [[-1.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, 1.0, 0.0]];
+    let axis_inv = transpose3(axis);
+    mul3(mul3(axis, rotation), axis_inv)
+}
+
+fn mul3(a: [[f32; 3]; 3], b: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
+    let mut out = [[0.0; 3]; 3];
+    for row in 0..3 {
+        for col in 0..3 {
+            out[row][col] =
+                a[row][0] * b[0][col] + a[row][1] * b[1][col] + a[row][2] * b[2][col];
+        }
+    }
+    out
+}
+
+fn transpose3(matrix: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
+    [
+        [matrix[0][0], matrix[1][0], matrix[2][0]],
+        [matrix[0][1], matrix[1][1], matrix[2][1]],
+        [matrix[0][2], matrix[1][2], matrix[2][2]],
+    ]
 }
 
 fn parse_skin_mesh_source(
@@ -488,7 +536,7 @@ fn build_meshes_from_combo(
         let mut uvs = Vec::new();
         let mut joints = source.joints.as_ref().map(|_| Vec::new());
         let mut weights = source.weights.as_ref().map(|_| Vec::new());
-        let mut local_index_map = HashMap::<u32, u32>::new();
+        let mut indices = Vec::new();
         let mut vertex_offset = 0usize;
 
         for subset in matching_subsets {
@@ -523,19 +571,19 @@ fn build_meshes_from_combo(
                 dst.extend_from_slice(&src[vertex_start..vertex_end]);
             }
 
+            let primitive_first_index = indices.len();
+            let vertex_start_u32 = subset.first_vertex as u32;
+            let vertex_end_u32 = vertex_start_u32 + subset.num_vertices as u32;
             for i in 0..subset.num_indices {
                 let global_index = source.indices[subset.first_index + i];
-                let vertex_start = subset.first_vertex as u32;
-                let vertex_end = vertex_start + subset.num_vertices as u32;
-                if (vertex_start..vertex_end).contains(&global_index) {
-                    let local_index = (global_index - vertex_start) + vertex_offset as u32;
-                    local_index_map.insert(global_index, local_index);
+                if (vertex_start_u32..vertex_end_u32).contains(&global_index) {
+                    indices.push((global_index - vertex_start_u32) + vertex_offset as u32);
                 }
             }
 
             primitives.push(ScenePrimitive {
-                first_index: subset.first_index as u32,
-                num_indices: subset.num_indices as u32,
+                first_index: primitive_first_index as u32,
+                num_indices: (indices.len() - primitive_first_index) as u32,
                 first_vertex: vertex_offset as u32,
                 num_vertices: subset.num_vertices as u32,
                 material_id: subset.material_id,
@@ -544,15 +592,10 @@ fn build_meshes_from_combo(
             vertex_offset += subset.num_vertices;
         }
 
+        primitives.retain(|primitive| primitive.num_indices > 0);
         if primitives.is_empty() {
             continue;
         }
-
-        let indices = source
-            .indices
-            .iter()
-            .map(|index| local_index_map.get(index).copied().unwrap_or(*index))
-            .collect::<Vec<_>>();
 
         let display_name = combo
             .node_names
@@ -573,7 +616,7 @@ fn build_meshes_from_combo(
             joints,
             weights,
             indices,
-            index_accessor_source: Some(source.indices.clone()),
+            index_accessor_source: None,
             primitives,
             name: Some(format!("{display_name}/mesh")),
             node_name: Some(display_name),
@@ -1462,7 +1505,7 @@ fn parse_ivo_node_index(name: &str) -> Option<u16> {
 #[cfg(test)]
 mod tests {
     use super::{
-        parse_static_scene, CHUNK_TYPE_IVO_SKIN, STREAM_IVO_INDICES, STREAM_IVO_VERTS_UVS2,
+        CHUNK_TYPE_IVO_SKIN, STREAM_IVO_INDICES, STREAM_IVO_VERTS_UVS2, parse_static_scene,
     };
 
     #[test]

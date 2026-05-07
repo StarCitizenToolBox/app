@@ -1,3 +1,7 @@
+use std::sync::{
+    Arc,
+    atomic::{AtomicBool, Ordering},
+};
 use thiserror::Error;
 
 #[derive(Debug, Clone)]
@@ -110,6 +114,7 @@ pub struct ConvertOptions {
     pub embed_textures: bool,
     pub overwrite: bool,
     pub max_texture_size: Option<u32>,
+    pub cancel_token: Option<ConvertCancelToken>,
 }
 
 impl Default for ConvertOptions {
@@ -118,6 +123,48 @@ impl Default for ConvertOptions {
             embed_textures: true,
             overwrite: false,
             max_texture_size: Some(4096),
+            cancel_token: None,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct ConvertCancelToken {
+    cancelled: Arc<AtomicBool>,
+}
+
+impl ConvertCancelToken {
+    pub fn new() -> Self {
+        Self {
+            cancelled: Arc::new(AtomicBool::new(false)),
+        }
+    }
+
+    pub fn cancel(&self) {
+        self.cancelled.store(true, Ordering::Relaxed);
+    }
+
+    pub fn is_cancelled(&self) -> bool {
+        self.cancelled.load(Ordering::Relaxed)
+    }
+}
+
+impl Default for ConvertCancelToken {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl ConvertOptions {
+    pub fn check_cancelled(&self) -> std::result::Result<(), ModelConvertError> {
+        if self
+            .cancel_token
+            .as_ref()
+            .is_some_and(ConvertCancelToken::is_cancelled)
+        {
+            Err(ModelConvertError::Cancelled)
+        } else {
+            Ok(())
         }
     }
 }
@@ -133,6 +180,17 @@ pub struct ConvertOutput {
 #[derive(Debug, Clone)]
 pub struct ConvertBytesOutput {
     pub glb_bytes: Vec<u8>,
+    pub warnings: Vec<String>,
+    pub source_mode: String,
+    pub fallback_reason: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+pub struct ConvertSceneOutput {
+    pub scene: SceneData,
+    pub textures: Vec<DecodedTexture>,
+    pub materials: Vec<GltfMaterialData>,
+    pub materials_by_id: std::collections::HashMap<i32, usize>,
     pub warnings: Vec<String>,
     pub source_mode: String,
     pub fallback_reason: Option<String>,
@@ -175,6 +233,8 @@ pub struct BatchConvertOutput {
 
 #[derive(Error, Debug)]
 pub enum ModelConvertError {
+    #[error("Conversion cancelled")]
+    Cancelled,
     #[error("Unsupported file format")]
     UnsupportedFormat,
     #[error("Binary model not supported: {0}")]
@@ -194,6 +254,7 @@ pub enum ModelConvertError {
 impl ModelConvertError {
     pub fn code(&self) -> &'static str {
         match self {
+            Self::Cancelled => "ERR_CANCELLED",
             Self::UnsupportedFormat => "ERR_UNSUPPORTED_FORMAT",
             Self::ParserBinaryNotSupported(_) => "ERR_PARSER_BINARY_NOT_SUPPORTED",
             Self::ModelParseFailed(_) => "ERR_MODEL_PARSE_FAILED",

@@ -30,7 +30,11 @@ class PreviewFile {
   final Uint8List? bytes;
   final String? filePath; // P4K 内部路径（用于显示/缓存键）
 
-  const PreviewFile({required this.type, this.bytes, this.filePath});
+  const PreviewFile({
+    required this.type,
+    this.bytes,
+    this.filePath,
+  });
 }
 
 /// 排序类型枚举
@@ -1001,17 +1005,26 @@ class Unp4kCModel extends _$Unp4kCModel {
         for (var element in modelExt) {
           if (lowerFilePath.endsWith(element)) {
             try {
-              final glbResult = await convertModelToGlbBytes(filePath);
-              if (glbResult.$1 && glbResult.$2 != null) {
+              var modelPath = filePath;
+              if (modelPath.startsWith("\\")) {
+                modelPath = modelPath.substring(1);
+              }
+              final supported = await unp4k_model_api.p4KModelIsSupported(
+                filePath: modelPath,
+              );
+              if (supported) {
                 state = state.copyWith(
                   tempOpenFile: PreviewFile(
                     type: "model",
-                    bytes: glbResult.$2!,
-                    filePath: filePath,
+                    filePath: modelPath,
                   ),
                   endMessage: S.current.tools_unp4k_msg_open_file(filePath),
                 );
                 return;
+              } else {
+                state = state.copyWith(
+                  endMessage: S.current.tools_unp4k_convert_unsupported,
+                );
               }
             } catch (e) {
               dPrint("[unp4k] model convert failed: $e");
@@ -1373,7 +1386,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         options: const unp4k_model_api.ModelConvertOptions(
           embedTextures: true,
           overwrite: true,
-          maxTextureSize: 4096,
+          maxTextureSize: 1024,
         ),
       );
 

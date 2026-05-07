@@ -6728,6 +6728,7 @@ dependencies = [
  "url",
  "uuid",
  "walkdir",
+ "wgpu",
  "win32job",
  "windows 0.62.2",
  "wmi",

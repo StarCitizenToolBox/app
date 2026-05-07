@@ -41,14 +41,35 @@ class ModelViewerConfig {
 }
 
 class ModelTempWidget extends HookConsumerWidget {
-  final Uint8List glbBytes;
+  final Uint8List? glbBytes;
+  final String? glbPath;
+  final String? p4kPath;
+  final String? modelPath;
   final ModelViewerConfig config;
 
   const ModelTempWidget(
     this.glbBytes, {
     super.key,
     this.config = const ModelViewerConfig(),
-  });
+  }) : glbPath = null,
+       p4kPath = null,
+       modelPath = null;
+
+  const ModelTempWidget.fromPath(
+    this.glbPath, {
+    super.key,
+    this.config = const ModelViewerConfig(),
+  }) : glbBytes = null,
+       p4kPath = null,
+       modelPath = null;
+
+  const ModelTempWidget.fromP4k({
+    super.key,
+    required this.p4kPath,
+    required this.modelPath,
+    this.config = const ModelViewerConfig(),
+  }) : glbBytes = null,
+       glbPath = null;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,6 +77,7 @@ class ModelTempWidget extends HookConsumerWidget {
     final image = useState<ui.Image?>(null);
     final isInitializing = useState(true);
     final errorMessage = useState<String?>(null);
+    final loadingStage = useState<String?>(null);
     final modelRadius = useState(1.0);
 
     final cameraDistance = useState(config.initialDistance);
@@ -81,6 +103,7 @@ class ModelTempWidget extends HookConsumerWidget {
     // 上次渲染时的相机角度（用于采样防抖）
     final lastRenderedYaw = useRef<double>(0.0);
     final lastRenderedPitch = useRef<double>(0.0);
+    final initGeneration = useRef<int>(0);
 
     // 渲染计数和 FPS 计算
     final renderCount = useRef<int>(0);
@@ -99,7 +122,8 @@ class ModelTempWidget extends HookConsumerWidget {
         .toInt();
 
     Future<void> renderModel() async {
-      if (sessionId.value == null) return;
+      final renderSessionId = sessionId.value;
+      if (renderSessionId == null) return;
 
       // 如果正在渲染，标记有待处理请求，然后返回
       if (isRendering.value) {
@@ -123,7 +147,7 @@ class ModelTempWidget extends HookConsumerWidget {
             targetZ.value;
 
         final result = await model_api.p4KModelSessionRender(
-          sessionId: sessionId.value!,
+          sessionId: renderSessionId,
           cameraX: camX,
           cameraY: camY,
           cameraZ: camZ,
@@ -133,7 +157,7 @@ class ModelTempWidget extends HookConsumerWidget {
         );
 
         // async gap 后检查是否已卸载，避免在 defunct element 上 setState
-        if (!isMounted.value) return;
+        if (!isMounted.value || sessionId.value != renderSessionId) return;
 
         if (result.success && result.rgbaData != null) {
           final completer = Completer<ui.Image>();
@@ -146,7 +170,7 @@ class ModelTempWidget extends HookConsumerWidget {
           );
           final newImage = await completer.future;
 
-          if (!isMounted.value) {
+          if (!isMounted.value || sessionId.value != renderSessionId) {
             newImage.dispose();
             return;
           }
@@ -168,6 +192,10 @@ class ModelTempWidget extends HookConsumerWidget {
         }
       } catch (e) {
         if (!isMounted.value) return;
+        if (loadingStage.value == "upgrading_renderer" &&
+            e.toString().contains("Session not found")) {
+          return;
+        }
         errorMessage.value = e.toString();
       } finally {
         isRendering.value = false;
@@ -200,7 +228,7 @@ class ModelTempWidget extends HookConsumerWidget {
       }
     }
 
-    Future<void> initializeSession() async {
+    Future<void> initializeSession(int generation) async {
       try {
         isInitializing.value = true;
         errorMessage.value = null;
@@ -208,24 +236,91 @@ class ModelTempWidget extends HookConsumerWidget {
         // Initialize the OpenGL context (required on Windows)
         await model_api.p4KModelInitContext();
 
-        if (!isMounted.value) return;
+        if (!isMounted.value || initGeneration.value != generation) return;
 
         // Background color: #3B4750
         final bgColor = colorToFloat32List(Color.fromRGBO(9, 13, 16, 1.0));
 
-        final result = await model_api.p4KModelSessionCreateFromBytes(
-          glbBytes: glbBytes,
-          width: width,
-          height: height,
-          bgColor: bgColor,
-        );
+        if (p4kPath != null && modelPath != null) {
+          loadingStage.value = "queued";
+          final start = await model_api.p4KModelSessionStartFromP4K(
+            p4KPath: p4kPath!,
+            modelPath: modelPath!,
+            width: width,
+            height: height,
+            bgColor: bgColor,
+            options: const model_api.ModelConvertOptions(
+              embedTextures: true,
+              overwrite: true,
+              maxTextureSize: 1024,
+            ),
+          );
+          if (!isMounted.value || initGeneration.value != generation) {
+            final staleSessionId = start.sessionId;
+            if (staleSessionId != null) {
+              await model_api.p4KModelSessionRelease(sessionId: staleSessionId);
+            }
+            return;
+          }
+          if (!start.success || start.sessionId == null) {
+            errorMessage.value =
+                start.errorMessage ?? "Failed to start session";
+            return;
+          }
+          sessionId.value = start.sessionId;
+          var hasRenderedPreview = false;
+          while (isMounted.value) {
+            await Future<void>.delayed(const Duration(milliseconds: 180));
+            final status = await model_api.p4KModelSessionStatus(
+              sessionId: start.sessionId!,
+            );
+            if (!isMounted.value || initGeneration.value != generation) return;
+            loadingStage.value = status.stage;
+            if (status.failed) {
+              errorMessage.value =
+                  status.errorMessage ?? "Failed to create session";
+              return;
+            }
+            if (status.ready) {
+              if (!hasRenderedPreview || status.stage == "ready") {
+                modelRadius.value = status.modelRadius;
+                cameraDistance.value = status.modelRadius * 2.75;
+                lastRenderedYaw.value = cameraYaw.value;
+                lastRenderedPitch.value = cameraPitch.value;
+                await renderModel();
+                hasRenderedPreview = true;
+                isInitializing.value = false;
+              }
+              if (status.stage == "ready" ||
+                  status.stage == "previewing_geometry_texture_failed" ||
+                  status.stage == "previewing_untextured_texture_failed") {
+                return;
+              }
+            }
+          }
+          return;
+        }
 
-        if (!isMounted.value) return;
+        final result = glbPath != null
+            ? await model_api.p4KModelSessionCreate(
+                glbPath: glbPath!,
+                width: width,
+                height: height,
+                bgColor: bgColor,
+              )
+            : await model_api.p4KModelSessionCreateFromBytes(
+                glbBytes: glbBytes!,
+                width: width,
+                height: height,
+                bgColor: bgColor,
+              );
+
+        if (!isMounted.value || initGeneration.value != generation) return;
 
         if (result.success && result.sessionId != null) {
           sessionId.value = result.sessionId;
           modelRadius.value = result.modelRadius;
-          cameraDistance.value = result.modelRadius * 3.0;
+          cameraDistance.value = result.modelRadius * 2.75;
           // 初始化渲染角度记录
           lastRenderedYaw.value = cameraYaw.value;
           lastRenderedPitch.value = cameraPitch.value;
@@ -235,16 +330,19 @@ class ModelTempWidget extends HookConsumerWidget {
               result.errorMessage ?? "Failed to create session";
         }
       } catch (e) {
-        if (!isMounted.value) return;
+        if (!isMounted.value || initGeneration.value != generation) return;
         errorMessage.value = e.toString();
       } finally {
-        isInitializing.value = false;
+        if (isMounted.value && initGeneration.value == generation) {
+          isInitializing.value = false;
+          loadingStage.value = null;
+        }
       }
     }
 
     // 重置视角
     void resetView() {
-      cameraDistance.value = modelRadius.value * 3.0;
+      cameraDistance.value = modelRadius.value * 2.75;
       cameraYaw.value = 0.0;
       cameraPitch.value = 0.0;
       targetX.value = 0.0;
@@ -253,25 +351,38 @@ class ModelTempWidget extends HookConsumerWidget {
     }
 
     useEffect(() {
-      initializeSession();
-      // 清理时释放 session 和 ui.Image，使用局部变量捕获当前 sessionId
-      final capturedSessionId = sessionId.value;
+      initGeneration.value++;
+      final generation = initGeneration.value;
+      isMounted.value = true;
+      isInitializing.value = true;
+      errorMessage.value = null;
+      loadingStage.value = null;
+      final previousSessionId = sessionId.value;
+      sessionId.value = null;
+      if (previousSessionId != null) {
+        model_api.p4KModelSessionRelease(sessionId: previousSessionId);
+      }
+      final oldImage = image.value;
+      image.value = null;
+      oldImage?.dispose();
+      initializeSession(generation);
+      // 清理时释放 session 和 ui.Image
       return () {
-        isMounted.value = false;
+        final isCurrentGeneration = initGeneration.value == generation;
+        if (isCurrentGeneration) {
+          isMounted.value = false;
+        }
         final oldImage = image.value;
         // 不设置 image.value = null，避免在 defunct element 上触发 setState
         // dispose 后 ValueNotifier 会被 GC 回收，无需清空
         oldImage?.dispose();
-        if (capturedSessionId != null) {
-          model_api.p4KModelSessionRelease(sessionId: capturedSessionId);
-        } else {
-          // sessionId 在初始化完成后才赋值，需要从当前状态读取
-          if (sessionId.value != null) {
-            model_api.p4KModelSessionRelease(sessionId: sessionId.value!);
-          }
+        final currentSessionId = isCurrentGeneration ? sessionId.value : null;
+        if (currentSessionId != null) {
+          sessionId.value = null;
+          model_api.p4KModelSessionRelease(sessionId: currentSessionId);
         }
       };
-    }, [glbBytes, width, height]);
+    }, [glbBytes, glbPath, p4kPath, modelPath, width, height]);
 
     useEffect(
       () {
@@ -294,7 +405,18 @@ class ModelTempWidget extends HookConsumerWidget {
     );
 
     if (isInitializing.value) {
-      return Center(child: makeLoading(context));
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            makeLoading(context),
+            if (loadingStage.value != null) ...[
+              const SizedBox(height: 12),
+              Text(loadingStage.value!),
+            ],
+          ],
+        ),
+      );
     }
 
     if (errorMessage.value != null) {
@@ -309,7 +431,7 @@ class ModelTempWidget extends HookConsumerWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              S.current.tools_unp4k_msg_unknown_file_type(errorMessage.value!),
+              errorMessage.value!,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.errorPrimaryColor),
             ),
@@ -413,6 +535,12 @@ class ModelTempWidget extends HookConsumerWidget {
                   modelRadius: modelRadius.value,
                 ),
               ),
+              if (loadingStage.value != null && loadingStage.value != 'ready')
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: _StageBadge(stage: loadingStage.value!),
+                ),
               // 操作提示
               Positioned(
                 bottom: 8,
@@ -501,6 +629,30 @@ class _InfoPanel extends StatelessWidget {
             style: const TextStyle(color: Colors.white, fontSize: 11),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StageBadge extends StatelessWidget {
+  final String stage;
+
+  const _StageBadge({required this.stage});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 32,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        stage,
+        style: const TextStyle(color: Colors.white, fontSize: 11),
       ),
     );
   }

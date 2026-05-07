@@ -16,14 +16,32 @@ pub fn find_mtl_path(model_path: &str, index: &HashMap<String, String>) -> Optio
         .with_extension("mtl")
         .to_string_lossy()
         .replace('/', "\\");
-    if let Some(hit) = find_case_insensitive(index, &base) {
-        return Some(hit);
+    let mut candidates = vec![base.clone()];
+
+    if let Some(stem) = Path::new(&base).file_stem().and_then(|v| v.to_str()) {
+        let mut parent = Path::new(&model_norm).parent();
+        while let Some(dir) = parent {
+            for suffix in ["", "_a", "_b", "_c", "_d", "_e", "_f", "_g"] {
+                candidates.push(
+                    dir.join(format!("{stem}{suffix}.mtl"))
+                        .to_string_lossy()
+                        .replace('/', "\\"),
+                );
+            }
+            parent = dir.parent();
+        }
     }
 
-    // common fallback for material references rooted at objects/
-    if let Some(stripped) = strip_root_prefix(&base, "objects\\") {
-        if let Some(hit) = find_case_insensitive(index, &stripped) {
+    for candidate in candidates {
+        if let Some(hit) = find_case_insensitive(index, &candidate) {
             return Some(hit);
+        }
+
+        // common fallback for material references rooted at objects/
+        if let Some(stripped) = strip_root_prefix(&candidate, "objects\\") {
+            if let Some(hit) = find_case_insensitive(index, &stripped) {
+                return Some(hit);
+            }
         }
     }
 
@@ -113,7 +131,7 @@ pub fn resolve_texture_path(
                     .map(|v| v.to_string())
             })
     };
-    if let Some(name) = file_name {
+    if let Some(_name) = file_name {
         if let Some(hit) = find_by_filename_with_context(index, &texture_norm) {
             return Some(hit);
         }

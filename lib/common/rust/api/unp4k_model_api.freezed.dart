@@ -2193,4 +2193,527 @@ as String?,
 
 }
 
+/// @nodoc
+mixin _$SessionStartResult {
+
+ bool get success; String? get sessionId; String? get errorMessage;
+/// Create a copy of SessionStartResult
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SessionStartResultCopyWith<SessionStartResult> get copyWith => _$SessionStartResultCopyWithImpl<SessionStartResult>(this as SessionStartResult, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionStartResult&&(identical(other.success, success) || other.success == success)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,success,sessionId,errorMessage);
+
+@override
+String toString() {
+  return 'SessionStartResult(success: $success, sessionId: $sessionId, errorMessage: $errorMessage)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SessionStartResultCopyWith<$Res>  {
+  factory $SessionStartResultCopyWith(SessionStartResult value, $Res Function(SessionStartResult) _then) = _$SessionStartResultCopyWithImpl;
+@useResult
+$Res call({
+ bool success, String? sessionId, String? errorMessage
+});
+
+
+
+
+}
+/// @nodoc
+class _$SessionStartResultCopyWithImpl<$Res>
+    implements $SessionStartResultCopyWith<$Res> {
+  _$SessionStartResultCopyWithImpl(this._self, this._then);
+
+  final SessionStartResult _self;
+  final $Res Function(SessionStartResult) _then;
+
+/// Create a copy of SessionStartResult
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? sessionId = freezed,Object? errorMessage = freezed,}) {
+  return _then(_self.copyWith(
+success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
+as bool,sessionId: freezed == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
+as String?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SessionStartResult].
+extension SessionStartResultPatterns on SessionStartResult {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SessionStartResult value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SessionStartResult() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SessionStartResult value)  $default,){
+final _that = this;
+switch (_that) {
+case _SessionStartResult():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SessionStartResult value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SessionStartResult() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  String? sessionId,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SessionStartResult() when $default != null:
+return $default(_that.success,_that.sessionId,_that.errorMessage);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  String? sessionId,  String? errorMessage)  $default,) {final _that = this;
+switch (_that) {
+case _SessionStartResult():
+return $default(_that.success,_that.sessionId,_that.errorMessage);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  String? sessionId,  String? errorMessage)?  $default,) {final _that = this;
+switch (_that) {
+case _SessionStartResult() when $default != null:
+return $default(_that.success,_that.sessionId,_that.errorMessage);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _SessionStartResult implements SessionStartResult {
+  const _SessionStartResult({required this.success, this.sessionId, this.errorMessage});
+  
+
+@override final  bool success;
+@override final  String? sessionId;
+@override final  String? errorMessage;
+
+/// Create a copy of SessionStartResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SessionStartResultCopyWith<_SessionStartResult> get copyWith => __$SessionStartResultCopyWithImpl<_SessionStartResult>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionStartResult&&(identical(other.success, success) || other.success == success)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,success,sessionId,errorMessage);
+
+@override
+String toString() {
+  return 'SessionStartResult(success: $success, sessionId: $sessionId, errorMessage: $errorMessage)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SessionStartResultCopyWith<$Res> implements $SessionStartResultCopyWith<$Res> {
+  factory _$SessionStartResultCopyWith(_SessionStartResult value, $Res Function(_SessionStartResult) _then) = __$SessionStartResultCopyWithImpl;
+@override @useResult
+$Res call({
+ bool success, String? sessionId, String? errorMessage
+});
+
+
+
+
+}
+/// @nodoc
+class __$SessionStartResultCopyWithImpl<$Res>
+    implements _$SessionStartResultCopyWith<$Res> {
+  __$SessionStartResultCopyWithImpl(this._self, this._then);
+
+  final _SessionStartResult _self;
+  final $Res Function(_SessionStartResult) _then;
+
+/// Create a copy of SessionStartResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? sessionId = freezed,Object? errorMessage = freezed,}) {
+  return _then(_SessionStartResult(
+success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
+as bool,sessionId: freezed == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
+as String?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$SessionStatusResult {
+
+ bool get exists; bool get ready; bool get failed; String get stage; double get modelRadius; String? get errorMessage;
+/// Create a copy of SessionStatusResult
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SessionStatusResultCopyWith<SessionStatusResult> get copyWith => _$SessionStatusResultCopyWithImpl<SessionStatusResult>(this as SessionStatusResult, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionStatusResult&&(identical(other.exists, exists) || other.exists == exists)&&(identical(other.ready, ready) || other.ready == ready)&&(identical(other.failed, failed) || other.failed == failed)&&(identical(other.stage, stage) || other.stage == stage)&&(identical(other.modelRadius, modelRadius) || other.modelRadius == modelRadius)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,exists,ready,failed,stage,modelRadius,errorMessage);
+
+@override
+String toString() {
+  return 'SessionStatusResult(exists: $exists, ready: $ready, failed: $failed, stage: $stage, modelRadius: $modelRadius, errorMessage: $errorMessage)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SessionStatusResultCopyWith<$Res>  {
+  factory $SessionStatusResultCopyWith(SessionStatusResult value, $Res Function(SessionStatusResult) _then) = _$SessionStatusResultCopyWithImpl;
+@useResult
+$Res call({
+ bool exists, bool ready, bool failed, String stage, double modelRadius, String? errorMessage
+});
+
+
+
+
+}
+/// @nodoc
+class _$SessionStatusResultCopyWithImpl<$Res>
+    implements $SessionStatusResultCopyWith<$Res> {
+  _$SessionStatusResultCopyWithImpl(this._self, this._then);
+
+  final SessionStatusResult _self;
+  final $Res Function(SessionStatusResult) _then;
+
+/// Create a copy of SessionStatusResult
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? exists = null,Object? ready = null,Object? failed = null,Object? stage = null,Object? modelRadius = null,Object? errorMessage = freezed,}) {
+  return _then(_self.copyWith(
+exists: null == exists ? _self.exists : exists // ignore: cast_nullable_to_non_nullable
+as bool,ready: null == ready ? _self.ready : ready // ignore: cast_nullable_to_non_nullable
+as bool,failed: null == failed ? _self.failed : failed // ignore: cast_nullable_to_non_nullable
+as bool,stage: null == stage ? _self.stage : stage // ignore: cast_nullable_to_non_nullable
+as String,modelRadius: null == modelRadius ? _self.modelRadius : modelRadius // ignore: cast_nullable_to_non_nullable
+as double,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SessionStatusResult].
+extension SessionStatusResultPatterns on SessionStatusResult {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SessionStatusResult value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SessionStatusResult() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SessionStatusResult value)  $default,){
+final _that = this;
+switch (_that) {
+case _SessionStatusResult():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SessionStatusResult value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SessionStatusResult() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool exists,  bool ready,  bool failed,  String stage,  double modelRadius,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SessionStatusResult() when $default != null:
+return $default(_that.exists,_that.ready,_that.failed,_that.stage,_that.modelRadius,_that.errorMessage);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool exists,  bool ready,  bool failed,  String stage,  double modelRadius,  String? errorMessage)  $default,) {final _that = this;
+switch (_that) {
+case _SessionStatusResult():
+return $default(_that.exists,_that.ready,_that.failed,_that.stage,_that.modelRadius,_that.errorMessage);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool exists,  bool ready,  bool failed,  String stage,  double modelRadius,  String? errorMessage)?  $default,) {final _that = this;
+switch (_that) {
+case _SessionStatusResult() when $default != null:
+return $default(_that.exists,_that.ready,_that.failed,_that.stage,_that.modelRadius,_that.errorMessage);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _SessionStatusResult implements SessionStatusResult {
+  const _SessionStatusResult({required this.exists, required this.ready, required this.failed, required this.stage, required this.modelRadius, this.errorMessage});
+  
+
+@override final  bool exists;
+@override final  bool ready;
+@override final  bool failed;
+@override final  String stage;
+@override final  double modelRadius;
+@override final  String? errorMessage;
+
+/// Create a copy of SessionStatusResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SessionStatusResultCopyWith<_SessionStatusResult> get copyWith => __$SessionStatusResultCopyWithImpl<_SessionStatusResult>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionStatusResult&&(identical(other.exists, exists) || other.exists == exists)&&(identical(other.ready, ready) || other.ready == ready)&&(identical(other.failed, failed) || other.failed == failed)&&(identical(other.stage, stage) || other.stage == stage)&&(identical(other.modelRadius, modelRadius) || other.modelRadius == modelRadius)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,exists,ready,failed,stage,modelRadius,errorMessage);
+
+@override
+String toString() {
+  return 'SessionStatusResult(exists: $exists, ready: $ready, failed: $failed, stage: $stage, modelRadius: $modelRadius, errorMessage: $errorMessage)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SessionStatusResultCopyWith<$Res> implements $SessionStatusResultCopyWith<$Res> {
+  factory _$SessionStatusResultCopyWith(_SessionStatusResult value, $Res Function(_SessionStatusResult) _then) = __$SessionStatusResultCopyWithImpl;
+@override @useResult
+$Res call({
+ bool exists, bool ready, bool failed, String stage, double modelRadius, String? errorMessage
+});
+
+
+
+
+}
+/// @nodoc
+class __$SessionStatusResultCopyWithImpl<$Res>
+    implements _$SessionStatusResultCopyWith<$Res> {
+  __$SessionStatusResultCopyWithImpl(this._self, this._then);
+
+  final _SessionStatusResult _self;
+  final $Res Function(_SessionStatusResult) _then;
+
+/// Create a copy of SessionStatusResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? exists = null,Object? ready = null,Object? failed = null,Object? stage = null,Object? modelRadius = null,Object? errorMessage = freezed,}) {
+  return _then(_SessionStatusResult(
+exists: null == exists ? _self.exists : exists // ignore: cast_nullable_to_non_nullable
+as bool,ready: null == ready ? _self.ready : ready // ignore: cast_nullable_to_non_nullable
+as bool,failed: null == failed ? _self.failed : failed // ignore: cast_nullable_to_non_nullable
+as bool,stage: null == stage ? _self.stage : stage // ignore: cast_nullable_to_non_nullable
+as String,modelRadius: null == modelRadius ? _self.modelRadius : modelRadius // ignore: cast_nullable_to_non_nullable
+as double,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
 // dart format on

@@ -86,6 +86,7 @@ image = { version = "0.25.10", default-features = false, features = ["png", "jpe
 image_dds = "0.7"
 bytemuck = { version = "1.22", features = ["derive"] }
 pollster = "0.4"
+wgpu = "26.0.1"
 renderling = { git = "https://github.com/schell/renderling", rev = "a7b44f796a38cb2c734d69354fa35f1288aa02a1" }
 futures-lite = "2.6"
 regex = "1.12.2"

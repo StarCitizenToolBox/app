@@ -262,7 +262,12 @@ class UnP4kcUI extends HookConsumerWidget {
                                           ),
                                         )
                                       else if (state.tempOpenFile?.type == "model")
-                                        Expanded(child: ModelTempWidget(state.tempOpenFile!.bytes!))
+                                        Expanded(
+                                          child: ModelTempWidget.fromP4k(
+                                            p4kPath: "${model.getGamePath()}\\Data.p4k",
+                                            modelPath: state.tempOpenFile!.filePath ?? "",
+                                          ),
+                                        )
                                       else
                                         Expanded(
                                           child: Center(

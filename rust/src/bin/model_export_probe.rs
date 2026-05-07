@@ -1,9 +1,9 @@
 use std::env;
 use std::path::PathBuf;
 
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use image::{ImageBuffer, Rgba};
-use rust::model_convert::{convert_from_p4k_to_bytes, ConvertOptions};
+use rust::model_convert::{ConvertOptions, convert_from_p4k_to_bytes};
 use rust::model_render;
 
 #[tokio::main(flavor = "multi_thread")]
@@ -34,6 +34,7 @@ async fn main() -> Result<()> {
             embed_textures: true,
             overwrite: true,
             max_texture_size: Some(2048),
+            cancel_token: None,
         },
     )
     .await?;

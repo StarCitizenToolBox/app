@@ -8,7 +8,9 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_model_api.freezed.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`
+// These functions are ignored because they are not marked as `pub`: `session_bg_color`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `PREVIEW_SESSION_STATUS`, `PreviewSessionStatus`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `deref`, `from`, `initialize`
 
 /// Initialize the OpenGL context for model rendering.
 /// Should be called once at application startup before any model rendering.
@@ -92,6 +94,44 @@ Future<SessionCreateResult> p4KModelSessionCreateFromBytes({
   width: width,
   height: height,
   bgColor: bgColor,
+);
+
+Future<SessionCreateResult> p4KModelSessionCreateFromP4K({
+  required String p4KPath,
+  required String modelPath,
+  required int width,
+  required int height,
+  Float32List? bgColor,
+  ModelConvertOptions? options,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionCreateFromP4K(
+  p4KPath: p4KPath,
+  modelPath: modelPath,
+  width: width,
+  height: height,
+  bgColor: bgColor,
+  options: options,
+);
+
+Future<SessionStartResult> p4KModelSessionStartFromP4K({
+  required String p4KPath,
+  required String modelPath,
+  required int width,
+  required int height,
+  Float32List? bgColor,
+  ModelConvertOptions? options,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionStartFromP4K(
+  p4KPath: p4KPath,
+  modelPath: modelPath,
+  width: width,
+  height: height,
+  bgColor: bgColor,
+  options: options,
+);
+
+Future<SessionStatusResult> p4KModelSessionStatus({
+  required String sessionId,
+}) => RustLib.instance.api.crateApiUnp4KModelApiP4KModelSessionStatus(
+  sessionId: sessionId,
 );
 
 Future<ModelRenderResult> p4KModelSessionRender({
@@ -216,4 +256,25 @@ sealed class SessionCreateResult with _$SessionCreateResult {
     required double modelRadius,
     String? errorMessage,
   }) = _SessionCreateResult;
+}
+
+@freezed
+sealed class SessionStartResult with _$SessionStartResult {
+  const factory SessionStartResult({
+    required bool success,
+    String? sessionId,
+    String? errorMessage,
+  }) = _SessionStartResult;
+}
+
+@freezed
+sealed class SessionStatusResult with _$SessionStatusResult {
+  const factory SessionStatusResult({
+    required bool exists,
+    required bool ready,
+    required bool failed,
+    required String stage,
+    required double modelRadius,
+    String? errorMessage,
+  }) = _SessionStatusResult;
 }
