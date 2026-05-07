@@ -1,5 +1,6 @@
 pub mod cgf_parser;
 pub mod cryengine;
+pub mod entity_assembly_parser;
 pub mod glb_merge;
 pub mod gltf_builder;
 pub mod ivo_parser;
@@ -1162,6 +1163,6 @@ mod tests {
     fn file_sha256(path: &Path) -> String {
         let bytes = fs::read(path).expect("read glb");
         let digest = Sha256::digest(&bytes);
-        format!("{digest:x}")
+        digest.iter().map(|byte| format!("{byte:02x}")).collect()
     }
 }

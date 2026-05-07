@@ -105,7 +105,11 @@ pub fn parse_static_scene(data: &[u8]) -> Result<SceneData> {
         return Err(anyhow!("no exportable mesh found"));
     }
 
-    Ok(SceneData { meshes, warnings })
+    Ok(SceneData {
+        nodes: Vec::new(),
+        meshes,
+        warnings,
+    })
 }
 #[cfg(test)]
 mod tests {

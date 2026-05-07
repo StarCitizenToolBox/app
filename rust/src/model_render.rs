@@ -1,16 +1,10 @@
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use std::collections::HashMap;
 use std::sync::Arc;
 
 use parking_lot::Mutex;
-use renderling::glam::{Mat4, Vec3, Vec4};
-use renderling::{
-    camera::Camera,
-    context::Context,
-    gltf::GltfDocument,
-    light::Lux,
-    stage::Stage,
-};
+use renderling::glam::{EulerRot, Mat4, Quat, Vec2, Vec3, Vec4};
+use renderling::{camera::Camera, context::Context, gltf::GltfDocument, light::Lux, stage::Stage};
 use uuid::Uuid;
 
 pub struct RenderSession {
@@ -19,7 +13,20 @@ pub struct RenderSession {
     camera: Camera,
     pub width: u32,
     pub height: u32,
+    pub model_center: Vec3,
     pub model_radius: f32,
+}
+
+#[derive(Clone, Copy)]
+struct SoftwareVertex {
+    position: Vec3,
+    normal: Vec3,
+}
+
+#[derive(Clone, Copy)]
+struct SoftwareTriangle {
+    vertices: [SoftwareVertex; 3],
+    base_color: Vec3,
 }
 
 // SAFETY: We ensure the context is only used from a single thread at a time via the Mutex
@@ -29,6 +36,7 @@ lazy_static::lazy_static! {
     // 每个 session 有独立的锁，减少锁竞争
     pub static ref SESSIONS: Arc<Mutex<HashMap<String, Arc<Mutex<RenderSession>>>>> = Arc::new(Mutex::new(HashMap::new()));
     static ref GLOBAL_CONTEXT: Arc<Mutex<Option<Context>>> = Arc::new(Mutex::new(None));
+    static ref RENDER_PANIC_HOOK_LOCK: Mutex<()> = Mutex::new(());
 }
 
 /// Initialize the global rendering context.
@@ -61,10 +69,17 @@ fn compute_bounding_box(document: &GltfDocument) -> (Vec3, Vec3) {
         if let Some(mesh_index) = node.mesh {
             if let Some(mesh) = document.meshes.get(mesh_index) {
                 for primitive in &mesh.primitives {
-                    let bbmin = transform.transform_point3(primitive.bounding_box.0);
-                    let bbmax = transform.transform_point3(primitive.bounding_box.1);
-                    min = min.min(bbmin);
-                    max = max.max(bbmax);
+                    let primitive_min = primitive.bounding_box.0;
+                    let primitive_max = primitive.bounding_box.1;
+                    for x in [primitive_min.x, primitive_max.x] {
+                        for y in [primitive_min.y, primitive_max.y] {
+                            for z in [primitive_min.z, primitive_max.z] {
+                                let corner = transform.transform_point3(Vec3::new(x, y, z));
+                                min = min.min(corner);
+                                max = max.max(corner);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -100,11 +115,15 @@ impl RenderSession {
 
         // Compute bounding box to get model radius
         let (min, max) = compute_bounding_box(&document);
+        let model_center = (min + max) * 0.5;
         let model_radius = (max - min).length() / 2.0;
 
         // Create camera with default perspective
-        let (projection, view) = renderling::camera::default_perspective(width as f32, height as f32);
-        let camera = stage.new_camera().with_projection_and_view(projection, view);
+        let (projection, view) =
+            renderling::camera::default_perspective(width as f32, height as f32);
+        let camera = stage
+            .new_camera()
+            .with_projection_and_view(projection, view);
 
         // Add balanced lighting for model preview
         // Main key light
@@ -127,17 +146,14 @@ impl RenderSession {
             camera,
             width,
             height,
+            model_center,
             model_radius: model_radius.max(1.0),
         })
     }
 
     fn render(&self, camera_pos: [f32; 3], camera_target: [f32; 3]) -> Result<Vec<u8>> {
         // Update camera view matrix
-        let view = Mat4::look_at_rh(
-            Vec3::from(camera_pos),
-            Vec3::from(camera_target),
-            Vec3::Y,
-        );
+        let view = Mat4::look_at_rh(Vec3::from(camera_pos), Vec3::from(camera_target), Vec3::Y);
         self.camera.set_view(view);
 
         // Get the next frame
@@ -160,7 +176,12 @@ impl RenderSession {
     }
 }
 
-pub fn create_session(glb_data: &[u8], width: u32, height: u32, bg_color: Option<[f32; 4]>) -> Result<(String, f32)> {
+pub fn create_session(
+    glb_data: &[u8],
+    width: u32,
+    height: u32,
+    bg_color: Option<[f32; 4]>,
+) -> Result<(String, f32)> {
     let session = RenderSession::new(width, height, glb_data, bg_color)?;
     let model_radius = session.model_radius;
     let session_id = Uuid::new_v4().to_string();
@@ -206,13 +227,649 @@ pub fn render_glb_to_rgba(
     height: u32,
     rotation: (f32, f32, f32),
 ) -> Result<Vec<u8>> {
+    let _hook_guard = RENDER_PANIC_HOOK_LOCK.lock();
+    let previous_hook = std::panic::take_hook();
+    std::panic::set_hook(Box::new(|_| {}));
+    let render_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+        render_glb_to_rgba_inner(glb_data, width, height, rotation)
+    }));
+    std::panic::set_hook(previous_hook);
+    drop(_hook_guard);
+
+    match render_result {
+        Ok(Ok(rgba)) => Ok(rgba),
+        Ok(Err(err)) => software_render_glb_to_rgba(glb_data, width, height, rotation)
+            .map_err(|fallback_err| anyhow!("{err}; software fallback failed: {fallback_err}")),
+        Err(panic) => {
+            software_render_glb_to_rgba(glb_data, width, height, rotation).map_err(|fallback_err| {
+                anyhow!(
+                    "renderer panicked: {}; software fallback failed: {fallback_err}",
+                    panic_message(panic)
+                )
+            })
+        }
+    }
+}
+
+fn render_glb_to_rgba_inner(
+    glb_data: &[u8],
+    width: u32,
+    height: u32,
+    rotation: (f32, f32, f32),
+) -> Result<Vec<u8>> {
     let session = RenderSession::new(width, height, glb_data, None)?;
     let (pitch, yaw, _roll) = rotation;
     let distance = session.model_radius * 3.0;
+    let target = session.model_center;
     let camera_pos = [
-        distance * yaw.cos() * pitch.cos(),
-        distance * pitch.sin(),
-        distance * yaw.sin() * pitch.cos(),
+        target.x + distance * yaw.cos() * pitch.cos(),
+        target.y + distance * pitch.sin(),
+        target.z + distance * yaw.sin() * pitch.cos(),
     ];
-    session.render(camera_pos, [0.0, 0.0, 0.0])
+    session.render(camera_pos, target.to_array())
+}
+
+fn panic_message(panic: Box<dyn std::any::Any + Send>) -> String {
+    if let Some(message) = panic.downcast_ref::<&str>() {
+        (*message).to_string()
+    } else if let Some(message) = panic.downcast_ref::<String>() {
+        message.clone()
+    } else {
+        "unknown panic".to_string()
+    }
+}
+
+fn software_render_glb_to_rgba(
+    glb_data: &[u8],
+    width: u32,
+    height: u32,
+    rotation: (f32, f32, f32),
+) -> Result<Vec<u8>> {
+    let (json, bin) = parse_glb_chunks(glb_data)?;
+    let nodes = json
+        .get("nodes")
+        .and_then(|v| v.as_array())
+        .ok_or_else(|| anyhow!("software render: missing nodes"))?;
+    let scenes = json
+        .get("scenes")
+        .and_then(|v| v.as_array())
+        .ok_or_else(|| anyhow!("software render: missing scenes"))?;
+    let scene_index = json.get("scene").and_then(|v| v.as_u64()).unwrap_or(0) as usize;
+    let scene_nodes = scenes
+        .get(scene_index)
+        .and_then(|scene| scene.get("nodes"))
+        .and_then(|v| v.as_array())
+        .ok_or_else(|| anyhow!("software render: missing scene nodes"))?;
+
+    let mut triangles = Vec::<SoftwareTriangle>::new();
+    for root in scene_nodes.iter().filter_map(|v| v.as_u64()) {
+        collect_node_triangles(
+            &json,
+            &bin,
+            nodes,
+            root as usize,
+            Mat4::IDENTITY,
+            &mut triangles,
+        )?;
+    }
+    if triangles.is_empty() {
+        return Err(anyhow!("software render: no triangles"));
+    }
+
+    let view_rot = Mat4::from_quat(Quat::from_euler(
+        EulerRot::XYZ,
+        rotation.0,
+        rotation.1,
+        rotation.2,
+    ));
+    let mut min = Vec3::splat(f32::INFINITY);
+    let mut max = Vec3::splat(f32::NEG_INFINITY);
+    for tri in &triangles {
+        for vertex in &tri.vertices {
+            let p = view_rot.transform_point3(vertex.position);
+            min = min.min(p);
+            max = max.max(p);
+        }
+    }
+    if min.x.is_infinite() {
+        return Err(anyhow!("software render: invalid bounds"));
+    }
+    let center = (min + max) * 0.5;
+    let extent = (max - min).max(Vec3::splat(1.0));
+    let scale = 0.84 * (width.min(height) as f32) / extent.x.max(extent.y).max(1.0);
+
+    let bg = [59u8, 71u8, 80u8, 255u8];
+    let mut rgba = vec![0u8; width as usize * height as usize * 4];
+    for pixel in rgba.chunks_exact_mut(4) {
+        pixel.copy_from_slice(&bg);
+    }
+    let mut depth = vec![f32::INFINITY; width as usize * height as usize];
+
+    for tri in triangles {
+        let projected = SoftwareTriangle {
+            vertices: tri.vertices.map(|vertex| {
+                let p = view_rot.transform_point3(vertex.position) - center;
+                SoftwareVertex {
+                    position: Vec3::new(
+                        width as f32 * 0.5 + p.x * scale,
+                        height as f32 * 0.5 - p.y * scale,
+                        p.z,
+                    ),
+                    normal: view_rot
+                        .transform_vector3(vertex.normal)
+                        .normalize_or_zero(),
+                }
+            }),
+            base_color: tri.base_color,
+        };
+        rasterize_triangle(&projected, width, height, &mut rgba, &mut depth);
+    }
+
+    Ok(rgba)
+}
+
+fn parse_glb_chunks(glb_data: &[u8]) -> Result<(serde_json::Value, Vec<u8>)> {
+    if glb_data.len() < 20 || glb_data.get(0..4) != Some(b"glTF") {
+        return Err(anyhow!("software render: invalid GLB header"));
+    }
+    let total_len = read_u32_at(glb_data, 8)? as usize;
+    if total_len != glb_data.len() {
+        return Err(anyhow!("software render: invalid GLB length"));
+    }
+
+    let mut cursor = 12usize;
+    let mut json = None;
+    let mut bin = Vec::new();
+    while cursor + 8 <= glb_data.len() {
+        let chunk_len = read_u32_at(glb_data, cursor)? as usize;
+        let chunk_type = read_u32_at(glb_data, cursor + 4)?;
+        cursor += 8;
+        let end = cursor
+            .checked_add(chunk_len)
+            .ok_or_else(|| anyhow!("software render: chunk overflow"))?;
+        let chunk = glb_data
+            .get(cursor..end)
+            .ok_or_else(|| anyhow!("software render: truncated chunk"))?;
+        cursor = end;
+        match chunk_type {
+            0x4E4F534A => {
+                let text = String::from_utf8_lossy(chunk)
+                    .trim_end_matches('\0')
+                    .trim_end()
+                    .to_string();
+                json = Some(serde_json::from_str(&text)?);
+            }
+            0x004E4942 => bin = chunk.to_vec(),
+            _ => {}
+        }
+    }
+    Ok((
+        json.ok_or_else(|| anyhow!("software render: missing JSON"))?,
+        bin,
+    ))
+}
+
+fn collect_node_triangles(
+    json: &serde_json::Value,
+    bin: &[u8],
+    nodes: &[serde_json::Value],
+    node_index: usize,
+    parent_transform: Mat4,
+    out: &mut Vec<SoftwareTriangle>,
+) -> Result<()> {
+    let Some(node) = nodes.get(node_index) else {
+        return Ok(());
+    };
+    let transform = parent_transform * node_transform(node);
+    if let Some(mesh_index) = node.get("mesh").and_then(|v| v.as_u64()) {
+        collect_mesh_triangles(json, bin, mesh_index as usize, transform, out)?;
+    }
+    if let Some(children) = node.get("children").and_then(|v| v.as_array()) {
+        for child in children.iter().filter_map(|v| v.as_u64()) {
+            collect_node_triangles(json, bin, nodes, child as usize, transform, out)?;
+        }
+    }
+    Ok(())
+}
+
+fn node_transform(node: &serde_json::Value) -> Mat4 {
+    if let Some(matrix) = node.get("matrix").and_then(|v| v.as_array()) {
+        let mut values = [0.0f32; 16];
+        for (i, value) in matrix.iter().take(16).enumerate() {
+            values[i] = value.as_f64().unwrap_or(0.0) as f32;
+        }
+        return Mat4::from_cols_array(&values);
+    }
+    let translation = read_json_vec3(node.get("translation")).unwrap_or(Vec3::ZERO);
+    let scale = read_json_vec3(node.get("scale")).unwrap_or(Vec3::ONE);
+    let rotation = node
+        .get("rotation")
+        .and_then(|v| v.as_array())
+        .map(|values| {
+            Quat::from_xyzw(
+                values.first().and_then(|v| v.as_f64()).unwrap_or(0.0) as f32,
+                values.get(1).and_then(|v| v.as_f64()).unwrap_or(0.0) as f32,
+                values.get(2).and_then(|v| v.as_f64()).unwrap_or(0.0) as f32,
+                values.get(3).and_then(|v| v.as_f64()).unwrap_or(1.0) as f32,
+            )
+        })
+        .unwrap_or(Quat::IDENTITY);
+    Mat4::from_scale_rotation_translation(scale, rotation, translation)
+}
+
+fn collect_mesh_triangles(
+    json: &serde_json::Value,
+    bin: &[u8],
+    mesh_index: usize,
+    transform: Mat4,
+    out: &mut Vec<SoftwareTriangle>,
+) -> Result<()> {
+    let primitives = json
+        .get("meshes")
+        .and_then(|v| v.as_array())
+        .and_then(|meshes| meshes.get(mesh_index))
+        .and_then(|mesh| mesh.get("primitives"))
+        .and_then(|v| v.as_array())
+        .ok_or_else(|| anyhow!("software render: invalid mesh {mesh_index}"))?;
+    for primitive in primitives {
+        let Some(pos_accessor) = primitive
+            .get("attributes")
+            .and_then(|attrs| attrs.get("POSITION"))
+            .and_then(|v| v.as_u64())
+        else {
+            continue;
+        };
+        let positions = read_vec3_accessor(json, bin, pos_accessor as usize)?;
+        let normals = primitive
+            .get("attributes")
+            .and_then(|attrs| attrs.get("NORMAL"))
+            .and_then(|v| v.as_u64())
+            .and_then(|accessor| read_vec3_accessor(json, bin, accessor as usize).ok());
+        let Some(base_color) = primitive
+            .get("material")
+            .and_then(|v| v.as_u64())
+            .map(|material_index| material_base_color(json, material_index as usize))
+            .unwrap_or(Some(Vec3::new(0.62, 0.68, 0.72)))
+        else {
+            continue;
+        };
+        let indices = primitive
+            .get("indices")
+            .and_then(|v| v.as_u64())
+            .and_then(|accessor| read_index_accessor(json, bin, accessor as usize).ok());
+
+        if let Some(indices) = indices {
+            for face in indices.chunks_exact(3) {
+                let Some(a) = positions.get(face[0] as usize) else {
+                    continue;
+                };
+                let Some(b) = positions.get(face[1] as usize) else {
+                    continue;
+                };
+                let Some(c) = positions.get(face[2] as usize) else {
+                    continue;
+                };
+                let face_normal = (*b - *a).cross(*c - *a).normalize_or_zero();
+                let na = normals
+                    .as_ref()
+                    .and_then(|values| values.get(face[0] as usize))
+                    .copied()
+                    .unwrap_or(face_normal);
+                let nb = normals
+                    .as_ref()
+                    .and_then(|values| values.get(face[1] as usize))
+                    .copied()
+                    .unwrap_or(face_normal);
+                let nc = normals
+                    .as_ref()
+                    .and_then(|values| values.get(face[2] as usize))
+                    .copied()
+                    .unwrap_or(face_normal);
+                out.push(SoftwareTriangle {
+                    vertices: [
+                        SoftwareVertex {
+                            position: transform.transform_point3(*a),
+                            normal: transform.transform_vector3(na).normalize_or_zero(),
+                        },
+                        SoftwareVertex {
+                            position: transform.transform_point3(*b),
+                            normal: transform.transform_vector3(nb).normalize_or_zero(),
+                        },
+                        SoftwareVertex {
+                            position: transform.transform_point3(*c),
+                            normal: transform.transform_vector3(nc).normalize_or_zero(),
+                        },
+                    ],
+                    base_color,
+                });
+            }
+        } else {
+            for face in positions.chunks_exact(3) {
+                let face_normal = (face[1] - face[0])
+                    .cross(face[2] - face[0])
+                    .normalize_or_zero();
+                out.push(SoftwareTriangle {
+                    vertices: [
+                        SoftwareVertex {
+                            position: transform.transform_point3(face[0]),
+                            normal: transform.transform_vector3(face_normal).normalize_or_zero(),
+                        },
+                        SoftwareVertex {
+                            position: transform.transform_point3(face[1]),
+                            normal: transform.transform_vector3(face_normal).normalize_or_zero(),
+                        },
+                        SoftwareVertex {
+                            position: transform.transform_point3(face[2]),
+                            normal: transform.transform_vector3(face_normal).normalize_or_zero(),
+                        },
+                    ],
+                    base_color,
+                });
+            }
+        }
+    }
+    Ok(())
+}
+
+fn material_base_color(json: &serde_json::Value, material_index: usize) -> Option<Vec3> {
+    let Some(material) = json
+        .get("materials")
+        .and_then(|v| v.as_array())
+        .and_then(|materials| materials.get(material_index))
+    else {
+        return Some(Vec3::new(0.62, 0.68, 0.72));
+    };
+    if is_preview_hidden_material(material) {
+        return None;
+    }
+    let alpha_mode = material
+        .get("alphaMode")
+        .and_then(|v| v.as_str())
+        .unwrap_or("OPAQUE");
+    let alpha_cutoff = material
+        .get("alphaCutoff")
+        .and_then(|v| v.as_f64())
+        .unwrap_or(0.5) as f32;
+    if let Some(values) = material
+        .get("pbrMetallicRoughness")
+        .and_then(|pbr| pbr.get("baseColorFactor"))
+        .and_then(|v| v.as_array())
+    {
+        let alpha = read_factor_alpha(values, 1.0);
+        if alpha <= 0.0
+            || (alpha_mode == "MASK" && alpha <= alpha_cutoff)
+            || (alpha_mode == "BLEND" && alpha < 0.75)
+        {
+            return None;
+        }
+        return Some(read_factor_rgb(values, Vec3::new(0.62, 0.68, 0.72)));
+    }
+    if let Some(values) = material
+        .get("extensions")
+        .and_then(|ext| ext.get("KHR_materials_pbrSpecularGlossiness"))
+        .and_then(|pbr| pbr.get("diffuseFactor"))
+        .and_then(|v| v.as_array())
+    {
+        let alpha = read_factor_alpha(values, 1.0);
+        if alpha <= 0.0
+            || (alpha_mode == "MASK" && alpha <= alpha_cutoff)
+            || (alpha_mode == "BLEND" && alpha < 0.75)
+        {
+            return None;
+        }
+        return Some(read_factor_rgb(values, Vec3::new(0.62, 0.68, 0.72)));
+    }
+    if let Some(values) = material.get("emissiveFactor").and_then(|v| v.as_array()) {
+        let emissive = read_factor_rgb(values, Vec3::ZERO);
+        if emissive.length_squared() > 0.0 {
+            return Some(emissive);
+        }
+    }
+    Some(Vec3::new(0.62, 0.68, 0.72))
+}
+
+fn is_preview_hidden_material(material: &serde_json::Value) -> bool {
+    let name = material
+        .get("name")
+        .and_then(|v| v.as_str())
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    name.contains("internal")
+        || name.ends_with("_int")
+        || name.contains("_int_")
+        || name.contains("pom_int")
+        || name.contains("pipes_int")
+        || name.contains("holo_console")
+}
+
+fn read_factor_rgb(values: &[serde_json::Value], fallback: Vec3) -> Vec3 {
+    if values.len() < 3 {
+        return fallback;
+    }
+    Vec3::new(
+        values[0].as_f64().unwrap_or(fallback.x as f64) as f32,
+        values[1].as_f64().unwrap_or(fallback.y as f64) as f32,
+        values[2].as_f64().unwrap_or(fallback.z as f64) as f32,
+    )
+    .clamp(Vec3::splat(0.04), Vec3::ONE)
+}
+
+fn read_factor_alpha(values: &[serde_json::Value], fallback: f32) -> f32 {
+    values
+        .get(3)
+        .and_then(|v| v.as_f64())
+        .unwrap_or(fallback as f64)
+        .clamp(0.0, 1.0) as f32
+}
+
+fn read_vec3_accessor(
+    json: &serde_json::Value,
+    bin: &[u8],
+    accessor_index: usize,
+) -> Result<Vec<Vec3>> {
+    let (offset, stride, count, component_type, accessor_type) =
+        accessor_layout(json, accessor_index, 12)?;
+    if component_type != 5126 || accessor_type != "VEC3" {
+        return Err(anyhow!("software render: unsupported POSITION accessor"));
+    }
+    let mut out = Vec::with_capacity(count);
+    for i in 0..count {
+        let base = offset + i * stride;
+        out.push(Vec3::new(
+            read_f32_at(bin, base)?,
+            read_f32_at(bin, base + 4)?,
+            read_f32_at(bin, base + 8)?,
+        ));
+    }
+    Ok(out)
+}
+
+fn read_index_accessor(
+    json: &serde_json::Value,
+    bin: &[u8],
+    accessor_index: usize,
+) -> Result<Vec<u32>> {
+    let (offset, stride, count, component_type, accessor_type) =
+        accessor_layout(json, accessor_index, 4)?;
+    if accessor_type != "SCALAR" {
+        return Err(anyhow!("software render: unsupported index accessor type"));
+    }
+    let mut out = Vec::with_capacity(count);
+    for i in 0..count {
+        let base = offset + i * stride;
+        let value = match component_type {
+            5121 => *bin
+                .get(base)
+                .ok_or_else(|| anyhow!("software render: index out of bounds"))?
+                as u32,
+            5123 => read_u16_at(bin, base)? as u32,
+            5125 => read_u32_at(bin, base)?,
+            _ => return Err(anyhow!("software render: unsupported index component type")),
+        };
+        out.push(value);
+    }
+    Ok(out)
+}
+
+fn accessor_layout(
+    json: &serde_json::Value,
+    accessor_index: usize,
+    default_stride: usize,
+) -> Result<(usize, usize, usize, u64, String)> {
+    let accessor = json
+        .get("accessors")
+        .and_then(|v| v.as_array())
+        .and_then(|accessors| accessors.get(accessor_index))
+        .ok_or_else(|| anyhow!("software render: invalid accessor {accessor_index}"))?;
+    let buffer_view_index = accessor
+        .get("bufferView")
+        .and_then(|v| v.as_u64())
+        .ok_or_else(|| anyhow!("software render: accessor without bufferView"))?
+        as usize;
+    let buffer_view = json
+        .get("bufferViews")
+        .and_then(|v| v.as_array())
+        .and_then(|views| views.get(buffer_view_index))
+        .ok_or_else(|| anyhow!("software render: invalid bufferView {buffer_view_index}"))?;
+    let view_offset = buffer_view
+        .get("byteOffset")
+        .and_then(|v| v.as_u64())
+        .unwrap_or(0) as usize;
+    let accessor_offset = accessor
+        .get("byteOffset")
+        .and_then(|v| v.as_u64())
+        .unwrap_or(0) as usize;
+    let stride = buffer_view
+        .get("byteStride")
+        .and_then(|v| v.as_u64())
+        .map(|v| v as usize)
+        .unwrap_or(default_stride);
+    let count = accessor.get("count").and_then(|v| v.as_u64()).unwrap_or(0) as usize;
+    let component_type = accessor
+        .get("componentType")
+        .and_then(|v| v.as_u64())
+        .unwrap_or(0);
+    let accessor_type = accessor
+        .get("type")
+        .and_then(|v| v.as_str())
+        .unwrap_or_default()
+        .to_string();
+    Ok((
+        view_offset + accessor_offset,
+        stride,
+        count,
+        component_type,
+        accessor_type,
+    ))
+}
+
+fn rasterize_triangle(
+    tri: &SoftwareTriangle,
+    width: u32,
+    height: u32,
+    rgba: &mut [u8],
+    depth: &mut [f32],
+) {
+    let p0 = Vec2::new(tri.vertices[0].position.x, tri.vertices[0].position.y);
+    let p1 = Vec2::new(tri.vertices[1].position.x, tri.vertices[1].position.y);
+    let p2 = Vec2::new(tri.vertices[2].position.x, tri.vertices[2].position.y);
+    let area = edge(p0, p1, p2);
+    if area.abs() < 0.01 {
+        draw_point(p0, tri.vertices[0].position.z, width, height, rgba, depth);
+        draw_point(p1, tri.vertices[1].position.z, width, height, rgba, depth);
+        draw_point(p2, tri.vertices[2].position.z, width, height, rgba, depth);
+        return;
+    }
+
+    let min_x = p0.x.min(p1.x).min(p2.x).floor().max(0.0) as i32;
+    let max_x = p0.x.max(p1.x).max(p2.x).ceil().min(width as f32 - 1.0) as i32;
+    let min_y = p0.y.min(p1.y).min(p2.y).floor().max(0.0) as i32;
+    let max_y = p0.y.max(p1.y).max(p2.y).ceil().min(height as f32 - 1.0) as i32;
+    if min_x > max_x || min_y > max_y {
+        return;
+    }
+
+    let light_dir = Vec3::new(-0.35, 0.45, 0.82).normalize();
+
+    for y in min_y..=max_y {
+        for x in min_x..=max_x {
+            let p = Vec2::new(x as f32 + 0.5, y as f32 + 0.5);
+            let w0 = edge(p1, p2, p) / area;
+            let w1 = edge(p2, p0, p) / area;
+            let w2 = edge(p0, p1, p) / area;
+            if w0 >= -0.0001 && w1 >= -0.0001 && w2 >= -0.0001 {
+                let z = w0 * tri.vertices[0].position.z
+                    + w1 * tri.vertices[1].position.z
+                    + w2 * tri.vertices[2].position.z;
+                let idx = y as usize * width as usize + x as usize;
+                if z < depth[idx] {
+                    depth[idx] = z;
+                    let normal = (tri.vertices[0].normal * w0
+                        + tri.vertices[1].normal * w1
+                        + tri.vertices[2].normal * w2)
+                        .normalize_or_zero();
+                    let diffuse = normal.dot(light_dir).max(0.0);
+                    let facing = normal.z.abs();
+                    let edge_factor = w0.min(w1).min(w2).mul_add(18.0, 0.0).clamp(0.72, 1.0);
+                    let shade =
+                        (0.18 + 0.62 * diffuse + 0.24 * facing).clamp(0.18, 1.15) * edge_factor;
+                    let color = [
+                        (tri.base_color.x * 255.0 * shade).clamp(0.0, 255.0) as u8,
+                        (tri.base_color.y * 255.0 * shade).clamp(0.0, 255.0) as u8,
+                        (tri.base_color.z * 255.0 * shade).clamp(0.0, 255.0) as u8,
+                        255u8,
+                    ];
+                    rgba[idx * 4..idx * 4 + 4].copy_from_slice(&color);
+                }
+            }
+        }
+    }
+}
+
+fn draw_point(point: Vec2, z: f32, width: u32, height: u32, rgba: &mut [u8], depth: &mut [f32]) {
+    let x = point.x.round() as i32;
+    let y = point.y.round() as i32;
+    if x < 0 || y < 0 || x >= width as i32 || y >= height as i32 {
+        return;
+    }
+    let idx = y as usize * width as usize + x as usize;
+    if z < depth[idx] {
+        depth[idx] = z;
+        rgba[idx * 4..idx * 4 + 4].copy_from_slice(&[148, 177, 196, 255]);
+    }
+}
+
+fn edge(a: Vec2, b: Vec2, c: Vec2) -> f32 {
+    (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x)
+}
+
+fn read_json_vec3(value: Option<&serde_json::Value>) -> Option<Vec3> {
+    let values = value?.as_array()?;
+    Some(Vec3::new(
+        values.first()?.as_f64()? as f32,
+        values.get(1)?.as_f64()? as f32,
+        values.get(2)?.as_f64()? as f32,
+    ))
+}
+
+fn read_u16_at(data: &[u8], offset: usize) -> Result<u16> {
+    let bytes: [u8; 2] = data
+        .get(offset..offset + 2)
+        .ok_or_else(|| anyhow!("software render: unexpected EOF"))?
+        .try_into()
+        .map_err(|_| anyhow!("software render: unexpected EOF"))?;
+    Ok(u16::from_le_bytes(bytes))
+}
+
+fn read_u32_at(data: &[u8], offset: usize) -> Result<u32> {
+    let bytes: [u8; 4] = data
+        .get(offset..offset + 4)
+        .ok_or_else(|| anyhow!("software render: unexpected EOF"))?
+        .try_into()
+        .map_err(|_| anyhow!("software render: unexpected EOF"))?;
+    Ok(u32::from_le_bytes(bytes))
+}
+
+fn read_f32_at(data: &[u8], offset: usize) -> Result<f32> {
+    Ok(f32::from_bits(read_u32_at(data, offset)?))
 }

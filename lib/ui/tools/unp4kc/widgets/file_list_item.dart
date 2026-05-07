@@ -261,7 +261,11 @@ class FileListItem extends HookWidget {
   bool _canConvertToGlb(String fullPath) {
     if ((item.isDirectory ?? false)) return false;
     final lower = fullPath.toLowerCase();
-    return lower.endsWith('.cgf') || lower.endsWith('.cga');
+    return lower.endsWith('.cgf') ||
+        lower.endsWith('.cga') ||
+        lower.endsWith('.skin') ||
+        lower.endsWith('.cdf') ||
+        lower.endsWith('.chr');
   }
 
   bool _canConvertDdsToPng(String fullPath) {

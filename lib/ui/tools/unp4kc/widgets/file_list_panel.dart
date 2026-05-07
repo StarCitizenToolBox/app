@@ -197,7 +197,10 @@ class FileListPanel extends HookConsumerWidget {
         lower.endsWith(".dds") ||
         RegExp(r"\.dds\.\d+$").hasMatch(lower) ||
         lower.endsWith(".cgf") ||
-        lower.endsWith(".cga");
+        lower.endsWith(".cga") ||
+        lower.endsWith(".skin") ||
+        lower.endsWith(".cdf") ||
+        lower.endsWith(".chr");
   }
 
   String _defaultExportName(String p4kPath, bool convert) {
@@ -214,8 +217,10 @@ class FileListPanel extends HookConsumerWidget {
     if (lower.endsWith(".dds")) {
       return "${raw.substring(0, raw.length - 4)}.png";
     }
-    if (lower.endsWith(".cgf") || lower.endsWith(".cga")) {
-      return "${raw.substring(0, raw.length - 4)}.glb";
+    for (final ext in [".skin", ".cgf", ".cga", ".cdf", ".chr"]) {
+      if (lower.endsWith(ext)) {
+        return "${raw.substring(0, raw.length - ext.length)}.glb";
+      }
     }
     return raw;
   }

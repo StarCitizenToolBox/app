@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fmt::Write as _;
 use std::fs;
 use std::io::Cursor;
@@ -95,6 +95,61 @@ fn build_glb_bytes_with_config(
     let mut accessors = Vec::<Value>::new();
     let mut mesh_entries = Vec::<Value>::new();
     let mut node_entries = Vec::<Value>::new();
+    let mut node_by_name = HashMap::<String, usize>::new();
+    let mut child_node_indices = HashSet::<usize>::new();
+
+    for scene_node in &scene.nodes {
+        if scene_node.name.is_empty() || node_by_name.contains_key(&scene_node.name) {
+            continue;
+        }
+        let mut node = Map::<String, Value>::new();
+        node.insert("name".to_string(), Value::from(scene_node.name.clone()));
+        if let (Some(rotation), Some(scale), Some(translation)) = (
+            scene_node.rotation,
+            scene_node.scale,
+            scene_node.translation,
+        ) {
+            node.insert("rotation".to_string(), json!(rotation));
+            node.insert("scale".to_string(), json!(scale));
+            node.insert("translation".to_string(), json!(translation));
+        } else if let Some(matrix) = scene_node.matrix {
+            node.insert("matrix".to_string(), json!(matrix));
+        }
+        let node_index = node_entries.len();
+        node_entries.push(Value::Object(node));
+        node_by_name.insert(scene_node.name.clone(), node_index);
+    }
+
+    for scene_node in &scene.nodes {
+        let Some(parent_name) = scene_node.parent.as_ref() else {
+            continue;
+        };
+        let Some(parent_idx) = node_by_name.get(parent_name).copied() else {
+            continue;
+        };
+        let Some(child_idx) = node_by_name.get(&scene_node.name).copied() else {
+            continue;
+        };
+        if parent_idx == child_idx {
+            continue;
+        }
+        let parent_node = node_entries
+            .get_mut(parent_idx)
+            .ok_or_else(|| anyhow!("invalid scene node parent index"))?;
+        if parent_node.get("children").is_none() {
+            parent_node["children"] = Value::Array(Vec::new());
+        }
+        let children = parent_node["children"]
+            .as_array_mut()
+            .ok_or_else(|| anyhow!("invalid glTF node children"))?;
+        if !children
+            .iter()
+            .any(|child| child.as_u64() == Some(child_idx as u64))
+        {
+            children.push(Value::from(child_idx as u64));
+        }
+        child_node_indices.insert(child_idx);
+    }
 
     for mesh in &scene.meshes {
         let base_name = mesh
@@ -225,29 +280,48 @@ fn build_glb_bytes_with_config(
             "name": mesh.name.clone().unwrap_or_else(|| format!("mesh_{mesh_index}")),
             "primitives": primitive_entries
         }));
-        let mut node = Map::<String, Value>::new();
-        if let Some(name) = mesh.node_name.as_ref().or(mesh.name.as_ref()) {
-            node.insert("name".to_string(), Value::from(name.clone()));
-        }
-        node.insert("mesh".to_string(), Value::from(mesh_index as u64));
-        if let (Some(rotation), Some(scale), Some(translation)) =
-            (mesh.node_rotation, mesh.node_scale, mesh.node_translation)
+        if let Some(existing_node) = mesh
+            .node_name
+            .as_ref()
+            .and_then(|name| node_by_name.get(name).copied())
         {
-            node.insert("rotation".to_string(), json!(rotation));
-            node.insert("scale".to_string(), json!(scale));
-            node.insert("translation".to_string(), json!(translation));
-        } else if let Some(matrix) = mesh.node_matrix {
-            node.insert("matrix".to_string(), json!(matrix));
+            node_entries[existing_node]["mesh"] = Value::from(mesh_index as u64);
+        } else {
+            let mut node = Map::<String, Value>::new();
+            if let Some(name) = mesh.node_name.as_ref().or(mesh.name.as_ref()) {
+                node.insert("name".to_string(), Value::from(name.clone()));
+            }
+            node.insert("mesh".to_string(), Value::from(mesh_index as u64));
+            if let (Some(rotation), Some(scale), Some(translation)) =
+                (mesh.node_rotation, mesh.node_scale, mesh.node_translation)
+            {
+                node.insert("rotation".to_string(), json!(rotation));
+                node.insert("scale".to_string(), json!(scale));
+                node.insert("translation".to_string(), json!(translation));
+            } else if let Some(matrix) = mesh.node_matrix {
+                node.insert("matrix".to_string(), json!(matrix));
+            }
+            node_entries.push(Value::Object(node));
         }
-        node_entries.push(Value::Object(node));
     }
 
     let mut images = Vec::<Value>::new();
     let mut tex_entries = Vec::<Value>::new();
     for tex in textures {
         let image_name = format!("{}/image", tex.label.as_deref().unwrap_or(&tex.name));
-        if !tex.rgba8.is_empty() && tex.width > 0 && tex.height > 0 {
-            let png_bytes = encode_png(tex)?;
+        let png_bytes = if !tex.rgba8.is_empty() && tex.width > 0 && tex.height > 0 {
+            encode_png(tex)?
+        } else {
+            encode_png(&DecodedTexture {
+                name: tex.name.clone(),
+                uri: tex.uri.clone(),
+                label: tex.label.clone(),
+                width: 1,
+                height: 1,
+                rgba8: vec![255, 255, 255, 255],
+            })?
+        };
+        {
             let image_buffer_view = push_blob(
                 &format!("{image_name}/bufferView"),
                 &png_bytes,
@@ -259,12 +333,6 @@ fn build_glb_bytes_with_config(
                 "bufferView": image_buffer_view,
                 "mimeType": "image/png"
             }));
-        } else {
-            images.push(json!({
-                "name": image_name,
-                "uri": tex.uri,
-                "mimeType": "image/vnd-ms.dds"
-            }));
         }
         tex_entries.push(json!({
             "name": format!("{}/texture", tex.label.as_deref().unwrap_or(&tex.name)),
@@ -274,7 +342,9 @@ fn build_glb_bytes_with_config(
 
     let material_entries = build_material_entries(materials, tex_entries.len());
 
-    let scene_node_ids = (0..node_entries.len()).collect::<Vec<_>>();
+    let scene_node_ids = (0..node_entries.len())
+        .filter(|idx| !child_node_indices.contains(idx))
+        .collect::<Vec<_>>();
     let json_doc = json!({
         "asset": {"generator":"Cryengine Converter","version":"2.0"},
         "extensionsUsed": [
@@ -948,13 +1018,16 @@ mod tests {
 
     use serde_json::Value;
 
-    use super::{serialize_json_like_csharp, write_glb, build_glb_bytes_with_config, ValidationConfig};
+    use super::{
+        build_glb_bytes_with_config, serialize_json_like_csharp, write_glb, ValidationConfig,
+    };
     use crate::model_convert::{
-        DecodedTexture, GltfMaterialData, SceneData, SceneMesh, ScenePrimitive,
+        DecodedTexture, GltfMaterialData, SceneData, SceneMesh, SceneNode, ScenePrimitive,
     };
 
     fn sample_scene() -> SceneData {
         SceneData {
+            nodes: vec![],
             meshes: vec![SceneMesh {
                 positions: vec![[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0]],
                 normals: vec![[0.0, 0.0, 1.0], [0.0, 0.0, 1.0], [0.0, 0.0, 1.0]],
@@ -1139,6 +1212,7 @@ mod tests {
     fn write_glb_returns_error_on_empty_scene() {
         let output = temp_glb_path("empty");
         let scene = SceneData {
+            nodes: vec![],
             meshes: vec![],
             warnings: vec![],
         };
@@ -1166,6 +1240,57 @@ mod tests {
             err.to_string().contains("index 5"),
             "got unexpected validation message: {err}"
         );
+    }
+
+    #[test]
+    fn write_glb_preserves_empty_scene_nodes_and_reuses_mesh_node() {
+        let mut scene = sample_scene();
+        scene.nodes = vec![
+            SceneNode {
+                name: "triangle".to_string(),
+                parent: None,
+                translation: Some([1.0, 2.0, 3.0]),
+                rotation: Some([0.0, 0.0, 0.0, 1.0]),
+                scale: Some([1.0, 1.0, 1.0]),
+                matrix: None,
+            },
+            SceneNode {
+                name: "hardpoint_weapon_nose_left".to_string(),
+                parent: Some("triangle".to_string()),
+                translation: Some([4.0, 5.0, 6.0]),
+                rotation: Some([0.0, 0.0, 0.0, 1.0]),
+                scale: Some([1.0, 1.0, 1.0]),
+                matrix: None,
+            },
+        ];
+
+        let glb = build_glb_bytes_with_config(
+            &scene,
+            &[],
+            &[GltfMaterialData::default()],
+            &HashMap::from([(-1, 0usize)]),
+            ValidationConfig::test_mode(false),
+        )
+        .expect("build glb");
+        let doc = extract_json_chunk(&glb);
+        let nodes = doc["nodes"].as_array().expect("nodes array");
+
+        assert_eq!(nodes.len(), 2);
+        assert_eq!(nodes[0]["name"].as_str(), Some("triangle"));
+        assert_eq!(nodes[0]["mesh"].as_u64(), Some(0));
+        assert_eq!(
+            nodes[1]["name"].as_str(),
+            Some("hardpoint_weapon_nose_left")
+        );
+        assert!(nodes[1].get("mesh").is_none());
+        assert_eq!(nodes[0]["children"][0].as_u64(), Some(1));
+        assert_eq!(
+            doc["scenes"][0]["nodes"]
+                .as_array()
+                .map(|nodes| nodes.len()),
+            Some(1)
+        );
+        assert_eq!(doc["scenes"][0]["nodes"][0].as_u64(), Some(0));
     }
 
     #[test]

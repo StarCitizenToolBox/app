@@ -1,5 +1,5 @@
-use anyhow::{anyhow, Result};
-use std::collections::{HashMap, HashSet};
+use anyhow::{Result, anyhow};
+use std::collections::HashMap;
 
 use crate::model_convert::cryengine::{ChunkType, ModelFile, ParsedChunk};
 
@@ -7,6 +7,7 @@ use crate::model_convert::cryengine::{ChunkType, ModelFile, ParsedChunk};
 pub struct IvoNodeMeshComboNode {
     pub node_index: u16,
     pub parent_index: Option<u16>,
+    pub world_to_bone: [f32; 12],
     pub bone_to_world: [f32; 12],
     pub mesh_chunk_id: u16,
     pub geometry_type: u16,
@@ -16,12 +17,6 @@ pub struct IvoNodeMeshComboNode {
 pub struct NodeTransform {
     pub rotation: [[f32; 3]; 3],
     pub translation: [f32; 3],
-}
-
-#[derive(Debug, Clone, Copy)]
-struct NodeTransformEntry {
-    local: NodeTransform,
-    parent: Option<u16>,
 }
 
 #[derive(Debug, Clone)]
@@ -85,6 +80,7 @@ pub fn parse_node_mesh_combo_chunk(
     let mut nodes = Vec::with_capacity(number_of_nodes);
     for node_index in 0..number_of_nodes {
         ensure_within(chunk.len(), cursor, 208)?;
+        cursor += 32; // pre-matrix metadata
         let world_to_bone = read_matrix3x4(chunk, cursor)?;
         cursor += 48;
         let bone_to_world = read_matrix3x4(chunk, cursor)?;
@@ -96,15 +92,8 @@ pub fn parse_node_mesh_combo_chunk(
         cursor += 2;
         let geometry_type = read_u16_le(chunk, cursor)?;
         cursor += 2;
-        cursor += 24; // bbox min/max
-        cursor += 16; // unknown3
-        cursor += 4; // number of vertices
-        cursor += 2; // number of children
-        let mesh_chunk_id = read_u16_le(chunk, cursor)?;
-        cursor += 2;
-        cursor += 40; // tail
+        cursor += 56; // bbox and remaining node metadata
 
-        let _ = world_to_bone; // kept for future parity work
         nodes.push(IvoNodeMeshComboNode {
             node_index: node_index as u16,
             parent_index: if parent_index_raw == 0xFFFF {
@@ -112,11 +101,14 @@ pub fn parse_node_mesh_combo_chunk(
             } else {
                 Some(parent_index_raw)
             },
+            world_to_bone,
             bone_to_world,
-            mesh_chunk_id,
+            mesh_chunk_id: 0,
             geometry_type,
         });
     }
+
+    cursor += 32; // post-node table footer before index tables
 
     let mut unknown_indices = Vec::with_capacity(unknown2);
     for _ in 0..unknown2 {
@@ -168,17 +160,14 @@ pub fn resolve_node_mesh_combo_transforms(
     header: ParsedChunk,
 ) -> Result<HashMap<u16, NodeTransform>> {
     let parsed = parse_node_mesh_combo_chunk(data, header)?;
-    let mut entries = HashMap::<u16, NodeTransformEntry>::new();
-    for node in parsed.nodes {
-        entries.insert(
+    let mut transforms = HashMap::<u16, NodeTransform>::new();
+    for node in &parsed.nodes {
+        transforms.insert(
             node.node_index,
-            NodeTransformEntry {
-                local: matrix3x4_to_local_transform(&node.bone_to_world),
-                parent: node.parent_index,
-            },
+            matrix3x4_to_local_transform(&node.bone_to_world),
         );
     }
-    Ok(resolve_world_node_transforms(&entries))
+    Ok(transforms)
 }
 
 pub fn node_mesh_combo_node_name(node_index: u16, fallback_index: usize) -> Option<String> {
@@ -288,80 +277,10 @@ fn read_matrix3x4(data: &[u8], offset: usize) -> Result<[f32; 12]> {
 }
 
 fn matrix3x4_to_local_transform(m: &[f32; 12]) -> NodeTransform {
-    let rotation = [[m[0], m[4], m[8]], [m[1], m[5], m[9]], [m[2], m[6], m[10]]];
+    let rotation = [[m[0], m[1], m[2]], [m[4], m[5], m[6]], [m[8], m[9], m[10]]];
     let translation = [m[3], m[7], m[11]];
     NodeTransform {
         rotation,
         translation,
     }
-}
-
-fn compose_node_transform(parent: NodeTransform, local: NodeTransform) -> NodeTransform {
-    let mut rotation = [[0.0f32; 3]; 3];
-    for r in 0..3 {
-        for c in 0..3 {
-            rotation[r][c] = parent.rotation[r][0] * local.rotation[0][c]
-                + parent.rotation[r][1] * local.rotation[1][c]
-                + parent.rotation[r][2] * local.rotation[2][c];
-        }
-    }
-    let translation = [
-        parent.rotation[0][0] * local.translation[0]
-            + parent.rotation[0][1] * local.translation[1]
-            + parent.rotation[0][2] * local.translation[2]
-            + parent.translation[0],
-        parent.rotation[1][0] * local.translation[0]
-            + parent.rotation[1][1] * local.translation[1]
-            + parent.rotation[1][2] * local.translation[2]
-            + parent.translation[1],
-        parent.rotation[2][0] * local.translation[0]
-            + parent.rotation[2][1] * local.translation[1]
-            + parent.rotation[2][2] * local.translation[2]
-            + parent.translation[2],
-    ];
-    NodeTransform {
-        rotation,
-        translation,
-    }
-}
-
-fn resolve_world_node_transforms(
-    entries: &HashMap<u16, NodeTransformEntry>,
-) -> HashMap<u16, NodeTransform> {
-    fn resolve_one(
-        id: u16,
-        entries: &HashMap<u16, NodeTransformEntry>,
-        resolved: &mut HashMap<u16, NodeTransform>,
-        resolving: &mut HashSet<u16>,
-    ) -> Option<NodeTransform> {
-        if let Some(world) = resolved.get(&id).copied() {
-            return Some(world);
-        }
-        let entry = entries.get(&id).copied()?;
-        if !resolving.insert(id) {
-            return Some(entry.local);
-        }
-        let world = if let Some(parent_id) = entry.parent {
-            if parent_id == id {
-                entry.local
-            } else if let Some(parent_world) = resolve_one(parent_id, entries, resolved, resolving)
-            {
-                compose_node_transform(parent_world, entry.local)
-            } else {
-                entry.local
-            }
-        } else {
-            entry.local
-        };
-        resolving.remove(&id);
-        resolved.insert(id, world);
-        Some(world)
-    }
-
-    let mut resolved = HashMap::new();
-    let mut resolving = HashSet::new();
-    for id in entries.keys().copied() {
-        let _ = resolve_one(id, entries, &mut resolved, &mut resolving);
-    }
-    resolved
 }

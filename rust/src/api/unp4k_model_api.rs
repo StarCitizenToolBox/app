@@ -142,8 +142,7 @@ pub async fn p4k_model_convert_to_glb_bytes(
     options: Option<ModelConvertOptions>,
 ) -> Result<ModelConvertBytesResult> {
     let options: ConvertOptions = options.into();
-    let result =
-        model_convert::convert_from_p4k_to_bytes(&p4k_path, &model_path, options).await;
+    let result = model_convert::convert_from_p4k_to_bytes(&p4k_path, &model_path, options).await;
     match result {
         Ok(ok) => Ok(ModelConvertBytesResult {
             success: true,
@@ -163,35 +162,70 @@ pub async fn p4k_model_convert_to_glb_bytes(
 }
 
 pub async fn p4k_model_convert_local_batch_and_merge(
-    _asset_root: String,
-    _output_dir: String,
-    _options: Option<ModelConvertOptions>,
+    asset_root: String,
+    output_dir: String,
+    options: Option<ModelConvertOptions>,
 ) -> Result<LocalBatchConvertResult> {
-    Ok(LocalBatchConvertResult {
-        success: false,
-        merged_output_path: None,
-        assembly_manifest_path: None,
-        assembly_report_path: None,
-        success_count: 0,
-        empty_count: 0,
-        failed_count: 0,
-        warnings: vec![
-            "assembly/merge export has been removed; use single GLB export instead".to_string(),
-        ],
-        files: vec![],
-        source_mode: "unsupported".to_string(),
-        assembly_graph_stats: AssemblyGraphStats {
-            nodes: 0,
-            geometry_nodes: 0,
-            object_containers: 0,
-            roots: 0,
-        },
-        fallback_reason_by_file: vec![],
-        error_code: Some("ERR_ASSEMBLY_REMOVED".to_string()),
-        error_message: Some(
-            "assembly/merge export has been removed; use single GLB export instead".to_string(),
-        ),
-    })
+    let options: ConvertOptions = options.into();
+    let result =
+        model_convert::convert_local_batch_and_merge(&asset_root, &output_dir, options).await;
+    match result {
+        Ok(ok) => Ok(LocalBatchConvertResult {
+            success: true,
+            merged_output_path: Some(ok.merged_output_path),
+            assembly_manifest_path: Some(ok.assembly_manifest_path),
+            assembly_report_path: Some(ok.assembly_report_path),
+            success_count: ok.success_count,
+            empty_count: ok.empty_count,
+            failed_count: ok.failed_count,
+            warnings: ok.warnings,
+            files: ok
+                .files
+                .into_iter()
+                .map(|file| LocalBatchFileResult {
+                    model_path: file.model_path,
+                    output_path: file.output_path,
+                    has_geometry: file.has_geometry,
+                    error_code: file.error_code,
+                    error_message: file.error_message,
+                    warnings: file.warnings,
+                    source_mode: file.source_mode,
+                    fallback_reason: file.fallback_reason,
+                })
+                .collect(),
+            source_mode: ok.source_mode,
+            assembly_graph_stats: AssemblyGraphStats {
+                nodes: ok.assembly_graph_stats.nodes,
+                geometry_nodes: ok.assembly_graph_stats.geometry_nodes,
+                object_containers: ok.assembly_graph_stats.object_containers,
+                roots: ok.assembly_graph_stats.roots,
+            },
+            fallback_reason_by_file: ok.fallback_reason_by_file,
+            error_code: None,
+            error_message: None,
+        }),
+        Err(e) => Ok(LocalBatchConvertResult {
+            success: false,
+            merged_output_path: None,
+            assembly_manifest_path: None,
+            assembly_report_path: None,
+            success_count: 0,
+            empty_count: 0,
+            failed_count: 0,
+            warnings: vec![],
+            files: vec![],
+            source_mode: "failed".to_string(),
+            assembly_graph_stats: AssemblyGraphStats {
+                nodes: 0,
+                geometry_nodes: 0,
+                object_containers: 0,
+                roots: 0,
+            },
+            fallback_reason_by_file: vec![],
+            error_code: Some(e.code().to_string()),
+            error_message: Some(e.to_string()),
+        }),
+    }
 }
 
 pub async fn p4k_model_render_preview(
@@ -205,7 +239,7 @@ pub async fn p4k_model_render_preview(
     let glb_data = tokio::fs::read(&glb_path).await?;
 
     let rotation = (pitch, yaw, roll);
-    
+
     match model_render::render_glb_to_rgba(&glb_data, width, height, rotation) {
         Ok(rgba_data) => Ok(ModelRenderResult {
             success: true,

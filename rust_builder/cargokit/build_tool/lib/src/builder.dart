@@ -23,11 +23,6 @@ enum BuildConfiguration {
 
 extension on BuildConfiguration {
   bool get isDebug => this == BuildConfiguration.debug;
-  String get rustName => switch (this) {
-        BuildConfiguration.debug => 'debug',
-        BuildConfiguration.release => 'release',
-        BuildConfiguration.profile => 'release',
-      };
 }
 
 class BuildException implements Exception {
@@ -135,6 +130,27 @@ class RustBuilder {
 
   String get _toolchain => _buildOptions?.toolchain.name ?? 'stable';
 
+  String? get _cargoProfileOverride => Environment.cargoProfileOverride;
+
+  String get _artifactProfileName =>
+      _cargoProfileOverride ??
+      switch (environment.configuration) {
+        BuildConfiguration.debug => 'debug',
+        BuildConfiguration.release => 'release',
+        BuildConfiguration.profile => 'release',
+      };
+
+  List<String> get _profileArgs {
+    final profile = _cargoProfileOverride;
+    if (profile != null) {
+      return ['--profile', profile];
+    }
+    if (!environment.configuration.isDebug) {
+      return ['--release'];
+    }
+    return [];
+  }
+
   /// Returns the path of directory containing build artifacts.
   Future<String> build() async {
     final extraArgs = _buildOptions?.flags ?? [];
@@ -151,7 +167,7 @@ class RustBuilder {
         manifestPath,
         '-p',
         environment.crateInfo.packageName,
-        if (!environment.configuration.isDebug) '--release',
+        ..._profileArgs,
         '--target',
         target.rust,
         '--target-dir',
@@ -162,7 +178,7 @@ class RustBuilder {
     return path.join(
       environment.targetTempDir,
       target.rust,
-      environment.configuration.rustName,
+      _artifactProfileName,
     );
   }
 

@@ -6724,7 +6724,7 @@ dependencies = [
  "thiserror 2.0.18",
  "tokenizers",
  "tokio",
- "unp4k_rs",
+ "unp4k",
  "url",
  "uuid",
  "walkdir",
@@ -8398,23 +8398,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "81e544489bf3d8ef66c953931f56617f423cd4b5494be343d9b9d3dda037b9a3"
 
 [[package]]
-name = "unp4k_rs"
-version = "0.1.0"
-source = "git+https://github.com/StarCitizenToolBox/unp4k_rs?rev=29430002d6f3a8d87feabac26c03ae0311c81263#29430002d6f3a8d87feabac26c03ae0311c81263"
+name = "unp4k"
+version = "0.3.0"
 dependencies = [
  "aes",
  "anyhow",
  "byteorder",
  "cbc",
- "clap",
  "crc32fast",
  "flate2",
  "glob",
  "globset",
  "indicatif",
  "quick-xml 0.38.4",
+ "rayon",
  "sha2 0.10.9",
  "thiserror 2.0.18",
+ "walkdir",
  "zip",
  "zstd",
 ]

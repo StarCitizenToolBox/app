@@ -28,7 +28,18 @@ pub struct SceneMesh {
 }
 
 #[derive(Debug, Clone)]
+pub struct SceneNode {
+    pub name: String,
+    pub parent: Option<String>,
+    pub translation: Option<[f32; 3]>,
+    pub rotation: Option<[f32; 4]>,
+    pub scale: Option<[f32; 3]>,
+    pub matrix: Option<[f32; 16]>,
+}
+
+#[derive(Debug, Clone)]
 pub struct SceneData {
+    pub nodes: Vec<SceneNode>,
     pub meshes: Vec<SceneMesh>,
     pub warnings: Vec<String>,
 }
@@ -125,6 +136,41 @@ pub struct ConvertBytesOutput {
     pub warnings: Vec<String>,
     pub source_mode: String,
     pub fallback_reason: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+pub struct BatchFileOutput {
+    pub model_path: String,
+    pub output_path: Option<String>,
+    pub has_geometry: bool,
+    pub error_code: Option<String>,
+    pub error_message: Option<String>,
+    pub warnings: Vec<String>,
+    pub source_mode: String,
+    pub fallback_reason: Option<String>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct BatchAssemblyStats {
+    pub nodes: i32,
+    pub geometry_nodes: i32,
+    pub object_containers: i32,
+    pub roots: i32,
+}
+
+#[derive(Debug, Clone)]
+pub struct BatchConvertOutput {
+    pub merged_output_path: String,
+    pub assembly_manifest_path: String,
+    pub assembly_report_path: String,
+    pub success_count: i32,
+    pub empty_count: i32,
+    pub failed_count: i32,
+    pub warnings: Vec<String>,
+    pub files: Vec<BatchFileOutput>,
+    pub source_mode: String,
+    pub assembly_graph_stats: BatchAssemblyStats,
+    pub fallback_reason_by_file: Vec<String>,
 }
 
 #[derive(Error, Debug)]

@@ -1620,12 +1620,23 @@ fn compute_waveform_from_wav(wav: &[u8]) -> Vec<f64> {
 
     while offset + 8 <= wav.len() {
         let chunk_id = &wav[offset..offset + 4];
-        let chunk_size = u32::from_le_bytes([wav[offset + 4], wav[offset + 5], wav[offset + 6], wav[offset + 7]]) as usize;
+        let chunk_size = u32::from_le_bytes([
+            wav[offset + 4],
+            wav[offset + 5],
+            wav[offset + 6],
+            wav[offset + 7],
+        ]) as usize;
         let chunk_data_start = offset + 8;
 
         if chunk_id == b"fmt " && chunk_size >= 16 {
-            channels = Some(u16::from_le_bytes([wav[chunk_data_start + 2], wav[chunk_data_start + 3]]));
-            bits_per_sample = Some(u16::from_le_bytes([wav[chunk_data_start + 14], wav[chunk_data_start + 15]]));
+            channels = Some(u16::from_le_bytes([
+                wav[chunk_data_start + 2],
+                wav[chunk_data_start + 3],
+            ]));
+            bits_per_sample = Some(u16::from_le_bytes([
+                wav[chunk_data_start + 14],
+                wav[chunk_data_start + 15],
+            ]));
         } else if chunk_id == b"data" {
             data_offset = Some(chunk_data_start);
             data_length = Some(chunk_size);
@@ -1658,7 +1669,9 @@ fn compute_waveform_from_wav(wav: &[u8]) -> Vec<f64> {
             let end = (i + bucket).min(sample_count);
             let mut peak = 0.0f64;
             for j in i..end {
-                let sample = (i16::from_le_bytes([pcm_data[j * 2], pcm_data[j * 2 + 1]]) as f64).abs() / 32768.0;
+                let sample = (i16::from_le_bytes([pcm_data[j * 2], pcm_data[j * 2 + 1]]) as f64)
+                    .abs()
+                    / 32768.0;
                 if sample > peak {
                     peak = sample;
                 }
@@ -1701,18 +1714,29 @@ fn estimate_duration_from_wav(wav: &[u8]) -> i32 {
 
     while offset + 8 <= wav.len() {
         let chunk_id = &wav[offset..offset + 4];
-        let chunk_size = u32::from_le_bytes([wav[offset + 4], wav[offset + 5], wav[offset + 6], wav[offset + 7]]) as usize;
+        let chunk_size = u32::from_le_bytes([
+            wav[offset + 4],
+            wav[offset + 5],
+            wav[offset + 6],
+            wav[offset + 7],
+        ]) as usize;
         let chunk_data_start = offset + 8;
 
         if chunk_id == b"fmt " && chunk_size >= 16 {
-            channels = Some(u16::from_le_bytes([wav[chunk_data_start + 2], wav[chunk_data_start + 3]]));
+            channels = Some(u16::from_le_bytes([
+                wav[chunk_data_start + 2],
+                wav[chunk_data_start + 3],
+            ]));
             sample_rate = Some(u32::from_le_bytes([
                 wav[chunk_data_start + 4],
                 wav[chunk_data_start + 5],
                 wav[chunk_data_start + 6],
                 wav[chunk_data_start + 7],
             ]));
-            bits_per_sample = Some(u16::from_le_bytes([wav[chunk_data_start + 14], wav[chunk_data_start + 15]]));
+            bits_per_sample = Some(u16::from_le_bytes([
+                wav[chunk_data_start + 14],
+                wav[chunk_data_start + 15],
+            ]));
         } else if chunk_id == b"data" {
             data_length = Some(chunk_size);
         }

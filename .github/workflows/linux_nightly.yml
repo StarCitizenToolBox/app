@@ -10,6 +10,8 @@ permissions:
 jobs:
     build:
         runs-on: ubuntu-latest
+        env:
+            CARGOKIT_CARGO_PROFILE: dist
         steps:
             - name: Checkout
               uses: actions/checkout@v4
