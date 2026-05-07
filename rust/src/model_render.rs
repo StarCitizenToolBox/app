@@ -1,7 +1,7 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use std::collections::HashMap;
-use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
 
 use parking_lot::Mutex;
 use renderling::glam::{EulerRot, Mat4, Quat, Vec2, Vec3, Vec4};
@@ -1302,13 +1302,11 @@ fn rasterize_triangle(
     let p0 = Vec2::new(tri.vertices[0].position.x, tri.vertices[0].position.y);
     let p1 = Vec2::new(tri.vertices[1].position.x, tri.vertices[1].position.y);
     let p2 = Vec2::new(tri.vertices[2].position.x, tri.vertices[2].position.y);
-    let face_normal = (tri.vertices[0].normal + tri.vertices[1].normal + tri.vertices[2].normal)
-        .normalize_or_zero();
-    if face_normal.z <= 0.0 {
-        return;
-    }
     let area = edge(p0, p1, p2);
-    if area.abs() < 0.25 {
+    if area.abs() < 0.01 {
+        draw_point(p0, tri.vertices[0].position.z, width, height, rgba, depth);
+        draw_point(p1, tri.vertices[1].position.z, width, height, rgba, depth);
+        draw_point(p2, tri.vertices[2].position.z, width, height, rgba, depth);
         return;
     }
 
@@ -1478,6 +1476,19 @@ fn texture_pixel(texture: &SoftwareTexture, x: u32, y: u32) -> Vec4 {
         px[2] as f32 / 255.0,
         px[3] as f32 / 255.0,
     )
+}
+
+fn draw_point(point: Vec2, z: f32, width: u32, height: u32, rgba: &mut [u8], depth: &mut [f32]) {
+    let x = point.x.round() as i32;
+    let y = point.y.round() as i32;
+    if x < 0 || y < 0 || x >= width as i32 || y >= height as i32 {
+        return;
+    }
+    let idx = y as usize * width as usize + x as usize;
+    if z < depth[idx] {
+        depth[idx] = z;
+        rgba[idx * 4..idx * 4 + 4].copy_from_slice(&[148, 177, 196, 255]);
+    }
 }
 
 fn edge(a: Vec2, b: Vec2, c: Vec2) -> f32 {

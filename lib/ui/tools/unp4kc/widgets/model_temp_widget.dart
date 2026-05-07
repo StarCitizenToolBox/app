@@ -93,14 +93,9 @@ class ModelTempWidget extends HookConsumerWidget {
     final devicePixelRatio = MediaQuery.devicePixelRatioOf(
       context,
     ).clamp(1.0, 2.0);
-    final maxPreviewDimension = glbBytes.lengthInBytes > 256 * 1024 * 1024
-        ? 512
-        : 768;
-    final width = (size.width * 0.5 * devicePixelRatio)
-        .clamp(512, maxPreviewDimension)
-        .toInt();
+    final width = (size.width * 0.5 * devicePixelRatio).clamp(512, 768).toInt();
     final height = (size.height * 0.6 * devicePixelRatio)
-        .clamp(512, maxPreviewDimension)
+        .clamp(512, 768)
         .toInt();
 
     Future<void> renderModel() async {
