@@ -40,6 +40,11 @@ struct SoftwareTriangle {
     vertices: [SoftwareVertex; 3],
     base_color: Vec3,
     base_texture: Option<usize>,
+    normal_texture: Option<usize>,
+    emissive_factor: Vec3,
+    emissive_strength: f32,
+    specular_factor: Vec3,
+    glossiness: f32,
 }
 
 struct SoftwareScene {
@@ -57,6 +62,11 @@ struct SoftwareTexture {
 struct SoftwareMaterial {
     base_color: Vec3,
     base_texture: Option<usize>,
+    normal_texture: Option<usize>,
+    emissive_factor: Vec3,
+    emissive_strength: f32,
+    specular_factor: Vec3,
+    glossiness: f32,
 }
 
 // SAFETY: We ensure the context is only used from a single thread at a time via the Mutex
@@ -70,6 +80,10 @@ lazy_static::lazy_static! {
 }
 
 static RENDERLING_ONESHOT_UNAVAILABLE: AtomicBool = AtomicBool::new(false);
+
+const NORMAL_MAP_STRENGTH: f32 = 0.28;
+const SPECULAR_STRENGTH: f32 = 0.06;
+const EMISSIVE_STRENGTH: f32 = 0.18;
 
 /// Initialize the global rendering context.
 /// This should be called once at application startup.
@@ -127,10 +141,7 @@ fn compute_bounding_box(document: &GltfDocument) -> (Vec3, Vec3) {
 
 impl RenderSession {
     fn new(width: u32, height: u32, glb_data: &[u8], bg_color: Option<[f32; 4]>) -> Result<Self> {
-        if !std::env::var("SCTB_MODEL_SESSION_RENDERER")
-            .map(|value| value.eq_ignore_ascii_case("renderling"))
-            .unwrap_or(false)
-        {
+        if !prefers_renderling_session() {
             return Self::new_software(width, height, glb_data, bg_color);
         }
         Self::new_renderling(width, height, glb_data, bg_color)
@@ -259,6 +270,13 @@ impl RenderSession {
             ),
         }
     }
+}
+
+fn prefers_renderling_session() -> bool {
+    std::env::var("SCTB_MODEL_SESSION_RENDERER")
+        .or_else(|_| std::env::var("SCTB_MODEL_RENDERER"))
+        .map(|value| value.eq_ignore_ascii_case("renderling"))
+        .unwrap_or(false)
 }
 
 pub fn create_session(
@@ -498,6 +516,11 @@ fn render_software_scene_rotation(
             }),
             base_color: tri.base_color,
             base_texture: tri.base_texture,
+            normal_texture: tri.normal_texture,
+            emissive_factor: tri.emissive_factor,
+            emissive_strength: tri.emissive_strength,
+            specular_factor: tri.specular_factor,
+            glossiness: tri.glossiness,
         };
         rasterize_triangle(
             &projected,
@@ -545,6 +568,11 @@ fn render_software_scene_camera(
             }),
             base_color: tri.base_color,
             base_texture: tri.base_texture,
+            normal_texture: tri.normal_texture,
+            emissive_factor: tri.emissive_factor,
+            emissive_strength: tri.emissive_strength,
+            specular_factor: tri.specular_factor,
+            glossiness: tri.glossiness,
         };
         rasterize_triangle(
             &projected,
@@ -742,6 +770,11 @@ fn collect_mesh_triangles(
             .unwrap_or(Some(SoftwareMaterial {
                 base_color: Vec3::new(0.62, 0.68, 0.72),
                 base_texture: None,
+                normal_texture: None,
+                emissive_factor: Vec3::ZERO,
+                emissive_strength: 0.0,
+                specular_factor: Vec3::ZERO,
+                glossiness: 0.0,
             }))
         else {
             continue;
@@ -813,6 +846,11 @@ fn collect_mesh_triangles(
                     ],
                     base_color: material.base_color,
                     base_texture: material.base_texture,
+                    normal_texture: material.normal_texture,
+                    emissive_factor: material.emissive_factor,
+                    emissive_strength: material.emissive_strength,
+                    specular_factor: material.specular_factor,
+                    glossiness: material.glossiness,
                 });
             }
         } else {
@@ -853,6 +891,11 @@ fn collect_mesh_triangles(
                     ],
                     base_color: material.base_color,
                     base_texture: material.base_texture,
+                    normal_texture: material.normal_texture,
+                    emissive_factor: material.emissive_factor,
+                    emissive_strength: material.emissive_strength,
+                    specular_factor: material.specular_factor,
+                    glossiness: material.glossiness,
                 });
             }
         }
@@ -869,6 +912,11 @@ fn software_material(json: &serde_json::Value, material_index: usize) -> Option<
         return Some(SoftwareMaterial {
             base_color: Vec3::new(0.62, 0.68, 0.72),
             base_texture: None,
+            normal_texture: None,
+            emissive_factor: Vec3::ZERO,
+            emissive_strength: 0.0,
+            specular_factor: Vec3::ZERO,
+            glossiness: 0.0,
         });
     };
     if is_preview_hidden_material(material) {
@@ -882,6 +930,7 @@ fn software_material(json: &serde_json::Value, material_index: usize) -> Option<
         .get("alphaCutoff")
         .and_then(|v| v.as_f64())
         .unwrap_or(0.5) as f32;
+    let common = software_material_common(json, material);
     if let Some(values) = material
         .get("pbrMetallicRoughness")
         .and_then(|pbr| pbr.get("baseColorFactor"))
@@ -896,7 +945,7 @@ fn software_material(json: &serde_json::Value, material_index: usize) -> Option<
         }
         return Some(SoftwareMaterial {
             base_color: read_factor_rgb(values, Vec3::ONE),
-            base_texture: material_base_texture(json, material),
+            ..common
         });
     }
     if let Some(values) = material
@@ -914,7 +963,7 @@ fn software_material(json: &serde_json::Value, material_index: usize) -> Option<
         }
         return Some(SoftwareMaterial {
             base_color: read_factor_rgb(values, Vec3::ONE),
-            base_texture: material_base_texture(json, material),
+            ..common
         });
     }
     if let Some(values) = material.get("emissiveFactor").and_then(|v| v.as_array()) {
@@ -922,22 +971,85 @@ fn software_material(json: &serde_json::Value, material_index: usize) -> Option<
         if emissive.length_squared() > 0.0 {
             return Some(SoftwareMaterial {
                 base_color: emissive,
-                base_texture: material_base_texture(json, material),
+                ..common
             });
         }
     }
     Some(SoftwareMaterial {
         base_color: Vec3::new(0.62, 0.68, 0.72),
-        base_texture: material_base_texture(json, material),
+        ..common
     })
 }
 
+fn software_material_common(
+    json: &serde_json::Value,
+    material: &serde_json::Value,
+) -> SoftwareMaterial {
+    let spec_gloss = material
+        .get("extensions")
+        .and_then(|ext| ext.get("KHR_materials_pbrSpecularGlossiness"));
+    let specular_factor = spec_gloss
+        .and_then(|pbr| pbr.get("specularFactor"))
+        .and_then(|v| v.as_array())
+        .map(|values| read_factor_rgb(values, Vec3::ZERO))
+        .unwrap_or(Vec3::ZERO);
+    let glossiness = spec_gloss
+        .and_then(|pbr| pbr.get("glossinessFactor"))
+        .and_then(|v| v.as_f64())
+        .unwrap_or(0.0)
+        .clamp(0.0, 1.0) as f32;
+    let emissive_factor = material
+        .get("emissiveFactor")
+        .and_then(|v| v.as_array())
+        .map(|values| read_factor_rgb(values, Vec3::ZERO))
+        .unwrap_or(Vec3::ZERO);
+    let emissive_strength = material
+        .get("extensions")
+        .and_then(|ext| ext.get("KHR_materials_emissive_strength"))
+        .and_then(|ext| ext.get("emissiveStrength"))
+        .and_then(|v| v.as_f64())
+        .unwrap_or(0.0)
+        .clamp(0.0, 4.0) as f32;
+    SoftwareMaterial {
+        base_color: Vec3::new(0.62, 0.68, 0.72),
+        base_texture: material_base_texture(json, material),
+        normal_texture: material_normal_texture(json, material),
+        emissive_factor,
+        emissive_strength,
+        specular_factor,
+        glossiness,
+    }
+}
+
 fn material_base_texture(json: &serde_json::Value, material: &serde_json::Value) -> Option<usize> {
-    let texture_index = material
+    material
         .get("pbrMetallicRoughness")
         .and_then(|pbr| pbr.get("baseColorTexture"))
         .and_then(|tex| tex.get("index"))
-        .and_then(|v| v.as_u64())? as usize;
+        .and_then(|v| v.as_u64())
+        .or_else(|| {
+            material
+                .get("extensions")
+                .and_then(|ext| ext.get("KHR_materials_pbrSpecularGlossiness"))
+                .and_then(|pbr| pbr.get("diffuseTexture"))
+                .and_then(|tex| tex.get("index"))
+                .and_then(|v| v.as_u64())
+        })
+        .and_then(|texture_index| gltf_texture_source(json, texture_index as usize))
+}
+
+fn material_normal_texture(
+    json: &serde_json::Value,
+    material: &serde_json::Value,
+) -> Option<usize> {
+    material
+        .get("normalTexture")
+        .and_then(|tex| tex.get("index"))
+        .and_then(|v| v.as_u64())
+        .and_then(|texture_index| gltf_texture_source(json, texture_index as usize))
+}
+
+fn gltf_texture_source(json: &serde_json::Value, texture_index: usize) -> Option<usize> {
     json.get("textures")
         .and_then(|v| v.as_array())
         .and_then(|textures| textures.get(texture_index))
@@ -1130,6 +1242,7 @@ fn rasterize_triangle(
     }
 
     let light_dir = Vec3::new(-0.35, 0.45, 0.82).normalize();
+    let tangent_frame = triangle_tangent_frame(tri);
 
     for y in min_y..=max_y {
         for x in min_x..=max_x {
@@ -1144,17 +1257,46 @@ fn rasterize_triangle(
                 let idx = y as usize * width as usize + x as usize;
                 if z < depth[idx] {
                     depth[idx] = z;
-                    let normal = (tri.vertices[0].normal * w0
+                    let vertex_normal = (tri.vertices[0].normal * w0
                         + tri.vertices[1].normal * w1
                         + tri.vertices[2].normal * w2)
                         .normalize_or_zero();
+                    let uv =
+                        tri.vertices[0].uv * w0 + tri.vertices[1].uv * w1 + tri.vertices[2].uv * w2;
+                    let normal = tri
+                        .normal_texture
+                        .and_then(|texture_index| textures.get(texture_index))
+                        .and_then(|texture| tangent_frame.map(|frame| (texture, frame)))
+                        .map(|(texture, (tangent, bitangent))| {
+                            let mapped = sample_normal_texture(texture, uv);
+                            let tangent = (tangent - vertex_normal * tangent.dot(vertex_normal))
+                                .normalize_or_zero();
+                            let bitangent = (bitangent
+                                - vertex_normal * bitangent.dot(vertex_normal)
+                                - tangent * bitangent.dot(tangent))
+                            .normalize_or_zero();
+                            let mapped_normal = (tangent * mapped.x
+                                + bitangent * mapped.y
+                                + vertex_normal * mapped.z)
+                                .normalize_or_zero();
+                            vertex_normal
+                                .lerp(mapped_normal, NORMAL_MAP_STRENGTH)
+                                .normalize_or_zero()
+                        })
+                        .filter(|normal| normal.length_squared() > 0.0)
+                        .unwrap_or(vertex_normal);
                     let diffuse = normal.dot(light_dir).max(0.0);
                     let facing = normal.z.abs();
                     let edge_factor = w0.min(w1).min(w2).mul_add(24.0, 0.0).clamp(0.9, 1.0);
+                    let view_dir = Vec3::Z;
+                    let half_dir = (light_dir + view_dir).normalize_or_zero();
+                    let specular = normal
+                        .dot(half_dir)
+                        .max(0.0)
+                        .powf(8.0 + 56.0 * tri.glossiness)
+                        * tri.glossiness;
                     let shade =
-                        (0.22 + 0.52 * diffuse + 0.22 * facing).clamp(0.22, 0.95) * edge_factor;
-                    let uv =
-                        tri.vertices[0].uv * w0 + tri.vertices[1].uv * w1 + tri.vertices[2].uv * w2;
+                        (0.2 + 0.56 * diffuse + 0.2 * facing).clamp(0.18, 0.98) * edge_factor;
                     let texel = tri
                         .base_texture
                         .and_then(|texture_index| textures.get(texture_index))
@@ -1164,10 +1306,13 @@ fn rasterize_triangle(
                         continue;
                     }
                     let base = tri.base_color * Vec3::new(texel.x, texel.y, texel.z);
+                    let lit = base * shade
+                        + tri.specular_factor * specular * SPECULAR_STRENGTH
+                        + tri.emissive_factor * tri.emissive_strength * EMISSIVE_STRENGTH;
                     let color = [
-                        (base.x * 255.0 * shade).clamp(0.0, 255.0) as u8,
-                        (base.y * 255.0 * shade).clamp(0.0, 255.0) as u8,
-                        (base.z * 255.0 * shade).clamp(0.0, 255.0) as u8,
+                        (lit.x * 255.0).clamp(0.0, 255.0) as u8,
+                        (lit.y * 255.0).clamp(0.0, 255.0) as u8,
+                        (lit.z * 255.0).clamp(0.0, 255.0) as u8,
                         255u8,
                     ];
                     rgba[idx * 4..idx * 4 + 4].copy_from_slice(&color);
@@ -1194,6 +1339,43 @@ fn sample_texture(texture: &SoftwareTexture, uv: Vec2) -> Vec4 {
     let top = texture_pixel(texture, x0, y0).lerp(texture_pixel(texture, x1, y0), tx);
     let bottom = texture_pixel(texture, x0, y1).lerp(texture_pixel(texture, x1, y1), tx);
     top.lerp(bottom, ty)
+}
+
+fn sample_normal_texture(texture: &SoftwareTexture, uv: Vec2) -> Vec3 {
+    let texel = sample_texture(texture, uv);
+    Vec3::new(
+        texel.x.mul_add(2.0, -1.0),
+        texel.y.mul_add(2.0, -1.0),
+        texel.z.mul_add(2.0, -1.0),
+    )
+    .normalize_or_zero()
+}
+
+fn triangle_tangent_frame(tri: &SoftwareTriangle) -> Option<(Vec3, Vec3)> {
+    let p0 = tri.vertices[0].position;
+    let p1 = tri.vertices[1].position;
+    let p2 = tri.vertices[2].position;
+    let uv0 = tri.vertices[0].uv;
+    let uv1 = tri.vertices[1].uv;
+    let uv2 = tri.vertices[2].uv;
+    let dp1 = p1 - p0;
+    let dp2 = p2 - p0;
+    let duv1 = uv1 - uv0;
+    let duv2 = uv2 - uv0;
+    let denom = duv1.x * duv2.y - duv1.y * duv2.x;
+    if denom.abs() < 1e-6 {
+        return None;
+    }
+    let inv = 1.0 / denom;
+    let tangent = (dp1 * duv2.y - dp2 * duv1.y) * inv;
+    let bitangent = (dp2 * duv1.x - dp1 * duv2.x) * inv;
+    let tangent = tangent.normalize_or_zero();
+    let bitangent = bitangent.normalize_or_zero();
+    if tangent.length_squared() == 0.0 || bitangent.length_squared() == 0.0 {
+        None
+    } else {
+        Some((tangent, bitangent))
+    }
 }
 
 fn texture_pixel(texture: &SoftwareTexture, x: u32, y: u32) -> Vec4 {
