@@ -40,12 +40,10 @@ pub fn parse_banu_assembly_graph(xml_text: &str) -> Result<AssemblyGraph> {
     let container_self_re = Regex::new(
         r#"(?i)<SVehicleObjectContainerParams\b[^>]*fileName="([^"]+\.socpak)"[^>]*boneName="([^"]*)"[^>]*/>"#,
     )?;
-    let position_re = Regex::new(
-        r#"(?is)<Position\b[^>]*x="([^"]+)"[^>]*y="([^"]+)"[^>]*z="([^"]+)""#,
-    )?;
-    let rotation_re = Regex::new(
-        r#"(?is)<Rotation\b[^>]*x="([^"]+)"[^>]*y="([^"]+)"[^>]*z="([^"]+)""#,
-    )?;
+    let position_re =
+        Regex::new(r#"(?is)<Position\b[^>]*x="([^"]+)"[^>]*y="([^"]+)"[^>]*z="([^"]+)""#)?;
+    let rotation_re =
+        Regex::new(r#"(?is)<Rotation\b[^>]*x="([^"]+)"[^>]*y="([^"]+)"[^>]*z="([^"]+)""#)?;
 
     let mut models = Vec::new();
     let mut object_containers = Vec::new();
@@ -209,7 +207,9 @@ mod tests {
         assert!(graph
             .models
             .iter()
-            .any(|m| m.model_ref.eq_ignore_ascii_case("Objects\\Spaceships\\Ships\\BANU\\Defender\\Banu_Defender.cga")));
+            .any(|m| m.model_ref.eq_ignore_ascii_case(
+                "Objects\\Spaceships\\Ships\\BANU\\Defender\\Banu_Defender.cga"
+            )));
         assert!(graph
             .anchors
             .iter()

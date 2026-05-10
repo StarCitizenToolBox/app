@@ -75,7 +75,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => -1543242902;
+  int get rustContentHash => -1394138907;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -304,6 +304,8 @@ abstract class RustLibApi extends BaseApi {
 
   Future<void> crateApiUnp4KApiP4KCancelWemDecode();
 
+  Future<void> crateApiUnp4KApiP4KClearModelDcbCache();
+
   Future<void> crateApiUnp4KApiP4KClose();
 
   Future<DdsDebugInfo> crateApiUnp4KApiP4KDebugDdsParts({
@@ -362,6 +364,10 @@ abstract class RustLibApi extends BaseApi {
 
   Future<BigInt> crateApiUnp4KApiP4KGetFileCount();
 
+  Future<ArcDataForge> crateApiUnp4KApiP4KGetOrLoadModelDcb({
+    required String p4KPath,
+  });
+
   Future<LocalBatchConvertResult>
   crateApiUnp4KModelApiP4KModelConvertLocalBatchAndMerge({
     required String assetRoot,
@@ -413,6 +419,16 @@ abstract class RustLibApi extends BaseApi {
     Float32List? bgColor,
   });
 
+  Future<SessionCreateResult>
+  crateApiUnp4KModelApiP4KModelSessionCreateFromP4K({
+    required String p4KPath,
+    required String modelPath,
+    required int width,
+    required int height,
+    Float32List? bgColor,
+    ModelConvertOptions? options,
+  });
+
   Future<bool> crateApiUnp4KModelApiP4KModelSessionExists({
     required String sessionId,
   });
@@ -429,6 +445,31 @@ abstract class RustLibApi extends BaseApi {
     required double targetX,
     required double targetY,
     required double targetZ,
+  });
+
+  Future<ModelRenderResult> crateApiUnp4KModelApiP4KModelSessionRenderResized({
+    required String sessionId,
+    required int width,
+    required int height,
+    required double cameraX,
+    required double cameraY,
+    required double cameraZ,
+    required double targetX,
+    required double targetY,
+    required double targetZ,
+  });
+
+  Future<SessionStartResult> crateApiUnp4KModelApiP4KModelSessionStartFromP4K({
+    required String p4KPath,
+    required String modelPath,
+    required int width,
+    required int height,
+    Float32List? bgColor,
+    ModelConvertOptions? options,
+  });
+
+  Future<SessionStatusResult> crateApiUnp4KModelApiP4KModelSessionStatus({
+    required String sessionId,
   });
 
   Future<void> crateApiUnp4KApiP4KOpen({required String p4KPath});
@@ -562,6 +603,14 @@ abstract class RustLibApi extends BaseApi {
     required int rsPid,
     required String data,
   });
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_ArcDataForge;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_ArcDataForge;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArcDataForgePtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -2423,6 +2472,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "p4k_cancel_wem_decode", argNames: []);
 
   @override
+  Future<void> crateApiUnp4KApiP4KClearModelDcbCache() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_api__p4k_clear_model_dcb_cache(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KClearModelDcbCacheConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KClearModelDcbCacheConstMeta =>
+      const TaskConstMeta(debugName: "p4k_clear_model_dcb_cache", argNames: []);
+
+  @override
   Future<void> crateApiUnp4KApiP4KClose() {
     return handler.executeNormal(
       NormalTask(
@@ -2861,6 +2933,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "p4k_get_file_count", argNames: []);
 
   @override
+  Future<ArcDataForge> crateApiUnp4KApiP4KGetOrLoadModelDcb({
+    required String p4KPath,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(p4KPath);
+          return wire.wire__crate__api__unp4k_api__p4k_get_or_load_model_dcb(
+            port_,
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData:
+              dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KGetOrLoadModelDcbConstMeta,
+        argValues: [p4KPath],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KGetOrLoadModelDcbConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_get_or_load_model_dcb",
+        argNames: ["p4KPath"],
+      );
+
+  @override
   Future<LocalBatchConvertResult>
   crateApiUnp4KModelApiP4KModelConvertLocalBatchAndMerge({
     required String assetRoot,
@@ -3161,6 +3264,61 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<SessionCreateResult>
+  crateApiUnp4KModelApiP4KModelSessionCreateFromP4K({
+    required String p4KPath,
+    required String modelPath,
+    required int width,
+    required int height,
+    Float32List? bgColor,
+    ModelConvertOptions? options,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(p4KPath);
+          var arg1 = cst_encode_String(modelPath);
+          var arg2 = cst_encode_u_32(width);
+          var arg3 = cst_encode_u_32(height);
+          var arg4 = cst_encode_opt_list_prim_f_32_strict(bgColor);
+          var arg5 = cst_encode_opt_box_autoadd_model_convert_options(options);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_create_from_p4k(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_session_create_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelSessionCreateFromP4KConstMeta,
+        argValues: [p4KPath, modelPath, width, height, bgColor, options],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiUnp4KModelApiP4KModelSessionCreateFromP4KConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_create_from_p4k",
+        argNames: [
+          "p4KPath",
+          "modelPath",
+          "width",
+          "height",
+          "bgColor",
+          "options",
+        ],
+      );
+
+  @override
   Future<bool> crateApiUnp4KModelApiP4KModelSessionExists({
     required String sessionId,
   }) {
@@ -3285,6 +3443,167 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           "targetY",
           "targetZ",
         ],
+      );
+
+  @override
+  Future<ModelRenderResult> crateApiUnp4KModelApiP4KModelSessionRenderResized({
+    required String sessionId,
+    required int width,
+    required int height,
+    required double cameraX,
+    required double cameraY,
+    required double cameraZ,
+    required double targetX,
+    required double targetY,
+    required double targetZ,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(sessionId);
+          var arg1 = cst_encode_u_32(width);
+          var arg2 = cst_encode_u_32(height);
+          var arg3 = cst_encode_f_32(cameraX);
+          var arg4 = cst_encode_f_32(cameraY);
+          var arg5 = cst_encode_f_32(cameraZ);
+          var arg6 = cst_encode_f_32(targetX);
+          var arg7 = cst_encode_f_32(targetY);
+          var arg8 = cst_encode_f_32(targetZ);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_render_resized(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                arg8,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_model_render_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelSessionRenderResizedConstMeta,
+        argValues: [
+          sessionId,
+          width,
+          height,
+          cameraX,
+          cameraY,
+          cameraZ,
+          targetX,
+          targetY,
+          targetZ,
+        ],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiUnp4KModelApiP4KModelSessionRenderResizedConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_render_resized",
+        argNames: [
+          "sessionId",
+          "width",
+          "height",
+          "cameraX",
+          "cameraY",
+          "cameraZ",
+          "targetX",
+          "targetY",
+          "targetZ",
+        ],
+      );
+
+  @override
+  Future<SessionStartResult> crateApiUnp4KModelApiP4KModelSessionStartFromP4K({
+    required String p4KPath,
+    required String modelPath,
+    required int width,
+    required int height,
+    Float32List? bgColor,
+    ModelConvertOptions? options,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(p4KPath);
+          var arg1 = cst_encode_String(modelPath);
+          var arg2 = cst_encode_u_32(width);
+          var arg3 = cst_encode_u_32(height);
+          var arg4 = cst_encode_opt_list_prim_f_32_strict(bgColor);
+          var arg5 = cst_encode_opt_box_autoadd_model_convert_options(options);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_start_from_p4k(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_session_start_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelSessionStartFromP4KConstMeta,
+        argValues: [p4KPath, modelPath, width, height, bgColor, options],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiUnp4KModelApiP4KModelSessionStartFromP4KConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_start_from_p4k",
+        argNames: [
+          "p4KPath",
+          "modelPath",
+          "width",
+          "height",
+          "bgColor",
+          "options",
+        ],
+      );
+
+  @override
+  Future<SessionStatusResult> crateApiUnp4KModelApiP4KModelSessionStatus({
+    required String sessionId,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(sessionId);
+          return wire
+              .wire__crate__api__unp4k_model_api__p4k_model_session_status(
+                port_,
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_session_status_result,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KModelApiP4KModelSessionStatusConstMeta,
+        argValues: [sessionId],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KModelApiP4KModelSessionStatusConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_model_session_status",
+        argNames: ["sessionId"],
       );
 
   @override
@@ -4285,10 +4604,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiRsProcessWriteConstMeta =>
       const TaskConstMeta(debugName: "write", argNames: ["rsPid", "data"]);
 
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_ArcDataForge => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_ArcDataForge => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge;
+
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return AnyhowException(raw as String);
+  }
+
+  @protected
+  ArcDataForge
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ArcDataForgeImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -4299,6 +4635,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         raw,
       ).map((e) => MapEntry(e.$1, e.$2)),
     );
+  }
+
+  @protected
+  ArcDataForge
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ArcDataForgeImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -4984,6 +5329,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  SessionStartResult dco_decode_session_start_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return SessionStartResult(
+      success: dco_decode_bool(arr[0]),
+      sessionId: dco_decode_opt_String(arr[1]),
+      errorMessage: dco_decode_opt_String(arr[2]),
+    );
+  }
+
+  @protected
+  SessionStatusResult dco_decode_session_status_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return SessionStatusResult(
+      exists: dco_decode_bool(arr[0]),
+      ready: dco_decode_bool(arr[1]),
+      failed: dco_decode_bool(arr[2]),
+      stage: dco_decode_String(arr[3]),
+      modelRadius: dco_decode_f_32(arr[4]),
+      errorMessage: dco_decode_opt_String(arr[5]),
+    );
+  }
+
+  @protected
   SystemInfo dco_decode_system_info(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -5113,12 +5487,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ArcDataForge
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ArcDataForgeImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   Map<String, String> sse_decode_Map_String_String_None(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_record_string_string(deserializer);
     return Map.fromEntries(inner.map((e) => MapEntry(e.$1, e.$2)));
+  }
+
+  @protected
+  ArcDataForge
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ArcDataForgeImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
   }
 
   @protected
@@ -6022,6 +6420,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  SessionStartResult sse_decode_session_start_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_success = sse_decode_bool(deserializer);
+    var var_sessionId = sse_decode_opt_String(deserializer);
+    var var_errorMessage = sse_decode_opt_String(deserializer);
+    return SessionStartResult(
+      success: var_success,
+      sessionId: var_sessionId,
+      errorMessage: var_errorMessage,
+    );
+  }
+
+  @protected
+  SessionStatusResult sse_decode_session_status_result(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_exists = sse_decode_bool(deserializer);
+    var var_ready = sse_decode_bool(deserializer);
+    var var_failed = sse_decode_bool(deserializer);
+    var var_stage = sse_decode_String(deserializer);
+    var var_modelRadius = sse_decode_f_32(deserializer);
+    var var_errorMessage = sse_decode_opt_String(deserializer);
+    return SessionStatusResult(
+      exists: var_exists,
+      ready: var_ready,
+      failed: var_failed,
+      stage: var_stage,
+      modelRadius: var_modelRadius,
+      errorMessage: var_errorMessage,
+    );
+  }
+
+  @protected
   SystemInfo sse_decode_system_info(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_osName = sse_decode_String(deserializer);
@@ -6169,6 +6603,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int
+  cst_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ArcDataForge raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    // ignore: invalid_use_of_internal_member
+    return (raw as ArcDataForgeImpl).frbInternalCstEncode(move: true);
+  }
+
+  @protected
+  int
+  cst_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ArcDataForge raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    // ignore: invalid_use_of_internal_member
+    return (raw as ArcDataForgeImpl).frbInternalCstEncode();
+  }
+
+  @protected
   bool cst_encode_bool(bool raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw;
@@ -6256,6 +6710,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ArcDataForge self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as ArcDataForgeImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
   void sse_encode_Map_String_String_None(
     Map<String, String> self,
     SseSerializer serializer,
@@ -6263,6 +6730,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_record_string_string(
       self.entries.map((e) => (e.key, e.value)).toList(),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
+    ArcDataForge self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as ArcDataForgeImpl).frbInternalSseEncode(move: null),
       serializer,
     );
   }
@@ -7066,6 +7546,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_session_start_result(
+    SessionStartResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.success, serializer);
+    sse_encode_opt_String(self.sessionId, serializer);
+    sse_encode_opt_String(self.errorMessage, serializer);
+  }
+
+  @protected
+  void sse_encode_session_status_result(
+    SessionStatusResult self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.exists, serializer);
+    sse_encode_bool(self.ready, serializer);
+    sse_encode_bool(self.failed, serializer);
+    sse_encode_String(self.stage, serializer);
+    sse_encode_f_32(self.modelRadius, serializer);
+    sse_encode_opt_String(self.errorMessage, serializer);
+  }
+
+  @protected
   void sse_encode_system_info(SystemInfo self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.osName, serializer);
@@ -7177,4 +7682,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_opt_box_autoadd_i_32(self.channels, serializer);
     sse_encode_i_32(self.chunkIndex, serializer);
   }
+}
+
+@sealed
+class ArcDataForgeImpl extends RustOpaque implements ArcDataForge {
+  // Not to be used by end users
+  ArcDataForgeImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ArcDataForgeImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_ArcDataForge,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ArcDataForge,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ArcDataForgePtr,
+  );
 }

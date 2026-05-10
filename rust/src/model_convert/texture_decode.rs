@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use image::{DynamicImage, ImageFormat};
 
 use super::DecodedTexture;
@@ -26,6 +26,14 @@ pub fn decode_texture(
     }
     .map_err(|e| anyhow!("{e}"))?;
 
+    decoded_texture_from_image(path, img, max_texture_size)
+}
+
+pub(crate) fn decoded_texture_from_image(
+    path: &str,
+    img: DynamicImage,
+    max_texture_size: Option<u32>,
+) -> Result<DecodedTexture> {
     let img = maybe_resize(img, max_texture_size)?;
     let rgba = img.to_rgba8();
     let (width, height) = rgba.dimensions();

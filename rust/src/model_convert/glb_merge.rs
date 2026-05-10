@@ -24,6 +24,8 @@ pub struct GlbStats {
 pub struct MergeInput {
     pub path: PathBuf,
     pub anchor: Option<String>,
+    pub anchor_path: Option<Vec<String>>,
+    pub anchor_translation: Option<[f32; 3]>,
 }
 
 struct GlbData {
@@ -45,7 +47,123 @@ fn get_array_mut<'a>(doc: &'a mut Value, key: &str) -> Result<&'a mut Vec<Value>
 }
 
 fn get_array_len(doc: &Value, key: &str) -> usize {
-    doc.get(key).and_then(|v| v.as_array()).map_or(0, |a| a.len())
+    doc.get(key)
+        .and_then(|v| v.as_array())
+        .map_or(0, |a| a.len())
+}
+
+fn find_node_by_name(doc: &Value, name: &str) -> Option<usize> {
+    doc.get("nodes")?
+        .as_array()?
+        .iter()
+        .position(|node| node.get("name").and_then(|v| v.as_str()) == Some(name))
+}
+
+fn find_node_by_path(doc: &Value, path: &[String]) -> Option<usize> {
+    let first = path.first()?.as_str();
+    let nodes = doc.get("nodes")?.as_array()?;
+    nodes
+        .iter()
+        .enumerate()
+        .filter(|(_, node)| node.get("name").and_then(|v| v.as_str()) == Some(first))
+        .find_map(|(idx, _)| find_descendant_path(doc, idx, &path[1..]))
+}
+
+fn find_node_by_path_with_synthetic_root(doc: &Value, path: &[String]) -> Option<usize> {
+    find_node_by_path(doc, path).or_else(|| {
+        if path.len() < 2 {
+            return None;
+        }
+        let first = path.first()?;
+        let synthetic = format!("anchor::{first}");
+        let synthetic_idx = find_node_by_name(doc, &synthetic)?;
+        find_descendant_path(doc, synthetic_idx, &path[1..])
+    })
+}
+
+fn ensure_descendant_node_path(
+    doc: &mut Value,
+    path: &[String],
+    final_translation: Option<[f32; 3]>,
+) -> Result<Option<usize>> {
+    let Some(first) = path.first() else {
+        return Ok(None);
+    };
+    let Some(mut current_idx) = find_node_by_name(doc, first) else {
+        return Ok(None);
+    };
+
+    for (segment_idx, segment) in path.iter().enumerate().skip(1) {
+        let existing_child = doc["nodes"][current_idx]
+            .get("children")
+            .and_then(|v| v.as_array())
+            .and_then(|children| {
+                children.iter().find_map(|child| {
+                    let child_idx = child.as_u64()? as usize;
+                    (doc["nodes"][child_idx]["name"].as_str() == Some(segment.as_str()))
+                        .then_some(child_idx)
+                })
+            });
+        if let Some(child_idx) = existing_child {
+            current_idx = child_idx;
+            continue;
+        }
+
+        let new_idx = get_array_len(doc, "nodes");
+        let mut node = json!({
+            "name": segment,
+            "children": []
+        });
+        if segment_idx + 1 == path.len() {
+            if let Some(translation) = final_translation {
+                node["translation"] = json!([translation[0], translation[1], translation[2]]);
+            }
+        }
+        get_array_mut(doc, "nodes")?.push(node);
+        get_node_children_mut(doc, current_idx)?.push(Value::from(new_idx as u64));
+        current_idx = new_idx;
+    }
+
+    Ok(Some(current_idx))
+}
+
+fn find_descendant_path(doc: &Value, node_index: usize, remaining: &[String]) -> Option<usize> {
+    if remaining.is_empty() {
+        return Some(node_index);
+    }
+    let target = remaining[0].as_str();
+    let nodes = doc.get("nodes")?.as_array()?;
+    let node = nodes.get(node_index)?;
+    let children = node.get("children").and_then(|v| v.as_array())?;
+    for child in children.iter().filter_map(|v| v.as_u64()) {
+        let child_index = child as usize;
+        let child_node = nodes.get(child_index)?;
+        if child_node.get("name").and_then(|v| v.as_str()) == Some(target) {
+            if let Some(found) = find_descendant_path(doc, child_index, &remaining[1..]) {
+                return Some(found);
+            }
+        }
+        if let Some(found) = find_descendant_path(doc, child_index, remaining) {
+            return Some(found);
+        }
+    }
+    None
+}
+
+fn get_node_children_mut(doc: &mut Value, node_index: usize) -> Result<&mut Vec<Value>> {
+    let nodes = doc
+        .get_mut("nodes")
+        .and_then(|v| v.as_array_mut())
+        .ok_or_else(|| anyhow!("invalid glb json: nodes is not array"))?;
+    let node = nodes
+        .get_mut(node_index)
+        .ok_or_else(|| anyhow!("invalid node index {node_index}"))?;
+    if node.get("children").is_none() {
+        node["children"] = Value::Array(Vec::new());
+    }
+    node.get_mut("children")
+        .and_then(|v| v.as_array_mut())
+        .ok_or_else(|| anyhow!("invalid node children"))
 }
 
 fn read_u32_le(data: &[u8], offset: usize) -> Result<u32> {
@@ -152,7 +270,12 @@ pub fn merge_glbs(inputs: &[PathBuf], output_path: &Path) -> Result<GlbStats> {
     let adapted = inputs
         .iter()
         .cloned()
-        .map(|path| MergeInput { path, anchor: None })
+        .map(|path| MergeInput {
+            path,
+            anchor: None,
+            anchor_path: None,
+            anchor_translation: None,
+        })
         .collect::<Vec<_>>();
     merge_glbs_with_attachments(&adapted, &["root".to_string()], output_path)
 }
@@ -232,6 +355,35 @@ pub fn merge_glbs_with_attachments_and_transforms(
 
     for input in inputs {
         let mut part = parse_glb(&input.path)?;
+        let fallback_anchor = "root".to_string();
+        let selected_anchor = input
+            .anchor
+            .as_ref()
+            .filter(|s| !s.is_empty())
+            .unwrap_or(&fallback_anchor);
+        let existing_anchor_idx = if selected_anchor == "root" {
+            None
+        } else {
+            input
+                .anchor_path
+                .as_deref()
+                .and_then(|path| find_node_by_path_with_synthetic_root(&merged, path))
+                .or_else(|| {
+                    if input.anchor_translation.is_some() {
+                        input.anchor_path.as_deref().and_then(|path| {
+                            ensure_descendant_node_path(&mut merged, path, input.anchor_translation)
+                                .ok()
+                                .flatten()
+                        })
+                    } else {
+                        None
+                    }
+                })
+                .or_else(|| find_node_by_name(&merged, selected_anchor))
+        };
+        if selected_anchor != "root" && existing_anchor_idx.is_none() {
+            continue;
+        }
 
         let node_base = get_array_len(&merged, "nodes");
         let mesh_base = get_array_len(&merged, "meshes");
@@ -278,7 +430,11 @@ pub fn merge_glbs_with_attachments_and_transforms(
             get_array_mut(&mut merged, "textures")?.append(arr);
         }
 
-        if let Some(arr) = part.json.get_mut("materials").and_then(|v| v.as_array_mut()) {
+        if let Some(arr) = part
+            .json
+            .get_mut("materials")
+            .and_then(|v| v.as_array_mut())
+        {
             get_array_mut(&mut merged, "materials")?.append(arr);
         }
 
@@ -297,7 +453,11 @@ pub fn merge_glbs_with_attachments_and_transforms(
             get_array_mut(&mut merged, "skins")?.append(arr);
         }
 
-        if let Some(arr) = part.json.get_mut("animations").and_then(|v| v.as_array_mut()) {
+        if let Some(arr) = part
+            .json
+            .get_mut("animations")
+            .and_then(|v| v.as_array_mut())
+        {
             for animation in arr.iter_mut() {
                 if let Some(samplers) = animation.get_mut("samplers").and_then(|v| v.as_array_mut())
                 {
@@ -309,7 +469,8 @@ pub fn merge_glbs_with_attachments_and_transforms(
                 if let Some(channels) = animation.get_mut("channels").and_then(|v| v.as_array_mut())
                 {
                     for channel in channels.iter_mut() {
-                        if let Some(target) = channel.get_mut("target").and_then(|v| v.as_object_mut())
+                        if let Some(target) =
+                            channel.get_mut("target").and_then(|v| v.as_object_mut())
                         {
                             if let Some(old) = target.get("node").and_then(|v| v.as_u64()) {
                                 target.insert(
@@ -328,7 +489,11 @@ pub fn merge_glbs_with_attachments_and_transforms(
             get_array_mut(&mut merged, "cameras")?.append(arr);
         }
 
-        if let Some(arr) = part.json.get_mut("bufferViews").and_then(|v| v.as_array_mut()) {
+        if let Some(arr) = part
+            .json
+            .get_mut("bufferViews")
+            .and_then(|v| v.as_array_mut())
+        {
             for bv in arr.iter_mut() {
                 bv["buffer"] = Value::from(0u64);
                 let old_off = bv.get("byteOffset").and_then(|v| v.as_u64()).unwrap_or(0) as usize;
@@ -337,7 +502,11 @@ pub fn merge_glbs_with_attachments_and_transforms(
             get_array_mut(&mut merged, "bufferViews")?.append(arr);
         }
 
-        if let Some(arr) = part.json.get_mut("accessors").and_then(|v| v.as_array_mut()) {
+        if let Some(arr) = part
+            .json
+            .get_mut("accessors")
+            .and_then(|v| v.as_array_mut())
+        {
             for acc in arr.iter_mut() {
                 remap_index_field(acc, "bufferView", buffer_view_base);
                 if let Some(sparse) = acc.get_mut("sparse").and_then(|v| v.as_object_mut()) {
@@ -369,7 +538,8 @@ pub fn merge_glbs_with_attachments_and_transforms(
                     for prim in prims.iter_mut() {
                         remap_index_field(prim, "indices", accessor_base);
                         remap_index_field(prim, "material", material_base);
-                        if let Some(attrs) = prim.get_mut("attributes").and_then(|v| v.as_object_mut())
+                        if let Some(attrs) =
+                            prim.get_mut("attributes").and_then(|v| v.as_object_mut())
                         {
                             for (_, v) in attrs.iter_mut() {
                                 if let Some(old) = v.as_u64() {
@@ -377,7 +547,9 @@ pub fn merge_glbs_with_attachments_and_transforms(
                                 }
                             }
                         }
-                        if let Some(targets) = prim.get_mut("targets").and_then(|v| v.as_array_mut()) {
+                        if let Some(targets) =
+                            prim.get_mut("targets").and_then(|v| v.as_array_mut())
+                        {
                             for target in targets.iter_mut() {
                                 if let Some(obj) = target.as_object_mut() {
                                     for (_, v) in obj.iter_mut() {
@@ -421,15 +593,24 @@ pub fn merge_glbs_with_attachments_and_transforms(
         } else {
             Vec::new()
         };
-        let fallback_anchor = "root".to_string();
-        let selected_anchor = input.anchor.as_ref().filter(|s| !s.is_empty()).unwrap_or(&fallback_anchor);
-        let anchor_idx = *anchor_to_node
+        let fallback_anchor_idx = *anchor_to_node
             .get(selected_anchor)
             .or_else(|| anchor_to_node.get("root"))
             .ok_or_else(|| anyhow!("missing anchor node"))?;
-        let anchor_children = merged["nodes"][anchor_idx]["children"]
-            .as_array_mut()
-            .ok_or_else(|| anyhow!("invalid anchor children"))?;
+        let path_anchor_idx = input
+            .anchor_path
+            .as_deref()
+            .and_then(|path| path.first())
+            .and_then(|first| {
+                anchor_to_node
+                    .get(first)
+                    .copied()
+                    .or_else(|| find_node_by_name(&merged, &format!("anchor::{first}")))
+            });
+        let anchor_idx = existing_anchor_idx
+            .or(path_anchor_idx)
+            .unwrap_or(fallback_anchor_idx);
+        let anchor_children = get_node_children_mut(&mut merged, anchor_idx)?;
         if roots.is_empty() {
             let node_count = get_array_len(&part.json, "nodes");
             for i in 0..node_count {
@@ -529,6 +710,22 @@ mod tests {
         write_glb(path, &doc, &[0u8; 16]).expect("write test glb");
     }
 
+    fn write_node_only_glb(path: &Path, node_names: &[&str]) {
+        let nodes = node_names
+            .iter()
+            .map(|name| json!({ "name": name }))
+            .collect::<Vec<_>>();
+        let scene_nodes = (0..node_names.len()).map(Value::from).collect::<Vec<_>>();
+        let doc = json!({
+            "asset": { "version": "2.0" },
+            "scene": 0,
+            "scenes": [{ "nodes": scene_nodes }],
+            "nodes": nodes,
+            "buffers": [{ "byteLength": 0 }]
+        });
+        write_glb(path, &doc, &[]).expect("write node-only test glb");
+    }
+
     #[test]
     fn merge_glbs_preserves_skins_animations_and_cameras() {
         let input_a = unique_path("merge_a");
@@ -538,13 +735,15 @@ mod tests {
         write_test_glb(&input_a, "input_a");
         write_test_glb(&input_b, "input_b");
 
-        let result = merge_glbs(&[input_a.clone(), input_b.clone()], &output)
-            .expect("merge should succeed");
+        let result =
+            merge_glbs(&[input_a.clone(), input_b.clone()], &output).expect("merge should succeed");
         assert_eq!(result.nodes, 3);
 
         let merged = parse_glb(&output).expect("parse merged glb");
         let skins = merged.json["skins"].as_array().expect("skins array");
-        let animations = merged.json["animations"].as_array().expect("animations array");
+        let animations = merged.json["animations"]
+            .as_array()
+            .expect("animations array");
         let cameras = merged.json["cameras"].as_array().expect("cameras array");
         let nodes = merged.json["nodes"].as_array().expect("nodes array");
 
@@ -563,25 +762,315 @@ mod tests {
         assert_eq!(skins[1]["joints"][0].as_u64(), Some(2));
         assert_eq!(skins[1]["skeleton"].as_u64(), Some(2));
 
-        assert_eq!(
-            animations[0]["samplers"][0]["input"].as_u64(),
-            Some(0)
-        );
-        assert_eq!(
-            animations[0]["samplers"][0]["output"].as_u64(),
-            Some(0)
-        );
-        assert_eq!(
-            animations[1]["samplers"][0]["input"].as_u64(),
-            Some(1)
-        );
-        assert_eq!(
-            animations[1]["samplers"][0]["output"].as_u64(),
-            Some(1)
-        );
+        assert_eq!(animations[0]["samplers"][0]["input"].as_u64(), Some(0));
+        assert_eq!(animations[0]["samplers"][0]["output"].as_u64(), Some(0));
+        assert_eq!(animations[1]["samplers"][0]["input"].as_u64(), Some(1));
+        assert_eq!(animations[1]["samplers"][0]["output"].as_u64(), Some(1));
 
         let _ = fs::remove_file(input_a);
         let _ = fs::remove_file(input_b);
+        let _ = fs::remove_file(output);
+    }
+
+    #[test]
+    fn merge_glbs_attaches_to_existing_named_node_before_fallback_anchor() {
+        let input_root = unique_path("merge_root_hardpoint");
+        let input_child = unique_path("merge_child_hardpoint");
+        let output = unique_path("merge_out_hardpoint");
+
+        write_node_only_glb(&input_root, &["ship", "hardpoint_weapon_nose_left"]);
+        write_node_only_glb(&input_child, &["weapon"]);
+
+        let inputs = vec![
+            MergeInput {
+                path: input_root.clone(),
+                anchor: None,
+                anchor_path: None,
+                anchor_translation: None,
+            },
+            MergeInput {
+                path: input_child.clone(),
+                anchor: Some("hardpoint_weapon_nose_left".to_string()),
+                anchor_path: None,
+                anchor_translation: None,
+            },
+        ];
+        merge_glbs_with_attachments(
+            &inputs,
+            &["root".to_string(), "hardpoint_weapon_nose_left".to_string()],
+            &output,
+        )
+        .expect("merge should succeed");
+
+        let merged = parse_glb(&output).expect("parse merged glb");
+        let nodes = merged.json["nodes"].as_array().expect("nodes array");
+        let hardpoint_idx = nodes
+            .iter()
+            .position(|node| {
+                node.get("name").and_then(|v| v.as_str()) == Some("hardpoint_weapon_nose_left")
+            })
+            .expect("hardpoint node");
+        let weapon_idx = nodes
+            .iter()
+            .position(|node| node.get("name").and_then(|v| v.as_str()) == Some("weapon"))
+            .expect("weapon node");
+        let children = nodes[hardpoint_idx]["children"]
+            .as_array()
+            .expect("hardpoint children");
+        assert!(children
+            .iter()
+            .any(|child| child.as_u64() == Some(weapon_idx as u64)));
+
+        let _ = fs::remove_file(input_root);
+        let _ = fs::remove_file(input_child);
+        let _ = fs::remove_file(output);
+    }
+
+    #[test]
+    fn merge_glbs_uses_anchor_path_to_disambiguate_duplicate_nodes() {
+        let input_root = unique_path("merge_root_duplicate_path");
+        let input_left = unique_path("merge_left_duplicate_path");
+        let input_right = unique_path("merge_right_duplicate_path");
+        let input_weapon = unique_path("merge_weapon_duplicate_path");
+        let output = unique_path("merge_out_duplicate_path");
+
+        write_node_only_glb(
+            &input_root,
+            &["ship", "hardpoint_weapon_left", "hardpoint_weapon_right"],
+        );
+        write_node_only_glb(&input_left, &["hardpoint_class_2"]);
+        write_node_only_glb(&input_right, &["hardpoint_class_2"]);
+        write_node_only_glb(&input_weapon, &["weapon"]);
+
+        let inputs = vec![
+            MergeInput {
+                path: input_root.clone(),
+                anchor: None,
+                anchor_path: None,
+                anchor_translation: None,
+            },
+            MergeInput {
+                path: input_left.clone(),
+                anchor: Some("hardpoint_weapon_left".to_string()),
+                anchor_path: Some(vec!["hardpoint_weapon_left".to_string()]),
+                anchor_translation: None,
+            },
+            MergeInput {
+                path: input_right.clone(),
+                anchor: Some("hardpoint_weapon_right".to_string()),
+                anchor_path: Some(vec!["hardpoint_weapon_right".to_string()]),
+                anchor_translation: None,
+            },
+            MergeInput {
+                path: input_weapon.clone(),
+                anchor: Some("hardpoint_class_2".to_string()),
+                anchor_path: Some(vec![
+                    "hardpoint_weapon_right".to_string(),
+                    "hardpoint_class_2".to_string(),
+                ]),
+                anchor_translation: None,
+            },
+        ];
+        merge_glbs_with_attachments(
+            &inputs,
+            &[
+                "root".to_string(),
+                "hardpoint_weapon_left".to_string(),
+                "hardpoint_weapon_right".to_string(),
+                "hardpoint_class_2".to_string(),
+            ],
+            &output,
+        )
+        .expect("merge should succeed");
+
+        let merged = parse_glb(&output).expect("parse merged glb");
+        let nodes = merged.json["nodes"].as_array().expect("nodes array");
+        let right_hardpoint_idx = nodes
+            .iter()
+            .position(|node| {
+                node.get("name").and_then(|v| v.as_str()) == Some("hardpoint_weapon_right")
+            })
+            .expect("right hardpoint");
+        let right_class_idx = nodes[right_hardpoint_idx]["children"]
+            .as_array()
+            .expect("right children")
+            .iter()
+            .filter_map(|child| child.as_u64().map(|idx| idx as usize))
+            .find(|idx| {
+                nodes[*idx].get("name").and_then(|v| v.as_str()) == Some("hardpoint_class_2")
+            })
+            .expect("right class hardpoint");
+        let weapon_idx = nodes
+            .iter()
+            .position(|node| node.get("name").and_then(|v| v.as_str()) == Some("weapon"))
+            .expect("weapon node");
+        let right_class_children = nodes[right_class_idx]["children"]
+            .as_array()
+            .expect("right class children");
+        assert!(right_class_children
+            .iter()
+            .any(|child| child.as_u64() == Some(weapon_idx as u64)));
+
+        let _ = fs::remove_file(input_root);
+        let _ = fs::remove_file(input_left);
+        let _ = fs::remove_file(input_right);
+        let _ = fs::remove_file(input_weapon);
+        let _ = fs::remove_file(output);
+    }
+
+    #[test]
+    fn merge_glbs_skips_unresolved_deep_anchor_path_node() {
+        let input_root = unique_path("merge_root_deepest_path");
+        let input_weapon = unique_path("merge_weapon_deepest_path");
+        let output = unique_path("merge_out_deepest_path");
+
+        write_node_only_glb(&input_root, &["ship", "hardpoint_weapon_right"]);
+        write_node_only_glb(&input_weapon, &["weapon"]);
+
+        let inputs = vec![
+            MergeInput {
+                path: input_root.clone(),
+                anchor: None,
+                anchor_path: None,
+                anchor_translation: None,
+            },
+            MergeInput {
+                path: input_weapon.clone(),
+                anchor: Some("hardpoint_class_2".to_string()),
+                anchor_path: Some(vec![
+                    "hardpoint_weapon_right".to_string(),
+                    "hardpoint_class_2".to_string(),
+                ]),
+                anchor_translation: None,
+            },
+        ];
+        merge_glbs_with_attachments(
+            &inputs,
+            &[
+                "root".to_string(),
+                "hardpoint_weapon_right".to_string(),
+                "hardpoint_class_2".to_string(),
+            ],
+            &output,
+        )
+        .expect("merge should succeed");
+
+        let merged = parse_glb(&output).expect("parse merged glb");
+        let nodes = merged.json["nodes"].as_array().expect("nodes array");
+        assert!(nodes
+            .iter()
+            .all(|node| node.get("name").and_then(|v| v.as_str()) != Some("weapon")));
+
+        let _ = fs::remove_file(input_root);
+        let _ = fs::remove_file(input_weapon);
+        let _ = fs::remove_file(output);
+    }
+
+    #[test]
+    fn merge_glbs_skips_unresolved_synthetic_parent_anchor_from_path() {
+        let input_root = unique_path("merge_root_synthetic_parent");
+        let input_weapon = unique_path("merge_weapon_synthetic_parent");
+        let output = unique_path("merge_out_synthetic_parent");
+
+        write_node_only_glb(&input_root, &["ship"]);
+        write_node_only_glb(&input_weapon, &["weapon"]);
+
+        let inputs = vec![
+            MergeInput {
+                path: input_root.clone(),
+                anchor: None,
+                anchor_path: None,
+                anchor_translation: None,
+            },
+            MergeInput {
+                path: input_weapon.clone(),
+                anchor: Some("hardpoint_class_2".to_string()),
+                anchor_path: Some(vec![
+                    "hardpoint_weapon_wing_right".to_string(),
+                    "hardpoint_class_2".to_string(),
+                ]),
+                anchor_translation: None,
+            },
+        ];
+        merge_glbs_with_attachments(
+            &inputs,
+            &[
+                "root".to_string(),
+                "hardpoint_weapon_wing_right".to_string(),
+                "hardpoint_class_2".to_string(),
+            ],
+            &output,
+        )
+        .expect("merge should succeed");
+
+        let merged = parse_glb(&output).expect("parse merged glb");
+        let nodes = merged.json["nodes"].as_array().expect("nodes array");
+        assert!(nodes
+            .iter()
+            .all(|node| node.get("name").and_then(|v| v.as_str()) != Some("weapon")));
+
+        let _ = fs::remove_file(input_root);
+        let _ = fs::remove_file(input_weapon);
+        let _ = fs::remove_file(output);
+    }
+
+    #[test]
+    fn merge_glbs_skips_children_of_unresolved_synthetic_parent_anchor_path() {
+        let input_root = unique_path("merge_root_synthetic_path");
+        let input_rack = unique_path("merge_rack_synthetic_path");
+        let input_missile = unique_path("merge_missile_synthetic_path");
+        let output = unique_path("merge_out_synthetic_path");
+
+        write_node_only_glb(&input_root, &["ship"]);
+        write_node_only_glb(&input_rack, &["missile_01_attach"]);
+        write_node_only_glb(&input_missile, &["missile"]);
+
+        let inputs = vec![
+            MergeInput {
+                path: input_root.clone(),
+                anchor: None,
+                anchor_path: None,
+                anchor_translation: None,
+            },
+            MergeInput {
+                path: input_rack.clone(),
+                anchor: Some("hardpoint_missile_rack_outer".to_string()),
+                anchor_path: Some(vec!["hardpoint_missile_rack_outer".to_string()]),
+                anchor_translation: None,
+            },
+            MergeInput {
+                path: input_missile.clone(),
+                anchor: Some("missile_01_attach".to_string()),
+                anchor_path: Some(vec![
+                    "hardpoint_missile_rack_outer".to_string(),
+                    "missile_01_attach".to_string(),
+                ]),
+                anchor_translation: None,
+            },
+        ];
+        merge_glbs_with_attachments(
+            &inputs,
+            &[
+                "root".to_string(),
+                "hardpoint_missile_rack_outer".to_string(),
+                "missile_01_attach".to_string(),
+            ],
+            &output,
+        )
+        .expect("merge should succeed");
+
+        let merged = parse_glb(&output).expect("parse merged glb");
+        let nodes = merged.json["nodes"].as_array().expect("nodes array");
+        assert!(nodes.iter().all(|node| {
+            !matches!(
+                node.get("name").and_then(|v| v.as_str()),
+                Some("missile_01_attach" | "missile")
+            )
+        }));
+
+        let _ = fs::remove_file(input_root);
+        let _ = fs::remove_file(input_rack);
+        let _ = fs::remove_file(input_missile);
         let _ = fs::remove_file(output);
     }
 }

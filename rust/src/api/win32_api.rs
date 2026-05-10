@@ -962,7 +962,9 @@ pub fn set_clipboard_image(image_data: Vec<u8>) -> anyhow::Result<()> {
     // Create RustImageData from bytes
     let img = RustImageData::from_bytes(&image_data).map_err(|e| anyhow::anyhow!("{}", e))?;
 
-    clipboard.set_image(img).map_err(|e| anyhow::anyhow!("{}", e))?;
+    clipboard
+        .set_image(img)
+        .map_err(|e| anyhow::anyhow!("{}", e))?;
 
     Ok(())
 }

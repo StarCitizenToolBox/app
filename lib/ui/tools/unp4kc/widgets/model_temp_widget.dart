@@ -41,10 +41,35 @@ class ModelViewerConfig {
 }
 
 class ModelTempWidget extends HookConsumerWidget {
-  final Uint8List glbBytes;
+  final Uint8List? glbBytes;
+  final String? glbPath;
+  final String? p4kPath;
+  final String? modelPath;
   final ModelViewerConfig config;
 
-  const ModelTempWidget(this.glbBytes, {super.key, this.config = const ModelViewerConfig()});
+  const ModelTempWidget(
+    this.glbBytes, {
+    super.key,
+    this.config = const ModelViewerConfig(),
+  }) : glbPath = null,
+       p4kPath = null,
+       modelPath = null;
+
+  const ModelTempWidget.fromPath(
+    this.glbPath, {
+    super.key,
+    this.config = const ModelViewerConfig(),
+  }) : glbBytes = null,
+       p4kPath = null,
+       modelPath = null;
+
+  const ModelTempWidget.fromP4k({
+    super.key,
+    required this.p4kPath,
+    required this.modelPath,
+    this.config = const ModelViewerConfig(),
+  }) : glbBytes = null,
+       glbPath = null;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,6 +77,7 @@ class ModelTempWidget extends HookConsumerWidget {
     final image = useState<ui.Image?>(null);
     final isInitializing = useState(true);
     final errorMessage = useState<String?>(null);
+    final loadingStage = useState<String?>(null);
     final modelRadius = useState(1.0);
 
     final cameraDistance = useState(config.initialDistance);
@@ -77,6 +103,8 @@ class ModelTempWidget extends HookConsumerWidget {
     // 上次渲染时的相机角度（用于采样防抖）
     final lastRenderedYaw = useRef<double>(0.0);
     final lastRenderedPitch = useRef<double>(0.0);
+    final initGeneration = useRef<int>(0);
+    final resizeRenderTimer = useRef<Timer?>(null);
 
     // 渲染计数和 FPS 计算
     final renderCount = useRef<int>(0);
@@ -84,11 +112,23 @@ class ModelTempWidget extends HookConsumerWidget {
     final fps = useState<double>(0.0);
 
     final size = MediaQuery.of(context).size;
-    final width = (size.width * 0.5).toInt();
-    final height = (size.height * 0.6).toInt();
+    final devicePixelRatio = MediaQuery.devicePixelRatioOf(
+      context,
+    ).clamp(1.0, 2.0);
+    final width = (size.width * 0.5 * devicePixelRatio)
+        .clamp(512, 1024)
+        .toInt();
+    final height = (size.height * 0.6 * devicePixelRatio)
+        .clamp(512, 1024)
+        .toInt();
+    final renderWidth = useRef(width);
+    final renderHeight = useRef(height);
+    renderWidth.value = width;
+    renderHeight.value = height;
 
     Future<void> renderModel() async {
-      if (sessionId.value == null) return;
+      final renderSessionId = sessionId.value;
+      if (renderSessionId == null) return;
 
       // 如果正在渲染，标记有待处理请求，然后返回
       if (isRendering.value) {
@@ -98,12 +138,23 @@ class ModelTempWidget extends HookConsumerWidget {
 
       isRendering.value = true;
       try {
-        final camX = cameraDistance.value * math.cos(cameraYaw.value) * math.cos(cameraPitch.value) + targetX.value;
-        final camY = cameraDistance.value * math.sin(cameraPitch.value) + targetY.value;
-        final camZ = cameraDistance.value * math.sin(cameraYaw.value) * math.cos(cameraPitch.value) + targetZ.value;
+        final camX =
+            cameraDistance.value *
+                math.cos(cameraYaw.value) *
+                math.cos(cameraPitch.value) +
+            targetX.value;
+        final camY =
+            cameraDistance.value * math.sin(cameraPitch.value) + targetY.value;
+        final camZ =
+            cameraDistance.value *
+                math.sin(cameraYaw.value) *
+                math.cos(cameraPitch.value) +
+            targetZ.value;
 
-        final result = await model_api.p4KModelSessionRender(
-          sessionId: sessionId.value!,
+        final result = await model_api.p4KModelSessionRenderResized(
+          sessionId: renderSessionId,
+          width: renderWidth.value,
+          height: renderHeight.value,
           cameraX: camX,
           cameraY: camY,
           cameraZ: camZ,
@@ -113,7 +164,7 @@ class ModelTempWidget extends HookConsumerWidget {
         );
 
         // async gap 后检查是否已卸载，避免在 defunct element 上 setState
-        if (!isMounted.value) return;
+        if (!isMounted.value || sessionId.value != renderSessionId) return;
 
         if (result.success && result.rgbaData != null) {
           final completer = Completer<ui.Image>();
@@ -126,7 +177,7 @@ class ModelTempWidget extends HookConsumerWidget {
           );
           final newImage = await completer.future;
 
-          if (!isMounted.value) {
+          if (!isMounted.value || sessionId.value != renderSessionId) {
             newImage.dispose();
             return;
           }
@@ -147,7 +198,7 @@ class ModelTempWidget extends HookConsumerWidget {
           }
         }
       } catch (e) {
-        if (!isMounted.value) return;
+        if (!isMounted.value || sessionId.value != renderSessionId) return;
         errorMessage.value = e.toString();
       } finally {
         isRendering.value = false;
@@ -165,6 +216,17 @@ class ModelTempWidget extends HookConsumerWidget {
       renderModel();
     }
 
+    void scheduleResizeRender() {
+      resizeRenderTimer.value?.cancel();
+      resizeRenderTimer.value = Timer(const Duration(milliseconds: 220), () {
+        if (sessionId.value != null &&
+            !isInitializing.value &&
+            !isDragging.value) {
+          scheduleRender();
+        }
+      });
+    }
+
     // 基于角度变化的采样防抖
     // 只有当累积的角度变化超过阈值时才触发渲染
     // 阈值约 1.15 度
@@ -180,7 +242,7 @@ class ModelTempWidget extends HookConsumerWidget {
       }
     }
 
-    Future<void> initializeSession() async {
+    Future<void> initializeSession(int generation) async {
       try {
         isInitializing.value = true;
         errorMessage.value = null;
@@ -188,42 +250,105 @@ class ModelTempWidget extends HookConsumerWidget {
         // Initialize the OpenGL context (required on Windows)
         await model_api.p4KModelInitContext();
 
-        if (!isMounted.value) return;
+        if (!isMounted.value || initGeneration.value != generation) return;
 
         // Background color: #3B4750
         final bgColor = colorToFloat32List(Color.fromRGBO(9, 13, 16, 1.0));
 
-        final result = await model_api.p4KModelSessionCreateFromBytes(
-          glbBytes: glbBytes,
-          width: width,
-          height: height,
-          bgColor: bgColor,
-        );
+        if (p4kPath != null && modelPath != null) {
+          loadingStage.value = "queued";
+          final start = await model_api.p4KModelSessionStartFromP4K(
+            p4KPath: p4kPath!,
+            modelPath: modelPath!,
+            width: width,
+            height: height,
+            bgColor: bgColor,
+            options: const model_api.ModelConvertOptions(
+              embedTextures: false,
+              overwrite: true,
+              maxTextureSize: null,
+            ),
+          );
+          if (!isMounted.value || initGeneration.value != generation) {
+            final staleSessionId = start.sessionId;
+            if (staleSessionId != null) {
+              await model_api.p4KModelSessionRelease(sessionId: staleSessionId);
+            }
+            return;
+          }
+          if (!start.success || start.sessionId == null) {
+            errorMessage.value =
+                start.errorMessage ?? "Failed to start session";
+            return;
+          }
+          sessionId.value = start.sessionId;
+          while (isMounted.value) {
+            await Future<void>.delayed(const Duration(milliseconds: 180));
+            final status = await model_api.p4KModelSessionStatus(
+              sessionId: start.sessionId!,
+            );
+            if (!isMounted.value || initGeneration.value != generation) return;
+            loadingStage.value = status.stage;
+            if (status.failed) {
+              errorMessage.value =
+                  status.errorMessage ?? "Failed to create session";
+              return;
+            }
+            if (status.ready) {
+              modelRadius.value = status.modelRadius;
+              cameraDistance.value = status.modelRadius * 2.75;
+              lastRenderedYaw.value = cameraYaw.value;
+              lastRenderedPitch.value = cameraPitch.value;
+              await renderModel();
+              isInitializing.value = false;
+              return;
+            }
+          }
+          return;
+        }
 
-        if (!isMounted.value) return;
+        final result = glbPath != null
+            ? await model_api.p4KModelSessionCreate(
+                glbPath: glbPath!,
+                width: width,
+                height: height,
+                bgColor: bgColor,
+              )
+            : await model_api.p4KModelSessionCreateFromBytes(
+                glbBytes: glbBytes!,
+                width: width,
+                height: height,
+                bgColor: bgColor,
+              );
+
+        if (!isMounted.value || initGeneration.value != generation) return;
 
         if (result.success && result.sessionId != null) {
           sessionId.value = result.sessionId;
           modelRadius.value = result.modelRadius;
-          cameraDistance.value = result.modelRadius * 3.0;
+          cameraDistance.value = result.modelRadius * 2.75;
           // 初始化渲染角度记录
           lastRenderedYaw.value = cameraYaw.value;
           lastRenderedPitch.value = cameraPitch.value;
           await renderModel();
         } else {
-          errorMessage.value = result.errorMessage ?? "Failed to create session";
+          errorMessage.value =
+              result.errorMessage ?? "Failed to create session";
         }
       } catch (e) {
-        if (!isMounted.value) return;
+        if (!isMounted.value || initGeneration.value != generation) return;
         errorMessage.value = e.toString();
       } finally {
-        isInitializing.value = false;
+        if (isMounted.value && initGeneration.value == generation) {
+          isInitializing.value = false;
+          loadingStage.value = null;
+        }
       }
     }
 
     // 重置视角
     void resetView() {
-      cameraDistance.value = modelRadius.value * 3.0;
+      cameraDistance.value = modelRadius.value * 2.75;
       cameraYaw.value = 0.0;
       cameraPitch.value = 0.0;
       targetX.value = 0.0;
@@ -232,36 +357,83 @@ class ModelTempWidget extends HookConsumerWidget {
     }
 
     useEffect(() {
-      initializeSession();
-      // 清理时释放 session 和 ui.Image，使用局部变量捕获当前 sessionId
-      final capturedSessionId = sessionId.value;
+      initGeneration.value++;
+      final generation = initGeneration.value;
+      isMounted.value = true;
+      isInitializing.value = true;
+      errorMessage.value = null;
+      loadingStage.value = null;
+      final previousSessionId = sessionId.value;
+      sessionId.value = null;
+      if (previousSessionId != null) {
+        model_api.p4KModelSessionRelease(sessionId: previousSessionId);
+      }
+      resizeRenderTimer.value?.cancel();
+      final oldImage = image.value;
+      image.value = null;
+      oldImage?.dispose();
+      initializeSession(generation);
+      // 清理时释放 session 和 ui.Image
       return () {
-        isMounted.value = false;
+        final isCurrentGeneration = initGeneration.value == generation;
+        if (isCurrentGeneration) {
+          isMounted.value = false;
+        }
+        resizeRenderTimer.value?.cancel();
         final oldImage = image.value;
         // 不设置 image.value = null，避免在 defunct element 上触发 setState
         // dispose 后 ValueNotifier 会被 GC 回收，无需清空
         oldImage?.dispose();
-        if (capturedSessionId != null) {
-          model_api.p4KModelSessionRelease(sessionId: capturedSessionId);
-        } else {
-          // sessionId 在初始化完成后才赋值，需要从当前状态读取
-          if (sessionId.value != null) {
-            model_api.p4KModelSessionRelease(sessionId: sessionId.value!);
-          }
+        final currentSessionId = isCurrentGeneration ? sessionId.value : null;
+        if (currentSessionId != null) {
+          sessionId.value = null;
+          model_api.p4KModelSessionRelease(sessionId: currentSessionId);
         }
       };
-    }, [glbBytes]);
+    }, [glbBytes, glbPath, p4kPath, modelPath]);
 
     useEffect(() {
-      // 拖动时不通过 useEffect 触发渲染（避免高频触发）
-      if (sessionId.value != null && !isInitializing.value && !isDragging.value) {
-        scheduleRender();
+      if (sessionId.value != null &&
+          !isInitializing.value &&
+          !isDragging.value) {
+        scheduleResizeRender();
       }
       return null;
-    }, [cameraDistance.value, cameraYaw.value, cameraPitch.value, targetX.value, targetY.value, targetZ.value]);
+    }, [width, height]);
+
+    useEffect(
+      () {
+        // 拖动时不通过 useEffect 触发渲染（避免高频触发）
+        if (sessionId.value != null &&
+            !isInitializing.value &&
+            !isDragging.value) {
+          scheduleRender();
+        }
+        return null;
+      },
+      [
+        cameraDistance.value,
+        cameraYaw.value,
+        cameraPitch.value,
+        targetX.value,
+        targetY.value,
+        targetZ.value,
+      ],
+    );
 
     if (isInitializing.value) {
-      return Center(child: makeLoading(context));
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            makeLoading(context),
+            if (loadingStage.value != null) ...[
+              const SizedBox(height: 12),
+              Text(loadingStage.value!),
+            ],
+          ],
+        ),
+      );
     }
 
     if (errorMessage.value != null) {
@@ -269,10 +441,14 @@ class ModelTempWidget extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(FluentIcons.error, size: 48, color: Colors.errorPrimaryColor),
+            const Icon(
+              FluentIcons.error,
+              size: 48,
+              color: Colors.errorPrimaryColor,
+            ),
             const SizedBox(height: 16),
             Text(
-              S.current.tools_unp4k_msg_unknown_file_type(errorMessage.value!),
+              errorMessage.value!,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.errorPrimaryColor),
             ),
@@ -283,12 +459,26 @@ class ModelTempWidget extends HookConsumerWidget {
 
     // 平移速度因子
     const panSpeedFactor = 0.002;
+    final minCameraDistance = math.min(
+      config.minDistance,
+      modelRadius.value * 0.05,
+    );
+    final maxCameraDistance = math.max(
+      config.maxDistance,
+      modelRadius.value * 20.0,
+    );
 
     return Listener(
+      behavior: HitTestBehavior.opaque,
       onPointerSignal: (signal) {
         if (signal is PointerScrollEvent) {
-          final delta = signal.scrollDelta.dy > 0 ? config.zoomSpeed : 1.0 / config.zoomSpeed;
-          cameraDistance.value = (cameraDistance.value * delta).clamp(config.minDistance, config.maxDistance);
+          final delta = signal.scrollDelta.dy > 0
+              ? config.zoomSpeed
+              : 1.0 / config.zoomSpeed;
+          cameraDistance.value = (cameraDistance.value * delta).clamp(
+            minCameraDistance,
+            maxCameraDistance,
+          );
         }
       },
       onPointerDown: (event) {
@@ -316,10 +506,11 @@ class ModelTempWidget extends HookConsumerWidget {
         } else {
           // 左键：旋转
           cameraYaw.value += delta.dx * config.rotationSpeed;
-          cameraPitch.value = (cameraPitch.value + delta.dy * config.rotationSpeed).clamp(
-            -math.pi / 2 + 0.01,
-            math.pi / 2 - 0.01,
-          );
+          cameraPitch.value =
+              (cameraPitch.value + delta.dy * config.rotationSpeed).clamp(
+                -math.pi / 2 + 0.01,
+                math.pi / 2 - 0.01,
+              );
           tryScheduleRenderByAngle();
         }
 
@@ -346,19 +537,36 @@ class ModelTempWidget extends HookConsumerWidget {
             children: [
               // 模型渲染区域 - 填充整个容器
               if (image.value != null)
-                Positioned.fill(child: CustomPaint(painter: _ImagePainter(image.value!, fitContainer: true))),
+                Positioned.fill(
+                  child: CustomPaint(
+                    painter: _ImagePainter(image.value!, fitContainer: true),
+                  ),
+                ),
               // 信息面板
               Positioned(
                 top: 8,
                 left: 8,
-                child: _InfoPanel(fps: fps.value, distance: cameraDistance.value, modelRadius: modelRadius.value),
+                child: _InfoPanel(
+                  fps: fps.value,
+                  distance: cameraDistance.value,
+                  modelRadius: modelRadius.value,
+                ),
               ),
+              if (loadingStage.value != null && loadingStage.value != 'ready')
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: _StageBadge(stage: loadingStage.value!),
+                ),
               // 操作提示
               Positioned(
                 bottom: 8,
                 left: 8,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(4),
@@ -378,8 +586,12 @@ class ModelTempWidget extends HookConsumerWidget {
                   child: IconButton(
                     icon: const Icon(FluentIcons.reset, size: 16),
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.black.withValues(alpha: 0.5)),
-                      foregroundColor: const WidgetStatePropertyAll(Colors.white),
+                      backgroundColor: WidgetStatePropertyAll(
+                        Colors.black.withValues(alpha: 0.5),
+                      ),
+                      foregroundColor: const WidgetStatePropertyAll(
+                        Colors.white,
+                      ),
                     ),
                     onPressed: resetView,
                   ),
@@ -399,23 +611,65 @@ class _InfoPanel extends StatelessWidget {
   final double distance;
   final double modelRadius;
 
-  const _InfoPanel({required this.fps, required this.distance, required this.modelRadius});
+  const _InfoPanel({
+    required this.fps,
+    required this.distance,
+    required this.modelRadius,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 32),
-      decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(4)),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 32,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(4),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (fps > 0)
-            Text('FPS: ${fps.toStringAsFixed(1)}', style: const TextStyle(color: Colors.white, fontSize: 11)),
-          Text('Distance: ${distance.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white, fontSize: 11)),
-          Text('Radius: ${modelRadius.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white, fontSize: 11)),
+            Text(
+              'FPS: ${fps.toStringAsFixed(1)}',
+              style: const TextStyle(color: Colors.white, fontSize: 11),
+            ),
+          Text(
+            'Distance: ${distance.toStringAsFixed(2)}',
+            style: const TextStyle(color: Colors.white, fontSize: 11),
+          ),
+          Text(
+            'Radius: ${modelRadius.toStringAsFixed(2)}',
+            style: const TextStyle(color: Colors.white, fontSize: 11),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class _StageBadge extends StatelessWidget {
+  final String stage;
+
+  const _StageBadge({required this.stage});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 32,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        stage,
+        style: const TextStyle(color: Colors.white, fontSize: 11),
       ),
     );
   }
@@ -454,7 +708,12 @@ class _ImagePainter extends CustomPainter {
       final dx = (size.width - drawWidth) / 2;
       final dy = (size.height - drawHeight) / 2;
 
-      final srcRect = Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
+      final srcRect = Rect.fromLTWH(
+        0,
+        0,
+        image.width.toDouble(),
+        image.height.toDouble(),
+      );
       final dstRect = Rect.fromLTWH(dx, dy, drawWidth, drawHeight);
 
       canvas.drawImageRect(image, srcRect, dstRect, paint);
@@ -465,6 +724,7 @@ class _ImagePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _ImagePainter oldDelegate) {
-    return oldDelegate.image != image || oldDelegate.fitContainer != fitContainer;
+    return oldDelegate.image != image ||
+        oldDelegate.fitContainer != fitContainer;
   }
 }

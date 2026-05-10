@@ -35,7 +35,7 @@ class PreviewFile {
 
 /// 排序类型枚举
 enum Unp4kSortType {
-  /// 默认排序（文件夹优先，按名称）
+  /// 默认排序（新文件优先，同时间大文件优先）
   defaultSort,
 
   /// 文件大小升序
@@ -54,6 +54,17 @@ enum Unp4kSortType {
 enum Unp4kFilterMode { none, before, after, range }
 
 enum Unp4kSizeUnit { k, kb, mb, gb }
+
+enum Unp4kViewMode { fileBrowser, modelBrowser, musicBrowser }
+
+enum Unp4kModelCategory {
+  ships,
+  fpsWeapons,
+  vehicles,
+  characters,
+  props,
+  other,
+}
 
 @freezed
 abstract class Unp4kcState with _$Unp4kcState {
@@ -124,6 +135,10 @@ abstract class Unp4kcState with _$Unp4kcState {
 
     /// 后缀筛选（多选）
     @Default({}) Set<String> suffixFilter,
+
+    @Default(Unp4kViewMode.fileBrowser) Unp4kViewMode viewMode,
+    Unp4kModelCategory? modelCategory,
+    @Default(false) bool isIndexingAssetBrowser,
   }) = _Unp4kcState;
 }
 
@@ -132,10 +147,15 @@ class Unp4kCModel extends _$Unp4kCModel {
   final List<String> _backPathHistory = <String>[];
   final List<String> _forwardPathHistory = <String>[];
   final Map<String, List<String>> _suffixFilesIndex = <String, List<String>>{};
+  final Map<Unp4kModelCategory, List<String>> _modelAssetIndex =
+      <Unp4kModelCategory, List<String>>{};
+  final List<String> _musicAssetIndex = <String>[];
 
   _FilterState _browseFilters = _FilterState();
   _FilterState _searchFilters = _FilterState();
   String _savedCurPath = "\\";
+  bool _modelAssetIndexReady = false;
+  bool _musicAssetIndexReady = false;
 
   bool _isDdnaDdsPath(String lowerPath) {
     return RegExp(r"_ddna\.dds(\.\d+)?$").hasMatch(lowerPath);
@@ -224,6 +244,13 @@ class Unp4kCModel extends _$Unp4kCModel {
       final suffixes = <String>{};
       final fs = MemoryFileSystem(style: FileSystemStyle.posix);
       _suffixFilesIndex.clear();
+      _musicAssetIndex.clear();
+      _modelAssetIndex.clear();
+      for (final category in Unp4kModelCategory.values) {
+        _modelAssetIndex[category] = <String>[];
+      }
+      _modelAssetIndexReady = false;
+      _musicAssetIndexReady = false;
 
       var nextAwait = 0;
       for (var i = 0; i < p4kFiles.length; i++) {
@@ -243,6 +270,14 @@ class Unp4kCModel extends _$Unp4kCModel {
             suffixes.add(ext);
             (_suffixFilesIndex[ext] ??= <String>[]).add(item.name);
           }
+          final indexedPath = _normalizeFileKey(item.name);
+          final lowerPath = indexedPath.toLowerCase();
+          if (_isExactModelAsset(lowerPath)) {
+            _modelAssetIndex[_classifyModelPath(lowerPath)]!.add(indexedPath);
+          }
+          if (_isSupportedMusicAsset(lowerPath)) {
+            _musicAssetIndex.add(indexedPath);
+          }
         }
 
         if (!item.isDirectory) {
@@ -260,6 +295,16 @@ class Unp4kCModel extends _$Unp4kCModel {
           nextAwait += 30000;
         }
       }
+      for (final paths in _modelAssetIndex.values) {
+        paths.sort();
+      }
+      _musicAssetIndex.sort((a, b) {
+        final fa = files[a] ?? files[_stripLeadingSlash(a)];
+        final fb = files[b] ?? files[_stripLeadingSlash(b)];
+        return _compareMusicFiles(fa, fb);
+      });
+      _modelAssetIndexReady = true;
+      _musicAssetIndexReady = true;
 
       final endTime = DateTime.now();
       state = state.copyWith(
@@ -324,6 +369,13 @@ class Unp4kCModel extends _$Unp4kCModel {
     final allFiles = state.files;
     if (allFiles == null) return null;
 
+    if (state.viewMode == Unp4kViewMode.modelBrowser) {
+      return _getModelBrowserFiles(allFiles);
+    }
+    if (state.viewMode == Unp4kViewMode.musicBrowser) {
+      return _getMusicBrowserFiles(allFiles);
+    }
+
     if (state.searchMatchedFiles != null) {
       // 先添加保留的文件夹（当前目录搜索模式下）
       if (state.searchKeptDirectories != null) {
@@ -380,6 +432,223 @@ class Unp4kCModel extends _$Unp4kCModel {
 
     _applyAdvancedFilters(result);
     _sortFiles(result);
+    return result;
+  }
+
+  List<AppUnp4kP4kItemData> _getModelBrowserFiles(
+    Map<String, AppUnp4kP4kItemData> allFiles,
+  ) {
+    _ensureModelAssetIndex();
+    final category = state.modelCategory;
+    if (state.searchMatchedFiles != null) {
+      final result = _filesFromPaths(allFiles, state.searchMatchedFiles!);
+      _applyAdvancedFilters(result);
+      _sortFiles(result);
+      return result;
+    }
+
+    if (category == null) {
+      return Unp4kModelCategory.values
+          .map(
+            (category) => AppUnp4kP4kItemData(
+              name: modelCategoryLabel(category),
+              isDirectory: true,
+              size: _modelAssetIndex[category]?.length ?? 0,
+            ),
+          )
+          .where((item) => (item.size ?? 0) > 0)
+          .toList();
+    }
+
+    final result = _filesFromPaths(allFiles, _modelAssetIndex[category] ?? []);
+    _applyAdvancedFilters(result);
+    _sortFiles(result);
+    return result;
+  }
+
+  List<AppUnp4kP4kItemData> _getMusicBrowserFiles(
+    Map<String, AppUnp4kP4kItemData> allFiles,
+  ) {
+    _ensureMusicAssetIndex();
+    final paths = state.searchMatchedFiles ?? _musicAssetIndex;
+    final result = _filesFromPaths(allFiles, paths);
+    _applyAdvancedFilters(result);
+    if (state.sortType == Unp4kSortType.defaultSort) {
+      _sortMusicFiles(result);
+    } else {
+      _sortFiles(result);
+    }
+    return result;
+  }
+
+  List<AppUnp4kP4kItemData> _filesFromPaths(
+    Map<String, AppUnp4kP4kItemData> allFiles,
+    Iterable<String> paths,
+  ) {
+    final result = <AppUnp4kP4kItemData>[];
+    for (final path in paths) {
+      final file = allFiles[path] ?? allFiles[_stripLeadingSlash(path)];
+      if (file == null || (file.isDirectory ?? false)) continue;
+      if (!(file.name?.startsWith("\\") ?? true)) {
+        file.name = "\\${file.name}";
+      }
+      result.add(file);
+    }
+    return result;
+  }
+
+  void _ensureModelAssetIndex() {
+    if (_modelAssetIndexReady) return;
+    for (final category in Unp4kModelCategory.values) {
+      _modelAssetIndex[category] = <String>[];
+    }
+    final allFiles = state.files;
+    if (allFiles == null) return;
+    for (final entry in allFiles.entries) {
+      final item = entry.value;
+      if (item.isDirectory ?? false) continue;
+      final path = _normalizeFileKey(item.name ?? entry.key);
+      final lower = path.toLowerCase();
+      if (!_isExactModelAsset(lower)) continue;
+      _modelAssetIndex[_classifyModelPath(lower)]!.add(path);
+    }
+    for (final paths in _modelAssetIndex.values) {
+      paths.sort();
+    }
+    _modelAssetIndexReady = true;
+  }
+
+  void _ensureMusicAssetIndex() {
+    if (_musicAssetIndexReady) return;
+    _musicAssetIndex.clear();
+    final allFiles = state.files;
+    if (allFiles == null) return;
+    for (final entry in allFiles.entries) {
+      final item = entry.value;
+      if (item.isDirectory ?? false) continue;
+      final path = _normalizeFileKey(item.name ?? entry.key);
+      if (_isSupportedMusicAsset(path.toLowerCase())) {
+        _musicAssetIndex.add(path);
+      }
+    }
+    _musicAssetIndex.sort((a, b) {
+      final fa = allFiles[a] ?? allFiles[_stripLeadingSlash(a)];
+      final fb = allFiles[b] ?? allFiles[_stripLeadingSlash(b)];
+      return _compareMusicFiles(fa, fb);
+    });
+    _musicAssetIndexReady = true;
+  }
+
+  bool _isExactModelAsset(String lowerPath) {
+    return lowerPath.endsWith(".cga") || lowerPath.endsWith(".cgf");
+  }
+
+  bool _isSupportedMusicAsset(String lowerPath) {
+    return lowerPath.endsWith(".wem");
+  }
+
+  Unp4kModelCategory _classifyModelPath(String lowerPath) {
+    if (lowerPath.contains(r"\spaceships\") ||
+        lowerPath.contains(r"\ships\") ||
+        lowerPath.contains(r"\ship_")) {
+      return Unp4kModelCategory.ships;
+    }
+    if (lowerPath.contains(r"\weapons\") ||
+        lowerPath.contains(r"\fps_weapons\") ||
+        lowerPath.contains(r"\fps\weapons\")) {
+      return Unp4kModelCategory.fpsWeapons;
+    }
+    if (lowerPath.contains(r"\vehicles\") ||
+        lowerPath.contains(r"\groundvehicles\") ||
+        lowerPath.contains(r"\vehicle\")) {
+      return Unp4kModelCategory.vehicles;
+    }
+    if (lowerPath.contains(r"\characters\") ||
+        lowerPath.contains(r"\armor\") ||
+        lowerPath.contains(r"\heads\") ||
+        lowerPath.contains(r"\human\")) {
+      return Unp4kModelCategory.characters;
+    }
+    if (lowerPath.contains(r"\props\") ||
+        lowerPath.contains(r"\items\") ||
+        lowerPath.contains(r"\objects\")) {
+      return Unp4kModelCategory.props;
+    }
+    return Unp4kModelCategory.other;
+  }
+
+  String modelCategoryLabel(Unp4kModelCategory category) {
+    switch (category) {
+      case Unp4kModelCategory.ships:
+        return "飞船";
+      case Unp4kModelCategory.fpsWeapons:
+        return "FPS 武器";
+      case Unp4kModelCategory.vehicles:
+        return "载具";
+      case Unp4kModelCategory.characters:
+        return "装备角色";
+      case Unp4kModelCategory.props:
+        return "道具场景";
+      case Unp4kModelCategory.other:
+        return "其他";
+    }
+  }
+
+  Unp4kModelCategory? modelCategoryFromLabel(String label) {
+    for (final category in Unp4kModelCategory.values) {
+      if (modelCategoryLabel(category) == label) return category;
+    }
+    return null;
+  }
+
+  String _normalizeFileKey(String path) {
+    final normalized = path.replaceAll("/", "\\");
+    return normalized.startsWith("\\") ? normalized : "\\$normalized";
+  }
+
+  String _stripLeadingSlash(String path) {
+    return path.startsWith("\\") ? path.substring(1) : path;
+  }
+
+  void _sortMusicFiles(List<AppUnp4kP4kItemData> files) {
+    files.sort(_compareMusicFiles);
+  }
+
+  int _compareMusicFiles(AppUnp4kP4kItemData? a, AppUnp4kP4kItemData? b) {
+    final dateCompare = (b?.dateModified ?? 0).compareTo(a?.dateModified ?? 0);
+    if (dateCompare != 0) return dateCompare;
+    final sizeCompare = (b?.size ?? 0).compareTo(a?.size ?? 0);
+    if (sizeCompare != 0) return sizeCompare;
+    return (a?.name ?? "").compareTo(b?.name ?? "");
+  }
+
+  Map<String, AppUnp4kP4kItemData> _searchCandidateFiles(
+    Map<String, AppUnp4kP4kItemData> allFiles,
+  ) {
+    if (state.viewMode == Unp4kViewMode.modelBrowser) {
+      _ensureModelAssetIndex();
+      final paths = state.modelCategory == null
+          ? _modelAssetIndex.values.expand((paths) => paths)
+          : (_modelAssetIndex[state.modelCategory] ?? const <String>[]);
+      return _mapFilesByPaths(allFiles, paths);
+    }
+    if (state.viewMode == Unp4kViewMode.musicBrowser) {
+      _ensureMusicAssetIndex();
+      return _mapFilesByPaths(allFiles, _musicAssetIndex);
+    }
+    return allFiles;
+  }
+
+  Map<String, AppUnp4kP4kItemData> _mapFilesByPaths(
+    Map<String, AppUnp4kP4kItemData> allFiles,
+    Iterable<String> paths,
+  ) {
+    final result = <String, AppUnp4kP4kItemData>{};
+    for (final path in paths) {
+      final file = allFiles[path] ?? allFiles[_stripLeadingSlash(path)];
+      if (file == null) continue;
+      result[path] = file;
+    }
     return result;
   }
 
@@ -524,16 +793,7 @@ class Unp4kCModel extends _$Unp4kCModel {
   void _sortFiles(List<AppUnp4kP4kItemData> files) {
     switch (state.sortType) {
       case Unp4kSortType.defaultSort:
-        // 默认排序：文件夹优先，按名称排序
-        files.sort((a, b) {
-          if ((a.isDirectory ?? false) && !(b.isDirectory ?? false)) {
-            return -1;
-          } else if (!(a.isDirectory ?? false) && (b.isDirectory ?? false)) {
-            return 1;
-          } else {
-            return (a.name ?? "").compareTo(b.name ?? "");
-          }
-        });
+        files.sort(_compareDefaultFiles);
         break;
       case Unp4kSortType.sizeAsc:
         // 文件大小升序（文件夹大小视为0）
@@ -588,6 +848,16 @@ class Unp4kCModel extends _$Unp4kCModel {
         });
         break;
     }
+  }
+
+  int _compareDefaultFiles(AppUnp4kP4kItemData a, AppUnp4kP4kItemData b) {
+    final dateCompare = (b.dateModified ?? 0).compareTo(a.dateModified ?? 0);
+    if (dateCompare != 0) return dateCompare;
+    final sizeA = (a.isDirectory ?? false) ? 0 : (a.size ?? 0);
+    final sizeB = (b.isDirectory ?? false) ? 0 : (b.size ?? 0);
+    final sizeCompare = sizeB.compareTo(sizeA);
+    if (sizeCompare != 0) return sizeCompare;
+    return (a.name ?? "").compareTo(b.name ?? "");
   }
 
   /// 设置排序类型
@@ -673,6 +943,65 @@ class Unp4kCModel extends _$Unp4kCModel {
     state = state.copyWith(isGlobalSearchScope: isGlobal);
   }
 
+  void setViewMode(Unp4kViewMode mode) {
+    if (state.viewMode == mode) return;
+    _saveCurrentFilters();
+    if (state.viewMode == Unp4kViewMode.fileBrowser &&
+        state.searchMatchedFiles == null) {
+      _savedCurPath = state.curPath;
+    }
+    if (mode == Unp4kViewMode.modelBrowser) {
+      _ensureModelAssetIndex();
+    } else if (mode == Unp4kViewMode.musicBrowser) {
+      _ensureMusicAssetIndex();
+    }
+    final nextPath = mode == Unp4kViewMode.fileBrowser ? _savedCurPath : "\\";
+    state = _applyFilterState(
+      state.copyWith(
+        viewMode: mode,
+        modelCategory: null,
+        searchQuery: "",
+        searchMatchedFiles: null,
+        searchKeptDirectories: null,
+        searchPath: null,
+        isSearching: false,
+        isGlobalSearchScope: mode != Unp4kViewMode.fileBrowser,
+        curPath: nextPath,
+        isMultiSelectMode: false,
+        selectedItems: {},
+      ),
+      _browseFilters,
+    );
+    _backPathHistory.clear();
+    _forwardPathHistory.clear();
+  }
+
+  void selectModelCategory(Unp4kModelCategory category) {
+    if (state.viewMode != Unp4kViewMode.modelBrowser) return;
+    state = state.copyWith(
+      modelCategory: category,
+      searchQuery: "",
+      searchMatchedFiles: null,
+      searchKeptDirectories: null,
+      searchPath: null,
+      curPath: "\\${modelCategoryLabel(category)}\\",
+      isMultiSelectMode: false,
+      selectedItems: {},
+    );
+  }
+
+  void clearModelCategory() {
+    if (state.viewMode != Unp4kViewMode.modelBrowser) return;
+    state = state.copyWith(
+      modelCategory: null,
+      searchQuery: "",
+      searchMatchedFiles: null,
+      searchKeptDirectories: null,
+      searchPath: null,
+      curPath: "\\",
+    );
+  }
+
   /// 执行搜索（异步）
   Future<void> search(String query) async {
     if (query.isEmpty) {
@@ -682,15 +1011,18 @@ class Unp4kCModel extends _$Unp4kCModel {
 
     _saveCurrentFilters();
 
-    // 只在浏览模式下保存当前路径（搜索模式下 curPath 是根目录）
-    if (state.searchMatchedFiles == null) {
+    // 只在文件浏览模式下保存当前路径（搜索模式下 curPath 是根目录）
+    if (state.viewMode == Unp4kViewMode.fileBrowser &&
+        state.searchMatchedFiles == null) {
       _savedCurPath = state.curPath;
     }
 
-    final isGlobal = state.isGlobalSearchScope;
+    final isGlobal =
+        state.viewMode != Unp4kViewMode.fileBrowser ||
+        state.isGlobalSearchScope;
     String? pathPrefix;
     String? searchPath;
-    if (!isGlobal) {
+    if (!isGlobal && state.viewMode == Unp4kViewMode.fileBrowser) {
       pathPrefix = _savedCurPath.replaceAll("\\", "/");
       if (!pathPrefix.endsWith("/")) {
         pathPrefix = "$pathPrefix/";
@@ -713,11 +1045,12 @@ class Unp4kCModel extends _$Unp4kCModel {
       state = state.copyWith(isSearching: false);
       return;
     }
+    final searchFiles = _searchCandidateFiles(allFiles);
 
     try {
       final searchResult = await compute(
         _searchFiles,
-        _SearchParams(allFiles, query, pathPrefix),
+        _SearchParams(searchFiles, query, pathPrefix),
       );
       final matchedFiles = searchResult.matchedFiles;
       final keptDirs = searchResult.keptDirectories;
@@ -744,6 +1077,24 @@ class Unp4kCModel extends _$Unp4kCModel {
   /// [targetPath] 可选的目标路径，用于直接切换到新目录
   void clearSearch({String? targetPath}) {
     _saveCurrentFilters();
+    if (state.viewMode != Unp4kViewMode.fileBrowser) {
+      state = _applyFilterState(
+        state.copyWith(
+          searchQuery: "",
+          searchMatchedFiles: null,
+          searchKeptDirectories: null,
+          isSearching: false,
+          curPath:
+              state.viewMode == Unp4kViewMode.modelBrowser &&
+                  state.modelCategory != null
+              ? "\\${modelCategoryLabel(state.modelCategory!)}\\"
+              : "\\",
+          searchPath: null,
+        ),
+        _browseFilters,
+      );
+      return;
+    }
     final newPath = targetPath ?? _savedCurPath;
     _savedCurPath = newPath;
     state = _applyFilterState(
@@ -805,6 +1156,14 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 
   void changeDir(String name, {bool fullPath = false}) {
+    if (state.viewMode == Unp4kViewMode.modelBrowser) {
+      final category = modelCategoryFromLabel(name.replaceAll("\\", ""));
+      if (category != null) {
+        selectModelCategory(category);
+      }
+      return;
+    }
+    if (state.viewMode != Unp4kViewMode.fileBrowser) return;
     // 切换目录时退出多选模式
     if (state.isMultiSelectMode) {
       state = state.copyWith(isMultiSelectMode: false, selectedItems: {});
@@ -814,11 +1173,19 @@ class Unp4kCModel extends _$Unp4kCModel {
     _navigateToPath(targetPath);
   }
 
-  bool canGoBackPath() => _backPathHistory.isNotEmpty;
+  bool canGoBackPath() =>
+      (state.viewMode == Unp4kViewMode.modelBrowser &&
+          state.modelCategory != null) ||
+      _backPathHistory.isNotEmpty;
 
   bool canGoForwardPath() => _forwardPathHistory.isNotEmpty;
 
   void goBackPath() {
+    if (state.viewMode == Unp4kViewMode.modelBrowser &&
+        state.modelCategory != null) {
+      clearModelCategory();
+      return;
+    }
     if (_backPathHistory.isEmpty) return;
     final target = _backPathHistory.removeLast();
     final current = state.curPath;
@@ -849,6 +1216,7 @@ class Unp4kCModel extends _$Unp4kCModel {
 
   /// 带路径存在性校验的目录切换
   bool changeDirValidated(String name, {bool fullPath = false}) {
+    if (state.viewMode != Unp4kViewMode.fileBrowser) return false;
     var targetPath = fullPath ? name : "${state.curPath}$name\\";
     targetPath = _normalizeDirPath(targetPath);
 
@@ -900,11 +1268,7 @@ class Unp4kCModel extends _$Unp4kCModel {
       currentPreviewPath: filePath,
       endMessage: S.current.tools_unp4k_msg_open_file(filePath),
     );
-    await extractFile(
-      filePath,
-      mode: "extract_open",
-      context: context,
-    );
+    await extractFile(filePath, mode: "extract_open", context: context);
   }
 
   Future<void> extractFile(
@@ -1001,17 +1365,23 @@ class Unp4kCModel extends _$Unp4kCModel {
         for (var element in modelExt) {
           if (lowerFilePath.endsWith(element)) {
             try {
-              final glbResult = await convertModelToGlbBytes(filePath);
-              if (glbResult.$1 && glbResult.$2 != null) {
+              var modelPath = filePath;
+              if (modelPath.startsWith("\\")) {
+                modelPath = modelPath.substring(1);
+              }
+              final supported = await unp4k_model_api.p4KModelIsSupported(
+                filePath: modelPath,
+              );
+              if (supported) {
                 state = state.copyWith(
-                  tempOpenFile: PreviewFile(
-                    type: "model",
-                    bytes: glbResult.$2!,
-                    filePath: filePath,
-                  ),
+                  tempOpenFile: PreviewFile(type: "model", filePath: modelPath),
                   endMessage: S.current.tools_unp4k_msg_open_file(filePath),
                 );
                 return;
+              } else {
+                state = state.copyWith(
+                  endMessage: S.current.tools_unp4k_convert_unsupported,
+                );
               }
             } catch (e) {
               dPrint("[unp4k] model convert failed: $e");
@@ -1313,9 +1683,9 @@ class Unp4kCModel extends _$Unp4kCModel {
         modelPath: modelPath,
         outputDir: outputDir,
         options: const unp4k_model_api.ModelConvertOptions(
-          embedTextures: true,
+          embedTextures: false,
           overwrite: true,
-          maxTextureSize: 4096,
+          maxTextureSize: null,
         ),
       );
 
@@ -1373,7 +1743,7 @@ class Unp4kCModel extends _$Unp4kCModel {
         options: const unp4k_model_api.ModelConvertOptions(
           embedTextures: true,
           overwrite: true,
-          maxTextureSize: 4096,
+          maxTextureSize: 1024,
         ),
       );
 
@@ -1422,8 +1792,7 @@ class Unp4kCModel extends _$Unp4kCModel {
 
       final pngBytes = (await unp4k_api.p4KExtractDdsAsPng(
         filePath: normalizedPath,
-      ))
-          .$1;
+      )).$1;
 
       String relativeOutput = normalizedPath;
       final ddsChainIndex = lower.indexOf(".dds.");

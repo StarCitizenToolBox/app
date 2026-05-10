@@ -1,3 +1,7 @@
+use std::sync::{
+    Arc,
+    atomic::{AtomicBool, Ordering},
+};
 use thiserror::Error;
 
 #[derive(Debug, Clone)]
@@ -28,7 +32,18 @@ pub struct SceneMesh {
 }
 
 #[derive(Debug, Clone)]
+pub struct SceneNode {
+    pub name: String,
+    pub parent: Option<String>,
+    pub translation: Option<[f32; 3]>,
+    pub rotation: Option<[f32; 4]>,
+    pub scale: Option<[f32; 3]>,
+    pub matrix: Option<[f32; 16]>,
+}
+
+#[derive(Debug, Clone)]
 pub struct SceneData {
+    pub nodes: Vec<SceneNode>,
     pub meshes: Vec<SceneMesh>,
     pub warnings: Vec<String>,
 }
@@ -99,6 +114,7 @@ pub struct ConvertOptions {
     pub embed_textures: bool,
     pub overwrite: bool,
     pub max_texture_size: Option<u32>,
+    pub cancel_token: Option<ConvertCancelToken>,
 }
 
 impl Default for ConvertOptions {
@@ -107,6 +123,48 @@ impl Default for ConvertOptions {
             embed_textures: true,
             overwrite: false,
             max_texture_size: Some(4096),
+            cancel_token: None,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct ConvertCancelToken {
+    cancelled: Arc<AtomicBool>,
+}
+
+impl ConvertCancelToken {
+    pub fn new() -> Self {
+        Self {
+            cancelled: Arc::new(AtomicBool::new(false)),
+        }
+    }
+
+    pub fn cancel(&self) {
+        self.cancelled.store(true, Ordering::Relaxed);
+    }
+
+    pub fn is_cancelled(&self) -> bool {
+        self.cancelled.load(Ordering::Relaxed)
+    }
+}
+
+impl Default for ConvertCancelToken {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl ConvertOptions {
+    pub fn check_cancelled(&self) -> std::result::Result<(), ModelConvertError> {
+        if self
+            .cancel_token
+            .as_ref()
+            .is_some_and(ConvertCancelToken::is_cancelled)
+        {
+            Err(ModelConvertError::Cancelled)
+        } else {
+            Ok(())
         }
     }
 }
@@ -127,8 +185,56 @@ pub struct ConvertBytesOutput {
     pub fallback_reason: Option<String>,
 }
 
+#[derive(Debug, Clone)]
+pub struct ConvertSceneOutput {
+    pub scene: SceneData,
+    pub textures: Vec<DecodedTexture>,
+    pub materials: Vec<GltfMaterialData>,
+    pub materials_by_id: std::collections::HashMap<i32, usize>,
+    pub warnings: Vec<String>,
+    pub source_mode: String,
+    pub fallback_reason: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+pub struct BatchFileOutput {
+    pub model_path: String,
+    pub output_path: Option<String>,
+    pub has_geometry: bool,
+    pub error_code: Option<String>,
+    pub error_message: Option<String>,
+    pub warnings: Vec<String>,
+    pub source_mode: String,
+    pub fallback_reason: Option<String>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct BatchAssemblyStats {
+    pub nodes: i32,
+    pub geometry_nodes: i32,
+    pub object_containers: i32,
+    pub roots: i32,
+}
+
+#[derive(Debug, Clone)]
+pub struct BatchConvertOutput {
+    pub merged_output_path: String,
+    pub assembly_manifest_path: String,
+    pub assembly_report_path: String,
+    pub success_count: i32,
+    pub empty_count: i32,
+    pub failed_count: i32,
+    pub warnings: Vec<String>,
+    pub files: Vec<BatchFileOutput>,
+    pub source_mode: String,
+    pub assembly_graph_stats: BatchAssemblyStats,
+    pub fallback_reason_by_file: Vec<String>,
+}
+
 #[derive(Error, Debug)]
 pub enum ModelConvertError {
+    #[error("Conversion cancelled")]
+    Cancelled,
     #[error("Unsupported file format")]
     UnsupportedFormat,
     #[error("Binary model not supported: {0}")]
@@ -148,6 +254,7 @@ pub enum ModelConvertError {
 impl ModelConvertError {
     pub fn code(&self) -> &'static str {
         match self {
+            Self::Cancelled => "ERR_CANCELLED",
             Self::UnsupportedFormat => "ERR_UNSUPPORTED_FORMAT",
             Self::ParserBinaryNotSupported(_) => "ERR_PARSER_BINARY_NOT_SUPPORTED",
             Self::ModelParseFailed(_) => "ERR_MODEL_PARSE_FAILED",

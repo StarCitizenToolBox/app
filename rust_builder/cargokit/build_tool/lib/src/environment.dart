@@ -12,6 +12,15 @@ class Environment {
   static String get configuration =>
       _getEnv("CARGOKIT_CONFIGURATION").toLowerCase();
 
+  /// Optional Cargo profile override, for example "dist".
+  static String? get cargoProfileOverride {
+    final profile = Platform.environment['CARGOKIT_CARGO_PROFILE']?.trim();
+    if (profile == null || profile.isEmpty) {
+      return null;
+    }
+    return profile;
+  }
+
   static bool get isDebug => configuration == 'debug';
   static bool get isRelease => configuration == 'release';
 

@@ -1,15 +1,16 @@
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
+use std::collections::BTreeMap;
 
 use super::{
+    SceneData, SceneMesh, SceneNode, ScenePrimitive,
     cryengine::{
+        FileSignature, ModelFile,
         chunks::node_mesh_combo::{
-            node_transform_to_gltf_trs, parse_node_mesh_combo_chunk,
-            resolve_node_mesh_combo_transforms, IvoNodeMeshComboChunk,
+            IvoNodeMeshComboChunk, node_transform_to_gltf_trs, parse_node_mesh_combo_chunk,
+            resolve_node_mesh_combo_transforms,
         },
         ivo::{collect_skin_chunks, find_node_mesh_combo_chunk},
-        FileSignature, ModelFile,
     },
-    SceneData, SceneMesh, ScenePrimitive,
 };
 
 const FILE_SIGNATURE_IVO: &[u8; 4] = b"#ivo";
@@ -56,6 +57,7 @@ struct IvoMeshSubset {
     first_index: usize,
     num_indices: usize,
     first_vertex: usize,
+    page_base: usize,
     num_vertices: usize,
 }
 
@@ -123,22 +125,6 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
                 }
             },
         );
-    let combo_transforms = if let Some(combo) = combo_chunk {
-        match resolve_node_mesh_combo_transforms(layout_bytes, combo) {
-            Ok(transforms) => Some(transforms),
-            Err(err) => {
-                warnings.push(format!(
-                    "IVO native best-effort: failed to resolve NodeMeshCombo transforms at offset {}: {}",
-                    combo.offset, err
-                ));
-                Some(Default::default())
-            }
-        }
-    } else {
-        None
-    };
-    let empty_transforms = std::collections::HashMap::new();
-
     let mut meshes = Vec::new();
     for chunk in &skin_chunks {
         let header = IvoChunkHeader {
@@ -151,11 +137,9 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
         match parse_skin_mesh_source(data, header, chunk_end, &mut warnings) {
             Ok(source) => {
                 if let Some(combo_layout) = combo_layout.as_ref() {
-                    let transforms = combo_transforms.as_ref().unwrap_or(&empty_transforms);
                     meshes.extend(build_meshes_from_combo(
                         combo_layout,
                         &source,
-                        transforms,
                         &mut warnings,
                     ));
                 } else {
@@ -173,7 +157,122 @@ fn parse_ivo_scene_with_layout(data: &[u8], layout_data: Option<&[u8]>) -> Resul
         return Err(anyhow!("native IVO parser produced no meshes"));
     }
 
-    Ok(SceneData { meshes, warnings })
+    let nodes = combo_layout
+        .as_ref()
+        .map(scene_nodes_from_combo)
+        .unwrap_or_default();
+
+    Ok(SceneData {
+        nodes,
+        meshes,
+        warnings,
+    })
+}
+
+fn scene_nodes_from_combo(combo: &IvoNodeMeshComboChunk) -> Vec<SceneNode> {
+    combo
+        .nodes
+        .iter()
+        .filter_map(|node| {
+            let name = combo
+                .node_names
+                .get(node.node_index as usize)
+                .filter(|name| !name.is_empty())?
+                .clone();
+            let parent = node.parent_index.and_then(|parent_index| {
+                combo
+                    .node_names
+                    .get(parent_index as usize)
+                    .filter(|name| !name.is_empty())
+                    .cloned()
+            });
+            Some(SceneNode {
+                name,
+                parent,
+                translation: None,
+                rotation: None,
+                scale: None,
+                matrix: node_combo_matrix_to_scene_matrix(&node.bone_to_world),
+            })
+        })
+        .collect()
+}
+
+fn node_combo_matrix_to_scene_matrix(matrix: &[f32; 12]) -> Option<[f32; 16]> {
+    if is_identity_or_zero_3x4(matrix) {
+        return None;
+    }
+
+    let source = [
+        [matrix[0], matrix[1], matrix[2]],
+        [matrix[4], matrix[5], matrix[6]],
+        [matrix[8], matrix[9], matrix[10]],
+    ];
+    let rotation = convert_node_rotation_to_scene_axes(source);
+    let translation = convert_node_translation_to_scene_axes([matrix[3], matrix[7], matrix[11]]);
+    Some([
+        rotation[0][0],
+        rotation[1][0],
+        rotation[2][0],
+        0.0,
+        rotation[0][1],
+        rotation[1][1],
+        rotation[2][1],
+        0.0,
+        rotation[0][2],
+        rotation[1][2],
+        rotation[2][2],
+        0.0,
+        translation[0],
+        translation[1],
+        translation[2],
+        1.0,
+    ])
+}
+
+fn is_identity_or_zero_3x4(matrix: &[f32; 12]) -> bool {
+    let all_zero = matrix.iter().all(|value| *value == 0.0);
+    if all_zero {
+        return true;
+    }
+
+    let identity = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0];
+    matrix
+        .iter()
+        .zip(identity)
+        .all(|(actual, expected)| (*actual - expected).abs() <= 1e-6)
+}
+
+fn convert_node_translation_to_scene_axes(value: [f32; 3]) -> [f32; 3] {
+    [-value[0], value[2], value[1]]
+}
+
+fn convert_node_rotation_to_scene_axes(rotation: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
+    // glTF vertices in this exporter are already converted with
+    // [-x, z, y], so NMC node matrices must be conjugated by that same
+    // axis transform instead of using StarBreaker's root wrapper matrix.
+    let axis = [[-1.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, 1.0, 0.0]];
+    let axis_inv = transpose3(axis);
+    mul3(mul3(axis, rotation), axis_inv)
+}
+
+fn mul3(a: [[f32; 3]; 3], b: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
+    let mut out = [[0.0; 3]; 3];
+    for row in 0..3 {
+        for col in 0..3 {
+            out[row][col] =
+                a[row][0] * b[0][col] + a[row][1] * b[1][col] + a[row][2] * b[2][col];
+        }
+    }
+    out
+}
+
+fn transpose3(matrix: [[f32; 3]; 3]) -> [[f32; 3]; 3] {
+    [
+        [matrix[0][0], matrix[1][0], matrix[2][0]],
+        [matrix[0][1], matrix[1][1], matrix[2][1]],
+        [matrix[0][2], matrix[1][2], matrix[2][2]],
+    ]
 }
 
 fn parse_skin_mesh_source(
@@ -314,6 +413,7 @@ fn parse_skin_mesh_source(
         ));
         build_normals_from_geometry(&positions, &indices)
     });
+    let indices = absolutize_paged_indices(indices, &subsets);
 
     let positions = scale_ivo_positions(
         positions,
@@ -325,6 +425,8 @@ fn parse_skin_mesh_source(
     let (joints, weights) = skin_data
         .map(|(j, w)| (Some(j), Some(w)))
         .unwrap_or((None, None));
+    let (subsets, indices) =
+        split_rigid_weighted_submeshes(&subsets, &indices, joints.as_deref(), weights.as_deref());
     if details.flags2 & 0x4 != 0 && details.flags2 & 0x1 == 0 {
         warnings.push(format!(
             "IVO native best-effort: flags2=0x{:X} suggests normals may be omitted for chunk at offset {}",
@@ -418,17 +520,10 @@ fn build_meshes_from_skin_source(source: &IvoSkinMeshSource) -> Vec<SceneMesh> {
 fn build_meshes_from_combo(
     combo: &IvoNodeMeshComboChunk,
     source: &IvoSkinMeshSource,
-    transforms: &std::collections::HashMap<
-        u16,
-        crate::model_convert::cryengine::chunks::node_mesh_combo::NodeTransform,
-    >,
     warnings: &mut Vec<String>,
 ) -> Vec<SceneMesh> {
     let mut meshes = Vec::new();
     for node in &combo.nodes {
-        if node.parent_index.is_some() {
-            continue;
-        }
         let matching_subsets: Vec<_> = source
             .subsets
             .iter()
@@ -441,7 +536,7 @@ fn build_meshes_from_combo(
         let mut uvs = Vec::new();
         let mut joints = source.joints.as_ref().map(|_| Vec::new());
         let mut weights = source.weights.as_ref().map(|_| Vec::new());
-        let mut local_index_map = std::collections::HashMap::<u32, u32>::new();
+        let mut indices = Vec::new();
         let mut vertex_offset = 0usize;
 
         for subset in matching_subsets {
@@ -455,6 +550,7 @@ fn build_meshes_from_combo(
             {
                 continue;
             }
+
             if subset
                 .first_vertex
                 .checked_add(subset.num_vertices)
@@ -475,16 +571,19 @@ fn build_meshes_from_combo(
                 dst.extend_from_slice(&src[vertex_start..vertex_end]);
             }
 
-            let first_global_index = source.indices[subset.first_index];
+            let primitive_first_index = indices.len();
+            let vertex_start_u32 = subset.first_vertex as u32;
+            let vertex_end_u32 = vertex_start_u32 + subset.num_vertices as u32;
             for i in 0..subset.num_indices {
                 let global_index = source.indices[subset.first_index + i];
-                let local_index = (global_index - first_global_index) + vertex_offset as u32;
-                local_index_map.insert(global_index, local_index);
+                if (vertex_start_u32..vertex_end_u32).contains(&global_index) {
+                    indices.push((global_index - vertex_start_u32) + vertex_offset as u32);
+                }
             }
 
             primitives.push(ScenePrimitive {
-                first_index: subset.first_index as u32,
-                num_indices: subset.num_indices as u32,
+                first_index: primitive_first_index as u32,
+                num_indices: (indices.len() - primitive_first_index) as u32,
                 first_vertex: vertex_offset as u32,
                 num_vertices: subset.num_vertices as u32,
                 material_id: subset.material_id,
@@ -493,15 +592,10 @@ fn build_meshes_from_combo(
             vertex_offset += subset.num_vertices;
         }
 
+        primitives.retain(|primitive| primitive.num_indices > 0);
         if primitives.is_empty() {
             continue;
         }
-
-        let indices = source
-            .indices
-            .iter()
-            .map(|index| local_index_map.get(index).copied().unwrap_or(*index))
-            .collect::<Vec<_>>();
 
         let display_name = combo
             .node_names
@@ -514,10 +608,6 @@ fn build_meshes_from_combo(
                 }
             })
             .or_else(|| Some(format!("ivo_node_{}", node.node_index)));
-        let trs = transforms
-            .get(&node.node_index)
-            .copied()
-            .map(node_transform_to_gltf_trs);
         let display_name = display_name.unwrap_or_else(|| format!("ivo_node_{}", node.node_index));
         meshes.push(SceneMesh {
             positions,
@@ -526,13 +616,13 @@ fn build_meshes_from_combo(
             joints,
             weights,
             indices,
-            index_accessor_source: Some(source.indices.clone()),
+            index_accessor_source: None,
             primitives,
             name: Some(format!("{display_name}/mesh")),
             node_name: Some(display_name),
-            node_translation: trs.map(|trs| trs.0),
-            node_rotation: trs.map(|trs| trs.1),
-            node_scale: trs.map(|trs| trs.2),
+            node_translation: None,
+            node_rotation: None,
+            node_scale: None,
             node_matrix: None,
         });
     }
@@ -540,9 +630,159 @@ fn build_meshes_from_combo(
     if meshes.is_empty() {
         warnings.push("IVO native best-effort: NodeMeshCombo produced no mesh subsets; falling back to subset grouping".to_string());
         meshes = build_meshes_from_skin_source(source);
+        bind_fallback_meshes_to_combo_nodes(combo, &mut meshes);
     }
 
     meshes
+}
+
+fn absolutize_paged_indices(mut indices: Vec<u32>, subsets: &[IvoMeshSubset]) -> Vec<u32> {
+    for subset in subsets {
+        if subset.page_base == 0 || subset.num_indices == 0 {
+            continue;
+        }
+        let start = subset.first_index;
+        let end = start.saturating_add(subset.num_indices).min(indices.len());
+        for index in &mut indices[start..end] {
+            *index = index.saturating_add(subset.page_base as u32);
+        }
+    }
+    indices
+}
+
+fn split_rigid_weighted_submeshes(
+    subsets: &[IvoMeshSubset],
+    indices: &[u32],
+    joints: Option<&[[u16; 4]]>,
+    weights: Option<&[[f32; 4]]>,
+) -> (Vec<IvoMeshSubset>, Vec<u32>) {
+    let (Some(joints), Some(weights)) = (joints, weights) else {
+        return (subsets.to_vec(), indices.to_vec());
+    };
+
+    let mut rebuilt_subsets = Vec::with_capacity(subsets.len());
+    let mut rebuilt_indices = Vec::with_capacity(indices.len());
+    for subset in subsets {
+        let start = subset.first_index;
+        let end = start.saturating_add(subset.num_indices).min(indices.len());
+        let source_indices = &indices[start..end];
+        let triangle_count = source_indices.len() / 3;
+        if triangle_count == 0 {
+            let mut original = *subset;
+            original.first_index = rebuilt_indices.len();
+            original.num_indices = source_indices.len();
+            rebuilt_indices.extend_from_slice(source_indices);
+            rebuilt_subsets.push(original);
+            continue;
+        }
+
+        let mut grouped_indices = BTreeMap::<u16, Vec<u32>>::new();
+        let mut rigid_triangles = 0usize;
+        let mut valid = true;
+        for triangle in source_indices.chunks(3) {
+            if triangle.len() < 3 {
+                continue;
+            }
+            let mut triangle_joints = [0u16; 3];
+            for (slot, vertex_index) in triangle.iter().enumerate() {
+                let Some(joint) = dominant_joint(
+                    joints.get(*vertex_index as usize).copied(),
+                    weights.get(*vertex_index as usize).copied(),
+                ) else {
+                    valid = false;
+                    break;
+                };
+                triangle_joints[slot] = joint;
+            }
+            if !valid {
+                break;
+            }
+
+            let triangle_joint = if triangle_joints[0] == triangle_joints[1]
+                || triangle_joints[0] == triangle_joints[2]
+            {
+                triangle_joints[0]
+            } else if triangle_joints[1] == triangle_joints[2] {
+                triangle_joints[1]
+            } else {
+                triangle_joints[0]
+            };
+            if triangle_joints[0] == triangle_joints[1] && triangle_joints[1] == triangle_joints[2]
+            {
+                rigid_triangles += 1;
+            }
+            grouped_indices
+                .entry(triangle_joint)
+                .or_default()
+                .extend_from_slice(triangle);
+        }
+
+        let rigid_ratio = rigid_triangles as f32 / triangle_count as f32;
+        if !valid || grouped_indices.is_empty() || rigid_ratio < 0.9 {
+            let mut original = *subset;
+            original.first_index = rebuilt_indices.len();
+            original.num_indices = source_indices.len();
+            rebuilt_indices.extend_from_slice(source_indices);
+            rebuilt_subsets.push(original);
+            continue;
+        }
+
+        for (joint, joint_indices) in grouped_indices {
+            let mut split = *subset;
+            split.first_index = rebuilt_indices.len();
+            split.num_indices = joint_indices.len();
+            split.node_parent_index = joint;
+            split.page_base = 0;
+            rebuilt_indices.extend_from_slice(&joint_indices);
+            rebuilt_subsets.push(split);
+        }
+    }
+
+    (rebuilt_subsets, rebuilt_indices)
+}
+
+fn dominant_joint(joints: Option<[u16; 4]>, weights: Option<[f32; 4]>) -> Option<u16> {
+    let joints = joints?;
+    let weights = weights?;
+    let mut best_slot = 0usize;
+    let mut best_weight = weights[0];
+    for (slot, weight) in weights.iter().enumerate().skip(1) {
+        if *weight > best_weight {
+            best_slot = slot;
+            best_weight = *weight;
+        }
+    }
+    (best_weight > 0.0).then_some(joints[best_slot])
+}
+
+fn bind_fallback_meshes_to_combo_nodes(combo: &IvoNodeMeshComboChunk, meshes: &mut [SceneMesh]) {
+    for mesh in meshes {
+        let Some(node_name) = mesh.node_name.as_deref() else {
+            continue;
+        };
+        let Some(fallback_index) = parse_ivo_node_index(node_name) else {
+            continue;
+        };
+        let combo_index = combo
+            .unknown_indices
+            .get(fallback_index as usize)
+            .copied()
+            .unwrap_or(fallback_index);
+        let Some(combo_name) = combo
+            .node_names
+            .get(combo_index as usize)
+            .filter(|name| !name.is_empty())
+            .cloned()
+        else {
+            continue;
+        };
+        mesh.name = Some(format!("{combo_name}/mesh"));
+        mesh.node_name = Some(format!("{combo_name}__geometry"));
+        mesh.node_translation = None;
+        mesh.node_rotation = None;
+        mesh.node_scale = None;
+        mesh.node_matrix = None;
+    }
 }
 
 fn read_mesh_details(data: &[u8], cursor: &mut usize, chunk_end: usize) -> Result<IvoMeshDetails> {
@@ -591,7 +831,8 @@ fn read_mesh_subset(data: &[u8], cursor: &mut usize, chunk_end: usize) -> Result
     *cursor += 4;
     let first_vertex = read_i32_le(data, *cursor)?;
     *cursor += 4;
-    skip_bytes(data, cursor, 4, chunk_end)?; // unknown
+    let page_base = read_i32_le(data, *cursor)?;
+    *cursor += 4;
     let num_vertices = read_i32_le(data, *cursor)?;
     *cursor += 4;
     skip_bytes(data, cursor, 4 + 12 + 4 + 4, chunk_end)?;
@@ -602,6 +843,7 @@ fn read_mesh_subset(data: &[u8], cursor: &mut usize, chunk_end: usize) -> Result
         first_index: first_index.max(0) as usize,
         num_indices: num_indices.max(0) as usize,
         first_vertex: first_vertex.max(0) as usize,
+        page_base: page_base.max(0) as usize,
         num_vertices: num_vertices.max(0) as usize,
     })
 }
@@ -1263,7 +1505,7 @@ fn parse_ivo_node_index(name: &str) -> Option<u16> {
 #[cfg(test)]
 mod tests {
     use super::{
-        parse_static_scene, CHUNK_TYPE_IVO_SKIN, STREAM_IVO_INDICES, STREAM_IVO_VERTS_UVS2,
+        CHUNK_TYPE_IVO_SKIN, STREAM_IVO_INDICES, STREAM_IVO_VERTS_UVS2, parse_static_scene,
     };
 
     #[test]
