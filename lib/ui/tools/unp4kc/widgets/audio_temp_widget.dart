@@ -59,6 +59,13 @@ class AudioTempWidget extends HookWidget {
       GlobalKey(),
     );
     final pendingSwitchToFull = useRef<bool>(false);
+    final pcmBufferChunksRef = useRef<List<Int16List>>(<Int16List>[]);
+    final pcmBufferSamplesRef = useRef<int>(0);
+    final pcmBufferTruncatedRef = useRef<bool>(false);
+    final streamSampleRateRef = useRef<int?>(null);
+    final streamChannelsRef = useRef<int?>(null);
+    final streamDurationMsRef = useRef<int>(0);
+    const maxRestartPcmBufferSeconds = 120;
 
     void syncPlayerState(AudioPlaybackState state) {
       if (state.durationMs != null) {
@@ -93,6 +100,26 @@ class AudioTempWidget extends HookWidget {
       var disposed = false;
       final currentToken = ++prepareTokenRef.value;
       pollTimerRef.value?.cancel();
+      streamStarted.value = false;
+      pendingSwitchToFull.value = false;
+      isSeeking.value = false;
+      dragMs.value = null;
+      lastPositionRef.value = 0;
+      position.value = Duration.zero;
+      duration.value = Duration.zero;
+      estimatedDuration.value = Duration.zero;
+      playablePath.value = null;
+      isDecoding.value = true;
+      isDecodeComplete.value = false;
+      errorMessage.value = null;
+      decodeProgress.value = 0.0;
+      waveform.value = <double>[];
+      streamSampleRateRef.value = null;
+      streamChannelsRef.value = null;
+      streamDurationMsRef.value = 0;
+      pcmBufferChunksRef.value = <Int16List>[];
+      pcmBufferSamplesRef.value = 0;
+      pcmBufferTruncatedRef.value = false;
 
       () async {
         try {
@@ -144,9 +171,11 @@ class AudioTempWidget extends HookWidget {
 
             if (progress.sampleRate != null) {
               sampleRate = progress.sampleRate;
+              streamSampleRateRef.value = progress.sampleRate;
             }
             if (progress.channels != null) {
               channels = progress.channels;
+              streamChannelsRef.value = progress.channels;
             }
 
             if (progress.pcmChunk != null &&
@@ -157,6 +186,21 @@ class AudioTempWidget extends HookWidget {
               final chunkDurationMs =
                   ((pcmData.length / channels) * 1000) ~/ sampleRate;
               totalDurationMs += chunkDurationMs;
+              streamDurationMsRef.value = totalDurationMs;
+              if (!pcmBufferTruncatedRef.value) {
+                final maxBufferSamples =
+                    sampleRate * channels * maxRestartPcmBufferSeconds;
+                final nextSampleCount =
+                    pcmBufferSamplesRef.value + pcmData.length;
+                if (nextSampleCount <= maxBufferSamples) {
+                  pcmBufferChunksRef.value.add(pcmData);
+                  pcmBufferSamplesRef.value = nextSampleCount;
+                } else {
+                  pcmBufferChunksRef.value = <Int16List>[];
+                  pcmBufferSamplesRef.value = 0;
+                  pcmBufferTruncatedRef.value = true;
+                }
+              }
 
               final chunkWaveform = _computeWaveformFromPcm(pcmData, 10);
               waveformSamples.addAll(chunkWaveform);
@@ -223,6 +267,7 @@ class AudioTempWidget extends HookWidget {
               }
 
               if (progress.durationMs != null) {
+                streamDurationMsRef.value = progress.durationMs!;
                 estimatedDuration.value = Duration(
                   milliseconds: progress.durationMs!,
                 );
@@ -246,8 +291,14 @@ class AudioTempWidget extends HookWidget {
               if (streamStarted.value &&
                   !disposed &&
                   prepareTokenRef.value == currentToken) {
-                pendingSwitchToFull.value = true;
-                overlayKeyRef.value.currentState?.startExitAnimation();
+                final overlayState = overlayKeyRef.value.currentState;
+                if (overlayState != null) {
+                  pendingSwitchToFull.value = true;
+                  overlayState.startExitAnimation();
+                } else {
+                  pendingSwitchToFull.value = false;
+                  isDecodeComplete.value = true;
+                }
               } else {
                 isDecodeComplete.value = true;
               }
@@ -264,9 +315,19 @@ class AudioTempWidget extends HookWidget {
       return () {
         disposed = true;
         pollTimerRef.value?.cancel();
-        unawaited(unp4k_api.p4KCancelWemDecode());
-        unawaited(audio_api.audioStopStream());
-        unawaited(player.dispose());
+        final releasedToken = currentToken;
+        Future.microtask(() async {
+          if (prepareTokenRef.value != releasedToken) return;
+          try {
+            await unp4k_api.p4KCancelWemDecode();
+          } catch (_) {}
+          try {
+            await audio_api.audioStopStream();
+          } catch (_) {}
+          try {
+            await player.dispose();
+          } catch (_) {}
+        });
       };
     }, [sourcePath]);
 
@@ -327,6 +388,68 @@ class AudioTempWidget extends HookWidget {
         : 0.0;
     final effectiveVolume = (dragVolume.value ?? volume.value).clamp(0.0, 3.0);
 
+    bool isMissingStreamError(Object error) {
+      return error.toString().contains('no streaming audio in progress');
+    }
+
+    Int16List flattenBufferedPcm() {
+      final chunks = pcmBufferChunksRef.value;
+      final sampleCount = pcmBufferSamplesRef.value;
+      final out = Int16List(sampleCount);
+      var offset = 0;
+      for (final chunk in chunks) {
+        out.setRange(offset, offset + chunk.length, chunk);
+        offset += chunk.length;
+      }
+      return out;
+    }
+
+    Future<AudioPlaybackState?> restartStreamFromBufferedPcm(
+      int targetMs, {
+      required bool autoPlayStream,
+    }) async {
+      final sampleRate = streamSampleRateRef.value;
+      final channels = streamChannelsRef.value;
+      if (sampleRate == null ||
+          channels == null ||
+          sampleRate <= 0 ||
+          channels <= 0 ||
+          pcmBufferTruncatedRef.value ||
+          pcmBufferSamplesRef.value == 0) {
+        return null;
+      }
+
+      final bufferedDurationMs =
+          (pcmBufferSamplesRef.value * 1000) ~/ (sampleRate * channels);
+      final knownDurationMs = math.max(
+        streamDurationMsRef.value,
+        math.max(totalMs, bufferedDurationMs),
+      );
+      final clampedTargetMs = targetMs.clamp(0, knownDurationMs).toInt();
+
+      var state = await audio_api.audioStartStream(
+        pcmData: flattenBufferedPcm(),
+        sampleRate: sampleRate,
+        channels: channels,
+        sourcePath: sourcePath,
+        durationMs: knownDurationMs,
+        autoPlay: autoPlayStream,
+      );
+      streamStarted.value = true;
+
+      if (clampedTargetMs > 0) {
+        state = await audio_api.audioSeekStream(positionMs: clampedTargetMs);
+        if (autoPlayStream && state.isPaused) {
+          state = await audio_api.audioResume();
+        }
+      }
+
+      playablePath.value = sourcePath;
+      duration.value = Duration(milliseconds: knownDurationMs);
+      estimatedDuration.value = Duration(milliseconds: knownDurationMs);
+      return state;
+    }
+
     Future<void> seekToPosition(
       int targetMs, {
       required bool resumeIfPlaying,
@@ -349,10 +472,16 @@ class AudioTempWidget extends HookWidget {
           lastPositionRef.value = clampedTargetMs;
         } catch (streamErr) {
           final errMsg = streamErr.toString();
-          if (errMsg.contains('no streaming audio in progress')) {
-            final state = await player.seek(
-              Duration(milliseconds: clampedTargetMs),
+          if (isMissingStreamError(streamErr)) {
+            final state = await restartStreamFromBufferedPcm(
+              clampedTargetMs,
+              autoPlayStream: resumeIfPlaying,
             );
+            if (state == null) {
+              errorMessage.value = "音频流已失效，请重新打开该音频。";
+              position.value = previousPosition;
+              return;
+            }
             if (requestId != seekRequestRef.value) return;
             syncPlayerState(state);
             position.value = Duration(milliseconds: clampedTargetMs);
@@ -403,10 +532,28 @@ class AudioTempWidget extends HookWidget {
       try {
         if (isPaused.value && !shouldReplay) {
           try {
-            final state = await audio_api.audioResume();
+            var state = await audio_api.audioResume();
+            if (!state.isPlaying && state.currentSourcePath == null) {
+              final restarted = await restartStreamFromBufferedPcm(
+                currentMs,
+                autoPlayStream: true,
+              );
+              if (restarted != null) {
+                state = restarted;
+              }
+            }
             syncPlayerState(state);
           } catch (_) {
-            final state = await player.resume();
+            var state = await player.resume();
+            if (!state.isPlaying && state.currentSourcePath == null) {
+              final restarted = await restartStreamFromBufferedPcm(
+                currentMs,
+                autoPlayStream: true,
+              );
+              if (restarted != null) {
+                state = restarted;
+              }
+            }
             syncPlayerState(state);
           }
         } else {
@@ -418,12 +565,18 @@ class AudioTempWidget extends HookWidget {
               final resumed = await audio_api.audioResume();
               syncPlayerState(resumed);
             }
-          } catch (_) {
-            final startAt = Duration(milliseconds: seekMs);
-            final state = await player.playFile(
-              playablePath.value!,
-              position: startAt,
+          } catch (e) {
+            if (!isMissingStreamError(e)) {
+              rethrow;
+            }
+            final state = await restartStreamFromBufferedPcm(
+              seekMs,
+              autoPlayStream: true,
             );
+            if (state == null) {
+              errorMessage.value = "音频流已失效，请重新打开该音频。";
+              return;
+            }
             syncPlayerState(state);
           }
         }
@@ -899,9 +1052,7 @@ class AudioTempWidget extends HookWidget {
     }
     return out;
   }
-
 }
-
 
 class _PreviewModeOverlay extends StatefulWidget {
   final VoidCallback? onComplete;
