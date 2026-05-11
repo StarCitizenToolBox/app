@@ -99,7 +99,7 @@ clipboard-rs = { version = "0.3.4", features = ["image"] }
 
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]
-wry = "0.55.0"
+wry = "0.55.1"
 tao = { version = "0.35.0", features = ["serde"] }
 image = { version = "0.25.10", default-features = false, features = ["ico"] }
 
