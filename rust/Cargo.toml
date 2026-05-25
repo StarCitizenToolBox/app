@@ -67,7 +67,7 @@ tokenizers = { version = "0.23.1", default-features = false, features = [
     "onig",
 ] }
 ndarray = "0.17.2"
-serde_json = { version = "1.0.149", features = ["preserve_order"] }
+serde_json = { version = "1.0.150", features = ["preserve_order"] }
 serde = { version = "1.0.228", features = ["derive"] }
 ryu = "1.0.20"
 unp4k = { package = "unp4k", git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "20d26c7660434e0108332022fd0bcef50cf0a0db" }
