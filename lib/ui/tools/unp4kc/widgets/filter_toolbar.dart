@@ -132,7 +132,9 @@ class FilterToolbar extends HookConsumerWidget {
     bool hasActiveSuffixFilter() => state.suffixFilter.isNotEmpty;
 
     bool hasAnyFilter() =>
-        hasActiveSizeFilter() || hasActiveDateFilter() || hasActiveSuffixFilter();
+        hasActiveSizeFilter() ||
+        hasActiveDateFilter() ||
+        hasActiveSuffixFilter();
 
     final searchPlaceholder = state.isGlobalSearchScope
         ? "搜索全部文件（支持正则）..."
@@ -340,28 +342,22 @@ class _SearchOptionsPanel extends HookConsumerWidget {
           ),
         ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          RadioButton(
-            checked: !state.isGlobalSearchScope,
-            onChanged: (value) {
-              model.setSearchScope(false);
-              Navigator.of(context).pop();
-            },
-            content: const Text("当前目录"),
-          ),
-          const SizedBox(height: 4),
-          RadioButton(
-            checked: state.isGlobalSearchScope,
-            onChanged: (value) {
-              model.setSearchScope(true);
-              Navigator.of(context).pop();
-            },
-            content: const Text("全局搜索"),
-          ),
-        ],
+      child: RadioGroup<bool>(
+        groupValue: state.isGlobalSearchScope,
+        onChanged: (value) {
+          if (value == null) return;
+          model.setSearchScope(value);
+          Navigator.of(context).pop();
+        },
+        child: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            RadioButton<bool>(value: false, content: Text("当前目录")),
+            SizedBox(height: 4),
+            RadioButton<bool>(value: true, content: Text("全局搜索")),
+          ],
+        ),
       ),
     );
   }
@@ -370,9 +366,7 @@ class _SearchOptionsPanel extends HookConsumerWidget {
 class _SuffixQuickSelect extends HookConsumerWidget {
   final Unp4kCModel model;
 
-  const _SuffixQuickSelect({
-    required this.model,
-  });
+  const _SuffixQuickSelect({required this.model});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -406,8 +400,8 @@ class _SuffixQuickSelect extends HookConsumerWidget {
               color: hasSuffixFilter
                   ? Colors.white.withValues(alpha: .15)
                   : hover.value
-                      ? FluentTheme.of(context).accentColor.withValues(alpha: .08)
-                      : Colors.transparent,
+                  ? FluentTheme.of(context).accentColor.withValues(alpha: .08)
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(4),
             ),
             child: Row(
@@ -420,8 +414,8 @@ class _SuffixQuickSelect extends HookConsumerWidget {
                     color: hasSuffixFilter
                         ? Colors.white
                         : hover.value
-                            ? FluentTheme.of(context).accentColor
-                            : Colors.white.withValues(alpha: .9),
+                        ? FluentTheme.of(context).accentColor
+                        : Colors.white.withValues(alpha: .9),
                   ),
                 ),
                 if (hasSuffixFilter) ...[
@@ -463,9 +457,7 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
 
   static const _commonFormats = [".soc", ".cry", ".cdf", ".chr", ".skin"];
 
-  const _SuffixQuickSelectPanel({
-    required this.model,
-  });
+  const _SuffixQuickSelectPanel({required this.model});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -475,7 +467,9 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
 
     // 计算自定义后缀（不在预设列表中的）
     final allPresetSuffixes = {..._previewFormats, ..._commonFormats};
-    final customSuffixes = selectedSuffixes.where((s) => !allPresetSuffixes.contains(s)).toList();
+    final customSuffixes = selectedSuffixes
+        .where((s) => !allPresetSuffixes.contains(s))
+        .toList();
 
     Widget buildSuffixButton(String suffix) {
       final isSelected = selectedSuffixes.contains(suffix);
@@ -572,7 +566,7 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
             Text(
               "自定义",
               style: TextStyle(
-               fontSize: 10,
+                fontSize: 10,
                 color: Colors.white.withValues(alpha: .5),
               ),
             ),

@@ -40,18 +40,29 @@ Widget makeDefaultPage(
   bool useBodyContainer = false,
 }) {
   return NavigationView(
-    appBar: NavigationAppBar(
-      automaticallyImplyLeading: automaticallyImplyLeading,
-      title: DragToMoveArea(
-        child:
-            titleRow ??
-            Column(
-              children: [
-                Expanded(child: Row(children: [Text(title)])),
-              ],
+    titleBar: SizedBox(
+      height: 50,
+      child: Row(
+        children: [
+          if (automaticallyImplyLeading && context.canPop())
+            IconButton(
+              icon: const Icon(FluentIcons.back),
+              onPressed: () => context.pop(),
             ),
+          Expanded(
+            child: DragToMoveArea(
+              child:
+                  titleRow ??
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(title),
+                  ),
+            ),
+          ),
+          ...?actions,
+          const WindowButtons(),
+        ],
       ),
-      actions: Row(mainAxisAlignment: MainAxisAlignment.end, children: [...?actions, const WindowButtons()]),
     ),
     content: useBodyContainer
         ? Container(
@@ -74,7 +85,10 @@ class WindowButtons extends StatelessWidget {
     return SizedBox(
       width: 138,
       height: 50,
-      child: WindowCaption(brightness: theme.brightness, backgroundColor: Colors.transparent),
+      child: WindowCaption(
+        brightness: theme.brightness,
+        backgroundColor: Colors.transparent,
+      ),
     );
   }
 }
@@ -115,7 +129,9 @@ List<Widget> makeMarkdownView(String description, {String? attachmentsUrl}) {
                       ),
                     );
                   case LoadState.completed:
-                    return ExtendedRawImage(image: state.extendedImageInfo?.image);
+                    return ExtendedRawImage(
+                      image: state.extendedImageInfo?.image,
+                    );
                   case LoadState.failed:
                     return Button(
                       onPressed: () {
@@ -137,18 +153,30 @@ ColorFilter makeSvgColor(Color color) {
   return ui.ColorFilter.mode(color, ui.BlendMode.srcIn);
 }
 
-CustomTransitionPage<T> myPageBuilder<T>(BuildContext context, GoRouterState state, Widget child) {
+CustomTransitionPage<T> myPageBuilder<T>(
+  BuildContext context,
+  GoRouterState state,
+  Widget child,
+) {
   return CustomTransitionPage(
     child: child,
     transitionDuration: const Duration(milliseconds: 150),
     reverseTransitionDuration: const Duration(milliseconds: 150),
     transitionsBuilder:
-        (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+        (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+        ) {
           return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0.0, 1.0),
-              end: const Offset(0.0, 0.0),
-            ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+            position:
+                Tween<Offset>(
+                  begin: const Offset(0.0, 1.0),
+                  end: const Offset(0.0, 0.0),
+                ).animate(
+                  CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+                ),
             child: child,
           );
         },
@@ -161,7 +189,13 @@ class LoadingWidget<T> extends HookConsumerWidget {
   final Widget Function(BuildContext context, T data) childBuilder;
   final Duration? autoRefreshDuration;
 
-  const LoadingWidget({super.key, this.data, required this.childBuilder, this.onLoadData, this.autoRefreshDuration});
+  const LoadingWidget({
+    super.key,
+    this.data,
+    required this.childBuilder,
+    this.onLoadData,
+    this.autoRefreshDuration,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -194,7 +228,10 @@ class LoadingWidget<T> extends HookConsumerWidget {
     return childBuilder(context, (data ?? dataState.value) as T);
   }
 
-  void _loadData(ValueNotifier<T?> dataState, ValueNotifier<String> errorMsg) async {
+  void _loadData(
+    ValueNotifier<T?> dataState,
+    ValueNotifier<String> errorMsg,
+  ) async {
     errorMsg.value = "";
     try {
       final r = await onLoadData!();

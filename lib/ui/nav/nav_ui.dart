@@ -19,30 +19,34 @@ class NavUI extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
         children: [
-          Expanded(
-            child: buildBody(context, ref),
-          ),
+          Expanded(child: buildBody(context, ref)),
           SizedBox(height: 6),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text.rich(
-                TextSpan(children: [
-                  TextSpan(text: S.current.nav_third_party_service_disclaimer),
-                  TextSpan(text: S.current.nav_website_navigation_data_provided_by),
-                  TextSpan(
-                    text: " 42kit ",
-                    style: TextStyle(
-                      color: Colors.white,
-                      decoration: TextDecoration.underline,
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: S.current.nav_third_party_service_disclaimer,
                     ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launchUrlString("https://42kit.citizenwiki.cn/nav");
-                      },
-                  ),
-                  TextSpan(text: S.current.nav_provided_by),
-                ]),
+                    TextSpan(
+                      text: S.current.nav_website_navigation_data_provided_by,
+                    ),
+                    TextSpan(
+                      text: " 42kit ",
+                      style: TextStyle(
+                        color: Colors.white,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          launchUrlString("https://42kit.citizenwiki.cn/nav");
+                        },
+                    ),
+                    TextSpan(text: S.current.nav_provided_by),
+                  ],
+                ),
                 style: TextStyle(
                   fontSize: 13,
                   color: Colors.white.withValues(alpha: .6),
@@ -60,22 +64,20 @@ class NavUI extends HookConsumerWidget {
     final data = ref.watch(navProvider);
     if (data.errorInfo.isNotEmpty) {
       return Center(
-        child: Text(
-          data.errorInfo,
-          style: TextStyle(color: Colors.red),
-        ),
+        child: Text(data.errorInfo, style: TextStyle(color: Colors.red)),
       );
     }
     if (data.items == null) {
       return Center(
-          child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ProgressRing(),
-          SizedBox(height: 12),
-          Text(S.current.nav_fetching_data),
-        ],
-      ));
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ProgressRing(),
+            SizedBox(height: 12),
+            Text(S.current.nav_fetching_data),
+          ],
+        ),
+      );
     }
     return MasonryGridView.count(
       crossAxisCount: 3,
@@ -96,8 +98,8 @@ class NavUI extends HookConsumerWidget {
             onTap: () {
               launchUrlString(item.link);
             },
-            child: Tilt(
-              shadowConfig: const ShadowConfig(maxIntensity: .3),
+            child: Tilt.base(
+              shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
               borderRadius: BorderRadius.circular(12),
               clipBehavior: Clip.hardEdge,
               child: SizedBox(
@@ -153,9 +155,7 @@ class NavUI extends HookConsumerWidget {
                                 Flexible(
                                   child: Text(
                                     itemName,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
+                                    style: TextStyle(fontSize: 18),
                                   ),
                                 ),
                               ],
@@ -166,7 +166,9 @@ class NavUI extends HookConsumerWidget {
                                 item.abstract_,
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: Colors.white.withValues(alpha: .75)),
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: .75),
+                                ),
                               ),
                             ),
                             Row(
@@ -174,9 +176,13 @@ class NavUI extends HookConsumerWidget {
                                 for (var value in item.tags)
                                   Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.blue.withValues(alpha: .6),
-                                        borderRadius: BorderRadius.circular(12)),
-                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                                      color: Colors.blue.withValues(alpha: .6),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 3,
+                                    ),
                                     margin: EdgeInsets.only(right: 6),
                                     child: Text(
                                       value.name,
@@ -185,9 +191,9 @@ class NavUI extends HookConsumerWidget {
                                         color: Colors.white,
                                       ),
                                     ),
-                                  )
+                                  ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),

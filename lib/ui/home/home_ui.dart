@@ -489,8 +489,8 @@ class HomeUI extends HookConsumerWidget {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     final item = homeState.citizenNewsData!.articles[index];
-                    return Tilt(
-                      shadowConfig: const ShadowConfig(maxIntensity: .3),
+                    return Tilt.base(
+                      shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
                       borderRadius: BorderRadius.circular(12),
                       child: GestureDetector(
                         onTap: () {
@@ -712,8 +712,8 @@ class HomeUI extends HookConsumerWidget {
     String? info,
     String? touchKey,
   }) {
-    return Tilt(
-      shadowConfig: const ShadowConfig(maxIntensity: .3),
+    return Tilt.base(
+      shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
       borderRadius: BorderRadius.circular(12),
       child: GestureDetector(
         onTap: () {
@@ -782,8 +782,8 @@ class HomeUI extends HookConsumerWidget {
       "Arena Commander": S.current.home_action_rsi_status_arena_commander,
     };
 
-    return Tilt(
-      shadowConfig: const ShadowConfig(maxIntensity: .2),
+    return Tilt.base(
+      shadowConfig: const ShadowBaseConfig(maxIntensity: .2),
       borderRadius: BorderRadius.circular(12),
       child: GestureDetector(
         onTap: () {
@@ -851,9 +851,9 @@ class HomeUI extends HookConsumerWidget {
     double width,
     HomeUIModelState homeState,
   ) {
-    return Tilt(
+    return Tilt.base(
       borderRadius: BorderRadius.circular(12),
-      shadowConfig: const ShadowConfig(disable: true),
+      shadowConfig: const ShadowBaseConfig(disable: true),
       child: GestureDetector(
         onTap: () => _onTapFestival(context),
         child: Container(

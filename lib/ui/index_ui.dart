@@ -40,33 +40,48 @@ class IndexUI extends HookConsumerWidget {
     }, const []);
 
     return NavigationView(
-      appBar: NavigationAppBar(
-        automaticallyImplyLeading: false,
-        title: () {
-          return DragToMoveArea(
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Row(
-                children: [
-                  Image.asset("assets/app_logo_mini.png", width: 20, height: 20, fit: BoxFit.cover),
-                  const SizedBox(width: 12),
-                  Text(S.current.app_index_version_info(ConstConf.appVersion, ConstConf.isMSE ? "" : " Dev")),
-                ],
+      titleBar: SizedBox(
+        height: 50,
+        child: Row(
+          children: [
+            Expanded(
+              child: DragToMoveArea(
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        "assets/app_logo_mini.png",
+                        width: 20,
+                        height: 20,
+                        fit: BoxFit.cover,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        S.current.app_index_version_info(
+                          ConstConf.appVersion,
+                          ConstConf.isMSE ? "" : " Dev",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          );
-        }(),
-        actions: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            UserAvatarWidget(onTapNavigateToPartyRoom: () => _navigateToPartyRoom(curIndex)),
+            UserAvatarWidget(
+              onTapNavigateToPartyRoom: () => _navigateToPartyRoom(curIndex),
+            ),
             const SizedBox(width: 12),
             IconButton(
               icon: Stack(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(6),
-                    child: Icon(FluentIcons.installation, size: 22, color: Colors.white.withValues(alpha: .6)),
+                    child: Icon(
+                      FluentIcons.installation,
+                      size: 22,
+                      color: Colors.white.withValues(alpha: .6),
+                    ),
                   ),
                   _makeDownloadTaskNumWidget(),
                 ],
@@ -82,11 +97,12 @@ class IndexUI extends HookConsumerWidget {
         key: Key("NavigationPane_${S.current.app_language_code}"),
         selected: curIndex.value,
         items: getNavigationPaneItems(curIndex),
-        size: NavigationPaneSize(openWidth: S.current.app_language_code.startsWith("zh") ? 64 : 74),
+        size: NavigationPaneSize(
+          openWidth: S.current.app_language_code.startsWith("zh") ? 64 : 74,
+        ),
       ),
-      paneBodyBuilder: (item, child) {
-        return item!.body;
-      },
+      paneBodyBuilder: (item, child) =>
+          item?.body ?? child ?? const SizedBox.shrink(),
     );
   }
 
@@ -95,11 +111,16 @@ class IndexUI extends HookConsumerWidget {
     FluentIcons.game: (S.current.app_index_menu_lobby, const PartyRoomUI()),
     FluentIcons.toolbox: (S.current.app_index_menu_tools, const ToolsUI()),
     FluentIcons.power_apps: ((S.current.nav_title), const NavUI()),
-    FluentIcons.settings: (S.current.app_index_menu_settings, const SettingsUI()),
+    FluentIcons.settings: (
+      S.current.app_index_menu_settings,
+      const SettingsUI(),
+    ),
     FluentIcons.info: (S.current.app_index_menu_about, const AboutUI()),
   };
 
-  List<NavigationPaneItem> getNavigationPaneItems(ValueNotifier<int> curIndexState) {
+  List<NavigationPaneItem> getNavigationPaneItems(
+    ValueNotifier<int> curIndexState,
+  ) {
     // width = 64
     return [
       for (final kv in pageMenus.entries)
@@ -126,7 +147,9 @@ class IndexUI extends HookConsumerWidget {
   }
 
   void _onTapIndexMenu(String value, ValueNotifier<int> curIndexState) {
-    final pageIndex = pageMenus.values.toList().indexWhere((element) => element.$1 == value);
+    final pageIndex = pageMenus.values.toList().indexWhere(
+      (element) => element.$1 == value,
+    );
     curIndexState.value = pageIndex;
   }
 
@@ -141,9 +164,20 @@ class IndexUI extends HookConsumerWidget {
           bottom: 0,
           right: 0,
           child: Container(
-            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)),
-            padding: const EdgeInsets.only(left: 6, right: 6, bottom: 1.5, top: 1.5),
-            child: Text("${downloadState.totalTaskNum}", style: const TextStyle(fontSize: 8, color: Colors.white)),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.only(
+              left: 6,
+              right: 6,
+              bottom: 1.5,
+              top: 1.5,
+            ),
+            child: Text(
+              "${downloadState.totalTaskNum}",
+              style: const TextStyle(fontSize: 8, color: Colors.white),
+            ),
           ),
         );
       },
@@ -156,7 +190,9 @@ class IndexUI extends HookConsumerWidget {
 
   void _navigateToPartyRoom(ValueNotifier<int> curIndexState) {
     // 查找 PartyRoomUI 在菜单中的索引
-    final partyRoomIndex = pageMenus.values.toList().indexWhere((element) => element.$2 is PartyRoomUI);
+    final partyRoomIndex = pageMenus.values.toList().indexWhere(
+      (element) => element.$2 is PartyRoomUI,
+    );
     if (partyRoomIndex >= 0) {
       curIndexState.value = partyRoomIndex;
     }

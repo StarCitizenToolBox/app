@@ -43,16 +43,23 @@ class LocalizationDialogUI extends HookConsumerWidget {
                 duration: const Duration(milliseconds: 130),
                 child:
                     state.patchStatus?.key == true &&
-                        state.patchStatus?.value == S.current.home_action_info_game_built_in
+                        state.patchStatus?.value ==
+                            S.current.home_action_info_game_built_in
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: InfoBar(
                           title: Text(S.current.home_action_info_warning),
-                          content: Text(S.current.localization_info_machine_translation_warning),
+                          content: Text(
+                            S
+                                .current
+                                .localization_info_machine_translation_warning,
+                          ),
                           severity: InfoBarSeverity.info,
                           style: InfoBarThemeData(
                             decoration: (severity) {
-                              return const BoxDecoration(color: Color.fromRGBO(155, 7, 7, 1.0));
+                              return const BoxDecoration(
+                                color: Color.fromRGBO(155, 7, 7, 1.0),
+                              );
                             },
                             iconColor: (severity) {
                               return Colors.white;
@@ -73,12 +80,17 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       Center(
                         child: Text(
                           S.current.localization_info_enabled(
-                            LocalizationUIModel.languageSupport[state.selectedLanguage] ?? "",
+                            LocalizationUIModel.languageSupport[state
+                                    .selectedLanguage] ??
+                                "",
                           ),
                         ),
                       ),
                       const Spacer(),
-                      ToggleSwitch(checked: state.patchStatus?.key == true, onChanged: model.updateLangCfg),
+                      ToggleSwitch(
+                        checked: state.patchStatus?.key == true,
+                        onChanged: model.updateLangCfg,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -93,20 +105,27 @@ class LocalizationDialogUI extends HookConsumerWidget {
                               ),
                             ),
                             SizedBox(width: 24),
-                            if (state.installedCommunityInputMethodSupportVersion != null)
+                            if (state
+                                    .installedCommunityInputMethodSupportVersion !=
+                                null)
                               Text(
-                                S.current.input_method_community_input_method_support_version(
-                                  state.installedCommunityInputMethodSupportVersion ?? "?",
-                                ),
+                                S.current
+                                    .input_method_community_input_method_support_version(
+                                      state.installedCommunityInputMethodSupportVersion ??
+                                          "?",
+                                    ),
                               ),
                             SizedBox(width: 24),
                             if (state.installedLocalizationExtensions != null &&
-                                state.installedLocalizationExtensions!.isNotEmpty)
+                                state
+                                    .installedLocalizationExtensions!
+                                    .isNotEmpty)
                               Text(S.current.localization_extension_installed),
                           ],
                         ),
                       ),
-                      if (state.patchStatus?.value != S.current.home_action_info_game_built_in)
+                      if (state.patchStatus?.value !=
+                          S.current.home_action_info_game_built_in)
                         Row(
                           children: [
                             Button(
@@ -117,7 +136,11 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                   children: [
                                     const Icon(FluentIcons.feedback),
                                     const SizedBox(width: 6),
-                                    Text(S.current.localization_action_translation_feedback),
+                                    Text(
+                                      S
+                                          .current
+                                          .localization_action_translation_feedback,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -131,7 +154,11 @@ class LocalizationDialogUI extends HookConsumerWidget {
                                   children: [
                                     const Icon(FluentIcons.delete),
                                     const SizedBox(width: 6),
-                                    Text(S.current.localization_action_uninstall_translation),
+                                    Text(
+                                      S
+                                          .current
+                                          .localization_action_uninstall_translation,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -141,7 +168,10 @@ class LocalizationDialogUI extends HookConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Container(color: Colors.white.withValues(alpha: .1), height: 1),
+                  Container(
+                    color: Colors.white.withValues(alpha: .1),
+                    height: 1,
+                  ),
                   const SizedBox(height: 12),
                   if (state.apiLocalizationData == null)
                     makeLoading(context)
@@ -149,7 +179,10 @@ class LocalizationDialogUI extends HookConsumerWidget {
                     Center(
                       child: Text(
                         S.current.localization_info_no_translation_available,
-                        style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .8)),
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.white.withValues(alpha: .8),
+                        ),
                       ),
                     )
                   else
@@ -158,8 +191,15 @@ class LocalizationDialogUI extends HookConsumerWidget {
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
                       itemBuilder: (BuildContext context, int index) {
-                        final item = state.apiLocalizationData!.entries.elementAt(index);
-                        return makeRemoteList(context, model, item, state, index);
+                        final item = state.apiLocalizationData!.entries
+                            .elementAt(index);
+                        return makeRemoteList(
+                          context,
+                          model,
+                          item,
+                          state,
+                          index,
+                        );
                       },
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -183,17 +223,21 @@ class LocalizationDialogUI extends HookConsumerWidget {
   ) {
     final isWorking = state.workingVersion.isNotEmpty;
     final isMineWorking = state.workingVersion == item.key;
-    final isInstalled = state.patchStatus?.value == item.key || state.patchStatus?.value == item.value.versionName;
+    final isInstalled =
+        state.patchStatus?.value == item.key ||
+        state.patchStatus?.value == item.value.versionName;
     final isItemEnabled = ((item.value.enable ?? false));
     final tapDisabled = isWorking || !isItemEnabled || isMineWorking;
     return GridItemAnimator(
       index: index,
-      child: Tilt(
-        shadowConfig: const ShadowConfig(maxIntensity: .3),
+      child: Tilt.base(
+        shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
         borderRadius: BorderRadius.circular(7),
         disable: tapDisabled,
         child: MouseRegion(
-          cursor: tapDisabled ? SystemMouseCursors.basic : SystemMouseCursors.click,
+          cursor: tapDisabled
+              ? SystemMouseCursors.basic
+              : SystemMouseCursors.click,
           child: GestureDetector(
             onTap: tapDisabled
                 ? null
@@ -226,9 +270,17 @@ class LocalizationDialogUI extends HookConsumerWidget {
       child: AnimatedSize(
         duration: const Duration(milliseconds: 130),
         child: Container(
-          decoration: BoxDecoration(color: FluentTheme.of(context).cardColor, borderRadius: BorderRadius.circular(7)),
+          decoration: BoxDecoration(
+            color: FluentTheme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(7),
+          ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 12, bottom: 12, left: 24, right: 24),
+            padding: const EdgeInsets.only(
+              top: 12,
+              bottom: 12,
+              left: 24,
+              right: 24,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -264,10 +316,17 @@ class LocalizationDialogUI extends HookConsumerWidget {
     );
   }
 
-  Widget makeTitle(BuildContext context, LocalizationUIModel model, LocalizationUIState state) {
+  Widget makeTitle(
+    BuildContext context,
+    LocalizationUIModel model,
+    LocalizationUIState state,
+  ) {
     return Row(
       children: [
-        IconButton(icon: const Icon(FluentIcons.back, size: 22), onPressed: model.onBack(context)),
+        IconButton(
+          icon: const Icon(FluentIcons.back, size: 22),
+          onPressed: model.onBack(context),
+        ),
         const SizedBox(width: 12),
         Text(S.current.home_action_localization_management),
         const SizedBox(width: 24),
@@ -284,12 +343,16 @@ class LocalizationDialogUI extends HookConsumerWidget {
           height: 36,
           child: Row(
             children: [
-              Text(S.current.localization_info_language, style: const TextStyle(fontSize: 16)),
+              Text(
+                S.current.localization_info_language,
+                style: const TextStyle(fontSize: 16),
+              ),
               const SizedBox(width: 12),
               ComboBox<String>(
                 value: state.selectedLanguage,
                 items: [
-                  for (final lang in LocalizationUIModel.languageSupport.entries)
+                  for (final lang
+                      in LocalizationUIModel.languageSupport.entries)
                     ComboBoxItem(value: lang.key, child: Text(lang.value)),
                 ],
                 onChanged: state.workingVersion.isNotEmpty
@@ -305,19 +368,29 @@ class LocalizationDialogUI extends HookConsumerWidget {
         const SizedBox(width: 12),
         Button(
           onPressed: model.doRefresh(),
-          child: const Padding(padding: EdgeInsets.all(6), child: Icon(FluentIcons.refresh)),
+          child: const Padding(
+            padding: EdgeInsets.all(6),
+            child: Icon(FluentIcons.refresh),
+          ),
         ),
       ],
     );
   }
 
-  Widget makeToolsListContainer(BuildContext context, LocalizationUIModel model, LocalizationUIState state) {
+  Widget makeToolsListContainer(
+    BuildContext context,
+    LocalizationUIModel model,
+    LocalizationUIState state,
+  ) {
     final toolsMenu = {
       "launcher_mod": (
         const Icon(FluentIcons.c_plus_plus, size: 24),
         (S.current.home_localization_action_rsi_launcher_localization),
       ),
-      "advanced": (const Icon(FluentIcons.queue_advanced, size: 24), (S.current.home_localization_action_advanced)),
+      "advanced": (
+        const Icon(FluentIcons.queue_advanced, size: 24),
+        (S.current.home_localization_action_advanced),
+      ),
       "custom_files": (
         const Icon(FluentIcons.custom_activity, size: 24),
         (S.current.home_localization_action_install_customize),
@@ -330,9 +403,9 @@ class LocalizationDialogUI extends HookConsumerWidget {
       S.current.home_localization_title_localization_tools,
       [
         for (final item in toolsMenu.entries)
-          Tilt(
+          Tilt.base(
             disable: !enableTap,
-            shadowConfig: const ShadowConfig(maxIntensity: .3),
+            shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
             borderRadius: BorderRadius.circular(7),
             child: GestureDetector(
               onTap: enableTap
@@ -347,16 +420,21 @@ class LocalizationDialogUI extends HookConsumerWidget {
                         case "custom_files":
                           final sb = await showDialog(
                             context: context,
-                            builder: (BuildContext context) => const LocalizationFromFileDialogUI(),
+                            builder: (BuildContext context) =>
+                                const LocalizationFromFileDialogUI(),
                           );
                           if (sb is (StringBuffer, bool, List<dynamic>)) {
                             if (!context.mounted) return;
-                            final extensions = sb.$3.whereType<LocalizationExtensionItemData>().toList();
+                            final extensions = sb.$3
+                                .whereType<LocalizationExtensionItemData>()
+                                .toList();
                             await model.installFormString(
                               sb.$1,
                               S.current.localization_info_custom_files,
                               isEnableCommunityInputMethod: sb.$2,
-                              extensions: extensions.isNotEmpty ? extensions : null,
+                              extensions: extensions.isNotEmpty
+                                  ? extensions
+                                  : null,
                               context: context,
                             );
                           }
@@ -377,7 +455,11 @@ class LocalizationDialogUI extends HookConsumerWidget {
                     Text(item.value.$2),
                     const SizedBox(width: 12),
                     const Spacer(),
-                    Icon(FluentIcons.chevron_right, size: 14, color: Colors.white.withValues(alpha: .6)),
+                    Icon(
+                      FluentIcons.chevron_right,
+                      size: 14,
+                      color: Colors.white.withValues(alpha: .6),
+                    ),
                   ],
                 ),
               ),
@@ -434,27 +516,45 @@ class _LocalizationItemCardState extends State<_LocalizationItemCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${widget.item.value.info}", style: const TextStyle(fontSize: 19)),
-                      const SizedBox(height: 4),
                       Text(
-                        S.current.localization_info_version_number(widget.item.value.versionName ?? ""),
-                        style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                        "${widget.item.value.info}",
+                        style: const TextStyle(fontSize: 19),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        S.current.localization_info_channel(widget.item.value.gameChannel ?? ""),
-                        style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                        S.current.localization_info_version_number(
+                          widget.item.value.versionName ?? "",
+                        ),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: .6),
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        S.current.localization_info_update_time(widget.item.value.updateAt ?? ""),
-                        style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                        S.current.localization_info_channel(
+                          widget.item.value.gameChannel ?? "",
+                        ),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: .6),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.current.localization_info_update_time(
+                          widget.item.value.updateAt ?? "",
+                        ),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: .6),
+                        ),
                       ),
                     ],
                   ),
                 ),
                 if (widget.isMineWorking)
-                  const Padding(padding: EdgeInsets.only(right: 12), child: ProgressRing())
+                  const Padding(
+                    padding: EdgeInsets.only(right: 12),
+                    child: ProgressRing(),
+                  )
                 else ...[
                   Icon(
                     _getIcon(),
@@ -462,10 +562,17 @@ class _LocalizationItemCardState extends State<_LocalizationItemCard> {
                     size: 18,
                   ),
                   const SizedBox(width: 6),
-                  Text(_getStatusText(), style: TextStyle(color: Colors.white.withValues(alpha: .8))),
+                  Text(
+                    _getStatusText(),
+                    style: TextStyle(color: Colors.white.withValues(alpha: .8)),
+                  ),
                   const SizedBox(width: 6),
                   if (!widget.isInstalled && widget.isItemEnabled)
-                    Icon(FluentIcons.chevron_right, size: 14, color: Colors.white.withValues(alpha: .6)),
+                    Icon(
+                      FluentIcons.chevron_right,
+                      size: 14,
+                      color: Colors.white.withValues(alpha: .6),
+                    ),
                 ],
               ],
             ),
@@ -475,7 +582,10 @@ class _LocalizationItemCardState extends State<_LocalizationItemCard> {
                 "${widget.item.value.note}",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.white.withValues(alpha: .4), fontSize: 13),
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: .4),
+                  fontSize: 13,
+                ),
               ),
             ],
           ],

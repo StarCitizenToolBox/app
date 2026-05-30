@@ -11,7 +11,10 @@ class HoverSwiper extends HookWidget {
     this.autoplayDelay = 3000,
     this.paginationActiveSize = 8.0,
     this.controlSize = 24,
-    this.controlPadding = const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+    this.controlPadding = const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 0,
+    ),
   });
 
   final int itemCount;
@@ -41,9 +44,12 @@ class HoverSwiper extends HookWidget {
       },
       child: Stack(
         children: [
-          Tilt(
-            shadowConfig: const ShadowConfig(maxIntensity: .3),
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+          Tilt.base(
+            shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
+            ),
             child: Swiper(
               controller: controller,
               itemCount: itemCount,
@@ -102,7 +108,11 @@ class HoverSwiper extends HookWidget {
                       color: Colors.black.withValues(alpha: .3),
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Icon(icon, size: controlSize, color: Colors.white.withValues(alpha: .8)),
+                    child: Icon(
+                      icon,
+                      size: controlSize,
+                      color: Colors.white.withValues(alpha: .8),
+                    ),
                   ),
                 ),
               ),

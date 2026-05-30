@@ -38,10 +38,13 @@ class PartyRoomListPage extends HookConsumerWidget {
     // 无限滑动监听
     useEffect(() {
       void onScroll() {
-        if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
+        if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent - 200) {
           // 距离底部200px时开始加载
           final totalPages = (uiState.totalRooms / uiState.pageSize).ceil();
-          if (!uiState.isLoading && uiState.currentPage < totalPages && uiState.errorMessage == null) {
+          if (!uiState.isLoading &&
+              uiState.currentPage < totalPages &&
+              uiState.errorMessage == null) {
             uiModel.loadMoreRooms();
           }
         }
@@ -62,23 +65,37 @@ class PartyRoomListPage extends HookConsumerWidget {
               color: const Color(0xFF2D2D2D),
               child: Row(
                 children: [
-                  Icon(FluentIcons.info, size: 16, color: const Color(0xFF4A9EFF)),
+                  Icon(
+                    FluentIcons.info,
+                    size: 16,
+                    color: const Color(0xFF4A9EFF),
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       S.current.party_room_guest_mode_hint,
-                      style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8)),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.8),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
                   FilledButton(
                     style: ButtonStyle(
-                      padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 6)),
+                      padding: WidgetStateProperty.all(
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      ),
                     ),
                     onPressed: () {
-                      ref.read(partyRoomUIModelProvider.notifier).exitGuestMode();
+                      ref
+                          .read(partyRoomUIModelProvider.notifier)
+                          .exitGuestMode();
                     },
-                    child: Text(S.current.party_room_login, style: TextStyle(fontSize: 12)),
+                    child: Text(
+                      S.current.party_room_login,
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ),
                 ],
               ),
@@ -92,7 +109,10 @@ class PartyRoomListPage extends HookConsumerWidget {
                   child: TextBox(
                     controller: searchController,
                     placeholder: S.current.party_room_search_owner,
-                    prefix: const Padding(padding: EdgeInsets.only(left: 8), child: Icon(FluentIcons.search)),
+                    prefix: const Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Icon(FluentIcons.search),
+                    ),
                     onSubmitted: (value) {
                       uiModel.loadRoomList(searchName: value, page: 1);
                     },
@@ -101,13 +121,20 @@ class PartyRoomListPage extends HookConsumerWidget {
                 const SizedBox(width: 12),
                 _buildTagFilter(context, ref, uiState, partyRoomState),
                 const SizedBox(width: 12),
-                IconButton(icon: const Icon(FluentIcons.refresh), onPressed: () => uiModel.refreshRoomList()),
+                IconButton(
+                  icon: const Icon(FluentIcons.refresh),
+                  onPressed: () => uiModel.refreshRoomList(),
+                ),
                 const SizedBox(width: 12),
                 FilledButton(
                   onPressed: () => _showCreateRoomDialog(context, ref),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [const Icon(FluentIcons.add, size: 16), const SizedBox(width: 8), Text(S.current.party_room_create_room)],
+                    children: [
+                      const Icon(FluentIcons.add, size: 16),
+                      const SizedBox(width: 8),
+                      Text(S.current.party_room_create_room),
+                    ],
                   ),
                 ),
               ],
@@ -115,15 +142,28 @@ class PartyRoomListPage extends HookConsumerWidget {
           ),
 
           // 房间列表
-          Expanded(child: _buildRoomList(context, ref, uiState, partyRoom, scrollController)),
+          Expanded(
+            child: _buildRoomList(
+              context,
+              ref,
+              uiState,
+              partyRoom,
+              scrollController,
+            ),
+          ),
         ],
       ),
       bottomBar: _buildFloatingRoomButton(context, ref, partyRoomState),
     );
   }
 
-  Widget? _buildFloatingRoomButton(BuildContext context, WidgetRef ref, PartyRoomFullState partyRoomState) {
-    if (!partyRoomState.room.isInRoom || partyRoomState.room.currentRoom == null) {
+  Widget? _buildFloatingRoomButton(
+    BuildContext context,
+    WidgetRef ref,
+    PartyRoomFullState partyRoomState,
+  ) {
+    if (!partyRoomState.room.isInRoom ||
+        partyRoomState.room.currentRoom == null) {
       return null;
     }
 
@@ -152,7 +192,11 @@ class PartyRoomListPage extends HookConsumerWidget {
                 color: const Color(0xFF2D2D2D),
                 shape: BoxShape.circle,
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4)),
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
                 border: Border.all(color: const Color(0xFF4A9EFF), width: 2),
               ),
@@ -181,7 +225,9 @@ class PartyRoomListPage extends HookConsumerWidget {
       value: uiState.selectedMainTagId,
       items: [
         ComboBoxItem(value: null, child: Text(S.current.party_room_all_tags)),
-        ...tags.values.map((tag) => ComboBoxItem(value: tag.id, child: Text(tag.name))),
+        ...tags.values.map(
+          (tag) => ComboBoxItem(value: tag.id, child: Text(tag.name)),
+        ),
       ],
       onChanged: (value) {
         ref.read(partyRoomUIModelProvider.notifier).setSelectedMainTagId(value);
@@ -207,7 +253,10 @@ class PartyRoomListPage extends HookConsumerWidget {
           children: [
             const Icon(FluentIcons.error, size: 48, color: Color(0xFFFF6B6B)),
             const SizedBox(height: 16),
-            Text(uiState.errorMessage!, style: const TextStyle(color: Color(0xFFE0E0E0))),
+            Text(
+              uiState.errorMessage!,
+              style: const TextStyle(color: Color(0xFFE0E0E0)),
+            ),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: () {
@@ -225,7 +274,11 @@ class PartyRoomListPage extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FluentIcons.room, size: 48, color: Colors.white.withValues(alpha: 0.6)),
+            Icon(
+              FluentIcons.room,
+              size: 48,
+              color: Colors.white.withValues(alpha: 0.6),
+            ),
             const SizedBox(height: 16),
             Text(
               uiState.searchOwnerName.isNotEmpty
@@ -237,9 +290,18 @@ class PartyRoomListPage extends HookConsumerWidget {
             ),
             const SizedBox(height: 8),
             if (uiState.searchOwnerName.isEmpty) ...[
-              Text(S.current.party_room_be_first_create, style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.5))),
+              Text(
+                S.current.party_room_be_first_create,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white.withValues(alpha: 0.5),
+                ),
+              ),
               const SizedBox(height: 16),
-              FilledButton(onPressed: () => _showCreateRoomDialog(context, ref), child: Text(S.current.party_room_create_room)),
+              FilledButton(
+                onPressed: () => _showCreateRoomDialog(context, ref),
+                child: Text(S.current.party_room_create_room),
+              ),
             ],
           ],
         ),
@@ -254,7 +316,8 @@ class PartyRoomListPage extends HookConsumerWidget {
       crossAxisCount: 3,
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
-      itemCount: uiState.roomListItems.length + (hasMore || uiState.isLoading ? 1 : 0),
+      itemCount:
+          uiState.roomListItems.length + (hasMore || uiState.isLoading ? 1 : 0),
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
         // 显示加载更多指示器
@@ -264,7 +327,12 @@ class PartyRoomListPage extends HookConsumerWidget {
             child: Center(
               child: uiState.isLoading
                   ? const ProgressRing()
-                  : Text(S.current.party_room_all_loaded, style: TextStyle(color: Colors.white.withValues(alpha: 0.5))),
+                  : Text(
+                      S.current.party_room_all_loaded,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.5),
+                      ),
+                    ),
             ),
           );
         }
@@ -275,18 +343,28 @@ class PartyRoomListPage extends HookConsumerWidget {
     );
   }
 
-  Widget _buildRoomCard(BuildContext context, WidgetRef ref, PartyRoom partyRoom, RoomListItem room, int index) {
+  Widget _buildRoomCard(
+    BuildContext context,
+    WidgetRef ref,
+    PartyRoom partyRoom,
+    RoomListItem room,
+    int index,
+  ) {
     final avatarUrl = PartyRoomUtils.getAvatarUrl(room.ownerAvatar) ?? '';
     final partyRoomState = ref.watch(partyRoomProvider);
-    final isCurrentRoom = partyRoomState.room.isInRoom && partyRoomState.room.roomUuid == room.roomUuid;
+    final isCurrentRoom =
+        partyRoomState.room.isInRoom &&
+        partyRoomState.room.roomUuid == room.roomUuid;
     return GridItemAnimator(
       index: index,
       child: GestureDetector(
         onTap: () => _joinRoom(context, ref, partyRoom, room),
-        child: Tilt(
-          shadowConfig: const ShadowConfig(maxIntensity: .3),
+        child: Tilt.base(
+          shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
           borderRadius: BorderRadius.circular(12),
-          border: isCurrentRoom ? Border.all(color: Colors.green, width: 2) : null,
+          border: isCurrentRoom
+              ? Border.all(color: Colors.green, width: 2)
+              : null,
           clipBehavior: Clip.hardEdge,
           child: Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
@@ -300,7 +378,11 @@ class PartyRoomListPage extends HookConsumerWidget {
                   ),
                 // 黑色遮罩
                 Positioned.fill(
-                  child: Container(decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.6))),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.6),
+                    ),
+                  ),
                 ),
                 // 模糊效果
                 Positioned.fill(
@@ -323,11 +405,21 @@ class PartyRoomListPage extends HookConsumerWidget {
                         children: [
                           CircleAvatar(
                             radius: 24,
-                            backgroundColor: const Color(0xFF4A9EFF).withValues(alpha: 0.5),
+                            backgroundColor: const Color(
+                              0xFF4A9EFF,
+                            ).withValues(alpha: 0.5),
                             backgroundImage: avatarUrl.isNotEmpty
-                                ? ExtendedNetworkImageProvider(avatarUrl, cache: true)
+                                ? ExtendedNetworkImageProvider(
+                                    avatarUrl,
+                                    cache: true,
+                                  )
                                 : null,
-                            child: avatarUrl.isEmpty ? const Icon(FluentIcons.contact, color: Colors.white) : null,
+                            child: avatarUrl.isEmpty
+                                ? const Icon(
+                                    FluentIcons.contact,
+                                    color: Colors.white,
+                                  )
+                                : null,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -338,7 +430,9 @@ class PartyRoomListPage extends HookConsumerWidget {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        room.ownerHandleName.isNotEmpty ? room.ownerHandleName : room.ownerGameId,
+                                        room.ownerHandleName.isNotEmpty
+                                            ? room.ownerHandleName
+                                            : room.ownerGameId,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
@@ -349,18 +443,35 @@ class PartyRoomListPage extends HookConsumerWidget {
                                     ),
                                     if (room.hasPassword) ...[
                                       const SizedBox(width: 4),
-                                      Icon(FluentIcons.lock, size: 12, color: Colors.white.withValues(alpha: 0.7)),
+                                      Icon(
+                                        FluentIcons.lock,
+                                        size: 12,
+                                        color: Colors.white.withValues(
+                                          alpha: 0.7,
+                                        ),
+                                      ),
                                     ],
                                   ],
                                 ),
                                 const SizedBox(height: 2),
                                 Row(
                                   children: [
-                                    Icon(FluentIcons.group, size: 11, color: Colors.white.withValues(alpha: 0.6)),
+                                    Icon(
+                                      FluentIcons.group,
+                                      size: 11,
+                                      color: Colors.white.withValues(
+                                        alpha: 0.6,
+                                      ),
+                                    ),
                                     const SizedBox(width: 4),
                                     Text(
                                       '${room.currentMembers}/${room.targetMembers}',
-                                      style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.7)),
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.white.withValues(
+                                          alpha: 0.7,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -376,7 +487,10 @@ class PartyRoomListPage extends HookConsumerWidget {
                           if (room.socialLinks.isNotEmpty) ...[
                             const SizedBox(width: 12),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.green.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(4),
@@ -384,7 +498,11 @@ class PartyRoomListPage extends HookConsumerWidget {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(FluentIcons.link, size: 10, color: Colors.green.withValues(alpha: 0.8)),
+                                  Icon(
+                                    FluentIcons.link,
+                                    size: 10,
+                                    color: Colors.green.withValues(alpha: 0.8),
+                                  ),
                                 ],
                               ),
                             ),
@@ -409,20 +527,35 @@ class PartyRoomListPage extends HookConsumerWidget {
     Widget buildContainer(String name, Color color) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4)),
-        child: Text(name, style: const TextStyle(fontSize: 11, color: Colors.white)),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Text(
+          name,
+          style: const TextStyle(fontSize: 11, color: Colors.white),
+        ),
       );
     }
 
     return Row(
       children: [
-        buildContainer(tag?.name ?? "<${tag?.id}>", HexColor(tag?.color ?? "#0096FF")),
-        if (subTag != null) ...[const SizedBox(width: 4), buildContainer(subTag.name, HexColor(subTag.color))],
+        buildContainer(
+          tag?.name ?? "<${tag?.id}>",
+          HexColor(tag?.color ?? "#0096FF"),
+        ),
+        if (subTag != null) ...[
+          const SizedBox(width: 4),
+          buildContainer(subTag.name, HexColor(subTag.color)),
+        ],
       ],
     );
   }
 
-  Future<void> _showCreateRoomDialog(BuildContext context, WidgetRef ref) async {
+  Future<void> _showCreateRoomDialog(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final uiState = ref.read(partyRoomUIModelProvider);
     final partyRoomState = ref.read(partyRoomProvider);
 
@@ -434,8 +567,14 @@ class PartyRoomListPage extends HookConsumerWidget {
           title: Text(S.current.party_room_need_login),
           content: Text(S.current.party_room_create_need_login),
           actions: [
-            Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
-            FilledButton(child: Text(S.current.party_room_go_login), onPressed: () => Navigator.pop(context, true)),
+            Button(
+              child: Text(S.current.home_action_cancel),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+            FilledButton(
+              child: Text(S.current.party_room_go_login),
+              onPressed: () => Navigator.pop(context, true),
+            ),
           ],
         ),
       );
@@ -454,8 +593,14 @@ class PartyRoomListPage extends HookConsumerWidget {
           title: Text(S.current.party_room_create_new_room),
           content: Text(S.current.party_room_already_in_room_create),
           actions: [
-            Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
-            FilledButton(child: Text(S.current.party_room_continue), onPressed: () => Navigator.pop(context, true)),
+            Button(
+              child: Text(S.current.home_action_cancel),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+            FilledButton(
+              child: Text(S.current.party_room_continue),
+              onPressed: () => Navigator.pop(context, true),
+            ),
           ],
         ),
       );
@@ -466,10 +611,18 @@ class PartyRoomListPage extends HookConsumerWidget {
       await ref.read(partyRoomProvider.notifier).leaveRoom();
     }
     if (!context.mounted) return;
-    await showDialog(context: context, builder: (context) => const CreateRoomDialog());
+    await showDialog(
+      context: context,
+      builder: (context) => const CreateRoomDialog(),
+    );
   }
 
-  Future<void> _joinRoom(BuildContext context, WidgetRef ref, PartyRoom partyRoom, dynamic room) async {
+  Future<void> _joinRoom(
+    BuildContext context,
+    WidgetRef ref,
+    PartyRoom partyRoom,
+    dynamic room,
+  ) async {
     final partyRoomState = ref.read(partyRoomProvider);
     final uiState = ref.read(partyRoomUIModelProvider);
 
@@ -481,8 +634,14 @@ class PartyRoomListPage extends HookConsumerWidget {
           title: Text(S.current.party_room_need_login),
           content: Text(S.current.party_room_join_need_login),
           actions: [
-            Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
-            FilledButton(child: Text(S.current.party_room_go_login), onPressed: () => Navigator.pop(context, true)),
+            Button(
+              child: Text(S.current.home_action_cancel),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+            FilledButton(
+              child: Text(S.current.party_room_go_login),
+              onPressed: () => Navigator.pop(context, true),
+            ),
           ],
         ),
       );
@@ -509,8 +668,14 @@ class PartyRoomListPage extends HookConsumerWidget {
             title: Text(S.current.party_room_switch_room),
             content: Text(S.current.party_room_already_in_room_join),
             actions: [
-              Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
-              FilledButton(child: Text(S.current.party_room_continue), onPressed: () => Navigator.pop(context, true)),
+              Button(
+                child: Text(S.current.home_action_cancel),
+                onPressed: () => Navigator.pop(context, false),
+              ),
+              FilledButton(
+                child: Text(S.current.party_room_continue),
+                onPressed: () => Navigator.pop(context, true),
+              ),
             ],
           ),
         );
@@ -536,11 +701,24 @@ class PartyRoomListPage extends HookConsumerWidget {
               title: Text(S.current.party_room_enter_room_password),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [TextBox(controller: passwordController, placeholder: S.current.party_room_enter_password_required, obscureText: true)],
+                children: [
+                  TextBox(
+                    controller: passwordController,
+                    placeholder: S.current.party_room_enter_password_required,
+                    obscureText: true,
+                  ),
+                ],
               ),
               actions: [
-                Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context)),
-                FilledButton(child: Text(S.current.party_room_join), onPressed: () => Navigator.pop(context, passwordController.text)),
+                Button(
+                  child: Text(S.current.home_action_cancel),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                FilledButton(
+                  child: Text(S.current.party_room_join),
+                  onPressed: () =>
+                      Navigator.pop(context, passwordController.text),
+                ),
               ],
             );
           },
@@ -563,7 +741,12 @@ class PartyRoomListPage extends HookConsumerWidget {
           builder: (context) => ContentDialog(
             title: Text(S.current.party_room_join_failed),
             content: Text(e.toString()),
-            actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+            actions: [
+              FilledButton(
+                child: const Text('确定'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
           ),
         );
       }

@@ -432,9 +432,9 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
         return Ok(context.clone());
     }
 
-    let instance = wgpu::Instance::new(&wgpu::InstanceDescriptor {
+    let instance = wgpu::Instance::new(wgpu::InstanceDescriptor {
         backends: wgpu::Backends::PRIMARY,
-        ..Default::default()
+        ..wgpu::InstanceDescriptor::new_without_display_handle()
     });
     let adapter =
         futures_lite::future::block_on(instance.request_adapter(&wgpu::RequestAdapterOptions {
@@ -448,6 +448,7 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
             label: Some("sctb model renderer device"),
             required_features: wgpu::Features::empty(),
             required_limits: wgpu::Limits::downlevel_defaults().using_resolution(adapter.limits()),
+            experimental_features: wgpu::ExperimentalFeatures::disabled(),
             memory_hints: wgpu::MemoryHints::Performance,
             trace: wgpu::Trace::Off,
         }))
@@ -491,8 +492,8 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
     });
     let pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
         label: Some("sctb model renderer pipeline layout"),
-        bind_group_layouts: &[&bind_group_layout],
-        push_constant_ranges: &[],
+        bind_group_layouts: &[Some(&bind_group_layout)],
+        immediate_size: 0,
     });
     let pipeline = device.create_render_pipeline(&wgpu::RenderPipelineDescriptor {
         label: Some("sctb model renderer pipeline"),
@@ -520,8 +521,8 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
         },
         depth_stencil: Some(wgpu::DepthStencilState {
             format: wgpu::TextureFormat::Depth32Float,
-            depth_write_enabled: true,
-            depth_compare: wgpu::CompareFunction::Less,
+            depth_write_enabled: Some(true),
+            depth_compare: Some(wgpu::CompareFunction::Less),
             stencil: Default::default(),
             bias: Default::default(),
         }),
@@ -529,7 +530,7 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
             count: WGPU_SAMPLE_COUNT,
             ..Default::default()
         },
-        multiview: None,
+        multiview_mask: None,
         cache: None,
     });
     let edge_pipeline = device.create_render_pipeline(&wgpu::RenderPipelineDescriptor {
@@ -558,8 +559,8 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
         },
         depth_stencil: Some(wgpu::DepthStencilState {
             format: wgpu::TextureFormat::Depth32Float,
-            depth_write_enabled: false,
-            depth_compare: wgpu::CompareFunction::LessEqual,
+            depth_write_enabled: Some(false),
+            depth_compare: Some(wgpu::CompareFunction::LessEqual),
             stencil: Default::default(),
             bias: Default::default(),
         }),
@@ -567,7 +568,7 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
             count: WGPU_SAMPLE_COUNT,
             ..Default::default()
         },
-        multiview: None,
+        multiview_mask: None,
         cache: None,
     });
 
@@ -768,7 +769,7 @@ impl WgpuModelSession {
         });
         self.shared
             .device
-            .poll(wgpu::PollType::Wait)
+            .poll(wgpu::PollType::wait_indefinitely())
             .map_err(|e| anyhow!("wgpu renderer: poll failed: {e:?}"))?;
         futures::executor::block_on(receiver)
             .map_err(|_| anyhow!("wgpu renderer: readback channel closed"))?
@@ -1022,7 +1023,7 @@ fn create_wgpu_texture_bind_groups(
         address_mode_w: wgpu::AddressMode::Repeat,
         mag_filter: wgpu::FilterMode::Linear,
         min_filter: wgpu::FilterMode::Linear,
-        mipmap_filter: wgpu::FilterMode::Nearest,
+        mipmap_filter: wgpu::MipmapFilterMode::Nearest,
         ..Default::default()
     });
 
