@@ -68,7 +68,7 @@ dependencies:
   watcher: ^1.2.1
   path: ^1.9.1
   crypto: ^3.0.7
-  xml: ^6.6.1
+  xml: ^7.0.1
   local_hero: ^0.3.0
 
   # gRPC and protobuf
