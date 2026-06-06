@@ -58,5 +58,6 @@ enum AppAdvancedLocalizationClassKeysDataMode {
   unLocalization,
   localization,
   mixed,
+  mixedEnglishFront,
   mixedNewline,
 }

@@ -713,6 +713,7 @@
   "home_localization_advanced_action_mod_change_localization": "汉化",
   "home_localization_advanced_action_mod_change_un_localization": "英文原文",
   "home_localization_advanced_action_mod_change_mixed": "双语",
+  "home_localization_advanced_action_mod_change_mixed_english_front": "双语(英文在前)",
   "home_localization_advanced_action_mod_change_mixed_newline": "双语(换行)",
   "home_localization_advanced_msg_classifying": "正在分类 ...",
   "home_localization_advanced_msg_reading_p4k": "读取 p4k 文件 ...",

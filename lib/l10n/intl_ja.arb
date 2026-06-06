@@ -775,6 +775,8 @@
   "@home_localization_advanced_action_mod_change_un_localization": {},
   "home_localization_advanced_action_mod_change_mixed": "バイリンガル",
   "@home_localization_advanced_action_mod_change_mixed": {},
+  "home_localization_advanced_action_mod_change_mixed_english_front": "バイリンガル(英語先頭)",
+  "@home_localization_advanced_action_mod_change_mixed_english_front": {},
   "home_localization_advanced_action_mod_change_mixed_newline": "バイリンガル(改行)",
   "@home_localization_advanced_action_mod_change_mixed_newline": {},
   "home_localization_advanced_msg_classifying": "分類中...",

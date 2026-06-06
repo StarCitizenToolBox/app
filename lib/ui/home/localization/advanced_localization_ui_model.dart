@@ -51,6 +51,8 @@ extension AdvancedLocalizationUIStateEx on AdvancedLocalizationUIState {
     AppAdvancedLocalizationClassKeysDataMode.unLocalization:
         S.current.home_localization_advanced_action_mod_change_un_localization,
     AppAdvancedLocalizationClassKeysDataMode.mixed: S.current.home_localization_advanced_action_mod_change_mixed,
+    AppAdvancedLocalizationClassKeysDataMode.mixedEnglishFront:
+        S.current.home_localization_advanced_action_mod_change_mixed_english_front,
     AppAdvancedLocalizationClassKeysDataMode.mixedNewline:
         S.current.home_localization_advanced_action_mod_change_mixed_newline,
   };
@@ -264,6 +266,13 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
           break;
         case AppAdvancedLocalizationClassKeysDataMode.mixed:
           newValuesMap[kv.key] = "${serverIniMap[kv.key]} [${p4kIniMap[kv.key]}]";
+          break;
+        case AppAdvancedLocalizationClassKeysDataMode.mixedEnglishFront:
+          final englishValue = p4kIniMap[kv.key];
+          final localizedValue = serverIniMap[kv.key] ?? "";
+          newValuesMap[kv.key] = englishValue == null || englishValue.isEmpty
+              ? localizedValue
+              : "$englishValue [$localizedValue]";
           break;
         case AppAdvancedLocalizationClassKeysDataMode.mixedNewline:
           newValuesMap[kv.key] = "${serverIniMap[kv.key]}\\n${p4kIniMap[kv.key]}";

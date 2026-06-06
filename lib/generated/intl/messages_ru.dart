@@ -902,6 +902,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Локализация"),
     "home_localization_advanced_action_mod_change_mixed":
         MessageLookupByLibrary.simpleMessage("Двуязычный"),
+    "home_localization_advanced_action_mod_change_mixed_english_front":
+        MessageLookupByLibrary.simpleMessage("Двуязычный (сначала английский)"),
     "home_localization_advanced_action_mod_change_mixed_newline":
         MessageLookupByLibrary.simpleMessage("Двуязычный (с новой строки)"),
     "home_localization_advanced_action_mod_change_un_localization":

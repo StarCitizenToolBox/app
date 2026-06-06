@@ -776,6 +776,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("翻譯"),
     "home_localization_advanced_action_mod_change_mixed":
         MessageLookupByLibrary.simpleMessage("雙語"),
+    "home_localization_advanced_action_mod_change_mixed_english_front":
+        MessageLookupByLibrary.simpleMessage("雙語(英文在前)"),
     "home_localization_advanced_action_mod_change_mixed_newline":
         MessageLookupByLibrary.simpleMessage("雙語(換行)"),
     "home_localization_advanced_action_mod_change_un_localization":

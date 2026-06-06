@@ -1005,6 +1005,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Localized"),
     "home_localization_advanced_action_mod_change_mixed":
         MessageLookupByLibrary.simpleMessage("Bilingual"),
+    "home_localization_advanced_action_mod_change_mixed_english_front":
+        MessageLookupByLibrary.simpleMessage("Bilingual (English First)"),
     "home_localization_advanced_action_mod_change_mixed_newline":
         MessageLookupByLibrary.simpleMessage("Bilingual (New Line)"),
     "home_localization_advanced_action_mod_change_un_localization":

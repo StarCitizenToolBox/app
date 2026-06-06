@@ -977,8 +977,21 @@ class HomeUI extends HookConsumerWidget {
         model.checkLocalizationUpdate();
         await showDialog(
           context: context,
-          dismissWithEsc: false,
-          builder: (BuildContext context) => const LocalizationDialogUI(),
+          barrierDismissible: true,
+          dismissWithEsc: true,
+          builder: (BuildContext context) => Consumer(
+            builder: (context, ref, child) {
+              final isWorking = ref.watch(
+                localizationUIModelProvider.select(
+                  (state) => state.workingVersion.isNotEmpty,
+                ),
+              );
+              return PopScope(
+                canPop: !isWorking,
+                child: const LocalizationDialogUI(),
+              );
+            },
+          ),
         );
         model.checkLocalizationUpdate(skipReload: true);
         break;

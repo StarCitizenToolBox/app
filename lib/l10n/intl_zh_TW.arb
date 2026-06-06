@@ -771,6 +771,8 @@
   "@home_localization_advanced_action_mod_change_un_localization": {},
   "home_localization_advanced_action_mod_change_mixed": "雙語",
   "@home_localization_advanced_action_mod_change_mixed": {},
+  "home_localization_advanced_action_mod_change_mixed_english_front": "雙語(英文在前)",
+  "@home_localization_advanced_action_mod_change_mixed_english_front": {},
   "home_localization_advanced_action_mod_change_mixed_newline": "雙語(換行)",
   "@home_localization_advanced_action_mod_change_mixed_newline": {},
   "home_localization_advanced_msg_classifying": "正在分類 ...",

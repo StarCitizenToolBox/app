@@ -775,6 +775,8 @@
   "@home_localization_advanced_action_mod_change_un_localization": {},
   "home_localization_advanced_action_mod_change_mixed": "Двуязычный",
   "@home_localization_advanced_action_mod_change_mixed": {},
+  "home_localization_advanced_action_mod_change_mixed_english_front": "Двуязычный (сначала английский)",
+  "@home_localization_advanced_action_mod_change_mixed_english_front": {},
   "home_localization_advanced_action_mod_change_mixed_newline": "Двуязычный (с новой строки)",
   "@home_localization_advanced_action_mod_change_mixed_newline": {},
   "home_localization_advanced_msg_classifying": "Классификация...",

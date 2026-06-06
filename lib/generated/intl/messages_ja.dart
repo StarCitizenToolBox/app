@@ -824,6 +824,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("ローカリゼーション"),
     "home_localization_advanced_action_mod_change_mixed":
         MessageLookupByLibrary.simpleMessage("バイリンガル"),
+    "home_localization_advanced_action_mod_change_mixed_english_front":
+        MessageLookupByLibrary.simpleMessage("バイリンガル(英語先頭)"),
     "home_localization_advanced_action_mod_change_mixed_newline":
         MessageLookupByLibrary.simpleMessage("バイリンガル(改行)"),
     "home_localization_advanced_action_mod_change_un_localization":

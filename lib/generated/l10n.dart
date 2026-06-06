@@ -3911,6 +3911,16 @@ class S {
     );
   }
 
+  /// `Bilingual (English First)`
+  String get home_localization_advanced_action_mod_change_mixed_english_front {
+    return Intl.message(
+      'Bilingual (English First)',
+      name: 'home_localization_advanced_action_mod_change_mixed_english_front',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Bilingual (New Line)`
   String get home_localization_advanced_action_mod_change_mixed_newline {
     return Intl.message(

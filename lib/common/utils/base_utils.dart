@@ -46,6 +46,8 @@ Future<bool> showConfirmDialogs(
   String confirm = "",
   String cancel = "",
   BoxConstraints? constraints,
+  bool barrierDismissible = true,
+  bool dismissWithEsc = true,
 }) async {
   if (confirm.isEmpty) confirm = S.current.app_common_tip_confirm;
   if (cancel.isEmpty) cancel = S.current.app_common_tip_cancel;
@@ -67,6 +69,8 @@ Future<bool> showConfirmDialogs(
         ),
     ],
     constraints: constraints,
+    barrierDismissible: barrierDismissible,
+    dismissWithEsc: dismissWithEsc,
   );
   return r == true;
 }
@@ -111,9 +115,13 @@ Future showBaseDialog(
   required Widget content,
   List<Widget>? actions,
   BoxConstraints? constraints,
+  bool barrierDismissible = true,
+  bool dismissWithEsc = true,
 }) async {
   return await showDialog(
     context: context,
+    barrierDismissible: barrierDismissible,
+    dismissWithEsc: dismissWithEsc,
     builder: (context) => ContentDialog(
       title: Text(title),
       content: content,
