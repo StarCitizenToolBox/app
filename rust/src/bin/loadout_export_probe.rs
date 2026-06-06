@@ -1,25 +1,20 @@
 use std::env;
 use std::path::{Path, PathBuf};
 
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use image::{ImageBuffer, Rgba};
-use rust::model_convert::glb_merge::{MergeInput, merge_glbs_with_attachments};
-use rust::model_convert::{ConvertOptions, convert_from_p4k_to_bytes};
 use rust::model_render;
 use serde::Deserialize;
+use starbreaker_p4k::MappedP4k;
 
 #[derive(Debug, Deserialize)]
 struct LoadoutGeometryEntry {
     item_port_name: String,
-    item_port_flags: Option<String>,
-    attach_anchor: Option<String>,
-    attach_path: Option<Vec<String>>,
-    attach_translation: Option<[f32; 3]>,
     geometry_path: Option<String>,
+    children: Option<Vec<LoadoutGeometryEntry>>,
 }
 
-#[tokio::main(flavor = "multi_thread")]
-async fn main() -> Result<()> {
+fn main() -> Result<()> {
     let args = env::args().collect::<Vec<_>>();
     if args.len() < 5 {
         eprintln!(
@@ -38,177 +33,118 @@ async fn main() -> Result<()> {
     std::fs::create_dir_all(&parts_dir)?;
 
     let manifest = std::fs::read_to_string(&manifest_path)?;
-    let entries: Vec<LoadoutGeometryEntry> = serde_json::from_str(&manifest)?;
+    let root_entry: LoadoutGeometryEntry = serde_json::from_str(&manifest)?;
+    let p4k = MappedP4k::open(p4k_path)?;
+    let opts = starbreaker_options();
 
-    let options = ConvertOptions {
-        embed_textures: true,
-        overwrite: true,
-        max_texture_size: Some(1024),
-        cancel_token: None,
-    };
+    let root_glb_bytes = starbreaker_3d::api::export_geometry_glb(
+        &p4k,
+        &normalize_p4k_model_path(root_model),
+        None,
+        &opts,
+    )
+    .map_err(|e| anyhow!(e.to_string()))?;
+    let root_glb = parts_dir.join("000_root.glb");
+    std::fs::write(&root_glb, &root_glb_bytes)?;
 
-    let mut inputs = Vec::<MergeInput>::new();
-    let mut anchors = vec!["root".to_string()];
-    let mut converted = 0usize;
+    let mut converted = 1usize;
     let mut skipped = 0usize;
     let mut failed = 0usize;
-
-    let root_bytes = convert_from_p4k_to_bytes(p4k_path, root_model, options.clone()).await?;
-    let root_glb = parts_dir.join("000_root.glb");
-    std::fs::write(&root_glb, root_bytes.glb_bytes)?;
-    inputs.push(MergeInput {
-        path: root_glb,
-        anchor: None,
-        anchor_path: None,
-        anchor_translation: None,
-    });
-    converted += 1;
-
-    for (index, entry) in entries.iter().enumerate() {
-        let Some(geometry_path) = entry.geometry_path.as_deref() else {
-            skipped += 1;
-            continue;
-        };
-        if entry
-            .item_port_flags
-            .as_deref()
-            .is_some_and(has_invisible_flag)
-        {
-            skipped += 1;
-            continue;
-        }
-        if !is_exterior_preview_entry(entry) {
-            println!(
-                "part_skipped_internal index={} port={} model={}",
-                index, entry.item_port_name, geometry_path
-            );
-            skipped += 1;
-            continue;
-        }
-        let anchor = entry
-            .attach_anchor
-            .as_deref()
-            .filter(|value| !value.is_empty())
-            .unwrap_or(&entry.item_port_name);
-        if anchor.is_empty() {
-            skipped += 1;
-            continue;
-        }
-        let model_path = normalize_p4k_model_path(geometry_path);
-        match convert_from_p4k_to_bytes(p4k_path, &model_path, options.clone()).await {
-            Ok(result) => {
-                let part_path = parts_dir.join(format!(
-                    "{:03}_{}_{}.glb",
-                    index + 1,
-                    sanitize_file_component(anchor),
-                    sanitize_file_component(
-                        Path::new(geometry_path)
-                            .file_stem()
-                            .and_then(|stem| stem.to_str())
-                            .unwrap_or("part")
-                    )
-                ));
-                std::fs::write(&part_path, result.glb_bytes)?;
-                anchors.push(anchor.to_string());
-                inputs.push(MergeInput {
-                    path: part_path,
-                    anchor: Some(anchor.to_string()),
-                    anchor_path: entry.attach_path.clone(),
-                    anchor_translation: entry.attach_translation,
-                });
-                converted += 1;
-            }
-            Err(err) => {
-                failed += 1;
-                println!(
-                    "part_failed index={} anchor={} model={} error={}",
-                    index, entry.item_port_name, model_path, err
-                );
-            }
-        }
-    }
-
-    let merged_glb = output_dir.join("BANU_Defender_loadout.glb");
-    let stats = merge_glbs_with_attachments(&inputs, &anchors, &merged_glb)?;
-    let glb_bytes = std::fs::read(&merged_glb)?;
+    export_children(&p4k, &opts, &root_entry, &parts_dir, &mut converted, &mut skipped, &mut failed);
 
     println!("root_model={root_model}");
     println!("manifest={}", manifest_path.display());
     println!("converted={converted}");
     println!("skipped={skipped}");
     println!("failed={failed}");
-    println!("merged_glb={}", merged_glb.display());
-    println!("merged_glb_bytes={}", glb_bytes.len());
-    println!("merged_nodes={}", stats.nodes);
-    println!("merged_meshes={}", stats.meshes);
-    println!("merged_materials={}", stats.materials);
-    match render_all_views(
-        &glb_bytes,
-        width,
-        height,
-        &output_dir,
-        "BANU_Defender_loadout",
-    ) {
+    println!("root_glb={}", root_glb.display());
+    println!("root_glb_bytes={}", root_glb_bytes.len());
+
+    match render_all_views(&root_glb_bytes, width, height, &output_dir, "loadout_root") {
         Ok(renders) => {
             for (view_name, png_path, non_background) in renders {
                 println!("png[{view_name}]={}", png_path.display());
                 println!("non_background_pixels[{view_name}]={non_background}");
             }
         }
-        Err(err) => {
-            println!("render_error={err}");
-        }
+        Err(err) => println!("render_error={err}"),
     }
 
     Ok(())
 }
 
-fn normalize_p4k_model_path(path: &str) -> String {
-    let normalized = path.replace('/', "\\");
-    if normalized.to_ascii_lowercase().starts_with("data\\") {
-        normalized
-    } else {
-        format!("Data\\{normalized}")
+fn export_children(
+    p4k: &MappedP4k,
+    opts: &starbreaker_3d::ExportOptions,
+    entry: &LoadoutGeometryEntry,
+    parts_dir: &Path,
+    converted: &mut usize,
+    skipped: &mut usize,
+    failed: &mut usize,
+) {
+    if let Some(children) = entry.children.as_deref() {
+        for child in children {
+            if let Some(geometry_path) = child.geometry_path.as_deref() {
+                let part_name = format!(
+                    "{:03}_{}.glb",
+                    *converted,
+                    sanitize_file_component(&child.item_port_name)
+                );
+                match starbreaker_3d::api::export_geometry_glb(
+                    p4k,
+                    &normalize_p4k_model_path(geometry_path),
+                    None,
+                    opts,
+                ) {
+                    Ok(bytes) => {
+                        if std::fs::write(parts_dir.join(part_name), bytes).is_ok() {
+                            *converted += 1;
+                        } else {
+                            *failed += 1;
+                        }
+                    }
+                    Err(err) => {
+                        *failed += 1;
+                        println!("part_failed port={} model={} error={err}", child.item_port_name, geometry_path);
+                    }
+                }
+            } else {
+                *skipped += 1;
+            }
+            export_children(p4k, opts, child, parts_dir, converted, skipped, failed);
+        }
     }
+}
+
+fn starbreaker_options() -> starbreaker_3d::ExportOptions {
+    starbreaker_3d::ExportOptions {
+        kind: starbreaker_3d::ExportKind::Bundled,
+        format: starbreaker_3d::ExportFormat::Glb,
+        material_mode: starbreaker_3d::MaterialMode::Textures,
+        include_attachments: false,
+        include_interior: false,
+        include_lights: false,
+        include_nodraw: false,
+        include_shields: false,
+        lod_level: 0,
+        texture_mip: 2,
+        threads: 0,
+        include_animations: false,
+        apply_default_animation_pose: true,
+        default_animation_tags: vec!["landing_gear_extend".to_string()],
+        decomposed_package_subdir: None,
+    }
+}
+
+fn normalize_p4k_model_path(path: &str) -> String {
+    path.trim_start_matches(['\\', '/']).replace('/', "\\")
 }
 
 fn sanitize_file_component(value: &str) -> String {
     value
         .chars()
-        .map(|ch| {
-            if ch.is_ascii_alphanumeric() || ch == '_' || ch == '-' {
-                ch
-            } else {
-                '_'
-            }
-        })
+        .map(|ch| if ch.is_ascii_alphanumeric() || ch == '_' || ch == '-' { ch } else { '_' })
         .collect()
-}
-
-fn has_invisible_flag(flags: &str) -> bool {
-    flags
-        .split_whitespace()
-        .any(|flag| flag.eq_ignore_ascii_case("invisible"))
-}
-
-fn is_exterior_preview_entry(entry: &LoadoutGeometryEntry) -> bool {
-    let port = entry.item_port_name.to_ascii_lowercase();
-    let model = entry
-        .geometry_path
-        .as_deref()
-        .unwrap_or_default()
-        .to_ascii_lowercase();
-    port.contains("weapon")
-        || port.contains("thruster")
-        || port.contains("missile")
-        || port.contains("mount")
-        || port.contains("countermeasure")
-        || model.contains("\\weapons\\")
-        || model.contains("/weapons/")
-        || model.contains("\\ammo\\missiles\\")
-        || model.contains("/ammo/missiles/")
-        || model.contains("\\missile_racks\\")
-        || model.contains("/missile_racks/")
 }
 
 fn render_view(

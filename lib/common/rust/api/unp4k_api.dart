@@ -8,7 +8,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_api.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `build_preview_candidates`, `build_wav_from_pcm`, `collect_dds_part_paths`, `collect_dds_parts`, `compute_dds_mip_sizes`, `compute_waveform_from_pcm`, `compute_waveform_from_wav`, `dds_base_path`, `dds_block_bytes_dxgi`, `dds_block_bytes`, `dds_payload_layout`, `decode_dds_image`, `decode_image_for_preview`, `decode_uncompressed_dds`, `dos_datetime_to_millis`, `ensure_files_loaded`, `estimate_duration_from_wav`, `extract_masked_component`, `has_dds_signature`, `le_u32`, `model_dcb_cache_key`, `normalize_p4k_path`, `normalize_slashes`, `p4k_get_entry`, `reconstruct_dds_stream`
+// These functions are ignored because they are not marked as `pub`: `build_preview_candidates`, `build_wav_from_pcm`, `collect_dds_part_paths`, `collect_dds_parts`, `compute_dds_mip_sizes`, `compute_waveform_from_pcm`, `compute_waveform_from_wav`, `dcb_record_index_by_path`, `dcb_record_path`, `dcb_record_xml`, `dds_base_path`, `dds_block_bytes_dxgi`, `dds_block_bytes`, `dds_payload_layout`, `decode_dds_image`, `decode_image_for_preview`, `decode_uncompressed_dds`, `ensure_files_loaded`, `estimate_duration_from_wav`, `extract_masked_component`, `has_dds_signature`, `le_u32`, `model_dcb_cache_key`, `normalize_p4k_path`, `normalize_slashes`, `p4k_get_entry`, `reconstruct_dds_stream`, `sanitize_dcb_export_file_name`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`
 
 /// 打开 P4K 文件（仅打开，不读取文件列表）

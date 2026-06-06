@@ -4,9 +4,12 @@ use parking_lot::Mutex;
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::sync::{
+    Arc,
+    atomic::{AtomicBool, Ordering},
+};
 use uuid::Uuid;
 
-use crate::model_convert::{self, ConvertCancelToken, ConvertOptions};
 use crate::model_render;
 
 #[frb(dart_metadata=("freezed"))]
@@ -62,62 +65,30 @@ pub struct SessionStatusResult {
 }
 
 #[frb(dart_metadata=("freezed"))]
-pub struct LocalBatchFileResult {
-    pub model_path: String,
-    pub output_path: Option<String>,
-    pub has_geometry: bool,
-    pub error_code: Option<String>,
-    pub error_message: Option<String>,
-    pub warnings: Vec<String>,
-    pub source_mode: String,
-    pub fallback_reason: Option<String>,
-}
-
-#[frb(dart_metadata=("freezed"))]
-pub struct AssemblyGraphStats {
-    pub nodes: i32,
-    pub geometry_nodes: i32,
-    pub object_containers: i32,
-    pub roots: i32,
-}
-
-#[frb(dart_metadata=("freezed"))]
-pub struct LocalBatchConvertResult {
-    pub success: bool,
-    pub merged_output_path: Option<String>,
-    pub assembly_manifest_path: Option<String>,
-    pub assembly_report_path: Option<String>,
-    pub success_count: i32,
-    pub empty_count: i32,
-    pub failed_count: i32,
-    pub warnings: Vec<String>,
-    pub files: Vec<LocalBatchFileResult>,
-    pub source_mode: String,
-    pub assembly_graph_stats: AssemblyGraphStats,
-    pub fallback_reason_by_file: Vec<String>,
-    pub error_code: Option<String>,
-    pub error_message: Option<String>,
-}
-
-#[frb(dart_metadata=("freezed"))]
 pub struct ModelConvertOptions {
     pub embed_textures: bool,
     pub overwrite: bool,
     pub max_texture_size: Option<u32>,
 }
 
-impl From<Option<ModelConvertOptions>> for ConvertOptions {
-    fn from(value: Option<ModelConvertOptions>) -> Self {
-        if let Some(v) = value {
-            ConvertOptions {
-                embed_textures: v.embed_textures,
-                overwrite: v.overwrite,
-                max_texture_size: v.max_texture_size,
-                cancel_token: None,
-            }
-        } else {
-            ConvertOptions::default()
+#[derive(Clone)]
+struct ConvertCancelToken {
+    cancelled: Arc<AtomicBool>,
+}
+
+impl ConvertCancelToken {
+    fn new() -> Self {
+        Self {
+            cancelled: Arc::new(AtomicBool::new(false)),
         }
+    }
+
+    fn cancel(&self) {
+        self.cancelled.store(true, Ordering::Relaxed);
+    }
+
+    fn is_cancelled(&self) -> bool {
+        self.cancelled.load(Ordering::Relaxed)
     }
 }
 
@@ -179,7 +150,70 @@ pub fn p4k_model_init_context() -> Result<bool> {
 }
 
 pub fn p4k_model_is_supported(file_path: String) -> bool {
-    model_convert::is_supported_model(&file_path)
+    starbreaker_3d::api::is_supported_geometry_path(&file_path)
+}
+
+fn normalized_model_path(path: &str) -> String {
+    path.trim_start_matches(['\\', '/']).replace('/', "\\")
+}
+
+fn starbreaker_export_options(options: Option<ModelConvertOptions>) -> starbreaker_3d::ExportOptions {
+    let options = options.unwrap_or(ModelConvertOptions {
+        embed_textures: true,
+        overwrite: false,
+        max_texture_size: Some(4096),
+    });
+    let texture_mip = match options.max_texture_size {
+        None => 0,
+        Some(size) if size <= 1024 => 2,
+        Some(size) if size <= 2048 => 1,
+        _ => 0,
+    };
+
+    starbreaker_3d::ExportOptions {
+        kind: starbreaker_3d::ExportKind::Bundled,
+        format: starbreaker_3d::ExportFormat::Glb,
+        material_mode: if options.embed_textures {
+            starbreaker_3d::MaterialMode::Textures
+        } else {
+            starbreaker_3d::MaterialMode::Colors
+        },
+        include_attachments: false,
+        include_interior: false,
+        include_lights: false,
+        include_nodraw: false,
+        include_shields: false,
+        lod_level: 0,
+        texture_mip,
+        threads: 0,
+        include_animations: false,
+        apply_default_animation_pose: true,
+        default_animation_tags: vec!["landing_gear_extend".to_string()],
+        decomposed_package_subdir: None,
+    }
+}
+
+fn model_error_code(message: &str) -> &'static str {
+    if message.contains("UnsupportedFormat")
+        || message.contains("unsupported")
+        || message.contains("not supported")
+    {
+        "ERR_UNSUPPORTED_FORMAT"
+    } else {
+        "ERR_MODEL_PARSE_FAILED"
+    }
+}
+
+fn convert_model_to_glb_bytes_blocking(
+    p4k_path: String,
+    model_path: String,
+    options: Option<ModelConvertOptions>,
+) -> Result<Vec<u8>> {
+    let p4k = starbreaker_p4k::MappedP4k::open(&p4k_path)?;
+    let opts = starbreaker_export_options(options);
+    let model_path = normalized_model_path(&model_path);
+    starbreaker_3d::api::export_geometry_glb(&p4k, &model_path, None, &opts)
+        .map_err(|e| anyhow::anyhow!(e.to_string()))
 }
 
 pub async fn p4k_model_convert_to_glb(
@@ -188,68 +222,43 @@ pub async fn p4k_model_convert_to_glb(
     output_dir: String,
     options: Option<ModelConvertOptions>,
 ) -> Result<ModelConvertResult> {
-    let options: ConvertOptions = options.into();
-    let result = p4k_model_convert_to_glb_without_textures_inner(
-        &p4k_path,
-        &model_path,
-        &output_dir,
-        options,
-    )
+    let overwrite = options.as_ref().map(|v| v.overwrite).unwrap_or(false);
+    let output_name = Path::new(&model_path)
+        .file_stem()
+        .and_then(|v| v.to_str())
+        .unwrap_or("model")
+        .to_string();
+    let output_path = PathBuf::from(&output_dir).join(format!("{output_name}.glb"));
+
+    let result = async {
+        fs::create_dir_all(&output_dir)?;
+        if output_path.exists() && !overwrite {
+            return Err(anyhow::anyhow!("Output already exists"));
+        }
+        let glb = tokio::task::spawn_blocking(move || {
+            convert_model_to_glb_bytes_blocking(p4k_path, model_path, options)
+        })
+        .await??;
+        fs::write(&output_path, glb)?;
+        Ok::<_, anyhow::Error>(output_path.to_string_lossy().to_string())
+    }
     .await;
     match result {
-        Ok(ok) => Ok(ModelConvertResult {
+        Ok(output_path) => Ok(ModelConvertResult {
             success: true,
-            output_path: Some(ok.output_path),
+            output_path: Some(output_path),
             error_code: None,
             error_message: None,
-            warnings: ok.warnings,
+            warnings: vec!["generated by StarBreaker".to_string()],
         }),
         Err(e) => Ok(ModelConvertResult {
             success: false,
             output_path: None,
-            error_code: Some(e.code().to_string()),
+            error_code: Some(model_error_code(&e.to_string()).to_string()),
             error_message: Some(e.to_string()),
             warnings: vec![],
         }),
     }
-}
-
-async fn p4k_model_convert_to_glb_without_textures_inner(
-    p4k_path: &str,
-    model_path: &str,
-    output_dir: &str,
-    options: ConvertOptions,
-) -> std::result::Result<model_convert::ConvertOutput, model_convert::ModelConvertError> {
-    options.check_cancelled()?;
-    fs::create_dir_all(output_dir)
-        .map_err(|e| model_convert::ModelConvertError::Io(e.to_string()))?;
-    let output_name = Path::new(model_path)
-        .file_stem()
-        .and_then(|v| v.to_str())
-        .unwrap_or("model");
-    let output_path = PathBuf::from(output_dir).join(format!("{output_name}.glb"));
-    if output_path.exists() && !options.overwrite {
-        return Err(model_convert::ModelConvertError::OutputExists);
-    }
-
-    let output =
-        model_convert::convert_from_p4k_to_scene_without_textures(p4k_path, model_path, options)
-            .await?;
-    model_convert::gltf_builder::write_glb(
-        &output.scene,
-        &output.textures,
-        &output.materials,
-        &output.materials_by_id,
-        &output_path,
-    )
-    .map_err(|e| model_convert::ModelConvertError::Io(e.to_string()))?;
-
-    Ok(model_convert::ConvertOutput {
-        output_path: output_path.to_string_lossy().to_string(),
-        warnings: output.warnings,
-        source_mode: output.source_mode,
-        fallback_reason: output.fallback_reason,
-    })
 }
 
 pub async fn p4k_model_convert_to_glb_bytes(
@@ -257,89 +266,24 @@ pub async fn p4k_model_convert_to_glb_bytes(
     model_path: String,
     options: Option<ModelConvertOptions>,
 ) -> Result<ModelConvertBytesResult> {
-    let options: ConvertOptions = options.into();
-    let result = model_convert::convert_from_p4k_to_bytes(&p4k_path, &model_path, options).await;
+    let result = tokio::task::spawn_blocking(move || {
+        convert_model_to_glb_bytes_blocking(p4k_path, model_path, options)
+    })
+    .await?;
     match result {
-        Ok(ok) => Ok(ModelConvertBytesResult {
+        Ok(glb_bytes) => Ok(ModelConvertBytesResult {
             success: true,
-            glb_bytes: Some(ok.glb_bytes),
+            glb_bytes: Some(glb_bytes),
             error_code: None,
             error_message: None,
-            warnings: ok.warnings,
+            warnings: vec!["generated by StarBreaker".to_string()],
         }),
         Err(e) => Ok(ModelConvertBytesResult {
             success: false,
             glb_bytes: None,
-            error_code: Some(e.code().to_string()),
+            error_code: Some(model_error_code(&e.to_string()).to_string()),
             error_message: Some(e.to_string()),
             warnings: vec![],
-        }),
-    }
-}
-
-pub async fn p4k_model_convert_local_batch_and_merge(
-    asset_root: String,
-    output_dir: String,
-    options: Option<ModelConvertOptions>,
-) -> Result<LocalBatchConvertResult> {
-    let options: ConvertOptions = options.into();
-    let result =
-        model_convert::convert_local_batch_and_merge(&asset_root, &output_dir, options).await;
-    match result {
-        Ok(ok) => Ok(LocalBatchConvertResult {
-            success: true,
-            merged_output_path: Some(ok.merged_output_path),
-            assembly_manifest_path: Some(ok.assembly_manifest_path),
-            assembly_report_path: Some(ok.assembly_report_path),
-            success_count: ok.success_count,
-            empty_count: ok.empty_count,
-            failed_count: ok.failed_count,
-            warnings: ok.warnings,
-            files: ok
-                .files
-                .into_iter()
-                .map(|file| LocalBatchFileResult {
-                    model_path: file.model_path,
-                    output_path: file.output_path,
-                    has_geometry: file.has_geometry,
-                    error_code: file.error_code,
-                    error_message: file.error_message,
-                    warnings: file.warnings,
-                    source_mode: file.source_mode,
-                    fallback_reason: file.fallback_reason,
-                })
-                .collect(),
-            source_mode: ok.source_mode,
-            assembly_graph_stats: AssemblyGraphStats {
-                nodes: ok.assembly_graph_stats.nodes,
-                geometry_nodes: ok.assembly_graph_stats.geometry_nodes,
-                object_containers: ok.assembly_graph_stats.object_containers,
-                roots: ok.assembly_graph_stats.roots,
-            },
-            fallback_reason_by_file: ok.fallback_reason_by_file,
-            error_code: None,
-            error_message: None,
-        }),
-        Err(e) => Ok(LocalBatchConvertResult {
-            success: false,
-            merged_output_path: None,
-            assembly_manifest_path: None,
-            assembly_report_path: None,
-            success_count: 0,
-            empty_count: 0,
-            failed_count: 0,
-            warnings: vec![],
-            files: vec![],
-            source_mode: "failed".to_string(),
-            assembly_graph_stats: AssemblyGraphStats {
-                nodes: 0,
-                geometry_nodes: 0,
-                object_containers: 0,
-                roots: 0,
-            },
-            fallback_reason_by_file: vec![],
-            error_code: Some(e.code().to_string()),
-            error_message: Some(e.to_string()),
         }),
     }
 }
@@ -432,18 +376,13 @@ pub async fn p4k_model_session_create_from_p4k(
     options: Option<ModelConvertOptions>,
 ) -> Result<SessionCreateResult> {
     release_stale_preview_sessions(None);
-    let options: ConvertOptions = options.into();
     let bg = session_bg_color(bg_color);
-    match model_convert::convert_from_p4k_to_scene(&p4k_path, &model_path, options).await {
-        Ok(ok) => match model_render::create_session_from_model_scene(
-            &ok.scene,
-            &ok.textures,
-            &ok.materials,
-            &ok.materials_by_id,
-            width,
-            height,
-            bg,
-        ) {
+    match tokio::task::spawn_blocking(move || {
+        convert_model_to_glb_bytes_blocking(p4k_path, model_path, options)
+    })
+    .await?
+    {
+        Ok(glb_bytes) => match model_render::create_session(&glb_bytes, width, height, bg) {
             Ok((session_id, model_radius)) => Ok(SessionCreateResult {
                 success: true,
                 session_id: Some(session_id),
@@ -491,8 +430,6 @@ pub fn p4k_model_session_start_from_p4k(
 
     let task_session_id = session_id.clone();
     let bg = session_bg_color(bg_color);
-    let mut options: ConvertOptions = options.into();
-    options.cancel_token = Some(cancel_token.clone());
     let spawn_result = std::thread::Builder::new()
         .name("sctb-model-preview".to_string())
         .spawn(move || {
@@ -525,24 +462,12 @@ pub fn p4k_model_session_start_from_p4k(
                     }
                 }
 
-                let preview_result = model_convert::convert_from_p4k_to_scene_without_textures(
-                    &p4k_path,
-                    &model_path,
-                    options.clone(),
-                )
+                let preview_result = tokio::task::spawn_blocking(move || {
+                    convert_model_to_glb_bytes_blocking(p4k_path, model_path, options)
+                })
                 .await
-                .and_then(|output| {
-                    if cancel_token.is_cancelled() || !preview_session_exists(&task_session_id) {
-                        return Err(model_convert::ModelConvertError::Cancelled);
-                    }
-                    model_convert::gltf_builder::build_glb_bytes(
-                        &output.scene,
-                        &output.textures,
-                        &output.materials,
-                        &output.materials_by_id,
-                    )
-                    .map_err(|e| model_convert::ModelConvertError::Io(e.to_string()))
-                });
+                .map_err(|e| anyhow::anyhow!(e.to_string()))
+                .and_then(|result| result);
                 let preview_glb_bytes = match preview_result {
                     Ok(ok) => ok,
                     Err(err) => {

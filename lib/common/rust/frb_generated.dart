@@ -75,7 +75,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => -1394138907;
+  int get rustContentHash => -1882230844;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -366,13 +366,6 @@ abstract class RustLibApi extends BaseApi {
 
   Future<ArcDataForge> crateApiUnp4KApiP4KGetOrLoadModelDcb({
     required String p4KPath,
-  });
-
-  Future<LocalBatchConvertResult>
-  crateApiUnp4KModelApiP4KModelConvertLocalBatchAndMerge({
-    required String assetRoot,
-    required String outputDir,
-    ModelConvertOptions? options,
   });
 
   Future<ModelConvertResult> crateApiUnp4KModelApiP4KModelConvertToGlb({
@@ -2964,46 +2957,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<LocalBatchConvertResult>
-  crateApiUnp4KModelApiP4KModelConvertLocalBatchAndMerge({
-    required String assetRoot,
-    required String outputDir,
-    ModelConvertOptions? options,
-  }) {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          var arg0 = cst_encode_String(assetRoot);
-          var arg1 = cst_encode_String(outputDir);
-          var arg2 = cst_encode_opt_box_autoadd_model_convert_options(options);
-          return wire
-              .wire__crate__api__unp4k_model_api__p4k_model_convert_local_batch_and_merge(
-                port_,
-                arg0,
-                arg1,
-                arg2,
-              );
-        },
-        codec: DcoCodec(
-          decodeSuccessData: dco_decode_local_batch_convert_result,
-          decodeErrorData: dco_decode_AnyhowException,
-        ),
-        constMeta:
-            kCrateApiUnp4KModelApiP4KModelConvertLocalBatchAndMergeConstMeta,
-        argValues: [assetRoot, outputDir, options],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta
-  get kCrateApiUnp4KModelApiP4KModelConvertLocalBatchAndMergeConstMeta =>
-      const TaskConstMeta(
-        debugName: "p4k_model_convert_local_batch_and_merge",
-        argNames: ["assetRoot", "outputDir", "options"],
-      );
-
-  @override
   Future<ModelConvertResult> crateApiUnp4KModelApiP4KModelConvertToGlb({
     required String p4KPath,
     required String modelPath,
@@ -4682,20 +4635,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AssemblyGraphStats dco_decode_assembly_graph_stats(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
-    return AssemblyGraphStats(
-      nodes: dco_decode_i_32(arr[0]),
-      geometryNodes: dco_decode_i_32(arr[1]),
-      objectContainers: dco_decode_i_32(arr[2]),
-      roots: dco_decode_i_32(arr[3]),
-    );
-  }
-
-  @protected
   AudioPlaybackState dco_decode_audio_playback_state(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -4955,16 +4894,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<LocalBatchFileResult> dco_decode_list_local_batch_file_result(
-    dynamic raw,
-  ) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>)
-        .map(dco_decode_local_batch_file_result)
-        .toList();
-  }
-
-  @protected
   List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_p_4_k_file_item).toList();
@@ -5022,48 +4951,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<WebViewEvent> dco_decode_list_web_view_event(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_web_view_event).toList();
-  }
-
-  @protected
-  LocalBatchConvertResult dco_decode_local_batch_convert_result(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 14)
-      throw Exception('unexpected arr length: expect 14 but see ${arr.length}');
-    return LocalBatchConvertResult(
-      success: dco_decode_bool(arr[0]),
-      mergedOutputPath: dco_decode_opt_String(arr[1]),
-      assemblyManifestPath: dco_decode_opt_String(arr[2]),
-      assemblyReportPath: dco_decode_opt_String(arr[3]),
-      successCount: dco_decode_i_32(arr[4]),
-      emptyCount: dco_decode_i_32(arr[5]),
-      failedCount: dco_decode_i_32(arr[6]),
-      warnings: dco_decode_list_String(arr[7]),
-      files: dco_decode_list_local_batch_file_result(arr[8]),
-      sourceMode: dco_decode_String(arr[9]),
-      assemblyGraphStats: dco_decode_assembly_graph_stats(arr[10]),
-      fallbackReasonByFile: dco_decode_list_String(arr[11]),
-      errorCode: dco_decode_opt_String(arr[12]),
-      errorMessage: dco_decode_opt_String(arr[13]),
-    );
-  }
-
-  @protected
-  LocalBatchFileResult dco_decode_local_batch_file_result(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 8)
-      throw Exception('unexpected arr length: expect 8 but see ${arr.length}');
-    return LocalBatchFileResult(
-      modelPath: dco_decode_String(arr[0]),
-      outputPath: dco_decode_opt_String(arr[1]),
-      hasGeometry: dco_decode_bool(arr[2]),
-      errorCode: dco_decode_opt_String(arr[3]),
-      errorMessage: dco_decode_opt_String(arr[4]),
-      warnings: dco_decode_list_String(arr[5]),
-      sourceMode: dco_decode_String(arr[6]),
-      fallbackReason: dco_decode_opt_String(arr[7]),
-    );
   }
 
   @protected
@@ -5558,23 +5445,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AssemblyGraphStats sse_decode_assembly_graph_stats(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_nodes = sse_decode_i_32(deserializer);
-    var var_geometryNodes = sse_decode_i_32(deserializer);
-    var var_objectContainers = sse_decode_i_32(deserializer);
-    var var_roots = sse_decode_i_32(deserializer);
-    return AssemblyGraphStats(
-      nodes: var_nodes,
-      geometryNodes: var_geometryNodes,
-      objectContainers: var_objectContainers,
-      roots: var_roots,
-    );
-  }
-
-  @protected
   AudioPlaybackState sse_decode_audio_playback_state(
     SseDeserializer deserializer,
   ) {
@@ -5897,20 +5767,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<LocalBatchFileResult> sse_decode_list_local_batch_file_result(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <LocalBatchFileResult>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_local_batch_file_result(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
   List<P4kFileItem> sse_decode_list_p_4_k_file_item(
     SseDeserializer deserializer,
   ) {
@@ -6004,68 +5860,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       ans_.add(sse_decode_web_view_event(deserializer));
     }
     return ans_;
-  }
-
-  @protected
-  LocalBatchConvertResult sse_decode_local_batch_convert_result(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_success = sse_decode_bool(deserializer);
-    var var_mergedOutputPath = sse_decode_opt_String(deserializer);
-    var var_assemblyManifestPath = sse_decode_opt_String(deserializer);
-    var var_assemblyReportPath = sse_decode_opt_String(deserializer);
-    var var_successCount = sse_decode_i_32(deserializer);
-    var var_emptyCount = sse_decode_i_32(deserializer);
-    var var_failedCount = sse_decode_i_32(deserializer);
-    var var_warnings = sse_decode_list_String(deserializer);
-    var var_files = sse_decode_list_local_batch_file_result(deserializer);
-    var var_sourceMode = sse_decode_String(deserializer);
-    var var_assemblyGraphStats = sse_decode_assembly_graph_stats(deserializer);
-    var var_fallbackReasonByFile = sse_decode_list_String(deserializer);
-    var var_errorCode = sse_decode_opt_String(deserializer);
-    var var_errorMessage = sse_decode_opt_String(deserializer);
-    return LocalBatchConvertResult(
-      success: var_success,
-      mergedOutputPath: var_mergedOutputPath,
-      assemblyManifestPath: var_assemblyManifestPath,
-      assemblyReportPath: var_assemblyReportPath,
-      successCount: var_successCount,
-      emptyCount: var_emptyCount,
-      failedCount: var_failedCount,
-      warnings: var_warnings,
-      files: var_files,
-      sourceMode: var_sourceMode,
-      assemblyGraphStats: var_assemblyGraphStats,
-      fallbackReasonByFile: var_fallbackReasonByFile,
-      errorCode: var_errorCode,
-      errorMessage: var_errorMessage,
-    );
-  }
-
-  @protected
-  LocalBatchFileResult sse_decode_local_batch_file_result(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_modelPath = sse_decode_String(deserializer);
-    var var_outputPath = sse_decode_opt_String(deserializer);
-    var var_hasGeometry = sse_decode_bool(deserializer);
-    var var_errorCode = sse_decode_opt_String(deserializer);
-    var var_errorMessage = sse_decode_opt_String(deserializer);
-    var var_warnings = sse_decode_list_String(deserializer);
-    var var_sourceMode = sse_decode_String(deserializer);
-    var var_fallbackReason = sse_decode_opt_String(deserializer);
-    return LocalBatchFileResult(
-      modelPath: var_modelPath,
-      outputPath: var_outputPath,
-      hasGeometry: var_hasGeometry,
-      errorCode: var_errorCode,
-      errorMessage: var_errorMessage,
-      warnings: var_warnings,
-      sourceMode: var_sourceMode,
-      fallbackReason: var_fallbackReason,
-    );
   }
 
   @protected
@@ -6799,18 +6593,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_assembly_graph_stats(
-    AssemblyGraphStats self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.nodes, serializer);
-    sse_encode_i_32(self.geometryNodes, serializer);
-    sse_encode_i_32(self.objectContainers, serializer);
-    sse_encode_i_32(self.roots, serializer);
-  }
-
-  @protected
   void sse_encode_audio_playback_state(
     AudioPlaybackState self,
     SseSerializer serializer,
@@ -7082,18 +6864,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_list_local_batch_file_result(
-    List<LocalBatchFileResult> self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_local_batch_file_result(item, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_list_p_4_k_file_item(
     List<P4kFileItem> self,
     SseSerializer serializer,
@@ -7203,44 +6973,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     for (final item in self) {
       sse_encode_web_view_event(item, serializer);
     }
-  }
-
-  @protected
-  void sse_encode_local_batch_convert_result(
-    LocalBatchConvertResult self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_bool(self.success, serializer);
-    sse_encode_opt_String(self.mergedOutputPath, serializer);
-    sse_encode_opt_String(self.assemblyManifestPath, serializer);
-    sse_encode_opt_String(self.assemblyReportPath, serializer);
-    sse_encode_i_32(self.successCount, serializer);
-    sse_encode_i_32(self.emptyCount, serializer);
-    sse_encode_i_32(self.failedCount, serializer);
-    sse_encode_list_String(self.warnings, serializer);
-    sse_encode_list_local_batch_file_result(self.files, serializer);
-    sse_encode_String(self.sourceMode, serializer);
-    sse_encode_assembly_graph_stats(self.assemblyGraphStats, serializer);
-    sse_encode_list_String(self.fallbackReasonByFile, serializer);
-    sse_encode_opt_String(self.errorCode, serializer);
-    sse_encode_opt_String(self.errorMessage, serializer);
-  }
-
-  @protected
-  void sse_encode_local_batch_file_result(
-    LocalBatchFileResult self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_String(self.modelPath, serializer);
-    sse_encode_opt_String(self.outputPath, serializer);
-    sse_encode_bool(self.hasGeometry, serializer);
-    sse_encode_opt_String(self.errorCode, serializer);
-    sse_encode_opt_String(self.errorMessage, serializer);
-    sse_encode_list_String(self.warnings, serializer);
-    sse_encode_String(self.sourceMode, serializer);
-    sse_encode_opt_String(self.fallbackReason, serializer);
   }
 
   @protected

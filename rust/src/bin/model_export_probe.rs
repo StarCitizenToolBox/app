@@ -3,8 +3,8 @@ use std::path::PathBuf;
 
 use anyhow::{Result, anyhow};
 use image::{ImageBuffer, Rgba};
-use rust::model_convert::{ConvertOptions, convert_from_p4k_to_bytes};
 use rust::model_render;
+use starbreaker_p4k::MappedP4k;
 
 #[tokio::main(flavor = "multi_thread")]
 async fn main() -> Result<()> {
@@ -27,24 +27,14 @@ async fn main() -> Result<()> {
     let height = args.get(5).and_then(|v| v.parse().ok()).unwrap_or(512);
     std::fs::create_dir_all(&output_dir)?;
 
-    let result = convert_from_p4k_to_bytes(
-        p4k_path,
-        model_path,
-        ConvertOptions {
-            embed_textures: true,
-            overwrite: true,
-            max_texture_size: Some(2048),
-            cancel_token: None,
-        },
-    )
-    .await?;
+    let glb_bytes = export_glb_bytes(p4k_path, model_path)?;
 
     let stem = std::path::Path::new(model_path)
         .file_stem()
         .and_then(|stem| stem.to_str())
         .unwrap_or("model");
     let glb_path = output_dir.join(format!("{stem}.glb"));
-    std::fs::write(&glb_path, &result.glb_bytes)?;
+    std::fs::write(&glb_path, &glb_bytes)?;
 
     let renders = [
         ("iso", format!("{stem}.png"), (0.25, 0.75, 0.0)),
@@ -54,23 +44,46 @@ async fn main() -> Result<()> {
     let mut render_outputs = Vec::with_capacity(renders.len());
     for (view_name, file_name, rotation) in renders {
         let png_path = output_dir.join(file_name);
-        let non_background = render_view(&result.glb_bytes, width, height, rotation, &png_path)?;
+        let non_background = render_view(&glb_bytes, width, height, rotation, &png_path)?;
         render_outputs.push((view_name, png_path, non_background));
     }
 
     println!("model_path={model_path}");
-    println!("source_mode={}", result.source_mode);
+    println!("source_mode=starbreaker");
     println!("glb={}", glb_path.display());
-    println!("glb_bytes={}", result.glb_bytes.len());
+    println!("glb_bytes={}", glb_bytes.len());
     for (view_name, png_path, non_background) in render_outputs {
         println!("png[{view_name}]={}", png_path.display());
         println!("non_background_pixels[{view_name}]={non_background}");
     }
-    for warning in result.warnings {
-        println!("warning={warning}");
-    }
-
     Ok(())
+}
+
+fn export_glb_bytes(p4k_path: &str, model_path: &str) -> Result<Vec<u8>> {
+    let p4k = MappedP4k::open(p4k_path)?;
+    let opts = starbreaker_3d::ExportOptions {
+        kind: starbreaker_3d::ExportKind::Bundled,
+        format: starbreaker_3d::ExportFormat::Glb,
+        material_mode: starbreaker_3d::MaterialMode::Textures,
+        include_attachments: false,
+        include_interior: false,
+        include_lights: false,
+        include_nodraw: false,
+        include_shields: false,
+        lod_level: 0,
+        texture_mip: 1,
+        threads: 0,
+        include_animations: false,
+        apply_default_animation_pose: true,
+        default_animation_tags: vec!["landing_gear_extend".to_string()],
+        decomposed_package_subdir: None,
+    };
+    starbreaker_3d::api::export_geometry_glb(&p4k, &normalize_p4k_model_path(model_path), None, &opts)
+        .map_err(|e| anyhow!(e.to_string()))
+}
+
+fn normalize_p4k_model_path(path: &str) -> String {
+    path.trim_start_matches(['\\', '/']).replace('/', "\\")
 }
 
 async fn render_existing_glb(args: &[String]) -> Result<()> {

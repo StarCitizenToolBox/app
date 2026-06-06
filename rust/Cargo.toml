@@ -70,8 +70,10 @@ ndarray = "0.17.2"
 serde_json = { version = "1.0.150", features = ["preserve_order"] }
 serde = { version = "1.0.228", features = ["derive"] }
 ryu = "1.0.20"
-unp4k = { package = "unp4k", git = "https://github.com/StarCitizenToolBox/unp4k_rs", rev = "20d26c7660434e0108332022fd0bcef50cf0a0db" }
-#unp4k = { package = "unp4k", path = "../../unp4k_rs" }
+starbreaker-p4k = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "bab989b480e76304d4c7f7a9fedf02eb9c009575" }
+starbreaker-cryxml = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "bab989b480e76304d4c7f7a9fedf02eb9c009575" }
+starbreaker-datacore = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "bab989b480e76304d4c7f7a9fedf02eb9c009575" }
+starbreaker-3d = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "bab989b480e76304d4c7f7a9fedf02eb9c009575" }
 uuid = { version = "1.23.2", features = ["v4"] }
 lazy_static = "1.5"
 rayon = "1.12"

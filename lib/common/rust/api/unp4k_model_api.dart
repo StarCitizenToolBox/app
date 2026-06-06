@@ -8,9 +8,9 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_model_api.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `preview_session_exists`, `session_bg_color`
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `PREVIEW_SESSION_STATUS`, `PreviewSessionStatus`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `deref`, `from`, `initialize`
+// These functions are ignored because they are not marked as `pub`: `cancel`, `convert_model_to_glb_bytes_blocking`, `is_cancelled`, `model_error_code`, `new`, `normalized_model_path`, `preview_session_exists`, `release_stale_preview_sessions`, `session_bg_color`, `starbreaker_export_options`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ConvertCancelToken`, `PREVIEW_SESSION_STATUS`, `PreviewSessionStatus`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `deref`, `initialize`
 
 /// Initialize the OpenGL context for model rendering.
 /// Should be called once at application startup before any model rendering.
@@ -44,17 +44,6 @@ Future<ModelConvertBytesResult> p4KModelConvertToGlbBytes({
   modelPath: modelPath,
   options: options,
 );
-
-Future<LocalBatchConvertResult> p4KModelConvertLocalBatchAndMerge({
-  required String assetRoot,
-  required String outputDir,
-  ModelConvertOptions? options,
-}) =>
-    RustLib.instance.api.crateApiUnp4KModelApiP4KModelConvertLocalBatchAndMerge(
-      assetRoot: assetRoot,
-      outputDir: outputDir,
-      options: options,
-    );
 
 Future<ModelRenderResult> p4KModelRenderPreview({
   required String glbPath,
@@ -183,50 +172,6 @@ Future<bool> p4KModelSessionExists({required String sessionId}) => RustLib
     .instance
     .api
     .crateApiUnp4KModelApiP4KModelSessionExists(sessionId: sessionId);
-
-@freezed
-sealed class AssemblyGraphStats with _$AssemblyGraphStats {
-  const factory AssemblyGraphStats({
-    required int nodes,
-    required int geometryNodes,
-    required int objectContainers,
-    required int roots,
-  }) = _AssemblyGraphStats;
-}
-
-@freezed
-sealed class LocalBatchConvertResult with _$LocalBatchConvertResult {
-  const factory LocalBatchConvertResult({
-    required bool success,
-    String? mergedOutputPath,
-    String? assemblyManifestPath,
-    String? assemblyReportPath,
-    required int successCount,
-    required int emptyCount,
-    required int failedCount,
-    required List<String> warnings,
-    required List<LocalBatchFileResult> files,
-    required String sourceMode,
-    required AssemblyGraphStats assemblyGraphStats,
-    required List<String> fallbackReasonByFile,
-    String? errorCode,
-    String? errorMessage,
-  }) = _LocalBatchConvertResult;
-}
-
-@freezed
-sealed class LocalBatchFileResult with _$LocalBatchFileResult {
-  const factory LocalBatchFileResult({
-    required String modelPath,
-    String? outputPath,
-    required bool hasGeometry,
-    String? errorCode,
-    String? errorMessage,
-    required List<String> warnings,
-    required String sourceMode,
-    String? fallbackReason,
-  }) = _LocalBatchFileResult;
-}
 
 @freezed
 sealed class ModelConvertBytesResult with _$ModelConvertBytesResult {

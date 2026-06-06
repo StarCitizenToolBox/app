@@ -5,12 +5,15 @@ use image_dds::{ddsfile::Dds, image_from_dds};
 use rayon::prelude::*;
 use serde::Serialize;
 use std::collections::HashMap;
+use std::fs;
 use std::io::Cursor;
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
-pub use unp4k::dataforge::DataForge;
-use unp4k::{CryXmlReader, P4kEntry, P4kFile};
+use starbreaker_datacore::{Database, OwnedDatabase};
+use starbreaker_p4k::{MappedP4k, P4kEntry};
+
+pub type DataForge = OwnedDatabase;
 
 use crate::frb_generated::StreamSink;
 
@@ -29,41 +32,8 @@ pub struct P4kFileItem {
     pub date_modified: i64,
 }
 
-/// 将 DOS 日期时间转换为毫秒时间戳
-fn dos_datetime_to_millis(date: u16, time: u16) -> i64 {
-    let year = ((date >> 9) & 0x7F) as i32 + 1980;
-    let month = ((date >> 5) & 0x0F) as u32;
-    let day = (date & 0x1F) as u32;
-    let hour = ((time >> 11) & 0x1F) as u32;
-    let minute = ((time >> 5) & 0x3F) as u32;
-    let second = ((time & 0x1F) * 2) as u32;
-
-    let days_since_epoch = {
-        let mut days = 0i64;
-        for y in 1970..year {
-            days += if (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0) {
-                366
-            } else {
-                365
-            };
-        }
-        let days_in_months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-        if month >= 1 && month <= 12 {
-            days += days_in_months[(month - 1) as usize] as i64;
-            if month > 2 && ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
-                days += 1;
-            }
-        }
-        days += (day as i64) - 1;
-        days
-    };
-
-    (days_since_epoch * 86400 + (hour as i64) * 3600 + (minute as i64) * 60 + (second as i64))
-        * 1000
-}
-
 // 全局 P4K 读取器实例（用于保持状态）
-static GLOBAL_P4K_READER: once_cell::sync::Lazy<Arc<Mutex<Option<P4kFile>>>> =
+static GLOBAL_P4K_READER: once_cell::sync::Lazy<Arc<Mutex<Option<MappedP4k>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
 
 static GLOBAL_P4K_FILES: once_cell::sync::Lazy<Arc<Mutex<HashMap<String, P4kEntry>>>> =
@@ -114,7 +84,7 @@ pub async fn p4k_open(p4k_path: String) -> Result<()> {
 
     // 在后台线程执行阻塞操作
     let reader = tokio::task::spawn_blocking(move || {
-        let reader = P4kFile::open(&path)?;
+        let reader = MappedP4k::open(&path).map_err(|e| anyhow!(e.to_string()))?;
         Ok::<_, anyhow::Error>(reader)
     })
     .await??;
@@ -144,15 +114,13 @@ pub async fn p4k_get_or_load_model_dcb(p4k_path: String) -> Result<Arc<DataForge
     }
 
     let df = tokio::task::spawn_blocking(move || {
-        let mut p4k = P4kFile::open(&p4k_path)
+        let p4k = MappedP4k::open(&p4k_path)
             .map_err(|e| anyhow!("failed to open P4K for DCB cache: {e}"))?;
         let dcb_bytes = p4k
-            .extract("Data\\Game2.dcb")
-            .or_else(|_| p4k.extract("Data/Game2.dcb"))
-            .or_else(|_| p4k.extract("Data\\Game.dcb"))
-            .or_else(|_| p4k.extract("Data/Game.dcb"))
+            .read_file("Data\\Game2.dcb")
+            .or_else(|_| p4k.read_file("Data\\Game.dcb"))
             .map_err(|e| anyhow!("failed to extract Game2.dcb/Game.dcb from P4K: {e}"))?;
-        DataForge::parse(&dcb_bytes).map_err(|e| anyhow!("failed to parse model DCB: {e}"))
+        DataForge::from_vec(dcb_bytes).map_err(|e| anyhow!("failed to parse model DCB: {e}"))
     })
     .await??;
     let df = Arc::new(df);
@@ -204,7 +172,7 @@ pub async fn p4k_get_all_files() -> Result<Vec<P4kFileItem>> {
                 is_directory: false,
                 size: entry.uncompressed_size,
                 compressed_size: entry.compressed_size,
-                date_modified: dos_datetime_to_millis(entry.mod_date, entry.mod_time),
+                date_modified: entry.last_modified_unix() * 1000,
             });
         }
 
@@ -222,16 +190,16 @@ pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
 
     // 在后台线程执行阻塞的提取操作
     let data = tokio::task::spawn_blocking(move || {
-        let mut reader = GLOBAL_P4K_READER.lock().unwrap();
-        if reader.is_none() {
-            return Err(anyhow!("P4K reader not initialized"));
-        }
-        let data = reader.as_mut().unwrap().extract_entry(&entry)?;
+        let reader = GLOBAL_P4K_READER.lock().unwrap();
+        let reader = reader
+            .as_ref()
+            .ok_or_else(|| anyhow!("P4K reader not initialized"))?;
+        let data = reader.read(&entry).map_err(|e| anyhow!(e.to_string()))?;
         if (entry.name.to_lowercase().ends_with(".xml")
             || entry.name.to_lowercase().ends_with(".mtl"))
-            && CryXmlReader::is_cryxml(&data)
+            && starbreaker_cryxml::is_cryxmlb(&data)
         {
-            let cry_xml_string = CryXmlReader::parse(&data)?;
+            let cry_xml_string = starbreaker_cryxml::from_bytes(&data)?.to_string();
             return Ok(cry_xml_string.into_bytes());
         }
         Ok::<_, anyhow::Error>(data)
@@ -546,9 +514,9 @@ pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
             return Err(anyhow!("File not found: {}", file_path));
         }
 
-        let mut reader_guard = GLOBAL_P4K_READER.lock().unwrap();
+        let reader_guard = GLOBAL_P4K_READER.lock().unwrap();
         let reader = reader_guard
-            .as_mut()
+            .as_ref()
             .ok_or_else(|| anyhow!("P4K reader not initialized"))?;
 
         // 缓存基础 dds 头（Star Citizen 的 .dds 常见为仅头部，数据在 .dds.x）
@@ -556,7 +524,7 @@ pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
         let mut extracted_dds_chunks: Vec<(String, Vec<u8>)> = Vec::new();
         let mut last_error = String::new();
         for entry in entries {
-            let raw = reader.extract_entry(&entry)?;
+            let raw = reader.read(&entry).map_err(|e| anyhow!(e.to_string()))?;
             let lower_name = entry.name.to_lowercase();
             extracted_dds_chunks.push((entry.name.clone(), raw.clone()));
 
@@ -585,7 +553,7 @@ pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
             if !dds_parts.is_empty() {
                 let mut extracted_parts: Vec<(usize, Vec<u8>)> = Vec::new();
                 for (idx, part_entry) in &dds_parts {
-                    if let Ok(bytes) = reader.extract_entry(part_entry) {
+                    if let Ok(bytes) = reader.read(part_entry) {
                         extracted_parts.push((*idx, bytes));
                     }
                 }
@@ -1108,12 +1076,13 @@ pub async fn p4k_extract_to_disk(file_path: String, output_path: String) -> Resu
             std::fs::create_dir_all(parent)?;
         }
 
-        let mut reader_guard = GLOBAL_P4K_READER.lock().unwrap();
+        let reader_guard = GLOBAL_P4K_READER.lock().unwrap();
         let reader = reader_guard
-            .as_mut()
+            .as_ref()
             .ok_or_else(|| anyhow!("P4K reader not initialized"))?;
 
-        unp4k::p4k_utils::extract_single_file(reader, &entry, &output, true)?;
+        let data = reader.read(&entry).map_err(|e| anyhow!(e.to_string()))?;
+        fs::write(output, data)?;
         Ok::<_, anyhow::Error>(())
     })
     .await??;
@@ -1837,13 +1806,13 @@ pub struct DcbRecordItem {
 
 /// 检查数据是否为 DataForge/DCB 格式
 pub fn dcb_is_dataforge(data: Vec<u8>) -> bool {
-    DataForge::is_dataforge(&data)
+    Database::from_bytes(&data).is_ok()
 }
 
 /// 从内存数据打开 DCB 文件
 pub async fn dcb_open(data: Vec<u8>) -> Result<()> {
     let df = tokio::task::spawn_blocking(move || {
-        DataForge::parse(&data).map_err(|e| anyhow!("Failed to parse DataForge: {}", e))
+        DataForge::from_vec(data).map_err(|e| anyhow!("Failed to parse DataForge: {}", e))
     })
     .await??;
 
@@ -1857,7 +1826,38 @@ pub fn dcb_get_record_count() -> Result<usize> {
     let df = reader
         .as_ref()
         .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
-    Ok(df.record_count())
+    Ok(df.as_database()?.records().len())
+}
+
+fn dcb_record_path(db: &Database<'_>, index: usize) -> String {
+    let record = &db.records()[index];
+    let file_name = db.resolve_string(record.file_name_offset);
+    let record_name = db.resolve_string2(record.name_offset);
+    if file_name.is_empty() || file_name == "<invalid utf8>" {
+        format!("{index:06}_{record_name}")
+    } else if record_name.is_empty() {
+        format!("{index:06}_{file_name}")
+    } else {
+        format!("{index:06}_{file_name}::{record_name}")
+    }
+}
+
+fn dcb_record_xml(db: &Database<'_>, index: usize) -> Result<String> {
+    let record = db
+        .records()
+        .get(index)
+        .ok_or_else(|| anyhow!("DCB record index out of range: {index}"))?;
+    let xml = starbreaker_datacore::export::to_unp4k_xml(db, record)
+        .map_err(|e| anyhow!("Failed to convert record to XML: {}", e))?;
+    String::from_utf8(xml).map_err(|e| anyhow!("DCB XML is not UTF-8: {}", e))
+}
+
+fn dcb_record_index_by_path(db: &Database<'_>, path: &str) -> Result<usize> {
+    db.records()
+        .iter()
+        .enumerate()
+        .find_map(|(index, _)| (dcb_record_path(db, index) == path).then_some(index))
+        .ok_or_else(|| anyhow!("DCB record not found: {path}"))
 }
 
 /// 获取所有 DCB 记录路径列表
@@ -1868,11 +1868,13 @@ pub async fn dcb_get_record_list() -> Result<Vec<DcbRecordItem>> {
             .as_ref()
             .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
 
-        let path_to_record = df.path_to_record();
-        let mut result: Vec<DcbRecordItem> = path_to_record
+        let db = df.as_database()?;
+        let mut result: Vec<DcbRecordItem> = db
+            .records()
             .iter()
-            .map(|(path, &index)| DcbRecordItem {
-                path: path.clone(),
+            .enumerate()
+            .map(|(index, _)| DcbRecordItem {
+                path: dcb_record_path(&db, index),
                 index,
             })
             .collect();
@@ -1892,8 +1894,9 @@ pub async fn dcb_record_to_xml(path: String) -> Result<String> {
             .as_ref()
             .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
 
-        df.record_to_xml(&path, true)
-            .map_err(|e| anyhow!("Failed to convert record to XML: {}", e))
+        let db = df.as_database()?;
+        let index = dcb_record_index_by_path(&db, &path)?;
+        dcb_record_xml(&db, index)
     })
     .await?
 }
@@ -1906,8 +1909,8 @@ pub async fn dcb_record_to_xml_by_index(index: usize) -> Result<String> {
             .as_ref()
             .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
 
-        df.record_to_xml_by_index(index, true)
-            .map_err(|e| anyhow!("Failed to convert record to XML: {}", e))
+        let db = df.as_database()?;
+        dcb_record_xml(&db, index)
     })
     .await?
 }
@@ -1942,11 +1945,12 @@ pub async fn dcb_search_all(query: String) -> Result<Vec<DcbSearchResult>> {
 
         let query_lower = query.to_lowercase();
 
-        // 收集所有记录路径和索引
-        let records: Vec<(String, usize)> = df
-            .path_to_record()
+        let db = df.as_database()?;
+        let records: Vec<(String, usize)> = db
+            .records()
             .iter()
-            .map(|(path, &index)| (path.clone(), index))
+            .enumerate()
+            .map(|(index, _)| (dcb_record_path(&db, index), index))
             .collect();
 
         // 使用 rayon 并发搜索
@@ -1957,7 +1961,7 @@ pub async fn dcb_search_all(query: String) -> Result<Vec<DcbSearchResult>> {
                 let path_matches = path.to_lowercase().contains(&query_lower);
 
                 // 尝试获取 XML 并搜索内容
-                if let Ok(xml) = df.record_to_xml_by_index(*index, true) {
+                if let Ok(xml) = dcb_record_xml(&db, *index) {
                     let mut matches = Vec::new();
 
                     for (line_num, line) in xml.lines().enumerate() {
@@ -2003,7 +2007,7 @@ pub async fn dcb_search_all(query: String) -> Result<Vec<DcbSearchResult>> {
 /// merge: true = 合并为单个 XML，false = 分离为多个 XML 文件
 pub async fn dcb_export_to_disk(output_path: String, dcb_path: String, merge: bool) -> Result<()> {
     let output = PathBuf::from(&output_path);
-    let dcb = PathBuf::from(&dcb_path);
+    let _ = dcb_path;
 
     tokio::task::spawn_blocking(move || {
         let reader = GLOBAL_DCB_READER.lock().unwrap();
@@ -2011,15 +2015,40 @@ pub async fn dcb_export_to_disk(output_path: String, dcb_path: String, merge: bo
             .as_ref()
             .ok_or_else(|| anyhow!("DCB reader not initialized"))?;
 
+        let db = df.as_database()?;
         if merge {
-            unp4k::dataforge::export_merged(&df, &dcb, Some(&output))?;
+            if let Some(parent) = output.parent() {
+                fs::create_dir_all(parent)?;
+            }
+            let mut merged = String::from("<DataForge>\n");
+            for index in 0..db.records().len() {
+                merged.push_str(&dcb_record_xml(&db, index)?);
+                merged.push('\n');
+            }
+            merged.push_str("</DataForge>\n");
+            fs::write(&output, merged)?;
         } else {
-            unp4k::dataforge::export_separate(&df, &dcb, Some(&output))?;
+            fs::create_dir_all(&output)?;
+            for index in 0..db.records().len() {
+                let path = dcb_record_path(&db, index);
+                let file_name = sanitize_dcb_export_file_name(&path);
+                fs::write(output.join(format!("{file_name}.xml")), dcb_record_xml(&db, index)?)?;
+            }
         }
 
         Ok(())
     })
     .await?
+}
+
+fn sanitize_dcb_export_file_name(path: &str) -> String {
+    path.chars()
+        .map(|ch| match ch {
+            '<' | '>' | ':' | '"' | '/' | '\\' | '|' | '?' | '*' => '_',
+            ch if ch.is_control() => '_',
+            ch => ch,
+        })
+        .collect()
 }
 
 /// 关闭 DCB 读取器
