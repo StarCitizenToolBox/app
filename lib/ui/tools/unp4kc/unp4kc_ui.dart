@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -402,20 +400,15 @@ class UnP4kcUI extends HookConsumerWidget {
                                                                 .current
                                                                 .action_export,
                                                             fileName: fileName,
+                                                            bytes: state
+                                                                .tempOpenFile!
+                                                                .bytes!,
                                                           );
                                                       if (savePath != null &&
                                                           state
                                                                   .tempOpenFile
                                                                   ?.bytes !=
                                                               null) {
-                                                        await File(
-                                                          savePath,
-                                                        ).writeAsBytes(
-                                                          state
-                                                              .tempOpenFile!
-                                                              .bytes!,
-                                                          flush: true,
-                                                        );
                                                         SystemHelper.openDir(
                                                           savePath,
                                                         );

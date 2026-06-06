@@ -7,10 +7,7 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 class VehicleSortingDialogUi extends HookConsumerWidget {
   final ValueNotifier<String> iniStringData;
 
-  const VehicleSortingDialogUi({
-    super.key,
-    required this.iniStringData,
-  });
+  const VehicleSortingDialogUi({super.key, required this.iniStringData});
 
   static const List<String> vehicleLineRegExpList = ["vehicle_Name.*"];
 
@@ -51,10 +48,7 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
               Expanded(
                 flex: 2,
                 child: Card(
-                  padding: EdgeInsets.only(
-                    left: 8.0,
-                    top: 8.0,
-                  ),
+                  padding: EdgeInsets.only(left: 8.0, top: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -72,7 +66,8 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                             Expanded(
                               child: TextFormBox(
                                 controller: leftSearchController,
-                                placeholder: S.current.tools_vehicle_sorting_search,
+                                placeholder:
+                                    S.current.tools_vehicle_sorting_search,
                                 onChanged: (value) {
                                   leftSearchKey.value = value;
                                 },
@@ -82,7 +77,10 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                             // clear button
                             Button(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                                padding: const EdgeInsets.only(
+                                  top: 4,
+                                  bottom: 4,
+                                ),
                                 child: const Icon(FluentIcons.clear),
                               ),
                               onPressed: () {
@@ -102,19 +100,34 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                             if (leftSearchKey.value.isNotEmpty) {
                               // 如果搜索关键字不为空，则过滤列表
                               // key value 匹配
-                              if (!vehicle.key.toLowerCase().contains(leftSearchKey.value.toLowerCase()) &&
-                                  !vehicle.value.toLowerCase().contains(leftSearchKey.value.toLowerCase())) {
+                              if (!vehicle.key.toLowerCase().contains(
+                                    leftSearchKey.value.toLowerCase(),
+                                  ) &&
+                                  !vehicle.value.toLowerCase().contains(
+                                    leftSearchKey.value.toLowerCase(),
+                                  )) {
                                 return const SizedBox.shrink();
                               }
                             }
                             return Draggable<MapEntry<String, String>>(
                               data: vehicle,
-                              feedback: _buildVehicleItem(context, vehicle, (MediaQuery.of(context).size.width / 3)),
-                              childWhenDragging: _buildVehicleItem(context, vehicle, null, opacity: 0.5),
+                              feedback: _buildVehicleItem(
+                                context,
+                                vehicle,
+                                (MediaQuery.of(context).size.width / 3),
+                              ),
+                              childWhenDragging: _buildVehicleItem(
+                                context,
+                                vehicle,
+                                null,
+                                opacity: 0.5,
+                              ),
                               child: _buildVehicleItem(context, vehicle, null),
                               onDragCompleted: () {
                                 // 当拖动完成后，从左侧列表移除
-                                final updatedList = [...leftVehiclesList.value!];
+                                final updatedList = [
+                                  ...leftVehiclesList.value!,
+                                ];
                                 updatedList.removeAt(index);
                                 leftVehiclesList.value = updatedList;
                               },
@@ -131,10 +144,7 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
               Expanded(
                 flex: 3,
                 child: Card(
-                  padding: EdgeInsets.only(
-                    left: 8.0,
-                    top: 8.0,
-                  ),
+                  padding: EdgeInsets.only(left: 8.0, top: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -158,11 +168,10 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                             return ReorderableListView.builder(
                               buildDefaultDragHandles: false,
                               padding: EdgeInsets.only(right: 8.0),
-                              onReorder: (oldIndex, newIndex) {
-                                final updatedList = [...rightVehiclesList.value];
-                                if (oldIndex < newIndex) {
-                                  newIndex -= 1;
-                                }
+                              onReorderItem: (oldIndex, newIndex) {
+                                final updatedList = [
+                                  ...rightVehiclesList.value,
+                                ];
                                 final item = updatedList.removeAt(oldIndex);
                                 updatedList.insert(newIndex, item);
                                 rightVehiclesList.value = updatedList;
@@ -174,25 +183,39 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                               itemBuilder: (context, index) {
                                 final vehicle = rightVehiclesList.value[index];
                                 // 创建带有前缀的显示值
-                                final prefixedValue = _getPrefixedValue(index, vehicle.value);
+                                final prefixedValue = _getPrefixedValue(
+                                  index,
+                                  vehicle.value,
+                                );
 
                                 return Container(
                                   key: ValueKey(vehicle.key + index.toString()),
-                                  margin: const EdgeInsets.symmetric(vertical: 2.0),
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 2.0,
+                                  ),
                                   child: Row(
                                     children: [
                                       IconButton(
                                         icon: const Icon(FluentIcons.delete),
                                         onPressed: () {
                                           // 从右侧移除，添加回左侧
-                                          final updatedRightList = [...rightVehiclesList.value];
-                                          final removed = updatedRightList.removeAt(index);
-                                          rightVehiclesList.value = updatedRightList;
+                                          final updatedRightList = [
+                                            ...rightVehiclesList.value,
+                                          ];
+                                          final removed = updatedRightList
+                                              .removeAt(index);
+                                          rightVehiclesList.value =
+                                              updatedRightList;
 
-                                          final updatedLeftList = [...leftVehiclesList.value!];
+                                          final updatedLeftList = [
+                                            ...leftVehiclesList.value!,
+                                          ];
                                           updatedLeftList.add(removed);
-                                          leftVehiclesList.value = updatedLeftList;
-                                          _applyChanges(rightVehiclesList.value);
+                                          leftVehiclesList.value =
+                                              updatedLeftList;
+                                          _applyChanges(
+                                            rightVehiclesList.value,
+                                          );
                                         },
                                       ),
                                       Expanded(
@@ -200,7 +223,10 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
                                           index: index,
                                           child: _buildVehicleItem(
                                             context,
-                                            MapEntry(vehicle.key, prefixedValue),
+                                            MapEntry(
+                                              vehicle.key,
+                                              prefixedValue,
+                                            ),
                                             null,
                                             isRightList: true,
                                           ),
@@ -225,8 +251,13 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
     );
   }
 
-  Widget _buildVehicleItem(BuildContext context, MapEntry<String, String> vehicle, double? width,
-      {double opacity = 1.0, bool isRightList = false}) {
+  Widget _buildVehicleItem(
+    BuildContext context,
+    MapEntry<String, String> vehicle,
+    double? width, {
+    double opacity = 1.0,
+    bool isRightList = false,
+  }) {
     return Container(
       width: width,
       padding: const EdgeInsets.all(8.0),
@@ -249,9 +280,7 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
               vehicle.key,
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.white.withValues(
-                  alpha: .4,
-                ),
+                color: Colors.white.withValues(alpha: .4),
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -289,13 +318,19 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
       }
     }
     iniStringData.value = updatedLines.join('\n');
-    dPrint("[VehicleSortingDialogUi] Applied changes to ${sortedVehicles.length} vehicles");
+    dPrint(
+      "[VehicleSortingDialogUi] Applied changes to ${sortedVehicles.length} vehicles",
+    );
   }
 
-  Future<void> _saveSortedVehicles(List<MapEntry<String, String>> sortedVehicles) async {
+  Future<void> _saveSortedVehicles(
+    List<MapEntry<String, String>> sortedVehicles,
+  ) async {
     final appBox = await Hive.openBox("app_conf");
     appBox.put("sorted_vehicles", sortedVehicles.map((e) => e.key).toList());
-    dPrint("[VehicleSortingDialogUi] Saved sorted vehicles: ${sortedVehicles.length}");
+    dPrint(
+      "[VehicleSortingDialogUi] Saved sorted vehicles: ${sortedVehicles.length}",
+    );
   }
 
   void _loadVehiclesList(
@@ -313,18 +348,24 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
             final key = parts[0].trim();
             final value = parts[1].trim();
             // 过滤掉短名称
-            if (key.toLowerCase().endsWith("_short") || key.toLowerCase().endsWith("_short,p")) continue;
+            if (key.toLowerCase().endsWith("_short") ||
+                key.toLowerCase().endsWith("_short,p")) {
+              continue;
+            }
             vehicleMap[key] = value;
           }
         }
       }
     }
     vehiclesList.value = vehicleMap.entries.toList();
-    dPrint("[VehicleSortingDialogUi] Loaded vehicles: ${vehiclesList.value?.length ?? 0}");
+    dPrint(
+      "[VehicleSortingDialogUi] Loaded vehicles: ${vehiclesList.value?.length ?? 0}",
+    );
 
     // Load sorted vehicles from app_conf
     final appBox = await Hive.openBox("app_conf");
-    final sortedVehicles = appBox.get("sorted_vehicles", defaultValue: <String>[]) as List<String>;
+    final sortedVehicles =
+        appBox.get("sorted_vehicles", defaultValue: <String>[]) as List<String>;
     if (sortedVehicles.isNotEmpty) {
       // 只保留有效载具
       rightVehiclesList.value = sortedVehicles
@@ -333,7 +374,9 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
           .toList();
       // 触发文本更新
       _applyChanges(rightVehiclesList.value);
-      dPrint("[VehicleSortingDialogUi] Loaded sorted vehicles: ${rightVehiclesList.value.length}");
+      dPrint(
+        "[VehicleSortingDialogUi] Loaded sorted vehicles: ${rightVehiclesList.value.length}",
+      );
     }
   }
 }

@@ -14,7 +14,10 @@ import 'package:starcitizen_doctor/widgets/widgets.dart';
 class LocalizationFromFileDialogUI extends HookConsumerWidget {
   final bool isInAdvancedMode;
 
-  const LocalizationFromFileDialogUI({super.key, this.isInAdvancedMode = false});
+  const LocalizationFromFileDialogUI({
+    super.key,
+    this.isInAdvancedMode = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,16 +28,14 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
     );
 
     void onSelectFile() async {
-      final result = await FilePicker.pickFiles(
+      final file = await FilePicker.pickFile(
         dialogTitle: S.current.home_localization_select_customize_file_ini,
         type: FileType.custom,
         allowedExtensions: ["ini"],
-        allowMultiple: false,
         lockParentWindow: true,
       );
-      if (result == null || result.files.firstOrNull == null) return;
+      if (file == null) return;
       isLoading.value = true;
-      final file = result.files.first;
       final buffer = StringBuffer();
       final content = await File(file.path!).readAsString();
       for (final line in content.split("\n")) {
@@ -46,10 +47,15 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
       // 加载用户缓存的选项
       final localizationState = ref.read(localizationUIModelProvider);
       final appBox = Hive.box("app_conf");
-      final savedExtensionFiles = appBox.get("localization_extensions", defaultValue: <String>[]);
+      final savedExtensionFiles = appBox.get(
+        "localization_extensions",
+        defaultValue: <String>[],
+      );
       final options = await LocalizationInstallOptions.loadFromCache(
-        hasCommunityInputMethodData: localizationState.communityInputMethodLanguageData != null,
-        defaultVehicleSorting: appBox.get("vehicle_sorting", defaultValue: false) ?? false,
+        hasCommunityInputMethodData:
+            localizationState.communityInputMethodLanguageData != null,
+        defaultVehicleSorting:
+            appBox.get("vehicle_sorting", defaultValue: false) ?? false,
         availableExtensions: localizationState.localizationExtensionList,
         savedExtensionFiles: savedExtensionFiles,
       );
@@ -90,10 +96,15 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
               ),
               onPressed: () async {
                 final appBox = Hive.box("app_conf");
-                await appBox.put("vehicle_sorting", installOptions.value.enableVehicleSorting);
+                await appBox.put(
+                  "vehicle_sorting",
+                  installOptions.value.enableVehicleSorting,
+                );
                 await appBox.put(
                   "localization_extensions",
-                  installOptions.value.selectedExtensions.map((e) => e.file).toList(),
+                  installOptions.value.selectedExtensions
+                      .map((e) => e.file)
+                      .toList(),
                 );
                 if (!context.mounted) return;
                 Navigator.pop(context, (
@@ -131,7 +142,11 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                             color: Colors.white.withValues(alpha: .6),
                           ),
                           const SizedBox(height: 12),
-                          Text(S.current.home_localization_action_select_customize_file),
+                          Text(
+                            S
+                                .current
+                                .home_localization_action_select_customize_file,
+                          ),
                         ],
                       ),
                     ),
@@ -150,7 +165,9 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                   ),
                   padding: const EdgeInsets.all(6),
                   child: CodeEditor(
-                    controller: CodeLineEditingController.fromText(selectedStringBuffer.value.toString()),
+                    controller: CodeLineEditingController.fromText(
+                      selectedStringBuffer.value.toString(),
+                    ),
                     readOnly: true,
                   ),
                 ),
@@ -159,8 +176,11 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                 const SizedBox(height: 16),
                 LocalizationInstallOptionsPanel(
                   options: installOptions.value,
-                  hasCommunityInputMethodData: localizationState.communityInputMethodLanguageData != null,
-                  availableExtensions: localizationState.localizationExtensionList,
+                  hasCommunityInputMethodData:
+                      localizationState.communityInputMethodLanguageData !=
+                      null,
+                  availableExtensions:
+                      localizationState.localizationExtensionList,
                 ),
               ],
             ],

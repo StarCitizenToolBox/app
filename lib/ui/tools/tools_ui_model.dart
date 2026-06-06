@@ -64,7 +64,10 @@ class ToolsUIModel extends _$ToolsUIModel {
     return state;
   }
 
-  Future<void> loadToolsCard(BuildContext context, {bool skipPathScan = false}) async {
+  Future<void> loadToolsCard(
+    BuildContext context, {
+    bool skipPathScan = false,
+  }) async {
     if (state.isItemLoading) return;
     var items = <ToolsItemData>[];
     state = state.copyWith(items: items, isItemLoading: true);
@@ -217,7 +220,9 @@ class ToolsUIModel extends _$ToolsUIModel {
           "remove_nvme_settings",
           S.current.tools_action_remove_nvme_registry_patch,
           S.current.tools_action_info_nvme_patch_issue(
-            nvmePatchStatus ? S.current.localization_info_installed : S.current.tools_action_info_not_installed,
+            nvmePatchStatus
+                ? S.current.localization_info_installed
+                : S.current.tools_action_info_not_installed,
           ),
           const Icon(FluentIcons.hard_drive, size: 24),
           onTap: nvmePatchStatus
@@ -226,7 +231,10 @@ class ToolsUIModel extends _$ToolsUIModel {
                   await SystemHelper.doRemoveNvmePath();
                   state = state.copyWith(working: false);
                   if (!context.mounted) return;
-                  showToast(context, S.current.tools_action_info_removed_restart_effective);
+                  showToast(
+                    context,
+                    S.current.tools_action_info_removed_restart_effective,
+                  );
                   loadToolsCard(context, skipPathScan: true);
                 }
               : null,
@@ -242,7 +250,10 @@ class ToolsUIModel extends _$ToolsUIModel {
             final r = await SystemHelper.addNvmePatch();
             if (r == "") {
               if (!context.mounted) return;
-              showToast(context, S.current.tools_action_info_fix_success_restart);
+              showToast(
+                context,
+                S.current.tools_action_info_fix_success_restart,
+              );
             } else {
               if (!context.mounted) return;
               showToast(context, S.current.doctor_action_result_fix_fail(r));
@@ -311,7 +322,8 @@ class ToolsUIModel extends _$ToolsUIModel {
     // 使用最新版本
     final latestVersion = versions.first;
     final settingsPath =
-        "$gameShaderCachePath\\starcitizen_$latestVersion\\GraphicsSettings\\GraphicsSettings.json".platformPath;
+        "$gameShaderCachePath\\starcitizen_$latestVersion\\GraphicsSettings\\GraphicsSettings.json"
+            .platformPath;
 
     final file = File(settingsPath);
     if (!await file.exists()) return (-1, latestVersion);
@@ -319,7 +331,8 @@ class ToolsUIModel extends _$ToolsUIModel {
     try {
       final content = await file.readAsString();
       final json = jsonDecode(content) as Map<String, dynamic>;
-      final graphicsSettings = json["GraphicsSettings"] as Map<String, dynamic>?;
+      final graphicsSettings =
+          json["GraphicsSettings"] as Map<String, dynamic>?;
       final renderer = graphicsSettings?["GraphicsRenderer"] as int? ?? 0;
       return (renderer, latestVersion);
     } catch (e) {
@@ -333,7 +346,8 @@ class ToolsUIModel extends _$ToolsUIModel {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
     if (gameShaderCachePath == null) throw "Shader cache path not found";
 
-    final settingsDir = "$gameShaderCachePath\\starcitizen_$version\\GraphicsSettings";
+    final settingsDir =
+        "$gameShaderCachePath\\starcitizen_$version\\GraphicsSettings";
     final settingsPath = "$settingsDir\\GraphicsSettings.json";
 
     // 确保目录存在
@@ -343,7 +357,9 @@ class ToolsUIModel extends _$ToolsUIModel {
       "GraphicsSettings": {"SettingsVersion": 1, "GraphicsRenderer": renderer},
     };
 
-    await File(settingsPath).writeAsString(const JsonEncoder.withIndent('  ').convert(json));
+    await File(
+      settingsPath,
+    ).writeAsString(const JsonEncoder.withIndent('  ').convert(json));
   }
 
   /// 获取渲染器名称
@@ -373,7 +389,8 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   Future<void> _showGraphicsRendererDialog(BuildContext context) async {
     final versions = await _getAvailableGraphicsVersions();
-    final (currentRenderer, latestVersion) = await _getCurrentGraphicsRenderer();
+    final (currentRenderer, latestVersion) =
+        await _getCurrentGraphicsRenderer();
 
     if (!context.mounted) return;
 
@@ -387,12 +404,18 @@ class ToolsUIModel extends _$ToolsUIModel {
           try {
             await _saveGraphicsRenderer(version, renderer);
             if (!context.mounted) return;
-            showToast(context, S.current.tools_graphics_renderer_dialog_save_success);
+            showToast(
+              context,
+              S.current.tools_graphics_renderer_dialog_save_success,
+            );
             loadToolsCard(context, skipPathScan: true);
             Navigator.of(dialogContext).pop();
           } catch (e) {
             if (!context.mounted) return;
-            showToast(context, S.current.tools_graphics_renderer_dialog_save_failed(e));
+            showToast(
+              context,
+              S.current.tools_graphics_renderer_dialog_save_failed(e),
+            );
           }
         },
       ),
@@ -405,8 +428,12 @@ class ToolsUIModel extends _$ToolsUIModel {
 
     return ToolsItemData(
       "photography_mode",
-      isEnable ? S.current.tools_action_close_photography_mode : S.current.tools_action_open_photography_mode,
-      isEnable ? S.current.tools_action_info_restore_lens_shake : S.current.tools_action_info_one_key_close_lens_shake,
+      isEnable
+          ? S.current.tools_action_close_photography_mode
+          : S.current.tools_action_open_photography_mode,
+      isEnable
+          ? S.current.tools_action_info_restore_lens_shake
+          : S.current.tools_action_info_one_key_close_lens_shake,
       const FaIcon(FontAwesomeIcons.camera, size: 24),
       onTap: () => _onChangePhotographyMode(context, isEnable),
     );
@@ -417,7 +444,11 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// -----------------------------------------------------------------------------------------
   /// -----------------------------------------------------------------------------------------
 
-  Future<void> reScanPath(BuildContext context, {bool checkActive = false, bool skipToast = false}) async {
+  Future<void> reScanPath(
+    BuildContext context, {
+    bool checkActive = false,
+    bool skipToast = false,
+  }) async {
     var scInstallPaths = <String>[];
     var rsiLauncherInstallPaths = <String>[];
     var scInstalledPath = "";
@@ -472,7 +503,10 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// 重装EAC
   Future<void> _reinstallEAC(BuildContext context) async {
     if (state.scInstalledPath.isEmpty) {
-      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
+      showToast(
+        context,
+        S.current.tools_action_info_valid_game_directory_needed,
+      );
       return;
     }
     state = state.copyWith(working: true);
@@ -485,7 +519,9 @@ class ToolsUIModel extends _$ToolsUIModel {
         final Map eacJson = json.decode(eacJsonData);
         final eacID = eacJson["productid"];
         if (eacID != null) {
-          final eacCacheDir = Directory("${envVars["appdata"]}\\EasyAntiCheat\\$eacID");
+          final eacCacheDir = Directory(
+            "${envVars["appdata"]}\\EasyAntiCheat\\$eacID",
+          );
           if (await eacCacheDir.exists()) {
             await eacCacheDir.delete(recursive: true);
           }
@@ -495,7 +531,9 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (await dir.exists()) {
         await dir.delete(recursive: true);
       }
-      final eacLauncher = File("${state.scInstalledPath}\\StarCitizen_Launcher.exe");
+      final eacLauncher = File(
+        "${state.scInstalledPath}\\StarCitizen_Launcher.exe",
+      );
       if (await eacLauncher.exists()) {
         await eacLauncher.delete(recursive: true);
       }
@@ -522,7 +560,10 @@ class ToolsUIModel extends _$ToolsUIModel {
   /// 管理员模式运行 RSI 启动器
   Future _adminRSILauncher(BuildContext context) async {
     if (state.rsiLauncherInstalledPath == "") {
-      showToast(context, S.current.tools_action_info_rsi_launcher_directory_not_found);
+      showToast(
+        context,
+        S.current.tools_action_info_rsi_launcher_directory_not_found,
+      );
     }
     SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
   }
@@ -540,11 +581,18 @@ class ToolsUIModel extends _$ToolsUIModel {
       builder: (context) => ContentDialog(
         title: Text(S.current.tools_action_info_system_info_title),
         content: Text(systemInfo),
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .65),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * .65,
+        ),
         actions: [
           FilledButton(
             child: Padding(
-              padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+              padding: const EdgeInsets.only(
+                top: 2,
+                bottom: 2,
+                left: 8,
+                right: 8,
+              ),
               child: Text(S.current.action_close),
             ),
             onPressed: () => Navigator.pop(context),
@@ -568,7 +616,9 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   /// 内部清理方法
   /// [keepLatest] true: 保留最新模式，false: 全部清理模式
-  static Future<void> _cleanShaderCacheWithMode({required bool keepLatest}) async {
+  static Future<void> _cleanShaderCacheWithMode({
+    required bool keepLatest,
+  }) async {
     final gameShaderCachePath = await SCLoggerHelper.getShaderCachePath();
     if (gameShaderCachePath == null) return;
 
@@ -673,14 +723,15 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   Future<void> _downloadP4k(BuildContext context, String torrentUrl) async {
     String savePath = state.scInstalledPath;
-    String fileName = "Data.p4k";
 
     if ((await SystemHelper.getPID("RSI Launcher")).isNotEmpty) {
       if (!context.mounted) return;
       showToast(
         context,
         S.current.tools_action_info_rsi_launcher_running_warning,
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * .35,
+        ),
       );
       return;
     }
@@ -700,7 +751,10 @@ class ToolsUIModel extends _$ToolsUIModel {
       // check download task list
       if (await downloadManager.isNameInTask("Data.p4k")) {
         if (!context.mounted) return;
-        showToast(context, S.current.tools_action_info_p4k_download_in_progress);
+        showToast(
+          context,
+          S.current.tools_action_info_p4k_download_in_progress,
+        );
         state = state.copyWith(working: false);
         return;
       }
@@ -708,13 +762,16 @@ class ToolsUIModel extends _$ToolsUIModel {
       if (torrentUrl == "") {
         state = state.copyWith(working: false);
         if (!context.mounted) return;
-        showToast(context, S.current.tools_action_info_function_under_maintenance);
+        showToast(
+          context,
+          S.current.tools_action_info_function_under_maintenance,
+        );
         return;
       }
 
-      final userSelect = await FilePicker.saveFile(
+      final userSelect = await FilePicker.getDirectoryPath(
+        dialogTitle: S.current.tools_action_p4k_download_repair,
         initialDirectory: savePath,
-        fileName: fileName,
         lockParentWindow: true,
       );
       if (userSelect == null) {
@@ -725,10 +782,6 @@ class ToolsUIModel extends _$ToolsUIModel {
       savePath = userSelect;
       dPrint(savePath);
 
-      if (savePath.endsWith("\\$fileName")) {
-        savePath = savePath.substring(0, savePath.length - fileName.length - 1);
-      }
-
       if (!context.mounted) return;
       final btData = await RSHttp.get(torrentUrl).unwrap(context: context);
       if (btData == null || btData.data == null) {
@@ -736,7 +789,10 @@ class ToolsUIModel extends _$ToolsUIModel {
         return;
       }
 
-      final taskId = await downloadManager.addTorrent(btData.data!, outputFolder: savePath);
+      final taskId = await downloadManager.addTorrent(
+        btData.data!,
+        outputFolder: savePath,
+      );
       state = state.copyWith(working: false);
       dPrint("DownloadManager.addTorrent resp === $taskId");
       AnalyticsApi.touch("p4k_download");
@@ -753,19 +809,28 @@ class ToolsUIModel extends _$ToolsUIModel {
     launchUrlString("https://support.citizenwiki.cn/d/8");
   }
 
-  Future<bool> _checkPhotographyStatus(BuildContext context, {bool? setMode}) async {
+  Future<bool> _checkPhotographyStatus(
+    BuildContext context, {
+    bool? setMode,
+  }) async {
     final scInstalledPath = state.scInstalledPath;
     final keys = ["AudioShakeStrength", "CameraSpringMovement", "ShakeScale"];
-    final attributesFile = File("$scInstalledPath\\USER\\Client\\0\\Profiles\\default\\attributes.xml");
+    final attributesFile = File(
+      "$scInstalledPath\\USER\\Client\\0\\Profiles\\default\\attributes.xml",
+    );
     if (setMode == null) {
       bool isEnable = false;
       if (scInstalledPath.isNotEmpty) {
         if (await attributesFile.exists()) {
-          final xmlFile = XmlDocument.parse(await attributesFile.readAsString());
+          final xmlFile = XmlDocument.parse(
+            await attributesFile.readAsString(),
+          );
           isEnable = true;
           for (var k in keys) {
             if (!isEnable) break;
-            final e = xmlFile.rootElement.children.where((element) => element.getAttribute("name") == k).firstOrNull;
+            final e = xmlFile.rootElement.children
+                .where((element) => element.getAttribute("name") == k)
+                .firstOrNull;
             if (e != null && e.getAttribute("value") == "0") {
             } else {
               isEnable = false;
@@ -782,12 +847,14 @@ class ToolsUIModel extends _$ToolsUIModel {
       }
       final xmlFile = XmlDocument.parse(await attributesFile.readAsString());
       // clear all
-      xmlFile.rootElement.children.removeWhere((element) => keys.contains(element.getAttribute("name")));
+      xmlFile.rootElement.children.removeWhere(
+        (element) => keys.contains(element.getAttribute("name")),
+      );
       if (setMode) {
         for (var element in keys) {
-          XmlElement newNode = XmlElement(XmlName('Attr'), [
-            XmlAttribute(XmlName('name'), element),
-            XmlAttribute(XmlName('value'), '0'),
+          XmlElement newNode = XmlElement(XmlName.parts('Attr'), [
+            XmlAttribute(XmlName.parts('name'), element),
+            XmlAttribute(XmlName.parts('value'), '0'),
           ]);
           xmlFile.rootElement.children.add(newNode);
         }
@@ -799,8 +866,14 @@ class ToolsUIModel extends _$ToolsUIModel {
     return true;
   }
 
-  Future<void> _onChangePhotographyMode(BuildContext context, bool isEnable) async {
-    _checkPhotographyStatus(context, setMode: !isEnable).unwrap(context: context);
+  Future<void> _onChangePhotographyMode(
+    BuildContext context,
+    bool isEnable,
+  ) async {
+    _checkPhotographyStatus(
+      context,
+      setMode: !isEnable,
+    ).unwrap(context: context);
     loadToolsCard(context, skipPathScan: true);
   }
 
@@ -813,7 +886,10 @@ class ToolsUIModel extends _$ToolsUIModel {
   }
 
   Future<void> _doHostsBooster(BuildContext context) async {
-    showDialog(context: context, builder: (BuildContext context) => const HostsBoosterDialogUI());
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => const HostsBoosterDialogUI(),
+    );
   }
 
   Future<void> _unp4kc(BuildContext context) async {
@@ -824,26 +900,36 @@ class ToolsUIModel extends _$ToolsUIModel {
     context.push("/tools/dcb_viewer");
   }
 
-  static Future<void> rsiEnhance(BuildContext context, {bool showNotGameInstallMsg = false}) async {
+  static Future<void> rsiEnhance(
+    BuildContext context, {
+    bool showNotGameInstallMsg = false,
+  }) async {
     if ((await SystemHelper.getPID("RSI Launcher")).isNotEmpty) {
       if (!context.mounted) return;
       showToast(
         context,
         S.current.tools_action_info_rsi_launcher_running_warning,
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * .35,
+        ),
       );
       return;
     }
     if (!context.mounted) return;
     showDialog(
       context: context,
-      builder: (BuildContext context) => RsiLauncherEnhanceDialogUI(showNotGameInstallMsg: showNotGameInstallMsg),
+      builder: (BuildContext context) => RsiLauncherEnhanceDialogUI(
+        showNotGameInstallMsg: showNotGameInstallMsg,
+      ),
     );
   }
 
   Future<void> _showLogAnalyze(BuildContext context) async {
     if (state.scInstalledPath.isEmpty) {
-      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
+      showToast(
+        context,
+        S.current.tools_action_info_valid_game_directory_needed,
+      );
       return;
     }
     if (!context.mounted) return;
@@ -856,13 +942,17 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   void _openYearlyReport(BuildContext context, int year) {
     if (state.scInstallPaths.isEmpty) {
-      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
+      showToast(
+        context,
+        S.current.tools_action_info_valid_game_directory_needed,
+      );
       return;
     }
 
     Navigator.of(context).push(
       FluentPageRoute(
-        builder: (context) => YearlyReportUI(gameInstallPaths: state.scInstallPaths, year: year),
+        builder: (context) =>
+            YearlyReportUI(gameInstallPaths: state.scInstallPaths, year: year),
       ),
     );
   }
@@ -883,7 +973,8 @@ class _GraphicsRendererDialog extends StatefulWidget {
   });
 
   @override
-  State<_GraphicsRendererDialog> createState() => _GraphicsRendererDialogState();
+  State<_GraphicsRendererDialog> createState() =>
+      _GraphicsRendererDialogState();
 }
 
 class _GraphicsRendererDialogState extends State<_GraphicsRendererDialog> {
@@ -917,7 +1008,9 @@ class _GraphicsRendererDialogState extends State<_GraphicsRendererDialog> {
             Padding(
               padding: EdgeInsets.only(bottom: 12),
               child: InfoBar(
-                title: Text(S.current.tools_graphics_renderer_dialog_no_version),
+                title: Text(
+                  S.current.tools_graphics_renderer_dialog_no_version,
+                ),
                 severity: InfoBarSeverity.warning,
               ),
             ),
@@ -927,7 +1020,9 @@ class _GraphicsRendererDialogState extends State<_GraphicsRendererDialog> {
           AutoSuggestBox<String>(
             controller: _versionController,
             placeholder: S.current.tools_graphics_renderer_dialog_version_hint,
-            items: widget.versions.map((v) => AutoSuggestBoxItem<String>(value: v, label: v)).toList(),
+            items: widget.versions
+                .map((v) => AutoSuggestBoxItem<String>(value: v, label: v))
+                .toList(),
             onSelected: (item) {
               setState(() {
                 _versionController.text = item.value ?? "";
@@ -941,8 +1036,14 @@ class _GraphicsRendererDialogState extends State<_GraphicsRendererDialog> {
           ComboBox<int>(
             value: _selectedRenderer,
             items: [
-              ComboBoxItem(value: 0, child: Text(S.current.tools_graphics_renderer_dx11)),
-              ComboBoxItem(value: 1, child: Text(S.current.tools_graphics_renderer_vulkan)),
+              ComboBoxItem(
+                value: 0,
+                child: Text(S.current.tools_graphics_renderer_dx11),
+              ),
+              ComboBoxItem(
+                value: 1,
+                child: Text(S.current.tools_graphics_renderer_vulkan),
+              ),
             ],
             onChanged: (value) {
               if (value != null) {
@@ -955,7 +1056,10 @@ class _GraphicsRendererDialogState extends State<_GraphicsRendererDialog> {
         ],
       ),
       actions: [
-        Button(onPressed: _isSaving ? null : () => Navigator.of(context).pop(), child: Text(S.current.action_close)),
+        Button(
+          onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
+          child: Text(S.current.action_close),
+        ),
         FilledButton(
           onPressed: _isSaving || _versionController.text.isEmpty
               ? null
@@ -964,7 +1068,10 @@ class _GraphicsRendererDialogState extends State<_GraphicsRendererDialog> {
                     _isSaving = true;
                   });
                   try {
-                    await widget.onSave(_versionController.text, _selectedRenderer);
+                    await widget.onSave(
+                      _versionController.text,
+                      _selectedRenderer,
+                    );
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }
@@ -977,7 +1084,11 @@ class _GraphicsRendererDialogState extends State<_GraphicsRendererDialog> {
                   }
                 },
           child: _isSaving
-              ? const SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2))
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: ProgressRing(strokeWidth: 2),
+                )
               : Text(S.current.tools_graphics_renderer_dialog_save),
         ),
       ],

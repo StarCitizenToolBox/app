@@ -1112,10 +1112,9 @@ packages:
   re_editor:
     dependency: "direct main"
     description:
-      name: re_editor
-      sha256: dd4e6ca7350a8fa0cda4e425b82a0c3c010f0f6b3f618c74223e05b8129ab629
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/re_editor"
+      relative: true
+    source: path
     version: "0.8.0"
   re_highlight:
     dependency: "direct main"
@@ -1658,5 +1657,5 @@ packages:
     source: hosted
     version: "2.2.3"
 sdks:
-  dart: ">=3.10.0 <4.0.0"
-  flutter: ">=3.38.1"
+  dart: ">=3.12.0 <4.0.0"
+  flutter: ">=3.44.0"

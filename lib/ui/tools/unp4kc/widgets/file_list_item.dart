@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:file_sizes/file_sizes.dart';
@@ -343,6 +344,7 @@ class FileListItem extends HookWidget {
         fileName: wavName,
         type: FileType.custom,
         allowedExtensions: const ["wav"],
+        bytes: Uint8List(0),
       );
       if (outputPath == null) return;
 

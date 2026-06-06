@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -28,7 +30,12 @@ class XmlCodeChunkAnalyzer implements CodeChunkAnalyzer {
     return chunks;
   }
 
-  void _processLine(String line, int lineIndex, List<_XmlTagInfo> tagStack, List<CodeChunk> chunks) {
+  void _processLine(
+    String line,
+    int lineIndex,
+    List<_XmlTagInfo> tagStack,
+    List<CodeChunk> chunks,
+  ) {
     final trimmedLine = line.trim();
 
     // 跳过空行、注释和 XML 声明
@@ -127,14 +134,20 @@ class DcbViewerUI extends HookConsumerWidget {
           ),
         const SizedBox(width: 12),
         // 导出按钮（仅在加载完成后显示）
-        if (!state.isLoading && !state.needSelectFile && state.errorMessage == null)
+        if (!state.isLoading &&
+            !state.needSelectFile &&
+            state.errorMessage == null)
           _ExportButton(state: state, model: model),
       ],
       content: _buildBody(context, state, model),
     );
   }
 
-  Widget _buildBody(BuildContext context, DcbViewerState state, DcbViewerModel model) {
+  Widget _buildBody(
+    BuildContext context,
+    DcbViewerState state,
+    DcbViewerModel model,
+  ) {
     // 需要选择文件
     if (state.needSelectFile) {
       return _FileSelectionView(model: model);
@@ -146,11 +159,18 @@ class DcbViewerUI extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(FluentIcons.error_badge, size: 48, color: Colors.warningPrimaryColor),
+            const Icon(
+              FluentIcons.error_badge,
+              size: 48,
+              color: Colors.warningPrimaryColor,
+            ),
             const SizedBox(height: 16),
             Text(state.errorMessage!, style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 24),
-            FilledButton(onPressed: () => model.reset(), child: Text(S.current.dcb_viewer_select_another_file)),
+            FilledButton(
+              onPressed: () => model.reset(),
+              child: Text(S.current.dcb_viewer_select_another_file),
+            ),
           ],
         ),
       );
@@ -161,7 +181,11 @@ class DcbViewerUI extends HookConsumerWidget {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [const ProgressRing(), const SizedBox(height: 16), Text(state.message)],
+          children: [
+            const ProgressRing(),
+            const SizedBox(height: 16),
+            Text(state.message),
+          ],
         ),
       );
     }
@@ -198,7 +222,11 @@ class DcbViewerUI extends HookConsumerWidget {
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [const ProgressRing(), const SizedBox(height: 16), Text(S.current.dcb_viewer_searching)],
+                children: [
+                  const ProgressRing(),
+                  const SizedBox(height: 16),
+                  Text(S.current.dcb_viewer_searching),
+                ],
               ),
             ),
           ),
@@ -238,7 +266,10 @@ class _FileSelectionView extends StatelessWidget {
               FilledButton(
                 onPressed: () => _selectDcbFile(context),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -253,7 +284,10 @@ class _FileSelectionView extends StatelessWidget {
               Button(
                 onPressed: () => _selectP4kFile(context),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -349,7 +383,11 @@ class _ExportButton extends HookWidget {
             if (state.isExporting)
               const Padding(
                 padding: EdgeInsets.only(right: 8),
-                child: SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2)),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: ProgressRing(strokeWidth: 2),
+                ),
               ),
             Text(S.current.dcb_viewer_export),
             const SizedBox(width: 4),
@@ -366,6 +404,7 @@ class _ExportButton extends HookWidget {
       fileName: 'dataforge.xml',
       type: FileType.custom,
       allowedExtensions: ['xml'],
+      bytes: Uint8List(0),
     );
     if (outputPath != null) {
       final error = await model.exportToDisk(outputPath, true);
@@ -399,7 +438,9 @@ class _ExportButton extends HookWidget {
   }
 
   Future<void> _exportSeparate(BuildContext context) async {
-    final outputDir = await FilePicker.getDirectoryPath(dialogTitle: S.current.dcb_viewer_export_multiple_xml);
+    final outputDir = await FilePicker.getDirectoryPath(
+      dialogTitle: S.current.dcb_viewer_export_multiple_xml,
+    );
     if (outputDir != null) {
       final error = await model.exportToDisk(outputDir, false);
       if (context.mounted) {
@@ -441,11 +482,17 @@ class _RecordListPanel extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listSearchController = useTextEditingController(text: state.listSearchQuery);
-    final fullTextSearchController = useTextEditingController(text: state.fullTextSearchQuery);
+    final listSearchController = useTextEditingController(
+      text: state.listSearchQuery,
+    );
+    final fullTextSearchController = useTextEditingController(
+      text: state.fullTextSearchQuery,
+    );
 
     return Container(
-      decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .01)),
+      decoration: BoxDecoration(
+        color: FluentTheme.of(context).cardColor.withValues(alpha: .01),
+      ),
       child: Column(
         children: [
           // 全文搜索框
@@ -454,7 +501,10 @@ class _RecordListPanel extends HookWidget {
             child: TextBox(
               controller: fullTextSearchController,
               placeholder: S.current.dcb_viewer_search_fulltext_placeholder,
-              prefix: const Padding(padding: EdgeInsets.only(left: 8), child: Icon(FluentIcons.search_data, size: 14)),
+              prefix: const Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Icon(FluentIcons.search_data, size: 14),
+              ),
               suffix: fullTextSearchController.text.isNotEmpty
                   ? IconButton(
                       icon: const Icon(FluentIcons.clear, size: 12),
@@ -473,7 +523,10 @@ class _RecordListPanel extends HookWidget {
             child: TextBox(
               controller: listSearchController,
               placeholder: S.current.dcb_viewer_search_list_placeholder,
-              prefix: const Padding(padding: EdgeInsets.only(left: 8), child: Icon(FluentIcons.filter, size: 14)),
+              prefix: const Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Icon(FluentIcons.filter, size: 14),
+              ),
               suffix: listSearchController.text.isNotEmpty
                   ? IconButton(
                       icon: const Icon(FluentIcons.clear, size: 12),
@@ -492,15 +545,23 @@ class _RecordListPanel extends HookWidget {
                 ? Center(
                     child: Text(
                       S.current.dcb_viewer_no_records,
-                      style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: .6),
+                      ),
                     ),
                   )
                 : SuperListView.builder(
-                    padding: const EdgeInsets.only(top: 4, bottom: 4, left: 4, right: 8),
+                    padding: const EdgeInsets.only(
+                      top: 4,
+                      bottom: 4,
+                      left: 4,
+                      right: 8,
+                    ),
                     itemCount: state.filteredRecords.length,
                     itemBuilder: (context, index) {
                       final record = state.filteredRecords[index];
-                      final isSelected = state.selectedRecordPath == record.path;
+                      final isSelected =
+                          state.selectedRecordPath == record.path;
                       return _RecordListItem(
                         record: record,
                         isSelected: isSelected,
@@ -521,7 +582,11 @@ class _RecordListItem extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _RecordListItem({required this.record, required this.isSelected, required this.onTap});
+  const _RecordListItem({
+    required this.record,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -577,11 +642,15 @@ class _SearchResultsPanel extends HookWidget {
         return state.searchResults;
       }
       final lowerQuery = filterQuery.value.toLowerCase();
-      return state.searchResults.where((result) => result.path.toLowerCase().contains(lowerQuery)).toList();
+      return state.searchResults
+          .where((result) => result.path.toLowerCase().contains(lowerQuery))
+          .toList();
     }, [state.searchResults, filterQuery.value]);
 
     return Container(
-      decoration: BoxDecoration(color: FluentTheme.of(context).cardColor.withValues(alpha: .01)),
+      decoration: BoxDecoration(
+        color: FluentTheme.of(context).cardColor.withValues(alpha: .01),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -598,7 +667,11 @@ class _SearchResultsPanel extends HookWidget {
                       Expanded(
                         child: Text(
                           '"${state.fullTextSearchQuery}"',
-                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -607,7 +680,10 @@ class _SearchResultsPanel extends HookWidget {
                       // 显示结果数量
                       Text(
                         '${filteredResults.length}/${state.searchResults.length}',
-                        style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: .6)),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.white.withValues(alpha: .6),
+                        ),
                       ),
                       const SizedBox(width: 8),
                       IconButton(
@@ -628,7 +704,10 @@ class _SearchResultsPanel extends HookWidget {
             child: TextBox(
               controller: filterController,
               placeholder: S.current.dcb_viewer_search_list_placeholder,
-              prefix: const Padding(padding: EdgeInsets.only(left: 8), child: Icon(FluentIcons.filter, size: 14)),
+              prefix: const Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Icon(FluentIcons.filter, size: 14),
+              ),
               suffix: filterController.text.isNotEmpty
                   ? IconButton(
                       icon: const Icon(FluentIcons.clear, size: 12),
@@ -648,11 +727,18 @@ class _SearchResultsPanel extends HookWidget {
                 ? Center(
                     child: Text(
                       S.current.dcb_viewer_no_search_results,
-                      style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: .6),
+                      ),
                     ),
                   )
                 : SuperListView.builder(
-                    padding: const EdgeInsets.only(top: 4, bottom: 4, left: 4, right: 8),
+                    padding: const EdgeInsets.only(
+                      top: 4,
+                      bottom: 4,
+                      left: 4,
+                      right: 8,
+                    ),
                     itemCount: filteredResults.length,
                     itemBuilder: (context, index) {
                       final result = filteredResults[index];
@@ -710,7 +796,10 @@ class _SearchResultItem extends StatelessWidget {
                   Expanded(
                     child: Text(
                       result.path,
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
@@ -718,7 +807,10 @@ class _SearchResultItem extends StatelessWidget {
                   ),
                   Text(
                     '${result.matches.length}',
-                    style: TextStyle(fontSize: 11, color: FluentTheme.of(context).accentColor),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: FluentTheme.of(context).accentColor,
+                    ),
                     textAlign: TextAlign.left,
                   ),
                 ],
@@ -735,12 +827,18 @@ class _SearchResultItem extends StatelessWidget {
                           children: [
                             Text(
                               'L${match.lineNumber}:',
-                              style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .5)),
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.white.withValues(alpha: .5),
+                              ),
                               textAlign: TextAlign.left,
                             ),
                             const SizedBox(width: 4),
                             Expanded(
-                              child: _HighlightedText(text: match.lineContent.trim(), query: searchQuery),
+                              child: _HighlightedText(
+                                text: match.lineContent.trim(),
+                                query: searchQuery,
+                              ),
                             ),
                           ],
                         ),
@@ -767,7 +865,10 @@ class _HighlightedText extends StatelessWidget {
     if (query.isEmpty) {
       return Text(
         text,
-        style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .7)),
+        style: TextStyle(
+          fontSize: 10,
+          color: Colors.white.withValues(alpha: .7),
+        ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.left,
@@ -781,7 +882,10 @@ class _HighlightedText extends StatelessWidget {
     if (startIndex == -1) {
       return Text(
         text,
-        style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .7)),
+        style: TextStyle(
+          fontSize: 10,
+          color: Colors.white.withValues(alpha: .7),
+        ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.left,
@@ -793,12 +897,18 @@ class _HighlightedText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       textAlign: TextAlign.left,
       text: TextSpan(
-        style: TextStyle(fontSize: 10, color: Colors.white.withValues(alpha: .7)),
+        style: TextStyle(
+          fontSize: 10,
+          color: Colors.white.withValues(alpha: .7),
+        ),
         children: [
           TextSpan(text: text.substring(0, startIndex)),
           TextSpan(
             text: text.substring(startIndex, startIndex + query.length),
-            style: TextStyle(backgroundColor: Colors.yellow.withValues(alpha: .3), color: Colors.white),
+            style: TextStyle(
+              backgroundColor: Colors.yellow.withValues(alpha: .3),
+              color: Colors.white,
+            ),
           ),
           TextSpan(text: text.substring(startIndex + query.length)),
         ],
@@ -817,10 +927,16 @@ class _XmlPreviewPanel extends HookWidget {
   @override
   Widget build(BuildContext context) {
     // 创建代码编辑控制器
-    final codeController = useMemoized(() => CodeLineEditingController.fromText(state.currentXml), [state.currentXml]);
+    final codeController = useMemoized(
+      () => CodeLineEditingController.fromText(state.currentXml),
+      [state.currentXml],
+    );
 
     // 创建搜索控制器
-    final findController = useMemoized(() => CodeFindController(codeController), [codeController]);
+    final findController = useMemoized(
+      () => CodeFindController(codeController),
+      [codeController],
+    );
 
     // 创建滚动控制器
     final scrollController = useMemoized(() => CodeScrollController(), []);
@@ -858,9 +974,16 @@ class _XmlPreviewPanel extends HookWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FluentIcons.code, size: 48, color: Colors.white.withValues(alpha: .7)),
+            Icon(
+              FluentIcons.code,
+              size: 48,
+              color: Colors.white.withValues(alpha: .7),
+            ),
             const SizedBox(height: 16),
-            Text(S.current.dcb_viewer_select_record, style: TextStyle(color: Colors.white.withValues(alpha: .6))),
+            Text(
+              S.current.dcb_viewer_select_record,
+              style: TextStyle(color: Colors.white.withValues(alpha: .6)),
+            ),
           ],
         ),
       );
@@ -882,7 +1005,9 @@ class _XmlPreviewPanel extends HookWidget {
                 icon: Icon(
                   FluentIcons.search,
                   size: 14,
-                  color: findController.value != null ? FluentTheme.of(context).accentColor : null,
+                  color: findController.value != null
+                      ? FluentTheme.of(context).accentColor
+                      : null,
                 ),
                 onPressed: () {
                   if (findController.value != null) {
@@ -897,7 +1022,12 @@ class _XmlPreviewPanel extends HookWidget {
               Tooltip(
                 message: S.current.dcb_viewer_fold_all,
                 child: IconButton(
-                  icon: Icon(isAllCollapsed.value ? FluentIcons.expand_all : FluentIcons.collapse_content, size: 14),
+                  icon: Icon(
+                    isAllCollapsed.value
+                        ? FluentIcons.expand_all
+                        : FluentIcons.collapse_content,
+                    size: 14,
+                  ),
                   onPressed: () {
                     final controller = chunkControllerRef.value;
                     if (controller == null) return;
@@ -926,7 +1056,10 @@ class _XmlPreviewPanel extends HookWidget {
               Expanded(
                 child: Text(
                   state.selectedRecordPath ?? '',
-                  style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: .6)),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.white.withValues(alpha: .6),
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
@@ -958,18 +1091,28 @@ class _XmlPreviewPanel extends HookWidget {
                     theme: vs2015Theme,
                   ),
                 ),
-                indicatorBuilder: (context, editingController, chunkController, notifier) {
-                  // 保存 chunkController 引用供外部使用
-                  chunkControllerRef.value = chunkController;
-                  return Row(
-                    children: [
-                      DefaultCodeLineNumber(controller: editingController, notifier: notifier),
-                      DefaultCodeChunkIndicator(width: 20, controller: chunkController, notifier: notifier),
-                    ],
-                  );
-                },
-                findBuilder: (context, controller, readOnly) => _CodeFindPanel(controller: controller),
-                shortcutsActivatorsBuilder: const _XmlCodeShortcutsActivatorsBuilder(),
+                indicatorBuilder:
+                    (context, editingController, chunkController, notifier) {
+                      // 保存 chunkController 引用供外部使用
+                      chunkControllerRef.value = chunkController;
+                      return Row(
+                        children: [
+                          DefaultCodeLineNumber(
+                            controller: editingController,
+                            notifier: notifier,
+                          ),
+                          DefaultCodeChunkIndicator(
+                            width: 20,
+                            controller: chunkController,
+                            notifier: notifier,
+                          ),
+                        ],
+                      );
+                    },
+                findBuilder: (context, controller, readOnly) =>
+                    _CodeFindPanel(controller: controller),
+                shortcutsActivatorsBuilder:
+                    const _XmlCodeShortcutsActivatorsBuilder(),
               ),
             ),
           ),
@@ -980,7 +1123,8 @@ class _XmlPreviewPanel extends HookWidget {
 }
 
 /// 自定义快捷键构建器
-class _XmlCodeShortcutsActivatorsBuilder extends DefaultCodeShortcutsActivatorsBuilder {
+class _XmlCodeShortcutsActivatorsBuilder
+    extends DefaultCodeShortcutsActivatorsBuilder {
   const _XmlCodeShortcutsActivatorsBuilder();
 
   @override
@@ -997,8 +1141,10 @@ class _CodeFindPanel extends HookWidget implements PreferredSizeWidget {
   const _CodeFindPanel({required this.controller});
 
   @override
-  Size get preferredSize =>
-      Size(double.infinity, controller.value == null ? 0 : (controller.value!.replaceMode ? 80 : 44));
+  Size get preferredSize => Size(
+    double.infinity,
+    controller.value == null ? 0 : (controller.value!.replaceMode ? 80 : 44),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -1017,7 +1163,11 @@ class _CodeFindPanel extends HookWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: .8),
-        border: Border(bottom: BorderSide(color: FluentTheme.of(context).resources.dividerStrokeColorDefault)),
+        border: Border(
+          bottom: BorderSide(
+            color: FluentTheme.of(context).resources.dividerStrokeColorDefault,
+          ),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -1063,7 +1213,10 @@ class _CodeFindPanel extends HookWidget implements PreferredSizeWidget {
                 width: 60,
                 child: Text(
                   resultText,
-                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .7)),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white.withValues(alpha: .7),
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -1071,15 +1224,22 @@ class _CodeFindPanel extends HookWidget implements PreferredSizeWidget {
               // 上一个
               IconButton(
                 icon: const Icon(FluentIcons.chevron_up, size: 12),
-                onPressed: value.result == null ? null : () => controller.previousMatch(),
+                onPressed: value.result == null
+                    ? null
+                    : () => controller.previousMatch(),
               ),
               // 下一个
               IconButton(
                 icon: const Icon(FluentIcons.chevron_down, size: 12),
-                onPressed: value.result == null ? null : () => controller.nextMatch(),
+                onPressed: value.result == null
+                    ? null
+                    : () => controller.nextMatch(),
               ),
               // 关闭
-              IconButton(icon: const Icon(FluentIcons.chrome_close, size: 12), onPressed: () => controller.close()),
+              IconButton(
+                icon: const Icon(FluentIcons.chrome_close, size: 12),
+                onPressed: () => controller.close(),
+              ),
             ],
           ),
         ],
@@ -1104,7 +1264,9 @@ class _CodeFindPanel extends HookWidget implements PreferredSizeWidget {
           child: IconButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(
-                isActive ? FluentTheme.of(context).accentColor.withValues(alpha: .3) : Colors.transparent,
+                isActive
+                    ? FluentTheme.of(context).accentColor.withValues(alpha: .3)
+                    : Colors.transparent,
               ),
             ),
             icon: Text(
@@ -1112,7 +1274,9 @@ class _CodeFindPanel extends HookWidget implements PreferredSizeWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                color: isActive ? FluentTheme.of(context).accentColor : Colors.white.withValues(alpha: .7),
+                color: isActive
+                    ? FluentTheme.of(context).accentColor
+                    : Colors.white.withValues(alpha: .7),
               ),
             ),
             onPressed: onPressed,

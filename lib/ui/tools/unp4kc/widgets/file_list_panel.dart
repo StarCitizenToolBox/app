@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -141,6 +143,7 @@ class FileListPanel extends HookConsumerWidget {
       singleOutputPath = await FilePicker.saveFile(
         dialogTitle: options.convertWhenPossible ? "选择转换导出文件" : "选择导出文件",
         fileName: defaultName,
+        bytes: Uint8List(0),
       );
       if (singleOutputPath == null) return;
     } else {
