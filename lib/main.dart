@@ -82,6 +82,7 @@ class App extends HookConsumerWidget with WindowListener {
       },
       theme: FluentThemeData(
         brightness: Brightness.dark,
+        visualDensity: const VisualDensity(vertical: 1),
         fontFamily: "SourceHanSansCN-Regular",
         navigationPaneTheme: NavigationPaneThemeData(backgroundColor: appState.themeConf.backgroundColor),
         menuColor: appState.themeConf.menuColor,

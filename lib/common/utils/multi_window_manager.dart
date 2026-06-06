@@ -136,6 +136,7 @@ class MultiWindowManager {
           home: windowWidget,
           theme: FluentThemeData(
             brightness: Brightness.dark,
+            visualDensity: const VisualDensity(vertical: 1),
             fontFamily: "SourceHanSansCN-Regular",
             navigationPaneTheme: NavigationPaneThemeData(backgroundColor: backgroundColor),
             menuColor: HexColor(windowAppState.menuColor),

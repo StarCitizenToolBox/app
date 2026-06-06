@@ -44,6 +44,7 @@ class IndexUI extends HookConsumerWidget {
         height: 50,
         child: Row(
           children: [
+            const SizedBox(width: 4),
             Expanded(
               child: DragToMoveArea(
                 child: Align(

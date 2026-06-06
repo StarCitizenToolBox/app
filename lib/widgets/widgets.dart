@@ -44,6 +44,7 @@ Widget makeDefaultPage(
       height: 50,
       child: Row(
         children: [
+          const SizedBox(width: 4),
           if (automaticallyImplyLeading && context.canPop())
             IconButton(
               icon: const Icon(FluentIcons.back),
