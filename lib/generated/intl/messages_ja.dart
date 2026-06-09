@@ -29,283 +29,288 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(v0) => "初期化に失敗：${v0}";
 
-  static String m4(v0) => "ダウンロード中： ${v0}%    ";
+  static String m4(v0) =>
+      "本アプリケーションはオープンソースの無料ソフトウェアです。いかなる形式の転売も強く非難します。第三者に料金を支払って本ソフトウェアを入手した場合は、直ちに通報し、返金を求めてください。\n\n内容を確認したことを示すため、下に ${v0} と入力してください。";
 
-  static String m5(v0) => "新しいバージョンが見つかりました -> ${v0}";
+  static String m5(v0) => "入力してください ${v0}";
 
-  static String m9(v0) => "ゲームが異常終了しました：${v0}";
+  static String m6(v0) => "ダウンロード中： ${v0}%    ";
 
-  static String m10(v0) => "info:${v0}、右下の「グループに参加」をクリックしてフィードバックしてください。";
+  static String m7(v0) => "新しいバージョンが見つかりました -> ${v0}";
 
-  static String m11(v0) => "分析完了、${v0}個の問題が見つかりました";
+  static String m11(v0) => "ゲームが異常終了しました：${v0}";
 
-  static String m12(v0, v1) =>
+  static String m12(v0) => "info:${v0}、右下の「グループに参加」をクリックしてフィードバックしてください。";
+
+  static String m13(v0) => "分析完了、${v0}個の問題が見つかりました";
+
+  static String m14(v0, v1) =>
       "フォルダの作成に失敗しました。手動で作成してみてください。\nディレクトリ：${v0} \nエラー：${v1}";
 
-  static String m13(v0) => "修復に失敗しました、${v0}";
+  static String m15(v0) => "修復に失敗しました、${v0}";
 
-  static String m14(v0) => "サポートされていないオペレーティングシステム：${v0}";
-
-  static String m15(v0) =>
-      "レジストリにForcedPhysicalSectorSizeInBytes値を追加して古いデバイスをエミュレートします。ハードディスクパーティション(${v0})";
-
-  static String m16(v0) =>
-      "中国語のインストールパスです！これはゲームの起動/インストールエラーを引き起こす可能性があります！（${v0}）、RSIランチャーでインストールパスを変更してください。";
+  static String m16(v0) => "サポートされていないオペレーティングシステム：${v0}";
 
   static String m17(v0) =>
-      "クリックして修復すると、LIVEフォルダが作成されます。完了したらインストールを再試行してください。(${v0})";
+      "レジストリにForcedPhysicalSectorSizeInBytes値を追加して古いデバイスをエミュレートします。ハードディスクパーティション(${v0})";
 
-  static String m18(v0) => "修正提案： ${v0}";
+  static String m18(v0) =>
+      "中国語のインストールパスです！これはゲームの起動/インストールエラーを引き起こす可能性があります！（${v0}）、RSIランチャーでインストールパスを変更してください。";
 
   static String m19(v0) =>
+      "クリックして修復すると、LIVEフォルダが作成されます。完了したらインストールを再試行してください。(${v0})";
+
+  static String m20(v0) => "修正提案： ${v0}";
+
+  static String m21(v0) =>
       "このゲームを実行するには、少なくとも16GBの物理メモリ（RAM）が必要です。（現在のサイズ：${v0}）";
 
-  static String m20(v0) => "システムをアップグレードしてください (${v0})";
+  static String m22(v0) => "システムをアップグレードしてください (${v0})";
 
-  static String m21(v0) => "ワンクリック診断 -> ${v0}";
+  static String m23(v0) => "ワンクリック診断 -> ${v0}";
 
-  static String m22(v0) => "検証済み：${v0}";
+  static String m24(v0) => "検証済み：${v0}";
 
-  static String m23(v0) => "検証中... (${v0}%)";
+  static String m25(v0) => "検証中... (${v0}%)";
 
-  static String m24(v0, v1) => "ダウンロード： ${v0}/s    アップロード：${v1}/s";
+  static String m26(v0, v1) => "ダウンロード： ${v0}/s    アップロード：${v1}/s";
 
-  static String m25(v0) => "ダウンロード済み：${v0}";
+  static String m27(v0) => "ダウンロード済み：${v0}";
 
-  static String m26(v0) => "ダウンロード中... (${v0}%)";
+  static String m28(v0) => "ダウンロード中... (${v0}%)";
 
-  static String m27(v0) => "ステータス：${v0}";
+  static String m29(v0) => "ステータス：${v0}";
 
-  static String m28(v1) => "合計サイズ：${v1}";
+  static String m30(v1) => "合計サイズ：${v1}";
 
-  static String m29(v0) => "アップロード済み：${v0}";
+  static String m31(v0) => "アップロード済み：${v0}";
 
-  static String m30(v0, v1, v2, v3, v4) =>
+  static String m32(v0, v1, v2, v3, v4) =>
       "ゲームが正常に終了しませんでした\nexitCode=${v0}\nstdout=${v1}\nstderr=${v2}\n\n診断情報：${v3} \n${v4}";
 
-  static String m31(v0) => "ウェブローカリゼーションリソースの初期化に失敗しました！${v0}";
+  static String m33(v0) => "ウェブローカリゼーションリソースの初期化に失敗しました！${v0}";
 
-  static String m32(v0) => "スキャン完了、${v0}個の有効なインストールディレクトリが見つかりました";
+  static String m34(v0) => "スキャン完了、${v0}個の有効なインストールディレクトリが見つかりました";
 
-  static String m33(v0) => "${v0}日  ";
+  static String m35(v0) => "${v0}日  ";
 
-  static String m34(v0) => "読み込まれたローカリゼーションバージョン：${v0}";
+  static String m36(v0) => "読み込まれたローカリゼーションバージョン：${v0}";
 
-  static String m35(v0) => "高度なローカリゼーション -> ${v0}";
+  static String m37(v0) => "高度なローカリゼーション -> ${v0}";
 
-  static String m36(v0, v1) => "ローカリゼーションテキスト行数：${v0}  P4Kテキスト行数：${v1}";
+  static String m38(v0, v1) => "ローカリゼーションテキスト行数：${v0}  P4Kテキスト行数：${v1}";
 
-  static String m37(v0) => "プレビュー：${v0}";
+  static String m39(v0) => "プレビュー：${v0}";
 
-  static String m38(v0) => "${v0}にインストールしたローカリゼーションに新しいバージョンがあります！";
+  static String m40(v0) => "${v0}にインストールしたローカリゼーションに新しいバージョンがあります！";
 
-  static String m39(v1, v2) =>
+  static String m41(v1, v2) =>
       "RSIサーバーが報告するバージョン：${v1} \n\nローカルバージョン：${v2} \n\nRSI Launcherを使用してゲームを更新することをお勧めします！";
 
-  static String m42(v0) => "コミュニティ入力メソッドサポート：${v0}";
+  static String m44(v0) => "コミュニティ入力メソッドサポート：${v0}";
 
-  static String m43(v0) => "コミュニティ入力メソッドサポートが更新されました：${v0}";
+  static String m45(v0) => "コミュニティ入力メソッドサポートが更新されました：${v0}";
 
-  static String m44(v0, v1) =>
+  static String m46(v0, v1) =>
       "${v0}個の拡張に更新があります：${v1}。ローカライズ管理で再インストールしてください。";
 
-  static String m45(v0, v1) => "${v0}に新バージョン${v1}があります。ローカライズ管理で再インストールしてください。";
+  static String m47(v0, v1) => "${v0}に新バージョン${v1}があります。ローカライズ管理で再インストールしてください。";
 
-  static String m46(v0) => "チャネル：${v0}";
+  static String m48(v0) => "チャネル：${v0}";
 
-  static String m47(v0) => "有効（${v0}）：";
+  static String m49(v0) => "有効（${v0}）：";
 
-  static String m48(v0) => "インストールエラー！\n\n ${v0}";
+  static String m50(v0) => "インストールエラー！\n\n ${v0}";
 
-  static String m49(v0) => "インストール済みバージョン：${v0}";
+  static String m51(v0) => "インストール済みバージョン：${v0}";
 
-  static String m50(v0) => "更新時間：${v0}";
+  static String m52(v0) => "更新時間：${v0}";
 
-  static String m51(v0) => "バージョン番号：${v0}";
+  static String m53(v0) => "バージョン番号：${v0}";
 
-  static String m52(v0, v1, v2, v3, v4) =>
+  static String m54(v0, v1, v2, v3, v4) =>
       "エリア：${v0}   プレイヤー操縦：${v1}   衝突エンティティ：${v2} \n衝突ビークル：${v3}   衝突距離：${v4} ";
 
-  static String m53(v0, v2, v3) => "被害者ID：${v0}    \n位置：${v2}  \nエリア：${v3}";
+  static String m55(v0, v2, v3) => "被害者ID：${v0}    \n位置：${v2}  \nエリア：${v3}";
 
-  static String m54(v0) => "詳細情報：${v0}";
+  static String m56(v0) => "詳細情報：${v0}";
 
-  static String m55(v0, v1, v2, v3, v4) =>
+  static String m57(v0, v1, v2, v3, v4) =>
       "キル数：${v0}   デス数：${v1}   自殺回数：${v2}  \n機体破壊（ソフトデス）：${v3}   機体破壊（解体）：${v4}";
 
-  static String m56(v0, v1) => "モード：${v0}   所要時間：${v1}秒";
+  static String m58(v0, v1) => "モード：${v0}   所要時間：${v1}秒";
 
-  static String m57(v0, v1, v2) => "${v0}時間${v1}分${v2}秒";
+  static String m59(v0, v1, v2) => "${v0}時間${v1}分${v2}秒";
 
-  static String m58(v0, v1) => "プレイヤーID：${v0}   位置：${v1}";
+  static String m60(v0, v1) => "プレイヤーID：${v0}   位置：${v1}";
 
-  static String m59(v0) => "プレイヤー ${v0} ログイン中...";
+  static String m61(v0) => "プレイヤー ${v0} ログイン中...";
 
-  static String m60(v0, v1, v2, v3, v4) =>
+  static String m62(v0, v1, v2, v3, v4) =>
       "ビークルモデル：${v0}   \nエリア：${v1} \n損傷レベル：${v2} （${v3}）   責任者：${v4}";
 
-  static String m61(v0) => "接続に失敗: ${v0}";
+  static String m63(v0) => "接続に失敗: ${v0}";
 
-  static String m62(v0) => "${v0}日前";
+  static String m64(v0) => "${v0}日前";
 
-  static String m63(v0) => "ルーム退出に失敗: ${v0}";
+  static String m65(v0) => "ルーム退出に失敗: ${v0}";
 
-  static String m64(v0) => "認証コードの取得に失敗: ${v0}";
+  static String m66(v0) => "認証コードの取得に失敗: ${v0}";
 
-  static String m65(v0) => "${v0}時間前";
+  static String m67(v0) => "${v0}時間前";
 
-  static String m66(v0) => "${v0}をキックしてもよろしいですか？";
+  static String m68(v0) => "${v0}をキックしてもよろしいですか？";
 
-  static String m67(v0) => "メンバーのキックに失敗: ${v0}";
+  static String m69(v0) => "メンバーのキックに失敗: ${v0}";
 
-  static String m68(v0) => "ルームリストの読み込みに失敗: ${v0}";
+  static String m70(v0) => "ルームリストの読み込みに失敗: ${v0}";
 
-  static String m69(v0, v1) => "${v0}/${v1} メンバー";
+  static String m71(v0, v1) => "${v0}/${v1} メンバー";
 
-  static String m70(v0) => "${v0}分前";
+  static String m72(v0) => "${v0}分前";
 
-  static String m71(v0) => "再接続に失敗: ${v0}";
+  static String m73(v0) => "再接続に失敗: ${v0}";
 
-  static String m72(v0) => "再接続に失敗、${v0}回試行済み";
+  static String m74(v0) => "再接続に失敗、${v0}回試行済み";
 
-  static String m73(v0) => "登録に失敗: ${v0}";
+  static String m75(v0) => "登録に失敗: ${v0}";
 
-  static String m74(v0) => "${v0}にオーナー権限を移譲してもよろしいですか？";
+  static String m76(v0) => "${v0}にオーナー権限を移譲してもよろしいですか？";
 
-  static String m75(v0) => "オーナー権限の移譲に失敗: ${v0}";
+  static String m77(v0) => "オーナー権限の移譲に失敗: ${v0}";
 
-  static String m76(v0) => "現在の状態：${v0}";
+  static String m78(v0) => "現在の状態：${v0}";
 
-  static String m77(v0, v1, v2) => "${v0}    最小値: ${v1} / 最大値: ${v2}";
+  static String m79(v0, v1, v2) => "${v0}    最小値: ${v1} / 最大値: ${v2}";
 
-  static String m78(v0) => "パフォーマンス最適化 -> ${v0}";
+  static String m80(v0) => "パフォーマンス最適化 -> ${v0}";
 
-  static String m79(v0) =>
+  static String m81(v0) =>
       "キャッシュサイズ ${v0}MB、ツールボックスがダウンロードしたローカリゼーションファイルキャッシュをクリアします。インストール済みのローカリゼーションには影響しません";
 
-  static String m80(v0) =>
+  static String m82(v0) =>
       "設定されたコア数：${v0}   （この機能はホームページのツールボックスワンクリック起動またはツールのRSIランチャー管理者モードに適用されます。0の場合、この機能は有効になりません）";
 
-  static String m81(v0) => "⚠ AnalyticsApi.touch(\"launch\") エラー: ${v0} - 続行";
+  static String m83(v0) => "⚠ AnalyticsApi.touch(\"launch\") エラー: ${v0} - 続行";
 
-  static String m82(v0) => "✗ appModel.initApp() エラー: ${v0}";
+  static String m84(v0) => "✗ appModel.initApp() エラー: ${v0}";
 
-  static String m83(v0) => "⚠ aria2cModelProvider 初期化エラー: ${v0}";
+  static String m85(v0) => "⚠ aria2cModelProvider 初期化エラー: ${v0}";
 
-  static String m84(v0) => "⚠ URLConf.checkHost() エラー: ${v0} - 続行";
+  static String m86(v0) => "⚠ URLConf.checkHost() エラー: ${v0} - 続行";
 
-  static String m85(v0) => "⚠ appModel.checkUpdate() エラー: ${v0} - 続行";
+  static String m87(v0) => "⚠ appModel.checkUpdate() エラー: ${v0} - 続行";
 
-  static String m86(v0) => "[診断] Hive boxesを閉じることに失敗: ${v0}";
+  static String m88(v0) => "[診断] Hive boxesを閉じることに失敗: ${v0}";
 
-  static String m87(v0) => "[診断] データベースディレクトリが存在しません: ${v0}";
+  static String m89(v0) => "[診断] データベースディレクトリが存在しません: ${v0}";
 
-  static String m88(v0) => "[診断] データベースディレクトリを削除中: ${v0}";
+  static String m90(v0) => "[診断] データベースディレクトリを削除中: ${v0}";
 
-  static String m89(v0) => "[診断] ${v0}";
+  static String m91(v0) => "[診断] ${v0}";
 
-  static String m90(v0) => "診断モード - ステップ ${v0}";
+  static String m92(v0) => "診断モード - ステップ ${v0}";
 
-  static String m91(v0) => "✗ Hive.openBox(\"app_conf\") エラー: ${v0}";
+  static String m93(v0) => "✗ Hive.openBox(\"app_conf\") エラー: ${v0}";
 
-  static String m92(v0) => "[${v0}] ⚠ ログファイルが存在しません";
+  static String m94(v0) => "[${v0}] ⚠ ログファイルが存在しません";
 
-  static String m93(v0) => "[${v0}] --- ログ読み取り完了 (最後の1000行を表示) ---";
+  static String m95(v0) => "[${v0}] --- ログ読み取り完了 (最後の1000行を表示) ---";
 
-  static String m94(v0, v1) => "[${v0}] ✗ ログ読み取りに失敗: ${v1}";
+  static String m96(v0, v1) => "[${v0}] ✗ ログ読み取りに失敗: ${v1}";
 
-  static String m95(v0) => "[診断] データベースリセットに失敗: ${v0}";
+  static String m97(v0) => "[診断] データベースリセットに失敗: ${v0}";
 
-  static String m96(v0) => "[${v0}] 初期化を開始...";
+  static String m98(v0) => "[${v0}] 初期化を開始...";
 
-  static String m97(v0) => "[${v0}] --- 完全なログファイルの読み取りを開始 ---";
+  static String m99(v0) => "[${v0}] --- 完全なログファイルの読み取りを開始 ---";
 
-  static String m98(v0) => "クリーンアップに失敗しました。手動で削除してください。ファイルの場所：${v0}";
+  static String m100(v0) => "クリーンアップに失敗しました。手動で削除してください。ファイルの場所：${v0}";
 
-  static String m99(v0) => "エラーが発生しました：${v0}";
+  static String m101(v0) => "エラーが発生しました：${v0}";
 
-  static String m100(v0) => "初期化に失敗しました。スクリーンショットを撮って開発者に報告してください。${v0}";
-
-  static String m101(v0) =>
-      "nvmeパッチを使用して問題が発生した場合は、このツールを実行してください。（ゲームのインストール/更新が使用できなくなる可能性があります。）\n\n現在のパッチ状態：${v0}";
-
-  static String m102(v0) =>
-      "Star Citizen中国語百科事典が提供する分散ダウンロードサービスを使用して、p4kのダウンロードや修復ができます。 \nバージョン情報：${v0}";
+  static String m102(v0) => "初期化に失敗しました。スクリーンショットを撮って開発者に報告してください。${v0}";
 
   static String m103(v0) =>
-      "特定の状況でRSIランチャーのログファイルが破損し、問題スキャンが完了できなくなることがあります。このツールを使用して破損したログファイルをクリーンアップしてください。\n\n現在のログファイルサイズ：${v0} MB";
+      "nvmeパッチを使用して問題が発生した場合は、このツールを実行してください。（ゲームのインストール/更新が使用できなくなる可能性があります。）\n\n現在のパッチ状態：${v0}";
 
   static String m104(v0) =>
+      "Star Citizen中国語百科事典が提供する分散ダウンロードサービスを使用して、p4kのダウンロードや修復ができます。 \nバージョン情報：${v0}";
+
+  static String m105(v0) =>
+      "特定の状況でRSIランチャーのログファイルが破損し、問題スキャンが完了できなくなることがあります。このツールを使用して破損したログファイルをクリーンアップしてください。\n\n現在のログファイルサイズ：${v0} MB";
+
+  static String m106(v0) =>
       "ゲームの表示に異常が発生した場合や、バージョン更新後に、このツールを使用して古いシェーダーをクリアできます \n\nキャッシュサイズ：${v0} MB";
 
-  static String m105(v0, v1, v2, v3, v4) =>
+  static String m107(v0, v1, v2, v3, v4) =>
       "システム：${v0}\n\nプロセッサ：${v1}\n\nメモリサイズ：${v2}GB\n\nグラフィックカード情報：\n${v3}\n\nハードドライブ情報：\n${v4}\n\n";
 
-  static String m108(v0) => "処理に失敗しました！：${v0}";
+  static String m110(v0) => "処理に失敗しました！：${v0}";
 
-  static String m109(v0) => "ランチャー情報の読み込みに失敗：${v0}";
+  static String m111(v0) => "ランチャー情報の読み込みに失敗：${v0}";
 
-  static String m110(v0) => "パッチ状態：${v0}";
+  static String m112(v0) => "パッチ状態：${v0}";
 
-  static String m111(v0) => "ランチャー内部バージョン情報：${v0}";
+  static String m113(v0) => "ランチャー内部バージョン情報：${v0}";
 
-  static String m121(v0) => "ファイルを開く：${v0}";
+  static String m123(v0) => "ファイルを開く：${v0}";
 
-  static String m122(v0, v1) => "読み込み完了：${v0}ファイル、所要時間：${v1} ms";
+  static String m124(v0, v1) => "読み込み完了：${v0}ファイル、所要時間：${v1} ms";
 
-  static String m123(v0) => "ファイルを読み込み中：${v0}...";
+  static String m125(v0) => "ファイルを読み込み中：${v0}...";
 
-  static String m124(v0, v1) => "ファイルを処理中(${v0}/${v1})...";
+  static String m126(v0, v1) => "ファイルを処理中(${v0}/${v1})...";
 
-  static String m125(v0) => "不明なファイルタイプ\n${v0}";
+  static String m127(v0) => "不明なファイルタイプ\n${v0}";
 
-  static String m126(v0) => "P4Kビューア -> ${v0}";
+  static String m128(v0) => "P4Kビューア -> ${v0}";
 
-  static String m127(v0) => "${v0} 回ログイン";
+  static String m129(v0) => "${v0} 回ログイン";
 
-  static String m128(v0) => "合計 ${v0} アカウントを検出";
+  static String m130(v0) => "合計 ${v0} アカウントを検出";
 
-  static String m129(year) =>
+  static String m131(year) =>
       "${year}年のStar Citizenプレイ統計を表示します。データはローカルログからのものです。メインのコンピュータで確認してください。";
 
-  static String m130(year) => "${year} 年間レポート（期間限定）";
+  static String m132(year) => "${year} 年間レポート（期間限定）";
 
-  static String m131(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
+  static String m133(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
 
-  static String m132(v0, v1) => "${v0} 時間 ${v1} 分";
+  static String m134(v0, v1) => "${v0} 時間 ${v1} 分";
 
-  static String m133(v0) => "${v0} 分";
+  static String m135(v0) => "${v0} 分";
 
-  static String m134(v0, v1) => "あなたは ${v0}月${v1}日 の夜明けに宇宙の旅を始めました";
+  static String m136(v0, v1) => "あなたは ${v0}月${v1}日 の夜明けに宇宙の旅を始めました";
 
-  static String m135(v0, v1) => "${v0}月${v1}日 の深夜、あなたはまだ宇宙を探索していました";
+  static String m137(v0, v1) => "${v0}月${v1}日 の深夜、あなたはまだ宇宙を探索していました";
 
-  static String m136(v0) => "${v0} 回";
+  static String m138(v0) => "${v0} 回";
 
-  static String m137(v0) => "${v0}月";
+  static String m139(v0) => "${v0}月";
 
-  static String m138(v0) => "わずか ${v0} 回起動";
+  static String m140(v0) => "わずか ${v0} 回起動";
 
-  static String m139(v0) => "${v0} 回起動";
+  static String m141(v0) => "${v0} 回起動";
 
-  static String m140(v0) => "${v0} 時間";
+  static String m142(v0) => "${v0} 時間";
 
-  static String m141(v0, v1) => "${v0}月${v1}日";
+  static String m143(v0, v1) => "${v0}月${v1}日";
 
-  static String m142(year) =>
+  static String m144(year) =>
       "${year} 年、私たちはStar Citizenで\n数え切れないほどの素晴らしい思い出を作りました";
 
-  static String m143(nextYear) => "${nextYear} 年もよろしくお願いします！";
+  static String m145(nextYear) => "${nextYear} 年もよろしくお願いします！";
 
-  static String m144(year) => "Star Citizen ${year} 年間レポート";
+  static String m146(year) => "Star Citizen ${year} 年間レポート";
 
-  static String m145(v0) => "${v0} 回破壊";
+  static String m147(v0) => "${v0} 回破壊";
 
-  static String m146(v0) => "${v0} 回操縦";
+  static String m148(v0) => "${v0} 回操縦";
 
-  static String m147(v0) => "全 ${v0} 車両を表示";
+  static String m149(v0) => "全 ${v0} 車両を表示";
 
-  static String m148(year) => "${year} 年間レポート";
+  static String m150(year) => "${year} 年間レポート";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -388,6 +393,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "app_splash_dialog_u_a_p_p_content": MessageLookupByLibrary.simpleMessage(
       "SCToolboxをお選びいただきありがとうございます。私たちは安全で便利、信頼性の高い体験を提供することに努めています。アプリを使用する前に、以下をお読みいただき同意してください：\n\n 1. このアプリケーションはGNU General Public License v3.0の下でのオープンソースソフトウェアです。ライセンスに従って自由に使用、変更、配布することができます。ソースコードは[Github.com/StarCitizenToolBox/app](https://github.com/StarCitizenToolBox/app)にあります。 \n2. このアプリケーション内のインターネットコンテンツ（ローカリゼーションファイル、ツールウェブサイト、ニュース、ビデオなどを含む）の著作権はその作者に帰属し、GPLの一部ではありません。対応するライセンス契約を遵守して使用してください。\n3. このアプリケーションの公式無料配布チャンネルは[Microsoft Store](https://apps.microsoft.com/detail/9NF3SWFWNKL1)と[Star Citizen ローカリゼーションチームの公式ウェブサイト](https://www.starcitizenzw.com/)です。他のサードパーティから入手した場合は、財産損失を避けるため慎重に判断してください。\n4. このアプリケーションはソフトウェア品質向上のため、使用中に匿名の統計データを当社サーバーに送信します。個人的なプライバシー情報は収集しません。 \n5. このアプリケーションはコミュニティサポートにより提供され、Cloud Imperium Gamesや他のサードパーティの商業会社とは直接関連していません。\n6. 私たちは限定的なコミュニティサポートを提供しています。必要な場合は、「概要」ページで連絡方法をご確認ください。",
     ),
+    "app_splash_free_software_notice": MessageLookupByLibrary.simpleMessage(
+      "無料ソフトウェアに関する声明",
+    ),
+    "app_splash_free_software_notice_confirm":
+        MessageLookupByLibrary.simpleMessage("続行"),
+    "app_splash_free_software_notice_confirm_text":
+        MessageLookupByLibrary.simpleMessage("これは無料ソフトウェアです"),
+    "app_splash_free_software_notice_content": m4,
+    "app_splash_free_software_notice_input_hint": m5,
     "app_upgrade_action_next_time": MessageLookupByLibrary.simpleMessage(
       "次回にする",
     ),
@@ -397,7 +411,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "app_upgrade_info_download_failed": MessageLookupByLibrary.simpleMessage(
       "ダウンロードに失敗しました。手動インストールを試してください！",
     ),
-    "app_upgrade_info_downloading": m4,
+    "app_upgrade_info_downloading": m6,
     "app_upgrade_info_getting_new_version_details":
         MessageLookupByLibrary.simpleMessage("新しいバージョンの詳細を取得中..."),
     "app_upgrade_info_installing": MessageLookupByLibrary.simpleMessage(
@@ -409,7 +423,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "app_upgrade_info_update_server_tip": MessageLookupByLibrary.simpleMessage(
       "ヒント：現在、コスト管理に役立つ分散サーバーを使用して更新しています。ダウンロード速度が低下する可能性がありますが、ダウンロードに問題がある場合は、ここをクリックして手動インストールに切り替えてください。",
     ),
-    "app_upgrade_title_new_version_found": m5,
+    "app_upgrade_title_new_version_found": m7,
     "doctor_action_analyzing": MessageLookupByLibrary.simpleMessage("分析中..."),
     "doctor_action_game_run_log": MessageLookupByLibrary.simpleMessage(
       "ゲーム実行ログ",
@@ -422,19 +436,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_action_info_checking_runtime": MessageLookupByLibrary.simpleMessage(
       "確認中：実行環境",
     ),
-    "doctor_action_info_game_abnormal_exit": m9,
+    "doctor_action_info_game_abnormal_exit": m11,
     "doctor_action_info_game_abnormal_exit_unknown":
         MessageLookupByLibrary.simpleMessage("ゲームが異常終了しました：不明なエラー"),
-    "doctor_action_info_info_feedback": m10,
-    "doctor_action_result_analysis_issues_found": m11,
+    "doctor_action_info_info_feedback": m12,
+    "doctor_action_result_analysis_issues_found": m13,
     "doctor_action_result_analysis_no_issue":
         MessageLookupByLibrary.simpleMessage("分析完了、問題は見つかりませんでした"),
-    "doctor_action_result_create_folder_fail": m12,
+    "doctor_action_result_create_folder_fail": m14,
     "doctor_action_result_create_folder_success":
         MessageLookupByLibrary.simpleMessage(
           "フォルダの作成に成功しました。ゲームのダウンロードを続けてみてください！",
         ),
-    "doctor_action_result_fix_fail": m13,
+    "doctor_action_result_fix_fail": m15,
     "doctor_action_result_fix_success": MessageLookupByLibrary.simpleMessage(
       "修復に成功しました。再起動してからゲームのインストールを続けてみてください！レジストリの変更が他のソフトウェアに互換性の問題を引き起こす場合は、ツールのNVMEレジストリクリーナーを使用してください。",
     ),
@@ -442,7 +456,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "修復に成功しました。ゲームを起動してみてください。（問題が解決しない場合は、ツールボックスの「EACを再インストール」を使用してください）",
         ),
-    "doctor_action_result_info_unsupported_os": m14,
+    "doctor_action_result_info_unsupported_os": m16,
     "doctor_action_result_issue_not_supported":
         MessageLookupByLibrary.simpleMessage(
           "この問題は現在自動処理をサポートしていません。スクリーンショットを撮って助けを求めてください",
@@ -530,10 +544,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "助けが必要ですか？クリックしてグループに参加し、無料のサポートを受けましょう！",
     ),
     "doctor_info_processing": MessageLookupByLibrary.simpleMessage("処理中..."),
-    "doctor_info_result_add_registry_value": m15,
+    "doctor_info_result_add_registry_value": m17,
     "doctor_info_result_chinese_install_path":
         MessageLookupByLibrary.simpleMessage("中国語のインストールパス！"),
-    "doctor_info_result_chinese_install_path_error": m16,
+    "doctor_info_result_chinese_install_path_error": m18,
     "doctor_info_result_chinese_username": MessageLookupByLibrary.simpleMessage(
       "中国語ユーザー名！",
     ),
@@ -541,12 +555,12 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "中国語のユーザー名はゲームの起動/インストールエラーを引き起こす可能性があります！修復ボタンをクリックして変更チュートリアルを表示してください！",
         ),
-    "doctor_info_result_create_live_folder": m17,
+    "doctor_info_result_create_live_folder": m19,
     "doctor_info_result_easyanticheat_not_installed":
         MessageLookupByLibrary.simpleMessage(
           "EasyAntiCheatがインストールされていないか、正常に終了していません",
         ),
-    "doctor_info_result_fix_suggestion": m18,
+    "doctor_info_result_fix_suggestion": m20,
     "doctor_info_result_incompatible_nvme_device":
         MessageLookupByLibrary.simpleMessage(
           "新しいタイプのNVMEデバイスで、RSIランチャーとの互換性がありません。インストールが失敗する可能性があります",
@@ -557,7 +571,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "doctor_info_result_low_physical_memory":
         MessageLookupByLibrary.simpleMessage("物理メモリが不足しています"),
-    "doctor_info_result_memory_requirement": m19,
+    "doctor_info_result_memory_requirement": m21,
     "doctor_info_result_missing_easyanticheat_files":
         MessageLookupByLibrary.simpleMessage("EasyAntiCheatファイルが見つかりません"),
     "doctor_info_result_missing_live_folder":
@@ -570,7 +584,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_result_unsupported_os": MessageLookupByLibrary.simpleMessage(
       "サポートされていないオペレーティングシステムです。ゲームが実行できない可能性があります",
     ),
-    "doctor_info_result_upgrade_system": m20,
+    "doctor_info_result_upgrade_system": m22,
     "doctor_info_result_verify_files_with_rsi_launcher":
         MessageLookupByLibrary.simpleMessage(
           "LIVEフォルダ内にEasyAntiCheatファイルが見つからないか、ファイルが不完全です。RSIランチャーを使用してファイルを検証してください",
@@ -585,7 +599,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "ホームページでゲームインストールディレクトリを選択してください。",
         ),
-    "doctor_title_one_click_diagnosis": m21,
+    "doctor_title_one_click_diagnosis": m23,
     "downloader_action_cancel_all": MessageLookupByLibrary.simpleMessage(
       "すべてキャンセル",
     ),
@@ -621,9 +635,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_resume_all": MessageLookupByLibrary.simpleMessage(
       "すべて再開",
     ),
-    "downloader_info_checked": m22,
+    "downloader_info_checked": m24,
     "downloader_info_checking": MessageLookupByLibrary.simpleMessage("検証中"),
-    "downloader_info_checking_progress": m23,
+    "downloader_info_checking_progress": m25,
     "downloader_info_deleted": MessageLookupByLibrary.simpleMessage("削除済み"),
     "downloader_info_download_completed": MessageLookupByLibrary.simpleMessage(
       "ダウンロード完了",
@@ -635,9 +649,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "ダウンロード単位を入力してください。例：1、100k、10m、0または空白で制限なし。",
         ),
-    "downloader_info_download_upload_speed": m24,
-    "downloader_info_downloaded": m25,
-    "downloader_info_downloading": m26,
+    "downloader_info_download_upload_speed": m26,
+    "downloader_info_downloaded": m27,
+    "downloader_info_downloading": m28,
     "downloader_info_downloading_status": MessageLookupByLibrary.simpleMessage(
       "ダウンロード中...",
     ),
@@ -660,9 +674,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "速度制限設定が保存されました。次回のダウンローダー起動時に適用されます。",
         ),
-    "downloader_info_status": m27,
-    "downloader_info_total_size": m28,
-    "downloader_info_uploaded": m29,
+    "downloader_info_status": m29,
+    "downloader_info_total_size": m30,
+    "downloader_info_uploaded": m31,
     "downloader_info_waiting": MessageLookupByLibrary.simpleMessage("待機中"),
     "downloader_input_download_speed_limit":
         MessageLookupByLibrary.simpleMessage("ダウンロード制限："),
@@ -706,7 +720,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("DPS計算機 ローカリゼーション"),
     "home_action_external_browser_extension":
         MessageLookupByLibrary.simpleMessage("外部ブラウザ拡張機能："),
-    "home_action_info_abnormal_game_exit": m30,
+    "home_action_info_abnormal_game_exit": m32,
     "home_action_info_check_web_link": MessageLookupByLibrary.simpleMessage(
       "詳細情報を確認するには、ポップアップしたウェブリンクを確認してください。",
     ),
@@ -715,7 +729,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_action_info_game_built_in": MessageLookupByLibrary.simpleMessage(
       "ゲーム内蔵",
     ),
-    "home_action_info_initialization_failed": m31,
+    "home_action_info_initialization_failed": m33,
     "home_action_info_initializing_resources":
         MessageLookupByLibrary.simpleMessage("ローカリゼーションリソースを初期化中..."),
     "home_action_info_log_file_parse_fail":
@@ -730,7 +744,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Roberts Space Industries、すべての始まり",
         ),
-    "home_action_info_scan_complete_valid_directories_found": m32,
+    "home_action_info_scan_complete_valid_directories_found": m34,
     "home_action_info_scanning": MessageLookupByLibrary.simpleMessage(
       "スキャン中 ...",
     ),
@@ -787,7 +801,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "home_announcement_details": MessageLookupByLibrary.simpleMessage("お知らせ詳細"),
     "home_holiday_countdown": MessageLookupByLibrary.simpleMessage("祝日カウントダウン"),
-    "home_holiday_countdown_days": m33,
+    "home_holiday_countdown_days": m35,
     "home_holiday_countdown_disclaimer": MessageLookupByLibrary.simpleMessage(
       "* 上記の祝日日付は手動で収集・管理されており、誤りがある可能性があります。フィードバックを歓迎します！",
     ),
@@ -864,10 +878,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("p4kファイルを読み込み中..."),
     "home_localization_advanced_msg_reading_server_localization_text":
         MessageLookupByLibrary.simpleMessage("ローカリゼーションテキストを取得中..."),
-    "home_localization_advanced_msg_version": m34,
-    "home_localization_advanced_title": m35,
-    "home_localization_advanced_title_msg": m36,
-    "home_localization_advanced_title_preview": m37,
+    "home_localization_advanced_msg_version": m36,
+    "home_localization_advanced_title": m37,
+    "home_localization_advanced_title_msg": m38,
+    "home_localization_advanced_title_preview": m39,
     "home_localization_msg_no_note": MessageLookupByLibrary.simpleMessage(
       "このバージョンには説明がありません",
     ),
@@ -875,7 +889,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(" (高度なローカリゼーション)"),
     "home_localization_new_version_available":
         MessageLookupByLibrary.simpleMessage("ローカリゼーションの新しいバージョンが利用可能です！"),
-    "home_localization_new_version_installed": m38,
+    "home_localization_new_version_installed": m40,
     "home_localization_select_customize_file":
         MessageLookupByLibrary.simpleMessage("カスタムローカリゼーションファイルを選択してください"),
     "home_localization_select_customize_file_ini":
@@ -893,7 +907,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "この機能はゲームをより便利に起動するのに役立ちます。\n\nアカウントセキュリティを確保するために、この機能はローカリゼーションブラウザを使用してログイン状態を保持し、パスワード情報を保存しません（自動入力機能を有効にしていない限り）。\n\nこの機能を使用してアカウントにログインする場合は、信頼できるソースからSCToolboxをダウンロードしていることを確認してください。",
         ),
-    "home_login_info_rsi_server_report": m39,
+    "home_login_info_rsi_server_report": m41,
     "home_login_title_launching_game": MessageLookupByLibrary.simpleMessage(
       "ゲームを起動しています...",
     ),
@@ -920,7 +934,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "input_method_community_input_method_not_installed":
         MessageLookupByLibrary.simpleMessage("コミュニティ入力メソッドサポートがインストールされていません"),
-    "input_method_community_input_method_support_version": m42,
+    "input_method_community_input_method_support_version": m44,
     "input_method_confirm_enable_remote_input":
         MessageLookupByLibrary.simpleMessage("リモート入力を有効にしますか？"),
     "input_method_confirm_install_advanced_localization":
@@ -970,7 +984,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_support_updated": MessageLookupByLibrary.simpleMessage(
       "コミュニティ入力メソッドサポートが更新されました",
     ),
-    "input_method_support_updated_to_version": m43,
+    "input_method_support_updated_to_version": m45,
     "input_method_text_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
       "テキストを空にすることはできません！",
     ),
@@ -1002,9 +1016,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "localization_extension_update_available":
         MessageLookupByLibrary.simpleMessage("ローカライズ拡張の更新があります"),
-    "localization_extension_update_multiple": m44,
-    "localization_extension_update_single": m45,
-    "localization_info_channel": m46,
+    "localization_extension_update_multiple": m46,
+    "localization_extension_update_single": m47,
+    "localization_info_channel": m48,
     "localization_info_community_translation":
         MessageLookupByLibrary.simpleMessage("コミュニティローカリゼーション"),
     "localization_info_corrupted_file": MessageLookupByLibrary.simpleMessage(
@@ -1013,16 +1027,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_info_custom_files": MessageLookupByLibrary.simpleMessage(
       "カスタムファイル",
     ),
-    "localization_info_enabled": m47,
+    "localization_info_enabled": m49,
     "localization_info_incompatible_translation_params_warning":
         MessageLookupByLibrary.simpleMessage(
           "USER.cfgに互換性のないローカリゼーションパラメータが含まれています。これは以前のローカリゼーションファイルの残りである可能性があります。\n\nこれによりローカリゼーションが無効になったり文字化けしたりする可能性があります。確認をクリックすると、ワンクリックで削除されます（他の設定には影響しません）。",
         ),
-    "localization_info_installation_error": m48,
+    "localization_info_installation_error": m50,
     "localization_info_installed": MessageLookupByLibrary.simpleMessage(
       "インストール済み",
     ),
-    "localization_info_installed_version": m49,
+    "localization_info_installed_version": m51,
     "localization_info_language": MessageLookupByLibrary.simpleMessage(
       "言語：   ",
     ),
@@ -1043,14 +1057,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_info_unavailable": MessageLookupByLibrary.simpleMessage(
       "利用不可",
     ),
-    "localization_info_update_time": m50,
-    "localization_info_version_number": m51,
-    "log_analyzer_collision_details": m52,
-    "log_analyzer_death_details": m53,
+    "localization_info_update_time": m52,
+    "localization_info_version_number": m53,
+    "log_analyzer_collision_details": m54,
+    "log_analyzer_death_details": m55,
     "log_analyzer_description": MessageLookupByLibrary.simpleMessage(
       "プレイ記録を分析（ログイン、死亡、キルなどの情報）",
     ),
-    "log_analyzer_details_info": m54,
+    "log_analyzer_details_info": m56,
     "log_analyzer_disintegration": MessageLookupByLibrary.simpleMessage("崩壊"),
     "log_analyzer_filter_account_related": MessageLookupByLibrary.simpleMessage(
       "アカウント関連",
@@ -1088,9 +1102,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "ゲーム読み込み",
     ),
     "log_analyzer_game_start": MessageLookupByLibrary.simpleMessage("ゲーム起動"),
-    "log_analyzer_kill_death_suicide_count": m55,
+    "log_analyzer_kill_death_suicide_count": m57,
     "log_analyzer_kill_summary": MessageLookupByLibrary.simpleMessage("キル概要"),
-    "log_analyzer_mode_loading_time": m56,
+    "log_analyzer_mode_loading_time": m58,
     "log_analyzer_no_crash_detected": MessageLookupByLibrary.simpleMessage(
       "ゲームクラッシュ情報は検出されませんでした",
     ),
@@ -1100,9 +1114,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_one_click_diagnosis_header":
         MessageLookupByLibrary.simpleMessage("----- SCToolbox ワンクリック診断 -----"),
     "log_analyzer_play_time": MessageLookupByLibrary.simpleMessage("プレイ時間"),
-    "log_analyzer_play_time_format": m57,
-    "log_analyzer_player_location": m58,
-    "log_analyzer_player_login": m59,
+    "log_analyzer_play_time_format": m59,
+    "log_analyzer_player_location": m60,
+    "log_analyzer_player_login": m61,
     "log_analyzer_search_placeholder": MessageLookupByLibrary.simpleMessage(
       "キーワードを入力して内容を検索",
     ),
@@ -1111,7 +1125,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "log_analyzer_soft_death": MessageLookupByLibrary.simpleMessage("ソフト死亡"),
     "log_analyzer_title": MessageLookupByLibrary.simpleMessage("logアナライザ"),
-    "log_analyzer_vehicle_damage_details": m60,
+    "log_analyzer_vehicle_damage_details": m62,
     "log_analyzer_view_local_inventory": MessageLookupByLibrary.simpleMessage(
       "ローカルインベントリを表示",
     ),
@@ -1142,7 +1156,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "プロフィールの任意の場所にコードを追加してください。コードは30分間有効です",
     ),
     "party_room_confirm_dismiss": MessageLookupByLibrary.simpleMessage("解散を確認"),
-    "party_room_connect_error": m61,
+    "party_room_connect_error": m63,
     "party_room_connect_failed": MessageLookupByLibrary.simpleMessage(
       "接続に失敗しました",
     ),
@@ -1171,7 +1185,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "新しいルームを作成",
     ),
     "party_room_create_room": MessageLookupByLibrary.simpleMessage("ルームを作成"),
-    "party_room_days_ago": m62,
+    "party_room_days_ago": m64,
     "party_room_disconnected": MessageLookupByLibrary.simpleMessage(
       "接続が切断されました",
     ),
@@ -1202,7 +1216,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "party_room_error": MessageLookupByLibrary.simpleMessage("エラー"),
     "party_room_exit_room": MessageLookupByLibrary.simpleMessage("ルームを退出"),
-    "party_room_exit_room_failed": m63,
+    "party_room_exit_room_failed": m65,
     "party_room_game_id_empty": MessageLookupByLibrary.simpleMessage(
       "ゲームIDを入力してください",
     ),
@@ -1212,12 +1226,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_game_not_started": MessageLookupByLibrary.simpleMessage(
       "<ゲーム未起動>",
     ),
-    "party_room_get_code_failed": m64,
+    "party_room_get_code_failed": m66,
     "party_room_go_login": MessageLookupByLibrary.simpleMessage("ログイン"),
     "party_room_guest_mode_hint": MessageLookupByLibrary.simpleMessage(
       "ゲストとして閲覧中です。ログインするとルームの作成や参加が可能です。",
     ),
-    "party_room_hours_ago": m65,
+    "party_room_hours_ago": m67,
     "party_room_info_updated": MessageLookupByLibrary.simpleMessage(
       "ルーム情報が更新されました",
     ),
@@ -1232,8 +1246,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_just_now": MessageLookupByLibrary.simpleMessage("たった今"),
     "party_room_kick": MessageLookupByLibrary.simpleMessage("キック"),
     "party_room_kick_member": MessageLookupByLibrary.simpleMessage("メンバーをキック"),
-    "party_room_kick_member_confirm": m66,
-    "party_room_kick_member_failed": m67,
+    "party_room_kick_member_confirm": m68,
+    "party_room_kick_member_failed": m69,
     "party_room_kicked": MessageLookupByLibrary.simpleMessage("ルームからキックされました"),
     "party_room_leave_confirm": MessageLookupByLibrary.simpleMessage(
       "ルームを退出しますか？",
@@ -1244,13 +1258,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_link_format_error": MessageLookupByLibrary.simpleMessage(
       "リンク形式が正しくありません！",
     ),
-    "party_room_load_list_failed": m68,
+    "party_room_load_list_failed": m70,
     "party_room_loading": MessageLookupByLibrary.simpleMessage("読み込み中..."),
     "party_room_location": MessageLookupByLibrary.simpleMessage("場所"),
     "party_room_login": MessageLookupByLibrary.simpleMessage("ログイン"),
     "party_room_main_menu": MessageLookupByLibrary.simpleMessage("<メインメニュー>"),
-    "party_room_members_count": m69,
-    "party_room_minutes_ago": m70,
+    "party_room_members_count": m71,
+    "party_room_minutes_ago": m72,
     "party_room_need_login": MessageLookupByLibrary.simpleMessage("ログインが必要です"),
     "party_room_new_owner": MessageLookupByLibrary.simpleMessage("新しいオーナー"),
     "party_room_next_step": MessageLookupByLibrary.simpleMessage("次へ"),
@@ -1283,12 +1297,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_player_death": MessageLookupByLibrary.simpleMessage("プレイヤー死亡"),
     "party_room_prev_step": MessageLookupByLibrary.simpleMessage("前へ"),
     "party_room_reconnect": MessageLookupByLibrary.simpleMessage("再接続"),
-    "party_room_reconnect_failed": m71,
+    "party_room_reconnect_failed": m73,
     "party_room_reconnect_prompt": MessageLookupByLibrary.simpleMessage(
       "ルームサーバーとの接続が切断されました。再接続しますか？",
     ),
-    "party_room_reconnect_retry": m72,
-    "party_room_register_failed": m73,
+    "party_room_reconnect_retry": m74,
+    "party_room_register_failed": m75,
     "party_room_register_success": MessageLookupByLibrary.simpleMessage(
       "登録成功！",
     ),
@@ -1368,8 +1382,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_transfer_owner": MessageLookupByLibrary.simpleMessage(
       "オーナー権限を移譲",
     ),
-    "party_room_transfer_owner_confirm": m74,
-    "party_room_transfer_owner_failed": m75,
+    "party_room_transfer_owner_confirm": m76,
+    "party_room_transfer_owner_failed": m77,
     "party_room_unknown_area": MessageLookupByLibrary.simpleMessage("不明なエリア"),
     "party_room_unknown_location": MessageLookupByLibrary.simpleMessage(
       "不明な場所",
@@ -1411,7 +1425,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_action_super": MessageLookupByLibrary.simpleMessage("超高"),
     "performance_info_applied": MessageLookupByLibrary.simpleMessage("適用済み"),
-    "performance_info_current_status": m76,
+    "performance_info_current_status": m78,
     "performance_info_delete_config_file": MessageLookupByLibrary.simpleMessage(
       "設定ファイルを削除中...",
     ),
@@ -1425,7 +1439,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "この機能はグラフィックカードのボトルネックの最適化に役立ちますが、CPUのボトルネックには逆効果になることがあります。グラフィックカードの性能が高い場合は、より良い画質を使用してグラフィックカードの利用率を高めることができます。",
         ),
     "performance_info_graphics": MessageLookupByLibrary.simpleMessage("グラフィック"),
-    "performance_info_min_max_values": m77,
+    "performance_info_min_max_values": m79,
     "performance_info_not_applied": MessageLookupByLibrary.simpleMessage("未適用"),
     "performance_info_shader_clearing_warning":
         MessageLookupByLibrary.simpleMessage(
@@ -1593,7 +1607,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_water_info": MessageLookupByLibrary.simpleMessage(
       "様々な水のレベル",
     ),
-    "performance_title_performance_optimization": m78,
+    "performance_title_performance_optimization": m80,
     "setting_action_clear_translation_file_cache":
         MessageLookupByLibrary.simpleMessage("ローカリゼーションファイルキャッシュをクリア"),
     "setting_action_create_desktop_shortcut":
@@ -1606,7 +1620,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "setting_action_info_autofill_data_cleared":
         MessageLookupByLibrary.simpleMessage("自動入力データがクリアされました"),
-    "setting_action_info_cache_clearing_info": m79,
+    "setting_action_info_cache_clearing_info": m81,
     "setting_action_info_clear_cache_warning":
         MessageLookupByLibrary.simpleMessage("これはインストール済みのローカリゼーションには影響しません。"),
     "setting_action_info_confirm_clear_cache":
@@ -1658,7 +1672,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setting_action_reset_auto_password_fill":
         MessageLookupByLibrary.simpleMessage("自動パスワード入力をリセット"),
-    "setting_action_set_core_count": m80,
+    "setting_action_set_core_count": m82,
     "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
       "ゲームファイルを設定（StarCitizen.exe）",
     ),
@@ -1700,39 +1714,39 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_analytics_done": MessageLookupByLibrary.simpleMessage(
       "✓ AnalyticsApi.touch(\"launch\") 完了",
     ),
-    "splash_analytics_error": m81,
+    "splash_analytics_error": m83,
     "splash_analytics_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ AnalyticsApi.touch() タイムアウト (10秒) - 続行",
     ),
     "splash_app_init_done": MessageLookupByLibrary.simpleMessage(
       "✓ appModel.initApp() 完了",
     ),
-    "splash_app_init_error": m82,
+    "splash_app_init_error": m84,
     "splash_app_init_timeout": MessageLookupByLibrary.simpleMessage(
       "✗ appModel.initApp() タイムアウト (10秒)",
     ),
     "splash_aria2c_done": MessageLookupByLibrary.simpleMessage(
       "✓ aria2cModelProvider 初期化完了",
     ),
-    "splash_aria2c_error": m83,
+    "splash_aria2c_error": m85,
     "splash_check_host_done": MessageLookupByLibrary.simpleMessage(
       "✓ URLConf.checkHost() 完了",
     ),
-    "splash_check_host_error": m84,
+    "splash_check_host_error": m86,
     "splash_check_host_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ URLConf.checkHost() タイムアウト (10秒) - 続行",
     ),
     "splash_check_update_done": MessageLookupByLibrary.simpleMessage(
       "✓ appModel.checkUpdate() 完了",
     ),
-    "splash_check_update_error": m85,
+    "splash_check_update_error": m87,
     "splash_check_update_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ appModel.checkUpdate() タイムアウト (10秒) - 続行",
     ),
     "splash_check_version": MessageLookupByLibrary.simpleMessage(
       "splash_alert_info_versionを確認中...",
     ),
-    "splash_close_hive_failed": m86,
+    "splash_close_hive_failed": m88,
     "splash_context_unmounted": MessageLookupByLibrary.simpleMessage(
       "✗ Contextがアンマウントされました",
     ),
@@ -1748,16 +1762,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_db_deleted": MessageLookupByLibrary.simpleMessage(
       "[診断] データベースディレクトリを削除しました",
     ),
-    "splash_db_not_exist": m87,
+    "splash_db_not_exist": m89,
     "splash_db_reset_done": MessageLookupByLibrary.simpleMessage(
       "[診断] データベースリセット完了、アプリケーション終了準備中",
     ),
     "splash_db_reset_msg": MessageLookupByLibrary.simpleMessage(
       "データベースがリセットされました。アプリケーションは終了します。アプリケーションを再起動してください。",
     ),
-    "splash_deleting_db": m88,
-    "splash_diagnostic_log": m89,
-    "splash_diagnostic_mode": m90,
+    "splash_deleting_db": m90,
+    "splash_diagnostic_log": m91,
+    "splash_diagnostic_mode": m92,
     "splash_error": MessageLookupByLibrary.simpleMessage("エラー"),
     "splash_exec_analytics": MessageLookupByLibrary.simpleMessage(
       "AnalyticsApi.touch(\"launch\")を実行中...",
@@ -1771,13 +1785,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_exec_check_update": MessageLookupByLibrary.simpleMessage(
       "appModel.checkUpdate()を実行中...",
     ),
+    "splash_free_software_notice_handled": MessageLookupByLibrary.simpleMessage(
+      "✓ 無料ソフトウェア声明ダイアログ処理済み",
+    ),
     "splash_hive_boxes_closed": MessageLookupByLibrary.simpleMessage(
       "[診断] Hive boxesを閉じました",
     ),
     "splash_hive_done": MessageLookupByLibrary.simpleMessage(
       "✓ Hive.openBox(\"app_conf\") 完了",
     ),
-    "splash_hive_error": m91,
+    "splash_hive_error": m93,
     "splash_hive_timeout": MessageLookupByLibrary.simpleMessage(
       "✗ Hive.openBox(\"app_conf\") タイムアウト (10秒)",
     ),
@@ -1787,22 +1804,25 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_init_task_status": MessageLookupByLibrary.simpleMessage(
       "初期化タスクの状態：",
     ),
-    "splash_log_not_exist": m92,
-    "splash_log_read_done": m93,
+    "splash_log_not_exist": m94,
+    "splash_log_read_done": m95,
     "splash_open_hive_box": MessageLookupByLibrary.simpleMessage(
       "Hive app_conf boxを開いています...",
     ),
     "splash_read_full_log": MessageLookupByLibrary.simpleMessage("完全なログを読み取り"),
-    "splash_read_log_failed": m94,
+    "splash_read_log_failed": m96,
     "splash_reset_database": MessageLookupByLibrary.simpleMessage(
       "データベースをリセット",
     ),
-    "splash_reset_db_failed": m95,
+    "splash_reset_db_failed": m97,
     "splash_show_agreement": MessageLookupByLibrary.simpleMessage(
       "ユーザー同意ダイアログを表示する必要があります...",
     ),
-    "splash_start_init": m96,
-    "splash_start_read_log": m97,
+    "splash_show_free_software_notice": MessageLookupByLibrary.simpleMessage(
+      "無料ソフトウェア声明ダイアログを表示する必要があります...",
+    ),
+    "splash_start_init": m98,
+    "splash_start_read_log": m99,
     "splash_step0_done": MessageLookupByLibrary.simpleMessage(
       "--- ステップ0完了、ステップ1に進みます ---",
     ),
@@ -1872,13 +1892,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "クリーンアップが完了しました。インストールまたはゲーム起動操作を完了してください。",
     ),
-    "tools_action_info_cleanup_failed": m98,
+    "tools_action_info_cleanup_failed": m100,
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage("設定ファイルが存在しません。一度ゲームを実行してみてください"),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
       "EACファイルが削除されました。次にRSIランチャーを開きます。SETTINGS -> VERIFYに移動してEACを再インストールしてください。",
     ),
-    "tools_action_info_error_occurred": m99,
+    "tools_action_info_error_occurred": m101,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
       "修復が成功しました。コンピュータを再起動してからゲームのインストールを続けてみてください！レジストリの変更が他のソフトウェアに互換性の問題を引き起こす場合は、ツールの「NVMEレジストリクリーナー」を使用してください。",
     ),
@@ -1888,7 +1908,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "IP情報をHostsファイルに書き込み、一部の地域でのDNS汚染による公式サイトへのログイン問題などを解決します。\nこの機能は第一段階のテスト中です。問題が発生した場合はすぐにフィードバックしてください。",
         ),
-    "tools_action_info_init_failed": m100,
+    "tools_action_info_init_failed": m102,
     "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
       "ログファイルが存在しません。ゲームを一度起動またはインストールしてから、ランチャーを終了してください。問題が解決しない場合は、ランチャーを最新バージョンに更新してみてください！",
     ),
@@ -1902,7 +1922,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_not_installed": MessageLookupByLibrary.simpleMessage(
       "インストールされていません",
     ),
-    "tools_action_info_nvme_patch_issue": m101,
+    "tools_action_info_nvme_patch_issue": m103,
     "tools_action_info_one_key_close_lens_shake":
         MessageLookupByLibrary.simpleMessage(
           "ゲーム内のレンズの揺れをワンクリックでオフにして、撮影操作を容易にします。\n\n @拉邦那 Lapernum 提供のパラメータ情報。",
@@ -1911,7 +1931,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "p4kのダウンロードタスクが既に進行中です。ダウンロードマネージャーで確認してください！",
         ),
-    "tools_action_info_p4k_download_repair_tip": m102,
+    "tools_action_info_p4k_download_repair_tip": m104,
     "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
       "P4kはStar Citizenのコアゲームファイルで、100GB以上のサイズです。SCToolboxが提供するオフラインダウンロードは、p4kファイルのダウンロードが非常に遅いユーザーをサポートするため、または公式ランチャーで修復できないp4kファイルを修正するためのものです。\n\n次に保存先を選択するダイアログが表示されます（Star Citizenフォルダでも他の場所でも選択可能）。ダウンロード完了後、P4KファイルがLIVEフォルダ内にあることを確認し、Star Citizenランチャーで検証と更新を行ってください。",
     ),
@@ -1928,7 +1948,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "RSIランチャーディレクトリが見つかりません。手動で操作してください。",
         ),
-    "tools_action_info_rsi_launcher_log_issue": m103,
+    "tools_action_info_rsi_launcher_log_issue": m105,
     "tools_action_info_rsi_launcher_not_found":
         MessageLookupByLibrary.simpleMessage(
           "RSIランチャーが見つかりません。再インストールするか、設定で手動で追加してください。",
@@ -1940,12 +1960,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
       "RSIランチャーを管理者権限で実行すると、一部の問題が解決する場合があります。\n\n効率コア無視パラメータを設定している場合は、ここでも適用されます。",
     ),
-    "tools_action_info_shader_cache_issue": m104,
+    "tools_action_info_shader_cache_issue": m106,
     "tools_action_info_star_citizen_not_found":
         MessageLookupByLibrary.simpleMessage(
           "Star Citizenゲームのインストール場所が見つかりません。少なくとも1回ゲームを起動するか、設定で手動で追加してください。",
         ),
-    "tools_action_info_system_info_content": m105,
+    "tools_action_info_system_info_content": m107,
     "tools_action_info_system_info_title": MessageLookupByLibrary.simpleMessage(
       "システム情報",
     ),
@@ -2009,7 +2029,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "ゲームインストール場所：  ",
     ),
-    "tools_info_processing_failed": m108,
+    "tools_info_processing_failed": m110,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSIランチャー場所：",
     ),
@@ -2031,15 +2051,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage("ランチャー情報の読み込みに失敗しました！"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m109,
+        m111,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("RSIランチャーが見つかりません"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m110,
+    "tools_rsi_launcher_enhance_msg_patch_status": m112,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
           "* 機能強化パッチをアンインストールするには、RSIランチャーを上書きインストールしてください。",
         ),
-    "tools_rsi_launcher_enhance_msg_version": m111,
+    "tools_rsi_launcher_enhance_msg_version": m113,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSIランチャー機能強化はコミュニティ機能で、お使いのコンピューターで「RSI Launcher」を解凍し、追加の機能強化を加えます。どの機能を使用するかはあなた次第です。\n\n現在、公式（CIG）は多言語操作のみを許可していますが、ランチャーダウンロード機能強化は私たちが有用だと考える追加機能です。cigユーザー契約（https://robertsspaceindustries.com/eula）に違反すると、アカウント禁止などの深刻な結果を招く可能性があり、使用するかどうかはあなた自身の判断によります。私たちは発生する可能性のある結果（ゲームの損傷、アカウント禁止など）に対して責任を負いません。\n\nランチャーの変更内容については、https://github.com/StarCitizenToolBox/RSILauncherEnhanceでオープンソースとして公開しています。必要に応じて確認できます。\n\n何らかの理由でこの機能強化パッチをキャンセルする必要がある場合は、公式ランチャーを直接上書きインストールしてください。",
     ),
@@ -2086,18 +2106,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "この機能を使用するには.NET8ランタイムをインストールする必要があります。下のボタンをクリックしてダウンロードしてインストールし、インストールが成功したらこのページを再度開いて使用を続行してください。",
     ),
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初期化中..."),
-    "tools_unp4k_msg_open_file": m121,
-    "tools_unp4k_msg_read_completed": m122,
-    "tools_unp4k_msg_read_file": m123,
+    "tools_unp4k_msg_open_file": m123,
+    "tools_unp4k_msg_read_completed": m124,
+    "tools_unp4k_msg_read_file": m125,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "P4Kファイルを読み込み中...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "ファイルを処理中...",
     ),
-    "tools_unp4k_msg_reading3": m124,
-    "tools_unp4k_msg_unknown_file_type": m125,
-    "tools_unp4k_title": m126,
+    "tools_unp4k_msg_reading3": m126,
+    "tools_unp4k_msg_unknown_file_type": m127,
+    "tools_unp4k_title": m128,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "プレビューするファイルをクリック",
     ),
@@ -2110,7 +2130,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("招待総数："),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("未完了の招待"),
-    "yearly_report_account_count": m127,
+    "yearly_report_account_count": m129,
     "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
       "すべてのアカウントを表示",
     ),
@@ -2120,12 +2140,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_account_title": MessageLookupByLibrary.simpleMessage(
       "アカウント統計",
     ),
-    "yearly_report_account_total": m128,
+    "yearly_report_account_total": m130,
     "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
       "ゲームログデータを分析中",
     ),
-    "yearly_report_card_desc": m129,
-    "yearly_report_card_title": m130,
+    "yearly_report_card_desc": m131,
+    "yearly_report_card_title": m132,
     "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
       "今年の不安定な瞬間",
     ),
@@ -2141,13 +2161,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage(
       "ゲームクラッシュ回数",
     ),
-    "yearly_report_date_range": m131,
+    "yearly_report_date_range": m133,
     "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
       "データはローカルログから生成され、第三者に送信されることはありません。バージョン間のログの大幅な変更により、データが不完全な場合があります。娯楽目的のみ。",
     ),
-    "yearly_report_duration_hours_minutes": m132,
-    "yearly_report_duration_minutes": m133,
-    "yearly_report_earliest_play_desc": m134,
+    "yearly_report_duration_hours_minutes": m134,
+    "yearly_report_duration_minutes": m135,
+    "yearly_report_earliest_play_desc": m136,
     "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
       "最も早いプレイ",
     ),
@@ -2167,7 +2187,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage("自殺"),
     "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage("キル統計"),
-    "yearly_report_latest_play_desc": m135,
+    "yearly_report_latest_play_desc": m137,
     "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
       "最も遅いプレイ",
     ),
@@ -2180,7 +2200,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
       "ゲーム起動回数",
     ),
-    "yearly_report_launch_count_value": m136,
+    "yearly_report_launch_count_value": m138,
     "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
       "よく行く場所",
     ),
@@ -2193,13 +2213,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
       "場所統計",
     ),
-    "yearly_report_month_format": m137,
+    "yearly_report_month_format": m139,
     "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage(
       "最少プレイ",
     ),
-    "yearly_report_monthly_least_count": m138,
+    "yearly_report_monthly_least_count": m140,
     "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage("最多プレイ"),
-    "yearly_report_monthly_most_count": m139,
+    "yearly_report_monthly_most_count": m141,
     "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage("月間統計"),
     "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("次へ"),
     "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("前のページ"),
@@ -2214,12 +2234,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "プレイ時間",
     ),
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("時間"),
-    "yearly_report_play_time_value": m140,
+    "yearly_report_play_time_value": m142,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
       "SCToolbox 提供",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
-    "yearly_report_session_date": m141,
+    "yearly_report_session_date": m143,
     "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage("最長"),
     "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
       "(最短は5分以上のセッションのみ集計)",
@@ -2257,13 +2277,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
       "リスポーン回数",
     ),
-    "yearly_report_thanks_message": m142,
-    "yearly_report_thanks_next": m143,
+    "yearly_report_thanks_message": m144,
+    "yearly_report_thanks_next": m145,
     "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
       "ご愛顧ありがとうございます",
     ),
-    "yearly_report_title": m144,
-    "yearly_report_vehicle_destruction_count": m145,
+    "yearly_report_title": m146,
+    "yearly_report_vehicle_destruction_count": m147,
     "yearly_report_vehicle_destruction_desc":
         MessageLookupByLibrary.simpleMessage("今年あなたは破壊しました"),
     "yearly_report_vehicle_destruction_most":
@@ -2274,8 +2294,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("隻の船"),
     "yearly_report_vehicle_pilot_collapse":
         MessageLookupByLibrary.simpleMessage("詳細を折りたたむ"),
-    "yearly_report_vehicle_pilot_count": m146,
-    "yearly_report_vehicle_pilot_expand": m147,
+    "yearly_report_vehicle_pilot_count": m148,
+    "yearly_report_vehicle_pilot_expand": m149,
     "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
       "最も操縦したビークル",
     ),
@@ -2288,6 +2308,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
       "Star Citizenでの思い出深い瞬間を振り返る",
     ),
-    "yearly_report_welcome_title": m148,
+    "yearly_report_welcome_title": m150,
   };
 }

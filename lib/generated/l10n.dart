@@ -3631,6 +3631,56 @@ class S {
     );
   }
 
+  /// `Free Software Notice`
+  String get app_splash_free_software_notice {
+    return Intl.message(
+      'Free Software Notice',
+      name: 'app_splash_free_software_notice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This application is open-source free software. We strongly condemn any form of resale. If you paid any third party to obtain this software, please report it immediately and request a refund.\n\nTo confirm that you understand, enter {v0} below`
+  String app_splash_free_software_notice_content(Object v0) {
+    return Intl.message(
+      'This application is open-source free software. We strongly condemn any form of resale. If you paid any third party to obtain this software, please report it immediately and request a refund.\n\nTo confirm that you understand, enter $v0 below',
+      name: 'app_splash_free_software_notice_content',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `This is free software`
+  String get app_splash_free_software_notice_confirm_text {
+    return Intl.message(
+      'This is free software',
+      name: 'app_splash_free_software_notice_confirm_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter {v0}`
+  String app_splash_free_software_notice_input_hint(Object v0) {
+    return Intl.message(
+      'Enter $v0',
+      name: 'app_splash_free_software_notice_input_hint',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Continue`
+  String get app_splash_free_software_notice_confirm {
+    return Intl.message(
+      'Continue',
+      name: 'app_splash_free_software_notice_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Initializing...`
   String get tools_unp4k_msg_init {
     return Intl.message(
@@ -7694,6 +7744,26 @@ class S {
       name: 'splash_analytics_error',
       desc: '',
       args: [v0],
+    );
+  }
+
+  /// `Need to show free software notice dialog...`
+  String get splash_show_free_software_notice {
+    return Intl.message(
+      'Need to show free software notice dialog...',
+      name: 'splash_show_free_software_notice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `✓ Free software notice dialog handled`
+  String get splash_free_software_notice_handled {
+    return Intl.message(
+      '✓ Free software notice dialog handled',
+      name: 'splash_free_software_notice_handled',
+      desc: '',
+      args: [],
     );
   }
 
