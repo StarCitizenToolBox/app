@@ -188,7 +188,7 @@ class ToolsUI extends HookConsumerWidget {
         const SizedBox(width: 6),
         Expanded(
           child: SizedBox(
-            height: 36,
+            height: 40,
             child: ComboBox<String>(
               isExpanded: true,
               value: state.scInstalledPath,
@@ -231,7 +231,7 @@ class ToolsUI extends HookConsumerWidget {
         const SizedBox(width: 6),
         Expanded(
           child: SizedBox(
-            height: 36,
+            height: 40,
             child: ComboBox<String>(
               isExpanded: true,
               value: state.rsiLauncherInstalledPath,

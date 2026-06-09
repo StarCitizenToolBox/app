@@ -23,6 +23,8 @@ export '../common/utils/async.dart';
 export '../common/utils/base_utils.dart';
 export 'package:starcitizen_doctor/generated/l10n.dart';
 
+const double kTitleBarContentLeftPadding = 18;
+
 Widget makeLoading(BuildContext context, {double? width}) {
   width ??= 30;
   return Center(
@@ -44,7 +46,7 @@ Widget makeDefaultPage(
       height: 50,
       child: Row(
         children: [
-          const SizedBox(width: 4),
+          const SizedBox(width: kTitleBarContentLeftPadding),
           if (automaticallyImplyLeading && context.canPop())
             IconButton(
               icon: const Icon(FluentIcons.back),
