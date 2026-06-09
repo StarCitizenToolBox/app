@@ -4,6 +4,10 @@ use asar::{AsarReader, AsarWriter};
 use tokio::fs;
 use walkdir::WalkDir;
 
+const RSI_LAUNCHER_MAIN_JS_PREFIXES: [&str; 2] =
+    ["app/launcher/static/js/main.", "app/static/js/main."];
+const RSI_LAUNCHER_MAIN_JS_SUFFIX: &str = ".js";
+
 pub struct RsiLauncherAsarData {
     pub asar_path: String,
     pub main_js_path: String,
@@ -72,12 +76,12 @@ pub async fn get_rsi_launcher_asar_data(asar_path: &str) -> anyhow::Result<RsiLa
     asar.files().iter().for_each(|v| {
         let (path, file) = v;
         let path_string = path.clone().into_os_string().into_string().unwrap();
-        let path_start = if cfg!(target_os = "windows") {
-            "app\\static\\js\\main."
-        } else {
-            "app/static/js/main."
-        };
-        if path_string.starts_with(path_start) && path_string.ends_with(".js") {
+        let normalized_path = path_string.replace('\\', "/");
+        if RSI_LAUNCHER_MAIN_JS_PREFIXES
+            .iter()
+            .any(|prefix| normalized_path.starts_with(prefix))
+            && normalized_path.ends_with(RSI_LAUNCHER_MAIN_JS_SUFFIX)
+        {
             main_js_path = path_string;
             main_js_content = file.data().to_vec();
         }
