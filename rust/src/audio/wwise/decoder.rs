@@ -302,6 +302,7 @@ where
     Ok(ogg_bytes)
 }
 
+#[cfg(test)]
 pub(crate) fn decode_wem_vorbis_to_ogg(wem: &[u8]) -> Result<Vec<u8>> {
     decode_wem_vorbis_to_ogg_with_cancel(wem, &|| false)
 }
@@ -344,10 +345,6 @@ where
     ))
 }
 
-pub(crate) fn decode_wem_vorbis_to_wav(wem: &[u8]) -> Result<Vec<u8>> {
-    decode_wem_vorbis_to_wav_with_cancel(wem, &|| false)
-}
-
 pub(crate) fn decode_wem_vorbis_to_wav_with_cancel<F>(
     wem: &[u8],
     is_cancelled: &F,
@@ -359,6 +356,7 @@ where
     decode_ogg_bytes_to_wav(&ogg)
 }
 
+#[cfg(test)]
 pub(crate) fn decode_wem_to_wav(wem: &[u8]) -> Result<Vec<u8>> {
     decode_wem_to_wav_with_cancel(wem, &|| false)
 }
@@ -460,7 +458,6 @@ pub(crate) struct WemStreamInfo {
     pub codec: WwiseCodec,
     pub channels: u16,
     pub sample_rate: u32,
-    pub bits_per_sample: u16,
     pub total_samples: usize,
 }
 
@@ -482,7 +479,6 @@ pub(crate) fn get_wem_stream_info(wem: &[u8]) -> Result<WemStreamInfo> {
         codec: header.codec,
         channels: header.channels,
         sample_rate: header.sample_rate,
-        bits_per_sample: header.bits_per_sample,
         total_samples,
     })
 }
@@ -522,7 +518,6 @@ where
         return Err(anyhow!("invalid PCM WEM: zero frame size"));
     }
 
-    let samples_per_frame = bytes_per_frame / bytes_per_sample;
     let sample_rate = header.sample_rate as usize;
     let chunk_frames = sample_rate.saturating_mul(chunk_duration_ms as usize / 1000);
     let chunk_bytes = chunk_frames.saturating_mul(bytes_per_frame);

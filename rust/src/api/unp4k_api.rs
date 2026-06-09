@@ -1,17 +1,17 @@
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use flutter_rust_bridge::frb;
 use image::{DynamicImage, ImageFormat, RgbaImage};
 use image_dds::{ddsfile::Dds, image_from_dds};
 use rayon::prelude::*;
 use serde::Serialize;
+use starbreaker_datacore::{Database, OwnedDatabase};
+use starbreaker_p4k::{MappedP4k, P4kEntry};
 use std::collections::HashMap;
 use std::fs;
 use std::io::Cursor;
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
-use starbreaker_datacore::{Database, OwnedDatabase};
-use starbreaker_p4k::{MappedP4k, P4kEntry};
 
 pub type DataForge = OwnedDatabase;
 
@@ -775,7 +775,7 @@ pub async fn p4k_debug_dds_parts(file_path: String) -> Result<DdsDebugInfo> {
 mod tests {
     use super::{decode_image_for_preview, has_dds_signature, reconstruct_dds_stream};
     use crate::audio::wwise::decode_wem_vorbis_to_ogg;
-    use anyhow::{Result, anyhow};
+    use anyhow::{anyhow, Result};
     use image::ImageFormat;
     use std::fs;
     use std::io::Cursor;
@@ -791,7 +791,8 @@ mod tests {
         let target_dir = PathBuf::from("../dds_target");
         let base_path = target_dir.join(base_name);
         if !base_path.exists() {
-            return Err(anyhow!("sample not found: {}", base_path.display()));
+            println!("[SKIP] sample not found: {}", base_path.display());
+            return Ok(());
         }
 
         let base_dds = read_file(&base_path)?;
@@ -868,7 +869,8 @@ mod tests {
     fn convert_all_dds_target_files_to_png() -> Result<()> {
         let target_dir = PathBuf::from("../dds_target");
         if !target_dir.exists() {
-            return Err(anyhow!("dds_target not found: {}", target_dir.display()));
+            println!("[SKIP] dds_target not found: {}", target_dir.display());
+            return Ok(());
         }
 
         let mut dds_targets = Vec::new();
@@ -1376,7 +1378,7 @@ pub async fn p4k_decode_wem_to_wav_stream(
             &is_cancelled,
         );
 
-        let (codec, ch, sr, frames) = match result {
+        let (_codec, ch, sr, frames) = match result {
             Ok(r) => r,
             Err(e) => {
                 let err_msg = if e.to_string().contains("wem decode cancelled") {
@@ -1583,206 +1585,6 @@ fn compute_waveform_from_pcm(pcm: &[i16], points: usize) -> Vec<f64> {
     }
     result.truncate(points);
     result
-}
-
-fn build_wav_from_pcm(channels: u16, sample_rate: u32, pcm: &[i16]) -> Result<Vec<u8>> {
-    let mut payload = vec![0u8; pcm.len() * 2];
-    for (i, sample) in pcm.iter().enumerate() {
-        let b = sample.to_le_bytes();
-        payload[i * 2] = b[0];
-        payload[i * 2 + 1] = b[1];
-    }
-
-    let block_align = channels.saturating_mul(2);
-    let avg_bytes_per_sec = sample_rate.saturating_mul(block_align as u32);
-
-    let mut wav = Vec::<u8>::with_capacity(44 + payload.len());
-    wav.extend_from_slice(b"RIFF");
-    wav.extend_from_slice(&(36u32.saturating_add(payload.len() as u32)).to_le_bytes());
-    wav.extend_from_slice(b"WAVE");
-    wav.extend_from_slice(b"fmt ");
-    wav.extend_from_slice(&16u32.to_le_bytes());
-    wav.extend_from_slice(&1u16.to_le_bytes());
-    wav.extend_from_slice(&channels.to_le_bytes());
-    wav.extend_from_slice(&sample_rate.to_le_bytes());
-    wav.extend_from_slice(&avg_bytes_per_sec.to_le_bytes());
-    wav.extend_from_slice(&block_align.to_le_bytes());
-    wav.extend_from_slice(&16u16.to_le_bytes());
-    wav.extend_from_slice(b"data");
-    wav.extend_from_slice(&(payload.len() as u32).to_le_bytes());
-    wav.extend_from_slice(&payload);
-    Ok(wav)
-}
-
-fn compute_waveform_from_wav(wav: &[u8]) -> Vec<f64> {
-    let points = 160usize;
-    if wav.len() < 44 {
-        return vec![0.0; points];
-    }
-
-    if &wav[0..4] != b"RIFF" || &wav[8..12] != b"WAVE" {
-        return vec![0.0; points];
-    }
-
-    let mut data_offset: Option<usize> = None;
-    let mut data_length: Option<usize> = None;
-    let mut channels: Option<u16> = None;
-    let mut bits_per_sample: Option<u16> = None;
-    let mut offset = 12;
-
-    while offset + 8 <= wav.len() {
-        let chunk_id = &wav[offset..offset + 4];
-        let chunk_size = u32::from_le_bytes([
-            wav[offset + 4],
-            wav[offset + 5],
-            wav[offset + 6],
-            wav[offset + 7],
-        ]) as usize;
-        let chunk_data_start = offset + 8;
-
-        if chunk_id == b"fmt " && chunk_size >= 16 {
-            channels = Some(u16::from_le_bytes([
-                wav[chunk_data_start + 2],
-                wav[chunk_data_start + 3],
-            ]));
-            bits_per_sample = Some(u16::from_le_bytes([
-                wav[chunk_data_start + 14],
-                wav[chunk_data_start + 15],
-            ]));
-        } else if chunk_id == b"data" {
-            data_offset = Some(chunk_data_start);
-            data_length = Some(chunk_size);
-        }
-
-        offset = chunk_data_start + chunk_size + (chunk_size % 2);
-    }
-
-    let data_offset = match data_offset {
-        Some(o) => o,
-        None => return vec![0.0; points],
-    };
-    let data_length = match data_length {
-        Some(l) => l,
-        None => return vec![0.0; points],
-    };
-    let _channels = channels.unwrap_or(2);
-    let bits = bits_per_sample.unwrap_or(16);
-
-    let pcm_data = &wav[data_offset..data_offset + data_length.min(wav.len() - data_offset)];
-
-    if bits == 16 {
-        let sample_count = pcm_data.len() / 2;
-        if sample_count == 0 {
-            return vec![0.0; points];
-        }
-        let bucket = (sample_count / points).max(1);
-        let mut result = Vec::with_capacity(points);
-        for i in (0..sample_count).step_by(bucket) {
-            let end = (i + bucket).min(sample_count);
-            let mut peak = 0.0f64;
-            for j in i..end {
-                let sample = (i16::from_le_bytes([pcm_data[j * 2], pcm_data[j * 2 + 1]]) as f64)
-                    .abs()
-                    / 32768.0;
-                if sample > peak {
-                    peak = sample;
-                }
-            }
-            result.push(peak.clamp(0.0, 1.0));
-        }
-        result
-    } else {
-        let bucket = (pcm_data.len() / points).max(1);
-        let mut result = Vec::with_capacity(points);
-        for i in (0..pcm_data.len()).step_by(bucket) {
-            let end = (i + bucket).min(pcm_data.len());
-            let mut peak = 0.0f64;
-            for j in i..end {
-                let sample = (pcm_data[j] as i32 - 128).abs() as f64 / 128.0;
-                if sample > peak {
-                    peak = sample;
-                }
-            }
-            result.push(peak.clamp(0.0, 1.0));
-        }
-        result
-    }
-}
-
-fn estimate_duration_from_wav(wav: &[u8]) -> i32 {
-    if wav.len() < 44 {
-        return 0;
-    }
-
-    if &wav[0..4] != b"RIFF" || &wav[8..12] != b"WAVE" {
-        return 0;
-    }
-
-    let mut sample_rate: Option<u32> = None;
-    let mut channels: Option<u16> = None;
-    let mut bits_per_sample: Option<u16> = None;
-    let mut data_length: Option<usize> = None;
-    let mut offset = 12;
-
-    while offset + 8 <= wav.len() {
-        let chunk_id = &wav[offset..offset + 4];
-        let chunk_size = u32::from_le_bytes([
-            wav[offset + 4],
-            wav[offset + 5],
-            wav[offset + 6],
-            wav[offset + 7],
-        ]) as usize;
-        let chunk_data_start = offset + 8;
-
-        if chunk_id == b"fmt " && chunk_size >= 16 {
-            channels = Some(u16::from_le_bytes([
-                wav[chunk_data_start + 2],
-                wav[chunk_data_start + 3],
-            ]));
-            sample_rate = Some(u32::from_le_bytes([
-                wav[chunk_data_start + 4],
-                wav[chunk_data_start + 5],
-                wav[chunk_data_start + 6],
-                wav[chunk_data_start + 7],
-            ]));
-            bits_per_sample = Some(u16::from_le_bytes([
-                wav[chunk_data_start + 14],
-                wav[chunk_data_start + 15],
-            ]));
-        } else if chunk_id == b"data" {
-            data_length = Some(chunk_size);
-        }
-
-        offset = chunk_data_start + chunk_size + (chunk_size % 2);
-    }
-
-    let sample_rate = match sample_rate {
-        Some(s) => s,
-        None => return 0,
-    };
-    let channels = match channels {
-        Some(c) => c,
-        None => return 0,
-    };
-    let bits = match bits_per_sample {
-        Some(b) => b,
-        None => return 0,
-    };
-    let data_length = match data_length {
-        Some(l) => l,
-        None => return 0,
-    };
-
-    if sample_rate == 0 || channels == 0 || bits == 0 {
-        return 0;
-    }
-
-    let bytes_per_second = sample_rate as f64 * channels as f64 * (bits as f64 / 8.0);
-    if bytes_per_second <= 0.0 {
-        return 0;
-    }
-
-    ((data_length as f64 / bytes_per_second) * 1000.0) as i32
 }
 
 /// 关闭 P4K 读取器
@@ -2032,7 +1834,10 @@ pub async fn dcb_export_to_disk(output_path: String, dcb_path: String, merge: bo
             for index in 0..db.records().len() {
                 let path = dcb_record_path(&db, index);
                 let file_name = sanitize_dcb_export_file_name(&path);
-                fs::write(output.join(format!("{file_name}.xml")), dcb_record_xml(&db, index)?)?;
+                fs::write(
+                    output.join(format!("{file_name}.xml")),
+                    dcb_record_xml(&db, index)?,
+                )?;
             }
         }
 

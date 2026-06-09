@@ -128,7 +128,6 @@ mod large_file_tests {
                 println!("  Codec: {:?}", info.codec);
                 println!("  Channels: {}", info.channels);
                 println!("  Sample rate: {}", info.sample_rate);
-                println!("  Bits per sample: {}", info.bits_per_sample);
                 println!("  Total samples: {}", info.total_samples);
             }
             Ok(Err(e)) => {
