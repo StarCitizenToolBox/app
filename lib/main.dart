@@ -37,9 +37,11 @@ Future<void> main(List<String> args) async {
 }
 
 Future<void> _initWindow() async {
-  // Initialize flutter_acrylic before runApp (same as official example)
-  await Window.initialize();
-  await Window.hideWindowControls();
+  if (Platform.isWindows) {
+    // Initialize flutter_acrylic before runApp (same as official example).
+    await Window.initialize();
+    await Window.hideWindowControls();
+  }
   await windowManager.setTitleBarStyle(TitleBarStyle.hidden, windowButtonVisibility: false);
   await windowManager.setSize(const Size(1280, 810));
   await windowManager.setMinimumSize(const Size(1280, 810));

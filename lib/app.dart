@@ -155,18 +155,21 @@ class AppGlobalModel extends _$AppGlobalModel {
       }
       state = state.copyWith(deviceUUID: deviceUUID, appLocale: locale);
     } catch (e) {
-      await win32.setForegroundWindow(windowName: "SCToolBox");
+      if (Platform.isWindows) {
+        await win32.setForegroundWindow(windowName: "SCToolBox");
+      }
       dPrint("exit: db is locking ...");
       exit(0);
     }
 
-    // get windows info
     WindowsDeviceInfo? windowsDeviceInfo;
-    try {
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      windowsDeviceInfo = await deviceInfo.windowsInfo;
-    } catch (e) {
-      dPrint("DeviceInfo.windowsInfo error: $e");
+    if (Platform.isWindows) {
+      try {
+        final deviceInfo = DeviceInfoPlugin();
+        windowsDeviceInfo = await deviceInfo.windowsInfo;
+      } catch (e) {
+        dPrint("DeviceInfo.windowsInfo error: ${e.runtimeType}");
+      }
     }
 
     // init windows
@@ -174,14 +177,19 @@ class AppGlobalModel extends _$AppGlobalModel {
       await windowManager.setTitle("SCToolBox");
       await windowManager.setSkipTaskbar(false);
       if (Platform.isWindows) {
-        if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
-          // Apply acrylic effect before showing window
-          await Window.setEffect(effect: WindowEffect.acrylic, color: Colors.transparent, dark: true);
-          state = state.copyWith(windowsVersion: 11);
-          dPrint("---- Windows 11 Acrylic Effect applied -----");
-        } else {
+        try {
+          if (_isWindows11OrGreater(windowsDeviceInfo)) {
+            // Apply acrylic effect before showing window.
+            await Window.setEffect(effect: WindowEffect.acrylic, color: Colors.transparent, dark: true);
+            state = state.copyWith(windowsVersion: 11);
+            dPrint("---- Windows 11 Acrylic Effect applied -----");
+          } else {
+            state = state.copyWith(windowsVersion: 10);
+            await Window.setEffect(effect: WindowEffect.disabled);
+          }
+        } catch (e) {
           state = state.copyWith(windowsVersion: 10);
-          await Window.setEffect(effect: WindowEffect.disabled);
+          dPrint("Window effect error: ${e.runtimeType}");
         }
       }
       // Show window after acrylic effect is applied
@@ -191,6 +199,17 @@ class AppGlobalModel extends _$AppGlobalModel {
     dPrint("---- Window init -----");
     _initialized = true;
     ref.keepAlive();
+  }
+
+  bool _isWindows11OrGreater(WindowsDeviceInfo? windowsDeviceInfo) {
+    if (windowsDeviceInfo?.productName.contains("Windows 11") ?? false) {
+      return true;
+    }
+    final version = Platform.operatingSystemVersion;
+    if (version.contains("Windows 11")) return true;
+    final buildMatch = RegExp(r'\b10\.0\.(\d+)\b').firstMatch(version);
+    final build = int.tryParse(buildMatch?.group(1) ?? "");
+    return build != null && build >= 22000;
   }
 
   String getUpgradePath() {
