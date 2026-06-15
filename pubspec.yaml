@@ -13,10 +13,10 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-  flutter_riverpod: ^3.3.1
-  riverpod_annotation: ^4.0.2
+  flutter_riverpod: ^3.3.2
+  riverpod_annotation: ^4.0.3
   flutter_hooks: ^0.21.3+1
-  hooks_riverpod: ^3.3.1
+  hooks_riverpod: ^3.3.2
   json_annotation: ^4.11.0
   go_router: ^17.3.0
   window_manager:
@@ -60,7 +60,7 @@ dependencies:
   synchronized: ^3.4.1
   super_sliver_list: ^0.4.1
   file: ^7.0.1
-  re_editor: ^0.8.0
+  re_editor: ^0.9.0
   re_highlight: ^0.0.3
   shelf: ^1.4.2
   qr_flutter: ^4.1.0
@@ -87,10 +87,10 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   msix: ^3.16.13
   build_runner: ^2.15.0
-  freezed: ^3.2.5
-  json_serializable: ^6.12.0
-  riverpod_generator: ^4.0.3
-  riverpod_lint: ^3.1.3
+  freezed: ^3.2.6-dev.1
+  json_serializable: ^6.13.2
+  riverpod_generator: ^4.0.4
+  riverpod_lint: ^3.1.4
   ffigen: ^20.1.1
   sct_dev_tools:
     path: ./packages/sct_dev_tools
