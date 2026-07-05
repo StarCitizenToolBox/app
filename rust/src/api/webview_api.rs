@@ -2,6 +2,7 @@
 
 use std::sync::atomic::Ordering;
 
+use crossbeam_channel::Sender;
 use flutter_rust_bridge::frb;
 use serde::{Deserialize, Serialize};
 
@@ -85,6 +86,7 @@ pub enum WebViewCommand {
     SetWindowSize(u32, u32),
     SetWindowPosition(i32, i32),
     SetWindowTitle(String),
+    GetCookiesForUrl(String, Sender<Result<String, String>>),
 }
 
 // ============ Public API ============
@@ -170,6 +172,15 @@ pub fn webview_get_state(id: String) -> Result<WebViewNavigationState, String> {
         .ok_or_else(|| format!("WebView instance not found: {}", id))?;
     let state = instance.state.read().clone();
     Ok(state)
+}
+
+/// Get cookies for a URL from the WebView cookie store, including HttpOnly cookies.
+#[frb(sync)]
+pub fn webview_get_cookies_for_url(id: String, url: String) -> Result<String, String> {
+    let (tx, rx) = crossbeam_channel::bounded(1);
+    send_command(&id, WebViewCommand::GetCookiesForUrl(url, tx))?;
+    rx.recv_timeout(std::time::Duration::from_secs(5))
+        .map_err(|e| e.to_string())?
 }
 
 /// Check if the WebView is closed

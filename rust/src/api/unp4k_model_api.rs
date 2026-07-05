@@ -5,8 +5,8 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::{
-    Arc,
     atomic::{AtomicBool, Ordering},
+    Arc,
 };
 use uuid::Uuid;
 
@@ -157,7 +157,9 @@ fn normalized_model_path(path: &str) -> String {
     path.trim_start_matches(['\\', '/']).replace('/', "\\")
 }
 
-fn starbreaker_export_options(options: Option<ModelConvertOptions>) -> starbreaker_3d::ExportOptions {
+fn starbreaker_export_options(
+    options: Option<ModelConvertOptions>,
+) -> starbreaker_3d::ExportOptions {
     let options = options.unwrap_or(ModelConvertOptions {
         embed_textures: true,
         overwrite: false,

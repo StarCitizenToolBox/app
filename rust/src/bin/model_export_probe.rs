@@ -1,7 +1,7 @@
 use std::env;
 use std::path::PathBuf;
 
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use image::{ImageBuffer, Rgba};
 use rust::model_render;
 use starbreaker_p4k::MappedP4k;
@@ -78,8 +78,13 @@ fn export_glb_bytes(p4k_path: &str, model_path: &str) -> Result<Vec<u8>> {
         default_animation_tags: vec!["landing_gear_extend".to_string()],
         decomposed_package_subdir: None,
     };
-    starbreaker_3d::api::export_geometry_glb(&p4k, &normalize_p4k_model_path(model_path), None, &opts)
-        .map_err(|e| anyhow!(e.to_string()))
+    starbreaker_3d::api::export_geometry_glb(
+        &p4k,
+        &normalize_p4k_model_path(model_path),
+        None,
+        &opts,
+    )
+    .map_err(|e| anyhow!(e.to_string()))
 }
 
 fn normalize_p4k_model_path(path: &str) -> String {

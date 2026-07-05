@@ -98,6 +98,7 @@ lewton = "0.10.2"
 hound = "3.5.1"
 rodio = "0.22.2"
 clipboard-rs = { version = "0.3.4", features = ["image"] }
+p4k_upgrader = { path = "../packages/p4k_upgrader" }
 
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]

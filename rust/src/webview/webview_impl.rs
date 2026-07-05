@@ -387,13 +387,13 @@ fn run_webview_loop(
                                 let progress = payload.get("progress").and_then(|v| v.as_f64());
                                 let is_loading = payload.get("is_loading").and_then(|v| v.as_bool()).unwrap_or(false);
                                 let dot_frame = payload.get("dot_frame").and_then(|v| v.as_i64()).unwrap_or(0) as usize;
-                                
+
                                 let base_title = original_title_ipc.read().clone();
-                                
+
                                 let new_title = if is_loading {
                                     // Get Windows progress animation character
                                     let progress_char = get_progress_char(dot_frame);
-                                    
+
                                     if let Some(p) = progress {
                                         let percent = (p * 100.0).round() as i32;
                                         format!("{} {} {}%", base_title, progress_char, percent)
@@ -404,7 +404,7 @@ fn run_webview_loop(
                                     // Loading complete, restore original title
                                     base_title
                                 };
-                                
+
                                 let _ = proxy_ipc.send_event(UserEvent::Command(
                                     WebViewCommand::SetWindowTitle(new_title)
                                 ));
@@ -614,7 +614,7 @@ fn run_webview_loop(
                             "is_loading": false,
                             "url": url
                         });
-                        
+
                         // Script to check CF challenge and notify Rust via IPC if detected
                         let cf_check_script = format!(
                             r#"(function() {{
@@ -798,6 +798,19 @@ fn handle_command(
         }
         WebViewCommand::SetWindowTitle(title) => {
             window.set_title(&title);
+        }
+        WebViewCommand::GetCookiesForUrl(url, tx) => {
+            let result = webview
+                .cookies_for_url(&url)
+                .map(|cookies| {
+                    cookies
+                        .into_iter()
+                        .map(|cookie| format!("{}={}", cookie.name(), cookie.value()))
+                        .collect::<Vec<_>>()
+                        .join("; ")
+                })
+                .map_err(|e| e.to_string());
+            let _ = tx.send(result);
         }
     }
 }

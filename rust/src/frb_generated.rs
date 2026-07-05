@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1882230844;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2118810319;
 
 // Section: executor
 
@@ -2638,6 +2638,225 @@ fn wire__crate__api__unp4k_api__p4k_preview_image_png_impl(
         },
     )
 }
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancel_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_cancel",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok({
+                    crate::api::p4k_upgrader_api::p4k_upgrader_cancel();
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cache_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_clear_manifest_cache",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok({
+                    crate::api::p4k_upgrader_api::p4k_upgrader_clear_manifest_cache();
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templates_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_default_object_path_templates",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(
+                    crate::api::p4k_upgrader_api::p4k_upgrader_default_object_path_templates(),
+                )?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimate_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    config: impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderConfig>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_estimate",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_config = config.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::p4k_upgrader_api::p4k_upgrader_estimate(api_config)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_pause_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_pause",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok({
+                    crate::api::p4k_upgrader_api::p4k_upgrader_pause();
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_resume_impl(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_resume",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok({
+                    crate::api::p4k_upgrader_api::p4k_upgrader_resume();
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threads_impl(
+    threads: impl CstDecode<usize>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_set_download_threads",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_threads = threads.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok({
+                    crate::api::p4k_upgrader_api::p4k_upgrader_set_download_threads(api_threads);
+                })?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    config: impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderConfig>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_update",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_config = config.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::p4k_upgrader_api::p4k_upgrader_update(api_config)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    config: impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderConfig>,
+    stream_sink: impl CstDecode<
+        StreamSink<
+            crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        >,
+    >,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_update_with_progress",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_config = config.cst_decode();
+            let api_stream_sink = stream_sink.cst_decode();
+            move |context| async move {
+                transform_result_dco::<_, _, ()>(
+                    (move || async move {
+                        let output_ok = Result::<_, ()>::Ok({
+                            crate::api::p4k_upgrader_api::p4k_upgrader_update_with_progress(
+                                api_config,
+                                api_stream_sink,
+                            )
+                            .await;
+                        })?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_verify_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    config: impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderConfig>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_verify",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_config = config.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::p4k_upgrader_api::p4k_upgrader_verify(api_config)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__applinks_api__register_applinks_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     scheme: impl CstDecode<String>,
@@ -3135,6 +3354,27 @@ fn wire__crate__api__webview_api__webview_execute_script_impl(
         },
     )
 }
+fn wire__crate__api__webview_api__webview_get_cookies_for_url_impl(
+    id: impl CstDecode<String>,
+    url: impl CstDecode<String>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "webview_get_cookies_for_url",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_url = url.cst_decode();
+            transform_result_dco::<_, _, String>((move || {
+                let output_ok =
+                    crate::api::webview_api::webview_get_cookies_for_url(api_id, api_url)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__webview_api__webview_get_state_impl(
     id: impl CstDecode<String>,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
@@ -3557,6 +3797,19 @@ impl SseDecode
 
 impl SseDecode
     for StreamSink<
+        crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    >
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <String>::sse_decode(deserializer);
+        return StreamSink::deserialize(inner);
+    }
+}
+
+impl SseDecode
+    for StreamSink<
         crate::api::rs_process::RsProcessStreamData,
         flutter_rust_bridge::for_generated::DcoCodec,
     >
@@ -3916,6 +4169,20 @@ impl SseDecode for Vec<crate::api::unp4k_api::P4kFileItem> {
     }
 }
 
+impl SseDecode for Vec<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(
+                <crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry>::sse_decode(deserializer),
+            );
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<f32> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4188,6 +4455,17 @@ impl SseDecode for Option<u64> {
     }
 }
 
+impl SseDecode for Option<usize> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<usize>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<Vec<String>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4257,6 +4535,121 @@ impl SseDecode for crate::api::unp4k_api::P4kFileItem {
             size: var_size,
             compressed_size: var_compressedSize,
             date_modified: var_dateModified,
+        };
+    }
+}
+
+impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_manifestSource = <String>::sse_decode(deserializer);
+        let mut var_mirrorBases = <Vec<String>>::sse_decode(deserializer);
+        let mut var_officialBases = <Vec<String>>::sse_decode(deserializer);
+        let mut var_p4KBaseUrl = <String>::sse_decode(deserializer);
+        let mut var_p4KBaseVerificationUrl = <String>::sse_decode(deserializer);
+        let mut var_objectPathTemplates = <Vec<String>>::sse_decode(deserializer);
+        let mut var_requestCookie = <String>::sse_decode(deserializer);
+        let mut var_rsiToken = <String>::sse_decode(deserializer);
+        let mut var_cacheDir = <String>::sse_decode(deserializer);
+        let mut var_gameDir = <String>::sse_decode(deserializer);
+        let mut var_updateP4K = <bool>::sse_decode(deserializer);
+        let mut var_updateLooseFiles = <bool>::sse_decode(deserializer);
+        let mut var_inplaceUpdateP4K = <bool>::sse_decode(deserializer);
+        let mut var_fallbackRebuildOnInplaceVerifyFailure = <bool>::sse_decode(deserializer);
+        let mut var_replaceExistingP4K = <bool>::sse_decode(deserializer);
+        let mut var_verifyAfterAssemble = <bool>::sse_decode(deserializer);
+        let mut var_verifyCigStructure = <bool>::sse_decode(deserializer);
+        let mut var_maxEntries = <Option<usize>>::sse_decode(deserializer);
+        return crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+            manifest_source: var_manifestSource,
+            mirror_bases: var_mirrorBases,
+            official_bases: var_officialBases,
+            p4k_base_url: var_p4KBaseUrl,
+            p4k_base_verification_url: var_p4KBaseVerificationUrl,
+            object_path_templates: var_objectPathTemplates,
+            request_cookie: var_requestCookie,
+            rsi_token: var_rsiToken,
+            cache_dir: var_cacheDir,
+            game_dir: var_gameDir,
+            update_p4k: var_updateP4K,
+            update_loose_files: var_updateLooseFiles,
+            inplace_update_p4k: var_inplaceUpdateP4K,
+            fallback_rebuild_on_inplace_verify_failure: var_fallbackRebuildOnInplaceVerifyFailure,
+            replace_existing_p4k: var_replaceExistingP4K,
+            verify_after_assemble: var_verifyAfterAssemble,
+            verify_cig_structure: var_verifyCigStructure,
+            max_entries: var_maxEntries,
+        };
+    }
+}
+
+impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_name = <String>::sse_decode(deserializer);
+        let mut var_sha256 = <String>::sse_decode(deserializer);
+        let mut var_compressedSize = <u64>::sse_decode(deserializer);
+        return crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
+            name: var_name,
+            sha256: var_sha256,
+            compressed_size: var_compressedSize,
+        };
+    }
+}
+
+impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_manifestEntries = <usize>::sse_decode(deserializer);
+        let mut var_baseDownloadRequired = <bool>::sse_decode(deserializer);
+        let mut var_baseDownloadBytes = <u64>::sse_decode(deserializer);
+        let mut var_p4KEntriesRequiringDownload = <usize>::sse_decode(deserializer);
+        let mut var_looseEntriesRequiringDownload = <usize>::sse_decode(deserializer);
+        let mut var_totalEntriesRequiringDownload = <usize>::sse_decode(deserializer);
+        let mut var_payloadDownloadBytes = <u64>::sse_decode(deserializer);
+        let mut var_payloadDownloadGbDecimal = <f64>::sse_decode(deserializer);
+        let mut var_payloadDownloadGib = <f64>::sse_decode(deserializer);
+        let mut var_totalDownloadBytes = <u64>::sse_decode(deserializer);
+        let mut var_entries =
+            <Vec<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry>>::sse_decode(deserializer);
+        return crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
+            manifest_entries: var_manifestEntries,
+            base_download_required: var_baseDownloadRequired,
+            base_download_bytes: var_baseDownloadBytes,
+            p4k_entries_requiring_download: var_p4KEntriesRequiringDownload,
+            loose_entries_requiring_download: var_looseEntriesRequiringDownload,
+            total_entries_requiring_download: var_totalEntriesRequiringDownload,
+            payload_download_bytes: var_payloadDownloadBytes,
+            payload_download_gb_decimal: var_payloadDownloadGbDecimal,
+            payload_download_gib: var_payloadDownloadGib,
+            total_download_bytes: var_totalDownloadBytes,
+            entries: var_entries,
+        };
+    }
+}
+
+impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_phase = <String>::sse_decode(deserializer);
+        let mut var_name = <String>::sse_decode(deserializer);
+        let mut var_current = <usize>::sse_decode(deserializer);
+        let mut var_total = <usize>::sse_decode(deserializer);
+        let mut var_downloadedBytes = <u64>::sse_decode(deserializer);
+        let mut var_totalBytes = <u64>::sse_decode(deserializer);
+        let mut var_activeDownloads = <usize>::sse_decode(deserializer);
+        let mut var_threadLimit = <usize>::sse_decode(deserializer);
+        let mut var_message = <String>::sse_decode(deserializer);
+        return crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
+            phase: var_phase,
+            name: var_name,
+            current: var_current,
+            total: var_total,
+            downloaded_bytes: var_downloadedBytes,
+            total_bytes: var_totalBytes,
+            active_downloads: var_activeDownloads,
+            thread_limit: var_threadLimit,
+            message: var_message,
         };
     }
 }
@@ -5042,6 +5435,133 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::P4kFileItem>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.manifest_source.into_into_dart().into_dart(),
+            self.mirror_bases.into_into_dart().into_dart(),
+            self.official_bases.into_into_dart().into_dart(),
+            self.p4k_base_url.into_into_dart().into_dart(),
+            self.p4k_base_verification_url.into_into_dart().into_dart(),
+            self.object_path_templates.into_into_dart().into_dart(),
+            self.request_cookie.into_into_dart().into_dart(),
+            self.rsi_token.into_into_dart().into_dart(),
+            self.cache_dir.into_into_dart().into_dart(),
+            self.game_dir.into_into_dart().into_dart(),
+            self.update_p4k.into_into_dart().into_dart(),
+            self.update_loose_files.into_into_dart().into_dart(),
+            self.inplace_update_p4k.into_into_dart().into_dart(),
+            self.fallback_rebuild_on_inplace_verify_failure
+                .into_into_dart()
+                .into_dart(),
+            self.replace_existing_p4k.into_into_dart().into_dart(),
+            self.verify_after_assemble.into_into_dart().into_dart(),
+            self.verify_cig_structure.into_into_dart().into_dart(),
+            self.max_entries.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::p4k_upgrader_api::P4kUpgraderConfig
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kUpgraderConfig>
+    for crate::api::p4k_upgrader_api::P4kUpgraderConfig
+{
+    fn into_into_dart(self) -> crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.name.into_into_dart().into_dart(),
+            self.sha256.into_into_dart().into_dart(),
+            self.compressed_size.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry>
+    for crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry
+{
+    fn into_into_dart(self) -> crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.manifest_entries.into_into_dart().into_dart(),
+            self.base_download_required.into_into_dart().into_dart(),
+            self.base_download_bytes.into_into_dart().into_dart(),
+            self.p4k_entries_requiring_download
+                .into_into_dart()
+                .into_dart(),
+            self.loose_entries_requiring_download
+                .into_into_dart()
+                .into_dart(),
+            self.total_entries_requiring_download
+                .into_into_dart()
+                .into_dart(),
+            self.payload_download_bytes.into_into_dart().into_dart(),
+            self.payload_download_gb_decimal
+                .into_into_dart()
+                .into_dart(),
+            self.payload_download_gib.into_into_dart().into_dart(),
+            self.total_download_bytes.into_into_dart().into_dart(),
+            self.entries.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport>
+    for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport
+{
+    fn into_into_dart(self) -> crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.phase.into_into_dart().into_dart(),
+            self.name.into_into_dart().into_dart(),
+            self.current.into_into_dart().into_dart(),
+            self.total.into_into_dart().into_dart(),
+            self.downloaded_bytes.into_into_dart().into_dart(),
+            self.total_bytes.into_into_dart().into_dart(),
+            self.active_downloads.into_into_dart().into_dart(),
+            self.thread_limit.into_into_dart().into_dart(),
+            self.message.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent>
+    for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent
+{
+    fn into_into_dart(self) -> crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::win32_api::ProcessInfo {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -5398,6 +5918,18 @@ impl SseEncode
 
 impl SseEncode
     for StreamSink<
+        crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    >
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        unimplemented!("")
+    }
+}
+
+impl SseEncode
+    for StreamSink<
         crate::api::rs_process::RsProcessStreamData,
         flutter_rust_bridge::for_generated::DcoCodec,
     >
@@ -5664,6 +6196,16 @@ impl SseEncode for Vec<crate::api::unp4k_api::P4kFileItem> {
     }
 }
 
+impl SseEncode for Vec<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<f32> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -5889,6 +6431,16 @@ impl SseEncode for Option<u64> {
     }
 }
 
+impl SseEncode for Option<usize> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <usize>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<Vec<String>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -5947,6 +6499,74 @@ impl SseEncode for crate::api::unp4k_api::P4kFileItem {
         <u64>::sse_encode(self.size, serializer);
         <u64>::sse_encode(self.compressed_size, serializer);
         <i64>::sse_encode(self.date_modified, serializer);
+    }
+}
+
+impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.manifest_source, serializer);
+        <Vec<String>>::sse_encode(self.mirror_bases, serializer);
+        <Vec<String>>::sse_encode(self.official_bases, serializer);
+        <String>::sse_encode(self.p4k_base_url, serializer);
+        <String>::sse_encode(self.p4k_base_verification_url, serializer);
+        <Vec<String>>::sse_encode(self.object_path_templates, serializer);
+        <String>::sse_encode(self.request_cookie, serializer);
+        <String>::sse_encode(self.rsi_token, serializer);
+        <String>::sse_encode(self.cache_dir, serializer);
+        <String>::sse_encode(self.game_dir, serializer);
+        <bool>::sse_encode(self.update_p4k, serializer);
+        <bool>::sse_encode(self.update_loose_files, serializer);
+        <bool>::sse_encode(self.inplace_update_p4k, serializer);
+        <bool>::sse_encode(self.fallback_rebuild_on_inplace_verify_failure, serializer);
+        <bool>::sse_encode(self.replace_existing_p4k, serializer);
+        <bool>::sse_encode(self.verify_after_assemble, serializer);
+        <bool>::sse_encode(self.verify_cig_structure, serializer);
+        <Option<usize>>::sse_encode(self.max_entries, serializer);
+    }
+}
+
+impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.name, serializer);
+        <String>::sse_encode(self.sha256, serializer);
+        <u64>::sse_encode(self.compressed_size, serializer);
+    }
+}
+
+impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <usize>::sse_encode(self.manifest_entries, serializer);
+        <bool>::sse_encode(self.base_download_required, serializer);
+        <u64>::sse_encode(self.base_download_bytes, serializer);
+        <usize>::sse_encode(self.p4k_entries_requiring_download, serializer);
+        <usize>::sse_encode(self.loose_entries_requiring_download, serializer);
+        <usize>::sse_encode(self.total_entries_requiring_download, serializer);
+        <u64>::sse_encode(self.payload_download_bytes, serializer);
+        <f64>::sse_encode(self.payload_download_gb_decimal, serializer);
+        <f64>::sse_encode(self.payload_download_gib, serializer);
+        <u64>::sse_encode(self.total_download_bytes, serializer);
+        <Vec<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry>>::sse_encode(
+            self.entries,
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.phase, serializer);
+        <String>::sse_encode(self.name, serializer);
+        <usize>::sse_encode(self.current, serializer);
+        <usize>::sse_encode(self.total, serializer);
+        <u64>::sse_encode(self.downloaded_bytes, serializer);
+        <u64>::sse_encode(self.total_bytes, serializer);
+        <usize>::sse_encode(self.active_downloads, serializer);
+        <usize>::sse_encode(self.thread_limit, serializer);
+        <String>::sse_encode(self.message, serializer);
     }
 }
 
@@ -6246,6 +6866,25 @@ mod io {
     impl
         CstDecode<
             StreamSink<
+                crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent,
+                flutter_rust_bridge::for_generated::DcoCodec,
+            >,
+        > for *mut wire_cst_list_prim_u_8_strict
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(
+            self,
+        ) -> StreamSink<
+            crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        > {
+            let raw: String = self.cst_decode();
+            StreamSink::deserialize(raw)
+        }
+    }
+    impl
+        CstDecode<
+            StreamSink<
                 crate::api::rs_process::RsProcessStreamData,
                 flutter_rust_bridge::for_generated::DcoCodec,
             >,
@@ -6334,6 +6973,15 @@ mod io {
             CstDecode::<crate::api::unp4k_model_api::ModelConvertOptions>::cst_decode(*wrap).into()
         }
     }
+    impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderConfig>
+        for *mut wire_cst_p_4_k_upgrader_config
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::p4k_upgrader_api::P4kUpgraderConfig>::cst_decode(*wrap).into()
+        }
+    }
     impl CstDecode<crate::api::asar_api::RsiLauncherAsarData> for *mut wire_cst_rsi_launcher_asar_data {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> crate::api::asar_api::RsiLauncherAsarData {
@@ -6350,6 +6998,12 @@ mod io {
     impl CstDecode<u64> for *mut u64 {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> u64 {
+            unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
+        }
+    }
+    impl CstDecode<usize> for *mut usize {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> usize {
             unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
         }
     }
@@ -6529,6 +7183,18 @@ mod io {
             vec.into_iter().map(CstDecode::cst_decode).collect()
         }
     }
+    impl CstDecode<Vec<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry>>
+        for *mut wire_cst_list_p_4_k_upgrader_estimate_entry
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
     impl CstDecode<Vec<f32>> for *mut wire_cst_list_prim_f_32_strict {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<f32> {
@@ -6672,6 +7338,87 @@ mod io {
                 size: self.size.cst_decode(),
                 compressed_size: self.compressed_size.cst_decode(),
                 date_modified: self.date_modified.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderConfig> for wire_cst_p_4_k_upgrader_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+            crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+                manifest_source: self.manifest_source.cst_decode(),
+                mirror_bases: self.mirror_bases.cst_decode(),
+                official_bases: self.official_bases.cst_decode(),
+                p4k_base_url: self.p4k_base_url.cst_decode(),
+                p4k_base_verification_url: self.p4k_base_verification_url.cst_decode(),
+                object_path_templates: self.object_path_templates.cst_decode(),
+                request_cookie: self.request_cookie.cst_decode(),
+                rsi_token: self.rsi_token.cst_decode(),
+                cache_dir: self.cache_dir.cst_decode(),
+                game_dir: self.game_dir.cst_decode(),
+                update_p4k: self.update_p4k.cst_decode(),
+                update_loose_files: self.update_loose_files.cst_decode(),
+                inplace_update_p4k: self.inplace_update_p4k.cst_decode(),
+                fallback_rebuild_on_inplace_verify_failure: self
+                    .fallback_rebuild_on_inplace_verify_failure
+                    .cst_decode(),
+                replace_existing_p4k: self.replace_existing_p4k.cst_decode(),
+                verify_after_assemble: self.verify_after_assemble.cst_decode(),
+                verify_cig_structure: self.verify_cig_structure.cst_decode(),
+                max_entries: self.max_entries.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry>
+        for wire_cst_p_4_k_upgrader_estimate_entry
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
+            crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
+                name: self.name.cst_decode(),
+                sha256: self.sha256.cst_decode(),
+                compressed_size: self.compressed_size.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport>
+        for wire_cst_p_4_k_upgrader_estimate_report
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
+            crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
+                manifest_entries: self.manifest_entries.cst_decode(),
+                base_download_required: self.base_download_required.cst_decode(),
+                base_download_bytes: self.base_download_bytes.cst_decode(),
+                p4k_entries_requiring_download: self.p4k_entries_requiring_download.cst_decode(),
+                loose_entries_requiring_download: self
+                    .loose_entries_requiring_download
+                    .cst_decode(),
+                total_entries_requiring_download: self
+                    .total_entries_requiring_download
+                    .cst_decode(),
+                payload_download_bytes: self.payload_download_bytes.cst_decode(),
+                payload_download_gb_decimal: self.payload_download_gb_decimal.cst_decode(),
+                payload_download_gib: self.payload_download_gib.cst_decode(),
+                total_download_bytes: self.total_download_bytes.cst_decode(),
+                entries: self.entries.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent>
+        for wire_cst_p_4_k_upgrader_progress_event
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
+            crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
+                phase: self.phase.cst_decode(),
+                name: self.name.cst_decode(),
+                current: self.current.cst_decode(),
+                total: self.total.cst_decode(),
+                downloaded_bytes: self.downloaded_bytes.cst_decode(),
+                total_bytes: self.total_bytes.cst_decode(),
+                active_downloads: self.active_downloads.cst_decode(),
+                thread_limit: self.thread_limit.cst_decode(),
+                message: self.message.cst_decode(),
             }
         }
     }
@@ -7095,6 +7842,91 @@ mod io {
         }
     }
     impl Default for wire_cst_p_4_k_file_item {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_p_4_k_upgrader_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                manifest_source: core::ptr::null_mut(),
+                mirror_bases: core::ptr::null_mut(),
+                official_bases: core::ptr::null_mut(),
+                p4k_base_url: core::ptr::null_mut(),
+                p4k_base_verification_url: core::ptr::null_mut(),
+                object_path_templates: core::ptr::null_mut(),
+                request_cookie: core::ptr::null_mut(),
+                rsi_token: core::ptr::null_mut(),
+                cache_dir: core::ptr::null_mut(),
+                game_dir: core::ptr::null_mut(),
+                update_p4k: Default::default(),
+                update_loose_files: Default::default(),
+                inplace_update_p4k: Default::default(),
+                fallback_rebuild_on_inplace_verify_failure: Default::default(),
+                replace_existing_p4k: Default::default(),
+                verify_after_assemble: Default::default(),
+                verify_cig_structure: Default::default(),
+                max_entries: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_p_4_k_upgrader_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_p_4_k_upgrader_estimate_entry {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                name: core::ptr::null_mut(),
+                sha256: core::ptr::null_mut(),
+                compressed_size: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_p_4_k_upgrader_estimate_entry {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_p_4_k_upgrader_estimate_report {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                manifest_entries: Default::default(),
+                base_download_required: Default::default(),
+                base_download_bytes: Default::default(),
+                p4k_entries_requiring_download: Default::default(),
+                loose_entries_requiring_download: Default::default(),
+                total_entries_requiring_download: Default::default(),
+                payload_download_bytes: Default::default(),
+                payload_download_gb_decimal: Default::default(),
+                payload_download_gib: Default::default(),
+                total_download_bytes: Default::default(),
+                entries: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_p_4_k_upgrader_estimate_report {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_p_4_k_upgrader_progress_event {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                phase: core::ptr::null_mut(),
+                name: core::ptr::null_mut(),
+                current: Default::default(),
+                total: Default::default(),
+                downloaded_bytes: Default::default(),
+                total_bytes: Default::default(),
+                active_downloads: Default::default(),
+                thread_limit: Default::default(),
+                message: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_p_4_k_upgrader_progress_event {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -8225,6 +9057,80 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancel(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancel_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cache(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cache_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templates(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templates_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimate(
+        port_: i64,
+        config: *mut wire_cst_p_4_k_upgrader_config,
+    ) {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimate_impl(port_, config)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_pause(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_pause_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_resume(
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_resume_impl()
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threads(
+        threads: usize,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threads_impl(threads)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_update(
+        port_: i64,
+        config: *mut wire_cst_p_4_k_upgrader_config,
+    ) {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_impl(port_, config)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress(
+        port_: i64,
+        config: *mut wire_cst_p_4_k_upgrader_config,
+        stream_sink: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress_impl(
+            port_,
+            config,
+            stream_sink,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_verify(
+        port_: i64,
+        config: *mut wire_cst_p_4_k_upgrader_config,
+    ) {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_verify_impl(port_, config)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__applinks_api__register_applinks(
         port_: i64,
         scheme: *mut wire_cst_list_prim_u_8_strict,
@@ -8398,6 +9304,14 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_get_cookies_for_url(
+        id: *mut wire_cst_list_prim_u_8_strict,
+        url: *mut wire_cst_list_prim_u_8_strict,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__webview_api__webview_get_cookies_for_url_impl(id, url)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_get_state(
         id: *mut wire_cst_list_prim_u_8_strict,
     ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
@@ -8532,6 +9446,14 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_p_4_k_upgrader_config(
+    ) -> *mut wire_cst_p_4_k_upgrader_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_p_4_k_upgrader_config::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_rsi_launcher_asar_data(
     ) -> *mut wire_cst_rsi_launcher_asar_data {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
@@ -8546,6 +9468,13 @@ mod io {
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_u_64(value: u64) -> *mut u64 {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_usize(
+        value: usize,
+    ) -> *mut usize {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
     }
 
@@ -8648,6 +9577,20 @@ mod io {
         let wrap = wire_cst_list_p_4_k_file_item {
             ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
                 <wire_cst_p_4_k_file_item>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_p_4_k_upgrader_estimate_entry(
+        len: i32,
+    ) -> *mut wire_cst_list_p_4_k_upgrader_estimate_entry {
+        let wrap = wire_cst_list_p_4_k_upgrader_estimate_entry {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_p_4_k_upgrader_estimate_entry>::new_with_null_ptr(),
                 len,
             ),
             len,
@@ -8893,6 +9836,12 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_list_p_4_k_upgrader_estimate_entry {
+        ptr: *mut wire_cst_p_4_k_upgrader_estimate_entry,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_list_prim_f_32_strict {
         ptr: *mut f32,
         len: i32,
@@ -8987,6 +9936,63 @@ mod io {
         size: u64,
         compressed_size: u64,
         date_modified: i64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_p_4_k_upgrader_config {
+        manifest_source: *mut wire_cst_list_prim_u_8_strict,
+        mirror_bases: *mut wire_cst_list_String,
+        official_bases: *mut wire_cst_list_String,
+        p4k_base_url: *mut wire_cst_list_prim_u_8_strict,
+        p4k_base_verification_url: *mut wire_cst_list_prim_u_8_strict,
+        object_path_templates: *mut wire_cst_list_String,
+        request_cookie: *mut wire_cst_list_prim_u_8_strict,
+        rsi_token: *mut wire_cst_list_prim_u_8_strict,
+        cache_dir: *mut wire_cst_list_prim_u_8_strict,
+        game_dir: *mut wire_cst_list_prim_u_8_strict,
+        update_p4k: bool,
+        update_loose_files: bool,
+        inplace_update_p4k: bool,
+        fallback_rebuild_on_inplace_verify_failure: bool,
+        replace_existing_p4k: bool,
+        verify_after_assemble: bool,
+        verify_cig_structure: bool,
+        max_entries: *mut usize,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_p_4_k_upgrader_estimate_entry {
+        name: *mut wire_cst_list_prim_u_8_strict,
+        sha256: *mut wire_cst_list_prim_u_8_strict,
+        compressed_size: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_p_4_k_upgrader_estimate_report {
+        manifest_entries: usize,
+        base_download_required: bool,
+        base_download_bytes: u64,
+        p4k_entries_requiring_download: usize,
+        loose_entries_requiring_download: usize,
+        total_entries_requiring_download: usize,
+        payload_download_bytes: u64,
+        payload_download_gb_decimal: f64,
+        payload_download_gib: f64,
+        total_download_bytes: u64,
+        entries: *mut wire_cst_list_p_4_k_upgrader_estimate_entry,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_p_4_k_upgrader_progress_event {
+        phase: *mut wire_cst_list_prim_u_8_strict,
+        name: *mut wire_cst_list_prim_u_8_strict,
+        current: usize,
+        total: usize,
+        downloaded_bytes: u64,
+        total_bytes: u64,
+        active_downloads: usize,
+        thread_limit: usize,
+        message: *mut wire_cst_list_prim_u_8_strict,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
