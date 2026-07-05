@@ -174,6 +174,16 @@ class HomeUI extends HookConsumerWidget {
               Button(
                 onPressed: homeState.webLocalizationVersionsData == null
                     ? null
+                    : () => model.openP4kUpdater(context),
+                child: const Padding(
+                  padding: EdgeInsets.all(6),
+                  child: FaIcon(FontAwesomeIcons.download, size: 16),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Button(
+                onPressed: homeState.webLocalizationVersionsData == null
+                    ? null
                     : () => model.launchRSI(context),
                 style: homeState.isCurGameRunning
                     ? null

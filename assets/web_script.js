@@ -343,6 +343,7 @@ async function getRSILauncherToken(channelId) {
         window.ipc.postMessage(JSON.stringify({
             action: 'webview_rsi_login_success', data: {
                 'webToken': rsiToken,
+                'webCookie': document.cookie,
                 'claims': claimsData,
                 'authToken': TokenData,
                 'releaseInfo': releaseDataJson,

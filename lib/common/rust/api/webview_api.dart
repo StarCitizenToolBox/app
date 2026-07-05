@@ -79,6 +79,13 @@ void webviewSetWindowPosition({
 WebViewNavigationState webviewGetState({required String id}) =>
     RustLib.instance.api.crateApiWebviewApiWebviewGetState(id: id);
 
+/// Get cookies for a URL from the WebView cookie store, including HttpOnly cookies.
+String webviewGetCookiesForUrl({required String id, required String url}) =>
+    RustLib.instance.api.crateApiWebviewApiWebviewGetCookiesForUrl(
+      id: id,
+      url: url,
+    );
+
 /// Check if the WebView is closed
 bool webviewIsClosed({required String id}) =>
     RustLib.instance.api.crateApiWebviewApiWebviewIsClosed(id: id);

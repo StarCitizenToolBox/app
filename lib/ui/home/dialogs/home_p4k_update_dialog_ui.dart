@@ -1,0 +1,1614 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:starcitizen_doctor/common/rust/api/p4k_upgrader_api.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
+import 'package:window_manager/window_manager.dart';
+
+class HomeP4kUpdateDialogUI extends StatefulWidget {
+  const HomeP4kUpdateDialogUI({
+    super.key,
+    required this.releaseInfo,
+    required this.installPath,
+    required this.applicationSupportDir,
+    required this.webToken,
+    required this.webCookie,
+  });
+
+  final Map releaseInfo;
+  final String installPath;
+  final String applicationSupportDir;
+  final String webToken;
+  final String webCookie;
+
+  @override
+  State<HomeP4kUpdateDialogUI> createState() => _HomeP4kUpdateDialogUIState();
+}
+
+class _P4kLogLine {
+  const _P4kLogLine(this.text, {this.isError = false});
+
+  final String text;
+  final bool isError;
+}
+
+class _P4kStageInfo {
+  const _P4kStageInfo(this.key, this.current, this.total);
+
+  final String key;
+  final int current;
+  final int total;
+}
+
+class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
+  late final TextEditingController _manifestController;
+  late final TextEditingController _baseController;
+  late final TextEditingController _templateController;
+  late final _ReleaseUrls _releaseUrls;
+  // Normal install/update must also install non-P4K loose files (for example Bin64 executables).
+  final bool _updateLooseFiles = true;
+  bool _working = false;
+  bool _paused = false;
+  bool _cancelling = false;
+  bool _lastRunFailed = false;
+  int _downloadThreads = 32;
+  String _status = "";
+  String _downloadSpeedText = "";
+  P4kUpgraderEstimateReport? _estimateReport;
+  double? _overallProgressPercent;
+  final List<_P4kLogLine> _logLines = [];
+  Timer? _downloadSpeedTimer;
+  BigInt _downloadSpeedCumulativeBytes = BigInt.zero;
+  BigInt _lastDownloadSpeedSampleBytes = BigInt.zero;
+  int _lastDownloadSpeedSampleMillis = 0;
+  bool _hasDownloadSpeedSample = false;
+  List<String> _plannedStageKeys = [];
+  Map<String, int> _plannedStageNumbers = {};
+  bool _currentRunDeepRepair = false;
+  String? _lastProgressEventPhase;
+  int _lastProgressLogMillis = 0;
+  String _lastProgressLogSignature = "";
+
+  static const _threadOptions = [4, 8, 16, 32, 64, 96];
+  static const _maxLogLines = 300;
+  static const _progressLogInterval = Duration(seconds: 1);
+
+  @override
+  void initState() {
+    super.initState();
+    final urls = _extractReleaseUrls(widget.releaseInfo);
+    _releaseUrls = urls;
+    _printExtractedReleaseUrls(urls);
+    _manifestController = TextEditingController(text: urls.manifestUrl);
+    _baseController = TextEditingController(text: urls.objectBases.join('\n'));
+    final defaultTemplates = p4KUpgraderDefaultObjectPathTemplates();
+    _templateController = TextEditingController(
+      text:
+          (urls.hashOnlyTemplates
+                  ? defaultTemplates.where((value) => value == "{sha256_upper}")
+                  : defaultTemplates)
+              .join('\n'),
+    );
+    final signatureProblem = _signatureProblemText();
+    if (signatureProblem != null) {
+      _status = signatureProblem;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) showToast(context, signatureProblem);
+      });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _runEstimate(context);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _stopDownloadSpeedTimer();
+    p4KUpgraderClearManifestCache();
+    _manifestController.dispose();
+    _baseController.dispose();
+    _templateController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ContentDialog(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * .7,
+      ),
+      title: DragToMoveArea(child: const Text("游戏下载器 / 更新器")),
+      content: SizedBox(
+        height: MediaQuery.of(context).size.height * .68,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "安装到 ${widget.installPath}",
+              style: FluentTheme.of(context).typography.subtitle,
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                const Text("线程数"),
+                const SizedBox(width: 8),
+                ComboBox<int>(
+                  value: _downloadThreads,
+                  items: _threadOptions
+                      .map(
+                        (value) => ComboBoxItem(
+                          value: value,
+                          child: Text(value.toString()),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) return;
+                    setState(() => _downloadThreads = value);
+                    p4KUpgraderSetDownloadThreads(threads: BigInt.from(value));
+                  },
+                ),
+                const SizedBox(width: 24),
+                if (_downloadSpeedText.isNotEmpty)
+                  Text("下载速度：$_downloadSpeedText"),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Expanded(child: _buildStatusPanel(context)),
+          ],
+        ),
+      ),
+      actions: [
+        Button(
+          onPressed: _cancelling
+              ? null
+              : _working
+              ? _stopUpdate
+              : () => Navigator.pop(context),
+          child: Text(
+            _cancelling
+                ? "取消中..."
+                : _working
+                ? "停止"
+                : "关闭",
+          ),
+        ),
+        if (_working)
+          Button(
+            onPressed: _cancelling ? null : _togglePause,
+            child: Text(_paused ? "继续" : "暂停"),
+          ),
+        Tooltip(
+          message:
+              "深度修复：会先诊断当前 P4K，只有校验失败时才恢复/重建，并按 Manifest 校验内容，耗时很长。普通安装/更新不会自动执行。",
+          child: Button(
+            onPressed: _working || _cancelling
+                ? null
+                : () => _runRepairMode(context),
+            child: const Text("深度修复"),
+          ),
+        ),
+        FilledButton(
+          onPressed: _working || _cancelling
+              ? null
+              : _estimateReport == null
+              ? () => _runEstimate(context)
+              : () => _runUpdate(context),
+          child: Text(
+            _estimateReport == null
+                ? "估算更新量"
+                : _lastRunFailed
+                ? "重试"
+                : "开始安装",
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatusPanel(BuildContext context) {
+    if (_working) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: FluentTheme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ProgressBar(value: _overallProgressPercent),
+            ),
+            const SizedBox(height: 12),
+            Text(_status),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: .18),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: SingleChildScrollView(
+                  reverse: true,
+                  child: _logLines.isEmpty
+                      ? const Text(
+                          "等待进度...",
+                          style: TextStyle(
+                            fontFamily: 'Consolas',
+                            fontSize: 13,
+                            height: 1.35,
+                          ),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: _logLines
+                              .map(
+                                (line) => Text(
+                                  line.text,
+                                  style: TextStyle(
+                                    color: line.isError ? Colors.red : null,
+                                    fontFamily: 'Consolas',
+                                    fontSize: 13,
+                                    height: 1.35,
+                                  ),
+                                  softWrap: true,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    final report = _estimateReport;
+    if (report == null) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: FluentTheme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: SingleChildScrollView(
+          child: Text(
+            _status.isEmpty ? _formatReleaseInfo(widget.releaseInfo) : _status,
+          ),
+        ),
+      );
+    }
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: FluentTheme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: SingleChildScrollView(
+        child: Text(
+          "Manifest 条目：${report.manifestEntries}\n"
+          "P4K 需要下载（条目）：${report.p4KEntriesRequiringDownload}\n"
+          "游戏文件需要下载（条目）：${report.looseEntriesRequiringDownload}\n"
+          "去重后下载对象（条目）：${report.totalEntriesRequiringDownload}\n"
+          "完整 P4K 参考大小：${_formatBytes(report.totalDownloadBytes)}\n"
+          "本地 Data.p4k.part：${_formatBytes(_localDataP4kPartBytes())}\n"
+          "本次需下载基础包：${report.baseDownloadRequired ? _formatBytes(report.baseDownloadBytes) : '不需要'}\n"
+          "本次需下载对象 (payload)：${_formatBytes(report.payloadDownloadBytes)}\n"
+          "本次预计下载总量：${_formatBytes(_estimatedTotalDownload())}\n\n"
+          "最大对象：\n${report.entries.take(20).map((e) => '${_formatBytes(e.compressedSize)}  ${e.name}').join('\n')}",
+        ),
+      ),
+    );
+  }
+
+  Future<void> _runEstimate(BuildContext context) async {
+    final config = _buildConfig();
+    if (config == null) return;
+    await _runTask(
+      status: "正在读取清单并估算更新量...",
+      task: () async {
+        final report = await p4KUpgraderEstimate(config: config);
+        if (!mounted) return;
+        setState(() {
+          _estimateReport = report;
+          _lastRunFailed = false;
+        });
+      },
+      success: "估算完成",
+      context: context,
+    );
+  }
+
+  Future<void> _runUpdate(BuildContext context) async {
+    final config = _buildConfig();
+    if (config == null) return;
+    _prepareStagePlan(deepRepair: false);
+    await _runUpdateWithProgressTask(
+      context,
+      config,
+      status: "正在下载对象、游戏文件并修补 P4K...",
+      success: "更新完成",
+      deepRepair: false,
+    );
+  }
+
+  Future<void> _runRepairMode(BuildContext context) async {
+    final config = _buildConfig(deepVerify: true);
+    if (config == null) return;
+    _prepareStagePlan(deepRepair: true);
+    await _runUpdateWithProgressTask(
+      context,
+      config,
+      status: "正在深度修复 P4K（会先诊断，必要时重建，耗时很长）...",
+      success: "深度修复完成",
+      deepRepair: true,
+    );
+  }
+
+  Future<void> _runUpdateWithProgressTask(
+    BuildContext context,
+    P4kUpgraderConfig config, {
+    required String status,
+    required String success,
+    required bool deepRepair,
+  }) async {
+    p4KUpgraderSetDownloadThreads(threads: BigInt.from(_downloadThreads));
+    var streamCompletedSuccessfully = false;
+    await _runTask(
+      status: status,
+      deepRepair: deepRepair,
+      shouldCloseOnSuccess: () =>
+          streamCompletedSuccessfully && !_cancelling && _status != "已取消",
+      task: () async {
+        _paused = false;
+        _cancelling = false;
+        _startDownloadSpeedTimer();
+        final completer = Completer<void>();
+        late final StreamSubscription<P4kUpgraderProgressEvent> sub;
+        sub = p4KUpgraderUpdateWithProgress(config: config).listen(
+          (event) {
+            if (!mounted) return;
+            if (event.phase == "network_speed") {
+              _recordDownloadSpeedEvent(event);
+              return;
+            }
+            if (_cancelling && event.phase == "download_error") {
+              return;
+            }
+            final nowMillis = DateTime.now().millisecondsSinceEpoch;
+            final phaseChanged = _lastProgressEventPhase != event.phase;
+            _lastProgressEventPhase = event.phase;
+            _recordDownloadSpeedEvent(event);
+            final shouldAppendLog = _shouldAppendProgressLog(
+              event,
+              nowMillis,
+              phaseChanged: phaseChanged,
+            );
+            setState(() {
+              final progressValue = _overallProgressValue(event);
+              final stageText = _stageText(event);
+              _overallProgressPercent = progressValue;
+              if (shouldAppendLog) {
+                _appendLogLine(
+                  _formatProgressLog(event, stageText: stageText),
+                  isError:
+                      event.phase == "download_error" || event.phase == "error",
+                );
+              }
+              if (event.phase == "done") {
+                _status = "更新完成：${event.message}";
+              } else if (event.phase == "cancelled") {
+                _status = "已取消";
+                _cancelling = false;
+              } else if (event.phase == "error") {
+                _status = "失败：${event.message}";
+              } else if (event.phase == "download_error") {
+                _status = "下载失败，正在重试：${event.name}";
+              } else if (event.phase == "writing") {
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  "正在写入：${event.name}",
+                );
+              } else if (event.phase == "disk_checking") {
+                _status = _statusWithStageText(event, stageText, "正在检查磁盘空间");
+              } else if (event.phase == "p4k_diagnosing") {
+                _status = _statusWithStageText(event, stageText, "正在诊断当前 P4K");
+              } else if (event.phase == "repair_rebuilding") {
+                _status = _statusWithStageText(event, stageText, "正在深度修复 P4K");
+              } else if (event.phase == "p4k_metadata") {
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  "正在更新 P4K 条目 metadata：${event.name}",
+                );
+              } else if (event.phase == "p4k_recovering_index") {
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  "正在扫描本地 P4K 记录并恢复索引",
+                );
+              } else if (event.phase == "loose_staging") {
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  "正在准备游戏文件：${event.name}",
+                );
+              } else if (event.phase == "loose_writing") {
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  "正在写入游戏文件：${event.name}",
+                );
+              } else if (_isP4kWorkPhase(event.phase)) {
+                _status = _statusWithStageText(event, stageText, "正在处理 P4K");
+              } else if (_isVerifyPhase(event.phase)) {
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  "正在校验：${event.name}",
+                );
+              } else {
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  "正在下载：${event.name}",
+                );
+              }
+            });
+            if (event.phase == "done") {
+              streamCompletedSuccessfully = true;
+              if (!completer.isCompleted) completer.complete();
+            } else if (event.phase == "cancelled") {
+              if (!completer.isCompleted) completer.complete();
+            } else if (event.phase == "error") {
+              if (!completer.isCompleted) {
+                completer.completeError(Exception(event.message));
+              }
+            }
+          },
+          onError: (Object error, StackTrace stackTrace) {
+            if (!completer.isCompleted) {
+              completer.completeError(error, stackTrace);
+            }
+          },
+          onDone: () {
+            if (!completer.isCompleted) completer.complete();
+          },
+        );
+        try {
+          await completer.future;
+          if (streamCompletedSuccessfully && !_cancelling) {
+            await _runPostInstallTasks();
+          }
+        } finally {
+          _stopDownloadSpeedTimer();
+          await sub.cancel();
+          if (mounted) {
+            setState(() => _resetDownloadSpeedSampler());
+          } else {
+            _resetDownloadSpeedSampler();
+          }
+        }
+      },
+      success: success,
+      context: context,
+    );
+  }
+
+  void _stopUpdate() {
+    if (_cancelling) return;
+    p4KUpgraderCancel();
+    if (!mounted) return;
+    setState(() {
+      _paused = false;
+      _cancelling = true;
+      _status = "正在取消...";
+      _appendLogLine(_status);
+    });
+  }
+
+  void _togglePause() {
+    if (_cancelling) return;
+    if (_paused) {
+      p4KUpgraderResume();
+    } else {
+      p4KUpgraderPause();
+    }
+    setState(() {
+      _paused = !_paused;
+      _status = _paused ? "已暂停" : "正在继续...";
+      _appendLogLine(_status);
+    });
+  }
+
+  void _appendLogLine(String line, {bool isError = false}) {
+    if (line.trim().isEmpty) return;
+    _logLines.add(_P4kLogLine(line, isError: isError));
+    if (_logLines.length > _maxLogLines) {
+      _logLines.removeRange(0, _logLines.length - _maxLogLines);
+    }
+  }
+
+  Future<void> _runTask({
+    required String status,
+    required Future<void> Function() task,
+    required String success,
+    required BuildContext context,
+    bool? deepRepair,
+    bool Function()? shouldCloseOnSuccess,
+  }) async {
+    setState(() {
+      _working = true;
+      _cancelling = false;
+      _lastRunFailed = false;
+      _status = status;
+      _overallProgressPercent = null;
+      _resetDownloadSpeedSampler();
+      _lastProgressEventPhase = null;
+      _lastProgressLogMillis = 0;
+      _lastProgressLogSignature = "";
+      if (deepRepair == null) {
+        _resetStagePlan();
+      } else {
+        _currentRunDeepRepair = deepRepair;
+        if (_plannedStageKeys.isEmpty) {
+          _prepareStagePlan(deepRepair: deepRepair);
+        }
+      }
+      _logLines
+        ..clear()
+        ..add(_P4kLogLine(status));
+    });
+    try {
+      await task();
+      if (!mounted) return;
+      if (shouldCloseOnSuccess?.call() == true) {
+        Navigator.pop(this.context, true);
+        return;
+      }
+      setState(() {
+        if (_status != "已取消") _status = success;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _lastRunFailed = true;
+        _status = "失败：$e";
+      });
+      if (context.mounted) showToast(context, "P4K 更新器失败：$e");
+    } finally {
+      if (mounted) {
+        setState(() {
+          _working = false;
+          _cancelling = false;
+        });
+      }
+    }
+  }
+
+  P4kUpgraderConfig? _buildConfig({bool deepVerify = false}) {
+    if (!_isLiveInstallPath(widget.installPath)) {
+      setState(() => _status = _p4kLiveOnlyMessage);
+      showToast(context, _p4kLiveOnlyMessage);
+      return null;
+    }
+    final manifest = _manifestController.text.trim();
+    final bases = _splitLines(_baseController.text);
+    if (manifest.isEmpty) {
+      setState(() => _status = "Manifest URL 不能为空");
+      return null;
+    }
+    final signatureProblem = _signatureProblemText(
+      manifest: manifest,
+      bases: bases,
+    );
+    if (signatureProblem != null) {
+      setState(() => _status = signatureProblem);
+      showToast(context, signatureProblem);
+      return null;
+    }
+    return P4kUpgraderConfig(
+      manifestSource: manifest,
+      mirrorBases: const [],
+      officialBases: bases,
+      p4KBaseUrl: _releaseUrls.p4kBaseUrl,
+      p4KBaseVerificationUrl: _releaseUrls.p4kBaseVerificationUrl,
+      objectPathTemplates: _splitLines(_templateController.text),
+      requestCookie: widget.webCookie,
+      rsiToken: widget.webToken,
+      cacheDir: _joinInstallPath('.p4k_upgrader'),
+      gameDir: widget.installPath,
+      updateP4K: true,
+      updateLooseFiles: _updateLooseFiles,
+      inplaceUpdateP4K: true,
+      fallbackRebuildOnInplaceVerifyFailure: deepVerify,
+      replaceExistingP4K: true,
+      verifyAfterAssemble: deepVerify,
+      verifyCigStructure: deepVerify,
+    );
+  }
+
+  void _startDownloadSpeedTimer() {
+    _stopDownloadSpeedTimer();
+    _resetDownloadSpeedBaseline(active: true);
+    _downloadSpeedTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      _refreshDownloadSpeedText();
+    });
+  }
+
+  void _stopDownloadSpeedTimer() {
+    _downloadSpeedTimer?.cancel();
+    _downloadSpeedTimer = null;
+  }
+
+  void _recordDownloadSpeedEvent(P4kUpgraderProgressEvent event) {
+    if (event.phase == "network_speed") {
+      _recordNetworkSpeedBytes(event.downloadedBytes);
+      return;
+    }
+  }
+
+  void _recordNetworkSpeedBytes(BigInt downloadedBytes) {
+    if (downloadedBytes < _downloadSpeedCumulativeBytes) {
+      _downloadSpeedCumulativeBytes = downloadedBytes;
+      _resetDownloadSpeedBaseline(active: _downloadSpeedTimer != null);
+      return;
+    }
+    _downloadSpeedCumulativeBytes = downloadedBytes;
+  }
+
+  void _refreshDownloadSpeedText() {
+    if (!mounted) return;
+    final now = DateTime.now().millisecondsSinceEpoch;
+    if (!_hasDownloadSpeedSample) {
+      setState(() {
+        _lastDownloadSpeedSampleBytes = _downloadSpeedCumulativeBytes;
+        _lastDownloadSpeedSampleMillis = now;
+        _hasDownloadSpeedSample = true;
+        _downloadSpeedText = _downloadSpeedTimer == null ? "" : "0 B/s";
+      });
+      return;
+    }
+    final elapsedMillis = now - _lastDownloadSpeedSampleMillis;
+    if (elapsedMillis <= 0) return;
+    final currentBytes = _downloadSpeedCumulativeBytes;
+    final delta = currentBytes >= _lastDownloadSpeedSampleBytes
+        ? currentBytes - _lastDownloadSpeedSampleBytes
+        : BigInt.zero;
+    final bytesPerSecond = delta.toDouble() / (elapsedMillis / 1000);
+    setState(() {
+      _downloadSpeedText = _formatByteRate(bytesPerSecond);
+      _lastDownloadSpeedSampleBytes = currentBytes;
+      _lastDownloadSpeedSampleMillis = now;
+    });
+  }
+
+  void _resetDownloadSpeedSampler() {
+    _downloadSpeedText = "";
+    _downloadSpeedCumulativeBytes = BigInt.zero;
+    _resetDownloadSpeedBaseline();
+  }
+
+  void _resetDownloadSpeedBaseline({bool active = false}) {
+    _lastDownloadSpeedSampleBytes = _downloadSpeedCumulativeBytes;
+    _lastDownloadSpeedSampleMillis = DateTime.now().millisecondsSinceEpoch;
+    _hasDownloadSpeedSample = active;
+  }
+
+  BigInt _estimatedTotalDownload() {
+    final report = _estimateReport;
+    if (report == null) return BigInt.zero;
+    final baseAndPayload =
+        (report.baseDownloadRequired ? report.baseDownloadBytes : BigInt.zero) +
+        report.payloadDownloadBytes;
+    if (!report.baseDownloadRequired) {
+      return baseAndPayload.isNegative ? BigInt.zero : baseAndPayload;
+    }
+    final fullP4kRemaining =
+        report.totalDownloadBytes - _localDataP4kPartBytes();
+    final total = _maxBigInt(
+      fullP4kRemaining.isNegative ? BigInt.zero : fullP4kRemaining,
+      baseAndPayload,
+    );
+    return total.isNegative ? BigInt.zero : total;
+  }
+
+  double? _overallProgressValue(P4kUpgraderProgressEvent? event) {
+    if (event == null) return null;
+    if (event.phase == 'done') {
+      return 100.0;
+    }
+    if (_isStableProgressDownloadPhase(event.phase) &&
+        event.totalBytes > BigInt.zero) {
+      return (event.downloadedBytes.toDouble() /
+              event.totalBytes.toDouble() *
+              100.0)
+          .clamp(0.0, 100.0)
+          .toDouble();
+    }
+    final stageKey = _stageKey(event.phase, deepRepair: _currentRunDeepRepair);
+    if (stageKey == "p4k_patch" || stageKey == "repair_rebuilding") {
+      return null;
+    }
+    if (event.total > BigInt.zero) {
+      return (event.current.toDouble() / event.total.toDouble() * 100.0)
+          .clamp(0.0, 100.0)
+          .toDouble();
+    }
+    return null;
+  }
+
+  String? _signatureProblemText({String? manifest, List<String>? bases}) {
+    final manifestUrl = manifest ?? _manifestController.text.trim();
+    final baseUrls = bases ?? _splitLines(_baseController.text);
+    if (_isOfficialCdnUrl(manifestUrl) && !_hasObjectSignature(manifestUrl)) {
+      return "Manifest URL 缺少 Expires/KeyName/Signature 签名参数，请重新登录或检查 releaseInfo 签名字段。";
+    }
+    final unsignedBase = baseUrls
+        .where(_isOfficialCdnUrl)
+        .where((url) => !_hasObjectSignature(url))
+        .firstOrNull;
+    if (unsignedBase != null) {
+      return "对象 Base URL 缺少 Expires/KeyName/Signature 签名参数，请重新登录或检查 releaseInfo 签名字段。";
+    }
+    return null;
+  }
+
+  bool _shouldAppendProgressLog(
+    P4kUpgraderProgressEvent event,
+    int nowMillis, {
+    required bool phaseChanged,
+  }) {
+    final signature = '${event.phase}|${event.message}';
+    final important = _isImportantProgressEvent(event);
+    final messageChanged =
+        event.message.trim().isNotEmpty &&
+        _lastProgressLogSignature.isNotEmpty &&
+        _lastProgressLogSignature != signature;
+    final elapsedMillis = nowMillis - _lastProgressLogMillis;
+    final shouldAppend =
+        important ||
+        phaseChanged ||
+        _isProgressCompletion(event) ||
+        messageChanged ||
+        elapsedMillis >= _progressLogInterval.inMilliseconds;
+    if (shouldAppend) {
+      _lastProgressLogMillis = nowMillis;
+      _lastProgressLogSignature = signature;
+    }
+    return shouldAppend;
+  }
+
+  void _prepareStagePlan({required bool deepRepair}) {
+    _currentRunDeepRepair = deepRepair;
+    final report = _estimateReport;
+    final keys = <String>[];
+
+    void addStage(String key) {
+      if (!keys.contains(key)) keys.add(key);
+    }
+
+    addStage("disk_checking");
+    if (deepRepair) {
+      addStage("p4k_diagnosing");
+      addStage("repair_rebuilding");
+      addStage("p4k_verifying");
+      if (_updateLooseFiles) {
+        addStage("loose_files");
+      }
+      addStage("post_install");
+    } else {
+      if (report?.baseDownloadRequired ?? false) {
+        addStage("base_downloading");
+      }
+      addStage("p4k_patch");
+      if (_updateLooseFiles) {
+        addStage("loose_files");
+      }
+      addStage("post_install");
+    }
+
+    _plannedStageKeys = keys;
+    _rebuildStageNumbers();
+  }
+
+  void _resetStagePlan() {
+    _plannedStageKeys = [];
+    _plannedStageNumbers = {};
+    _currentRunDeepRepair = false;
+  }
+
+  void _rebuildStageNumbers() {
+    _plannedStageNumbers = {
+      for (var index = 0; index < _plannedStageKeys.length; index++)
+        _plannedStageKeys[index]: index + 1,
+    };
+  }
+
+  _P4kStageInfo? _stageInfo(P4kUpgraderProgressEvent event) {
+    if (event.phase == "done" ||
+        event.phase == "error" ||
+        event.phase == "cancelled" ||
+        event.phase == "download_error") {
+      return null;
+    }
+    final key = _stageKey(event.phase, deepRepair: _currentRunDeepRepair);
+    if (event.phase == "loose_written" &&
+        !_plannedStageNumbers.containsKey(key)) {
+      return null;
+    }
+    if (!_plannedStageNumbers.containsKey(key)) {
+      if (_plannedStageKeys.isNotEmpty) return null;
+      _plannedStageKeys = [key];
+      _rebuildStageNumbers();
+    }
+    final current = _plannedStageNumbers[key] ?? 1;
+    return _P4kStageInfo(key, current, _plannedStageKeys.length);
+  }
+
+  String _stageText(P4kUpgraderProgressEvent event) {
+    final info = _stageInfo(event);
+    if (info == null) return '';
+    return '阶段 ${info.current}/${info.total}：${_stageLabelForKey(info.key)}';
+  }
+
+  String _stageTextForKey(String key) {
+    if (!_plannedStageNumbers.containsKey(key)) {
+      _plannedStageKeys.add(key);
+      _rebuildStageNumbers();
+    }
+    final current = _plannedStageNumbers[key] ?? _plannedStageKeys.length;
+    final total = _plannedStageKeys.length;
+    return '阶段 $current/$total：${_stageLabelForKey(key)}';
+  }
+
+  Future<void> _runPostInstallTasks() async {
+    _stopDownloadSpeedTimer();
+    if (mounted) {
+      setState(() => _resetDownloadSpeedSampler());
+    } else {
+      _resetDownloadSpeedSampler();
+    }
+    final stageText = _stageTextForKey("post_install");
+    _setPostInstallStatus(stageText, "正在注册 EAC 并同步启动器状态");
+    await _installEasyAntiCheat(stageText);
+    await _syncLauncherInstallState(stageText);
+    _setPostInstallStatus(stageText, "安装状态处理完成");
+  }
+
+  Future<void> _installEasyAntiCheat(String stageText) async {
+    final eacDir = Directory(_joinInstallPath('EasyAntiCheat'));
+    final eacExe = File(_joinPath(eacDir.path, 'EasyAntiCheat_EOS_Setup.exe'));
+    const eacId = '54540c7a80fe48ea92ead64506b4ff53';
+    if (!await eacExe.exists()) {
+      _setPostInstallStatus(
+        stageText,
+        "未找到 EasyAntiCheat 安装程序，跳过注册",
+        warning: true,
+      );
+      return;
+    }
+    _setPostInstallStatus(stageText, "正在注册 EasyAntiCheat");
+    try {
+      final result = await Process.run(eacExe.path, const [
+        'install',
+        eacId,
+      ], workingDirectory: eacDir.path).timeout(const Duration(minutes: 2));
+      if (result.exitCode == 0) {
+        _setPostInstallStatus(stageText, "EasyAntiCheat 注册完成");
+      } else {
+        final detail = _processOutputSummary(result);
+        _setPostInstallStatus(
+          stageText,
+          "EasyAntiCheat 注册返回 ${result.exitCode}，已作为非致命警告继续$detail",
+          warning: true,
+        );
+      }
+    } catch (e) {
+      _setPostInstallStatus(
+        stageText,
+        "EasyAntiCheat 注册失败，已作为非致命警告继续：$e",
+        warning: true,
+      );
+    }
+  }
+
+  Future<void> _syncLauncherInstallState(String stageText) async {
+    _setPostInstallStatus(stageText, "正在同步启动器安装状态");
+    final buildManifestUpdated = await _updateBuildManifestId(stageText);
+    final storeCandidates = await _existingLauncherStoreCandidates();
+    if (storeCandidates.isEmpty) {
+      _setPostInstallStatus(
+        stageText,
+        "未找到 RSI Launcher store；跳过加密 store 同步",
+        warning: true,
+      );
+    } else {
+      final suffix = buildManifestUpdated ? "build_manifest.id 已更新；" : "";
+      _setPostInstallStatus(
+        stageText,
+        "$suffix加密 RSI Launcher store 同步未执行：当前 Dart 端缺少 AES-CBC/PBKDF2 兼容实现，如启动器仍显示旧版本请使用 RSI Launcher Verify",
+        warning: true,
+      );
+    }
+  }
+
+  Future<bool> _updateBuildManifestId(String stageText) async {
+    final changeNumber = _extractRequestedP4ChangeNumber(widget.releaseInfo);
+    if (changeNumber == null || changeNumber.isEmpty) {
+      _setPostInstallStatus(
+        stageText,
+        "无法从 releaseInfo 推断 RequestedP4ChangeNum，未写入 build_manifest.id",
+        warning: true,
+      );
+      return false;
+    }
+    final file = File(_joinInstallPath('build_manifest.id'));
+    try {
+      Map<String, dynamic> root = {};
+      if (await file.exists()) {
+        final decoded = json.decode(await file.readAsString());
+        if (decoded is Map) {
+          root = Map<String, dynamic>.from(decoded);
+        }
+      }
+      final data = root['Data'] is Map
+          ? Map<String, dynamic>.from(root['Data'] as Map)
+          : <String, dynamic>{};
+      data['Branch'] = data['Branch'] ?? 'LIVE';
+      data['RequestedP4ChangeNum'] = int.tryParse(changeNumber) ?? changeNumber;
+      data['BuildId'] = data['BuildId'] ?? data['RequestedP4ChangeNum'];
+      root['Data'] = data;
+      await file.writeAsString(
+        const JsonEncoder.withIndent('  ').convert(root),
+      );
+      _setPostInstallStatus(
+        stageText,
+        "已更新 build_manifest.id：RequestedP4ChangeNum=$changeNumber",
+      );
+      return true;
+    } catch (e) {
+      _setPostInstallStatus(
+        stageText,
+        "更新 build_manifest.id 失败，已作为非致命警告继续：$e",
+        warning: true,
+      );
+      return false;
+    }
+  }
+
+  Future<List<File>> _existingLauncherStoreCandidates() async {
+    final roots = [
+      Platform.environment['APPDATA'],
+      Platform.environment['LOCALAPPDATA'],
+    ].whereType<String>().where((value) => value.isNotEmpty);
+    const relative = [
+      ['rsilauncher', 'launcher store.json'],
+      ['RSI Launcher', 'launcher store.json'],
+      ['UI Launcher', 'launcher store.json'],
+    ];
+    final files = <File>[];
+    for (final root in roots) {
+      for (final parts in relative) {
+        final file = File(_joinPath(root, _joinPath(parts[0], parts[1])));
+        if (await file.exists()) files.add(file);
+      }
+    }
+    return files;
+  }
+
+  void _setPostInstallStatus(
+    String stageText,
+    String message, {
+    bool warning = false,
+  }) {
+    if (!mounted) return;
+    setState(() {
+      _overallProgressPercent = null;
+      _downloadSpeedText = "";
+      _status = "$stageText：$message";
+      _appendLogLine(
+        "${_simpleLogTime()} ${warning ? '[WARN] ' : ''}$_status",
+        isError: false,
+      );
+    });
+  }
+
+  BigInt _localDataP4kPartBytes() {
+    try {
+      final file = File(_joinInstallPath('Data.p4k.part'));
+      if (!file.existsSync()) return BigInt.zero;
+      return BigInt.from(file.statSync().size);
+    } catch (_) {
+      return BigInt.zero;
+    }
+  }
+
+  String _joinInstallPath(String child) {
+    final separator = Platform.isWindows ? '\\' : '/';
+    return widget.installPath.endsWith('\\') || widget.installPath.endsWith('/')
+        ? "${widget.installPath}$child"
+        : "${widget.installPath}$separator$child";
+  }
+}
+
+class _ReleaseUrls {
+  const _ReleaseUrls(
+    this.manifestUrl,
+    this.objectBases, {
+    this.p4kBaseUrl = "",
+    this.p4kBaseVerificationUrl = "",
+    this.hashOnlyTemplates = false,
+  });
+
+  final String manifestUrl;
+  final List<String> objectBases;
+  final String p4kBaseUrl;
+  final String p4kBaseVerificationUrl;
+  final bool hashOnlyTemplates;
+}
+
+class _UrlHit {
+  const _UrlHit(this.keyPath, this.url);
+
+  final String keyPath;
+  final String url;
+}
+
+class _ScalarHit {
+  const _ScalarHit(this.keyPath, this.value);
+
+  final String keyPath;
+  final String value;
+}
+
+_ReleaseUrls _extractReleaseUrls(Map releaseInfo) {
+  final fixed = _extractReleaseUrlsFromKnownFields(releaseInfo);
+  if (fixed.manifestUrl.isNotEmpty || fixed.objectBases.isNotEmpty) {
+    return fixed;
+  }
+
+  final hits = <_UrlHit>[];
+  final scalars = <_ScalarHit>[];
+  void visit(dynamic value, String keyPath) {
+    if (value is Map) {
+      for (final entry in value.entries) {
+        visit(
+          entry.value,
+          keyPath.isEmpty ? entry.key.toString() : "$keyPath.${entry.key}",
+        );
+      }
+    } else if (value is Iterable) {
+      var index = 0;
+      for (final item in value) {
+        visit(item, "$keyPath[$index]");
+        index++;
+      }
+    } else if (value is String) {
+      final text = value.trim();
+      if (text.isNotEmpty) {
+        scalars.add(_ScalarHit(keyPath, text));
+      }
+      if (text.startsWith("https://") || text.startsWith("http://")) {
+        hits.add(_UrlHit(keyPath, text));
+      }
+    } else if (value is num || value is bool) {
+      scalars.add(_ScalarHit(keyPath, value.toString()));
+    }
+  }
+
+  visit(releaseInfo, "");
+  final manifestHit =
+      hits.where((hit) {
+        final key = hit.keyPath.toLowerCase();
+        final url = hit.url.toLowerCase();
+        return key.contains("manifest") || url.contains("manifest");
+      }).firstOrNull ??
+      const _UrlHit("", "");
+  final manifest = _appendObjectSignature(
+    manifestHit.url,
+    _extractSignatureQueryForHit(manifestHit, scalars),
+  );
+
+  final bases = <String>[];
+  final seen = <String>{};
+  var p4kBase = "";
+  var p4kBaseVerification = "";
+  for (final hit in hits) {
+    if (hit.url == manifest) continue;
+    final key = hit.keyPath.toLowerCase();
+    final url = hit.url.toLowerCase();
+    final looksLikeP4kBaseVerification =
+        key.contains("p4kbaseverification") ||
+        key.contains("p4k_base_verification") ||
+        url.endsWith(".p4k.vf") ||
+        url.contains(".p4k.vf?");
+    final looksLikeP4kBase =
+        key.contains("p4kbase") ||
+        key.contains("p4k_base") ||
+        url.endsWith(".p4k") ||
+        url.contains(".p4k?") ||
+        looksLikeP4kBaseVerification;
+    if (looksLikeP4kBaseVerification) {
+      p4kBaseVerification = _appendObjectSignature(
+        hit.url,
+        _extractSignatureQueryForHit(hit, scalars),
+      );
+      continue;
+    }
+    if (looksLikeP4kBase) {
+      p4kBase = _appendObjectSignature(
+        hit.url,
+        _extractSignatureQueryForHit(hit, scalars),
+      );
+      continue;
+    }
+    final looksLikeBase =
+        key.contains("base") ||
+        key.contains("object") ||
+        key.contains("file") ||
+        key.contains("archive") ||
+        key.contains("p4k") ||
+        key.contains("download") ||
+        url.contains("/bin64") ||
+        url.contains("/objects") ||
+        url.contains("p4k");
+    final looksLikeWrongFile =
+        url.contains("manifest") ||
+        url.endsWith(".json") ||
+        url.endsWith(".exe") ||
+        url.endsWith(".zip");
+    if (looksLikeBase && !looksLikeWrongFile && !looksLikeP4kBase) {
+      final signedUrl = _appendObjectSignature(
+        hit.url,
+        _extractSignatureQueryForHit(hit, scalars),
+      );
+      if (seen.add(signedUrl)) {
+        bases.add(signedUrl);
+      }
+    }
+  }
+  return _ReleaseUrls(
+    manifest,
+    bases,
+    p4kBaseUrl: p4kBase,
+    p4kBaseVerificationUrl: p4kBaseVerification,
+    hashOnlyTemplates: bases.any(_isOfficialCdnUrl),
+  );
+}
+
+_ReleaseUrls _extractReleaseUrlsFromKnownFields(Map releaseInfo) {
+  final manifest = _signedReleaseUrl(releaseInfo["manifest"]);
+  final bases = <String>[];
+  final objects = _signedReleaseUrl(releaseInfo["objects"]);
+  if (objects.isNotEmpty) bases.add(objects);
+  final p4kBase = _signedReleaseUrl(releaseInfo["p4kBase"]);
+  final p4kBaseVerification = _signedReleaseUrl(
+    releaseInfo["p4kBaseVerificationFile"],
+  );
+  return _ReleaseUrls(
+    manifest,
+    bases,
+    p4kBaseUrl: p4kBase,
+    p4kBaseVerificationUrl: p4kBaseVerification,
+    hashOnlyTemplates: true,
+  );
+}
+
+String _signedReleaseUrl(dynamic value) {
+  if (value is! Map) return "";
+  final rawUrl = value["url"]?.toString() ?? "";
+  if (rawUrl.isEmpty) return "";
+  final signatures = value["signatures"]?.toString() ?? "";
+  if (signatures.isEmpty) return rawUrl;
+  final separator = rawUrl.contains("?") ? "&" : "?";
+  return "$rawUrl$separator$signatures";
+}
+
+void _printExtractedReleaseUrls(_ReleaseUrls urls) {
+  // Keep URL shape in stdout for debugging without exposing signed CDN query params.
+  // ignore: avoid_print
+  print("[P4K Upgrader] manifest_url=${_redactSignedUrl(urls.manifestUrl)}");
+  for (final base in urls.objectBases) {
+    // ignore: avoid_print
+    print("[P4K Upgrader] object_base=${_redactSignedUrl(base)}");
+  }
+  if (urls.p4kBaseUrl.isNotEmpty) {
+    // ignore: avoid_print
+    print("[P4K Upgrader] p4k_base=${_redactSignedUrl(urls.p4kBaseUrl)}");
+  }
+  if (urls.p4kBaseVerificationUrl.isNotEmpty) {
+    // ignore: avoid_print
+    print(
+      "[P4K Upgrader] p4k_base_verification=${_redactSignedUrl(urls.p4kBaseVerificationUrl)}",
+    );
+  }
+}
+
+String _redactSignedUrl(String url) {
+  final uri = Uri.tryParse(url);
+  if (uri == null || !uri.hasQuery) return url;
+  return uri.replace(query: "<redacted>").toString();
+}
+
+String _extractSignatureQueryForHit(_UrlHit hit, List<_ScalarHit> scalars) {
+  final ownQuery = _extractSignatureQueryFromValue(hit.url);
+  if (ownQuery != null) return ownQuery;
+
+  final relatedScalars = _relatedScalars(hit.keyPath, scalars);
+  final nearbyQuery = _extractObjectSignatureQuery(relatedScalars, const []);
+  if (nearbyQuery.isNotEmpty) return nearbyQuery;
+
+  return "";
+}
+
+List<_ScalarHit> _relatedScalars(String keyPath, List<_ScalarHit> scalars) {
+  if (keyPath.isEmpty) return const [];
+  final parent = _parentKeyPath(keyPath).toLowerCase();
+  if (parent.isEmpty) return const [];
+  return scalars.where((hit) {
+    final key = hit.keyPath.toLowerCase();
+    return key == parent ||
+        key.startsWith("$parent.") ||
+        key.startsWith("$parent[");
+  }).toList();
+}
+
+String _parentKeyPath(String keyPath) {
+  final dot = keyPath.lastIndexOf('.');
+  final bracket = keyPath.lastIndexOf('[');
+  final idx = dot > bracket ? dot : bracket;
+  if (idx <= 0) return "";
+  return keyPath.substring(0, idx);
+}
+
+String _extractObjectSignatureQuery(
+  List<_ScalarHit> scalars,
+  List<_UrlHit> urls,
+) {
+  for (final hit in urls) {
+    final query = _extractSignatureQueryFromValue(hit.url);
+    if (query != null) return query;
+  }
+  for (final hit in scalars) {
+    final query = _extractSignatureQueryFromValue(hit.value);
+    if (query != null) return query;
+  }
+  final params = <String, String>{};
+  for (final hit in scalars) {
+    final key = hit.keyPath.split('.').last.toLowerCase();
+    final value = hit.value.trim();
+    if (value.isEmpty ||
+        value.startsWith('http://') ||
+        value.startsWith('https://')) {
+      continue;
+    }
+    if (key == 'expires' || key.endsWith('expires')) {
+      params.putIfAbsent('Expires', () => value);
+    } else if (key == 'keyname' ||
+        key == 'key_name' ||
+        key == 'key-pair-id' ||
+        key == 'keypairid') {
+      params.putIfAbsent(
+        key.contains('pair') ? 'Key-Pair-Id' : 'KeyName',
+        () => value,
+      );
+    } else if (key == 'signature' || key.endsWith('signature')) {
+      params.putIfAbsent('Signature', () => value);
+    } else if (key == 'policy' || key.endsWith('policy')) {
+      params.putIfAbsent('Policy', () => value);
+    }
+  }
+  return params.entries.map((entry) => '${entry.key}=${entry.value}').join('&');
+}
+
+String? _extractSignatureQueryFromValue(String value) {
+  final text = value.trim();
+  if (!_hasObjectSignature(text)) return null;
+  final queryStart = text.indexOf('?');
+  if (queryStart >= 0 && queryStart < text.length - 1) {
+    return text.substring(queryStart + 1);
+  }
+  final expiresStart = text.indexOf('Expires=');
+  if (expiresStart >= 0) {
+    return _trimLeadingQueryPrefix(text.substring(expiresStart));
+  }
+  final policyStart = text.indexOf('Policy=');
+  if (policyStart >= 0) {
+    return _trimLeadingQueryPrefix(text.substring(policyStart));
+  }
+  return null;
+}
+
+String _trimLeadingQueryPrefix(String value) {
+  var result = value.trim();
+  while (result.startsWith('?') || result.startsWith('&')) {
+    result = result.substring(1).trimLeft();
+  }
+  return result;
+}
+
+String _appendObjectSignature(String url, String query) {
+  if (query.isEmpty || _hasObjectSignature(url)) return url;
+  return '$url${url.contains('?') ? '&' : '?'}$query';
+}
+
+bool _hasObjectSignature(String url) {
+  final lower = url.toLowerCase();
+  return lower.contains('signature=') &&
+      (lower.contains('expires=') ||
+          lower.contains('keyname=') ||
+          lower.contains('policy=') ||
+          lower.contains('key-pair-id='));
+}
+
+bool _isOfficialCdnUrl(String url) {
+  final host = Uri.tryParse(url)?.host.toLowerCase();
+  return host == 'prod.mcdn.robertsspaceindustries.com';
+}
+
+List<String> _splitLines(String value) {
+  return value
+      .split(RegExp(r'\r?\n'))
+      .map((e) => e.trim())
+      .where((e) => e.isNotEmpty)
+      .toList();
+}
+
+String _formatReleaseInfo(Map releaseInfo) {
+  final version =
+      releaseInfo["versionLabel"] ?? releaseInfo["version"] ?? "未知版本";
+  final executable = releaseInfo["executable"] ?? "未知启动文件";
+  return "发布版本：$version\n启动文件：$executable\n\nreleaseInfo 已读取。可先点击“估算更新量”检查清单解析是否正常。";
+}
+
+String _formatBytes(BigInt value) {
+  final bytes = value.toDouble();
+  const units = ["B", "KiB", "MiB", "GiB", "TiB"];
+  var size = bytes;
+  var unit = 0;
+  while (size >= 1024 && unit < units.length - 1) {
+    size /= 1024;
+    unit++;
+  }
+  return "${size.toStringAsFixed(unit == 0 ? 0 : 2)} ${units[unit]}";
+}
+
+String _formatByteRate(double bytesPerSecond) {
+  const units = ["B/s", "KiB/s", "MiB/s", "GiB/s", "TiB/s"];
+  var size = bytesPerSecond;
+  var unit = 0;
+  while (size >= 1024 && unit < units.length - 1) {
+    size /= 1024;
+    unit++;
+  }
+  return "${size.toStringAsFixed(unit == 0 ? 0 : 2)} ${units[unit]}";
+}
+
+bool _isStableProgressDownloadPhase(String phase) {
+  return phase == "base_downloading" ||
+      phase == "base_verification_downloading" ||
+      phase == "loose_downloading";
+}
+
+bool _isVerifyPhase(String phase) {
+  return phase == "base_verifying" ||
+      phase == "p4k_verifying" ||
+      phase == "manifest_verifying" ||
+      phase == "loose_verifying" ||
+      phase == "p4k_diagnosing";
+}
+
+bool _isP4kWorkPhase(String phase) {
+  return phase == "p4k_planning" ||
+      phase == "p4k_recovering_index" ||
+      phase == "p4k_journaling" ||
+      phase == "p4k_metadata" ||
+      phase == "p4k_writing" ||
+      phase == "p4k_finalizing" ||
+      phase == "disk_checking" ||
+      phase == "repair_rebuilding";
+}
+
+bool _isImportantProgressEvent(P4kUpgraderProgressEvent event) {
+  return event.phase == "done" ||
+      event.phase == "cancelled" ||
+      event.phase == "error" ||
+      event.phase == "download_error";
+}
+
+bool _isProgressCompletion(P4kUpgraderProgressEvent event) {
+  if (event.phase == "network_speed") return false;
+  if (event.totalBytes > BigInt.zero && event.total <= BigInt.one) {
+    return event.downloadedBytes >= event.totalBytes;
+  }
+  return event.total > BigInt.zero && event.current >= event.total;
+}
+
+String _phaseText(String phase) {
+  return switch (phase) {
+    "downloading" => "下载",
+    "downloaded" => "下载完成",
+    "base_downloading" => "下载基础 P4K",
+    "base_verifying" => "校验基础 P4K",
+    "base_verification_downloading" => "下载基础校验文件",
+    "disk_checking" => "检查磁盘空间",
+    "p4k_diagnosing" => "诊断当前 P4K",
+    "repair_rebuilding" => "深度修复 P4K",
+    "p4k_verifying" => "校验 P4K",
+    "manifest_verifying" => "校验 P4K 内容",
+    "loose_downloading" => "下载游戏文件",
+    "loose_verifying" => "校验游戏文件",
+    "loose_staging" => "准备游戏文件",
+    "loose_writing" => "写入游戏文件",
+    "loose_written" => "游戏文件写入完成",
+    "post_install" => "完成安装状态",
+    "writing" => "写入",
+    "p4k_planning" => "准备 P4K 修补",
+    "p4k_recovering_index" => "恢复 P4K 索引",
+    "p4k_journaling" => "创建 P4K 回滚记录",
+    "p4k_metadata" => "更新 P4K 条目 metadata",
+    "p4k_writing" => "写入 P4K",
+    "p4k_finalizing" => "完成 P4K 写入",
+    "download_error" => "下载失败",
+    "done" => "完成",
+    "cancelled" => "已取消",
+    "error" => "错误",
+    _ => phase,
+  };
+}
+
+String _formatProgressLog(
+  P4kUpgraderProgressEvent event, {
+  String stageText = "",
+}) {
+  final now = DateTime.now();
+  final time =
+      '${now.hour.toString().padLeft(2, '0')}:'
+      '${now.minute.toString().padLeft(2, '0')}:'
+      '${now.second.toString().padLeft(2, '0')}';
+  final bytes = event.totalBytes == BigInt.zero
+      ? ''
+      : ' ${_formatBytes(event.downloadedBytes)}/${_formatBytes(event.totalBytes)}';
+  final active = event.activeDownloads == BigInt.zero
+      ? ''
+      : ' active=${event.activeDownloads}';
+  final message = event.message.isEmpty
+      ? ''
+      : ' ${_formatProgressMessage(event)}';
+  final stage = stageText.isEmpty ? '' : ' $stageText';
+  final queue = event.total == BigInt.zero
+      ? ''
+      : ' [${event.current}/${event.total}]';
+  final name = event.name.isEmpty ? '' : ' ${event.name}';
+  return '[$time] ${_phaseText(event.phase)}$stage$queue$active$bytes$name$message';
+}
+
+String _formatProgressMessage(P4kUpgraderProgressEvent event) {
+  if (event.phase == "loose_written") return "游戏文件写入完成";
+  if (event.phase == "loose_staging") return "正在准备游戏文件";
+  if (event.phase == "loose_verifying") return "正在校验游戏文件";
+  if (event.phase == "p4k_metadata") return "正在更新 P4K 条目 metadata";
+  if (event.phase == "p4k_recovering_index") return event.message;
+  return event.message;
+}
+
+String _stageKey(String phase, {bool deepRepair = false}) {
+  return switch (phase) {
+    "base_verification_downloading" => "base_downloading",
+    "base_verifying" => "base_downloading",
+    "downloading" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "downloaded" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "writing" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "p4k_planning" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "p4k_recovering_index" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "p4k_journaling" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "p4k_downloading" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "p4k_metadata" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "p4k_writing" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "p4k_finalizing" => deepRepair ? "repair_rebuilding" : "p4k_patch",
+    "p4k_verifying" => deepRepair ? "p4k_verifying" : "p4k_patch",
+    "manifest_verifying" => deepRepair ? "p4k_verifying" : "p4k_patch",
+    "loose_downloading" => "loose_files",
+    "loose_staging" => "loose_files",
+    "loose_writing" => "loose_files",
+    "loose_verifying" => "loose_files",
+    "loose_written" => "loose_files",
+    "post_install" => "post_install",
+    _ => phase,
+  };
+}
+
+String _stageLabelForKey(String key) {
+  return switch (key) {
+    "disk_checking" => "检查磁盘空间与任务预算",
+    "base_downloading" => "下载/校验基础 P4K",
+    "p4k_patch" => "修补 Data.p4k",
+    "p4k_diagnosing" => "诊断当前 P4K",
+    "repair_rebuilding" => "深度修复/重建 P4K",
+    "p4k_verifying" => "校验修复结果",
+    "loose_files" => "下载/写入游戏文件",
+    "post_install" => "注册 EAC 并同步启动器状态",
+    _ => _phaseText(key),
+  };
+}
+
+bool _isLiveInstallPath(String path) {
+  final normalized = path.replaceAll('\\', '/').replaceAll(RegExp(r'/+$'), '');
+  if (normalized.isEmpty) return false;
+  return normalized.split('/').last.toUpperCase() == 'LIVE';
+}
+
+const _p4kLiveOnlyMessage = "P4K 下载/更新暂不支持 PTU，目标路径必须是 LIVE 目录";
+
+String _joinPath(String parent, String child) {
+  final separator = Platform.isWindows ? '\\' : '/';
+  return parent.endsWith('\\') || parent.endsWith('/')
+      ? "$parent$child"
+      : "$parent$separator$child";
+}
+
+BigInt _maxBigInt(BigInt a, BigInt b) {
+  return a > b ? a : b;
+}
+
+String? _extractRequestedP4ChangeNumber(Map releaseInfo) {
+  final direct =
+      releaseInfo['RequestedP4ChangeNum'] ??
+      releaseInfo['requestedP4ChangeNum'] ??
+      releaseInfo['p4ChangeNum'] ??
+      releaseInfo['buildId'];
+  final directNumber = _lastNumberString(direct?.toString() ?? '');
+  if (directNumber != null) return directNumber;
+  final version = (releaseInfo['versionLabel'] ?? releaseInfo['version'])
+      ?.toString();
+  return _lastNumberString(version ?? '');
+}
+
+String? _lastNumberString(String value) {
+  final matches = RegExp(r'(\d{5,})').allMatches(value).toList();
+  if (matches.isEmpty) return null;
+  return matches.last.group(1);
+}
+
+String _processOutputSummary(ProcessResult result) {
+  final output = [
+    result.stdout?.toString().trim() ?? '',
+    result.stderr?.toString().trim() ?? '',
+  ].where((value) => value.isNotEmpty).join(' ');
+  if (output.isEmpty) return "";
+  final clipped = output.length > 300
+      ? '${output.substring(0, 300)}...'
+      : output;
+  return "：$clipped";
+}
+
+String _simpleLogTime() {
+  final now = DateTime.now();
+  return '[${now.hour.toString().padLeft(2, '0')}:'
+      '${now.minute.toString().padLeft(2, '0')}:'
+      '${now.second.toString().padLeft(2, '0')}]';
+}
+
+String _statusWithStageText(
+  P4kUpgraderProgressEvent event,
+  String stageText,
+  String fallback,
+) {
+  final stage = stageText.trim();
+  final rawMessage = event.message.isEmpty ? fallback : event.message;
+  final message = rawMessage.trim().replaceFirst(RegExp(r'^[：:，,\s]+'), '');
+  if (stage.isEmpty) return message;
+  return message.isEmpty ? stage : "$stage：$message";
+}

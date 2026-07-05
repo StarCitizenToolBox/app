@@ -50,7 +50,15 @@ fn main() -> Result<()> {
     let mut converted = 1usize;
     let mut skipped = 0usize;
     let mut failed = 0usize;
-    export_children(&p4k, &opts, &root_entry, &parts_dir, &mut converted, &mut skipped, &mut failed);
+    export_children(
+        &p4k,
+        &opts,
+        &root_entry,
+        &parts_dir,
+        &mut converted,
+        &mut skipped,
+        &mut failed,
+    );
 
     println!("root_model={root_model}");
     println!("manifest={}", manifest_path.display());
@@ -105,7 +113,10 @@ fn export_children(
                     }
                     Err(err) => {
                         *failed += 1;
-                        println!("part_failed port={} model={} error={err}", child.item_port_name, geometry_path);
+                        println!(
+                            "part_failed port={} model={} error={err}",
+                            child.item_port_name, geometry_path
+                        );
                     }
                 }
             } else {
@@ -143,7 +154,13 @@ fn normalize_p4k_model_path(path: &str) -> String {
 fn sanitize_file_component(value: &str) -> String {
     value
         .chars()
-        .map(|ch| if ch.is_ascii_alphanumeric() || ch == '_' || ch == '-' { ch } else { '_' })
+        .map(|ch| {
+            if ch.is_ascii_alphanumeric() || ch == '_' || ch == '-' {
+                ch
+            } else {
+                '_'
+            }
+        })
         .collect()
 }
 

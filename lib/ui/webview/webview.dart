@@ -28,7 +28,12 @@ class WebViewModel {
 
   bool get isClosed => _isClosed;
 
-  WebViewModel(this.context, {this.loginMode = false, this.loginCallback, this.loginChannel = "LIVE"});
+  WebViewModel(
+    this.context, {
+    this.loginMode = false,
+    this.loginCallback,
+    this.loginChannel = "LIVE",
+  });
 
   String url = "";
   bool canGoBack = false;
@@ -61,7 +66,10 @@ class WebViewModel {
   }) async {
     try {
       final userBox = await Hive.openBox("app_conf");
-      isEnableToolSiteMirrors = userBox.get("isEnableToolSiteMirrors", defaultValue: false);
+      isEnableToolSiteMirrors = userBox.get(
+        "isEnableToolSiteMirrors",
+        defaultValue: false,
+      );
       _appVersionData = appVersionData;
 
       webview = await RustWebViewController.create(
@@ -87,6 +95,10 @@ class WebViewModel {
             if (message["action"] == "webview_rsi_login_show_window") {
               webview.setVisible(true);
             } else if (message["action"] == "webview_rsi_login_success") {
+              final data = message["data"];
+              if (data is Map) {
+                data["webViewCookies"] = _getRsiCookiesFromWebView();
+              }
               _loginModeSuccess = true;
               loginCallback?.call(message, true);
               webview.close();
@@ -101,6 +113,37 @@ class WebViewModel {
     }
   }
 
+  String _getRsiCookiesFromWebView() {
+    final cookies = <String>[];
+    for (final url in [
+      "https://robertsspaceindustries.com/",
+      "https://prod.mcdn.robertsspaceindustries.com/",
+    ]) {
+      try {
+        final cookie = webview.getCookiesForUrl(url).trim();
+        if (cookie.isNotEmpty) cookies.add(cookie);
+      } catch (e) {
+        dPrint("Failed to get WebView cookies for $url: $e");
+      }
+    }
+    return _mergeCookieHeaders(cookies);
+  }
+
+  String _mergeCookieHeaders(List<String> headers) {
+    final values = <String, String>{};
+    for (final header in headers) {
+      for (final part in header.split(';')) {
+        final trimmed = part.trim();
+        final eq = trimmed.indexOf('=');
+        if (eq <= 0) continue;
+        values[trimmed.substring(0, eq)] = trimmed.substring(eq + 1);
+      }
+    }
+    return values.entries
+        .map((entry) => "${entry.key}=${entry.value}")
+        .join('; ');
+  }
+
   Future<void> _onNavigationCompleted(String newUrl) async {
     dPrint("Navigation completed: $newUrl");
     url = newUrl;
@@ -113,9 +156,11 @@ class WebViewModel {
       final replaceWords = _getLocalizationResource("zh-CN");
       const org = "https://robertsspaceindustries.com/orgs";
       const citizens = "https://robertsspaceindustries.com/citizens";
-      const organization = "https://robertsspaceindustries.com/account/organization";
+      const organization =
+          "https://robertsspaceindustries.com/account/organization";
       const concierge = "https://robertsspaceindustries.com/account/concierge";
-      const referral = "https://robertsspaceindustries.com/account/referral-program";
+      const referral =
+          "https://robertsspaceindustries.com/account/referral-program";
       const address = "https://robertsspaceindustries.com/account/addresses";
 
       const hangar = "https://robertsspaceindustries.com/account/pledges";
@@ -130,8 +175,13 @@ class WebViewModel {
       await Future.delayed(const Duration(milliseconds: 100));
       webview.injectLocalizationScript();
 
-      if (url.startsWith(org) || url.startsWith(citizens) || url.startsWith(organization)) {
-        replaceWords.add({"word": 'members', "replacement": S.current.webview_localization_name_member});
+      if (url.startsWith(org) ||
+          url.startsWith(citizens) ||
+          url.startsWith(organization)) {
+        replaceWords.add({
+          "word": 'members',
+          "replacement": S.current.webview_localization_name_member,
+        });
         replaceWords.addAll(_getLocalizationResource("orgs"));
       }
 
@@ -141,9 +191,19 @@ class WebViewModel {
 
       if (url.startsWith(referral)) {
         replaceWords.addAll([
-          {"word": 'Total recruits: ', "replacement": S.current.webview_localization_total_invitations},
-          {"word": 'Prospects ', "replacement": S.current.webview_localization_unfinished_invitations},
-          {"word": 'Recruits', "replacement": S.current.webview_localization_finished_invitations},
+          {
+            "word": 'Total recruits: ',
+            "replacement": S.current.webview_localization_total_invitations,
+          },
+          {
+            "word": 'Prospects ',
+            "replacement":
+                S.current.webview_localization_unfinished_invitations,
+          },
+          {
+            "word": 'Recruits',
+            "replacement": S.current.webview_localization_finished_invitations,
+          },
         ]);
       }
 
@@ -166,18 +226,24 @@ class WebViewModel {
 
       /// loginMode
       if (loginMode) {
-        dPrint("--- do rsi login ---\n run === getRSILauncherToken(\"$loginChannel\");");
+        dPrint(
+          "--- do rsi login ---\n run === getRSILauncherToken(\"$loginChannel\");",
+        );
         await Future.delayed(const Duration(milliseconds: 200));
         webview.executeRsiLogin(loginChannel);
       }
-    } else if (url.startsWith(await _handleMirrorsUrl("https://www.erkul.games", _appVersionData))) {
+    } else if (url.startsWith(
+      await _handleMirrorsUrl("https://www.erkul.games", _appVersionData),
+    )) {
       dPrint("load script");
       await Future.delayed(const Duration(milliseconds: 100));
       webview.injectLocalizationScript();
       dPrint("update replaceWords");
       final replaceWords = _getLocalizationResource("DPS");
       webview.updateReplaceWords(replaceWords, enableCapture);
-    } else if (url.startsWith(await _handleMirrorsUrl("https://uexcorp.space", _appVersionData))) {
+    } else if (url.startsWith(
+      await _handleMirrorsUrl("https://uexcorp.space", _appVersionData),
+    )) {
       dPrint("load script");
       await Future.delayed(const Duration(milliseconds: 100));
       webview.injectLocalizationScript();
@@ -187,7 +253,10 @@ class WebViewModel {
     }
   }
 
-  Future<String> _handleMirrorsUrl(String url, AppVersionData appVersionData) async {
+  Future<String> _handleMirrorsUrl(
+    String url,
+    AppVersionData appVersionData,
+  ) async {
     var finalUrl = url;
     if (isEnableToolSiteMirrors) {
       for (var kv in appVersionData.webMirrors!.entries) {
@@ -212,21 +281,41 @@ class WebViewModel {
     final hostUrl = URLConf.webTranslateHomeUrl;
     dPrint("AppWebLocalizationVersionsData === ${v.toJson()}");
 
-    localizationResource["zh-CN"] = await _getJson("$hostUrl/zh-CN-rsi.json", cacheKey: "rsi", version: v.rsi);
+    localizationResource["zh-CN"] = await _getJson(
+      "$hostUrl/zh-CN-rsi.json",
+      cacheKey: "rsi",
+      version: v.rsi,
+    );
     localizationResource["concierge"] = await _getJson(
       "$hostUrl/concierge.json",
       cacheKey: "concierge",
       version: v.concierge,
     );
-    localizationResource["orgs"] = await _getJson("$hostUrl/orgs.json", cacheKey: "orgs", version: v.orgs);
+    localizationResource["orgs"] = await _getJson(
+      "$hostUrl/orgs.json",
+      cacheKey: "orgs",
+      version: v.orgs,
+    );
     localizationResource["address"] = await _getJson(
       "$hostUrl/addresses.json",
       cacheKey: "addresses",
       version: v.addresses,
     );
-    localizationResource["hangar"] = await _getJson("$hostUrl/hangar.json", cacheKey: "hangar", version: v.hangar);
-    localizationResource["UEX"] = await _getJson("$hostUrl/zh-CN-uex.json", cacheKey: "uex", version: v.uex);
-    localizationResource["DPS"] = await _getJson("$hostUrl/zh-CN-dps.json", cacheKey: "dps", version: v.dps);
+    localizationResource["hangar"] = await _getJson(
+      "$hostUrl/hangar.json",
+      cacheKey: "hangar",
+      version: v.hangar,
+    );
+    localizationResource["UEX"] = await _getJson(
+      "$hostUrl/zh-CN-uex.json",
+      cacheKey: "uex",
+      version: v.uex,
+    );
+    localizationResource["DPS"] = await _getJson(
+      "$hostUrl/zh-CN-dps.json",
+      cacheKey: "dps",
+      version: v.dps,
+    );
   }
 
   List<Map<String, String>> _getLocalizationResource(String key) {
@@ -240,13 +329,20 @@ class WebViewModel {
             .toLowerCase()
             .replaceAll(RegExp("/\xa0/g"), ' ')
             .replaceAll(RegExp("/s{2,}/g"), ' ');
-        localizations.add({"word": k, "replacement": element.value.toString().trim()});
+        localizations.add({
+          "word": k,
+          "replacement": element.value.toString().trim(),
+        });
       }
     }
     return localizations;
   }
 
-  Future<Map> _getJson(String url, {String cacheKey = "", String? version}) async {
+  Future<Map> _getJson(
+    String url, {
+    String cacheKey = "",
+    String? version,
+  }) async {
     final box = await Hive.openBox("web_localization_cache_data");
     if (cacheKey.isNotEmpty) {
       final localVersion = box.get("${cacheKey}_version}", defaultValue: "");
@@ -273,7 +369,9 @@ class WebViewModel {
     webview.addOnWebMessageCallback(callback);
   }
 
-  void removeOnWebMessageReceivedCallback(OnWebMessageReceivedCallback callback) {
+  void removeOnWebMessageReceivedCallback(
+    OnWebMessageReceivedCallback callback,
+  ) {
     webview.removeOnWebMessageCallback(callback);
   }
 

@@ -1,0 +1,36 @@
+[package]
+name = "p4k_upgrader"
+version = "0.1.0"
+edition = "2021"
+description = "Verify and update Star Citizen Data.p4k files from a launcher manifest"
+license = "gpl-3.0"
+authors = ["xkeyC"]
+build = "build.rs"
+
+[lib]
+name = "p4k_upgrader"
+path = "src/lib.rs"
+
+[[bin]]
+name = "p4k-upgrader"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.100"
+clap = { version = "4.5.53", features = ["derive"] }
+crc32fast = "1.5.0"
+flate2 = "1.1.5"
+rayon = "1.12"
+regex = "1.12.2"
+reqwest = { version = "0.12.24", default-features = false, features = ["blocking", "gzip", "deflate", "http2", "rustls-tls"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+sha2 = "0.10.9"
+scopeguard = "1.0"
+thiserror = "2.0.17"
+urlencoding = "2.1.3"
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_Storage_FileSystem", "Win32_System_IO", "Win32_System_SystemInformation"] }
+zstd = "0.13.3"
+
+[dev-dependencies]
+tempfile = "3.23.0"

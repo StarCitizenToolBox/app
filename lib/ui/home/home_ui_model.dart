@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
@@ -23,6 +24,7 @@ import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart'
 import 'package:starcitizen_doctor/data/citizen_news_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_game_login_dialog_ui.dart';
+import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_update_dialog_ui.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
@@ -72,7 +74,10 @@ class HomeUIModel extends _$HomeUIModel {
   }
 
   Future<void> reScanPath() async {
-    state = state.copyWith(scInstalledPath: "not_install", lastScreenInfo: S.current.home_action_info_scanning);
+    state = state.copyWith(
+      scInstalledPath: "not_install",
+      lastScreenInfo: S.current.home_action_info_scanning,
+    );
     try {
       final listData = await SCLoggerHelper.getLauncherLogList();
       if (listData == null) {
@@ -92,9 +97,10 @@ class HomeUIModel extends _$HomeUIModel {
           scInstalledPath = scInstallPaths.first;
         }
       }
-      final lastScreenInfo = S.current.home_action_info_scan_complete_valid_directories_found(
-        scInstallPaths.length.toString(),
-      );
+      final lastScreenInfo = S.current
+          .home_action_info_scan_complete_valid_directories_found(
+            scInstallPaths.length.toString(),
+          );
       state = state.copyWith(
         scInstalledPath: scInstalledPath,
         scInstallPaths: scInstallPaths,
@@ -139,19 +145,28 @@ class HomeUIModel extends _$HomeUIModel {
     String url, {
     bool useLocalization = false,
     bool loginMode = false,
+    String loginChannel = "LIVE",
     RsiLoginCallback? rsiLoginCallback,
   }) async {
     if (useLocalization) {
       const tipVersion = 2;
       final box = await Hive.openBox("app_conf");
-      final skip = await box.get("skip_web_localization_tip_version", defaultValue: 0);
+      final skip = await box.get(
+        "skip_web_localization_tip_version",
+        defaultValue: 0,
+      );
       if (skip != tipVersion) {
         if (!context.mounted) return;
         final ok = await showConfirmDialogs(
           context,
           S.current.home_action_title_star_citizen_website_localization,
-          Text(S.current.home_action_info_web_localization_plugin_disclaimer, style: const TextStyle(fontSize: 16)),
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .6),
+          Text(
+            S.current.home_action_info_web_localization_plugin_disclaimer,
+            style: const TextStyle(fontSize: 16),
+          ),
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * .6,
+          ),
         );
         if (!ok) {
           if (loginMode) {
@@ -164,9 +179,17 @@ class HomeUIModel extends _$HomeUIModel {
     }
     // Rust WebView using wry + tao - no WebView2 runtime check needed as wry handles it internally
     if (!context.mounted) return;
-    final webViewModel = WebViewModel(context, loginMode: loginMode, loginCallback: rsiLoginCallback);
+    final webViewModel = WebViewModel(
+      context,
+      loginMode: loginMode,
+      loginCallback: rsiLoginCallback,
+      loginChannel: loginChannel,
+    );
     if (useLocalization) {
-      state = state.copyWith(isFixing: true, isFixingString: S.current.home_action_info_initializing_resources);
+      state = state.copyWith(
+        isFixing: true,
+        isFixingString: S.current.home_action_info_initializing_resources,
+      );
       try {
         await webViewModel.initLocalization(state.webLocalizationVersionsData!);
       } catch (e) {
@@ -223,13 +246,20 @@ class HomeUIModel extends _$HomeUIModel {
         }
       }
 
-      final appWebLocalizationVersionsData = AppWebLocalizationVersionsData.fromJson(
-        json.decode((await RSHttp.getText("${URLConf.webTranslateHomeUrl}/versions.json"))),
-      );
+      final appWebLocalizationVersionsData =
+          AppWebLocalizationVersionsData.fromJson(
+            json.decode(
+              (await RSHttp.getText(
+                "${URLConf.webTranslateHomeUrl}/versions.json",
+              )),
+            ),
+          );
       final countdownFestivalListData = await Api.getFestivalCountdownList();
       state = state.copyWith(
         webLocalizationVersionsData: appWebLocalizationVersionsData,
-        countdownFestivalListData: _fixFestivalCountdownListDateTime(countdownFestivalListData),
+        countdownFestivalListData: _fixFestivalCountdownListDateTime(
+          countdownFestivalListData,
+        ),
       );
       _updateSCServerStatus();
       _loadNews();
@@ -241,7 +271,9 @@ class HomeUIModel extends _$HomeUIModel {
   }
 
   /// 节日已过7天时，更新为下一年的时间
-  List<CountdownFestivalItemData> _fixFestivalCountdownListDateTime(List<CountdownFestivalItemData> list) {
+  List<CountdownFestivalItemData> _fixFestivalCountdownListDateTime(
+    List<CountdownFestivalItemData> list,
+  ) {
     final now = DateTime.now();
 
     final fixedList = list.map((item) {
@@ -270,12 +302,20 @@ class HomeUIModel extends _$HomeUIModel {
           itemDateTime.second,
         );
         final newTimestamp = (nextYearDate.millisecondsSinceEpoch).round();
-        return CountdownFestivalItemData(name: item.name, time: newTimestamp, icon: item.icon);
+        return CountdownFestivalItemData(
+          name: item.name,
+          time: newTimestamp,
+          icon: item.icon,
+        );
       }
 
       // 否则使用今年的日期
       final newTimestamp = (thisYearDate.millisecondsSinceEpoch).round();
-      return CountdownFestivalItemData(name: item.name, time: newTimestamp, icon: item.icon);
+      return CountdownFestivalItemData(
+        name: item.name,
+        time: newTimestamp,
+        icon: item.icon,
+      );
     }).toList();
 
     // Sort by time (ascending order - nearest festival first)
@@ -312,14 +352,18 @@ class HomeUIModel extends _$HomeUIModel {
     if (updates == null || updates.isEmpty) {
       state = state.copyWith(localizationUpdateInfo: null);
     } else {
-      state = state.copyWith(localizationUpdateInfo: MapEntry(updates.first, true));
+      state = state.copyWith(
+        localizationUpdateInfo: MapEntry(updates.first, true),
+      );
       if (_appUpdateTimer != null) {
         _appUpdateTimer?.cancel();
         _appUpdateTimer = null;
         // 发送通知
         await win32.sendNotify(
           summary: S.current.home_localization_new_version_available,
-          body: S.current.home_localization_new_version_installed(updates.first),
+          body: S.current.home_localization_new_version_installed(
+            updates.first,
+          ),
           appName: S.current.home_title_app_name,
           appId: ConstConf.win32AppId,
         );
@@ -351,7 +395,11 @@ class HomeUIModel extends _$HomeUIModel {
         return;
       }
       AnalyticsApi.touch("gameLaunch");
-      showDialog(context: context, dismissWithEsc: false, builder: (context) => HomeGameLoginDialogUI(context));
+      showDialog(
+        context: context,
+        dismissWithEsc: false,
+        builder: (context) => HomeGameLoginDialogUI(context),
+      );
     } else {
       final ok = await showConfirmDialogs(
         context,
@@ -361,17 +409,176 @@ class HomeUIModel extends _$HomeUIModel {
         cancel: S.current.home_action_cancel,
       );
       if (ok == true) {
-        await launchUrlString("https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true");
+        await launchUrlString(
+          "https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true",
+        );
         await Future.delayed(const Duration(seconds: 2));
         exit(0);
       }
     }
   }
 
+  // ignore: avoid_build_context_in_providers
+  Future<void> openP4kUpdater(BuildContext context) async {
+    final installPath = await _resolveP4kInstallPath(context);
+    if (installPath == null) return;
+    if (!context.mounted) return;
+    final pathError = _p4kInstallPathError(installPath);
+    if (pathError != null) {
+      showToast(context, pathError);
+      return;
+    }
+    if (state.isCurGameRunning) {
+      showToast(context, "请先关闭游戏后再更新 P4K / 游戏文件");
+      return;
+    }
+    if (appGlobalState.networkVersionData == null ||
+        appGlobalState.applicationSupportDir == null) {
+      showToast(
+        context,
+        S.current.app_common_network_error(
+          ConstConf.appVersionDate,
+          "networkVersionData is null",
+        ),
+      );
+      return;
+    }
+    if (state.webLocalizationVersionsData == null) {
+      showToast(context, "网页登录资源尚未初始化，请稍后重试");
+      return;
+    }
+
+    await goWebView(
+      context,
+      S.current.home_action_login_rsi_account,
+      "https://robertsspaceindustries.com/en/connect?jumpto=/account/dashboard",
+      loginMode: true,
+      useLocalization: true,
+      loginChannel: _getChannelID(installPath),
+      rsiLoginCallback: (message, ok) async {
+        if (message == null || !ok) {
+          return;
+        }
+        final data = message["data"];
+        final releaseInfo = data is Map ? data["releaseInfo"] : null;
+        final webToken = data is Map ? data["webToken"]?.toString() ?? "" : "";
+        final webCookie = data is Map
+            ? data["webCookie"]?.toString() ?? ""
+            : "";
+        final webViewCookies = data is Map
+            ? data["webViewCookies"]?.toString() ?? ""
+            : "";
+        if (releaseInfo is! Map) {
+          if (!context.mounted) return;
+          showToast(context, "未能从 RSI 返回数据中读取 releaseInfo");
+          return;
+        }
+        if (!context.mounted) return;
+        final updated = await showDialog<bool>(
+          context: context,
+          dismissWithEsc: false,
+          builder: (_) => HomeP4kUpdateDialogUI(
+            releaseInfo: releaseInfo,
+            installPath: installPath,
+            applicationSupportDir: appGlobalState.applicationSupportDir!,
+            webToken: webToken,
+            webCookie: _mergeCookieHeaders([webCookie, webViewCookies]),
+          ),
+        );
+        if (updated == true) {
+          await reScanPath();
+        }
+      },
+    );
+  }
+
+  Future<String?> _resolveP4kInstallPath(BuildContext context) async {
+    final current = state.scInstalledPath;
+    final currentValid = current != null && current != "not_install";
+    if (currentValid &&
+        await File("$current\\Data.p4k".platformPath).exists()) {
+      final pathError = _p4kInstallPathError(current);
+      if (pathError == null) {
+        return current;
+      }
+      if (context.mounted) showToast(context, pathError);
+    }
+
+    final candidates = await _loadIncompleteInstallPaths();
+    if (currentValid &&
+        _p4kInstallPathError(current) == null &&
+        !candidates.any((p) => p.toLowerCase() == current.toLowerCase())) {
+      candidates.insert(0, current);
+    }
+    if (!context.mounted) return null;
+    final selected = await showDialog<String>(
+      context: context,
+      dismissWithEsc: true,
+      builder: (_) => _P4kInstallPathDialog(initialPaths: candidates),
+    );
+    if (selected != null) {
+      state = state.copyWith(scInstalledPath: selected);
+    }
+    return selected;
+  }
+
+  Future<List<String>> _loadIncompleteInstallPaths() async {
+    final paths = <String>[];
+    void addPath(String? path) {
+      if (path == null || path.isEmpty || path == "not_install") return;
+      final normalized = path.platformPath;
+      if (_p4kInstallPathError(normalized) != null) return;
+      if (!paths.any((p) => p.toLowerCase() == normalized.toLowerCase())) {
+        paths.add(normalized);
+      }
+    }
+
+    for (final path in state.scInstallPaths) {
+      addPath(path);
+    }
+    final listData = await SCLoggerHelper.getLauncherLogList();
+    if (listData != null) {
+      final detected = await SCLoggerHelper.getGameInstallPath(
+        listData,
+        withVersion: AppConf.gameChannels,
+        checkExists: false,
+      );
+      for (final path in detected) {
+        addPath(path);
+      }
+    }
+    return paths;
+  }
+
+  String _mergeCookieHeaders(List<String> headers) {
+    final values = <String, String>{};
+    for (final header in headers) {
+      for (final part in header.split(';')) {
+        final trimmed = part.trim();
+        final eq = trimmed.indexOf('=');
+        if (eq <= 0) continue;
+        values[trimmed.substring(0, eq)] = trimmed.substring(eq + 1);
+      }
+    }
+    return values.entries
+        .map((entry) => "${entry.key}=${entry.value}")
+        .join('; ');
+  }
+
+  String _getChannelID(String installPath) {
+    final pathLower = installPath.platformPath.toLowerCase();
+    if (pathLower.endsWith('\\live'.platformPath)) {
+      return "LIVE";
+    }
+    return installPath.platformPath.split('\\'.platformPath).last.toUpperCase();
+  }
+
   void onChangeInstallPath(String? value) {
     if (value == null) return;
     state = state.copyWith(scInstalledPath: value);
-    ref.read(localizationUIModelProvider.notifier).onChangeGameInstallPath(value);
+    ref
+        .read(localizationUIModelProvider.notifier)
+        .onChangeGameInstallPath(value);
   }
 
   Future<void> doLaunchGame(
@@ -426,8 +633,12 @@ class HomeUIModel extends _$HomeUIModel {
             result.exitCode.toString(),
             result.stdout ?? "",
             result.stderr ?? "",
-            exitInfo == null ? S.current.home_action_info_unknown_error : exitInfo.key,
-            hasUrl ? S.current.home_action_info_check_web_link : exitInfo?.value ?? "",
+            exitInfo == null
+                ? S.current.home_action_info_unknown_error
+                : exitInfo.key,
+            hasUrl
+                ? S.current.home_action_info_check_web_link
+                : exitInfo?.value ?? "",
           ),
         );
         if (hasUrl) {
@@ -444,5 +655,110 @@ class HomeUIModel extends _$HomeUIModel {
     runningMap = Map<String, bool>.from(state.isGameRunning);
     runningMap[installPath] = false;
     state = state.copyWith(isGameRunning: runningMap);
+  }
+}
+
+const _p4kLiveOnlyMessage = "P4K 下载/更新暂不支持 PTU，目标路径必须是 LIVE 目录";
+
+String? _p4kInstallPathError(String path) {
+  final normalized = path.replaceAll('\\', '/').replaceAll(RegExp(r'/+$'), '');
+  if (normalized.isEmpty) return _p4kLiveOnlyMessage;
+  return normalized.split('/').last.toUpperCase() == 'LIVE'
+      ? null
+      : _p4kLiveOnlyMessage;
+}
+
+class _P4kInstallPathDialog extends StatefulWidget {
+  const _P4kInstallPathDialog({required this.initialPaths});
+
+  final List<String> initialPaths;
+
+  @override
+  State<_P4kInstallPathDialog> createState() => _P4kInstallPathDialogState();
+}
+
+class _P4kInstallPathDialogState extends State<_P4kInstallPathDialog> {
+  late final List<String> _paths = [...widget.initialPaths];
+  String? _selectedPath;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedPath = _paths.firstOrNull;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ContentDialog(
+      title: const Text("选择游戏下载目录"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("当前没有可直接使用的 Data.p4k。请选择一个不完整安装目录，或选择新的安装位置用于下载。"),
+          const SizedBox(height: 12),
+          if (_paths.isNotEmpty) ...[
+            const Text("已发现的安装目录"),
+            const SizedBox(height: 6),
+            ComboBox<String>(
+              value: _selectedPath,
+              isExpanded: true,
+              items: [
+                for (final path in _paths)
+                  ComboBoxItem(value: path, child: Text(path)),
+              ],
+              onChanged: (value) => setState(() => _selectedPath = value),
+            ),
+            const SizedBox(height: 12),
+          ],
+          Button(
+            child: const Text("选择新目录"),
+            onPressed: () async {
+              final selected = await FilePicker.getDirectoryPath(
+                dialogTitle: "选择游戏下载目录",
+                initialDirectory: _selectedPath,
+                lockParentWindow: true,
+              );
+              if (selected == null || !mounted) return;
+              final normalized = selected.platformPath;
+              final pathError = _p4kInstallPathError(normalized);
+              if (pathError != null) {
+                if (!context.mounted) return;
+                showToast(context, pathError);
+                return;
+              }
+              setState(() {
+                if (!_paths.any(
+                  (path) => path.toLowerCase() == normalized.toLowerCase(),
+                )) {
+                  _paths.insert(0, normalized);
+                }
+                _selectedPath = normalized;
+              });
+            },
+          ),
+        ],
+      ),
+      actions: [
+        Button(
+          child: const Text("取消"),
+          onPressed: () => Navigator.pop(context),
+        ),
+        FilledButton(
+          onPressed: _selectedPath == null || _selectedPath!.trim().isEmpty
+              ? null
+              : () {
+                  final selected = _selectedPath!;
+                  final pathError = _p4kInstallPathError(selected);
+                  if (pathError != null) {
+                    showToast(context, pathError);
+                    return;
+                  }
+                  Navigator.pop(context, selected);
+                },
+          child: const Text("继续"),
+        ),
+      ],
+    );
   }
 }

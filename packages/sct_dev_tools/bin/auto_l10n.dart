@@ -255,7 +255,7 @@ class MyAstVisitor extends GeneralizingAstVisitor {
     return RegExp(r'[\u4e00-\u9fa5]').hasMatch(input);
   }
 
-  addStringResult(String value) {
+  void addStringResult(String value) {
     stringResult.add(value);
   }
 }
