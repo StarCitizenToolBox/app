@@ -76,12 +76,18 @@ class UserAvatarWidget extends HookConsumerWidget {
     );
   }
 
-  void _showAccountCard(BuildContext context, WidgetRef ref, String userName, String? avatarUrl, Int64? enlistedDate) {
+  Future<void> _showAccountCard(
+    BuildContext context,
+    WidgetRef ref,
+    String userName,
+    String? avatarUrl,
+    Int64? enlistedDate,
+  ) async {
     final targetContext = context;
     final box = targetContext.findRenderObject() as RenderBox?;
     final offset = box?.localToGlobal(Offset.zero) ?? Offset.zero;
 
-    showDialog(
+    final action = await showDialog<_AccountCardAction>(
       context: context,
       barrierDismissible: true,
       barrierColor: Colors.transparent,
@@ -209,8 +215,7 @@ class UserAvatarWidget extends HookConsumerWidget {
                               Expanded(
                                 child: FilledButton(
                                   onPressed: () async {
-                                    Navigator.of(dialogContext).pop();
-                                    await _handleUnregister(context, ref);
+                                    Navigator.of(dialogContext).pop(_AccountCardAction.logout);
                                   },
                                   style: ButtonStyle(
                                     backgroundColor: WidgetStateProperty.resolveWith((states) {
@@ -219,7 +224,7 @@ class UserAvatarWidget extends HookConsumerWidget {
                                     }),
                                   ),
                                   child: Text(
-                                    S.current.user_action_unregister,
+                                    '退出登录',
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -237,28 +242,38 @@ class UserAvatarWidget extends HookConsumerWidget {
         );
       },
     );
+
+    if (!context.mounted) return;
+    switch (action) {
+      case _AccountCardAction.logout:
+        await _handleLogout(context, ref);
+      case null:
+        break;
+    }
   }
 
-  Future<void> _handleUnregister(BuildContext context, WidgetRef ref) async {
+  Future<void> _handleLogout(BuildContext context, WidgetRef ref) async {
     final confirmed = await showConfirmDialogs(
       context,
-      S.current.user_confirm_unregister_title,
-      Text(S.current.user_confirm_unregister_message),
+      '退出登录',
+      const Text('确定要退出 PartyRoom 登录状态吗？下次使用时需要重新登录。'),
       constraints: const BoxConstraints(maxWidth: 400),
     );
 
     if (confirmed == true) {
       try {
         final partyRoom = ref.read(partyRoomProvider.notifier);
-        await partyRoom.unregister();
+        await partyRoom.logout();
         if (context.mounted) {
-          showToast(context, S.current.user_unregister_success);
+          showToast(context, '已退出登录');
         }
       } catch (e) {
         if (context.mounted) {
-          showToast(context, '${S.current.user_unregister_failed}: $e');
+          showToast(context, '退出登录失败: $e');
         }
       }
     }
   }
 }
+
+enum _AccountCardAction { logout }

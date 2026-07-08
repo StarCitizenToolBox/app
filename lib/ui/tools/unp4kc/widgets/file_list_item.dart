@@ -14,6 +14,7 @@ import 'package:starcitizen_doctor/provider/unp4kc.dart';
 
 import '../../../../widgets/widgets.dart';
 import 'dialogs.dart';
+import 'models.dart';
 
 class FileListItem extends HookWidget {
   final AppUnp4kP4kItemData item;
@@ -285,29 +286,62 @@ class FileListItem extends HookWidget {
   }
 
   Future<void> _saveAs(BuildContext context) async {
-    final outputDir = await FilePicker.getDirectoryPath(
-      dialogTitle: S.current.tools_unp4k_action_save_as,
-    );
-    if (outputDir != null && context.mounted) {
-      await _showExtractProgressDialog(context, outputDir);
-    }
-  }
+    final filesToExport = _collectClickedFilesForExport();
+    if (filesToExport.isEmpty) return;
+    final hasConvertible = filesToExport.any(canConvertExportPath);
 
-  Future<void> _showExtractProgressDialog(
-    BuildContext context,
-    String outputDir,
-  ) async {
+    final options = await showDialog<BatchExportOptions>(
+      context: context,
+      builder: (dialogContext) {
+        return BatchExportOptionsDialog(hasConvertible: hasConvertible);
+      },
+    );
+    if (options == null || !context.mounted) return;
+
+    String? outputDir;
+    String? singleOutputPath;
+
+    if (!options.includePath && filesToExport.length == 1) {
+      final defaultName = defaultExportName(
+        filesToExport.first,
+        options.convertWhenPossible,
+      );
+      singleOutputPath = await FilePicker.saveFile(
+        dialogTitle: options.convertWhenPossible ? "选择转换导出文件" : "选择导出文件",
+        fileName: defaultName,
+        bytes: Uint8List(0),
+      );
+      if (singleOutputPath == null) return;
+    } else {
+      outputDir = await FilePicker.getDirectoryPath(
+        dialogTitle: options.convertWhenPossible
+            ? "选择转换导出位置"
+            : S.current.tools_unp4k_action_save_as,
+      );
+      if (outputDir == null) return;
+    }
+
+    if (!context.mounted) return;
     await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) {
-        return ExtractProgressDialog(
-          item: item,
+        return AdvancedExportProgressDialog(
+          filesToExport: filesToExport,
           outputDir: outputDir,
+          singleOutputPath: singleOutputPath,
+          options: options,
           model: model,
         );
       },
     );
+  }
+
+  List<String> _collectClickedFilesForExport() {
+    final itemPath = item.name ?? "";
+    if (itemPath.isEmpty) return const [];
+    if (!(item.isDirectory ?? false)) return [itemPath];
+    return collectFilesForExport([itemPath], state.files);
   }
 
   Future<void> _convertToGlb(BuildContext context) async {

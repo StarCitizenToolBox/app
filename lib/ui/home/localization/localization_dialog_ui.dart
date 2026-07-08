@@ -418,12 +418,15 @@ class LocalizationDialogUI extends HookConsumerWidget {
                           context.push("/index/advanced_localization");
                           break;
                         case "custom_files":
-                          final sb = await showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                const LocalizationFromFileDialogUI(),
-                          );
-                          if (sb is (StringBuffer, bool, List<dynamic>)) {
+                          final sb =
+                              await showDialog<
+                                LocalizationFromFileDialogResult
+                              >(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    const LocalizationFromFileDialogUI(),
+                              );
+                          if (sb != null) {
                             if (!context.mounted) return;
                             final extensions = sb.$3
                                 .whereType<LocalizationExtensionItemData>()

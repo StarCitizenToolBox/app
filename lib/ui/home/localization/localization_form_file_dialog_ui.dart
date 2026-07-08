@@ -11,6 +11,8 @@ import 'package:starcitizen_doctor/ui/home/localization/localization_extension_s
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
+typedef LocalizationFromFileDialogResult = (StringBuffer, bool, List<dynamic>);
+
 class LocalizationFromFileDialogUI extends HookConsumerWidget {
   final bool isInAdvancedMode;
 
@@ -107,11 +109,15 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                       .toList(),
                 );
                 if (!context.mounted) return;
-                Navigator.pop(context, (
-                  selectedStringBuffer.value,
+                final result = (
+                  selectedStringBuffer.value!,
                   installOptions.value.enableCommunityInputMethod,
                   installOptions.value.selectedExtensions,
-                ));
+                );
+                Navigator.pop<LocalizationFromFileDialogResult>(
+                  context,
+                  result,
+                );
               },
             ),
         ],

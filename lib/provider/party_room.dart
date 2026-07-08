@@ -277,6 +277,26 @@ class PartyRoom extends _$PartyRoom {
     }
   }
 
+  /// 退出登录
+  Future<void> logout() async {
+    try {
+      await _confBox?.delete(_secretKeyKey);
+      await _stopHeartbeat();
+      await _stopEventStream();
+
+      _dismissRoom();
+
+      state = state.copyWith(
+        auth: state.auth.copyWith(secretKey: '', isLoggedIn: false, userInfo: null, lastLoginTime: null),
+      );
+
+      dPrint('[PartyRoom] Logged out');
+    } catch (e) {
+      dPrint('[PartyRoom] Logout error: $e');
+      rethrow;
+    }
+  }
+
   /// 刷新用户资料
   Future<void> refreshUserProfile() async {
     try {

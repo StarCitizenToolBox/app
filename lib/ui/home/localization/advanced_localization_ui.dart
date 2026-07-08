@@ -26,11 +26,11 @@ class AdvancedLocalizationUI extends HookConsumerWidget {
     final homeUIState = ref.watch(homeUIModelProvider);
 
     onSwitchFile() async {
-      final sb = await showDialog(
+      final sb = await showDialog<LocalizationFromFileDialogResult>(
         context: context,
         builder: (BuildContext context) => const LocalizationFromFileDialogUI(isInAdvancedMode: true),
       );
-      if (sb is (StringBuffer, bool)) {
+      if (sb != null) {
         model.setCustomizeGlobalIni(sb.$1.toString());
       }
     }
