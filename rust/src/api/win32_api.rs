@@ -373,15 +373,12 @@ pub fn resolve_shortcut(_lnk_path: String) -> anyhow::Result<String> {
 pub fn open_dir_with_explorer(path: &str, is_file: bool) -> anyhow::Result<()> {
     use std::process::Command;
 
-    if is_file {
-        Command::new("explorer.exe")
-            .args(["/select,", path])
-            .spawn()?;
+    let args = if is_file {
+        vec!["/select,", path]
     } else {
-        Command::new("explorer.exe")
-            .args(["/select,", path])
-            .spawn()?;
-    }
+        vec![path]
+    };
+    Command::new("explorer.exe").args(args).spawn()?;
 
     Ok(())
 }

@@ -72,7 +72,7 @@ mod large_file_tests {
                 1000,
                 |_chunk, _index, _total| {
                     chunk_count += 1;
-                    if chunk_count % 10 == 0 {
+                    if chunk_count.is_multiple_of(10) {
                         println!("Processed chunk {}", chunk_count);
                     }
                     Ok(())

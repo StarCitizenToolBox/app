@@ -186,7 +186,7 @@ pub fn check_applinks_registration(scheme: String) -> anyhow::Result<ApplinksReg
 /// # Arguments
 /// * `scheme` - The URL scheme to register (e.g., "sctoolbox")
 /// * `app_name` - Optional application display name (e.g., "SCToolBox"). If provided,
-///                the registry will show "URL:{app_name} Protocol" as the scheme description.
+///   the registry will show "URL:{app_name} Protocol" as the scheme description.
 #[cfg(target_os = "windows")]
 pub fn register_applinks(
     scheme: String,

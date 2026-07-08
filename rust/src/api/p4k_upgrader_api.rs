@@ -131,7 +131,7 @@ pub async fn p4k_upgrader_update_with_progress(
 ) {
     let stream_sink = Arc::new(stream_sink);
     let sink = stream_sink.clone();
-    let _ = tokio::task::spawn_blocking(move || {
+    let handle = tokio::task::spawn_blocking(move || {
         let mut config = match to_upgrader_config(config) {
             Ok(config) => config,
             Err(err) => {
@@ -172,6 +172,9 @@ pub async fn p4k_upgrader_update_with_progress(
             }
         }
     });
+    // The update is intentionally detached; progress and terminal state are
+    // reported through the FRB stream sink.
+    std::mem::drop(handle);
 }
 
 #[flutter_rust_bridge::frb(sync)]
@@ -201,36 +204,39 @@ pub fn p4k_upgrader_clear_manifest_cache() {
 
 fn to_upgrader_config(input: P4kUpgraderConfig) -> Result<Config> {
     let game_dir = PathBuf::from(input.game_dir);
-    let mut config = Config::default();
-    config.manifest_source = input.manifest_source;
-    config.mirror_bases = input.mirror_bases;
-    config.official_bases = input.official_bases;
-    config.p4k_base_url = input.p4k_base_url;
-    config.p4k_base_verification_url = input.p4k_base_verification_url;
-    if !input.object_path_templates.is_empty() {
-        config.object_path_templates = input.object_path_templates;
+    let object_path_templates = input.object_path_templates;
+    let mut config = Config {
+        manifest_source: input.manifest_source,
+        mirror_bases: input.mirror_bases,
+        official_bases: input.official_bases,
+        p4k_base_url: input.p4k_base_url,
+        p4k_base_verification_url: input.p4k_base_verification_url,
+        request_cookie: input.request_cookie,
+        rsi_token: input.rsi_token,
+        cache_dir: PathBuf::from(input.cache_dir),
+        existing_p4k: game_dir.join("Data.p4k"),
+        output_p4k: game_dir.join("Data.p4k.tmp"),
+        loose_root: game_dir,
+        update_p4k: input.update_p4k,
+        update_loose_files: input.update_loose_files,
+        inplace_update_p4k: input.inplace_update_p4k,
+        fallback_rebuild_on_inplace_verify_failure: input
+            .fallback_rebuild_on_inplace_verify_failure,
+        replace_existing_p4k: input.replace_existing_p4k,
+        verify_after_assemble: input.verify_after_assemble,
+        verify_cig_structure: input.verify_cig_structure,
+        verify_before_inplace: input.verify_cig_structure,
+        // Normal UI updates set verify_cig_structure=false for speed, but they
+        // still need scan-based in-place resume when a previous stop left Data.p4k
+        // without a readable central directory / EOCD.
+        resume_incomplete_inplace_update: true,
+        verify_crc32_for_loose: false,
+        max_entries: input.max_entries,
+        ..Config::default()
+    };
+    if !object_path_templates.is_empty() {
+        config.object_path_templates = object_path_templates;
     }
-    config.request_cookie = input.request_cookie;
-    config.rsi_token = input.rsi_token;
-    config.cache_dir = PathBuf::from(input.cache_dir);
-    config.existing_p4k = game_dir.join("Data.p4k");
-    config.output_p4k = game_dir.join("Data.p4k.tmp");
-    config.loose_root = game_dir;
-    config.update_p4k = input.update_p4k;
-    config.update_loose_files = input.update_loose_files;
-    config.inplace_update_p4k = input.inplace_update_p4k;
-    config.fallback_rebuild_on_inplace_verify_failure =
-        input.fallback_rebuild_on_inplace_verify_failure;
-    config.replace_existing_p4k = input.replace_existing_p4k;
-    config.verify_after_assemble = input.verify_after_assemble;
-    config.verify_cig_structure = input.verify_cig_structure;
-    config.verify_before_inplace = input.verify_cig_structure;
-    // Normal UI updates set verify_cig_structure=false for speed, but they
-    // still need scan-based in-place resume when a previous stop left Data.p4k
-    // without a readable central directory / EOCD.
-    config.resume_incomplete_inplace_update = true;
-    config.verify_crc32_for_loose = false;
-    config.max_entries = input.max_entries;
 
     if config.manifest_source.trim().is_empty() {
         anyhow::bail!("manifest_source is empty");
@@ -376,6 +382,86 @@ impl From<ProgressEvent> for P4kUpgraderProgressEvent {
     }
 }
 
+impl P4kUpgraderProgressEvent {
+    fn is_important(&self) -> bool {
+        matches!(
+            self.phase.as_str(),
+            "done" | "error" | "cancelled" | "download_error"
+        )
+    }
+
+    fn is_terminal(&self) -> bool {
+        matches!(self.phase.as_str(), "done" | "error" | "cancelled")
+    }
+
+    fn should_discard_pending_before_terminal(&self) -> bool {
+        self.phase == "cancelled"
+    }
+
+    fn is_completion(&self) -> bool {
+        if self.phase == "network_speed" {
+            return false;
+        }
+        if self.total_bytes > 0 && self.total <= 1 {
+            self.downloaded_bytes >= self.total_bytes
+        } else {
+            self.total > 0 && self.current >= self.total
+        }
+    }
+
+    fn same_progress_position(&self, other: &Self) -> bool {
+        self.phase == other.phase
+            && self.name == other.name
+            && self.current == other.current
+            && self.total == other.total
+            && self.downloaded_bytes == other.downloaded_bytes
+            && self.total_bytes == other.total_bytes
+            && self.message == other.message
+    }
+
+    fn done(message: String) -> Self {
+        Self {
+            phase: "done".into(),
+            name: String::new(),
+            current: 0,
+            total: 0,
+            downloaded_bytes: 0,
+            total_bytes: 0,
+            active_downloads: 0,
+            thread_limit: 0,
+            message,
+        }
+    }
+
+    fn error(message: String) -> Self {
+        Self {
+            phase: "error".into(),
+            name: String::new(),
+            current: 0,
+            total: 0,
+            downloaded_bytes: 0,
+            total_bytes: 0,
+            active_downloads: 0,
+            thread_limit: 0,
+            message,
+        }
+    }
+
+    fn cancelled(message: String) -> Self {
+        Self {
+            phase: "cancelled".into(),
+            name: String::new(),
+            current: 0,
+            total: 0,
+            downloaded_bytes: 0,
+            total_bytes: 0,
+            active_downloads: 0,
+            thread_limit: 0,
+            message,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -502,86 +588,6 @@ mod tests {
             active_downloads: 1,
             thread_limit: 32,
             message: String::new(),
-        }
-    }
-}
-
-impl P4kUpgraderProgressEvent {
-    fn is_important(&self) -> bool {
-        matches!(
-            self.phase.as_str(),
-            "done" | "error" | "cancelled" | "download_error"
-        )
-    }
-
-    fn is_terminal(&self) -> bool {
-        matches!(self.phase.as_str(), "done" | "error" | "cancelled")
-    }
-
-    fn should_discard_pending_before_terminal(&self) -> bool {
-        self.phase == "cancelled"
-    }
-
-    fn is_completion(&self) -> bool {
-        if self.phase == "network_speed" {
-            return false;
-        }
-        if self.total_bytes > 0 && self.total <= 1 {
-            self.downloaded_bytes >= self.total_bytes
-        } else {
-            self.total > 0 && self.current >= self.total
-        }
-    }
-
-    fn same_progress_position(&self, other: &Self) -> bool {
-        self.phase == other.phase
-            && self.name == other.name
-            && self.current == other.current
-            && self.total == other.total
-            && self.downloaded_bytes == other.downloaded_bytes
-            && self.total_bytes == other.total_bytes
-            && self.message == other.message
-    }
-
-    fn done(message: String) -> Self {
-        Self {
-            phase: "done".into(),
-            name: String::new(),
-            current: 0,
-            total: 0,
-            downloaded_bytes: 0,
-            total_bytes: 0,
-            active_downloads: 0,
-            thread_limit: 0,
-            message,
-        }
-    }
-
-    fn error(message: String) -> Self {
-        Self {
-            phase: "error".into(),
-            name: String::new(),
-            current: 0,
-            total: 0,
-            downloaded_bytes: 0,
-            total_bytes: 0,
-            active_downloads: 0,
-            thread_limit: 0,
-            message,
-        }
-    }
-
-    fn cancelled(message: String) -> Self {
-        Self {
-            phase: "cancelled".into(),
-            name: String::new(),
-            current: 0,
-            total: 0,
-            downloaded_bytes: 0,
-            total_bytes: 0,
-            active_downloads: 0,
-            thread_limit: 0,
-            message,
         }
     }
 }

@@ -14,6 +14,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 
 pub type DataForge = OwnedDatabase;
+type ModelDcbCache = Arc<Mutex<HashMap<String, Arc<DataForge>>>>;
 
 use crate::frb_generated::StreamSink;
 
@@ -44,7 +45,7 @@ static GLOBAL_DCB_READER: once_cell::sync::Lazy<Arc<Mutex<Option<DataForge>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
 
 // 模型拼装用 DCB 缓存。按 P4K 路径懒加载 Game2.dcb/Game.dcb，避免每次预览重复解析。
-static GLOBAL_MODEL_DCB_CACHE: once_cell::sync::Lazy<Arc<Mutex<HashMap<String, Arc<DataForge>>>>> =
+static GLOBAL_MODEL_DCB_CACHE: once_cell::sync::Lazy<ModelDcbCache> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(HashMap::new())));
 
 static GLOBAL_WEM_DECODE_REQUEST_ID: AtomicU64 = AtomicU64::new(0);
@@ -156,7 +157,7 @@ fn ensure_files_loaded() -> Result<usize> {
 
 /// 获取文件数量（会触发文件列表加载）
 pub async fn p4k_get_file_count() -> Result<usize> {
-    tokio::task::spawn_blocking(|| ensure_files_loaded()).await?
+    tokio::task::spawn_blocking(ensure_files_loaded).await?
 }
 
 /// 获取所有文件列表
@@ -184,7 +185,7 @@ pub async fn p4k_get_all_files() -> Result<Vec<P4kFileItem>> {
 /// 提取文件到内存
 pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
     // 确保文件列表已加载
-    tokio::task::spawn_blocking(|| ensure_files_loaded()).await??;
+    tokio::task::spawn_blocking(ensure_files_loaded).await??;
     // 获取文件 entry 的克隆
     let entry = p4k_get_entry(file_path).await?;
 
@@ -1037,7 +1038,7 @@ mod tests {
 
 async fn p4k_get_entry(file_path: String) -> Result<P4kEntry> {
     // 确保文件列表已加载
-    tokio::task::spawn_blocking(|| ensure_files_loaded()).await??;
+    tokio::task::spawn_blocking(ensure_files_loaded).await??;
 
     // 规范化路径，P4K 查找大小写不敏感
     let normalized_path = normalize_p4k_path(&file_path);
@@ -1571,8 +1572,8 @@ fn compute_waveform_from_pcm(pcm: &[i16], points: usize) -> Vec<f64> {
     for i in (0..pcm.len()).step_by(bucket) {
         let end = (i + bucket).min(pcm.len());
         let mut peak = 0.0f64;
-        for j in i..end {
-            let sample = (pcm[j] as f64).abs() / 32768.0;
+        for &sample in pcm.iter().take(end).skip(i) {
+            let sample = (sample as f64).abs() / 32768.0;
             if sample > peak {
                 peak = sample;
             }

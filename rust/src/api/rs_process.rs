@@ -59,7 +59,7 @@ pub async fn start(
     #[cfg(target_os = "windows")]
     info.limit_kill_on_job_close();
     #[cfg(target_os = "windows")]
-    job.set_extended_limit_info(&mut info).unwrap();
+    job.set_extended_limit_info(&info).unwrap();
 
     #[cfg(target_os = "windows")]
     let job_arc = Arc::from(job);
@@ -68,10 +68,8 @@ pub async fn start(
         #[cfg(target_os = "windows")]
         {
             let raw_handle = child.raw_handle();
-            if raw_handle.is_some() {
-                job_arc
-                    .assign_process(raw_handle.unwrap() as isize)
-                    .unwrap();
+            if let Some(raw_handle) = raw_handle {
+                job_arc.assign_process(raw_handle as isize).unwrap();
             }
         }
         let stdin = child

@@ -594,6 +594,8 @@ pub fn p4k_model_session_render(
     }
 }
 
+// FRB exports positional camera components consumed by existing Dart callers.
+#[allow(clippy::too_many_arguments)]
 pub fn p4k_model_session_render_resized(
     session_id: String,
     width: u32,

@@ -38,7 +38,7 @@ impl Default for WebViewConfiguration {
 }
 
 /// Navigation state of the WebView
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[frb(dart_metadata = ("freezed"))]
 pub struct WebViewNavigationState {
     pub url: String,
@@ -46,18 +46,6 @@ pub struct WebViewNavigationState {
     pub can_go_back: bool,
     pub can_go_forward: bool,
     pub is_loading: bool,
-}
-
-impl Default for WebViewNavigationState {
-    fn default() -> Self {
-        Self {
-            url: String::new(),
-            title: String::new(),
-            can_go_back: false,
-            can_go_forward: false,
-            is_loading: false,
-        }
-    }
 }
 
 /// Events from WebView to Dart

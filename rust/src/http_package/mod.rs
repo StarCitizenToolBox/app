@@ -94,8 +94,8 @@ pub async fn fetch(
     let address_clone = with_ip_address.clone();
     let url_clone = url.clone();
 
-    if address_clone.is_some() {
-        let addr = std::net::IpAddr::from_str(with_ip_address.unwrap().as_str())?;
+    if let Some(ip_address) = address_clone.as_ref() {
+        let addr = std::net::IpAddr::from_str(ip_address.as_str())?;
         let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
         let url_host = Url::from_str(url.as_str())?.host().unwrap().to_string();
         hosts.insert(url_host, addr);
@@ -113,18 +113,16 @@ pub async fn fetch(
             new_http_client(false, with_custom_dns.unwrap_or(false)).request(method, url_clone),
             headers,
         )
+    } else if with_custom_dns.unwrap_or(false) {
+        _mix_header(HTTP_CLIENT.request(method, url_clone), headers)
     } else {
-        if with_custom_dns.unwrap_or(false) {
-            _mix_header(HTTP_CLIENT.request(method, url_clone), headers)
-        } else {
-            _mix_header(
-                HTTP_CLIENT_NO_CUSTOM_DNS.request(method, url_clone),
-                headers,
-            )
-        }
+        _mix_header(
+            HTTP_CLIENT_NO_CUSTOM_DNS.request(method, url_clone),
+            headers,
+        )
     };
-    if input_data.is_some() {
-        req = req.body(input_data.unwrap());
+    if let Some(input_data) = input_data {
+        req = req.body(input_data);
     }
     let resp = req.send().await?;
     let url = resp.url().to_string();
@@ -133,14 +131,14 @@ pub async fn fetch(
     let content_length = resp.content_length();
     let version = resp.version();
     let mut remote_addr = "".to_string();
-    if resp.remote_addr().is_some() {
-        remote_addr = resp.remote_addr().unwrap().to_string();
+    if let Some(addr) = resp.remote_addr() {
+        remote_addr = addr.to_string();
     }
     let mut data: Option<Vec<u8>> = None;
 
     let bytes = resp.bytes().await;
-    if bytes.is_ok() {
-        data = Some(bytes.unwrap().to_vec());
+    if let Ok(bytes) = bytes {
+        data = Some(bytes.to_vec());
     }
 
     let version = _hyper_version_to_my_version(version);
@@ -180,8 +178,8 @@ fn _mix_header(
     mut req: RequestBuilder,
     headers: Option<HashMap<String, String>>,
 ) -> RequestBuilder {
-    if headers.is_some() {
-        for x in headers.unwrap() {
+    if let Some(headers) = headers {
+        for x in headers {
             req = req.header(x.0, x.1);
         }
     }

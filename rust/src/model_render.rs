@@ -1155,12 +1155,12 @@ fn load_parsed_model_scene(glb_data: &[u8]) -> Result<ParsedModelScene> {
         .and_then(|v| v.as_array())
         .ok_or_else(|| anyhow!("model geometry: missing scene nodes"))?;
 
-    let textures = load_parsed_textures(&json, &bin);
+    let textures = load_parsed_textures(&json, bin);
     let mut triangles = Vec::<ParsedModelTriangle>::new();
     for root in scene_nodes.iter().filter_map(|v| v.as_u64()) {
         collect_node_triangles(
             &json,
-            &bin,
+            bin,
             nodes,
             root as usize,
             Mat4::IDENTITY,
