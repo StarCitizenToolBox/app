@@ -8,25 +8,37 @@ class PartyRoomSignalSender extends ConsumerWidget {
   final PartyRoom partyRoom;
   final dynamic room;
 
-  const PartyRoomSignalSender({super.key, required this.partyRoom, required this.room});
+  const PartyRoomSignalSender({
+    super.key,
+    required this.partyRoom,
+    required this.room,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final partyRoomState = ref.watch(partyRoomProvider);
-    final signalTypes = partyRoomState.room.signalTypes.values.where((s) => !s.isSpecial).toList();
+    final signalTypes = partyRoomState.room.signalTypes.values
+        .where((s) => !s.isSpecial)
+        .toList();
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFF2B2D31).withValues(alpha: .4),
-        border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.3))),
+        border: Border(
+          top: BorderSide(color: Colors.black.withValues(alpha: 0.3)),
+        ),
       ),
       child: Row(
         children: [
           const Spacer(),
           DropDownButton(
             leading: const Icon(FluentIcons.send, size: 16),
-            title: Text(signalTypes.isEmpty ? S.current.party_room_loading : '发送信号'),
+            title: Text(
+              signalTypes.isEmpty
+                  ? S.current.party_room_loading
+                  : S.current.party_room_send_signal,
+            ),
             disabled: signalTypes.isEmpty || room == null,
             items: signalTypes.map((signal) {
               return MenuFlyoutItem(
@@ -55,7 +67,12 @@ class PartyRoomSignalSender extends ConsumerWidget {
           builder: (context) => ContentDialog(
             title: Text(S.current.party_room_send_failed),
             content: Text(e.toString()),
-            actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+            actions: [
+              FilledButton(
+                child: Text(S.current.party_room_sure),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
           ),
         );
       }

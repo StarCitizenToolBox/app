@@ -12,17 +12,30 @@ class AuthPage extends HookConsumerWidget {
   final String? stateParameter;
   final String? nonce;
 
-  const AuthPage({super.key, this.callbackUrl, this.stateParameter, this.nonce});
+  const AuthPage({
+    super.key,
+    this.callbackUrl,
+    this.stateParameter,
+    this.nonce,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = authUIModelProvider(callbackUrl: callbackUrl, stateParameter: stateParameter, nonce: nonce);
+    final provider = authUIModelProvider(
+      callbackUrl: callbackUrl,
+      stateParameter: stateParameter,
+      nonce: nonce,
+    );
     final model = ref.watch(provider);
     final modelNotifier = ref.read(provider.notifier);
 
     final partyRoomState = ref.watch(partyRoomProvider);
-    final userName = partyRoomState.auth.userInfo?.handleName ?? '未知用户';
-    final userEmail = partyRoomState.auth.userInfo?.gameUserId ?? ''; // Using gameUserId as email-like identifier
+    final userName =
+        partyRoomState.auth.userInfo?.handleName ??
+        S.current.party_room_unknown_user;
+    final userEmail =
+        partyRoomState.auth.userInfo?.gameUserId ??
+        ''; // Using gameUserId as email-like identifier
     final avatarUrl = partyRoomState.auth.userInfo?.avatarUrl;
     final fullAvatarUrl = PartyRoomUtils.getAvatarUrl(avatarUrl);
 
@@ -35,18 +48,33 @@ class AuthPage extends HookConsumerWidget {
       constraints: const BoxConstraints(maxWidth: 450, maxHeight: 600),
       // Remove standard title to customize layout
       title: const SizedBox.shrink(),
-      content: _buildBody(context, model, modelNotifier, userName, userEmail, fullAvatarUrl),
+      content: _buildBody(
+        context,
+        model,
+        modelNotifier,
+        userName,
+        userEmail,
+        fullAvatarUrl,
+      ),
       actions: [
         if (model.error == null && model.isLoggedIn) ...[
           // Cancel button
-          Button(onPressed: () => Navigator.of(context).pop(), child: const Text('拒绝')),
+          Button(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(S.current.auth_reject),
+          ),
           // Allow button (Primary)
           FilledButton(
-            onPressed: model.isLoading ? null : () => _handleAuthorize(context, ref, false),
-            child: const Text('允许'),
+            onPressed: model.isLoading
+                ? null
+                : () => _handleAuthorize(context, ref, false),
+            child: Text(S.current.auth_allow),
           ),
         ] else ...[
-          Button(onPressed: () => Navigator.of(context).pop(), child: const Text('关闭')),
+          Button(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(S.current.action_close),
+          ),
         ],
       ],
     );
@@ -68,7 +96,10 @@ class AuthPage extends HookConsumerWidget {
       return SizedBox(
         height: 300,
         child: Center(
-          child: Column(mainAxisSize: MainAxisSize.min, children: [const ProgressRing(), const SizedBox(height: 24)]),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [const ProgressRing(), const SizedBox(height: 24)],
+          ),
         ),
       );
     }
@@ -91,7 +122,10 @@ class AuthPage extends HookConsumerWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              FilledButton(onPressed: () => model.initialize(), child: const Text('重试')),
+              FilledButton(
+                onPressed: () => model.initialize(),
+                child: Text(S.current.party_room_retry),
+              ),
             ],
           ),
         ),
@@ -107,16 +141,23 @@ class AuthPage extends HookConsumerWidget {
             children: [
               Icon(FluentIcons.warning, size: 48, color: Colors.orange),
               const SizedBox(height: 16),
-              const Text('您需要先登录才能授权', style: TextStyle(fontSize: 16)),
+              Text(
+                S.current.auth_you_need_to_log_in_first_to_authorize,
+                style: TextStyle(fontSize: 16),
+              ),
               const SizedBox(height: 24),
-              FilledButton(onPressed: () => Navigator.of(context).pop(), child: const Text('前往登录')),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(S.current.auth_go_to_login),
+              ),
             ],
           ),
         ),
       );
     }
 
-    final name = state.domainName ?? state.domain ?? '未知应用';
+    final name =
+        state.domainName ?? state.domain ?? S.current.auth_unknown_application;
     final domain = state.domain;
     final isTrusted = state.isDomainTrusted;
 
@@ -130,13 +171,17 @@ class AuthPage extends HookConsumerWidget {
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: TextStyle(fontSize: 20, color: Colors.white.withValues(alpha: 0.95), fontFamily: 'Segoe UI'),
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white.withValues(alpha: 0.95),
+                fontFamily: 'Segoe UI',
+              ),
               children: [
                 TextSpan(
                   text: name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                const TextSpan(text: ' 申请访问您的账户'),
+                TextSpan(text: S.current.auth_request_access_to_your_account),
               ],
             ),
           ),
@@ -148,26 +193,43 @@ class AuthPage extends HookConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (state.domainName != null)
-                    Text(domain, style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.5))),
+                    Text(
+                      domain,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white.withValues(alpha: 0.5),
+                      ),
+                    ),
                   if (state.domainName != null) const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
-                      color: (isTrusted ? Colors.green : Colors.orange).withValues(alpha: 0.1),
+                      color: (isTrusted ? Colors.green : Colors.orange)
+                          .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: (isTrusted ? Colors.green : Colors.orange).withValues(alpha: 0.3)),
+                      border: Border.all(
+                        color: (isTrusted ? Colors.green : Colors.orange)
+                            .withValues(alpha: 0.3),
+                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          isTrusted ? FluentIcons.completed : FluentIcons.warning,
+                          isTrusted
+                              ? FluentIcons.completed
+                              : FluentIcons.warning,
                           size: 10,
                           color: isTrusted ? Colors.green : Colors.orange,
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          isTrusted ? '已认证' : '未验证',
+                          isTrusted
+                              ? S.current.auth_certified
+                              : S.current.auth_not_verified,
                           style: TextStyle(
                             fontSize: 10,
                             color: isTrusted ? Colors.green : Colors.orange,
@@ -219,11 +281,18 @@ class AuthPage extends HookConsumerWidget {
 
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('此操作将允许 $domain：', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+            child: Text(
+              S.current.auth_this_action_will_allow(domain ?? ''),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
           ),
           const SizedBox(height: 16),
 
-          _buildPermissionItem(FluentIcons.contact_info, '访问您的公开资料', '包括用户名、头像'),
+          _buildPermissionItem(
+            FluentIcons.contact_info,
+            S.current.auth_access_your_public_profile,
+            S.current.auth_include_username_avatar,
+          ),
 
           const SizedBox(height: 48),
         ],
@@ -241,9 +310,21 @@ class AuthPage extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               const SizedBox(height: 2),
-              Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white.withValues(alpha: 0.6),
+                ),
+              ),
             ],
           ),
         ),
@@ -251,8 +332,16 @@ class AuthPage extends HookConsumerWidget {
     );
   }
 
-  Future<void> _handleAuthorize(BuildContext context, WidgetRef ref, bool copyOnly) async {
-    final provider = authUIModelProvider(callbackUrl: callbackUrl, stateParameter: stateParameter, nonce: nonce);
+  Future<void> _handleAuthorize(
+    BuildContext context,
+    WidgetRef ref,
+    bool copyOnly,
+  ) async {
+    final provider = authUIModelProvider(
+      callbackUrl: callbackUrl,
+      stateParameter: stateParameter,
+      nonce: nonce,
+    );
     final modelNotifier = ref.read(provider.notifier);
     final model = ref.read(provider);
 
@@ -262,7 +351,11 @@ class AuthPage extends HookConsumerWidget {
       if (!success) {
         if (context.mounted) {
           final currentState = ref.read(provider);
-          await showToast(context, currentState.error ?? '生成授权码失败');
+          await showToast(
+            context,
+            currentState.error ??
+                S.current.auth_failed_to_generate_authorization_code,
+          );
         }
         return;
       }
@@ -271,7 +364,10 @@ class AuthPage extends HookConsumerWidget {
     final authUrl = modelNotifier.getAuthorizationUrl();
     if (authUrl == null) {
       if (context.mounted) {
-        await showToast(context, '生成授权链接失败');
+        await showToast(
+          context,
+          S.current.auth_failed_to_generate_authorization_link,
+        );
       }
       return;
     }
@@ -279,7 +375,10 @@ class AuthPage extends HookConsumerWidget {
     if (copyOnly) {
       await modelNotifier.copyAuthorizationUrl();
       if (context.mounted) {
-        await showToast(context, '授权链接已复制到剪贴板');
+        await showToast(
+          context,
+          S.current.auth_authorization_link_copied_to_clipboard,
+        );
         if (context.mounted) {
           Navigator.of(context).pop();
         }
@@ -289,7 +388,12 @@ class AuthPage extends HookConsumerWidget {
         final launched = await launchUrlString(authUrl);
         if (!launched) {
           if (context.mounted) {
-            await showToast(context, '打开浏览器失败，请复制链接手动访问');
+            await showToast(
+              context,
+              S
+                  .current
+                  .auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual,
+            );
           }
           return;
         }
@@ -298,7 +402,7 @@ class AuthPage extends HookConsumerWidget {
         }
       } catch (e) {
         if (context.mounted) {
-          await showToast(context, '打开浏览器失败: $e');
+          await showToast(context, S.current.auth_failed_to_open_browser(e));
         }
       }
     }

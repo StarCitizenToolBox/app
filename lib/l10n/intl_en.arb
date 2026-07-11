@@ -1969,5 +1969,597 @@
   "localization_extension_installed": "[Installed extensions]",
   "@localization_extension_installed": {},
   "localization_action_reinstall": "Reinstall",
-  "@localization_action_reinstall": {}
+  "@localization_action_reinstall": {},
+  "app_spaceship": "spaceship",
+  "@app_spaceship": {},
+  "app_fps_weapons": "FPS weapons",
+  "@app_fps_weapons": {},
+  "app_equip_character": "Equip character",
+  "@app_equip_character": {},
+  "app_prop_scene": "prop scene",
+  "@app_prop_scene": {},
+  "app_path_does_not_exist": "Path does not exist: {v0}",
+  "@app_path_does_not_exist": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_skip_ddna_dds_this_type_does_not_preview_decoding": "Skip _ddna DDS: This type does not preview decoding",
+  "@app_skip_ddna_dds_this_type_does_not_preview_decoding": {},
+  "app_dds_to_png_failed": "DDS to PNG failed: {v0}",
+  "@app_dds_to_png_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_dds_to_png_successful": "DDS to PNG successful: {v0}",
+  "@app_dds_to_png_successful": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_reject": "reject",
+  "@auth_reject": {},
+  "auth_allow": "allow",
+  "@auth_allow": {},
+  "auth_you_need_to_log_in_first_to_authorize": "You need to log in first to authorize",
+  "@auth_you_need_to_log_in_first_to_authorize": {},
+  "auth_go_to_login": "Go to login",
+  "@auth_go_to_login": {},
+  "auth_unknown_application": "Unknown application",
+  "@auth_unknown_application": {},
+  "auth_request_access_to_your_account": "Request access to your account",
+  "@auth_request_access_to_your_account": {},
+  "auth_certified": "Certified",
+  "@auth_certified": {},
+  "auth_not_verified": "Not verified",
+  "@auth_not_verified": {},
+  "auth_this_action_will_allow": "This action will allow {v0}:",
+  "@auth_this_action_will_allow": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_access_your_public_profile": "Access your public profile",
+  "@auth_access_your_public_profile": {},
+  "auth_include_username_avatar": "Include username, avatar",
+  "@auth_include_username_avatar": {},
+  "auth_failed_to_generate_authorization_code": "Failed to generate authorization code",
+  "@auth_failed_to_generate_authorization_code": {},
+  "auth_failed_to_generate_authorization_link": "Failed to generate authorization link",
+  "@auth_failed_to_generate_authorization_link": {},
+  "auth_authorization_link_copied_to_clipboard": "Authorization link copied to clipboard",
+  "@auth_authorization_link_copied_to_clipboard": {},
+  "auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual": "Failed to open the browser, please copy the link to access manually",
+  "@auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual": {},
+  "auth_failed_to_open_browser": "Failed to open browser: {v0}",
+  "@auth_failed_to_open_browser": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_missing_callback_address_parameter": "Missing callback address parameter",
+  "@auth_missing_callback_address_parameter": {},
+  "auth_missing_state_parameter": "Missing state parameter",
+  "@auth_missing_state_parameter": {},
+  "auth_unable_to_resolve_domain_name_from_callback_address": "Unable to resolve domain name from callback address",
+  "@auth_unable_to_resolve_domain_name_from_callback_address": {},
+  "auth_initialization_failed": "Initialization failed: {v0}",
+  "@auth_initialization_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_failed_to_generate_authorization_code_2": "Failed to generate authorization code: {v0}",
+  "@auth_failed_to_generate_authorization_code_2": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_open_the_original_text": "Open the original text",
+  "@app_open_the_original_text": {},
+  "app_play_video": "[Play video]({v0})",
+  "@app_play_video": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_game_downloader_updater": "Game downloader / updater",
+  "@p4k_update_game_downloader_updater": {},
+  "p4k_update_install_to": "Install to {v0}",
+  "@p4k_update_install_to": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_number_of_threads": "Number of threads",
+  "@p4k_update_number_of_threads": {},
+  "p4k_update_download_speed": "Download speed: {v0}",
+  "@p4k_update_download_speed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_canceling": "Canceling...",
+  "@p4k_update_canceling": {},
+  "p4k_update_stop": "stop",
+  "@p4k_update_stop": {},
+  "p4k_update_pause": "pause",
+  "@p4k_update_pause": {},
+  "p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb": "Deep repair: The current P4K will be diagnosed first, restored/rebuilt only when the verification fails, and the content will be verified according to the manifest, which takes a long time. Normal installs/updates are not performed automatically.",
+  "@p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb": {},
+  "p4k_update_deep_repair": "Deep repair",
+  "@p4k_update_deep_repair": {},
+  "p4k_update_estimated_number_of_updates": "Estimated number of updates",
+  "@p4k_update_estimated_number_of_updates": {},
+  "p4k_update_start_installation": "Start installation",
+  "@p4k_update_start_installation": {},
+  "p4k_update_waiting_for_progress": "Waiting for progress...",
+  "@p4k_update_waiting_for_progress": {},
+  "p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be": "Manifest entries: {v0}\nP4K entries requiring download: {v1}\nGame file entries requiring download: {v2}\nDownload object entries after deduplication: {v3}\nFull P4K reference size: {v4}\nLocal Data.p4k.part size: {v5}\nBase package download required: {v6}\nPayload download size: {v7}\nEstimated total download size: {v8}\n\nLargest objects:\n{v9}",
+  "@p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be": {
+    "placeholders": {
+      "v0": {},
+      "v1": {},
+      "v2": {},
+      "v3": {},
+      "v4": {},
+      "v5": {},
+      "v6": {},
+      "v7": {},
+      "v8": {},
+      "v9": {}
+    }
+  },
+  "p4k_update_unnecessary": "unnecessary",
+  "@p4k_update_unnecessary": {},
+  "p4k_update_reading_inventory_and_estimating_updates": "Reading inventory and estimating updates...",
+  "@p4k_update_reading_inventory_and_estimating_updates": {},
+  "p4k_update_estimate_completed": "Estimate completed",
+  "@p4k_update_estimate_completed": {},
+  "p4k_update_downloading_objects_game_files_and_patching_p4k": "Downloading objects, game files, and patching P4K...",
+  "@p4k_update_downloading_objects_game_files_and_patching_p4k": {},
+  "p4k_update_update_completed": "Update completed",
+  "@p4k_update_update_completed": {},
+  "p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i": "P4K is being repaired in depth (will diagnose first and rebuild if necessary, which takes a long time)...",
+  "@p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i": {},
+  "p4k_update_deep_repair_completed": "Deep repair completed",
+  "@p4k_update_deep_repair_completed": {},
+  "p4k_update_canceled": "Canceled",
+  "@p4k_update_canceled": {},
+  "p4k_update_update_completed_2": "Update completed: {v0}",
+  "@p4k_update_update_completed_2": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_failure": "Failure: {v0}",
+  "@p4k_update_failure": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_download_failed_retrying": "Download failed, retrying: {v0}",
+  "@p4k_update_download_failed_retrying": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_writing": "Writing: {v0}",
+  "@p4k_update_writing": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_checking_disk_space": "Checking disk space",
+  "@p4k_update_checking_disk_space": {},
+  "p4k_update_diagnosing_current_p4k": "Diagnosing current P4K",
+  "@p4k_update_diagnosing_current_p4k": {},
+  "p4k_update_in_depth_repair_of_p4k": "In-depth repair of P4K",
+  "@p4k_update_in_depth_repair_of_p4k": {},
+  "p4k_update_updating_p4k_entry_metadata": "Updating P4K entry metadata: {v0}",
+  "@p4k_update_updating_p4k_entry_metadata": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_scanning_local_p4k_records_and_restoring_indexes": "Scanning local P4K records and restoring indexes",
+  "@p4k_update_scanning_local_p4k_records_and_restoring_indexes": {},
+  "p4k_update_preparing_game_files": "Preparing game files: {v0}",
+  "@p4k_update_preparing_game_files": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_writing_game_file": "Writing game file: {v0}",
+  "@p4k_update_writing_game_file": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_processing_p4k": "Processing P4K",
+  "@p4k_update_processing_p4k": {},
+  "p4k_update_verifying": "Verifying: {v0}",
+  "@p4k_update_verifying": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_downloading": "Downloading: {v0}",
+  "@p4k_update_downloading": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_canceling_2": "Canceling...",
+  "@p4k_update_canceling_2": {},
+  "p4k_update_continuing": "continuing...",
+  "@p4k_update_continuing": {},
+  "p4k_update_p4k_updater_failed": "P4K updater failed: {v0}",
+  "@p4k_update_p4k_updater_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_manifest_url_cannot_be_empty": "Manifest URL cannot be empty",
+  "@p4k_update_manifest_url_cannot_be_empty": {},
+  "p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat": "The Manifest URL is missing the Expires/KeyName/Signature signature parameters, please log in again or check the releaseInfo signature field.",
+  "@p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat": {},
+  "p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig": "The object Base URL is missing the Expires/KeyName/Signature signature parameters, please log in again or check the releaseInfo signature field.",
+  "@p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig": {},
+  "p4k_update_stage": "Stage {v0}/{v1}: {v2}",
+  "@p4k_update_stage": {
+    "placeholders": {
+      "v0": {},
+      "v1": {},
+      "v2": {}
+    }
+  },
+  "p4k_update_registering_eac_and_syncing_launcher_state": "Registering EAC and syncing launcher state",
+  "@p4k_update_registering_eac_and_syncing_launcher_state": {},
+  "p4k_update_installation_status_processing_completed": "Installation status processing completed",
+  "@p4k_update_installation_status_processing_completed": {},
+  "p4k_update_easyanticheat_installer_not_found_registration_skipped": "EasyAntiCheat installer not found, registration skipped",
+  "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
+  "p4k_update_registering_easyanticheat": "Registering EasyAntiCheat",
+  "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_easyanticheat_registration_completed": "EasyAntiCheat registration completed",
+  "@p4k_update_easyanticheat_registration_completed": {},
+  "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "EasyAntiCheat registration returned {v0}, has continued as a non-fatal warning {v1}",
+  "@p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat": "EasyAntiCheat registration failed and has continued as a non-fatal warning: {v0}",
+  "@p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_synchronizing_launcher_installation_status": "Synchronizing launcher installation status",
+  "@p4k_update_synchronizing_launcher_installation_status": {},
+  "p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped": "RSI Launcher store not found; encrypted store sync skipped",
+  "@p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped": {},
+  "p4k_update_build_manifest_id_updated": "build_manifest.id updated;",
+  "@p4k_update_build_manifest_id_updated": {},
+  "p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th": "{v0} Encryption RSI Launcher store synchronization is not executed: The current Dart side lacks AES-CBC/PBKDF2 compatible implementation. If the launcher still displays the old version, please use RSI Launcher Verify",
+  "@p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m": "RequestedP4ChangeNum cannot be inferred from releaseInfo, build_manifest.id is not written",
+  "@p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m": {},
+  "p4k_update_updated_build_manifest_id_requestedp4changenum": "Updated build_manifest.id: RequestedP4ChangeNum={v0}",
+  "@p4k_update_updated_build_manifest_id_requestedp4changenum": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning": "Update build_manifest.id failed, continued as non-fatal warning: {v0}",
+  "@p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_unknown_version": "Unknown version",
+  "@p4k_update_unknown_version": {},
+  "p4k_update_unknown_startup_file": "Unknown startup file",
+  "@p4k_update_unknown_startup_file": {},
+  "p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f": "Release version: {v0}\nStartup file: {v1}\n\nreleaseInfo has been read. You can first click \"Estimated Update Amount\" to check whether the list parsing is normal.",
+  "@p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "p4k_update_download": "download",
+  "@p4k_update_download": {},
+  "p4k_update_download_basics_p4k": "Download base P4K",
+  "@p4k_update_download_basics_p4k": {},
+  "p4k_update_check_basics_p4k": "Verify base P4K",
+  "@p4k_update_check_basics_p4k": {},
+  "p4k_update_download_basic_verification_file": "Download basic verification file",
+  "@p4k_update_download_basic_verification_file": {},
+  "p4k_update_check_disk_space": "Check disk space",
+  "@p4k_update_check_disk_space": {},
+  "p4k_update_diagnose_current_p4k": "Diagnose current P4K",
+  "@p4k_update_diagnose_current_p4k": {},
+  "p4k_update_deep_repair_p4k": "Deep Repair P4K",
+  "@p4k_update_deep_repair_p4k": {},
+  "p4k_update_check_p4k": "Check P4K",
+  "@p4k_update_check_p4k": {},
+  "p4k_update_verify_p4k_content": "Verify P4K content",
+  "@p4k_update_verify_p4k_content": {},
+  "p4k_update_download_game_files": "Download game files",
+  "@p4k_update_download_game_files": {},
+  "p4k_update_verify_game_files": "Verify game files",
+  "@p4k_update_verify_game_files": {},
+  "p4k_update_prepare_game_files": "Prepare game files",
+  "@p4k_update_prepare_game_files": {},
+  "p4k_update_write_game_files": "Write game files",
+  "@p4k_update_write_game_files": {},
+  "p4k_update_game_file_writing_completed": "Game file writing completed",
+  "@p4k_update_game_file_writing_completed": {},
+  "p4k_update_completed_installation_status": "Completed installation status",
+  "@p4k_update_completed_installation_status": {},
+  "p4k_update_write": "write",
+  "@p4k_update_write": {},
+  "p4k_update_preparing_for_p4k_patching": "Preparing for P4K patching",
+  "@p4k_update_preparing_for_p4k_patching": {},
+  "p4k_update_restore_p4k_index": "Restore P4K index",
+  "@p4k_update_restore_p4k_index": {},
+  "p4k_update_create_a_p4k_rollback_record": "Create a P4K rollback record",
+  "@p4k_update_create_a_p4k_rollback_record": {},
+  "p4k_update_update_p4k_entry_metadata": "Update P4K entry metadata",
+  "@p4k_update_update_p4k_entry_metadata": {},
+  "p4k_update_write_to_p4k": "Write to P4K",
+  "@p4k_update_write_to_p4k": {},
+  "p4k_update_complete_p4k_write": "Complete P4K write",
+  "@p4k_update_complete_p4k_write": {},
+  "p4k_update_finish": "Finish",
+  "@p4k_update_finish": {},
+  "p4k_update_preparing_game_files_2": "Preparing game files",
+  "@p4k_update_preparing_game_files_2": {},
+  "p4k_update_verifying_game_files": "Verifying game files",
+  "@p4k_update_verifying_game_files": {},
+  "p4k_update_updating_p4k_entry_metadata_2": "Updating P4K entry metadata",
+  "@p4k_update_updating_p4k_entry_metadata_2": {},
+  "p4k_update_check_disk_space_and_task_budget": "Check disk space and task budget",
+  "@p4k_update_check_disk_space_and_task_budget": {},
+  "p4k_update_download_verify_basics_p4k": "Download/verify base P4K",
+  "@p4k_update_download_verify_basics_p4k": {},
+  "p4k_update_patching_data_p4k": "Patching Data.p4k",
+  "@p4k_update_patching_data_p4k": {},
+  "p4k_update_deep_repair_rebuild_p4k": "Deep Repair/Rebuild P4K",
+  "@p4k_update_deep_repair_rebuild_p4k": {},
+  "p4k_update_verify_repair_results": "Verify repair results",
+  "@p4k_update_verify_repair_results": {},
+  "p4k_update_download_write_game_files": "Download/write game files",
+  "@p4k_update_download_write_game_files": {},
+  "p4k_update_register_eac_and_sync_launcher_state": "Register EAC and sync launcher state",
+  "@p4k_update_register_eac_and_sync_launcher_state": {},
+  "p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa": "P4K download/update does not currently support PTU, the target path must be the LIVE directory",
+  "@p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa": {},
+  "app_please_close_the_game_before_updating_p4k_game_files": "Please close the game before updating P4K/game files",
+  "@app_please_close_the_game_before_updating_p4k_game_files": {},
+  "app_the_web_login_resource_has_not_been_initialized_please_try_again": "The web login resource has not been initialized, please try again later.",
+  "@app_the_web_login_resource_has_not_been_initialized_please_try_again": {},
+  "app_unable_to_read_releaseinfo_from_rsi_return_data": "Unable to read releaseInfo from RSI return data",
+  "@app_unable_to_read_releaseinfo_from_rsi_return_data": {},
+  "app_select_game_download_directory": "Select game download directory",
+  "@app_select_game_download_directory": {},
+  "app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s": "There is currently no Data.p4k available out of the box. Please select an incomplete installation directory, or select a new installation location for downloading.",
+  "@app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s": {},
+  "app_discovered_installation_directories": "Discovered installation directories",
+  "@app_discovered_installation_directories": {},
+  "app_select_new_directory": "Select new directory",
+  "@app_select_new_directory": {},
+  "user_registration_time": "Registration time: {v0}",
+  "@user_registration_time": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "user_can_only_be_refreshed_once_per_hour": "Can only be refreshed once per hour",
+  "@user_can_only_be_refreshed_once_per_hour": {},
+  "user_refresh_successful": "Refresh successful",
+  "@user_refresh_successful": {},
+  "user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour": "The data is refreshed too frequently, please try again in an hour.",
+  "@user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour": {},
+  "user_refresh_failed": "Refresh failed: {v0}",
+  "@user_refresh_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "user_refresh_data": "Refresh data",
+  "@user_refresh_data": {},
+  "user_log_out": "Log out",
+  "@user_log_out": {},
+  "user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in": "Are you sure you want to log out of PartyRoom? You need to log in again the next time you use it.",
+  "@user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in": {},
+  "user_logged_out": "Logged out",
+  "@user_logged_out": {},
+  "user_logout_failed": "Logout failed: {v0}",
+  "@user_logout_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "party_room_sure": "Confirm",
+  "@party_room_sure": {},
+  "log_analyze_game_log_current": "Game.log (current)",
+  "@log_analyze_game_log_current": {},
+  "log_analyze_log_file_not_found": "Log file not found",
+  "@log_analyze_log_file_not_found": {},
+  "log_analyze_log_file": "Log file:",
+  "@log_analyze_log_file": {},
+  "log_analyze_select_log_file": "Select log file",
+  "@log_analyze_select_log_file": {},
+  "tools_unp4k_return_to_homepage": "Return to homepage",
+  "@tools_unp4k_return_to_homepage": {},
+  "tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to": "Do you need to reload P4K after exiting? Are you sure you want to return to the home page?",
+  "@tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to": {},
+  "tools_unp4k_confirm_return": "Confirm return",
+  "@tools_unp4k_confirm_return": {},
+  "tools_unp4k_file_browser": "File browser",
+  "@tools_unp4k_file_browser": {},
+  "tools_unp4k_3d_browser": "3D browser",
+  "@tools_unp4k_3d_browser": {},
+  "tools_unp4k_music_browser": "Music browser",
+  "@tools_unp4k_music_browser": {},
+  "tools_unp4k_audio_decoding_failed": "Audio decoding failed: {v0}",
+  "@tools_unp4k_audio_decoding_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_audio_preview_failed_no_playable_file_found": "Audio preview failed: No playable file found",
+  "@tools_unp4k_audio_preview_failed_no_playable_file_found": {},
+  "tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio": "The audio stream has expired. Please reopen the audio.",
+  "@tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio": {},
+  "tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": "Can only jump to buffered areas (currently buffered {v0}s)",
+  "@tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_audio_preview_failed": "Audio preview failed: {v0}",
+  "@tools_unp4k_audio_preview_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_play_automatically_when_switching_music": "Play automatically when switching music",
+  "@tools_unp4k_play_automatically_when_switching_music": {},
+  "tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi": "The current WEM encoding is not supported by the built-in decoding (format=0x{v0}).\nThe current version supports WEM preview for PCM (0x0001) and Wwise Vorbis (0xFFFF).",
+  "@tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_finish": "Done!",
+  "@tools_unp4k_finish": {},
+  "tools_unp4k_decoding": "Decoding...",
+  "@tools_unp4k_decoding": {},
+  "tools_unp4k_decoding_full_audio": "Decoding full audio...",
+  "@tools_unp4k_decoding_full_audio": {},
+  "tools_unp4k_batch_export_options": "Batch export options",
+  "@tools_unp4k_batch_export_options": {},
+  "tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported": "Convertible formats can be automatically converted and exported (WEM->WAV, DDS->PNG, CGA/CGF->GLB)",
+  "@tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported": {},
+  "tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the": "There is no convertible format in the current selection and the original file will be exported.",
+  "@tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the": {},
+  "tools_unp4k_export_with_directory_structure_preserved": "Export with directory structure preserved",
+  "@tools_unp4k_export_with_directory_structure_preserved": {},
+  "tools_unp4k_include_original_path_when_exporting": "Include original path when exporting.",
+  "@tools_unp4k_include_original_path_when_exporting": {},
+  "tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi": "Export directly by file name; when single file is selected, the file will be saved directly.",
+  "@tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi": {},
+  "tools_unp4k_start_export": "Start export",
+  "@tools_unp4k_start_export": {},
+  "tools_unp4k_batch_export": "Batch export",
+  "@tools_unp4k_batch_export": {},
+  "tools_unp4k_progress": "Progress: {v0}/{v1}",
+  "@tools_unp4k_progress": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_completed_successfully_skipped": "Export completed, {v0} successfully, {v1} skipped",
+  "@tools_unp4k_export_completed_successfully_skipped": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_completed_total_files": "Export completed, total {v0} files",
+  "@tools_unp4k_export_completed_total_files": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_more_failed_files_skipped": "{v0}\n{v1} more failed files skipped",
+  "@tools_unp4k_more_failed_files_skipped": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_wav": "Export WAV",
+  "@tools_unp4k_export_wav": {},
+  "tools_unp4k_dds_to_png": "DDS to PNG",
+  "@tools_unp4k_dds_to_png": {},
+  "tools_unp4k_jump_to_file_location": "Jump to file location",
+  "@tools_unp4k_jump_to_file_location": {},
+  "tools_unp4k_select_convert_export_file": "Select Convert Export File",
+  "@tools_unp4k_select_convert_export_file": {},
+  "tools_unp4k_select_export_file": "Select export file",
+  "@tools_unp4k_select_export_file": {},
+  "tools_unp4k_select_conversion_export_location": "Select conversion export location",
+  "@tools_unp4k_select_conversion_export_location": {},
+  "tools_unp4k_wav_export_successful": "WAV export successful",
+  "@tools_unp4k_wav_export_successful": {},
+  "tools_unp4k_from_cache": "{v0}\n(from cache)",
+  "@tools_unp4k_from_cache": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_wav_export_failed": "WAV export failed",
+  "@tools_unp4k_wav_export_failed": {},
+  "tools_unp4k_conversion_successful": "Conversion successful",
+  "@tools_unp4k_conversion_successful": {},
+  "tools_unp4k_conversion_failed": "Conversion failed",
+  "@tools_unp4k_conversion_failed": {},
+  "tools_unp4k_size": "size",
+  "@tools_unp4k_size": {},
+  "tools_unp4k_date": "date",
+  "@tools_unp4k_date": {},
+  "tools_unp4k_search_all_files_supports_regular_expressions": "Search all files (supports regular expressions)...",
+  "@tools_unp4k_search_all_files_supports_regular_expressions": {},
+  "tools_unp4k_search_the_current_directory_supports_regular_expressions": "Search the current directory (supports regular expressions)...",
+  "@tools_unp4k_search_the_current_directory_supports_regular_expressions": {},
+  "tools_unp4k_clear": "Clear",
+  "@tools_unp4k_clear": {},
+  "tools_unp4k_current_directory": "current directory",
+  "@tools_unp4k_current_directory": {},
+  "tools_unp4k_global_search": "global search",
+  "@tools_unp4k_global_search": {},
+  "tools_unp4k_suffix": "suffix",
+  "@tools_unp4k_suffix": {},
+  "tools_unp4k_suffix_filter": "Suffix filter",
+  "@tools_unp4k_suffix_filter": {},
+  "tools_unp4k_separate_with_spaces_and_do_not_include": "Separate with spaces; omit the period",
+  "@tools_unp4k_separate_with_spaces_and_do_not_include": {},
+  "tools_unp4k_support_preview": "Support preview",
+  "@tools_unp4k_support_preview": {},
+  "tools_unp4k_common_formats": "Common formats",
+  "@tools_unp4k_common_formats": {},
+  "tools_unp4k_no_limit": "No limit",
+  "@tools_unp4k_no_limit": {},
+  "tools_unp4k_less_than": "less than",
+  "@tools_unp4k_less_than": {},
+  "tools_unp4k_greater_than": "greater than",
+  "@tools_unp4k_greater_than": {},
+  "tools_unp4k_scope": "scope",
+  "@tools_unp4k_scope": {},
+  "tools_unp4k_start": "start",
+  "@tools_unp4k_start": {},
+  "tools_unp4k_finish_2": "End",
+  "@tools_unp4k_finish_2": {},
+  "tools_unp4k_size_value": "size value",
+  "@tools_unp4k_size_value": {},
+  "tools_unp4k_some_day_ago": "Before date",
+  "@tools_unp4k_some_day_ago": {},
+  "tools_unp4k_after_a_certain_day": "After date",
+  "@tools_unp4k_after_a_certain_day": {},
+  "tools_unp4k_time_range": "time range",
+  "@tools_unp4k_time_range": {},
+  "news_video_view_original_post": "View this video in the original post",
+  "@news_video_view_original_post": {}
 }

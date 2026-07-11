@@ -25,310 +25,401 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(v0, v1) =>
       "Ошибка подключения к сети!\nПереход в автономный режим...\n\nПожалуйста, проверьте подключение к сети или получите последние новости на социальном форуме. Попробуйте включить встроенный режим DNS в настройках приложения.\nДата сборки текущей версии: ${v0}\nQQ группа: 940696487\nСообщение об ошибке: ${v1}";
 
-  static String m2(v0, v1) => "SCToolbox V${v0} ${v1}";
+  static String m2(v0) => "Не удалось преобразовать DDS в PNG: ${v0}";
 
-  static String m3(v0) => "Ошибка инициализации: ${v0}";
+  static String m3(v0) => "DDS успешно преобразован в PNG: ${v0}";
 
-  static String m4(v0) =>
+  static String m4(v0, v1) => "SCToolbox V${v0} ${v1}";
+
+  static String m5(v0) => "Ошибка инициализации: ${v0}";
+
+  static String m6(v0) => "Путь не существует: ${v0}";
+
+  static String m7(v0) => "[Воспроизвести видео](${v0})";
+
+  static String m8(v0) =>
       "Это приложение является бесплатным программным обеспечением с открытым исходным кодом. Мы резко осуждаем любые формы перепродажи. Если вы заплатили третьей стороне за получение этого ПО, немедленно сообщите об этом и потребуйте возврат средств.\n\nЧтобы подтвердить, что вы ознакомились с этим, введите ниже ${v0}";
 
-  static String m5(v0) => "Введите ${v0}";
+  static String m9(v0) => "Введите ${v0}";
 
-  static String m6(v0) => "Загрузка: ${v0}%    ";
+  static String m10(v0) => "Загрузка: ${v0}%    ";
 
-  static String m7(v0) => "Найдена новая версия -> ${v0}";
+  static String m11(v0) => "Найдена новая версия -> ${v0}";
 
-  static String m11(v0) => "Аварийное завершение игры: ${v0}";
+  static String m12(v0) => "Не удалось сгенерировать код авторизации: ${v0}.";
 
-  static String m12(v0) =>
+  static String m13(v0) => "Не удалось открыть браузер: ${v0}.";
+
+  static String m14(v0) => "Не удалось инициализировать: ${v0}.";
+
+  static String m15(v0) => "Это действие позволит ${v0}:";
+
+  static String m19(v0) => "Аварийное завершение игры: ${v0}";
+
+  static String m20(v0) =>
       "инфо:${v0}, пожалуйста, нажмите в правом нижнем углу, чтобы присоединиться к группе для обратной связи.";
 
-  static String m13(v0) => "Анализ завершен, обнаружено ${v0} проблем";
+  static String m21(v0) => "Анализ завершен, обнаружено ${v0} проблем";
 
-  static String m14(v0, v1) =>
+  static String m22(v0, v1) =>
       "Не удалось создать папку, попробуйте создать её вручную.\nПуть: ${v0}\nОшибка: ${v1}";
 
-  static String m15(v0) => "Исправление не удалось, ${v0}";
+  static String m23(v0) => "Исправление не удалось, ${v0}";
 
-  static String m16(v0) => "Неподдерживаемая операционная система: ${v0}";
+  static String m24(v0) => "Неподдерживаемая операционная система: ${v0}";
 
-  static String m17(v0) =>
+  static String m25(v0) =>
       "Добавление значения ForcedPhysicalSectorSizeInBytes в реестр для эмуляции старого устройства. Раздел диска (${v0})";
 
-  static String m18(v0) =>
+  static String m26(v0) =>
       "Путь установки на китайском! Это может вызвать ошибки запуска/установки игры! (${v0}), пожалуйста, измените путь установки в RSI Launcher.";
 
-  static String m19(v0) =>
+  static String m27(v0) =>
       "Нажмите исправить, чтобы создать папку LIVE, затем повторите попытку установки. (${v0})";
 
-  static String m20(v0) => "Предложение по исправлению: ${v0}";
+  static String m28(v0) => "Предложение по исправлению: ${v0}";
 
-  static String m21(v0) =>
+  static String m29(v0) =>
       "Вам нужно как минимум 16 ГБ физической памяти (RAM) для запуска этой игры. (Текущий размер: ${v0})";
 
-  static String m22(v0) => "Пожалуйста, обновите вашу систему (${v0})";
+  static String m30(v0) => "Пожалуйста, обновите вашу систему (${v0})";
 
-  static String m23(v0) => "Быстрая диагностика -> ${v0}";
+  static String m31(v0) => "Быстрая диагностика -> ${v0}";
 
-  static String m24(v0) => "Проверено: ${v0}";
+  static String m32(v0) => "Проверено: ${v0}";
 
-  static String m25(v0) => "Проверка... (${v0}%)";
+  static String m33(v0) => "Проверка... (${v0}%)";
 
-  static String m26(v0, v1) => "Загрузка: ${v0}/с    Отдача: ${v1}/с";
+  static String m34(v0, v1) => "Загрузка: ${v0}/с    Отдача: ${v1}/с";
 
-  static String m27(v0) => "Загружено: ${v0}";
+  static String m35(v0) => "Загружено: ${v0}";
 
-  static String m28(v0) => "Загрузка... (${v0}%)";
+  static String m36(v0) => "Загрузка... (${v0}%)";
 
-  static String m29(v0) => "Статус: ${v0}";
+  static String m37(v0) => "Статус: ${v0}";
 
-  static String m30(v1) => "Общий размер: ${v1}";
+  static String m38(v1) => "Общий размер: ${v1}";
 
-  static String m31(v0) => "Отдано: ${v0}";
+  static String m39(v0) => "Отдано: ${v0}";
 
-  static String m32(v0, v1, v2, v3, v4) =>
+  static String m40(v0, v1, v2, v3, v4) =>
       "Игра завершилась ненормально\nexitCode=${v0}\nstdout=${v1}\nstderr=${v2}\n\nДиагностическая информация: ${v3}\n${v4}";
 
-  static String m33(v0) =>
+  static String m41(v0) =>
       "Ошибка инициализации ресурсов веб-локализации! ${v0}";
 
-  static String m34(v0) =>
+  static String m42(v0) =>
       "Сканирование завершено, найдено ${v0} действительных директорий установки";
 
-  static String m35(v0) => "${v0} дней";
+  static String m43(v0) => "${v0} дней";
 
-  static String m36(v0) => "Загруженная версия локализации: ${v0}";
+  static String m44(v0) => "Загруженная версия локализации: ${v0}";
 
-  static String m37(v0) => "Расширенная локализация -> ${v0}";
+  static String m45(v0) => "Расширенная локализация -> ${v0}";
 
-  static String m38(v0, v1) => "Строк локализации: ${v0} Строк P4K: ${v1}";
+  static String m46(v0, v1) => "Строк локализации: ${v0} Строк P4K: ${v1}";
 
-  static String m39(v0) => "Предпросмотр: ${v0}";
+  static String m47(v0) => "Предпросмотр: ${v0}";
 
-  static String m40(v0) =>
+  static String m48(v0) =>
       "Доступна новая версия локализации, установленной ${v0}!";
 
-  static String m41(v1, v2) =>
+  static String m49(v1, v2) =>
       "Сервер RSI сообщает версию: ${v1}\n\nЛокальная версия: ${v2}\n\nРекомендуется обновить игру через RSI Launcher!";
 
-  static String m44(v0) => "Поддержка метода ввода сообщества: ${v0}";
+  static String m52(v0) => "Поддержка метода ввода сообщества: ${v0}";
 
-  static String m45(v0) =>
+  static String m53(v0) =>
       "Поддержка метода ввода сообщества обновлена до версии: ${v0}";
 
-  static String m46(v0, v1) =>
+  static String m54(v0, v1) =>
       "${v0} расширений имеют обновления: ${v1}. Пожалуйста, переустановите в управлении локализацией.";
 
-  static String m47(v0, v1) =>
+  static String m55(v0, v1) =>
       "${v0} имеет новую версию ${v1}. Пожалуйста, переустановите в управлении локализацией.";
 
-  static String m48(v0) => "Канал: ${v0}";
+  static String m56(v0) => "Канал: ${v0}";
 
-  static String m49(v0) => "Включено (${v0}):";
+  static String m57(v0) => "Включено (${v0}):";
 
-  static String m50(v0) => "Ошибка установки!\n\n${v0}";
+  static String m58(v0) => "Ошибка установки!\n\n${v0}";
 
-  static String m51(v0) => "Установленная версия: ${v0}";
+  static String m59(v0) => "Установленная версия: ${v0}";
 
-  static String m52(v0) => "Время обновления: ${v0}";
+  static String m60(v0) => "Время обновления: ${v0}";
 
-  static String m53(v0) => "Номер версии: ${v0}";
-
-  static String m54(v0, v1, v2, v3, v4) =>
-      "Зона: ${v0}   Управление игроком: ${v1}   Объект столкновения: ${v2} \nТехника столкновения: ${v3}   Дистанция столкновения: ${v4} ";
-
-  static String m55(v0, v2, v3) =>
-      "ID жертвы: ${v0}   \nID убийцы: ${v2}  \nЗона: ${v3}";
-
-  static String m56(v0) => "Подробная информация: ${v0}";
-
-  static String m57(v0, v1, v2, v3, v4) =>
-      "Убийства: ${v0}   Смерти: ${v1}   Самоубийства: ${v2}  \nУничтожение техники (Мягкая смерть): ${v3}   Уничтожение техники (Распад): ${v4}";
-
-  static String m58(v0, v1) => "Режим: ${v0}   Время: ${v1} секунд";
-
-  static String m59(v0, v1, v2) => "${v0} часов ${v1} минут ${v2} секунд";
-
-  static String m60(v0, v1) => "ID игрока: ${v0}   Местоположение: ${v1}";
-
-  static String m61(v0) => "Игрок ${v0} входит в игру...";
+  static String m61(v0) => "Номер версии: ${v0}";
 
   static String m62(v0, v1, v2, v3, v4) =>
+      "Зона: ${v0}   Управление игроком: ${v1}   Объект столкновения: ${v2} \nТехника столкновения: ${v3}   Дистанция столкновения: ${v4} ";
+
+  static String m63(v0, v2, v3) =>
+      "ID жертвы: ${v0}   \nID убийцы: ${v2}  \nЗона: ${v3}";
+
+  static String m64(v0) => "Подробная информация: ${v0}";
+
+  static String m65(v0, v1, v2, v3, v4) =>
+      "Убийства: ${v0}   Смерти: ${v1}   Самоубийства: ${v2}  \nУничтожение техники (Мягкая смерть): ${v3}   Уничтожение техники (Распад): ${v4}";
+
+  static String m66(v0, v1) => "Режим: ${v0}   Время: ${v1} секунд";
+
+  static String m67(v0, v1, v2) => "${v0} часов ${v1} минут ${v2} секунд";
+
+  static String m68(v0, v1) => "ID игрока: ${v0}   Местоположение: ${v1}";
+
+  static String m69(v0) => "Игрок ${v0} входит в игру...";
+
+  static String m70(v0, v1, v2, v3, v4) =>
       "Модель техники: ${v0}   \nЗона: ${v1} \nУровень повреждения: ${v2} (${v3})   Виновник: ${v4}";
 
-  static String m63(v0) => "Ошибка подключения: ${v0}";
+  static String m71(v0) => "Загрузка не удалась, повторная попытка: ${v0}.";
 
-  static String m64(v0) => "${v0} дн. назад";
+  static String m72(v0) => "Скорость загрузки: ${v0}";
 
-  static String m65(v0) => "Не удалось выйти из комнаты: ${v0}";
+  static String m73(v0) => "Загрузка: ${v0}";
 
-  static String m66(v0) => "Не удалось получить код подтверждения: ${v0}";
+  static String m74(v0) =>
+      "Регистрация EasyAntiCheat не удалась и продолжилась с нефатальным предупреждением: ${v0}.";
 
-  static String m67(v0) => "${v0} ч. назад";
+  static String m75(v0, v1) =>
+      "Регистрация EasyAntiCheat вернула ${v0}, продолжилась как нефатальное предупреждение ${v1}";
 
-  static String m68(v0) => "Вы уверены, что хотите выгнать ${v0}?";
+  static String m76(v0) =>
+      "${v0} Синхронизация зашифрованного хранилища RSI Launcher не выполнена: в текущей реализации Dart нет совместимой поддержки AES-CBC/PBKDF2. Если лаунчер по-прежнему показывает старую версию, используйте RSI Launcher Verify.";
 
-  static String m69(v0) => "Не удалось выгнать участника: ${v0}";
+  static String m77(v0) => "Ошибка: ${v0}.";
 
-  static String m70(v0) => "Не удалось загрузить список комнат: ${v0}";
+  static String m78(v0) => "Установить в ${v0}.";
 
-  static String m71(v0, v1) => "${v0}/${v1} участников";
+  static String m79(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9) =>
+      "Записей Manifest: ${v0}\nЗаписей P4K, требующих загрузки: ${v1}\nЗаписей игровых файлов, требующих загрузки: ${v2}\nЗаписей объектов загрузки после дедупликации: ${v3}\nПолный эталонный размер P4K: ${v4}\nРазмер локального Data.p4k.part: ${v5}\nТребуется загрузить базовый пакет: ${v6}\nРазмер загружаемых данных (payload): ${v7}\nОжидаемый общий объём загрузки: ${v8}\n\nКрупнейшие объекты:\n${v9}";
 
-  static String m72(v0) => "${v0} мин. назад";
+  static String m80(v0) => "Ошибка обновления P4K: ${v0}";
 
-  static String m73(v0) => "Не удалось переподключиться: ${v0}";
+  static String m81(v0) => "Подготовка файлов игры: ${v0}";
 
-  static String m74(v0) => "Не удалось переподключиться, попыток: ${v0}";
+  static String m82(v0, v1) =>
+      "Версия выпуска: ${v0}\nФайл запуска: ${v1}\n\nreleaseInfo прочитан. Сначала можно нажать «Оценить объём обновления», чтобы проверить правильность разбора Manifest.";
 
-  static String m75(v0) => "Ошибка регистрации: ${v0}";
+  static String m83(v0, v1, v2) => "Этап ${v0}/${v1}: ${v2}";
 
-  static String m76(v0) => "Вы уверены, что хотите передать владение ${v0}?";
+  static String m84(v0) =>
+      "Обновление build_manifest.id не удалось, продолжение выполнено с нефатальным предупреждением: ${v0}.";
 
-  static String m77(v0) => "Не удалось передать владение: ${v0}";
+  static String m85(v0) => "Обновление завершено: ${v0}";
 
-  static String m78(v0) => "Текущий статус: ${v0}";
+  static String m86(v0) =>
+      "Обновлен build_manifest.id: RequestedP4ChangeNum=${v0}.";
 
-  static String m79(v0, v1, v2) => "${v0}    Мин.: ${v1} / Макс.: ${v2}";
+  static String m87(v0) => "Обновление метаданных записи P4K: ${v0}";
 
-  static String m80(v0) => "Оптимизация производительности -> ${v0}";
+  static String m88(v0) => "Проверка: ${v0}";
 
-  static String m81(v0) =>
+  static String m89(v0) => "Написание: ${v0}";
+
+  static String m90(v0) => "Запись файла игры: ${v0}";
+
+  static String m91(v0) => "Ошибка подключения: ${v0}";
+
+  static String m92(v0) => "${v0} дн. назад";
+
+  static String m93(v0) => "Не удалось выйти из комнаты: ${v0}";
+
+  static String m94(v0) => "Не удалось получить код подтверждения: ${v0}";
+
+  static String m95(v0) => "${v0} ч. назад";
+
+  static String m96(v0) => "Вы уверены, что хотите выгнать ${v0}?";
+
+  static String m97(v0) => "Не удалось выгнать участника: ${v0}";
+
+  static String m98(v0) => "Не удалось загрузить список комнат: ${v0}";
+
+  static String m99(v0, v1) => "${v0}/${v1} участников";
+
+  static String m100(v0) => "${v0} мин. назад";
+
+  static String m101(v0) => "Не удалось переподключиться: ${v0}";
+
+  static String m102(v0) => "Не удалось переподключиться, попыток: ${v0}";
+
+  static String m103(v0) => "Ошибка регистрации: ${v0}";
+
+  static String m104(v0) => "Вы уверены, что хотите передать владение ${v0}?";
+
+  static String m105(v0) => "Не удалось передать владение: ${v0}";
+
+  static String m106(v0) => "Текущий статус: ${v0}";
+
+  static String m107(v0, v1, v2) => "${v0}    Мин.: ${v1} / Макс.: ${v2}";
+
+  static String m108(v0) => "Оптимизация производительности -> ${v0}";
+
+  static String m109(v0) =>
       "Размер кэша ${v0}MB, очистка кэша загруженных SCToolbox файлов локализации, не повлияет на установленные локализации";
 
-  static String m82(v0) =>
+  static String m110(v0) =>
       "Установленное количество ядер: ${v0} (Эта функция применяется при запуске через SCToolbox или в режиме администратора RSI Launcher из набора инструментов. При значении 0 функция отключена)";
 
-  static String m83(v0) =>
+  static String m111(v0) =>
       "⚠ AnalyticsApi.touch(\"launch\") ошибка: ${v0} - продолжение";
 
-  static String m84(v0) => "✗ appModel.initApp() ошибка: ${v0}";
+  static String m112(v0) => "✗ appModel.initApp() ошибка: ${v0}";
 
-  static String m85(v0) => "⚠ aria2cModelProvider ошибка инициализации: ${v0}";
+  static String m113(v0) => "⚠ aria2cModelProvider ошибка инициализации: ${v0}";
 
-  static String m86(v0) => "⚠ URLConf.checkHost() ошибка: ${v0} - продолжение";
+  static String m114(v0) => "⚠ URLConf.checkHost() ошибка: ${v0} - продолжение";
 
-  static String m87(v0) =>
+  static String m115(v0) =>
       "⚠ appModel.checkUpdate() ошибка: ${v0} - продолжение";
 
-  static String m88(v0) => "[Диагностика] Не удалось закрыть Hive boxes: ${v0}";
+  static String m116(v0) =>
+      "[Диагностика] Не удалось закрыть Hive boxes: ${v0}";
 
-  static String m89(v0) =>
+  static String m117(v0) =>
       "[Диагностика] Директория базы данных не существует: ${v0}";
 
-  static String m90(v0) =>
+  static String m118(v0) =>
       "[Диагностика] Удаление директории базы данных: ${v0}";
 
-  static String m91(v0) => "[Диагностика] ${v0}";
+  static String m119(v0) => "[Диагностика] ${v0}";
 
-  static String m92(v0) => "Режим диагностики - Шаг ${v0}";
+  static String m120(v0) => "Режим диагностики - Шаг ${v0}";
 
-  static String m93(v0) => "✗ Hive.openBox(\"app_conf\") ошибка: ${v0}";
+  static String m121(v0) => "✗ Hive.openBox(\"app_conf\") ошибка: ${v0}";
 
-  static String m94(v0) => "[${v0}] ⚠ Лог-файл не существует";
+  static String m122(v0) => "[${v0}] ⚠ Лог-файл не существует";
 
-  static String m95(v0) =>
+  static String m123(v0) =>
       "[${v0}] --- Чтение лога завершено (показаны последние 1000 строк) ---";
 
-  static String m96(v0, v1) => "[${v0}] ✗ Не удалось прочитать лог: ${v1}";
+  static String m124(v0, v1) => "[${v0}] ✗ Не удалось прочитать лог: ${v1}";
 
-  static String m97(v0) =>
+  static String m125(v0) =>
       "[Диагностика] Не удалось сбросить базу данных: ${v0}";
 
-  static String m98(v0) => "[${v0}] Начало инициализации...";
+  static String m126(v0) => "[${v0}] Начало инициализации...";
 
-  static String m99(v0) => "[${v0}] --- Начало чтения полного лог-файла ---";
+  static String m127(v0) => "[${v0}] --- Начало чтения полного лог-файла ---";
 
-  static String m100(v0) =>
+  static String m128(v0) =>
       "Очистка не удалась, пожалуйста, удалите файл вручную, расположение файла: ${v0}";
 
-  static String m101(v0) => "Произошла ошибка: ${v0}";
+  static String m129(v0) => "Произошла ошибка: ${v0}";
 
-  static String m102(v0) =>
+  static String m130(v0) =>
       "Ошибка инициализации, пожалуйста, сделайте снимок экрана и сообщите разработчику. ${v0}";
 
-  static String m103(v0) =>
+  static String m131(v0) =>
       "Если у вас возникли проблемы с патчем NVME, запустите этот инструмент. (Может привести к недоступности установки/обновления игры.)\n\nСтатус патча: ${v0}";
 
-  static String m104(v0) =>
+  static String m132(v0) =>
       "Использовать сервис зеркальной загрузки от китайской Star Citizen Wiki для загрузки или восстановления файла p4k.\nИнформация о версии: ${v0}";
 
-  static String m105(v0) =>
+  static String m133(v0) =>
       "В некоторых случаях лог-файл RSI Launcher может повредиться, что мешает завершению сканирования проблем. Используйте этот инструмент для очистки поврежденных лог-файлов.\n\nТекущий размер лог-файла: ${v0} МБ";
 
-  static String m106(v0) =>
+  static String m134(v0) =>
       "Если графика игры выглядит необычно или после обновления версии, используйте этот инструмент для очистки устаревших шейдеров\n\nРазмер кэша: ${v0} МБ";
 
-  static String m107(v0, v1, v2, v3, v4) =>
+  static String m135(v0, v1, v2, v3, v4) =>
       "Система: ${v0}\n\nПроцессор: ${v1}\n\nОбъем памяти: ${v2}GB\n\nИнформация о видеокарте:\n${v3}\n\nИнформация о жестком диске:\n${v4}\n\n";
 
-  static String m110(v0) => "Ошибка обработки: ${v0}";
+  static String m138(v0) => "Ошибка обработки: ${v0}";
 
-  static String m111(v0) => "Не удалось прочитать информацию о лаунчере: ${v0}";
+  static String m139(v0) => "Не удалось прочитать информацию о лаунчере: ${v0}";
 
-  static String m112(v0) => "Статус патча: ${v0}";
+  static String m140(v0) => "Статус патча: ${v0}";
 
-  static String m113(v0) => "Внутренняя версия лаунчера: ${v0}";
+  static String m141(v0) => "Внутренняя версия лаунчера: ${v0}";
 
-  static String m123(v0) => "Открытие файла: ${v0}";
+  static String m147(v0) => "Ошибка декодирования звука: ${v0}.";
 
-  static String m124(v0, v1) =>
+  static String m148(v0) => "Не удалось просмотреть аудио: ${v0}.";
+
+  static String m149(v0) =>
+      "Можно перейти только в буферизованный диапазон (сейчас буферизовано до ${v0} с).";
+
+  static String m151(v0, v1) =>
+      "Экспорт завершен, ${v0} успешно, ${v1} пропущен";
+
+  static String m152(v0) => "Экспорт завершен, всего файлов ${v0}";
+
+  static String m156(v0) => "${v0}\n(из кэша)";
+
+  static String m157(v0, v1) => "${v0}\nПропущено ещё файлов с ошибками: ${v1}";
+
+  static String m158(v0) => "Открытие файла: ${v0}";
+
+  static String m159(v0, v1) =>
       "Загрузка завершена: ${v0} файлов, время: ${v1} мс";
 
-  static String m125(v0) => "Чтение файла: ${v0}...";
+  static String m160(v0) => "Чтение файла: ${v0}...";
 
-  static String m126(v0, v1) => "Обработка файлов (${v0}/${v1})...";
+  static String m161(v0, v1) => "Обработка файлов (${v0}/${v1})...";
 
-  static String m127(v0) => "Неизвестный тип файла\n${v0}";
+  static String m162(v0) => "Неизвестный тип файла\n${v0}";
 
-  static String m128(v0) => "Просмотрщик P4K -> ${v0}";
+  static String m163(v0, v1) => "Прогресс: ${v0}/${v1}";
 
-  static String m129(v0) => "Вход выполнен ${v0} раз";
+  static String m164(v0) =>
+      "Текущая кодировка WEM не поддерживается встроенным декодированием (формат=0x${v0}).\nТекущая версия поддерживает предварительный просмотр WEM для PCM (0x0001) и Wwise Vorbis (0xFFFF).";
 
-  static String m130(v0) => "Всего обнаружено ${v0} аккаунтов";
+  static String m165(v0) => "Просмотрщик P4K -> ${v0}";
 
-  static String m131(year) =>
+  static String m166(v0) => "Не удалось выйти из системы: ${v0}";
+
+  static String m167(v0) => "Не удалось обновить: ${v0}.";
+
+  static String m168(v0) => "Время регистрации: ${v0}";
+
+  static String m169(v0) => "Вход выполнен ${v0} раз";
+
+  static String m170(v0) => "Всего обнаружено ${v0} аккаунтов";
+
+  static String m171(year) =>
       "Посмотрите статистику вашей игры в Star Citizen за ${year} год. Данные из локальных логов, пожалуйста, проверяйте на основном компьютере.";
 
-  static String m132(year) => "Ежегодный отчет ${year} (Ограниченное время)";
+  static String m172(year) => "Ежегодный отчет ${year} (Ограниченное время)";
 
-  static String m133(v0, v1, v2, v3) => "${v0}/${v1} - ${v2}/${v3}";
+  static String m173(v0, v1, v2, v3) => "${v0}/${v1} - ${v2}/${v3}";
 
-  static String m134(v0, v1) => "${v0} ч ${v1} мин";
+  static String m174(v0, v1) => "${v0} ч ${v1} мин";
 
-  static String m135(v0) => "${v0} мин";
+  static String m175(v0) => "${v0} мин";
 
-  static String m136(v0, v1) =>
+  static String m176(v0, v1) =>
       "Вы начали свое космическое путешествие на рассвете ${v0}/${v1}";
 
-  static String m137(v0, v1) =>
+  static String m177(v0, v1) =>
       "Поздно ночью ${v0}/${v1} вы все еще исследовали вселенную";
 
-  static String m138(v0) => "${v0} раз";
+  static String m178(v0) => "${v0} раз";
 
-  static String m139(v0) => "Месяц ${v0}";
+  static String m179(v0) => "Месяц ${v0}";
 
-  static String m140(v0) => "Запущено только ${v0} раз";
+  static String m180(v0) => "Запущено только ${v0} раз";
 
-  static String m141(v0) => "Запущено ${v0} раз";
+  static String m181(v0) => "Запущено ${v0} раз";
 
-  static String m142(v0) => "${v0} часов";
+  static String m182(v0) => "${v0} часов";
 
-  static String m143(v0, v1) => "${v0}/${v1}";
+  static String m183(v0, v1) => "${v0}/${v1}";
 
-  static String m144(year) =>
+  static String m184(year) =>
       "В ${year} году мы вместе создали\nбесчисленное количество прекрасных воспоминаний в Star Citizen";
 
-  static String m145(nextYear) => "Ждем встречи с вами в ${nextYear} году!";
+  static String m185(nextYear) => "Ждем встречи с вами в ${nextYear} году!";
 
-  static String m146(year) => "Ежегодный отчет Star Citizen за ${year} год";
+  static String m186(year) => "Ежегодный отчет Star Citizen за ${year} год";
 
-  static String m147(v0) => "Уничтожено ${v0} раз";
+  static String m187(v0) => "Уничтожено ${v0} раз";
 
-  static String m148(v0) => "Пилотировался ${v0} раз";
+  static String m188(v0) => "Пилотировался ${v0} раз";
 
-  static String m149(v0) => "Показать все ${v0} тс";
+  static String m189(v0) => "Показать все ${v0} тс";
 
-  static String m150(year) => "Ежегодный отчет ${year}";
+  static String m190(year) => "Ежегодный отчет ${year}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -396,6 +487,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "app_common_upgrade_info_error": MessageLookupByLibrary.simpleMessage(
       "Не удалось получить информацию об обновлении, пожалуйста, повторите попытку позже.",
     ),
+    "app_dds_to_png_failed": m2,
+    "app_dds_to_png_successful": m3,
+    "app_discovered_installation_directories":
+        MessageLookupByLibrary.simpleMessage(
+          "Обнаружены установочные каталоги",
+        ),
+    "app_equip_character": MessageLookupByLibrary.simpleMessage(
+      "Экипировать персонажа",
+    ),
+    "app_fps_weapons": MessageLookupByLibrary.simpleMessage(
+      "оружие для шутеров от первого лица",
+    ),
     "app_index_menu_about": MessageLookupByLibrary.simpleMessage("О программе"),
     "app_index_menu_home": MessageLookupByLibrary.simpleMessage("Главная"),
     "app_index_menu_lobby": MessageLookupByLibrary.simpleMessage("Лобби"),
@@ -403,12 +506,35 @@ class MessageLookup extends MessageLookupByLibrary {
       "Настройки",
     ),
     "app_index_menu_tools": MessageLookupByLibrary.simpleMessage("Инструменты"),
-    "app_index_version_info": m2,
-    "app_init_failed_with_reason": m3,
+    "app_index_version_info": m4,
+    "app_init_failed_with_reason": m5,
     "app_language_code": MessageLookupByLibrary.simpleMessage("ru"),
     "app_language_name": MessageLookupByLibrary.simpleMessage("Русский"),
+    "app_open_the_original_text": MessageLookupByLibrary.simpleMessage(
+      "Открыть исходный текст",
+    ),
+    "app_path_does_not_exist": m6,
+    "app_play_video": m7,
+    "app_please_close_the_game_before_updating_p4k_game_files":
+        MessageLookupByLibrary.simpleMessage(
+          "Пожалуйста, закройте игру перед обновлением P4K/файлов игры.",
+        ),
+    "app_prop_scene": MessageLookupByLibrary.simpleMessage("реквизит"),
+    "app_select_game_download_directory": MessageLookupByLibrary.simpleMessage(
+      "Выберите каталог загрузки игры",
+    ),
+    "app_select_new_directory": MessageLookupByLibrary.simpleMessage(
+      "Выбрать новый каталог",
+    ),
     "app_shortcut_name": MessageLookupByLibrary.simpleMessage(
       "SCToolboxDEV.lnk",
+    ),
+    "app_skip_ddna_dds_this_type_does_not_preview_decoding":
+        MessageLookupByLibrary.simpleMessage(
+          "Пропустить _ddna DDS: этот тип не осуществляет предварительный просмотр декодирования.",
+        ),
+    "app_spaceship": MessageLookupByLibrary.simpleMessage(
+      "космический корабль",
     ),
     "app_splash_almost_done": MessageLookupByLibrary.simpleMessage(
       "Почти готово…",
@@ -434,8 +560,20 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Это бесплатное программное обеспечение",
         ),
-    "app_splash_free_software_notice_content": m4,
-    "app_splash_free_software_notice_input_hint": m5,
+    "app_splash_free_software_notice_content": m8,
+    "app_splash_free_software_notice_input_hint": m9,
+    "app_the_web_login_resource_has_not_been_initialized_please_try_again":
+        MessageLookupByLibrary.simpleMessage(
+          "Ресурс веб-входа не был инициализирован. Повторите попытку позже.",
+        ),
+    "app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s":
+        MessageLookupByLibrary.simpleMessage(
+          "В настоящее время готового файла Data.p4k нет. Пожалуйста, выберите неполный каталог установки или выберите новое место установки для загрузки.",
+        ),
+    "app_unable_to_read_releaseinfo_from_rsi_return_data":
+        MessageLookupByLibrary.simpleMessage(
+          "Невозможно прочитать ReleaseInfo из возвращаемых данных RSI.",
+        ),
     "app_upgrade_action_next_time": MessageLookupByLibrary.simpleMessage(
       "В следующий раз",
     ),
@@ -445,7 +583,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "app_upgrade_info_download_failed": MessageLookupByLibrary.simpleMessage(
       "Ошибка загрузки, пожалуйста, попробуйте установить вручную!",
     ),
-    "app_upgrade_info_downloading": m6,
+    "app_upgrade_info_downloading": m10,
     "app_upgrade_info_getting_new_version_details":
         MessageLookupByLibrary.simpleMessage(
           "Получение информации о новой версии...",
@@ -459,7 +597,59 @@ class MessageLookup extends MessageLookupByLibrary {
     "app_upgrade_info_update_server_tip": MessageLookupByLibrary.simpleMessage(
       "Примечание: Сейчас используется зеркальный сервер для обновления, что может привести к снижению скорости загрузки, но помогает нам контролировать затраты. Если возникают проблемы с загрузкой, нажмите здесь для перехода к ручной установке.",
     ),
-    "app_upgrade_title_new_version_found": m7,
+    "app_upgrade_title_new_version_found": m11,
+    "auth_access_your_public_profile": MessageLookupByLibrary.simpleMessage(
+      "Доступ к общедоступному профилю",
+    ),
+    "auth_allow": MessageLookupByLibrary.simpleMessage("Разрешить"),
+    "auth_authorization_link_copied_to_clipboard":
+        MessageLookupByLibrary.simpleMessage(
+          "Ссылка для авторизации скопирована в буфер обмена.",
+        ),
+    "auth_certified": MessageLookupByLibrary.simpleMessage("Проверенный"),
+    "auth_failed_to_generate_authorization_code":
+        MessageLookupByLibrary.simpleMessage(
+          "Не удалось сгенерировать код авторизации.",
+        ),
+    "auth_failed_to_generate_authorization_code_2": m12,
+    "auth_failed_to_generate_authorization_link":
+        MessageLookupByLibrary.simpleMessage(
+          "Не удалось создать ссылку для авторизации.",
+        ),
+    "auth_failed_to_open_browser": m13,
+    "auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual":
+        MessageLookupByLibrary.simpleMessage(
+          "Не удалось открыть браузер. Скопируйте ссылку для доступа вручную.",
+        ),
+    "auth_go_to_login": MessageLookupByLibrary.simpleMessage("Перейти к входу"),
+    "auth_include_username_avatar": MessageLookupByLibrary.simpleMessage(
+      "Укажите имя пользователя, аватар",
+    ),
+    "auth_initialization_failed": m14,
+    "auth_missing_callback_address_parameter":
+        MessageLookupByLibrary.simpleMessage(
+          "Отсутствует параметр адреса обратного вызова",
+        ),
+    "auth_missing_state_parameter": MessageLookupByLibrary.simpleMessage(
+      "Отсутствует параметр состояния",
+    ),
+    "auth_not_verified": MessageLookupByLibrary.simpleMessage("Не проверено"),
+    "auth_reject": MessageLookupByLibrary.simpleMessage("Отклонить"),
+    "auth_request_access_to_your_account": MessageLookupByLibrary.simpleMessage(
+      "Запросить доступ к вашей учетной записи",
+    ),
+    "auth_this_action_will_allow": m15,
+    "auth_unable_to_resolve_domain_name_from_callback_address":
+        MessageLookupByLibrary.simpleMessage(
+          "Невозможно разрешить доменное имя из адреса обратного вызова.",
+        ),
+    "auth_unknown_application": MessageLookupByLibrary.simpleMessage(
+      "Неизвестное приложение",
+    ),
+    "auth_you_need_to_log_in_first_to_authorize":
+        MessageLookupByLibrary.simpleMessage(
+          "Вам необходимо сначала войти в систему, чтобы авторизоваться",
+        ),
     "doctor_action_analyzing": MessageLookupByLibrary.simpleMessage(
       "Анализ...",
     ),
@@ -476,30 +666,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_action_info_checking_runtime": MessageLookupByLibrary.simpleMessage(
       "Проверка: среды выполнения",
     ),
-    "doctor_action_info_game_abnormal_exit": m11,
+    "doctor_action_info_game_abnormal_exit": m19,
     "doctor_action_info_game_abnormal_exit_unknown":
         MessageLookupByLibrary.simpleMessage(
           "Аварийное завершение игры: неизвестная ошибка",
         ),
-    "doctor_action_info_info_feedback": m12,
-    "doctor_action_result_analysis_issues_found": m13,
+    "doctor_action_info_info_feedback": m20,
+    "doctor_action_result_analysis_issues_found": m21,
     "doctor_action_result_analysis_no_issue":
         MessageLookupByLibrary.simpleMessage(
           "Анализ завершен, проблем не обнаружено",
         ),
-    "doctor_action_result_create_folder_fail": m14,
+    "doctor_action_result_create_folder_fail": m22,
     "doctor_action_result_create_folder_success":
         MessageLookupByLibrary.simpleMessage(
           "Папка успешно создана, пожалуйста, попробуйте продолжить загрузку игры!",
         ),
-    "doctor_action_result_fix_fail": m15,
+    "doctor_action_result_fix_fail": m23,
     "doctor_action_result_fix_success": MessageLookupByLibrary.simpleMessage(
       "Исправление выполнено успешно, пожалуйста, попробуйте перезагрузить компьютер и продолжить установку игры! Если изменение реестра вызвало проблемы совместимости с другими программами, используйте очистку реестра NVME в разделе Инструменты.",
     ),
     "doctor_action_result_game_start_success": MessageLookupByLibrary.simpleMessage(
       "Исправлено успешно, попробуйте запустить игру. (Если проблема не устраняется, используйте \'Переустановить EAC\' в наборе инструментов.)",
     ),
-    "doctor_action_result_info_unsupported_os": m16,
+    "doctor_action_result_info_unsupported_os": m24,
     "doctor_action_result_issue_not_supported":
         MessageLookupByLibrary.simpleMessage(
           "Эта проблема в настоящее время не поддерживает автоматическое исправление, пожалуйста, предоставьте снимок экрана для получения помощи",
@@ -592,10 +782,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_processing": MessageLookupByLibrary.simpleMessage(
       "Обработка...",
     ),
-    "doctor_info_result_add_registry_value": m17,
+    "doctor_info_result_add_registry_value": m25,
     "doctor_info_result_chinese_install_path":
         MessageLookupByLibrary.simpleMessage("Путь установки на китайском!"),
-    "doctor_info_result_chinese_install_path_error": m18,
+    "doctor_info_result_chinese_install_path_error": m26,
     "doctor_info_result_chinese_username": MessageLookupByLibrary.simpleMessage(
       "Имя пользователя на китайском!",
     ),
@@ -603,12 +793,12 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Имя пользователя на китайском может вызвать ошибки запуска/установки игры! Нажмите кнопку исправить, чтобы увидеть руководство по изменению!",
         ),
-    "doctor_info_result_create_live_folder": m19,
+    "doctor_info_result_create_live_folder": m27,
     "doctor_info_result_easyanticheat_not_installed":
         MessageLookupByLibrary.simpleMessage(
           "EasyAntiCheat не установлен или некорректно завершен",
         ),
-    "doctor_info_result_fix_suggestion": m20,
+    "doctor_info_result_fix_suggestion": m28,
     "doctor_info_result_incompatible_nvme_device":
         MessageLookupByLibrary.simpleMessage(
           "Новое устройство NVME, временно несовместимое с RSI Launcher, может привести к сбою установки",
@@ -619,7 +809,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "doctor_info_result_low_physical_memory":
         MessageLookupByLibrary.simpleMessage("Недостаточно физической памяти"),
-    "doctor_info_result_memory_requirement": m21,
+    "doctor_info_result_memory_requirement": m29,
     "doctor_info_result_missing_easyanticheat_files":
         MessageLookupByLibrary.simpleMessage("Отсутствуют файлы EasyAntiCheat"),
     "doctor_info_result_missing_live_folder": MessageLookupByLibrary.simpleMessage(
@@ -631,7 +821,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_result_unsupported_os": MessageLookupByLibrary.simpleMessage(
       "Неподдерживаемая операционная система, игра может не запуститься",
     ),
-    "doctor_info_result_upgrade_system": m22,
+    "doctor_info_result_upgrade_system": m30,
     "doctor_info_result_verify_files_with_rsi_launcher":
         MessageLookupByLibrary.simpleMessage(
           "Файлы EasyAntiCheat не найдены в папке LIVE или файлы неполные. Пожалуйста, используйте RSI Launcher для проверки файлов",
@@ -646,7 +836,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Пожалуйста, выберите директорию установки игры на главной странице.",
         ),
-    "doctor_title_one_click_diagnosis": m23,
+    "doctor_title_one_click_diagnosis": m31,
     "downloader_action_cancel_all": MessageLookupByLibrary.simpleMessage(
       "Отменить все",
     ),
@@ -682,11 +872,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_action_resume_all": MessageLookupByLibrary.simpleMessage(
       "Возобновить все",
     ),
-    "downloader_info_checked": m24,
+    "downloader_info_checked": m32,
     "downloader_info_checking": MessageLookupByLibrary.simpleMessage(
       "Проверка",
     ),
-    "downloader_info_checking_progress": m25,
+    "downloader_info_checking_progress": m33,
     "downloader_info_deleted": MessageLookupByLibrary.simpleMessage("Удалено"),
     "downloader_info_download_completed": MessageLookupByLibrary.simpleMessage(
       "Загрузка завершена",
@@ -698,9 +888,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Пожалуйста, введите единицу скорости загрузки, например: 1, 100k, 10m. Оставьте поле пустым или введите 0 для снятия ограничения.",
         ),
-    "downloader_info_download_upload_speed": m26,
-    "downloader_info_downloaded": m27,
-    "downloader_info_downloading": m28,
+    "downloader_info_download_upload_speed": m34,
+    "downloader_info_downloaded": m35,
+    "downloader_info_downloading": m36,
     "downloader_info_downloading_status": MessageLookupByLibrary.simpleMessage(
       "Загрузка...",
     ),
@@ -725,9 +915,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Настройки ограничения скорости сохранены. Будут применены при следующем запуске загрузчика.",
         ),
-    "downloader_info_status": m29,
-    "downloader_info_total_size": m30,
-    "downloader_info_uploaded": m31,
+    "downloader_info_status": m37,
+    "downloader_info_total_size": m38,
+    "downloader_info_uploaded": m39,
     "downloader_info_waiting": MessageLookupByLibrary.simpleMessage("Ожидание"),
     "downloader_input_download_speed_limit":
         MessageLookupByLibrary.simpleMessage("Ограничение загрузки:"),
@@ -774,7 +964,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Локализация DPS калькулятора"),
     "home_action_external_browser_extension":
         MessageLookupByLibrary.simpleMessage("Расширение внешнего браузера:"),
-    "home_action_info_abnormal_game_exit": m32,
+    "home_action_info_abnormal_game_exit": m40,
     "home_action_info_check_web_link": MessageLookupByLibrary.simpleMessage(
       "Пожалуйста, проверьте появившуюся веб-ссылку для получения подробной информации.",
     ),
@@ -785,7 +975,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_action_info_game_built_in": MessageLookupByLibrary.simpleMessage(
       "Встроено в игру",
     ),
-    "home_action_info_initialization_failed": m33,
+    "home_action_info_initialization_failed": m41,
     "home_action_info_initializing_resources":
         MessageLookupByLibrary.simpleMessage(
           "Инициализация ресурсов локализации...",
@@ -808,7 +998,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Roberts Space Industries, начало всего",
         ),
-    "home_action_info_scan_complete_valid_directories_found": m34,
+    "home_action_info_scan_complete_valid_directories_found": m42,
     "home_action_info_scanning": MessageLookupByLibrary.simpleMessage(
       "Сканирование...",
     ),
@@ -875,7 +1065,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_holiday_countdown": MessageLookupByLibrary.simpleMessage(
       "Обратный отсчет до праздников",
     ),
-    "home_holiday_countdown_days": m35,
+    "home_holiday_countdown_days": m43,
     "home_holiday_countdown_disclaimer": MessageLookupByLibrary.simpleMessage(
       "* Даты праздников собираются и поддерживаются вручную и могут содержать ошибки. Обратная связь приветствуется!",
     ),
@@ -958,10 +1148,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Чтение файла p4k..."),
     "home_localization_advanced_msg_reading_server_localization_text":
         MessageLookupByLibrary.simpleMessage("Получение текста локализации..."),
-    "home_localization_advanced_msg_version": m36,
-    "home_localization_advanced_title": m37,
-    "home_localization_advanced_title_msg": m38,
-    "home_localization_advanced_title_preview": m39,
+    "home_localization_advanced_msg_version": m44,
+    "home_localization_advanced_title": m45,
+    "home_localization_advanced_title_msg": m46,
+    "home_localization_advanced_title_preview": m47,
     "home_localization_msg_no_note": MessageLookupByLibrary.simpleMessage(
       "Для этой версии нет описания",
     ),
@@ -971,7 +1161,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Доступна новая версия локализации!",
         ),
-    "home_localization_new_version_installed": m40,
+    "home_localization_new_version_installed": m48,
     "home_localization_select_customize_file":
         MessageLookupByLibrary.simpleMessage(
           "Пожалуйста, выберите пользовательский файл локализации",
@@ -995,7 +1185,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Эта функция помогает вам удобнее запускать игру.\n\nДля обеспечения безопасности аккаунта эта функция использует локализованный браузер для сохранения состояния входа, и не сохраняет информацию о вашем пароле (если вы не включили функцию автозаполнения).\n\nПри использовании этой функции для входа в аккаунт убедитесь, что вы скачали SCToolbox из надежного источника.",
         ),
-    "home_login_info_rsi_server_report": m41,
+    "home_login_info_rsi_server_report": m49,
     "home_login_title_launching_game": MessageLookupByLibrary.simpleMessage(
       "Запускаем игру...",
     ),
@@ -1028,7 +1218,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Поддержка метода ввода сообщества не установлена",
         ),
-    "input_method_community_input_method_support_version": m44,
+    "input_method_community_input_method_support_version": m52,
     "input_method_confirm_enable_remote_input":
         MessageLookupByLibrary.simpleMessage(
           "Подтвердить включение удаленного ввода?",
@@ -1090,7 +1280,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_support_updated": MessageLookupByLibrary.simpleMessage(
       "Поддержка метода ввода сообщества обновлена",
     ),
-    "input_method_support_updated_to_version": m45,
+    "input_method_support_updated_to_version": m53,
     "input_method_text_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
       "Текст не может быть пустым!",
     ),
@@ -1124,9 +1314,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Доступны обновления расширений локализации",
         ),
-    "localization_extension_update_multiple": m46,
-    "localization_extension_update_single": m47,
-    "localization_info_channel": m48,
+    "localization_extension_update_multiple": m54,
+    "localization_extension_update_single": m55,
+    "localization_info_channel": m56,
     "localization_info_community_translation":
         MessageLookupByLibrary.simpleMessage("Локализация сообщества"),
     "localization_info_corrupted_file": MessageLookupByLibrary.simpleMessage(
@@ -1135,16 +1325,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_info_custom_files": MessageLookupByLibrary.simpleMessage(
       "Пользовательские файлы",
     ),
-    "localization_info_enabled": m49,
+    "localization_info_enabled": m57,
     "localization_info_incompatible_translation_params_warning":
         MessageLookupByLibrary.simpleMessage(
           "USER.cfg содержит несовместимые параметры локализации, это может быть остаток от предыдущих файлов локализации.\n\nЭто может привести к неработающей локализации или искаженному тексту, нажмите подтвердить, чтобы удалить эти параметры (это не повлияет на другие настройки).",
         ),
-    "localization_info_installation_error": m50,
+    "localization_info_installation_error": m58,
     "localization_info_installed": MessageLookupByLibrary.simpleMessage(
       "Установлено",
     ),
-    "localization_info_installed_version": m51,
+    "localization_info_installed_version": m59,
     "localization_info_language": MessageLookupByLibrary.simpleMessage(
       "Язык:   ",
     ),
@@ -1169,14 +1359,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_info_unavailable": MessageLookupByLibrary.simpleMessage(
       "Недоступно",
     ),
-    "localization_info_update_time": m52,
-    "localization_info_version_number": m53,
-    "log_analyzer_collision_details": m54,
-    "log_analyzer_death_details": m55,
+    "localization_info_update_time": m60,
+    "localization_info_version_number": m61,
+    "log_analyze_game_log_current": MessageLookupByLibrary.simpleMessage(
+      "Game.log (текущий)",
+    ),
+    "log_analyze_log_file": MessageLookupByLibrary.simpleMessage(
+      "Файл журнала:",
+    ),
+    "log_analyze_log_file_not_found": MessageLookupByLibrary.simpleMessage(
+      "Файл журнала не найден",
+    ),
+    "log_analyze_select_log_file": MessageLookupByLibrary.simpleMessage(
+      "Выберите файл журнала",
+    ),
+    "log_analyzer_collision_details": m62,
+    "log_analyzer_death_details": m63,
     "log_analyzer_description": MessageLookupByLibrary.simpleMessage(
       "Анализ ваших игровых записей (логин, смерти, убийства и другая информация)",
     ),
-    "log_analyzer_details_info": m56,
+    "log_analyzer_details_info": m64,
     "log_analyzer_disintegration": MessageLookupByLibrary.simpleMessage(
       "Дезинтеграция",
     ),
@@ -1220,11 +1422,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_game_start": MessageLookupByLibrary.simpleMessage(
       "Запуск игры",
     ),
-    "log_analyzer_kill_death_suicide_count": m57,
+    "log_analyzer_kill_death_suicide_count": m65,
     "log_analyzer_kill_summary": MessageLookupByLibrary.simpleMessage(
       "Сводка убийств",
     ),
-    "log_analyzer_mode_loading_time": m58,
+    "log_analyzer_mode_loading_time": m66,
     "log_analyzer_no_crash_detected": MessageLookupByLibrary.simpleMessage(
       "Сбои игры не обнаружены",
     ),
@@ -1238,9 +1440,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_play_time": MessageLookupByLibrary.simpleMessage(
       "Время игры",
     ),
-    "log_analyzer_play_time_format": m59,
-    "log_analyzer_player_location": m60,
-    "log_analyzer_player_login": m61,
+    "log_analyzer_play_time_format": m67,
+    "log_analyzer_player_location": m68,
+    "log_analyzer_player_login": m69,
     "log_analyzer_search_placeholder": MessageLookupByLibrary.simpleMessage(
       "Введите ключевые слова для поиска",
     ),
@@ -1253,13 +1455,255 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_title": MessageLookupByLibrary.simpleMessage(
       "Анализатор логов",
     ),
-    "log_analyzer_vehicle_damage_details": m62,
+    "log_analyzer_vehicle_damage_details": m70,
     "log_analyzer_view_local_inventory": MessageLookupByLibrary.simpleMessage(
       "Просмотр локального инвентаря",
     ),
     "log_analyzer_window_title": MessageLookupByLibrary.simpleMessage(
       "SCToolbox: Анализатор логов",
     ),
+    "news_video_view_original_post": MessageLookupByLibrary.simpleMessage(
+      "Посмотрите это видео в исходной публикации",
+    ),
+    "p4k_update_build_manifest_id_updated":
+        MessageLookupByLibrary.simpleMessage("build_manifest.id обновлен;"),
+    "p4k_update_canceled": MessageLookupByLibrary.simpleMessage("Отменено"),
+    "p4k_update_canceling": MessageLookupByLibrary.simpleMessage("Отмена..."),
+    "p4k_update_canceling_2": MessageLookupByLibrary.simpleMessage("Отмена..."),
+    "p4k_update_check_basics_p4k": MessageLookupByLibrary.simpleMessage(
+      "Проверить базовый P4K",
+    ),
+    "p4k_update_check_disk_space": MessageLookupByLibrary.simpleMessage(
+      "Проверить место на диске",
+    ),
+    "p4k_update_check_disk_space_and_task_budget":
+        MessageLookupByLibrary.simpleMessage(
+          "Проверьте дисковое пространство и бюджет задачи",
+        ),
+    "p4k_update_check_p4k": MessageLookupByLibrary.simpleMessage(
+      "Проверить P4K",
+    ),
+    "p4k_update_checking_disk_space": MessageLookupByLibrary.simpleMessage(
+      "Проверка дискового пространства",
+    ),
+    "p4k_update_complete_p4k_write": MessageLookupByLibrary.simpleMessage(
+      "Завершить запись P4K",
+    ),
+    "p4k_update_completed_installation_status":
+        MessageLookupByLibrary.simpleMessage("Статус завершенной установки"),
+    "p4k_update_continuing": MessageLookupByLibrary.simpleMessage(
+      "Возобновление...",
+    ),
+    "p4k_update_create_a_p4k_rollback_record":
+        MessageLookupByLibrary.simpleMessage("Создать запись отката P4K"),
+    "p4k_update_deep_repair": MessageLookupByLibrary.simpleMessage(
+      "Глубокий ремонт",
+    ),
+    "p4k_update_deep_repair_completed": MessageLookupByLibrary.simpleMessage(
+      "Глубокий ремонт завершен",
+    ),
+    "p4k_update_deep_repair_p4k": MessageLookupByLibrary.simpleMessage(
+      "Глубокий ремонт P4K",
+    ),
+    "p4k_update_deep_repair_rebuild_p4k": MessageLookupByLibrary.simpleMessage(
+      "Глубокий ремонт/восстановление P4K",
+    ),
+    "p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb":
+        MessageLookupByLibrary.simpleMessage(
+          "Глубокое восстановление: текущий P4K будет диагностирован первым, восстановлен/перестроен только в случае неудачной проверки, а содержимое будет проверено в соответствии с манифестом, что занимает много времени. Обычная установка/обновление не выполняется автоматически.",
+        ),
+    "p4k_update_diagnose_current_p4k": MessageLookupByLibrary.simpleMessage(
+      "Диагностировать текущий P4K",
+    ),
+    "p4k_update_diagnosing_current_p4k": MessageLookupByLibrary.simpleMessage(
+      "Диагностика текущего P4K",
+    ),
+    "p4k_update_download": MessageLookupByLibrary.simpleMessage("скачать"),
+    "p4k_update_download_basic_verification_file":
+        MessageLookupByLibrary.simpleMessage("Скачать базовый файл проверки"),
+    "p4k_update_download_basics_p4k": MessageLookupByLibrary.simpleMessage(
+      "Загрузить базовый P4K",
+    ),
+    "p4k_update_download_failed_retrying": m71,
+    "p4k_update_download_game_files": MessageLookupByLibrary.simpleMessage(
+      "Скачать файлы игры",
+    ),
+    "p4k_update_download_speed": m72,
+    "p4k_update_download_verify_basics_p4k":
+        MessageLookupByLibrary.simpleMessage("Загрузить/проверить базовый P4K"),
+    "p4k_update_download_write_game_files":
+        MessageLookupByLibrary.simpleMessage("Загрузка/запись файлов игры"),
+    "p4k_update_downloading": m73,
+    "p4k_update_downloading_objects_game_files_and_patching_p4k":
+        MessageLookupByLibrary.simpleMessage(
+          "Загрузка объектов, игровых файлов и исправление P4K...",
+        ),
+    "p4k_update_easyanticheat_installer_not_found_registration_skipped":
+        MessageLookupByLibrary.simpleMessage(
+          "Установщик EasyAntiCheat не найден, регистрация пропущена",
+        ),
+    "p4k_update_easyanticheat_registration_completed":
+        MessageLookupByLibrary.simpleMessage(
+          "Регистрация EasyAntiCheat завершена",
+        ),
+    "p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat":
+        m74,
+    "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal":
+        m75,
+    "p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th":
+        m76,
+    "p4k_update_estimate_completed": MessageLookupByLibrary.simpleMessage(
+      "Оценка завершена",
+    ),
+    "p4k_update_estimated_number_of_updates":
+        MessageLookupByLibrary.simpleMessage(
+          "Предполагаемое количество обновлений",
+        ),
+    "p4k_update_failure": m77,
+    "p4k_update_finish": MessageLookupByLibrary.simpleMessage("Завершено"),
+    "p4k_update_game_downloader_updater": MessageLookupByLibrary.simpleMessage(
+      "Загрузчик/обновитель игр",
+    ),
+    "p4k_update_game_file_writing_completed":
+        MessageLookupByLibrary.simpleMessage("Запись игрового файла завершена"),
+    "p4k_update_in_depth_repair_of_p4k": MessageLookupByLibrary.simpleMessage(
+      "Глубокое восстановление P4K",
+    ),
+    "p4k_update_install_to": m78,
+    "p4k_update_installation_status_processing_completed":
+        MessageLookupByLibrary.simpleMessage(
+          "Обработка статуса установки завершена",
+        ),
+    "p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be":
+        m79,
+    "p4k_update_manifest_url_cannot_be_empty":
+        MessageLookupByLibrary.simpleMessage(
+          "URL-адрес манифеста не может быть пустым.",
+        ),
+    "p4k_update_number_of_threads": MessageLookupByLibrary.simpleMessage(
+      "Количество потоков",
+    ),
+    "p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa":
+        MessageLookupByLibrary.simpleMessage(
+          "Загрузка/обновление P4K в настоящее время не поддерживает PTU, целевой путь должен быть каталогом LIVE.",
+        ),
+    "p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i":
+        MessageLookupByLibrary.simpleMessage(
+          "Выполняется глубокое восстановление P4K (сначала диагностика, затем при необходимости перестроение; это может занять много времени)...",
+        ),
+    "p4k_update_p4k_updater_failed": m80,
+    "p4k_update_patching_data_p4k": MessageLookupByLibrary.simpleMessage(
+      "Исправление Data.p4k",
+    ),
+    "p4k_update_pause": MessageLookupByLibrary.simpleMessage("Приостановить"),
+    "p4k_update_prepare_game_files": MessageLookupByLibrary.simpleMessage(
+      "Подготовить файлы игры",
+    ),
+    "p4k_update_preparing_for_p4k_patching":
+        MessageLookupByLibrary.simpleMessage("Подготовка к обновлению P4K"),
+    "p4k_update_preparing_game_files": m81,
+    "p4k_update_preparing_game_files_2": MessageLookupByLibrary.simpleMessage(
+      "Подготовка файлов игры",
+    ),
+    "p4k_update_processing_p4k": MessageLookupByLibrary.simpleMessage(
+      "Обработка P4K",
+    ),
+    "p4k_update_reading_inventory_and_estimating_updates":
+        MessageLookupByLibrary.simpleMessage(
+          "Чтение инвентаря и оценка обновлений...",
+        ),
+    "p4k_update_register_eac_and_sync_launcher_state":
+        MessageLookupByLibrary.simpleMessage(
+          "Зарегистрировать EAC и синхронизировать состояние лаунчера",
+        ),
+    "p4k_update_registering_eac_and_syncing_launcher_state":
+        MessageLookupByLibrary.simpleMessage(
+          "Регистрация EAC и синхронизация состояния лаунчера",
+        ),
+    "p4k_update_registering_easyanticheat":
+        MessageLookupByLibrary.simpleMessage("Регистрация EasyAntiCheat"),
+    "p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f":
+        m82,
+    "p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m":
+        MessageLookupByLibrary.simpleMessage(
+          "RequestedP4ChangeNum не может быть выведен из ReleaseInfo, build_manifest.id не записан.",
+        ),
+    "p4k_update_restore_p4k_index": MessageLookupByLibrary.simpleMessage(
+      "Восстановить индекс P4K",
+    ),
+    "p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped":
+        MessageLookupByLibrary.simpleMessage(
+          "Хранилище RSI Launcher не найдено; синхронизация зашифрованного хранилища пропущена",
+        ),
+    "p4k_update_scanning_local_p4k_records_and_restoring_indexes":
+        MessageLookupByLibrary.simpleMessage(
+          "Сканирование локальных записей P4K и восстановление индексов",
+        ),
+    "p4k_update_stage": m83,
+    "p4k_update_start_installation": MessageLookupByLibrary.simpleMessage(
+      "Начать установку",
+    ),
+    "p4k_update_stop": MessageLookupByLibrary.simpleMessage("Остановить"),
+    "p4k_update_synchronizing_launcher_installation_status":
+        MessageLookupByLibrary.simpleMessage(
+          "Синхронизация статуса установки лаунчера",
+        ),
+    "p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat":
+        MessageLookupByLibrary.simpleMessage(
+          "В URL-адресе манифеста отсутствуют параметры подписи Expires/KeyName/Signature. Войдите в систему еще раз или проверьте поле подписи ReleaseInfo.",
+        ),
+    "p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig":
+        MessageLookupByLibrary.simpleMessage(
+          "В базовом URL-адресе объекта отсутствуют параметры подписи Expires/KeyName/Signature. Войдите в систему еще раз или проверьте поле подписи ReleaseInfo.",
+        ),
+    "p4k_update_unknown_startup_file": MessageLookupByLibrary.simpleMessage(
+      "Неизвестный файл запуска",
+    ),
+    "p4k_update_unknown_version": MessageLookupByLibrary.simpleMessage(
+      "Неизвестная версия",
+    ),
+    "p4k_update_unnecessary": MessageLookupByLibrary.simpleMessage(
+      "Не требуется",
+    ),
+    "p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning":
+        m84,
+    "p4k_update_update_completed": MessageLookupByLibrary.simpleMessage(
+      "Обновление завершено",
+    ),
+    "p4k_update_update_completed_2": m85,
+    "p4k_update_update_p4k_entry_metadata":
+        MessageLookupByLibrary.simpleMessage("Обновить метаданные записи P4K"),
+    "p4k_update_updated_build_manifest_id_requestedp4changenum": m86,
+    "p4k_update_updating_p4k_entry_metadata": m87,
+    "p4k_update_updating_p4k_entry_metadata_2":
+        MessageLookupByLibrary.simpleMessage(
+          "Обновление метаданных записи P4K",
+        ),
+    "p4k_update_verify_game_files": MessageLookupByLibrary.simpleMessage(
+      "Проверить файлы игры",
+    ),
+    "p4k_update_verify_p4k_content": MessageLookupByLibrary.simpleMessage(
+      "Проверить содержимое P4K",
+    ),
+    "p4k_update_verify_repair_results": MessageLookupByLibrary.simpleMessage(
+      "Проверить результаты восстановления",
+    ),
+    "p4k_update_verifying": m88,
+    "p4k_update_verifying_game_files": MessageLookupByLibrary.simpleMessage(
+      "Проверка файлов игры",
+    ),
+    "p4k_update_waiting_for_progress": MessageLookupByLibrary.simpleMessage(
+      "Ожидание данных о ходе выполнения...",
+    ),
+    "p4k_update_write": MessageLookupByLibrary.simpleMessage("Запись"),
+    "p4k_update_write_game_files": MessageLookupByLibrary.simpleMessage(
+      "Запись файлов игры",
+    ),
+    "p4k_update_write_to_p4k": MessageLookupByLibrary.simpleMessage(
+      "Записать в P4K",
+    ),
+    "p4k_update_writing": m89,
+    "p4k_update_writing_game_file": m90,
     "party_room_about_verification": MessageLookupByLibrary.simpleMessage(
       "О верификации аккаунта",
     ),
@@ -1286,7 +1730,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_confirm_dismiss": MessageLookupByLibrary.simpleMessage(
       "Подтвердить роспуск",
     ),
-    "party_room_connect_error": m63,
+    "party_room_connect_error": m91,
     "party_room_connect_failed": MessageLookupByLibrary.simpleMessage(
       "Ошибка подключения",
     ),
@@ -1317,7 +1761,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_create_room": MessageLookupByLibrary.simpleMessage(
       "Создать комнату",
     ),
-    "party_room_days_ago": m64,
+    "party_room_days_ago": m92,
     "party_room_disconnected": MessageLookupByLibrary.simpleMessage(
       "Соединение потеряно",
     ),
@@ -1356,7 +1800,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_exit_room": MessageLookupByLibrary.simpleMessage(
       "Выйти из комнаты",
     ),
-    "party_room_exit_room_failed": m65,
+    "party_room_exit_room_failed": m93,
     "party_room_game_id_empty": MessageLookupByLibrary.simpleMessage(
       "Игровой ID не может быть пустым",
     ),
@@ -1366,12 +1810,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_game_not_started": MessageLookupByLibrary.simpleMessage(
       "<Игра не запущена>",
     ),
-    "party_room_get_code_failed": m66,
+    "party_room_get_code_failed": m94,
     "party_room_go_login": MessageLookupByLibrary.simpleMessage("Войти"),
     "party_room_guest_mode_hint": MessageLookupByLibrary.simpleMessage(
       "Вы просматриваете как гость. Войдите, чтобы создавать или присоединяться к комнатам.",
     ),
-    "party_room_hours_ago": m67,
+    "party_room_hours_ago": m95,
     "party_room_info_updated": MessageLookupByLibrary.simpleMessage(
       "Информация о комнате обновлена",
     ),
@@ -1390,8 +1834,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_kick_member": MessageLookupByLibrary.simpleMessage(
       "Выгнать участника",
     ),
-    "party_room_kick_member_confirm": m68,
-    "party_room_kick_member_failed": m69,
+    "party_room_kick_member_confirm": m96,
+    "party_room_kick_member_failed": m97,
     "party_room_kicked": MessageLookupByLibrary.simpleMessage(
       "был выгнан из комнаты",
     ),
@@ -1408,15 +1852,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_link_format_error": MessageLookupByLibrary.simpleMessage(
       "Неверный формат ссылки!",
     ),
-    "party_room_load_list_failed": m70,
+    "party_room_load_list_failed": m98,
     "party_room_loading": MessageLookupByLibrary.simpleMessage("Загрузка..."),
     "party_room_location": MessageLookupByLibrary.simpleMessage("Локация"),
     "party_room_login": MessageLookupByLibrary.simpleMessage("Войти"),
     "party_room_main_menu": MessageLookupByLibrary.simpleMessage(
       "<Главное меню>",
     ),
-    "party_room_members_count": m71,
-    "party_room_minutes_ago": m72,
+    "party_room_members_count": m99,
+    "party_room_minutes_ago": m100,
     "party_room_need_login": MessageLookupByLibrary.simpleMessage(
       "Требуется вход",
     ),
@@ -1459,12 +1903,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_reconnect": MessageLookupByLibrary.simpleMessage(
       "Переподключиться",
     ),
-    "party_room_reconnect_failed": m73,
+    "party_room_reconnect_failed": m101,
     "party_room_reconnect_prompt": MessageLookupByLibrary.simpleMessage(
       "Соединение с сервером комнаты потеряно. Переподключиться?",
     ),
-    "party_room_reconnect_retry": m74,
-    "party_room_register_failed": m75,
+    "party_room_reconnect_retry": m102,
+    "party_room_register_failed": m103,
     "party_room_register_success": MessageLookupByLibrary.simpleMessage(
       "Регистрация успешна!",
     ),
@@ -1541,6 +1985,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_sub_tag_optional": MessageLookupByLibrary.simpleMessage(
       "Подтег (необязательно)",
     ),
+    "party_room_sure": MessageLookupByLibrary.simpleMessage("Подтвердить"),
     "party_room_switch_room": MessageLookupByLibrary.simpleMessage(
       "Сменить комнату",
     ),
@@ -1556,8 +2001,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_transfer_owner": MessageLookupByLibrary.simpleMessage(
       "Передать владение",
     ),
-    "party_room_transfer_owner_confirm": m76,
-    "party_room_transfer_owner_failed": m77,
+    "party_room_transfer_owner_confirm": m104,
+    "party_room_transfer_owner_failed": m105,
     "party_room_unknown_area": MessageLookupByLibrary.simpleMessage(
       "Неизвестная зона",
     ),
@@ -1615,7 +2060,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_info_applied": MessageLookupByLibrary.simpleMessage(
       "Применено",
     ),
-    "performance_info_current_status": m78,
+    "performance_info_current_status": m106,
     "performance_info_delete_config_file": MessageLookupByLibrary.simpleMessage(
       "Удаление файла конфигурации...",
     ),
@@ -1633,7 +2078,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_info_graphics": MessageLookupByLibrary.simpleMessage(
       "Графика",
     ),
-    "performance_info_min_max_values": m79,
+    "performance_info_min_max_values": m107,
     "performance_info_not_applied": MessageLookupByLibrary.simpleMessage(
       "Не применено",
     ),
@@ -1819,7 +2264,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_water_info": MessageLookupByLibrary.simpleMessage(
       "Уровень всех водных эффектов",
     ),
-    "performance_title_performance_optimization": m80,
+    "performance_title_performance_optimization": m108,
     "setting_action_clear_translation_file_cache":
         MessageLookupByLibrary.simpleMessage("Очистить кэш файлов локализации"),
     "setting_action_create_desktop_shortcut":
@@ -1834,7 +2279,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "setting_action_info_autofill_data_cleared":
         MessageLookupByLibrary.simpleMessage("Данные автозаполнения очищены"),
-    "setting_action_info_cache_clearing_info": m81,
+    "setting_action_info_cache_clearing_info": m109,
     "setting_action_info_clear_cache_warning":
         MessageLookupByLibrary.simpleMessage(
           "Это не повлияет на уже установленные локализации.",
@@ -1896,7 +2341,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setting_action_reset_auto_password_fill":
         MessageLookupByLibrary.simpleMessage("Сбросить автозаполнение пароля"),
-    "setting_action_set_core_count": m82,
+    "setting_action_set_core_count": m110,
     "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
       "Установить файл игры (StarCitizen.exe)",
     ),
@@ -1946,39 +2391,39 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_analytics_done": MessageLookupByLibrary.simpleMessage(
       "✓ AnalyticsApi.touch(\"launch\") выполнено",
     ),
-    "splash_analytics_error": m83,
+    "splash_analytics_error": m111,
     "splash_analytics_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ AnalyticsApi.touch() таймаут (10с) - продолжение",
     ),
     "splash_app_init_done": MessageLookupByLibrary.simpleMessage(
       "✓ appModel.initApp() выполнено",
     ),
-    "splash_app_init_error": m84,
+    "splash_app_init_error": m112,
     "splash_app_init_timeout": MessageLookupByLibrary.simpleMessage(
       "✗ appModel.initApp() таймаут (10с)",
     ),
     "splash_aria2c_done": MessageLookupByLibrary.simpleMessage(
       "✓ aria2cModelProvider инициализация завершена",
     ),
-    "splash_aria2c_error": m85,
+    "splash_aria2c_error": m113,
     "splash_check_host_done": MessageLookupByLibrary.simpleMessage(
       "✓ URLConf.checkHost() выполнено",
     ),
-    "splash_check_host_error": m86,
+    "splash_check_host_error": m114,
     "splash_check_host_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ URLConf.checkHost() таймаут (10с) - продолжение",
     ),
     "splash_check_update_done": MessageLookupByLibrary.simpleMessage(
       "✓ appModel.checkUpdate() выполнено",
     ),
-    "splash_check_update_error": m87,
+    "splash_check_update_error": m115,
     "splash_check_update_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ appModel.checkUpdate() таймаут (10с) - продолжение",
     ),
     "splash_check_version": MessageLookupByLibrary.simpleMessage(
       "Проверка splash_alert_info_version...",
     ),
-    "splash_close_hive_failed": m88,
+    "splash_close_hive_failed": m116,
     "splash_context_unmounted": MessageLookupByLibrary.simpleMessage(
       "✗ Context размонтирован",
     ),
@@ -1994,16 +2439,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_db_deleted": MessageLookupByLibrary.simpleMessage(
       "[Диагностика] Директория базы данных удалена",
     ),
-    "splash_db_not_exist": m89,
+    "splash_db_not_exist": m117,
     "splash_db_reset_done": MessageLookupByLibrary.simpleMessage(
       "[Диагностика] Сброс базы данных завершён, подготовка к выходу из приложения",
     ),
     "splash_db_reset_msg": MessageLookupByLibrary.simpleMessage(
       "База данных сброшена, приложение будет закрыто. Пожалуйста, перезапустите приложение.",
     ),
-    "splash_deleting_db": m90,
-    "splash_diagnostic_log": m91,
-    "splash_diagnostic_mode": m92,
+    "splash_deleting_db": m118,
+    "splash_diagnostic_log": m119,
+    "splash_diagnostic_mode": m120,
     "splash_error": MessageLookupByLibrary.simpleMessage("Ошибка"),
     "splash_exec_analytics": MessageLookupByLibrary.simpleMessage(
       "Выполнение AnalyticsApi.touch(\"launch\")...",
@@ -2026,7 +2471,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_hive_done": MessageLookupByLibrary.simpleMessage(
       "✓ Hive.openBox(\"app_conf\") выполнено",
     ),
-    "splash_hive_error": m93,
+    "splash_hive_error": m121,
     "splash_hive_timeout": MessageLookupByLibrary.simpleMessage(
       "✗ Hive.openBox(\"app_conf\") таймаут (10с)",
     ),
@@ -2036,27 +2481,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_init_task_status": MessageLookupByLibrary.simpleMessage(
       "Статус задач инициализации:",
     ),
-    "splash_log_not_exist": m94,
-    "splash_log_read_done": m95,
+    "splash_log_not_exist": m122,
+    "splash_log_read_done": m123,
     "splash_open_hive_box": MessageLookupByLibrary.simpleMessage(
       "Открытие Hive app_conf box...",
     ),
     "splash_read_full_log": MessageLookupByLibrary.simpleMessage(
       "Прочитать полный лог",
     ),
-    "splash_read_log_failed": m96,
+    "splash_read_log_failed": m124,
     "splash_reset_database": MessageLookupByLibrary.simpleMessage(
       "Сбросить базу данных",
     ),
-    "splash_reset_db_failed": m97,
+    "splash_reset_db_failed": m125,
     "splash_show_agreement": MessageLookupByLibrary.simpleMessage(
       "Необходимо показать диалог пользовательского соглашения...",
     ),
     "splash_show_free_software_notice": MessageLookupByLibrary.simpleMessage(
       "Необходимо показать диалог уведомления о бесплатном ПО...",
     ),
-    "splash_start_init": m98,
-    "splash_start_read_log": m99,
+    "splash_start_init": m126,
+    "splash_start_read_log": m127,
     "splash_step0_done": MessageLookupByLibrary.simpleMessage(
       "--- Шаг 0 завершён, переход к Шагу 1 ---",
     ),
@@ -2133,14 +2578,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "Очистка завершена, пожалуйста, выполните установку или запуск игры.",
     ),
-    "tools_action_info_cleanup_failed": m100,
+    "tools_action_info_cleanup_failed": m128,
     "tools_action_info_config_file_not_exist": MessageLookupByLibrary.simpleMessage(
       "Конфигурационный файл не существует, попробуйте запустить игру один раз",
     ),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
       "Файлы EAC удалены. Сейчас будет открыт RSI Launcher, пожалуйста, перейдите в SETTINGS -> VERIFY для переустановки EAC.",
     ),
-    "tools_action_info_error_occurred": m101,
+    "tools_action_info_error_occurred": m129,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
       "Исправление успешно, попробуйте перезагрузить компьютер и продолжить установку игры! Если изменения реестра вызвали проблемы совместимости с другими программами, используйте инструмент очистки реестра NVME в разделе Инструменты.",
     ),
@@ -2152,7 +2597,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Запись IP-адресов в файл Hosts для решения проблем с DNS-загрязнением, препятствующих входу на официальный сайт в некоторых регионах.\nЭта функция находится на первом этапе тестирования, пожалуйста, сообщайте о любых проблемах.",
         ),
-    "tools_action_info_init_failed": m102,
+    "tools_action_info_init_failed": m130,
     "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
       "Лог-файл не существует, попробуйте запустить игру или начать установку и выйти из лаунчера. Если проблема не решена, попробуйте обновить лаунчер до последней версии!",
     ),
@@ -2165,7 +2610,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_not_installed": MessageLookupByLibrary.simpleMessage(
       "Не установлен",
     ),
-    "tools_action_info_nvme_patch_issue": m103,
+    "tools_action_info_nvme_patch_issue": m131,
     "tools_action_info_one_key_close_lens_shake":
         MessageLookupByLibrary.simpleMessage(
           "Одним кликом отключить дрожание камеры в игре для упрощения фотосъёмки.\n\nИнформация о параметрах предоставлена @拉邦那 Lapernum.",
@@ -2174,7 +2619,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Загрузка p4k уже выполняется, пожалуйста, проверьте менеджер загрузок!",
         ),
-    "tools_action_info_p4k_download_repair_tip": m104,
+    "tools_action_info_p4k_download_repair_tip": m132,
     "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
       "P4k - это основной файл игры Star Citizen, размером более 100 ГБ. Автономное скачивание, предоставляемое SCToolbox, помогает пользователям с медленной загрузкой p4k или для исправления файла p4k, который не может быть исправлен официальным лаунчером.\n\nДалее появится диалоговое окно с запросом места сохранения (можно выбрать папку Star Citizen или другое место). После завершения загрузки убедитесь, что файл P4K находится в папке LIVE, затем используйте лаунчер Star Citizen для проверки обновлений.",
     ),
@@ -2192,7 +2637,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Директория RSI Launcher не найдена, пожалуйста, выполните операцию вручную.",
         ),
-    "tools_action_info_rsi_launcher_log_issue": m105,
+    "tools_action_info_rsi_launcher_log_issue": m133,
     "tools_action_info_rsi_launcher_not_found":
         MessageLookupByLibrary.simpleMessage(
           "RSI Launcher не найден, попробуйте переустановить его или добавить вручную в настройках.",
@@ -2204,12 +2649,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
       "Запуск RSI Launcher от имени администратора может решить некоторые проблемы.\n\nЕсли настроены параметры блокировки энергоэффективных ядер, они также будут применены здесь.",
     ),
-    "tools_action_info_shader_cache_issue": m106,
+    "tools_action_info_shader_cache_issue": m134,
     "tools_action_info_star_citizen_not_found":
         MessageLookupByLibrary.simpleMessage(
           "Местоположение установки Star Citizen не найдено, пожалуйста, запустите игру хотя бы один раз или добавьте местоположение вручную в настройках.",
         ),
-    "tools_action_info_system_info_content": m107,
+    "tools_action_info_system_info_content": m135,
     "tools_action_info_system_info_title": MessageLookupByLibrary.simpleMessage(
       "Информация о системе",
     ),
@@ -2283,7 +2728,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "Место установки игры:  ",
     ),
-    "tools_info_processing_failed": m110,
+    "tools_info_processing_failed": m138,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "Местоположение RSI Launcher:",
     ),
@@ -2312,15 +2757,15 @@ class MessageLookup extends MessageLookupByLibrary {
           "Не удалось прочитать информацию о лаунчере!",
         ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m111,
+        m139,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("RSI Launcher не найден"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m112,
+    "tools_rsi_launcher_enhance_msg_patch_status": m140,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage(
           "* Чтобы удалить патч улучшений, переустановите RSI Launcher.",
         ),
-    "tools_rsi_launcher_enhance_msg_version": m113,
+    "tools_rsi_launcher_enhance_msg_version": m141,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "Улучшения RSI Launcher - это функция сообщества, которая распаковывает \"RSI Launcher\" на вашем компьютере и добавляет дополнительные функции улучшений. Какие функции использовать - решать вам.\n\nВ настоящее время CIG разрешает нам только операции с мультиязычностью. Ускорение загрузки лаунчера - это дополнительная функция, которую мы считаем полезной. Нарушение пользовательского соглашения CIG (https://robertsspaceindustries.com/eula) может привести к серьезным последствиям, включая блокировку аккаунта. Решение об использовании остается за вами, мы не несем ответственности за возможные последствия (повреждение игры, блокировка аккаунта и т.д.).\n\nДля модификаций лаунчера мы открыли исходный код на: https://github.com/StarCitizenToolBox/RSILauncherEnhance, при необходимости вы можете его изучить.\n\nЕсли по какой-либо причине вам нужно отменить этот патч улучшений, просто переустановите официальный лаунчер поверх текущего.",
     ),
@@ -2363,6 +2808,92 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_shader_clean_keep_latest_desc": MessageLookupByLibrary.simpleMessage(
       "Подходит для использования после обновления игры и завершения первого запуска. Сохранить все файлы последней версии, очистить другие старые версии (сохранить только GraphicsSettings).",
     ),
+    "tools_unp4k_3d_browser": MessageLookupByLibrary.simpleMessage(
+      "3D-браузер",
+    ),
+    "tools_unp4k_after_a_certain_day": MessageLookupByLibrary.simpleMessage(
+      "после определенного дня",
+    ),
+    "tools_unp4k_audio_decoding_failed": m147,
+    "tools_unp4k_audio_preview_failed": m148,
+    "tools_unp4k_audio_preview_failed_no_playable_file_found":
+        MessageLookupByLibrary.simpleMessage(
+          "Не удалось просмотреть аудио: файл, пригодный для воспроизведения, не найден.",
+        ),
+    "tools_unp4k_batch_export": MessageLookupByLibrary.simpleMessage(
+      "Пакетный экспорт",
+    ),
+    "tools_unp4k_batch_export_options": MessageLookupByLibrary.simpleMessage(
+      "Опции пакетного экспорта",
+    ),
+    "tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": m149,
+    "tools_unp4k_clear": MessageLookupByLibrary.simpleMessage("Очистить"),
+    "tools_unp4k_common_formats": MessageLookupByLibrary.simpleMessage(
+      "Общие форматы",
+    ),
+    "tools_unp4k_confirm_return": MessageLookupByLibrary.simpleMessage(
+      "Вернуться на главную",
+    ),
+    "tools_unp4k_conversion_failed": MessageLookupByLibrary.simpleMessage(
+      "Преобразование не удалось",
+    ),
+    "tools_unp4k_conversion_successful": MessageLookupByLibrary.simpleMessage(
+      "Преобразование выполнено успешно",
+    ),
+    "tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported":
+        MessageLookupByLibrary.simpleMessage(
+          "Конвертируемые форматы можно автоматически конвертировать и экспортировать (WEM->WAV, DDS->PNG, CGA/CGF->GLB).",
+        ),
+    "tools_unp4k_current_directory": MessageLookupByLibrary.simpleMessage(
+      "текущий каталог",
+    ),
+    "tools_unp4k_date": MessageLookupByLibrary.simpleMessage("дата"),
+    "tools_unp4k_dds_to_png": MessageLookupByLibrary.simpleMessage("DDS в PNG"),
+    "tools_unp4k_decoding": MessageLookupByLibrary.simpleMessage(
+      "Декодирование...",
+    ),
+    "tools_unp4k_decoding_full_audio": MessageLookupByLibrary.simpleMessage(
+      "Декодирование полного звука...",
+    ),
+    "tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to":
+        MessageLookupByLibrary.simpleMessage(
+          "После выхода потребуется повторно загрузить P4K. Вернуться на главную страницу?",
+        ),
+    "tools_unp4k_export_completed_successfully_skipped": m151,
+    "tools_unp4k_export_completed_total_files": m152,
+    "tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi":
+        MessageLookupByLibrary.simpleMessage(
+          "Экспорт напрямую по имени файла; когда выбран один файл, файл будет сохранен напрямую.",
+        ),
+    "tools_unp4k_export_wav": MessageLookupByLibrary.simpleMessage(
+      "Экспорт WAV",
+    ),
+    "tools_unp4k_export_with_directory_structure_preserved":
+        MessageLookupByLibrary.simpleMessage(
+          "Экспорт с сохранением структуры каталогов",
+        ),
+    "tools_unp4k_file_browser": MessageLookupByLibrary.simpleMessage(
+      "Браузер файлов",
+    ),
+    "tools_unp4k_finish": MessageLookupByLibrary.simpleMessage("Готово!"),
+    "tools_unp4k_finish_2": MessageLookupByLibrary.simpleMessage("Конец"),
+    "tools_unp4k_from_cache": m156,
+    "tools_unp4k_global_search": MessageLookupByLibrary.simpleMessage(
+      "глобальный поиск",
+    ),
+    "tools_unp4k_greater_than": MessageLookupByLibrary.simpleMessage(
+      "больше, чем",
+    ),
+    "tools_unp4k_include_original_path_when_exporting":
+        MessageLookupByLibrary.simpleMessage(
+          "Включите исходный путь при экспорте.",
+        ),
+    "tools_unp4k_jump_to_file_location": MessageLookupByLibrary.simpleMessage(
+      "Перейти к местоположению файла",
+    ),
+    "tools_unp4k_less_than": MessageLookupByLibrary.simpleMessage(
+      "меньше, чем",
+    ),
     "tools_unp4k_missing_runtime": MessageLookupByLibrary.simpleMessage(
       "Отсутствует среда выполнения",
     ),
@@ -2371,24 +2902,125 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_missing_runtime_info": MessageLookupByLibrary.simpleMessage(
       "Для использования этой функции необходимо установить среду выполнения .NET8. Пожалуйста, нажмите кнопку ниже для загрузки и установки, после успешной установки перезапустите эту страницу для продолжения использования.",
     ),
+    "tools_unp4k_more_failed_files_skipped": m157,
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage(
       "Инициализация...",
     ),
-    "tools_unp4k_msg_open_file": m123,
-    "tools_unp4k_msg_read_completed": m124,
-    "tools_unp4k_msg_read_file": m125,
+    "tools_unp4k_msg_open_file": m158,
+    "tools_unp4k_msg_read_completed": m159,
+    "tools_unp4k_msg_read_file": m160,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "Чтение файла P4K...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "Обработка файлов...",
     ),
-    "tools_unp4k_msg_reading3": m126,
-    "tools_unp4k_msg_unknown_file_type": m127,
-    "tools_unp4k_title": m128,
+    "tools_unp4k_msg_reading3": m161,
+    "tools_unp4k_msg_unknown_file_type": m162,
+    "tools_unp4k_music_browser": MessageLookupByLibrary.simpleMessage(
+      "музыкальный браузер",
+    ),
+    "tools_unp4k_no_limit": MessageLookupByLibrary.simpleMessage(
+      "Без ограничений",
+    ),
+    "tools_unp4k_play_automatically_when_switching_music":
+        MessageLookupByLibrary.simpleMessage(
+          "Автоматическое воспроизведение при переключении музыки",
+        ),
+    "tools_unp4k_progress": m163,
+    "tools_unp4k_return_to_homepage": MessageLookupByLibrary.simpleMessage(
+      "Вернуться на домашнюю страницу",
+    ),
+    "tools_unp4k_scope": MessageLookupByLibrary.simpleMessage("Диапазон"),
+    "tools_unp4k_search_all_files_supports_regular_expressions":
+        MessageLookupByLibrary.simpleMessage(
+          "Искать во всех файлах (поддерживает регулярные выражения)...",
+        ),
+    "tools_unp4k_search_the_current_directory_supports_regular_expressions":
+        MessageLookupByLibrary.simpleMessage(
+          "Поиск в текущем каталоге (поддерживает регулярные выражения)...",
+        ),
+    "tools_unp4k_select_conversion_export_location":
+        MessageLookupByLibrary.simpleMessage(
+          "Выберите папку для преобразованных файлов",
+        ),
+    "tools_unp4k_select_convert_export_file":
+        MessageLookupByLibrary.simpleMessage(
+          "Выберите файл для преобразования и экспорта",
+        ),
+    "tools_unp4k_select_export_file": MessageLookupByLibrary.simpleMessage(
+      "Выберите файл экспорта",
+    ),
+    "tools_unp4k_separate_with_spaces_and_do_not_include":
+        MessageLookupByLibrary.simpleMessage(
+          "Разделяйте пробелами, точку не указывайте",
+        ),
+    "tools_unp4k_size": MessageLookupByLibrary.simpleMessage("размер"),
+    "tools_unp4k_size_value": MessageLookupByLibrary.simpleMessage(
+      "значение размера",
+    ),
+    "tools_unp4k_some_day_ago": MessageLookupByLibrary.simpleMessage(
+      "До указанной даты",
+    ),
+    "tools_unp4k_start": MessageLookupByLibrary.simpleMessage("Начало"),
+    "tools_unp4k_start_export": MessageLookupByLibrary.simpleMessage(
+      "Начать экспорт",
+    ),
+    "tools_unp4k_suffix": MessageLookupByLibrary.simpleMessage("суффикс"),
+    "tools_unp4k_suffix_filter": MessageLookupByLibrary.simpleMessage(
+      "Суффиксный фильтр",
+    ),
+    "tools_unp4k_support_preview": MessageLookupByLibrary.simpleMessage(
+      "Поддержка предварительного просмотра",
+    ),
+    "tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio":
+        MessageLookupByLibrary.simpleMessage(
+          "Срок действия аудиопотока истек. Пожалуйста, снова откройте аудио.",
+        ),
+    "tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi":
+        m164,
+    "tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the":
+        MessageLookupByLibrary.simpleMessage(
+          "В текущем выборе нет конвертируемого формата, и будет экспортирован исходный файл.",
+        ),
+    "tools_unp4k_time_range": MessageLookupByLibrary.simpleMessage(
+      "временной диапазон",
+    ),
+    "tools_unp4k_title": m165,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage(
       "Нажмите на файл для предварительного просмотра",
     ),
+    "tools_unp4k_wav_export_failed": MessageLookupByLibrary.simpleMessage(
+      "Экспорт WAV не удался",
+    ),
+    "tools_unp4k_wav_export_successful": MessageLookupByLibrary.simpleMessage(
+      "Экспорт WAV успешен",
+    ),
+    "user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in":
+        MessageLookupByLibrary.simpleMessage(
+          "Вы уверены, что хотите выйти из PartyRoom? При следующем использовании вам необходимо будет снова войти в систему.",
+        ),
+    "user_can_only_be_refreshed_once_per_hour":
+        MessageLookupByLibrary.simpleMessage(
+          "Может обновляться только один раз в час",
+        ),
+    "user_log_out": MessageLookupByLibrary.simpleMessage("Выйти"),
+    "user_logged_out": MessageLookupByLibrary.simpleMessage(
+      "Вы вышли из системы",
+    ),
+    "user_logout_failed": m166,
+    "user_refresh_data": MessageLookupByLibrary.simpleMessage(
+      "Обновить данные",
+    ),
+    "user_refresh_failed": m167,
+    "user_refresh_successful": MessageLookupByLibrary.simpleMessage(
+      "Данные обновлены",
+    ),
+    "user_registration_time": m168,
+    "user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour":
+        MessageLookupByLibrary.simpleMessage(
+          "Данные обновляются слишком часто. Повторите попытку через час.",
+        ),
     "webview_localization_finished_invitations":
         MessageLookupByLibrary.simpleMessage("Завершённые приглашения"),
     "webview_localization_name_member": MessageLookupByLibrary.simpleMessage(
@@ -2398,7 +3030,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Всего приглашений:"),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("Незавершённые приглашения"),
-    "yearly_report_account_count": m129,
+    "yearly_report_account_count": m169,
     "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
       "Показать все аккаунты",
     ),
@@ -2408,12 +3040,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_account_title": MessageLookupByLibrary.simpleMessage(
       "Статистика аккаунта",
     ),
-    "yearly_report_account_total": m130,
+    "yearly_report_account_total": m170,
     "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
       "Анализ данных игровых журналов",
     ),
-    "yearly_report_card_desc": m131,
-    "yearly_report_card_title": m132,
+    "yearly_report_card_desc": m171,
+    "yearly_report_card_title": m172,
     "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
       "Нестабильные моменты этого года",
     ),
@@ -2429,13 +3061,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage(
       "Количество сбоев игры",
     ),
-    "yearly_report_date_range": m133,
+    "yearly_report_date_range": m173,
     "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
       "Данные генерируются из ваших локальных логов и не отправляются третьим лицам. Из-за значительных изменений логов в разных версиях данные могут быть неполными. Только для развлечения.",
     ),
-    "yearly_report_duration_hours_minutes": m134,
-    "yearly_report_duration_minutes": m135,
-    "yearly_report_earliest_play_desc": m136,
+    "yearly_report_duration_hours_minutes": m174,
+    "yearly_report_duration_minutes": m175,
+    "yearly_report_earliest_play_desc": m176,
     "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
       "Самая ранняя игровая сессия",
     ),
@@ -2459,7 +3091,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage(
       "Статистика убийств",
     ),
-    "yearly_report_latest_play_desc": m137,
+    "yearly_report_latest_play_desc": m177,
     "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
       "Самая поздняя игровая сессия",
     ),
@@ -2472,7 +3104,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
       "Количество запусков игры",
     ),
-    "yearly_report_launch_count_value": m138,
+    "yearly_report_launch_count_value": m178,
     "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
       "Частые локации",
     ),
@@ -2485,15 +3117,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
       "Статистика локаций",
     ),
-    "yearly_report_month_format": m139,
+    "yearly_report_month_format": m179,
     "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage(
       "Меньше всего игр",
     ),
-    "yearly_report_monthly_least_count": m140,
+    "yearly_report_monthly_least_count": m180,
     "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage(
       "Больше всего игр",
     ),
-    "yearly_report_monthly_most_count": m141,
+    "yearly_report_monthly_most_count": m181,
     "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage(
       "Ежемесячная статистика",
     ),
@@ -2514,14 +3146,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage(
       "часов",
     ),
-    "yearly_report_play_time_value": m142,
+    "yearly_report_play_time_value": m182,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
       "Представлено SCToolbox",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage(
       "Среднее",
     ),
-    "yearly_report_session_date": m143,
+    "yearly_report_session_date": m183,
     "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage(
       "Самое долгое",
     ),
@@ -2567,13 +3199,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
       "Количество возрождений",
     ),
-    "yearly_report_thanks_message": m144,
-    "yearly_report_thanks_next": m145,
+    "yearly_report_thanks_message": m184,
+    "yearly_report_thanks_next": m185,
     "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
       "Спасибо, что вы с нами",
     ),
-    "yearly_report_title": m146,
-    "yearly_report_vehicle_destruction_count": m147,
+    "yearly_report_title": m186,
+    "yearly_report_vehicle_destruction_count": m187,
     "yearly_report_vehicle_destruction_desc":
         MessageLookupByLibrary.simpleMessage("В этом году вы уничтожили"),
     "yearly_report_vehicle_destruction_most":
@@ -2584,8 +3216,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("кораблей"),
     "yearly_report_vehicle_pilot_collapse":
         MessageLookupByLibrary.simpleMessage("Свернуть детали"),
-    "yearly_report_vehicle_pilot_count": m148,
-    "yearly_report_vehicle_pilot_expand": m149,
+    "yearly_report_vehicle_pilot_count": m188,
+    "yearly_report_vehicle_pilot_expand": m189,
     "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
       "Самый пилотируемый транспорт",
     ),
@@ -2598,6 +3230,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
       "Вспомните свои незабываемые моменты в Star Citizen",
     ),
-    "yearly_report_welcome_title": m150,
+    "yearly_report_welcome_title": m190,
   };
 }

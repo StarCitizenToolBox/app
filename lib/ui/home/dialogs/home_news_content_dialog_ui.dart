@@ -71,7 +71,7 @@ class HomeNewsContentDialogUI extends StatelessWidget {
           if (link.trim().isNotEmpty)
             Button(
               onPressed: () => launchUrlString(link),
-              child: const Text("打开原文"),
+              child: Text(S.current.app_open_the_original_text),
             ),
           FilledButton(
             onPressed: () => Navigator.pop(context),
@@ -122,7 +122,7 @@ class HomeNewsContentDialogUI extends StatelessWidget {
         caseSensitive: false,
         dotAll: true,
       ),
-      '<p>贴吧视频需在原帖观看</p>',
+      '<p>${S.current.news_video_view_original_post}</p>',
     );
     htmlText = htmlText.replaceAll(
       RegExp(
@@ -200,7 +200,7 @@ class HomeNewsContentDialogUI extends StatelessWidget {
       case "iframe":
         final src = node.attributes["src"]?.trim() ?? "";
         if (src.isNotEmpty) {
-          buffer.write("\n\n[播放视频]($src)\n\n");
+          buffer.write("\n\n${S.current.app_play_video(src)}\n\n");
         }
         return;
       case "h1":

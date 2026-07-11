@@ -17,7 +17,9 @@ class UserAvatarWidget extends HookConsumerWidget {
     final partyRoomState = ref.watch(partyRoomProvider);
     final uiState = ref.watch(partyRoomUIModelProvider);
     final isLoggedIn = partyRoomState.auth.isLoggedIn;
-    final userName = partyRoomState.auth.userInfo?.gameUserId ?? S.current.user_not_logged_in;
+    final userName =
+        partyRoomState.auth.userInfo?.gameUserId ??
+        S.current.user_not_logged_in;
     final avatarUrl = partyRoomState.auth.userInfo?.avatarUrl;
     final enlistedDate = partyRoomState.auth.userInfo?.enlistedDate;
     final fullAvatarUrl = PartyRoomUtils.getAvatarUrl(avatarUrl);
@@ -32,7 +34,9 @@ class UserAvatarWidget extends HookConsumerWidget {
       builder: (BuildContext context, Set<WidgetState> states) {
         return Container(
           decoration: BoxDecoration(
-            color: states.isHovered ? Colors.white.withValues(alpha: .1) : Colors.transparent,
+            color: states.isHovered
+                ? Colors.white.withValues(alpha: .1)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -46,17 +50,28 @@ class UserAvatarWidget extends HookConsumerWidget {
                 decoration: BoxDecoration(
                   color: isLoggedIn ? Colors.blue : Colors.grey,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: Colors.white.withValues(alpha: .3), width: 1),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: .3),
+                    width: 1,
+                  ),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(14),
                   child: uiState.isLoggingIn
-                      ? const Padding(padding: EdgeInsets.all(4), child: ProgressRing(strokeWidth: 2))
+                      ? const Padding(
+                          padding: EdgeInsets.all(4),
+                          child: ProgressRing(strokeWidth: 2),
+                        )
                       : (fullAvatarUrl != null
-                            ? CacheNetImage(url: fullAvatarUrl, fit: BoxFit.cover)
+                            ? CacheNetImage(
+                                url: fullAvatarUrl,
+                                fit: BoxFit.cover,
+                              )
                             : Center(
                                 child: Icon(
-                                  isLoggedIn ? FluentIcons.contact : FluentIcons.unknown,
+                                  isLoggedIn
+                                      ? FluentIcons.contact
+                                      : FluentIcons.unknown,
                                   size: 16,
                                   color: Colors.white,
                                 ),
@@ -66,8 +81,13 @@ class UserAvatarWidget extends HookConsumerWidget {
               const SizedBox(width: 8),
               // 用户名
               Text(
-                uiState.isLoggingIn ? S.current.home_title_logging_in : userName,
-                style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: isLoggedIn ? 1.0 : .6)),
+                uiState.isLoggingIn
+                    ? S.current.home_title_logging_in
+                    : userName,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.white.withValues(alpha: isLoggedIn ? 1.0 : .6),
+                ),
               ),
             ],
           ),
@@ -98,7 +118,9 @@ class UserAvatarWidget extends HookConsumerWidget {
             final uiState = ref.watch(partyRoomUIModelProvider);
             final userInfo = partyRoomState.auth.userInfo;
             final displayUserName = userInfo?.gameUserId ?? userName;
-            final displayAvatarUrl = PartyRoomUtils.getAvatarUrl(userInfo?.avatarUrl);
+            final displayAvatarUrl = PartyRoomUtils.getAvatarUrl(
+              userInfo?.avatarUrl,
+            );
             final displayEnlistedDate = userInfo?.enlistedDate ?? enlistedDate;
 
             return Stack(
@@ -117,7 +139,10 @@ class UserAvatarWidget extends HookConsumerWidget {
                     decoration: BoxDecoration(
                       color: FluentTheme.of(context).micaBackgroundColor,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.white.withValues(alpha: .1), width: 1),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: .1),
+                        width: 1,
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: .3),
@@ -138,12 +163,24 @@ class UserAvatarWidget extends HookConsumerWidget {
                               Container(
                                 width: 48,
                                 height: 48,
-                                decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(24)),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(24),
                                   child: displayAvatarUrl != null
-                                      ? CacheNetImage(url: displayAvatarUrl, fit: BoxFit.cover)
-                                      : const Center(child: Icon(FluentIcons.contact, size: 24, color: Colors.white)),
+                                      ? CacheNetImage(
+                                          url: displayAvatarUrl,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : const Center(
+                                          child: Icon(
+                                            FluentIcons.contact,
+                                            size: 24,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                 ),
                               ),
                               const SizedBox(width: 12),
@@ -153,14 +190,27 @@ class UserAvatarWidget extends HookConsumerWidget {
                                   children: [
                                     Text(
                                       displayUserName,
-                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      '注册时间：${PartyRoomUtils.formatDateTime(displayEnlistedDate)}',
-                                      style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .6)),
+                                      S.current.user_registration_time(
+                                        PartyRoomUtils.formatDateTime(
+                                              displayEnlistedDate,
+                                            ) ??
+                                            '',
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white.withValues(
+                                          alpha: .6,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -176,35 +226,66 @@ class UserAvatarWidget extends HookConsumerWidget {
                               // 刷新按钮
                               Expanded(
                                 child: Tooltip(
-                                  message: '每小时仅可刷新一次',
+                                  message: S
+                                      .current
+                                      .user_can_only_be_refreshed_once_per_hour,
                                   child: FilledButton(
                                     onPressed: uiState.isRefreshingProfile
                                         ? null
                                         : () async {
                                             try {
-                                              await ref.read(partyRoomUIModelProvider.notifier).refreshUserProfile();
+                                              await ref
+                                                  .read(
+                                                    partyRoomUIModelProvider
+                                                        .notifier,
+                                                  )
+                                                  .refreshUserProfile();
                                               if (context.mounted) {
-                                                showToast(context, '刷新成功');
+                                                showToast(
+                                                  context,
+                                                  S
+                                                      .current
+                                                      .user_refresh_successful,
+                                                );
                                               }
                                             } catch (e) {
                                               if (context.mounted) {
-                                                if (e is GrpcError && e.code == StatusCode.resourceExhausted) {
-                                                  showToast(context, '资料刷新过于频繁，请一小时后再试');
+                                                if (e is GrpcError &&
+                                                    e.code ==
+                                                        StatusCode
+                                                            .resourceExhausted) {
+                                                  showToast(
+                                                    context,
+                                                    S
+                                                        .current
+                                                        .user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour,
+                                                  );
                                                 } else {
-                                                  showToast(context, '刷新失败: $e');
+                                                  showToast(
+                                                    context,
+                                                    S.current
+                                                        .user_refresh_failed(e),
+                                                  );
                                                 }
                                               }
                                             }
                                           },
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         if (uiState.isRefreshingProfile)
                                           const Padding(
                                             padding: EdgeInsets.only(right: 8),
-                                            child: SizedBox(width: 12, height: 12, child: ProgressRing(strokeWidth: 2)),
+                                            child: SizedBox(
+                                              width: 12,
+                                              height: 12,
+                                              child: ProgressRing(
+                                                strokeWidth: 2,
+                                              ),
+                                            ),
                                           ),
-                                        const Text('刷新资料'),
+                                        Text(S.current.user_refresh_data),
                                       ],
                                     ),
                                   ),
@@ -215,16 +296,25 @@ class UserAvatarWidget extends HookConsumerWidget {
                               Expanded(
                                 child: FilledButton(
                                   onPressed: () async {
-                                    Navigator.of(dialogContext).pop(_AccountCardAction.logout);
+                                    Navigator.of(
+                                      dialogContext,
+                                    ).pop(_AccountCardAction.logout);
                                   },
                                   style: ButtonStyle(
-                                    backgroundColor: WidgetStateProperty.resolveWith((states) {
-                                      if (states.isHovered) return Colors.red.withValues(alpha: 0.8);
-                                      return Colors.red;
-                                    }),
+                                    backgroundColor:
+                                        WidgetStateProperty.resolveWith((
+                                          states,
+                                        ) {
+                                          if (states.isHovered) {
+                                            return Colors.red.withValues(
+                                              alpha: 0.8,
+                                            );
+                                          }
+                                          return Colors.red;
+                                        }),
                                   ),
                                   child: Text(
-                                    '退出登录',
+                                    S.current.user_log_out,
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -255,8 +345,12 @@ class UserAvatarWidget extends HookConsumerWidget {
   Future<void> _handleLogout(BuildContext context, WidgetRef ref) async {
     final confirmed = await showConfirmDialogs(
       context,
-      '退出登录',
-      const Text('确定要退出 PartyRoom 登录状态吗？下次使用时需要重新登录。'),
+      S.current.user_log_out,
+      Text(
+        S
+            .current
+            .user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in,
+      ),
       constraints: const BoxConstraints(maxWidth: 400),
     );
 
@@ -265,11 +359,11 @@ class UserAvatarWidget extends HookConsumerWidget {
         final partyRoom = ref.read(partyRoomProvider.notifier);
         await partyRoom.logout();
         if (context.mounted) {
-          showToast(context, '已退出登录');
+          showToast(context, S.current.user_logged_out);
         }
       } catch (e) {
         if (context.mounted) {
-          showToast(context, '退出登录失败: $e');
+          showToast(context, S.current.user_logout_failed(e));
         }
       }
     }

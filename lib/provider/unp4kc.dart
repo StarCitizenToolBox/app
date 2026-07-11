@@ -580,17 +580,17 @@ class Unp4kCModel extends _$Unp4kCModel {
   String modelCategoryLabel(Unp4kModelCategory category) {
     switch (category) {
       case Unp4kModelCategory.ships:
-        return "飞船";
+        return S.current.app_spaceship;
       case Unp4kModelCategory.fpsWeapons:
-        return "FPS 武器";
+        return S.current.app_fps_weapons;
       case Unp4kModelCategory.vehicles:
-        return "载具";
+        return S.current.tools_vehicle_sorting_vehicle;
       case Unp4kModelCategory.characters:
-        return "装备角色";
+        return S.current.app_equip_character;
       case Unp4kModelCategory.props:
-        return "道具场景";
+        return S.current.app_prop_scene;
       case Unp4kModelCategory.other:
-        return "其他";
+        return S.current.home_localization_advanced_json_text_others;
     }
   }
 
@@ -1225,7 +1225,9 @@ class Unp4kCModel extends _$Unp4kCModel {
 
     final exists = fs.directory(targetPath.replaceAll("\\", "/")).existsSync();
     if (!exists) {
-      state = state.copyWith(endMessage: "路径不存在: $targetPath");
+      state = state.copyWith(
+        endMessage: S.current.app_path_does_not_exist(targetPath),
+      );
       return false;
     }
 
@@ -1785,8 +1787,11 @@ class Unp4kCModel extends _$Unp4kCModel {
       }
       final lower = normalizedPath.toLowerCase();
       if (_isDdnaDdsPath(lower)) {
-        const err = "跳过 _ddna DDS：该类型不进行预览解码";
-        state = state.copyWith(endMessage: "DDS 转 PNG 失败: $err");
+        final err =
+            S.current.app_skip_ddna_dds_this_type_does_not_preview_decoding;
+        state = state.copyWith(
+          endMessage: S.current.app_dds_to_png_failed(err),
+        );
         return (false, null, err);
       }
 
@@ -1810,11 +1815,13 @@ class Unp4kCModel extends _$Unp4kCModel {
       await outputFile.parent.create(recursive: true);
       await outputFile.writeAsBytes(pngBytes, flush: true);
 
-      state = state.copyWith(endMessage: "DDS 转 PNG 成功: ${outputFile.path}");
+      state = state.copyWith(
+        endMessage: S.current.app_dds_to_png_successful(outputFile.path),
+      );
       return (true, outputFile.path, null);
     } catch (e) {
       final err = e.toString();
-      state = state.copyWith(endMessage: "DDS 转 PNG 失败: $err");
+      state = state.copyWith(endMessage: S.current.app_dds_to_png_failed(err));
       return (false, null, err);
     }
   }

@@ -9851,6 +9851,2099 @@ class S {
       args: [],
     );
   }
+
+  /// `spaceship`
+  String get app_spaceship {
+    return Intl.message('spaceship', name: 'app_spaceship', desc: '', args: []);
+  }
+
+  /// `FPS weapons`
+  String get app_fps_weapons {
+    return Intl.message(
+      'FPS weapons',
+      name: 'app_fps_weapons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Equip character`
+  String get app_equip_character {
+    return Intl.message(
+      'Equip character',
+      name: 'app_equip_character',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `prop scene`
+  String get app_prop_scene {
+    return Intl.message(
+      'prop scene',
+      name: 'app_prop_scene',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Path does not exist: {v0}`
+  String app_path_does_not_exist(Object v0) {
+    return Intl.message(
+      'Path does not exist: $v0',
+      name: 'app_path_does_not_exist',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Skip _ddna DDS: This type does not preview decoding`
+  String get app_skip_ddna_dds_this_type_does_not_preview_decoding {
+    return Intl.message(
+      'Skip _ddna DDS: This type does not preview decoding',
+      name: 'app_skip_ddna_dds_this_type_does_not_preview_decoding',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DDS to PNG failed: {v0}`
+  String app_dds_to_png_failed(Object v0) {
+    return Intl.message(
+      'DDS to PNG failed: $v0',
+      name: 'app_dds_to_png_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `DDS to PNG successful: {v0}`
+  String app_dds_to_png_successful(Object v0) {
+    return Intl.message(
+      'DDS to PNG successful: $v0',
+      name: 'app_dds_to_png_successful',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `reject`
+  String get auth_reject {
+    return Intl.message('reject', name: 'auth_reject', desc: '', args: []);
+  }
+
+  /// `allow`
+  String get auth_allow {
+    return Intl.message('allow', name: 'auth_allow', desc: '', args: []);
+  }
+
+  /// `You need to log in first to authorize`
+  String get auth_you_need_to_log_in_first_to_authorize {
+    return Intl.message(
+      'You need to log in first to authorize',
+      name: 'auth_you_need_to_log_in_first_to_authorize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to login`
+  String get auth_go_to_login {
+    return Intl.message(
+      'Go to login',
+      name: 'auth_go_to_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown application`
+  String get auth_unknown_application {
+    return Intl.message(
+      'Unknown application',
+      name: 'auth_unknown_application',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request access to your account`
+  String get auth_request_access_to_your_account {
+    return Intl.message(
+      'Request access to your account',
+      name: 'auth_request_access_to_your_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Certified`
+  String get auth_certified {
+    return Intl.message(
+      'Certified',
+      name: 'auth_certified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not verified`
+  String get auth_not_verified {
+    return Intl.message(
+      'Not verified',
+      name: 'auth_not_verified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This action will allow {v0}:`
+  String auth_this_action_will_allow(Object v0) {
+    return Intl.message(
+      'This action will allow $v0:',
+      name: 'auth_this_action_will_allow',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Access your public profile`
+  String get auth_access_your_public_profile {
+    return Intl.message(
+      'Access your public profile',
+      name: 'auth_access_your_public_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Include username, avatar`
+  String get auth_include_username_avatar {
+    return Intl.message(
+      'Include username, avatar',
+      name: 'auth_include_username_avatar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to generate authorization code`
+  String get auth_failed_to_generate_authorization_code {
+    return Intl.message(
+      'Failed to generate authorization code',
+      name: 'auth_failed_to_generate_authorization_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to generate authorization link`
+  String get auth_failed_to_generate_authorization_link {
+    return Intl.message(
+      'Failed to generate authorization link',
+      name: 'auth_failed_to_generate_authorization_link',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authorization link copied to clipboard`
+  String get auth_authorization_link_copied_to_clipboard {
+    return Intl.message(
+      'Authorization link copied to clipboard',
+      name: 'auth_authorization_link_copied_to_clipboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to open the browser, please copy the link to access manually`
+  String
+  get auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual {
+    return Intl.message(
+      'Failed to open the browser, please copy the link to access manually',
+      name:
+          'auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to open browser: {v0}`
+  String auth_failed_to_open_browser(Object v0) {
+    return Intl.message(
+      'Failed to open browser: $v0',
+      name: 'auth_failed_to_open_browser',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Missing callback address parameter`
+  String get auth_missing_callback_address_parameter {
+    return Intl.message(
+      'Missing callback address parameter',
+      name: 'auth_missing_callback_address_parameter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Missing state parameter`
+  String get auth_missing_state_parameter {
+    return Intl.message(
+      'Missing state parameter',
+      name: 'auth_missing_state_parameter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to resolve domain name from callback address`
+  String get auth_unable_to_resolve_domain_name_from_callback_address {
+    return Intl.message(
+      'Unable to resolve domain name from callback address',
+      name: 'auth_unable_to_resolve_domain_name_from_callback_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initialization failed: {v0}`
+  String auth_initialization_failed(Object v0) {
+    return Intl.message(
+      'Initialization failed: $v0',
+      name: 'auth_initialization_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Failed to generate authorization code: {v0}`
+  String auth_failed_to_generate_authorization_code_2(Object v0) {
+    return Intl.message(
+      'Failed to generate authorization code: $v0',
+      name: 'auth_failed_to_generate_authorization_code_2',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Open the original text`
+  String get app_open_the_original_text {
+    return Intl.message(
+      'Open the original text',
+      name: 'app_open_the_original_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `[Play video]({v0})`
+  String app_play_video(Object v0) {
+    return Intl.message(
+      '[Play video]($v0)',
+      name: 'app_play_video',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Game downloader / updater`
+  String get p4k_update_game_downloader_updater {
+    return Intl.message(
+      'Game downloader / updater',
+      name: 'p4k_update_game_downloader_updater',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Install to {v0}`
+  String p4k_update_install_to(Object v0) {
+    return Intl.message(
+      'Install to $v0',
+      name: 'p4k_update_install_to',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Number of threads`
+  String get p4k_update_number_of_threads {
+    return Intl.message(
+      'Number of threads',
+      name: 'p4k_update_number_of_threads',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download speed: {v0}`
+  String p4k_update_download_speed(Object v0) {
+    return Intl.message(
+      'Download speed: $v0',
+      name: 'p4k_update_download_speed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Canceling...`
+  String get p4k_update_canceling {
+    return Intl.message(
+      'Canceling...',
+      name: 'p4k_update_canceling',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `stop`
+  String get p4k_update_stop {
+    return Intl.message('stop', name: 'p4k_update_stop', desc: '', args: []);
+  }
+
+  /// `pause`
+  String get p4k_update_pause {
+    return Intl.message('pause', name: 'p4k_update_pause', desc: '', args: []);
+  }
+
+  /// `Deep repair: The current P4K will be diagnosed first, restored/rebuilt only when the verification fails, and the content will be verified according to the manifest, which takes a long time. Normal installs/updates are not performed automatically.`
+  String
+  get p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb {
+    return Intl.message(
+      'Deep repair: The current P4K will be diagnosed first, restored/rebuilt only when the verification fails, and the content will be verified according to the manifest, which takes a long time. Normal installs/updates are not performed automatically.',
+      name:
+          'p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deep repair`
+  String get p4k_update_deep_repair {
+    return Intl.message(
+      'Deep repair',
+      name: 'p4k_update_deep_repair',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Estimated number of updates`
+  String get p4k_update_estimated_number_of_updates {
+    return Intl.message(
+      'Estimated number of updates',
+      name: 'p4k_update_estimated_number_of_updates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start installation`
+  String get p4k_update_start_installation {
+    return Intl.message(
+      'Start installation',
+      name: 'p4k_update_start_installation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waiting for progress...`
+  String get p4k_update_waiting_for_progress {
+    return Intl.message(
+      'Waiting for progress...',
+      name: 'p4k_update_waiting_for_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manifest entries: {v0}\nP4K entries requiring download: {v1}\nGame file entries requiring download: {v2}\nDownload object entries after deduplication: {v3}\nFull P4K reference size: {v4}\nLocal Data.p4k.part size: {v5}\nBase package download required: {v6}\nPayload download size: {v7}\nEstimated total download size: {v8}\n\nLargest objects:\n{v9}`
+  String
+  p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be(
+    Object v0,
+    Object v1,
+    Object v2,
+    Object v3,
+    Object v4,
+    Object v5,
+    Object v6,
+    Object v7,
+    Object v8,
+    Object v9,
+  ) {
+    return Intl.message(
+      'Manifest entries: $v0\nP4K entries requiring download: $v1\nGame file entries requiring download: $v2\nDownload object entries after deduplication: $v3\nFull P4K reference size: $v4\nLocal Data.p4k.part size: $v5\nBase package download required: $v6\nPayload download size: $v7\nEstimated total download size: $v8\n\nLargest objects:\n$v9',
+      name:
+          'p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be',
+      desc: '',
+      args: [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9],
+    );
+  }
+
+  /// `unnecessary`
+  String get p4k_update_unnecessary {
+    return Intl.message(
+      'unnecessary',
+      name: 'p4k_update_unnecessary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reading inventory and estimating updates...`
+  String get p4k_update_reading_inventory_and_estimating_updates {
+    return Intl.message(
+      'Reading inventory and estimating updates...',
+      name: 'p4k_update_reading_inventory_and_estimating_updates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Estimate completed`
+  String get p4k_update_estimate_completed {
+    return Intl.message(
+      'Estimate completed',
+      name: 'p4k_update_estimate_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Downloading objects, game files, and patching P4K...`
+  String get p4k_update_downloading_objects_game_files_and_patching_p4k {
+    return Intl.message(
+      'Downloading objects, game files, and patching P4K...',
+      name: 'p4k_update_downloading_objects_game_files_and_patching_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update completed`
+  String get p4k_update_update_completed {
+    return Intl.message(
+      'Update completed',
+      name: 'p4k_update_update_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `P4K is being repaired in depth (will diagnose first and rebuild if necessary, which takes a long time)...`
+  String
+  get p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i {
+    return Intl.message(
+      'P4K is being repaired in depth (will diagnose first and rebuild if necessary, which takes a long time)...',
+      name:
+          'p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deep repair completed`
+  String get p4k_update_deep_repair_completed {
+    return Intl.message(
+      'Deep repair completed',
+      name: 'p4k_update_deep_repair_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Canceled`
+  String get p4k_update_canceled {
+    return Intl.message(
+      'Canceled',
+      name: 'p4k_update_canceled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update completed: {v0}`
+  String p4k_update_update_completed_2(Object v0) {
+    return Intl.message(
+      'Update completed: $v0',
+      name: 'p4k_update_update_completed_2',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Failure: {v0}`
+  String p4k_update_failure(Object v0) {
+    return Intl.message(
+      'Failure: $v0',
+      name: 'p4k_update_failure',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Download failed, retrying: {v0}`
+  String p4k_update_download_failed_retrying(Object v0) {
+    return Intl.message(
+      'Download failed, retrying: $v0',
+      name: 'p4k_update_download_failed_retrying',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Writing: {v0}`
+  String p4k_update_writing(Object v0) {
+    return Intl.message(
+      'Writing: $v0',
+      name: 'p4k_update_writing',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Checking disk space`
+  String get p4k_update_checking_disk_space {
+    return Intl.message(
+      'Checking disk space',
+      name: 'p4k_update_checking_disk_space',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Diagnosing current P4K`
+  String get p4k_update_diagnosing_current_p4k {
+    return Intl.message(
+      'Diagnosing current P4K',
+      name: 'p4k_update_diagnosing_current_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In-depth repair of P4K`
+  String get p4k_update_in_depth_repair_of_p4k {
+    return Intl.message(
+      'In-depth repair of P4K',
+      name: 'p4k_update_in_depth_repair_of_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updating P4K entry metadata: {v0}`
+  String p4k_update_updating_p4k_entry_metadata(Object v0) {
+    return Intl.message(
+      'Updating P4K entry metadata: $v0',
+      name: 'p4k_update_updating_p4k_entry_metadata',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Scanning local P4K records and restoring indexes`
+  String get p4k_update_scanning_local_p4k_records_and_restoring_indexes {
+    return Intl.message(
+      'Scanning local P4K records and restoring indexes',
+      name: 'p4k_update_scanning_local_p4k_records_and_restoring_indexes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preparing game files: {v0}`
+  String p4k_update_preparing_game_files(Object v0) {
+    return Intl.message(
+      'Preparing game files: $v0',
+      name: 'p4k_update_preparing_game_files',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Writing game file: {v0}`
+  String p4k_update_writing_game_file(Object v0) {
+    return Intl.message(
+      'Writing game file: $v0',
+      name: 'p4k_update_writing_game_file',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Processing P4K`
+  String get p4k_update_processing_p4k {
+    return Intl.message(
+      'Processing P4K',
+      name: 'p4k_update_processing_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verifying: {v0}`
+  String p4k_update_verifying(Object v0) {
+    return Intl.message(
+      'Verifying: $v0',
+      name: 'p4k_update_verifying',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Downloading: {v0}`
+  String p4k_update_downloading(Object v0) {
+    return Intl.message(
+      'Downloading: $v0',
+      name: 'p4k_update_downloading',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Canceling...`
+  String get p4k_update_canceling_2 {
+    return Intl.message(
+      'Canceling...',
+      name: 'p4k_update_canceling_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `continuing...`
+  String get p4k_update_continuing {
+    return Intl.message(
+      'continuing...',
+      name: 'p4k_update_continuing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `P4K updater failed: {v0}`
+  String p4k_update_p4k_updater_failed(Object v0) {
+    return Intl.message(
+      'P4K updater failed: $v0',
+      name: 'p4k_update_p4k_updater_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Manifest URL cannot be empty`
+  String get p4k_update_manifest_url_cannot_be_empty {
+    return Intl.message(
+      'Manifest URL cannot be empty',
+      name: 'p4k_update_manifest_url_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Manifest URL is missing the Expires/KeyName/Signature signature parameters, please log in again or check the releaseInfo signature field.`
+  String
+  get p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat {
+    return Intl.message(
+      'The Manifest URL is missing the Expires/KeyName/Signature signature parameters, please log in again or check the releaseInfo signature field.',
+      name:
+          'p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The object Base URL is missing the Expires/KeyName/Signature signature parameters, please log in again or check the releaseInfo signature field.`
+  String
+  get p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig {
+    return Intl.message(
+      'The object Base URL is missing the Expires/KeyName/Signature signature parameters, please log in again or check the releaseInfo signature field.',
+      name:
+          'p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stage {v0}/{v1}: {v2}`
+  String p4k_update_stage(Object v0, Object v1, Object v2) {
+    return Intl.message(
+      'Stage $v0/$v1: $v2',
+      name: 'p4k_update_stage',
+      desc: '',
+      args: [v0, v1, v2],
+    );
+  }
+
+  /// `Registering EAC and syncing launcher state`
+  String get p4k_update_registering_eac_and_syncing_launcher_state {
+    return Intl.message(
+      'Registering EAC and syncing launcher state',
+      name: 'p4k_update_registering_eac_and_syncing_launcher_state',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Installation status processing completed`
+  String get p4k_update_installation_status_processing_completed {
+    return Intl.message(
+      'Installation status processing completed',
+      name: 'p4k_update_installation_status_processing_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `EasyAntiCheat installer not found, registration skipped`
+  String get p4k_update_easyanticheat_installer_not_found_registration_skipped {
+    return Intl.message(
+      'EasyAntiCheat installer not found, registration skipped',
+      name: 'p4k_update_easyanticheat_installer_not_found_registration_skipped',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registering EasyAntiCheat`
+  String get p4k_update_registering_easyanticheat {
+    return Intl.message(
+      'Registering EasyAntiCheat',
+      name: 'p4k_update_registering_easyanticheat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `EasyAntiCheat registration completed`
+  String get p4k_update_easyanticheat_registration_completed {
+    return Intl.message(
+      'EasyAntiCheat registration completed',
+      name: 'p4k_update_easyanticheat_registration_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `EasyAntiCheat registration returned {v0}, has continued as a non-fatal warning {v1}`
+  String
+  p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal(
+    Object v0,
+    Object v1,
+  ) {
+    return Intl.message(
+      'EasyAntiCheat registration returned $v0, has continued as a non-fatal warning $v1',
+      name:
+          'p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `EasyAntiCheat registration failed and has continued as a non-fatal warning: {v0}`
+  String
+  p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat(
+    Object v0,
+  ) {
+    return Intl.message(
+      'EasyAntiCheat registration failed and has continued as a non-fatal warning: $v0',
+      name:
+          'p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Synchronizing launcher installation status`
+  String get p4k_update_synchronizing_launcher_installation_status {
+    return Intl.message(
+      'Synchronizing launcher installation status',
+      name: 'p4k_update_synchronizing_launcher_installation_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RSI Launcher store not found; encrypted store sync skipped`
+  String
+  get p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped {
+    return Intl.message(
+      'RSI Launcher store not found; encrypted store sync skipped',
+      name:
+          'p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `build_manifest.id updated;`
+  String get p4k_update_build_manifest_id_updated {
+    return Intl.message(
+      'build_manifest.id updated;',
+      name: 'p4k_update_build_manifest_id_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} Encryption RSI Launcher store synchronization is not executed: The current Dart side lacks AES-CBC/PBKDF2 compatible implementation. If the launcher still displays the old version, please use RSI Launcher Verify`
+  String
+  p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th(
+    Object v0,
+  ) {
+    return Intl.message(
+      '$v0 Encryption RSI Launcher store synchronization is not executed: The current Dart side lacks AES-CBC/PBKDF2 compatible implementation. If the launcher still displays the old version, please use RSI Launcher Verify',
+      name:
+          'p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `RequestedP4ChangeNum cannot be inferred from releaseInfo, build_manifest.id is not written`
+  String
+  get p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m {
+    return Intl.message(
+      'RequestedP4ChangeNum cannot be inferred from releaseInfo, build_manifest.id is not written',
+      name:
+          'p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated build_manifest.id: RequestedP4ChangeNum={v0}`
+  String p4k_update_updated_build_manifest_id_requestedp4changenum(Object v0) {
+    return Intl.message(
+      'Updated build_manifest.id: RequestedP4ChangeNum=$v0',
+      name: 'p4k_update_updated_build_manifest_id_requestedp4changenum',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Update build_manifest.id failed, continued as non-fatal warning: {v0}`
+  String
+  p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning(
+    Object v0,
+  ) {
+    return Intl.message(
+      'Update build_manifest.id failed, continued as non-fatal warning: $v0',
+      name:
+          'p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Unknown version`
+  String get p4k_update_unknown_version {
+    return Intl.message(
+      'Unknown version',
+      name: 'p4k_update_unknown_version',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown startup file`
+  String get p4k_update_unknown_startup_file {
+    return Intl.message(
+      'Unknown startup file',
+      name: 'p4k_update_unknown_startup_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Release version: {v0}\nStartup file: {v1}\n\nreleaseInfo has been read. You can first click "Estimated Update Amount" to check whether the list parsing is normal.`
+  String
+  p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f(
+    Object v0,
+    Object v1,
+  ) {
+    return Intl.message(
+      'Release version: $v0\nStartup file: $v1\n\nreleaseInfo has been read. You can first click "Estimated Update Amount" to check whether the list parsing is normal.',
+      name:
+          'p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `download`
+  String get p4k_update_download {
+    return Intl.message(
+      'download',
+      name: 'p4k_update_download',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download base P4K`
+  String get p4k_update_download_basics_p4k {
+    return Intl.message(
+      'Download base P4K',
+      name: 'p4k_update_download_basics_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify base P4K`
+  String get p4k_update_check_basics_p4k {
+    return Intl.message(
+      'Verify base P4K',
+      name: 'p4k_update_check_basics_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download basic verification file`
+  String get p4k_update_download_basic_verification_file {
+    return Intl.message(
+      'Download basic verification file',
+      name: 'p4k_update_download_basic_verification_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check disk space`
+  String get p4k_update_check_disk_space {
+    return Intl.message(
+      'Check disk space',
+      name: 'p4k_update_check_disk_space',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Diagnose current P4K`
+  String get p4k_update_diagnose_current_p4k {
+    return Intl.message(
+      'Diagnose current P4K',
+      name: 'p4k_update_diagnose_current_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deep Repair P4K`
+  String get p4k_update_deep_repair_p4k {
+    return Intl.message(
+      'Deep Repair P4K',
+      name: 'p4k_update_deep_repair_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check P4K`
+  String get p4k_update_check_p4k {
+    return Intl.message(
+      'Check P4K',
+      name: 'p4k_update_check_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify P4K content`
+  String get p4k_update_verify_p4k_content {
+    return Intl.message(
+      'Verify P4K content',
+      name: 'p4k_update_verify_p4k_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download game files`
+  String get p4k_update_download_game_files {
+    return Intl.message(
+      'Download game files',
+      name: 'p4k_update_download_game_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify game files`
+  String get p4k_update_verify_game_files {
+    return Intl.message(
+      'Verify game files',
+      name: 'p4k_update_verify_game_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Prepare game files`
+  String get p4k_update_prepare_game_files {
+    return Intl.message(
+      'Prepare game files',
+      name: 'p4k_update_prepare_game_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write game files`
+  String get p4k_update_write_game_files {
+    return Intl.message(
+      'Write game files',
+      name: 'p4k_update_write_game_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game file writing completed`
+  String get p4k_update_game_file_writing_completed {
+    return Intl.message(
+      'Game file writing completed',
+      name: 'p4k_update_game_file_writing_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed installation status`
+  String get p4k_update_completed_installation_status {
+    return Intl.message(
+      'Completed installation status',
+      name: 'p4k_update_completed_installation_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `write`
+  String get p4k_update_write {
+    return Intl.message('write', name: 'p4k_update_write', desc: '', args: []);
+  }
+
+  /// `Preparing for P4K patching`
+  String get p4k_update_preparing_for_p4k_patching {
+    return Intl.message(
+      'Preparing for P4K patching',
+      name: 'p4k_update_preparing_for_p4k_patching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore P4K index`
+  String get p4k_update_restore_p4k_index {
+    return Intl.message(
+      'Restore P4K index',
+      name: 'p4k_update_restore_p4k_index',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a P4K rollback record`
+  String get p4k_update_create_a_p4k_rollback_record {
+    return Intl.message(
+      'Create a P4K rollback record',
+      name: 'p4k_update_create_a_p4k_rollback_record',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update P4K entry metadata`
+  String get p4k_update_update_p4k_entry_metadata {
+    return Intl.message(
+      'Update P4K entry metadata',
+      name: 'p4k_update_update_p4k_entry_metadata',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write to P4K`
+  String get p4k_update_write_to_p4k {
+    return Intl.message(
+      'Write to P4K',
+      name: 'p4k_update_write_to_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete P4K write`
+  String get p4k_update_complete_p4k_write {
+    return Intl.message(
+      'Complete P4K write',
+      name: 'p4k_update_complete_p4k_write',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish`
+  String get p4k_update_finish {
+    return Intl.message(
+      'Finish',
+      name: 'p4k_update_finish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preparing game files`
+  String get p4k_update_preparing_game_files_2 {
+    return Intl.message(
+      'Preparing game files',
+      name: 'p4k_update_preparing_game_files_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verifying game files`
+  String get p4k_update_verifying_game_files {
+    return Intl.message(
+      'Verifying game files',
+      name: 'p4k_update_verifying_game_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updating P4K entry metadata`
+  String get p4k_update_updating_p4k_entry_metadata_2 {
+    return Intl.message(
+      'Updating P4K entry metadata',
+      name: 'p4k_update_updating_p4k_entry_metadata_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check disk space and task budget`
+  String get p4k_update_check_disk_space_and_task_budget {
+    return Intl.message(
+      'Check disk space and task budget',
+      name: 'p4k_update_check_disk_space_and_task_budget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download/verify base P4K`
+  String get p4k_update_download_verify_basics_p4k {
+    return Intl.message(
+      'Download/verify base P4K',
+      name: 'p4k_update_download_verify_basics_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Patching Data.p4k`
+  String get p4k_update_patching_data_p4k {
+    return Intl.message(
+      'Patching Data.p4k',
+      name: 'p4k_update_patching_data_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deep Repair/Rebuild P4K`
+  String get p4k_update_deep_repair_rebuild_p4k {
+    return Intl.message(
+      'Deep Repair/Rebuild P4K',
+      name: 'p4k_update_deep_repair_rebuild_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify repair results`
+  String get p4k_update_verify_repair_results {
+    return Intl.message(
+      'Verify repair results',
+      name: 'p4k_update_verify_repair_results',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download/write game files`
+  String get p4k_update_download_write_game_files {
+    return Intl.message(
+      'Download/write game files',
+      name: 'p4k_update_download_write_game_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register EAC and sync launcher state`
+  String get p4k_update_register_eac_and_sync_launcher_state {
+    return Intl.message(
+      'Register EAC and sync launcher state',
+      name: 'p4k_update_register_eac_and_sync_launcher_state',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `P4K download/update does not currently support PTU, the target path must be the LIVE directory`
+  String
+  get p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa {
+    return Intl.message(
+      'P4K download/update does not currently support PTU, the target path must be the LIVE directory',
+      name:
+          'p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please close the game before updating P4K/game files`
+  String get app_please_close_the_game_before_updating_p4k_game_files {
+    return Intl.message(
+      'Please close the game before updating P4K/game files',
+      name: 'app_please_close_the_game_before_updating_p4k_game_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The web login resource has not been initialized, please try again later.`
+  String
+  get app_the_web_login_resource_has_not_been_initialized_please_try_again {
+    return Intl.message(
+      'The web login resource has not been initialized, please try again later.',
+      name:
+          'app_the_web_login_resource_has_not_been_initialized_please_try_again',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to read releaseInfo from RSI return data`
+  String get app_unable_to_read_releaseinfo_from_rsi_return_data {
+    return Intl.message(
+      'Unable to read releaseInfo from RSI return data',
+      name: 'app_unable_to_read_releaseinfo_from_rsi_return_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select game download directory`
+  String get app_select_game_download_directory {
+    return Intl.message(
+      'Select game download directory',
+      name: 'app_select_game_download_directory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is currently no Data.p4k available out of the box. Please select an incomplete installation directory, or select a new installation location for downloading.`
+  String
+  get app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s {
+    return Intl.message(
+      'There is currently no Data.p4k available out of the box. Please select an incomplete installation directory, or select a new installation location for downloading.',
+      name:
+          'app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discovered installation directories`
+  String get app_discovered_installation_directories {
+    return Intl.message(
+      'Discovered installation directories',
+      name: 'app_discovered_installation_directories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select new directory`
+  String get app_select_new_directory {
+    return Intl.message(
+      'Select new directory',
+      name: 'app_select_new_directory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration time: {v0}`
+  String user_registration_time(Object v0) {
+    return Intl.message(
+      'Registration time: $v0',
+      name: 'user_registration_time',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Can only be refreshed once per hour`
+  String get user_can_only_be_refreshed_once_per_hour {
+    return Intl.message(
+      'Can only be refreshed once per hour',
+      name: 'user_can_only_be_refreshed_once_per_hour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh successful`
+  String get user_refresh_successful {
+    return Intl.message(
+      'Refresh successful',
+      name: 'user_refresh_successful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The data is refreshed too frequently, please try again in an hour.`
+  String
+  get user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour {
+    return Intl.message(
+      'The data is refreshed too frequently, please try again in an hour.',
+      name:
+          'user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh failed: {v0}`
+  String user_refresh_failed(Object v0) {
+    return Intl.message(
+      'Refresh failed: $v0',
+      name: 'user_refresh_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Refresh data`
+  String get user_refresh_data {
+    return Intl.message(
+      'Refresh data',
+      name: 'user_refresh_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out`
+  String get user_log_out {
+    return Intl.message('Log out', name: 'user_log_out', desc: '', args: []);
+  }
+
+  /// `Are you sure you want to log out of PartyRoom? You need to log in again the next time you use it.`
+  String
+  get user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in {
+    return Intl.message(
+      'Are you sure you want to log out of PartyRoom? You need to log in again the next time you use it.',
+      name:
+          'user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logged out`
+  String get user_logged_out {
+    return Intl.message(
+      'Logged out',
+      name: 'user_logged_out',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout failed: {v0}`
+  String user_logout_failed(Object v0) {
+    return Intl.message(
+      'Logout failed: $v0',
+      name: 'user_logout_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Confirm`
+  String get party_room_sure {
+    return Intl.message('Confirm', name: 'party_room_sure', desc: '', args: []);
+  }
+
+  /// `Game.log (current)`
+  String get log_analyze_game_log_current {
+    return Intl.message(
+      'Game.log (current)',
+      name: 'log_analyze_game_log_current',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log file not found`
+  String get log_analyze_log_file_not_found {
+    return Intl.message(
+      'Log file not found',
+      name: 'log_analyze_log_file_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log file:`
+  String get log_analyze_log_file {
+    return Intl.message(
+      'Log file:',
+      name: 'log_analyze_log_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select log file`
+  String get log_analyze_select_log_file {
+    return Intl.message(
+      'Select log file',
+      name: 'log_analyze_select_log_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Return to homepage`
+  String get tools_unp4k_return_to_homepage {
+    return Intl.message(
+      'Return to homepage',
+      name: 'tools_unp4k_return_to_homepage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you need to reload P4K after exiting? Are you sure you want to return to the home page?`
+  String
+  get tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to {
+    return Intl.message(
+      'Do you need to reload P4K after exiting? Are you sure you want to return to the home page?',
+      name:
+          'tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm return`
+  String get tools_unp4k_confirm_return {
+    return Intl.message(
+      'Confirm return',
+      name: 'tools_unp4k_confirm_return',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File browser`
+  String get tools_unp4k_file_browser {
+    return Intl.message(
+      'File browser',
+      name: 'tools_unp4k_file_browser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3D browser`
+  String get tools_unp4k_3d_browser {
+    return Intl.message(
+      '3D browser',
+      name: 'tools_unp4k_3d_browser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Music browser`
+  String get tools_unp4k_music_browser {
+    return Intl.message(
+      'Music browser',
+      name: 'tools_unp4k_music_browser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Audio decoding failed: {v0}`
+  String tools_unp4k_audio_decoding_failed(Object v0) {
+    return Intl.message(
+      'Audio decoding failed: $v0',
+      name: 'tools_unp4k_audio_decoding_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Audio preview failed: No playable file found`
+  String get tools_unp4k_audio_preview_failed_no_playable_file_found {
+    return Intl.message(
+      'Audio preview failed: No playable file found',
+      name: 'tools_unp4k_audio_preview_failed_no_playable_file_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The audio stream has expired. Please reopen the audio.`
+  String get tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio {
+    return Intl.message(
+      'The audio stream has expired. Please reopen the audio.',
+      name: 'tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Can only jump to buffered areas (currently buffered {v0}s)`
+  String tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s(
+    Object v0,
+  ) {
+    return Intl.message(
+      'Can only jump to buffered areas (currently buffered ${v0}s)',
+      name: 'tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Audio preview failed: {v0}`
+  String tools_unp4k_audio_preview_failed(Object v0) {
+    return Intl.message(
+      'Audio preview failed: $v0',
+      name: 'tools_unp4k_audio_preview_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Play automatically when switching music`
+  String get tools_unp4k_play_automatically_when_switching_music {
+    return Intl.message(
+      'Play automatically when switching music',
+      name: 'tools_unp4k_play_automatically_when_switching_music',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The current WEM encoding is not supported by the built-in decoding (format=0x{v0}).\nThe current version supports WEM preview for PCM (0x0001) and Wwise Vorbis (0xFFFF).`
+  String
+  tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi(
+    Object v0,
+  ) {
+    return Intl.message(
+      'The current WEM encoding is not supported by the built-in decoding (format=0x$v0).\nThe current version supports WEM preview for PCM (0x0001) and Wwise Vorbis (0xFFFF).',
+      name:
+          'tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Done!`
+  String get tools_unp4k_finish {
+    return Intl.message(
+      'Done!',
+      name: 'tools_unp4k_finish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decoding...`
+  String get tools_unp4k_decoding {
+    return Intl.message(
+      'Decoding...',
+      name: 'tools_unp4k_decoding',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decoding full audio...`
+  String get tools_unp4k_decoding_full_audio {
+    return Intl.message(
+      'Decoding full audio...',
+      name: 'tools_unp4k_decoding_full_audio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Batch export options`
+  String get tools_unp4k_batch_export_options {
+    return Intl.message(
+      'Batch export options',
+      name: 'tools_unp4k_batch_export_options',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Convertible formats can be automatically converted and exported (WEM->WAV, DDS->PNG, CGA/CGF->GLB)`
+  String
+  get tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported {
+    return Intl.message(
+      'Convertible formats can be automatically converted and exported (WEM->WAV, DDS->PNG, CGA/CGF->GLB)',
+      name:
+          'tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is no convertible format in the current selection and the original file will be exported.`
+  String
+  get tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the {
+    return Intl.message(
+      'There is no convertible format in the current selection and the original file will be exported.',
+      name:
+          'tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export with directory structure preserved`
+  String get tools_unp4k_export_with_directory_structure_preserved {
+    return Intl.message(
+      'Export with directory structure preserved',
+      name: 'tools_unp4k_export_with_directory_structure_preserved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Include original path when exporting.`
+  String get tools_unp4k_include_original_path_when_exporting {
+    return Intl.message(
+      'Include original path when exporting.',
+      name: 'tools_unp4k_include_original_path_when_exporting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export directly by file name; when single file is selected, the file will be saved directly.`
+  String
+  get tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi {
+    return Intl.message(
+      'Export directly by file name; when single file is selected, the file will be saved directly.',
+      name:
+          'tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start export`
+  String get tools_unp4k_start_export {
+    return Intl.message(
+      'Start export',
+      name: 'tools_unp4k_start_export',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Batch export`
+  String get tools_unp4k_batch_export {
+    return Intl.message(
+      'Batch export',
+      name: 'tools_unp4k_batch_export',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Progress: {v0}/{v1}`
+  String tools_unp4k_progress(Object v0, Object v1) {
+    return Intl.message(
+      'Progress: $v0/$v1',
+      name: 'tools_unp4k_progress',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Export completed, {v0} successfully, {v1} skipped`
+  String tools_unp4k_export_completed_successfully_skipped(
+    Object v0,
+    Object v1,
+  ) {
+    return Intl.message(
+      'Export completed, $v0 successfully, $v1 skipped',
+      name: 'tools_unp4k_export_completed_successfully_skipped',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Export completed, total {v0} files`
+  String tools_unp4k_export_completed_total_files(Object v0) {
+    return Intl.message(
+      'Export completed, total $v0 files',
+      name: 'tools_unp4k_export_completed_total_files',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `{v0}\n{v1} more failed files skipped`
+  String tools_unp4k_more_failed_files_skipped(Object v0, Object v1) {
+    return Intl.message(
+      '$v0\n$v1 more failed files skipped',
+      name: 'tools_unp4k_more_failed_files_skipped',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Export WAV`
+  String get tools_unp4k_export_wav {
+    return Intl.message(
+      'Export WAV',
+      name: 'tools_unp4k_export_wav',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DDS to PNG`
+  String get tools_unp4k_dds_to_png {
+    return Intl.message(
+      'DDS to PNG',
+      name: 'tools_unp4k_dds_to_png',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Jump to file location`
+  String get tools_unp4k_jump_to_file_location {
+    return Intl.message(
+      'Jump to file location',
+      name: 'tools_unp4k_jump_to_file_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Convert Export File`
+  String get tools_unp4k_select_convert_export_file {
+    return Intl.message(
+      'Select Convert Export File',
+      name: 'tools_unp4k_select_convert_export_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select export file`
+  String get tools_unp4k_select_export_file {
+    return Intl.message(
+      'Select export file',
+      name: 'tools_unp4k_select_export_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select conversion export location`
+  String get tools_unp4k_select_conversion_export_location {
+    return Intl.message(
+      'Select conversion export location',
+      name: 'tools_unp4k_select_conversion_export_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `WAV export successful`
+  String get tools_unp4k_wav_export_successful {
+    return Intl.message(
+      'WAV export successful',
+      name: 'tools_unp4k_wav_export_successful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0}\n(from cache)`
+  String tools_unp4k_from_cache(Object v0) {
+    return Intl.message(
+      '$v0\n(from cache)',
+      name: 'tools_unp4k_from_cache',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `WAV export failed`
+  String get tools_unp4k_wav_export_failed {
+    return Intl.message(
+      'WAV export failed',
+      name: 'tools_unp4k_wav_export_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion successful`
+  String get tools_unp4k_conversion_successful {
+    return Intl.message(
+      'Conversion successful',
+      name: 'tools_unp4k_conversion_successful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion failed`
+  String get tools_unp4k_conversion_failed {
+    return Intl.message(
+      'Conversion failed',
+      name: 'tools_unp4k_conversion_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `size`
+  String get tools_unp4k_size {
+    return Intl.message('size', name: 'tools_unp4k_size', desc: '', args: []);
+  }
+
+  /// `date`
+  String get tools_unp4k_date {
+    return Intl.message('date', name: 'tools_unp4k_date', desc: '', args: []);
+  }
+
+  /// `Search all files (supports regular expressions)...`
+  String get tools_unp4k_search_all_files_supports_regular_expressions {
+    return Intl.message(
+      'Search all files (supports regular expressions)...',
+      name: 'tools_unp4k_search_all_files_supports_regular_expressions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search the current directory (supports regular expressions)...`
+  String
+  get tools_unp4k_search_the_current_directory_supports_regular_expressions {
+    return Intl.message(
+      'Search the current directory (supports regular expressions)...',
+      name:
+          'tools_unp4k_search_the_current_directory_supports_regular_expressions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear`
+  String get tools_unp4k_clear {
+    return Intl.message('Clear', name: 'tools_unp4k_clear', desc: '', args: []);
+  }
+
+  /// `current directory`
+  String get tools_unp4k_current_directory {
+    return Intl.message(
+      'current directory',
+      name: 'tools_unp4k_current_directory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `global search`
+  String get tools_unp4k_global_search {
+    return Intl.message(
+      'global search',
+      name: 'tools_unp4k_global_search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `suffix`
+  String get tools_unp4k_suffix {
+    return Intl.message(
+      'suffix',
+      name: 'tools_unp4k_suffix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suffix filter`
+  String get tools_unp4k_suffix_filter {
+    return Intl.message(
+      'Suffix filter',
+      name: 'tools_unp4k_suffix_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Separate with spaces; omit the period`
+  String get tools_unp4k_separate_with_spaces_and_do_not_include {
+    return Intl.message(
+      'Separate with spaces; omit the period',
+      name: 'tools_unp4k_separate_with_spaces_and_do_not_include',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support preview`
+  String get tools_unp4k_support_preview {
+    return Intl.message(
+      'Support preview',
+      name: 'tools_unp4k_support_preview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Common formats`
+  String get tools_unp4k_common_formats {
+    return Intl.message(
+      'Common formats',
+      name: 'tools_unp4k_common_formats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No limit`
+  String get tools_unp4k_no_limit {
+    return Intl.message(
+      'No limit',
+      name: 'tools_unp4k_no_limit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `less than`
+  String get tools_unp4k_less_than {
+    return Intl.message(
+      'less than',
+      name: 'tools_unp4k_less_than',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `greater than`
+  String get tools_unp4k_greater_than {
+    return Intl.message(
+      'greater than',
+      name: 'tools_unp4k_greater_than',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `scope`
+  String get tools_unp4k_scope {
+    return Intl.message('scope', name: 'tools_unp4k_scope', desc: '', args: []);
+  }
+
+  /// `start`
+  String get tools_unp4k_start {
+    return Intl.message('start', name: 'tools_unp4k_start', desc: '', args: []);
+  }
+
+  /// `End`
+  String get tools_unp4k_finish_2 {
+    return Intl.message(
+      'End',
+      name: 'tools_unp4k_finish_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `size value`
+  String get tools_unp4k_size_value {
+    return Intl.message(
+      'size value',
+      name: 'tools_unp4k_size_value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Before date`
+  String get tools_unp4k_some_day_ago {
+    return Intl.message(
+      'Before date',
+      name: 'tools_unp4k_some_day_ago',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After date`
+  String get tools_unp4k_after_a_certain_day {
+    return Intl.message(
+      'After date',
+      name: 'tools_unp4k_after_a_certain_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `time range`
+  String get tools_unp4k_time_range {
+    return Intl.message(
+      'time range',
+      name: 'tools_unp4k_time_range',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View this video in the original post`
+  String get news_video_view_original_post {
+    return Intl.message(
+      'View this video in the original post',
+      name: 'news_video_view_original_post',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

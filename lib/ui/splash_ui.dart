@@ -121,7 +121,7 @@ class SplashUI extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '诊断模式 - Step $currentStep',
+                S.current.splash_diagnostic_mode(currentStep),
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -208,10 +208,10 @@ class SplashUI extends HookConsumerWidget {
       final logMessage =
           '[${DateTime.now().toString().substring(11, 23)}] $message';
       diagnosticLogs.value = [...diagnosticLogs.value, logMessage];
-      dPrint("[诊断] $message");
+      dPrint(S.current.splash_diagnostic_log(message));
     }
 
-    addLog('[${DateTime.now().toIso8601String()}] 开始初始化...');
+    addLog(S.current.splash_start_init(DateTime.now().toIso8601String()));
 
     // Step 0: initApp with timeout
     addLog(S.current.splash_exec_app_init);
@@ -225,7 +225,7 @@ class SplashUI extends HookConsumerWidget {
       );
       addLog(S.current.splash_app_init_done);
     } catch (e) {
-      addLog('✗ appModel.initApp() 错误: $e');
+      addLog(S.current.splash_app_init_error(e));
       rethrow;
     }
 
@@ -242,7 +242,7 @@ class SplashUI extends HookConsumerWidget {
       );
       addLog(S.current.splash_hive_done);
     } catch (e) {
-      addLog('✗ Hive.openBox("app_conf") 错误: $e');
+      addLog(S.current.splash_hive_error(e));
       rethrow;
     }
 
@@ -263,7 +263,7 @@ class SplashUI extends HookConsumerWidget {
       );
       addLog(S.current.splash_analytics_done);
     } catch (e) {
-      addLog('⚠ AnalyticsApi.touch("launch") 错误: $e - 继续执行');
+      addLog(S.current.splash_analytics_error(e));
     }
 
     if (appConf.get(_freeSoftwareNoticeAcceptedKey, defaultValue: false) !=
@@ -301,7 +301,7 @@ class SplashUI extends HookConsumerWidget {
       );
       addLog(S.current.splash_check_host_done);
     } catch (e) {
-      addLog('⚠ URLConf.checkHost() 错误: $e - 继续执行');
+      addLog(S.current.splash_check_host_error(e));
       dPrint("checkHost Error:$e");
     }
 
@@ -327,7 +327,7 @@ class SplashUI extends HookConsumerWidget {
           );
       addLog(S.current.splash_check_update_done);
     } catch (e) {
-      addLog('⚠ appModel.checkUpdate() 错误: $e - 继续执行');
+      addLog(S.current.splash_check_update_error(e));
     }
 
     addLog(S.current.splash_step1_done);
@@ -340,7 +340,7 @@ class SplashUI extends HookConsumerWidget {
       ref.read(downloadManagerProvider);
       addLog(S.current.splash_aria2c_done);
     } catch (e) {
-      addLog('⚠ downloadManagerProvider 初始化错误: $e');
+      addLog(S.current.splash_aria2c_error(e));
     }
 
     if (!context.mounted) {
@@ -398,14 +398,18 @@ class SplashUI extends HookConsumerWidget {
       if (logFile == null || !await logFile.exists()) {
         diagnosticLogs.value = [
           ...diagnosticLogs.value,
-          '[${DateTime.now().toString().substring(11, 23)}] ⚠ 日志文件不存在',
+          S.current.splash_log_not_exist(
+            DateTime.now().toString().substring(11, 23),
+          ),
         ];
         return;
       }
 
       diagnosticLogs.value = [
         ...diagnosticLogs.value,
-        '[${DateTime.now().toString().substring(11, 23)}] --- 开始读取完整日志文件 ---',
+        S.current.splash_start_read_log(
+          DateTime.now().toString().substring(11, 23),
+        ),
       ];
 
       final logContent = await logFile.readAsString();
@@ -420,13 +424,18 @@ class SplashUI extends HookConsumerWidget {
         }
       }
       newLogs.add(
-        '[${DateTime.now().toString().substring(11, 23)}] --- 日志读取完成 (显示最后1000行) ---',
+        S.current.splash_log_read_done(
+          DateTime.now().toString().substring(11, 23),
+        ),
       );
       diagnosticLogs.value = newLogs;
     } catch (e) {
       diagnosticLogs.value = [
         ...diagnosticLogs.value,
-        '[${DateTime.now().toString().substring(11, 23)}] ✗ 读取日志失败: $e',
+        S.current.splash_read_log_failed(
+          DateTime.now().toString().substring(11, 23),
+          e,
+        ),
       ];
     }
   }
@@ -440,7 +449,7 @@ class SplashUI extends HookConsumerWidget {
         await Hive.close();
         dPrint(S.current.splash_hive_boxes_closed);
       } catch (e) {
-        dPrint('[诊断] 关闭 Hive boxes 失败: $e');
+        dPrint(S.current.splash_close_hive_failed(e));
       }
 
       // 获取数据库目录
@@ -449,11 +458,11 @@ class SplashUI extends HookConsumerWidget {
       final dbDir = Directory('$appSupportDir/db');
 
       if (await dbDir.exists()) {
-        dPrint('[诊断] 正在删除数据库目录: ${dbDir.path}');
+        dPrint(S.current.splash_deleting_db(dbDir.path));
         await dbDir.delete(recursive: true);
         dPrint(S.current.splash_db_deleted);
       } else {
-        dPrint('[诊断] 数据库目录不存在: ${dbDir.path}');
+        dPrint(S.current.splash_db_not_exist(dbDir.path));
       }
 
       // 显示提示并退出

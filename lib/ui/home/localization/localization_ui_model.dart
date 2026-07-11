@@ -51,15 +51,23 @@ abstract class LocalizationUIState with _$LocalizationUIState {
 
 @riverpod
 class LocalizationUIModel extends _$LocalizationUIModel {
-  static const languageSupport = {"chinese_(simplified)": NoL10n.langZHS, "chinese_(traditional)": NoL10n.langZHT};
+  static const languageSupport = {
+    "chinese_(simplified)": NoL10n.langZHS,
+    "chinese_(traditional)": NoL10n.langZHT,
+  };
 
-  Directory get _downloadDir => Directory("${appGlobalState.applicationSupportDir}\\Localizations".platformPath);
+  Directory get _downloadDir => Directory(
+    "${appGlobalState.applicationSupportDir}\\Localizations".platformPath,
+  );
 
   Directory getDownloadDir() => _downloadDir;
 
-  Directory get _scDataDir => Directory("${ref.read(homeUIModelProvider).scInstalledPath}\\data".platformPath);
+  Directory get _scDataDir => Directory(
+    "${ref.read(homeUIModelProvider).scInstalledPath}\\data".platformPath,
+  );
 
-  File get _cfgFile => File("${_scDataDir.absolute.path}\\system.cfg".platformPath);
+  File get _cfgFile =>
+      File("${_scDataDir.absolute.path}\\system.cfg".platformPath);
 
   StreamSubscription? _customizeDirListenSub;
 
@@ -69,7 +77,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   bool get _isAlive => !_isDisposed && ref.mounted;
 
-  void _updateStateIfAlive(LocalizationUIState Function(LocalizationUIState current) updater) {
+  void _updateStateIfAlive(
+    LocalizationUIState Function(LocalizationUIState current) updater,
+  ) {
     if (!_isAlive) return;
     state = updater(state);
   }
@@ -91,7 +101,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       return;
     }
     final appConfBox = await Hive.openBox("app_conf");
-    final lang = await appConfBox.get("localization_selectedLanguage", defaultValue: languageSupport.keys.first);
+    final lang = await appConfBox.get(
+      "localization_selectedLanguage",
+      defaultValue: languageSupport.keys.first,
+    );
     _updateStateIfAlive((current) => current.copyWith(selectedLanguage: lang));
     // fix for ui performance
     await Future.delayed(Duration(milliseconds: 250));
@@ -99,7 +112,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     await _loadData();
   }
 
-  final Map<String, Map<String, ScLocalizationData>> _allVersionLocalizationData = {};
+  final Map<String, Map<String, ScLocalizationData>>
+  _allVersionLocalizationData = {};
 
   Future<void> _loadCommunityInputMethodData() async {
     try {
@@ -110,7 +124,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         if (lang != null) {
           final l = data.languages?[lang];
           if (l != null) {
-            _updateStateIfAlive((current) => current.copyWith(communityInputMethodLanguageData: l));
+            _updateStateIfAlive(
+              (current) =>
+                  current.copyWith(communityInputMethodLanguageData: l),
+            );
             dPrint("loadCommunityInputMethodData: ${l.toJson()}");
           }
         }
@@ -129,18 +146,26 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         if (lang != null) {
           final l = data.languages?[lang];
           if (l != null && l.isNotEmpty) {
-            _updateStateIfAlive((current) => current.copyWith(localizationExtensionList: l));
+            _updateStateIfAlive(
+              (current) => current.copyWith(localizationExtensionList: l),
+            );
             dPrint("loadLocalizationExtensionData: ${l.length} extensions");
           } else {
-            _updateStateIfAlive((current) => current.copyWith(localizationExtensionList: []));
+            _updateStateIfAlive(
+              (current) => current.copyWith(localizationExtensionList: []),
+            );
           }
         }
       } else {
-        _updateStateIfAlive((current) => current.copyWith(localizationExtensionList: []));
+        _updateStateIfAlive(
+          (current) => current.copyWith(localizationExtensionList: []),
+        );
       }
     } catch (e) {
       dPrint("loadLocalizationExtensionData error: $e");
-      _updateStateIfAlive((current) => current.copyWith(localizationExtensionList: []));
+      _updateStateIfAlive(
+        (current) => current.copyWith(localizationExtensionList: []),
+      );
     }
   }
 
@@ -165,7 +190,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
               if (element.gameChannel == "PTU") {
                 var e = element;
                 // 获取 PU 相同 info 的数据
-                final puE = l.firstWhere((element) => element.info == e.info && element.gameChannel == "PU");
+                final puE = l.firstWhere(
+                  (element) =>
+                      element.info == e.info && element.gameChannel == "PU",
+                );
                 if (puE != null) {
                   // 检查是否比 PTU 新
                   if (puE.updateAt?.compareTo(e.updateAt ?? "") > 0) {
@@ -184,7 +212,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
             }
           }
           if (!_isAlive) return;
-          _updateStateIfAlive((current) => current.copyWith(apiLocalizationData: apiLocalizationData));
+          _updateStateIfAlive(
+            (current) =>
+                current.copyWith(apiLocalizationData: apiLocalizationData),
+          );
         }
         final map = <String, ScLocalizationData>{};
         for (var element in l) {
@@ -199,13 +230,18 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     final userCfgFile = File("$_scInstallPath\\USER.cfg".platformPath);
     if (await userCfgFile.exists()) {
       final cfgString = await userCfgFile.readAsString();
-      if (cfgString.contains("g_language") && !cfgString.contains("g_language=${state.selectedLanguage}")) {
+      if (cfgString.contains("g_language") &&
+          !cfgString.contains("g_language=${state.selectedLanguage}")) {
         if (!context.mounted) return;
         final ok = await showConfirmDialogs(
           context,
           S.current.localization_info_remove_incompatible_translation_params,
-          Text(S.current.localization_info_incompatible_translation_params_warning),
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .35),
+          Text(
+            S.current.localization_info_incompatible_translation_params_warning,
+          ),
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * .35,
+          ),
         );
         if (ok == true) {
           var finalString = "";
@@ -283,7 +319,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   VoidCallback? doDelIniFile() {
     return () async {
       final iniFile = File(
-        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath,
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"
+            .platformPath,
       );
       if (await iniFile.exists()) await iniFile.delete();
       await updateLangCfg(false);
@@ -307,7 +344,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }) async {
     dPrint("LocalizationUIModel -> installFormString $versionName");
     final iniFile = File(
-      "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath,
+      "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"
+          .platformPath,
     );
     if (versionName.isNotEmpty) {
       if (!globalIni.toString().endsWith("\n")) {
@@ -320,7 +358,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         final data = state.communityInputMethodLanguageData;
         if (data != null) {
           communityInputMethodVersion = data.version;
-          final str = await downloadOrGetCachedCommunityInputMethodSupportFile(data);
+          final str = await downloadOrGetCachedCommunityInputMethodSupportFile(
+            data,
+          );
           if (str.trim().isNotEmpty) {
             communityInputMethodSupportData = str;
           }
@@ -345,7 +385,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         // 新格式：每个拓展一行，带版本号
         for (var ext in extensions) {
           if (ext.file != null && ext.version != null) {
-            globalIni.write("_starcitizen_doctor_localization_extensions_${ext.file}=${ext.version}\n");
+            globalIni.write(
+              "_starcitizen_doctor_localization_extensions_${ext.file}=${ext.version}\n",
+            );
           }
         }
         final extensionData = await _loadExtensionData(extensions);
@@ -353,11 +395,15 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       } else if (preserveExtensions != null && preserveExtensions.isNotEmpty) {
         // 没有新拓展要安装，但有需要保留的拓展（高级汉化场景）
         for (var entry in preserveExtensions.entries) {
-          globalIni.write("_starcitizen_doctor_localization_extensions_${entry.key}=${entry.value}\n");
+          globalIni.write(
+            "_starcitizen_doctor_localization_extensions_${entry.key}=${entry.value}\n",
+          );
         }
       }
 
-      globalIni.write("_starcitizen_doctor_localization_version=$versionName\n");
+      globalIni.write(
+        "_starcitizen_doctor_localization_version=$versionName\n",
+      );
     }
 
     var iniStringData = globalIni.toString().trim();
@@ -369,7 +415,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         context,
         S.current.tools_vehicle_sorting_title,
         VehicleSortingDialogUi(iniStringData: iniStringDataVN),
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .75),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * .75,
+        ),
       );
       if (ok) {
         iniStringData = iniStringDataVN.value;
@@ -386,7 +434,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     await _updateStatus();
   }
 
-  Future<Map<String, String>> _loadExtensionData(List<LocalizationExtensionItemData> extensions) async {
+  Future<Map<String, String>> _loadExtensionData(
+    List<LocalizationExtensionItemData> extensions,
+  ) async {
     final extensionData = <String, String>{};
     final box = await Hive.openBox("localization_extension_data");
 
@@ -406,7 +456,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           dPrint("Error loading extension ${ext.file}: $e");
         }
       } else {
-        extensionData[ext.file!] = box.get("${cacheKey}_data")?.toString() ?? "";
+        extensionData[ext.file!] =
+            box.get("${cacheKey}_data")?.toString() ?? "";
       }
     }
 
@@ -423,7 +474,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return null;
   }
 
-  void _applyExtensions(StringBuffer globalIni, Map<String, String> extensionData) {
+  void _applyExtensions(
+    StringBuffer globalIni,
+    Map<String, String> extensionData,
+  ) {
     final globalIniLines = globalIni.toString().split("\n");
     final globalIniMap = <String, String>{};
 
@@ -445,7 +499,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
             final originalValue = globalIniMap[key]!;
             final lowerKey = key.toLowerCase();
 
-            if (lowerKey.contains("_title") && _countChineseChars(originalValue) <= _maxChineseCharsForTitlePrefix) {
+            if (lowerKey.contains("_title") &&
+                _countChineseChars(originalValue) <=
+                    _maxChineseCharsForTitlePrefix) {
               globalIniMap[key] = "$extValue$originalValue";
             } else {
               globalIniMap[key] = "$originalValue$extValue";
@@ -482,7 +538,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<Map<String, String>?> getCommunityInputMethodSupportData() async {
-    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath;
+    final iniPath =
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"
+            .platformPath;
     final iniFile = File(iniPath);
     if (!await iniFile.exists()) {
       return {};
@@ -493,10 +551,14 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     for (var i = 0; i < iniStringSplit.length; i++) {
       final line = iniStringSplit[i];
 
-      if (line.trim().startsWith("_starcitizen_doctor_localization_community_input_method_version=")) {
+      if (line.trim().startsWith(
+        "_starcitizen_doctor_localization_community_input_method_version=",
+      )) {
         b = true;
         continue;
-      } else if (line.trim().startsWith("_starcitizen_doctor_localization_version=")) {
+      } else if (line.trim().startsWith(
+        "_starcitizen_doctor_localization_version=",
+      )) {
         b = false;
         return communityInputMethodSupportData;
       } else if (b) {
@@ -509,8 +571,11 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return null;
   }
 
-  Future<(String, String)> getIniContentWithoutCommunityInputMethodSupportData() async {
-    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath;
+  Future<(String, String)>
+  getIniContentWithoutCommunityInputMethodSupportData() async {
+    final iniPath =
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"
+            .platformPath;
     final iniFile = File(iniPath);
     if (!await iniFile.exists()) {
       return ("", "");
@@ -521,10 +586,14 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     for (var i = 0; i < iniStringSplit.length; i++) {
       final line = iniStringSplit[i];
 
-      if (line.trim().startsWith("_starcitizen_doctor_localization_community_input_method_version=")) {
+      if (line.trim().startsWith(
+        "_starcitizen_doctor_localization_community_input_method_version=",
+      )) {
         b = true;
         continue;
-      } else if (line.trim().startsWith("_starcitizen_doctor_localization_version=")) {
+      } else if (line.trim().startsWith(
+        "_starcitizen_doctor_localization_version=",
+      )) {
         b = false;
         return (sb.toString(), line.split("=").last.trim());
       } else if (!b) {
@@ -543,7 +612,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }) async {
     AnalyticsApi.touch("install_localization");
 
-    final savePath = File("${_downloadDir.absolute.path}\\${value.versionName}.sclang".platformPath);
+    final savePath = File(
+      "${_downloadDir.absolute.path}\\${value.versionName}.sclang".platformPath,
+    );
     try {
       state = state.copyWith(workingVersion: value.versionName!);
       if (!await savePath.exists()) {
@@ -570,7 +641,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       );
     } catch (e) {
       if (!context.mounted) return;
-      await showToast(context, S.current.localization_info_installation_error(e));
+      await showToast(
+        context,
+        S.current.localization_info_installation_error(e),
+      );
       if (await savePath.exists()) await savePath.delete();
     }
     state = state.copyWith(workingVersion: "");
@@ -584,16 +658,22 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     final cachedVersion = box.get("${lang}_version");
 
     if (cachedVersion != communityInputMethodData.version) {
-      final data = await Api.getCommunityInputMethodData(communityInputMethodData.file ?? "");
+      final data = await Api.getCommunityInputMethodData(
+        communityInputMethodData.file ?? "",
+      );
       await box.put("${lang}_data", data);
       return data;
     }
     return box.get("${lang}_data").toString();
   }
 
-  Future<void> downloadLocalizationFile(File savePath, ScLocalizationData value) async {
+  Future<void> downloadLocalizationFile(
+    File savePath,
+    ScLocalizationData value,
+  ) async {
     dPrint("downloading file to $savePath");
-    final downloadUrl = "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
+    final downloadUrl =
+        "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
     final r = await RSHttp.get(downloadUrl);
     if (r.statusCode == 200 && r.data != null) {
       await savePath.create(recursive: true);
@@ -627,7 +707,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   void selectLang(String v) async {
-    state = state.copyWith(selectedLanguage: v, communityInputMethodLanguageData: null);
+    state = state.copyWith(
+      selectedLanguage: v,
+      communityInputMethodLanguageData: null,
+    );
     _loadData();
     final appConfBox = await Hive.openBox("app_conf");
     await appConfBox.put("localization_selectedLanguage", v);
@@ -649,14 +732,18 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   Future<void> _updateStatus() async {
-    final iniPath = "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini".platformPath;
+    final iniPath =
+        "${_scDataDir.absolute.path}\\Localization\\${state.selectedLanguage}\\global.ini"
+            .platformPath;
     final patchStatus = MapEntry(
       await _getLangCfgEnableLang(lang: state.selectedLanguage!),
       await _getInstalledIniVersion(iniPath),
     );
     final isInstalledAdvanced = await _checkAdvancedStatus(iniPath);
-    final installedCommunityInputMethodSupportVersion = await getInstalledCommunityInputMethodSupportVersion(iniPath);
-    final installedLocalizationExtensions = await getInstalledLocalizationExtensions(iniPath);
+    final installedCommunityInputMethodSupportVersion =
+        await getInstalledCommunityInputMethodSupportVersion(iniPath);
+    final installedLocalizationExtensions =
+        await getInstalledLocalizationExtensions(iniPath);
 
     dPrint(
       "_updateStatus updateStatus: $patchStatus , isInstalledAdvanced: $isInstalledAdvanced ,installedCommunityInputMethodSupportVersion: $installedCommunityInputMethodSupportVersion, installedLocalizationExtensions: $installedLocalizationExtensions",
@@ -665,20 +752,27 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     state = state.copyWith(
       patchStatus: patchStatus,
       isInstalledAdvanced: isInstalledAdvanced,
-      installedCommunityInputMethodSupportVersion: installedCommunityInputMethodSupportVersion,
+      installedCommunityInputMethodSupportVersion:
+          installedCommunityInputMethodSupportVersion,
       installedLocalizationExtensions: installedLocalizationExtensions,
     );
   }
 
-  Future<String?> getInstalledCommunityInputMethodSupportVersion(String path) async {
+  Future<String?> getInstalledCommunityInputMethodSupportVersion(
+    String path,
+  ) async {
     final iniFile = File(path);
     if (!await iniFile.exists()) {
       return null;
     }
     final iniStringSplit = (await iniFile.readAsString()).split("\n");
     for (var i = iniStringSplit.length - 1; i > 0; i--) {
-      if (iniStringSplit[i].contains("_starcitizen_doctor_localization_community_input_method_version=")) {
-        final v = iniStringSplit[i].trim().split("_starcitizen_doctor_localization_community_input_method_version=")[1];
+      if (iniStringSplit[i].contains(
+        "_starcitizen_doctor_localization_community_input_method_version=",
+      )) {
+        final v = iniStringSplit[i].trim().split(
+          "_starcitizen_doctor_localization_community_input_method_version=",
+        )[1];
         return v;
       }
     }
@@ -694,7 +788,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return iniString.contains("_starcitizen_doctor_localization_advanced=true");
   }
 
-  Future<Map<String, String>> getInstalledLocalizationExtensions(String path) async {
+  Future<Map<String, String>> getInstalledLocalizationExtensions(
+    String path,
+  ) async {
     final iniFile = File(path);
     if (!await iniFile.exists()) {
       return {};
@@ -706,21 +802,32 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       final trimmedLine = line.trim();
 
       // 新格式解析：_starcitizen_doctor_localization_extensions_xxx=version
-      if (trimmedLine.startsWith("_starcitizen_doctor_localization_extensions_") &&
-          !trimmedLine.startsWith("_starcitizen_doctor_localization_extensions=")) {
+      if (trimmedLine.startsWith(
+            "_starcitizen_doctor_localization_extensions_",
+          ) &&
+          !trimmedLine.startsWith(
+            "_starcitizen_doctor_localization_extensions=",
+          )) {
         final idx = trimmedLine.indexOf("=");
         if (idx > 0) {
           final key = trimmedLine.substring(0, idx);
           final value = trimmedLine.substring(idx + 1);
           // 提取文件名：去掉前缀
-          final fileName = key.replaceFirst("_starcitizen_doctor_localization_extensions_", "");
+          final fileName = key.replaceFirst(
+            "_starcitizen_doctor_localization_extensions_",
+            "",
+          );
           extensions[fileName] = value;
         }
       }
 
       // 兼容旧格式解析：_starcitizen_doctor_localization_extensions=file1,file2
-      if (trimmedLine.startsWith("_starcitizen_doctor_localization_extensions=")) {
-        final v = trimmedLine.split("_starcitizen_doctor_localization_extensions=")[1];
+      if (trimmedLine.startsWith(
+        "_starcitizen_doctor_localization_extensions=",
+      )) {
+        final v = trimmedLine.split(
+          "_starcitizen_doctor_localization_extensions=",
+        )[1];
         final files = v.split(',').where((e) => e.isNotEmpty).toList();
         for (var file in files) {
           // 旧格式没有版本号，使用空字符串标记
@@ -732,11 +839,16 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     return extensions;
   }
 
-  Future<bool> _getLangCfgEnableLang({String lang = "", String gamePath = ""}) async {
+  Future<bool> _getLangCfgEnableLang({
+    String lang = "",
+    String gamePath = "",
+  }) async {
     if (gamePath.isEmpty) {
       gamePath = _scInstallPath;
     }
-    final cfgFile = File("${_scDataDir.absolute.path}\\system.cfg".platformPath);
+    final cfgFile = File(
+      "${_scDataDir.absolute.path}\\system.cfg".platformPath,
+    );
     if (!await cfgFile.exists()) return false;
     final str = (await cfgFile.readAsString()).replaceAll(" ", "");
     return str.contains("sys_languages=$lang") &&
@@ -751,8 +863,12 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     }
     final iniStringSplit = (await iniFile.readAsString()).split("\n");
     for (var i = iniStringSplit.length - 1; i > 0; i--) {
-      if (iniStringSplit[i].contains("_starcitizen_doctor_localization_version=")) {
-        final v = iniStringSplit[i].trim().split("_starcitizen_doctor_localization_version=")[1];
+      if (iniStringSplit[i].contains(
+        "_starcitizen_doctor_localization_version=",
+      )) {
+        final v = iniStringSplit[i].trim().split(
+          "_starcitizen_doctor_localization_version=",
+        )[1];
         return v;
       }
     }
@@ -774,13 +890,21 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
     for (var scInstallPath in homeState.scInstallPaths) {
       // 读取游戏安装文件夹
-      final scDataDir = Directory("$scInstallPath\\data\\Localization".platformPath);
+      final scDataDir = Directory(
+        "$scInstallPath\\data\\Localization".platformPath,
+      );
       // 扫描目录确认已安装的语言
       final dirList = await scDataDir.list().toList();
       for (var element in dirList) {
         for (var lang in languageSupport.keys) {
-          if (element.path.contains(lang) && await _getLangCfgEnableLang(lang: lang, gamePath: scInstallPath)) {
-            final installedVersion = await _getInstalledIniVersion("${element.path}\\global.ini".platformPath);
+          if (element.path.contains(lang) &&
+              await _getLangCfgEnableLang(
+                lang: lang,
+                gamePath: scInstallPath,
+              )) {
+            final installedVersion = await _getInstalledIniVersion(
+              "${element.path}\\global.ini".platformPath,
+            );
             if (installedVersion == S.current.home_action_info_game_built_in ||
                 installedVersion == S.current.localization_info_custom_files) {
               continue;
@@ -812,12 +936,19 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if (cloudVersion == null || localVersion == null) return;
     if (localVersion != cloudVersion) {
       // 版本不一致，自动检查更新
-      final (localIniString, versioName) = await getIniContentWithoutCommunityInputMethodSupportData();
+      final (localIniString, versioName) =
+          await getIniContentWithoutCommunityInputMethodSupportData();
       if (localIniString.trim().isEmpty) {
-        dPrint("[InputMethodDialogUIModel] check update Error localIniString is empty");
+        dPrint(
+          "[InputMethodDialogUIModel] check update Error localIniString is empty",
+        );
         return;
       }
-      await installFormString(StringBuffer(localIniString), versioName, isEnableCommunityInputMethod: true);
+      await installFormString(
+        StringBuffer(localIniString),
+        versioName,
+        isEnableCommunityInputMethod: true,
+      );
       await win32.sendNotify(
         summary: S.current.input_method_support_updated,
         body: S.current.input_method_support_updated_to_version(cloudVersion),
@@ -828,25 +959,35 @@ class LocalizationUIModel extends _$LocalizationUIModel {
   }
 
   /// 拓展更新信息
-  ({String file, String oldVersion, String newVersion, String name}) _createExtensionUpdateInfo({
+  ({String file, String oldVersion, String newVersion, String name})
+  _createExtensionUpdateInfo({
     required String file,
     required String oldVersion,
     required String newVersion,
     required String name,
   }) {
-    return (file: file, oldVersion: oldVersion, newVersion: newVersion, name: name);
+    return (
+      file: file,
+      oldVersion: oldVersion,
+      newVersion: newVersion,
+      name: name,
+    );
   }
 
   /// 检查已安装的拓展是否有更新，返回有更新的拓展列表
   /// 不再自动安装，只返回更新信息供调用方处理
-  Future<List<({String file, String oldVersion, String newVersion, String name})>> checkLocalizationExtensionUpdate() async {
+  Future<
+    List<({String file, String oldVersion, String newVersion, String name})>
+  >
+  checkLocalizationExtensionUpdate() async {
     final installedExtensions = state.installedLocalizationExtensions;
     if (installedExtensions == null || installedExtensions.isEmpty) return [];
 
     final extensionList = state.localizationExtensionList;
     if (extensionList == null || extensionList.isEmpty) return [];
 
-    final updates = <({String file, String oldVersion, String newVersion, String name})>[];
+    final updates =
+        <({String file, String oldVersion, String newVersion, String name})>[];
     final box = await Hive.openBox("localization_extension_data");
 
     for (final entry in installedExtensions.entries) {
@@ -854,18 +995,26 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       final installedVersion = entry.value;
 
       // 查找云端拓展信息
-      final cloudExt = extensionList.where((e) => e.file == installedFile).firstOrNull;
+      final cloudExt = extensionList
+          .where((e) => e.file == installedFile)
+          .firstOrNull;
       if (cloudExt == null || cloudExt.version == null) continue;
 
       // 比较版本：如果本地版本为空（旧格式）或版本不同
       if (installedVersion.isEmpty || installedVersion != cloudExt.version) {
-        dPrint("[LocalizationExtension] Extension ${cloudExt.file} has update: $installedVersion -> ${cloudExt.version}");
-        updates.add(_createExtensionUpdateInfo(
-          file: installedFile,
-          oldVersion: installedVersion.isEmpty ? "未知" : installedVersion,
-          newVersion: cloudExt.version!,
-          name: cloudExt.name ?? installedFile,
-        ));
+        dPrint(
+          "[LocalizationExtension] Extension ${cloudExt.file} has update: $installedVersion -> ${cloudExt.version}",
+        );
+        updates.add(
+          _createExtensionUpdateInfo(
+            file: installedFile,
+            oldVersion: installedVersion.isEmpty
+                ? S.current.tools_graphics_renderer_unknown
+                : installedVersion,
+            newVersion: cloudExt.version!,
+            name: cloudExt.name ?? installedFile,
+          ),
+        );
 
         // 更新缓存数据（但不重新安装）
         final cacheKey = "${state.selectedLanguage}_$installedFile";
@@ -874,7 +1023,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
           await box.put("${cacheKey}_data", data);
           await box.put("${cacheKey}_version", cloudExt.version);
         } catch (e) {
-          dPrint("[LocalizationExtension] Error updating cache for ${cloudExt.file}: $e");
+          dPrint(
+            "[LocalizationExtension] Error updating cache for ${cloudExt.file}: $e",
+          );
         }
       }
     }
@@ -884,7 +1035,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
   /// 发送拓展更新通知（汇总所有更新）
   Future<void> sendExtensionUpdateNotification(
-    List<({String file, String oldVersion, String newVersion, String name})> updates,
+    List<({String file, String oldVersion, String newVersion, String name})>
+    updates,
   ) async {
     if (updates.isEmpty) return;
 
@@ -892,11 +1044,19 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     String body;
     if (updates.length == 1) {
       final update = updates.first;
-      body = S.current.localization_extension_update_single(update.name, update.newVersion);
+      body = S.current.localization_extension_update_single(
+        update.name,
+        update.newVersion,
+      );
     } else {
       // 多个拓展更新时，显示汇总列表
-      final extList = updates.map((u) => "${u.name} (${u.newVersion})").join("、");
-      body = S.current.localization_extension_update_multiple(updates.length.toString(), extList);
+      final extList = updates
+          .map((u) => "${u.name} (${u.newVersion})")
+          .join("、");
+      body = S.current.localization_extension_update_multiple(
+        updates.length.toString(),
+        extList,
+      );
     }
 
     await win32.sendNotify(
@@ -917,14 +1077,18 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     LocalizationUIState state,
   ) async {
     final appBox = Hive.box("app_conf");
-    bool enableCommunityInputMethod = state.communityInputMethodLanguageData != null;
-    bool isEnableVehicleSorting = appBox.get("vehicle_sorting", defaultValue: false) ?? false;
+    bool enableCommunityInputMethod =
+        state.communityInputMethodLanguageData != null;
+    bool isEnableVehicleSorting =
+        appBox.get("vehicle_sorting", defaultValue: false) ?? false;
     List<LocalizationExtensionItemData> selectedExtensions = [];
     bool isExtensionExpanded = false;
 
     // 尝试回填用户上次选择的拓展
-    final savedExtensionFiles = appBox.get("localization_extensions", defaultValue: <String>[]) as List;
-    if (savedExtensionFiles.isNotEmpty && state.localizationExtensionList != null) {
+    final savedExtensionFiles =
+        appBox.get("localization_extensions", defaultValue: <String>[]) as List;
+    if (savedExtensionFiles.isNotEmpty &&
+        state.localizationExtensionList != null) {
       for (final ext in state.localizationExtensionList!) {
         if (savedExtensionFiles.contains(ext.file)) {
           selectedExtensions.add(ext);
@@ -939,79 +1103,99 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       context,
       "${item.value.info}",
       StatefulBuilder(
-        builder: (BuildContext context, void Function(void Function()) setDialogState) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
+        builder:
+            (
+              BuildContext context,
+              void Function(void Function()) setDialogState,
+            ) {
+              return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    S.current.localization_info_version_number(item.value.versionName ?? ""),
-                    style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    S.current.localization_info_channel(item.value.gameChannel ?? ""),
-                    style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    S.current.localization_info_update_time(item.value.updateAt ?? ""),
-                    style: TextStyle(color: Colors.white.withValues(alpha: .6)),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Container(
-                decoration: BoxDecoration(
-                  color: FluentTheme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                padding: const EdgeInsets.all(12),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SelectionArea(
-                        child: Text(
-                          item.value.note ?? S.current.home_localization_msg_no_note,
-                          style: const TextStyle(fontSize: 15),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        S.current.localization_info_version_number(
+                          item.value.versionName ?? "",
+                        ),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: .6),
                         ),
                       ),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.current.localization_info_channel(
+                          item.value.gameChannel ?? "",
+                        ),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: .6),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.current.localization_info_update_time(
+                          item.value.updateAt ?? "",
+                        ),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: .6),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: FluentTheme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(7),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              LocalizationInstallOptionsPanel.buildForStatefulBuilder(
-                context: context,
-                enableCommunityInputMethod: enableCommunityInputMethod,
-                hasCommunityInputMethodData: state.communityInputMethodLanguageData != null,
-                isEnableVehicleSorting: isEnableVehicleSorting,
-                availableExtensions: state.localizationExtensionList,
-                selectedExtensions: selectedExtensions,
-                isExtensionExpanded: isExtensionExpanded,
-                setState: setDialogState,
-                onEnableCommunityInputMethodChanged: (v) {
-                  enableCommunityInputMethod = v;
-                },
-                onEnableVehicleSortingChanged: (v) {
-                  isEnableVehicleSorting = v;
-                },
-                onExtensionExpandedChanged: (v) {
-                  isExtensionExpanded = v;
-                },
-              ),
-            ],
-          );
-        },
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SelectionArea(
+                            child: Text(
+                              item.value.note ??
+                                  S.current.home_localization_msg_no_note,
+                              style: const TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  LocalizationInstallOptionsPanel.buildForStatefulBuilder(
+                    context: context,
+                    enableCommunityInputMethod: enableCommunityInputMethod,
+                    hasCommunityInputMethodData:
+                        state.communityInputMethodLanguageData != null,
+                    isEnableVehicleSorting: isEnableVehicleSorting,
+                    availableExtensions: state.localizationExtensionList,
+                    selectedExtensions: selectedExtensions,
+                    isExtensionExpanded: isExtensionExpanded,
+                    setState: setDialogState,
+                    onEnableCommunityInputMethodChanged: (v) {
+                      enableCommunityInputMethod = v;
+                    },
+                    onEnableVehicleSortingChanged: (v) {
+                      isEnableVehicleSorting = v;
+                    },
+                    onExtensionExpandedChanged: (v) {
+                      isExtensionExpanded = v;
+                    },
+                  ),
+                ],
+              );
+            },
       ),
       confirm: S.current.localization_action_install,
       cancel: S.current.home_action_cancel,
-      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .45),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * .45,
+      ),
     );
     if (userOK) {
       await appBox.put("vehicle_sorting", isEnableVehicleSorting);
@@ -1021,7 +1205,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         selectedExtensions.map((e) => e.file).toList(),
       );
       if (!context.mounted) return;
-      dPrint("doRemoteInstall ${item.value} $enableCommunityInputMethod $selectedExtensions");
+      dPrint(
+        "doRemoteInstall ${item.value} $enableCommunityInputMethod $selectedExtensions",
+      );
       await doRemoteInstall(
         context,
         item.value,

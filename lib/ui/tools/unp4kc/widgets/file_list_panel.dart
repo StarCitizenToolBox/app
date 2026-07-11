@@ -11,6 +11,7 @@ import '../../../../widgets/widgets.dart';
 import 'dialogs.dart';
 import 'file_list_item.dart';
 import 'models.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 class FileListPanel extends HookConsumerWidget {
   final Unp4kcState state;
@@ -144,7 +145,9 @@ class FileListPanel extends HookConsumerWidget {
         options.convertWhenPossible,
       );
       singleOutputPath = await FilePicker.saveFile(
-        dialogTitle: options.convertWhenPossible ? "选择转换导出文件" : "选择导出文件",
+        dialogTitle: options.convertWhenPossible
+            ? S.current.tools_unp4k_select_convert_export_file
+            : S.current.tools_unp4k_select_export_file,
         fileName: defaultName,
         bytes: Uint8List(0),
       );
@@ -152,7 +155,7 @@ class FileListPanel extends HookConsumerWidget {
     } else {
       outputDir = await FilePicker.getDirectoryPath(
         dialogTitle: options.convertWhenPossible
-            ? "选择转换导出位置"
+            ? S.current.tools_unp4k_select_conversion_export_location
             : S.current.tools_unp4k_action_save_as,
       );
       if (outputDir == null) return;

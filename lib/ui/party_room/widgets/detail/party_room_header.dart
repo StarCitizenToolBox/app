@@ -31,9 +31,15 @@ class PartyRoomHeader extends ConsumerWidget {
           Row(
             children: [
               IconButton(
-                icon: const Icon(FluentIcons.back, size: 16, color: Colors.white),
+                icon: const Icon(
+                  FluentIcons.back,
+                  size: 16,
+                  color: Colors.white,
+                ),
                 onPressed: () {
-                  ref.read(partyRoomUIModelProvider.notifier).setMinimized(true);
+                  ref
+                      .read(partyRoomUIModelProvider.notifier)
+                      .setMinimized(true);
                 },
               ),
               const SizedBox(width: 8),
@@ -42,7 +48,11 @@ class PartyRoomHeader extends ConsumerWidget {
               Expanded(
                 child: Text(
                   room?.ownerGameId ?? S.current.party_room_room,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -54,7 +64,10 @@ class PartyRoomHeader extends ConsumerWidget {
               const Icon(FluentIcons.group, size: 12, color: Color(0xFF80848E)),
               const SizedBox(width: 4),
               Text(
-                '${members.length}/${room?.targetMembers ?? 0} 成员',
+                S.current.party_room_members_count(
+                  members.length,
+                  room?.targetMembers ?? 0,
+                ),
                 style: const TextStyle(fontSize: 11, color: Color(0xFF80848E)),
               ),
             ],
@@ -82,19 +95,33 @@ class PartyRoomHeader extends ConsumerWidget {
                         context: context,
                         builder: (context) => ContentDialog(
                           title: Text(S.current.party_room_confirm_dismiss),
-                          content: Text(S.current.party_room_dismiss_confirm_msg),
+                          content: Text(
+                            S.current.party_room_dismiss_confirm_msg,
+                          ),
                           actions: [
-                            Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
+                            Button(
+                              child: Text(S.current.home_action_cancel),
+                              onPressed: () => Navigator.pop(context, false),
+                            ),
                             FilledButton(
-                              style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xFFDA373C))),
-                              child: Text(S.current.party_room_dismiss, style: TextStyle(color: Colors.white)),
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(
+                                  const Color(0xFFDA373C),
+                                ),
+                              ),
+                              child: Text(
+                                S.current.party_room_dismiss,
+                                style: TextStyle(color: Colors.white),
+                              ),
                               onPressed: () => Navigator.pop(context, true),
                             ),
                           ],
                         ),
                       );
                       if (confirmed == true) {
-                        ref.read(partyRoomUIModelProvider.notifier).dismissRoom();
+                        ref
+                            .read(partyRoomUIModelProvider.notifier)
+                            .dismissRoom();
                       }
                     },
                     style: ButtonStyle(
@@ -105,7 +132,10 @@ class PartyRoomHeader extends ConsumerWidget {
                         return const Color(0xFFDA373C);
                       }),
                     ),
-                    child: Text(S.current.party_room_dismiss_room, style: TextStyle(color: Colors.white)),
+                    child: Text(
+                      S.current.party_room_dismiss_room,
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ],
@@ -116,7 +146,11 @@ class PartyRoomHeader extends ConsumerWidget {
               width: double.infinity,
               child: Button(
                 onPressed: () async {
-                  final userOK = await showConfirmDialogs(context, S.current.app_common_tip, Text(S.current.party_room_leave_confirm));
+                  final userOK = await showConfirmDialogs(
+                    context,
+                    S.current.app_common_tip,
+                    Text(S.current.party_room_leave_confirm),
+                  );
                   if (!userOK) return;
                   await partyRoom.leaveRoom();
                 },

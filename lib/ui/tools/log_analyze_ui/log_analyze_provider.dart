@@ -27,7 +27,11 @@ class LogFileInfo {
   final String displayName;
   final bool isCurrentLog;
 
-  const LogFileInfo({required this.path, required this.displayName, required this.isCurrentLog});
+  const LogFileInfo({
+    required this.path,
+    required this.displayName,
+    required this.isCurrentLog,
+  });
 }
 
 /// 获取可用的日志文件列表
@@ -39,7 +43,13 @@ Future<List<LogFileInfo>> getAvailableLogFiles(String gameInstallPath) async {
   // 添加当前 Game.log
   final currentLogFile = File('$gameInstallPath/Game.log');
   if (await currentLogFile.exists()) {
-    logFiles.add(LogFileInfo(path: currentLogFile.path, displayName: 'Game.log (当前)', isCurrentLog: true));
+    logFiles.add(
+      LogFileInfo(
+        path: currentLogFile.path,
+        displayName: S.current.log_analyze_game_log_current,
+        isCurrentLog: true,
+      ),
+    );
   }
 
   // 添加 logbackups 目录中的日志文件
@@ -52,7 +62,13 @@ Future<List<LogFileInfo>> getAvailableLogFiles(String gameInstallPath) async {
     for (final entity in entities) {
       if (entity is File && entity.path.endsWith('.log')) {
         final fileName = entity.path.split(Platform.pathSeparator).last;
-        logFiles.add(LogFileInfo(path: entity.path, displayName: fileName, isCurrentLog: false));
+        logFiles.add(
+          LogFileInfo(
+            path: entity.path,
+            displayName: fileName,
+            isCurrentLog: false,
+          ),
+        );
       }
     }
   }
@@ -80,7 +96,12 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     debugPrint("[ToolsLogAnalyze] logFile: ${logFile.absolute.path}");
 
     if (gameInstallPath.isEmpty || !(await logFile.exists())) {
-      return [const LogAnalyzeLineData(type: "error", title: "未找到日志文件")];
+      return [
+        LogAnalyzeLineData(
+          type: "error",
+          title: S.current.log_analyze_log_file_not_found,
+        ),
+      ];
     }
 
     state = const AsyncData([]);
@@ -109,20 +130,24 @@ class ToolsLogAnalyze extends _$ToolsLogAnalyze {
     debugPrint("[ToolsLogAnalyze] startListenFile: ${logFile.absolute.path}");
     // 监听文件
     late final StreamSubscription sub;
-    sub = FileWatcher(logFile.absolute.path, pollingDelay: const Duration(seconds: 1)).events.listen((change) {
-      sub.cancel();
-      if (!_isListenEnabled) return;
-      _isListenEnabled = false;
-      debugPrint("[ToolsLogAnalyze] logFile change: ${change.type}");
-      switch (change.type) {
-        case ChangeType.MODIFY:
-          return _launchLogAnalyze(logFile, true);
-        case ChangeType.ADD:
-        case ChangeType.REMOVE:
-          ref.invalidateSelf();
-          return;
-      }
-    });
+    sub =
+        FileWatcher(
+          logFile.absolute.path,
+          pollingDelay: const Duration(seconds: 1),
+        ).events.listen((change) {
+          sub.cancel();
+          if (!_isListenEnabled) return;
+          _isListenEnabled = false;
+          debugPrint("[ToolsLogAnalyze] logFile change: ${change.type}");
+          switch (change.type) {
+            case ChangeType.MODIFY:
+              return _launchLogAnalyze(logFile, true);
+            case ChangeType.ADD:
+            case ChangeType.REMOVE:
+              ref.invalidateSelf();
+              return;
+          }
+        });
     ref.onDispose(() {
       sub.cancel();
     });

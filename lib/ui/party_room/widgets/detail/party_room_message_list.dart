@@ -1,7 +1,8 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart' as partroom;
+import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart'
+    as partroom;
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart';
 import 'package:starcitizen_doctor/widgets/src/cache_image.dart';
@@ -14,7 +15,11 @@ class PartyRoomMessageList extends ConsumerWidget {
   final List events;
   final ScrollController scrollController;
 
-  const PartyRoomMessageList({super.key, required this.events, required this.scrollController});
+  const PartyRoomMessageList({
+    super.key,
+    required this.events,
+    required this.scrollController,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,9 +35,19 @@ class PartyRoomMessageList extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FluentIcons.chat, size: 64, color: Colors.white.withValues(alpha: .6)),
+            Icon(
+              FluentIcons.chat,
+              size: 64,
+              color: Colors.white.withValues(alpha: .6),
+            ),
             const SizedBox(height: 16),
-            Text(S.current.party_room_no_messages, style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 14)),
+            Text(
+              S.current.party_room_no_messages,
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.5),
+                fontSize: 14,
+              ),
+            ),
           ],
         ),
       );
@@ -66,7 +81,9 @@ class PartyRoomMessageList extends ConsumerWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color(0xFF2B2D31),
-        border: Border.all(color: const Color(0xFF5865F2).withValues(alpha: 0.3)),
+        border: Border.all(
+          color: const Color(0xFF5865F2).withValues(alpha: 0.3),
+        ),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -76,14 +93,25 @@ class PartyRoomMessageList extends ConsumerWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(6),
-                decoration: const BoxDecoration(color: Color(0xFF5865F2), shape: BoxShape.circle),
-                child: const Icon(FluentIcons.info, size: 14, color: Colors.white),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF5865F2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  FluentIcons.info,
+                  size: 14,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   S.current.party_room_social_links_hint,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFFDBDEE1),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ],
@@ -96,7 +124,9 @@ class PartyRoomMessageList extends ConsumerWidget {
               return HyperlinkButton(
                 onPressed: () => launchUrlString(link),
                 style: ButtonStyle(
-                  padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 8)),
+                  padding: WidgetStateProperty.all(
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
                   backgroundColor: WidgetStateProperty.resolveWith((states) {
                     if (states.isHovered) return const Color(0xFF4752C4);
                     return const Color(0xFF5865F2);
@@ -109,7 +139,11 @@ class PartyRoomMessageList extends ConsumerWidget {
                     const SizedBox(width: 8),
                     Text(
                       _getSocialName(link),
-                      style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
@@ -126,7 +160,10 @@ class PartyRoomMessageList extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: const Color(0xFF2B2D31), borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF2B2D31),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -134,14 +171,25 @@ class PartyRoomMessageList extends ConsumerWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(color: Colors.purple, shape: BoxShape.circle),
-                child: const Icon(FluentIcons.copy, size: 14, color: Colors.white),
+                decoration: BoxDecoration(
+                  color: Colors.purple,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  FluentIcons.copy,
+                  size: 14,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   S.current.party_room_copy_owner_id_hint,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFFDBDEE1), fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFFDBDEE1),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ],
@@ -151,20 +199,36 @@ class PartyRoomMessageList extends ConsumerWidget {
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(color: const Color(0xFF1E1F22), borderRadius: BorderRadius.circular(4)),
-                  child: Text(ownerGameId, style: const TextStyle(fontSize: 13, color: Color(0xFFDBDEE1))),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E1F22),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    ownerGameId,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFFDBDEE1),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
               Button(
                 onPressed: ownerGameId.isNotEmpty
                     ? () async {
-                        await Clipboard.setData(ClipboardData(text: ownerGameId));
+                        await Clipboard.setData(
+                          ClipboardData(text: ownerGameId),
+                        );
                       }
                     : null,
                 style: ButtonStyle(
-                  padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 8)),
+                  padding: WidgetStateProperty.all(
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
                   backgroundColor: WidgetStateProperty.resolveWith((states) {
                     if (states.isPressed) return const Color(0xFF3A40A0);
                     if (states.isHovered) return const Color(0xFF4752C4);
@@ -173,7 +237,11 @@ class PartyRoomMessageList extends ConsumerWidget {
                 ),
                 child: Text(
                   S.current.support_dev_copy_button,
-                  style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ],
@@ -238,13 +306,18 @@ class _MessageItem extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: isSignal ? Colors.white : const Color(0xFF80848E),
+                        color: isSignal
+                            ? Colors.white
+                            : const Color(0xFF80848E),
                       ),
                     ),
                     const SizedBox(width: 8),
                     Text(
                       _formatTime(roomEvent.timestamp),
-                      style: const TextStyle(fontSize: 11, color: Color(0xFF80848E)),
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF80848E),
+                      ),
                     ),
                   ],
                 ),
@@ -253,7 +326,9 @@ class _MessageItem extends ConsumerWidget {
                   text,
                   style: TextStyle(
                     fontSize: 14,
-                    color: isSignal ? const Color(0xFFDBDEE1) : const Color(0xFF949BA4),
+                    color: isSignal
+                        ? const Color(0xFFDBDEE1)
+                        : const Color(0xFF949BA4),
                     fontStyle: isSignal ? FontStyle.normal : FontStyle.italic,
                   ),
                 ),
@@ -271,8 +346,11 @@ class _MessageItem extends ConsumerWidget {
     String userName,
     String? avatarUrl,
   ) {
-    final location = roomEvent.signalParams['location'] ?? S.current.party_room_unknown_location;
-    final area = roomEvent.signalParams['area'] ?? S.current.party_room_unknown_area;
+    final location =
+        roomEvent.signalParams['location'] ??
+        S.current.party_room_unknown_location;
+    final area =
+        roomEvent.signalParams['area'] ?? S.current.party_room_unknown_area;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -290,12 +368,19 @@ class _MessageItem extends ConsumerWidget {
                   children: [
                     Text(
                       userName,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Text(
                       _formatTime(roomEvent.timestamp),
-                      style: const TextStyle(fontSize: 11, color: Color(0xFF80848E)),
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF80848E),
+                      ),
                     ),
                   ],
                 ),
@@ -305,7 +390,9 @@ class _MessageItem extends ConsumerWidget {
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: const Color(0xFF2B2D31),
-                    border: Border.all(color: const Color(0xFFED4245).withValues(alpha: 0.3)),
+                    border: Border.all(
+                      color: const Color(0xFFED4245).withValues(alpha: 0.3),
+                    ),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
@@ -317,24 +404,42 @@ class _MessageItem extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFED4245).withValues(alpha: 0.2),
+                              color: const Color(
+                                0xFFED4245,
+                              ).withValues(alpha: 0.2),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(FluentIcons.status_error_full, size: 14, color: Color(0xFFED4245)),
+                            child: const Icon(
+                              FluentIcons.status_error_full,
+                              size: 14,
+                              color: Color(0xFFED4245),
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Text(
                             S.current.party_room_player_death,
-                            style: const TextStyle(fontSize: 14, color: Color(0xFFED4245), fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFFED4245),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
                       // 位置信息
-                      _buildInfoRow(icon: FluentIcons.location, label: S.current.party_room_location, value: location),
+                      _buildInfoRow(
+                        icon: FluentIcons.location,
+                        label: S.current.party_room_location,
+                        value: location,
+                      ),
                       const SizedBox(height: 8),
                       // 区域信息
-                      _buildInfoRow(icon: FluentIcons.map_pin, label: S.current.party_room_area, value: area),
+                      _buildInfoRow(
+                        icon: FluentIcons.map_pin,
+                        label: S.current.party_room_area,
+                        value: area,
+                      ),
                     ],
                   ),
                 ),
@@ -346,7 +451,11 @@ class _MessageItem extends ConsumerWidget {
     );
   }
 
-  Widget _buildInfoRow({required IconData icon, required String label, required String value}) {
+  Widget _buildInfoRow({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -354,10 +463,17 @@ class _MessageItem extends ConsumerWidget {
         const SizedBox(width: 8),
         Text(
           '$label:   ',
-          style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: .4), fontWeight: FontWeight.w500),
+          style: TextStyle(
+            fontSize: 13,
+            color: Colors.white.withValues(alpha: .4),
+            fontWeight: FontWeight.w500,
+          ),
         ),
         Expanded(
-          child: Text(value, style: const TextStyle(fontSize: 13, color: Color(0xFFDBDEE1))),
+          child: Text(
+            value,
+            style: const TextStyle(fontSize: 13, color: Color(0xFFDBDEE1)),
+          ),
         ),
       ],
     );
@@ -366,7 +482,9 @@ class _MessageItem extends ConsumerWidget {
   String _getEventUserName(partroom.RoomEvent event) {
     switch (event.type) {
       case partroom.RoomEventType.SIGNAL_BROADCAST:
-        return event.signalSender.isNotEmpty ? event.signalSender : S.current.party_room_unknown_user;
+        return event.signalSender.isNotEmpty
+            ? event.signalSender
+            : S.current.party_room_unknown_user;
       case partroom.RoomEventType.MEMBER_JOINED:
       case partroom.RoomEventType.MEMBER_LEFT:
       case partroom.RoomEventType.MEMBER_KICKED:
@@ -376,7 +494,9 @@ class _MessageItem extends ConsumerWidget {
             ? event.member.gameUserId
             : S.current.party_room_unknown_user;
       case partroom.RoomEventType.OWNER_CHANGED:
-        return event.hasMember() && event.member.handleName.isNotEmpty ? event.member.handleName : S.current.party_room_new_owner;
+        return event.hasMember() && event.member.handleName.isNotEmpty
+            ? event.member.handleName
+            : S.current.party_room_new_owner;
       default:
         return S.current.party_room_system;
     }
@@ -429,25 +549,31 @@ class _MessageItem extends ConsumerWidget {
 
   String _formatTime(dynamic timestamp) {
     try {
-      final date = DateTime.fromMillisecondsSinceEpoch(timestamp.toInt() * 1000);
+      final date = DateTime.fromMillisecondsSinceEpoch(
+        timestamp.toInt() * 1000,
+      );
       final now = DateTime.now();
       final diff = now.difference(date);
 
       if (diff.inMinutes < 1) {
         return S.current.party_room_just_now;
       } else if (diff.inMinutes < 60) {
-        return '${diff.inMinutes} 分钟前';
+        return S.current.party_room_minutes_ago(diff.inMinutes);
       } else if (diff.inHours < 24) {
-        return '${diff.inHours} 小时前';
+        return S.current.party_room_hours_ago(diff.inHours);
       } else {
-        return '${diff.inDays} 天前';
+        return S.current.party_room_days_ago(diff.inDays);
       }
     } catch (e) {
       return '';
     }
   }
 
-  Widget _buildUserAvatar(String memberName, {String? avatarUrl, double size = 32}) {
+  Widget _buildUserAvatar(
+    String memberName, {
+    String? avatarUrl,
+    double size = 32,
+  }) {
     return SizedBox(
       width: size,
       height: size,
@@ -457,7 +583,11 @@ class _MessageItem extends ConsumerWidget {
               backgroundColor: const Color(0xFF5865F2),
               child: Text(
                 memberName.toUpperCase(),
-                style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             )
           : ClipRRect(

@@ -1597,8 +1597,7 @@
   "splash_db_reset_msg": "資料庫已重置，應用將退出。請重新啟動應用。",
   "@splash_db_reset_msg": {},
   "splash_reset_db_failed": "[診斷] 重置資料庫失敗: {v0}",
-  "@splash_reset_db_failed": {}
-,
+  "@splash_reset_db_failed": {},
   "yearly_report_title": "星際公民 {year} 年度報告",
   "yearly_report_generating": "正在生成您的年度報告...",
   "yearly_report_analyzing_logs": "正在分析遊戲日誌數據",
@@ -1703,5 +1702,597 @@
   "localization_extension_installed": "[已安裝拓展]",
   "@localization_extension_installed": {},
   "localization_action_reinstall": "重新安裝",
-  "@localization_action_reinstall": {}
+  "@localization_action_reinstall": {},
+  "app_spaceship": "太空船",
+  "@app_spaceship": {},
+  "app_fps_weapons": "FPS 武器",
+  "@app_fps_weapons": {},
+  "app_equip_character": "裝備角色",
+  "@app_equip_character": {},
+  "app_prop_scene": "道具場景",
+  "@app_prop_scene": {},
+  "app_path_does_not_exist": "路徑不存在: {v0}",
+  "@app_path_does_not_exist": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_skip_ddna_dds_this_type_does_not_preview_decoding": "跳過 _ddna DDS：該類型不進行預覽解碼",
+  "@app_skip_ddna_dds_this_type_does_not_preview_decoding": {},
+  "app_dds_to_png_failed": "DDS 轉 PNG 失敗: {v0}",
+  "@app_dds_to_png_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_dds_to_png_successful": "DDS 轉 PNG 成功: {v0}",
+  "@app_dds_to_png_successful": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_reject": "拒絕",
+  "@auth_reject": {},
+  "auth_allow": "允許",
+  "@auth_allow": {},
+  "auth_you_need_to_log_in_first_to_authorize": "您需要先登入才能授權",
+  "@auth_you_need_to_log_in_first_to_authorize": {},
+  "auth_go_to_login": "前往登入",
+  "@auth_go_to_login": {},
+  "auth_unknown_application": "未知應用",
+  "@auth_unknown_application": {},
+  "auth_request_access_to_your_account": "申請存取您的帳戶",
+  "@auth_request_access_to_your_account": {},
+  "auth_certified": "已認證",
+  "@auth_certified": {},
+  "auth_not_verified": "未驗證",
+  "@auth_not_verified": {},
+  "auth_this_action_will_allow": "此操作將允許 {v0}：",
+  "@auth_this_action_will_allow": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_access_your_public_profile": "造訪您的公開資料",
+  "@auth_access_your_public_profile": {},
+  "auth_include_username_avatar": "包括使用者名稱、頭像",
+  "@auth_include_username_avatar": {},
+  "auth_failed_to_generate_authorization_code": "產生授權碼失敗",
+  "@auth_failed_to_generate_authorization_code": {},
+  "auth_failed_to_generate_authorization_link": "產生授權連結失敗",
+  "@auth_failed_to_generate_authorization_link": {},
+  "auth_authorization_link_copied_to_clipboard": "授權連結已複製到剪貼簿",
+  "@auth_authorization_link_copied_to_clipboard": {},
+  "auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual": "開啟瀏覽器失敗，請複製連結手動訪問",
+  "@auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual": {},
+  "auth_failed_to_open_browser": "開啟瀏覽器失敗: {v0}",
+  "@auth_failed_to_open_browser": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_missing_callback_address_parameter": "缺少回調位址參數",
+  "@auth_missing_callback_address_parameter": {},
+  "auth_missing_state_parameter": "缺少 state 參數",
+  "@auth_missing_state_parameter": {},
+  "auth_unable_to_resolve_domain_name_from_callback_address": "無法從回呼地址解析域名",
+  "@auth_unable_to_resolve_domain_name_from_callback_address": {},
+  "auth_initialization_failed": "初始化失敗: {v0}",
+  "@auth_initialization_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_failed_to_generate_authorization_code_2": "產生授權碼失敗: {v0}",
+  "@auth_failed_to_generate_authorization_code_2": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_open_the_original_text": "打開原文",
+  "@app_open_the_original_text": {},
+  "app_play_video": "[播放影片]({v0})",
+  "@app_play_video": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_game_downloader_updater": "遊戲下載器 / 更新器",
+  "@p4k_update_game_downloader_updater": {},
+  "p4k_update_install_to": "安裝到 {v0}",
+  "@p4k_update_install_to": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_number_of_threads": "執行緒數",
+  "@p4k_update_number_of_threads": {},
+  "p4k_update_download_speed": "下載速度：{v0}",
+  "@p4k_update_download_speed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_canceling": "取消中...",
+  "@p4k_update_canceling": {},
+  "p4k_update_stop": "停止",
+  "@p4k_update_stop": {},
+  "p4k_update_pause": "暫停",
+  "@p4k_update_pause": {},
+  "p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb": "深度修復：會先診斷目前 P4K，只有校驗失敗時才恢復/重建，並按 Manifest 校驗內容，耗時很長。普通安裝/更新不會自動執行。",
+  "@p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb": {},
+  "p4k_update_deep_repair": "深度修復",
+  "@p4k_update_deep_repair": {},
+  "p4k_update_estimated_number_of_updates": "估算更新量",
+  "@p4k_update_estimated_number_of_updates": {},
+  "p4k_update_start_installation": "開始安裝",
+  "@p4k_update_start_installation": {},
+  "p4k_update_waiting_for_progress": "等待進度...",
+  "@p4k_update_waiting_for_progress": {},
+  "p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be": "Manifest 條目：{v0}\nP4K 需要下載（條目）：{v1}\n遊戲檔案需要下載（條目）：{v2}\n去重後下載物件（條目）：{v3}\n完整 P4K 參考大小：{v4}\n本地 Data.p4k.part：{v5}\n本次需下載基礎包：{v6}\n本次需下載物件 (payload)：{v7}\n本次預計下載總量：{v8}\n\n最大對象：\n{v9}",
+  "@p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be": {
+    "placeholders": {
+      "v0": {},
+      "v1": {},
+      "v2": {},
+      "v3": {},
+      "v4": {},
+      "v5": {},
+      "v6": {},
+      "v7": {},
+      "v8": {},
+      "v9": {}
+    }
+  },
+  "p4k_update_unnecessary": "不需要",
+  "@p4k_update_unnecessary": {},
+  "p4k_update_reading_inventory_and_estimating_updates": "正在讀取清單並估算更新量...",
+  "@p4k_update_reading_inventory_and_estimating_updates": {},
+  "p4k_update_estimate_completed": "估算完成",
+  "@p4k_update_estimate_completed": {},
+  "p4k_update_downloading_objects_game_files_and_patching_p4k": "正在下載物件、遊戲檔案並修補 P4K...",
+  "@p4k_update_downloading_objects_game_files_and_patching_p4k": {},
+  "p4k_update_update_completed": "更新完成",
+  "@p4k_update_update_completed": {},
+  "p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i": "正在深度修復 P4K（會先診斷，必要時重建，耗時很長）...",
+  "@p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i": {},
+  "p4k_update_deep_repair_completed": "深度修復完成",
+  "@p4k_update_deep_repair_completed": {},
+  "p4k_update_canceled": "已取消",
+  "@p4k_update_canceled": {},
+  "p4k_update_update_completed_2": "更新完成：{v0}",
+  "@p4k_update_update_completed_2": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_failure": "失敗：{v0}",
+  "@p4k_update_failure": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_download_failed_retrying": "下載失敗，正在重試：{v0}",
+  "@p4k_update_download_failed_retrying": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_writing": "正在寫入：{v0}",
+  "@p4k_update_writing": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_checking_disk_space": "正在檢查磁碟空間",
+  "@p4k_update_checking_disk_space": {},
+  "p4k_update_diagnosing_current_p4k": "正在診斷當前 P4K",
+  "@p4k_update_diagnosing_current_p4k": {},
+  "p4k_update_in_depth_repair_of_p4k": "正在深度修復 P4K",
+  "@p4k_update_in_depth_repair_of_p4k": {},
+  "p4k_update_updating_p4k_entry_metadata": "正在更新 P4K 條目 metadata：{v0}",
+  "@p4k_update_updating_p4k_entry_metadata": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_scanning_local_p4k_records_and_restoring_indexes": "正在掃描本機 P4K 記錄並還原索引",
+  "@p4k_update_scanning_local_p4k_records_and_restoring_indexes": {},
+  "p4k_update_preparing_game_files": "正在準備遊戲檔案：{v0}",
+  "@p4k_update_preparing_game_files": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_writing_game_file": "正在寫入遊戲檔案：{v0}",
+  "@p4k_update_writing_game_file": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_processing_p4k": "正在處理 P4K",
+  "@p4k_update_processing_p4k": {},
+  "p4k_update_verifying": "正在校驗中：{v0}",
+  "@p4k_update_verifying": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_downloading": "正在下載：{v0}",
+  "@p4k_update_downloading": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_canceling_2": "正在取消...",
+  "@p4k_update_canceling_2": {},
+  "p4k_update_continuing": "正在繼續...",
+  "@p4k_update_continuing": {},
+  "p4k_update_p4k_updater_failed": "P4K 更新器失敗：{v0}",
+  "@p4k_update_p4k_updater_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_manifest_url_cannot_be_empty": "Manifest URL 不能為空",
+  "@p4k_update_manifest_url_cannot_be_empty": {},
+  "p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat": "Manifest URL 缺少 Expires/KeyName/Signature 簽章參數，請重新登入或檢查 releaseInfo 簽章欄位。",
+  "@p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat": {},
+  "p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig": "物件 Base URL 缺少 Expires/KeyName/Signature 簽章參數，請重新登入或檢查 releaseInfo 簽章欄位。",
+  "@p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig": {},
+  "p4k_update_stage": "階段 {v0}/{v1}：{v2}",
+  "@p4k_update_stage": {
+    "placeholders": {
+      "v0": {},
+      "v1": {},
+      "v2": {}
+    }
+  },
+  "p4k_update_registering_eac_and_syncing_launcher_state": "正在註冊 EAC 並同步啟動器狀態",
+  "@p4k_update_registering_eac_and_syncing_launcher_state": {},
+  "p4k_update_installation_status_processing_completed": "安裝狀態處理完成",
+  "@p4k_update_installation_status_processing_completed": {},
+  "p4k_update_easyanticheat_installer_not_found_registration_skipped": "未找到 EasyAntiCheat 安裝程序，跳過註冊",
+  "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
+  "p4k_update_registering_easyanticheat": "正在註冊 EasyAntiCheat",
+  "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_easyanticheat_registration_completed": "EasyAntiCheat 註冊完成",
+  "@p4k_update_easyanticheat_registration_completed": {},
+  "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "EasyAntiCheat 註冊返回 {v0}，已作為非致命警告繼續{v1}",
+  "@p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat": "EasyAntiCheat 註冊失敗，已繼續作為非致命警告：{v0}",
+  "@p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_synchronizing_launcher_installation_status": "正在同步啟動器安裝狀態",
+  "@p4k_update_synchronizing_launcher_installation_status": {},
+  "p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped": "找不到 RSI Launcher store；跳過加密 store 同步",
+  "@p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped": {},
+  "p4k_update_build_manifest_id_updated": "build_manifest.id 已更新；",
+  "@p4k_update_build_manifest_id_updated": {},
+  "p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th": "{v0}加密 RSI Launcher store 同步未執行：目前 Dart 端缺少 AES-CBC/PBKDF2 相容實現，如啟動器仍顯示舊版請使用 RSI Launcher Verify",
+  "@p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m": "無法從 releaseInfo 推斷 RequestedP4ChangeNum，未寫入 build_manifest.id",
+  "@p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m": {},
+  "p4k_update_updated_build_manifest_id_requestedp4changenum": "已更新 build_manifest.id：RequestedP4ChangeNum={v0}",
+  "@p4k_update_updated_build_manifest_id_requestedp4changenum": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning": "更新 build_manifest.id 失敗，已繼續作為非致命警告：{v0}",
+  "@p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_unknown_version": "未知版本",
+  "@p4k_update_unknown_version": {},
+  "p4k_update_unknown_startup_file": "未知啟動文件",
+  "@p4k_update_unknown_startup_file": {},
+  "p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f": "發布版本：{v0}\n啟動檔案：{v1}\n\nreleaseInfo 已讀取。可先點選「估算更新量」檢查清單解析是否正常。",
+  "@p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "p4k_update_download": "下載",
+  "@p4k_update_download": {},
+  "p4k_update_download_basics_p4k": "下載基礎 P4K",
+  "@p4k_update_download_basics_p4k": {},
+  "p4k_update_check_basics_p4k": "校驗基礎 P4K",
+  "@p4k_update_check_basics_p4k": {},
+  "p4k_update_download_basic_verification_file": "下載基礎校驗文件",
+  "@p4k_update_download_basic_verification_file": {},
+  "p4k_update_check_disk_space": "檢查磁碟空間",
+  "@p4k_update_check_disk_space": {},
+  "p4k_update_diagnose_current_p4k": "診斷當前 P4K",
+  "@p4k_update_diagnose_current_p4k": {},
+  "p4k_update_deep_repair_p4k": "深度修復 P4K",
+  "@p4k_update_deep_repair_p4k": {},
+  "p4k_update_check_p4k": "校驗 P4K",
+  "@p4k_update_check_p4k": {},
+  "p4k_update_verify_p4k_content": "校驗 P4K 內容",
+  "@p4k_update_verify_p4k_content": {},
+  "p4k_update_download_game_files": "下載遊戲文件",
+  "@p4k_update_download_game_files": {},
+  "p4k_update_verify_game_files": "校驗遊戲文件",
+  "@p4k_update_verify_game_files": {},
+  "p4k_update_prepare_game_files": "準備遊戲文件",
+  "@p4k_update_prepare_game_files": {},
+  "p4k_update_write_game_files": "寫入遊戲文件",
+  "@p4k_update_write_game_files": {},
+  "p4k_update_game_file_writing_completed": "遊戲檔案寫入完成",
+  "@p4k_update_game_file_writing_completed": {},
+  "p4k_update_completed_installation_status": "完成安裝狀態",
+  "@p4k_update_completed_installation_status": {},
+  "p4k_update_write": "寫入",
+  "@p4k_update_write": {},
+  "p4k_update_preparing_for_p4k_patching": "準備 P4K 修補",
+  "@p4k_update_preparing_for_p4k_patching": {},
+  "p4k_update_restore_p4k_index": "恢復 P4K 索引",
+  "@p4k_update_restore_p4k_index": {},
+  "p4k_update_create_a_p4k_rollback_record": "建立 P4K 回滾記錄",
+  "@p4k_update_create_a_p4k_rollback_record": {},
+  "p4k_update_update_p4k_entry_metadata": "更新 P4K 條目 metadata",
+  "@p4k_update_update_p4k_entry_metadata": {},
+  "p4k_update_write_to_p4k": "寫入 P4K",
+  "@p4k_update_write_to_p4k": {},
+  "p4k_update_complete_p4k_write": "完成 P4K 寫入",
+  "@p4k_update_complete_p4k_write": {},
+  "p4k_update_finish": "完成",
+  "@p4k_update_finish": {},
+  "p4k_update_preparing_game_files_2": "正在準備遊戲文件",
+  "@p4k_update_preparing_game_files_2": {},
+  "p4k_update_verifying_game_files": "正在校驗遊戲文件",
+  "@p4k_update_verifying_game_files": {},
+  "p4k_update_updating_p4k_entry_metadata_2": "正在更新 P4K 條目 metadata",
+  "@p4k_update_updating_p4k_entry_metadata_2": {},
+  "p4k_update_check_disk_space_and_task_budget": "檢查磁碟空間與任務預算",
+  "@p4k_update_check_disk_space_and_task_budget": {},
+  "p4k_update_download_verify_basics_p4k": "下載/校驗基礎 P4K",
+  "@p4k_update_download_verify_basics_p4k": {},
+  "p4k_update_patching_data_p4k": "修補 Data.p4k",
+  "@p4k_update_patching_data_p4k": {},
+  "p4k_update_deep_repair_rebuild_p4k": "深度修復/重建 P4K",
+  "@p4k_update_deep_repair_rebuild_p4k": {},
+  "p4k_update_verify_repair_results": "校驗修復結果",
+  "@p4k_update_verify_repair_results": {},
+  "p4k_update_download_write_game_files": "下載/寫入遊戲文件",
+  "@p4k_update_download_write_game_files": {},
+  "p4k_update_register_eac_and_sync_launcher_state": "註冊 EAC 並同步啟動器狀態",
+  "@p4k_update_register_eac_and_sync_launcher_state": {},
+  "p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa": "P4K 下載/更新暫不支援 PTU，目標路徑必須是 LIVE 目錄",
+  "@p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa": {},
+  "app_please_close_the_game_before_updating_p4k_game_files": "請先關閉遊戲後再更新 P4K / 遊戲文件",
+  "@app_please_close_the_game_before_updating_p4k_game_files": {},
+  "app_the_web_login_resource_has_not_been_initialized_please_try_again": "網頁登入資源尚未初始化，請稍後重試",
+  "@app_the_web_login_resource_has_not_been_initialized_please_try_again": {},
+  "app_unable_to_read_releaseinfo_from_rsi_return_data": "未能從 RSI 回傳資料讀取 releaseInfo",
+  "@app_unable_to_read_releaseinfo_from_rsi_return_data": {},
+  "app_select_game_download_directory": "選擇遊戲下載目錄",
+  "@app_select_game_download_directory": {},
+  "app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s": "目前沒有可直接使用的 Data.p4k。請選擇一個不完整安裝目錄，或選擇新的安裝位置下載。",
+  "@app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s": {},
+  "app_discovered_installation_directories": "已發現的安裝目錄",
+  "@app_discovered_installation_directories": {},
+  "app_select_new_directory": "選擇新目錄",
+  "@app_select_new_directory": {},
+  "user_registration_time": "註冊時間：{v0}",
+  "@user_registration_time": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "user_can_only_be_refreshed_once_per_hour": "每小時僅可刷新一次",
+  "@user_can_only_be_refreshed_once_per_hour": {},
+  "user_refresh_successful": "刷新成功",
+  "@user_refresh_successful": {},
+  "user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour": "資料刷新過於頻繁，請一小時後再試",
+  "@user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour": {},
+  "user_refresh_failed": "刷新失敗: {v0}",
+  "@user_refresh_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "user_refresh_data": "刷新資料",
+  "@user_refresh_data": {},
+  "user_log_out": "登出",
+  "@user_log_out": {},
+  "user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in": "確定要登出 PartyRoom 登入狀態嗎？下次使用時需要重新登入。",
+  "@user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in": {},
+  "user_logged_out": "已登出",
+  "@user_logged_out": {},
+  "user_logout_failed": "登出失敗: {v0}",
+  "@user_logout_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "party_room_sure": "確定",
+  "@party_room_sure": {},
+  "log_analyze_game_log_current": "Game.log (當前)",
+  "@log_analyze_game_log_current": {},
+  "log_analyze_log_file_not_found": "未找到日誌文件",
+  "@log_analyze_log_file_not_found": {},
+  "log_analyze_log_file": "日誌檔:",
+  "@log_analyze_log_file": {},
+  "log_analyze_select_log_file": "選擇日誌文件",
+  "@log_analyze_select_log_file": {},
+  "tools_unp4k_return_to_homepage": "回首頁",
+  "@tools_unp4k_return_to_homepage": {},
+  "tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to": "退出後需要重新載入 P4K，確認返回首頁嗎？",
+  "@tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to": {},
+  "tools_unp4k_confirm_return": "確認返回",
+  "@tools_unp4k_confirm_return": {},
+  "tools_unp4k_file_browser": "文件瀏覽器",
+  "@tools_unp4k_file_browser": {},
+  "tools_unp4k_3d_browser": "3D 瀏覽器",
+  "@tools_unp4k_3d_browser": {},
+  "tools_unp4k_music_browser": "音樂瀏覽器",
+  "@tools_unp4k_music_browser": {},
+  "tools_unp4k_audio_decoding_failed": "音訊解碼失敗：{v0}",
+  "@tools_unp4k_audio_decoding_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_audio_preview_failed_no_playable_file_found": "音訊預覽失敗：未找到可播放文件",
+  "@tools_unp4k_audio_preview_failed_no_playable_file_found": {},
+  "tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio": "音訊串流已失效，請重新開啟該音訊。",
+  "@tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio": {},
+  "tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": "只能跳到已緩衝區域（目前已緩衝 {v0}s）",
+  "@tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_audio_preview_failed": "音訊預覽失敗：{v0}",
+  "@tools_unp4k_audio_preview_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_play_automatically_when_switching_music": "切換音樂時自動播放",
+  "@tools_unp4k_play_automatically_when_switching_music": {},
+  "tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi": "目前 WEM 編碼不受內建解碼支援（format=0x{v0}）。\n目前版本支援 PCM (0x0001) 和 Wwise Vorbis (0xFFFF) 的 WEM 預覽。",
+  "@tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_finish": "完成！",
+  "@tools_unp4k_finish": {},
+  "tools_unp4k_decoding": "正在解碼...",
+  "@tools_unp4k_decoding": {},
+  "tools_unp4k_decoding_full_audio": "正在解碼完整音訊...",
+  "@tools_unp4k_decoding_full_audio": {},
+  "tools_unp4k_batch_export_options": "批量匯出選項",
+  "@tools_unp4k_batch_export_options": {},
+  "tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported": "可轉換格式自動轉換匯出（WEM->WAV, DDS->PNG, CGA/CGF->GLB）",
+  "@tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported": {},
+  "tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the": "目前選擇中沒有可轉換格式，將按原始文件匯出。",
+  "@tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the": {},
+  "tools_unp4k_export_with_directory_structure_preserved": "保留目錄結構匯出",
+  "@tools_unp4k_export_with_directory_structure_preserved": {},
+  "tools_unp4k_include_original_path_when_exporting": "導出時包含原始路徑。",
+  "@tools_unp4k_include_original_path_when_exporting": {},
+  "tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi": "直接按檔案名稱匯出；單一檔案時將直接選擇儲存檔案。",
+  "@tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi": {},
+  "tools_unp4k_start_export": "開始匯出",
+  "@tools_unp4k_start_export": {},
+  "tools_unp4k_batch_export": "批量導出",
+  "@tools_unp4k_batch_export": {},
+  "tools_unp4k_progress": "進度: {v0}/{v1}",
+  "@tools_unp4k_progress": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_completed_successfully_skipped": "匯出完成，成功 {v0} 個，跳過 {v1} 個",
+  "@tools_unp4k_export_completed_successfully_skipped": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_completed_total_files": "匯出完成，共 {v0} 個文件",
+  "@tools_unp4k_export_completed_total_files": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_more_failed_files_skipped": "{v0}\n還有 {v1} 個失敗檔案已跳過",
+  "@tools_unp4k_more_failed_files_skipped": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_wav": "導出 WAV",
+  "@tools_unp4k_export_wav": {},
+  "tools_unp4k_dds_to_png": "DDS 轉 PNG",
+  "@tools_unp4k_dds_to_png": {},
+  "tools_unp4k_jump_to_file_location": "跳到文件位置",
+  "@tools_unp4k_jump_to_file_location": {},
+  "tools_unp4k_select_convert_export_file": "選擇轉換匯出文件",
+  "@tools_unp4k_select_convert_export_file": {},
+  "tools_unp4k_select_export_file": "選擇匯出文件",
+  "@tools_unp4k_select_export_file": {},
+  "tools_unp4k_select_conversion_export_location": "選擇轉換匯出位置",
+  "@tools_unp4k_select_conversion_export_location": {},
+  "tools_unp4k_wav_export_successful": "WAV 匯出成功",
+  "@tools_unp4k_wav_export_successful": {},
+  "tools_unp4k_from_cache": "{v0}\n(來自緩存)",
+  "@tools_unp4k_from_cache": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_wav_export_failed": "WAV 匯出失敗",
+  "@tools_unp4k_wav_export_failed": {},
+  "tools_unp4k_conversion_successful": "轉換成功",
+  "@tools_unp4k_conversion_successful": {},
+  "tools_unp4k_conversion_failed": "轉換失敗",
+  "@tools_unp4k_conversion_failed": {},
+  "tools_unp4k_size": "大小",
+  "@tools_unp4k_size": {},
+  "tools_unp4k_date": "日期",
+  "@tools_unp4k_date": {},
+  "tools_unp4k_search_all_files_supports_regular_expressions": "搜尋全部文件（支援正規）...",
+  "@tools_unp4k_search_all_files_supports_regular_expressions": {},
+  "tools_unp4k_search_the_current_directory_supports_regular_expressions": "搜尋目前目錄（支援正規）...",
+  "@tools_unp4k_search_the_current_directory_supports_regular_expressions": {},
+  "tools_unp4k_clear": "清除",
+  "@tools_unp4k_clear": {},
+  "tools_unp4k_current_directory": "目前目錄",
+  "@tools_unp4k_current_directory": {},
+  "tools_unp4k_global_search": "全域搜尋",
+  "@tools_unp4k_global_search": {},
+  "tools_unp4k_suffix": "後綴",
+  "@tools_unp4k_suffix": {},
+  "tools_unp4k_suffix_filter": "後綴篩選",
+  "@tools_unp4k_suffix_filter": {},
+  "tools_unp4k_separate_with_spaces_and_do_not_include": "用空格分隔，不包含句點",
+  "@tools_unp4k_separate_with_spaces_and_do_not_include": {},
+  "tools_unp4k_support_preview": "支援預覽",
+  "@tools_unp4k_support_preview": {},
+  "tools_unp4k_common_formats": "常見格式",
+  "@tools_unp4k_common_formats": {},
+  "tools_unp4k_no_limit": "不限",
+  "@tools_unp4k_no_limit": {},
+  "tools_unp4k_less_than": "小於",
+  "@tools_unp4k_less_than": {},
+  "tools_unp4k_greater_than": "大於",
+  "@tools_unp4k_greater_than": {},
+  "tools_unp4k_scope": "範圍",
+  "@tools_unp4k_scope": {},
+  "tools_unp4k_start": "起始",
+  "@tools_unp4k_start": {},
+  "tools_unp4k_finish_2": "結束",
+  "@tools_unp4k_finish_2": {},
+  "tools_unp4k_size_value": "大小值",
+  "@tools_unp4k_size_value": {},
+  "tools_unp4k_some_day_ago": "某日之前",
+  "@tools_unp4k_some_day_ago": {},
+  "tools_unp4k_after_a_certain_day": "某日之後",
+  "@tools_unp4k_after_a_certain_day": {},
+  "tools_unp4k_time_range": "時間範圍",
+  "@tools_unp4k_time_range": {},
+  "news_video_view_original_post": "貼吧影片需在原文觀看",
+  "@news_video_view_original_post": {}
 }

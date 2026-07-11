@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/provider/unp4kc.dart';
 
 import '../../../../widgets/widgets.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 class FilterToolbar extends HookConsumerWidget {
   final Unp4kcState state;
@@ -30,17 +31,19 @@ class FilterToolbar extends HookConsumerWidget {
   }
 
   static String getSizeFilterLabel(Unp4kcState s) {
-    if (s.sizeFilterMode == Unp4kFilterMode.none) return "大小";
+    if (s.sizeFilterMode == Unp4kFilterMode.none) {
+      return S.current.tools_unp4k_size;
+    }
     final unit = _getSizeUnitLabel(s.sizeFilterUnit);
     if (s.sizeFilterMode == Unp4kFilterMode.range) {
       if (s.sizeFilterRangeStart == null || s.sizeFilterRangeEnd == null) {
-        return "大小";
+        return S.current.tools_unp4k_size;
       }
       final start = s.sizeFilterRangeStart!.toStringAsFixed(0);
       final end = s.sizeFilterRangeEnd!.toStringAsFixed(0);
       return "$start-$end $unit";
     }
-    if (s.sizeFilterSingleValue == null) return "大小";
+    if (s.sizeFilterSingleValue == null) return S.current.tools_unp4k_size;
     final val = s.sizeFilterSingleValue!.toStringAsFixed(0);
     switch (s.sizeFilterMode) {
       case Unp4kFilterMode.before:
@@ -48,21 +51,23 @@ class FilterToolbar extends HookConsumerWidget {
       case Unp4kFilterMode.after:
         return "> $val $unit";
       default:
-        return "大小";
+        return S.current.tools_unp4k_size;
     }
   }
 
   static String getDateFilterLabel(Unp4kcState s) {
-    if (s.dateFilterMode == Unp4kFilterMode.none) return "日期";
+    if (s.dateFilterMode == Unp4kFilterMode.none) {
+      return S.current.tools_unp4k_date;
+    }
     if (s.dateFilterMode == Unp4kFilterMode.range) {
       if (s.dateFilterRangeStart == null || s.dateFilterRangeEnd == null) {
-        return "日期";
+        return S.current.tools_unp4k_date;
       }
       final start = _formatDate(s.dateFilterRangeStart);
       final end = _formatDate(s.dateFilterRangeEnd);
       return "$start - $end";
     }
-    if (s.dateFilterSingleDate == null) return "日期";
+    if (s.dateFilterSingleDate == null) return S.current.tools_unp4k_date;
     final formatted = _formatDate(s.dateFilterSingleDate);
     switch (s.dateFilterMode) {
       case Unp4kFilterMode.before:
@@ -70,7 +75,7 @@ class FilterToolbar extends HookConsumerWidget {
       case Unp4kFilterMode.after:
         return "> $formatted";
       default:
-        return "日期";
+        return S.current.tools_unp4k_date;
     }
   }
 
@@ -137,8 +142,10 @@ class FilterToolbar extends HookConsumerWidget {
         hasActiveSuffixFilter();
 
     final searchPlaceholder = state.isGlobalSearchScope
-        ? "搜索全部文件（支持正则）..."
-        : "搜索当前目录（支持正则）...";
+        ? S.current.tools_unp4k_search_all_files_supports_regular_expressions
+        : S
+              .current
+              .tools_unp4k_search_the_current_directory_supports_regular_expressions;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -229,7 +236,7 @@ class FilterToolbar extends HookConsumerWidget {
                 model.clearDateFilter();
                 model.clearSuffixFilter();
               },
-              child: const Text("清除"),
+              child: Text(S.current.tools_unp4k_clear),
             ),
           ],
         ],
@@ -349,13 +356,19 @@ class _SearchOptionsPanel extends HookConsumerWidget {
           model.setSearchScope(value);
           Navigator.of(context).pop();
         },
-        child: const Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            RadioButton<bool>(value: false, content: Text("当前目录")),
-            SizedBox(height: 4),
-            RadioButton<bool>(value: true, content: Text("全局搜索")),
+            RadioButton<bool>(
+              value: false,
+              content: Text(S.current.tools_unp4k_current_directory),
+            ),
+            const SizedBox(height: 4),
+            RadioButton<bool>(
+              value: true,
+              content: Text(S.current.tools_unp4k_global_search),
+            ),
           ],
         ),
       ),
@@ -408,7 +421,7 @@ class _SuffixQuickSelect extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "后缀",
+                  S.current.tools_unp4k_suffix,
                   style: TextStyle(
                     fontSize: 12,
                     color: hasSuffixFilter
@@ -522,7 +535,7 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "后缀筛选",
+                S.current.tools_unp4k_suffix_filter,
                 style: TextStyle(
                   fontSize: 11,
                   color: Colors.white.withValues(alpha: .7),
@@ -535,7 +548,7 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
                     inputController.clear();
                   },
                   child: Text(
-                    "清除",
+                    S.current.tools_unp4k_clear,
                     style: TextStyle(
                       fontSize: 11,
                       color: FluentTheme.of(context).accentColor,
@@ -547,7 +560,8 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
           const SizedBox(height: 8),
           TextBox(
             controller: inputController,
-            placeholder: "用空格分割，不包含.",
+            placeholder:
+                S.current.tools_unp4k_separate_with_spaces_and_do_not_include,
             onSubmitted: (value) {
               final suffixes = value
                   .trim()
@@ -564,7 +578,7 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
           if (customSuffixes.isNotEmpty) ...[
             const SizedBox(height: 8),
             Text(
-              "自定义",
+              S.current.performance_json_text_title_custom,
               style: TextStyle(
                 fontSize: 10,
                 color: Colors.white.withValues(alpha: .5),
@@ -579,7 +593,7 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
           ],
           const SizedBox(height: 8),
           Text(
-            "支持预览",
+            S.current.tools_unp4k_support_preview,
             style: TextStyle(
               fontSize: 10,
               color: Colors.white.withValues(alpha: .5),
@@ -593,7 +607,7 @@ class _SuffixQuickSelectPanel extends HookConsumerWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "常见格式",
+            S.current.tools_unp4k_common_formats,
             style: TextStyle(
               fontSize: 10,
               color: Colors.white.withValues(alpha: .5),
@@ -736,14 +750,23 @@ class _SizeFilterPopup extends HookConsumerWidget {
             children: [
               ComboBox<Unp4kFilterMode>(
                 value: state.sizeFilterMode,
-                items: const [
-                  ComboBoxItem(value: Unp4kFilterMode.none, child: Text("不限")),
+                items: [
+                  ComboBoxItem(
+                    value: Unp4kFilterMode.none,
+                    child: Text(S.current.tools_unp4k_no_limit),
+                  ),
                   ComboBoxItem(
                     value: Unp4kFilterMode.before,
-                    child: Text("小于"),
+                    child: Text(S.current.tools_unp4k_less_than),
                   ),
-                  ComboBoxItem(value: Unp4kFilterMode.after, child: Text("大于")),
-                  ComboBoxItem(value: Unp4kFilterMode.range, child: Text("范围")),
+                  ComboBoxItem(
+                    value: Unp4kFilterMode.after,
+                    child: Text(S.current.tools_unp4k_greater_than),
+                  ),
+                  ComboBoxItem(
+                    value: Unp4kFilterMode.range,
+                    child: Text(S.current.tools_unp4k_scope),
+                  ),
                 ],
                 onChanged: (v) {
                   if (v != null) model.setSizeFilterMode(v);
@@ -771,7 +794,7 @@ class _SizeFilterPopup extends HookConsumerWidget {
                 Expanded(
                   child: TextBox(
                     controller: rangeStartController,
-                    placeholder: "起始",
+                    placeholder: S.current.tools_unp4k_start,
                     onSubmitted: (_) {
                       model.setSizeFilterRange(
                         _tryParseDouble(rangeStartController.text),
@@ -788,7 +811,7 @@ class _SizeFilterPopup extends HookConsumerWidget {
                 Expanded(
                   child: TextBox(
                     controller: rangeEndController,
-                    placeholder: "结束",
+                    placeholder: S.current.tools_unp4k_finish_2,
                     onSubmitted: (_) {
                       model.setSizeFilterRange(
                         _tryParseDouble(rangeStartController.text),
@@ -804,7 +827,7 @@ class _SizeFilterPopup extends HookConsumerWidget {
             const SizedBox(height: 8),
             TextBox(
               controller: singleController,
-              placeholder: "大小值",
+              placeholder: S.current.tools_unp4k_size_value,
               onSubmitted: (_) {
                 model.setSizeFilterSingleValue(
                   _tryParseDouble(singleController.text),
@@ -856,11 +879,23 @@ class _DateFilterPopup extends HookConsumerWidget {
         children: [
           ComboBox<Unp4kFilterMode>(
             value: state.dateFilterMode,
-            items: const [
-              ComboBoxItem(value: Unp4kFilterMode.none, child: Text("不限")),
-              ComboBoxItem(value: Unp4kFilterMode.before, child: Text("某日之前")),
-              ComboBoxItem(value: Unp4kFilterMode.after, child: Text("某日之后")),
-              ComboBoxItem(value: Unp4kFilterMode.range, child: Text("时间范围")),
+            items: [
+              ComboBoxItem(
+                value: Unp4kFilterMode.none,
+                child: Text(S.current.tools_unp4k_no_limit),
+              ),
+              ComboBoxItem(
+                value: Unp4kFilterMode.before,
+                child: Text(S.current.tools_unp4k_some_day_ago),
+              ),
+              ComboBoxItem(
+                value: Unp4kFilterMode.after,
+                child: Text(S.current.tools_unp4k_after_a_certain_day),
+              ),
+              ComboBoxItem(
+                value: Unp4kFilterMode.range,
+                child: Text(S.current.tools_unp4k_time_range),
+              ),
             ],
             onChanged: (v) {
               if (v != null) model.setDateFilterMode(v);

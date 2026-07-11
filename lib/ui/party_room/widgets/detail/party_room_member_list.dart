@@ -13,13 +13,24 @@ class PartyRoomMemberList extends ConsumerWidget {
   final bool isOwner;
   final PartyRoom partyRoom;
 
-  const PartyRoomMemberList({super.key, required this.members, required this.isOwner, required this.partyRoom});
+  const PartyRoomMemberList({
+    super.key,
+    required this.members,
+    required this.isOwner,
+    required this.partyRoom,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (members.isEmpty) {
       return Center(
-        child: Text(S.current.party_room_no_members, style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12)),
+        child: Text(
+          S.current.party_room_no_members,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.5),
+            fontSize: 12,
+          ),
+        ),
       );
     }
 
@@ -28,7 +39,11 @@ class PartyRoomMemberList extends ConsumerWidget {
       itemCount: members.length,
       itemBuilder: (context, index) {
         final member = members[index];
-        return PartyRoomMemberItem(member: member, isOwner: isOwner, partyRoom: partyRoom);
+        return PartyRoomMemberItem(
+          member: member,
+          isOwner: isOwner,
+          partyRoom: partyRoom,
+        );
       },
     );
   }
@@ -40,7 +55,12 @@ class PartyRoomMemberItem extends ConsumerWidget {
   final bool isOwner;
   final PartyRoom partyRoom;
 
-  const PartyRoomMemberItem({super.key, required this.member, required this.isOwner, required this.partyRoom});
+  const PartyRoomMemberItem({
+    super.key,
+    required this.member,
+    required this.isOwner,
+    required this.partyRoom,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,22 +75,42 @@ class PartyRoomMemberItem extends ConsumerWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
         child: GestureDetector(
-          onTapUp: (details) => _showMemberContextMenu(context, member, partyRoom, isOwner, isSelf, flyoutController),
-          onSecondaryTapUp: (details) =>
-              _showMemberContextMenu(context, member, partyRoom, isOwner, isSelf, flyoutController),
+          onTapUp: (details) => _showMemberContextMenu(
+            context,
+            member,
+            partyRoom,
+            isOwner,
+            isSelf,
+            flyoutController,
+          ),
+          onSecondaryTapUp: (details) => _showMemberContextMenu(
+            context,
+            member,
+            partyRoom,
+            isOwner,
+            isSelf,
+            flyoutController,
+          ),
           child: HoverButton(
             onPressed: null,
             builder: (context, states) {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: states.isHovered ? const Color(0xFF404249) : Colors.transparent,
+                  color: states.isHovered
+                      ? const Color(0xFF404249)
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Row(
                   children: [
                     // 头像
-                    _buildUserAvatar(member.handleName, avatarUrl: avatarUrl, size: 32, isOwner: isOwner),
+                    _buildUserAvatar(
+                      member.handleName,
+                      avatarUrl: avatarUrl,
+                      size: 32,
+                      isOwner: isOwner,
+                    ),
                     const SizedBox(width: 8),
                     // 名称和状态
                     Expanded(
@@ -81,18 +121,28 @@ class PartyRoomMemberItem extends ConsumerWidget {
                             children: [
                               Flexible(
                                 child: Text(
-                                  member.handleName.isNotEmpty ? member.handleName : member.gameUserId,
+                                  member.handleName.isNotEmpty
+                                      ? member.handleName
+                                      : member.gameUserId,
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: member.isOwner ? const Color(0xFFFAA81A) : const Color(0xFFDBDEE1),
-                                    fontWeight: member.isOwner ? FontWeight.bold : FontWeight.normal,
+                                    color: member.isOwner
+                                        ? const Color(0xFFFAA81A)
+                                        : const Color(0xFFDBDEE1),
+                                    fontWeight: member.isOwner
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               if (member.isOwner) ...[
                                 const SizedBox(width: 4),
-                                const Icon(FluentIcons.crown, size: 10, color: Color(0xFFFAA81A)),
+                                const Icon(
+                                  FluentIcons.crown,
+                                  size: 10,
+                                  color: Color(0xFFFAA81A),
+                                ),
                               ],
                             ],
                           ),
@@ -100,8 +150,13 @@ class PartyRoomMemberItem extends ConsumerWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  member.status.currentLocation.isNotEmpty ? member.status.currentLocation : '...',
-                                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: .9)),
+                                  member.status.currentLocation.isNotEmpty
+                                      ? member.status.currentLocation
+                                      : '...',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white.withValues(alpha: .9),
+                                  ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -151,10 +206,22 @@ class PartyRoomMemberItem extends ConsumerWidget {
               context: context,
               builder: (context) => ContentDialog(
                 title: Text(S.current.party_room_transfer_owner),
-                content: Text('确定要将房主转移给 ${member.handleName.isNotEmpty ? member.handleName : member.gameUserId} 吗？'),
+                content: Text(
+                  S.current.party_room_transfer_owner_confirm(
+                    member.handleName.isNotEmpty
+                        ? member.handleName
+                        : member.gameUserId,
+                  ),
+                ),
                 actions: [
-                  Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
-                  FilledButton(child: Text(S.current.party_room_transfer), onPressed: () => Navigator.pop(context, true)),
+                  Button(
+                    child: Text(S.current.home_action_cancel),
+                    onPressed: () => Navigator.pop(context, false),
+                  ),
+                  FilledButton(
+                    child: Text(S.current.party_room_transfer),
+                    onPressed: () => Navigator.pop(context, true),
+                  ),
                 ],
               ),
             );
@@ -167,8 +234,15 @@ class PartyRoomMemberItem extends ConsumerWidget {
                     context: context,
                     builder: (context) => ContentDialog(
                       title: Text(S.current.party_room_operation_failed),
-                      content: Text('转移房主失败：$e'),
-                      actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+                      content: Text(
+                        S.current.party_room_transfer_owner_failed(e),
+                      ),
+                      actions: [
+                        FilledButton(
+                          child: Text(S.current.party_room_sure),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -184,11 +258,24 @@ class PartyRoomMemberItem extends ConsumerWidget {
               context: context,
               builder: (context) => ContentDialog(
                 title: Text(S.current.party_room_kick_member),
-                content: Text('确定要踢出 ${member.handleName.isNotEmpty ? member.handleName : member.gameUserId} 吗？'),
+                content: Text(
+                  S.current.party_room_kick_member_confirm(
+                    member.handleName.isNotEmpty
+                        ? member.handleName
+                        : member.gameUserId,
+                  ),
+                ),
                 actions: [
-                  Button(child: Text(S.current.home_action_cancel), onPressed: () => Navigator.pop(context, false)),
+                  Button(
+                    child: Text(S.current.home_action_cancel),
+                    onPressed: () => Navigator.pop(context, false),
+                  ),
                   FilledButton(
-                    style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xFFDA373C))),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                        const Color(0xFFDA373C),
+                      ),
+                    ),
                     child: Text(S.current.party_room_kick),
                     onPressed: () => Navigator.pop(context, true),
                   ),
@@ -204,8 +291,13 @@ class PartyRoomMemberItem extends ConsumerWidget {
                     context: context,
                     builder: (context) => ContentDialog(
                       title: Text(S.current.party_room_operation_failed),
-                      content: Text('踢出成员失败：$e'),
-                      actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+                      content: Text(S.current.party_room_kick_member_failed(e)),
+                      actions: [
+                        FilledButton(
+                          child: Text(S.current.party_room_sure),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -217,7 +309,9 @@ class PartyRoomMemberItem extends ConsumerWidget {
     }
 
     controller.showFlyout(
-      autoModeConfiguration: FlyoutAutoConfiguration(preferredMode: FlyoutPlacementMode.bottomCenter),
+      autoModeConfiguration: FlyoutAutoConfiguration(
+        preferredMode: FlyoutPlacementMode.bottomCenter,
+      ),
       barrierColor: Colors.transparent,
       builder: (context) {
         return MenuFlyout(items: menuItems);
@@ -225,7 +319,12 @@ class PartyRoomMemberItem extends ConsumerWidget {
     );
   }
 
-  Widget _buildUserAvatar(String memberName, {String? avatarUrl, bool isOwner = false, double size = 32}) {
+  Widget _buildUserAvatar(
+    String memberName, {
+    String? avatarUrl,
+    bool isOwner = false,
+    double size = 32,
+  }) {
     final avatarWidget = SizedBox(
       width: size,
       height: size,
@@ -235,7 +334,11 @@ class PartyRoomMemberItem extends ConsumerWidget {
               backgroundColor: const Color(0xFF5865F2),
               child: Text(
                 memberName.toUpperCase(),
-                style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             )
           : ClipRRect(

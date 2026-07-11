@@ -14,7 +14,9 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedPath = useState<String?>(appState.gameInstallPaths.firstOrNull);
+    final selectedPath = useState<String?>(
+      appState.gameInstallPaths.firstOrNull,
+    );
     final listSortReverse = useState<bool>(false);
     final selectedLogFile = useState<String?>(null); // null 表示使用当前 Game.log
     final availableLogFiles = useState<List<LogFileInfo>>([]);
@@ -70,7 +72,10 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                 // 刷新 IconButton
                 Button(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 6,
+                    ),
                     child: const Icon(FluentIcons.refresh),
                   ),
                   onPressed: () {
@@ -92,7 +97,7 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Row(
               children: [
-                const Text("日志文件:"),
+                Text(S.current.log_analyze_log_file),
                 const SizedBox(width: 10),
                 Expanded(
                   child: ComboBox<String?>(
@@ -104,14 +109,16 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                           value: logFile.isCurrentLog ? null : logFile.path,
                           child: Text(
                             logFile.displayName,
-                            style: logFile.isCurrentLog ? const TextStyle(fontWeight: FontWeight.bold) : null,
+                            style: logFile.isCurrentLog
+                                ? const TextStyle(fontWeight: FontWeight.bold)
+                                : null,
                           ),
                         ),
                     ],
                     onChanged: (value) {
                       selectedLogFile.value = value;
                     },
-                    placeholder: const Text("选择日志文件"),
+                    placeholder: Text(S.current.log_analyze_select_log_file),
                   ),
                 ),
               ],
@@ -126,7 +133,10 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                 // 输入框
                 Expanded(
                   child: TextFormBox(
-                    prefix: Padding(padding: const EdgeInsets.only(left: 12), child: Icon(FluentIcons.search)),
+                    prefix: Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: Icon(FluentIcons.search),
+                    ),
                     placeholder: S.current.log_analyzer_search_placeholder,
                     onChanged: (value) {
                       searchText.value = value.trim();
@@ -141,7 +151,12 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                   value: searchType.value,
                   placeholder: Text(S.current.log_analyzer_filter_all),
                   items: logAnalyzeSearchTypeMap.entries
-                      .map((e) => ComboBoxItem<String>(value: e.key, child: Text(e.value)))
+                      .map(
+                        (e) => ComboBoxItem<String>(
+                          value: e.key,
+                          child: Text(e.value),
+                        ),
+                      )
                       .toList(),
                   onChanged: (value) {
                     searchType.value = value;
@@ -151,7 +166,10 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                 // 倒序 Icon
                 Button(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 6,
+                    ),
                     child: Transform.rotate(
                       angle: listSortReverse.value ? 3.14 : 0,
                       child: const Icon(FluentIcons.sort_lines),
@@ -168,7 +186,12 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: 12, horizontal: 14),
             decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.white.withValues(alpha: 0.1), width: 1)),
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withValues(alpha: 0.1),
+                  width: 1,
+                ),
+              ),
             ),
           ),
           // log analyze result
@@ -201,7 +224,10 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                           color: _getBackgroundColor(item.type),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 10,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -217,7 +243,12 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                                         if (item.dateTime != null)
                                           TextSpan(
                                             text: "   (${item.dateTime})",
-                                            style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12),
+                                            style: TextStyle(
+                                              color: Colors.white.withValues(
+                                                alpha: 0.5,
+                                              ),
+                                              fontSize: 12,
+                                            ),
                                           ),
                                       ],
                                     ),
@@ -230,7 +261,10 @@ class ToolsLogAnalyzeDialogUI extends HookConsumerWidget {
                                 margin: EdgeInsets.only(top: 8),
                                 child: Text(
                                   item.data!,
-                                  style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 13),
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.8),
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ),
                           ],

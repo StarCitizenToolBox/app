@@ -31,17 +31,25 @@ sealed class AuthUIState with _$AuthUIState {
 @riverpod
 class AuthUIModel extends _$AuthUIModel {
   @override
-  AuthUIState build({String? callbackUrl, String? stateParameter, String? nonce}) {
+  AuthUIState build({
+    String? callbackUrl,
+    String? stateParameter,
+    String? nonce,
+  }) {
     // Listen to party room connection and auth state changes
     ref.listen(partyRoomProvider, (previous, next) {
       // If we're waiting for connection and now connected, re-initialize
-      if (state.isWaitingForConnection && next.client.isConnected && next.client.authClient != null) {
+      if (state.isWaitingForConnection &&
+          next.client.isConnected &&
+          next.client.authClient != null) {
         dPrint('[AuthUI] Connection established, re-initializing...');
         Future.microtask(() => initialize());
       }
 
       // If not logged in before and now logged in, re-initialize
-      if (!state.isLoggedIn && previous?.auth.isLoggedIn == false && next.auth.isLoggedIn) {
+      if (!state.isLoggedIn &&
+          previous?.auth.isLoggedIn == false &&
+          next.auth.isLoggedIn) {
         dPrint('[AuthUI] User logged in, re-initializing...');
         Future.microtask(() => initialize());
       }
@@ -56,22 +64,36 @@ class AuthUIModel extends _$AuthUIModel {
       }
     });
 
-    return AuthUIState(callbackUrl: callbackUrl, stateParameter: stateParameter, nonce: nonce);
+    return AuthUIState(
+      callbackUrl: callbackUrl,
+      stateParameter: stateParameter,
+      nonce: nonce,
+    );
   }
 
   Future<void> initialize() async {
-    state = state.copyWith(isLoading: true, error: null, isWaitingForConnection: false);
+    state = state.copyWith(
+      isLoading: true,
+      error: null,
+      isWaitingForConnection: false,
+    );
 
     try {
       // Check if domain and callbackUrl are provided
 
       if (state.callbackUrl == null || state.callbackUrl!.isEmpty) {
-        state = state.copyWith(isLoading: false, error: '缺少回调地址参数');
+        state = state.copyWith(
+          isLoading: false,
+          error: S.current.auth_missing_callback_address_parameter,
+        );
         return;
       }
 
       if (state.stateParameter == null || state.stateParameter!.isEmpty) {
-        state = state.copyWith(isLoading: false, error: '缺少 state 参数');
+        state = state.copyWith(
+          isLoading: false,
+          error: S.current.auth_missing_state_parameter,
+        );
         return;
       }
 
@@ -87,7 +109,12 @@ class AuthUIModel extends _$AuthUIModel {
       }
 
       if (domain == null || domain.isEmpty) {
-        state = state.copyWith(isLoading: false, error: '无法从回调地址解析域名');
+        state = state.copyWith(
+          isLoading: false,
+          error: S
+              .current
+              .auth_unable_to_resolve_domain_name_from_callback_address,
+        );
         return;
       }
 
@@ -99,7 +126,8 @@ class AuthUIModel extends _$AuthUIModel {
       final partyRoomUI = ref.read(partyRoomUIModelProvider);
 
       // Check if connected to server
-      if (!partyRoom.client.isConnected || partyRoom.client.authClient == null) {
+      if (!partyRoom.client.isConnected ||
+          partyRoom.client.authClient == null) {
         dPrint('[AuthUI] Server not connected, waiting for connection...');
         state = state.copyWith(isLoading: false, isWaitingForConnection: true);
         return;
@@ -110,7 +138,10 @@ class AuthUIModel extends _$AuthUIModel {
         // If still logging in process (auto-login after connect), keep waiting
         if (partyRoomUI.isLoggingIn) {
           dPrint('[AuthUI] Auto-login in progress, waiting...');
-          state = state.copyWith(isLoading: false, isWaitingForConnection: true);
+          state = state.copyWith(
+            isLoading: false,
+            isWaitingForConnection: true,
+          );
           return;
         }
 
@@ -128,7 +159,10 @@ class AuthUIModel extends _$AuthUIModel {
             .cast<
               JWTDomainInfo?
             >() // Cast to nullable to use firstWhere with orElse returning null if needed, though JWTDomainInfo is not nullable in proto usually
-            .firstWhere((d) => d?.domain.toLowerCase() == state.domain!.toLowerCase(), orElse: () => null);
+            .firstWhere(
+              (d) => d?.domain.toLowerCase() == state.domain!.toLowerCase(),
+              orElse: () => null,
+            );
 
         if (domainInfo != null && domainInfo.domain.isNotEmpty) {
           isDomainTrusted = true;
@@ -145,7 +179,10 @@ class AuthUIModel extends _$AuthUIModel {
       );
     } catch (e) {
       dPrint('Auth initialization error: $e');
-      state = state.copyWith(isLoading: false, error: '初始化失败: $e');
+      state = state.copyWith(
+        isLoading: false,
+        error: S.current.auth_initialization_failed(e),
+      );
     }
   }
 
@@ -162,7 +199,10 @@ class AuthUIModel extends _$AuthUIModel {
       final code = await _generateOIDCAuthCode();
 
       if (code == null) {
-        state = state.copyWith(isLoading: false, error: '生成授权码失败');
+        state = state.copyWith(
+          isLoading: false,
+          error: S.current.auth_failed_to_generate_authorization_code,
+        );
         return false;
       }
 
@@ -170,7 +210,10 @@ class AuthUIModel extends _$AuthUIModel {
       return true;
     } catch (e) {
       dPrint('Generate code on confirm error: $e');
-      state = state.copyWith(isLoading: false, error: '生成授权码失败: $e');
+      state = state.copyWith(
+        isLoading: false,
+        error: S.current.auth_failed_to_generate_authorization_code_2(e),
+      );
       return false;
     }
   }
@@ -200,9 +243,15 @@ class AuthUIModel extends _$AuthUIModel {
       final client = partyRoom.client.authClient;
       if (client == null || state.callbackUrl == null) return null;
 
-      final request = GenerateOIDCAuthCodeRequest(redirectUri: state.callbackUrl!, nonce: state.nonce ?? '');
+      final request = GenerateOIDCAuthCodeRequest(
+        redirectUri: state.callbackUrl!,
+        nonce: state.nonce ?? '',
+      );
 
-      final response = await client.generateOIDCAuthCode(request, options: partyRoomNotifier.getAuthCallOptions());
+      final response = await client.generateOIDCAuthCode(
+        request,
+        options: partyRoomNotifier.getAuthCallOptions(),
+      );
       return response.code;
     } catch (e) {
       dPrint('Generate OIDC Auth Code error: $e');
@@ -211,7 +260,9 @@ class AuthUIModel extends _$AuthUIModel {
   }
 
   String? getAuthorizationUrl() {
-    if (state.code == null || state.callbackUrl == null || state.stateParameter == null) {
+    if (state.code == null ||
+        state.callbackUrl == null ||
+        state.stateParameter == null) {
       return null;
     }
 

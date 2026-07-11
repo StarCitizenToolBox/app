@@ -743,7 +743,7 @@ class PartyRoomListPage extends HookConsumerWidget {
             content: Text(e.toString()),
             actions: [
               FilledButton(
-                child: const Text('确定'),
+                child: Text(S.current.party_room_sure),
                 onPressed: () => Navigator.pop(context),
               ),
             ],

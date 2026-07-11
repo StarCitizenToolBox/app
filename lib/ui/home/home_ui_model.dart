@@ -429,7 +429,10 @@ class HomeUIModel extends _$HomeUIModel {
       return;
     }
     if (state.isCurGameRunning) {
-      showToast(context, "请先关闭游戏后再更新 P4K / 游戏文件");
+      showToast(
+        context,
+        S.current.app_please_close_the_game_before_updating_p4k_game_files,
+      );
       return;
     }
     if (appGlobalState.networkVersionData == null ||
@@ -444,7 +447,12 @@ class HomeUIModel extends _$HomeUIModel {
       return;
     }
     if (state.webLocalizationVersionsData == null) {
-      showToast(context, "网页登录资源尚未初始化，请稍后重试");
+      showToast(
+        context,
+        S
+            .current
+            .app_the_web_login_resource_has_not_been_initialized_please_try_again,
+      );
       return;
     }
 
@@ -470,7 +478,10 @@ class HomeUIModel extends _$HomeUIModel {
             : "";
         if (releaseInfo is! Map) {
           if (!context.mounted) return;
-          showToast(context, "未能从 RSI 返回数据中读取 releaseInfo");
+          showToast(
+            context,
+            S.current.app_unable_to_read_releaseinfo_from_rsi_return_data,
+          );
           return;
         }
         if (!context.mounted) return;
@@ -658,7 +669,9 @@ class HomeUIModel extends _$HomeUIModel {
   }
 }
 
-const _p4kLiveOnlyMessage = "P4K 下载/更新暂不支持 PTU，目标路径必须是 LIVE 目录";
+String get _p4kLiveOnlyMessage => S
+    .current
+    .p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa;
 
 String? _p4kInstallPathError(String path) {
   final normalized = path.replaceAll('\\', '/').replaceAll(RegExp(r'/+$'), '');
@@ -690,15 +703,19 @@ class _P4kInstallPathDialogState extends State<_P4kInstallPathDialog> {
   @override
   Widget build(BuildContext context) {
     return ContentDialog(
-      title: const Text("选择游戏下载目录"),
+      title: Text(S.current.app_select_game_download_directory),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("当前没有可直接使用的 Data.p4k。请选择一个不完整安装目录，或选择新的安装位置用于下载。"),
+          Text(
+            S
+                .current
+                .app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s,
+          ),
           const SizedBox(height: 12),
           if (_paths.isNotEmpty) ...[
-            const Text("已发现的安装目录"),
+            Text(S.current.app_discovered_installation_directories),
             const SizedBox(height: 6),
             ComboBox<String>(
               value: _selectedPath,
@@ -712,10 +729,10 @@ class _P4kInstallPathDialogState extends State<_P4kInstallPathDialog> {
             const SizedBox(height: 12),
           ],
           Button(
-            child: const Text("选择新目录"),
+            child: Text(S.current.app_select_new_directory),
             onPressed: () async {
               final selected = await FilePicker.getDirectoryPath(
-                dialogTitle: "选择游戏下载目录",
+                dialogTitle: S.current.app_select_game_download_directory,
                 initialDirectory: _selectedPath,
                 lockParentWindow: true,
               );
@@ -741,7 +758,7 @@ class _P4kInstallPathDialogState extends State<_P4kInstallPathDialog> {
       ),
       actions: [
         Button(
-          child: const Text("取消"),
+          child: Text(S.current.app_common_tip_cancel),
           onPressed: () => Navigator.pop(context),
         ),
         FilledButton(
@@ -756,7 +773,7 @@ class _P4kInstallPathDialogState extends State<_P4kInstallPathDialog> {
                   }
                   Navigator.pop(context, selected);
                 },
-          child: const Text("继续"),
+          child: Text(S.current.app_splash_free_software_notice_confirm),
         ),
       ],
     );

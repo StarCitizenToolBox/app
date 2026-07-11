@@ -2,7 +2,8 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
-import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart' as partroom;
+import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart'
+    as partroom;
 import 'package:starcitizen_doctor/provider/party_room.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 
@@ -20,18 +21,30 @@ class CreateRoomDialog extends HookConsumerWidget {
 
     final selectedMainTag = useState<String?>(roomInfo?.mainTagId);
     final selectedSubTag = useState<String?>(roomInfo?.subTagId);
-    final targetMembersController = useTextEditingController(text: roomInfo?.targetMembers.toString() ?? '6');
+    final targetMembersController = useTextEditingController(
+      text: roomInfo?.targetMembers.toString() ?? '6',
+    );
     final hasPassword = useState(roomInfo?.hasPassword ?? false);
     final passwordController = useTextEditingController();
-    final socialLinksController = useTextEditingController(text: roomInfo?.socialLinks.join('\n'));
+    final socialLinksController = useTextEditingController(
+      text: roomInfo?.socialLinks.join('\n'),
+    );
     final isCreating = useState(false);
 
     // 获取选中的主标签
-    final selectedMainTagData = selectedMainTag.value != null ? partyRoomState.room.tags[selectedMainTag.value] : null;
+    final selectedMainTagData = selectedMainTag.value != null
+        ? partyRoomState.room.tags[selectedMainTag.value]
+        : null;
 
     return ContentDialog(
-      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
-      title: Text(isEdit ? S.current.party_room_edit_room : '创建房间'),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.5,
+      ),
+      title: Text(
+        isEdit
+            ? S.current.party_room_edit_room
+            : S.current.party_room_create_room,
+      ),
       content: SizedBox(
         child: SingleChildScrollView(
           child: Column(
@@ -67,7 +80,10 @@ class CreateRoomDialog extends HookConsumerWidget {
                                   padding: const EdgeInsets.only(left: 8),
                                   child: Text(
                                     tag.info,
-                                    style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white.withValues(alpha: .7),
+                                    ),
                                   ),
                                 ),
                             ],
@@ -91,7 +107,10 @@ class CreateRoomDialog extends HookConsumerWidget {
                       value: selectedSubTag.value,
                       isExpanded: true,
                       items: [
-                        ComboBoxItem(value: null, child: Text(S.current.party_room_none)),
+                        ComboBoxItem(
+                          value: null,
+                          child: Text(S.current.party_room_none),
+                        ),
                         if (selectedMainTagData != null)
                           ...selectedMainTagData.subTags.map((subTag) {
                             return ComboBoxItem(
@@ -108,13 +127,21 @@ class CreateRoomDialog extends HookConsumerWidget {
                                         borderRadius: BorderRadius.circular(2),
                                       ),
                                     ),
-                                  Text(subTag.name, style: TextStyle(fontSize: 16)),
+                                  Text(
+                                    subTag.name,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
                                   if (subTag.info.isNotEmpty)
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8),
                                       child: Text(
                                         subTag.info,
-                                        style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: .7)),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white.withValues(
+                                            alpha: .7,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                 ],
@@ -196,44 +223,73 @@ class CreateRoomDialog extends HookConsumerWidget {
                       builder: (context) => ContentDialog(
                         title: Text(S.current.app_common_tip),
                         content: Text(S.current.party_room_select_room_type),
-                        actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+                        actions: [
+                          FilledButton(
+                            child: Text(S.current.party_room_sure),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
                       ),
                     );
                     return;
                   }
 
-                  final targetMembers = int.tryParse(targetMembersController.text);
-                  if (targetMembers == null || targetMembers < 2 || targetMembers > 100) {
+                  final targetMembers = int.tryParse(
+                    targetMembersController.text,
+                  );
+                  if (targetMembers == null ||
+                      targetMembers < 2 ||
+                      targetMembers > 100) {
                     await showDialog(
                       context: context,
                       builder: (context) => ContentDialog(
                         title: Text(S.current.app_common_tip),
-                        content: Text(S.current.party_room_target_members_range),
-                        actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+                        content: Text(
+                          S.current.party_room_target_members_range,
+                        ),
+                        actions: [
+                          FilledButton(
+                            child: Text(S.current.party_room_sure),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
                       ),
                     );
                     return;
                   }
 
-                  if (hasPassword.value && passwordController.text.trim().isEmpty) {
+                  if (hasPassword.value &&
+                      passwordController.text.trim().isEmpty) {
                     if (!isEdit) {
                       await showDialog(
                         context: context,
                         builder: (context) => ContentDialog(
                           title: Text(S.current.app_common_tip),
-                          content: Text(S.current.party_room_enter_password_required),
-                          actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+                          content: Text(
+                            S.current.party_room_enter_password_required,
+                          ),
+                          actions: [
+                            FilledButton(
+                              child: Text(S.current.party_room_sure),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
                         ),
                       );
                       return;
                     }
                   }
 
-                  final socialLinks = socialLinksController.text.split('\n').map((e) => e.trim()).toList();
+                  final socialLinks = socialLinksController.text
+                      .split('\n')
+                      .map((e) => e.trim())
+                      .toList();
                   // 移除空链接
                   socialLinks.removeWhere((link) => link.trim().isEmpty);
                   // 检查是否为 https 开头的链接
-                  final invalidLinks = socialLinks.where((link) => !link.startsWith('https://')).toList();
+                  final invalidLinks = socialLinks
+                      .where((link) => !link.startsWith('https://'))
+                      .toList();
                   if (invalidLinks.isNotEmpty) {
                     showToast(context, S.current.party_room_link_format_error);
                     return;
@@ -248,7 +304,9 @@ class CreateRoomDialog extends HookConsumerWidget {
                         targetMembers: targetMembers,
                         password: !hasPassword.value
                             ? ''
-                            : (passwordController.text.isNotEmpty ? passwordController.text : null),
+                            : (passwordController.text.isNotEmpty
+                                  ? passwordController.text
+                                  : null),
                         socialLinks: socialLinks,
                       );
                     } else {
@@ -257,7 +315,9 @@ class CreateRoomDialog extends HookConsumerWidget {
                         subTagId: selectedSubTag.value,
                         targetMembers: targetMembers,
                         hasPassword: hasPassword.value,
-                        password: hasPassword.value ? passwordController.text : null,
+                        password: hasPassword.value
+                            ? passwordController.text
+                            : null,
                         socialLinks: socialLinks.isEmpty ? null : socialLinks,
                       );
                     }
@@ -271,19 +331,39 @@ class CreateRoomDialog extends HookConsumerWidget {
                       await showDialog(
                         context: context,
                         builder: (context) => ContentDialog(
-                          title: Text(isEdit ? S.current.party_room_update_failed : '创建失败'),
+                          title: Text(
+                            isEdit
+                                ? S.current.party_room_update_failed
+                                : S.current.party_room_create_failed,
+                          ),
                           content: Text(e.toString()),
-                          actions: [FilledButton(child: const Text('确定'), onPressed: () => Navigator.pop(context))],
+                          actions: [
+                            FilledButton(
+                              child: Text(S.current.party_room_sure),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
                         ),
                       );
                     }
                   }
                 },
           child: isCreating.value
-              ? const SizedBox(width: 16, height: 16, child: ProgressRing(strokeWidth: 2))
-              : Text(isEdit ? S.current.party_room_save : '创建'),
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: ProgressRing(strokeWidth: 2),
+                )
+              : Text(
+                  isEdit
+                      ? S.current.party_room_save
+                      : S.current.party_room_create,
+                ),
         ),
-        Button(onPressed: isCreating.value ? null : () => Navigator.pop(context), child: Text(S.current.home_action_cancel)),
+        Button(
+          onPressed: isCreating.value ? null : () => Navigator.pop(context),
+          child: Text(S.current.home_action_cancel),
+        ),
       ],
     );
   }

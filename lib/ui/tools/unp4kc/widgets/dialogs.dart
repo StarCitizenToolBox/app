@@ -12,6 +12,7 @@ import 'package:starcitizen_doctor/provider/unp4kc.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../../common/helper/system_helper.dart';
 import 'models.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 class ExtractProgressDialog extends HookWidget {
   final AppUnp4kP4kItemData item;
@@ -165,7 +166,7 @@ class BatchExportOptionsDialog extends HookWidget {
     final convert = useState(hasConvertible);
     final includePath = useState(true);
     return ContentDialog(
-      title: const Text("批量导出选项"),
+      title: Text(S.current.tools_unp4k_batch_export_options),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,21 +175,33 @@ class BatchExportOptionsDialog extends HookWidget {
             ToggleSwitch(
               checked: convert.value,
               onChanged: (v) => convert.value = v,
-              content: const Text(
-                "可转换格式自动转换导出（WEM->WAV, DDS->PNG, CGA/CGF->GLB）",
+              content: Text(
+                S
+                    .current
+                    .tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported,
               ),
             )
           else
-            const Text("当前选择中没有可转换格式，将按原文件导出。"),
+            Text(
+              S
+                  .current
+                  .tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the,
+            ),
           const SizedBox(height: 8),
           ToggleSwitch(
             checked: includePath.value,
             onChanged: (v) => includePath.value = v,
-            content: const Text("保留目录结构导出"),
+            content: Text(
+              S.current.tools_unp4k_export_with_directory_structure_preserved,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
-            includePath.value ? "导出时包含原始路径。" : "直接按文件名导出；单文件时将直接选择保存文件。",
+            includePath.value
+                ? S.current.tools_unp4k_include_original_path_when_exporting
+                : S
+                      .current
+                      .tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi,
             style: TextStyle(
               fontSize: 12,
               color: Colors.white.withValues(alpha: .7),
@@ -210,7 +223,7 @@ class BatchExportOptionsDialog extends HookWidget {
               ),
             );
           },
-          child: const Text("开始导出"),
+          child: Text(S.current.tools_unp4k_start_export),
         ),
       ],
     );
@@ -265,7 +278,7 @@ class AdvancedExportProgressDialog extends HookWidget {
         : 0.0;
 
     return ContentDialog(
-      title: const Text("批量导出"),
+      title: Text(S.current.tools_unp4k_batch_export),
       constraints: const BoxConstraints(maxWidth: 520, maxHeight: 320),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -274,7 +287,12 @@ class AdvancedExportProgressDialog extends HookWidget {
           if (!isCompleted.value && errorMessage.value == null) ...[
             ProgressBar(value: progress * 100),
             const SizedBox(height: 12),
-            Text("进度: ${currentIndex.value}/${totalFiles.value}"),
+            Text(
+              S.current.tools_unp4k_progress(
+                currentIndex.value,
+                totalFiles.value,
+              ),
+            ),
             const SizedBox(height: 8),
             Text(
               currentFile.value,
@@ -306,8 +324,13 @@ class AdvancedExportProgressDialog extends HookWidget {
             const SizedBox(height: 8),
             Text(
               failedCount.value > 0
-                  ? "导出完成，成功 ${exportedCount.value} 个，跳过 ${failedCount.value} 个"
-                  : "导出完成，共 ${exportedCount.value} 个文件",
+                  ? S.current.tools_unp4k_export_completed_successfully_skipped(
+                      exportedCount.value,
+                      failedCount.value,
+                    )
+                  : S.current.tools_unp4k_export_completed_total_files(
+                      exportedCount.value,
+                    ),
             ),
             if (failedCount.value > 0) ...[
               const SizedBox(height: 8),
@@ -426,7 +449,7 @@ class AdvancedExportProgressDialog extends HookWidget {
         .join("\n");
     final rest = failures.length - 3;
     if (rest <= 0) return preview;
-    return "$preview\n还有 $rest 个失败文件已跳过";
+    return S.current.tools_unp4k_more_failed_files_skipped(preview, rest);
   }
 
   int _computeWorkerCount(int totalJobs) {
@@ -479,8 +502,7 @@ class AdvancedExportProgressDialog extends HookWidget {
       return;
     }
 
-    if (options.convertWhenPossible &&
-        _isModelConvertible(lower)) {
+    if (options.convertWhenPossible && _isModelConvertible(lower)) {
       final (success, glbPath, error) = await model.convertModelToGlb(
         sourcePath,
         outFile.parent.path,

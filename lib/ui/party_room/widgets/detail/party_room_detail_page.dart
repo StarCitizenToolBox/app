@@ -14,7 +14,8 @@ class PartyRoomDetailPage extends ConsumerStatefulWidget {
   const PartyRoomDetailPage({super.key});
 
   @override
-  ConsumerState<PartyRoomDetailPage> createState() => _PartyRoomDetailPageState();
+  ConsumerState<PartyRoomDetailPage> createState() =>
+      _PartyRoomDetailPageState();
 }
 
 class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
@@ -41,11 +42,27 @@ class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
       actions: [
         Button(
           onPressed: () => Navigator.of(context).pop('leave'),
-          child: Padding(padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8), child: Text(S.current.party_room_exit_room)),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 2,
+              bottom: 2,
+              left: 8,
+              right: 8,
+            ),
+            child: Text(S.current.party_room_exit_room),
+          ),
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop('reconnect'),
-          child: Padding(padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8), child: Text(S.current.party_room_reconnect)),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 2,
+              bottom: 2,
+              left: 8,
+              right: 8,
+            ),
+            child: Text(S.current.party_room_reconnect),
+          ),
         ),
       ],
     );
@@ -72,7 +89,7 @@ class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
       } catch (e) {
         dPrint('[PartyRoomDetailPage] Leave room failed: $e');
         if (mounted) {
-          await showToast(context, '退出房间失败: $e');
+          await showToast(context, S.current.party_room_exit_room_failed(e));
         }
       }
     } else {
@@ -99,7 +116,9 @@ class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
   Widget build(BuildContext context) {
     ref.listen<PartyRoomFullState>(partyRoomProvider, (previous, next) {
       // 监听事件流断开状态
-      if (next.room.isInRoom && next.room.eventStreamDisconnected && !_isShowingDialog) {
+      if (next.room.isInRoom &&
+          next.room.eventStreamDisconnected &&
+          !_isShowingDialog) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             _showReconnectDialog();
@@ -132,18 +151,35 @@ class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
             width: 240,
             decoration: BoxDecoration(
               color: Color(0xFF232428).withValues(alpha: .3),
-              border: Border(right: BorderSide(color: Colors.black.withValues(alpha: 0.3), width: 1)),
+              border: Border(
+                right: BorderSide(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  width: 1,
+                ),
+              ),
             ),
             child: Column(
               children: [
                 // 房间信息头部
-                PartyRoomHeader(room: room, members: members, isOwner: isOwner, partyRoom: partyRoom),
+                PartyRoomHeader(
+                  room: room,
+                  members: members,
+                  isOwner: isOwner,
+                  partyRoom: partyRoom,
+                ),
                 const Divider(
-                  style: DividerThemeData(thickness: 1, decoration: BoxDecoration(color: Color(0xFF1E1F22))),
+                  style: DividerThemeData(
+                    thickness: 1,
+                    decoration: BoxDecoration(color: Color(0xFF1E1F22)),
+                  ),
                 ),
                 // 成员列表
                 Expanded(
-                  child: PartyRoomMemberList(members: members, isOwner: isOwner, partyRoom: partyRoom),
+                  child: PartyRoomMemberList(
+                    members: members,
+                    isOwner: isOwner,
+                    partyRoom: partyRoom,
+                  ),
                 ),
               ],
             ),
@@ -154,7 +190,10 @@ class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
               children: [
                 // 消息列表
                 Expanded(
-                  child: PartyRoomMessageList(events: events, scrollController: _scrollController),
+                  child: PartyRoomMessageList(
+                    events: events,
+                    scrollController: _scrollController,
+                  ),
                 ),
                 // 信号发送按钮
                 PartyRoomSignalSender(partyRoom: partyRoom, room: room),

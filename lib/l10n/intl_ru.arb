@@ -1775,5 +1775,597 @@
   "localization_extension_installed": "[Установленных расширений]",
   "@localization_extension_installed": {},
   "localization_action_reinstall": "Переустановить",
-  "@localization_action_reinstall": {}
+  "@localization_action_reinstall": {},
+  "app_spaceship": "космический корабль",
+  "@app_spaceship": {},
+  "app_fps_weapons": "оружие для шутеров от первого лица",
+  "@app_fps_weapons": {},
+  "app_equip_character": "Экипировать персонажа",
+  "@app_equip_character": {},
+  "app_prop_scene": "реквизит",
+  "@app_prop_scene": {},
+  "app_path_does_not_exist": "Путь не существует: {v0}",
+  "@app_path_does_not_exist": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_skip_ddna_dds_this_type_does_not_preview_decoding": "Пропустить _ddna DDS: этот тип не осуществляет предварительный просмотр декодирования.",
+  "@app_skip_ddna_dds_this_type_does_not_preview_decoding": {},
+  "app_dds_to_png_failed": "Не удалось преобразовать DDS в PNG: {v0}",
+  "@app_dds_to_png_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_dds_to_png_successful": "DDS успешно преобразован в PNG: {v0}",
+  "@app_dds_to_png_successful": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_reject": "Отклонить",
+  "@auth_reject": {},
+  "auth_allow": "Разрешить",
+  "@auth_allow": {},
+  "auth_you_need_to_log_in_first_to_authorize": "Вам необходимо сначала войти в систему, чтобы авторизоваться",
+  "@auth_you_need_to_log_in_first_to_authorize": {},
+  "auth_go_to_login": "Перейти к входу",
+  "@auth_go_to_login": {},
+  "auth_unknown_application": "Неизвестное приложение",
+  "@auth_unknown_application": {},
+  "auth_request_access_to_your_account": "Запросить доступ к вашей учетной записи",
+  "@auth_request_access_to_your_account": {},
+  "auth_certified": "Проверенный",
+  "@auth_certified": {},
+  "auth_not_verified": "Не проверено",
+  "@auth_not_verified": {},
+  "auth_this_action_will_allow": "Это действие позволит {v0}:",
+  "@auth_this_action_will_allow": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_access_your_public_profile": "Доступ к общедоступному профилю",
+  "@auth_access_your_public_profile": {},
+  "auth_include_username_avatar": "Укажите имя пользователя, аватар",
+  "@auth_include_username_avatar": {},
+  "auth_failed_to_generate_authorization_code": "Не удалось сгенерировать код авторизации.",
+  "@auth_failed_to_generate_authorization_code": {},
+  "auth_failed_to_generate_authorization_link": "Не удалось создать ссылку для авторизации.",
+  "@auth_failed_to_generate_authorization_link": {},
+  "auth_authorization_link_copied_to_clipboard": "Ссылка для авторизации скопирована в буфер обмена.",
+  "@auth_authorization_link_copied_to_clipboard": {},
+  "auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual": "Не удалось открыть браузер. Скопируйте ссылку для доступа вручную.",
+  "@auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual": {},
+  "auth_failed_to_open_browser": "Не удалось открыть браузер: {v0}.",
+  "@auth_failed_to_open_browser": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_missing_callback_address_parameter": "Отсутствует параметр адреса обратного вызова",
+  "@auth_missing_callback_address_parameter": {},
+  "auth_missing_state_parameter": "Отсутствует параметр состояния",
+  "@auth_missing_state_parameter": {},
+  "auth_unable_to_resolve_domain_name_from_callback_address": "Невозможно разрешить доменное имя из адреса обратного вызова.",
+  "@auth_unable_to_resolve_domain_name_from_callback_address": {},
+  "auth_initialization_failed": "Не удалось инициализировать: {v0}.",
+  "@auth_initialization_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_failed_to_generate_authorization_code_2": "Не удалось сгенерировать код авторизации: {v0}.",
+  "@auth_failed_to_generate_authorization_code_2": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_open_the_original_text": "Открыть исходный текст",
+  "@app_open_the_original_text": {},
+  "app_play_video": "[Воспроизвести видео]({v0})",
+  "@app_play_video": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_game_downloader_updater": "Загрузчик/обновитель игр",
+  "@p4k_update_game_downloader_updater": {},
+  "p4k_update_install_to": "Установить в {v0}.",
+  "@p4k_update_install_to": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_number_of_threads": "Количество потоков",
+  "@p4k_update_number_of_threads": {},
+  "p4k_update_download_speed": "Скорость загрузки: {v0}",
+  "@p4k_update_download_speed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_canceling": "Отмена...",
+  "@p4k_update_canceling": {},
+  "p4k_update_stop": "Остановить",
+  "@p4k_update_stop": {},
+  "p4k_update_pause": "Приостановить",
+  "@p4k_update_pause": {},
+  "p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb": "Глубокое восстановление: текущий P4K будет диагностирован первым, восстановлен/перестроен только в случае неудачной проверки, а содержимое будет проверено в соответствии с манифестом, что занимает много времени. Обычная установка/обновление не выполняется автоматически.",
+  "@p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb": {},
+  "p4k_update_deep_repair": "Глубокий ремонт",
+  "@p4k_update_deep_repair": {},
+  "p4k_update_estimated_number_of_updates": "Предполагаемое количество обновлений",
+  "@p4k_update_estimated_number_of_updates": {},
+  "p4k_update_start_installation": "Начать установку",
+  "@p4k_update_start_installation": {},
+  "p4k_update_waiting_for_progress": "Ожидание данных о ходе выполнения...",
+  "@p4k_update_waiting_for_progress": {},
+  "p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be": "Записей Manifest: {v0}\nЗаписей P4K, требующих загрузки: {v1}\nЗаписей игровых файлов, требующих загрузки: {v2}\nЗаписей объектов загрузки после дедупликации: {v3}\nПолный эталонный размер P4K: {v4}\nРазмер локального Data.p4k.part: {v5}\nТребуется загрузить базовый пакет: {v6}\nРазмер загружаемых данных (payload): {v7}\nОжидаемый общий объём загрузки: {v8}\n\nКрупнейшие объекты:\n{v9}",
+  "@p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be": {
+    "placeholders": {
+      "v0": {},
+      "v1": {},
+      "v2": {},
+      "v3": {},
+      "v4": {},
+      "v5": {},
+      "v6": {},
+      "v7": {},
+      "v8": {},
+      "v9": {}
+    }
+  },
+  "p4k_update_unnecessary": "Не требуется",
+  "@p4k_update_unnecessary": {},
+  "p4k_update_reading_inventory_and_estimating_updates": "Чтение инвентаря и оценка обновлений...",
+  "@p4k_update_reading_inventory_and_estimating_updates": {},
+  "p4k_update_estimate_completed": "Оценка завершена",
+  "@p4k_update_estimate_completed": {},
+  "p4k_update_downloading_objects_game_files_and_patching_p4k": "Загрузка объектов, игровых файлов и исправление P4K...",
+  "@p4k_update_downloading_objects_game_files_and_patching_p4k": {},
+  "p4k_update_update_completed": "Обновление завершено",
+  "@p4k_update_update_completed": {},
+  "p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i": "Выполняется глубокое восстановление P4K (сначала диагностика, затем при необходимости перестроение; это может занять много времени)...",
+  "@p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i": {},
+  "p4k_update_deep_repair_completed": "Глубокий ремонт завершен",
+  "@p4k_update_deep_repair_completed": {},
+  "p4k_update_canceled": "Отменено",
+  "@p4k_update_canceled": {},
+  "p4k_update_update_completed_2": "Обновление завершено: {v0}",
+  "@p4k_update_update_completed_2": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_failure": "Ошибка: {v0}.",
+  "@p4k_update_failure": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_download_failed_retrying": "Загрузка не удалась, повторная попытка: {v0}.",
+  "@p4k_update_download_failed_retrying": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_writing": "Написание: {v0}",
+  "@p4k_update_writing": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_checking_disk_space": "Проверка дискового пространства",
+  "@p4k_update_checking_disk_space": {},
+  "p4k_update_diagnosing_current_p4k": "Диагностика текущего P4K",
+  "@p4k_update_diagnosing_current_p4k": {},
+  "p4k_update_in_depth_repair_of_p4k": "Глубокое восстановление P4K",
+  "@p4k_update_in_depth_repair_of_p4k": {},
+  "p4k_update_updating_p4k_entry_metadata": "Обновление метаданных записи P4K: {v0}",
+  "@p4k_update_updating_p4k_entry_metadata": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_scanning_local_p4k_records_and_restoring_indexes": "Сканирование локальных записей P4K и восстановление индексов",
+  "@p4k_update_scanning_local_p4k_records_and_restoring_indexes": {},
+  "p4k_update_preparing_game_files": "Подготовка файлов игры: {v0}",
+  "@p4k_update_preparing_game_files": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_writing_game_file": "Запись файла игры: {v0}",
+  "@p4k_update_writing_game_file": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_processing_p4k": "Обработка P4K",
+  "@p4k_update_processing_p4k": {},
+  "p4k_update_verifying": "Проверка: {v0}",
+  "@p4k_update_verifying": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_downloading": "Загрузка: {v0}",
+  "@p4k_update_downloading": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_canceling_2": "Отмена...",
+  "@p4k_update_canceling_2": {},
+  "p4k_update_continuing": "Возобновление...",
+  "@p4k_update_continuing": {},
+  "p4k_update_p4k_updater_failed": "Ошибка обновления P4K: {v0}",
+  "@p4k_update_p4k_updater_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_manifest_url_cannot_be_empty": "URL-адрес манифеста не может быть пустым.",
+  "@p4k_update_manifest_url_cannot_be_empty": {},
+  "p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat": "В URL-адресе манифеста отсутствуют параметры подписи Expires/KeyName/Signature. Войдите в систему еще раз или проверьте поле подписи ReleaseInfo.",
+  "@p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat": {},
+  "p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig": "В базовом URL-адресе объекта отсутствуют параметры подписи Expires/KeyName/Signature. Войдите в систему еще раз или проверьте поле подписи ReleaseInfo.",
+  "@p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig": {},
+  "p4k_update_stage": "Этап {v0}/{v1}: {v2}",
+  "@p4k_update_stage": {
+    "placeholders": {
+      "v0": {},
+      "v1": {},
+      "v2": {}
+    }
+  },
+  "p4k_update_registering_eac_and_syncing_launcher_state": "Регистрация EAC и синхронизация состояния лаунчера",
+  "@p4k_update_registering_eac_and_syncing_launcher_state": {},
+  "p4k_update_installation_status_processing_completed": "Обработка статуса установки завершена",
+  "@p4k_update_installation_status_processing_completed": {},
+  "p4k_update_easyanticheat_installer_not_found_registration_skipped": "Установщик EasyAntiCheat не найден, регистрация пропущена",
+  "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
+  "p4k_update_registering_easyanticheat": "Регистрация EasyAntiCheat",
+  "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_easyanticheat_registration_completed": "Регистрация EasyAntiCheat завершена",
+  "@p4k_update_easyanticheat_registration_completed": {},
+  "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "Регистрация EasyAntiCheat вернула {v0}, продолжилась как нефатальное предупреждение {v1}",
+  "@p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat": "Регистрация EasyAntiCheat не удалась и продолжилась с нефатальным предупреждением: {v0}.",
+  "@p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_synchronizing_launcher_installation_status": "Синхронизация статуса установки лаунчера",
+  "@p4k_update_synchronizing_launcher_installation_status": {},
+  "p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped": "Хранилище RSI Launcher не найдено; синхронизация зашифрованного хранилища пропущена",
+  "@p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped": {},
+  "p4k_update_build_manifest_id_updated": "build_manifest.id обновлен;",
+  "@p4k_update_build_manifest_id_updated": {},
+  "p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th": "{v0} Синхронизация зашифрованного хранилища RSI Launcher не выполнена: в текущей реализации Dart нет совместимой поддержки AES-CBC/PBKDF2. Если лаунчер по-прежнему показывает старую версию, используйте RSI Launcher Verify.",
+  "@p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m": "RequestedP4ChangeNum не может быть выведен из ReleaseInfo, build_manifest.id не записан.",
+  "@p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m": {},
+  "p4k_update_updated_build_manifest_id_requestedp4changenum": "Обновлен build_manifest.id: RequestedP4ChangeNum={v0}.",
+  "@p4k_update_updated_build_manifest_id_requestedp4changenum": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning": "Обновление build_manifest.id не удалось, продолжение выполнено с нефатальным предупреждением: {v0}.",
+  "@p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_unknown_version": "Неизвестная версия",
+  "@p4k_update_unknown_version": {},
+  "p4k_update_unknown_startup_file": "Неизвестный файл запуска",
+  "@p4k_update_unknown_startup_file": {},
+  "p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f": "Версия выпуска: {v0}\nФайл запуска: {v1}\n\nreleaseInfo прочитан. Сначала можно нажать «Оценить объём обновления», чтобы проверить правильность разбора Manifest.",
+  "@p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "p4k_update_download": "скачать",
+  "@p4k_update_download": {},
+  "p4k_update_download_basics_p4k": "Загрузить базовый P4K",
+  "@p4k_update_download_basics_p4k": {},
+  "p4k_update_check_basics_p4k": "Проверить базовый P4K",
+  "@p4k_update_check_basics_p4k": {},
+  "p4k_update_download_basic_verification_file": "Скачать базовый файл проверки",
+  "@p4k_update_download_basic_verification_file": {},
+  "p4k_update_check_disk_space": "Проверить место на диске",
+  "@p4k_update_check_disk_space": {},
+  "p4k_update_diagnose_current_p4k": "Диагностировать текущий P4K",
+  "@p4k_update_diagnose_current_p4k": {},
+  "p4k_update_deep_repair_p4k": "Глубокий ремонт P4K",
+  "@p4k_update_deep_repair_p4k": {},
+  "p4k_update_check_p4k": "Проверить P4K",
+  "@p4k_update_check_p4k": {},
+  "p4k_update_verify_p4k_content": "Проверить содержимое P4K",
+  "@p4k_update_verify_p4k_content": {},
+  "p4k_update_download_game_files": "Скачать файлы игры",
+  "@p4k_update_download_game_files": {},
+  "p4k_update_verify_game_files": "Проверить файлы игры",
+  "@p4k_update_verify_game_files": {},
+  "p4k_update_prepare_game_files": "Подготовить файлы игры",
+  "@p4k_update_prepare_game_files": {},
+  "p4k_update_write_game_files": "Запись файлов игры",
+  "@p4k_update_write_game_files": {},
+  "p4k_update_game_file_writing_completed": "Запись игрового файла завершена",
+  "@p4k_update_game_file_writing_completed": {},
+  "p4k_update_completed_installation_status": "Статус завершенной установки",
+  "@p4k_update_completed_installation_status": {},
+  "p4k_update_write": "Запись",
+  "@p4k_update_write": {},
+  "p4k_update_preparing_for_p4k_patching": "Подготовка к обновлению P4K",
+  "@p4k_update_preparing_for_p4k_patching": {},
+  "p4k_update_restore_p4k_index": "Восстановить индекс P4K",
+  "@p4k_update_restore_p4k_index": {},
+  "p4k_update_create_a_p4k_rollback_record": "Создать запись отката P4K",
+  "@p4k_update_create_a_p4k_rollback_record": {},
+  "p4k_update_update_p4k_entry_metadata": "Обновить метаданные записи P4K",
+  "@p4k_update_update_p4k_entry_metadata": {},
+  "p4k_update_write_to_p4k": "Записать в P4K",
+  "@p4k_update_write_to_p4k": {},
+  "p4k_update_complete_p4k_write": "Завершить запись P4K",
+  "@p4k_update_complete_p4k_write": {},
+  "p4k_update_finish": "Завершено",
+  "@p4k_update_finish": {},
+  "p4k_update_preparing_game_files_2": "Подготовка файлов игры",
+  "@p4k_update_preparing_game_files_2": {},
+  "p4k_update_verifying_game_files": "Проверка файлов игры",
+  "@p4k_update_verifying_game_files": {},
+  "p4k_update_updating_p4k_entry_metadata_2": "Обновление метаданных записи P4K",
+  "@p4k_update_updating_p4k_entry_metadata_2": {},
+  "p4k_update_check_disk_space_and_task_budget": "Проверьте дисковое пространство и бюджет задачи",
+  "@p4k_update_check_disk_space_and_task_budget": {},
+  "p4k_update_download_verify_basics_p4k": "Загрузить/проверить базовый P4K",
+  "@p4k_update_download_verify_basics_p4k": {},
+  "p4k_update_patching_data_p4k": "Исправление Data.p4k",
+  "@p4k_update_patching_data_p4k": {},
+  "p4k_update_deep_repair_rebuild_p4k": "Глубокий ремонт/восстановление P4K",
+  "@p4k_update_deep_repair_rebuild_p4k": {},
+  "p4k_update_verify_repair_results": "Проверить результаты восстановления",
+  "@p4k_update_verify_repair_results": {},
+  "p4k_update_download_write_game_files": "Загрузка/запись файлов игры",
+  "@p4k_update_download_write_game_files": {},
+  "p4k_update_register_eac_and_sync_launcher_state": "Зарегистрировать EAC и синхронизировать состояние лаунчера",
+  "@p4k_update_register_eac_and_sync_launcher_state": {},
+  "p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa": "Загрузка/обновление P4K в настоящее время не поддерживает PTU, целевой путь должен быть каталогом LIVE.",
+  "@p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa": {},
+  "app_please_close_the_game_before_updating_p4k_game_files": "Пожалуйста, закройте игру перед обновлением P4K/файлов игры.",
+  "@app_please_close_the_game_before_updating_p4k_game_files": {},
+  "app_the_web_login_resource_has_not_been_initialized_please_try_again": "Ресурс веб-входа не был инициализирован. Повторите попытку позже.",
+  "@app_the_web_login_resource_has_not_been_initialized_please_try_again": {},
+  "app_unable_to_read_releaseinfo_from_rsi_return_data": "Невозможно прочитать ReleaseInfo из возвращаемых данных RSI.",
+  "@app_unable_to_read_releaseinfo_from_rsi_return_data": {},
+  "app_select_game_download_directory": "Выберите каталог загрузки игры",
+  "@app_select_game_download_directory": {},
+  "app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s": "В настоящее время готового файла Data.p4k нет. Пожалуйста, выберите неполный каталог установки или выберите новое место установки для загрузки.",
+  "@app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s": {},
+  "app_discovered_installation_directories": "Обнаружены установочные каталоги",
+  "@app_discovered_installation_directories": {},
+  "app_select_new_directory": "Выбрать новый каталог",
+  "@app_select_new_directory": {},
+  "user_registration_time": "Время регистрации: {v0}",
+  "@user_registration_time": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "user_can_only_be_refreshed_once_per_hour": "Может обновляться только один раз в час",
+  "@user_can_only_be_refreshed_once_per_hour": {},
+  "user_refresh_successful": "Данные обновлены",
+  "@user_refresh_successful": {},
+  "user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour": "Данные обновляются слишком часто. Повторите попытку через час.",
+  "@user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour": {},
+  "user_refresh_failed": "Не удалось обновить: {v0}.",
+  "@user_refresh_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "user_refresh_data": "Обновить данные",
+  "@user_refresh_data": {},
+  "user_log_out": "Выйти",
+  "@user_log_out": {},
+  "user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in": "Вы уверены, что хотите выйти из PartyRoom? При следующем использовании вам необходимо будет снова войти в систему.",
+  "@user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in": {},
+  "user_logged_out": "Вы вышли из системы",
+  "@user_logged_out": {},
+  "user_logout_failed": "Не удалось выйти из системы: {v0}",
+  "@user_logout_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "party_room_sure": "Подтвердить",
+  "@party_room_sure": {},
+  "log_analyze_game_log_current": "Game.log (текущий)",
+  "@log_analyze_game_log_current": {},
+  "log_analyze_log_file_not_found": "Файл журнала не найден",
+  "@log_analyze_log_file_not_found": {},
+  "log_analyze_log_file": "Файл журнала:",
+  "@log_analyze_log_file": {},
+  "log_analyze_select_log_file": "Выберите файл журнала",
+  "@log_analyze_select_log_file": {},
+  "tools_unp4k_return_to_homepage": "Вернуться на домашнюю страницу",
+  "@tools_unp4k_return_to_homepage": {},
+  "tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to": "После выхода потребуется повторно загрузить P4K. Вернуться на главную страницу?",
+  "@tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to": {},
+  "tools_unp4k_confirm_return": "Вернуться на главную",
+  "@tools_unp4k_confirm_return": {},
+  "tools_unp4k_file_browser": "Браузер файлов",
+  "@tools_unp4k_file_browser": {},
+  "tools_unp4k_3d_browser": "3D-браузер",
+  "@tools_unp4k_3d_browser": {},
+  "tools_unp4k_music_browser": "музыкальный браузер",
+  "@tools_unp4k_music_browser": {},
+  "tools_unp4k_audio_decoding_failed": "Ошибка декодирования звука: {v0}.",
+  "@tools_unp4k_audio_decoding_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_audio_preview_failed_no_playable_file_found": "Не удалось просмотреть аудио: файл, пригодный для воспроизведения, не найден.",
+  "@tools_unp4k_audio_preview_failed_no_playable_file_found": {},
+  "tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio": "Срок действия аудиопотока истек. Пожалуйста, снова откройте аудио.",
+  "@tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio": {},
+  "tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": "Можно перейти только в буферизованный диапазон (сейчас буферизовано до {v0} с).",
+  "@tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_audio_preview_failed": "Не удалось просмотреть аудио: {v0}.",
+  "@tools_unp4k_audio_preview_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_play_automatically_when_switching_music": "Автоматическое воспроизведение при переключении музыки",
+  "@tools_unp4k_play_automatically_when_switching_music": {},
+  "tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi": "Текущая кодировка WEM не поддерживается встроенным декодированием (формат=0x{v0}).\nТекущая версия поддерживает предварительный просмотр WEM для PCM (0x0001) и Wwise Vorbis (0xFFFF).",
+  "@tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_finish": "Готово!",
+  "@tools_unp4k_finish": {},
+  "tools_unp4k_decoding": "Декодирование...",
+  "@tools_unp4k_decoding": {},
+  "tools_unp4k_decoding_full_audio": "Декодирование полного звука...",
+  "@tools_unp4k_decoding_full_audio": {},
+  "tools_unp4k_batch_export_options": "Опции пакетного экспорта",
+  "@tools_unp4k_batch_export_options": {},
+  "tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported": "Конвертируемые форматы можно автоматически конвертировать и экспортировать (WEM->WAV, DDS->PNG, CGA/CGF->GLB).",
+  "@tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported": {},
+  "tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the": "В текущем выборе нет конвертируемого формата, и будет экспортирован исходный файл.",
+  "@tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the": {},
+  "tools_unp4k_export_with_directory_structure_preserved": "Экспорт с сохранением структуры каталогов",
+  "@tools_unp4k_export_with_directory_structure_preserved": {},
+  "tools_unp4k_include_original_path_when_exporting": "Включите исходный путь при экспорте.",
+  "@tools_unp4k_include_original_path_when_exporting": {},
+  "tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi": "Экспорт напрямую по имени файла; когда выбран один файл, файл будет сохранен напрямую.",
+  "@tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi": {},
+  "tools_unp4k_start_export": "Начать экспорт",
+  "@tools_unp4k_start_export": {},
+  "tools_unp4k_batch_export": "Пакетный экспорт",
+  "@tools_unp4k_batch_export": {},
+  "tools_unp4k_progress": "Прогресс: {v0}/{v1}",
+  "@tools_unp4k_progress": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_completed_successfully_skipped": "Экспорт завершен, {v0} успешно, {v1} пропущен",
+  "@tools_unp4k_export_completed_successfully_skipped": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_completed_total_files": "Экспорт завершен, всего файлов {v0}",
+  "@tools_unp4k_export_completed_total_files": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_more_failed_files_skipped": "{v0}\nПропущено ещё файлов с ошибками: {v1}",
+  "@tools_unp4k_more_failed_files_skipped": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_wav": "Экспорт WAV",
+  "@tools_unp4k_export_wav": {},
+  "tools_unp4k_dds_to_png": "DDS в PNG",
+  "@tools_unp4k_dds_to_png": {},
+  "tools_unp4k_jump_to_file_location": "Перейти к местоположению файла",
+  "@tools_unp4k_jump_to_file_location": {},
+  "tools_unp4k_select_convert_export_file": "Выберите файл для преобразования и экспорта",
+  "@tools_unp4k_select_convert_export_file": {},
+  "tools_unp4k_select_export_file": "Выберите файл экспорта",
+  "@tools_unp4k_select_export_file": {},
+  "tools_unp4k_select_conversion_export_location": "Выберите папку для преобразованных файлов",
+  "@tools_unp4k_select_conversion_export_location": {},
+  "tools_unp4k_wav_export_successful": "Экспорт WAV успешен",
+  "@tools_unp4k_wav_export_successful": {},
+  "tools_unp4k_from_cache": "{v0}\n(из кэша)",
+  "@tools_unp4k_from_cache": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_wav_export_failed": "Экспорт WAV не удался",
+  "@tools_unp4k_wav_export_failed": {},
+  "tools_unp4k_conversion_successful": "Преобразование выполнено успешно",
+  "@tools_unp4k_conversion_successful": {},
+  "tools_unp4k_conversion_failed": "Преобразование не удалось",
+  "@tools_unp4k_conversion_failed": {},
+  "tools_unp4k_size": "размер",
+  "@tools_unp4k_size": {},
+  "tools_unp4k_date": "дата",
+  "@tools_unp4k_date": {},
+  "tools_unp4k_search_all_files_supports_regular_expressions": "Искать во всех файлах (поддерживает регулярные выражения)...",
+  "@tools_unp4k_search_all_files_supports_regular_expressions": {},
+  "tools_unp4k_search_the_current_directory_supports_regular_expressions": "Поиск в текущем каталоге (поддерживает регулярные выражения)...",
+  "@tools_unp4k_search_the_current_directory_supports_regular_expressions": {},
+  "tools_unp4k_clear": "Очистить",
+  "@tools_unp4k_clear": {},
+  "tools_unp4k_current_directory": "текущий каталог",
+  "@tools_unp4k_current_directory": {},
+  "tools_unp4k_global_search": "глобальный поиск",
+  "@tools_unp4k_global_search": {},
+  "tools_unp4k_suffix": "суффикс",
+  "@tools_unp4k_suffix": {},
+  "tools_unp4k_suffix_filter": "Суффиксный фильтр",
+  "@tools_unp4k_suffix_filter": {},
+  "tools_unp4k_separate_with_spaces_and_do_not_include": "Разделяйте пробелами, точку не указывайте",
+  "@tools_unp4k_separate_with_spaces_and_do_not_include": {},
+  "tools_unp4k_support_preview": "Поддержка предварительного просмотра",
+  "@tools_unp4k_support_preview": {},
+  "tools_unp4k_common_formats": "Общие форматы",
+  "@tools_unp4k_common_formats": {},
+  "tools_unp4k_no_limit": "Без ограничений",
+  "@tools_unp4k_no_limit": {},
+  "tools_unp4k_less_than": "меньше, чем",
+  "@tools_unp4k_less_than": {},
+  "tools_unp4k_greater_than": "больше, чем",
+  "@tools_unp4k_greater_than": {},
+  "tools_unp4k_scope": "Диапазон",
+  "@tools_unp4k_scope": {},
+  "tools_unp4k_start": "Начало",
+  "@tools_unp4k_start": {},
+  "tools_unp4k_finish_2": "Конец",
+  "@tools_unp4k_finish_2": {},
+  "tools_unp4k_size_value": "значение размера",
+  "@tools_unp4k_size_value": {},
+  "tools_unp4k_some_day_ago": "До указанной даты",
+  "@tools_unp4k_some_day_ago": {},
+  "tools_unp4k_after_a_certain_day": "после определенного дня",
+  "@tools_unp4k_after_a_certain_day": {},
+  "tools_unp4k_time_range": "временной диапазон",
+  "@tools_unp4k_time_range": {},
+  "news_video_view_original_post": "Посмотрите это видео в исходной публикации",
+  "@news_video_view_original_post": {}
 }

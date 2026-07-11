@@ -15,6 +15,7 @@ import 'package:starcitizen_doctor/provider/unp4kc.dart';
 import '../../../../widgets/widgets.dart';
 import 'dialogs.dart';
 import 'models.dart';
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 class FileListItem extends HookWidget {
   final AppUnp4kP4kItemData item;
@@ -212,7 +213,7 @@ class FileListItem extends HookWidget {
             if (_isWemFile(item.name ?? ""))
               MenuFlyoutItem(
                 leading: const Icon(FluentIcons.volume3, size: 16),
-                text: const Text("导出 WAV"),
+                text: Text(S.current.tools_unp4k_export_wav),
                 onPressed: () async {
                   Navigator.of(flyoutContext).pop();
                   await _exportWav(outerContext);
@@ -230,7 +231,7 @@ class FileListItem extends HookWidget {
             if (_canConvertDdsToPng(item.name ?? ""))
               MenuFlyoutItem(
                 leading: const Icon(FluentIcons.picture, size: 16),
-                text: const Text("DDS 转 PNG"),
+                text: Text(S.current.tools_unp4k_dds_to_png),
                 onPressed: () async {
                   Navigator.of(flyoutContext).pop();
                   await _convertDdsToPng(outerContext);
@@ -242,7 +243,7 @@ class FileListItem extends HookWidget {
                   FluentIcons.open_folder_horizontal,
                   size: 16,
                 ),
-                text: const Text("跳转到文件位置"),
+                text: Text(S.current.tools_unp4k_jump_to_file_location),
                 onPressed: () {
                   Navigator.of(flyoutContext).pop();
                   model.jumpToFileLocation(item.name ?? "");
@@ -307,7 +308,9 @@ class FileListItem extends HookWidget {
         options.convertWhenPossible,
       );
       singleOutputPath = await FilePicker.saveFile(
-        dialogTitle: options.convertWhenPossible ? "选择转换导出文件" : "选择导出文件",
+        dialogTitle: options.convertWhenPossible
+            ? S.current.tools_unp4k_select_convert_export_file
+            : S.current.tools_unp4k_select_export_file,
         fileName: defaultName,
         bytes: Uint8List(0),
       );
@@ -315,7 +318,7 @@ class FileListItem extends HookWidget {
     } else {
       outputDir = await FilePicker.getDirectoryPath(
         dialogTitle: options.convertWhenPossible
-            ? "选择转换导出位置"
+            ? S.current.tools_unp4k_select_conversion_export_location
             : S.current.tools_unp4k_action_save_as,
       );
       if (outputDir == null) return;
@@ -374,7 +377,7 @@ class FileListItem extends HookWidget {
           : "$sourceName.wav";
 
       final outputPath = await FilePicker.saveFile(
-        dialogTitle: "导出 WAV",
+        dialogTitle: S.current.tools_unp4k_export_wav,
         fileName: wavName,
         type: FileType.custom,
         allowedExtensions: const ["wav"],
@@ -404,8 +407,8 @@ class FileListItem extends HookWidget {
             context,
             builder: (ctx, close) {
               return InfoBar(
-                title: const Text("WAV 导出成功"),
-                content: Text("${outFile.path}\n(来自缓存)"),
+                title: Text(S.current.tools_unp4k_wav_export_successful),
+                content: Text(S.current.tools_unp4k_from_cache(outFile.path)),
                 severity: InfoBarSeverity.success,
                 onClose: close,
               );
@@ -440,7 +443,7 @@ class FileListItem extends HookWidget {
         context,
         builder: (ctx, close) {
           return InfoBar(
-            title: const Text("WAV 导出成功"),
+            title: Text(S.current.tools_unp4k_wav_export_successful),
             content: Text(outFile.path),
             severity: InfoBarSeverity.success,
             onClose: close,
@@ -453,7 +456,7 @@ class FileListItem extends HookWidget {
         context,
         builder: (ctx, close) {
           return InfoBar(
-            title: const Text("WAV 导出失败"),
+            title: Text(S.current.tools_unp4k_wav_export_failed),
             content: Text(e.toString()),
             severity: InfoBarSeverity.error,
             onClose: close,
@@ -465,7 +468,7 @@ class FileListItem extends HookWidget {
 
   Future<void> _convertDdsToPng(BuildContext context) async {
     final outputDir = await FilePicker.getDirectoryPath(
-      dialogTitle: "DDS 转 PNG",
+      dialogTitle: S.current.tools_unp4k_dds_to_png,
     );
     if (outputDir == null || !context.mounted) return;
 
@@ -478,7 +481,11 @@ class FileListItem extends HookWidget {
     await showDialog(
       context: context,
       builder: (dialogContext) => ContentDialog(
-        title: Text(success ? "转换成功" : "转换失败"),
+        title: Text(
+          success
+              ? S.current.tools_unp4k_conversion_successful
+              : S.current.tools_unp4k_conversion_failed,
+        ),
         content: Text(
           success ? (outputPath ?? outputDir) : (error ?? "Unknown"),
         ),

@@ -481,10 +481,10 @@ class UnP4kcUI extends HookConsumerWidget {
       case Unp4kViewMode.modelBrowser:
         final category = state.modelCategory;
         return category == null
-            ? r"\3D浏览器\"
-            : "\\3D浏览器\\${model.modelCategoryLabel(category)}\\";
+            ? "\\${S.current.tools_unp4k_3d_browser}\\"
+            : "\\${S.current.tools_unp4k_3d_browser}\\${model.modelCategoryLabel(category)}\\";
       case Unp4kViewMode.musicBrowser:
-        return r"\音乐浏览器\";
+        return "\\${S.current.tools_unp4k_music_browser}\\";
     }
   }
 
@@ -493,8 +493,12 @@ class UnP4kcUI extends HookConsumerWidget {
       context: context,
       builder: (dialogContext) {
         return ContentDialog(
-          title: const Text("返回首页"),
-          content: const Text("退出后需要重新加载 P4K，确认返回首页吗？"),
+          title: Text(S.current.tools_unp4k_return_to_homepage),
+          content: Text(
+            S
+                .current
+                .tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to,
+          ),
           actions: [
             Button(
               onPressed: () => Navigator.of(dialogContext).pop(false),
@@ -502,7 +506,7 @@ class UnP4kcUI extends HookConsumerWidget {
             ),
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text("确认返回"),
+              child: Text(S.current.tools_unp4k_confirm_return),
             ),
           ],
         );
@@ -578,21 +582,21 @@ class _P4KViewRail extends StatelessWidget {
         children: [
           _P4KViewRailItem(
             icon: FluentIcons.fabric_folder,
-            label: "文件浏览器",
+            label: S.current.tools_unp4k_file_browser,
             selected: state.viewMode == Unp4kViewMode.fileBrowser,
             onPressed: () => model.setViewMode(Unp4kViewMode.fileBrowser),
           ),
           const SizedBox(height: 6),
           _P4KViewRailItem(
             icon: FluentIcons.cube_shape,
-            label: "3D 浏览器",
+            label: S.current.tools_unp4k_3d_browser,
             selected: state.viewMode == Unp4kViewMode.modelBrowser,
             onPressed: () => model.setViewMode(Unp4kViewMode.modelBrowser),
           ),
           const SizedBox(height: 6),
           _P4KViewRailItem(
             icon: FluentIcons.music_in_collection,
-            label: "音乐浏览器",
+            label: S.current.tools_unp4k_music_browser,
             selected: state.viewMode == Unp4kViewMode.musicBrowser,
             onPressed: () => model.setViewMode(Unp4kViewMode.musicBrowser),
           ),

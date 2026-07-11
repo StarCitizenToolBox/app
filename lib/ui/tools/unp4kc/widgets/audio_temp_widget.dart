@@ -9,6 +9,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:starcitizen_doctor/common/rust/rust_audio_player.dart';
 import 'package:starcitizen_doctor/common/rust/api/unp4k_api.dart' as unp4k_api;
 import 'package:starcitizen_doctor/common/rust/api/audio_api.dart' as audio_api;
+import 'package:starcitizen_doctor/generated/l10n.dart';
 
 import 'waveform_painter.dart';
 
@@ -361,7 +362,9 @@ class AudioTempWidget extends HookWidget {
                   border: Border.all(color: const Color(0xFFB94A4A)),
                 ),
                 child: Text(
-                  "音频解码失败：${errorMessage.value}",
+                  S.current.tools_unp4k_audio_decoding_failed(
+                    errorMessage.value ?? '',
+                  ),
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -369,7 +372,11 @@ class AudioTempWidget extends HookWidget {
           ),
         );
       }
-      return const Center(child: Text("音频预览失败：未找到可播放文件"));
+      return Center(
+        child: Text(
+          S.current.tools_unp4k_audio_preview_failed_no_playable_file_found,
+        ),
+      );
     }
 
     final showDecodeOverlay = !isDecodeComplete.value && streamStarted.value;
@@ -478,7 +485,9 @@ class AudioTempWidget extends HookWidget {
               autoPlayStream: resumeIfPlaying,
             );
             if (state == null) {
-              errorMessage.value = "音频流已失效，请重新打开该音频。";
+              errorMessage.value = S
+                  .current
+                  .tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio;
               position.value = previousPosition;
               return;
             }
@@ -494,7 +503,10 @@ class AudioTempWidget extends HookWidget {
                 ? int.tryParse(match.group(1) ?? '0') ?? 0
                 : 0;
             final bufferedSec = (bufferedMs / 1000).toStringAsFixed(1);
-            errorMessage.value = "只能跳转到已缓冲区域（当前已缓冲 ${bufferedSec}s）";
+            errorMessage.value = S.current
+                .tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s(
+                  bufferedSec,
+                );
           } else {
             rethrow;
           }
@@ -574,7 +586,9 @@ class AudioTempWidget extends HookWidget {
               autoPlayStream: true,
             );
             if (state == null) {
-              errorMessage.value = "音频流已失效，请重新打开该音频。";
+              errorMessage.value = S
+                  .current
+                  .tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio;
               return;
             }
             syncPlayerState(state);
@@ -610,14 +624,16 @@ class AudioTempWidget extends HookWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      "音频预览失败：${errorMessage.value}",
+                      S.current.tools_unp4k_audio_preview_failed(
+                        errorMessage.value ?? '',
+                      ),
                       style: const TextStyle(fontSize: 12),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Button(
                     onPressed: () => errorMessage.value = null,
-                    child: const Text("关闭"),
+                    child: Text(S.current.action_close),
                   ),
                 ],
               ),
@@ -957,7 +973,7 @@ class AudioTempWidget extends HookWidget {
               GestureDetector(
                 onTap: () => autoPlay.value = !autoPlay.value,
                 child: Text(
-                  "切换音乐时自动播放",
+                  S.current.tools_unp4k_play_automatically_when_switching_music,
                   style: TextStyle(
                     fontSize: 11,
                     color: Colors.white.withValues(alpha: .7),
@@ -995,8 +1011,10 @@ class AudioTempWidget extends HookWidget {
     final match = unsupported.firstMatch(raw);
     if (match != null) {
       final codec = match.group(1)?.toLowerCase() ?? "unknown";
-      return "当前 WEM 编码不受内置解码支持（format=0x$codec）。\n"
-          "当前版本支持 PCM (0x0001) 和 Wwise Vorbis (0xFFFF) 的 WEM 预览。";
+      return S.current
+          .tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi(
+            codec,
+          );
     }
     return raw;
   }
@@ -1133,8 +1151,12 @@ class _PreviewModeOverlayState extends State<_PreviewModeOverlay>
   }
 
   Widget _buildTextContent({required bool isCenter}) {
-    final title = _showComplete ? "完成！" : "正在解码...";
-    final subtitle = _showComplete ? "" : "正在解码完整音频...";
+    final title = _showComplete
+        ? S.current.tools_unp4k_finish
+        : S.current.tools_unp4k_decoding;
+    final subtitle = _showComplete
+        ? ""
+        : S.current.tools_unp4k_decoding_full_audio;
     final isComplete = _showComplete;
     return Opacity(
       key: ValueKey('text_state_$isCenter'),

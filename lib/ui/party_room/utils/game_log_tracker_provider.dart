@@ -13,7 +13,8 @@ part 'game_log_tracker_provider.freezed.dart';
 part 'game_log_tracker_provider.g.dart';
 
 @freezed
-sealed class PartyRoomGameLogTrackerProviderState with _$PartyRoomGameLogTrackerProviderState {
+sealed class PartyRoomGameLogTrackerProviderState
+    with _$PartyRoomGameLogTrackerProviderState {
   const factory PartyRoomGameLogTrackerProviderState({
     @Default('') String location,
     @Default(0) int kills,
@@ -24,7 +25,8 @@ sealed class PartyRoomGameLogTrackerProviderState with _$PartyRoomGameLogTracker
 }
 
 @riverpod
-class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider {
+class PartyRoomGameLogTrackerProvider
+    extends _$PartyRoomGameLogTrackerProvider {
   var _disposed = false;
 
   // 记录上次查询的时间点，用于计算增量
@@ -48,9 +50,15 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
     while (!_disposed) {
       try {
         // 获取正在运行的游戏进程
-        final l = await win32.getProcessListByName(processName: "StarCitizen.exe");
+        final l = await win32.getProcessListByName(
+          processName: "StarCitizen.exe",
+        );
         final p = l
-            .where((e) => e.path.toLowerCase().contains("starcitizen") && e.path.toLowerCase().contains("bin64"))
+            .where(
+              (e) =>
+                  e.path.toLowerCase().contains("starcitizen") &&
+                  e.path.toLowerCase().contains("bin64"),
+            )
             .firstOrNull;
 
         if (p == null) throw Exception("process not found");
@@ -66,7 +74,12 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
         }
       } catch (e) {
         // 游戏未启动或发生错误
-        state = state.copyWith(location: S.current.party_room_game_not_started, gameStartTime: null, kills: 0, deaths: 0);
+        state = state.copyWith(
+          location: S.current.party_room_game_not_started,
+          gameStartTime: null,
+          kills: 0,
+          deaths: 0,
+        );
       }
       await Future.delayed(const Duration(seconds: 10));
     }
@@ -78,11 +91,16 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
 
       // 使用 GameLogAnalyzer 分析日志
       // startTime 只影响计数统计
-      final result = await GameLogAnalyzer.analyzeLogFile(logFile, startTime: startTime);
+      final result = await GameLogAnalyzer.analyzeLogFile(
+        logFile,
+        startTime: startTime,
+      );
       final (logData, statistics) = result;
 
       // 从统计数据中直接获取最新位置（全量查找的结果）
-      final location = statistics.latestLocation == null ? '<主菜单>' : '[${statistics.latestLocation}]';
+      final location = statistics.latestLocation == null
+          ? S.current.party_room_main_menu
+          : '[${statistics.latestLocation}]';
 
       List<(String, String)> deathEvents = [];
 
@@ -104,7 +122,8 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
                   final hour = timeParts[0];
                   final minute = timeParts[1];
                   final secondMillis = timeParts[2]; // ss:SSS 或 ss.SSS
-                  final timeStr = '$datePart $hour:$minute:${secondMillis.replaceAll(':', '.')}';
+                  final timeStr =
+                      '$datePart $hour:$minute:${secondMillis.replaceAll(':', '.')}';
                   final eventTime = DateTime.parse(timeStr);
 
                   // 只处理在 _lastQueryTime 之后的事件
@@ -112,7 +131,9 @@ class PartyRoomGameLogTrackerProvider extends _$PartyRoomGameLogTrackerProvider 
                 }
               }
             } catch (e) {
-              dPrint("[PartyRoomGameLogTrackerProvider] Failed to parse dateTime: ${data.dateTime}, error: $e");
+              dPrint(
+                "[PartyRoomGameLogTrackerProvider] Failed to parse dateTime: ${data.dateTime}, error: $e",
+              );
               // 时间解析失败，继续处理该事件（保守策略）
             }
           }

@@ -120,20 +120,22 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * .7,
       ),
-      title: DragToMoveArea(child: const Text("游戏下载器 / 更新器")),
+      title: DragToMoveArea(
+        child: Text(S.current.p4k_update_game_downloader_updater),
+      ),
       content: SizedBox(
         height: MediaQuery.of(context).size.height * .68,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "安装到 ${widget.installPath}",
+              S.current.p4k_update_install_to(widget.installPath),
               style: FluentTheme.of(context).typography.subtitle,
             ),
             const SizedBox(height: 12),
             Row(
               children: [
-                const Text("线程数"),
+                Text(S.current.p4k_update_number_of_threads),
                 const SizedBox(width: 8),
                 ComboBox<int>(
                   value: _downloadThreads,
@@ -153,7 +155,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
                 ),
                 const SizedBox(width: 24),
                 if (_downloadSpeedText.isNotEmpty)
-                  Text("下载速度：$_downloadSpeedText"),
+                  Text(S.current.p4k_update_download_speed(_downloadSpeedText)),
               ],
             ),
             const SizedBox(height: 12),
@@ -170,25 +172,30 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
               : () => Navigator.pop(context),
           child: Text(
             _cancelling
-                ? "取消中..."
+                ? S.current.p4k_update_canceling
                 : _working
-                ? "停止"
-                : "关闭",
+                ? S.current.p4k_update_stop
+                : S.current.action_close,
           ),
         ),
         if (_working)
           Button(
             onPressed: _cancelling ? null : _togglePause,
-            child: Text(_paused ? "继续" : "暂停"),
+            child: Text(
+              _paused
+                  ? S.current.app_splash_free_software_notice_confirm
+                  : S.current.p4k_update_pause,
+            ),
           ),
         Tooltip(
-          message:
-              "深度修复：会先诊断当前 P4K，只有校验失败时才恢复/重建，并按 Manifest 校验内容，耗时很长。普通安装/更新不会自动执行。",
+          message: S
+              .current
+              .p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb,
           child: Button(
             onPressed: _working || _cancelling
                 ? null
                 : () => _runRepairMode(context),
-            child: const Text("深度修复"),
+            child: Text(S.current.p4k_update_deep_repair),
           ),
         ),
         FilledButton(
@@ -199,10 +206,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
               : () => _runUpdate(context),
           child: Text(
             _estimateReport == null
-                ? "估算更新量"
+                ? S.current.p4k_update_estimated_number_of_updates
                 : _lastRunFailed
-                ? "重试"
-                : "开始安装",
+                ? S.current.party_room_retry
+                : S.current.p4k_update_start_installation,
           ),
         ),
       ],
@@ -239,8 +246,8 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
                 child: SingleChildScrollView(
                   reverse: true,
                   child: _logLines.isEmpty
-                      ? const Text(
-                          "等待进度...",
+                      ? Text(
+                          S.current.p4k_update_waiting_for_progress,
                           style: TextStyle(
                             fontFamily: 'Consolas',
                             fontSize: 13,
@@ -296,16 +303,27 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       ),
       child: SingleChildScrollView(
         child: Text(
-          "Manifest 条目：${report.manifestEntries}\n"
-          "P4K 需要下载（条目）：${report.p4KEntriesRequiringDownload}\n"
-          "游戏文件需要下载（条目）：${report.looseEntriesRequiringDownload}\n"
-          "去重后下载对象（条目）：${report.totalEntriesRequiringDownload}\n"
-          "完整 P4K 参考大小：${_formatBytes(report.totalDownloadBytes)}\n"
-          "本地 Data.p4k.part：${_formatBytes(_localDataP4kPartBytes())}\n"
-          "本次需下载基础包：${report.baseDownloadRequired ? _formatBytes(report.baseDownloadBytes) : '不需要'}\n"
-          "本次需下载对象 (payload)：${_formatBytes(report.payloadDownloadBytes)}\n"
-          "本次预计下载总量：${_formatBytes(_estimatedTotalDownload())}\n\n"
-          "最大对象：\n${report.entries.take(20).map((e) => '${_formatBytes(e.compressedSize)}  ${e.name}').join('\n')}",
+          S.current
+              .p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be(
+                report.manifestEntries,
+                report.p4KEntriesRequiringDownload,
+                report.looseEntriesRequiringDownload,
+                report.totalEntriesRequiringDownload,
+                _formatBytes(report.totalDownloadBytes),
+                _formatBytes(_localDataP4kPartBytes()),
+                report.baseDownloadRequired
+                    ? _formatBytes(report.baseDownloadBytes)
+                    : S.current.p4k_update_unnecessary,
+                _formatBytes(report.payloadDownloadBytes),
+                _formatBytes(_estimatedTotalDownload()),
+                report.entries
+                    .take(20)
+                    .map(
+                      (entry) =>
+                          '${_formatBytes(entry.compressedSize)}  ${entry.name}',
+                    )
+                    .join('\n'),
+              ),
         ),
       ),
     );
@@ -315,7 +333,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     final config = _buildConfig();
     if (config == null) return;
     await _runTask(
-      status: "正在读取清单并估算更新量...",
+      status: S.current.p4k_update_reading_inventory_and_estimating_updates,
       task: () async {
         final report = await p4KUpgraderEstimate(config: config);
         if (!mounted) return;
@@ -324,7 +342,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
           _lastRunFailed = false;
         });
       },
-      success: "估算完成",
+      success: S.current.p4k_update_estimate_completed,
       context: context,
     );
   }
@@ -336,8 +354,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     await _runUpdateWithProgressTask(
       context,
       config,
-      status: "正在下载对象、游戏文件并修补 P4K...",
-      success: "更新完成",
+      status:
+          S.current.p4k_update_downloading_objects_game_files_and_patching_p4k,
+      success: S.current.p4k_update_update_completed,
       deepRepair: false,
     );
   }
@@ -349,8 +368,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     await _runUpdateWithProgressTask(
       context,
       config,
-      status: "正在深度修复 P4K（会先诊断，必要时重建，耗时很长）...",
-      success: "深度修复完成",
+      status: S
+          .current
+          .p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i,
+      success: S.current.p4k_update_deep_repair_completed,
       deepRepair: true,
     );
   }
@@ -368,7 +389,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       status: status,
       deepRepair: deepRepair,
       shouldCloseOnSuccess: () =>
-          streamCompletedSuccessfully && !_cancelling && _status != "已取消",
+          streamCompletedSuccessfully &&
+          !_cancelling &&
+          _status != S.current.p4k_update_canceled,
       task: () async {
         _paused = false;
         _cancelling = false;
@@ -406,63 +429,85 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
                 );
               }
               if (event.phase == "done") {
-                _status = "更新完成：${event.message}";
+                _status = S.current.p4k_update_update_completed_2(
+                  event.message,
+                );
               } else if (event.phase == "cancelled") {
-                _status = "已取消";
+                _status = S.current.p4k_update_canceled;
                 _cancelling = false;
               } else if (event.phase == "error") {
-                _status = "失败：${event.message}";
+                _status = S.current.p4k_update_failure(event.message);
               } else if (event.phase == "download_error") {
-                _status = "下载失败，正在重试：${event.name}";
+                _status = S.current.p4k_update_download_failed_retrying(
+                  event.name,
+                );
               } else if (event.phase == "writing") {
                 _status = _statusWithStageText(
                   event,
                   stageText,
-                  "正在写入：${event.name}",
+                  S.current.p4k_update_writing(event.name),
                 );
               } else if (event.phase == "disk_checking") {
-                _status = _statusWithStageText(event, stageText, "正在检查磁盘空间");
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  S.current.p4k_update_checking_disk_space,
+                );
               } else if (event.phase == "p4k_diagnosing") {
-                _status = _statusWithStageText(event, stageText, "正在诊断当前 P4K");
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  S.current.p4k_update_diagnosing_current_p4k,
+                );
               } else if (event.phase == "repair_rebuilding") {
-                _status = _statusWithStageText(event, stageText, "正在深度修复 P4K");
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  S.current.p4k_update_in_depth_repair_of_p4k,
+                );
               } else if (event.phase == "p4k_metadata") {
                 _status = _statusWithStageText(
                   event,
                   stageText,
-                  "正在更新 P4K 条目 metadata：${event.name}",
+                  S.current.p4k_update_updating_p4k_entry_metadata(event.name),
                 );
               } else if (event.phase == "p4k_recovering_index") {
                 _status = _statusWithStageText(
                   event,
                   stageText,
-                  "正在扫描本地 P4K 记录并恢复索引",
+                  S
+                      .current
+                      .p4k_update_scanning_local_p4k_records_and_restoring_indexes,
                 );
               } else if (event.phase == "loose_staging") {
                 _status = _statusWithStageText(
                   event,
                   stageText,
-                  "正在准备游戏文件：${event.name}",
+                  S.current.p4k_update_preparing_game_files(event.name),
                 );
               } else if (event.phase == "loose_writing") {
                 _status = _statusWithStageText(
                   event,
                   stageText,
-                  "正在写入游戏文件：${event.name}",
+                  S.current.p4k_update_writing_game_file(event.name),
                 );
               } else if (_isP4kWorkPhase(event.phase)) {
-                _status = _statusWithStageText(event, stageText, "正在处理 P4K");
+                _status = _statusWithStageText(
+                  event,
+                  stageText,
+                  S.current.p4k_update_processing_p4k,
+                );
               } else if (_isVerifyPhase(event.phase)) {
                 _status = _statusWithStageText(
                   event,
                   stageText,
-                  "正在校验：${event.name}",
+                  S.current.p4k_update_verifying(event.name),
                 );
               } else {
                 _status = _statusWithStageText(
                   event,
                   stageText,
-                  "正在下载：${event.name}",
+                  S.current.p4k_update_downloading(event.name),
                 );
               }
             });
@@ -513,7 +558,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     setState(() {
       _paused = false;
       _cancelling = true;
-      _status = "正在取消...";
+      _status = S.current.p4k_update_canceling_2;
       _appendLogLine(_status);
     });
   }
@@ -527,7 +572,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     }
     setState(() {
       _paused = !_paused;
-      _status = _paused ? "已暂停" : "正在继续...";
+      _status = _paused
+          ? S.current.downloader_info_paused
+          : S.current.p4k_update_continuing;
       _appendLogLine(_status);
     });
   }
@@ -578,15 +625,17 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         return;
       }
       setState(() {
-        if (_status != "已取消") _status = success;
+        if (_status != S.current.p4k_update_canceled) _status = success;
       });
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _lastRunFailed = true;
-        _status = "失败：$e";
+        _status = S.current.p4k_update_failure(e);
       });
-      if (context.mounted) showToast(context, "P4K 更新器失败：$e");
+      if (context.mounted) {
+        showToast(context, S.current.p4k_update_p4k_updater_failed(e));
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -606,7 +655,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     final manifest = _manifestController.text.trim();
     final bases = _splitLines(_baseController.text);
     if (manifest.isEmpty) {
-      setState(() => _status = "Manifest URL 不能为空");
+      setState(
+        () => _status = S.current.p4k_update_manifest_url_cannot_be_empty,
+      );
       return null;
     }
     final signatureProblem = _signatureProblemText(
@@ -753,14 +804,18 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     final manifestUrl = manifest ?? _manifestController.text.trim();
     final baseUrls = bases ?? _splitLines(_baseController.text);
     if (_isOfficialCdnUrl(manifestUrl) && !_hasObjectSignature(manifestUrl)) {
-      return "Manifest URL 缺少 Expires/KeyName/Signature 签名参数，请重新登录或检查 releaseInfo 签名字段。";
+      return S
+          .current
+          .p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat;
     }
     final unsignedBase = baseUrls
         .where(_isOfficialCdnUrl)
         .where((url) => !_hasObjectSignature(url))
         .firstOrNull;
     if (unsignedBase != null) {
-      return "对象 Base URL 缺少 Expires/KeyName/Signature 签名参数，请重新登录或检查 releaseInfo 签名字段。";
+      return S
+          .current
+          .p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig;
     }
     return null;
   }
@@ -860,7 +915,11 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   String _stageText(P4kUpgraderProgressEvent event) {
     final info = _stageInfo(event);
     if (info == null) return '';
-    return '阶段 ${info.current}/${info.total}：${_stageLabelForKey(info.key)}';
+    return S.current.p4k_update_stage(
+      info.current,
+      info.total,
+      _stageLabelForKey(info.key),
+    );
   }
 
   String _stageTextForKey(String key) {
@@ -870,7 +929,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     }
     final current = _plannedStageNumbers[key] ?? _plannedStageKeys.length;
     final total = _plannedStageKeys.length;
-    return '阶段 $current/$total：${_stageLabelForKey(key)}';
+    return S.current.p4k_update_stage(current, total, _stageLabelForKey(key));
   }
 
   Future<void> _runPostInstallTasks() async {
@@ -881,10 +940,16 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       _resetDownloadSpeedSampler();
     }
     final stageText = _stageTextForKey("post_install");
-    _setPostInstallStatus(stageText, "正在注册 EAC 并同步启动器状态");
+    _setPostInstallStatus(
+      stageText,
+      S.current.p4k_update_registering_eac_and_syncing_launcher_state,
+    );
     await _installEasyAntiCheat(stageText);
     await _syncLauncherInstallState(stageText);
-    _setPostInstallStatus(stageText, "安装状态处理完成");
+    _setPostInstallStatus(
+      stageText,
+      S.current.p4k_update_installation_status_processing_completed,
+    );
   }
 
   Future<void> _installEasyAntiCheat(String stageText) async {
@@ -894,51 +959,76 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     if (!await eacExe.exists()) {
       _setPostInstallStatus(
         stageText,
-        "未找到 EasyAntiCheat 安装程序，跳过注册",
+        S
+            .current
+            .p4k_update_easyanticheat_installer_not_found_registration_skipped,
         warning: true,
       );
       return;
     }
-    _setPostInstallStatus(stageText, "正在注册 EasyAntiCheat");
+    _setPostInstallStatus(
+      stageText,
+      S.current.p4k_update_registering_easyanticheat,
+    );
     try {
       final result = await Process.run(eacExe.path, const [
         'install',
         eacId,
       ], workingDirectory: eacDir.path).timeout(const Duration(minutes: 2));
       if (result.exitCode == 0) {
-        _setPostInstallStatus(stageText, "EasyAntiCheat 注册完成");
+        _setPostInstallStatus(
+          stageText,
+          S.current.p4k_update_easyanticheat_registration_completed,
+        );
       } else {
         final detail = _processOutputSummary(result);
         _setPostInstallStatus(
           stageText,
-          "EasyAntiCheat 注册返回 ${result.exitCode}，已作为非致命警告继续$detail",
+          S.current
+              .p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal(
+                result.exitCode,
+                detail,
+              ),
           warning: true,
         );
       }
     } catch (e) {
       _setPostInstallStatus(
         stageText,
-        "EasyAntiCheat 注册失败，已作为非致命警告继续：$e",
+        S.current
+            .p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat(
+              e,
+            ),
         warning: true,
       );
     }
   }
 
   Future<void> _syncLauncherInstallState(String stageText) async {
-    _setPostInstallStatus(stageText, "正在同步启动器安装状态");
+    _setPostInstallStatus(
+      stageText,
+      S.current.p4k_update_synchronizing_launcher_installation_status,
+    );
     final buildManifestUpdated = await _updateBuildManifestId(stageText);
     final storeCandidates = await _existingLauncherStoreCandidates();
     if (storeCandidates.isEmpty) {
       _setPostInstallStatus(
         stageText,
-        "未找到 RSI Launcher store；跳过加密 store 同步",
+        S
+            .current
+            .p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped,
         warning: true,
       );
     } else {
-      final suffix = buildManifestUpdated ? "build_manifest.id 已更新；" : "";
+      final suffix = buildManifestUpdated
+          ? S.current.p4k_update_build_manifest_id_updated
+          : "";
       _setPostInstallStatus(
         stageText,
-        "$suffix加密 RSI Launcher store 同步未执行：当前 Dart 端缺少 AES-CBC/PBKDF2 兼容实现，如启动器仍显示旧版本请使用 RSI Launcher Verify",
+        S.current
+            .p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th(
+              suffix,
+            ),
         warning: true,
       );
     }
@@ -949,7 +1039,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     if (changeNumber == null || changeNumber.isEmpty) {
       _setPostInstallStatus(
         stageText,
-        "无法从 releaseInfo 推断 RequestedP4ChangeNum，未写入 build_manifest.id",
+        S
+            .current
+            .p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m,
         warning: true,
       );
       return false;
@@ -975,13 +1067,18 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       );
       _setPostInstallStatus(
         stageText,
-        "已更新 build_manifest.id：RequestedP4ChangeNum=$changeNumber",
+        S.current.p4k_update_updated_build_manifest_id_requestedp4changenum(
+          changeNumber,
+        ),
       );
       return true;
     } catch (e) {
       _setPostInstallStatus(
         stageText,
-        "更新 build_manifest.id 失败，已作为非致命警告继续：$e",
+        S.current
+            .p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning(
+              e,
+            ),
         warning: true,
       );
       return false;
@@ -1368,9 +1465,16 @@ List<String> _splitLines(String value) {
 
 String _formatReleaseInfo(Map releaseInfo) {
   final version =
-      releaseInfo["versionLabel"] ?? releaseInfo["version"] ?? "未知版本";
-  final executable = releaseInfo["executable"] ?? "未知启动文件";
-  return "发布版本：$version\n启动文件：$executable\n\nreleaseInfo 已读取。可先点击“估算更新量”检查清单解析是否正常。";
+      releaseInfo["versionLabel"] ??
+      releaseInfo["version"] ??
+      S.current.p4k_update_unknown_version;
+  final executable =
+      releaseInfo["executable"] ?? S.current.p4k_update_unknown_startup_file;
+  return S.current
+      .p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f(
+        version,
+        executable,
+      );
 }
 
 String _formatBytes(BigInt value) {
@@ -1438,33 +1542,34 @@ bool _isProgressCompletion(P4kUpgraderProgressEvent event) {
 
 String _phaseText(String phase) {
   return switch (phase) {
-    "downloading" => "下载",
-    "downloaded" => "下载完成",
-    "base_downloading" => "下载基础 P4K",
-    "base_verifying" => "校验基础 P4K",
-    "base_verification_downloading" => "下载基础校验文件",
-    "disk_checking" => "检查磁盘空间",
-    "p4k_diagnosing" => "诊断当前 P4K",
-    "repair_rebuilding" => "深度修复 P4K",
-    "p4k_verifying" => "校验 P4K",
-    "manifest_verifying" => "校验 P4K 内容",
-    "loose_downloading" => "下载游戏文件",
-    "loose_verifying" => "校验游戏文件",
-    "loose_staging" => "准备游戏文件",
-    "loose_writing" => "写入游戏文件",
-    "loose_written" => "游戏文件写入完成",
-    "post_install" => "完成安装状态",
-    "writing" => "写入",
-    "p4k_planning" => "准备 P4K 修补",
-    "p4k_recovering_index" => "恢复 P4K 索引",
-    "p4k_journaling" => "创建 P4K 回滚记录",
-    "p4k_metadata" => "更新 P4K 条目 metadata",
-    "p4k_writing" => "写入 P4K",
-    "p4k_finalizing" => "完成 P4K 写入",
-    "download_error" => "下载失败",
-    "done" => "完成",
-    "cancelled" => "已取消",
-    "error" => "错误",
+    "downloading" => S.current.p4k_update_download,
+    "downloaded" => S.current.downloader_info_download_completed,
+    "base_downloading" => S.current.p4k_update_download_basics_p4k,
+    "base_verifying" => S.current.p4k_update_check_basics_p4k,
+    "base_verification_downloading" =>
+      S.current.p4k_update_download_basic_verification_file,
+    "disk_checking" => S.current.p4k_update_check_disk_space,
+    "p4k_diagnosing" => S.current.p4k_update_diagnose_current_p4k,
+    "repair_rebuilding" => S.current.p4k_update_deep_repair_p4k,
+    "p4k_verifying" => S.current.p4k_update_check_p4k,
+    "manifest_verifying" => S.current.p4k_update_verify_p4k_content,
+    "loose_downloading" => S.current.p4k_update_download_game_files,
+    "loose_verifying" => S.current.p4k_update_verify_game_files,
+    "loose_staging" => S.current.p4k_update_prepare_game_files,
+    "loose_writing" => S.current.p4k_update_write_game_files,
+    "loose_written" => S.current.p4k_update_game_file_writing_completed,
+    "post_install" => S.current.p4k_update_completed_installation_status,
+    "writing" => S.current.p4k_update_write,
+    "p4k_planning" => S.current.p4k_update_preparing_for_p4k_patching,
+    "p4k_recovering_index" => S.current.p4k_update_restore_p4k_index,
+    "p4k_journaling" => S.current.p4k_update_create_a_p4k_rollback_record,
+    "p4k_metadata" => S.current.p4k_update_update_p4k_entry_metadata,
+    "p4k_writing" => S.current.p4k_update_write_to_p4k,
+    "p4k_finalizing" => S.current.p4k_update_complete_p4k_write,
+    "download_error" => S.current.downloader_info_download_failed,
+    "done" => S.current.p4k_update_finish,
+    "cancelled" => S.current.p4k_update_canceled,
+    "error" => S.current.party_room_error,
     _ => phase,
   };
 }
@@ -1496,10 +1601,18 @@ String _formatProgressLog(
 }
 
 String _formatProgressMessage(P4kUpgraderProgressEvent event) {
-  if (event.phase == "loose_written") return "游戏文件写入完成";
-  if (event.phase == "loose_staging") return "正在准备游戏文件";
-  if (event.phase == "loose_verifying") return "正在校验游戏文件";
-  if (event.phase == "p4k_metadata") return "正在更新 P4K 条目 metadata";
+  if (event.phase == "loose_written") {
+    return S.current.p4k_update_game_file_writing_completed;
+  }
+  if (event.phase == "loose_staging") {
+    return S.current.p4k_update_preparing_game_files_2;
+  }
+  if (event.phase == "loose_verifying") {
+    return S.current.p4k_update_verifying_game_files;
+  }
+  if (event.phase == "p4k_metadata") {
+    return S.current.p4k_update_updating_p4k_entry_metadata_2;
+  }
   if (event.phase == "p4k_recovering_index") return event.message;
   return event.message;
 }
@@ -1532,14 +1645,14 @@ String _stageKey(String phase, {bool deepRepair = false}) {
 
 String _stageLabelForKey(String key) {
   return switch (key) {
-    "disk_checking" => "检查磁盘空间与任务预算",
-    "base_downloading" => "下载/校验基础 P4K",
-    "p4k_patch" => "修补 Data.p4k",
-    "p4k_diagnosing" => "诊断当前 P4K",
-    "repair_rebuilding" => "深度修复/重建 P4K",
-    "p4k_verifying" => "校验修复结果",
-    "loose_files" => "下载/写入游戏文件",
-    "post_install" => "注册 EAC 并同步启动器状态",
+    "disk_checking" => S.current.p4k_update_check_disk_space_and_task_budget,
+    "base_downloading" => S.current.p4k_update_download_verify_basics_p4k,
+    "p4k_patch" => S.current.p4k_update_patching_data_p4k,
+    "p4k_diagnosing" => S.current.p4k_update_diagnose_current_p4k,
+    "repair_rebuilding" => S.current.p4k_update_deep_repair_rebuild_p4k,
+    "p4k_verifying" => S.current.p4k_update_verify_repair_results,
+    "loose_files" => S.current.p4k_update_download_write_game_files,
+    "post_install" => S.current.p4k_update_register_eac_and_sync_launcher_state,
     _ => _phaseText(key),
   };
 }
@@ -1550,7 +1663,9 @@ bool _isLiveInstallPath(String path) {
   return normalized.split('/').last.toUpperCase() == 'LIVE';
 }
 
-const _p4kLiveOnlyMessage = "P4K 下载/更新暂不支持 PTU，目标路径必须是 LIVE 目录";
+String get _p4kLiveOnlyMessage => S
+    .current
+    .p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa;
 
 String _joinPath(String parent, String child) {
   final separator = Platform.isWindows ? '\\' : '/';

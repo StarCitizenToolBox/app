@@ -7,7 +7,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/generated/proto/partroom/partroom.pb.dart';
 import 'package:starcitizen_doctor/provider/party_room.dart';
-import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart' show PartyRoomUtils;
+import 'package:starcitizen_doctor/ui/party_room/utils/party_room_utils.dart'
+    show PartyRoomUtils;
 
 import 'utils/game_log_tracker_provider.dart';
 
@@ -57,7 +58,8 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       }
 
       // 监听房间创建时间变化，设置游戏日志监听
-      if (previous?.room.currentRoom?.createdAt != next.room.currentRoom?.createdAt) {
+      if (previous?.room.currentRoom?.createdAt !=
+          next.room.currentRoom?.createdAt) {
         _setupGameLogListener(next.room.currentRoom?.createdAt);
       }
     });
@@ -88,9 +90,13 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
   }
 
   /// 处理游戏状态更新
-  void _onUpdateGameStatus(PartyRoomGameLogTrackerProviderState? previous, PartyRoomGameLogTrackerProviderState next) {
+  void _onUpdateGameStatus(
+    PartyRoomGameLogTrackerProviderState? previous,
+    PartyRoomGameLogTrackerProviderState next,
+  ) {
     // 防抖
-    final currentGameStartTime = previous?.gameStartTime?.millisecondsSinceEpoch;
+    final currentGameStartTime =
+        previous?.gameStartTime?.millisecondsSinceEpoch;
     final gameStartTime = next.gameStartTime?.microsecondsSinceEpoch;
     if (next.kills != previous?.kills ||
         next.deaths != previous?.deaths ||
@@ -102,8 +108,12 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
           .setStatus(
             kills: next.kills != previous?.kills ? next.kills : null,
             deaths: next.deaths != previous?.deaths ? next.deaths : null,
-            currentLocation: next.location != previous?.location ? next.location : null,
-            playTime: currentGameStartTime != gameStartTime ? gameStartTime : null,
+            currentLocation: next.location != previous?.location
+                ? next.location
+                : null,
+            playTime: currentGameStartTime != gameStartTime
+                ? gameStartTime
+                : null,
           );
     }
 
@@ -111,15 +121,24 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       for (final event in next.deathEvents!) {
         ref
             .read(partyRoomProvider.notifier)
-            .sendSignal("special_death", params: {"location": event.$1, "area": event.$2});
+            .sendSignal(
+              "special_death",
+              params: {"location": event.$1, "area": event.$2},
+            );
       }
     }
   }
 
   /// 处理连接状态变化
-  void _handleConnectionStateChange(PartyRoomFullState? previous, PartyRoomFullState next) {
+  void _handleConnectionStateChange(
+    PartyRoomFullState? previous,
+    PartyRoomFullState next,
+  ) {
     // 检测断线：之前已连接但现在未连接
-    if (previous != null && previous.client.isConnected && !next.client.isConnected && !state.isReconnecting) {
+    if (previous != null &&
+        previous.client.isConnected &&
+        !next.client.isConnected &&
+        !state.isReconnecting) {
       dPrint('[PartyRoomUI] Connection lost, starting reconnection...');
       _startReconnection();
     }
@@ -136,7 +155,10 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       await _attemptReconnect();
     } catch (e) {
       dPrint('[PartyRoomUI] Reconnection failed: $e');
-      state = state.copyWith(isReconnecting: false, errorMessage: '重连失败: $e');
+      state = state.copyWith(
+        isReconnecting: false,
+        errorMessage: S.current.party_room_reconnect_failed(e),
+      );
     }
   }
 
@@ -165,7 +187,11 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
         }
 
         // 重连成功
-        state = state.copyWith(isReconnecting: false, reconnectAttempts: 0, errorMessage: null);
+        state = state.copyWith(
+          isReconnecting: false,
+          reconnectAttempts: 0,
+          errorMessage: null,
+        );
 
         dPrint('[PartyRoomUI] Reconnection successful');
         return;
@@ -175,14 +201,19 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
         if (attempt < maxAttempts) {
           // 使用指数退避策略
           final delay = baseDelay * (1 << (attempt - 1));
-          dPrint('[PartyRoomUI] Waiting ${delay.inSeconds}s before next attempt...');
+          dPrint(
+            '[PartyRoomUI] Waiting ${delay.inSeconds}s before next attempt...',
+          );
           await Future.delayed(delay);
         }
       }
     }
 
     // 所有重连尝试都失败
-    state = state.copyWith(isReconnecting: false, errorMessage: '重连失败，已尝试 $maxAttempts 次');
+    state = state.copyWith(
+      isReconnecting: false,
+      errorMessage: S.current.party_room_reconnect_retry(maxAttempts),
+    );
     throw Exception('Max reconnection attempts reached');
   }
 
@@ -201,7 +232,11 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
         await partyRoom.login();
         // 登录成功，加载房间列表
         await loadRoomList();
-        state = state.copyWith(showRoomList: true, isLoggingIn: false, isGuestMode: false);
+        state = state.copyWith(
+          showRoomList: true,
+          isLoggingIn: false,
+          isGuestMode: false,
+        );
       } catch (e) {
         // 未注册，保持在连接状态
         dPrint('[PartyRoomUI] Login failed, need register: $e');
@@ -212,7 +247,10 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
 
       state = state.copyWith(isConnecting: false);
     } catch (e) {
-      state = state.copyWith(isConnecting: false, errorMessage: '连接失败: $e');
+      state = state.copyWith(
+        isConnecting: false,
+        errorMessage: S.current.party_room_connect_error(e),
+      );
       rethrow;
     }
   }
@@ -230,15 +268,25 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
 
   /// 请求注册验证码
   Future<void> requestPreRegister(String gameUserId) async {
-    state = state.copyWith(isLoading: true, errorMessage: null, registerGameUserId: gameUserId);
+    state = state.copyWith(
+      isLoading: true,
+      errorMessage: null,
+      registerGameUserId: gameUserId,
+    );
 
     try {
       final partyRoom = ref.read(partyRoomProvider.notifier);
       final response = await partyRoom.preRegister(gameUserId);
 
-      state = state.copyWith(isLoading: false, preRegisterCode: response.verificationCode);
+      state = state.copyWith(
+        isLoading: false,
+        preRegisterCode: response.verificationCode,
+      );
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: '获取验证码失败: $e');
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: S.current.party_room_get_code_failed(e),
+      );
       rethrow;
     }
   }
@@ -260,9 +308,17 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       await partyRoom.loadTags();
       await loadRoomList();
 
-      state = state.copyWith(isLoading: false, showRoomList: true, preRegisterCode: '', registerGameUserId: '');
+      state = state.copyWith(
+        isLoading: false,
+        showRoomList: true,
+        preRegisterCode: '',
+        registerGameUserId: '',
+      );
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: '注册失败: $e');
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: S.current.party_room_register_failed(e),
+      );
       rethrow;
     }
   }
@@ -279,9 +335,13 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       state = state.copyWith(isLoading: true);
 
       // 更新筛选条件
-      if (mainTagId != null) state = state.copyWith(selectedMainTagId: mainTagId);
+      if (mainTagId != null) {
+        state = state.copyWith(selectedMainTagId: mainTagId);
+      }
       if (subTagId != null) state = state.copyWith(selectedSubTagId: subTagId);
-      if (searchName != null) state = state.copyWith(searchOwnerName: searchName);
+      if (searchName != null) {
+        state = state.copyWith(searchOwnerName: searchName);
+      }
       if (page != null) state = state.copyWith(currentPage: page);
 
       final partyRoom = ref.read(partyRoomProvider.notifier);
@@ -294,11 +354,21 @@ class PartyRoomUIModel extends _$PartyRoomUIModel {
       );
 
       // 追加模式：合并数据，否则替换数据
-      final newRooms = append ? [...state.roomListItems, ...response.rooms] : response.rooms;
+      final newRooms = append
+          ? [...state.roomListItems, ...response.rooms]
+          : response.rooms;
 
-      state = state.copyWith(isLoading: false, roomListItems: newRooms, totalRooms: response.total, errorMessage: null);
+      state = state.copyWith(
+        isLoading: false,
+        roomListItems: newRooms,
+        totalRooms: response.total,
+        errorMessage: null,
+      );
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: '加载房间列表失败: $e');
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: S.current.party_room_load_list_failed(e),
+      );
     }
   }
 

@@ -1775,5 +1775,597 @@
   "localization_extension_installed": "[インストール済み拡張]",
   "@localization_extension_installed": {},
   "localization_action_reinstall": "再インストール",
-  "@localization_action_reinstall": {}
+  "@localization_action_reinstall": {},
+  "app_spaceship": "宇宙船",
+  "@app_spaceship": {},
+  "app_fps_weapons": "FPS武器",
+  "@app_fps_weapons": {},
+  "app_equip_character": "キャラクター装備",
+  "@app_equip_character": {},
+  "app_prop_scene": "小道具シーン",
+  "@app_prop_scene": {},
+  "app_path_does_not_exist": "パスが存在しません: {v0}",
+  "@app_path_does_not_exist": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_skip_ddna_dds_this_type_does_not_preview_decoding": "Skip _ddna DDS: このタイプはデコードをプレビューしません",
+  "@app_skip_ddna_dds_this_type_does_not_preview_decoding": {},
+  "app_dds_to_png_failed": "DDS から PNG への変換に失敗しました: {v0}",
+  "@app_dds_to_png_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_dds_to_png_successful": "DDS から PNG への変換が成功しました: {v0}",
+  "@app_dds_to_png_successful": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_reject": "拒否",
+  "@auth_reject": {},
+  "auth_allow": "許可",
+  "@auth_allow": {},
+  "auth_you_need_to_log_in_first_to_authorize": "認証するには最初にログインする必要があります",
+  "@auth_you_need_to_log_in_first_to_authorize": {},
+  "auth_go_to_login": "ログインに移動",
+  "@auth_go_to_login": {},
+  "auth_unknown_application": "不明なアプリケーション",
+  "@auth_unknown_application": {},
+  "auth_request_access_to_your_account": "アカウントへのアクセスをリクエストする",
+  "@auth_request_access_to_your_account": {},
+  "auth_certified": "認定済み",
+  "@auth_certified": {},
+  "auth_not_verified": "未検証",
+  "@auth_not_verified": {},
+  "auth_this_action_will_allow": "このアクションにより、{v0} が許可されます。",
+  "@auth_this_action_will_allow": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_access_your_public_profile": "公開プロフィールにアクセスする",
+  "@auth_access_your_public_profile": {},
+  "auth_include_username_avatar": "ユーザー名、アバターを含める",
+  "@auth_include_username_avatar": {},
+  "auth_failed_to_generate_authorization_code": "認証コードの生成に失敗しました",
+  "@auth_failed_to_generate_authorization_code": {},
+  "auth_failed_to_generate_authorization_link": "認証リンクの生成に失敗しました",
+  "@auth_failed_to_generate_authorization_link": {},
+  "auth_authorization_link_copied_to_clipboard": "認証リンクがクリップボードにコピーされました",
+  "@auth_authorization_link_copied_to_clipboard": {},
+  "auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual": "ブラウザを開けませんでした。リンクをコピーして手動でアクセスしてください",
+  "@auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual": {},
+  "auth_failed_to_open_browser": "ブラウザを開けませんでした: {v0}",
+  "@auth_failed_to_open_browser": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_missing_callback_address_parameter": "コールバックアドレスパラメータがありません",
+  "@auth_missing_callback_address_parameter": {},
+  "auth_missing_state_parameter": "状態パラメータがありません",
+  "@auth_missing_state_parameter": {},
+  "auth_unable_to_resolve_domain_name_from_callback_address": "コールバック アドレスからドメイン名を解決できません",
+  "@auth_unable_to_resolve_domain_name_from_callback_address": {},
+  "auth_initialization_failed": "初期化に失敗しました: {v0}",
+  "@auth_initialization_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "auth_failed_to_generate_authorization_code_2": "認証コードの生成に失敗しました: {v0}",
+  "@auth_failed_to_generate_authorization_code_2": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "app_open_the_original_text": "原文を開く",
+  "@app_open_the_original_text": {},
+  "app_play_video": "[ビデオを再生]({v0})",
+  "@app_play_video": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_game_downloader_updater": "ゲームダウンローダー/アップデーター",
+  "@p4k_update_game_downloader_updater": {},
+  "p4k_update_install_to": "{v0}にインストール",
+  "@p4k_update_install_to": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_number_of_threads": "スレッド数",
+  "@p4k_update_number_of_threads": {},
+  "p4k_update_download_speed": "ダウンロード速度: {v0}",
+  "@p4k_update_download_speed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_canceling": "キャンセル中...",
+  "@p4k_update_canceling": {},
+  "p4k_update_stop": "停止",
+  "@p4k_update_stop": {},
+  "p4k_update_pause": "一時停止",
+  "@p4k_update_pause": {},
+  "p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb": "詳細修復：まず現在の P4K を診断し、検証に失敗した場合のみ復元または再構築します。その後 Manifest に従って内容を検証するため、長時間かかります。通常のインストールや更新は自動では実行されません。",
+  "@p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb": {},
+  "p4k_update_deep_repair": "詳細修復",
+  "@p4k_update_deep_repair": {},
+  "p4k_update_estimated_number_of_updates": "推定更新数",
+  "@p4k_update_estimated_number_of_updates": {},
+  "p4k_update_start_installation": "インストールを開始する",
+  "@p4k_update_start_installation": {},
+  "p4k_update_waiting_for_progress": "進行状況を待機中...",
+  "@p4k_update_waiting_for_progress": {},
+  "p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be": "Manifest エントリ：{v0}\nダウンロードが必要な P4K（エントリ）：{v1}\nダウンロードが必要なゲームファイル（エントリ）：{v2}\n重複排除後のダウンロードオブジェクト（エントリ）：{v3}\n完全な P4K の参照サイズ：{v4}\nローカル Data.p4k.part：{v5}\n今回ダウンロードするベースパッケージ：{v6}\n今回ダウンロードするオブジェクト（payload）：{v7}\n今回の推定ダウンロード総量：{v8}\n\n最大オブジェクト：\n{v9}",
+  "@p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be": {
+    "placeholders": {
+      "v0": {},
+      "v1": {},
+      "v2": {},
+      "v3": {},
+      "v4": {},
+      "v5": {},
+      "v6": {},
+      "v7": {},
+      "v8": {},
+      "v9": {}
+    }
+  },
+  "p4k_update_unnecessary": "不要",
+  "@p4k_update_unnecessary": {},
+  "p4k_update_reading_inventory_and_estimating_updates": "マニフェストを読み込み、更新量を見積もっています...",
+  "@p4k_update_reading_inventory_and_estimating_updates": {},
+  "p4k_update_estimate_completed": "見積り完了",
+  "@p4k_update_estimate_completed": {},
+  "p4k_update_downloading_objects_game_files_and_patching_p4k": "オブジェクト、ゲーム ファイルをダウンロードし、P4K にパッチを適用しています...",
+  "@p4k_update_downloading_objects_game_files_and_patching_p4k": {},
+  "p4k_update_update_completed": "アップデート完了",
+  "@p4k_update_update_completed": {},
+  "p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i": "P4K を詳細修復しています（先に診断し、必要に応じて再構築します。長時間かかる場合があります）...",
+  "@p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i": {},
+  "p4k_update_deep_repair_completed": "詳細修復が完了しました",
+  "@p4k_update_deep_repair_completed": {},
+  "p4k_update_canceled": "キャンセル",
+  "@p4k_update_canceled": {},
+  "p4k_update_update_completed_2": "アップデート完了: {v0}",
+  "@p4k_update_update_completed_2": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_failure": "失敗: {v0}",
+  "@p4k_update_failure": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_download_failed_retrying": "ダウンロードに失敗しました。再試行しています: {v0}",
+  "@p4k_update_download_failed_retrying": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_writing": "書き込み: {v0}",
+  "@p4k_update_writing": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_checking_disk_space": "ディスク容量を確認しています",
+  "@p4k_update_checking_disk_space": {},
+  "p4k_update_diagnosing_current_p4k": "現在の P4K を診断中",
+  "@p4k_update_diagnosing_current_p4k": {},
+  "p4k_update_in_depth_repair_of_p4k": "P4K を詳細修復中",
+  "@p4k_update_in_depth_repair_of_p4k": {},
+  "p4k_update_updating_p4k_entry_metadata": "P4K エントリ メタデータの更新: {v0}",
+  "@p4k_update_updating_p4k_entry_metadata": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_scanning_local_p4k_records_and_restoring_indexes": "ローカル P4K レコードのスキャンとインデックスの復元",
+  "@p4k_update_scanning_local_p4k_records_and_restoring_indexes": {},
+  "p4k_update_preparing_game_files": "ゲームファイルの準備中: {v0}",
+  "@p4k_update_preparing_game_files": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_writing_game_file": "ゲームファイルの書き込み: {v0}",
+  "@p4k_update_writing_game_file": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_processing_p4k": "P4Kの処理",
+  "@p4k_update_processing_p4k": {},
+  "p4k_update_verifying": "検証中: {v0}",
+  "@p4k_update_verifying": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_downloading": "ダウンロード中: {v0}",
+  "@p4k_update_downloading": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_canceling_2": "キャンセル中...",
+  "@p4k_update_canceling_2": {},
+  "p4k_update_continuing": "再開中...",
+  "@p4k_update_continuing": {},
+  "p4k_update_p4k_updater_failed": "P4K アップデーターが失敗しました: {v0}",
+  "@p4k_update_p4k_updater_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_manifest_url_cannot_be_empty": "マニフェスト URL を空にすることはできません",
+  "@p4k_update_manifest_url_cannot_be_empty": {},
+  "p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat": "マニフェスト URL に Expires/KeyName/Signature 署名パラメータがありません。再度ログインするか、releaseInfo 署名フィールドを確認してください。",
+  "@p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat": {},
+  "p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig": "オブジェクトのベース URL に Expires/KeyName/Signature 署名パラメータがありません。再度ログインするか、releaseInfo 署名フィールドを確認してください。",
+  "@p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig": {},
+  "p4k_update_stage": "ステージ {v0}/{v1}: {v2}",
+  "@p4k_update_stage": {
+    "placeholders": {
+      "v0": {},
+      "v1": {},
+      "v2": {}
+    }
+  },
+  "p4k_update_registering_eac_and_syncing_launcher_state": "EAC の登録とランチャー状態の同期",
+  "@p4k_update_registering_eac_and_syncing_launcher_state": {},
+  "p4k_update_installation_status_processing_completed": "インストールステータス処理が完了しました",
+  "@p4k_update_installation_status_processing_completed": {},
+  "p4k_update_easyanticheat_installer_not_found_registration_skipped": "EasyAntiCheat インストーラーが見つからないため、登録がスキップされました",
+  "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
+  "p4k_update_registering_easyanticheat": "EasyAntiCheat の登録",
+  "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_easyanticheat_registration_completed": "EasyAntiCheat登録完了",
+  "@p4k_update_easyanticheat_registration_completed": {},
+  "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "EasyAntiCheat 登録は {v0} を返しましたが、致命的ではない警告として続行されました {v1}",
+  "@p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat": "EasyAntiCheat の登録に失敗しましたが、非致命的な警告として処理を続行します：{v0}",
+  "@p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_synchronizing_launcher_installation_status": "ランチャーのインストール状況を同期しています",
+  "@p4k_update_synchronizing_launcher_installation_status": {},
+  "p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped": "RSI Launcher store が見つからないため、暗号化 store の同期をスキップしました",
+  "@p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped": {},
+  "p4k_update_build_manifest_id_updated": "build_manifest.id が更新されました。",
+  "@p4k_update_build_manifest_id_updated": {},
+  "p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th": "{v0} 暗号化 RSI Launcher ストアの同期が実行されません: 現在の Dart 側には AES-CBC/PBKDF2 互換の実装がありません。ランチャーにまだ古いバージョンが表示される場合は、RSI Launcher Verify を使用してください。",
+  "@p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m": "RequestedP4ChangeNum は releaseInfo から推測できません。build_manifest.id が書き込まれません",
+  "@p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m": {},
+  "p4k_update_updated_build_manifest_id_requestedp4changenum": "更新された build_manifest.id: RequestedP4ChangeNum={v0}",
+  "@p4k_update_updated_build_manifest_id_requestedp4changenum": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning": "build_manifest.id の更新に失敗しました。致命的ではない警告として続行されました: {v0}",
+  "@p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "p4k_update_unknown_version": "不明なバージョン",
+  "@p4k_update_unknown_version": {},
+  "p4k_update_unknown_startup_file": "不明な起動ファイル",
+  "@p4k_update_unknown_startup_file": {},
+  "p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f": "リリースバージョン：{v0}\n起動ファイル：{v1}\n\nreleaseInfo を読み込みました。先に「更新量を見積もる」をクリックして、Manifest が正常に解析されるか確認できます。",
+  "@p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "p4k_update_download": "ダウンロード",
+  "@p4k_update_download": {},
+  "p4k_update_download_basics_p4k": "ベース P4K をダウンロード",
+  "@p4k_update_download_basics_p4k": {},
+  "p4k_update_check_basics_p4k": "ベース P4K を検証",
+  "@p4k_update_check_basics_p4k": {},
+  "p4k_update_download_basic_verification_file": "ベース検証ファイルをダウンロード",
+  "@p4k_update_download_basic_verification_file": {},
+  "p4k_update_check_disk_space": "ディスク容量を確認",
+  "@p4k_update_check_disk_space": {},
+  "p4k_update_diagnose_current_p4k": "現在の P4K を診断",
+  "@p4k_update_diagnose_current_p4k": {},
+  "p4k_update_deep_repair_p4k": "P4K を詳細修復",
+  "@p4k_update_deep_repair_p4k": {},
+  "p4k_update_check_p4k": "P4K を検証",
+  "@p4k_update_check_p4k": {},
+  "p4k_update_verify_p4k_content": "P4K コンテンツを検証",
+  "@p4k_update_verify_p4k_content": {},
+  "p4k_update_download_game_files": "ゲームファイルをダウンロード",
+  "@p4k_update_download_game_files": {},
+  "p4k_update_verify_game_files": "ゲームファイルを検証",
+  "@p4k_update_verify_game_files": {},
+  "p4k_update_prepare_game_files": "ゲームファイルを準備",
+  "@p4k_update_prepare_game_files": {},
+  "p4k_update_write_game_files": "ゲームファイルを書き込む",
+  "@p4k_update_write_game_files": {},
+  "p4k_update_game_file_writing_completed": "ゲームファイルの書き込みが完了しました",
+  "@p4k_update_game_file_writing_completed": {},
+  "p4k_update_completed_installation_status": "インストール完了状態",
+  "@p4k_update_completed_installation_status": {},
+  "p4k_update_write": "書き込み",
+  "@p4k_update_write": {},
+  "p4k_update_preparing_for_p4k_patching": "P4Kパッチ適用の準備",
+  "@p4k_update_preparing_for_p4k_patching": {},
+  "p4k_update_restore_p4k_index": "P4K インデックスを復元する",
+  "@p4k_update_restore_p4k_index": {},
+  "p4k_update_create_a_p4k_rollback_record": "P4K ロールバック記録を作成",
+  "@p4k_update_create_a_p4k_rollback_record": {},
+  "p4k_update_update_p4k_entry_metadata": "P4K エントリのメタデータを更新する",
+  "@p4k_update_update_p4k_entry_metadata": {},
+  "p4k_update_write_to_p4k": "P4K に書き込み",
+  "@p4k_update_write_to_p4k": {},
+  "p4k_update_complete_p4k_write": "P4K 書き込みを完了",
+  "@p4k_update_complete_p4k_write": {},
+  "p4k_update_finish": "完了",
+  "@p4k_update_finish": {},
+  "p4k_update_preparing_game_files_2": "ゲームファイルの準備",
+  "@p4k_update_preparing_game_files_2": {},
+  "p4k_update_verifying_game_files": "ゲームファイルの検証",
+  "@p4k_update_verifying_game_files": {},
+  "p4k_update_updating_p4k_entry_metadata_2": "P4K エントリ メタデータの更新",
+  "@p4k_update_updating_p4k_entry_metadata_2": {},
+  "p4k_update_check_disk_space_and_task_budget": "ディスク容量とタスクの予算を確認する",
+  "@p4k_update_check_disk_space_and_task_budget": {},
+  "p4k_update_download_verify_basics_p4k": "ベース P4K をダウンロード/検証",
+  "@p4k_update_download_verify_basics_p4k": {},
+  "p4k_update_patching_data_p4k": "Data.p4k にパッチを適用",
+  "@p4k_update_patching_data_p4k": {},
+  "p4k_update_deep_repair_rebuild_p4k": "P4K を詳細修復/再構築",
+  "@p4k_update_deep_repair_rebuild_p4k": {},
+  "p4k_update_verify_repair_results": "修復結果を確認する",
+  "@p4k_update_verify_repair_results": {},
+  "p4k_update_download_write_game_files": "ゲームファイルのダウンロード/書き込み",
+  "@p4k_update_download_write_game_files": {},
+  "p4k_update_register_eac_and_sync_launcher_state": "EAC を登録し、ランチャーの状態を同期する",
+  "@p4k_update_register_eac_and_sync_launcher_state": {},
+  "p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa": "P4K のダウンロード/アップデートは現在 PTU をサポートしていません。ターゲット パスは LIVE ディレクトリである必要があります。",
+  "@p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa": {},
+  "app_please_close_the_game_before_updating_p4k_game_files": "P4K/ゲームファイルを更新する前にゲームを閉じてください",
+  "@app_please_close_the_game_before_updating_p4k_game_files": {},
+  "app_the_web_login_resource_has_not_been_initialized_please_try_again": "Web ログイン リソースが初期化されていません。後でもう一度試してください。",
+  "@app_the_web_login_resource_has_not_been_initialized_please_try_again": {},
+  "app_unable_to_read_releaseinfo_from_rsi_return_data": "RSI 戻りデータから releaseInfo を読み取ることができません",
+  "@app_unable_to_read_releaseinfo_from_rsi_return_data": {},
+  "app_select_game_download_directory": "ゲームのダウンロード ディレクトリを選択します",
+  "@app_select_game_download_directory": {},
+  "app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s": "現在、そのまま使用できる Data.p4k はありません。不完全なインストール ディレクトリを選択するか、ダウンロードする新しいインストール場所を選択してください。",
+  "@app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s": {},
+  "app_discovered_installation_directories": "検出されたインストールディレクトリ",
+  "@app_discovered_installation_directories": {},
+  "app_select_new_directory": "新しいディレクトリを選択してください",
+  "@app_select_new_directory": {},
+  "user_registration_time": "登録時刻: {v0}",
+  "@user_registration_time": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "user_can_only_be_refreshed_once_per_hour": "1時間に1回のみ更新可能",
+  "@user_can_only_be_refreshed_once_per_hour": {},
+  "user_refresh_successful": "更新に成功しました",
+  "@user_refresh_successful": {},
+  "user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour": "データの更新頻度が高すぎるため、1 時間後にもう一度試してください。",
+  "@user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour": {},
+  "user_refresh_failed": "更新に失敗しました: {v0}",
+  "@user_refresh_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "user_refresh_data": "データを更新する",
+  "@user_refresh_data": {},
+  "user_log_out": "ログアウト",
+  "@user_log_out": {},
+  "user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in": "PartyRoom からログアウトしてもよろしいですか?次回ご利用時は再度ログインが必要となります。",
+  "@user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in": {},
+  "user_logged_out": "ログアウトしました",
+  "@user_logged_out": {},
+  "user_logout_failed": "ログアウトに失敗しました: {v0}",
+  "@user_logout_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "party_room_sure": "確認",
+  "@party_room_sure": {},
+  "log_analyze_game_log_current": "Game.log (現在)",
+  "@log_analyze_game_log_current": {},
+  "log_analyze_log_file_not_found": "ログファイルが見つかりません",
+  "@log_analyze_log_file_not_found": {},
+  "log_analyze_log_file": "ログファイル:",
+  "@log_analyze_log_file": {},
+  "log_analyze_select_log_file": "ログファイルの選択",
+  "@log_analyze_select_log_file": {},
+  "tools_unp4k_return_to_homepage": "ホームページに戻る",
+  "@tools_unp4k_return_to_homepage": {},
+  "tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to": "終了すると P4K の再読み込みが必要になります。ホームに戻りますか？",
+  "@tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to": {},
+  "tools_unp4k_confirm_return": "ホームに戻る",
+  "@tools_unp4k_confirm_return": {},
+  "tools_unp4k_file_browser": "ファイルブラウザ",
+  "@tools_unp4k_file_browser": {},
+  "tools_unp4k_3d_browser": "3Dブラウザ",
+  "@tools_unp4k_3d_browser": {},
+  "tools_unp4k_music_browser": "音楽ブラウザ",
+  "@tools_unp4k_music_browser": {},
+  "tools_unp4k_audio_decoding_failed": "オーディオのデコードに失敗しました: {v0}",
+  "@tools_unp4k_audio_decoding_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_audio_preview_failed_no_playable_file_found": "オーディオ プレビューに失敗しました: 再生可能なファイルが見つかりません",
+  "@tools_unp4k_audio_preview_failed_no_playable_file_found": {},
+  "tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio": "オーディオ ストリームの有効期限が切れました。音声を再度開いてください。",
+  "@tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio": {},
+  "tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": "バッファ済みの範囲にのみ移動できます（現在 {v0} 秒までバッファ済み）",
+  "@tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_audio_preview_failed": "音声プレビューに失敗しました: {v0}",
+  "@tools_unp4k_audio_preview_failed": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_play_automatically_when_switching_music": "音楽を切り替えると自動的に再生されます",
+  "@tools_unp4k_play_automatically_when_switching_music": {},
+  "tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi": "現在の WEM エンコードは、組み込みのデコード (format=0x{v0}) ではサポートされていません。\n現在のバージョンは、PCM (0x0001) および Wwise Vorbis (0xFFFF) の WEM プレビューをサポートしています。",
+  "@tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_finish": "完了！",
+  "@tools_unp4k_finish": {},
+  "tools_unp4k_decoding": "デコード中...",
+  "@tools_unp4k_decoding": {},
+  "tools_unp4k_decoding_full_audio": "フルオーディオをデコードしています...",
+  "@tools_unp4k_decoding_full_audio": {},
+  "tools_unp4k_batch_export_options": "バッチエクスポートオプション",
+  "@tools_unp4k_batch_export_options": {},
+  "tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported": "変換可能な形式を自動的に変換してエクスポートできます (WEM->WAV、DDS->PNG、CGA/CGF->GLB)",
+  "@tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported": {},
+  "tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the": "現在の選択範囲には変換可能な形式がないため、元のファイルがエクスポートされます。",
+  "@tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the": {},
+  "tools_unp4k_export_with_directory_structure_preserved": "ディレクトリ構造を保持したままエクスポートする",
+  "@tools_unp4k_export_with_directory_structure_preserved": {},
+  "tools_unp4k_include_original_path_when_exporting": "エクスポート時に元のパスを含めます。",
+  "@tools_unp4k_include_original_path_when_exporting": {},
+  "tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi": "ファイル名を指定して直接エクスポートします。単一のファイルを選択した場合、ファイルは直接保存されます。",
+  "@tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi": {},
+  "tools_unp4k_start_export": "エクスポートの開始",
+  "@tools_unp4k_start_export": {},
+  "tools_unp4k_batch_export": "バッチエクスポート",
+  "@tools_unp4k_batch_export": {},
+  "tools_unp4k_progress": "進行状況: {v0}/{v1}",
+  "@tools_unp4k_progress": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_completed_successfully_skipped": "エクスポート完了：成功 {v0} 件、スキップ {v1} 件",
+  "@tools_unp4k_export_completed_successfully_skipped": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_completed_total_files": "エクスポート完了：合計 {v0} ファイル",
+  "@tools_unp4k_export_completed_total_files": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_more_failed_files_skipped": "{v0}\n失敗したファイルがほかに {v1} 件スキップされました",
+  "@tools_unp4k_more_failed_files_skipped": {
+    "placeholders": {
+      "v0": {},
+      "v1": {}
+    }
+  },
+  "tools_unp4k_export_wav": "WAV のエクスポート",
+  "@tools_unp4k_export_wav": {},
+  "tools_unp4k_dds_to_png": "DDSからPNGへのファイル変換",
+  "@tools_unp4k_dds_to_png": {},
+  "tools_unp4k_jump_to_file_location": "ファイルの場所にジャンプ",
+  "@tools_unp4k_jump_to_file_location": {},
+  "tools_unp4k_select_convert_export_file": "変換してエクスポートするファイルを選択",
+  "@tools_unp4k_select_convert_export_file": {},
+  "tools_unp4k_select_export_file": "エクスポートファイルを選択",
+  "@tools_unp4k_select_export_file": {},
+  "tools_unp4k_select_conversion_export_location": "変換エクスポート場所の選択",
+  "@tools_unp4k_select_conversion_export_location": {},
+  "tools_unp4k_wav_export_successful": "WAVエクスポートに成功しました",
+  "@tools_unp4k_wav_export_successful": {},
+  "tools_unp4k_from_cache": "{v0}\n(キャッシュから)",
+  "@tools_unp4k_from_cache": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
+  "tools_unp4k_wav_export_failed": "WAVエクスポートに失敗しました",
+  "@tools_unp4k_wav_export_failed": {},
+  "tools_unp4k_conversion_successful": "変換が成功しました",
+  "@tools_unp4k_conversion_successful": {},
+  "tools_unp4k_conversion_failed": "変換に失敗しました",
+  "@tools_unp4k_conversion_failed": {},
+  "tools_unp4k_size": "サイズ",
+  "@tools_unp4k_size": {},
+  "tools_unp4k_date": "日付",
+  "@tools_unp4k_date": {},
+  "tools_unp4k_search_all_files_supports_regular_expressions": "すべてのファイルを検索します (正規表現をサポート)...",
+  "@tools_unp4k_search_all_files_supports_regular_expressions": {},
+  "tools_unp4k_search_the_current_directory_supports_regular_expressions": "現在のディレクトリを検索します (正規表現をサポート)...",
+  "@tools_unp4k_search_the_current_directory_supports_regular_expressions": {},
+  "tools_unp4k_clear": "クリア",
+  "@tools_unp4k_clear": {},
+  "tools_unp4k_current_directory": "現在のディレクトリ",
+  "@tools_unp4k_current_directory": {},
+  "tools_unp4k_global_search": "グローバル検索",
+  "@tools_unp4k_global_search": {},
+  "tools_unp4k_suffix": "サフィックス",
+  "@tools_unp4k_suffix": {},
+  "tools_unp4k_suffix_filter": "サフィックスフィルター",
+  "@tools_unp4k_suffix_filter": {},
+  "tools_unp4k_separate_with_spaces_and_do_not_include": "スペースで区切り、ピリオドは含めないでください",
+  "@tools_unp4k_separate_with_spaces_and_do_not_include": {},
+  "tools_unp4k_support_preview": "プレビューのサポート",
+  "@tools_unp4k_support_preview": {},
+  "tools_unp4k_common_formats": "一般的なフォーマット",
+  "@tools_unp4k_common_formats": {},
+  "tools_unp4k_no_limit": "制限なし",
+  "@tools_unp4k_no_limit": {},
+  "tools_unp4k_less_than": "未満",
+  "@tools_unp4k_less_than": {},
+  "tools_unp4k_greater_than": "より大きい",
+  "@tools_unp4k_greater_than": {},
+  "tools_unp4k_scope": "範囲",
+  "@tools_unp4k_scope": {},
+  "tools_unp4k_start": "開始",
+  "@tools_unp4k_start": {},
+  "tools_unp4k_finish_2": "終了",
+  "@tools_unp4k_finish_2": {},
+  "tools_unp4k_size_value": "サイズ値",
+  "@tools_unp4k_size_value": {},
+  "tools_unp4k_some_day_ago": "指定日より前",
+  "@tools_unp4k_some_day_ago": {},
+  "tools_unp4k_after_a_certain_day": "指定日より後",
+  "@tools_unp4k_after_a_certain_day": {},
+  "tools_unp4k_time_range": "時間範囲",
+  "@tools_unp4k_time_range": {},
+  "news_video_view_original_post": "動画は元の投稿でご覧ください",
+  "@news_video_view_original_post": {}
 }
