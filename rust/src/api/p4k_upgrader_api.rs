@@ -79,6 +79,7 @@ pub fn p4k_upgrader_default_object_path_templates() -> Vec<String> {
     Config::default().object_path_templates
 }
 
+#[flutter_rust_bridge::frb(serialize)]
 pub fn p4k_upgrader_estimate(config: P4kUpgraderConfig) -> Result<P4kUpgraderEstimateReport> {
     let config = to_upgrader_config(config)?;
     reset_update_control();
@@ -106,6 +107,7 @@ pub fn p4k_upgrader_estimate(config: P4kUpgraderConfig) -> Result<P4kUpgraderEst
     })
 }
 
+#[flutter_rust_bridge::frb(serialize)]
 pub fn p4k_upgrader_verify(config: P4kUpgraderConfig) -> Result<()> {
     let config = to_upgrader_config(config)?;
     reset_update_control();
@@ -113,6 +115,7 @@ pub fn p4k_upgrader_verify(config: P4kUpgraderConfig) -> Result<()> {
     Ok(())
 }
 
+#[flutter_rust_bridge::frb(serialize)]
 pub fn p4k_upgrader_update(config: P4kUpgraderConfig) -> Result<String> {
     let config = to_upgrader_config(config)?;
     reset_update_control();
@@ -125,6 +128,7 @@ pub fn p4k_upgrader_update(config: P4kUpgraderConfig) -> Result<String> {
     Ok(output.to_string_lossy().to_string())
 }
 
+#[flutter_rust_bridge::frb(serialize)]
 pub async fn p4k_upgrader_update_with_progress(
     config: P4kUpgraderConfig,
     stream_sink: StreamSink<P4kUpgraderProgressEvent>,
@@ -250,12 +254,14 @@ fn normal_update_error_message(message: impl std::fmt::Display) -> String {
     )
 }
 
+#[flutter_rust_bridge::frb(ignore)]
 struct ProgressEventCoalescer {
     sink: Arc<StreamSink<P4kUpgraderProgressEvent>>,
     state: Mutex<ProgressEventCoalescerState>,
 }
 
 #[derive(Default)]
+#[flutter_rust_bridge::frb(ignore)]
 struct ProgressEventCoalescerState {
     last_emitted: Option<P4kUpgraderProgressEvent>,
     last_emit_at: Option<Instant>,
