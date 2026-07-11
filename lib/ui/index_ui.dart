@@ -43,7 +43,7 @@ class IndexUI extends HookConsumerWidget {
       titleBar: _makeTitleBar(context, curIndex),
       content: Row(
         children: [
-          _makeNavigationBar(context, curIndex),
+          _makeNavigationBar(curIndex),
           Expanded(child: pageMenus.values.elementAt(curIndex.value).$2),
         ],
       ),
@@ -107,16 +107,13 @@ class IndexUI extends HookConsumerWidget {
     );
   }
 
-  Widget _makeNavigationBar(BuildContext context, ValueNotifier<int> curIndex) {
-    final theme = FluentTheme.of(context);
+  Widget _makeNavigationBar(ValueNotifier<int> curIndex) {
     final menus = pageMenus.entries.toList();
 
     return Container(
       width: 78,
       decoration: BoxDecoration(
-        color:
-            theme.navigationPaneTheme.backgroundColor ??
-            theme.scaffoldBackgroundColor,
+        color: Colors.transparent,
         border: Border(
           right: BorderSide(color: Colors.white.withValues(alpha: .04)),
         ),
