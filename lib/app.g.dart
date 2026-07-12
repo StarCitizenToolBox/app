@@ -88,7 +88,7 @@ abstract class _$AppGlobalModel extends $Notifier<AppGlobalState> {
   AppGlobalState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<AppGlobalState, AppGlobalState>;
     final element =
         ref.element
@@ -98,6 +98,6 @@ abstract class _$AppGlobalModel extends $Notifier<AppGlobalState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

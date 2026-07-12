@@ -49,7 +49,7 @@ abstract class _$HomePerformanceUIModel
   HomePerformanceUIState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref as $Ref<HomePerformanceUIState, HomePerformanceUIState>;
     final element =
@@ -60,6 +60,6 @@ abstract class _$HomePerformanceUIModel
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

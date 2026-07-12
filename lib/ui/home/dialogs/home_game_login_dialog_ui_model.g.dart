@@ -48,7 +48,7 @@ abstract class _$HomeGameLoginUIModel extends $Notifier<HomeGameLoginState> {
   HomeGameLoginState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<HomeGameLoginState, HomeGameLoginState>;
     final element =
         ref.element
@@ -58,6 +58,6 @@ abstract class _$HomeGameLoginUIModel extends $Notifier<HomeGameLoginState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

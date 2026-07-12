@@ -50,7 +50,7 @@ final class ToolsLogAnalyzeProvider
   }
 }
 
-String _$toolsLogAnalyzeHash() => r'7fa6e068a3ee33fbf1eb0c718035eececd625ece';
+String _$toolsLogAnalyzeHash() => r'4d303444e2209efe7aa0b9346fad784acce26127';
 
 final class ToolsLogAnalyzeFamily extends $Family
     with
@@ -101,7 +101,7 @@ abstract class _$ToolsLogAnalyze
   });
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -119,7 +119,7 @@ abstract class _$ToolsLogAnalyze
               Object?,
               Object?
             >;
-    element.handleCreate(
+    return element.handleCreate(
       ref,
       () =>
           build(_$args.$1, _$args.$2, selectedLogFile: _$args.selectedLogFile),

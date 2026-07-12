@@ -42,13 +42,13 @@ final class LocalizationUIModelProvider
 }
 
 String _$localizationUIModelHash() =>
-    r'c070e5dd98ad0ee3429116951e902a59415e8ddf';
+    r'0bb9d762a589be4ac6b1f9a43e90bd776a897d13';
 
 abstract class _$LocalizationUIModel extends $Notifier<LocalizationUIState> {
   LocalizationUIState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<LocalizationUIState, LocalizationUIState>;
     final element =
         ref.element
@@ -58,6 +58,6 @@ abstract class _$LocalizationUIModel extends $Notifier<LocalizationUIState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

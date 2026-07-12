@@ -66,7 +66,7 @@ final class PartyRoomGameLogTrackerProviderProvider
 }
 
 String _$partyRoomGameLogTrackerProviderHash() =>
-    r'7c9413736b0a3357075ab5309f0e746f0d6e3fc3';
+    r'63d569a74cd9a38c094f77ffc4de674c6b4092fe';
 
 final class PartyRoomGameLogTrackerProviderFamily extends $Family
     with
@@ -104,7 +104,7 @@ abstract class _$PartyRoomGameLogTrackerProvider
   PartyRoomGameLogTrackerProviderState build({required DateTime startTime});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<
@@ -122,6 +122,6 @@ abstract class _$PartyRoomGameLogTrackerProvider
               Object?,
               Object?
             >;
-    element.handleCreate(ref, () => build(startTime: _$args));
+    return element.handleCreate(ref, () => build(startTime: _$args));
   }
 }

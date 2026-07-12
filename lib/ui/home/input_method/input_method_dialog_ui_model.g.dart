@@ -50,7 +50,7 @@ abstract class _$InputMethodDialogUIModel
   InputMethodDialogUIState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref as $Ref<InputMethodDialogUIState, InputMethodDialogUIState>;
     final element =
@@ -61,7 +61,7 @@ abstract class _$InputMethodDialogUIModel
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -156,7 +156,7 @@ abstract class _$OnnxTranslation extends $Notifier<bool> {
   bool build(String modelDir, String modelName, bool useXnnPack);
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
@@ -166,6 +166,9 @@ abstract class _$OnnxTranslation extends $Notifier<bool> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, () => build(_$args.$1, _$args.$2, _$args.$3));
+    return element.handleCreate(
+      ref,
+      () => build(_$args.$1, _$args.$2, _$args.$3),
+    );
   }
 }

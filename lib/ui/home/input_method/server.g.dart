@@ -47,7 +47,7 @@ abstract class _$InputMethodServer extends $Notifier<InputMethodServerState> {
   InputMethodServerState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref as $Ref<InputMethodServerState, InputMethodServerState>;
     final element =
@@ -58,6 +58,6 @@ abstract class _$InputMethodServer extends $Notifier<InputMethodServerState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

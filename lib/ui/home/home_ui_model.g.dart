@@ -41,13 +41,13 @@ final class HomeUIModelProvider
   }
 }
 
-String _$homeUIModelHash() => r'b7aec0f6394673d0d122bb5aa3fcbb63e2d4594e';
+String _$homeUIModelHash() => r'5ac99548d42e43c2ffc8eff9f9da752b9f0b4d7f';
 
 abstract class _$HomeUIModel extends $Notifier<HomeUIModelState> {
   HomeUIModelState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<HomeUIModelState, HomeUIModelState>;
     final element =
         ref.element
@@ -57,6 +57,6 @@ abstract class _$HomeUIModel extends $Notifier<HomeUIModelState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

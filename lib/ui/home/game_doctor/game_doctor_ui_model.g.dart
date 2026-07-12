@@ -48,7 +48,7 @@ abstract class _$HomeGameDoctorUIModel extends $Notifier<HomeGameDoctorState> {
   HomeGameDoctorState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<HomeGameDoctorState, HomeGameDoctorState>;
     final element =
         ref.element
@@ -58,6 +58,6 @@ abstract class _$HomeGameDoctorUIModel extends $Notifier<HomeGameDoctorState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

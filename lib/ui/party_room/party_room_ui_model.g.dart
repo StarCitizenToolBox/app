@@ -41,13 +41,13 @@ final class PartyRoomUIModelProvider
   }
 }
 
-String _$partyRoomUIModelHash() => r'cb37e8a29d22b122a5e0e552cca1af537dddc703';
+String _$partyRoomUIModelHash() => r'6662916c9e87387f17b937060da84de94f36633b';
 
 abstract class _$PartyRoomUIModel extends $Notifier<PartyRoomUIState> {
   PartyRoomUIState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<PartyRoomUIState, PartyRoomUIState>;
     final element =
         ref.element
@@ -57,6 +57,6 @@ abstract class _$PartyRoomUIModel extends $Notifier<PartyRoomUIState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

@@ -59,7 +59,7 @@ final class AuthUIModelProvider
   }
 }
 
-String _$authUIModelHash() => r'485bf56e488ba01cd1371131e6d92077c76176df';
+String _$authUIModelHash() => r'25328760e7a0f57b6422103b3e50ef68ea24dfb1';
 
 final class AuthUIModelFamily extends $Family
     with
@@ -111,7 +111,7 @@ abstract class _$AuthUIModel extends $Notifier<AuthUIState> {
   });
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<AuthUIState, AuthUIState>;
     final element =
         ref.element
@@ -121,7 +121,7 @@ abstract class _$AuthUIModel extends $Notifier<AuthUIState> {
               Object?,
               Object?
             >;
-    element.handleCreate(
+    return element.handleCreate(
       ref,
       () => build(
         callbackUrl: _$args.callbackUrl,

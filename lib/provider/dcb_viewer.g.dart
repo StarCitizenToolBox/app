@@ -47,7 +47,7 @@ abstract class _$DcbViewerModel extends $Notifier<DcbViewerState> {
   DcbViewerState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<DcbViewerState, DcbViewerState>;
     final element =
         ref.element
@@ -57,6 +57,6 @@ abstract class _$DcbViewerModel extends $Notifier<DcbViewerState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

@@ -54,7 +54,7 @@ abstract class _$AdvancedLocalizationUIModel
   AdvancedLocalizationUIState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref
             as $Ref<AdvancedLocalizationUIState, AdvancedLocalizationUIState>;
@@ -69,6 +69,6 @@ abstract class _$AdvancedLocalizationUIModel
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

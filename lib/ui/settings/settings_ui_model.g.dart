@@ -47,7 +47,7 @@ abstract class _$SettingsUIModel extends $Notifier<SettingsUIState> {
   SettingsUIState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<SettingsUIState, SettingsUIState>;
     final element =
         ref.element
@@ -57,6 +57,6 @@ abstract class _$SettingsUIModel extends $Notifier<SettingsUIState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

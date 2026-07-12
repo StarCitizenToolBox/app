@@ -44,7 +44,7 @@ final class PartyRoomProvider
   }
 }
 
-String _$partyRoomHash() => r'446e4cc88be96c890f8e676c6faf0e4d3b33a529';
+String _$partyRoomHash() => r'd57cf03dbf7b343cde3ba947f12de3ca34d31cd6';
 
 /// PartyRoom Provider
 
@@ -52,7 +52,7 @@ abstract class _$PartyRoom extends $Notifier<PartyRoomFullState> {
   PartyRoomFullState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<PartyRoomFullState, PartyRoomFullState>;
     final element =
         ref.element
@@ -62,6 +62,6 @@ abstract class _$PartyRoom extends $Notifier<PartyRoomFullState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

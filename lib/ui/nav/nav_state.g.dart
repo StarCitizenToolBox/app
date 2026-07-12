@@ -46,7 +46,7 @@ abstract class _$Nav extends $Notifier<NavState> {
   NavState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<NavState, NavState>;
     final element =
         ref.element
@@ -56,6 +56,6 @@ abstract class _$Nav extends $Notifier<NavState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
