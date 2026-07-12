@@ -32,14 +32,24 @@ pub fn candidate_object_urls(config: &Config, entry: &ManifestEntry) -> Vec<Stri
             config
                 .mirror_bases
                 .iter()
-                .flat_map(|base| config.object_path_templates.iter().map(move |template| (base, template)))
+                .flat_map(|base| {
+                    config
+                        .object_path_templates
+                        .iter()
+                        .map(move |template| (base, template))
+                })
                 .map(|(base, template)| format_object_template(template, base, entry)),
         )
         .chain(
             config
                 .official_bases
                 .iter()
-                .flat_map(|base| config.object_path_templates.iter().map(move |template| (base, template)))
+                .flat_map(|base| {
+                    config
+                        .object_path_templates
+                        .iter()
+                        .map(move |template| (base, template))
+                })
                 .map(|(base, template)| format_object_template(template, base, entry)),
         )
         .collect()

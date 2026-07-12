@@ -3,7 +3,8 @@ use anyhow::Result;
 use p4k_upgrader::{
     cancel_update, clear_manifest_memory_cache, estimate_update_size, is_repair_update_mode,
     pause_update, reset_update_control, resume_update, run_repair_update, run_update,
-    set_download_thread_limit, verify_existing, Config, ProgressEvent, ProgressReporter,
+    set_download_thread_limit, verify_existing, Config, DownloadSource, Error,
+    MirrorUnavailableReason, ProgressEvent, ProgressReporter,
 };
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
@@ -13,8 +14,38 @@ const PROGRESS_THROTTLE_INTERVAL: Duration = Duration::from_millis(150);
 const PROGRESS_MEANINGFUL_DELTA_INTERVAL: Duration = Duration::from_millis(100);
 const PROGRESS_MEANINGFUL_BYTE_DELTA: u64 = 64 * 1024 * 1024;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum P4kDownloadSource {
+    Official,
+    CommunityMirror,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum P4kMirrorUnavailableReason {
+    NotEligible,
+    NotMirrored,
+    IncompleteBase,
+    ReleaseMismatch,
+}
+
+#[derive(Debug, Clone)]
+pub struct P4kMirrorUnavailable {
+    pub reason: P4kMirrorUnavailableReason,
+    pub object_sha256: Option<String>,
+    pub compressed_size: Option<u64>,
+    pub message: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct P4kUpgraderEstimateOutcome {
+    pub report: Option<P4kUpgraderEstimateReport>,
+    pub mirror_unavailable: Option<P4kMirrorUnavailable>,
+    pub error_message: Option<String>,
+}
+
 #[derive(Debug, Clone)]
 pub struct P4kUpgraderConfig {
+    pub source: P4kDownloadSource,
     pub manifest_source: String,
     pub mirror_bases: Vec<String>,
     pub official_bases: Vec<String>,
@@ -51,6 +82,7 @@ pub struct P4kUpgraderEstimateReport {
     pub loose_entries_requiring_download: usize,
     pub total_entries_requiring_download: usize,
     pub payload_download_bytes: u64,
+    pub payload_estimate_exact: bool,
     pub payload_download_gb_decimal: f64,
     pub payload_download_gib: f64,
     /// E: static "full-download" reference value — the manifest's
@@ -72,6 +104,7 @@ pub struct P4kUpgraderProgressEvent {
     pub active_downloads: usize,
     pub thread_limit: usize,
     pub message: String,
+    pub mirror_unavailable: Option<P4kMirrorUnavailable>,
 }
 
 #[flutter_rust_bridge::frb(sync)]
@@ -80,31 +113,42 @@ pub fn p4k_upgrader_default_object_path_templates() -> Vec<String> {
 }
 
 #[flutter_rust_bridge::frb(serialize)]
-pub fn p4k_upgrader_estimate(config: P4kUpgraderConfig) -> Result<P4kUpgraderEstimateReport> {
-    let config = to_upgrader_config(config)?;
+pub fn p4k_upgrader_estimate(config: P4kUpgraderConfig) -> P4kUpgraderEstimateOutcome {
+    let config = match to_upgrader_config(config) {
+        Ok(config) => config,
+        Err(error) => return P4kUpgraderEstimateOutcome::from_anyhow(error),
+    };
     reset_update_control();
-    let report = estimate_update_size(&config)?;
-    Ok(P4kUpgraderEstimateReport {
-        manifest_entries: report.manifest_entries,
-        base_download_required: report.base_download_required,
-        base_download_bytes: report.base_download_bytes,
-        p4k_entries_requiring_download: report.p4k_entries_requiring_download,
-        loose_entries_requiring_download: report.loose_entries_requiring_download,
-        total_entries_requiring_download: report.total_entries_requiring_download,
-        payload_download_bytes: report.payload_download_bytes,
-        payload_download_gb_decimal: report.payload_download_gb_decimal,
-        payload_download_gib: report.payload_download_gib,
-        total_download_bytes: report.total_download_bytes,
-        entries: report
-            .entries
-            .into_iter()
-            .map(|entry| P4kUpgraderEstimateEntry {
-                name: entry.name,
-                sha256: entry.sha256,
-                compressed_size: entry.compressed_size,
-            })
-            .collect(),
-    })
+    let report = match estimate_update_size(&config) {
+        Ok(report) => report,
+        Err(error) => return P4kUpgraderEstimateOutcome::from_upgrader(error),
+    };
+    P4kUpgraderEstimateOutcome {
+        report: Some(P4kUpgraderEstimateReport {
+            manifest_entries: report.manifest_entries,
+            base_download_required: report.base_download_required,
+            base_download_bytes: report.base_download_bytes,
+            p4k_entries_requiring_download: report.p4k_entries_requiring_download,
+            loose_entries_requiring_download: report.loose_entries_requiring_download,
+            total_entries_requiring_download: report.total_entries_requiring_download,
+            payload_download_bytes: report.payload_download_bytes,
+            payload_estimate_exact: report.payload_estimate_exact,
+            payload_download_gb_decimal: report.payload_download_gb_decimal,
+            payload_download_gib: report.payload_download_gib,
+            total_download_bytes: report.total_download_bytes,
+            entries: report
+                .entries
+                .into_iter()
+                .map(|entry| P4kUpgraderEstimateEntry {
+                    name: entry.name,
+                    sha256: entry.sha256,
+                    compressed_size: entry.compressed_size,
+                })
+                .collect(),
+        }),
+        mirror_unavailable: None,
+        error_message: None,
+    }
 }
 
 #[flutter_rust_bridge::frb(serialize)]
@@ -139,7 +183,7 @@ pub async fn p4k_upgrader_update_with_progress(
         let mut config = match to_upgrader_config(config) {
             Ok(config) => config,
             Err(err) => {
-                let _ = sink.add(P4kUpgraderProgressEvent::error(err.to_string()));
+                let _ = sink.add(P4kUpgraderProgressEvent::error(err.to_string(), None));
                 return;
             }
         };
@@ -162,6 +206,7 @@ pub async fn p4k_upgrader_update_with_progress(
                 ));
             }
             Err(err) => {
+                let mirror_unavailable = map_mirror_unavailable(&err);
                 let message = err.to_string();
                 if message.contains("cancelled") || message.contains("取消") {
                     progress_coalescer.emit(P4kUpgraderProgressEvent::cancelled(message));
@@ -171,7 +216,8 @@ pub async fn p4k_upgrader_update_with_progress(
                     } else {
                         normal_update_error_message(message)
                     };
-                    progress_coalescer.emit(P4kUpgraderProgressEvent::error(message));
+                    progress_coalescer
+                        .emit(P4kUpgraderProgressEvent::error(message, mirror_unavailable));
                 }
             }
         }
@@ -209,43 +255,96 @@ pub fn p4k_upgrader_clear_manifest_cache() {
 fn to_upgrader_config(input: P4kUpgraderConfig) -> Result<Config> {
     let game_dir = PathBuf::from(input.game_dir);
     let object_path_templates = input.object_path_templates;
-    let mut config = Config {
-        manifest_source: input.manifest_source,
-        mirror_bases: input.mirror_bases,
-        official_bases: input.official_bases,
-        p4k_base_url: input.p4k_base_url,
-        p4k_base_verification_url: input.p4k_base_verification_url,
-        request_cookie: input.request_cookie,
-        rsi_token: input.rsi_token,
-        cache_dir: PathBuf::from(input.cache_dir),
-        existing_p4k: game_dir.join("Data.p4k"),
-        output_p4k: game_dir.join("Data.p4k.tmp"),
-        loose_root: game_dir,
-        update_p4k: input.update_p4k,
-        update_loose_files: input.update_loose_files,
-        inplace_update_p4k: input.inplace_update_p4k,
-        fallback_rebuild_on_inplace_verify_failure: input
-            .fallback_rebuild_on_inplace_verify_failure,
-        replace_existing_p4k: input.replace_existing_p4k,
-        verify_after_assemble: input.verify_after_assemble,
-        verify_cig_structure: input.verify_cig_structure,
-        verify_before_inplace: input.verify_cig_structure,
-        // Normal UI updates set verify_cig_structure=false for speed, but they
-        // still need scan-based in-place resume when a previous stop left Data.p4k
-        // without a readable central directory / EOCD.
-        resume_incomplete_inplace_update: true,
-        verify_crc32_for_loose: false,
-        max_entries: input.max_entries,
-        ..Config::default()
+    // Assign public compatibility fields after construction. External provider
+    // builds may add private internal fields to Config, which makes struct
+    // update syntax unusable outside that crate.
+    let mut config = match input.source {
+        P4kDownloadSource::Official => Config::default(),
+        P4kDownloadSource::CommunityMirror => {
+            Config::chinese_wiki_r2(game_dir.join("Data.p4k"), PathBuf::from(&input.cache_dir))
+        }
     };
+    config.download_source = match input.source {
+        P4kDownloadSource::Official => DownloadSource::Official,
+        P4kDownloadSource::CommunityMirror => DownloadSource::ChineseWikiR2,
+    };
+    if input.source == P4kDownloadSource::Official {
+        config.manifest_source = input.manifest_source;
+        config.mirror_bases = input.mirror_bases;
+        config.official_bases = input.official_bases;
+        config.p4k_base_url = input.p4k_base_url;
+        config.p4k_base_verification_url = input.p4k_base_verification_url;
+        config.request_cookie = input.request_cookie;
+        config.rsi_token = input.rsi_token;
+    }
+    config.cache_dir = PathBuf::from(input.cache_dir);
+    config.existing_p4k = game_dir.join("Data.p4k");
+    config.output_p4k = game_dir.join("Data.p4k.tmp");
+    config.loose_root = game_dir;
+    config.update_p4k = input.update_p4k;
+    config.update_loose_files = input.update_loose_files;
+    config.inplace_update_p4k = input.inplace_update_p4k;
+    config.fallback_rebuild_on_inplace_verify_failure =
+        input.fallback_rebuild_on_inplace_verify_failure;
+    config.replace_existing_p4k = input.replace_existing_p4k;
+    config.verify_after_assemble = input.verify_after_assemble;
+    config.verify_cig_structure = input.verify_cig_structure;
+    config.verify_before_inplace = input.verify_cig_structure;
+    // Normal UI updates set verify_cig_structure=false for speed, but they
+    // still need scan-based in-place resume when a previous stop left Data.p4k
+    // without a readable central directory / EOCD.
+    config.resume_incomplete_inplace_update = true;
+    config.verify_crc32_for_loose = false;
+    config.max_entries = input.max_entries;
     if !object_path_templates.is_empty() {
         config.object_path_templates = object_path_templates;
     }
 
-    if config.manifest_source.trim().is_empty() {
+    if config.download_source == DownloadSource::Official
+        && config.manifest_source.trim().is_empty()
+    {
         anyhow::bail!("manifest_source is empty");
     }
     Ok(config)
+}
+
+fn map_mirror_unavailable(error: &Error) -> Option<P4kMirrorUnavailable> {
+    let Error::MirrorUnavailable(details) = error else {
+        return None;
+    };
+    Some(P4kMirrorUnavailable {
+        reason: match details.reason {
+            MirrorUnavailableReason::NotEligible => P4kMirrorUnavailableReason::NotEligible,
+            MirrorUnavailableReason::NotMirrored => P4kMirrorUnavailableReason::NotMirrored,
+            MirrorUnavailableReason::IncompleteBase => P4kMirrorUnavailableReason::IncompleteBase,
+            MirrorUnavailableReason::ReleaseMismatch => P4kMirrorUnavailableReason::ReleaseMismatch,
+        },
+        object_sha256: details.object_sha256.clone(),
+        compressed_size: details.compressed_size,
+        message: details.message.clone(),
+    })
+}
+
+impl P4kUpgraderEstimateOutcome {
+    fn from_upgrader(error: Error) -> Self {
+        Self {
+            mirror_unavailable: map_mirror_unavailable(&error),
+            error_message: if matches!(error, Error::MirrorUnavailable(_)) {
+                None
+            } else {
+                Some(error.to_string())
+            },
+            report: None,
+        }
+    }
+
+    fn from_anyhow(error: anyhow::Error) -> Self {
+        Self {
+            report: None,
+            mirror_unavailable: None,
+            error_message: Some(error.to_string()),
+        }
+    }
 }
 
 fn normal_update_error_message(message: impl std::fmt::Display) -> String {
@@ -384,6 +483,7 @@ impl From<ProgressEvent> for P4kUpgraderProgressEvent {
             active_downloads: value.active_downloads,
             thread_limit: value.thread_limit,
             message: value.message,
+            mirror_unavailable: None,
         }
     }
 }
@@ -436,10 +536,11 @@ impl P4kUpgraderProgressEvent {
             active_downloads: 0,
             thread_limit: 0,
             message,
+            mirror_unavailable: None,
         }
     }
 
-    fn error(message: String) -> Self {
+    fn error(message: String, mirror_unavailable: Option<P4kMirrorUnavailable>) -> Self {
         Self {
             phase: "error".into(),
             name: String::new(),
@@ -450,6 +551,7 @@ impl P4kUpgraderProgressEvent {
             active_downloads: 0,
             thread_limit: 0,
             message,
+            mirror_unavailable,
         }
     }
 
@@ -464,6 +566,7 @@ impl P4kUpgraderProgressEvent {
             active_downloads: 0,
             thread_limit: 0,
             message,
+            mirror_unavailable: None,
         }
     }
 }
@@ -474,6 +577,7 @@ mod tests {
 
     fn bridge_config(verify_cig_structure: bool) -> P4kUpgraderConfig {
         P4kUpgraderConfig {
+            source: P4kDownloadSource::Official,
             manifest_source: "https://example.invalid/manifest.json".to_string(),
             mirror_bases: Vec::new(),
             official_bases: Vec::new(),
@@ -493,6 +597,76 @@ mod tests {
             verify_cig_structure,
             max_entries: None,
         }
+    }
+
+    #[test]
+    fn official_bridge_config_preserves_credentials() {
+        let mut input = bridge_config(false);
+        input.request_cookie = "cookie=value".to_string();
+        input.rsi_token = "token".to_string();
+        let config = to_upgrader_config(input).unwrap();
+        assert_eq!(config.request_cookie, "cookie=value");
+        assert_eq!(config.rsi_token, "token");
+    }
+
+    fn mirror_bridge_config() -> P4kUpgraderConfig {
+        let mut input = bridge_config(false);
+        input.source = P4kDownloadSource::CommunityMirror;
+        input.manifest_source.clear();
+        input
+    }
+
+    #[test]
+    fn mirror_config_uses_upstream_source_without_credentials_or_official_urls() {
+        let mut input = mirror_bridge_config();
+        input.request_cookie = "must-not-survive".into();
+        input.rsi_token = "must-not-survive".into();
+        input.official_bases = vec!["https://official.invalid".into()];
+        let config = to_upgrader_config(input).unwrap();
+        assert_eq!(config.download_source, DownloadSource::ChineseWikiR2);
+        assert!(config.manifest_source.is_empty());
+        assert!(config.official_bases.is_empty());
+        assert!(config.request_cookie.is_empty());
+        assert!(config.rsi_token.is_empty());
+    }
+
+    #[test]
+    fn mirror_unavailable_four_reasons_map_with_details() {
+        for (upstream, expected) in [
+            (
+                MirrorUnavailableReason::NotEligible,
+                P4kMirrorUnavailableReason::NotEligible,
+            ),
+            (
+                MirrorUnavailableReason::NotMirrored,
+                P4kMirrorUnavailableReason::NotMirrored,
+            ),
+            (
+                MirrorUnavailableReason::IncompleteBase,
+                P4kMirrorUnavailableReason::IncompleteBase,
+            ),
+            (
+                MirrorUnavailableReason::ReleaseMismatch,
+                P4kMirrorUnavailableReason::ReleaseMismatch,
+            ),
+        ] {
+            let error = Error::MirrorUnavailable(p4k_upgrader::MirrorUnavailable {
+                reason: upstream,
+                object_sha256: Some("abc".into()),
+                compressed_size: Some(42),
+                message: "provider detail".into(),
+            });
+            let mapped = map_mirror_unavailable(&error).unwrap();
+            assert_eq!(mapped.reason, expected);
+            assert_eq!(mapped.object_sha256.as_deref(), Some("abc"));
+            assert_eq!(mapped.compressed_size, Some(42));
+            assert_eq!(mapped.message, "provider detail");
+        }
+    }
+
+    #[test]
+    fn hard_error_is_not_mirror_unavailable() {
+        assert!(map_mirror_unavailable(&Error::Message("bad hash".into())).is_none());
     }
 
     #[test]
@@ -571,7 +745,7 @@ mod tests {
 
         state.events_to_emit(progress_event("downloading", 1, 100), start);
         let emitted = state.events_to_emit(
-            P4kUpgraderProgressEvent::error("boom".to_string()),
+            P4kUpgraderProgressEvent::error("boom".to_string(), None),
             start + Duration::from_millis(10),
         );
 
@@ -594,6 +768,7 @@ mod tests {
             active_downloads: 1,
             thread_limit: 32,
             message: String::new(),
+            mirror_unavailable: None,
         }
     }
 }

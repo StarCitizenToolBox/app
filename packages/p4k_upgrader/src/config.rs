@@ -6,6 +6,14 @@ use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 use std::sync::Arc;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DownloadSource {
+    #[default]
+    Official,
+    ChineseWikiR2,
+}
+
 static DOWNLOAD_THREAD_LIMIT: AtomicUsize = AtomicUsize::new(32);
 static BASE_DOWNLOAD_THREAD_LIMIT: AtomicUsize = AtomicUsize::new(8);
 static UPDATE_CONTROL_STATE: AtomicUsize = AtomicUsize::new(0);
@@ -118,6 +126,7 @@ impl fmt::Debug for ProgressReporter {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Config {
+    pub download_source: DownloadSource,
     pub manifest_source: String,
     pub mirror_bases: Vec<String>,
     pub official_bases: Vec<String>,
@@ -164,6 +173,7 @@ pub struct Config {
 impl Default for Config {
     fn default() -> Self {
         Self {
+            download_source: DownloadSource::Official,
             manifest_source: String::new(),
             mirror_bases: Vec::new(),
             official_bases: Vec::new(),
@@ -212,6 +222,39 @@ impl Default for Config {
 }
 
 impl Config {
+    pub fn with_download_source(mut self, source: DownloadSource) -> Self {
+        self.download_source = source;
+        self
+    }
+
+    pub fn chinese_wiki_r2(
+        existing_p4k: impl Into<PathBuf>,
+        cache_dir: impl Into<PathBuf>,
+    ) -> Self {
+        let existing_p4k = existing_p4k.into();
+        let output_p4k = existing_p4k.with_extension("p4k.tmp");
+        let loose_root = existing_p4k
+            .parent()
+            .unwrap_or_else(|| Path::new("."))
+            .to_path_buf();
+        Self {
+            download_source: DownloadSource::ChineseWikiR2,
+            manifest_source: String::new(),
+            mirror_bases: Vec::new(),
+            official_bases: Vec::new(),
+            p4k_base_url: String::new(),
+            p4k_base_verification_url: String::new(),
+            object_path_templates: Vec::new(),
+            cache_dir: cache_dir.into(),
+            existing_p4k,
+            output_p4k,
+            loose_root,
+            request_cookie: String::new(),
+            rsi_token: String::new(),
+            ..Self::default()
+        }
+    }
+
     pub fn from_file(path: impl AsRef<Path>, _require_object_source: bool) -> Result<Self> {
         let path = path.as_ref();
         if !path.exists() {

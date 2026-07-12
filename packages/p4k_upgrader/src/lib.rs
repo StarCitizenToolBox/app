@@ -31,10 +31,10 @@ pub use archive::{
 #[cfg(not(has_closed_p4k_upgrader))]
 pub use config::{
     cancel_update, pause_update, reset_update_control, resume_update, set_download_thread_limit,
-    Config, ProgressEvent, ProgressReporter,
+    Config, DownloadSource, ProgressEvent, ProgressReporter,
 };
 #[cfg(not(has_closed_p4k_upgrader))]
-pub use error::{Error, Result};
+pub use error::{Error, MirrorUnavailable, MirrorUnavailableReason, Result};
 #[cfg(not(has_closed_p4k_upgrader))]
 pub use manifest::{cache_manifest, clear_manifest_memory_cache, Manifest, ManifestEntry};
 #[cfg(not(has_closed_p4k_upgrader))]

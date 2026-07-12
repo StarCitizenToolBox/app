@@ -2719,13 +2719,12 @@ fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimate_impl(
                 <crate::api::p4k_upgrader_api::P4kUpgraderConfig>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok =
-                            crate::api::p4k_upgrader_api::p4k_upgrader_estimate(api_config)?;
-                        Ok(output_ok)
-                    })(),
-                )
+                transform_result_sse::<_, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::p4k_upgrader_api::p4k_upgrader_estimate(api_config),
+                    )?;
+                    Ok(output_ok)
+                })())
             }
         },
     )
@@ -4483,6 +4482,32 @@ impl SseDecode for Option<crate::api::unp4k_model_api::ModelConvertOptions> {
     }
 }
 
+impl SseDecode for Option<crate::api::p4k_upgrader_api::P4kMirrorUnavailable> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(
+                <crate::api::p4k_upgrader_api::P4kMirrorUnavailable>::sse_decode(deserializer),
+            );
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(
+                <crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport>::sse_decode(deserializer),
+            );
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<u32> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4571,6 +4596,18 @@ impl SseDecode for Option<Vec<u8>> {
     }
 }
 
+impl SseDecode for crate::api::p4k_upgrader_api::P4kDownloadSource {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::p4k_upgrader_api::P4kDownloadSource::Official,
+            1 => crate::api::p4k_upgrader_api::P4kDownloadSource::CommunityMirror,
+            _ => unreachable!("Invalid variant for P4kDownloadSource: {}", inner),
+        };
+    }
+}
+
 impl SseDecode for crate::api::unp4k_api::P4kFileItem {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4589,9 +4626,42 @@ impl SseDecode for crate::api::unp4k_api::P4kFileItem {
     }
 }
 
+impl SseDecode for crate::api::p4k_upgrader_api::P4kMirrorUnavailable {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_reason =
+            <crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason>::sse_decode(deserializer);
+        let mut var_objectSha256 = <Option<String>>::sse_decode(deserializer);
+        let mut var_compressedSize = <Option<u64>>::sse_decode(deserializer);
+        let mut var_message = <String>::sse_decode(deserializer);
+        return crate::api::p4k_upgrader_api::P4kMirrorUnavailable {
+            reason: var_reason,
+            object_sha256: var_objectSha256,
+            compressed_size: var_compressedSize,
+            message: var_message,
+        };
+    }
+}
+
+impl SseDecode for crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason::NotEligible,
+            1 => crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason::NotMirrored,
+            2 => crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason::IncompleteBase,
+            3 => crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason::ReleaseMismatch,
+            _ => unreachable!("Invalid variant for P4kMirrorUnavailableReason: {}", inner),
+        };
+    }
+}
+
 impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_source =
+            <crate::api::p4k_upgrader_api::P4kDownloadSource>::sse_decode(deserializer);
         let mut var_manifestSource = <String>::sse_decode(deserializer);
         let mut var_mirrorBases = <Vec<String>>::sse_decode(deserializer);
         let mut var_officialBases = <Vec<String>>::sse_decode(deserializer);
@@ -4611,6 +4681,7 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderConfig {
         let mut var_verifyCigStructure = <bool>::sse_decode(deserializer);
         let mut var_maxEntries = <Option<usize>>::sse_decode(deserializer);
         return crate::api::p4k_upgrader_api::P4kUpgraderConfig {
+            source: var_source,
             manifest_source: var_manifestSource,
             mirror_bases: var_mirrorBases,
             official_bases: var_officialBases,
@@ -4647,6 +4718,24 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
     }
 }
 
+impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_report =
+            <Option<crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport>>::sse_decode(
+                deserializer,
+            );
+        let mut var_mirrorUnavailable =
+            <Option<crate::api::p4k_upgrader_api::P4kMirrorUnavailable>>::sse_decode(deserializer);
+        let mut var_errorMessage = <Option<String>>::sse_decode(deserializer);
+        return crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome {
+            report: var_report,
+            mirror_unavailable: var_mirrorUnavailable,
+            error_message: var_errorMessage,
+        };
+    }
+}
+
 impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4657,6 +4746,7 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
         let mut var_looseEntriesRequiringDownload = <usize>::sse_decode(deserializer);
         let mut var_totalEntriesRequiringDownload = <usize>::sse_decode(deserializer);
         let mut var_payloadDownloadBytes = <u64>::sse_decode(deserializer);
+        let mut var_payloadEstimateExact = <bool>::sse_decode(deserializer);
         let mut var_payloadDownloadGbDecimal = <f64>::sse_decode(deserializer);
         let mut var_payloadDownloadGib = <f64>::sse_decode(deserializer);
         let mut var_totalDownloadBytes = <u64>::sse_decode(deserializer);
@@ -4670,6 +4760,7 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
             loose_entries_requiring_download: var_looseEntriesRequiringDownload,
             total_entries_requiring_download: var_totalEntriesRequiringDownload,
             payload_download_bytes: var_payloadDownloadBytes,
+            payload_estimate_exact: var_payloadEstimateExact,
             payload_download_gb_decimal: var_payloadDownloadGbDecimal,
             payload_download_gib: var_payloadDownloadGib,
             total_download_bytes: var_totalDownloadBytes,
@@ -4690,6 +4781,8 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
         let mut var_activeDownloads = <usize>::sse_decode(deserializer);
         let mut var_threadLimit = <usize>::sse_decode(deserializer);
         let mut var_message = <String>::sse_decode(deserializer);
+        let mut var_mirrorUnavailable =
+            <Option<crate::api::p4k_upgrader_api::P4kMirrorUnavailable>>::sse_decode(deserializer);
         return crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
             phase: var_phase,
             name: var_name,
@@ -4700,6 +4793,7 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
             active_downloads: var_activeDownloads,
             thread_limit: var_threadLimit,
             message: var_message,
+            mirror_unavailable: var_mirrorUnavailable,
         };
     }
 }
@@ -5461,6 +5555,27 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::http_api::MyMethod>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kDownloadSource {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Official => 0.into_dart(),
+            Self::CommunityMirror => 1.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::p4k_upgrader_api::P4kDownloadSource
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kDownloadSource>
+    for crate::api::p4k_upgrader_api::P4kDownloadSource
+{
+    fn into_into_dart(self) -> crate::api::p4k_upgrader_api::P4kDownloadSource {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::P4kFileItem {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -5485,9 +5600,56 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::P4kFileItem>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kMirrorUnavailable {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.reason.into_into_dart().into_dart(),
+            self.object_sha256.into_into_dart().into_dart(),
+            self.compressed_size.into_into_dart().into_dart(),
+            self.message.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::p4k_upgrader_api::P4kMirrorUnavailable
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kMirrorUnavailable>
+    for crate::api::p4k_upgrader_api::P4kMirrorUnavailable
+{
+    fn into_into_dart(self) -> crate::api::p4k_upgrader_api::P4kMirrorUnavailable {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::NotEligible => 0.into_dart(),
+            Self::NotMirrored => 1.into_dart(),
+            Self::IncompleteBase => 2.into_dart(),
+            Self::ReleaseMismatch => 3.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason>
+    for crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason
+{
+    fn into_into_dart(self) -> crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgraderConfig {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
+            self.source.into_into_dart().into_dart(),
             self.manifest_source.into_into_dart().into_dart(),
             self.mirror_bases.into_into_dart().into_dart(),
             self.official_bases.into_into_dart().into_dart(),
@@ -5546,6 +5708,28 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kUpgrader
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.report.into_into_dart().into_dart(),
+            self.mirror_unavailable.into_into_dart().into_dart(),
+            self.error_message.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome>
+    for crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome
+{
+    fn into_into_dart(self) -> crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -5562,6 +5746,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgrader
                 .into_into_dart()
                 .into_dart(),
             self.payload_download_bytes.into_into_dart().into_dart(),
+            self.payload_estimate_exact.into_into_dart().into_dart(),
             self.payload_download_gb_decimal
                 .into_into_dart()
                 .into_dart(),
@@ -5596,6 +5781,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgrader
             self.active_downloads.into_into_dart().into_dart(),
             self.thread_limit.into_into_dart().into_dart(),
             self.message.into_into_dart().into_dart(),
+            self.mirror_unavailable.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -6461,6 +6647,28 @@ impl SseEncode for Option<crate::api::unp4k_model_api::ModelConvertOptions> {
     }
 }
 
+impl SseEncode for Option<crate::api::p4k_upgrader_api::P4kMirrorUnavailable> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::p4k_upgrader_api::P4kMirrorUnavailable>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport>::sse_encode(
+                value, serializer,
+            );
+        }
+    }
+}
+
 impl SseEncode for Option<u32> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6541,6 +6749,22 @@ impl SseEncode for Option<Vec<u8>> {
     }
 }
 
+impl SseEncode for crate::api::p4k_upgrader_api::P4kDownloadSource {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::p4k_upgrader_api::P4kDownloadSource::Official => 0,
+                crate::api::p4k_upgrader_api::P4kDownloadSource::CommunityMirror => 1,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
 impl SseEncode for crate::api::unp4k_api::P4kFileItem {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6552,9 +6776,41 @@ impl SseEncode for crate::api::unp4k_api::P4kFileItem {
     }
 }
 
+impl SseEncode for crate::api::p4k_upgrader_api::P4kMirrorUnavailable {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason>::sse_encode(
+            self.reason,
+            serializer,
+        );
+        <Option<String>>::sse_encode(self.object_sha256, serializer);
+        <Option<u64>>::sse_encode(self.compressed_size, serializer);
+        <String>::sse_encode(self.message, serializer);
+    }
+}
+
+impl SseEncode for crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason::NotEligible => 0,
+                crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason::NotMirrored => 1,
+                crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason::IncompleteBase => 2,
+                crate::api::p4k_upgrader_api::P4kMirrorUnavailableReason::ReleaseMismatch => 3,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
 impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderConfig {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::p4k_upgrader_api::P4kDownloadSource>::sse_encode(self.source, serializer);
         <String>::sse_encode(self.manifest_source, serializer);
         <Vec<String>>::sse_encode(self.mirror_bases, serializer);
         <Vec<String>>::sse_encode(self.official_bases, serializer);
@@ -6585,6 +6841,21 @@ impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry {
     }
 }
 
+impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport>>::sse_encode(
+            self.report,
+            serializer,
+        );
+        <Option<crate::api::p4k_upgrader_api::P4kMirrorUnavailable>>::sse_encode(
+            self.mirror_unavailable,
+            serializer,
+        );
+        <Option<String>>::sse_encode(self.error_message, serializer);
+    }
+}
+
 impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6595,6 +6866,7 @@ impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateReport {
         <usize>::sse_encode(self.loose_entries_requiring_download, serializer);
         <usize>::sse_encode(self.total_entries_requiring_download, serializer);
         <u64>::sse_encode(self.payload_download_bytes, serializer);
+        <bool>::sse_encode(self.payload_estimate_exact, serializer);
         <f64>::sse_encode(self.payload_download_gb_decimal, serializer);
         <f64>::sse_encode(self.payload_download_gib, serializer);
         <u64>::sse_encode(self.total_download_bytes, serializer);
@@ -6617,6 +6889,10 @@ impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
         <usize>::sse_encode(self.active_downloads, serializer);
         <usize>::sse_encode(self.thread_limit, serializer);
         <String>::sse_encode(self.message, serializer);
+        <Option<crate::api::p4k_upgrader_api::P4kMirrorUnavailable>>::sse_encode(
+            self.mirror_unavailable,
+            serializer,
+        );
     }
 }
 

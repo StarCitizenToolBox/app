@@ -6,15 +6,15 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `cancelled`, `done`, `elapsed_since_last_emit`, `emit`, `error`, `events_to_emit`, `has_meaningful_delta`, `is_completion`, `is_important`, `is_terminal`, `new`, `normal_update_error_message`, `pending_differs_from`, `record_emitted`, `report_progress`, `same_progress_position`, `should_discard_pending_before_terminal`, `to_upgrader_config`
+// These functions are ignored because they are not marked as `pub`: `cancelled`, `done`, `elapsed_since_last_emit`, `emit`, `error`, `events_to_emit`, `from_anyhow`, `from_upgrader`, `has_meaningful_delta`, `is_completion`, `is_important`, `is_terminal`, `map_mirror_unavailable`, `new`, `normal_update_error_message`, `pending_differs_from`, `record_emitted`, `report_progress`, `same_progress_position`, `should_discard_pending_before_terminal`, `to_upgrader_config`
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ProgressEventCoalescerState`, `ProgressEventCoalescer`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
 // These functions are ignored (category: IgnoreBecauseOwnerTyShouldIgnore): `default`
 
 List<String> p4KUpgraderDefaultObjectPathTemplates() => RustLib.instance.api
     .crateApiP4KUpgraderApiP4KUpgraderDefaultObjectPathTemplates();
 
-Future<P4kUpgraderEstimateReport> p4KUpgraderEstimate({
+Future<P4kUpgraderEstimateOutcome> p4KUpgraderEstimate({
   required P4kUpgraderConfig config,
 }) => RustLib.instance.api.crateApiP4KUpgraderApiP4KUpgraderEstimate(
   config: config,
@@ -53,7 +53,48 @@ void p4KUpgraderCancel() =>
 void p4KUpgraderClearManifestCache() =>
     RustLib.instance.api.crateApiP4KUpgraderApiP4KUpgraderClearManifestCache();
 
+enum P4kDownloadSource { official, communityMirror }
+
+class P4kMirrorUnavailable {
+  final P4kMirrorUnavailableReason reason;
+  final String? objectSha256;
+  final BigInt? compressedSize;
+  final String message;
+
+  const P4kMirrorUnavailable({
+    required this.reason,
+    this.objectSha256,
+    this.compressedSize,
+    required this.message,
+  });
+
+  @override
+  int get hashCode =>
+      reason.hashCode ^
+      objectSha256.hashCode ^
+      compressedSize.hashCode ^
+      message.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is P4kMirrorUnavailable &&
+          runtimeType == other.runtimeType &&
+          reason == other.reason &&
+          objectSha256 == other.objectSha256 &&
+          compressedSize == other.compressedSize &&
+          message == other.message;
+}
+
+enum P4kMirrorUnavailableReason {
+  notEligible,
+  notMirrored,
+  incompleteBase,
+  releaseMismatch,
+}
+
 class P4kUpgraderConfig {
+  final P4kDownloadSource source;
   final String manifestSource;
   final List<String> mirrorBases;
   final List<String> officialBases;
@@ -74,6 +115,7 @@ class P4kUpgraderConfig {
   final BigInt? maxEntries;
 
   const P4kUpgraderConfig({
+    required this.source,
     required this.manifestSource,
     required this.mirrorBases,
     required this.officialBases,
@@ -96,6 +138,7 @@ class P4kUpgraderConfig {
 
   @override
   int get hashCode =>
+      source.hashCode ^
       manifestSource.hashCode ^
       mirrorBases.hashCode ^
       officialBases.hashCode ^
@@ -120,6 +163,7 @@ class P4kUpgraderConfig {
       identical(this, other) ||
       other is P4kUpgraderConfig &&
           runtimeType == other.runtimeType &&
+          source == other.source &&
           manifestSource == other.manifestSource &&
           mirrorBases == other.mirrorBases &&
           officialBases == other.officialBases &&
@@ -165,6 +209,31 @@ class P4kUpgraderEstimateEntry {
           compressedSize == other.compressedSize;
 }
 
+class P4kUpgraderEstimateOutcome {
+  final P4kUpgraderEstimateReport? report;
+  final P4kMirrorUnavailable? mirrorUnavailable;
+  final String? errorMessage;
+
+  const P4kUpgraderEstimateOutcome({
+    this.report,
+    this.mirrorUnavailable,
+    this.errorMessage,
+  });
+
+  @override
+  int get hashCode =>
+      report.hashCode ^ mirrorUnavailable.hashCode ^ errorMessage.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is P4kUpgraderEstimateOutcome &&
+          runtimeType == other.runtimeType &&
+          report == other.report &&
+          mirrorUnavailable == other.mirrorUnavailable &&
+          errorMessage == other.errorMessage;
+}
+
 class P4kUpgraderEstimateReport {
   final BigInt manifestEntries;
   final bool baseDownloadRequired;
@@ -173,6 +242,7 @@ class P4kUpgraderEstimateReport {
   final BigInt looseEntriesRequiringDownload;
   final BigInt totalEntriesRequiringDownload;
   final BigInt payloadDownloadBytes;
+  final bool payloadEstimateExact;
   final double payloadDownloadGbDecimal;
   final double payloadDownloadGib;
 
@@ -191,6 +261,7 @@ class P4kUpgraderEstimateReport {
     required this.looseEntriesRequiringDownload,
     required this.totalEntriesRequiringDownload,
     required this.payloadDownloadBytes,
+    required this.payloadEstimateExact,
     required this.payloadDownloadGbDecimal,
     required this.payloadDownloadGib,
     required this.totalDownloadBytes,
@@ -206,6 +277,7 @@ class P4kUpgraderEstimateReport {
       looseEntriesRequiringDownload.hashCode ^
       totalEntriesRequiringDownload.hashCode ^
       payloadDownloadBytes.hashCode ^
+      payloadEstimateExact.hashCode ^
       payloadDownloadGbDecimal.hashCode ^
       payloadDownloadGib.hashCode ^
       totalDownloadBytes.hashCode ^
@@ -225,6 +297,7 @@ class P4kUpgraderEstimateReport {
           totalEntriesRequiringDownload ==
               other.totalEntriesRequiringDownload &&
           payloadDownloadBytes == other.payloadDownloadBytes &&
+          payloadEstimateExact == other.payloadEstimateExact &&
           payloadDownloadGbDecimal == other.payloadDownloadGbDecimal &&
           payloadDownloadGib == other.payloadDownloadGib &&
           totalDownloadBytes == other.totalDownloadBytes &&
@@ -241,6 +314,7 @@ class P4kUpgraderProgressEvent {
   final BigInt activeDownloads;
   final BigInt threadLimit;
   final String message;
+  final P4kMirrorUnavailable? mirrorUnavailable;
 
   const P4kUpgraderProgressEvent({
     required this.phase,
@@ -252,6 +326,7 @@ class P4kUpgraderProgressEvent {
     required this.activeDownloads,
     required this.threadLimit,
     required this.message,
+    this.mirrorUnavailable,
   });
 
   @override
@@ -264,7 +339,8 @@ class P4kUpgraderProgressEvent {
       totalBytes.hashCode ^
       activeDownloads.hashCode ^
       threadLimit.hashCode ^
-      message.hashCode;
+      message.hashCode ^
+      mirrorUnavailable.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -279,5 +355,6 @@ class P4kUpgraderProgressEvent {
           totalBytes == other.totalBytes &&
           activeDownloads == other.activeDownloads &&
           threadLimit == other.threadLimit &&
-          message == other.message;
+          message == other.message &&
+          mirrorUnavailable == other.mirrorUnavailable;
 }

@@ -88,7 +88,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ModelConvertOptions dco_decode_box_autoadd_model_convert_options(dynamic raw);
 
   @protected
+  P4kMirrorUnavailable dco_decode_box_autoadd_p_4_k_mirror_unavailable(
+    dynamic raw,
+  );
+
+  @protected
   P4kUpgraderConfig dco_decode_box_autoadd_p_4_k_upgrader_config(dynamic raw);
+
+  @protected
+  P4kUpgraderEstimateReport
+  dco_decode_box_autoadd_p_4_k_upgrader_estimate_report(dynamic raw);
 
   @protected
   RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
@@ -240,6 +249,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  P4kMirrorUnavailable? dco_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
+    dynamic raw,
+  );
+
+  @protected
+  P4kUpgraderEstimateReport?
+  dco_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(dynamic raw);
+
+  @protected
   int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
 
   @protected
@@ -264,13 +282,29 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  P4kDownloadSource dco_decode_p_4_k_download_source(dynamic raw);
+
+  @protected
   P4kFileItem dco_decode_p_4_k_file_item(dynamic raw);
+
+  @protected
+  P4kMirrorUnavailable dco_decode_p_4_k_mirror_unavailable(dynamic raw);
+
+  @protected
+  P4kMirrorUnavailableReason dco_decode_p_4_k_mirror_unavailable_reason(
+    dynamic raw,
+  );
 
   @protected
   P4kUpgraderConfig dco_decode_p_4_k_upgrader_config(dynamic raw);
 
   @protected
   P4kUpgraderEstimateEntry dco_decode_p_4_k_upgrader_estimate_entry(
+    dynamic raw,
+  );
+
+  @protected
+  P4kUpgraderEstimateOutcome dco_decode_p_4_k_upgrader_estimate_outcome(
     dynamic raw,
   );
 
@@ -413,7 +447,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  P4kMirrorUnavailable sse_decode_box_autoadd_p_4_k_mirror_unavailable(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   P4kUpgraderConfig sse_decode_box_autoadd_p_4_k_upgrader_config(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  P4kUpgraderEstimateReport
+  sse_decode_box_autoadd_p_4_k_upgrader_estimate_report(
     SseDeserializer deserializer,
   );
 
@@ -595,6 +640,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  P4kMirrorUnavailable? sse_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  P4kUpgraderEstimateReport?
+  sse_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
 
   @protected
@@ -623,7 +679,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
+  P4kDownloadSource sse_decode_p_4_k_download_source(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   P4kFileItem sse_decode_p_4_k_file_item(SseDeserializer deserializer);
+
+  @protected
+  P4kMirrorUnavailable sse_decode_p_4_k_mirror_unavailable(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  P4kMirrorUnavailableReason sse_decode_p_4_k_mirror_unavailable_reason(
+    SseDeserializer deserializer,
+  );
 
   @protected
   P4kUpgraderConfig sse_decode_p_4_k_upgrader_config(
@@ -632,6 +703,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   P4kUpgraderEstimateEntry sse_decode_p_4_k_upgrader_estimate_entry(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  P4kUpgraderEstimateOutcome sse_decode_p_4_k_upgrader_estimate_outcome(
     SseDeserializer deserializer,
   );
 
@@ -1635,8 +1711,20 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_box_autoadd_p_4_k_mirror_unavailable(
+    P4kMirrorUnavailable self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_box_autoadd_p_4_k_upgrader_config(
     P4kUpgraderConfig self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_box_autoadd_p_4_k_upgrader_estimate_report(
+    P4kUpgraderEstimateReport self,
     SseSerializer serializer,
   );
 
@@ -1866,6 +1954,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_opt_box_autoadd_p_4_k_mirror_unavailable(
+    P4kMirrorUnavailable? self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_opt_box_autoadd_p_4_k_upgrader_estimate_report(
+    P4kUpgraderEstimateReport? self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
 
   @protected
@@ -1902,7 +2002,25 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_p_4_k_download_source(
+    P4kDownloadSource self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_p_4_k_file_item(P4kFileItem self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_p_4_k_mirror_unavailable(
+    P4kMirrorUnavailable self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_p_4_k_mirror_unavailable_reason(
+    P4kMirrorUnavailableReason self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_p_4_k_upgrader_config(
@@ -1913,6 +2031,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_p_4_k_upgrader_estimate_entry(
     P4kUpgraderEstimateEntry self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_p_4_k_upgrader_estimate_outcome(
+    P4kUpgraderEstimateOutcome self,
     SseSerializer serializer,
   );
 

@@ -13,6 +13,7 @@ pub struct EstimateReport {
     pub loose_entries_requiring_download: usize,
     pub total_entries_requiring_download: usize,
     pub payload_download_bytes: u64,
+    pub payload_estimate_exact: bool,
     pub payload_download_gb_decimal: f64,
     pub payload_download_gib: f64,
     pub total_download_bytes: u64,

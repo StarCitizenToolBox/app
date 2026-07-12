@@ -15,6 +15,7 @@ import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
+import 'package:starcitizen_doctor/common/rust/api/p4k_upgrader_api.dart';
 import 'package:starcitizen_doctor/common/utils/async.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -25,6 +26,8 @@ import 'package:starcitizen_doctor/data/citizen_news_data.dart';
 import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_game_login_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_update_dialog_ui.dart';
+import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_download_source_dialog_ui.dart';
+import 'package:starcitizen_doctor/ui/home/p4k_source_session_coordinator.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
@@ -420,6 +423,21 @@ class HomeUIModel extends _$HomeUIModel {
 
   // ignore: avoid_build_context_in_providers
   Future<void> openP4kUpdater(BuildContext context) async {
+    await openP4kUpdaterSession(
+      selectSource: () => showP4kDownloadSourceDialog(context),
+      openOfficial: () => context.mounted
+          ? _openP4kUpdaterForSource(context, P4kDownloadSource.official)
+          : Future.value(),
+      openCommunityMirror: () => context.mounted
+          ? _openP4kUpdaterForSource(context, P4kDownloadSource.communityMirror)
+          : Future.value(),
+    );
+  }
+
+  Future<void> _openP4kUpdaterForSource(
+    BuildContext context,
+    P4kDownloadSource source,
+  ) async {
     final installPath = await _resolveP4kInstallPath(context);
     if (installPath == null) return;
     if (!context.mounted) return;
@@ -444,6 +462,30 @@ class HomeUIModel extends _$HomeUIModel {
           "networkVersionData is null",
         ),
       );
+      return;
+    }
+    if (source == P4kDownloadSource.communityMirror) {
+      final result = await showDialog<P4kUpdateDialogResult>(
+        context: context,
+        dismissWithEsc: false,
+        builder: (_) => HomeP4kUpdateDialogUI(
+          source: source,
+          releaseInfo: const {},
+          installPath: installPath,
+          applicationSupportDir: appGlobalState.applicationSupportDir!,
+          webToken: "",
+          webCookie: "",
+          onMirrorProviderError: (error) =>
+              _showMirrorProviderError(context, error),
+        ),
+      );
+      if (result == P4kUpdateDialogResult.updated) {
+        await reScanPath();
+      } else if (result == P4kUpdateDialogResult.switchToOfficial &&
+          context.mounted) {
+        // The mirror dialog route has fully completed before login starts.
+        await _openP4kUpdaterForSource(context, P4kDownloadSource.official);
+      }
       return;
     }
     if (state.webLocalizationVersionsData == null) {
@@ -485,10 +527,11 @@ class HomeUIModel extends _$HomeUIModel {
           return;
         }
         if (!context.mounted) return;
-        final updated = await showDialog<bool>(
+        final result = await showDialog<P4kUpdateDialogResult>(
           context: context,
           dismissWithEsc: false,
           builder: (_) => HomeP4kUpdateDialogUI(
+            source: source,
             releaseInfo: releaseInfo,
             installPath: installPath,
             applicationSupportDir: appGlobalState.applicationSupportDir!,
@@ -496,10 +539,57 @@ class HomeUIModel extends _$HomeUIModel {
             webCookie: _mergeCookieHeaders([webCookie, webViewCookies]),
           ),
         );
-        if (updated == true) {
+        if (result == P4kUpdateDialogResult.updated) {
           await reScanPath();
         }
       },
+    );
+  }
+
+  Future<bool> _showMirrorProviderError(
+    BuildContext context,
+    P4kMirrorUnavailable? error,
+  ) async {
+    final message = p4kProviderErrorMessage(error);
+    return const P4kSourceSessionCoordinator().confirmOfficialFallback(
+      offerSwitch: () => showDialog<bool>(
+        context: context,
+        barrierDismissible: true,
+        dismissWithEsc: true,
+        builder: (_) => ContentDialog(
+          title: Text(S.current.p4k_source_mirror_error_title),
+          content: Text(message),
+          actions: [
+            Button(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(S.current.p4k_source_keep_mirror),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(S.current.p4k_source_switch_official),
+            ),
+          ],
+        ),
+      ),
+      confirmSwitch: () => showDialog<bool>(
+        context: context,
+        barrierDismissible: true,
+        dismissWithEsc: true,
+        builder: (_) => ContentDialog(
+          title: Text(S.current.p4k_source_switch_confirm_title),
+          content: Text(S.current.p4k_source_switch_confirm_body),
+          actions: [
+            Button(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(S.current.p4k_source_keep_mirror),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(S.current.p4k_source_confirm_switch),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

@@ -2294,5 +2294,21 @@
   "tools_unp4k_time_range": "時間範圍",
   "@tools_unp4k_time_range": {},
   "news_video_view_original_post": "貼吧影片需在原文觀看",
-  "@news_video_view_original_post": {}
+  "@news_video_view_original_post": {},
+  "p4k_source_dialog_title": "選擇遊戲下載來源",
+  "p4k_source_dialog_description": "本次下載、更新、修復及重試將使用所選來源。",
+  "p4k_source_official": "官網（需登入，建議加速器路由模式）",
+  "p4k_source_community_mirror": "中文百科鏡像（免登入）",
+  "p4k_source_community_mirror_limitation": "鏡像僅處理 Data.p4k；啟動器或官網仍可能需要補齊其他遊戲檔案。",
+  "p4k_source_continue": "繼續",
+  "p4k_source_current": "目前來源：{v0}", "@p4k_source_current":{"placeholders":{"v0":{}}},
+  "p4k_source_mirror_error_title":"鏡像暫不可用",
+  "p4k_source_error_provider_unavailable":"此版本暫未提供鏡像服務。不會自動切換至官網。",
+  "p4k_source_error_metadata_unavailable":"無法讀取鏡像中繼資料。不會自動切換至官網。",
+  "p4k_source_error_manifest_missing":"鏡像缺少所需清單。不會自動切換至官網。",
+  "p4k_source_error_object_missing":"鏡像缺少所需物件：{v0}。不會自動切換至官網。","@p4k_source_error_object_missing":{"placeholders":{"v0":{}}},
+  "p4k_source_error_invalid_response":"鏡像回傳無效回應。不會自動切換至官網。","p4k_source_error_network":"連線鏡像失敗。不會自動切換至官網。","p4k_source_error_access_denied":"鏡像拒絕存取。不會自動切換至官網。","p4k_source_error_unsupported_channel":"鏡像不支援目前遊戲頻道。不會自動切換至官網。",
+  "p4k_source_keep_mirror":"繼續使用鏡像","p4k_source_switch_official":"切換至官網","p4k_source_switch_confirm_title":"切換至官網？","p4k_source_switch_confirm_body":"鏡像缺少所需內容。切換後，本次下載、更新、修復及重試將改用官網，並需要登入 RSI 帳戶。只有確認後才會停止使用鏡像。","p4k_source_confirm_switch":"確認切換至官網",
+  "p4k_source_mirror_not_eligible":"目前物件不符合鏡像下載條件。不會自動切換至官網。","p4k_source_mirror_not_mirrored":"鏡像尚未收錄所需物件。不會自動切換至官網。","p4k_source_mirror_incomplete_base":"本機基礎套件不完整，鏡像無法繼續增量更新。不會自動切換至官網。","p4k_source_mirror_release_mismatch":"鏡像版本與目前更新版本不相符。不會自動切換至官網。",
+  "p4k_source_object_sha":"物件 SHA-256：{v0}","@p4k_source_object_sha":{"placeholders":{"v0":{}}},"p4k_source_compressed_size":"壓縮大小（位元組）：{v0}","@p4k_source_compressed_size":{"placeholders":{"v0":{}}},"p4k_update_payload_conservative_estimate":"{v0}（保守估算）","@p4k_update_payload_conservative_estimate":{"placeholders":{"v0":{}}}
 }

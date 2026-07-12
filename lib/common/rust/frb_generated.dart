@@ -478,7 +478,7 @@ abstract class RustLibApi extends BaseApi {
 
   List<String> crateApiP4KUpgraderApiP4KUpgraderDefaultObjectPathTemplates();
 
-  Future<P4kUpgraderEstimateReport> crateApiP4KUpgraderApiP4KUpgraderEstimate({
+  Future<P4kUpgraderEstimateOutcome> crateApiP4KUpgraderApiP4KUpgraderEstimate({
     required P4kUpgraderConfig config,
   });
 
@@ -3724,7 +3724,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<P4kUpgraderEstimateReport> crateApiP4KUpgraderApiP4KUpgraderEstimate({
+  Future<P4kUpgraderEstimateOutcome> crateApiP4KUpgraderApiP4KUpgraderEstimate({
     required P4kUpgraderConfig config,
   }) {
     return handler.executeNormal(
@@ -3741,8 +3741,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           );
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_p_4_k_upgrader_estimate_report,
-          decodeErrorData: sse_decode_AnyhowException,
+          decodeSuccessData: sse_decode_p_4_k_upgrader_estimate_outcome,
+          decodeErrorData: null,
         ),
         constMeta: kCrateApiP4KUpgraderApiP4KUpgraderEstimateConstMeta,
         argValues: [config],
@@ -5051,9 +5051,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kMirrorUnavailable dco_decode_box_autoadd_p_4_k_mirror_unavailable(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_p_4_k_mirror_unavailable(raw);
+  }
+
+  @protected
   P4kUpgraderConfig dco_decode_box_autoadd_p_4_k_upgrader_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_p_4_k_upgrader_config(raw);
+  }
+
+  @protected
+  P4kUpgraderEstimateReport
+  dco_decode_box_autoadd_p_4_k_upgrader_estimate_report(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_p_4_k_upgrader_estimate_report(raw);
   }
 
   @protected
@@ -5454,6 +5469,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kMirrorUnavailable? dco_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_p_4_k_mirror_unavailable(raw);
+  }
+
+  @protected
+  P4kUpgraderEstimateReport?
+  dco_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_p_4_k_upgrader_estimate_report(raw);
+  }
+
+  @protected
   int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
@@ -5502,6 +5536,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kDownloadSource dco_decode_p_4_k_download_source(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return P4kDownloadSource.values[raw as int];
+  }
+
+  @protected
   P4kFileItem dco_decode_p_4_k_file_item(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -5517,30 +5557,53 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kMirrorUnavailable dco_decode_p_4_k_mirror_unavailable(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return P4kMirrorUnavailable(
+      reason: dco_decode_p_4_k_mirror_unavailable_reason(arr[0]),
+      objectSha256: dco_decode_opt_String(arr[1]),
+      compressedSize: dco_decode_opt_box_autoadd_u_64(arr[2]),
+      message: dco_decode_String(arr[3]),
+    );
+  }
+
+  @protected
+  P4kMirrorUnavailableReason dco_decode_p_4_k_mirror_unavailable_reason(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return P4kMirrorUnavailableReason.values[raw as int];
+  }
+
+  @protected
   P4kUpgraderConfig dco_decode_p_4_k_upgrader_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 18)
-      throw Exception('unexpected arr length: expect 18 but see ${arr.length}');
+    if (arr.length != 19)
+      throw Exception('unexpected arr length: expect 19 but see ${arr.length}');
     return P4kUpgraderConfig(
-      manifestSource: dco_decode_String(arr[0]),
-      mirrorBases: dco_decode_list_String(arr[1]),
-      officialBases: dco_decode_list_String(arr[2]),
-      p4KBaseUrl: dco_decode_String(arr[3]),
-      p4KBaseVerificationUrl: dco_decode_String(arr[4]),
-      objectPathTemplates: dco_decode_list_String(arr[5]),
-      requestCookie: dco_decode_String(arr[6]),
-      rsiToken: dco_decode_String(arr[7]),
-      cacheDir: dco_decode_String(arr[8]),
-      gameDir: dco_decode_String(arr[9]),
-      updateP4K: dco_decode_bool(arr[10]),
-      updateLooseFiles: dco_decode_bool(arr[11]),
-      inplaceUpdateP4K: dco_decode_bool(arr[12]),
-      fallbackRebuildOnInplaceVerifyFailure: dco_decode_bool(arr[13]),
-      replaceExistingP4K: dco_decode_bool(arr[14]),
-      verifyAfterAssemble: dco_decode_bool(arr[15]),
-      verifyCigStructure: dco_decode_bool(arr[16]),
-      maxEntries: dco_decode_opt_box_autoadd_usize(arr[17]),
+      source: dco_decode_p_4_k_download_source(arr[0]),
+      manifestSource: dco_decode_String(arr[1]),
+      mirrorBases: dco_decode_list_String(arr[2]),
+      officialBases: dco_decode_list_String(arr[3]),
+      p4KBaseUrl: dco_decode_String(arr[4]),
+      p4KBaseVerificationUrl: dco_decode_String(arr[5]),
+      objectPathTemplates: dco_decode_list_String(arr[6]),
+      requestCookie: dco_decode_String(arr[7]),
+      rsiToken: dco_decode_String(arr[8]),
+      cacheDir: dco_decode_String(arr[9]),
+      gameDir: dco_decode_String(arr[10]),
+      updateP4K: dco_decode_bool(arr[11]),
+      updateLooseFiles: dco_decode_bool(arr[12]),
+      inplaceUpdateP4K: dco_decode_bool(arr[13]),
+      fallbackRebuildOnInplaceVerifyFailure: dco_decode_bool(arr[14]),
+      replaceExistingP4K: dco_decode_bool(arr[15]),
+      verifyAfterAssemble: dco_decode_bool(arr[16]),
+      verifyCigStructure: dco_decode_bool(arr[17]),
+      maxEntries: dco_decode_opt_box_autoadd_usize(arr[18]),
     );
   }
 
@@ -5560,13 +5623,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kUpgraderEstimateOutcome dco_decode_p_4_k_upgrader_estimate_outcome(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return P4kUpgraderEstimateOutcome(
+      report: dco_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(arr[0]),
+      mirrorUnavailable: dco_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
+        arr[1],
+      ),
+      errorMessage: dco_decode_opt_String(arr[2]),
+    );
+  }
+
+  @protected
   P4kUpgraderEstimateReport dco_decode_p_4_k_upgrader_estimate_report(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 11)
-      throw Exception('unexpected arr length: expect 11 but see ${arr.length}');
+    if (arr.length != 12)
+      throw Exception('unexpected arr length: expect 12 but see ${arr.length}');
     return P4kUpgraderEstimateReport(
       manifestEntries: dco_decode_usize(arr[0]),
       baseDownloadRequired: dco_decode_bool(arr[1]),
@@ -5575,10 +5655,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       looseEntriesRequiringDownload: dco_decode_usize(arr[4]),
       totalEntriesRequiringDownload: dco_decode_usize(arr[5]),
       payloadDownloadBytes: dco_decode_u_64(arr[6]),
-      payloadDownloadGbDecimal: dco_decode_f_64(arr[7]),
-      payloadDownloadGib: dco_decode_f_64(arr[8]),
-      totalDownloadBytes: dco_decode_u_64(arr[9]),
-      entries: dco_decode_list_p_4_k_upgrader_estimate_entry(arr[10]),
+      payloadEstimateExact: dco_decode_bool(arr[7]),
+      payloadDownloadGbDecimal: dco_decode_f_64(arr[8]),
+      payloadDownloadGib: dco_decode_f_64(arr[9]),
+      totalDownloadBytes: dco_decode_u_64(arr[10]),
+      entries: dco_decode_list_p_4_k_upgrader_estimate_entry(arr[11]),
     );
   }
 
@@ -5588,8 +5669,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 9)
-      throw Exception('unexpected arr length: expect 9 but see ${arr.length}');
+    if (arr.length != 10)
+      throw Exception('unexpected arr length: expect 10 but see ${arr.length}');
     return P4kUpgraderProgressEvent(
       phase: dco_decode_String(arr[0]),
       name: dco_decode_String(arr[1]),
@@ -5600,6 +5681,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       activeDownloads: dco_decode_usize(arr[6]),
       threadLimit: dco_decode_usize(arr[7]),
       message: dco_decode_String(arr[8]),
+      mirrorUnavailable: dco_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
+        arr[9],
+      ),
     );
   }
 
@@ -5990,11 +6074,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kMirrorUnavailable sse_decode_box_autoadd_p_4_k_mirror_unavailable(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_p_4_k_mirror_unavailable(deserializer));
+  }
+
+  @protected
   P4kUpgraderConfig sse_decode_box_autoadd_p_4_k_upgrader_config(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_p_4_k_upgrader_config(deserializer));
+  }
+
+  @protected
+  P4kUpgraderEstimateReport
+  sse_decode_box_autoadd_p_4_k_upgrader_estimate_report(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_p_4_k_upgrader_estimate_report(deserializer));
   }
 
   @protected
@@ -6534,6 +6635,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kMirrorUnavailable? sse_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_p_4_k_mirror_unavailable(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  P4kUpgraderEstimateReport?
+  sse_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_p_4_k_upgrader_estimate_report(
+        deserializer,
+      ));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -6628,6 +6758,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kDownloadSource sse_decode_p_4_k_download_source(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return P4kDownloadSource.values[inner];
+  }
+
+  @protected
   P4kFileItem sse_decode_p_4_k_file_item(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_name = sse_decode_String(deserializer);
@@ -6645,10 +6784,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kMirrorUnavailable sse_decode_p_4_k_mirror_unavailable(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_reason = sse_decode_p_4_k_mirror_unavailable_reason(deserializer);
+    var var_objectSha256 = sse_decode_opt_String(deserializer);
+    var var_compressedSize = sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_message = sse_decode_String(deserializer);
+    return P4kMirrorUnavailable(
+      reason: var_reason,
+      objectSha256: var_objectSha256,
+      compressedSize: var_compressedSize,
+      message: var_message,
+    );
+  }
+
+  @protected
+  P4kMirrorUnavailableReason sse_decode_p_4_k_mirror_unavailable_reason(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return P4kMirrorUnavailableReason.values[inner];
+  }
+
+  @protected
   P4kUpgraderConfig sse_decode_p_4_k_upgrader_config(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_source = sse_decode_p_4_k_download_source(deserializer);
     var var_manifestSource = sse_decode_String(deserializer);
     var var_mirrorBases = sse_decode_list_String(deserializer);
     var var_officialBases = sse_decode_list_String(deserializer);
@@ -6670,6 +6836,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_verifyCigStructure = sse_decode_bool(deserializer);
     var var_maxEntries = sse_decode_opt_box_autoadd_usize(deserializer);
     return P4kUpgraderConfig(
+      source: var_source,
       manifestSource: var_manifestSource,
       mirrorBases: var_mirrorBases,
       officialBases: var_officialBases,
@@ -6708,6 +6875,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  P4kUpgraderEstimateOutcome sse_decode_p_4_k_upgrader_estimate_outcome(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_report = sse_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(
+      deserializer,
+    );
+    var var_mirrorUnavailable =
+        sse_decode_opt_box_autoadd_p_4_k_mirror_unavailable(deserializer);
+    var var_errorMessage = sse_decode_opt_String(deserializer);
+    return P4kUpgraderEstimateOutcome(
+      report: var_report,
+      mirrorUnavailable: var_mirrorUnavailable,
+      errorMessage: var_errorMessage,
+    );
+  }
+
+  @protected
   P4kUpgraderEstimateReport sse_decode_p_4_k_upgrader_estimate_report(
     SseDeserializer deserializer,
   ) {
@@ -6719,6 +6904,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_looseEntriesRequiringDownload = sse_decode_usize(deserializer);
     var var_totalEntriesRequiringDownload = sse_decode_usize(deserializer);
     var var_payloadDownloadBytes = sse_decode_u_64(deserializer);
+    var var_payloadEstimateExact = sse_decode_bool(deserializer);
     var var_payloadDownloadGbDecimal = sse_decode_f_64(deserializer);
     var var_payloadDownloadGib = sse_decode_f_64(deserializer);
     var var_totalDownloadBytes = sse_decode_u_64(deserializer);
@@ -6733,6 +6919,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       looseEntriesRequiringDownload: var_looseEntriesRequiringDownload,
       totalEntriesRequiringDownload: var_totalEntriesRequiringDownload,
       payloadDownloadBytes: var_payloadDownloadBytes,
+      payloadEstimateExact: var_payloadEstimateExact,
       payloadDownloadGbDecimal: var_payloadDownloadGbDecimal,
       payloadDownloadGib: var_payloadDownloadGib,
       totalDownloadBytes: var_totalDownloadBytes,
@@ -6754,6 +6941,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_activeDownloads = sse_decode_usize(deserializer);
     var var_threadLimit = sse_decode_usize(deserializer);
     var var_message = sse_decode_String(deserializer);
+    var var_mirrorUnavailable =
+        sse_decode_opt_box_autoadd_p_4_k_mirror_unavailable(deserializer);
     return P4kUpgraderProgressEvent(
       phase: var_phase,
       name: var_name,
@@ -6764,6 +6953,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       activeDownloads: var_activeDownloads,
       threadLimit: var_threadLimit,
       message: var_message,
+      mirrorUnavailable: var_mirrorUnavailable,
     );
   }
 
@@ -7311,12 +7501,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_p_4_k_mirror_unavailable(
+    P4kMirrorUnavailable self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_p_4_k_mirror_unavailable(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_p_4_k_upgrader_config(
     P4kUpgraderConfig self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_p_4_k_upgrader_config(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_p_4_k_upgrader_estimate_report(
+    P4kUpgraderEstimateReport self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_p_4_k_upgrader_estimate_report(self, serializer);
   }
 
   @protected
@@ -7801,6 +8009,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_p_4_k_mirror_unavailable(
+    P4kMirrorUnavailable? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_p_4_k_mirror_unavailable(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_p_4_k_upgrader_estimate_report(
+    P4kUpgraderEstimateReport? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_p_4_k_upgrader_estimate_report(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -7899,6 +8133,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_p_4_k_download_source(
+    P4kDownloadSource self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
   void sse_encode_p_4_k_file_item(P4kFileItem self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.name, serializer);
@@ -7909,11 +8152,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_p_4_k_mirror_unavailable(
+    P4kMirrorUnavailable self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_p_4_k_mirror_unavailable_reason(self.reason, serializer);
+    sse_encode_opt_String(self.objectSha256, serializer);
+    sse_encode_opt_box_autoadd_u_64(self.compressedSize, serializer);
+    sse_encode_String(self.message, serializer);
+  }
+
+  @protected
+  void sse_encode_p_4_k_mirror_unavailable_reason(
+    P4kMirrorUnavailableReason self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
   void sse_encode_p_4_k_upgrader_config(
     P4kUpgraderConfig self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_p_4_k_download_source(self.source, serializer);
     sse_encode_String(self.manifestSource, serializer);
     sse_encode_list_String(self.mirrorBases, serializer);
     sse_encode_list_String(self.officialBases, serializer);
@@ -7946,6 +8211,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_p_4_k_upgrader_estimate_outcome(
+    P4kUpgraderEstimateOutcome self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_box_autoadd_p_4_k_upgrader_estimate_report(
+      self.report,
+      serializer,
+    );
+    sse_encode_opt_box_autoadd_p_4_k_mirror_unavailable(
+      self.mirrorUnavailable,
+      serializer,
+    );
+    sse_encode_opt_String(self.errorMessage, serializer);
+  }
+
+  @protected
   void sse_encode_p_4_k_upgrader_estimate_report(
     P4kUpgraderEstimateReport self,
     SseSerializer serializer,
@@ -7958,6 +8240,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_usize(self.looseEntriesRequiringDownload, serializer);
     sse_encode_usize(self.totalEntriesRequiringDownload, serializer);
     sse_encode_u_64(self.payloadDownloadBytes, serializer);
+    sse_encode_bool(self.payloadEstimateExact, serializer);
     sse_encode_f_64(self.payloadDownloadGbDecimal, serializer);
     sse_encode_f_64(self.payloadDownloadGib, serializer);
     sse_encode_u_64(self.totalDownloadBytes, serializer);
@@ -7979,6 +8262,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_usize(self.activeDownloads, serializer);
     sse_encode_usize(self.threadLimit, serializer);
     sse_encode_String(self.message, serializer);
+    sse_encode_opt_box_autoadd_p_4_k_mirror_unavailable(
+      self.mirrorUnavailable,
+      serializer,
+    );
   }
 
   @protected

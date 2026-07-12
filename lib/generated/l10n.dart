@@ -11944,6 +11944,286 @@ class S {
       args: [],
     );
   }
+
+  /// `Choose a game download source`
+  String get p4k_source_dialog_title {
+    return Intl.message(
+      'Choose a game download source',
+      name: 'p4k_source_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The selected source will be used for this download, update, repair, and all retries.`
+  String get p4k_source_dialog_description {
+    return Intl.message(
+      'The selected source will be used for this download, update, repair, and all retries.',
+      name: 'p4k_source_dialog_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Official site (login required; accelerator routing mode recommended)`
+  String get p4k_source_official {
+    return Intl.message(
+      'Official site (login required; accelerator routing mode recommended)',
+      name: 'p4k_source_official',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chinese Wiki mirror (no login required)`
+  String get p4k_source_community_mirror {
+    return Intl.message(
+      'Chinese Wiki mirror (no login required)',
+      name: 'p4k_source_community_mirror',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The mirror only handles Data.p4k; the launcher or official site may still need to download other game files.`
+  String get p4k_source_community_mirror_limitation {
+    return Intl.message(
+      'The mirror only handles Data.p4k; the launcher or official site may still need to download other game files.',
+      name: 'p4k_source_community_mirror_limitation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get p4k_source_continue {
+    return Intl.message(
+      'Continue',
+      name: 'p4k_source_continue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current source: {v0}`
+  String p4k_source_current(Object v0) {
+    return Intl.message(
+      'Current source: $v0',
+      name: 'p4k_source_current',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Mirror unavailable`
+  String get p4k_source_mirror_error_title {
+    return Intl.message(
+      'Mirror unavailable',
+      name: 'p4k_source_mirror_error_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The mirror provider is unavailable in this version. The official source will not be selected automatically.`
+  String get p4k_source_error_provider_unavailable {
+    return Intl.message(
+      'The mirror provider is unavailable in this version. The official source will not be selected automatically.',
+      name: 'p4k_source_error_provider_unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mirror metadata is unavailable. The official source will not be selected automatically.`
+  String get p4k_source_error_metadata_unavailable {
+    return Intl.message(
+      'Mirror metadata is unavailable. The official source will not be selected automatically.',
+      name: 'p4k_source_error_metadata_unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The required manifest is missing from the mirror. The official source will not be selected automatically.`
+  String get p4k_source_error_manifest_missing {
+    return Intl.message(
+      'The required manifest is missing from the mirror. The official source will not be selected automatically.',
+      name: 'p4k_source_error_manifest_missing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The mirror is missing the required object: {v0}. The official source will not be selected automatically.`
+  String p4k_source_error_object_missing(Object v0) {
+    return Intl.message(
+      'The mirror is missing the required object: $v0. The official source will not be selected automatically.',
+      name: 'p4k_source_error_object_missing',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `The mirror returned an invalid response. The official source will not be selected automatically.`
+  String get p4k_source_error_invalid_response {
+    return Intl.message(
+      'The mirror returned an invalid response. The official source will not be selected automatically.',
+      name: 'p4k_source_error_invalid_response',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not connect to the mirror. The official source will not be selected automatically.`
+  String get p4k_source_error_network {
+    return Intl.message(
+      'Could not connect to the mirror. The official source will not be selected automatically.',
+      name: 'p4k_source_error_network',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The mirror denied access. The official source will not be selected automatically.`
+  String get p4k_source_error_access_denied {
+    return Intl.message(
+      'The mirror denied access. The official source will not be selected automatically.',
+      name: 'p4k_source_error_access_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The mirror does not support this game channel. The official source will not be selected automatically.`
+  String get p4k_source_error_unsupported_channel {
+    return Intl.message(
+      'The mirror does not support this game channel. The official source will not be selected automatically.',
+      name: 'p4k_source_error_unsupported_channel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep using mirror`
+  String get p4k_source_keep_mirror {
+    return Intl.message(
+      'Keep using mirror',
+      name: 'p4k_source_keep_mirror',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Switch to official site`
+  String get p4k_source_switch_official {
+    return Intl.message(
+      'Switch to official site',
+      name: 'p4k_source_switch_official',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Switch to the official site?`
+  String get p4k_source_switch_confirm_title {
+    return Intl.message(
+      'Switch to the official site?',
+      name: 'p4k_source_switch_confirm_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The mirror is missing required content. After switching, this download, update, repair, and all retries will use the official site and require an RSI account login. The mirror is used until you confirm.`
+  String get p4k_source_switch_confirm_body {
+    return Intl.message(
+      'The mirror is missing required content. After switching, this download, update, repair, and all retries will use the official site and require an RSI account login. The mirror is used until you confirm.',
+      name: 'p4k_source_switch_confirm_body',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm switch to official site`
+  String get p4k_source_confirm_switch {
+    return Intl.message(
+      'Confirm switch to official site',
+      name: 'p4k_source_confirm_switch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The required object is not eligible for mirror delivery. The official source will not be selected automatically.`
+  String get p4k_source_mirror_not_eligible {
+    return Intl.message(
+      'The required object is not eligible for mirror delivery. The official source will not be selected automatically.',
+      name: 'p4k_source_mirror_not_eligible',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The required object has not been mirrored. The official source will not be selected automatically.`
+  String get p4k_source_mirror_not_mirrored {
+    return Intl.message(
+      'The required object has not been mirrored. The official source will not be selected automatically.',
+      name: 'p4k_source_mirror_not_mirrored',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The local base package is incomplete, so the mirror cannot continue the incremental update. The official source will not be selected automatically.`
+  String get p4k_source_mirror_incomplete_base {
+    return Intl.message(
+      'The local base package is incomplete, so the mirror cannot continue the incremental update. The official source will not be selected automatically.',
+      name: 'p4k_source_mirror_incomplete_base',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The mirror release does not match the current update release. The official source will not be selected automatically.`
+  String get p4k_source_mirror_release_mismatch {
+    return Intl.message(
+      'The mirror release does not match the current update release. The official source will not be selected automatically.',
+      name: 'p4k_source_mirror_release_mismatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Object SHA-256: {v0}`
+  String p4k_source_object_sha(Object v0) {
+    return Intl.message(
+      'Object SHA-256: $v0',
+      name: 'p4k_source_object_sha',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Compressed size (bytes): {v0}`
+  String p4k_source_compressed_size(Object v0) {
+    return Intl.message(
+      'Compressed size (bytes): $v0',
+      name: 'p4k_source_compressed_size',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `{v0} (conservative estimate)`
+  String p4k_update_payload_conservative_estimate(Object v0) {
+    return Intl.message(
+      '$v0 (conservative estimate)',
+      name: 'p4k_update_payload_conservative_estimate',
+      desc: '',
+      args: [v0],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,5 +1,21 @@
 use std::io;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum MirrorUnavailableReason {
+    NotEligible,
+    NotMirrored,
+    IncompleteBase,
+    ReleaseMismatch,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct MirrorUnavailable {
+    pub reason: MirrorUnavailableReason,
+    pub object_sha256: Option<String>,
+    pub compressed_size: Option<u64>,
+    pub message: String,
+}
+
 pub const UNAVAILABLE_MESSAGE: &str =
     "P4K upgrader is unavailable in the community build; closed-source module is not installed";
 
@@ -17,6 +33,8 @@ pub enum Error {
     Regex(#[from] regex::Error),
     #[error("invalid hex: {0}")]
     Hex(String),
+    #[error("mirror unavailable: {0:?}")]
+    MirrorUnavailable(MirrorUnavailable),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

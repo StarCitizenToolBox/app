@@ -4,27 +4,80 @@ import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:starcitizen_doctor/common/rust/api/p4k_upgrader_api.dart';
+import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_download_source_dialog_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
+
+enum P4kUpdateDialogResult { updated, switchToOfficial }
+
+Future<P4kUpdateDialogResult?> resolveP4kMirrorProviderFailure({
+  required P4kMirrorUnavailable error,
+  required Future<bool> Function(P4kMirrorUnavailable error) decideFallback,
+}) async {
+  return await decideFallback(error)
+      ? P4kUpdateDialogResult.switchToOfficial
+      : null;
+}
 
 class HomeP4kUpdateDialogUI extends StatefulWidget {
   const HomeP4kUpdateDialogUI({
     super.key,
+    required this.source,
     required this.releaseInfo,
     required this.installPath,
     required this.applicationSupportDir,
     required this.webToken,
     required this.webCookie,
+    this.onMirrorProviderError,
   });
 
+  final P4kDownloadSource source;
   final Map releaseInfo;
   final String installPath;
   final String applicationSupportDir;
   final String webToken;
   final String webCookie;
+  final Future<bool> Function(P4kMirrorUnavailable error)?
+  onMirrorProviderError;
 
   @override
   State<HomeP4kUpdateDialogUI> createState() => _HomeP4kUpdateDialogUIState();
+}
+
+P4kUpgraderConfig buildP4kSessionConfig({
+  required P4kDownloadSource source,
+  required String manifestSource,
+  required List<String> objectBases,
+  required String p4kBaseUrl,
+  required String p4kBaseVerificationUrl,
+  required List<String> objectPathTemplates,
+  required String requestCookie,
+  required String rsiToken,
+  required String cacheDir,
+  required String gameDir,
+  required bool deepVerify,
+}) {
+  final official = source == P4kDownloadSource.official;
+  return P4kUpgraderConfig(
+    source: source,
+    manifestSource: manifestSource,
+    mirrorBases: official ? const [] : objectBases,
+    officialBases: official ? objectBases : const [],
+    p4KBaseUrl: p4kBaseUrl,
+    p4KBaseVerificationUrl: p4kBaseVerificationUrl,
+    objectPathTemplates: objectPathTemplates,
+    requestCookie: official ? requestCookie : "",
+    rsiToken: official ? rsiToken : "",
+    cacheDir: cacheDir,
+    gameDir: gameDir,
+    updateP4K: true,
+    updateLooseFiles: official,
+    inplaceUpdateP4K: true,
+    fallbackRebuildOnInplaceVerifyFailure: deepVerify,
+    replaceExistingP4K: true,
+    verifyAfterAssemble: deepVerify,
+    verifyCigStructure: deepVerify,
+  );
 }
 
 class _P4kLogLine {
@@ -47,8 +100,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   late final TextEditingController _baseController;
   late final TextEditingController _templateController;
   late final _ReleaseUrls _releaseUrls;
-  // Normal install/update must also install non-P4K loose files (for example Bin64 executables).
-  final bool _updateLooseFiles = true;
+  bool get _updateLooseFiles => widget.source == P4kDownloadSource.official;
   bool _working = false;
   bool _paused = false;
   bool _cancelling = false;
@@ -78,7 +130,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   @override
   void initState() {
     super.initState();
-    final urls = _extractReleaseUrls(widget.releaseInfo);
+    final urls = widget.source == P4kDownloadSource.official
+        ? _extractReleaseUrls(widget.releaseInfo)
+        : const _ReleaseUrls("", []);
     _releaseUrls = urls;
     _printExtractedReleaseUrls(urls);
     _manifestController = TextEditingController(text: urls.manifestUrl);
@@ -131,6 +185,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
             Text(
               S.current.p4k_update_install_to(widget.installPath),
               style: FluentTheme.of(context).typography.subtitle,
+            ),
+            Text(
+              S.current.p4k_source_current(
+                widget.source == P4kDownloadSource.official
+                    ? S.current.p4k_source_official
+                    : S.current.p4k_source_community_mirror,
+              ),
             ),
             const SizedBox(height: 12),
             Row(
@@ -314,7 +375,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
                 report.baseDownloadRequired
                     ? _formatBytes(report.baseDownloadBytes)
                     : S.current.p4k_update_unnecessary,
-                _formatBytes(report.payloadDownloadBytes),
+                formatP4kPayloadEstimate(
+                  report.payloadDownloadBytes,
+                  exact: report.payloadEstimateExact,
+                ),
                 _formatBytes(_estimatedTotalDownload()),
                 report.entries
                     .take(20)
@@ -335,7 +399,15 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     await _runTask(
       status: S.current.p4k_update_reading_inventory_and_estimating_updates,
       task: () async {
-        final report = await p4KUpgraderEstimate(config: config);
+        final outcome = await p4KUpgraderEstimate(config: config);
+        if (outcome.mirrorUnavailable case final unavailable?) {
+          throw unavailable;
+        }
+        if (outcome.errorMessage case final message?) {
+          throw Exception(message);
+        }
+        final report = outcome.report;
+        if (report == null) throw StateError("missing estimate report");
         if (!mounted) return;
         setState(() {
           _estimateReport = report;
@@ -518,7 +590,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
               if (!completer.isCompleted) completer.complete();
             } else if (event.phase == "error") {
               if (!completer.isCompleted) {
-                completer.completeError(Exception(event.message));
+                completer.completeError(
+                  event.mirrorUnavailable ?? Exception(event.message),
+                );
               }
             }
           },
@@ -621,7 +695,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       await task();
       if (!mounted) return;
       if (shouldCloseOnSuccess?.call() == true) {
-        Navigator.pop(this.context, true);
+        Navigator.pop(this.context, P4kUpdateDialogResult.updated);
         return;
       }
       setState(() {
@@ -629,10 +703,27 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       });
     } catch (e) {
       if (!mounted) return;
+      final providerError = widget.source == P4kDownloadSource.communityMirror
+          ? mapP4kMirrorOperationalError(e)
+          : null;
       setState(() {
         _lastRunFailed = true;
-        _status = S.current.p4k_update_failure(e);
+        _status = providerError == null
+            ? S.current.p4k_update_failure(e)
+            : p4kProviderErrorMessage(providerError);
       });
+      if (providerError != null) {
+        final decideFallback = widget.onMirrorProviderError;
+        if (decideFallback == null) return;
+        final result = await resolveP4kMirrorProviderFailure(
+          error: providerError,
+          decideFallback: decideFallback,
+        );
+        if (result != null && mounted) {
+          Navigator.pop(this.context, result);
+        }
+        return;
+      }
       if (context.mounted) {
         showToast(context, S.current.p4k_update_p4k_updater_failed(e));
       }
@@ -652,9 +743,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       showToast(context, _p4kLiveOnlyMessage);
       return null;
     }
+    final mirror = widget.source == P4kDownloadSource.communityMirror;
     final manifest = _manifestController.text.trim();
     final bases = _splitLines(_baseController.text);
-    if (manifest.isEmpty) {
+    if (!mirror && manifest.isEmpty) {
       setState(
         () => _status = S.current.p4k_update_manifest_url_cannot_be_empty,
       );
@@ -669,24 +761,18 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       showToast(context, signatureProblem);
       return null;
     }
-    return P4kUpgraderConfig(
+    return buildP4kSessionConfig(
+      source: widget.source,
       manifestSource: manifest,
-      mirrorBases: const [],
-      officialBases: bases,
-      p4KBaseUrl: _releaseUrls.p4kBaseUrl,
-      p4KBaseVerificationUrl: _releaseUrls.p4kBaseVerificationUrl,
+      objectBases: bases,
+      p4kBaseUrl: _releaseUrls.p4kBaseUrl,
+      p4kBaseVerificationUrl: _releaseUrls.p4kBaseVerificationUrl,
       objectPathTemplates: _splitLines(_templateController.text),
       requestCookie: widget.webCookie,
       rsiToken: widget.webToken,
       cacheDir: _joinInstallPath('.p4k_upgrader'),
       gameDir: widget.installPath,
-      updateP4K: true,
-      updateLooseFiles: _updateLooseFiles,
-      inplaceUpdateP4K: true,
-      fallbackRebuildOnInplaceVerifyFailure: deepVerify,
-      replaceExistingP4K: true,
-      verifyAfterAssemble: deepVerify,
-      verifyCigStructure: deepVerify,
+      deepVerify: deepVerify,
     );
   }
 
@@ -1138,6 +1224,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         ? "${widget.installPath}$child"
         : "${widget.installPath}$separator$child";
   }
+}
+
+String formatP4kPayloadEstimate(BigInt bytes, {required bool exact}) {
+  final formatted = _formatBytes(bytes);
+  return exact
+      ? formatted
+      : S.current.p4k_update_payload_conservative_estimate(formatted);
 }
 
 class _ReleaseUrls {
