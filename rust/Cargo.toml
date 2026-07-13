@@ -87,7 +87,7 @@ gltf = { version = "1.4.1", features = ["import", "utils"] }
 image = { version = "0.25.10", default-features = false, features = ["png", "jpeg", "tga", "tiff", "dds", "ico"] }
 image_dds = "0.7"
 bytemuck = { version = "1.22", features = ["derive"] }
-pollster = "0.4"
+pollster = "1.0"
 wgpu = "29.0.3"
 glam = "0.33.1"
 futures-lite = "2.6"
