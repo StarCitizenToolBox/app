@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:path/path.dart' as p;
 import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
+import 'package:starcitizen_doctor/common/helper/launcher_permission_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/rsi_launcher/launcher_store.dart';
 import 'package:starcitizen_doctor/common/rust/api/p4k_upgrader_api.dart';
@@ -493,6 +494,11 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       task: () async {
         _paused = false;
         _cancelling = false;
+        await Directory(widget.installPath).create(recursive: true);
+        await LauncherPermissionHelper().fixDirectory(
+          widget.installPath,
+          log: _appendEacLog,
+        );
         EacDistributionPatchGuard? eacPatchGuard;
         if (config.updateLooseFiles) {
           eacPatchGuard = await EacDistributionPatchGuard.prepare(
@@ -1104,11 +1110,8 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       _appendEacLog(error.toString());
       _setPostInstallStatus(
         stageText,
-        S.current
-            .p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat(
-              error,
-            ),
-        warning: true,
+        S.current.p4k_update_failure(error),
+        error: true,
       );
       rethrow;
     }
@@ -1116,7 +1119,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       const message =
           'EasyAntiCheat distribution was not downloaded. Switch to the '
           'official source and run repair before launching the game.';
-      _setPostInstallStatus(stageText, message, warning: true);
+      _setPostInstallStatus(stageText, message, error: true);
       throw const EACError(message);
     }
     _setPostInstallStatus(
@@ -1255,6 +1258,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     String stageText,
     String message, {
     bool warning = false,
+    bool error = false,
   }) {
     if (!mounted) return;
     setState(() {
@@ -1262,8 +1266,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       _downloadSpeedText = "";
       _status = "$stageText：$message";
       _appendLogLine(
-        "${_simpleLogTime()} ${warning ? '[WARN] ' : ''}$_status",
-        isError: false,
+        "${_simpleLogTime()} ${error
+            ? '[ERROR] '
+            : warning
+            ? '[WARN] '
+            : ''}$_status",
+        isError: error,
       );
     });
   }
