@@ -104,10 +104,10 @@ class EacRegistrar {
       return EacRegistrationOutcome.distributionNotFound;
     }
 
-    final productId = await _readProductId(antiCheatDirectory);
-    final setupPath = p.windows.join(antiCheatDirectory, _eacSetupFileName);
     final identity = _gameIdentity(gameDirectory);
     try {
+      final productId = await _readProductId(antiCheatDirectory);
+      final setupPath = p.windows.join(antiCheatDirectory, _eacSetupFileName);
       await _installerRunner.install(
         setupPath: setupPath,
         productId: productId,
@@ -126,15 +126,70 @@ class EacRegistrar {
   }
 }
 
-Future<void> deleteAntiCheatDistribution(
-  String gameDirectory, {
-  void Function(String message)? log,
-}) async {
-  final directory = Directory(getAntiCheatDirectory(gameDirectory));
-  if (await directory.exists()) {
-    await directory.delete(recursive: true);
+class EacDistributionPatchGuard {
+  EacDistributionPatchGuard._({
+    required this.distributionDirectory,
+    required this.backupDirectory,
+    this.log,
+  });
+
+  final Directory distributionDirectory;
+  final Directory? backupDirectory;
+  final void Function(String message)? log;
+  bool _finished = false;
+
+  static Future<EacDistributionPatchGuard> prepare(
+    String gameDirectory, {
+    void Function(String message)? log,
+  }) async {
+    final distribution = Directory(getAntiCheatDirectory(gameDirectory));
+    Directory? backup;
+    if (await distribution.exists()) {
+      backup = Directory(
+        '${distribution.path}.sctoolbox-backup-'
+        '${DateTime.now().microsecondsSinceEpoch}-$pid',
+      );
+      await distribution.rename(backup.path);
+      log?.call('EAC DIRECTORY MOVED TO ROLLBACK BACKUP');
+    }
+    return EacDistributionPatchGuard._(
+      distributionDirectory: distribution,
+      backupDirectory: backup,
+      log: log,
+    );
   }
-  log?.call('EAC DIRECTORY SUCCESSFULLY DELETED');
+
+  Future<void> commit() async {
+    if (_finished) return;
+    _finished = true;
+    final backup = backupDirectory;
+    if (backup != null && await backup.exists()) {
+      try {
+        await backup.delete(recursive: true);
+      } catch (error) {
+        log?.call('UNABLE TO DELETE EAC ROLLBACK BACKUP: $error');
+        return;
+      }
+    }
+    log?.call('EAC DIRECTORY SUCCESSFULLY DELETED');
+  }
+
+  Future<void> rollback() async {
+    if (_finished) return;
+    _finished = true;
+    try {
+      if (await distributionDirectory.exists()) {
+        await distributionDirectory.delete(recursive: true);
+      }
+      final backup = backupDirectory;
+      if (backup != null && await backup.exists()) {
+        await backup.rename(distributionDirectory.path);
+        log?.call('EAC DIRECTORY SUCCESSFULLY RESTORED');
+      }
+    } catch (error) {
+      log?.call('UNABLE TO RESTORE EAC ROLLBACK BACKUP: $error');
+    }
+  }
 }
 
 Future<String> _readProductId(String antiCheatDirectory) async {

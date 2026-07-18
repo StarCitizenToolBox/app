@@ -476,8 +476,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       task: () async {
         _paused = false;
         _cancelling = false;
+        EacDistributionPatchGuard? eacPatchGuard;
         if (config.updateLooseFiles) {
-          await deleteAntiCheatDistribution(
+          eacPatchGuard = await EacDistributionPatchGuard.prepare(
             widget.installPath,
             log: _appendEacLog,
           );
@@ -623,9 +624,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         try {
           await completer.future;
           if (streamCompletedSuccessfully && !_cancelling) {
+            await eacPatchGuard?.commit();
+            eacPatchGuard = null;
             await _runPostInstallTasks();
           }
         } finally {
+          await eacPatchGuard?.rollback();
           _stopDownloadSpeedTimer();
           await sub.cancel();
           if (mounted) {
@@ -1066,10 +1070,24 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _installEasyAntiCheat(String stageText) async {
-    final outcome = await EacRegistrar().register(
-      gameDirectory: widget.installPath,
-      log: _appendEacLog,
-    );
+    late final EacRegistrationOutcome outcome;
+    try {
+      outcome = await EacRegistrar().register(
+        gameDirectory: widget.installPath,
+        log: _appendEacLog,
+      );
+    } on EACError catch (error) {
+      _appendEacLog(error.toString());
+      _setPostInstallStatus(
+        stageText,
+        S.current
+            .p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat(
+              error,
+            ),
+        warning: true,
+      );
+      return;
+    }
     if (outcome == EacRegistrationOutcome.distributionNotFound) {
       _setPostInstallStatus(
         stageText,

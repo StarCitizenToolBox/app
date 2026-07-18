@@ -74,7 +74,25 @@ void main() {
     );
   });
 
-  test('deletes the complete EAC distribution before patching', () async {
+  test('wraps an incomplete EAC distribution in EACError', () async {
+    final gameDirectory = p.windows.join(sandbox.path, 'StarCitizen', 'LIVE');
+    await Directory(
+      getAntiCheatDirectory(gameDirectory),
+    ).create(recursive: true);
+
+    expect(
+      () => EacRegistrar().register(gameDirectory: gameDirectory),
+      throwsA(
+        isA<EACError>().having(
+          (error) => error.cause,
+          'cause',
+          isA<FileSystemException>(),
+        ),
+      ),
+    );
+  });
+
+  test('restores the previous EAC distribution when patching fails', () async {
     final eacDirectory = Directory(getAntiCheatDirectory(sandbox.path));
     await eacDirectory.create(recursive: true);
     await File(
@@ -82,11 +100,56 @@ void main() {
     ).writeAsString('old');
     final logs = <String>[];
 
-    await deleteAntiCheatDistribution(sandbox.path, log: logs.add);
-
+    final guard = await EacDistributionPatchGuard.prepare(
+      sandbox.path,
+      log: logs.add,
+    );
     expect(await eacDirectory.exists(), isFalse);
-    expect(logs, ['EAC DIRECTORY SUCCESSFULLY DELETED']);
+    await eacDirectory.create();
+    await File(
+      p.windows.join(eacDirectory.path, 'partial.bin'),
+    ).writeAsString('partial');
+    await guard.rollback();
+
+    expect(
+      await File(p.windows.join(eacDirectory.path, 'old.bin')).exists(),
+      isTrue,
+    );
+    expect(
+      await File(p.windows.join(eacDirectory.path, 'partial.bin')).exists(),
+      isFalse,
+    );
+    expect(logs, contains('EAC DIRECTORY SUCCESSFULLY RESTORED'));
   });
+
+  test(
+    'keeps patched EAC and deletes the rollback backup on success',
+    () async {
+      final eacDirectory = Directory(getAntiCheatDirectory(sandbox.path));
+      await eacDirectory.create(recursive: true);
+      await File(
+        p.windows.join(eacDirectory.path, 'old.bin'),
+      ).writeAsString('old');
+      final logs = <String>[];
+
+      final guard = await EacDistributionPatchGuard.prepare(
+        sandbox.path,
+        log: logs.add,
+      );
+      await eacDirectory.create();
+      await File(
+        p.windows.join(eacDirectory.path, 'new.bin'),
+      ).writeAsString('new');
+      await guard.commit();
+
+      expect(
+        await File(p.windows.join(eacDirectory.path, 'new.bin')).exists(),
+        isTrue,
+      );
+      expect(await guard.backupDirectory?.exists(), isFalse);
+      expect(logs, contains('EAC DIRECTORY SUCCESSFULLY DELETED'));
+    },
+  );
 }
 
 class _RecordingInstallerRunner implements EacInstallerRunner {
