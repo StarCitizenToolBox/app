@@ -76,7 +76,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0-beta.5';
 
   @override
-  int get rustContentHash => -2118810319;
+  int get rustContentHash => 1638692502;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -522,6 +522,12 @@ abstract class RustLibApi extends BaseApi {
     required String args,
   });
 
+  Future<int> crateApiWin32ApiRunAsAdminAndWait({
+    required String program,
+    required List<String> args,
+    required int timeoutMs,
+  });
+
   Future<void> crateApiWin32ApiSendNotify({
     String? summary,
     String? body,
@@ -531,6 +537,12 @@ abstract class RustLibApi extends BaseApi {
 
   Future<void> crateApiWin32ApiSetClipboardImage({
     required List<int> imageData,
+  });
+
+  Future<void> crateApiWin32ApiSetCurrentUserRegistryDword({
+    required String keyPath,
+    required String valueName,
+    required int value,
   });
 
   Future<void> crateApiHttpApiSetDefaultHeader({
@@ -4091,6 +4103,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   );
 
   @override
+  Future<int> crateApiWin32ApiRunAsAdminAndWait({
+    required String program,
+    required List<String> args,
+    required int timeoutMs,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(program);
+          var arg1 = cst_encode_list_String(args);
+          var arg2 = cst_encode_u_32(timeoutMs);
+          return wire.wire__crate__api__win32_api__run_as_admin_and_wait(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_u_32,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiRunAsAdminAndWaitConstMeta,
+        argValues: [program, args, timeoutMs],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiRunAsAdminAndWaitConstMeta =>
+      const TaskConstMeta(
+        debugName: "run_as_admin_and_wait",
+        argNames: ["program", "args", "timeoutMs"],
+      );
+
+  @override
   Future<void> crateApiWin32ApiSendNotify({
     String? summary,
     String? body,
@@ -4156,6 +4204,43 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "set_clipboard_image",
         argNames: ["imageData"],
+      );
+
+  @override
+  Future<void> crateApiWin32ApiSetCurrentUserRegistryDword({
+    required String keyPath,
+    required String valueName,
+    required int value,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(keyPath);
+          var arg1 = cst_encode_String(valueName);
+          var arg2 = cst_encode_u_32(value);
+          return wire
+              .wire__crate__api__win32_api__set_current_user_registry_dword(
+                port_,
+                arg0,
+                arg1,
+                arg2,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiWin32ApiSetCurrentUserRegistryDwordConstMeta,
+        argValues: [keyPath, valueName, value],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiWin32ApiSetCurrentUserRegistryDwordConstMeta =>
+      const TaskConstMeta(
+        debugName: "set_current_user_registry_dword",
+        argNames: ["keyPath", "valueName", "value"],
       );
 
   @override

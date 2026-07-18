@@ -4944,6 +4944,44 @@ class RustLibWire implements BaseWire {
             )
           >();
 
+  void wire__crate__api__win32_api__run_as_admin_and_wait(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> program,
+    ffi.Pointer<wire_cst_list_String> args,
+    int timeout_ms,
+  ) {
+    return _wire__crate__api__win32_api__run_as_admin_and_wait(
+      port_,
+      program,
+      args,
+      timeout_ms,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__run_as_admin_and_waitPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_String>,
+            ffi.Uint32,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__run_as_admin_and_wait',
+      );
+  late final _wire__crate__api__win32_api__run_as_admin_and_wait =
+      _wire__crate__api__win32_api__run_as_admin_and_waitPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_String>,
+              int,
+            )
+          >();
+
   void wire__crate__api__win32_api__send_notify(
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> summary,
@@ -5006,6 +5044,44 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__win32_api__set_clipboard_imagePtr
           .asFunction<
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_loose>)
+          >();
+
+  void wire__crate__api__win32_api__set_current_user_registry_dword(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> key_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> value_name,
+    int value,
+  ) {
+    return _wire__crate__api__win32_api__set_current_user_registry_dword(
+      port_,
+      key_path,
+      value_name,
+      value,
+    );
+  }
+
+  late final _wire__crate__api__win32_api__set_current_user_registry_dwordPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Uint32,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__win32_api__set_current_user_registry_dword',
+      );
+  late final _wire__crate__api__win32_api__set_current_user_registry_dword =
+      _wire__crate__api__win32_api__set_current_user_registry_dwordPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              int,
+            )
           >();
 
   void wire__crate__api__http_api__set_default_header(

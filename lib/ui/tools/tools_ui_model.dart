@@ -564,8 +564,16 @@ class ToolsUIModel extends _$ToolsUIModel {
         context,
         S.current.tools_action_info_rsi_launcher_directory_not_found,
       );
+      return;
     }
-    SystemHelper.checkAndLaunchRSILauncher(state.rsiLauncherInstalledPath);
+    try {
+      await SystemHelper.checkAndLaunchRSILauncher(
+        state.rsiLauncherInstalledPath,
+      );
+    } catch (error) {
+      if (!context.mounted) return;
+      showToast(context, S.current.tools_action_info_error_occurred(error));
+    }
   }
 
   Future<void> openDir(dynamic path) async {

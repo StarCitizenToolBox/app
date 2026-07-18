@@ -6,7 +6,8 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `get_process_path`
+// These functions are ignored because they are not marked as `pub`: `close_process_window`, `get_process_path`, `process_name_matches`, `quote_windows_argument`, `request_process_close`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `CloseWindowContext`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `fmt`, `fmt`
 
 Future<void> sendNotify({
@@ -65,7 +66,8 @@ Future<List<ProcessInfo>> getProcessListByName({required String processName}) =>
       processName: processName,
     );
 
-/// Kill processes by name
+/// Ask matching GUI processes to exit normally, then force-terminate only
+/// processes that do not exit before the grace period expires.
 Future<int> killProcessByName({required String processName}) => RustLib
     .instance
     .api
@@ -92,6 +94,28 @@ Future<void> runAsAdmin({required String program, required String args}) =>
       program: program,
       args: args,
     );
+
+/// Run a program with admin privileges, wait for it to exit, and return its exit code.
+Future<int> runAsAdminAndWait({
+  required String program,
+  required List<String> args,
+  required int timeoutMs,
+}) => RustLib.instance.api.crateApiWin32ApiRunAsAdminAndWait(
+  program: program,
+  args: args,
+  timeoutMs: timeoutMs,
+);
+
+/// Write a DWORD value below HKEY_CURRENT_USER, creating the key if necessary.
+Future<void> setCurrentUserRegistryDword({
+  required String keyPath,
+  required String valueName,
+  required int value,
+}) => RustLib.instance.api.crateApiWin32ApiSetCurrentUserRegistryDword(
+  keyPath: keyPath,
+  valueName: valueName,
+  value: value,
+);
 
 /// Start a program (without waiting)
 Future<void> startProcess({

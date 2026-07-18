@@ -70,14 +70,18 @@ class SystemHelper {
     return "";
   }
 
-  static Future<void> killRSILauncher() async {
-    var pList = await getPID("RSI Launcher");
-    for (var pid in pList) {
-      try {
-        Process.killPid(pid);
-      } catch (e) {
-        dPrint("killRSILauncher Error: $e");
+  static Future<void> killRSILauncher({
+    Duration exitTimeout = const Duration(seconds: 5),
+  }) async {
+    await win32.killProcessByName(processName: "RSI Launcher");
+    final deadline = DateTime.now().add(exitTimeout);
+    while (await isRsiLauncherRunning()) {
+      if (DateTime.now().isAfter(deadline)) {
+        throw StateError(
+          "RSI Launcher did not exit before starting a new instance",
+        );
       }
+      await Future.delayed(const Duration(milliseconds: 200));
     }
   }
 
@@ -96,14 +100,25 @@ class SystemHelper {
   }
 
   static Future<void> checkAndLaunchRSILauncher(String path) async {
-    // check running and kill
-    await killRSILauncher();
-    // launch
+    if (path.isEmpty) {
+      throw ArgumentError.value(path, "path", "RSI Launcher path is empty");
+    }
+    if (await isRsiLauncherRunning()) {
+      await killRSILauncher();
+    }
     final processorAffinity = await SystemHelper.getCpuAffinity();
     if (processorAffinity == null) {
-      Process.run(path, []);
+      await Process.start(path, []);
     } else {
-      Process.run("cmd.exe", ['/C', 'Start', '""', '/High', '/Affinity', processorAffinity, path]);
+      await Process.start("cmd.exe", [
+        '/C',
+        'Start',
+        '""',
+        '/High',
+        '/Affinity',
+        processorAffinity,
+        path,
+      ]);
     }
     dPrint(path);
   }

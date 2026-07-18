@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:path/path.dart' as p;
 import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/rsi_launcher/launcher_store.dart';
@@ -12,6 +13,22 @@ import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
 
 enum P4kUpdateDialogResult { updated, switchToOfficial }
+
+Future<bool> removeLooseFilesLedger(
+  String gameDirectory, {
+  void Function(String message)? log,
+}) async {
+  final ledger = File(p.join(gameDirectory, '.LooseFiles.txt'));
+  if (!await ledger.exists()) return false;
+  try {
+    await ledger.delete();
+    log?.call('Removed ${ledger.path} after installation');
+    return true;
+  } on FileSystemException catch (error) {
+    log?.call('Unable to remove ${ledger.path}: $error');
+    rethrow;
+  }
+}
 
 Future<P4kUpdateDialogResult?> resolveP4kMirrorProviderFailure({
   required P4kMirrorUnavailable error,
@@ -624,9 +641,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         try {
           await completer.future;
           if (streamCompletedSuccessfully && !_cancelling) {
-            await eacPatchGuard?.commit();
-            eacPatchGuard = null;
-            await _runPostInstallTasks();
+            await _runPostInstallTasks(
+              onEacRegistered: () async {
+                await eacPatchGuard?.commit();
+                eacPatchGuard = null;
+              },
+            );
           }
         } finally {
           await eacPatchGuard?.rollback();
@@ -1049,7 +1069,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     return S.current.p4k_update_stage(current, total, _stageLabelForKey(key));
   }
 
-  Future<void> _runPostInstallTasks() async {
+  Future<void> _runPostInstallTasks({
+    Future<void> Function()? onEacRegistered,
+  }) async {
     _stopDownloadSpeedTimer();
     if (mounted) {
       setState(() => _resetDownloadSpeedSampler());
@@ -1061,7 +1083,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       stageText,
       S.current.p4k_update_registering_eac_and_syncing_launcher_state,
     );
+    await removeLooseFilesLedger(widget.installPath, log: _appendEacLog);
     await _installEasyAntiCheat(stageText);
+    await onEacRegistered?.call();
     await _syncLauncherInstallState(stageText);
     _setPostInstallStatus(
       stageText,
@@ -1086,17 +1110,14 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
             ),
         warning: true,
       );
-      return;
+      rethrow;
     }
     if (outcome == EacRegistrationOutcome.distributionNotFound) {
-      _setPostInstallStatus(
-        stageText,
-        S
-            .current
-            .p4k_update_easyanticheat_installer_not_found_registration_skipped,
-        warning: true,
-      );
-      return;
+      const message =
+          'EasyAntiCheat distribution was not downloaded. Switch to the '
+          'official source and run repair before launching the game.';
+      _setPostInstallStatus(stageText, message, warning: true);
+      throw const EACError(message);
     }
     _setPostInstallStatus(
       stageText,

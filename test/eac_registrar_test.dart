@@ -36,7 +36,11 @@ void main() {
       p.windows.join(eacDirectory.path, 'Settings.json'),
     ).writeAsString('{"productid":"build-product-id"}');
     final runner = _RecordingInstallerRunner();
-    final registrar = EacRegistrar(installerRunner: runner);
+    final markerWriter = _RecordingMarkerWriter();
+    final registrar = EacRegistrar(
+      installerRunner: runner,
+      markerWriter: markerWriter,
+    );
 
     await registrar.register(gameDirectory: gameDirectory);
     await registrar.register(gameDirectory: gameDirectory);
@@ -47,6 +51,10 @@ void main() {
       runner.calls.first.setupPath,
       p.windows.join(eacDirectory.path, 'EasyAntiCheat_EOS_Setup.exe'),
     );
+    expect(markerWriter.calls, [
+      (gameName: 'StarCitizen', environment: 'LIVE'),
+      (gameName: 'StarCitizen', environment: 'LIVE'),
+    ]);
   });
 
   test('reports a named EACError when setup fails', () async {
@@ -58,6 +66,7 @@ void main() {
     ).writeAsString('{"productid":"ptu-product-id"}');
     final registrar = EacRegistrar(
       installerRunner: _RecordingInstallerRunner(error: Exception('failed')),
+      markerWriter: _RecordingMarkerWriter(),
     );
 
     expect(
@@ -165,5 +174,17 @@ class _RecordingInstallerRunner implements EacInstallerRunner {
   }) async {
     calls.add((setupPath: setupPath, productId: productId));
     if (error case final error?) throw error;
+  }
+}
+
+class _RecordingMarkerWriter implements EacRegistrationMarkerWriter {
+  final List<({String gameName, String environment})> calls = [];
+
+  @override
+  Future<void> markInstalled({
+    required String gameName,
+    required String environment,
+  }) async {
+    calls.add((gameName: gameName, environment: environment));
   }
 }

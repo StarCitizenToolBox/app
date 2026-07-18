@@ -1,8 +1,8 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
+import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 
 const _eacDirectoryName = 'EasyAntiCheat';
 const _eacSettingsFileName = 'Settings.json';
@@ -40,59 +40,54 @@ class DirectEacInstallerRunner implements EacInstallerRunner {
     required String productId,
   }) async {
     final arguments = ['install', productId];
-    final process = await Process.start(
-      setupPath,
-      arguments,
-      workingDirectory: File(setupPath).parent.path,
+    final exitCode = await win32.runAsAdminAndWait(
+      program: setupPath,
+      args: arguments,
+      timeoutMs: timeout.inMilliseconds,
     );
-    final stdoutFuture = process.stdout
-        .transform(const Utf8Decoder(allowMalformed: true))
-        .join();
-    final stderrFuture = process.stderr
-        .transform(const Utf8Decoder(allowMalformed: true))
-        .join();
-    late final int exitCode;
-    try {
-      exitCode = await process.exitCode.timeout(timeout);
-    } on TimeoutException {
-      final killed = process.kill();
-      if (killed) {
-        try {
-          await process.exitCode.timeout(const Duration(seconds: 5));
-        } on TimeoutException {
-          // The timeout error below remains the actionable failure even when
-          // Windows does not report process termination promptly.
-        }
-      }
-      throw ProcessException(
-        setupPath,
-        arguments,
-        'EasyAntiCheat setup timed out after ${timeout.inSeconds} seconds',
-        -1,
-      );
-    }
-    final output = (await Future.wait([stderrFuture, stdoutFuture]))
-        .map((value) => value.trim())
-        .where((value) => value.isNotEmpty)
-        .join('\n');
     if (exitCode != 0) {
       throw ProcessException(
         setupPath,
         arguments,
-        output.isEmpty
-            ? 'EasyAntiCheat setup exited with code $exitCode'
-            : output,
+        'Elevated EasyAntiCheat setup exited with code $exitCode',
         exitCode,
       );
     }
   }
 }
 
+abstract interface class EacRegistrationMarkerWriter {
+  Future<void> markInstalled({
+    required String gameName,
+    required String environment,
+  });
+}
+
+class WindowsEacRegistrationMarkerWriter
+    implements EacRegistrationMarkerWriter {
+  const WindowsEacRegistrationMarkerWriter();
+
+  @override
+  Future<void> markInstalled({
+    required String gameName,
+    required String environment,
+  }) => win32.setCurrentUserRegistryDword(
+    keyPath: 'SOFTWARE\\Roberts Space Industries\\$gameName\\$environment',
+    valueName: 'EACServiceInstalled',
+    value: 1,
+  );
+}
+
 class EacRegistrar {
-  EacRegistrar({EacInstallerRunner? installerRunner})
-    : _installerRunner = installerRunner ?? const DirectEacInstallerRunner();
+  EacRegistrar({
+    EacInstallerRunner? installerRunner,
+    EacRegistrationMarkerWriter? markerWriter,
+  }) : _installerRunner = installerRunner ?? const DirectEacInstallerRunner(),
+       _markerWriter =
+           markerWriter ?? const WindowsEacRegistrationMarkerWriter();
 
   final EacInstallerRunner _installerRunner;
+  final EacRegistrationMarkerWriter _markerWriter;
 
   Future<EacRegistrationOutcome> register({
     required String gameDirectory,
@@ -120,6 +115,16 @@ class EacRegistrar {
           cause: error,
         ),
         stackTrace,
+      );
+    }
+    try {
+      await _markerWriter.markInstalled(
+        gameName: identity.gameName,
+        environment: identity.environment,
+      );
+    } catch (error) {
+      log?.call(
+        'Unable to write the EACServiceInstalled launcher marker: $error',
       );
     }
     return EacRegistrationOutcome.registered;

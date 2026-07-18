@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0-beta.5";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2118810319;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1638692502;
 
 // Section: executor
 
@@ -3032,6 +3032,37 @@ fn wire__crate__api__win32_api__run_as_admin_impl(
         },
     )
 }
+fn wire__crate__api__win32_api__run_as_admin_and_wait_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    program: impl CstDecode<String>,
+    args: impl CstDecode<Vec<String>>,
+    timeout_ms: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "run_as_admin_and_wait",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_program = program.cst_decode();
+            let api_args = args.cst_decode();
+            let api_timeout_ms = timeout_ms.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::win32_api::run_as_admin_and_wait(
+                            &api_program,
+                            api_args,
+                            api_timeout_ms,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__win32_api__send_notify_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     summary: impl CstDecode<Option<String>>,
@@ -3082,6 +3113,37 @@ fn wire__crate__api__win32_api__set_clipboard_image_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::win32_api::set_clipboard_image(api_image_data)?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__win32_api__set_current_user_registry_dword_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    key_path: impl CstDecode<String>,
+    value_name: impl CstDecode<String>,
+    value: impl CstDecode<u32>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "set_current_user_registry_dword",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_key_path = key_path.cst_decode();
+            let api_value_name = value_name.cst_decode();
+            let api_value = value.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::win32_api::set_current_user_registry_dword(
+                            &api_key_path,
+                            &api_value_name,
+                            api_value,
+                        )?;
                         Ok(output_ok)
                     })(),
                 )
@@ -9310,6 +9372,16 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__run_as_admin_and_wait(
+        port_: i64,
+        program: *mut wire_cst_list_prim_u_8_strict,
+        args: *mut wire_cst_list_String,
+        timeout_ms: u32,
+    ) {
+        wire__crate__api__win32_api__run_as_admin_and_wait_impl(port_, program, args, timeout_ms)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__send_notify(
         port_: i64,
         summary: *mut wire_cst_list_prim_u_8_strict,
@@ -9326,6 +9398,18 @@ mod io {
         image_data: *mut wire_cst_list_prim_u_8_loose,
     ) {
         wire__crate__api__win32_api__set_clipboard_image_impl(port_, image_data)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__win32_api__set_current_user_registry_dword(
+        port_: i64,
+        key_path: *mut wire_cst_list_prim_u_8_strict,
+        value_name: *mut wire_cst_list_prim_u_8_strict,
+        value: u32,
+    ) {
+        wire__crate__api__win32_api__set_current_user_registry_dword_impl(
+            port_, key_path, value_name, value,
+        )
     }
 
     #[unsafe(no_mangle)]
