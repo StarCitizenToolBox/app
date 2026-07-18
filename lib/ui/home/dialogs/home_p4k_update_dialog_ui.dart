@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
 import 'package:starcitizen_doctor/common/rust/api/p4k_upgrader_api.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_download_source_dialog_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -467,6 +468,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       task: () async {
         _paused = false;
         _cancelling = false;
+        if (config.updateLooseFiles) {
+          await deleteAntiCheatDistribution(
+            widget.installPath,
+            log: _appendEacLog,
+          );
+        }
         _startDownloadSpeedTimer();
         final completer = Completer<void>();
         late final StreamSubscription<P4kUpgraderProgressEvent> sub;
@@ -1039,10 +1046,11 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _installEasyAntiCheat(String stageText) async {
-    final eacDir = Directory(_joinInstallPath('EasyAntiCheat'));
-    final eacExe = File(_joinPath(eacDir.path, 'EasyAntiCheat_EOS_Setup.exe'));
-    const eacId = '54540c7a80fe48ea92ead64506b4ff53';
-    if (!await eacExe.exists()) {
+    final outcome = await EacRegistrar().register(
+      gameDirectory: widget.installPath,
+      log: _appendEacLog,
+    );
+    if (outcome == EacRegistrationOutcome.distributionNotFound) {
       _setPostInstallStatus(
         stageText,
         S
@@ -1054,40 +1062,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     }
     _setPostInstallStatus(
       stageText,
-      S.current.p4k_update_registering_easyanticheat,
+      S.current.p4k_update_easyanticheat_registration_completed,
     );
-    try {
-      final result = await Process.run(eacExe.path, const [
-        'install',
-        eacId,
-      ], workingDirectory: eacDir.path).timeout(const Duration(minutes: 2));
-      if (result.exitCode == 0) {
-        _setPostInstallStatus(
-          stageText,
-          S.current.p4k_update_easyanticheat_registration_completed,
-        );
-      } else {
-        final detail = _processOutputSummary(result);
-        _setPostInstallStatus(
-          stageText,
-          S.current
-              .p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal(
-                result.exitCode,
-                detail,
-              ),
-          warning: true,
-        );
-      }
-    } catch (e) {
-      _setPostInstallStatus(
-        stageText,
-        S.current
-            .p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat(
-              e,
-            ),
-        warning: true,
-      );
-    }
+  }
+
+  void _appendEacLog(String message) {
+    if (!mounted) return;
+    setState(() => _appendLogLine('${_simpleLogTime()} $message'));
   }
 
   Future<void> _syncLauncherInstallState(String stageText) async {
@@ -1788,18 +1769,6 @@ String? _lastNumberString(String value) {
   final matches = RegExp(r'(\d{5,})').allMatches(value).toList();
   if (matches.isEmpty) return null;
   return matches.last.group(1);
-}
-
-String _processOutputSummary(ProcessResult result) {
-  final output = [
-    result.stdout?.toString().trim() ?? '',
-    result.stderr?.toString().trim() ?? '',
-  ].where((value) => value.isNotEmpty).join(' ');
-  if (output.isEmpty) return "";
-  final clipped = output.length > 300
-      ? '${output.substring(0, 300)}...'
-      : output;
-  return "：$clipped";
 }
 
 String _simpleLogTime() {
