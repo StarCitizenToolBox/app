@@ -246,7 +246,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         ),
         if (_working)
           Button(
-            onPressed: _cancelling ? null : _togglePause,
+            onPressed: _cancelling ? null : () => _togglePause(context),
             child: Text(
               _paused
                   ? S.current.app_splash_free_software_notice_confirm
@@ -425,11 +425,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _runUpdate(BuildContext context) async {
+    if (await _blockUpdateWhileLauncherIsRunning(context)) return;
+    if (!mounted) return;
     final config = _buildConfig();
     if (config == null) return;
     _prepareStagePlan(deepRepair: false);
     await _runUpdateWithProgressTask(
-      context,
+      this.context,
       config,
       status:
           S.current.p4k_update_downloading_objects_game_files_and_patching_p4k,
@@ -439,11 +441,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _runRepairMode(BuildContext context) async {
+    if (await _blockUpdateWhileLauncherIsRunning(context)) return;
+    if (!mounted) return;
     final config = _buildConfig(deepVerify: true);
     if (config == null) return;
     _prepareStagePlan(deepRepair: true);
     await _runUpdateWithProgressTask(
-      context,
+      this.context,
       config,
       status: S
           .current
@@ -636,6 +640,17 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     );
   }
 
+  Future<bool> _blockUpdateWhileLauncherIsRunning(BuildContext context) async {
+    if (!await blockIfRsiLauncherRunning(context)) return false;
+    if (mounted) {
+      setState(
+        () =>
+            _status = S.current.tools_action_info_rsi_launcher_running_warning,
+      );
+    }
+    return true;
+  }
+
   void _stopUpdate() {
     if (_cancelling) return;
     p4KUpgraderCancel();
@@ -648,9 +663,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     });
   }
 
-  void _togglePause() {
+  Future<void> _togglePause(BuildContext context) async {
     if (_cancelling) return;
     if (_paused) {
+      if (await _blockUpdateWhileLauncherIsRunning(context)) return;
       p4KUpgraderResume();
     } else {
       p4KUpgraderPause();
@@ -1104,12 +1120,8 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       const message =
           'RSI Launcher is running; exit it completely before synchronizing '
           'launcher store.json';
-      _setPostInstallStatus(
-        stageText,
-        message,
-        warning: true,
-      );
-      throw StateError(message);
+      _setPostInstallStatus(stageText, message, warning: true);
+      return;
     }
     try {
       final result = await RsiLauncherStoreService().syncInstalledChannel(
@@ -1136,7 +1148,6 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         'RSI Launcher store synchronization failed: $error',
         warning: true,
       );
-      rethrow;
     }
   }
 

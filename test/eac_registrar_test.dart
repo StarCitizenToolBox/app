@@ -28,29 +28,26 @@ void main() {
     expect(logs, ['No Anti-Cheat distribution was found in this build']);
   });
 
-  test(
-    'reads productid and unconditionally runs the installer',
-    () async {
-      final gameDirectory = p.windows.join(sandbox.path, 'StarCitizen', 'LIVE');
-      final eacDirectory = Directory(getAntiCheatDirectory(gameDirectory));
-      await eacDirectory.create(recursive: true);
-      await File(
-        p.windows.join(eacDirectory.path, 'Settings.json'),
-      ).writeAsString('{"productid":"build-product-id"}');
-      final runner = _RecordingInstallerRunner();
-      final registrar = EacRegistrar(installerRunner: runner);
+  test('reads productid and unconditionally runs the installer', () async {
+    final gameDirectory = p.windows.join(sandbox.path, 'StarCitizen', 'LIVE');
+    final eacDirectory = Directory(getAntiCheatDirectory(gameDirectory));
+    await eacDirectory.create(recursive: true);
+    await File(
+      p.windows.join(eacDirectory.path, 'Settings.json'),
+    ).writeAsString('{"productid":"build-product-id"}');
+    final runner = _RecordingInstallerRunner();
+    final registrar = EacRegistrar(installerRunner: runner);
 
-      await registrar.register(gameDirectory: gameDirectory);
-      await registrar.register(gameDirectory: gameDirectory);
+    await registrar.register(gameDirectory: gameDirectory);
+    await registrar.register(gameDirectory: gameDirectory);
 
-      expect(runner.calls, hasLength(2));
-      expect(runner.calls.first.productId, 'build-product-id');
-      expect(
-        runner.calls.first.setupPath,
-        p.windows.join(eacDirectory.path, 'EasyAntiCheat_EOS_Setup.exe'),
-      );
-    },
-  );
+    expect(runner.calls, hasLength(2));
+    expect(runner.calls.first.productId, 'build-product-id');
+    expect(
+      runner.calls.first.setupPath,
+      p.windows.join(eacDirectory.path, 'EasyAntiCheat_EOS_Setup.exe'),
+    );
+  });
 
   test('reports a named EACError when setup fails', () async {
     final gameDirectory = p.windows.join(sandbox.path, 'StarCitizen', 'PTU');
@@ -66,11 +63,13 @@ void main() {
     expect(
       () => registrar.register(gameDirectory: gameDirectory),
       throwsA(
-        isA<EACError>().having(
-          (error) => error.message,
-          'message',
-          'Unable to register game StarCitizen with environment PTU to the EAC service',
-        ),
+        isA<EACError>()
+            .having(
+              (error) => error.message,
+              'message',
+              'Unable to register game StarCitizen with environment PTU to the EAC service',
+            )
+            .having((error) => error.cause, 'cause', isA<Exception>()),
       ),
     );
   });

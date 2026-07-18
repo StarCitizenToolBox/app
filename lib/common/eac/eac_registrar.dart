@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -13,12 +14,15 @@ String getAntiCheatDirectory(String gameDirectory) =>
 enum EacRegistrationOutcome { registered, distributionNotFound }
 
 class EACError implements Exception {
-  const EACError(this.message);
+  const EACError(this.message, {this.cause});
 
   final String message;
+  final Object? cause;
 
   @override
-  String toString() => 'EACError: $message';
+  String toString() => cause == null
+      ? 'EACError: $message'
+      : 'EACError: $message; cause: $cause';
 }
 
 abstract interface class EacInstallerRunner {
@@ -26,9 +30,7 @@ abstract interface class EacInstallerRunner {
 }
 
 class DirectEacInstallerRunner implements EacInstallerRunner {
-  const DirectEacInstallerRunner({
-    this.timeout = const Duration(minutes: 2),
-  });
+  const DirectEacInstallerRunner({this.timeout = const Duration(minutes: 2)});
 
   final Duration timeout;
 
@@ -37,20 +39,50 @@ class DirectEacInstallerRunner implements EacInstallerRunner {
     required String setupPath,
     required String productId,
   }) async {
-    final result = await Process.run(
+    final arguments = ['install', productId];
+    final process = await Process.start(
       setupPath,
-      ['install', productId],
+      arguments,
       workingDirectory: File(setupPath).parent.path,
-    ).timeout(timeout);
-    if (result.exitCode != 0) {
-      final stderr = result.stderr.toString().trim();
+    );
+    final stdoutFuture = process.stdout
+        .transform(const Utf8Decoder(allowMalformed: true))
+        .join();
+    final stderrFuture = process.stderr
+        .transform(const Utf8Decoder(allowMalformed: true))
+        .join();
+    late final int exitCode;
+    try {
+      exitCode = await process.exitCode.timeout(timeout);
+    } on TimeoutException {
+      final killed = process.kill();
+      if (killed) {
+        try {
+          await process.exitCode.timeout(const Duration(seconds: 5));
+        } on TimeoutException {
+          // The timeout error below remains the actionable failure even when
+          // Windows does not report process termination promptly.
+        }
+      }
       throw ProcessException(
         setupPath,
-        ['install', productId],
-        stderr.isEmpty
-            ? 'EasyAntiCheat setup exited with code ${result.exitCode}'
-            : stderr,
-        result.exitCode,
+        arguments,
+        'EasyAntiCheat setup timed out after ${timeout.inSeconds} seconds',
+        -1,
+      );
+    }
+    final output = (await Future.wait([stderrFuture, stdoutFuture]))
+        .map((value) => value.trim())
+        .where((value) => value.isNotEmpty)
+        .join('\n');
+    if (exitCode != 0) {
+      throw ProcessException(
+        setupPath,
+        arguments,
+        output.isEmpty
+            ? 'EasyAntiCheat setup exited with code $exitCode'
+            : output,
+        exitCode,
       );
     }
   }
@@ -80,10 +112,14 @@ class EacRegistrar {
         setupPath: setupPath,
         productId: productId,
       );
-    } catch (_) {
-      throw EACError(
-        'Unable to register game ${identity.gameName} with environment '
-        '${identity.environment} to the EAC service',
+    } catch (error, stackTrace) {
+      Error.throwWithStackTrace(
+        EACError(
+          'Unable to register game ${identity.gameName} with environment '
+          '${identity.environment} to the EAC service',
+          cause: error,
+        ),
+        stackTrace,
       );
     }
     return EacRegistrationOutcome.registered;

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -82,7 +83,7 @@ class RsiLauncherStoreService {
   }) async {
     await _validateInstalledGame(gameDirectory);
     final original = await storeFile.readAsBytes();
-    final store = _codec.decrypt(original);
+    final store = await Isolate.run(() => _codec.decrypt(original));
     final changed = updateRsiLauncherInstalledChannel(
       store,
       gameDirectory: gameDirectory,
@@ -99,7 +100,8 @@ class RsiLauncherStoreService {
     );
     await storeFile.copy(backupFile.path);
     try {
-      await tempFile.writeAsBytes(_codec.encrypt(store), flush: true);
+      final encrypted = await Isolate.run(() => _codec.encrypt(store));
+      await tempFile.writeAsBytes(encrypted, flush: true);
       // Dart cannot replace an existing file with rename on Windows. The
       // backup is created first and restored if the final rename fails.
       await storeFile.delete();
@@ -335,7 +337,14 @@ void _normalizeVersion(Map<String, dynamic> channel) {
     channel['version'] = direct;
     return;
   }
-  final label = channel['versionLabel']?.toString() ?? '';
+  var versionLabel = channel['versionLabel']?.toString() ?? '';
+  if (versionLabel.isEmpty && version is String && version.isNotEmpty) {
+    versionLabel = version;
+    channel['versionLabel'] = versionLabel;
+  }
+  final label = versionLabel.isNotEmpty
+      ? versionLabel
+      : version?.toString() ?? '';
   final matches = RegExp(r'(\d+)').allMatches(label).toList();
   if (matches.isNotEmpty) {
     channel['version'] = int.tryParse(matches.last.group(1)!);

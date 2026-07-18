@@ -119,6 +119,40 @@ void main() {
     expect(channel['libraryFolder'], r'P:\Games\RSI\');
   });
 
+  test('normalizes a semantic version when versionLabel is empty', () {
+    final store = _storeWithInstalled([
+      {
+        'id': 'SC',
+        'name': 'Star Citizen',
+        'channels': [
+          {
+            'id': 'LIVE',
+            'name': 'Live Release',
+            'version': '4.9.0-live.12248363',
+            'versionLabel': '',
+            'platformId': 'prod',
+            'servicesEndpoint': 'https://live.example',
+            'network': null,
+            'installDir': 'StarCitizen',
+            'status': 'installed',
+            'libraryFolder': r'P:\Games\RSI\',
+          },
+        ],
+      },
+    ]);
+
+    updateRsiLauncherInstalledChannel(
+      store,
+      gameDirectory: r'P:\Games\RSI\StarCitizen\LIVE',
+      releaseInfo: const {},
+      libraryData: const {},
+    );
+
+    final channel = _firstChannel(store);
+    expect(channel['version'], 12248363);
+    expect(channel['versionLabel'], '4.9.0-live.12248363');
+  });
+
   test(
     'backs up and rewrites the encrypted store after validating Data.p4k',
     () async {

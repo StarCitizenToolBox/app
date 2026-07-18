@@ -545,19 +545,90 @@ pub fn get_process_list_by_name(process_name: &str) -> anyhow::Result<Vec<Proces
     Ok(Vec::new())
 }
 
-/// Kill processes by name
+#[cfg(target_os = "windows")]
+struct CloseWindowContext {
+    pid: u32,
+    requests_sent: u32,
+}
+
+#[cfg(target_os = "windows")]
+unsafe extern "system" fn close_process_window(
+    hwnd: windows::Win32::Foundation::HWND,
+    lparam: windows::Win32::Foundation::LPARAM,
+) -> windows::core::BOOL {
+    use windows::core::BOOL;
+    use windows::Win32::Foundation::{LPARAM, WPARAM};
+    use windows::Win32::UI::WindowsAndMessaging::{
+        GetWindowThreadProcessId, PostMessageW, WM_CLOSE,
+    };
+
+    let context = &mut *(lparam.0 as *mut CloseWindowContext);
+    let mut window_pid = 0u32;
+    GetWindowThreadProcessId(hwnd, Some(&mut window_pid));
+    if window_pid == context.pid && PostMessageW(Some(hwnd), WM_CLOSE, WPARAM(0), LPARAM(0)).is_ok()
+    {
+        context.requests_sent += 1;
+    }
+    BOOL(1)
+}
+
+#[cfg(target_os = "windows")]
+fn request_process_close(pid: u32) -> anyhow::Result<u32> {
+    use windows::Win32::Foundation::LPARAM;
+    use windows::Win32::UI::WindowsAndMessaging::EnumWindows;
+
+    let mut context = CloseWindowContext {
+        pid,
+        requests_sent: 0,
+    };
+    unsafe {
+        EnumWindows(
+            Some(close_process_window),
+            LPARAM((&mut context as *mut CloseWindowContext) as isize),
+        )?;
+    }
+    Ok(context.requests_sent)
+}
+
+fn process_name_matches(process_name: &str, executable_name: &str) -> bool {
+    let requested = process_name.strip_suffix(".exe").unwrap_or(process_name);
+    let executable = executable_name
+        .strip_suffix(".exe")
+        .unwrap_or(executable_name);
+    requested.eq_ignore_ascii_case(executable)
+}
+
+/// Ask matching GUI processes to exit normally, then force-terminate only
+/// processes that do not exit before the grace period expires.
 #[cfg(target_os = "windows")]
 pub fn kill_process_by_name(process_name: &str) -> anyhow::Result<u32> {
-    use windows::Win32::Foundation::CloseHandle;
-    use windows::Win32::System::Threading::{OpenProcess, TerminateProcess, PROCESS_TERMINATE};
+    use windows::Win32::Foundation::{CloseHandle, WAIT_OBJECT_0};
+    use windows::Win32::System::Threading::{
+        OpenProcess, TerminateProcess, WaitForSingleObject, PROCESS_SYNCHRONIZE, PROCESS_TERMINATE,
+    };
+
+    const GRACEFUL_EXIT_TIMEOUT_MS: u32 = 15_000;
 
     let processes = get_process_list_by_name(process_name)?;
     let mut killed_count = 0u32;
 
-    for process in processes {
+    for process in processes
+        .into_iter()
+        .filter(|process| process_name_matches(process_name, &process.name))
+    {
         unsafe {
-            if let Ok(h_process) = OpenProcess(PROCESS_TERMINATE, false, process.pid) {
+            if let Ok(h_process) =
+                OpenProcess(PROCESS_TERMINATE | PROCESS_SYNCHRONIZE, false, process.pid)
+            {
                 if !h_process.is_invalid() {
+                    let close_requested = request_process_close(process.pid).unwrap_or(0) > 0;
+                    if close_requested
+                        && WaitForSingleObject(h_process, GRACEFUL_EXIT_TIMEOUT_MS) == WAIT_OBJECT_0
+                    {
+                        killed_count += 1;
+                        let _ = CloseHandle(h_process);
+                        continue;
+                    }
                     if TerminateProcess(h_process, 0).is_ok() {
                         killed_count += 1;
                     }
@@ -574,6 +645,21 @@ pub fn kill_process_by_name(process_name: &str) -> anyhow::Result<u32> {
 pub fn kill_process_by_name(process_name: &str) -> anyhow::Result<u32> {
     println!("kill_process_by_name (unix): {}", process_name);
     Ok(0)
+}
+
+#[cfg(test)]
+mod process_name_tests {
+    use super::process_name_matches;
+
+    #[test]
+    fn process_name_match_is_exact_and_ignores_exe_suffix() {
+        assert!(process_name_matches("StarCitizen", "StarCitizen.exe"));
+        assert!(process_name_matches("starcitizen.exe", "StarCitizen.exe"));
+        assert!(!process_name_matches(
+            "StarCitizen",
+            "StarCitizen_Launcher.exe"
+        ));
+    }
 }
 
 /// Get disk physical sector size for performance
