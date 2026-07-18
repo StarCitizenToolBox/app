@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rsi_launcher/launcher_store.dart';
 import 'package:starcitizen_doctor/common/rust/api/p4k_upgrader_api.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_download_source_dialog_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -28,6 +31,7 @@ class HomeP4kUpdateDialogUI extends StatefulWidget {
     required this.applicationSupportDir,
     required this.webToken,
     required this.webCookie,
+    this.libraryData = const {},
     this.onMirrorProviderError,
   });
 
@@ -37,6 +41,7 @@ class HomeP4kUpdateDialogUI extends StatefulWidget {
   final String applicationSupportDir;
   final String webToken;
   final String webCookie;
+  final Map libraryData;
   final Future<bool> Function(P4kMirrorUnavailable error)?
   onMirrorProviderError;
 
@@ -241,7 +246,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         ),
         if (_working)
           Button(
-            onPressed: _cancelling ? null : _togglePause,
+            onPressed: _cancelling ? null : () => _togglePause(context),
             child: Text(
               _paused
                   ? S.current.app_splash_free_software_notice_confirm
@@ -420,11 +425,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _runUpdate(BuildContext context) async {
+    if (await _blockUpdateWhileLauncherIsRunning(context)) return;
+    if (!mounted) return;
     final config = _buildConfig();
     if (config == null) return;
     _prepareStagePlan(deepRepair: false);
     await _runUpdateWithProgressTask(
-      context,
+      this.context,
       config,
       status:
           S.current.p4k_update_downloading_objects_game_files_and_patching_p4k,
@@ -434,11 +441,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _runRepairMode(BuildContext context) async {
+    if (await _blockUpdateWhileLauncherIsRunning(context)) return;
+    if (!mounted) return;
     final config = _buildConfig(deepVerify: true);
     if (config == null) return;
     _prepareStagePlan(deepRepair: true);
     await _runUpdateWithProgressTask(
-      context,
+      this.context,
       config,
       status: S
           .current
@@ -467,6 +476,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       task: () async {
         _paused = false;
         _cancelling = false;
+        EacDistributionPatchGuard? eacPatchGuard;
+        if (config.updateLooseFiles) {
+          eacPatchGuard = await EacDistributionPatchGuard.prepare(
+            widget.installPath,
+            log: _appendEacLog,
+          );
+        }
         _startDownloadSpeedTimer();
         final completer = Completer<void>();
         late final StreamSubscription<P4kUpgraderProgressEvent> sub;
@@ -608,9 +624,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         try {
           await completer.future;
           if (streamCompletedSuccessfully && !_cancelling) {
+            await eacPatchGuard?.commit();
+            eacPatchGuard = null;
             await _runPostInstallTasks();
           }
         } finally {
+          await eacPatchGuard?.rollback();
           _stopDownloadSpeedTimer();
           await sub.cancel();
           if (mounted) {
@@ -625,6 +644,17 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     );
   }
 
+  Future<bool> _blockUpdateWhileLauncherIsRunning(BuildContext context) async {
+    if (!await blockIfRsiLauncherRunning(context)) return false;
+    if (mounted) {
+      setState(
+        () =>
+            _status = S.current.tools_action_info_rsi_launcher_running_warning,
+      );
+    }
+    return true;
+  }
+
   void _stopUpdate() {
     if (_cancelling) return;
     p4KUpgraderCancel();
@@ -637,9 +667,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     });
   }
 
-  void _togglePause() {
+  Future<void> _togglePause(BuildContext context) async {
     if (_cancelling) return;
     if (_paused) {
+      if (await _blockUpdateWhileLauncherIsRunning(context)) return;
       p4KUpgraderResume();
     } else {
       p4KUpgraderPause();
@@ -1039,10 +1070,25 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _installEasyAntiCheat(String stageText) async {
-    final eacDir = Directory(_joinInstallPath('EasyAntiCheat'));
-    final eacExe = File(_joinPath(eacDir.path, 'EasyAntiCheat_EOS_Setup.exe'));
-    const eacId = '54540c7a80fe48ea92ead64506b4ff53';
-    if (!await eacExe.exists()) {
+    late final EacRegistrationOutcome outcome;
+    try {
+      outcome = await EacRegistrar().register(
+        gameDirectory: widget.installPath,
+        log: _appendEacLog,
+      );
+    } on EACError catch (error) {
+      _appendEacLog(error.toString());
+      _setPostInstallStatus(
+        stageText,
+        S.current
+            .p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat(
+              error,
+            ),
+        warning: true,
+      );
+      return;
+    }
+    if (outcome == EacRegistrationOutcome.distributionNotFound) {
       _setPostInstallStatus(
         stageText,
         S
@@ -1054,40 +1100,13 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     }
     _setPostInstallStatus(
       stageText,
-      S.current.p4k_update_registering_easyanticheat,
+      S.current.p4k_update_easyanticheat_registration_completed,
     );
-    try {
-      final result = await Process.run(eacExe.path, const [
-        'install',
-        eacId,
-      ], workingDirectory: eacDir.path).timeout(const Duration(minutes: 2));
-      if (result.exitCode == 0) {
-        _setPostInstallStatus(
-          stageText,
-          S.current.p4k_update_easyanticheat_registration_completed,
-        );
-      } else {
-        final detail = _processOutputSummary(result);
-        _setPostInstallStatus(
-          stageText,
-          S.current
-              .p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal(
-                result.exitCode,
-                detail,
-              ),
-          warning: true,
-        );
-      }
-    } catch (e) {
-      _setPostInstallStatus(
-        stageText,
-        S.current
-            .p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat(
-              e,
-            ),
-        warning: true,
-      );
-    }
+  }
+
+  void _appendEacLog(String message) {
+    if (!mounted) return;
+    setState(() => _appendLogLine('${_simpleLogTime()} $message'));
   }
 
   Future<void> _syncLauncherInstallState(String stageText) async {
@@ -1096,6 +1115,14 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       S.current.p4k_update_synchronizing_launcher_installation_status,
     );
     final buildManifestUpdated = await _updateBuildManifestId(stageText);
+    if (widget.releaseInfo.isEmpty) {
+      _setPostInstallStatus(
+        stageText,
+        'RSI Launcher store sync skipped: official release metadata is missing',
+        warning: true,
+      );
+      return;
+    }
     final storeCandidates = await _existingLauncherStoreCandidates();
     if (storeCandidates.isEmpty) {
       _setPostInstallStatus(
@@ -1105,16 +1132,38 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
             .p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped,
         warning: true,
       );
-    } else {
-      final suffix = buildManifestUpdated
-          ? S.current.p4k_update_build_manifest_id_updated
-          : "";
+      return;
+    }
+    if ((await SystemHelper.getPID('RSI Launcher')).isNotEmpty) {
+      const message =
+          'RSI Launcher is running; exit it completely before synchronizing '
+          'launcher store.json';
+      _setPostInstallStatus(stageText, message, warning: true);
+      return;
+    }
+    try {
+      final result = await RsiLauncherStoreService().syncInstalledChannel(
+        storeFile: storeCandidates.first,
+        gameDirectory: widget.installPath,
+        releaseInfo: widget.releaseInfo,
+        libraryData: widget.libraryData,
+      );
+      final manifestSuffix = buildManifestUpdated
+          ? '; build_manifest.id updated'
+          : '';
+      final backupSuffix = result.backupPath == null
+          ? ''
+          : '; backup: ${result.backupPath}';
       _setPostInstallStatus(
         stageText,
-        S.current
-            .p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th(
-              suffix,
-            ),
+        result.changed
+            ? 'RSI Launcher store synchronized$manifestSuffix$backupSuffix'
+            : 'RSI Launcher store is already up to date$manifestSuffix',
+      );
+    } catch (error) {
+      _setPostInstallStatus(
+        stageText,
+        'RSI Launcher store synchronization failed: $error',
         warning: true,
       );
     }
@@ -1144,9 +1193,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       final data = root['Data'] is Map
           ? Map<String, dynamic>.from(root['Data'] as Map)
           : <String, dynamic>{};
-      data['Branch'] = data['Branch'] ?? 'LIVE';
-      data['RequestedP4ChangeNum'] = int.tryParse(changeNumber) ?? changeNumber;
-      data['BuildId'] = data['BuildId'] ?? data['RequestedP4ChangeNum'];
+      final buildNumber = int.tryParse(changeNumber) ?? changeNumber;
+      data['Branch'] = _installEnvironment(widget.installPath);
+      data['RequestedP4ChangeNum'] = buildNumber;
+      data['BuildId'] = buildNumber;
       root['Data'] = data;
       await file.writeAsString(
         const JsonEncoder.withIndent('  ').convert(root),
@@ -1172,23 +1222,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<List<File>> _existingLauncherStoreCandidates() async {
-    final roots = [
-      Platform.environment['APPDATA'],
-      Platform.environment['LOCALAPPDATA'],
-    ].whereType<String>().where((value) => value.isNotEmpty);
-    const relative = [
-      ['rsilauncher', 'launcher store.json'],
-      ['RSI Launcher', 'launcher store.json'],
-      ['UI Launcher', 'launcher store.json'],
-    ];
-    final files = <File>[];
-    for (final root in roots) {
-      for (final parts in relative) {
-        final file = File(_joinPath(root, _joinPath(parts[0], parts[1])));
-        if (await file.exists()) files.add(file);
-      }
-    }
-    return files;
+    final appData = Platform.environment['APPDATA'];
+    if (appData == null || appData.isEmpty) return const [];
+    final file = File(
+      _joinPath(appData, _joinPath('rsilauncher', 'launcher store.json')),
+    );
+    return await file.exists() ? [file] : const [];
   }
 
   void _setPostInstallStatus(
@@ -1751,9 +1790,13 @@ String _stageLabelForKey(String key) {
 }
 
 bool _isLiveInstallPath(String path) {
+  return _installEnvironment(path) == 'LIVE';
+}
+
+String _installEnvironment(String path) {
   final normalized = path.replaceAll('\\', '/').replaceAll(RegExp(r'/+$'), '');
-  if (normalized.isEmpty) return false;
-  return normalized.split('/').last.toUpperCase() == 'LIVE';
+  if (normalized.isEmpty) return '';
+  return normalized.split('/').last.toUpperCase();
 }
 
 String get _p4kLiveOnlyMessage => S
@@ -1788,18 +1831,6 @@ String? _lastNumberString(String value) {
   final matches = RegExp(r'(\d{5,})').allMatches(value).toList();
   if (matches.isEmpty) return null;
   return matches.last.group(1);
-}
-
-String _processOutputSummary(ProcessResult result) {
-  final output = [
-    result.stdout?.toString().trim() ?? '',
-    result.stderr?.toString().trim() ?? '',
-  ].where((value) => value.isNotEmpty).join(' ');
-  if (output.isEmpty) return "";
-  final clipped = output.length > 300
-      ? '${output.substring(0, 300)}...'
-      : output;
-  return "：$clipped";
 }
 
 String _simpleLogTime() {

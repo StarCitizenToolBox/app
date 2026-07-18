@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
@@ -73,22 +74,22 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         showToast(context, S.current.doctor_info_result_verify_files_with_rsi_launcher);
         break;
       case "eac_not_install":
-        final eacJsonPath = "${item.value}\\Settings.json";
-        final eacJsonData = await File(eacJsonPath).readAsBytes();
-        final Map eacJson = json.decode(utf8.decode(eacJsonData));
-        final eacID = eacJson["productid"];
         try {
-          var result = await Process.run("${item.value}\\EasyAntiCheat_EOS_Setup.exe", ["install", eacID]);
-          dPrint("${item.value}\\EasyAntiCheat_EOS_Setup.exe install $eacID");
-          if (result.stderr == "") {
-            if (!context.mounted) break;
-            showToast(context, S.current.doctor_action_result_game_start_success);
-            checkResult.remove(item);
-            state = state.copyWith(checkResult: checkResult);
-          } else {
-            if (!context.mounted) break;
-            showToast(context, S.current.doctor_action_result_fix_fail(result.stderr));
+          final outcome = await EacRegistrar().register(
+            gameDirectory: Directory(item.value).parent.path,
+            log: dPrint,
+          );
+          if (!context.mounted) break;
+          if (outcome == EacRegistrationOutcome.distributionNotFound) {
+            showToast(
+              context,
+              S.current.doctor_info_result_verify_files_with_rsi_launcher,
+            );
+            break;
           }
+          showToast(context, S.current.doctor_action_result_game_start_success);
+          checkResult.remove(item);
+          state = state.copyWith(checkResult: checkResult);
         } catch (e) {
           if (!context.mounted) break;
           showToast(context, S.current.doctor_action_result_fix_fail(e));

@@ -91,6 +91,10 @@ class SystemHelper {
     }
   }
 
+  static Future<bool> isRsiLauncherRunning() async {
+    return (await getPID("RSI Launcher")).isNotEmpty;
+  }
+
   static Future<void> checkAndLaunchRSILauncher(String path) async {
     // check running and kill
     await killRSILauncher();

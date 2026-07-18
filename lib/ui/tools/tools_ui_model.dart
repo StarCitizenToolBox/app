@@ -724,17 +724,7 @@ class ToolsUIModel extends _$ToolsUIModel {
   Future<void> _downloadP4k(BuildContext context, String torrentUrl) async {
     String savePath = state.scInstalledPath;
 
-    if ((await SystemHelper.getPID("RSI Launcher")).isNotEmpty) {
-      if (!context.mounted) return;
-      showToast(
-        context,
-        S.current.tools_action_info_rsi_launcher_running_warning,
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * .35,
-        ),
-      );
-      return;
-    }
+    if (await blockIfRsiLauncherRunning(context)) return;
 
     if (!context.mounted) return;
     final ok = await showConfirmDialogs(

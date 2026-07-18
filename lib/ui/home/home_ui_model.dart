@@ -16,8 +16,6 @@ import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
 import 'package:starcitizen_doctor/common/rust/api/p4k_upgrader_api.dart';
-import 'package:starcitizen_doctor/common/utils/async.dart';
-import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
@@ -28,6 +26,7 @@ import 'package:starcitizen_doctor/ui/home/dialogs/home_game_login_dialog_ui.dar
 import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_update_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_download_source_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/p4k_source_session_coordinator.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart' as html_dom;
@@ -423,6 +422,7 @@ class HomeUIModel extends _$HomeUIModel {
 
   // ignore: avoid_build_context_in_providers
   Future<void> openP4kUpdater(BuildContext context) async {
+    if (await blockIfRsiLauncherRunning(context)) return;
     await openP4kUpdaterSession(
       selectSource: () => showP4kDownloadSourceDialog(context),
       openOfficial: () => context.mounted
@@ -511,6 +511,9 @@ class HomeUIModel extends _$HomeUIModel {
         }
         final data = message["data"];
         final releaseInfo = data is Map ? data["releaseInfo"] : null;
+        final libraryData = data is Map && data["libraryData"] is Map
+            ? data["libraryData"] as Map
+            : const {};
         final webToken = data is Map ? data["webToken"]?.toString() ?? "" : "";
         final webCookie = data is Map
             ? data["webCookie"]?.toString() ?? ""
@@ -537,6 +540,7 @@ class HomeUIModel extends _$HomeUIModel {
             applicationSupportDir: appGlobalState.applicationSupportDir!,
             webToken: webToken,
             webCookie: _mergeCookieHeaders([webCookie, webViewCookies]),
+            libraryData: libraryData,
           ),
         );
         if (result == P4kUpdateDialogResult.updated) {

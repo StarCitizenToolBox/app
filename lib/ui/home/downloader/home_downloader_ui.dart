@@ -165,7 +165,7 @@ class HomeDownloaderUI extends HookConsumerWidget {
                                     MenuFlyoutItem(
                                       leading: const Icon(FluentIcons.download),
                                       text: Text(S.current.downloader_action_continue_download),
-                                      onPressed: () => model.resumeTask(task.id.toInt()),
+                                      onPressed: () => model.resumeTask(context, task.id.toInt()),
                                     )
                                   else if (isActive)
                                     MenuFlyoutItem(

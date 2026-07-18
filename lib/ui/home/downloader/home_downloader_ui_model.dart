@@ -27,7 +27,6 @@ abstract class HomeDownloaderUIState with _$HomeDownloaderUIState {
     DownloadGlobalStat? globalStat,
   }) = _HomeDownloaderUIState;
 }
-
 extension HomeDownloaderUIStateExtension on HomeDownloaderUIState {
   bool get isAvailable => globalStat != null;
 }
@@ -74,6 +73,10 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
         return;
       case "resume_all":
         if (!downloadManagerState.isRunning) return;
+        if (_containsGameFileTask(state.waitingTasks) &&
+            await blockIfRsiLauncherRunning(context)) {
+          return;
+        }
         await downloadManager.resumeAll();
         return;
       case "cancel_all":
@@ -175,9 +178,21 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
     return S.current.downloader_info_checking_progress(percent);
   }
 
-  Future<void> resumeTask(int taskId) async {
+  Future<void> resumeTask(BuildContext context, int taskId) async {
+    final isGameFileTask = state.waitingTasks.any(
+      (task) => task.id.toInt() == taskId && _isGameFileTask(task),
+    );
+    if (isGameFileTask && await blockIfRsiLauncherRunning(context)) return;
     final downloadManager = ref.read(downloadManagerProvider.notifier);
     await downloadManager.resumeTask(taskId);
+  }
+
+  bool _containsGameFileTask(Iterable<DownloadTaskInfo> tasks) {
+    return tasks.any(_isGameFileTask);
+  }
+
+  bool _isGameFileTask(DownloadTaskInfo task) {
+    return task.name.toLowerCase() == 'data.p4k';
   }
 
   Future<void> pauseTask(int taskId) async {
