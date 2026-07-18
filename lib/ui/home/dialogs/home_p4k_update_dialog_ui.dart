@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
+import 'package:starcitizen_doctor/common/helper/system_helper.dart';
+import 'package:starcitizen_doctor/common/rsi_launcher/launcher_store.dart';
 import 'package:starcitizen_doctor/common/rust/api/p4k_upgrader_api.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_download_source_dialog_ui.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
@@ -29,6 +31,7 @@ class HomeP4kUpdateDialogUI extends StatefulWidget {
     required this.applicationSupportDir,
     required this.webToken,
     required this.webCookie,
+    this.libraryData = const {},
     this.onMirrorProviderError,
   });
 
@@ -38,6 +41,7 @@ class HomeP4kUpdateDialogUI extends StatefulWidget {
   final String applicationSupportDir;
   final String webToken;
   final String webCookie;
+  final Map libraryData;
   final Future<bool> Function(P4kMirrorUnavailable error)?
   onMirrorProviderError;
 
@@ -1077,6 +1081,14 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       S.current.p4k_update_synchronizing_launcher_installation_status,
     );
     final buildManifestUpdated = await _updateBuildManifestId(stageText);
+    if (widget.releaseInfo.isEmpty) {
+      _setPostInstallStatus(
+        stageText,
+        'RSI Launcher store sync skipped: official release metadata is missing',
+        warning: true,
+      );
+      return;
+    }
     final storeCandidates = await _existingLauncherStoreCandidates();
     if (storeCandidates.isEmpty) {
       _setPostInstallStatus(
@@ -1086,18 +1098,45 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
             .p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped,
         warning: true,
       );
-    } else {
-      final suffix = buildManifestUpdated
-          ? S.current.p4k_update_build_manifest_id_updated
-          : "";
+      return;
+    }
+    if ((await SystemHelper.getPID('RSI Launcher')).isNotEmpty) {
+      const message =
+          'RSI Launcher is running; exit it completely before synchronizing '
+          'launcher store.json';
       _setPostInstallStatus(
         stageText,
-        S.current
-            .p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th(
-              suffix,
-            ),
+        message,
         warning: true,
       );
+      throw StateError(message);
+    }
+    try {
+      final result = await RsiLauncherStoreService().syncInstalledChannel(
+        storeFile: storeCandidates.first,
+        gameDirectory: widget.installPath,
+        releaseInfo: widget.releaseInfo,
+        libraryData: widget.libraryData,
+      );
+      final manifestSuffix = buildManifestUpdated
+          ? '; build_manifest.id updated'
+          : '';
+      final backupSuffix = result.backupPath == null
+          ? ''
+          : '; backup: ${result.backupPath}';
+      _setPostInstallStatus(
+        stageText,
+        result.changed
+            ? 'RSI Launcher store synchronized$manifestSuffix$backupSuffix'
+            : 'RSI Launcher store is already up to date$manifestSuffix',
+      );
+    } catch (error) {
+      _setPostInstallStatus(
+        stageText,
+        'RSI Launcher store synchronization failed: $error',
+        warning: true,
+      );
+      rethrow;
     }
   }
 
@@ -1125,9 +1164,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       final data = root['Data'] is Map
           ? Map<String, dynamic>.from(root['Data'] as Map)
           : <String, dynamic>{};
-      data['Branch'] = data['Branch'] ?? 'LIVE';
-      data['RequestedP4ChangeNum'] = int.tryParse(changeNumber) ?? changeNumber;
-      data['BuildId'] = data['BuildId'] ?? data['RequestedP4ChangeNum'];
+      final buildNumber = int.tryParse(changeNumber) ?? changeNumber;
+      data['Branch'] = _installEnvironment(widget.installPath);
+      data['RequestedP4ChangeNum'] = buildNumber;
+      data['BuildId'] = buildNumber;
       root['Data'] = data;
       await file.writeAsString(
         const JsonEncoder.withIndent('  ').convert(root),
@@ -1153,23 +1193,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<List<File>> _existingLauncherStoreCandidates() async {
-    final roots = [
-      Platform.environment['APPDATA'],
-      Platform.environment['LOCALAPPDATA'],
-    ].whereType<String>().where((value) => value.isNotEmpty);
-    const relative = [
-      ['rsilauncher', 'launcher store.json'],
-      ['RSI Launcher', 'launcher store.json'],
-      ['UI Launcher', 'launcher store.json'],
-    ];
-    final files = <File>[];
-    for (final root in roots) {
-      for (final parts in relative) {
-        final file = File(_joinPath(root, _joinPath(parts[0], parts[1])));
-        if (await file.exists()) files.add(file);
-      }
-    }
-    return files;
+    final appData = Platform.environment['APPDATA'];
+    if (appData == null || appData.isEmpty) return const [];
+    final file = File(
+      _joinPath(appData, _joinPath('rsilauncher', 'launcher store.json')),
+    );
+    return await file.exists() ? [file] : const [];
   }
 
   void _setPostInstallStatus(
@@ -1732,9 +1761,13 @@ String _stageLabelForKey(String key) {
 }
 
 bool _isLiveInstallPath(String path) {
+  return _installEnvironment(path) == 'LIVE';
+}
+
+String _installEnvironment(String path) {
   final normalized = path.replaceAll('\\', '/').replaceAll(RegExp(r'/+$'), '');
-  if (normalized.isEmpty) return false;
-  return normalized.split('/').last.toUpperCase() == 'LIVE';
+  if (normalized.isEmpty) return '';
+  return normalized.split('/').last.toUpperCase();
 }
 
 String get _p4kLiveOnlyMessage => S

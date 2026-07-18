@@ -511,6 +511,9 @@ class HomeUIModel extends _$HomeUIModel {
         }
         final data = message["data"];
         final releaseInfo = data is Map ? data["releaseInfo"] : null;
+        final libraryData = data is Map && data["libraryData"] is Map
+            ? data["libraryData"] as Map
+            : const {};
         final webToken = data is Map ? data["webToken"]?.toString() ?? "" : "";
         final webCookie = data is Map
             ? data["webCookie"]?.toString() ?? ""
@@ -537,6 +540,7 @@ class HomeUIModel extends _$HomeUIModel {
             applicationSupportDir: appGlobalState.applicationSupportDir!,
             webToken: webToken,
             webCookie: _mergeCookieHeaders([webCookie, webViewCookies]),
+            libraryData: libraryData,
           ),
         );
         if (result == P4kUpdateDialogResult.updated) {
