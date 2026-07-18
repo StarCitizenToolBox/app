@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:path/path.dart' as p;
 import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
 import 'package:starcitizen_doctor/common/helper/launcher_permission_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -14,22 +12,6 @@ import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
 
 enum P4kUpdateDialogResult { updated, switchToOfficial }
-
-Future<bool> removeLooseFilesLedger(
-  String gameDirectory, {
-  void Function(String message)? log,
-}) async {
-  final ledger = File(p.join(gameDirectory, '.LooseFiles.txt'));
-  if (!await ledger.exists()) return false;
-  try {
-    await ledger.delete();
-    log?.call('Removed ${ledger.path} after installation');
-    return true;
-  } on FileSystemException catch (error) {
-    log?.call('Unable to remove ${ledger.path}: $error');
-    rethrow;
-  }
-}
 
 Future<P4kUpdateDialogResult?> resolveP4kMirrorProviderFailure({
   required P4kMirrorUnavailable error,
@@ -1089,7 +1071,6 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       stageText,
       S.current.p4k_update_registering_eac_and_syncing_launcher_state,
     );
-    await removeLooseFilesLedger(widget.installPath, log: _appendEacLog);
     await _installEasyAntiCheat(stageText);
     await onEacRegistered?.call();
     await _syncLauncherInstallState(stageText);
@@ -1138,7 +1119,6 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       stageText,
       S.current.p4k_update_synchronizing_launcher_installation_status,
     );
-    final buildManifestUpdated = await _updateBuildManifestId(stageText);
     if (widget.releaseInfo.isEmpty) {
       _setPostInstallStatus(
         stageText,
@@ -1172,17 +1152,14 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         releaseInfo: widget.releaseInfo,
         libraryData: widget.libraryData,
       );
-      final manifestSuffix = buildManifestUpdated
-          ? '; build_manifest.id updated'
-          : '';
       final backupSuffix = result.backupPath == null
           ? ''
           : '; backup: ${result.backupPath}';
       _setPostInstallStatus(
         stageText,
         result.changed
-            ? 'RSI Launcher store synchronized$manifestSuffix$backupSuffix'
-            : 'RSI Launcher store is already up to date$manifestSuffix',
+            ? 'RSI Launcher store synchronized$backupSuffix'
+            : 'RSI Launcher store is already up to date',
       );
     } catch (error) {
       _setPostInstallStatus(
@@ -1190,58 +1167,6 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         'RSI Launcher store synchronization failed: $error',
         warning: true,
       );
-    }
-  }
-
-  Future<bool> _updateBuildManifestId(String stageText) async {
-    final changeNumber = _extractRequestedP4ChangeNumber(widget.releaseInfo);
-    if (changeNumber == null || changeNumber.isEmpty) {
-      _setPostInstallStatus(
-        stageText,
-        S
-            .current
-            .p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m,
-        warning: true,
-      );
-      return false;
-    }
-    final file = File(_joinInstallPath('build_manifest.id'));
-    try {
-      Map<String, dynamic> root = {};
-      if (await file.exists()) {
-        final decoded = json.decode(await file.readAsString());
-        if (decoded is Map) {
-          root = Map<String, dynamic>.from(decoded);
-        }
-      }
-      final data = root['Data'] is Map
-          ? Map<String, dynamic>.from(root['Data'] as Map)
-          : <String, dynamic>{};
-      final buildNumber = int.tryParse(changeNumber) ?? changeNumber;
-      data['Branch'] = _installEnvironment(widget.installPath);
-      data['RequestedP4ChangeNum'] = buildNumber;
-      data['BuildId'] = buildNumber;
-      root['Data'] = data;
-      await file.writeAsString(
-        const JsonEncoder.withIndent('  ').convert(root),
-      );
-      _setPostInstallStatus(
-        stageText,
-        S.current.p4k_update_updated_build_manifest_id_requestedp4changenum(
-          changeNumber,
-        ),
-      );
-      return true;
-    } catch (e) {
-      _setPostInstallStatus(
-        stageText,
-        S.current
-            .p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning(
-              e,
-            ),
-        warning: true,
-      );
-      return false;
     }
   }
 
@@ -1841,25 +1766,6 @@ String _joinPath(String parent, String child) {
 
 BigInt _maxBigInt(BigInt a, BigInt b) {
   return a > b ? a : b;
-}
-
-String? _extractRequestedP4ChangeNumber(Map releaseInfo) {
-  final direct =
-      releaseInfo['RequestedP4ChangeNum'] ??
-      releaseInfo['requestedP4ChangeNum'] ??
-      releaseInfo['p4ChangeNum'] ??
-      releaseInfo['buildId'];
-  final directNumber = _lastNumberString(direct?.toString() ?? '');
-  if (directNumber != null) return directNumber;
-  final version = (releaseInfo['versionLabel'] ?? releaseInfo['version'])
-      ?.toString();
-  return _lastNumberString(version ?? '');
-}
-
-String? _lastNumberString(String value) {
-  final matches = RegExp(r'(\d{5,})').allMatches(value).toList();
-  if (matches.isEmpty) return null;
-  return matches.last.group(1);
 }
 
 String _simpleLogTime() {
