@@ -157,7 +157,7 @@ void main() {
       );
       expect(mirror.source, P4kDownloadSource.communityMirror);
       expect(mirror.updateP4K, isTrue, reason: operation);
-      expect(mirror.updateLooseFiles, isFalse, reason: operation);
+      expect(mirror.updateLooseFiles, isTrue, reason: operation);
       expect(mirror.mirrorBases, isEmpty);
       expect(mirror.officialBases, isEmpty);
       expect(mirror.requestCookie, isEmpty);

@@ -11985,10 +11985,10 @@ class S {
     );
   }
 
-  /// `The mirror only handles Data.p4k; the launcher or official site may still need to download other game files.`
+  /// `No login required. Updates may be delayed; after downloading, verify again using the official source or launcher.`
   String get p4k_source_community_mirror_limitation {
     return Intl.message(
-      'The mirror only handles Data.p4k; the launcher or official site may still need to download other game files.',
+      'No login required. Updates may be delayed; after downloading, verify again using the official source or launcher.',
       name: 'p4k_source_community_mirror_limitation',
       desc: '',
       args: [],

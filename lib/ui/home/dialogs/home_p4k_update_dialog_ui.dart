@@ -76,7 +76,7 @@ P4kUpgraderConfig buildP4kSessionConfig({
     cacheDir: cacheDir,
     gameDir: gameDir,
     updateP4K: true,
-    updateLooseFiles: official,
+    updateLooseFiles: true,
     inplaceUpdateP4K: true,
     fallbackRebuildOnInplaceVerifyFailure: deepVerify,
     replaceExistingP4K: true,
@@ -105,7 +105,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   late final TextEditingController _baseController;
   late final TextEditingController _templateController;
   late final _ReleaseUrls _releaseUrls;
-  bool get _updateLooseFiles => widget.source == P4kDownloadSource.official;
+  bool get _updateLooseFiles => true;
   bool _working = false;
   bool _paused = false;
   bool _cancelling = false;

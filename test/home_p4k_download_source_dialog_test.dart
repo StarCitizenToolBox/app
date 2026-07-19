@@ -23,7 +23,7 @@ void main() {
     expect(button.onPressed, isNull);
   });
 
-  testWidgets('shows accessible mirror Data.p4k limitation', (tester) async {
+  testWidgets('shows accessible mirror verification warning', (tester) async {
     await tester.pumpWidget(
       FluentApp(
         locale: const Locale('zh', 'CN'),
@@ -35,9 +35,12 @@ void main() {
     await tester.pumpAndSettle();
     final limitation = find.byKey(p4kCommunityMirrorLimitationKey);
     expect(limitation, findsOneWidget);
-    expect(tester.widget<Text>(limitation).data, contains('Data.p4k'));
+    expect(
+      tester.widget<Text>(limitation).data,
+      '无需登录，可能更新不及时，下载完毕后请使用官方源或启动器再次校验',
+    );
     expect(find.text('中文百科镜像（免登录）'), findsOneWidget);
-    expect(tester.getSemantics(limitation).label, contains('Data.p4k'));
+    expect(tester.getSemantics(limitation).label, contains('再次校验'));
   });
 
   testWidgets('returns official and mirror typed values', (tester) async {

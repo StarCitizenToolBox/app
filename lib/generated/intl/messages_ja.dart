@@ -1320,9 +1320,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_source_community_mirror": MessageLookupByLibrary.simpleMessage(
       "中国語 Wiki ミラー（ログイン不要）",
     ),
-    "p4k_source_community_mirror_limitation": MessageLookupByLibrary.simpleMessage(
-      "ミラーが処理するのは Data.p4k のみです。その他のゲームファイルはランチャーまたは公式サイトで追加ダウンロードが必要になる場合があります。",
-    ),
+    "p4k_source_community_mirror_limitation":
+        MessageLookupByLibrary.simpleMessage(
+          "ログインは不要ですが、更新が遅れる場合があります。ダウンロード完了後、公式ソースまたはランチャーでもう一度検証してください。",
+        ),
     "p4k_source_compressed_size": m71,
     "p4k_source_confirm_switch": MessageLookupByLibrary.simpleMessage(
       "公式サイトへの切替を確認",

@@ -1360,7 +1360,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "p4k_source_community_mirror_limitation":
         MessageLookupByLibrary.simpleMessage(
-          "镜像仅处理 Data.p4k；启动器或官网仍可能需要补齐其他游戏文件。",
+          "无需登录，可能更新不及时，下载完毕后请使用官方源或启动器再次校验",
         ),
     "p4k_source_compressed_size": m71,
     "p4k_source_confirm_switch": MessageLookupByLibrary.simpleMessage(

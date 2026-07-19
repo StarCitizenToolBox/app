@@ -1480,7 +1480,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Зеркало китайской Wiki (вход не требуется)",
     ),
     "p4k_source_community_mirror_limitation": MessageLookupByLibrary.simpleMessage(
-      "Зеркало обрабатывает только Data.p4k; другие файлы игры, возможно, потребуется докачать через лаунчер или официальный сайт.",
+      "Вход не требуется. Обновления могут задерживаться; после загрузки повторно проверьте файлы через официальный источник или лаунчер.",
     ),
     "p4k_source_compressed_size": m71,
     "p4k_source_confirm_switch": MessageLookupByLibrary.simpleMessage(

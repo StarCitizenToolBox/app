@@ -1974,7 +1974,7 @@
   "p4k_source_dialog_description": "本次下载、更新、修复和重试将使用所选来源。",
   "p4k_source_official": "官网（需登录，建议加速器路由模式）",
   "p4k_source_community_mirror": "中文百科镜像（免登录）",
-  "p4k_source_community_mirror_limitation": "镜像仅处理 Data.p4k；启动器或官网仍可能需要补齐其他游戏文件。",
+  "p4k_source_community_mirror_limitation": "无需登录，可能更新不及时，下载完毕后请使用官方源或启动器再次校验",
   "p4k_source_continue": "继续",
   "p4k_source_current": "当前来源：{v0}",
   "@p4k_source_current": {"placeholders":{"v0":{}}},
