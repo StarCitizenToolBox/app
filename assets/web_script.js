@@ -7,11 +7,6 @@ function InitWebLocalization() {
     let scriptTimeAgo = document.createElement('script');
     scriptTimeAgo.src = 'https://cdn.bootcdn.net/ajax/libs/timeago.js/4.0.2/timeago.full.min.js';
     document.head.appendChild(scriptTimeAgo);
-    if (typeof $ === 'undefined') {
-        let scriptJquery = document.createElement('script');
-        scriptJquery.src = 'https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js';
-        document.head.appendChild(scriptJquery);
-    }
     LocalizationWatchUpdate();
 }
 
@@ -118,8 +113,11 @@ function translateElement(el) {
 
 function translateRelativeTimeEl(el) {
     const lang = (navigator.language || navigator.userLanguage);
-    const datetime = $(el).attr('datetime');
-    $(el).text(timeago.format(datetime, lang.replace('-', '_')));
+    const datetime = el.getAttribute('datetime');
+    if (!datetime || typeof timeago === 'undefined') {
+        return;
+    }
+    el.textContent = timeago.format(datetime, lang.replace('-', '_'));
 }
 
 function shouldTranslateEl(el) {
@@ -233,20 +231,7 @@ async function getRSILauncherToken(channelId) {
           }
         }
 
-        // Wait for jQuery to be ready
-        let waitCount = 0;
-        while (typeof $ === 'undefined' && waitCount < 50) {
-            console.log('[SCToolbox] Waiting for jQuery... attempt', waitCount);
-            await new Promise(r => setTimeout(r, 100));
-            waitCount++;
-        }
-        
-        if (typeof $ === 'undefined') {
-            console.error('[SCToolbox] jQuery not available after waiting');
-            return;
-        }
-
-        // Get RSI token from cookie (don't rely on $.cookie plugin)
+        // Get RSI token directly from the browser cookie string.
         function getCookie(name) {
             const value = `; ${document.cookie}`;
             const parts = value.split(`; ${name}=`);
@@ -259,8 +244,18 @@ async function getRSILauncherToken(channelId) {
         
         if (!rsiToken) {
             console.log('[SCToolbox] No RSI token, showing login window');
-            let loginBodyElement = $(".c-form authenticationForm sign_in");
-            loginBodyElement.show();
+            const loginBodyElements = document.querySelectorAll(
+                '.c-form authenticationForm sign_in, ' +
+                '.c-form.authenticationForm.sign_in, ' +
+                '.c-form .authenticationForm .sign_in'
+            );
+            for (const element of loginBodyElements) {
+                element.hidden = false;
+                element.style.removeProperty('display');
+                if (window.getComputedStyle(element).display === 'none') {
+                    element.style.display = 'block';
+                }
+            }
             window.ipc.postMessage(JSON.stringify({ action: 'webview_rsi_login_show_window' }));
             return;
         }
@@ -335,7 +330,8 @@ async function getRSILauncherToken(channelId) {
         console.log('[SCToolbox] Library data received');
 
         // get user avatar
-        let avatarUrl = $(".orion-c-avatar__image").attr("src") || '';
+        const avatarElement = document.querySelector('.orion-c-avatar__image');
+        const avatarUrl = avatarElement?.getAttribute('src') || '';
         console.log('[SCToolbox] Avatar URL:', avatarUrl);
 
         //post message
