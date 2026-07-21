@@ -32,7 +32,7 @@ dependencies:
   font_awesome_flutter: ^11.0.0
   cupertino_icons: ^1.0.9
   hive_ce: ^2.19.3
-  path_provider: ^2.1.5
+  path_provider: ^2.1.6
   dio: ^5.10.0
   markdown: ^7.3.1
   markdown_widget: ^2.3.2+8
