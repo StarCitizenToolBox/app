@@ -884,7 +884,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Socket error detected",
     ),
     "doctor_game_error_socket_error_info": MessageLookupByLibrary.simpleMessage(
-      "If using X-Black Box accelerator, please try changing the acceleration mode",
+      "Please check your network connection and try again",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("Fix"),
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
@@ -1647,7 +1647,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "p4k_source_object_sha": m74,
     "p4k_source_official": MessageLookupByLibrary.simpleMessage(
-      "Official site (login required; accelerator routing mode recommended)",
+      "Official site (login required)",
     ),
     "p4k_source_switch_confirm_body": MessageLookupByLibrary.simpleMessage(
       "The mirror is missing required content. After switching, this download, update, repair, and all retries will use the official site and require an RSI account login. The mirror is used until you confirm.",

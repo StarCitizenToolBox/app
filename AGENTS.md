@@ -49,6 +49,13 @@ cd rust && cargo clippy         # Rust linting
 - `lib/common/rust/` — Rust-Dart bridge (configured in `flutter_rust_bridge.yaml`)
 - `lib/generated/` — Localization strings
 
+## Localization Rules
+
+- China-specific game/network accelerator guidance belongs only in `intl_zh_CN.arb`.
+- For every locale other than `zh_CN`, do not translate or retain references to accelerator products, accelerator modes, or accelerator routing modes. Replace them with locale-neutral network troubleshooting text, or omit the accelerator-specific clause.
+- This rule does not rename actual application features such as Hosts acceleration, tool-site access acceleration, or launcher download enhancement.
+- After editing any ARB file, run `flutter pub global run intl_utils:generate`; never edit `lib/generated/` by hand.
+
 ## Architecture
 
 ### Layered Structure

@@ -781,7 +781,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Обнаружена ошибка сокета",
     ),
     "doctor_game_error_socket_error_info": MessageLookupByLibrary.simpleMessage(
-      "При использовании ускорителя X Black Box попробуйте изменить режим ускорения",
+      "Проверьте подключение к сети и повторите попытку",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("Исправить"),
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
@@ -1536,7 +1536,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "p4k_source_object_sha": m74,
     "p4k_source_official": MessageLookupByLibrary.simpleMessage(
-      "Официальный сайт (требуется вход; рекомендуется режим маршрутизации ускорителя)",
+      "Официальный сайт (требуется вход)",
     ),
     "p4k_source_switch_confirm_body": MessageLookupByLibrary.simpleMessage(
       "На зеркале отсутствует необходимое содержимое. После переключения эта загрузка, обновление, восстановление и повторные попытки будут использовать официальный сайт и потребуют входа в учётную запись RSI. До подтверждения используется зеркало.",

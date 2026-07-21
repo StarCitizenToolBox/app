@@ -3396,10 +3396,10 @@ class S {
     );
   }
 
-  /// `If using X-Black Box accelerator, please try changing the acceleration mode`
+  /// `Please check your network connection and try again`
   String get doctor_game_error_socket_error_info {
     return Intl.message(
-      'If using X-Black Box accelerator, please try changing the acceleration mode',
+      'Please check your network connection and try again',
       name: 'doctor_game_error_socket_error_info',
       desc: '',
       args: [],
@@ -11965,10 +11965,10 @@ class S {
     );
   }
 
-  /// `Official site (login required; accelerator routing mode recommended)`
+  /// `Official site (login required)`
   String get p4k_source_official {
     return Intl.message(
-      'Official site (login required; accelerator routing mode recommended)',
+      'Official site (login required)',
       name: 'p4k_source_official',
       desc: '',
       args: [],

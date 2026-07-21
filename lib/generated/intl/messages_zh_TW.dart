@@ -666,7 +666,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "檢測到 socket 異常",
     ),
     "doctor_game_error_socket_error_info": MessageLookupByLibrary.simpleMessage(
-      "如使用 X黑盒 加速器，請嘗試更換加速模式",
+      "請檢查網路連線，或嘗試切換網路後重試",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("修復"),
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
@@ -1308,9 +1308,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "鏡像版本與目前更新版本不相符。不會自動切換至官網。",
     ),
     "p4k_source_object_sha": m74,
-    "p4k_source_official": MessageLookupByLibrary.simpleMessage(
-      "官網（需登入，建議加速器路由模式）",
-    ),
+    "p4k_source_official": MessageLookupByLibrary.simpleMessage("官網（需登入）"),
     "p4k_source_switch_confirm_body": MessageLookupByLibrary.simpleMessage(
       "鏡像缺少所需內容。切換後，本次下載、更新、修復及重試將改用官網，並需要登入 RSI 帳戶。只有確認後才會停止使用鏡像。",
     ),

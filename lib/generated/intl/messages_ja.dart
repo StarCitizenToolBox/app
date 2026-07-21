@@ -706,7 +706,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "ソケットエラーが検出されました",
     ),
     "doctor_game_error_socket_error_info": MessageLookupByLibrary.simpleMessage(
-      "X黑盒加速器を使用している場合は、加速モードを変更してみてください",
+      "ネットワーク接続を確認して、もう一度お試しください",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("修復"),
     "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
@@ -1379,7 +1379,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "p4k_source_object_sha": m74,
     "p4k_source_official": MessageLookupByLibrary.simpleMessage(
-      "公式サイト（ログイン必須、アクセラレーターのルーティングモード推奨）",
+      "公式サイト（ログイン必須）",
     ),
     "p4k_source_switch_confirm_body": MessageLookupByLibrary.simpleMessage(
       "ミラーに必要なコンテンツがありません。切替後、今回のダウンロード、更新、修復、再試行は公式サイトを使用し、RSI アカウントへのログインが必要です。確認するまでミラーを使用します。",
