@@ -311,7 +311,7 @@ class HomeUI extends HookConsumerWidget {
                       name: S.current.home_action_dps_calculator_localization,
                       webTitle:
                           S.current.home_action_dps_calculator_localization,
-                      webURL: "https://www.erkul.games/live/calculator",
+                      webURL: "https://www.erkul.games",
                       info: S
                           .current
                           .home_action_info_ship_upgrade_damage_value_query,

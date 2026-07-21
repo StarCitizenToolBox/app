@@ -208,7 +208,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       final apiLocalizationData = localizationUIState.apiLocalizationData?.values.firstOrNull;
       if (apiLocalizationData == null) return ("", "");
       final file = File(
-        "${localizationUIModel.getDownloadDir().absolute.path}\\${apiLocalizationData.versionName}.sclang",
+        "${localizationUIModel.getDownloadDir().absolute.path}\\${apiLocalizationData.versionName}.sclang".platformPath,
       );
       if (!await file.exists()) {
         await localizationUIModel.downloadLocalizationFile(file, apiLocalizationData);
@@ -223,7 +223,7 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
   Future<String> readEnglishInI(String gameDir) async {
     try {
       var data = await Unp4kCModel.extractP4kFileToMemory(
-        "$gameDir\\Data.p4k",
+        "$gameDir\\Data.p4k".platformPath,
         "Data\\Localization\\english\\global.ini",
       );
       // remove bom
