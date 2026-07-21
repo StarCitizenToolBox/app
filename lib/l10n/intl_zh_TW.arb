@@ -617,7 +617,7 @@
   "@tools_action_info_star_citizen_not_found": {},
   "tools_action_info_valid_game_directory_needed": "該功能需要一個有效的遊戲安裝目錄",
   "@tools_action_info_valid_game_directory_needed": {},
-  "tools_action_info_eac_file_removed": "已為您移除 EAC 文件，接下來將為您打開 RSI 啟動器，請您前往 SETTINGS -> VERIFY 重新安裝 EAC。",
+  "tools_action_info_eac_file_removed": "已為您移除 EAC 文件，接下來將為您打開 RSI 啟動器，請點擊主界面版本號旁的齒輪圖標，進入後選擇 VERIFY 重新安裝 EAC。",
   "@tools_action_info_eac_file_removed": {},
   "tools_action_info_error_occurred": "出現錯誤：{v0}",
   "@tools_action_info_error_occurred": {},

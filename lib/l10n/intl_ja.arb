@@ -617,7 +617,7 @@
   "@tools_action_info_star_citizen_not_found": {},
   "tools_action_info_valid_game_directory_needed": "この機能には有効なゲームインストールディレクトリが必要です",
   "@tools_action_info_valid_game_directory_needed": {},
-  "tools_action_info_eac_file_removed": "EACファイルが削除されました。次にRSIランチャーを開きます。SETTINGS -> VERIFYに移動してEACを再インストールしてください。",
+  "tools_action_info_eac_file_removed": "EACファイルを削除しました。次にRSIランチャーを開きます。メイン画面のゲームバージョン横にある歯車アイコンをクリックし、VERIFYを選択してEACを再インストールしてください。",
   "@tools_action_info_eac_file_removed": {},
   "tools_action_info_error_occurred": "エラーが発生しました：{v0}",
   "@tools_action_info_error_occurred": {},

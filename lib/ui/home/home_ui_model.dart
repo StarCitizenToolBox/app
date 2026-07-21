@@ -210,10 +210,6 @@ class HomeUIModel extends _$HomeUIModel {
     await webViewModel.launch(url, appGlobalState.networkVersionData!);
   }
 
-  bool isRSIServerStatusOK(Map map) {
-    return (map["status"] == "ok" || map["status"] == "operational");
-  }
-
   Timer? _serverUpdateTimer;
   Timer? _appUpdateTimer;
 

@@ -3120,10 +3120,10 @@ class S {
     );
   }
 
-  /// `EAC files have been removed for you. Next, we'll open the RSI launcher for you. Please go to SETTINGS -> VERIFY to reinstall EAC.`
+  /// `EAC files have been removed. The RSI Launcher will now open. Click the gear icon next to the game version on the main screen, then select VERIFY to reinstall EAC.`
   String get tools_action_info_eac_file_removed {
     return Intl.message(
-      'EAC files have been removed for you. Next, we\'ll open the RSI launcher for you. Please go to SETTINGS -> VERIFY to reinstall EAC.',
+      'EAC files have been removed. The RSI Launcher will now open. Click the gear icon next to the game version on the main screen, then select VERIFY to reinstall EAC.',
       name: 'tools_action_info_eac_file_removed',
       desc: '',
       args: [],

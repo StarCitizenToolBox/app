@@ -22,6 +22,7 @@ import 'home_ui_model.dart';
 import 'input_method/input_method_dialog_ui.dart';
 import 'localization/localization_dialog_ui.dart';
 import 'localization/localization_ui_model.dart';
+import 'rsi_server_status.dart';
 
 class HomeUI extends HookConsumerWidget {
   const HomeUI({super.key});
@@ -826,9 +827,7 @@ class HomeUI extends HookConsumerWidget {
                               child: Center(
                                 child: FaIcon(
                                   FontAwesomeIcons.solidCircle,
-                                  color: model.isRSIServerStatusOK(item)
-                                      ? Colors.green
-                                      : Colors.red,
+                                  color: rsiServerStatusColor(item["status"]),
                                   size: 12,
                                 ),
                               ),

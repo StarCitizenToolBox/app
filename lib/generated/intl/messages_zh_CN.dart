@@ -2319,7 +2319,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage("配置文件不存在，请尝试运行一次游戏"),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
-      "已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请您前往 SETTINGS -> VERIFY 重装 EAC。",
+      "已为您移除 EAC 文件，接下来将为您打开 RSI 启动器，请点击主界面版本号旁的齿轮图标，进入后选择 VERIFY 重装 EAC。",
     ),
     "tools_action_info_error_occurred": m134,
     "tools_action_info_fix_success_restart":

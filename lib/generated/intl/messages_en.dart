@@ -2749,7 +2749,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Configuration file does not exist, please try running the game once",
         ),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
-      "EAC files have been removed for you. Next, we\'ll open the RSI launcher for you. Please go to SETTINGS -> VERIFY to reinstall EAC.",
+      "EAC files have been removed. The RSI Launcher will now open. Click the gear icon next to the game version on the main screen, then select VERIFY to reinstall EAC.",
     ),
     "tools_action_info_error_occurred": m134,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(

@@ -2363,7 +2363,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage("設定ファイルが存在しません。一度ゲームを実行してみてください"),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
-      "EACファイルが削除されました。次にRSIランチャーを開きます。SETTINGS -> VERIFYに移動してEACを再インストールしてください。",
+      "EACファイルを削除しました。次にRSIランチャーを開きます。メイン画面のゲームバージョン横にある歯車アイコンをクリックし、VERIFYを選択してEACを再インストールしてください。",
     ),
     "tools_action_info_error_occurred": m134,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(

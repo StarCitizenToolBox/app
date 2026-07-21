@@ -2212,7 +2212,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage("配置檔案不存在，請嘗試執行一次遊戲"),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
-      "已為您移除 EAC 文件，接下來將為您打開 RSI 啟動器，請您前往 SETTINGS -> VERIFY 重新安裝 EAC。",
+      "已為您移除 EAC 文件，接下來將為您打開 RSI 啟動器，請點擊主界面版本號旁的齒輪圖標，進入後選擇 VERIFY 重新安裝 EAC。",
     ),
     "tools_action_info_error_occurred": m134,
     "tools_action_info_fix_success_restart":

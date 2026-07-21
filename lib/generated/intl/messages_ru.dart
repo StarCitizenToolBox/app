@@ -2666,7 +2666,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Конфигурационный файл не существует, попробуйте запустить игру один раз",
     ),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
-      "Файлы EAC удалены. Сейчас будет открыт RSI Launcher, пожалуйста, перейдите в SETTINGS -> VERIFY для переустановки EAC.",
+      "Файлы EAC удалены. Сейчас откроется RSI Launcher. Нажмите значок шестерёнки рядом с версией игры на главном экране, затем выберите VERIFY, чтобы переустановить EAC.",
     ),
     "tools_action_info_error_occurred": m134,
     "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(

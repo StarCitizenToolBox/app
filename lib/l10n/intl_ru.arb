@@ -617,7 +617,7 @@
   "@tools_action_info_star_citizen_not_found": {},
   "tools_action_info_valid_game_directory_needed": "Для этой функции требуется действительная директория установки игры",
   "@tools_action_info_valid_game_directory_needed": {},
-  "tools_action_info_eac_file_removed": "Файлы EAC удалены. Сейчас будет открыт RSI Launcher, пожалуйста, перейдите в SETTINGS -> VERIFY для переустановки EAC.",
+  "tools_action_info_eac_file_removed": "Файлы EAC удалены. Сейчас откроется RSI Launcher. Нажмите значок шестерёнки рядом с версией игры на главном экране, затем выберите VERIFY, чтобы переустановить EAC.",
   "@tools_action_info_eac_file_removed": {},
   "tools_action_info_error_occurred": "Произошла ошибка: {v0}",
   "@tools_action_info_error_occurred": {},
