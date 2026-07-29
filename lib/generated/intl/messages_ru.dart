@@ -697,24 +697,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_action_result_fix_success": MessageLookupByLibrary.simpleMessage(
       "Исправление выполнено успешно, пожалуйста, попробуйте перезагрузить компьютер и продолжить установку игры! Если изменение реестра вызвало проблемы совместимости с другими программами, используйте очистку реестра NVME в разделе Инструменты.",
     ),
-    "doctor_action_result_game_start_success": MessageLookupByLibrary.simpleMessage(
-      "Исправлено успешно, попробуйте запустить игру. (Если проблема не устраняется, используйте \'Переустановить EAC\' в наборе инструментов.)",
-    ),
+    "doctor_action_result_game_start_success":
+        MessageLookupByLibrary.simpleMessage(
+          "Исправлено успешно, попробуйте запустить игру. (Если проблема не устраняется, используйте \'Переустановить EAC\' в наборе инструментов.)",
+        ),
     "doctor_action_result_info_unsupported_os": m24,
     "doctor_action_result_issue_not_supported":
         MessageLookupByLibrary.simpleMessage(
           "Эта проблема в настоящее время не поддерживает автоматическое исправление, пожалуйста, предоставьте снимок экрана для получения помощи",
         ),
-    "doctor_action_result_redirect_warning": MessageLookupByLibrary.simpleMessage(
-      "Сейчас произойдет перенаправление, руководство взято из Интернета, действуйте с осторожностью...",
-    ),
+    "doctor_action_result_redirect_warning":
+        MessageLookupByLibrary.simpleMessage(
+          "Сейчас произойдет перенаправление, руководство взято из Интернета, действуйте с осторожностью...",
+        ),
     "doctor_action_result_toast_scan_no_issue":
         MessageLookupByLibrary.simpleMessage(
           "Сканирование завершено, проблем не обнаружено. Если установка по-прежнему не удается, попробуйте использовать режим администратора для RSI Launcher в разделе инструментов.",
         ),
-    "doctor_action_result_try_latest_windows": MessageLookupByLibrary.simpleMessage(
-      "Если ваше оборудование соответствует требованиям, попробуйте установить последнюю версию Windows.",
-    ),
+    "doctor_action_result_try_latest_windows":
+        MessageLookupByLibrary.simpleMessage(
+          "Если ваше оборудование соответствует требованиям, попробуйте установить последнюю версию Windows.",
+        ),
     "doctor_action_rsi_launcher_log": MessageLookupByLibrary.simpleMessage(
       "Лог RSI Launcher",
     ),
@@ -755,15 +758,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_game_error_gpu_vulkan_crash": MessageLookupByLibrary.simpleMessage(
       "Сбой GPU Vulkan",
     ),
-    "doctor_game_error_gpu_vulkan_crash_info": MessageLookupByLibrary.simpleMessage(
-      "Сбой Vulkan! Это может быть проблема с версией драйвера или игрового движка. Попробуйте обновить драйвер GPU или использовать функцию очистки шейдеров для возврата к DX11",
-    ),
+    "doctor_game_error_gpu_vulkan_crash_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Сбой Vulkan! Это может быть проблема с версией драйвера или игрового движка. Попробуйте обновить драйвер GPU или использовать функцию очистки шейдеров для возврата к DX11",
+        ),
     "doctor_game_error_low_gpu_memory": MessageLookupByLibrary.simpleMessage(
       "Недостаточно видеопамяти",
     ),
-    "doctor_game_error_low_gpu_memory_info": MessageLookupByLibrary.simpleMessage(
-      "Пожалуйста, не запускайте другие игры/приложения с высоким использованием видеокарты в фоновом режиме или замените видеокарту.",
-    ),
+    "doctor_game_error_low_gpu_memory_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Пожалуйста, не запускайте другие игры/приложения с высоким использованием видеокарты в фоновом режиме или замените видеокарту.",
+        ),
     "doctor_game_error_low_memory": MessageLookupByLibrary.simpleMessage(
       "Недостаточно доступной памяти",
     ),
@@ -784,9 +789,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Проверьте подключение к сети и повторите попытку",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("Исправить"),
-    "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
-      "Вы собираетесь перейти к сервису спасения игры, предоставляемому Центром глубокого космического лечения (QQ группа: 536454632), который в основном решает проблемы с неудачной установкой и частыми вылетами. Не присоединяйтесь к группе для вопросов по игровому процессу.",
-    ),
+    "doctor_info_game_rescue_service_note":
+        MessageLookupByLibrary.simpleMessage(
+          "Вы собираетесь перейти к сервису спасения игры, предоставляемому Центром глубокого космического лечения (QQ группа: 536454632), который в основном решает проблемы с неудачной установкой и частыми вылетами. Не присоединяйтесь к группе для вопросов по игровому процессу.",
+        ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "Нужна помощь? Нажмите, чтобы присоединиться к группе для бесплатной поддержки!",
     ),
@@ -823,9 +829,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_result_memory_requirement": m29,
     "doctor_info_result_missing_easyanticheat_files":
         MessageLookupByLibrary.simpleMessage("Отсутствуют файлы EasyAntiCheat"),
-    "doctor_info_result_missing_live_folder": MessageLookupByLibrary.simpleMessage(
-      "В директории установки отсутствует папка LIVE, что может привести к сбою установки",
-    ),
+    "doctor_info_result_missing_live_folder":
+        MessageLookupByLibrary.simpleMessage(
+          "В директории установки отсутствует папка LIVE, что может привести к сбою установки",
+        ),
     "doctor_info_result_no_solution": MessageLookupByLibrary.simpleMessage(
       "Решение пока отсутствует, пожалуйста, сделайте снимок экрана и обратитесь за помощью",
     ),
@@ -932,9 +939,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_info_waiting": MessageLookupByLibrary.simpleMessage("Ожидание"),
     "downloader_input_download_speed_limit":
         MessageLookupByLibrary.simpleMessage("Ограничение загрузки:"),
-    "downloader_input_info_p2p_upload_note": MessageLookupByLibrary.simpleMessage(
-      "* P2P отдача происходит только во время загрузки файла и отключается после завершения. Если вы хотите участвовать в раздаче, пожалуйста, свяжитесь с нами через страницу \'О программе\'.",
-    ),
+    "downloader_input_info_p2p_upload_note":
+        MessageLookupByLibrary.simpleMessage(
+          "* P2P отдача происходит только во время загрузки файла и отключается после завершения. Если вы хотите участвовать в раздаче, пожалуйста, свяжитесь с нами через страницу \'О программе\'.",
+        ),
     "downloader_input_upload_speed_limit": MessageLookupByLibrary.simpleMessage(
       "Ограничение отдачи:",
     ),
@@ -951,9 +959,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "guide_action_get_help": MessageLookupByLibrary.simpleMessage(
       "Получить помощь",
     ),
-    "guide_action_info_no_game_path_warning": MessageLookupByLibrary.simpleMessage(
-      "Вы еще не выбрали путь установки игры. Подтвердить завершение настройки?\n\nПосле закрытия страницы руководства вам нужно будет вручную перейти на страницу настроек.",
-    ),
+    "guide_action_info_no_game_path_warning":
+        MessageLookupByLibrary.simpleMessage(
+          "Вы еще не выбрали путь установки игры. Подтвердить завершение настройки?\n\nПосле закрытия страницы руководства вам нужно будет вручную перейти на страницу настроек.",
+        ),
     "guide_action_info_no_launcher_path_warning":
         MessageLookupByLibrary.simpleMessage(
           "Вы еще не выбрали путь установки лаунчера. Подтвердить завершение настройки?\n\nПосле закрытия страницы руководства вам нужно будет вручную перейти на страницу настроек.",
@@ -1259,9 +1268,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_input_placeholder": MessageLookupByLibrary.simpleMessage(
       "Введите текст...",
     ),
-    "input_method_input_text_instructions": MessageLookupByLibrary.simpleMessage(
-      "Введите текст в текстовое поле выше и вставьте (Ctrl+V) преобразованный текст ниже в текстовое поле игры, чтобы отправить текст, который игра не поддерживает для ввода, в канал чата.",
-    ),
+    "input_method_input_text_instructions":
+        MessageLookupByLibrary.simpleMessage(
+          "Введите текст в текстовое поле выше и вставьте (Ctrl+V) преобразованный текст ниже в текстовое поле игры, чтобы отправить текст, который игра не поддерживает для ввода, в канал чата.",
+        ),
     "input_method_install_community_input_method_prompt":
         MessageLookupByLibrary.simpleMessage(
           "Перейти к управлению локализацией для установки?\n\nЕсли локализация уже установлена, удалите ее и при повторной установке включите переключатель поддержки метода ввода сообщества.",
@@ -1479,9 +1489,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_source_community_mirror": MessageLookupByLibrary.simpleMessage(
       "Зеркало китайской Wiki (вход не требуется)",
     ),
-    "p4k_source_community_mirror_limitation": MessageLookupByLibrary.simpleMessage(
-      "Вход не требуется. Обновления могут задерживаться; после загрузки повторно проверьте файлы через официальный источник или лаунчер.",
-    ),
+    "p4k_source_community_mirror_limitation":
+        MessageLookupByLibrary.simpleMessage(
+          "Вход не требуется. Обновления могут задерживаться; после загрузки повторно проверьте файлы через официальный источник или лаунчер.",
+        ),
     "p4k_source_compressed_size": m71,
     "p4k_source_confirm_switch": MessageLookupByLibrary.simpleMessage(
       "Подтвердить переход",
@@ -1503,19 +1514,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_source_error_manifest_missing": MessageLookupByLibrary.simpleMessage(
       "На зеркале отсутствует требуемый манифест. Автоматического перехода на официальный сайт не будет.",
     ),
-    "p4k_source_error_metadata_unavailable": MessageLookupByLibrary.simpleMessage(
-      "Метаданные зеркала недоступны. Автоматического перехода на официальный сайт не будет.",
-    ),
+    "p4k_source_error_metadata_unavailable":
+        MessageLookupByLibrary.simpleMessage(
+          "Метаданные зеркала недоступны. Автоматического перехода на официальный сайт не будет.",
+        ),
     "p4k_source_error_network": MessageLookupByLibrary.simpleMessage(
       "Не удалось подключиться к зеркалу. Автоматического перехода на официальный сайт не будет.",
     ),
     "p4k_source_error_object_missing": m73,
-    "p4k_source_error_provider_unavailable": MessageLookupByLibrary.simpleMessage(
-      "Провайдер зеркала недоступен в этой версии. Автоматического перехода на официальный сайт не будет.",
-    ),
-    "p4k_source_error_unsupported_channel": MessageLookupByLibrary.simpleMessage(
-      "Зеркало не поддерживает текущий канал игры. Автоматического перехода на официальный сайт не будет.",
-    ),
+    "p4k_source_error_provider_unavailable":
+        MessageLookupByLibrary.simpleMessage(
+          "Провайдер зеркала недоступен в этой версии. Автоматического перехода на официальный сайт не будет.",
+        ),
+    "p4k_source_error_unsupported_channel":
+        MessageLookupByLibrary.simpleMessage(
+          "Зеркало не поддерживает текущий канал игры. Автоматического перехода на официальный сайт не будет.",
+        ),
     "p4k_source_keep_mirror": MessageLookupByLibrary.simpleMessage(
       "Продолжить использовать зеркало",
     ),
@@ -2174,9 +2188,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_antialiasing": MessageLookupByLibrary.simpleMessage(
       "Сглаживание",
     ),
-    "performance_json_text_antialiasing_info": MessageLookupByLibrary.simpleMessage(
-      "0 выкл., 1 SMAA, 2 Временная фильтрация + SMAA, 3 SMAA с временной фильтрацией и дрожанием проекционной матрицы",
-    ),
+    "performance_json_text_antialiasing_info":
+        MessageLookupByLibrary.simpleMessage(
+          "0 выкл., 1 SMAA, 2 Временная фильтрация + SMAA, 3 SMAA с временной фильтрацией и дрожанием проекционной матрицы",
+        ),
     "performance_json_text_custom_parameters":
         MessageLookupByLibrary.simpleMessage("Пользовательские параметры"),
     "performance_json_text_display_session":
@@ -2188,9 +2203,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_displayinfo": MessageLookupByLibrary.simpleMessage(
       "Информация на экране (показывать FPS)",
     ),
-    "performance_json_text_displayinfo_info": MessageLookupByLibrary.simpleMessage(
-      "Показывать FPS, информацию о сервере и т.д. в правом верхнем углу экрана",
-    ),
+    "performance_json_text_displayinfo_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Показывать FPS, информацию о сервере и т.д. в правом верхнем углу экрана",
+        ),
     "performance_json_text_dof": MessageLookupByLibrary.simpleMessage(
       "Глубина резкости",
     ),
@@ -2214,9 +2230,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_motion_blur": MessageLookupByLibrary.simpleMessage(
       "Размытие в движении",
     ),
-    "performance_json_text_motion_blur_info": MessageLookupByLibrary.simpleMessage(
-      "Включите для усиления чувства движения, выключите для улучшения восприятия",
-    ),
+    "performance_json_text_motion_blur_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Включите для усиления чувства движения, выключите для улучшения восприятия",
+        ),
     "performance_json_text_object_detail": MessageLookupByLibrary.simpleMessage(
       "Детализация объектов",
     ),
@@ -2401,9 +2418,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Из-за ограничений версии Microsoft, пожалуйста, в следующем окне вручную перетащите «SCToolbox» на рабочий стол для создания ярлыка.",
         ),
-    "setting_action_info_mirror_server_info": MessageLookupByLibrary.simpleMessage(
-      "Использовать зеркальные серверы для ускорения доступа к инструментам, таким как Dps, Uex и другие. Если возникают проблемы с доступом, отключите эту функцию. Для безопасности аккаунта, RSI сайт никогда не будет ускоряться.",
-    ),
+    "setting_action_info_mirror_server_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Использовать зеркальные серверы для ускорения доступа к инструментам, таким как Dps, Uex и другие. Если возникают проблемы с доступом, отключите эту функцию. Для безопасности аккаунта, RSI сайт никогда не будет ускоряться.",
+        ),
     "setting_action_info_select_game_install_location":
         MessageLookupByLibrary.simpleMessage(
           "Выберите место установки игры (StarCitizen.exe)",
@@ -2620,9 +2638,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "support_dev_hk_fps_transfer_title": MessageLookupByLibrary.simpleMessage(
       "Hong Kong FPS",
     ),
-    "support_dev_in_game_currency_message": MessageLookupByLibrary.simpleMessage(
-      "Вы можете отправить мне aUEC в игре в качестве поддержки, это поможет мне получить лучший игровой опыт в ограниченное время",
-    ),
+    "support_dev_in_game_currency_message":
+        MessageLookupByLibrary.simpleMessage(
+          "Вы можете отправить мне aUEC в игре в качестве поддержки, это поможет мне получить лучший игровой опыт в ограниченное время",
+        ),
     "support_dev_in_game_currency_title": MessageLookupByLibrary.simpleMessage(
       "Внутриигровая валюта",
     ),
@@ -2662,16 +2681,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "Очистка завершена, пожалуйста, выполните установку или запуск игры.",
     ),
     "tools_action_info_cleanup_failed": m133,
-    "tools_action_info_config_file_not_exist": MessageLookupByLibrary.simpleMessage(
-      "Конфигурационный файл не существует, попробуйте запустить игру один раз",
-    ),
+    "tools_action_info_config_file_not_exist":
+        MessageLookupByLibrary.simpleMessage(
+          "Конфигурационный файл не существует, попробуйте запустить игру один раз",
+        ),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
       "Файлы EAC удалены. Сейчас откроется RSI Launcher. Нажмите значок шестерёнки рядом с версией игры на главном экране, затем выберите VERIFY, чтобы переустановить EAC.",
     ),
     "tools_action_info_error_occurred": m134,
-    "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
-      "Исправление успешно, попробуйте перезагрузить компьютер и продолжить установку игры! Если изменения реестра вызвали проблемы совместимости с другими программами, используйте инструмент очистки реестра NVME в разделе Инструменты.",
-    ),
+    "tools_action_info_fix_success_restart":
+        MessageLookupByLibrary.simpleMessage(
+          "Исправление успешно, попробуйте перезагрузить компьютер и продолжить установку игры! Если изменения реестра вызвали проблемы совместимости с другими программами, используйте инструмент очистки реестра NVME в разделе Инструменты.",
+        ),
     "tools_action_info_function_under_maintenance":
         MessageLookupByLibrary.simpleMessage(
           "Функция на техническом обслуживании, пожалуйста, повторите попытку позже!",
@@ -2681,12 +2702,14 @@ class MessageLookup extends MessageLookupByLibrary {
           "Запись IP-адресов в файл Hosts для решения проблем с DNS-загрязнением, препятствующих входу на официальный сайт в некоторых регионах.\nЭта функция находится на первом этапе тестирования, пожалуйста, сообщайте о любых проблемах.",
         ),
     "tools_action_info_init_failed": m135,
-    "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
-      "Лог-файл не существует, попробуйте запустить игру или начать установку и выйти из лаунчера. Если проблема не решена, попробуйте обновить лаунчер до последней версии!",
-    ),
-    "tools_action_info_log_file_parse_failed": MessageLookupByLibrary.simpleMessage(
-      "Ошибка анализа лог-файла!\nПопробуйте использовать инструмент исправления лог-файла RSI Launcher!",
-    ),
+    "tools_action_info_log_file_not_exist":
+        MessageLookupByLibrary.simpleMessage(
+          "Лог-файл не существует, попробуйте запустить игру или начать установку и выйти из лаунчера. Если проблема не решена, попробуйте обновить лаунчер до последней версии!",
+        ),
+    "tools_action_info_log_file_parse_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "Ошибка анализа лог-файла!\nПопробуйте использовать инструмент исправления лог-файла RSI Launcher!",
+        ),
     "tools_action_info_manual_nvme_patch": MessageLookupByLibrary.simpleMessage(
       "Ручная запись патча NVME, используйте эту функцию только если знаете, что делаете",
     ),
@@ -2702,10 +2725,15 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Загрузка p4k уже выполняется, пожалуйста, проверьте менеджер загрузок!",
         ),
+    "tools_action_info_p4k_download_repair_deprecation":
+        MessageLookupByLibrary.simpleMessage(
+          "Эта функция скоро будет отключена. Используйте раздел «Загрузка / обновление игры» на главной странице.",
+        ),
     "tools_action_info_p4k_download_repair_tip": m137,
-    "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
-      "P4k - это основной файл игры Star Citizen, размером более 100 ГБ. Автономное скачивание, предоставляемое SCToolbox, помогает пользователям с медленной загрузкой p4k или для исправления файла p4k, который не может быть исправлен официальным лаунчером.\n\nДалее появится диалоговое окно с запросом места сохранения (можно выбрать папку Star Citizen или другое место). После завершения загрузки убедитесь, что файл P4K находится в папке LIVE, затем используйте лаунчер Star Citizen для проверки обновлений.",
-    ),
+    "tools_action_info_p4k_file_description":
+        MessageLookupByLibrary.simpleMessage(
+          "P4k - это основной файл игры Star Citizen, размером более 100 ГБ. Автономное скачивание, предоставляемое SCToolbox, помогает пользователям с медленной загрузкой p4k или для исправления файла p4k, который не может быть исправлен официальным лаунчером.\n\nДалее появится диалоговое окно с запросом места сохранения (можно выбрать папку Star Citizen или другое место). После завершения загрузки убедитесь, что файл P4K находится в папке LIVE, затем используйте лаунчер Star Citizen для проверки обновлений.",
+        ),
     "tools_action_info_reinstall_eac": MessageLookupByLibrary.simpleMessage(
       "Если у вас возникают ошибки EAC и автоматическое исправление не работает, попробуйте использовать эту функцию для переустановки EAC.",
     ),
@@ -2713,9 +2741,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Удалено, изменения вступят в силу после перезагрузки!",
         ),
-    "tools_action_info_restore_lens_shake": MessageLookupByLibrary.simpleMessage(
-      "Восстановить эффект тряски объектива.\n\nИнформация о параметрах предоставлена @拉邦那 Lapernum.",
-    ),
+    "tools_action_info_restore_lens_shake":
+        MessageLookupByLibrary.simpleMessage(
+          "Восстановить эффект тряски объектива.\n\nИнформация о параметрах предоставлена @拉邦那 Lapernum.",
+        ),
     "tools_action_info_rsi_launcher_directory_not_found":
         MessageLookupByLibrary.simpleMessage(
           "Директория RSI Launcher не найдена, пожалуйста, выполните операцию вручную.",
@@ -2832,9 +2861,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Получение данных улучшений из сети...",
         ),
-    "tools_rsi_launcher_enhance_msg_error": MessageLookupByLibrary.simpleMessage(
-      "Не удалось получить данные улучшений, возможно проблема с сетью или текущая версия не поддерживается",
-    ),
+    "tools_rsi_launcher_enhance_msg_error":
+        MessageLookupByLibrary.simpleMessage(
+          "Не удалось получить данные улучшений, возможно проблема с сетью или текущая версия не поддерживается",
+        ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage(
           "Не удалось прочитать информацию о лаунчере!",
@@ -2873,9 +2903,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("Локализация RSI Launcher"),
     "tools_rsi_launcher_enhance_working_msg1":
         MessageLookupByLibrary.simpleMessage("Создание патча..."),
-    "tools_rsi_launcher_enhance_working_msg2": MessageLookupByLibrary.simpleMessage(
-      "Установка патча, это займет некоторое время в зависимости от производительности вашего компьютера...",
-    ),
+    "tools_rsi_launcher_enhance_working_msg2":
+        MessageLookupByLibrary.simpleMessage(
+          "Установка патча, это займет некоторое время в зависимости от производительности вашего компьютера...",
+        ),
     "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage(
       "Очистить всё",
     ),

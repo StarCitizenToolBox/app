@@ -565,6 +565,8 @@
   "@tools_action_p4k_download_repair": {},
   "tools_action_info_p4k_download_repair_tip": "Star Citizen中国語百科事典が提供する分散ダウンロードサービスを使用して、p4kのダウンロードや修復ができます。 \nバージョン情報：{v0}",
   "@tools_action_info_p4k_download_repair_tip": {},
+  "tools_action_info_p4k_download_repair_deprecation": "この機能は近日中に提供を終了します。ホームの「ゲームダウンローダー / アップデーター」を使用してください。",
+  "@tools_action_info_p4k_download_repair_deprecation": {},
   "tools_action_hosts_acceleration_experimental": "Hosts加速（実験的）",
   "@tools_action_hosts_acceleration_experimental": {},
   "tools_action_info_hosts_acceleration_experimental_tip": "IP情報をHostsファイルに書き込み、一部の地域でのDNS汚染による公式サイトへのログイン問題などを解決します。\nこの機能は第一段階のテスト中です。問題が発生した場合はすぐにフィードバックしてください。",

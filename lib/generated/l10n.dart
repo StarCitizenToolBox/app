@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -2860,6 +2861,16 @@ class S {
     );
   }
 
+  /// `This feature will be discontinued soon. Please use Game Downloader / Updater on the Home page instead.`
+  String get tools_action_info_p4k_download_repair_deprecation {
+    return Intl.message(
+      'This feature will be discontinued soon. Please use Game Downloader / Updater on the Home page instead.',
+      name: 'tools_action_info_p4k_download_repair_deprecation',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Hosts Acceleration (Experimental)`
   String get tools_action_hosts_acceleration_experimental {
     return Intl.message(
@@ -4877,8 +4888,7 @@ class S {
   ) {
     return Intl.message(
       'Failed to read launcher information: $v0',
-      name:
-          'tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args',
+      name: 'tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args',
       desc: '',
       args: [v0],
     );
@@ -10062,8 +10072,7 @@ class S {
   get auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual {
     return Intl.message(
       'Failed to open the browser, please copy the link to access manually',
-      name:
-          'auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual',
+      name: 'auth_failed_to_open_the_browser_please_copy_the_link_to_access_manual',
       desc: '',
       args: [],
     );
@@ -10214,8 +10223,7 @@ class S {
   get p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb {
     return Intl.message(
       'Deep repair: The current P4K will be diagnosed first, restored/rebuilt only when the verification fails, and the content will be verified according to the manifest, which takes a long time. Normal installs/updates are not performed automatically.',
-      name:
-          'p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb',
+      name: 'p4k_update_deep_repair_the_current_p4k_will_be_diagnosed_first_restored_reb',
       desc: '',
       args: [],
     );
@@ -10277,8 +10285,7 @@ class S {
   ) {
     return Intl.message(
       'Manifest entries: $v0\nP4K entries requiring download: $v1\nGame file entries requiring download: $v2\nDownload object entries after deduplication: $v3\nFull P4K reference size: $v4\nLocal Data.p4k.part size: $v5\nBase package download required: $v6\nPayload download size: $v7\nEstimated total download size: $v8\n\nLargest objects:\n$v9',
-      name:
-          'p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be',
+      name: 'p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be',
       desc: '',
       args: [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9],
     );
@@ -10339,8 +10346,7 @@ class S {
   get p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i {
     return Intl.message(
       'P4K is being repaired in depth (will diagnose first and rebuild if necessary, which takes a long time)...',
-      name:
-          'p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i',
+      name: 'p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i',
       desc: '',
       args: [],
     );
@@ -10551,8 +10557,7 @@ class S {
   get p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat {
     return Intl.message(
       'The Manifest URL is missing the Expires/KeyName/Signature signature parameters, please log in again or check the releaseInfo signature field.',
-      name:
-          'p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat',
+      name: 'p4k_update_the_manifest_url_is_missing_the_expires_keyname_signature_signat',
       desc: '',
       args: [],
     );
@@ -10563,8 +10568,7 @@ class S {
   get p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig {
     return Intl.message(
       'The object Base URL is missing the Expires/KeyName/Signature signature parameters, please log in again or check the releaseInfo signature field.',
-      name:
-          'p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig',
+      name: 'p4k_update_the_object_base_url_is_missing_the_expires_keyname_signature_sig',
       desc: '',
       args: [],
     );
@@ -10638,8 +10642,7 @@ class S {
   ) {
     return Intl.message(
       'EasyAntiCheat registration returned $v0, has continued as a non-fatal warning $v1',
-      name:
-          'p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal',
+      name: 'p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal',
       desc: '',
       args: [v0, v1],
     );
@@ -10652,8 +10655,7 @@ class S {
   ) {
     return Intl.message(
       'EasyAntiCheat registration failed and has continued as a non-fatal warning: $v0',
-      name:
-          'p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat',
+      name: 'p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat',
       desc: '',
       args: [v0],
     );
@@ -10674,8 +10676,7 @@ class S {
   get p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped {
     return Intl.message(
       'RSI Launcher store not found; encrypted store sync skipped',
-      name:
-          'p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped',
+      name: 'p4k_update_rsi_launcher_store_not_found_encrypted_store_sync_skipped',
       desc: '',
       args: [],
     );
@@ -10698,8 +10699,7 @@ class S {
   ) {
     return Intl.message(
       '$v0 Encryption RSI Launcher store synchronization is not executed: The current Dart side lacks AES-CBC/PBKDF2 compatible implementation. If the launcher still displays the old version, please use RSI Launcher Verify',
-      name:
-          'p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th',
+      name: 'p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th',
       desc: '',
       args: [v0],
     );
@@ -10710,8 +10710,7 @@ class S {
   get p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m {
     return Intl.message(
       'RequestedP4ChangeNum cannot be inferred from releaseInfo, build_manifest.id is not written',
-      name:
-          'p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m',
+      name: 'p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m',
       desc: '',
       args: [],
     );
@@ -10734,8 +10733,7 @@ class S {
   ) {
     return Intl.message(
       'Update build_manifest.id failed, continued as non-fatal warning: $v0',
-      name:
-          'p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning',
+      name: 'p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning',
       desc: '',
       args: [v0],
     );
@@ -10769,8 +10767,7 @@ class S {
   ) {
     return Intl.message(
       'Release version: $v0\nStartup file: $v1\n\nreleaseInfo has been read. You can first click "Estimated Update Amount" to check whether the list parsing is normal.',
-      name:
-          'p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f',
+      name: 'p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f',
       desc: '',
       args: [v0, v1],
     );
@@ -11106,8 +11103,7 @@ class S {
   get p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa {
     return Intl.message(
       'P4K download/update does not currently support PTU, the target path must be the LIVE directory',
-      name:
-          'p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa',
+      name: 'p4k_update_p4k_download_update_does_not_currently_support_ptu_the_target_pa',
       desc: '',
       args: [],
     );
@@ -11128,8 +11124,7 @@ class S {
   get app_the_web_login_resource_has_not_been_initialized_please_try_again {
     return Intl.message(
       'The web login resource has not been initialized, please try again later.',
-      name:
-          'app_the_web_login_resource_has_not_been_initialized_please_try_again',
+      name: 'app_the_web_login_resource_has_not_been_initialized_please_try_again',
       desc: '',
       args: [],
     );
@@ -11160,8 +11155,7 @@ class S {
   get app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s {
     return Intl.message(
       'There is currently no Data.p4k available out of the box. Please select an incomplete installation directory, or select a new installation location for downloading.',
-      name:
-          'app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s',
+      name: 'app_there_is_currently_no_data_p4k_available_out_of_the_box_please_s',
       desc: '',
       args: [],
     );
@@ -11222,8 +11216,7 @@ class S {
   get user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour {
     return Intl.message(
       'The data is refreshed too frequently, please try again in an hour.',
-      name:
-          'user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour',
+      name: 'user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour',
       desc: '',
       args: [],
     );
@@ -11259,8 +11252,7 @@ class S {
   get user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in {
     return Intl.message(
       'Are you sure you want to log out of PartyRoom? You need to log in again the next time you use it.',
-      name:
-          'user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in',
+      name: 'user_are_you_sure_you_want_to_log_out_of_partyroom_you_need_to_log_in',
       desc: '',
       args: [],
     );
@@ -11346,8 +11338,7 @@ class S {
   get tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to {
     return Intl.message(
       'Do you need to reload P4K after exiting? Are you sure you want to return to the home page?',
-      name:
-          'tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to',
+      name: 'tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to',
       desc: '',
       args: [],
     );
@@ -11462,8 +11453,7 @@ class S {
   ) {
     return Intl.message(
       'The current WEM encoding is not supported by the built-in decoding (format=0x$v0).\nThe current version supports WEM preview for PCM (0x0001) and Wwise Vorbis (0xFFFF).',
-      name:
-          'tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi',
+      name: 'tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi',
       desc: '',
       args: [v0],
     );
@@ -11514,8 +11504,7 @@ class S {
   get tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported {
     return Intl.message(
       'Convertible formats can be automatically converted and exported (WEM->WAV, DDS->PNG, CGA/CGF->GLB)',
-      name:
-          'tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported',
+      name: 'tools_unp4k_convertible_formats_can_be_automatically_converted_and_exported',
       desc: '',
       args: [],
     );
@@ -11526,8 +11515,7 @@ class S {
   get tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the {
     return Intl.message(
       'There is no convertible format in the current selection and the original file will be exported.',
-      name:
-          'tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the',
+      name: 'tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the',
       desc: '',
       args: [],
     );
@@ -11558,8 +11546,7 @@ class S {
   get tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi {
     return Intl.message(
       'Export directly by file name; when single file is selected, the file will be saved directly.',
-      name:
-          'tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi',
+      name: 'tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi',
       desc: '',
       args: [],
     );
@@ -11763,8 +11750,7 @@ class S {
   get tools_unp4k_search_the_current_directory_supports_regular_expressions {
     return Intl.message(
       'Search the current directory (supports regular expressions)...',
-      name:
-          'tools_unp4k_search_the_current_directory_supports_regular_expressions',
+      name: 'tools_unp4k_search_the_current_directory_supports_regular_expressions',
       desc: '',
       args: [],
     );

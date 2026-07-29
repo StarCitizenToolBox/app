@@ -25,6 +25,7 @@ import 'package:starcitizen_doctor/data/countdown_festival_item_data.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_game_login_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_update_dialog_ui.dart';
 import 'package:starcitizen_doctor/ui/home/dialogs/home_p4k_download_source_dialog_ui.dart';
+import 'package:starcitizen_doctor/ui/home/microsoft_store_feature_guard.dart';
 import 'package:starcitizen_doctor/ui/home/p4k_source_session_coordinator.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -387,33 +388,39 @@ class HomeUIModel extends _$HomeUIModel {
       return;
     }
 
-    if (ConstConf.isMSE) {
-      if (state.isCurGameRunning) {
-        await win32.killProcessByName(processName: "StarCitizen");
-        return;
-      }
-      AnalyticsApi.touch("gameLaunch");
-      showDialog(
-        context: context,
-        dismissWithEsc: false,
-        builder: (context) => HomeGameLoginDialogUI(context),
-      );
-    } else {
-      final ok = await showConfirmDialogs(
+    if (!await _ensureMicrosoftStoreVersion(context)) return;
+    if (!context.mounted) return;
+    if (state.isCurGameRunning) {
+      await win32.killProcessByName(processName: "StarCitizen");
+      return;
+    }
+    AnalyticsApi.touch("gameLaunch");
+    showDialog(
+      context: context,
+      dismissWithEsc: false,
+      builder: (context) => HomeGameLoginDialogUI(context),
+    );
+  }
+
+  // ignore: avoid_build_context_in_providers
+  Future<bool> _ensureMicrosoftStoreVersion(BuildContext context) async {
+    return guardMicrosoftStoreOnlyFeature(
+      isMicrosoftStoreVersion: ConstConf.isMSE,
+      showRestriction: () => showConfirmDialogs(
         context,
         S.current.home_info_one_click_launch_warning,
         Text(S.current.home_info_account_security_warning),
         confirm: S.current.home_action_install_microsoft_store_version,
         cancel: S.current.home_action_cancel,
-      );
-      if (ok == true) {
+      ),
+      installMicrosoftStoreVersion: () async {
         await launchUrlString(
           "https://apps.microsoft.com/detail/9NF3SWFWNKL1?launch=true",
         );
         await Future.delayed(const Duration(seconds: 2));
         exit(0);
-      }
-    }
+      },
+    );
   }
 
   // ignore: avoid_build_context_in_providers
@@ -434,6 +441,11 @@ class HomeUIModel extends _$HomeUIModel {
     BuildContext context,
     P4kDownloadSource source,
   ) async {
+    if (source == P4kDownloadSource.official &&
+        !await _ensureMicrosoftStoreVersion(context)) {
+      return;
+    }
+    if (!context.mounted) return;
     final installPath = await _resolveP4kInstallPath(context);
     if (installPath == null) return;
     if (!context.mounted) return;

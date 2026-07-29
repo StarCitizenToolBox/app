@@ -206,7 +206,8 @@ class ToolsUIModel extends _$ToolsUIModel {
     return ToolsItemData(
       "p4k_downloader",
       S.current.tools_action_p4k_download_repair,
-      S.current.tools_action_info_p4k_download_repair_tip(versionInfo),
+      "${S.current.tools_action_info_p4k_download_repair_deprecation}\n\n"
+          "${S.current.tools_action_info_p4k_download_repair_tip(versionInfo)}",
       const FaIcon(FontAwesomeIcons.download, size: 24),
       onTap: () => _downloadP4k(context, torrentUrl),
     );

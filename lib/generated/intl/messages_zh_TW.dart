@@ -669,9 +669,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "請檢查網路連線，或嘗試切換網路後重試",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("修復"),
-    "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
-      "您即將前往由 深空治療中心（QQ群號：536454632 ） 提供的遊戲異常救援服務，主要解決遊戲安裝失敗與頻繁閃退，如遊戲玩法問題，請勿加群。",
-    ),
+    "doctor_info_game_rescue_service_note":
+        MessageLookupByLibrary.simpleMessage(
+          "您即將前往由 深空治療中心（QQ群號：536454632 ） 提供的遊戲異常救援服務，主要解決遊戲安裝失敗與頻繁閃退，如遊戲玩法問題，請勿加群。",
+        ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "需要幫助？ 點擊加群尋求免費人工支援！",
     ),
@@ -2243,10 +2244,13 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "tools_action_info_p4k_download_in_progress":
         MessageLookupByLibrary.simpleMessage("已經有一個p4k下載任務正在進行中，請前往下載管理器查看！"),
+    "tools_action_info_p4k_download_repair_deprecation":
+        MessageLookupByLibrary.simpleMessage("即將停用：請改用首頁的「遊戲下載器 / 更新器」功能。"),
     "tools_action_info_p4k_download_repair_tip": m137,
-    "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
-      "P4k 是星際公民的核心遊戲文件，高達 100GB+，工具箱提供的離線下載是為了幫助一些p4k文件下載慢到不行的使用者 或用於修復官方啟動器無法修復的 p4k 文件。\n\n接下來會跳出視窗詢問您儲存位置（可以選擇星際公民資料夾也可以選擇別處），下載完成後請確保 P4K 資料夾位於 LIVE 資料夾內，之後使用星際公民啟動器校驗更新即可。",
-    ),
+    "tools_action_info_p4k_file_description":
+        MessageLookupByLibrary.simpleMessage(
+          "P4k 是星際公民的核心遊戲文件，高達 100GB+，工具箱提供的離線下載是為了幫助一些p4k文件下載慢到不行的使用者 或用於修復官方啟動器無法修復的 p4k 文件。\n\n接下來會跳出視窗詢問您儲存位置（可以選擇星際公民資料夾也可以選擇別處），下載完成後請確保 P4K 資料夾位於 LIVE 資料夾內，之後使用星際公民啟動器校驗更新即可。",
+        ),
     "tools_action_info_reinstall_eac": MessageLookupByLibrary.simpleMessage(
       "若您遇到 EAC 錯誤，且自動修復無效，請嘗試使用此功能重裝 EAC。",
     ),

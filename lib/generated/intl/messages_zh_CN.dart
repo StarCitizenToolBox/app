@@ -761,9 +761,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "如使用 X黑盒 加速器，请尝试更换加速模式",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("修复"),
-    "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
-      "您即将前往由 深空治疗中心（QQ群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。",
-    ),
+    "doctor_info_game_rescue_service_note":
+        MessageLookupByLibrary.simpleMessage(
+          "您即将前往由 深空治疗中心（QQ群号：536454632 ） 提供的游戏异常救援服务，主要解决游戏安装失败与频繁闪退，如游戏玩法问题，请勿加群。",
+        ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "需要帮助？ 点击加群寻求免费人工支援！",
     ),
@@ -2354,10 +2355,13 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "tools_action_info_p4k_download_in_progress":
         MessageLookupByLibrary.simpleMessage("已经有一个p4k下载任务正在进行中，请前往下载管理器查看！"),
+    "tools_action_info_p4k_download_repair_deprecation":
+        MessageLookupByLibrary.simpleMessage("即将停用：请改用首页的“游戏下载器 / 更新器”功能。"),
     "tools_action_info_p4k_download_repair_tip": m137,
-    "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
-      "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。",
-    ),
+    "tools_action_info_p4k_file_description":
+        MessageLookupByLibrary.simpleMessage(
+          "P4k 是星际公民的核心游戏文件，高达 100GB+，盒子提供的离线下载是为了帮助一些p4k文件下载超级慢的用户 或用于修复官方启动器无法修复的 p4k 文件。\n\n接下来会弹窗询问您保存位置（可以选择星际公民文件夹也可以选择别处），下载完成后请确保 P4K 文件夹位于 LIVE 文件夹内，之后使用星际公民启动器校验更新即可。",
+        ),
     "tools_action_info_reinstall_eac": MessageLookupByLibrary.simpleMessage(
       "若您遇到 EAC 错误，且自动修复无效，请尝试使用此功能重装 EAC。",
     ),

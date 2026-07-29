@@ -565,6 +565,8 @@
   "@tools_action_p4k_download_repair": {},
   "tools_action_info_p4k_download_repair_tip": "Использовать сервис зеркальной загрузки от китайской Star Citizen Wiki для загрузки или восстановления файла p4k.\nИнформация о версии: {v0}",
   "@tools_action_info_p4k_download_repair_tip": {},
+  "tools_action_info_p4k_download_repair_deprecation": "Эта функция скоро будет отключена. Используйте раздел «Загрузка / обновление игры» на главной странице.",
+  "@tools_action_info_p4k_download_repair_deprecation": {},
   "tools_action_hosts_acceleration_experimental": "Ускорение через Hosts (экспериментально)",
   "@tools_action_hosts_acceleration_experimental": {},
   "tools_action_info_hosts_acceleration_experimental_tip": "Запись IP-адресов в файл Hosts для решения проблем с DNS-загрязнением, препятствующих входу на официальный сайт в некоторых регионах.\nЭта функция находится на первом этапе тестирования, пожалуйста, сообщайте о любых проблемах.",

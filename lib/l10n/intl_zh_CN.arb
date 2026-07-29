@@ -564,6 +564,8 @@
   "@tools_action_p4k_download_repair": {},
   "tools_action_info_p4k_download_repair_tip": "使用星际公民中文百科提供的分流下载服务，可用于下载或修复 p4k。 \n版本信息：{v0}",
   "@tools_action_info_p4k_download_repair_tip": {},
+  "tools_action_info_p4k_download_repair_deprecation": "即将停用：请改用首页的“游戏下载器 / 更新器”功能。",
+  "@tools_action_info_p4k_download_repair_deprecation": {},
   "tools_action_hosts_acceleration_experimental": "Hosts 加速（实验性）",
   "@tools_action_hosts_acceleration_experimental": {},
   "tools_action_info_hosts_acceleration_experimental_tip": "将 IP 信息写入 Hosts 文件，解决部分地区的 DNS 污染导致无法登录官网等问题。\n该功能正在进行第一阶段测试，遇到问题请及时反馈。",

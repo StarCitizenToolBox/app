@@ -1,4 +1,5 @@
 param(
+    [switch]$Dev,
     [switch]$SkipPubGet,
     [switch]$SkipCodegen,
     [switch]$SkipIntl,
@@ -28,12 +29,30 @@ function Invoke-Step {
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 Set-Location $repoRoot
 
+if ($Dev) {
+    $SkipMsix = $true
+    $NoMsixStore = $true
+    $WindowsBuildArgs = @(
+        $WindowsBuildArgs | Where-Object { $_ -notmatch '^--dart-define=MSE=' }
+    ) + "--dart-define=MSE=false"
+}
+
 $previousCargoProfile = $env:CARGOKIT_CARGO_PROFILE
 $env:CARGOKIT_CARGO_PROFILE = $CargoProfile
 
 try {
     Write-Host "Release build root: $repoRoot"
     Write-Host "Rust Cargo profile: $env:CARGOKIT_CARGO_PROFILE"
+    $buildMode = if ($Dev) {
+        "Dev (non-Store, no MSIX)"
+    } elseif ($SkipMsix) {
+        "Release (no MSIX)"
+    } elseif ($NoMsixStore) {
+        "Release (non-Store MSIX)"
+    } else {
+        "Release (Store MSIX)"
+    }
+    Write-Host "Build mode: $buildMode"
 
     if (-not $SkipPubGet) {
         Invoke-Step "Flutter pub get" {

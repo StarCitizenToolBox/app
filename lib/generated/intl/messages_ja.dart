@@ -679,9 +679,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_game_error_gpu_vulkan_crash": MessageLookupByLibrary.simpleMessage(
       "GPU Vulkanクラッシュ",
     ),
-    "doctor_game_error_gpu_vulkan_crash_info": MessageLookupByLibrary.simpleMessage(
-      "Vulkanがクラッシュしました！これはドライバーバージョンまたはゲームエンジンの問題かもしれません。GPUドライバーを更新するか、シェーダークリーニング機能を使用してDX11に戻すことをお試しください",
-    ),
+    "doctor_game_error_gpu_vulkan_crash_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Vulkanがクラッシュしました！これはドライバーバージョンまたはゲームエンジンの問題かもしれません。GPUドライバーを更新するか、シェーダークリーニング機能を使用してDX11に戻すことをお試しください",
+        ),
     "doctor_game_error_low_gpu_memory": MessageLookupByLibrary.simpleMessage(
       "利用可能なグラフィックメモリ不足",
     ),
@@ -709,9 +710,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "ネットワーク接続を確認して、もう一度お試しください",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("修復"),
-    "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
-      "深宇宙治療センター（QQグループ番号：536454632）によるゲーム異常救済サービスにアクセスしようとしています。これは主にゲームのインストール失敗や頻繁なクラッシュに対応するものです。ゲームプレイの問題に関しては、グループに参加しないでください。",
-    ),
+    "doctor_info_game_rescue_service_note":
+        MessageLookupByLibrary.simpleMessage(
+          "深宇宙治療センター（QQグループ番号：536454632）によるゲーム異常救済サービスにアクセスしようとしています。これは主にゲームのインストール失敗や頻繁なクラッシュに対応するものです。ゲームプレイの問題に関しては、グループに参加しないでください。",
+        ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "助けが必要ですか？クリックしてグループに参加し、無料のサポートを受けましょう！",
     ),
@@ -852,9 +854,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_info_waiting": MessageLookupByLibrary.simpleMessage("待機中"),
     "downloader_input_download_speed_limit":
         MessageLookupByLibrary.simpleMessage("ダウンロード制限："),
-    "downloader_input_info_p2p_upload_note": MessageLookupByLibrary.simpleMessage(
-      "* P2Pアップロードはファイルのダウンロード中にのみ行われ、ダウンロードが完了するとP2P接続は閉じられます。シードに参加したい場合は、「アバウト」ページから私たちにご連絡ください。",
-    ),
+    "downloader_input_info_p2p_upload_note":
+        MessageLookupByLibrary.simpleMessage(
+          "* P2Pアップロードはファイルのダウンロード中にのみ行われ、ダウンロードが完了するとP2P接続は閉じられます。シードに参加したい場合は、「アバウト」ページから私たちにご連絡ください。",
+        ),
     "downloader_input_upload_speed_limit": MessageLookupByLibrary.simpleMessage(
       "アップロード制限：",
     ),
@@ -1128,9 +1131,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_input_placeholder": MessageLookupByLibrary.simpleMessage(
       "テキストを入力してください...",
     ),
-    "input_method_input_text_instructions": MessageLookupByLibrary.simpleMessage(
-      "上のテキストボックスにテキストを入力し、下のエンコードされたテキストをゲームのテキストボックスに貼り付け（Ctrl+V）て、チャットチャンネルでゲームがサポートしていない文字を送信できます。",
-    ),
+    "input_method_input_text_instructions":
+        MessageLookupByLibrary.simpleMessage(
+          "上のテキストボックスにテキストを入力し、下のエンコードされたテキストをゲームのテキストボックスに貼り付け（Ctrl+V）て、チャットチャンネルでゲームがサポートしていない文字を送信できます。",
+        ),
     "input_method_install_community_input_method_prompt":
         MessageLookupByLibrary.simpleMessage(
           "ローカリゼーション管理に行ってインストールしますか？\n\nすでにローカリゼーションをインストールしている場合は、アンインストールして再インストール時にコミュニティ入力メソッドサポートスイッチをオンにしてください。",
@@ -1917,9 +1921,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_antialiasing": MessageLookupByLibrary.simpleMessage(
       "アンチエイリアス",
     ),
-    "performance_json_text_antialiasing_info": MessageLookupByLibrary.simpleMessage(
-      "0 オフ、1 SMAA、2 テンポラルフィルタリング+SMAA、3 テンポラルフィルタリングとプロジェクションマトリックスジッタを使用したSMAA",
-    ),
+    "performance_json_text_antialiasing_info":
+        MessageLookupByLibrary.simpleMessage(
+          "0 オフ、1 SMAA、2 テンポラルフィルタリング+SMAA、3 テンポラルフィルタリングとプロジェクションマトリックスジッタを使用したSMAA",
+        ),
     "performance_json_text_custom_parameters":
         MessageLookupByLibrary.simpleMessage("カスタムパラメータ"),
     "performance_json_text_display_session":
@@ -2118,9 +2123,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Microsoft版の機能制限により、次に開かれるウィンドウで手動で「SCToolbox」をデスクトップにドラッグしてショートカットを作成してください。",
         ),
-    "setting_action_info_mirror_server_info": MessageLookupByLibrary.simpleMessage(
-      "ミラーサーバーを使用してDps、Uexなどのツールウェブサイトへのアクセスを高速化します。アクセスに異常がある場合は、この機能をオフにしてください。アカウントセキュリティを保護するために、どのような状況でもRSI公式サイトは加速されません。",
-    ),
+    "setting_action_info_mirror_server_info":
+        MessageLookupByLibrary.simpleMessage(
+          "ミラーサーバーを使用してDps、Uexなどのツールウェブサイトへのアクセスを高速化します。アクセスに異常がある場合は、この機能をオフにしてください。アカウントセキュリティを保護するために、どのような状況でもRSI公式サイトは加速されません。",
+        ),
     "setting_action_info_select_game_install_location":
         MessageLookupByLibrary.simpleMessage(
           "ゲームのインストール場所を選択してください（StarCitizen.exe）",
@@ -2366,9 +2372,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "EACファイルを削除しました。次にRSIランチャーを開きます。メイン画面のゲームバージョン横にある歯車アイコンをクリックし、VERIFYを選択してEACを再インストールしてください。",
     ),
     "tools_action_info_error_occurred": m134,
-    "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
-      "修復が成功しました。コンピュータを再起動してからゲームのインストールを続けてみてください！レジストリの変更が他のソフトウェアに互換性の問題を引き起こす場合は、ツールの「NVMEレジストリクリーナー」を使用してください。",
-    ),
+    "tools_action_info_fix_success_restart":
+        MessageLookupByLibrary.simpleMessage(
+          "修復が成功しました。コンピュータを再起動してからゲームのインストールを続けてみてください！レジストリの変更が他のソフトウェアに互換性の問題を引き起こす場合は、ツールの「NVMEレジストリクリーナー」を使用してください。",
+        ),
     "tools_action_info_function_under_maintenance":
         MessageLookupByLibrary.simpleMessage("機能はメンテナンス中です。後でもう一度お試しください！"),
     "tools_action_info_hosts_acceleration_experimental_tip":
@@ -2376,9 +2383,10 @@ class MessageLookup extends MessageLookupByLibrary {
           "IP情報をHostsファイルに書き込み、一部の地域でのDNS汚染による公式サイトへのログイン問題などを解決します。\nこの機能は第一段階のテスト中です。問題が発生した場合はすぐにフィードバックしてください。",
         ),
     "tools_action_info_init_failed": m135,
-    "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
-      "ログファイルが存在しません。ゲームを一度起動またはインストールしてから、ランチャーを終了してください。問題が解決しない場合は、ランチャーを最新バージョンに更新してみてください！",
-    ),
+    "tools_action_info_log_file_not_exist":
+        MessageLookupByLibrary.simpleMessage(
+          "ログファイルが存在しません。ゲームを一度起動またはインストールしてから、ランチャーを終了してください。問題が解決しない場合は、ランチャーを最新バージョンに更新してみてください！",
+        ),
     "tools_action_info_log_file_parse_failed":
         MessageLookupByLibrary.simpleMessage(
           "ログファイルの解析に失敗しました！\n「RSI Launcher ログ修復」ツールを使用してみてください！",
@@ -2398,10 +2406,15 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "p4kのダウンロードタスクが既に進行中です。ダウンロードマネージャーで確認してください！",
         ),
+    "tools_action_info_p4k_download_repair_deprecation":
+        MessageLookupByLibrary.simpleMessage(
+          "この機能は近日中に提供を終了します。ホームの「ゲームダウンローダー / アップデーター」を使用してください。",
+        ),
     "tools_action_info_p4k_download_repair_tip": m137,
-    "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
-      "P4kはStar Citizenのコアゲームファイルで、100GB以上のサイズです。SCToolboxが提供するオフラインダウンロードは、p4kファイルのダウンロードが非常に遅いユーザーをサポートするため、または公式ランチャーで修復できないp4kファイルを修正するためのものです。\n\n次に保存先を選択するダイアログが表示されます（Star Citizenフォルダでも他の場所でも選択可能）。ダウンロード完了後、P4KファイルがLIVEフォルダ内にあることを確認し、Star Citizenランチャーで検証と更新を行ってください。",
-    ),
+    "tools_action_info_p4k_file_description":
+        MessageLookupByLibrary.simpleMessage(
+          "P4kはStar Citizenのコアゲームファイルで、100GB以上のサイズです。SCToolboxが提供するオフラインダウンロードは、p4kファイルのダウンロードが非常に遅いユーザーをサポートするため、または公式ランチャーで修復できないp4kファイルを修正するためのものです。\n\n次に保存先を選択するダイアログが表示されます（Star Citizenフォルダでも他の場所でも選択可能）。ダウンロード完了後、P4KファイルがLIVEフォルダ内にあることを確認し、Star Citizenランチャーで検証と更新を行ってください。",
+        ),
     "tools_action_info_reinstall_eac": MessageLookupByLibrary.simpleMessage(
       "EACエラーが発生し、自動修復が効かない場合は、この機能を使用してEACを再インストールしてください。",
     ),

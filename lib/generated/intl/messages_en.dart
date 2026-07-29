@@ -800,24 +800,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_action_result_fix_success": MessageLookupByLibrary.simpleMessage(
       "Fix successful, please try restarting and continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME registry cleaner in the Tools section.",
     ),
-    "doctor_action_result_game_start_success": MessageLookupByLibrary.simpleMessage(
-      "Fix successful, please try to start the game. (If the problem persists, please use the \'Reinstall EAC\' tool in the toolbox)",
-    ),
+    "doctor_action_result_game_start_success":
+        MessageLookupByLibrary.simpleMessage(
+          "Fix successful, please try to start the game. (If the problem persists, please use the \'Reinstall EAC\' tool in the toolbox)",
+        ),
     "doctor_action_result_info_unsupported_os": m24,
     "doctor_action_result_issue_not_supported":
         MessageLookupByLibrary.simpleMessage(
           "This issue is not currently supported for automatic handling, please provide screenshots to seek help",
         ),
-    "doctor_action_result_redirect_warning": MessageLookupByLibrary.simpleMessage(
-      "About to redirect, the tutorial is from the internet, please proceed with caution...",
-    ),
+    "doctor_action_result_redirect_warning":
+        MessageLookupByLibrary.simpleMessage(
+          "About to redirect, the tutorial is from the internet, please proceed with caution...",
+        ),
     "doctor_action_result_toast_scan_no_issue":
         MessageLookupByLibrary.simpleMessage(
           "Scan complete, no issues found. If installation still fails, please try using the RSI Launcher in administrator mode from the toolbox.",
         ),
-    "doctor_action_result_try_latest_windows": MessageLookupByLibrary.simpleMessage(
-      "If your hardware meets the requirements, please try installing the latest Windows system.",
-    ),
+    "doctor_action_result_try_latest_windows":
+        MessageLookupByLibrary.simpleMessage(
+          "If your hardware meets the requirements, please try installing the latest Windows system.",
+        ),
     "doctor_action_rsi_launcher_log": MessageLookupByLibrary.simpleMessage(
       "RSI Launcher log",
     ),
@@ -858,15 +861,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_game_error_gpu_vulkan_crash": MessageLookupByLibrary.simpleMessage(
       "GPU Vulkan crash",
     ),
-    "doctor_game_error_gpu_vulkan_crash_info": MessageLookupByLibrary.simpleMessage(
-      "Vulkan crash! This may be a driver version or game engine issue. Please try updating GPU drivers or use the clear shader feature to fall back to DX11",
-    ),
+    "doctor_game_error_gpu_vulkan_crash_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Vulkan crash! This may be a driver version or game engine issue. Please try updating GPU drivers or use the clear shader feature to fall back to DX11",
+        ),
     "doctor_game_error_low_gpu_memory": MessageLookupByLibrary.simpleMessage(
       "Insufficient GPU memory",
     ),
-    "doctor_game_error_low_gpu_memory_info": MessageLookupByLibrary.simpleMessage(
-      "Please don\'t run other games/applications with high GPU usage in the background, or upgrade your GPU.",
-    ),
+    "doctor_game_error_low_gpu_memory_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Please don\'t run other games/applications with high GPU usage in the background, or upgrade your GPU.",
+        ),
     "doctor_game_error_low_memory": MessageLookupByLibrary.simpleMessage(
       "Insufficient available memory",
     ),
@@ -887,9 +892,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please check your network connection and try again",
     ),
     "doctor_info_action_fix": MessageLookupByLibrary.simpleMessage("Fix"),
-    "doctor_info_game_rescue_service_note": MessageLookupByLibrary.simpleMessage(
-      "You are about to access the game anomaly rescue service provided by Deep Space Treatment Center (QQ Group: 536454632), which mainly solves game installation failures and frequent crashes. Please do not join the group for gameplay issues.",
-    ),
+    "doctor_info_game_rescue_service_note":
+        MessageLookupByLibrary.simpleMessage(
+          "You are about to access the game anomaly rescue service provided by Deep Space Treatment Center (QQ Group: 536454632), which mainly solves game installation failures and frequent crashes. Please do not join the group for gameplay issues.",
+        ),
     "doctor_info_need_help": MessageLookupByLibrary.simpleMessage(
       "Need help? Click to join the group for free human support!",
     ),
@@ -926,9 +932,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "doctor_info_result_memory_requirement": m29,
     "doctor_info_result_missing_easyanticheat_files":
         MessageLookupByLibrary.simpleMessage("EasyAntiCheat files missing"),
-    "doctor_info_result_missing_live_folder": MessageLookupByLibrary.simpleMessage(
-      "Installation directory is missing LIVE folder, may cause installation failure",
-    ),
+    "doctor_info_result_missing_live_folder":
+        MessageLookupByLibrary.simpleMessage(
+          "Installation directory is missing LIVE folder, may cause installation failure",
+        ),
     "doctor_info_result_no_solution": MessageLookupByLibrary.simpleMessage(
       "No solution available yet, please take a screenshot and report feedback",
     ),
@@ -1039,9 +1046,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloader_info_waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
     "downloader_input_download_speed_limit":
         MessageLookupByLibrary.simpleMessage("Download Speed Limit:"),
-    "downloader_input_info_p2p_upload_note": MessageLookupByLibrary.simpleMessage(
-      "* P2P upload only occurs when downloading files and will close p2p connections after download completion. If you want to participate in seeding, please contact us through the About page.",
-    ),
+    "downloader_input_info_p2p_upload_note":
+        MessageLookupByLibrary.simpleMessage(
+          "* P2P upload only occurs when downloading files and will close p2p connections after download completion. If you want to participate in seeding, please contact us through the About page.",
+        ),
     "downloader_input_upload_speed_limit": MessageLookupByLibrary.simpleMessage(
       "Upload Speed Limit:",
     ),
@@ -1056,9 +1064,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Complete Setup",
     ),
     "guide_action_get_help": MessageLookupByLibrary.simpleMessage("Get Help"),
-    "guide_action_info_no_game_path_warning": MessageLookupByLibrary.simpleMessage(
-      "You have not selected a game installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.",
-    ),
+    "guide_action_info_no_game_path_warning":
+        MessageLookupByLibrary.simpleMessage(
+          "You have not selected a game installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.",
+        ),
     "guide_action_info_no_launcher_path_warning":
         MessageLookupByLibrary.simpleMessage(
           "You have not selected a launcher installation path. Are you sure you want to complete the setup?\n\nAfter the guide page closes, you will need to manually go to the settings page to operate.",
@@ -1366,9 +1375,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_input_placeholder": MessageLookupByLibrary.simpleMessage(
       "Please enter text...",
     ),
-    "input_method_input_text_instructions": MessageLookupByLibrary.simpleMessage(
-      "Enter text in the text box above, and paste (Ctrl+V) the encoded text below into the game\'s text box to send characters that the game doesn\'t support input for in chat channels.",
-    ),
+    "input_method_input_text_instructions":
+        MessageLookupByLibrary.simpleMessage(
+          "Enter text in the text box above, and paste (Ctrl+V) the encoded text below into the game\'s text box to send characters that the game doesn\'t support input for in chat channels.",
+        ),
     "input_method_install_community_input_method_prompt":
         MessageLookupByLibrary.simpleMessage(
           "Do you want to go to Localization Management to install?\n\nIf you have already installed localization, please uninstall it and enable the community input method support switch when reinstalling.",
@@ -1590,9 +1600,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_source_community_mirror": MessageLookupByLibrary.simpleMessage(
       "Chinese Wiki mirror (no login required)",
     ),
-    "p4k_source_community_mirror_limitation": MessageLookupByLibrary.simpleMessage(
-      "No login required. Updates may be delayed; after downloading, verify again using the official source or launcher.",
-    ),
+    "p4k_source_community_mirror_limitation":
+        MessageLookupByLibrary.simpleMessage(
+          "No login required. Updates may be delayed; after downloading, verify again using the official source or launcher.",
+        ),
     "p4k_source_compressed_size": m71,
     "p4k_source_confirm_switch": MessageLookupByLibrary.simpleMessage(
       "Confirm switch to official site",
@@ -1614,19 +1625,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_source_error_manifest_missing": MessageLookupByLibrary.simpleMessage(
       "The required manifest is missing from the mirror. The official source will not be selected automatically.",
     ),
-    "p4k_source_error_metadata_unavailable": MessageLookupByLibrary.simpleMessage(
-      "Mirror metadata is unavailable. The official source will not be selected automatically.",
-    ),
+    "p4k_source_error_metadata_unavailable":
+        MessageLookupByLibrary.simpleMessage(
+          "Mirror metadata is unavailable. The official source will not be selected automatically.",
+        ),
     "p4k_source_error_network": MessageLookupByLibrary.simpleMessage(
       "Could not connect to the mirror. The official source will not be selected automatically.",
     ),
     "p4k_source_error_object_missing": m73,
-    "p4k_source_error_provider_unavailable": MessageLookupByLibrary.simpleMessage(
-      "The mirror provider is unavailable in this version. The official source will not be selected automatically.",
-    ),
-    "p4k_source_error_unsupported_channel": MessageLookupByLibrary.simpleMessage(
-      "The mirror does not support this game channel. The official source will not be selected automatically.",
-    ),
+    "p4k_source_error_provider_unavailable":
+        MessageLookupByLibrary.simpleMessage(
+          "The mirror provider is unavailable in this version. The official source will not be selected automatically.",
+        ),
+    "p4k_source_error_unsupported_channel":
+        MessageLookupByLibrary.simpleMessage(
+          "The mirror does not support this game channel. The official source will not be selected automatically.",
+        ),
     "p4k_source_keep_mirror": MessageLookupByLibrary.simpleMessage(
       "Keep using mirror",
     ),
@@ -2259,9 +2273,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_antialiasing": MessageLookupByLibrary.simpleMessage(
       "Anti-aliasing",
     ),
-    "performance_json_text_antialiasing_info": MessageLookupByLibrary.simpleMessage(
-      "0 off, 1 SMAA, 2 temporal filter + SMAA, 3 SMAA with temporal filtering and projection matrix jitter",
-    ),
+    "performance_json_text_antialiasing_info":
+        MessageLookupByLibrary.simpleMessage(
+          "0 off, 1 SMAA, 2 temporal filter + SMAA, 3 SMAA with temporal filtering and projection matrix jitter",
+        ),
     "performance_json_text_custom_parameters":
         MessageLookupByLibrary.simpleMessage("Custom Parameters"),
     "performance_json_text_display_session":
@@ -2273,9 +2288,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_displayinfo": MessageLookupByLibrary.simpleMessage(
       "Screen Info (Show FPS)",
     ),
-    "performance_json_text_displayinfo_info": MessageLookupByLibrary.simpleMessage(
-      "Display FPS, server information, etc. in the upper right corner of the screen",
-    ),
+    "performance_json_text_displayinfo_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Display FPS, server information, etc. in the upper right corner of the screen",
+        ),
     "performance_json_text_dof": MessageLookupByLibrary.simpleMessage(
       "Depth of Field Effect",
     ),
@@ -2485,9 +2501,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Due to Microsoft version feature limitations, please manually drag SCToolbox to the desktop in the window that opens next to create a shortcut.",
         ),
-    "setting_action_info_mirror_server_info": MessageLookupByLibrary.simpleMessage(
-      "Use mirror server to accelerate access to tool websites such as Dps, Uex, etc. If access is abnormal, please turn off this feature. To protect account security, the RSI official website will never be accelerated under any circumstances.",
-    ),
+    "setting_action_info_mirror_server_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Use mirror server to accelerate access to tool websites such as Dps, Uex, etc. If access is abnormal, please turn off this feature. To protect account security, the RSI official website will never be accelerated under any circumstances.",
+        ),
     "setting_action_info_select_game_install_location":
         MessageLookupByLibrary.simpleMessage(
           "Please select game installation location (StarCitizen.exe)",
@@ -2696,9 +2713,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "support_dev_hk_fps_transfer_title": MessageLookupByLibrary.simpleMessage(
       "Hong Kong FPS",
     ),
-    "support_dev_in_game_currency_message": MessageLookupByLibrary.simpleMessage(
-      "You can send aUEC to me in the game as support, which will help me get a better gaming experience in limited time",
-    ),
+    "support_dev_in_game_currency_message":
+        MessageLookupByLibrary.simpleMessage(
+          "You can send aUEC to me in the game as support, which will help me get a better gaming experience in limited time",
+        ),
     "support_dev_in_game_currency_title": MessageLookupByLibrary.simpleMessage(
       "In-game Currency",
     ),
@@ -2752,9 +2770,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "EAC files have been removed. The RSI Launcher will now open. Click the gear icon next to the game version on the main screen, then select VERIFY to reinstall EAC.",
     ),
     "tools_action_info_error_occurred": m134,
-    "tools_action_info_fix_success_restart": MessageLookupByLibrary.simpleMessage(
-      "Fixed successfully, please try restarting your computer and then continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME Registry Cleanup in Tools.",
-    ),
+    "tools_action_info_fix_success_restart":
+        MessageLookupByLibrary.simpleMessage(
+          "Fixed successfully, please try restarting your computer and then continue installing the game! If the registry modification causes compatibility issues with other software, please use the NVME Registry Cleanup in Tools.",
+        ),
     "tools_action_info_function_under_maintenance":
         MessageLookupByLibrary.simpleMessage(
           "Function under maintenance, please try again later!",
@@ -2764,12 +2783,14 @@ class MessageLookup extends MessageLookupByLibrary {
           "Write IP information to the Hosts file to solve issues such as DNS pollution in some regions that prevent logging in to the official website.\nThis feature is in its first testing phase, please provide feedback if you encounter any issues.",
         ),
     "tools_action_info_init_failed": m135,
-    "tools_action_info_log_file_not_exist": MessageLookupByLibrary.simpleMessage(
-      "Log file does not exist. Please try launching the game or installing the game once and then exit the launcher. If the problem persists, please try updating the launcher to the latest version!",
-    ),
-    "tools_action_info_log_file_parse_failed": MessageLookupByLibrary.simpleMessage(
-      "Failed to parse log file!\nPlease try using the RSI Launcher Log Fix tool!",
-    ),
+    "tools_action_info_log_file_not_exist":
+        MessageLookupByLibrary.simpleMessage(
+          "Log file does not exist. Please try launching the game or installing the game once and then exit the launcher. If the problem persists, please try updating the launcher to the latest version!",
+        ),
+    "tools_action_info_log_file_parse_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "Failed to parse log file!\nPlease try using the RSI Launcher Log Fix tool!",
+        ),
     "tools_action_info_manual_nvme_patch": MessageLookupByLibrary.simpleMessage(
       "Manually write NVM patch, only use this feature if you know what you\'re doing",
     ),
@@ -2785,10 +2806,15 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "A p4k download task is already in progress, please check the download manager!",
         ),
+    "tools_action_info_p4k_download_repair_deprecation":
+        MessageLookupByLibrary.simpleMessage(
+          "This feature will be discontinued soon. Please use Game Downloader / Updater on the Home page instead.",
+        ),
     "tools_action_info_p4k_download_repair_tip": m137,
-    "tools_action_info_p4k_file_description": MessageLookupByLibrary.simpleMessage(
-      "P4k is Star Citizen\'s core game file, over 100GB+. The offline download provided by SCToolbox is to help users who have extremely slow p4k file downloads or to repair p4k files that the official launcher cannot fix.\n\nNext, a dialog will ask for your save location (you can choose the Star Citizen folder or elsewhere). After downloading, please make sure the P4K file is placed in the LIVE folder, then verify and update using the Star Citizen launcher.",
-    ),
+    "tools_action_info_p4k_file_description":
+        MessageLookupByLibrary.simpleMessage(
+          "P4k is Star Citizen\'s core game file, over 100GB+. The offline download provided by SCToolbox is to help users who have extremely slow p4k file downloads or to repair p4k files that the official launcher cannot fix.\n\nNext, a dialog will ask for your save location (you can choose the Star Citizen folder or elsewhere). After downloading, please make sure the P4K file is placed in the LIVE folder, then verify and update using the Star Citizen launcher.",
+        ),
     "tools_action_info_reinstall_eac": MessageLookupByLibrary.simpleMessage(
       "If you encounter EAC errors and automatic repair is ineffective, please try using this feature to reinstall EAC.",
     ),
@@ -2937,9 +2963,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Getting enhancement data from network...",
         ),
-    "tools_rsi_launcher_enhance_msg_error": MessageLookupByLibrary.simpleMessage(
-      "Failed to get enhancement data, possibly due to network issues or the current version is not supported",
-    ),
+    "tools_rsi_launcher_enhance_msg_error":
+        MessageLookupByLibrary.simpleMessage(
+          "Failed to get enhancement data, possibly due to network issues or the current version is not supported",
+        ),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage(
           "Failed to read launcher information!",
@@ -2980,9 +3007,10 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("RSI Launcher Localization"),
     "tools_rsi_launcher_enhance_working_msg1":
         MessageLookupByLibrary.simpleMessage("Generating patch..."),
-    "tools_rsi_launcher_enhance_working_msg2": MessageLookupByLibrary.simpleMessage(
-      "Installing patch, this will take some time depending on your computer\'s performance...",
-    ),
+    "tools_rsi_launcher_enhance_working_msg2":
+        MessageLookupByLibrary.simpleMessage(
+          "Installing patch, this will take some time depending on your computer\'s performance...",
+        ),
     "tools_shader_clean_all": MessageLookupByLibrary.simpleMessage("Clean All"),
     "tools_shader_clean_all_desc": MessageLookupByLibrary.simpleMessage(
       "Clean all version caches (only keep GraphicsSettings). Suitable for graphics anomalies or post-update cleaning.",

@@ -565,6 +565,8 @@
   "@tools_action_p4k_download_repair": {},
   "tools_action_info_p4k_download_repair_tip": "Use the diversion download service provided by Star Citizen Chinese Wiki for downloading or repairing p4k.\nVersion info: {v0}",
   "@tools_action_info_p4k_download_repair_tip": {},
+  "tools_action_info_p4k_download_repair_deprecation": "This feature will be discontinued soon. Please use Game Downloader / Updater on the Home page instead.",
+  "@tools_action_info_p4k_download_repair_deprecation": {},
   "tools_action_hosts_acceleration_experimental": "Hosts Acceleration (Experimental)",
   "@tools_action_hosts_acceleration_experimental": {},
   "tools_action_info_hosts_acceleration_experimental_tip": "Write IP information to the Hosts file to solve issues such as DNS pollution in some regions that prevent logging in to the official website.\nThis feature is in its first testing phase, please provide feedback if you encounter any issues.",
