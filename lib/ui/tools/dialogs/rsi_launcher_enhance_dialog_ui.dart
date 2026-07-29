@@ -15,6 +15,7 @@ import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/common/rust/api/asar_api.dart' as asar_api;
 import 'package:starcitizen_doctor/common/utils/log.dart';
+import 'package:starcitizen_doctor/common/utils/rsi_launcher_bundle.dart';
 import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 
@@ -310,20 +311,20 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
     try {
       final data = await asar_api.getRsiLauncherAsarData(asarPath: dataPath);
       dPrint("[RsiLauncherEnhanceDialogUI] rsiLauncherPath main.js path == ${data.mainJsPath}");
-      final version = RegExp(r"main\.(\w+)\.js").firstMatch(data.mainJsPath)?.group(1);
-      if (version == null) {
+      final bundleHash = extractRsiLauncherBundleHash(data.mainJsPath);
+      if (bundleHash == null) {
         if (!context.mounted) return null;
         showToast(context, S.current.tools_rsi_launcher_enhance_msg_error_get_launcher_info_error);
         return null;
       }
-      dPrint("[RsiLauncherEnhanceDialogUI] rsiLauncherPath main.js version == $version");
+      dPrint("[RsiLauncherEnhanceDialogUI] rsiLauncherPath bundle hash == $bundleHash");
 
       final mainJsString = String.fromCharCodes(data.mainJsContent);
 
       final (enabledLocalization, enableDownloaderBoost) = _readScriptState(mainJsString);
 
       return RSILauncherStateData(
-        version: version,
+        version: bundleHash,
         data: data,
         serverData: "",
         isPatchInstalled: mainJsString.contains("SC_TOOLBOX"),
