@@ -1,9 +1,6 @@
 use anyhow::{anyhow, Context, Result};
 use ndarray::{Array2, ArrayD};
-use ort::{
-    execution_providers::XNNPACKExecutionProvider, session::builder::GraphOptimizationLevel,
-    session::Session, value::Value,
-};
+use ort::{ep::XNNPACK, session::builder::GraphOptimizationLevel, session::Session, value::Value};
 use std::path::Path;
 use std::sync::Mutex;
 use tokenizers::Tokenizer;
@@ -54,7 +51,7 @@ fn create_session(model_path: &Path, model_name: &str, use_xnnpack: bool) -> Res
 
     if use_xnnpack {
         builder = builder
-            .with_execution_providers([XNNPACKExecutionProvider::default().build()])
+            .with_execution_providers([XNNPACK::default().build().fail_silently()])
             .map_err(|e| anyhow!("Failed to register XNNPACK execution provider: {}", e))?;
     }
 

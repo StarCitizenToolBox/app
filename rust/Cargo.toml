@@ -58,9 +58,10 @@ scopeguard = "1.0"
 notify-rust = "4.18.0"
 asar = "0.3.0"
 walkdir = "2.5.0"
-ort = { version = "2.0.0-rc.12", features = [
+ort = { version = "=2.0.0-rc.13", features = [
     "xnnpack",
     "download-binaries",
+    "lax-feature-matching",
     "ndarray",
 ] }
 tokenizers = { version = "0.23.1", default-features = false, features = [

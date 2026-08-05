@@ -6,6 +6,8 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+// These functions are ignored because they are not marked as `pub`: `rsi_launcher_main_js_priority`, `select_rsi_launcher_main_js_path`
+
 Future<RsiLauncherAsarData> getRsiLauncherAsarData({
   required String asarPath,
 }) => RustLib.instance.api.crateApiAsarApiGetRsiLauncherAsarData(
