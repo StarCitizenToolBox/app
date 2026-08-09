@@ -9,6 +9,11 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    ignore:
+      # ffigen 21 generates struct allocation helpers that are incompatible
+      # with flutter_rust_bridge_codegen 2.13.0-beta.5.
+      - dependency-name: "ffigen"
+        update-types: ["version-update:semver-major"]
       
   - package-ecosystem: "cargo" # See documentation for possible values
     directory: "/rust" # Location of package manifests
