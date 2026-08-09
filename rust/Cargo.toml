@@ -89,7 +89,7 @@ image = { version = "0.25.10", default-features = false, features = ["png", "jpe
 image_dds = "0.7"
 bytemuck = { version = "1.22", features = ["derive"] }
 pollster = "1.0"
-wgpu = "29.0.3"
+wgpu = "30.0.0"
 glam = "0.33.1"
 futures-lite = "2.6"
 regex = "1.12.4"
