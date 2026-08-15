@@ -269,6 +269,7 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
             power_preference: wgpu::PowerPreference::HighPerformance,
             compatible_surface: None,
             force_fallback_adapter: false,
+            apply_limit_buckets: false,
         }))
         .map_err(|e| anyhow!("wgpu renderer: no adapter: {e:?}"))?;
     let (device, queue) =
@@ -330,7 +331,7 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
             module: &shader,
             entry_point: Some("vs_main"),
             compilation_options: Default::default(),
-            buffers: &[wgpu_vertex_buffer_layout()],
+            buffers: &[Some(wgpu_vertex_buffer_layout())],
         },
         fragment: Some(wgpu::FragmentState {
             module: &shader,
@@ -368,7 +369,7 @@ fn wgpu_shared_context() -> Result<Arc<WgpuSharedContext>> {
             module: &shader,
             entry_point: Some("vs_main"),
             compilation_options: Default::default(),
-            buffers: &[wgpu_vertex_buffer_layout()],
+            buffers: &[Some(wgpu_vertex_buffer_layout())],
         },
         fragment: Some(wgpu::FragmentState {
             module: &shader,
@@ -502,9 +503,13 @@ impl WgpuModelSession {
 
     fn render(&self, camera_pos: Vec3, camera_target: Vec3, model_radius: f32) -> Result<Vec<u8>> {
         let aspect = self.width as f32 / self.height as f32;
-        let projection =
-            Mat4::perspective_rh(35.0_f32.to_radians(), aspect, 0.01, model_radius * 20.0);
-        let view = Mat4::look_at_rh(camera_pos, camera_target, Vec3::Y);
+        let projection = glam::camera::rh::proj::directx::perspective(
+            35.0_f32.to_radians(),
+            aspect,
+            0.01,
+            model_radius * 20.0,
+        );
+        let view = glam::camera::rh::view::look_at_mat4(camera_pos, camera_target, Vec3::Y);
         let uniforms = WgpuUniforms {
             mvp: (projection * view).to_cols_array_2d(),
             light_dir: [-0.45, -0.75, -0.35, 0.0],
@@ -602,7 +607,9 @@ impl WgpuModelSession {
         futures::executor::block_on(receiver)
             .map_err(|_| anyhow!("wgpu renderer: readback channel closed"))?
             .map_err(|e| anyhow!("wgpu renderer: map readback failed: {e:?}"))?;
-        let mapped = slice.get_mapped_range();
+        let mapped = slice
+            .get_mapped_range()
+            .map_err(|e| anyhow!("wgpu renderer: get mapped range failed: {e:?}"))?;
         let mut rgba = Vec::with_capacity((self.width * self.height * 4) as usize);
         for row in mapped
             .chunks(padded_bytes_per_row)
