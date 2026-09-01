@@ -289,6 +289,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.9"
+  cupertino_ui:
+    dependency: transitive
+    description:
+      name: cupertino_ui
+      sha256: "2137c0d41f3b62cc4d3d2495e6c354bd6b6133cd21c6bb155736cc31dbd49a11"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   dart_style:
     dependency: transitive
     description:
@@ -585,10 +593,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "55973bf1b27790489f8710ea615fe939f911ddcc5986fe97305e4fc19fa29ee9"
+      sha256: "2e7fcb9ac4d52ec06cd940552f12e66ee71fccbcadb09a067cb9fe20462b5bf3"
       url: "https://pub.dev"
     source: hosted
-    version: "17.4.0"
+    version: "18.0.0"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -877,6 +885,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.0"
+  material_ui:
+    dependency: transitive
+    description:
+      name: material_ui
+      sha256: "7ba1ca315d50a004791dbab290417c52a61466d56db2822fe3c5c2994903110c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   math_expressions:
     dependency: transitive
     description:
