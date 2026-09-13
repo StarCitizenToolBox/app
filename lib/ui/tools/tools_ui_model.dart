@@ -771,7 +771,8 @@ class ToolsUIModel extends _$ToolsUIModel {
       final userSelect = await FilePicker.getDirectoryPath(
         dialogTitle: S.current.tools_action_p4k_download_repair,
         initialDirectory: savePath,
-        lockParentWindow: true,
+        windowsOptions: const WindowsOptions(lockParentWindow: true),
+        linuxOptions: const LinuxOptions(lockParentWindow: true),
       );
       if (userSelect == null) {
         state = state.copyWith(working: false);

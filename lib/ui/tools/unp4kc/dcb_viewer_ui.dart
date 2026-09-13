@@ -312,11 +312,9 @@ class _FileSelectionView extends StatelessWidget {
       allowedExtensions: ['dcb'],
     );
 
-    if (result != null && result.files.isNotEmpty) {
-      final path = result.files.first.path;
-      if (path != null) {
-        model.initFromFilePath(path);
-      }
+    final path = result.firstOrNull?.path;
+    if (path != null) {
+      model.initFromFilePath(path);
     }
   }
 
@@ -327,11 +325,9 @@ class _FileSelectionView extends StatelessWidget {
       allowedExtensions: ['p4k'],
     );
 
-    if (result != null && result.files.isNotEmpty) {
-      final path = result.files.first.path;
-      if (path != null) {
-        model.initFromP4kFile(path);
-      }
+    final path = result.firstOrNull?.path;
+    if (path != null) {
+      model.initFromP4kFile(path);
     }
   }
 }
@@ -399,13 +395,13 @@ class _ExportButton extends HookWidget {
   }
 
   Future<void> _exportMerged(BuildContext context) async {
-    final outputPath = await FilePicker.saveFile(
+    final outputPath = (await FilePicker.saveFile(
       dialogTitle: S.current.dcb_viewer_export_single_xml,
       fileName: 'dataforge.xml',
       type: FileType.custom,
       allowedExtensions: ['xml'],
       bytes: Uint8List(0),
-    );
+    ))?.toFilePath();
     if (outputPath != null) {
       final error = await model.exportToDisk(outputPath, true);
       if (context.mounted) {

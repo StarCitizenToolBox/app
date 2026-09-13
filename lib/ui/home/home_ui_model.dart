@@ -888,7 +888,8 @@ class _P4kInstallPathDialogState extends State<_P4kInstallPathDialog> {
               final selected = await FilePicker.getDirectoryPath(
                 dialogTitle: S.current.app_select_game_download_directory,
                 initialDirectory: _selectedPath,
-                lockParentWindow: true,
+                windowsOptions: const WindowsOptions(lockParentWindow: true),
+                linuxOptions: const LinuxOptions(lockParentWindow: true),
               );
               if (selected == null || !mounted) return;
               final normalized = selected.platformPath;

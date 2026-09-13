@@ -8,7 +8,7 @@ import Foundation
 import app_links
 import desktop_multi_window
 import device_info_plus
-import file_picker
+import file_picker_darwin
 import macos_window_utils
 import path_provider_foundation
 import screen_retriever_macos

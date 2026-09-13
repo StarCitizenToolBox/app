@@ -34,7 +34,8 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
         dialogTitle: S.current.home_localization_select_customize_file_ini,
         type: FileType.custom,
         allowedExtensions: ["ini"],
-        lockParentWindow: true,
+        windowsOptions: const WindowsOptions(lockParentWindow: true),
+        linuxOptions: const LinuxOptions(lockParentWindow: true),
       );
       if (file == null) return;
       isLoading.value = true;

@@ -307,13 +307,13 @@ class FileListItem extends HookWidget {
         filesToExport.first,
         options.convertWhenPossible,
       );
-      singleOutputPath = await FilePicker.saveFile(
+      singleOutputPath = (await FilePicker.saveFile(
         dialogTitle: options.convertWhenPossible
             ? S.current.tools_unp4k_select_convert_export_file
             : S.current.tools_unp4k_select_export_file,
         fileName: defaultName,
         bytes: Uint8List(0),
-      );
+      ))?.toFilePath();
       if (singleOutputPath == null) return;
     } else {
       outputDir = await FilePicker.getDirectoryPath(
@@ -376,13 +376,13 @@ class FileListItem extends HookWidget {
           ? "${sourceName.substring(0, sourceName.length - 4)}.wav"
           : "$sourceName.wav";
 
-      final outputPath = await FilePicker.saveFile(
+      final outputPath = (await FilePicker.saveFile(
         dialogTitle: S.current.tools_unp4k_export_wav,
         fileName: wavName,
         type: FileType.custom,
         allowedExtensions: const ["wav"],
         bytes: Uint8List(0),
-      );
+      ))?.toFilePath();
       if (outputPath == null) return;
 
       if (p4kPath.startsWith("\\")) {
