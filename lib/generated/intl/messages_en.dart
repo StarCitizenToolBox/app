@@ -1194,6 +1194,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
       "To ensure account security, the one-click launch feature has been disabled in the development version. We will provide this feature in the Microsoft Store version.\n\nThe Microsoft Store version provides reliable distribution downloads and digital signatures from Microsoft, which can effectively prevent malicious tampering of the software.\n\nNote: You don\'t need to use SCToolbox to launch the game to use localization.",
     ),
+    "home_info_one_click_launch_live_only":
+        MessageLookupByLibrary.simpleMessage(
+          "One-click launch currently supports LIVE only. Please launch other channels from the RSI Launcher.",
+        ),
     "home_info_one_click_launch_warning": MessageLookupByLibrary.simpleMessage(
       "One-click launch feature notice",
     ),
@@ -1739,6 +1743,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_download_game_files": MessageLookupByLibrary.simpleMessage(
       "Download game files",
     ),
+    "p4k_update_download_signature_refresh_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "Failed to refresh the download signature automatically. Close this window, sign in again and retry (downloaded progress is kept)",
+        ),
+    "p4k_update_download_signature_refreshed":
+        MessageLookupByLibrary.simpleMessage(
+          "New download signature obtained. The download continues (downloaded progress is kept)",
+        ),
     "p4k_update_download_speed": m76,
     "p4k_update_download_verify_basics_p4k":
         MessageLookupByLibrary.simpleMessage("Download/verify base P4K"),
@@ -1819,6 +1831,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_reading_inventory_and_estimating_updates":
         MessageLookupByLibrary.simpleMessage(
           "Reading inventory and estimating updates...",
+        ),
+    "p4k_update_refreshing_download_signature":
+        MessageLookupByLibrary.simpleMessage(
+          "The download signature is expiring or has expired. Signing in to RSI again for a new one…",
         ),
     "p4k_update_register_eac_and_sync_launcher_state":
         MessageLookupByLibrary.simpleMessage(

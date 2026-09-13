@@ -986,6 +986,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
       "アカウントセキュリティを確保するため、ワンクリック起動機能は開発版では無効化されています。この機能はMicrosoft Storeバージョンで提供される予定です。\n\nMicrosoft Storeバージョンは、Microsoftが信頼性の高い配布ダウンロードとデジタル署名を提供し、ソフトウェアが悪意を持って改ざんされるのを効果的に防ぎます。\n\nヒント：ゲームの起動にツールボックスを使用しなくても、ローカリゼーションを使用できます。",
     ),
+    "home_info_one_click_launch_live_only":
+        MessageLookupByLibrary.simpleMessage(
+          "ワンクリック起動は現在 LIVE のみ対応しています。その他のチャンネルは RSI Launcher から起動してください。",
+        ),
     "home_info_one_click_launch_warning": MessageLookupByLibrary.simpleMessage(
       "ワンクリック起動機能の注意",
     ),
@@ -1449,6 +1453,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_download_game_files": MessageLookupByLibrary.simpleMessage(
       "ゲームファイルをダウンロード",
     ),
+    "p4k_update_download_signature_refresh_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "ダウンロード署名の自動更新に失敗しました。このウィンドウを閉じて再ログインし、もう一度お試しください（ダウンロード済みの進捗は保持されます）",
+        ),
+    "p4k_update_download_signature_refreshed":
+        MessageLookupByLibrary.simpleMessage(
+          "新しいダウンロード署名を取得しました。ダウンロードを続行します（ダウンロード済みの進捗は保持されます）",
+        ),
     "p4k_update_download_speed": m76,
     "p4k_update_download_verify_basics_p4k":
         MessageLookupByLibrary.simpleMessage("ベース P4K をダウンロード/検証"),
@@ -1522,6 +1534,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_processing_p4k": MessageLookupByLibrary.simpleMessage("P4Kの処理"),
     "p4k_update_reading_inventory_and_estimating_updates":
         MessageLookupByLibrary.simpleMessage("マニフェストを読み込み、更新量を見積もっています..."),
+    "p4k_update_refreshing_download_signature":
+        MessageLookupByLibrary.simpleMessage(
+          "ダウンロード署名の期限が近いか切れたため、RSI に再ログインして新しい署名を取得しています…",
+        ),
     "p4k_update_register_eac_and_sync_launcher_state":
         MessageLookupByLibrary.simpleMessage("EAC を登録し、ランチャーの状態を同期する"),
     "p4k_update_registering_eac_and_syncing_launcher_state":

@@ -320,6 +320,8 @@
   "@home_localization_new_version_installed": {},
   "home_info_valid_installation_required": "该功能需要一个有效的安装位置",
   "@home_info_valid_installation_required": {},
+  "home_info_one_click_launch_live_only": "一键启动目前仅支持 LIVE 版本，其他版本请通过 RSI Launcher 启动",
+  "@home_info_one_click_launch_live_only": {},
   "home_info_one_click_launch_warning": "一键启动功能提示",
   "@home_info_one_click_launch_warning": {},
   "home_info_account_security_warning": "为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。\n\n微软商店版由微软提供可靠的分发下载与数字签名，可有效防止软件被恶意篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。",
@@ -1555,6 +1557,12 @@
       "v0": {}
     }
   },
+  "p4k_update_refreshing_download_signature": "下载签名即将或已经过期，正在重新登录 RSI 账号获取新签名…",
+  "@p4k_update_refreshing_download_signature": {},
+  "p4k_update_download_signature_refreshed": "已获取新的下载签名，下载将继续（已下载的进度会保留）",
+  "@p4k_update_download_signature_refreshed": {},
+  "p4k_update_download_signature_refresh_failed": "自动刷新下载签名失败，请关闭此窗口并重新登录后重试（已下载的进度会保留）",
+  "@p4k_update_download_signature_refresh_failed": {},
   "p4k_update_writing": "正在写入：{v0}",
   "@p4k_update_writing": {
     "placeholders": {

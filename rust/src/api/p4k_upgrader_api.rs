@@ -2,9 +2,10 @@ use crate::frb_generated::StreamSink;
 use anyhow::Result;
 use p4k_upgrader::{
     cancel_update, clear_manifest_memory_cache, estimate_update_size, is_repair_update_mode,
-    pause_update, reset_update_control, resume_update, run_repair_update, run_update,
-    set_download_thread_limit, verify_existing, Config, DownloadSource, Error,
-    MirrorUnavailableReason, ProgressEvent, ProgressReporter,
+    is_signed_url_rejection, pause_update, reset_update_control, resume_update, run_repair_update,
+    run_update, set_download_thread_limit, update_signed_urls, verify_existing, Config,
+    DownloadSource, Error, MirrorUnavailableReason, ProgressEvent, ProgressReporter,
+    SIGNED_URL_REFRESH_PHASE,
 };
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
@@ -13,6 +14,9 @@ use std::time::{Duration, Instant};
 const PROGRESS_THROTTLE_INTERVAL: Duration = Duration::from_millis(150);
 const PROGRESS_MEANINGFUL_DELTA_INTERVAL: Duration = Duration::from_millis(100);
 const PROGRESS_MEANINGFUL_BYTE_DELTA: u64 = 64 * 1024 * 1024;
+/// How long download workers wait for the app to push refreshed signatures
+/// (a silent re-login, or a manual one when the RSI session also expired).
+const SIGNED_URL_REFRESH_TIMEOUT_SEC: u64 = 300;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum P4kDownloadSource {
@@ -41,6 +45,9 @@ pub struct P4kUpgraderEstimateOutcome {
     pub report: Option<P4kUpgraderEstimateReport>,
     pub mirror_unavailable: Option<P4kMirrorUnavailable>,
     pub error_message: Option<String>,
+    /// The official CDN rejected an expired or IP-mismatched signed URL; the
+    /// caller should fetch a fresh releaseInfo instead of retrying as-is.
+    pub signed_url_rejected: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -105,6 +112,8 @@ pub struct P4kUpgraderProgressEvent {
     pub thread_limit: usize,
     pub message: String,
     pub mirror_unavailable: Option<P4kMirrorUnavailable>,
+    /// Set on terminal errors caused by an expired or IP-mismatched signed URL.
+    pub signed_url_rejected: bool,
 }
 
 #[flutter_rust_bridge::frb(sync)]
@@ -148,6 +157,7 @@ pub fn p4k_upgrader_estimate(config: P4kUpgraderConfig) -> P4kUpgraderEstimateOu
         }),
         mirror_unavailable: None,
         error_message: None,
+        signed_url_rejected: false,
     }
 }
 
@@ -211,13 +221,18 @@ pub async fn p4k_upgrader_update_with_progress(
                 if message.contains("cancelled") || message.contains("取消") {
                     progress_coalescer.emit(P4kUpgraderProgressEvent::cancelled(message));
                 } else {
-                    let message = if repair_mode {
+                    let signed_url_rejected = is_signed_url_rejection(&message);
+                    let message = if signed_url_rejected {
+                        signed_url_rejection_message(&message)
+                    } else if repair_mode {
                         message
                     } else {
                         normal_update_error_message(message)
                     };
-                    progress_coalescer
-                        .emit(P4kUpgraderProgressEvent::error(message, mirror_unavailable));
+                    progress_coalescer.emit(P4kUpgraderProgressEvent {
+                        signed_url_rejected,
+                        ..P4kUpgraderProgressEvent::error(message, mirror_unavailable)
+                    });
                 }
             }
         }
@@ -252,6 +267,14 @@ pub fn p4k_upgrader_clear_manifest_cache() {
     clear_manifest_memory_cache();
 }
 
+/// Pushes freshly signed manifest/object/base URLs into a running update.
+/// Workers waiting after a `signed_url_refresh_required` event resume with
+/// them. Returns the number of accepted URLs.
+#[flutter_rust_bridge::frb(sync)]
+pub fn p4k_upgrader_update_signed_urls(urls: Vec<String>) -> usize {
+    update_signed_urls(&urls)
+}
+
 fn to_upgrader_config(input: P4kUpgraderConfig) -> Result<Config> {
     let game_dir = PathBuf::from(input.game_dir);
     let object_path_templates = input.object_path_templates;
@@ -276,6 +299,7 @@ fn to_upgrader_config(input: P4kUpgraderConfig) -> Result<Config> {
         config.p4k_base_verification_url = input.p4k_base_verification_url;
         config.request_cookie = input.request_cookie;
         config.rsi_token = input.rsi_token;
+        config.signed_url_refresh_timeout_sec = SIGNED_URL_REFRESH_TIMEOUT_SEC;
     }
     config.cache_dir = PathBuf::from(input.cache_dir);
     config.existing_p4k = game_dir.join("Data.p4k");
@@ -327,14 +351,19 @@ fn map_mirror_unavailable(error: &Error) -> Option<P4kMirrorUnavailable> {
 
 impl P4kUpgraderEstimateOutcome {
     fn from_upgrader(error: Error) -> Self {
+        let message = error.to_string();
+        let signed_url_rejected = is_signed_url_rejection(&message);
         Self {
             mirror_unavailable: map_mirror_unavailable(&error),
             error_message: if matches!(error, Error::MirrorUnavailable(_)) {
                 None
+            } else if signed_url_rejected {
+                Some(signed_url_rejection_message(&message))
             } else {
-                Some(error.to_string())
+                Some(message)
             },
             report: None,
+            signed_url_rejected,
         }
     }
 
@@ -343,13 +372,24 @@ impl P4kUpgraderEstimateOutcome {
             report: None,
             mirror_unavailable: None,
             error_message: Some(error.to_string()),
+            signed_url_rejected: false,
         }
     }
 }
 
 fn normal_update_error_message(message: impl std::fmt::Display) -> String {
+    let message = message.to_string();
+    if is_signed_url_rejection(&message) {
+        return signed_url_rejection_message(&message);
+    }
     format!(
         "普通更新失败：{message}\n普通更新不会自动重建 Data.p4k。请检查网络/磁盘空间后重试；如果 Data.p4k 已损坏或反复失败，请手动点击“深度修复”。"
+    )
+}
+
+fn signed_url_rejection_message(message: &str) -> String {
+    format!(
+        "官方下载签名已过期或与当前网络出口 IP 不匹配（HTTP 403 Invalid signed request），并非网络或磁盘空间问题。\n请重新登录 RSI 账号获取新签名后重试，已下载的进度会保留。\n原始错误：{message}"
     )
 }
 
@@ -484,6 +524,7 @@ impl From<ProgressEvent> for P4kUpgraderProgressEvent {
             thread_limit: value.thread_limit,
             message: value.message,
             mirror_unavailable: None,
+            signed_url_rejected: false,
         }
     }
 }
@@ -493,7 +534,7 @@ impl P4kUpgraderProgressEvent {
         matches!(
             self.phase.as_str(),
             "done" | "error" | "cancelled" | "download_error"
-        )
+        ) || self.phase == SIGNED_URL_REFRESH_PHASE
     }
 
     fn is_terminal(&self) -> bool {
@@ -537,6 +578,7 @@ impl P4kUpgraderProgressEvent {
             thread_limit: 0,
             message,
             mirror_unavailable: None,
+            signed_url_rejected: false,
         }
     }
 
@@ -552,6 +594,7 @@ impl P4kUpgraderProgressEvent {
             thread_limit: 0,
             message,
             mirror_unavailable,
+            signed_url_rejected: false,
         }
     }
 
@@ -567,6 +610,7 @@ impl P4kUpgraderProgressEvent {
             thread_limit: 0,
             message,
             mirror_unavailable: None,
+            signed_url_rejected: false,
         }
     }
 }
@@ -607,6 +651,33 @@ mod tests {
         let config = to_upgrader_config(input).unwrap();
         assert_eq!(config.request_cookie, "cookie=value");
         assert_eq!(config.rsi_token, "token");
+        assert_eq!(
+            config.signed_url_refresh_timeout_sec,
+            SIGNED_URL_REFRESH_TIMEOUT_SEC
+        );
+    }
+
+    #[test]
+    fn mirror_config_does_not_wait_for_signed_urls() {
+        let config = to_upgrader_config(mirror_bridge_config()).unwrap();
+        assert_eq!(config.signed_url_refresh_timeout_sec, 0);
+    }
+
+    #[test]
+    fn signed_url_refresh_request_bypasses_throttling() {
+        let mut state = ProgressEventCoalescerState::default();
+        let start = Instant::now();
+        state.events_to_emit(progress_event("downloading", 1, 100), start);
+        let emitted = state.events_to_emit(
+            progress_event(SIGNED_URL_REFRESH_PHASE, 1, 100),
+            start + Duration::from_millis(10),
+        );
+        assert_eq!(emitted.last().unwrap().phase, SIGNED_URL_REFRESH_PHASE);
+        let emitted = state.events_to_emit(
+            progress_event(SIGNED_URL_REFRESH_PHASE, 1, 100),
+            start + Duration::from_millis(20),
+        );
+        assert_eq!(emitted.len(), 1);
     }
 
     fn mirror_bridge_config() -> P4kUpgraderConfig {
@@ -667,6 +738,47 @@ mod tests {
     #[test]
     fn hard_error_is_not_mirror_unavailable() {
         assert!(map_mirror_unavailable(&Error::Message("bad hash".into())).is_none());
+    }
+
+    #[test]
+    fn expired_object_signature_is_signed_url_rejection() {
+        let message = "all downloads failed for Data/a.socpak: HTTP status error: code=403 \
+            status=403 Forbidden url=https://sc-prod-public-objects.mcdn.robertsspaceindustries.com/06DE?<redacted> \
+            raw=Google-Edge-Cache: Invalid signed request";
+        assert!(is_signed_url_rejection(message));
+        let text = normal_update_error_message(message);
+        assert!(text.contains("签名"));
+        assert!(!text.contains("请检查网络/磁盘空间"));
+    }
+
+    #[test]
+    fn expired_manifest_signature_is_signed_url_rejection() {
+        assert!(is_signed_url_rejection(
+            "manifest HTTP status error: code=403 status=403 Forbidden \
+             url=https://prod.mcdn.robertsspaceindustries.com/2CC2?<redacted>"
+        ));
+    }
+
+    #[test]
+    fn ordinary_network_error_is_not_signed_url_rejection() {
+        let message = "HTTP request failed: code=none \
+            url=https://sc-prod-public-objects.mcdn.robertsspaceindustries.com/06DE?<redacted> raw=timeout";
+        assert!(!is_signed_url_rejection(message));
+        assert!(normal_update_error_message(message).contains("请检查网络/磁盘空间"));
+        assert!(!is_signed_url_rejection(
+            "HTTP status error: code=403 status=403 Forbidden url=https://example.invalid/a"
+        ));
+    }
+
+    #[test]
+    fn estimate_outcome_flags_signed_url_rejection() {
+        let outcome = P4kUpgraderEstimateOutcome::from_upgrader(Error::Message(
+            "manifest HTTP status error: code=403 raw=Invalid signed request".into(),
+        ));
+        assert!(outcome.signed_url_rejected);
+        assert!(outcome.error_message.unwrap().contains("签名"));
+        let outcome = P4kUpgraderEstimateOutcome::from_upgrader(Error::Message("bad hash".into()));
+        assert!(!outcome.signed_url_rejected);
     }
 
     #[test]
@@ -769,6 +881,7 @@ mod tests {
             thread_limit: 32,
             message: String::new(),
             mirror_unavailable: None,
+            signed_url_rejected: false,
         }
     }
 }

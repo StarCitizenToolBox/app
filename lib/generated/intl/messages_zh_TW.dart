@@ -921,6 +921,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
       "為確保帳戶安全，快速啟動功能已在Dev版本中禁用，我們將在Microsoft Store版本中提供此功能。\n\nMicrosoft Store版由Microsoft提供可靠的分發下載與數位簽章，可有效防止軟體被惡意篡改。\n\n提示：您無需使用工具箱啟動遊戲也可使用社群翻譯。",
     ),
+    "home_info_one_click_launch_live_only":
+        MessageLookupByLibrary.simpleMessage(
+          "快速啟動目前僅支援 LIVE 版本，其他版本請透過 RSI Launcher 啟動",
+        ),
     "home_info_one_click_launch_warning": MessageLookupByLibrary.simpleMessage(
       "快速啟動功能提示",
     ),
@@ -1372,6 +1376,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_download_game_files": MessageLookupByLibrary.simpleMessage(
       "下載遊戲文件",
     ),
+    "p4k_update_download_signature_refresh_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "自動刷新下載簽名失敗，請關閉此視窗並重新登入後重試（已下載的進度會保留）",
+        ),
+    "p4k_update_download_signature_refreshed":
+        MessageLookupByLibrary.simpleMessage("已取得新的下載簽名，下載將繼續（已下載的進度會保留）"),
     "p4k_update_download_speed": m76,
     "p4k_update_download_verify_basics_p4k":
         MessageLookupByLibrary.simpleMessage("下載/校驗基礎 P4K"),
@@ -1441,6 +1451,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "p4k_update_reading_inventory_and_estimating_updates":
         MessageLookupByLibrary.simpleMessage("正在讀取清單並估算更新量..."),
+    "p4k_update_refreshing_download_signature":
+        MessageLookupByLibrary.simpleMessage("下載簽名即將或已經過期，正在重新登入 RSI 帳號取得新簽名…"),
     "p4k_update_register_eac_and_sync_launcher_state":
         MessageLookupByLibrary.simpleMessage("註冊 EAC 並同步啟動器狀態"),
     "p4k_update_registering_eac_and_syncing_launcher_state":

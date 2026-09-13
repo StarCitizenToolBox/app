@@ -4750,6 +4750,29 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__p4k_upgrader_api__p4k_upgrader_updatePtr
           .asFunction<void Function(int, ffi.Pointer<ffi.Uint8>, int, int)>();
 
+  WireSyncRust2DartDco
+  wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls(
+    ffi.Pointer<wire_cst_list_String> urls,
+  ) {
+    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls(
+      urls,
+    );
+  }
+
+  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urlsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_String>)
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls',
+      );
+  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls =
+      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urlsPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_String>)
+          >();
+
   void wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress(
     int port_,
     ffi.Pointer<ffi.Uint8> ptr_,

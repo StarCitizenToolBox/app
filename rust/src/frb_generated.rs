@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0-beta.5";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1638692502;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1786636113;
 
 // Section: executor
 
@@ -2822,6 +2822,26 @@ fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_impl(
         },
     )
 }
+fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls_impl(
+    urls: impl CstDecode<Vec<String>>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_upgrader_update_signed_urls",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_urls = urls.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(
+                    crate::api::p4k_upgrader_api::p4k_upgrader_update_signed_urls(api_urls),
+                )?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -4790,10 +4810,12 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome {
         let mut var_mirrorUnavailable =
             <Option<crate::api::p4k_upgrader_api::P4kMirrorUnavailable>>::sse_decode(deserializer);
         let mut var_errorMessage = <Option<String>>::sse_decode(deserializer);
+        let mut var_signedUrlRejected = <bool>::sse_decode(deserializer);
         return crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome {
             report: var_report,
             mirror_unavailable: var_mirrorUnavailable,
             error_message: var_errorMessage,
+            signed_url_rejected: var_signedUrlRejected,
         };
     }
 }
@@ -4845,6 +4867,7 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
         let mut var_message = <String>::sse_decode(deserializer);
         let mut var_mirrorUnavailable =
             <Option<crate::api::p4k_upgrader_api::P4kMirrorUnavailable>>::sse_decode(deserializer);
+        let mut var_signedUrlRejected = <bool>::sse_decode(deserializer);
         return crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
             phase: var_phase,
             name: var_name,
@@ -4856,6 +4879,7 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
             thread_limit: var_threadLimit,
             message: var_message,
             mirror_unavailable: var_mirrorUnavailable,
+            signed_url_rejected: var_signedUrlRejected,
         };
     }
 }
@@ -5776,6 +5800,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgrader
             self.report.into_into_dart().into_dart(),
             self.mirror_unavailable.into_into_dart().into_dart(),
             self.error_message.into_into_dart().into_dart(),
+            self.signed_url_rejected.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -5844,6 +5869,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::p4k_upgrader_api::P4kUpgrader
             self.thread_limit.into_into_dart().into_dart(),
             self.message.into_into_dart().into_dart(),
             self.mirror_unavailable.into_into_dart().into_dart(),
+            self.signed_url_rejected.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -6915,6 +6941,7 @@ impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderEstimateOutcome {
             serializer,
         );
         <Option<String>>::sse_encode(self.error_message, serializer);
+        <bool>::sse_encode(self.signed_url_rejected, serializer);
     }
 }
 
@@ -6955,6 +6982,7 @@ impl SseEncode for crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent {
             self.mirror_unavailable,
             serializer,
         );
+        <bool>::sse_encode(self.signed_url_rejected, serializer);
     }
 }
 
@@ -9297,6 +9325,13 @@ mod io {
             rust_vec_len_,
             data_len_,
         )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls(
+        urls: *mut wire_cst_list_String,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls_impl(urls)
     }
 
     #[unsafe(no_mangle)]

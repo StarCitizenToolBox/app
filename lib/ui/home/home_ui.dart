@@ -181,30 +181,34 @@ class HomeUI extends HookConsumerWidget {
                   child: FaIcon(FontAwesomeIcons.download, size: 16),
                 ),
               ),
-              const SizedBox(width: 6),
-              Button(
-                onPressed: homeState.webLocalizationVersionsData == null
-                    ? null
-                    : () => model.launchRSI(context),
-                style: homeState.isCurGameRunning
-                    ? null
-                    : ButtonStyle(
-                        backgroundColor: WidgetStateProperty.resolveWith(
-                          _getRunButtonColor,
+              if (model.isOneClickLaunchSupported(
+                homeState.scInstalledPath,
+              )) ...[
+                const SizedBox(width: 6),
+                Button(
+                  onPressed: homeState.webLocalizationVersionsData == null
+                      ? null
+                      : () => model.launchRSI(context),
+                  style: homeState.isCurGameRunning
+                      ? null
+                      : ButtonStyle(
+                          backgroundColor: WidgetStateProperty.resolveWith(
+                            _getRunButtonColor,
+                          ),
                         ),
-                      ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Icon(
-                    homeState.isCurGameRunning
-                        ? FluentIcons.stop_solid
-                        : FluentIcons.play_solid,
-                    color: homeState.isCurGameRunning
-                        ? Colors.red.withValues(alpha: .8)
-                        : Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Icon(
+                      homeState.isCurGameRunning
+                          ? FluentIcons.stop_solid
+                          : FluentIcons.play_solid,
+                      color: homeState.isCurGameRunning
+                          ? Colors.red.withValues(alpha: .8)
+                          : Colors.white,
+                    ),
                   ),
                 ),
-              ),
+              ],
             ],
             const SizedBox(width: 12),
             Button(

@@ -60,6 +60,19 @@ pub fn cancel_update() {
     UPDATE_CONTROL_STATE.store(2, Ordering::Relaxed);
 }
 
+pub const SIGNED_URL_REFRESH_PHASE: &str = "signed_url_refresh_required";
+
+/// The stub never downloads, so there are no in-flight signatures to replace.
+pub fn update_signed_urls(_urls: &[String]) -> usize {
+    0
+}
+
+pub fn is_signed_url_rejection(error: &str) -> bool {
+    let lower = error.to_ascii_lowercase();
+    lower.contains("invalid signed request")
+        || (lower.contains("code=403") && lower.contains("mcdn.robertsspaceindustries.com"))
+}
+
 pub fn wait_if_paused_or_cancelled() -> Result<()> {
     loop {
         match UPDATE_CONTROL_STATE.load(Ordering::Relaxed) {
@@ -160,6 +173,7 @@ pub struct Config {
     pub chunk_size: usize,
     pub download_retry_count: usize,
     pub download_retry_delay_ms: u64,
+    pub signed_url_refresh_timeout_sec: u64,
     #[serde(skip)]
     pub progress: ProgressReporter,
     #[serde(skip)]
@@ -213,6 +227,7 @@ impl Default for Config {
             chunk_size: 1024 * 1024,
             download_retry_count: 10,
             download_retry_delay_ms: 1000,
+            signed_url_refresh_timeout_sec: 0,
             progress: ProgressReporter::default(),
             http_client: None,
             network_downloaded_bytes: Arc::new(AtomicU64::new(0)),

@@ -387,6 +387,10 @@ class HomeUIModel extends _$HomeUIModel {
       showToast(context, S.current.home_info_valid_installation_required);
       return;
     }
+    if (!isOneClickLaunchSupported(state.scInstalledPath)) {
+      showToast(context, S.current.home_info_one_click_launch_live_only);
+      return;
+    }
 
     if (!await _ensureMicrosoftStoreVersion(context)) return;
     if (!context.mounted) return;
@@ -517,19 +521,8 @@ class HomeUIModel extends _$HomeUIModel {
         if (message == null || !ok) {
           return;
         }
-        final data = message["data"];
-        final releaseInfo = data is Map ? data["releaseInfo"] : null;
-        final libraryData = data is Map && data["libraryData"] is Map
-            ? data["libraryData"] as Map
-            : const {};
-        final webToken = data is Map ? data["webToken"]?.toString() ?? "" : "";
-        final webCookie = data is Map
-            ? data["webCookie"]?.toString() ?? ""
-            : "";
-        final webViewCookies = data is Map
-            ? data["webViewCookies"]?.toString() ?? ""
-            : "";
-        if (releaseInfo is! Map) {
+        final session = _p4kReleaseSessionFromLogin(message);
+        if (session == null) {
           if (!context.mounted) return;
           showToast(
             context,
@@ -543,18 +536,70 @@ class HomeUIModel extends _$HomeUIModel {
           dismissWithEsc: false,
           builder: (_) => HomeP4kUpdateDialogUI(
             source: source,
-            releaseInfo: releaseInfo,
+            releaseInfo: session.releaseInfo,
             installPath: installPath,
             applicationSupportDir: appGlobalState.applicationSupportDir!,
-            webToken: webToken,
-            webCookie: _mergeCookieHeaders([webCookie, webViewCookies]),
-            libraryData: libraryData,
+            webToken: session.webToken,
+            webCookie: session.webCookie,
+            libraryData: session.libraryData,
+            refreshReleaseSession: () =>
+                _refreshP4kReleaseSession(context, installPath),
           ),
         );
         if (result == P4kUpdateDialogResult.updated) {
           await reScanPath();
         }
       },
+    );
+  }
+
+  P4kReleaseSession? _p4kReleaseSessionFromLogin(Map message) {
+    final data = message["data"];
+    if (data is! Map || data["releaseInfo"] is! Map) return null;
+    return P4kReleaseSession(
+      releaseInfo: data["releaseInfo"] as Map,
+      webToken: data["webToken"]?.toString() ?? "",
+      webCookie: _mergeCookieHeaders([
+        data["webCookie"]?.toString() ?? "",
+        data["webViewCookies"]?.toString() ?? "",
+      ]),
+      libraryData: data["libraryData"] is Map
+          ? data["libraryData"] as Map
+          : const {},
+    );
+  }
+
+  /// Signs in again through the login WebView (reusing the stored RSI
+  /// session) to get freshly signed CDN URLs for a running P4K update.
+  Future<P4kReleaseSession?> _refreshP4kReleaseSession(
+    BuildContext context,
+    String installPath,
+  ) async {
+    if (!context.mounted) return null;
+    final completer = Completer<P4kReleaseSession?>();
+    try {
+      await goWebView(
+        context,
+        S.current.home_action_login_rsi_account,
+        "https://robertsspaceindustries.com/en/connect?jumpto=/account/dashboard",
+        loginMode: true,
+        useLocalization: true,
+        loginChannel: _getChannelID(installPath),
+        rsiLoginCallback: (message, ok) {
+          if (completer.isCompleted) return;
+          completer.complete(
+            ok && message != null ? _p4kReleaseSessionFromLogin(message) : null,
+          );
+        },
+      );
+    } catch (e) {
+      dPrint("refresh P4K release session failed: $e");
+      if (!completer.isCompleted) completer.complete(null);
+    }
+    // goWebView can return before a WebView exists and never call back.
+    return completer.future.timeout(
+      const Duration(minutes: 4),
+      onTimeout: () => null,
     );
   }
 
@@ -676,6 +721,13 @@ class HomeUIModel extends _$HomeUIModel {
     return values.entries
         .map((entry) => "${entry.key}=${entry.value}")
         .join('; ');
+  }
+
+  /// One-click launch only supports LIVE; other channels launch through the
+  /// RSI Launcher to avoid channel switching and login/argument issues.
+  bool isOneClickLaunchSupported(String? installPath) {
+    if (installPath == null || installPath == "not_install") return false;
+    return _getChannelID(installPath) == "LIVE";
   }
 
   String _getChannelID(String installPath) {

@@ -13,6 +13,58 @@ import 'package:window_manager/window_manager.dart';
 
 enum P4kUpdateDialogResult { updated, switchToOfficial }
 
+/// RSI launcher session data for official downloads. The signed CDN URLs in
+/// [releaseInfo] expire (manifest ~5 min; objects ~1.5 h and bound to the
+/// login egress IP), so long updates fetch fresh sessions while running.
+class P4kReleaseSession {
+  const P4kReleaseSession({
+    required this.releaseInfo,
+    required this.webToken,
+    required this.webCookie,
+    this.libraryData = const {},
+  });
+
+  final Map releaseInfo;
+  final String webToken;
+  final String webCookie;
+  final Map libraryData;
+}
+
+/// The `Expires=` (unix seconds) of a signed RSI CDN URL, or null if unsigned.
+DateTime? p4kSignedUrlExpiry(String url) {
+  final match = RegExp(
+    r'[?&]Expires=(\d+)',
+    caseSensitive: false,
+  ).firstMatch(url);
+  final seconds = match == null ? null : int.tryParse(match.group(1)!);
+  if (seconds == null) return null;
+  return DateTime.fromMillisecondsSinceEpoch(seconds * 1000, isUtc: true);
+}
+
+/// Whether any signed URL is expired or expires within [margin].
+bool p4kSignedUrlsExpireWithin(
+  Iterable<String> urls,
+  Duration margin, {
+  DateTime? now,
+}) {
+  final deadline = (now ?? DateTime.now()).add(margin);
+  return urls.any((url) {
+    final expiresAt = p4kSignedUrlExpiry(url);
+    return expiresAt != null && !expiresAt.isAfter(deadline);
+  });
+}
+
+const _signedUrlRefreshPhase = "signed_url_refresh_required";
+
+class _P4kSignedUrlRejected implements Exception {
+  const _P4kSignedUrlRejected(this.message);
+
+  final String message;
+
+  @override
+  String toString() => message;
+}
+
 Future<P4kUpdateDialogResult?> resolveP4kMirrorProviderFailure({
   required P4kMirrorUnavailable error,
   required Future<bool> Function(P4kMirrorUnavailable error) decideFallback,
@@ -33,6 +85,7 @@ class HomeP4kUpdateDialogUI extends StatefulWidget {
     required this.webCookie,
     this.libraryData = const {},
     this.onMirrorProviderError,
+    this.refreshReleaseSession,
   });
 
   final P4kDownloadSource source;
@@ -44,6 +97,9 @@ class HomeP4kUpdateDialogUI extends StatefulWidget {
   final Map libraryData;
   final Future<bool> Function(P4kMirrorUnavailable error)?
   onMirrorProviderError;
+
+  /// Signs in again to obtain freshly signed official URLs; null on failure.
+  final Future<P4kReleaseSession?> Function()? refreshReleaseSession;
 
   @override
   State<HomeP4kUpdateDialogUI> createState() => _HomeP4kUpdateDialogUIState();
@@ -104,7 +160,16 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   late final TextEditingController _manifestController;
   late final TextEditingController _baseController;
   late final TextEditingController _templateController;
-  late final _ReleaseUrls _releaseUrls;
+  late _ReleaseUrls _releaseUrls;
+  late Map _releaseInfo;
+  late String _webToken;
+  late String _webCookie;
+  late Map _libraryData;
+  Future<bool>? _signatureRefresh;
+  DateTime? _lastSignatureRefreshAt;
+  DateTime? _lastSignatureRefreshAttemptAt;
+  int _quickSignatureRefreshes = 0;
+  Timer? _signatureExpiryTimer;
   bool get _updateLooseFiles => true;
   bool _working = false;
   bool _paused = false;
@@ -131,10 +196,20 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   static const _threadOptions = [4, 8, 16, 32, 64, 96];
   static const _maxLogLines = 300;
   static const _progressLogInterval = Duration(seconds: 1);
+  static const _manifestSignatureMargin = Duration(minutes: 1);
+  static const _objectSignatureMargin = Duration(minutes: 10);
+  static const _signatureExpiryCheckInterval = Duration(minutes: 1);
+  static const _signatureRefreshRetryInterval = Duration(minutes: 5);
+  static const _quickSignatureRefreshWindow = Duration(minutes: 10);
+  static const _maxQuickSignatureRefreshes = 2;
 
   @override
   void initState() {
     super.initState();
+    _releaseInfo = widget.releaseInfo;
+    _webToken = widget.webToken;
+    _webCookie = widget.webCookie;
+    _libraryData = widget.libraryData;
     final urls = widget.source == P4kDownloadSource.official
         ? _extractReleaseUrls(widget.releaseInfo)
         : const _ReleaseUrls("", []);
@@ -165,6 +240,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
 
   @override
   void dispose() {
+    _stopSignatureExpiryTimer();
     _stopDownloadSpeedTimer();
     p4KUpgraderClearManifestCache();
     _manifestController.dispose();
@@ -355,7 +431,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         ),
         child: SingleChildScrollView(
           child: Text(
-            _status.isEmpty ? _formatReleaseInfo(widget.releaseInfo) : _status,
+            _status.isEmpty ? _formatReleaseInfo(_releaseInfo) : _status,
           ),
         ),
       );
@@ -399,12 +475,15 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _runEstimate(BuildContext context) async {
-    final config = _buildConfig();
-    if (config == null) return;
+    if (_buildConfig() == null) return;
     await _runTask(
       status: S.current.p4k_update_reading_inventory_and_estimating_updates,
       task: () async {
-        final outcome = await p4KUpgraderEstimate(config: config);
+        await _refreshExpiringSignatures();
+        var outcome = await p4KUpgraderEstimate(config: _requireConfig());
+        if (outcome.signedUrlRejected && await _refreshRejectedSignatures()) {
+          outcome = await p4KUpgraderEstimate(config: _requireConfig());
+        }
         if (outcome.mirrorUnavailable case final unavailable?) {
           throw unavailable;
         }
@@ -427,12 +506,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   Future<void> _runUpdate(BuildContext context) async {
     if (await _blockUpdateWhileLauncherIsRunning(context)) return;
     if (!mounted) return;
-    final config = _buildConfig();
-    if (config == null) return;
+    if (_buildConfig() == null) return;
     _prepareStagePlan(deepRepair: false);
     await _runUpdateWithProgressTask(
       this.context,
-      config,
       status:
           S.current.p4k_update_downloading_objects_game_files_and_patching_p4k,
       success: S.current.p4k_update_update_completed,
@@ -443,12 +520,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   Future<void> _runRepairMode(BuildContext context) async {
     if (await _blockUpdateWhileLauncherIsRunning(context)) return;
     if (!mounted) return;
-    final config = _buildConfig(deepVerify: true);
-    if (config == null) return;
+    if (_buildConfig(deepVerify: true) == null) return;
     _prepareStagePlan(deepRepair: true);
     await _runUpdateWithProgressTask(
       this.context,
-      config,
       status: S
           .current
           .p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i,
@@ -458,8 +533,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _runUpdateWithProgressTask(
-    BuildContext context,
-    P4kUpgraderConfig config, {
+    BuildContext context, {
     required String status,
     required String success,
     required bool deepRepair,
@@ -476,6 +550,8 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       task: () async {
         _paused = false;
         _cancelling = false;
+        await _refreshExpiringSignatures();
+        var config = _requireConfig(deepVerify: deepRepair);
         await Directory(widget.installPath).create(recursive: true);
         await LauncherPermissionHelper().fixDirectory(
           widget.installPath,
@@ -489,145 +565,28 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
           );
         }
         _startDownloadSpeedTimer();
-        final completer = Completer<void>();
-        late final StreamSubscription<P4kUpgraderProgressEvent> sub;
-        sub = p4KUpgraderUpdateWithProgress(config: config).listen(
-          (event) {
-            if (!mounted) return;
-            if (event.phase == "network_speed") {
-              _recordDownloadSpeedEvent(event);
-              return;
-            }
-            if (_cancelling && event.phase == "download_error") {
-              return;
-            }
-            final nowMillis = DateTime.now().millisecondsSinceEpoch;
-            final phaseChanged = _lastProgressEventPhase != event.phase;
-            _lastProgressEventPhase = event.phase;
-            _recordDownloadSpeedEvent(event);
-            final shouldAppendLog = _shouldAppendProgressLog(
-              event,
-              nowMillis,
-              phaseChanged: phaseChanged,
-            );
-            setState(() {
-              final progressValue = _overallProgressValue(event);
-              final stageText = _stageText(event);
-              _overallProgressPercent = progressValue;
-              if (shouldAppendLog) {
-                _appendLogLine(
-                  _formatProgressLog(event, stageText: stageText),
-                  isError:
-                      event.phase == "download_error" || event.phase == "error",
-                );
-              }
-              if (event.phase == "done") {
-                _status = S.current.p4k_update_update_completed_2(
-                  event.message,
-                );
-              } else if (event.phase == "cancelled") {
-                _status = S.current.p4k_update_canceled;
-                _cancelling = false;
-              } else if (event.phase == "error") {
-                _status = S.current.p4k_update_failure(event.message);
-              } else if (event.phase == "download_error") {
-                _status = S.current.p4k_update_download_failed_retrying(
-                  event.name,
-                );
-              } else if (event.phase == "writing") {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_writing(event.name),
-                );
-              } else if (event.phase == "disk_checking") {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_checking_disk_space,
-                );
-              } else if (event.phase == "p4k_diagnosing") {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_diagnosing_current_p4k,
-                );
-              } else if (event.phase == "repair_rebuilding") {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_in_depth_repair_of_p4k,
-                );
-              } else if (event.phase == "p4k_metadata") {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_updating_p4k_entry_metadata(event.name),
-                );
-              } else if (event.phase == "p4k_recovering_index") {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S
-                      .current
-                      .p4k_update_scanning_local_p4k_records_and_restoring_indexes,
-                );
-              } else if (event.phase == "loose_staging") {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_preparing_game_files(event.name),
-                );
-              } else if (event.phase == "loose_writing") {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_writing_game_file(event.name),
-                );
-              } else if (_isP4kWorkPhase(event.phase)) {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_processing_p4k,
-                );
-              } else if (_isVerifyPhase(event.phase)) {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_verifying(event.name),
-                );
-              } else {
-                _status = _statusWithStageText(
-                  event,
-                  stageText,
-                  S.current.p4k_update_downloading(event.name),
-                );
-              }
-            });
-            if (event.phase == "done") {
-              streamCompletedSuccessfully = true;
-              if (!completer.isCompleted) completer.complete();
-            } else if (event.phase == "cancelled") {
-              if (!completer.isCompleted) completer.complete();
-            } else if (event.phase == "error") {
-              if (!completer.isCompleted) {
-                completer.completeError(
-                  event.mirrorUnavailable ?? Exception(event.message),
-                );
-              }
-            }
-          },
-          onError: (Object error, StackTrace stackTrace) {
-            if (!completer.isCompleted) {
-              completer.completeError(error, stackTrace);
-            }
-          },
-          onDone: () {
-            if (!completer.isCompleted) completer.complete();
-          },
-        );
+        _startSignatureExpiryTimer();
         try {
-          await completer.future;
+          while (true) {
+            try {
+              streamCompletedSuccessfully = await _runUpgraderStream(config);
+              break;
+            } on _P4kSignedUrlRejected {
+              // The in-flight refresh timed out or its signatures were still
+              // rejected: restart with a new session. Written data resumes.
+              if (_cancelling || !await _refreshRejectedSignatures()) rethrow;
+              if (_cancelling) {
+                if (mounted) {
+                  setState(() {
+                    _status = S.current.p4k_update_canceled;
+                    _cancelling = false;
+                  });
+                }
+                break;
+              }
+              config = _requireConfig(deepVerify: deepRepair);
+            }
+          }
           if (streamCompletedSuccessfully && !_cancelling) {
             await _runPostInstallTasks(
               onEacRegistered: () async {
@@ -637,9 +596,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
             );
           }
         } finally {
+          _stopSignatureExpiryTimer();
           await eacPatchGuard?.rollback();
           _stopDownloadSpeedTimer();
-          await sub.cancel();
           if (mounted) {
             setState(() => _resetDownloadSpeedSampler());
           } else {
@@ -649,6 +608,300 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       },
       success: success,
       context: context,
+    );
+  }
+
+  /// Runs one upgrader pass. Returns true when it finished, false when it was
+  /// cancelled; throws on failure.
+  Future<bool> _runUpgraderStream(P4kUpgraderConfig config) async {
+    var completedSuccessfully = false;
+    final completer = Completer<void>();
+    final sub = p4KUpgraderUpdateWithProgress(config: config).listen(
+      (event) {
+        if (!mounted) return;
+        if (event.phase == "network_speed") {
+          _recordDownloadSpeedEvent(event);
+          return;
+        }
+        if (event.phase == _signedUrlRefreshPhase) {
+          if (!_cancelling) _refreshAndPushSignatures(rejected: true);
+          return;
+        }
+        if (_cancelling && event.phase == "download_error") {
+          return;
+        }
+        final nowMillis = DateTime.now().millisecondsSinceEpoch;
+        final phaseChanged = _lastProgressEventPhase != event.phase;
+        _lastProgressEventPhase = event.phase;
+        _recordDownloadSpeedEvent(event);
+        final shouldAppendLog = _shouldAppendProgressLog(
+          event,
+          nowMillis,
+          phaseChanged: phaseChanged,
+        );
+        setState(() {
+          final progressValue = _overallProgressValue(event);
+          final stageText = _stageText(event);
+          _overallProgressPercent = progressValue;
+          if (shouldAppendLog) {
+            _appendLogLine(
+              _formatProgressLog(event, stageText: stageText),
+              isError:
+                  event.phase == "download_error" || event.phase == "error",
+            );
+          }
+          if (event.phase == "done") {
+            _status = S.current.p4k_update_update_completed_2(event.message);
+          } else if (event.phase == "cancelled") {
+            _status = S.current.p4k_update_canceled;
+            _cancelling = false;
+          } else if (event.phase == "error") {
+            _status = S.current.p4k_update_failure(event.message);
+          } else if (event.phase == "download_error") {
+            _status = S.current.p4k_update_download_failed_retrying(event.name);
+          } else if (event.phase == "writing") {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_writing(event.name),
+            );
+          } else if (event.phase == "disk_checking") {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_checking_disk_space,
+            );
+          } else if (event.phase == "p4k_diagnosing") {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_diagnosing_current_p4k,
+            );
+          } else if (event.phase == "repair_rebuilding") {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_in_depth_repair_of_p4k,
+            );
+          } else if (event.phase == "p4k_metadata") {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_updating_p4k_entry_metadata(event.name),
+            );
+          } else if (event.phase == "p4k_recovering_index") {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S
+                  .current
+                  .p4k_update_scanning_local_p4k_records_and_restoring_indexes,
+            );
+          } else if (event.phase == "loose_staging") {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_preparing_game_files(event.name),
+            );
+          } else if (event.phase == "loose_writing") {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_writing_game_file(event.name),
+            );
+          } else if (_isP4kWorkPhase(event.phase)) {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_processing_p4k,
+            );
+          } else if (_isVerifyPhase(event.phase)) {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_verifying(event.name),
+            );
+          } else {
+            _status = _statusWithStageText(
+              event,
+              stageText,
+              S.current.p4k_update_downloading(event.name),
+            );
+          }
+        });
+        if (event.phase == "done") {
+          completedSuccessfully = true;
+          if (!completer.isCompleted) completer.complete();
+        } else if (event.phase == "cancelled") {
+          if (!completer.isCompleted) completer.complete();
+        } else if (event.phase == "error") {
+          if (!completer.isCompleted) {
+            completer.completeError(
+              event.signedUrlRejected
+                  ? _P4kSignedUrlRejected(event.message)
+                  : event.mirrorUnavailable ?? Exception(event.message),
+            );
+          }
+        }
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        if (!completer.isCompleted) {
+          completer.completeError(error, stackTrace);
+        }
+      },
+      onDone: () {
+        if (!completer.isCompleted) completer.complete();
+      },
+    );
+    try {
+      await completer.future;
+    } finally {
+      await sub.cancel();
+    }
+    return completedSuccessfully;
+  }
+
+  P4kUpgraderConfig _requireConfig({bool deepVerify = false}) {
+    final config = _buildConfig(deepVerify: deepVerify);
+    if (config == null) throw Exception(_status);
+    return config;
+  }
+
+  List<String> get _objectSignedUrls => [
+    ..._splitLines(_baseController.text),
+    _releaseUrls.p4kBaseUrl,
+    _releaseUrls.p4kBaseVerificationUrl,
+  ].where((url) => url.isNotEmpty).toList();
+
+  List<String> get _allSignedUrls => [
+    _manifestController.text.trim(),
+    ..._objectSignedUrls,
+  ].where((url) => url.isNotEmpty).toList();
+
+  bool get _canRefreshSignatures =>
+      widget.source == P4kDownloadSource.official &&
+      widget.refreshReleaseSession != null;
+
+  /// Refreshes before starting work so a stale login does not fail the run.
+  Future<void> _refreshExpiringSignatures() async {
+    if (!_canRefreshSignatures) return;
+    final expiring =
+        p4kSignedUrlsExpireWithin([
+          _manifestController.text.trim(),
+        ], _manifestSignatureMargin) ||
+        p4kSignedUrlsExpireWithin(_objectSignedUrls, _objectSignatureMargin);
+    if (expiring) await _refreshSignatures();
+  }
+
+  /// Object signatures last ~1.5 h; renew them before they expire so the
+  /// running downloader never has to stall on a rejection.
+  void _startSignatureExpiryTimer() {
+    _stopSignatureExpiryTimer();
+    if (!_canRefreshSignatures) return;
+    _signatureExpiryTimer = Timer.periodic(_signatureExpiryCheckInterval, (_) {
+      if (_cancelling || _paused || _signatureRefresh != null) return;
+      final lastAttempt = _lastSignatureRefreshAttemptAt;
+      if (lastAttempt != null &&
+          DateTime.now().difference(lastAttempt) <
+              _signatureRefreshRetryInterval) {
+        return;
+      }
+      if (p4kSignedUrlsExpireWithin(
+        _objectSignedUrls,
+        _objectSignatureMargin,
+      )) {
+        _refreshAndPushSignatures();
+      }
+    });
+  }
+
+  void _stopSignatureExpiryTimer() {
+    _signatureExpiryTimer?.cancel();
+    _signatureExpiryTimer = null;
+  }
+
+  /// Fetches a new session and hands its signatures to the running upgrader,
+  /// which resumes any worker waiting on a rejected URL.
+  Future<void> _refreshAndPushSignatures({bool rejected = false}) async {
+    final refreshed = rejected
+        ? await _refreshRejectedSignatures()
+        : await _refreshSignatures();
+    if (!refreshed || !mounted || _cancelling) return;
+    p4KUpgraderUpdateSignedUrls(urls: _allSignedUrls);
+  }
+
+  /// A rejection shortly after a refresh means fresh signatures fail too
+  /// (for example login and download leave through different IPs), so stop
+  /// after a few such refreshes instead of looping.
+  Future<bool> _refreshRejectedSignatures() async {
+    if (!_canRefreshSignatures) return false;
+    final last = _lastSignatureRefreshAt;
+    final quick =
+        last != null &&
+        DateTime.now().difference(last) < _quickSignatureRefreshWindow;
+    _quickSignatureRefreshes = quick ? _quickSignatureRefreshes + 1 : 0;
+    if (_quickSignatureRefreshes >= _maxQuickSignatureRefreshes) {
+      _appendRefreshLog(
+        S.current.p4k_update_download_signature_refresh_failed,
+        isError: true,
+      );
+      return false;
+    }
+    return _refreshSignatures();
+  }
+
+  Future<bool> _refreshSignatures() {
+    return _signatureRefresh ??= _fetchFreshSession().whenComplete(
+      () => _signatureRefresh = null,
+    );
+  }
+
+  Future<bool> _fetchFreshSession() async {
+    final refresh = widget.refreshReleaseSession;
+    if (refresh == null || !_canRefreshSignatures) return false;
+    _lastSignatureRefreshAttemptAt = DateTime.now();
+    _appendRefreshLog(S.current.p4k_update_refreshing_download_signature);
+    P4kReleaseSession? session;
+    try {
+      session = await refresh();
+    } catch (error) {
+      _appendRefreshLog(error.toString(), isError: true);
+    }
+    final urls = session == null
+        ? null
+        : _extractReleaseUrls(session.releaseInfo);
+    if (session == null ||
+        urls == null ||
+        (urls.manifestUrl.isEmpty && urls.objectBases.isEmpty)) {
+      _appendRefreshLog(
+        S.current.p4k_update_download_signature_refresh_failed,
+        isError: true,
+      );
+      return false;
+    }
+    _lastSignatureRefreshAt = DateTime.now();
+    _printExtractedReleaseUrls(urls);
+    if (!mounted) return false;
+    final fresh = session;
+    setState(() {
+      _releaseInfo = fresh.releaseInfo;
+      _webToken = fresh.webToken;
+      _webCookie = fresh.webCookie;
+      _libraryData = fresh.libraryData;
+      _releaseUrls = urls;
+      _manifestController.text = urls.manifestUrl;
+      _baseController.text = urls.objectBases.join('\n');
+      _appendLogLine(
+        '${_simpleLogTime()} ${S.current.p4k_update_download_signature_refreshed}',
+      );
+    });
+    return true;
+  }
+
+  void _appendRefreshLog(String message, {bool isError = false}) {
+    if (!mounted) return;
+    setState(
+      () => _appendLogLine('${_simpleLogTime()} $message', isError: isError),
     );
   }
 
@@ -807,8 +1060,8 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       p4kBaseUrl: _releaseUrls.p4kBaseUrl,
       p4kBaseVerificationUrl: _releaseUrls.p4kBaseVerificationUrl,
       objectPathTemplates: _splitLines(_templateController.text),
-      requestCookie: widget.webCookie,
-      rsiToken: widget.webToken,
+      requestCookie: _webCookie,
+      rsiToken: _webToken,
       cacheDir: _joinInstallPath('.p4k_upgrader'),
       gameDir: widget.installPath,
       deepVerify: deepVerify,
@@ -1119,7 +1372,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       stageText,
       S.current.p4k_update_synchronizing_launcher_installation_status,
     );
-    if (widget.releaseInfo.isEmpty) {
+    if (_releaseInfo.isEmpty) {
       _setPostInstallStatus(
         stageText,
         'RSI Launcher store sync skipped: official release metadata is missing',
@@ -1149,8 +1402,8 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       final result = await RsiLauncherStoreService().syncInstalledChannel(
         storeFile: storeCandidates.first,
         gameDirectory: widget.installPath,
-        releaseInfo: widget.releaseInfo,
-        libraryData: widget.libraryData,
+        releaseInfo: _releaseInfo,
+        libraryData: _libraryData,
       );
       final backupSuffix = result.backupPath == null
           ? ''

@@ -76,7 +76,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0-beta.5';
 
   @override
-  int get rustContentHash => 1638692502;
+  int get rustContentHash => -1786636113;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -492,6 +492,10 @@ abstract class RustLibApi extends BaseApi {
 
   Future<String> crateApiP4KUpgraderApiP4KUpgraderUpdate({
     required P4kUpgraderConfig config,
+  });
+
+  BigInt crateApiP4KUpgraderApiP4KUpgraderUpdateSignedUrls({
+    required List<String> urls,
   });
 
   Stream<P4kUpgraderProgressEvent>
@@ -3878,6 +3882,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  BigInt crateApiP4KUpgraderApiP4KUpgraderUpdateSignedUrls({
+    required List<String> urls,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_list_String(urls);
+          return wire
+              .wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls(
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_usize,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiP4KUpgraderApiP4KUpgraderUpdateSignedUrlsConstMeta,
+        argValues: [urls],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiP4KUpgraderApiP4KUpgraderUpdateSignedUrlsConstMeta =>
+      const TaskConstMeta(
+        debugName: "p4k_upgrader_update_signed_urls",
+        argNames: ["urls"],
+      );
+
+  @override
   Stream<P4kUpgraderProgressEvent>
   crateApiP4KUpgraderApiP4KUpgraderUpdateWithProgress({
     required P4kUpgraderConfig config,
@@ -5713,14 +5748,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
     return P4kUpgraderEstimateOutcome(
       report: dco_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(arr[0]),
       mirrorUnavailable: dco_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
         arr[1],
       ),
       errorMessage: dco_decode_opt_String(arr[2]),
+      signedUrlRejected: dco_decode_bool(arr[3]),
     );
   }
 
@@ -5754,8 +5790,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 10)
-      throw Exception('unexpected arr length: expect 10 but see ${arr.length}');
+    if (arr.length != 11)
+      throw Exception('unexpected arr length: expect 11 but see ${arr.length}');
     return P4kUpgraderProgressEvent(
       phase: dco_decode_String(arr[0]),
       name: dco_decode_String(arr[1]),
@@ -5769,6 +5805,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       mirrorUnavailable: dco_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
         arr[9],
       ),
+      signedUrlRejected: dco_decode_bool(arr[10]),
     );
   }
 
@@ -6970,10 +7007,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_mirrorUnavailable =
         sse_decode_opt_box_autoadd_p_4_k_mirror_unavailable(deserializer);
     var var_errorMessage = sse_decode_opt_String(deserializer);
+    var var_signedUrlRejected = sse_decode_bool(deserializer);
     return P4kUpgraderEstimateOutcome(
       report: var_report,
       mirrorUnavailable: var_mirrorUnavailable,
       errorMessage: var_errorMessage,
+      signedUrlRejected: var_signedUrlRejected,
     );
   }
 
@@ -7028,6 +7067,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_message = sse_decode_String(deserializer);
     var var_mirrorUnavailable =
         sse_decode_opt_box_autoadd_p_4_k_mirror_unavailable(deserializer);
+    var var_signedUrlRejected = sse_decode_bool(deserializer);
     return P4kUpgraderProgressEvent(
       phase: var_phase,
       name: var_name,
@@ -7039,6 +7079,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       threadLimit: var_threadLimit,
       message: var_message,
       mirrorUnavailable: var_mirrorUnavailable,
+      signedUrlRejected: var_signedUrlRejected,
     );
   }
 
@@ -8310,6 +8351,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       serializer,
     );
     sse_encode_opt_String(self.errorMessage, serializer);
+    sse_encode_bool(self.signedUrlRejected, serializer);
   }
 
   @protected
@@ -8351,6 +8393,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       self.mirrorUnavailable,
       serializer,
     );
+    sse_encode_bool(self.signedUrlRejected, serializer);
   }
 
   @protected

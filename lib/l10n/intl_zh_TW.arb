@@ -321,6 +321,8 @@
   "@home_localization_new_version_installed": {},
   "home_info_valid_installation_required": "該功能需要一個有效的安裝位置",
   "@home_info_valid_installation_required": {},
+  "home_info_one_click_launch_live_only": "快速啟動目前僅支援 LIVE 版本，其他版本請透過 RSI Launcher 啟動",
+  "@home_info_one_click_launch_live_only": {},
   "home_info_one_click_launch_warning": "快速啟動功能提示",
   "@home_info_one_click_launch_warning": {},
   "home_info_account_security_warning": "為確保帳戶安全，快速啟動功能已在Dev版本中禁用，我們將在Microsoft Store版本中提供此功能。\n\nMicrosoft Store版由Microsoft提供可靠的分發下載與數位簽章，可有效防止軟體被惡意篡改。\n\n提示：您無需使用工具箱啟動遊戲也可使用社群翻譯。",
@@ -1880,6 +1882,12 @@
       "v0": {}
     }
   },
+  "p4k_update_refreshing_download_signature": "下載簽名即將或已經過期，正在重新登入 RSI 帳號取得新簽名…",
+  "@p4k_update_refreshing_download_signature": {},
+  "p4k_update_download_signature_refreshed": "已取得新的下載簽名，下載將繼續（已下載的進度會保留）",
+  "@p4k_update_download_signature_refreshed": {},
+  "p4k_update_download_signature_refresh_failed": "自動刷新下載簽名失敗，請關閉此視窗並重新登入後重試（已下載的進度會保留）",
+  "@p4k_update_download_signature_refresh_failed": {},
   "p4k_update_writing": "正在寫入：{v0}",
   "@p4k_update_writing": {
     "placeholders": {

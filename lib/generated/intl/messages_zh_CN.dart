@@ -1015,6 +1015,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
       "为确保账户安全，一键启动功能已在开发版中禁用，我们将在微软商店版本中提供此功能。\n\n微软商店版由微软提供可靠的分发下载与数字签名，可有效防止软件被恶意篡改。\n\n提示：您无需使用盒子启动游戏也可使用汉化。",
     ),
+    "home_info_one_click_launch_live_only":
+        MessageLookupByLibrary.simpleMessage(
+          "一键启动目前仅支持 LIVE 版本，其他版本请通过 RSI Launcher 启动",
+        ),
     "home_info_one_click_launch_warning": MessageLookupByLibrary.simpleMessage(
       "一键启动功能提示",
     ),
@@ -1474,6 +1478,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_download_game_files": MessageLookupByLibrary.simpleMessage(
       "下载游戏文件",
     ),
+    "p4k_update_download_signature_refresh_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "自动刷新下载签名失败，请关闭此窗口并重新登录后重试（已下载的进度会保留）",
+        ),
+    "p4k_update_download_signature_refreshed":
+        MessageLookupByLibrary.simpleMessage("已获取新的下载签名，下载将继续（已下载的进度会保留）"),
     "p4k_update_download_speed": m76,
     "p4k_update_download_verify_basics_p4k":
         MessageLookupByLibrary.simpleMessage("下载/校验基础 P4K"),
@@ -1541,6 +1551,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "p4k_update_reading_inventory_and_estimating_updates":
         MessageLookupByLibrary.simpleMessage("正在读取清单并估算更新量..."),
+    "p4k_update_refreshing_download_signature":
+        MessageLookupByLibrary.simpleMessage("下载签名即将或已经过期，正在重新登录 RSI 账号获取新签名…"),
     "p4k_update_register_eac_and_sync_launcher_state":
         MessageLookupByLibrary.simpleMessage("注册 EAC 并同步启动器状态"),
     "p4k_update_registering_eac_and_syncing_launcher_state":

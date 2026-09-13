@@ -321,6 +321,8 @@
   "@home_localization_new_version_installed": {},
   "home_info_valid_installation_required": "この機能には有効なインストール場所が必要です",
   "@home_info_valid_installation_required": {},
+  "home_info_one_click_launch_live_only": "ワンクリック起動は現在 LIVE のみ対応しています。その他のチャンネルは RSI Launcher から起動してください。",
+  "@home_info_one_click_launch_live_only": {},
   "home_info_one_click_launch_warning": "ワンクリック起動機能の注意",
   "@home_info_one_click_launch_warning": {},
   "home_info_account_security_warning": "アカウントセキュリティを確保するため、ワンクリック起動機能は開発版では無効化されています。この機能はMicrosoft Storeバージョンで提供される予定です。\n\nMicrosoft Storeバージョンは、Microsoftが信頼性の高い配布ダウンロードとデジタル署名を提供し、ソフトウェアが悪意を持って改ざんされるのを効果的に防ぎます。\n\nヒント：ゲームの起動にツールボックスを使用しなくても、ローカリゼーションを使用できます。",
@@ -1953,6 +1955,12 @@
       "v0": {}
     }
   },
+  "p4k_update_refreshing_download_signature": "ダウンロード署名の期限が近いか切れたため、RSI に再ログインして新しい署名を取得しています…",
+  "@p4k_update_refreshing_download_signature": {},
+  "p4k_update_download_signature_refreshed": "新しいダウンロード署名を取得しました。ダウンロードを続行します（ダウンロード済みの進捗は保持されます）",
+  "@p4k_update_download_signature_refreshed": {},
+  "p4k_update_download_signature_refresh_failed": "ダウンロード署名の自動更新に失敗しました。このウィンドウを閉じて再ログインし、もう一度お試しください（ダウンロード済みの進捗は保持されます）",
+  "@p4k_update_download_signature_refresh_failed": {},
   "p4k_update_writing": "書き込み: {v0}",
   "@p4k_update_writing": {
     "placeholders": {

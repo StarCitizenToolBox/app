@@ -41,7 +41,7 @@ final class HomeUIModelProvider
   }
 }
 
-String _$homeUIModelHash() => r'3cc98cf41c692ca76f9c31ea75228696aed5ef69';
+String _$homeUIModelHash() => r'be22b3e9cf6ec8ce2d51424cf59e57d1df78d03a';
 
 abstract class _$HomeUIModel extends $Notifier<HomeUIModelState> {
   HomeUIModelState build();

@@ -30,8 +30,9 @@ pub use archive::{
 };
 #[cfg(not(has_closed_p4k_upgrader))]
 pub use config::{
-    cancel_update, pause_update, reset_update_control, resume_update, set_download_thread_limit,
-    Config, DownloadSource, ProgressEvent, ProgressReporter,
+    cancel_update, is_signed_url_rejection, pause_update, reset_update_control, resume_update,
+    set_download_thread_limit, update_signed_urls, Config, DownloadSource, ProgressEvent,
+    ProgressReporter, SIGNED_URL_REFRESH_PHASE,
 };
 #[cfg(not(has_closed_p4k_upgrader))]
 pub use error::{Error, MirrorUnavailable, MirrorUnavailableReason, Result};

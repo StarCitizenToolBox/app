@@ -1640,6 +1640,16 @@ class S {
     );
   }
 
+  /// `One-click launch currently supports LIVE only. Please launch other channels from the RSI Launcher.`
+  String get home_info_one_click_launch_live_only {
+    return Intl.message(
+      'One-click launch currently supports LIVE only. Please launch other channels from the RSI Launcher.',
+      name: 'home_info_one_click_launch_live_only',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `One-click launch feature notice`
   String get home_info_one_click_launch_warning {
     return Intl.message(
@@ -10399,6 +10409,36 @@ class S {
       name: 'p4k_update_download_failed_retrying',
       desc: '',
       args: [v0],
+    );
+  }
+
+  /// `The download signature is expiring or has expired. Signing in to RSI again for a new one…`
+  String get p4k_update_refreshing_download_signature {
+    return Intl.message(
+      'The download signature is expiring or has expired. Signing in to RSI again for a new one…',
+      name: 'p4k_update_refreshing_download_signature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New download signature obtained. The download continues (downloaded progress is kept)`
+  String get p4k_update_download_signature_refreshed {
+    return Intl.message(
+      'New download signature obtained. The download continues (downloaded progress is kept)',
+      name: 'p4k_update_download_signature_refreshed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to refresh the download signature automatically. Close this window, sign in again and retry (downloaded progress is kept)`
+  String get p4k_update_download_signature_refresh_failed {
+    return Intl.message(
+      'Failed to refresh the download signature automatically. Close this window, sign in again and retry (downloaded progress is kept)',
+      name: 'p4k_update_download_signature_refresh_failed',
+      desc: '',
+      args: [],
     );
   }
 

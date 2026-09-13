@@ -6,7 +6,7 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `cancelled`, `done`, `elapsed_since_last_emit`, `emit`, `error`, `events_to_emit`, `from_anyhow`, `from_upgrader`, `has_meaningful_delta`, `is_completion`, `is_important`, `is_terminal`, `map_mirror_unavailable`, `new`, `normal_update_error_message`, `pending_differs_from`, `record_emitted`, `report_progress`, `same_progress_position`, `should_discard_pending_before_terminal`, `to_upgrader_config`
+// These functions are ignored because they are not marked as `pub`: `cancelled`, `done`, `elapsed_since_last_emit`, `emit`, `error`, `events_to_emit`, `from_anyhow`, `from_upgrader`, `has_meaningful_delta`, `is_completion`, `is_important`, `is_terminal`, `map_mirror_unavailable`, `new`, `normal_update_error_message`, `pending_differs_from`, `record_emitted`, `report_progress`, `same_progress_position`, `should_discard_pending_before_terminal`, `signed_url_rejection_message`, `to_upgrader_config`
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ProgressEventCoalescerState`, `ProgressEventCoalescer`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
 // These functions are ignored (category: IgnoreBecauseOwnerTyShouldIgnore): `default`
@@ -52,6 +52,14 @@ void p4KUpgraderCancel() =>
 
 void p4KUpgraderClearManifestCache() =>
     RustLib.instance.api.crateApiP4KUpgraderApiP4KUpgraderClearManifestCache();
+
+/// Pushes freshly signed manifest/object/base URLs into a running update.
+/// Workers waiting after a `signed_url_refresh_required` event resume with
+/// them. Returns the number of accepted URLs.
+BigInt p4KUpgraderUpdateSignedUrls({required List<String> urls}) => RustLib
+    .instance
+    .api
+    .crateApiP4KUpgraderApiP4KUpgraderUpdateSignedUrls(urls: urls);
 
 enum P4kDownloadSource { official, communityMirror }
 
@@ -214,15 +222,23 @@ class P4kUpgraderEstimateOutcome {
   final P4kMirrorUnavailable? mirrorUnavailable;
   final String? errorMessage;
 
+  /// The official CDN rejected an expired or IP-mismatched signed URL; the
+  /// caller should fetch a fresh releaseInfo instead of retrying as-is.
+  final bool signedUrlRejected;
+
   const P4kUpgraderEstimateOutcome({
     this.report,
     this.mirrorUnavailable,
     this.errorMessage,
+    required this.signedUrlRejected,
   });
 
   @override
   int get hashCode =>
-      report.hashCode ^ mirrorUnavailable.hashCode ^ errorMessage.hashCode;
+      report.hashCode ^
+      mirrorUnavailable.hashCode ^
+      errorMessage.hashCode ^
+      signedUrlRejected.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -231,7 +247,8 @@ class P4kUpgraderEstimateOutcome {
           runtimeType == other.runtimeType &&
           report == other.report &&
           mirrorUnavailable == other.mirrorUnavailable &&
-          errorMessage == other.errorMessage;
+          errorMessage == other.errorMessage &&
+          signedUrlRejected == other.signedUrlRejected;
 }
 
 class P4kUpgraderEstimateReport {
@@ -316,6 +333,9 @@ class P4kUpgraderProgressEvent {
   final String message;
   final P4kMirrorUnavailable? mirrorUnavailable;
 
+  /// Set on terminal errors caused by an expired or IP-mismatched signed URL.
+  final bool signedUrlRejected;
+
   const P4kUpgraderProgressEvent({
     required this.phase,
     required this.name,
@@ -327,6 +347,7 @@ class P4kUpgraderProgressEvent {
     required this.threadLimit,
     required this.message,
     this.mirrorUnavailable,
+    required this.signedUrlRejected,
   });
 
   @override
@@ -340,7 +361,8 @@ class P4kUpgraderProgressEvent {
       activeDownloads.hashCode ^
       threadLimit.hashCode ^
       message.hashCode ^
-      mirrorUnavailable.hashCode;
+      mirrorUnavailable.hashCode ^
+      signedUrlRejected.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -356,5 +378,6 @@ class P4kUpgraderProgressEvent {
           activeDownloads == other.activeDownloads &&
           threadLimit == other.threadLimit &&
           message == other.message &&
-          mirrorUnavailable == other.mirrorUnavailable;
+          mirrorUnavailable == other.mirrorUnavailable &&
+          signedUrlRejected == other.signedUrlRejected;
 }

@@ -1095,6 +1095,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "home_info_account_security_warning": MessageLookupByLibrary.simpleMessage(
       "Для обеспечения безопасности аккаунта функция запуска в один клик отключена в версии для разработчиков. Мы предоставим эту функцию в версии из Microsoft Store.\n\nMicrosoft Store обеспечивает надежную загрузку и цифровую подпись, что эффективно защищает от несанкционированного доступа к программному обеспечению.\n\nПодсказка: Вы можете использовать локализацию без запуска игры через SCToolbox.",
     ),
+    "home_info_one_click_launch_live_only":
+        MessageLookupByLibrary.simpleMessage(
+          "Запуск в один клик сейчас поддерживает только LIVE. Другие каналы запускайте через RSI Launcher.",
+        ),
     "home_info_one_click_launch_warning": MessageLookupByLibrary.simpleMessage(
       "Предупреждение о функции запуска в один клик",
     ),
@@ -1624,6 +1628,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_download_game_files": MessageLookupByLibrary.simpleMessage(
       "Скачать файлы игры",
     ),
+    "p4k_update_download_signature_refresh_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "Не удалось автоматически обновить подпись загрузки. Закройте это окно, войдите снова и повторите попытку (загруженные данные сохраняются)",
+        ),
+    "p4k_update_download_signature_refreshed":
+        MessageLookupByLibrary.simpleMessage(
+          "Получена новая подпись загрузки, загрузка продолжается (загруженные данные сохраняются)",
+        ),
     "p4k_update_download_speed": m76,
     "p4k_update_download_verify_basics_p4k":
         MessageLookupByLibrary.simpleMessage("Загрузить/проверить базовый P4K"),
@@ -1708,6 +1720,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_reading_inventory_and_estimating_updates":
         MessageLookupByLibrary.simpleMessage(
           "Чтение инвентаря и оценка обновлений...",
+        ),
+    "p4k_update_refreshing_download_signature":
+        MessageLookupByLibrary.simpleMessage(
+          "Срок действия подписи загрузки истекает или истёк. Выполняется повторный вход в RSI для получения новой…",
         ),
     "p4k_update_register_eac_and_sync_launcher_state":
         MessageLookupByLibrary.simpleMessage(
