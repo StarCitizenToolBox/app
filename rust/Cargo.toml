@@ -104,7 +104,7 @@ p4k_upgrader = { path = "../packages/p4k_upgrader" }
 # WebView
 [target.'cfg(not(target_os = "macos"))'.dependencies]
 wry = "0.56.0"
-tao = { version = "0.36.0", features = ["serde"] }
+tao = { version = "0.37.0", features = ["serde"] }
 image = { version = "0.25.10", default-features = false, features = ["ico"] }
 
 [target.'cfg(windows)'.dependencies]
