@@ -2583,9 +2583,9 @@ checksum = "8babf46d4c1c9d92deac9f7be466f76dfc4482b6452fc5024b5e8daf6ffeb3ee"
 
 [[package]]
 name = "glam"
-version = "0.33.3"
+version = "0.33.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7360bd2cd76e0cd9032d42cf2922155cecea2685b0cfa4630c3246df030bcfd6"
+checksum = "e762b9b188634fc508d4ec54b62ea3d352c43fd431d18d05d46f559f217f4725"
 
 [[package]]
 name = "glib"
@@ -5958,7 +5958,7 @@ dependencies = [
  "flutter_rust_bridge",
  "futures",
  "futures-lite",
- "glam 0.33.3",
+ "glam 0.33.7",
  "gltf",
  "gltf-json",
  "hickory-resolver",
