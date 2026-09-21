@@ -371,25 +371,23 @@ class PartyRoomListPage extends HookConsumerWidget {
             clipBehavior: Clip.hardEdge,
             child: Stack(
               children: [
-                // 背景图片
+                // 背景图片（模糊图片本身；BackdropFilter 会随动态背景每帧重算）
                 if (avatarUrl.isNotEmpty)
                   Positioned.fill(
-                    child: CacheNetImage(url: avatarUrl, fit: BoxFit.cover),
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(
+                        sigmaX: 15.0,
+                        sigmaY: 15.0,
+                        tileMode: TileMode.clamp,
+                      ),
+                      child: CacheNetImage(url: avatarUrl, fit: BoxFit.cover),
+                    ),
                   ),
                 // 黑色遮罩
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.6),
-                    ),
-                  ),
-                ),
-                // 模糊效果
-                Positioned.fill(
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
-                      child: Container(color: Colors.transparent),
                     ),
                   ),
                 ),

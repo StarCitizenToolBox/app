@@ -110,28 +110,27 @@ class NavUI extends HookConsumerWidget {
                   clipBehavior: Clip.hardEdge,
                   child: Stack(
                     children: [
+                      // Blur the cover itself rather than a BackdropFilter:
+                      // a backdrop blur re-samples the animated background
+                      // on every frame, one full blur per card.
                       Center(
-                        child: CacheNetImage(
-                          height: itemHeight,
-                          width: double.infinity,
-                          url: itemImage,
-                          fit: BoxFit.fitWidth,
+                        child: ImageFiltered(
+                          imageFilter: ImageFilter.blur(
+                            sigmaX: 15.0,
+                            sigmaY: 15.0,
+                            tileMode: TileMode.clamp,
+                          ),
+                          child: CacheNetImage(
+                            height: itemHeight,
+                            width: double.infinity,
+                            url: itemImage,
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.black.withValues(alpha: .55),
-                        ),
-                      ),
-                      ClipRect(
-                        clipBehavior: Clip.hardEdge,
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
-                          blendMode: BlendMode.srcOver,
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: itemHeight,
-                          ),
                         ),
                       ),
                       Container(
