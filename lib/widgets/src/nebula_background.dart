@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'dialog_move_area.dart';
+
 /// Shared state of the nebula, so the window background and every
 /// [NebulaDecoration] (dialogs) drift and follow the window together.
 class NebulaClock {
@@ -26,6 +28,10 @@ class NebulaClock {
 /// shifts it against the window position while the window is dragged, so it
 /// reads as a backdrop that stays put behind a moving window.
 /// With [animated] off it paints a single static frame.
+///
+/// The drift also pauses while a dialog is open, the window is unfocused or
+/// minimised: every animated frame recomposites the whole window, including
+/// costly layers such as dialog shadows.
 ///
 /// It drives [NebulaClock], so mount only one per window.
 class NebulaBackground extends StatefulWidget {
@@ -49,14 +55,17 @@ class _NebulaBackgroundState extends State<NebulaBackground>
   static const _frameInterval = Duration(milliseconds: 33);
 
   late final Ticker _ticker = createTicker(_onTick);
+  final _openDialogs = DialogRouteObserver.instance.openDialogs;
   Duration _lastFrame = Duration.zero;
   bool _minimized = false;
+  bool _focused = true;
 
   bool get _tracking => widget.animated && widget.trackWindow;
 
   @override
   void initState() {
     super.initState();
+    _openDialogs.addListener(_updateTicker);
     _applyConfig();
   }
 
@@ -71,8 +80,11 @@ class _NebulaBackgroundState extends State<NebulaBackground>
 
   void _applyConfig() {
     windowManager.removeListener(this);
-    if (_tracking) {
+    if (widget.animated) {
       windowManager.addListener(this);
+      _syncFocus();
+    }
+    if (_tracking) {
       _syncWindowPosition();
     } else {
       NebulaClock.windowOffset.value = Offset.zero;
@@ -81,7 +93,8 @@ class _NebulaBackgroundState extends State<NebulaBackground>
   }
 
   void _updateTicker() {
-    final shouldRun = widget.animated && !_minimized;
+    final shouldRun =
+        widget.animated && !_minimized && _focused && _openDialogs.value == 0;
     if (shouldRun && !_ticker.isActive) {
       _lastFrame = Duration.zero;
       _ticker.start();
@@ -105,11 +118,38 @@ class _NebulaBackgroundState extends State<NebulaBackground>
     }
   }
 
-  @override
-  void onWindowMove() => _syncWindowPosition();
+  Future<void> _syncFocus() async {
+    try {
+      final focused = await windowManager.isFocused();
+      if (!mounted) return;
+      _focused = focused;
+      _updateTicker();
+    } catch (_) {
+      // Assume focused; the focus/blur events will correct it.
+    }
+  }
 
   @override
-  void onWindowMoved() => _syncWindowPosition();
+  void onWindowFocus() {
+    _focused = true;
+    _updateTicker();
+  }
+
+  @override
+  void onWindowBlur() {
+    _focused = false;
+    _updateTicker();
+  }
+
+  @override
+  void onWindowMove() {
+    if (_tracking) _syncWindowPosition();
+  }
+
+  @override
+  void onWindowMoved() {
+    if (_tracking) _syncWindowPosition();
+  }
 
   @override
   void onWindowMinimize() {
@@ -121,11 +161,12 @@ class _NebulaBackgroundState extends State<NebulaBackground>
   void onWindowRestore() {
     _minimized = false;
     _updateTicker();
-    _syncWindowPosition();
+    if (_tracking) _syncWindowPosition();
   }
 
   @override
   void dispose() {
+    _openDialogs.removeListener(_updateTicker);
     windowManager.removeListener(this);
     _ticker.dispose();
     super.dispose();
@@ -146,8 +187,13 @@ class _NebulaPainter extends CustomPainter {
   _NebulaPainter() : super(repaint: NebulaClock.listenable);
 
   @override
-  void paint(Canvas canvas, Size size) =>
-      paintNebula(canvas, Offset.zero & size);
+  void paint(Canvas canvas, Size size) {
+    if (size.isEmpty) return;
+    // The recorded picture keeps the image alive; release our handle now.
+    final image = _renderNebulaImage(size);
+    _drawUpscaled(canvas, image, Offset.zero & size);
+    image.dispose();
+  }
 
   @override
   bool shouldRepaint(_NebulaPainter oldDelegate) => false;
@@ -155,7 +201,10 @@ class _NebulaPainter extends CustomPainter {
 
 /// A dialog/panel background that paints the nebula inside its rounded box,
 /// covered by [tint] so it reads calmer than the window background.
-/// Animates with [NebulaClock].
+///
+/// The nebula is a still frame taken when the box is first painted (or
+/// resized): animating it would repaint the whole dialog content with every
+/// tick, since a decoration cannot sit in a layer of its own.
 class NebulaDecoration extends Decoration {
   const NebulaDecoration({
     required this.tint,
@@ -196,11 +245,11 @@ class NebulaDecoration extends Decoration {
 }
 
 class _NebulaBoxPainter extends BoxPainter {
-  _NebulaBoxPainter(this.decoration, super.onChanged) {
-    if (onChanged != null) NebulaClock.listenable.addListener(onChanged!);
-  }
+  _NebulaBoxPainter(this.decoration, super.onChanged);
 
   final NebulaDecoration decoration;
+  ui.Image? _image;
+  Size? _imageSize;
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
@@ -216,9 +265,15 @@ class _NebulaBoxPainter extends BoxPainter {
       );
     }
 
+    if (_image == null || _imageSize != size) {
+      _image?.dispose();
+      _image = _renderNebulaImage(size);
+      _imageSize = size;
+    }
+
     canvas.save();
     canvas.clipRRect(rrect);
-    paintNebula(canvas, rect);
+    _drawUpscaled(canvas, _image!, rect);
     canvas.drawRect(rect, Paint()..color = decoration.tint);
     canvas.restore();
 
@@ -230,9 +285,38 @@ class _NebulaBoxPainter extends BoxPainter {
 
   @override
   void dispose() {
-    if (onChanged != null) NebulaClock.listenable.removeListener(onChanged!);
+    _image?.dispose();
+    _image = null;
     super.dispose();
   }
+}
+
+/// The nebula has no fine detail, so it is rendered at a fraction of the
+/// target resolution and stretched with bilinear filtering. Full-resolution
+/// gradients cost several full-screen fills per frame, which a maximised
+/// window on a high-DPI screen cannot keep up with.
+const _nebulaDownscale = 6.0;
+
+ui.Image _renderNebulaImage(Size size) {
+  final width = math.max(1, (size.width / _nebulaDownscale).ceil());
+  final height = math.max(1, (size.height / _nebulaDownscale).ceil());
+  final recorder = ui.PictureRecorder();
+  final canvas = Canvas(recorder)
+    ..scale(width / size.width, height / size.height);
+  paintNebula(canvas, Offset.zero & size);
+  final picture = recorder.endRecording();
+  final image = picture.toImageSync(width, height);
+  picture.dispose();
+  return image;
+}
+
+void _drawUpscaled(Canvas canvas, ui.Image image, Rect destination) {
+  canvas.drawImageRect(
+    image,
+    Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+    destination,
+    Paint()..filterQuality = FilterQuality.low,
+  );
 }
 
 class _NebulaCloud {
