@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
@@ -132,7 +132,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
   }) async {
     if (useLocalization) {
       const tipVersion = 2;
-      final box = await Hive.openBox("app_conf");
+      final box = await AppHive.openBox("app_conf");
       final skip = await box.get("skip_web_login_version", defaultValue: 0);
       if (skip != tipVersion) {
         if (!context.mounted) return;
@@ -179,7 +179,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
     // ignore: avoid_build_context_in_providers
     BuildContext context,
   ) async {
-    final userBox = await Hive.openBox("rsi_account_data");
+    final userBox = await AppHive.openBox("rsi_account_data");
     state = state.copyWith(loginStatus: 2);
     final launchData = {
       "username": userBox.get("account_email", defaultValue: ""),

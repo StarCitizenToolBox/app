@@ -6,6 +6,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -50,7 +51,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future<void> setGameLaunchECore(BuildContext context) async {
-    final userBox = await Hive.openBox("app_conf");
+    final userBox = await AppHive.openBox("app_conf");
     final defaultInput = userBox.get(
       "gameLaunch_eCore_count",
       defaultValue: "0",
@@ -69,7 +70,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future _updateGameLaunchECore() async {
-    final userBox = await Hive.openBox("app_conf");
+    final userBox = await AppHive.openBox("app_conf");
     final inputGameLaunchECore = userBox.get(
       "gameLaunch_eCore_count",
       defaultValue: "0",
@@ -134,12 +135,12 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future<void> _saveCustomPath(String pathKey, String dir) async {
-    final confBox = await Hive.openBox("app_conf");
+    final confBox = await AppHive.openBox("app_conf");
     await confBox.put(pathKey, dir);
   }
 
   Future _loadCustomPath() async {
-    final confBox = await Hive.openBox("app_conf");
+    final confBox = await AppHive.openBox("app_conf");
     final customLauncherPath = confBox.get("custom_launcher_path");
     final customGamePath = confBox.get("custom_game_path");
     state = state.copyWith(
@@ -149,7 +150,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future<void> delName(String key) async {
-    final confBox = await Hive.openBox("app_conf");
+    final confBox = await AppHive.openBox("app_conf");
     await confBox.delete(key);
     _initState();
   }
@@ -219,7 +220,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future _loadToolSiteMirrorState() async {
-    final userBox = await Hive.openBox("app_conf");
+    final userBox = await AppHive.openBox("app_conf");
     final isEnableToolSiteMirrors = userBox.get(
       "isEnableToolSiteMirrors",
       defaultValue: false,
@@ -228,7 +229,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   void onChangeToolSiteMirror(bool? b) async {
-    final userBox = await Hive.openBox("app_conf");
+    final userBox = await AppHive.openBox("app_conf");
     final isEnableToolSiteMirrors = b == true;
     await userBox.put("isEnableToolSiteMirrors", isEnableToolSiteMirrors);
     _initState();
@@ -248,7 +249,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future _loadUseInternalDNS() async {
-    final userBox = await Hive.openBox("app_conf");
+    final userBox = await AppHive.openBox("app_conf");
     final isUseInternalDNS = userBox.get(
       "isUseInternalDNS",
       defaultValue: false,
@@ -263,7 +264,7 @@ class SettingsUIModel extends _$SettingsUIModel {
   }
 
   Future _loadOnnxXnnPackState() async {
-    final userBox = await Hive.openBox("app_conf");
+    final userBox = await AppHive.openBox("app_conf");
     final isEnableOnnxXnnPack = userBox.get(
       "isEnableOnnxXnnPack",
       defaultValue: true,

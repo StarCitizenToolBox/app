@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
@@ -65,7 +65,7 @@ class WebViewModel {
     required AppVersionData appVersionData,
   }) async {
     try {
-      final userBox = await Hive.openBox("app_conf");
+      final userBox = await AppHive.openBox("app_conf");
       isEnableToolSiteMirrors = userBox.get(
         "isEnableToolSiteMirrors",
         defaultValue: false,
@@ -343,9 +343,9 @@ class WebViewModel {
     String cacheKey = "",
     String? version,
   }) async {
-    final box = await Hive.openBox("web_localization_cache_data");
+    final box = await AppHive.openBox("web_localization_cache_data");
     if (cacheKey.isNotEmpty) {
-      final localVersion = box.get("${cacheKey}_version}", defaultValue: "");
+      final localVersion = box.get("${cacheKey}_version", defaultValue: "");
       var data = box.get(cacheKey, defaultValue: {});
       if (data is Map && data.isNotEmpty && localVersion == version) {
         return data;
@@ -360,7 +360,7 @@ class WebViewModel {
         "update $cacheKey v == $version  time == ${(endTime.microsecondsSinceEpoch - startTime.microsecondsSinceEpoch) / 1000 / 1000}s",
       );
       await box.put(cacheKey, data);
-      await box.put("${cacheKey}_version}", version);
+      await box.put("${cacheKey}_version", version);
     }
     return data;
   }

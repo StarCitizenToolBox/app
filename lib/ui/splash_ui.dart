@@ -5,6 +5,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:markdown_widget/widget/markdown.dart';
 import 'package:path_provider/path_provider.dart';
@@ -233,7 +234,7 @@ class SplashUI extends HookConsumerWidget {
     addLog(S.current.splash_open_hive_box);
     late Box appConf;
     try {
-      appConf = await Hive.openBox("app_conf").timeout(
+      appConf = await AppHive.openBox("app_conf").timeout(
         const Duration(seconds: 10),
         onTimeout: () {
           addLog(S.current.splash_hive_timeout);
@@ -455,7 +456,7 @@ class SplashUI extends HookConsumerWidget {
       // 获取数据库目录
       final appSupportDir =
           (await getApplicationSupportDirectory()).absolute.path;
-      final dbDir = Directory('$appSupportDir/db');
+      final dbDir = Directory(AppHive.dbDirFor(appSupportDir));
 
       if (await dbDir.exists()) {
         dPrint(S.current.splash_deleting_db(dbDir.path));

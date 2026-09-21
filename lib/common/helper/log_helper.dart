@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -49,7 +49,7 @@ class SCLoggerHelper {
 
   static Future<String?> getWineUserPath() async {
     // get game path in hiveBox
-    final confBox = await Hive.openBox("app_conf");
+    final confBox = await AppHive.openBox("app_conf");
     final path = confBox.get("custom_game_path");
     if (path?.isEmpty ?? true) return null;
     // path eg: /home/xkeyc/Games/star-citizen/drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/
@@ -102,7 +102,7 @@ class SCLoggerHelper {
       }
     }
 
-    final confBox = await Hive.openBox("app_conf");
+    final confBox = await AppHive.openBox("app_conf");
     final path = confBox.get("custom_game_path");
     if (path != null && path != "") {
       for (var v in withVersion) {

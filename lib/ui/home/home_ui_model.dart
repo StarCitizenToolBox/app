@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
@@ -71,7 +71,7 @@ class HomeUIModel extends _$HomeUIModel {
   }
 
   Future<void> closePlacard() async {
-    final box = await Hive.openBox("app_conf");
+    final box = await AppHive.openBox("app_conf");
     await box.put("close_placard", state.appPlacardData?.version);
     state = state.copyWith(appPlacardData: null);
   }
@@ -153,7 +153,7 @@ class HomeUIModel extends _$HomeUIModel {
   }) async {
     if (useLocalization) {
       const tipVersion = 2;
-      final box = await Hive.openBox("app_conf");
+      final box = await AppHive.openBox("app_conf");
       final skip = await box.get(
         "skip_web_localization_tip_version",
         defaultValue: 0,
@@ -236,7 +236,7 @@ class HomeUIModel extends _$HomeUIModel {
     if (appGlobalState.networkVersionData == null) return;
     try {
       final r = await Api.getAppPlacard();
-      final box = await Hive.openBox("app_conf");
+      final box = await AppHive.openBox("app_conf");
       final version = box.get("close_placard", defaultValue: "");
       if (r.enable == true) {
         if (r.alwaysShow != true && version == r.version) {

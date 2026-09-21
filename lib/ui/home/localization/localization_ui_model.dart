@@ -8,6 +8,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/api/api.dart';
@@ -100,7 +101,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if (_scInstallPath == "not_install") {
       return;
     }
-    final appConfBox = await Hive.openBox("app_conf");
+    final appConfBox = await AppHive.openBox("app_conf");
     final lang = await appConfBox.get(
       "localization_selectedLanguage",
       defaultValue: languageSupport.keys.first,
@@ -438,7 +439,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     List<LocalizationExtensionItemData> extensions,
   ) async {
     final extensionData = <String, String>{};
-    final box = await Hive.openBox("localization_extension_data");
+    final box = await AppHive.openBox("localization_extension_data");
 
     for (var ext in extensions) {
       if (ext.file == null) continue;
@@ -448,7 +449,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
       if (cachedVersion != ext.version) {
         try {
-          final data = await Api.getLocalizationExtensionData(ext.file!);
+          final data = await Api.getLocalizationExtensionData(
+            ext.file!,
+          ).timeout(_downloadTimeout);
           await box.put("${cacheKey}_data", data);
           await box.put("${cacheKey}_version", ext.version);
           extensionData[ext.file!] = data;
@@ -615,8 +618,8 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     final savePath = File(
       "${_downloadDir.absolute.path}\\${value.versionName}.sclang".platformPath,
     );
+    state = state.copyWith(workingVersion: value.versionName!);
     try {
-      state = state.copyWith(workingVersion: value.versionName!);
       if (!await savePath.exists()) {
         // download
         await downloadLocalizationFile(savePath, value);
@@ -640,34 +643,51 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         context: context,
       );
       AnalyticsApi.success("install_localization", label: value.versionName);
-    } catch (e) {
+    } catch (e, s) {
       AnalyticsApi.failure(
         "install_localization",
         label: value.versionName,
         reason: AnalyticsApi.classifyError(e),
       );
-      if (!context.mounted) return;
-      await showToast(
-        context,
-        S.current.localization_info_installation_error(e),
-      );
-      if (await savePath.exists()) await savePath.delete();
+      // The cached archive may be what failed; drop it even if the dialog
+      // has gone away, so the next attempt downloads it again.
+      try {
+        if (await savePath.exists()) await savePath.delete();
+      } catch (deleteError) {
+        dPrint("doRemoteInstall: deleting $savePath failed: $deleteError");
+      }
+      if (context.mounted) {
+        await showErrorWithDatabaseRepair(
+          context,
+          e,
+          s,
+          message: S.current.localization_info_installation_error(e),
+        );
+      } else {
+        dPrint("doRemoteInstall failed: $e\n$s");
+      }
+    } finally {
+      // Every exit path, including the early returns, must re-enable the
+      // cards; otherwise they stay disabled for the rest of the session.
+      state = state.copyWith(workingVersion: "");
     }
-    state = state.copyWith(workingVersion: "");
   }
 
   Future<String> downloadOrGetCachedCommunityInputMethodSupportFile(
     InputMethodApiLanguageData communityInputMethodData,
   ) async {
     final lang = state.selectedLanguage ?? "_";
-    final box = await Hive.openBox("community_input_method_data");
+    final box = await AppHive.openBox("community_input_method_data");
     final cachedVersion = box.get("${lang}_version");
 
     if (cachedVersion != communityInputMethodData.version) {
       final data = await Api.getCommunityInputMethodData(
         communityInputMethodData.file ?? "",
-      );
+      ).timeout(_downloadTimeout);
       await box.put("${lang}_data", data);
+      // Without the version the cache never hit: every install re-downloaded
+      // the file and appended another copy to the box.
+      await box.put("${lang}_version", communityInputMethodData.version);
       return data;
     }
     return box.get("${lang}_data").toString();
@@ -680,7 +700,10 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     dPrint("downloading file to $savePath");
     final downloadUrl =
         "${URLConf.gitlabLocalizationUrl}/archive/${value.versionName}.tar.gz";
-    final r = await RSHttp.get(downloadUrl);
+    final r = await RSHttp.get(downloadUrl).timeout(
+      _downloadTimeout,
+      onTimeout: () => throw S.current.localization_info_download_timeout,
+    );
     if (r.statusCode == 200 && r.data != null) {
       await savePath.create(recursive: true);
       await savePath.writeAsBytes(r.data!, flush: true);
@@ -718,7 +741,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       communityInputMethodLanguageData: null,
     );
     _loadData();
-    final appConfBox = await Hive.openBox("app_conf");
+    final appConfBox = await AppHive.openBox("app_conf");
     await appConfBox.put("localization_selectedLanguage", v);
   }
 
@@ -994,7 +1017,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
 
     final updates =
         <({String file, String oldVersion, String newVersion, String name})>[];
-    final box = await Hive.openBox("localization_extension_data");
+    final box = await AppHive.openBox("localization_extension_data");
 
     for (final entry in installedExtensions.entries) {
       final installedFile = entry.key;
@@ -1204,11 +1227,9 @@ class LocalizationUIModel extends _$LocalizationUIModel {
       ),
     );
     if (userOK) {
-      await appBox.put("vehicle_sorting", isEnableVehicleSorting);
-      // 保存用户选择的拓展
-      await appBox.put(
-        "localization_extensions",
-        selectedExtensions.map((e) => e.file).toList(),
+      rememberInstallOptions(
+        vehicleSorting: isEnableVehicleSorting,
+        extensions: selectedExtensions,
       );
       if (!context.mounted) return;
       dPrint(
@@ -1222,6 +1243,27 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         extensions: selectedExtensions.isNotEmpty ? selectedExtensions : null,
       );
     }
+  }
+
+  static const _downloadTimeout = Duration(minutes: 3);
+
+  /// Remembers the options chosen for an install, for the next install
+  /// dialog. Best effort and not awaited: a failing database write used to
+  /// abort the install before it showed any progress.
+  static void rememberInstallOptions({
+    required bool vehicleSorting,
+    required List<LocalizationExtensionItemData> extensions,
+  }) {
+    Future(() async {
+      final appBox = Hive.box("app_conf");
+      await appBox.put("vehicle_sorting", vehicleSorting);
+      await appBox.put(
+        "localization_extensions",
+        extensions.map((e) => e.file).toList(),
+      );
+    }).catchError((Object e, StackTrace s) {
+      dPrint("rememberInstallOptions failed: $e\n$s");
+    });
   }
 
   Future<void> checkReinstall(BuildContext context) async {

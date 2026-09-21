@@ -2,9 +2,9 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/app.dart';
-import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/provider/dynamic_background.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
+import 'package:starcitizen_doctor/widgets/widgets.dart';
 
 class SettingsUI extends HookConsumerWidget {
   const SettingsUI({super.key});
@@ -61,6 +61,11 @@ class SettingsUI extends HookConsumerWidget {
           subTitle: S.current.setting_action_info_cache_clearing_info(
               (sate.locationCacheSize / 1024 / 1024).toStringAsFixed(2)),
           onTap: () => model.cleanLocationCache(context)),
+      const SizedBox(height: 12),
+      makeSettingsItem(const Icon(FluentIcons.database_sync, size: 20),
+          S.current.settings_item_repair_database,
+          subTitle: S.current.settings_item_repair_database_info,
+          onTap: () => repairDatabaseInteractive(context)),
       const SizedBox(height: 12),
       makeSettingsItem(const Icon(FluentIcons.speed_high, size: 20),
           S.current.setting_action_tool_site_access_acceleration,

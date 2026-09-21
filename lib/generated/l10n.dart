@@ -5094,6 +5094,86 @@ class S {
     );
   }
 
+  /// `Repair database`
+  String get settings_item_repair_database {
+    return Intl.message(
+      'Repair database',
+      name: 'settings_item_repair_database',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use this when actions such as installing a localization do nothing: clears downloaded caches and rebuilds the settings database, keeping your settings`
+  String get settings_item_repair_database_info {
+    return Intl.message(
+      'Use this when actions such as installing a localization do nothing: clears downloaded caches and rebuilds the settings database, keeping your settings',
+      name: 'settings_item_repair_database_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Downloaded caches will be cleared and the settings database rebuilt. Your settings are kept. Continue?`
+  String get app_db_repair_confirm {
+    return Intl.message(
+      'Downloaded caches will be cleared and the settings database rebuilt. Your settings are kept. Continue?',
+      name: 'app_db_repair_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Database repaired. Please try again.`
+  String get app_db_repair_done {
+    return Intl.message(
+      'Database repaired. Please try again.',
+      name: 'app_db_repair_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repairing the database failed: {v0}\n\nClose antivirus or other programs that may be holding the files and try again. If it still fails, reset the app in Windows Settings.`
+  String app_db_repair_failed(Object v0) {
+    return Intl.message(
+      'Repairing the database failed: $v0\n\nClose antivirus or other programs that may be holding the files and try again. If it still fails, reset the app in Windows Settings.',
+      name: 'app_db_repair_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Operation failed`
+  String get app_common_operation_failed {
+    return Intl.message(
+      'Operation failed',
+      name: 'app_common_operation_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0}\n\nIf this keeps happening, try repairing the database.`
+  String app_db_repair_hint(Object v0) {
+    return Intl.message(
+      '$v0\n\nIf this keeps happening, try repairing the database.',
+      name: 'app_db_repair_hint',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `The download timed out. Check your network and try again.`
+  String get localization_info_download_timeout {
+    return Intl.message(
+      'The download timed out. Check your network and try again.',
+      name: 'localization_info_download_timeout',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Game`
   String get settings_title_game {
     return Intl.message(

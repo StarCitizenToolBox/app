@@ -431,15 +431,26 @@ class LocalizationDialogUI extends HookConsumerWidget {
                             final extensions = sb.$3
                                 .whereType<LocalizationExtensionItemData>()
                                 .toList();
-                            await model.installFormString(
-                              sb.$1,
-                              S.current.localization_info_custom_files,
-                              isEnableCommunityInputMethod: sb.$2,
-                              extensions: extensions.isNotEmpty
-                                  ? extensions
-                                  : null,
-                              context: context,
-                            );
+                            try {
+                              await model.installFormString(
+                                sb.$1,
+                                S.current.localization_info_custom_files,
+                                isEnableCommunityInputMethod: sb.$2,
+                                extensions: extensions.isNotEmpty
+                                    ? extensions
+                                    : null,
+                                context: context,
+                              );
+                            } catch (e, s) {
+                              if (!context.mounted) return;
+                              await showErrorWithDatabaseRepair(
+                                context,
+                                e,
+                                s,
+                                message: S.current
+                                    .localization_info_installation_error(e),
+                              );
+                            }
                           }
                           break;
                       }

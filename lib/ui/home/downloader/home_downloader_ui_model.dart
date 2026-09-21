@@ -3,7 +3,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -282,7 +282,7 @@ class HomeDownloaderUIModel extends _$HomeDownloaderUIModel {
   }
 
   Future<void> _showDownloadSpeedSettings(BuildContext context) async {
-    final box = await Hive.openBox("app_conf");
+    final box = await AppHive.openBox("app_conf");
 
     final upCtrl = TextEditingController(text: box.get("downloader_up_limit", defaultValue: ""));
     final downCtrl = TextEditingController(text: box.get("downloader_down_limit", defaultValue: ""));

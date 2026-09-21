@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/rust/api/win32_api.dart' as win32;
@@ -37,7 +37,7 @@ class SystemHelper {
 
   /// 获取 RSI 启动器 目录
   static Future<String> getRSILauncherPath({bool skipEXE = false}) async {
-    final confBox = await Hive.openBox("app_conf");
+    final confBox = await AppHive.openBox("app_conf");
     final path = confBox.get("custom_launcher_path");
     if (path != null && path != "") {
       if (await File(path).exists()) {
@@ -231,7 +231,7 @@ class SystemHelper {
   }
 
   static Future<String?> getCpuAffinity() async {
-    final confBox = await Hive.openBox("app_conf");
+    final confBox = await AppHive.openBox("app_conf");
     final eCoreCount = int.tryParse(confBox.get("gameLaunch_eCore_count", defaultValue: "0")) ?? 0;
     final cpuNumber = await getNumberOfLogicalProcessors();
     if (cpuNumber == 0 || eCoreCount == 0 || eCoreCount > cpuNumber) {

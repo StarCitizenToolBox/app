@@ -1,9 +1,9 @@
 import 'dart:io';
+import 'dart:ui' show PlatformDispatcher;
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -11,10 +11,12 @@ import 'app.dart';
 import 'provider/dynamic_background.dart';
 import 'widgets/src/dialog_move_area.dart';
 import 'widgets/src/nebula_background.dart';
+import 'common/utils/log.dart';
 import 'common/utils/multi_window_manager.dart';
 
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  _captureUncaughtErrors();
   await windowManager.ensureInitialized();
 
   // Get the current window controller
@@ -36,6 +38,21 @@ Future<void> main(List<String> args) async {
     default:
       MultiWindowManager.runSubWindowApp(windowController.arguments, windowType);
   }
+}
+
+/// Writes errors nobody caught to the log file, with their stack traces.
+/// Without this an exception in an event handler (e.g. an install that fails
+/// before showing any progress) vanished without a trace.
+void _captureUncaughtErrors() {
+  final presentError = FlutterError.onError;
+  FlutterError.onError = (details) {
+    dPrint("[FlutterError] ${details.exceptionAsString()}\n${details.stack}");
+    presentError?.call(details);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    dPrint("[Uncaught] $error\n$stack");
+    return true;
+  };
 }
 
 Future<void> _initWindow() async {

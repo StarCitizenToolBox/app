@@ -3,6 +3,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:grpc/grpc.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
@@ -101,7 +102,7 @@ class PartyRoom extends _$PartyRoom {
   /// 初始化
   Future<void> _initialize() async {
     try {
-      _confBox = await Hive.openBox(_boxName);
+      _confBox = await AppHive.openBox(_boxName);
 
       // 加载保存的认证信息
       final uuid = appGlobalState.deviceUUID;

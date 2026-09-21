@@ -41,7 +41,7 @@ final class InputMethodServerProvider
   }
 }
 
-String _$inputMethodServerHash() => r'58ff318c051f16c76f620258520aadedbdd5057c';
+String _$inputMethodServerHash() => r'9b4f99d1ea0844d9c15ca507ea5c9f2e0675edd9';
 
 abstract class _$InputMethodServer extends $Notifier<InputMethodServerState> {
   InputMethodServerState build();

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/api.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
@@ -51,7 +52,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     final keyMaps = await localizationModel.getCommunityInputMethodSupportData();
     dPrint("[InputMethodDialogUIModel] keyMapsLen: ${keyMaps?.length}");
     final worldMaps = keyMaps?.map((key, value) => MapEntry(value.trim(), key));
-    final appBox = await Hive.openBox("app_conf");
+    final appBox = await AppHive.openBox("app_conf");
     final enableAutoCopy = appBox.get("enableAutoCopy", defaultValue: false);
     final isEnableAutoTranslate = appBox.get("isEnableAutoTranslate_v2", defaultValue: false);
     _checkAutoTranslateOnInit();
@@ -64,7 +65,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
   }
 
   void onSwitchAutoCopy(bool value) async {
-    final appBox = await Hive.openBox("app_conf");
+    final appBox = await AppHive.openBox("app_conf");
     appBox.put("enableAutoCopy", value);
     state = state.copyWith(enableAutoCopy: value);
   }
@@ -154,7 +155,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
   // ignore: avoid_build_context_in_providers
   Future<void> toggleAutoTranslate(bool b, {BuildContext? context}) async {
     state = state.copyWith(isEnableAutoTranslate: b);
-    final appConf = await Hive.openBox("app_conf");
+    final appConf = await AppHive.openBox("app_conf");
     await appConf.put("isEnableAutoTranslate_v2", b);
     if (b) {
       mountOnnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName, context: context);

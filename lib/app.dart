@@ -7,6 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
@@ -134,9 +135,10 @@ class AppGlobalModel extends _$AppGlobalModel {
 
     // init Hive
     try {
-      Hive.init("$applicationSupportDir/db");
+      await AppHive.migrateStoreDb(applicationSupportDir);
+      Hive.init(AppHive.dbDirFor(applicationSupportDir));
       await Future.delayed(const Duration(milliseconds: 100));
-      final box = await Hive.openBox("app_conf");
+      final box = await AppHive.openBox("app_conf");
       state = state.copyWith(appConfBox: box);
       if (box.get("install_id", defaultValue: "") == "") {
         await box.put("install_id", const Uuid().v4());
@@ -156,11 +158,17 @@ class AppGlobalModel extends _$AppGlobalModel {
         }
       }
       state = state.copyWith(deviceUUID: deviceUUID, appLocale: locale);
-    } catch (e) {
+    } catch (e, s) {
+      if (!AppHive.isLockedByAnotherInstance(e)) {
+        // Not another instance: surface it (the splash logs it) instead of
+        // quitting silently.
+        dPrint("initApp: opening the database failed: $e\n$s");
+        rethrow;
+      }
       if (Platform.isWindows) {
         await win32.setForegroundWindow(windowName: "SCToolBox");
       }
-      dPrint("exit: db is locking ...");
+      dPrint("exit: db is locked by another instance: $e");
       exit(0);
     }
 
@@ -319,7 +327,7 @@ class AppGlobalModel extends _$AppGlobalModel {
   }
 
   void changeLocale(dynamic value) async {
-    final appConfBox = await Hive.openBox("app_conf");
+    final appConfBox = await AppHive.openBox("app_conf");
     if (value is Locale) {
       if (value.languageCode == "auto") {
         state = state.copyWith(appLocale: null);
@@ -353,6 +361,20 @@ class AppGlobalModel extends _$AppGlobalModel {
       }
     } catch (e) {
       dPrint("Failed to register URL scheme: $e");
+    }
+  }
+
+  /// Rebuilds the config database and drops cached downloads; see
+  /// [AppHive.repair]. Keeps the new config box in the state even if a step
+  /// failed and the error is rethrown.
+  Future<void> repairDatabase() async {
+    try {
+      final box = await AppHive.repair();
+      state = state.copyWith(appConfBox: box);
+    } finally {
+      if (Hive.isBoxOpen("app_conf")) {
+        state = state.copyWith(appConfBox: Hive.box("app_conf"));
+      }
     }
   }
 

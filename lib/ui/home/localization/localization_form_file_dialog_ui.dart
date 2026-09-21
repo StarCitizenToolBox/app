@@ -98,16 +98,9 @@ class LocalizationFromFileDialogUI extends HookConsumerWidget {
                 child: Text(S.current.app_common_tip_confirm),
               ),
               onPressed: () async {
-                final appBox = Hive.box("app_conf");
-                await appBox.put(
-                  "vehicle_sorting",
-                  installOptions.value.enableVehicleSorting,
-                );
-                await appBox.put(
-                  "localization_extensions",
-                  installOptions.value.selectedExtensions
-                      .map((e) => e.file)
-                      .toList(),
+                LocalizationUIModel.rememberInstallOptions(
+                  vehicleSorting: installOptions.value.enableVehicleSorting,
+                  extensions: installOptions.value.selectedExtensions,
                 );
                 if (!context.mounted) return;
                 final result = (

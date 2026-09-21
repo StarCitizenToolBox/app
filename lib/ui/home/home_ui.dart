@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/generated/no_l10n_strings.dart';
@@ -1026,7 +1026,7 @@ class HomeUI extends HookConsumerWidget {
   }
 
   Future _checkGuide(BuildContext context, HomeUIModel model) async {
-    final appConf = await Hive.openBox("app_conf");
+    final appConf = await AppHive.openBox("app_conf");
     final guideVersion = appConf.get("guide_version", defaultValue: 0);
     if (guideVersion < GuideUI.version) {
       await Future.delayed(Duration(milliseconds: 200));

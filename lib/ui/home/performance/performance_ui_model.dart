@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
@@ -72,7 +72,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
       state = state.copyWith(enabled: false);
     }
 
-    final box = await Hive.openBox("app_conf");
+    final box = await AppHive.openBox("app_conf");
     final v = box.get("close_graphics_performance_tip", defaultValue: -1);
     state = state.copyWith(showGraphicsPerformanceTip: v != _graphicsPerformanceTipVersion);
   }
@@ -105,7 +105,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
   }
 
   Future<void> closeTip() async {
-    final box = await Hive.openBox("app_conf");
+    final box = await AppHive.openBox("app_conf");
     await box.put("close_graphics_performance_tip", _graphicsPerformanceTipVersion);
     _init();
   }

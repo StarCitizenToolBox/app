@@ -309,7 +309,10 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     // 获取当前已安装的拓展信息（用于保留，当没有新拓展要安装时）
     final installedExtensions = ref.read(localizationUIModelProvider).installedLocalizationExtensions;
 
-    if (!context.mounted) return false;
+    if (!context.mounted) {
+      state = state.copyWith(workingText: "");
+      return false;
+    }
     try {
       await localizationUIModel.installFormString(
         globalIni,
@@ -324,9 +327,11 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     } catch (e) {
       AnalyticsApi.failure("advanced_localization_apply", reason: AnalyticsApi.classifyError(e));
       rethrow;
+    } finally {
+      // Otherwise a failed install leaves the working overlay up.
+      state = state.copyWith(workingText: "");
     }
     AnalyticsApi.success("advanced_localization_apply");
-    state = state.copyWith(workingText: "");
     return true;
   }
 
@@ -401,18 +406,27 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
       constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .8),
     );
     if (userOK) {
-      await appBox.put("vehicle_sorting", installOptions.enableVehicleSorting);
-      await appBox.put(
-        "localization_extensions",
-        installOptions.selectedExtensions.map((e) => e.file).toList(),
+      LocalizationUIModel.rememberInstallOptions(
+        vehicleSorting: installOptions.enableVehicleSorting,
+        extensions: installOptions.selectedExtensions,
       );
       if (!context.mounted) return;
-      await doInstall(
-        context,
-        isEnableCommunityInputMethod: installOptions.enableCommunityInputMethod,
-        isEnableVehicleSorting: installOptions.enableVehicleSorting,
-        extensions: installOptions.selectedExtensions.isNotEmpty ? installOptions.selectedExtensions : null,
-      );
+      try {
+        await doInstall(
+          context,
+          isEnableCommunityInputMethod: installOptions.enableCommunityInputMethod,
+          isEnableVehicleSorting: installOptions.enableVehicleSorting,
+          extensions: installOptions.selectedExtensions.isNotEmpty ? installOptions.selectedExtensions : null,
+        );
+      } catch (e, s) {
+        if (!context.mounted) return;
+        await showErrorWithDatabaseRepair(
+          context,
+          e,
+          s,
+          message: S.current.localization_info_installation_error(e),
+        );
+      }
     }
   }
 }

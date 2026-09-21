@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:starcitizen_doctor/common/conf/url_conf.dart';
 import 'package:starcitizen_doctor/common/io/rs_http.dart';
 import 'package:starcitizen_doctor/data/app_placard_data.dart';
@@ -99,7 +99,7 @@ class Api {
   }
 
   static Future<bool> isUseInternalDNS() async {
-    final userBox = await Hive.openBox("app_conf");
+    final userBox = await AppHive.openBox("app_conf");
     final isUseInternalDNS = userBox.get("isUseInternalDNS", defaultValue: false);
     return isUseInternalDNS;
   }

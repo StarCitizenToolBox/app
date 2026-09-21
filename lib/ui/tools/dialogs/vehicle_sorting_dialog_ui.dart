@@ -1,6 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:starcitizen_doctor/common/utils/app_hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 
@@ -326,7 +326,7 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
   Future<void> _saveSortedVehicles(
     List<MapEntry<String, String>> sortedVehicles,
   ) async {
-    final appBox = await Hive.openBox("app_conf");
+    final appBox = await AppHive.openBox("app_conf");
     appBox.put("sorted_vehicles", sortedVehicles.map((e) => e.key).toList());
     dPrint(
       "[VehicleSortingDialogUi] Saved sorted vehicles: ${sortedVehicles.length}",
@@ -363,7 +363,7 @@ class VehicleSortingDialogUi extends HookConsumerWidget {
     );
 
     // Load sorted vehicles from app_conf
-    final appBox = await Hive.openBox("app_conf");
+    final appBox = await AppHive.openBox("app_conf");
     final sortedVehicles =
         appBox.get("sorted_vehicles", defaultValue: <String>[]) as List<String>;
     if (sortedVehicles.isNotEmpty) {
