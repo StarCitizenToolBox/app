@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -110,12 +108,6 @@ class MultiWindowManager {
         break;
       default:
         throw Exception('Unknown window type: $windowType');
-    }
-
-    if (Platform.isWindows && windowAppState.windowsVersion >= 10) {
-      await Window.initialize();
-      // The background is drawn by NebulaBackground; no platform backdrop.
-      await Window.setEffect(effect: WindowEffect.disabled);
     }
 
     final backgroundColor = HexColor(windowAppState.backgroundColor).withValues(alpha: .6);

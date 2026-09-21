@@ -66,7 +66,7 @@ cd rust && cargo clippy         # Rust linting
 
 3. **State layer** — Every feature has a `*_ui_model.dart` with a `@freezed` state class + `@riverpod` notifier. Cross-cutting providers in `lib/provider/`. Global singleton `AppGlobalModel` in `lib/app.dart`. Notifiers have a shared extension (`lib/common/utils/provider.dart`) for easy access to `appGlobalModel`, `appGlobalState`, `appConfBox`.
 
-4. **UI layer** (`lib/ui/`) — `fluent_ui` (Fluent Design, NOT Material), `hooks_riverpod` for state, `go_router` for routing. Acrylic/mica effects via `flutter_acrylic`.
+4. **UI layer** (`lib/ui/`) — `fluent_ui` (Fluent Design, NOT Material), `hooks_riverpod` for state, `go_router` for routing. The window background is self-drawn (`NebulaBackground` in `lib/widgets/src/`), not a platform acrylic/mica effect.
 
 ### Routing (GoRouter)
 
@@ -115,7 +115,7 @@ Each `rust/src/api/*.rs` maps to a Dart binding in `lib/common/rust/api/`:
 
 | Layer | Technology |
 |---|---|
-| UI | `fluent_ui` (NOT Material), `flutter_acrylic` |
+| UI | `fluent_ui` (NOT Material) |
 | State | Riverpod code-gen (`@riverpod` + `@freezed`), `hooks_riverpod` |
 | Routing | `go_router` |
 | Native | Rust via `flutter_rust_bridge` 2.12.0 |

@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -180,16 +179,8 @@ class AppGlobalModel extends _$AppGlobalModel {
       await windowManager.setTitle("SCToolBox");
       await windowManager.setSkipTaskbar(false);
       if (Platform.isWindows) {
-        try {
-          state = state.copyWith(windowsVersion: _isWindows11OrGreater(windowsDeviceInfo) ? 11 : 10);
-          // The background is drawn by NebulaBackground; no platform backdrop.
-          await Window.setEffect(effect: WindowEffect.disabled);
-        } catch (e) {
-          state = state.copyWith(windowsVersion: 10);
-          dPrint("Window effect error: ${e.runtimeType}");
-        }
+        state = state.copyWith(windowsVersion: _isWindows11OrGreater(windowsDeviceInfo) ? 11 : 10);
       }
-      // Show window after acrylic effect is applied
       await windowManager.show();
     });
 

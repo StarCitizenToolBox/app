@@ -150,9 +150,7 @@ bool Win32Window::Create(const std::wstring& title,
 }
 
 bool Win32Window::Show() {
-  // Use SW_SHOWNOACTIVATE to avoid stealing focus from other windows
-  // This is consistent with bitsdojo_window behavior used in flutter_acrylic example
-  return ShowWindow(window_handle_, SW_SHOWNOACTIVATE);
+  return ShowWindow(window_handle_, SW_SHOWNORMAL);
 }
 
 // static
