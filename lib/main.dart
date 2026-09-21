@@ -9,6 +9,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app.dart';
+import 'widgets/src/dialog_move_area.dart';
 import 'common/utils/multi_window_manager.dart';
 
 Future<void> main(List<String> args) async {
@@ -79,7 +80,13 @@ class App extends HookConsumerWidget with WindowListener {
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
-          child: child ?? const SizedBox(),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              child ?? const SizedBox(),
+              const DialogMoveArea(),
+            ],
+          ),
         );
       },
       theme: FluentThemeData(

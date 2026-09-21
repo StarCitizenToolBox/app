@@ -58,6 +58,7 @@ abstract class AppGlobalState with _$AppGlobalState {
 @riverpod
 GoRouter router(Ref ref) {
   return GoRouter(
+    observers: [DialogRouteObserver.instance],
     routes: [
       GoRoute(path: '/', pageBuilder: (context, state) => myPageBuilder(context, state, const SplashUI())),
       GoRoute(
