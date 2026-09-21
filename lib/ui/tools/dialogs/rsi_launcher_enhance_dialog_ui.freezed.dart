@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'rsi_launcher_enhance_dialog_ui.dart';
@@ -9,6 +9,7 @@ part of 'rsi_launcher_enhance_dialog_ui.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $RSILauncherStateDataCopyWith<RSILauncherStateData> get copyWith => _$RSILaunche
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RSILauncherStateData&&(identical(other.version, version) || other.version == version)&&(identical(other.data, data) || other.data == data)&&(identical(other.serverData, serverData) || other.serverData == serverData)&&(identical(other.isPatchInstalled, isPatchInstalled) || other.isPatchInstalled == isPatchInstalled)&&(identical(other.enabledLocalization, enabledLocalization) || other.enabledLocalization == enabledLocalization)&&(identical(other.enableDownloaderBoost, enableDownloaderBoost) || other.enableDownloaderBoost == enableDownloaderBoost));
+  final _this = this as RSILauncherStateData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RSILauncherStateData&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.data, _this.data) || other.data == _this.data)&&(identical(other.serverData, _this.serverData) || other.serverData == _this.serverData)&&(identical(other.isPatchInstalled, _this.isPatchInstalled) || other.isPatchInstalled == _this.isPatchInstalled)&&(identical(other.enabledLocalization, _this.enabledLocalization) || other.enabledLocalization == _this.enabledLocalization)&&(identical(other.enableDownloaderBoost, _this.enableDownloaderBoost) || other.enableDownloaderBoost == _this.enableDownloaderBoost));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,version,data,serverData,isPatchInstalled,enabledLocalization,enableDownloaderBoost);
+int get hashCode {
+  final _this = this as RSILauncherStateData;
+  return Object.hash(runtimeType,_this.version,_this.data,_this.serverData,_this.isPatchInstalled,_this.enabledLocalization,_this.enableDownloaderBoost);
+}
 
 @override
 String toString() {
-  return 'RSILauncherStateData(version: $version, data: $data, serverData: $serverData, isPatchInstalled: $isPatchInstalled, enabledLocalization: $enabledLocalization, enableDownloaderBoost: $enableDownloaderBoost)';
+  final _this = this as RSILauncherStateData;
+  return 'RSILauncherStateData(version: ${_this.version}, data: ${_this.data}, serverData: ${_this.serverData}, isPatchInstalled: ${_this.isPatchInstalled}, enabledLocalization: ${_this.enabledLocalization}, enableDownloaderBoost: ${_this.enableDownloaderBoost})';
 }
 
 
@@ -63,7 +69,7 @@ class _$RSILauncherStateDataCopyWithImpl<$Res>
 /// Create a copy of RSILauncherStateData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? version = null,Object? data = null,Object? serverData = null,Object? isPatchInstalled = null,Object? enabledLocalization = freezed,Object? enableDownloaderBoost = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(RSILauncherStateData(
 version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as asar_api.RsiLauncherAsarData,serverData: null == serverData ? _self.serverData : serverData // ignore: cast_nullable_to_non_nullable
@@ -231,16 +237,18 @@ _$RSILauncherStateDataCopyWith<_RSILauncherStateData> get copyWith => __$RSILaun
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RSILauncherStateData&&(identical(other.version, version) || other.version == version)&&(identical(other.data, data) || other.data == data)&&(identical(other.serverData, serverData) || other.serverData == serverData)&&(identical(other.isPatchInstalled, isPatchInstalled) || other.isPatchInstalled == isPatchInstalled)&&(identical(other.enabledLocalization, enabledLocalization) || other.enabledLocalization == enabledLocalization)&&(identical(other.enableDownloaderBoost, enableDownloaderBoost) || other.enableDownloaderBoost == enableDownloaderBoost));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RSILauncherStateData&&(identical(other.version, version) || other.version == version)&&(identical(other.data, data) || other.data == data)&&(identical(other.serverData, serverData) || other.serverData == serverData)&&(identical(other.isPatchInstalled, isPatchInstalled) || other.isPatchInstalled == isPatchInstalled)&&(identical(other.enabledLocalization, enabledLocalization) || other.enabledLocalization == enabledLocalization)&&(identical(other.enableDownloaderBoost, enableDownloaderBoost) || other.enableDownloaderBoost == enableDownloaderBoost));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,version,data,serverData,isPatchInstalled,enabledLocalization,enableDownloaderBoost);
+int get hashCode {
+    return Object.hash(runtimeType,version,data,serverData,isPatchInstalled,enabledLocalization,enableDownloaderBoost);
+}
 
 @override
 String toString() {
-  return 'RSILauncherStateData(version: $version, data: $data, serverData: $serverData, isPatchInstalled: $isPatchInstalled, enabledLocalization: $enabledLocalization, enableDownloaderBoost: $enableDownloaderBoost)';
+    return 'RSILauncherStateData(version: $version, data: $data, serverData: $serverData, isPatchInstalled: $isPatchInstalled, enabledLocalization: $enabledLocalization, enableDownloaderBoost: $enableDownloaderBoost)';
 }
 
 

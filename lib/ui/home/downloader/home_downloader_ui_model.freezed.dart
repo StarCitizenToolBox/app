@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'home_downloader_ui_model.dart';
@@ -9,6 +9,7 @@ part of 'home_downloader_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $HomeDownloaderUIStateCopyWith<HomeDownloaderUIState> get copyWith => _$HomeDown
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeDownloaderUIState&&const DeepCollectionEquality().equals(other.activeTasks, activeTasks)&&const DeepCollectionEquality().equals(other.waitingTasks, waitingTasks)&&const DeepCollectionEquality().equals(other.completedTasks, completedTasks)&&const DeepCollectionEquality().equals(other.errorTasks, errorTasks)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
+  final _this = this as HomeDownloaderUIState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeDownloaderUIState&&const DeepCollectionEquality().equals(other.activeTasks, _this.activeTasks)&&const DeepCollectionEquality().equals(other.waitingTasks, _this.waitingTasks)&&const DeepCollectionEquality().equals(other.completedTasks, _this.completedTasks)&&const DeepCollectionEquality().equals(other.errorTasks, _this.errorTasks)&&(identical(other.globalStat, _this.globalStat) || other.globalStat == _this.globalStat));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(activeTasks),const DeepCollectionEquality().hash(waitingTasks),const DeepCollectionEquality().hash(completedTasks),const DeepCollectionEquality().hash(errorTasks),globalStat);
+int get hashCode {
+  final _this = this as HomeDownloaderUIState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.activeTasks),const DeepCollectionEquality().hash(_this.waitingTasks),const DeepCollectionEquality().hash(_this.completedTasks),const DeepCollectionEquality().hash(_this.errorTasks),_this.globalStat);
+}
 
 @override
 String toString() {
-  return 'HomeDownloaderUIState(activeTasks: $activeTasks, waitingTasks: $waitingTasks, completedTasks: $completedTasks, errorTasks: $errorTasks, globalStat: $globalStat)';
+  final _this = this as HomeDownloaderUIState;
+  return 'HomeDownloaderUIState(activeTasks: ${_this.activeTasks}, waitingTasks: ${_this.waitingTasks}, completedTasks: ${_this.completedTasks}, errorTasks: ${_this.errorTasks}, globalStat: ${_this.globalStat})';
 }
 
 
@@ -63,7 +69,7 @@ class _$HomeDownloaderUIStateCopyWithImpl<$Res>
 /// Create a copy of HomeDownloaderUIState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? activeTasks = null,Object? waitingTasks = null,Object? completedTasks = null,Object? errorTasks = null,Object? globalStat = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(HomeDownloaderUIState(
 activeTasks: null == activeTasks ? _self.activeTasks : activeTasks // ignore: cast_nullable_to_non_nullable
 as List<DownloadTaskInfo>,waitingTasks: null == waitingTasks ? _self.waitingTasks : waitingTasks // ignore: cast_nullable_to_non_nullable
 as List<DownloadTaskInfo>,completedTasks: null == completedTasks ? _self.completedTasks : completedTasks // ignore: cast_nullable_to_non_nullable
@@ -210,7 +216,7 @@ return $default(_that.activeTasks,_that.waitingTasks,_that.completedTasks,_that.
 
 
 class _HomeDownloaderUIState implements HomeDownloaderUIState {
-   _HomeDownloaderUIState({final  List<DownloadTaskInfo> activeTasks = const [], final  List<DownloadTaskInfo> waitingTasks = const [], final  List<DownloadTaskInfo> completedTasks = const [], final  List<DownloadTaskInfo> errorTasks = const [], this.globalStat}): _activeTasks = activeTasks,_waitingTasks = waitingTasks,_completedTasks = completedTasks,_errorTasks = errorTasks;
+   _HomeDownloaderUIState({ List<DownloadTaskInfo> activeTasks = const [],  List<DownloadTaskInfo> waitingTasks = const [],  List<DownloadTaskInfo> completedTasks = const [],  List<DownloadTaskInfo> errorTasks = const [], this.globalStat}): _activeTasks = activeTasks,_waitingTasks = waitingTasks,_completedTasks = completedTasks,_errorTasks = errorTasks;
   
 
  final  List<DownloadTaskInfo> _activeTasks;
@@ -253,16 +259,18 @@ _$HomeDownloaderUIStateCopyWith<_HomeDownloaderUIState> get copyWith => __$HomeD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeDownloaderUIState&&const DeepCollectionEquality().equals(other._activeTasks, _activeTasks)&&const DeepCollectionEquality().equals(other._waitingTasks, _waitingTasks)&&const DeepCollectionEquality().equals(other._completedTasks, _completedTasks)&&const DeepCollectionEquality().equals(other._errorTasks, _errorTasks)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeDownloaderUIState&&const DeepCollectionEquality().equals(other.activeTasks, _activeTasks)&&const DeepCollectionEquality().equals(other.waitingTasks, _waitingTasks)&&const DeepCollectionEquality().equals(other.completedTasks, _completedTasks)&&const DeepCollectionEquality().equals(other.errorTasks, _errorTasks)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_activeTasks),const DeepCollectionEquality().hash(_waitingTasks),const DeepCollectionEquality().hash(_completedTasks),const DeepCollectionEquality().hash(_errorTasks),globalStat);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_activeTasks),const DeepCollectionEquality().hash(_waitingTasks),const DeepCollectionEquality().hash(_completedTasks),const DeepCollectionEquality().hash(_errorTasks),globalStat);
+}
 
 @override
 String toString() {
-  return 'HomeDownloaderUIState(activeTasks: $activeTasks, waitingTasks: $waitingTasks, completedTasks: $completedTasks, errorTasks: $errorTasks, globalStat: $globalStat)';
+    return 'HomeDownloaderUIState(activeTasks: $activeTasks, waitingTasks: $waitingTasks, completedTasks: $completedTasks, errorTasks: $errorTasks, globalStat: $globalStat)';
 }
 
 

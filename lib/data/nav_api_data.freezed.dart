@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'nav_api_data.dart';
@@ -9,6 +9,7 @@ part of 'nav_api_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $NavApiDocsItemDataCopyWith<NavApiDocsItemData> get copyWith => _$NavApiDocsItem
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.abstract_, abstract_) || other.abstract_ == abstract_)&&(identical(other.description, description) || other.description == description)&&(identical(other.image, image) || other.image == image)&&(identical(other.link, link) || other.link == link)&&(identical(other.isSponsored, isSponsored) || other.isSponsored == isSponsored)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  final _this = this as NavApiDocsItemData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemData&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.slug, _this.slug) || other.slug == _this.slug)&&(identical(other.abstract_, _this.abstract_) || other.abstract_ == _this.abstract_)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.image, _this.image) || other.image == _this.image)&&(identical(other.link, _this.link) || other.link == _this.link)&&(identical(other.isSponsored, _this.isSponsored) || other.isSponsored == _this.isSponsored)&&const DeepCollectionEquality().equals(other.tags, _this.tags)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,slug,abstract_,description,image,link,isSponsored,const DeepCollectionEquality().hash(tags),updatedAt,createdAt);
+int get hashCode {
+  final _this = this as NavApiDocsItemData;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.slug,_this.abstract_,_this.description,_this.image,_this.link,_this.isSponsored,const DeepCollectionEquality().hash(_this.tags),_this.updatedAt,_this.createdAt);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemData(id: $id, name: $name, slug: $slug, abstract_: $abstract_, description: $description, image: $image, link: $link, isSponsored: $isSponsored, tags: $tags, updatedAt: $updatedAt, createdAt: $createdAt)';
+  final _this = this as NavApiDocsItemData;
+  return 'NavApiDocsItemData(id: ${_this.id}, name: ${_this.name}, slug: ${_this.slug}, abstract_: ${_this.abstract_}, description: ${_this.description}, image: ${_this.image}, link: ${_this.link}, isSponsored: ${_this.isSponsored}, tags: ${_this.tags}, updatedAt: ${_this.updatedAt}, createdAt: ${_this.createdAt})';
 }
 
 
@@ -66,7 +72,7 @@ class _$NavApiDocsItemDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? slug = null,Object? abstract_ = null,Object? description = null,Object? image = null,Object? link = null,Object? isSponsored = null,Object? tags = null,Object? updatedAt = null,Object? createdAt = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
@@ -228,7 +234,7 @@ return $default(_that.id,_that.name,_that.slug,_that.abstract_,_that.description
 @JsonSerializable()
 
 class _NavApiDocsItemData extends NavApiDocsItemData {
-  const _NavApiDocsItemData({@JsonKey(name: 'id') this.id = '', @JsonKey(name: 'name') this.name = '', @JsonKey(name: 'slug') this.slug = '', @JsonKey(name: 'abstract') this.abstract_ = '', @JsonKey(name: 'description') this.description = '', @JsonKey(name: 'image') this.image = const NavApiDocsItemImageData(), @JsonKey(name: 'link') this.link = '', @JsonKey(name: 'is_sponsored') this.isSponsored = false, @JsonKey(name: 'tags') final  List<NavApiDocsItemTagsItemData> tags = const <NavApiDocsItemTagsItemData>[], @JsonKey(name: 'updatedAt') this.updatedAt = '', @JsonKey(name: 'createdAt') this.createdAt = ''}): _tags = tags,super._();
+  const _NavApiDocsItemData({@JsonKey(name: 'id') this.id = '', @JsonKey(name: 'name') this.name = '', @JsonKey(name: 'slug') this.slug = '', @JsonKey(name: 'abstract') this.abstract_ = '', @JsonKey(name: 'description') this.description = '', @JsonKey(name: 'image') this.image = const NavApiDocsItemImageData(), @JsonKey(name: 'link') this.link = '', @JsonKey(name: 'is_sponsored') this.isSponsored = false, @JsonKey(name: 'tags')  List<NavApiDocsItemTagsItemData> tags = const <NavApiDocsItemTagsItemData>[], @JsonKey(name: 'updatedAt') this.updatedAt = '', @JsonKey(name: 'createdAt') this.createdAt = ''}): _tags = tags,super._();
   factory _NavApiDocsItemData.fromJson(Map<String, dynamic> json) => _$NavApiDocsItemDataFromJson(json);
 
 @override@JsonKey(name: 'id') final  String id;
@@ -262,16 +268,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.abstract_, abstract_) || other.abstract_ == abstract_)&&(identical(other.description, description) || other.description == description)&&(identical(other.image, image) || other.image == image)&&(identical(other.link, link) || other.link == link)&&(identical(other.isSponsored, isSponsored) || other.isSponsored == isSponsored)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.abstract_, abstract_) || other.abstract_ == abstract_)&&(identical(other.description, description) || other.description == description)&&(identical(other.image, image) || other.image == image)&&(identical(other.link, link) || other.link == link)&&(identical(other.isSponsored, isSponsored) || other.isSponsored == isSponsored)&&const DeepCollectionEquality().equals(other.tags, _tags)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,slug,abstract_,description,image,link,isSponsored,const DeepCollectionEquality().hash(_tags),updatedAt,createdAt);
+int get hashCode {
+    return Object.hash(runtimeType,id,name,slug,abstract_,description,image,link,isSponsored,const DeepCollectionEquality().hash(_tags),updatedAt,createdAt);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemData(id: $id, name: $name, slug: $slug, abstract_: $abstract_, description: $description, image: $image, link: $link, isSponsored: $isSponsored, tags: $tags, updatedAt: $updatedAt, createdAt: $createdAt)';
+    return 'NavApiDocsItemData(id: $id, name: $name, slug: $slug, abstract_: $abstract_, description: $description, image: $image, link: $link, isSponsored: $isSponsored, tags: $tags, updatedAt: $updatedAt, createdAt: $createdAt)';
 }
 
 
@@ -345,16 +353,21 @@ $NavApiDocsItemImageDataCopyWith<NavApiDocsItemImageData> get copyWith => _$NavA
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageData&&(identical(other.id, id) || other.id == id)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.title, title) || other.title == title)&&(identical(other.original, original) || other.original == original)&&(identical(other.credit, credit) || other.credit == credit)&&(identical(other.source, source) || other.source == source)&&(identical(other.license, license) || other.license == license)&&const DeepCollectionEquality().equals(other.caption, caption)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.url, url) || other.url == url)&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.sizes, sizes) || other.sizes == sizes));
+  final _this = this as NavApiDocsItemImageData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageData&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.createdBy, _this.createdBy) || other.createdBy == _this.createdBy)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.original, _this.original) || other.original == _this.original)&&(identical(other.credit, _this.credit) || other.credit == _this.credit)&&(identical(other.source, _this.source) || other.source == _this.source)&&(identical(other.license, _this.license) || other.license == _this.license)&&const DeepCollectionEquality().equals(other.caption, _this.caption)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.filename, _this.filename) || other.filename == _this.filename)&&(identical(other.mimeType, _this.mimeType) || other.mimeType == _this.mimeType)&&(identical(other.filesize, _this.filesize) || other.filesize == _this.filesize)&&(identical(other.width, _this.width) || other.width == _this.width)&&(identical(other.height, _this.height) || other.height == _this.height)&&(identical(other.sizes, _this.sizes) || other.sizes == _this.sizes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,createdBy,title,original,credit,source,license,const DeepCollectionEquality().hash(caption),updatedAt,createdAt,url,filename,mimeType,filesize,width,height,sizes);
+int get hashCode {
+  final _this = this as NavApiDocsItemImageData;
+  return Object.hash(runtimeType,_this.id,_this.createdBy,_this.title,_this.original,_this.credit,_this.source,_this.license,const DeepCollectionEquality().hash(_this.caption),_this.updatedAt,_this.createdAt,_this.url,_this.filename,_this.mimeType,_this.filesize,_this.width,_this.height,_this.sizes);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageData(id: $id, createdBy: $createdBy, title: $title, original: $original, credit: $credit, source: $source, license: $license, caption: $caption, updatedAt: $updatedAt, createdAt: $createdAt, url: $url, filename: $filename, mimeType: $mimeType, filesize: $filesize, width: $width, height: $height, sizes: $sizes)';
+  final _this = this as NavApiDocsItemImageData;
+  return 'NavApiDocsItemImageData(id: ${_this.id}, createdBy: ${_this.createdBy}, title: ${_this.title}, original: ${_this.original}, credit: ${_this.credit}, source: ${_this.source}, license: ${_this.license}, caption: ${_this.caption}, updatedAt: ${_this.updatedAt}, createdAt: ${_this.createdAt}, url: ${_this.url}, filename: ${_this.filename}, mimeType: ${_this.mimeType}, filesize: ${_this.filesize}, width: ${_this.width}, height: ${_this.height}, sizes: ${_this.sizes})';
 }
 
 
@@ -383,7 +396,7 @@ class _$NavApiDocsItemImageDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemImageData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? createdBy = null,Object? title = null,Object? original = null,Object? credit = null,Object? source = null,Object? license = null,Object? caption = freezed,Object? updatedAt = null,Object? createdAt = null,Object? url = null,Object? filename = null,Object? mimeType = null,Object? filesize = null,Object? width = null,Object? height = null,Object? sizes = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemImageData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
 as NavApiDocsItemImageCreatedByData,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -594,16 +607,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageData&&(identical(other.id, id) || other.id == id)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.title, title) || other.title == title)&&(identical(other.original, original) || other.original == original)&&(identical(other.credit, credit) || other.credit == credit)&&(identical(other.source, source) || other.source == source)&&(identical(other.license, license) || other.license == license)&&const DeepCollectionEquality().equals(other.caption, caption)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.url, url) || other.url == url)&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.sizes, sizes) || other.sizes == sizes));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageData&&(identical(other.id, id) || other.id == id)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.title, title) || other.title == title)&&(identical(other.original, original) || other.original == original)&&(identical(other.credit, credit) || other.credit == credit)&&(identical(other.source, source) || other.source == source)&&(identical(other.license, license) || other.license == license)&&const DeepCollectionEquality().equals(other.caption, caption)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.url, url) || other.url == url)&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.sizes, sizes) || other.sizes == sizes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,createdBy,title,original,credit,source,license,const DeepCollectionEquality().hash(caption),updatedAt,createdAt,url,filename,mimeType,filesize,width,height,sizes);
+int get hashCode {
+    return Object.hash(runtimeType,id,createdBy,title,original,credit,source,license,const DeepCollectionEquality().hash(caption),updatedAt,createdAt,url,filename,mimeType,filesize,width,height,sizes);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageData(id: $id, createdBy: $createdBy, title: $title, original: $original, credit: $credit, source: $source, license: $license, caption: $caption, updatedAt: $updatedAt, createdAt: $createdAt, url: $url, filename: $filename, mimeType: $mimeType, filesize: $filesize, width: $width, height: $height, sizes: $sizes)';
+    return 'NavApiDocsItemImageData(id: $id, createdBy: $createdBy, title: $title, original: $original, credit: $credit, source: $source, license: $license, caption: $caption, updatedAt: $updatedAt, createdAt: $createdAt, url: $url, filename: $filename, mimeType: $mimeType, filesize: $filesize, width: $width, height: $height, sizes: $sizes)';
 }
 
 
@@ -692,16 +707,21 @@ $NavApiDocsItemImageCreatedByDataCopyWith<NavApiDocsItemImageCreatedByData> get 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageCreatedByData&&(identical(other.id, id) || other.id == id)&&(identical(other.sub, sub) || other.sub == sub)&&(identical(other.externalProvider, externalProvider) || other.externalProvider == externalProvider)&&(identical(other.username, username) || other.username == username)&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.roles, roles)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.email, email) || other.email == email)&&(identical(other.loginAttempts, loginAttempts) || other.loginAttempts == loginAttempts)&&(identical(other.avatar, avatar) || other.avatar == avatar));
+  final _this = this as NavApiDocsItemImageCreatedByData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageCreatedByData&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.sub, _this.sub) || other.sub == _this.sub)&&(identical(other.externalProvider, _this.externalProvider) || other.externalProvider == _this.externalProvider)&&(identical(other.username, _this.username) || other.username == _this.username)&&(identical(other.name, _this.name) || other.name == _this.name)&&const DeepCollectionEquality().equals(other.roles, _this.roles)&&(identical(other.avatarUrl, _this.avatarUrl) || other.avatarUrl == _this.avatarUrl)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.loginAttempts, _this.loginAttempts) || other.loginAttempts == _this.loginAttempts)&&(identical(other.avatar, _this.avatar) || other.avatar == _this.avatar));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,sub,externalProvider,username,name,const DeepCollectionEquality().hash(roles),avatarUrl,updatedAt,createdAt,email,loginAttempts,avatar);
+int get hashCode {
+  final _this = this as NavApiDocsItemImageCreatedByData;
+  return Object.hash(runtimeType,_this.id,_this.sub,_this.externalProvider,_this.username,_this.name,const DeepCollectionEquality().hash(_this.roles),_this.avatarUrl,_this.updatedAt,_this.createdAt,_this.email,_this.loginAttempts,_this.avatar);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageCreatedByData(id: $id, sub: $sub, externalProvider: $externalProvider, username: $username, name: $name, roles: $roles, avatarUrl: $avatarUrl, updatedAt: $updatedAt, createdAt: $createdAt, email: $email, loginAttempts: $loginAttempts, avatar: $avatar)';
+  final _this = this as NavApiDocsItemImageCreatedByData;
+  return 'NavApiDocsItemImageCreatedByData(id: ${_this.id}, sub: ${_this.sub}, externalProvider: ${_this.externalProvider}, username: ${_this.username}, name: ${_this.name}, roles: ${_this.roles}, avatarUrl: ${_this.avatarUrl}, updatedAt: ${_this.updatedAt}, createdAt: ${_this.createdAt}, email: ${_this.email}, loginAttempts: ${_this.loginAttempts}, avatar: ${_this.avatar})';
 }
 
 
@@ -730,7 +750,7 @@ class _$NavApiDocsItemImageCreatedByDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemImageCreatedByData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sub = null,Object? externalProvider = null,Object? username = null,Object? name = null,Object? roles = null,Object? avatarUrl = null,Object? updatedAt = null,Object? createdAt = null,Object? email = null,Object? loginAttempts = null,Object? avatar = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemImageCreatedByData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,sub: null == sub ? _self.sub : sub // ignore: cast_nullable_to_non_nullable
 as String,externalProvider: null == externalProvider ? _self.externalProvider : externalProvider // ignore: cast_nullable_to_non_nullable
@@ -884,7 +904,7 @@ return $default(_that.id,_that.sub,_that.externalProvider,_that.username,_that.n
 @JsonSerializable()
 
 class _NavApiDocsItemImageCreatedByData extends NavApiDocsItemImageCreatedByData {
-  const _NavApiDocsItemImageCreatedByData({@JsonKey(name: 'id') this.id = '', @JsonKey(name: 'sub') this.sub = '', @JsonKey(name: 'external_provider') this.externalProvider = '', @JsonKey(name: 'username') this.username = '', @JsonKey(name: 'name') this.name = '', @JsonKey(name: 'roles') final  List<String> roles = const <String>[], @JsonKey(name: 'avatar_url') this.avatarUrl = '', @JsonKey(name: 'updatedAt') this.updatedAt = '', @JsonKey(name: 'createdAt') this.createdAt = '', @JsonKey(name: 'email') this.email = '', @JsonKey(name: 'loginAttempts') this.loginAttempts = 0, @JsonKey(name: 'avatar') this.avatar = ''}): _roles = roles,super._();
+  const _NavApiDocsItemImageCreatedByData({@JsonKey(name: 'id') this.id = '', @JsonKey(name: 'sub') this.sub = '', @JsonKey(name: 'external_provider') this.externalProvider = '', @JsonKey(name: 'username') this.username = '', @JsonKey(name: 'name') this.name = '', @JsonKey(name: 'roles')  List<String> roles = const <String>[], @JsonKey(name: 'avatar_url') this.avatarUrl = '', @JsonKey(name: 'updatedAt') this.updatedAt = '', @JsonKey(name: 'createdAt') this.createdAt = '', @JsonKey(name: 'email') this.email = '', @JsonKey(name: 'loginAttempts') this.loginAttempts = 0, @JsonKey(name: 'avatar') this.avatar = ''}): _roles = roles,super._();
   factory _NavApiDocsItemImageCreatedByData.fromJson(Map<String, dynamic> json) => _$NavApiDocsItemImageCreatedByDataFromJson(json);
 
 @override@JsonKey(name: 'id') final  String id;
@@ -919,16 +939,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageCreatedByData&&(identical(other.id, id) || other.id == id)&&(identical(other.sub, sub) || other.sub == sub)&&(identical(other.externalProvider, externalProvider) || other.externalProvider == externalProvider)&&(identical(other.username, username) || other.username == username)&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other._roles, _roles)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.email, email) || other.email == email)&&(identical(other.loginAttempts, loginAttempts) || other.loginAttempts == loginAttempts)&&(identical(other.avatar, avatar) || other.avatar == avatar));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageCreatedByData&&(identical(other.id, id) || other.id == id)&&(identical(other.sub, sub) || other.sub == sub)&&(identical(other.externalProvider, externalProvider) || other.externalProvider == externalProvider)&&(identical(other.username, username) || other.username == username)&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.roles, _roles)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.email, email) || other.email == email)&&(identical(other.loginAttempts, loginAttempts) || other.loginAttempts == loginAttempts)&&(identical(other.avatar, avatar) || other.avatar == avatar));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,sub,externalProvider,username,name,const DeepCollectionEquality().hash(_roles),avatarUrl,updatedAt,createdAt,email,loginAttempts,avatar);
+int get hashCode {
+    return Object.hash(runtimeType,id,sub,externalProvider,username,name,const DeepCollectionEquality().hash(_roles),avatarUrl,updatedAt,createdAt,email,loginAttempts,avatar);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageCreatedByData(id: $id, sub: $sub, externalProvider: $externalProvider, username: $username, name: $name, roles: $roles, avatarUrl: $avatarUrl, updatedAt: $updatedAt, createdAt: $createdAt, email: $email, loginAttempts: $loginAttempts, avatar: $avatar)';
+    return 'NavApiDocsItemImageCreatedByData(id: $id, sub: $sub, externalProvider: $externalProvider, username: $username, name: $name, roles: $roles, avatarUrl: $avatarUrl, updatedAt: $updatedAt, createdAt: $createdAt, email: $email, loginAttempts: $loginAttempts, avatar: $avatar)';
 }
 
 
@@ -994,16 +1016,21 @@ $NavApiDocsItemImageSizesThumbnailDataCopyWith<NavApiDocsItemImageSizesThumbnail
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesThumbnailData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
+  final _this = this as NavApiDocsItemImageSizesThumbnailData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesThumbnailData&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.width, _this.width) || other.width == _this.width)&&(identical(other.height, _this.height) || other.height == _this.height)&&(identical(other.mimeType, _this.mimeType) || other.mimeType == _this.mimeType)&&(identical(other.filesize, _this.filesize) || other.filesize == _this.filesize)&&(identical(other.filename, _this.filename) || other.filename == _this.filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+int get hashCode {
+  final _this = this as NavApiDocsItemImageSizesThumbnailData;
+  return Object.hash(runtimeType,_this.url,_this.width,_this.height,_this.mimeType,_this.filesize,_this.filename);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesThumbnailData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  final _this = this as NavApiDocsItemImageSizesThumbnailData;
+  return 'NavApiDocsItemImageSizesThumbnailData(url: ${_this.url}, width: ${_this.width}, height: ${_this.height}, mimeType: ${_this.mimeType}, filesize: ${_this.filesize}, filename: ${_this.filename})';
 }
 
 
@@ -1032,7 +1059,7 @@ class _$NavApiDocsItemImageSizesThumbnailDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemImageSizesThumbnailData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? width = null,Object? height = null,Object? mimeType = null,Object? filesize = null,Object? filename = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemImageSizesThumbnailData(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
@@ -1203,16 +1230,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesThumbnailData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesThumbnailData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+int get hashCode {
+    return Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesThumbnailData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+    return 'NavApiDocsItemImageSizesThumbnailData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
 }
 
 
@@ -1272,16 +1301,21 @@ $NavApiDocsItemImageSizesDataCopyWith<NavApiDocsItemImageSizesData> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesData&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.preload, preload) || other.preload == preload)&&(identical(other.card, card) || other.card == card)&&(identical(other.tablet, tablet) || other.tablet == tablet)&&(identical(other.avatar, avatar) || other.avatar == avatar));
+  final _this = this as NavApiDocsItemImageSizesData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesData&&(identical(other.thumbnail, _this.thumbnail) || other.thumbnail == _this.thumbnail)&&(identical(other.preload, _this.preload) || other.preload == _this.preload)&&(identical(other.card, _this.card) || other.card == _this.card)&&(identical(other.tablet, _this.tablet) || other.tablet == _this.tablet)&&(identical(other.avatar, _this.avatar) || other.avatar == _this.avatar));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,thumbnail,preload,card,tablet,avatar);
+int get hashCode {
+  final _this = this as NavApiDocsItemImageSizesData;
+  return Object.hash(runtimeType,_this.thumbnail,_this.preload,_this.card,_this.tablet,_this.avatar);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesData(thumbnail: $thumbnail, preload: $preload, card: $card, tablet: $tablet, avatar: $avatar)';
+  final _this = this as NavApiDocsItemImageSizesData;
+  return 'NavApiDocsItemImageSizesData(thumbnail: ${_this.thumbnail}, preload: ${_this.preload}, card: ${_this.card}, tablet: ${_this.tablet}, avatar: ${_this.avatar})';
 }
 
 
@@ -1310,7 +1344,7 @@ class _$NavApiDocsItemImageSizesDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemImageSizesData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? thumbnail = null,Object? preload = null,Object? card = null,Object? tablet = null,Object? avatar = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemImageSizesData(
 thumbnail: null == thumbnail ? _self.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
 as NavApiDocsItemImageSizesThumbnailData,preload: null == preload ? _self.preload : preload // ignore: cast_nullable_to_non_nullable
 as NavApiDocsItemImageSizesPreloadData,card: null == card ? _self.card : card // ignore: cast_nullable_to_non_nullable
@@ -1524,16 +1558,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesData&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.preload, preload) || other.preload == preload)&&(identical(other.card, card) || other.card == card)&&(identical(other.tablet, tablet) || other.tablet == tablet)&&(identical(other.avatar, avatar) || other.avatar == avatar));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesData&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.preload, preload) || other.preload == preload)&&(identical(other.card, card) || other.card == card)&&(identical(other.tablet, tablet) || other.tablet == tablet)&&(identical(other.avatar, avatar) || other.avatar == avatar));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,thumbnail,preload,card,tablet,avatar);
+int get hashCode {
+    return Object.hash(runtimeType,thumbnail,preload,card,tablet,avatar);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesData(thumbnail: $thumbnail, preload: $preload, card: $card, tablet: $tablet, avatar: $avatar)';
+    return 'NavApiDocsItemImageSizesData(thumbnail: $thumbnail, preload: $preload, card: $card, tablet: $tablet, avatar: $avatar)';
 }
 
 
@@ -1637,16 +1673,21 @@ $NavApiDocsItemImageSizesPreloadDataCopyWith<NavApiDocsItemImageSizesPreloadData
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesPreloadData&&const DeepCollectionEquality().equals(other.url, url)&&const DeepCollectionEquality().equals(other.width, width)&&const DeepCollectionEquality().equals(other.height, height)&&const DeepCollectionEquality().equals(other.mimeType, mimeType)&&const DeepCollectionEquality().equals(other.filesize, filesize)&&const DeepCollectionEquality().equals(other.filename, filename));
+  final _this = this as NavApiDocsItemImageSizesPreloadData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesPreloadData&&const DeepCollectionEquality().equals(other.url, _this.url)&&const DeepCollectionEquality().equals(other.width, _this.width)&&const DeepCollectionEquality().equals(other.height, _this.height)&&const DeepCollectionEquality().equals(other.mimeType, _this.mimeType)&&const DeepCollectionEquality().equals(other.filesize, _this.filesize)&&const DeepCollectionEquality().equals(other.filename, _this.filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(url),const DeepCollectionEquality().hash(width),const DeepCollectionEquality().hash(height),const DeepCollectionEquality().hash(mimeType),const DeepCollectionEquality().hash(filesize),const DeepCollectionEquality().hash(filename));
+int get hashCode {
+  final _this = this as NavApiDocsItemImageSizesPreloadData;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.url),const DeepCollectionEquality().hash(_this.width),const DeepCollectionEquality().hash(_this.height),const DeepCollectionEquality().hash(_this.mimeType),const DeepCollectionEquality().hash(_this.filesize),const DeepCollectionEquality().hash(_this.filename));
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesPreloadData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  final _this = this as NavApiDocsItemImageSizesPreloadData;
+  return 'NavApiDocsItemImageSizesPreloadData(url: ${_this.url}, width: ${_this.width}, height: ${_this.height}, mimeType: ${_this.mimeType}, filesize: ${_this.filesize}, filename: ${_this.filename})';
 }
 
 
@@ -1675,7 +1716,7 @@ class _$NavApiDocsItemImageSizesPreloadDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemImageSizesPreloadData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? url = freezed,Object? width = freezed,Object? height = freezed,Object? mimeType = freezed,Object? filesize = freezed,Object? filename = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemImageSizesPreloadData(
 url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as dynamic,width: freezed == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as dynamic,height: freezed == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
@@ -1846,16 +1887,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesPreloadData&&const DeepCollectionEquality().equals(other.url, url)&&const DeepCollectionEquality().equals(other.width, width)&&const DeepCollectionEquality().equals(other.height, height)&&const DeepCollectionEquality().equals(other.mimeType, mimeType)&&const DeepCollectionEquality().equals(other.filesize, filesize)&&const DeepCollectionEquality().equals(other.filename, filename));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesPreloadData&&const DeepCollectionEquality().equals(other.url, url)&&const DeepCollectionEquality().equals(other.width, width)&&const DeepCollectionEquality().equals(other.height, height)&&const DeepCollectionEquality().equals(other.mimeType, mimeType)&&const DeepCollectionEquality().equals(other.filesize, filesize)&&const DeepCollectionEquality().equals(other.filename, filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(url),const DeepCollectionEquality().hash(width),const DeepCollectionEquality().hash(height),const DeepCollectionEquality().hash(mimeType),const DeepCollectionEquality().hash(filesize),const DeepCollectionEquality().hash(filename));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(url),const DeepCollectionEquality().hash(width),const DeepCollectionEquality().hash(height),const DeepCollectionEquality().hash(mimeType),const DeepCollectionEquality().hash(filesize),const DeepCollectionEquality().hash(filename));
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesPreloadData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+    return 'NavApiDocsItemImageSizesPreloadData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
 }
 
 
@@ -1915,16 +1958,21 @@ $NavApiDocsItemImageSizesCardDataCopyWith<NavApiDocsItemImageSizesCardData> get 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesCardData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
+  final _this = this as NavApiDocsItemImageSizesCardData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesCardData&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.width, _this.width) || other.width == _this.width)&&(identical(other.height, _this.height) || other.height == _this.height)&&(identical(other.mimeType, _this.mimeType) || other.mimeType == _this.mimeType)&&(identical(other.filesize, _this.filesize) || other.filesize == _this.filesize)&&(identical(other.filename, _this.filename) || other.filename == _this.filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+int get hashCode {
+  final _this = this as NavApiDocsItemImageSizesCardData;
+  return Object.hash(runtimeType,_this.url,_this.width,_this.height,_this.mimeType,_this.filesize,_this.filename);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesCardData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  final _this = this as NavApiDocsItemImageSizesCardData;
+  return 'NavApiDocsItemImageSizesCardData(url: ${_this.url}, width: ${_this.width}, height: ${_this.height}, mimeType: ${_this.mimeType}, filesize: ${_this.filesize}, filename: ${_this.filename})';
 }
 
 
@@ -1953,7 +2001,7 @@ class _$NavApiDocsItemImageSizesCardDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemImageSizesCardData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? width = null,Object? height = null,Object? mimeType = null,Object? filesize = null,Object? filename = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemImageSizesCardData(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
@@ -2124,16 +2172,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesCardData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesCardData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+int get hashCode {
+    return Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesCardData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+    return 'NavApiDocsItemImageSizesCardData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
 }
 
 
@@ -2193,16 +2243,21 @@ $NavApiDocsItemImageSizesTabletDataCopyWith<NavApiDocsItemImageSizesTabletData> 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesTabletData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
+  final _this = this as NavApiDocsItemImageSizesTabletData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesTabletData&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.width, _this.width) || other.width == _this.width)&&(identical(other.height, _this.height) || other.height == _this.height)&&(identical(other.mimeType, _this.mimeType) || other.mimeType == _this.mimeType)&&(identical(other.filesize, _this.filesize) || other.filesize == _this.filesize)&&(identical(other.filename, _this.filename) || other.filename == _this.filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+int get hashCode {
+  final _this = this as NavApiDocsItemImageSizesTabletData;
+  return Object.hash(runtimeType,_this.url,_this.width,_this.height,_this.mimeType,_this.filesize,_this.filename);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesTabletData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  final _this = this as NavApiDocsItemImageSizesTabletData;
+  return 'NavApiDocsItemImageSizesTabletData(url: ${_this.url}, width: ${_this.width}, height: ${_this.height}, mimeType: ${_this.mimeType}, filesize: ${_this.filesize}, filename: ${_this.filename})';
 }
 
 
@@ -2231,7 +2286,7 @@ class _$NavApiDocsItemImageSizesTabletDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemImageSizesTabletData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? width = null,Object? height = null,Object? mimeType = null,Object? filesize = null,Object? filename = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemImageSizesTabletData(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
@@ -2402,16 +2457,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesTabletData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesTabletData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+int get hashCode {
+    return Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesTabletData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+    return 'NavApiDocsItemImageSizesTabletData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
 }
 
 
@@ -2471,16 +2528,21 @@ $NavApiDocsItemImageSizesAvatarDataCopyWith<NavApiDocsItemImageSizesAvatarData> 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesAvatarData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
+  final _this = this as NavApiDocsItemImageSizesAvatarData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemImageSizesAvatarData&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.width, _this.width) || other.width == _this.width)&&(identical(other.height, _this.height) || other.height == _this.height)&&(identical(other.mimeType, _this.mimeType) || other.mimeType == _this.mimeType)&&(identical(other.filesize, _this.filesize) || other.filesize == _this.filesize)&&(identical(other.filename, _this.filename) || other.filename == _this.filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+int get hashCode {
+  final _this = this as NavApiDocsItemImageSizesAvatarData;
+  return Object.hash(runtimeType,_this.url,_this.width,_this.height,_this.mimeType,_this.filesize,_this.filename);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesAvatarData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+  final _this = this as NavApiDocsItemImageSizesAvatarData;
+  return 'NavApiDocsItemImageSizesAvatarData(url: ${_this.url}, width: ${_this.width}, height: ${_this.height}, mimeType: ${_this.mimeType}, filesize: ${_this.filesize}, filename: ${_this.filename})';
 }
 
 
@@ -2509,7 +2571,7 @@ class _$NavApiDocsItemImageSizesAvatarDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemImageSizesAvatarData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? width = null,Object? height = null,Object? mimeType = null,Object? filesize = null,Object? filename = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemImageSizesAvatarData(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
@@ -2680,16 +2742,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesAvatarData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemImageSizesAvatarData&&(identical(other.url, url) || other.url == url)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.filesize, filesize) || other.filesize == filesize)&&(identical(other.filename, filename) || other.filename == filename));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+int get hashCode {
+    return Object.hash(runtimeType,url,width,height,mimeType,filesize,filename);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemImageSizesAvatarData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
+    return 'NavApiDocsItemImageSizesAvatarData(url: $url, width: $width, height: $height, mimeType: $mimeType, filesize: $filesize, filename: $filename)';
 }
 
 
@@ -2749,16 +2813,21 @@ $NavApiDocsItemTagsItemDataCopyWith<NavApiDocsItemTagsItemData> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemTagsItemData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  final _this = this as NavApiDocsItemTagsItemData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiDocsItemTagsItemData&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.slug, _this.slug) || other.slug == _this.slug)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,slug,updatedAt,createdAt);
+int get hashCode {
+  final _this = this as NavApiDocsItemTagsItemData;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.slug,_this.updatedAt,_this.createdAt);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemTagsItemData(id: $id, name: $name, slug: $slug, updatedAt: $updatedAt, createdAt: $createdAt)';
+  final _this = this as NavApiDocsItemTagsItemData;
+  return 'NavApiDocsItemTagsItemData(id: ${_this.id}, name: ${_this.name}, slug: ${_this.slug}, updatedAt: ${_this.updatedAt}, createdAt: ${_this.createdAt})';
 }
 
 
@@ -2787,7 +2856,7 @@ class _$NavApiDocsItemTagsItemDataCopyWithImpl<$Res>
 /// Create a copy of NavApiDocsItemTagsItemData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? slug = null,Object? updatedAt = null,Object? createdAt = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiDocsItemTagsItemData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
@@ -2956,16 +3025,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemTagsItemData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiDocsItemTagsItemData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,slug,updatedAt,createdAt);
+int get hashCode {
+    return Object.hash(runtimeType,id,name,slug,updatedAt,createdAt);
+}
 
 @override
 String toString() {
-  return 'NavApiDocsItemTagsItemData(id: $id, name: $name, slug: $slug, updatedAt: $updatedAt, createdAt: $createdAt)';
+    return 'NavApiDocsItemTagsItemData(id: $id, name: $name, slug: $slug, updatedAt: $updatedAt, createdAt: $createdAt)';
 }
 
 
@@ -3024,16 +3095,21 @@ $NavApiDataCopyWith<NavApiData> get copyWith => _$NavApiDataCopyWithImpl<NavApiD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiData&&const DeepCollectionEquality().equals(other.docs, docs)&&(identical(other.hasNextPage, hasNextPage) || other.hasNextPage == hasNextPage)&&(identical(other.hasPrevPage, hasPrevPage) || other.hasPrevPage == hasPrevPage)&&(identical(other.limit, limit) || other.limit == limit)&&const DeepCollectionEquality().equals(other.nextPage, nextPage)&&(identical(other.page, page) || other.page == page)&&(identical(other.pagingCounter, pagingCounter) || other.pagingCounter == pagingCounter)&&const DeepCollectionEquality().equals(other.prevPage, prevPage)&&(identical(other.totalDocs, totalDocs) || other.totalDocs == totalDocs)&&(identical(other.totalPages, totalPages) || other.totalPages == totalPages));
+  final _this = this as NavApiData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavApiData&&const DeepCollectionEquality().equals(other.docs, _this.docs)&&(identical(other.hasNextPage, _this.hasNextPage) || other.hasNextPage == _this.hasNextPage)&&(identical(other.hasPrevPage, _this.hasPrevPage) || other.hasPrevPage == _this.hasPrevPage)&&(identical(other.limit, _this.limit) || other.limit == _this.limit)&&const DeepCollectionEquality().equals(other.nextPage, _this.nextPage)&&(identical(other.page, _this.page) || other.page == _this.page)&&(identical(other.pagingCounter, _this.pagingCounter) || other.pagingCounter == _this.pagingCounter)&&const DeepCollectionEquality().equals(other.prevPage, _this.prevPage)&&(identical(other.totalDocs, _this.totalDocs) || other.totalDocs == _this.totalDocs)&&(identical(other.totalPages, _this.totalPages) || other.totalPages == _this.totalPages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(docs),hasNextPage,hasPrevPage,limit,const DeepCollectionEquality().hash(nextPage),page,pagingCounter,const DeepCollectionEquality().hash(prevPage),totalDocs,totalPages);
+int get hashCode {
+  final _this = this as NavApiData;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.docs),_this.hasNextPage,_this.hasPrevPage,_this.limit,const DeepCollectionEquality().hash(_this.nextPage),_this.page,_this.pagingCounter,const DeepCollectionEquality().hash(_this.prevPage),_this.totalDocs,_this.totalPages);
+}
 
 @override
 String toString() {
-  return 'NavApiData(docs: $docs, hasNextPage: $hasNextPage, hasPrevPage: $hasPrevPage, limit: $limit, nextPage: $nextPage, page: $page, pagingCounter: $pagingCounter, prevPage: $prevPage, totalDocs: $totalDocs, totalPages: $totalPages)';
+  final _this = this as NavApiData;
+  return 'NavApiData(docs: ${_this.docs}, hasNextPage: ${_this.hasNextPage}, hasPrevPage: ${_this.hasPrevPage}, limit: ${_this.limit}, nextPage: ${_this.nextPage}, page: ${_this.page}, pagingCounter: ${_this.pagingCounter}, prevPage: ${_this.prevPage}, totalDocs: ${_this.totalDocs}, totalPages: ${_this.totalPages})';
 }
 
 
@@ -3062,7 +3138,7 @@ class _$NavApiDataCopyWithImpl<$Res>
 /// Create a copy of NavApiData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? docs = null,Object? hasNextPage = null,Object? hasPrevPage = null,Object? limit = null,Object? nextPage = freezed,Object? page = null,Object? pagingCounter = null,Object? prevPage = freezed,Object? totalDocs = null,Object? totalPages = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavApiData(
 docs: null == docs ? _self.docs : docs // ignore: cast_nullable_to_non_nullable
 as List<NavApiDocsItemData>,hasNextPage: null == hasNextPage ? _self.hasNextPage : hasNextPage // ignore: cast_nullable_to_non_nullable
 as bool,hasPrevPage: null == hasPrevPage ? _self.hasPrevPage : hasPrevPage // ignore: cast_nullable_to_non_nullable
@@ -3214,7 +3290,7 @@ return $default(_that.docs,_that.hasNextPage,_that.hasPrevPage,_that.limit,_that
 @JsonSerializable()
 
 class _NavApiData extends NavApiData {
-  const _NavApiData({@JsonKey(name: 'docs') final  List<NavApiDocsItemData> docs = const <NavApiDocsItemData>[], @JsonKey(name: 'hasNextPage') this.hasNextPage = false, @JsonKey(name: 'hasPrevPage') this.hasPrevPage = false, @JsonKey(name: 'limit') this.limit = 0, @JsonKey(name: 'nextPage') this.nextPage, @JsonKey(name: 'page') this.page = 0, @JsonKey(name: 'pagingCounter') this.pagingCounter = 0, @JsonKey(name: 'prevPage') this.prevPage, @JsonKey(name: 'totalDocs') this.totalDocs = 0, @JsonKey(name: 'totalPages') this.totalPages = 0}): _docs = docs,super._();
+  const _NavApiData({@JsonKey(name: 'docs')  List<NavApiDocsItemData> docs = const <NavApiDocsItemData>[], @JsonKey(name: 'hasNextPage') this.hasNextPage = false, @JsonKey(name: 'hasPrevPage') this.hasPrevPage = false, @JsonKey(name: 'limit') this.limit = 0, @JsonKey(name: 'nextPage') this.nextPage, @JsonKey(name: 'page') this.page = 0, @JsonKey(name: 'pagingCounter') this.pagingCounter = 0, @JsonKey(name: 'prevPage') this.prevPage, @JsonKey(name: 'totalDocs') this.totalDocs = 0, @JsonKey(name: 'totalPages') this.totalPages = 0}): _docs = docs,super._();
   factory _NavApiData.fromJson(Map<String, dynamic> json) => _$NavApiDataFromJson(json);
 
  final  List<NavApiDocsItemData> _docs;
@@ -3247,16 +3323,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiData&&const DeepCollectionEquality().equals(other._docs, _docs)&&(identical(other.hasNextPage, hasNextPage) || other.hasNextPage == hasNextPage)&&(identical(other.hasPrevPage, hasPrevPage) || other.hasPrevPage == hasPrevPage)&&(identical(other.limit, limit) || other.limit == limit)&&const DeepCollectionEquality().equals(other.nextPage, nextPage)&&(identical(other.page, page) || other.page == page)&&(identical(other.pagingCounter, pagingCounter) || other.pagingCounter == pagingCounter)&&const DeepCollectionEquality().equals(other.prevPage, prevPage)&&(identical(other.totalDocs, totalDocs) || other.totalDocs == totalDocs)&&(identical(other.totalPages, totalPages) || other.totalPages == totalPages));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavApiData&&const DeepCollectionEquality().equals(other.docs, _docs)&&(identical(other.hasNextPage, hasNextPage) || other.hasNextPage == hasNextPage)&&(identical(other.hasPrevPage, hasPrevPage) || other.hasPrevPage == hasPrevPage)&&(identical(other.limit, limit) || other.limit == limit)&&const DeepCollectionEquality().equals(other.nextPage, nextPage)&&(identical(other.page, page) || other.page == page)&&(identical(other.pagingCounter, pagingCounter) || other.pagingCounter == pagingCounter)&&const DeepCollectionEquality().equals(other.prevPage, prevPage)&&(identical(other.totalDocs, totalDocs) || other.totalDocs == totalDocs)&&(identical(other.totalPages, totalPages) || other.totalPages == totalPages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_docs),hasNextPage,hasPrevPage,limit,const DeepCollectionEquality().hash(nextPage),page,pagingCounter,const DeepCollectionEquality().hash(prevPage),totalDocs,totalPages);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_docs),hasNextPage,hasPrevPage,limit,const DeepCollectionEquality().hash(nextPage),page,pagingCounter,const DeepCollectionEquality().hash(prevPage),totalDocs,totalPages);
+}
 
 @override
 String toString() {
-  return 'NavApiData(docs: $docs, hasNextPage: $hasNextPage, hasPrevPage: $hasPrevPage, limit: $limit, nextPage: $nextPage, page: $page, pagingCounter: $pagingCounter, prevPage: $prevPage, totalDocs: $totalDocs, totalPages: $totalPages)';
+    return 'NavApiData(docs: $docs, hasNextPage: $hasNextPage, hasPrevPage: $hasPrevPage, limit: $limit, nextPage: $nextPage, page: $page, pagingCounter: $pagingCounter, prevPage: $prevPage, totalDocs: $totalDocs, totalPages: $totalPages)';
 }
 
 

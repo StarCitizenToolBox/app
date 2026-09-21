@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'nav_state.dart';
@@ -9,6 +9,7 @@ part of 'nav_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $NavStateCopyWith<NavState> get copyWith => _$NavStateCopyWithImpl<NavState>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavState&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.errorInfo, errorInfo) || other.errorInfo == errorInfo));
+  final _this = this as NavState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NavState&&const DeepCollectionEquality().equals(other.items, _this.items)&&(identical(other.errorInfo, _this.errorInfo) || other.errorInfo == _this.errorInfo));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),errorInfo);
+int get hashCode {
+  final _this = this as NavState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.items),_this.errorInfo);
+}
 
 @override
 String toString() {
-  return 'NavState(items: $items, errorInfo: $errorInfo)';
+  final _this = this as NavState;
+  return 'NavState(items: ${_this.items}, errorInfo: ${_this.errorInfo})';
 }
 
 
@@ -63,7 +69,7 @@ class _$NavStateCopyWithImpl<$Res>
 /// Create a copy of NavState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? items = freezed,Object? errorInfo = null,}) {
-  return _then(_self.copyWith(
+  return _then(NavState(
 items: freezed == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<NavApiDocsItemData>?,errorInfo: null == errorInfo ? _self.errorInfo : errorInfo // ignore: cast_nullable_to_non_nullable
 as String,
@@ -207,7 +213,7 @@ return $default(_that.items,_that.errorInfo);case _:
 
 
 class _NavState implements NavState {
-  const _NavState({final  List<NavApiDocsItemData>? items, this.errorInfo = ""}): _items = items;
+  const _NavState({ List<NavApiDocsItemData>? items, this.errorInfo = ""}): _items = items;
   
 
  final  List<NavApiDocsItemData>? _items;
@@ -231,16 +237,18 @@ _$NavStateCopyWith<_NavState> get copyWith => __$NavStateCopyWithImpl<_NavState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavState&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.errorInfo, errorInfo) || other.errorInfo == errorInfo));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NavState&&const DeepCollectionEquality().equals(other.items, _items)&&(identical(other.errorInfo, errorInfo) || other.errorInfo == errorInfo));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),errorInfo);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),errorInfo);
+}
 
 @override
 String toString() {
-  return 'NavState(items: $items, errorInfo: $errorInfo)';
+    return 'NavState(items: $items, errorInfo: $errorInfo)';
 }
 
 

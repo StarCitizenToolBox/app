@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'game_log_tracker_provider.dart';
@@ -9,12 +9,13 @@ part of 'game_log_tracker_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PartyRoomGameLogTrackerProviderState implements DiagnosticableTreeMixin {
 
- String get location; int get kills; int get deaths; DateTime? get gameStartTime; List<(String, String)>? get deathEvents;
+ String get location; int get kills; int get deaths; DateTime? get gameStartTime; List<(String, String,)>? get deathEvents;
 /// Create a copy of PartyRoomGameLogTrackerProviderState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -24,23 +25,29 @@ $PartyRoomGameLogTrackerProviderStateCopyWith<PartyRoomGameLogTrackerProviderSta
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as PartyRoomGameLogTrackerProviderState;
   properties
     ..add(DiagnosticsProperty('type', 'PartyRoomGameLogTrackerProviderState'))
-    ..add(DiagnosticsProperty('location', location))..add(DiagnosticsProperty('kills', kills))..add(DiagnosticsProperty('deaths', deaths))..add(DiagnosticsProperty('gameStartTime', gameStartTime))..add(DiagnosticsProperty('deathEvents', deathEvents));
+    ..add(DiagnosticsProperty('location', _this.location))..add(DiagnosticsProperty('kills', _this.kills))..add(DiagnosticsProperty('deaths', _this.deaths))..add(DiagnosticsProperty('gameStartTime', _this.gameStartTime))..add(DiagnosticsProperty('deathEvents', _this.deathEvents));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomGameLogTrackerProviderState&&(identical(other.location, location) || other.location == location)&&(identical(other.kills, kills) || other.kills == kills)&&(identical(other.deaths, deaths) || other.deaths == deaths)&&(identical(other.gameStartTime, gameStartTime) || other.gameStartTime == gameStartTime)&&const DeepCollectionEquality().equals(other.deathEvents, deathEvents));
+  final _this = this as PartyRoomGameLogTrackerProviderState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomGameLogTrackerProviderState&&(identical(other.location, _this.location) || other.location == _this.location)&&(identical(other.kills, _this.kills) || other.kills == _this.kills)&&(identical(other.deaths, _this.deaths) || other.deaths == _this.deaths)&&(identical(other.gameStartTime, _this.gameStartTime) || other.gameStartTime == _this.gameStartTime)&&const DeepCollectionEquality().equals(other.deathEvents, _this.deathEvents));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,location,kills,deaths,gameStartTime,const DeepCollectionEquality().hash(deathEvents));
+int get hashCode {
+  final _this = this as PartyRoomGameLogTrackerProviderState;
+  return Object.hash(runtimeType,_this.location,_this.kills,_this.deaths,_this.gameStartTime,const DeepCollectionEquality().hash(_this.deathEvents));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'PartyRoomGameLogTrackerProviderState(location: $location, kills: $kills, deaths: $deaths, gameStartTime: $gameStartTime, deathEvents: $deathEvents)';
+  final _this = this as PartyRoomGameLogTrackerProviderState;
+  return 'PartyRoomGameLogTrackerProviderState(location: ${_this.location}, kills: ${_this.kills}, deaths: ${_this.deaths}, gameStartTime: ${_this.gameStartTime}, deathEvents: ${_this.deathEvents})';
 }
 
 
@@ -51,7 +58,7 @@ abstract mixin class $PartyRoomGameLogTrackerProviderStateCopyWith<$Res>  {
   factory $PartyRoomGameLogTrackerProviderStateCopyWith(PartyRoomGameLogTrackerProviderState value, $Res Function(PartyRoomGameLogTrackerProviderState) _then) = _$PartyRoomGameLogTrackerProviderStateCopyWithImpl;
 @useResult
 $Res call({
- String location, int kills, int deaths, DateTime? gameStartTime, List<(String, String)>? deathEvents
+ String location, int kills, int deaths, DateTime? gameStartTime, List<(String, String,)>? deathEvents
 });
 
 
@@ -69,13 +76,13 @@ class _$PartyRoomGameLogTrackerProviderStateCopyWithImpl<$Res>
 /// Create a copy of PartyRoomGameLogTrackerProviderState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? location = null,Object? kills = null,Object? deaths = null,Object? gameStartTime = freezed,Object? deathEvents = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PartyRoomGameLogTrackerProviderState(
 location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
 as String,kills: null == kills ? _self.kills : kills // ignore: cast_nullable_to_non_nullable
 as int,deaths: null == deaths ? _self.deaths : deaths // ignore: cast_nullable_to_non_nullable
 as int,gameStartTime: freezed == gameStartTime ? _self.gameStartTime : gameStartTime // ignore: cast_nullable_to_non_nullable
 as DateTime?,deathEvents: freezed == deathEvents ? _self.deathEvents : deathEvents // ignore: cast_nullable_to_non_nullable
-as List<(String, String)>?,
+as List<(String, String,)>?,
   ));
 }
 
@@ -157,7 +164,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String location,  int kills,  int deaths,  DateTime? gameStartTime,  List<(String, String)>? deathEvents)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String location,  int kills,  int deaths,  DateTime? gameStartTime,  List<(String, String,)>? deathEvents)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PartyRoomGameLogTrackerProviderState() when $default != null:
 return $default(_that.location,_that.kills,_that.deaths,_that.gameStartTime,_that.deathEvents);case _:
@@ -178,7 +185,7 @@ return $default(_that.location,_that.kills,_that.deaths,_that.gameStartTime,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String location,  int kills,  int deaths,  DateTime? gameStartTime,  List<(String, String)>? deathEvents)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String location,  int kills,  int deaths,  DateTime? gameStartTime,  List<(String, String,)>? deathEvents)  $default,) {final _that = this;
 switch (_that) {
 case _PartyRoomGameLogTrackerProviderState():
 return $default(_that.location,_that.kills,_that.deaths,_that.gameStartTime,_that.deathEvents);}
@@ -195,7 +202,7 @@ return $default(_that.location,_that.kills,_that.deaths,_that.gameStartTime,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String location,  int kills,  int deaths,  DateTime? gameStartTime,  List<(String, String)>? deathEvents)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String location,  int kills,  int deaths,  DateTime? gameStartTime,  List<(String, String,)>? deathEvents)?  $default,) {final _that = this;
 switch (_that) {
 case _PartyRoomGameLogTrackerProviderState() when $default != null:
 return $default(_that.location,_that.kills,_that.deaths,_that.gameStartTime,_that.deathEvents);case _:
@@ -210,15 +217,15 @@ return $default(_that.location,_that.kills,_that.deaths,_that.gameStartTime,_tha
 
 
 class _PartyRoomGameLogTrackerProviderState with DiagnosticableTreeMixin implements PartyRoomGameLogTrackerProviderState {
-  const _PartyRoomGameLogTrackerProviderState({this.location = '', this.kills = 0, this.deaths = 0, this.gameStartTime, final  List<(String, String)>? deathEvents}): _deathEvents = deathEvents;
+  const _PartyRoomGameLogTrackerProviderState({this.location = '', this.kills = 0, this.deaths = 0, this.gameStartTime,  List<(String, String,)>? deathEvents}): _deathEvents = deathEvents;
   
 
 @override@JsonKey() final  String location;
 @override@JsonKey() final  int kills;
 @override@JsonKey() final  int deaths;
 @override final  DateTime? gameStartTime;
- final  List<(String, String)>? _deathEvents;
-@override List<(String, String)>? get deathEvents {
+ final  List<(String, String,)>? _deathEvents;
+@override List<(String, String,)>? get deathEvents {
   final value = _deathEvents;
   if (value == null) return null;
   if (_deathEvents is EqualUnmodifiableListView) return _deathEvents;
@@ -236,23 +243,25 @@ _$PartyRoomGameLogTrackerProviderStateCopyWith<_PartyRoomGameLogTrackerProviderS
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'PartyRoomGameLogTrackerProviderState'))
     ..add(DiagnosticsProperty('location', location))..add(DiagnosticsProperty('kills', kills))..add(DiagnosticsProperty('deaths', deaths))..add(DiagnosticsProperty('gameStartTime', gameStartTime))..add(DiagnosticsProperty('deathEvents', deathEvents));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomGameLogTrackerProviderState&&(identical(other.location, location) || other.location == location)&&(identical(other.kills, kills) || other.kills == kills)&&(identical(other.deaths, deaths) || other.deaths == deaths)&&(identical(other.gameStartTime, gameStartTime) || other.gameStartTime == gameStartTime)&&const DeepCollectionEquality().equals(other._deathEvents, _deathEvents));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomGameLogTrackerProviderState&&(identical(other.location, location) || other.location == location)&&(identical(other.kills, kills) || other.kills == kills)&&(identical(other.deaths, deaths) || other.deaths == deaths)&&(identical(other.gameStartTime, gameStartTime) || other.gameStartTime == gameStartTime)&&const DeepCollectionEquality().equals(other.deathEvents, _deathEvents));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,location,kills,deaths,gameStartTime,const DeepCollectionEquality().hash(_deathEvents));
+int get hashCode {
+    return Object.hash(runtimeType,location,kills,deaths,gameStartTime,const DeepCollectionEquality().hash(_deathEvents));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'PartyRoomGameLogTrackerProviderState(location: $location, kills: $kills, deaths: $deaths, gameStartTime: $gameStartTime, deathEvents: $deathEvents)';
+    return 'PartyRoomGameLogTrackerProviderState(location: $location, kills: $kills, deaths: $deaths, gameStartTime: $gameStartTime, deathEvents: $deathEvents)';
 }
 
 
@@ -263,7 +272,7 @@ abstract mixin class _$PartyRoomGameLogTrackerProviderStateCopyWith<$Res> implem
   factory _$PartyRoomGameLogTrackerProviderStateCopyWith(_PartyRoomGameLogTrackerProviderState value, $Res Function(_PartyRoomGameLogTrackerProviderState) _then) = __$PartyRoomGameLogTrackerProviderStateCopyWithImpl;
 @override @useResult
 $Res call({
- String location, int kills, int deaths, DateTime? gameStartTime, List<(String, String)>? deathEvents
+ String location, int kills, int deaths, DateTime? gameStartTime, List<(String, String,)>? deathEvents
 });
 
 
@@ -287,7 +296,7 @@ as String,kills: null == kills ? _self.kills : kills // ignore: cast_nullable_to
 as int,deaths: null == deaths ? _self.deaths : deaths // ignore: cast_nullable_to_non_nullable
 as int,gameStartTime: freezed == gameStartTime ? _self.gameStartTime : gameStartTime // ignore: cast_nullable_to_non_nullable
 as DateTime?,deathEvents: freezed == deathEvents ? _self._deathEvents : deathEvents // ignore: cast_nullable_to_non_nullable
-as List<(String, String)>?,
+as List<(String, String,)>?,
   ));
 }
 

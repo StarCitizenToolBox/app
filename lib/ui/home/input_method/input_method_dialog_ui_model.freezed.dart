@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'input_method_dialog_ui_model.dart';
@@ -9,6 +9,7 @@ part of 'input_method_dialog_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $InputMethodDialogUIStateCopyWith<InputMethodDialogUIState> get copyWith => _$In
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InputMethodDialogUIState&&const DeepCollectionEquality().equals(other.keyMaps, keyMaps)&&const DeepCollectionEquality().equals(other.worldMaps, worldMaps)&&(identical(other.enableAutoCopy, enableAutoCopy) || other.enableAutoCopy == enableAutoCopy)&&(identical(other.isEnableAutoTranslate, isEnableAutoTranslate) || other.isEnableAutoTranslate == isEnableAutoTranslate)&&(identical(other.isAutoTranslateWorking, isAutoTranslateWorking) || other.isAutoTranslateWorking == isAutoTranslateWorking));
+  final _this = this as InputMethodDialogUIState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InputMethodDialogUIState&&const DeepCollectionEquality().equals(other.keyMaps, _this.keyMaps)&&const DeepCollectionEquality().equals(other.worldMaps, _this.worldMaps)&&(identical(other.enableAutoCopy, _this.enableAutoCopy) || other.enableAutoCopy == _this.enableAutoCopy)&&(identical(other.isEnableAutoTranslate, _this.isEnableAutoTranslate) || other.isEnableAutoTranslate == _this.isEnableAutoTranslate)&&(identical(other.isAutoTranslateWorking, _this.isAutoTranslateWorking) || other.isAutoTranslateWorking == _this.isAutoTranslateWorking));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(keyMaps),const DeepCollectionEquality().hash(worldMaps),enableAutoCopy,isEnableAutoTranslate,isAutoTranslateWorking);
+int get hashCode {
+  final _this = this as InputMethodDialogUIState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.keyMaps),const DeepCollectionEquality().hash(_this.worldMaps),_this.enableAutoCopy,_this.isEnableAutoTranslate,_this.isAutoTranslateWorking);
+}
 
 @override
 String toString() {
-  return 'InputMethodDialogUIState(keyMaps: $keyMaps, worldMaps: $worldMaps, enableAutoCopy: $enableAutoCopy, isEnableAutoTranslate: $isEnableAutoTranslate, isAutoTranslateWorking: $isAutoTranslateWorking)';
+  final _this = this as InputMethodDialogUIState;
+  return 'InputMethodDialogUIState(keyMaps: ${_this.keyMaps}, worldMaps: ${_this.worldMaps}, enableAutoCopy: ${_this.enableAutoCopy}, isEnableAutoTranslate: ${_this.isEnableAutoTranslate}, isAutoTranslateWorking: ${_this.isAutoTranslateWorking})';
 }
 
 
@@ -63,9 +69,9 @@ class _$InputMethodDialogUIStateCopyWithImpl<$Res>
 /// Create a copy of InputMethodDialogUIState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? keyMaps = freezed,Object? worldMaps = freezed,Object? enableAutoCopy = null,Object? isEnableAutoTranslate = null,Object? isAutoTranslateWorking = null,}) {
-  return _then(_self.copyWith(
-keyMaps: freezed == keyMaps ? _self.keyMaps : keyMaps // ignore: cast_nullable_to_non_nullable
-as Map<String, String>?,worldMaps: freezed == worldMaps ? _self.worldMaps : worldMaps // ignore: cast_nullable_to_non_nullable
+  return _then(InputMethodDialogUIState(
+freezed == keyMaps ? _self.keyMaps : keyMaps // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,freezed == worldMaps ? _self.worldMaps : worldMaps // ignore: cast_nullable_to_non_nullable
 as Map<String, String>?,enableAutoCopy: null == enableAutoCopy ? _self.enableAutoCopy : enableAutoCopy // ignore: cast_nullable_to_non_nullable
 as bool,isEnableAutoTranslate: null == isEnableAutoTranslate ? _self.isEnableAutoTranslate : isEnableAutoTranslate // ignore: cast_nullable_to_non_nullable
 as bool,isAutoTranslateWorking: null == isAutoTranslateWorking ? _self.isAutoTranslateWorking : isAutoTranslateWorking // ignore: cast_nullable_to_non_nullable
@@ -210,7 +216,7 @@ return $default(_that.keyMaps,_that.worldMaps,_that.enableAutoCopy,_that.isEnabl
 
 
 class _InputMethodDialogUIState implements InputMethodDialogUIState {
-   _InputMethodDialogUIState(final  Map<String, String>? keyMaps, final  Map<String, String>? worldMaps, {this.enableAutoCopy = false, this.isEnableAutoTranslate = false, this.isAutoTranslateWorking = false}): _keyMaps = keyMaps,_worldMaps = worldMaps;
+   _InputMethodDialogUIState( Map<String, String>? keyMaps,  Map<String, String>? worldMaps, {this.enableAutoCopy = false, this.isEnableAutoTranslate = false, this.isAutoTranslateWorking = false}): _keyMaps = keyMaps,_worldMaps = worldMaps;
   
 
  final  Map<String, String>? _keyMaps;
@@ -245,16 +251,18 @@ _$InputMethodDialogUIStateCopyWith<_InputMethodDialogUIState> get copyWith => __
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InputMethodDialogUIState&&const DeepCollectionEquality().equals(other._keyMaps, _keyMaps)&&const DeepCollectionEquality().equals(other._worldMaps, _worldMaps)&&(identical(other.enableAutoCopy, enableAutoCopy) || other.enableAutoCopy == enableAutoCopy)&&(identical(other.isEnableAutoTranslate, isEnableAutoTranslate) || other.isEnableAutoTranslate == isEnableAutoTranslate)&&(identical(other.isAutoTranslateWorking, isAutoTranslateWorking) || other.isAutoTranslateWorking == isAutoTranslateWorking));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InputMethodDialogUIState&&const DeepCollectionEquality().equals(other.keyMaps, _keyMaps)&&const DeepCollectionEquality().equals(other.worldMaps, _worldMaps)&&(identical(other.enableAutoCopy, enableAutoCopy) || other.enableAutoCopy == enableAutoCopy)&&(identical(other.isEnableAutoTranslate, isEnableAutoTranslate) || other.isEnableAutoTranslate == isEnableAutoTranslate)&&(identical(other.isAutoTranslateWorking, isAutoTranslateWorking) || other.isAutoTranslateWorking == isAutoTranslateWorking));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_keyMaps),const DeepCollectionEquality().hash(_worldMaps),enableAutoCopy,isEnableAutoTranslate,isAutoTranslateWorking);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_keyMaps),const DeepCollectionEquality().hash(_worldMaps),enableAutoCopy,isEnableAutoTranslate,isAutoTranslateWorking);
+}
 
 @override
 String toString() {
-  return 'InputMethodDialogUIState(keyMaps: $keyMaps, worldMaps: $worldMaps, enableAutoCopy: $enableAutoCopy, isEnableAutoTranslate: $isEnableAutoTranslate, isAutoTranslateWorking: $isAutoTranslateWorking)';
+    return 'InputMethodDialogUIState(keyMaps: $keyMaps, worldMaps: $worldMaps, enableAutoCopy: $enableAutoCopy, isEnableAutoTranslate: $isEnableAutoTranslate, isAutoTranslateWorking: $isAutoTranslateWorking)';
 }
 
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'party_room_ui_model.dart';
@@ -9,6 +9,7 @@ part of 'party_room_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $PartyRoomUIStateCopyWith<PartyRoomUIState> get copyWith => _$PartyRoomUIStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomUIState&&(identical(other.isConnecting, isConnecting) || other.isConnecting == isConnecting)&&(identical(other.showRoomList, showRoomList) || other.showRoomList == showRoomList)&&const DeepCollectionEquality().equals(other.roomListItems, roomListItems)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.totalRooms, totalRooms) || other.totalRooms == totalRooms)&&(identical(other.selectedMainTagId, selectedMainTagId) || other.selectedMainTagId == selectedMainTagId)&&(identical(other.selectedSubTagId, selectedSubTagId) || other.selectedSubTagId == selectedSubTagId)&&(identical(other.searchOwnerName, searchOwnerName) || other.searchOwnerName == searchOwnerName)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.preRegisterCode, preRegisterCode) || other.preRegisterCode == preRegisterCode)&&(identical(other.registerGameUserId, registerGameUserId) || other.registerGameUserId == registerGameUserId)&&(identical(other.isReconnecting, isReconnecting) || other.isReconnecting == isReconnecting)&&(identical(other.reconnectAttempts, reconnectAttempts) || other.reconnectAttempts == reconnectAttempts)&&(identical(other.isMinimized, isMinimized) || other.isMinimized == isMinimized)&&(identical(other.isLoggingIn, isLoggingIn) || other.isLoggingIn == isLoggingIn)&&(identical(other.isGuestMode, isGuestMode) || other.isGuestMode == isGuestMode)&&(identical(other.isRefreshingProfile, isRefreshingProfile) || other.isRefreshingProfile == isRefreshingProfile));
+  final _this = this as PartyRoomUIState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomUIState&&(identical(other.isConnecting, _this.isConnecting) || other.isConnecting == _this.isConnecting)&&(identical(other.showRoomList, _this.showRoomList) || other.showRoomList == _this.showRoomList)&&const DeepCollectionEquality().equals(other.roomListItems, _this.roomListItems)&&(identical(other.currentPage, _this.currentPage) || other.currentPage == _this.currentPage)&&(identical(other.pageSize, _this.pageSize) || other.pageSize == _this.pageSize)&&(identical(other.totalRooms, _this.totalRooms) || other.totalRooms == _this.totalRooms)&&(identical(other.selectedMainTagId, _this.selectedMainTagId) || other.selectedMainTagId == _this.selectedMainTagId)&&(identical(other.selectedSubTagId, _this.selectedSubTagId) || other.selectedSubTagId == _this.selectedSubTagId)&&(identical(other.searchOwnerName, _this.searchOwnerName) || other.searchOwnerName == _this.searchOwnerName)&&(identical(other.isLoading, _this.isLoading) || other.isLoading == _this.isLoading)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage)&&(identical(other.preRegisterCode, _this.preRegisterCode) || other.preRegisterCode == _this.preRegisterCode)&&(identical(other.registerGameUserId, _this.registerGameUserId) || other.registerGameUserId == _this.registerGameUserId)&&(identical(other.isReconnecting, _this.isReconnecting) || other.isReconnecting == _this.isReconnecting)&&(identical(other.reconnectAttempts, _this.reconnectAttempts) || other.reconnectAttempts == _this.reconnectAttempts)&&(identical(other.isMinimized, _this.isMinimized) || other.isMinimized == _this.isMinimized)&&(identical(other.isLoggingIn, _this.isLoggingIn) || other.isLoggingIn == _this.isLoggingIn)&&(identical(other.isGuestMode, _this.isGuestMode) || other.isGuestMode == _this.isGuestMode)&&(identical(other.isRefreshingProfile, _this.isRefreshingProfile) || other.isRefreshingProfile == _this.isRefreshingProfile));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,isConnecting,showRoomList,const DeepCollectionEquality().hash(roomListItems),currentPage,pageSize,totalRooms,selectedMainTagId,selectedSubTagId,searchOwnerName,isLoading,errorMessage,preRegisterCode,registerGameUserId,isReconnecting,reconnectAttempts,isMinimized,isLoggingIn,isGuestMode,isRefreshingProfile]);
+int get hashCode {
+  final _this = this as PartyRoomUIState;
+  return Object.hashAll([runtimeType,_this.isConnecting,_this.showRoomList,const DeepCollectionEquality().hash(_this.roomListItems),_this.currentPage,_this.pageSize,_this.totalRooms,_this.selectedMainTagId,_this.selectedSubTagId,_this.searchOwnerName,_this.isLoading,_this.errorMessage,_this.preRegisterCode,_this.registerGameUserId,_this.isReconnecting,_this.reconnectAttempts,_this.isMinimized,_this.isLoggingIn,_this.isGuestMode,_this.isRefreshingProfile]);
+}
 
 @override
 String toString() {
-  return 'PartyRoomUIState(isConnecting: $isConnecting, showRoomList: $showRoomList, roomListItems: $roomListItems, currentPage: $currentPage, pageSize: $pageSize, totalRooms: $totalRooms, selectedMainTagId: $selectedMainTagId, selectedSubTagId: $selectedSubTagId, searchOwnerName: $searchOwnerName, isLoading: $isLoading, errorMessage: $errorMessage, preRegisterCode: $preRegisterCode, registerGameUserId: $registerGameUserId, isReconnecting: $isReconnecting, reconnectAttempts: $reconnectAttempts, isMinimized: $isMinimized, isLoggingIn: $isLoggingIn, isGuestMode: $isGuestMode, isRefreshingProfile: $isRefreshingProfile)';
+  final _this = this as PartyRoomUIState;
+  return 'PartyRoomUIState(isConnecting: ${_this.isConnecting}, showRoomList: ${_this.showRoomList}, roomListItems: ${_this.roomListItems}, currentPage: ${_this.currentPage}, pageSize: ${_this.pageSize}, totalRooms: ${_this.totalRooms}, selectedMainTagId: ${_this.selectedMainTagId}, selectedSubTagId: ${_this.selectedSubTagId}, searchOwnerName: ${_this.searchOwnerName}, isLoading: ${_this.isLoading}, errorMessage: ${_this.errorMessage}, preRegisterCode: ${_this.preRegisterCode}, registerGameUserId: ${_this.registerGameUserId}, isReconnecting: ${_this.isReconnecting}, reconnectAttempts: ${_this.reconnectAttempts}, isMinimized: ${_this.isMinimized}, isLoggingIn: ${_this.isLoggingIn}, isGuestMode: ${_this.isGuestMode}, isRefreshingProfile: ${_this.isRefreshingProfile})';
 }
 
 
@@ -63,7 +69,7 @@ class _$PartyRoomUIStateCopyWithImpl<$Res>
 /// Create a copy of PartyRoomUIState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isConnecting = null,Object? showRoomList = null,Object? roomListItems = null,Object? currentPage = null,Object? pageSize = null,Object? totalRooms = null,Object? selectedMainTagId = freezed,Object? selectedSubTagId = freezed,Object? searchOwnerName = null,Object? isLoading = null,Object? errorMessage = freezed,Object? preRegisterCode = null,Object? registerGameUserId = null,Object? isReconnecting = null,Object? reconnectAttempts = null,Object? isMinimized = null,Object? isLoggingIn = null,Object? isGuestMode = null,Object? isRefreshingProfile = null,}) {
-  return _then(_self.copyWith(
+  return _then(PartyRoomUIState(
 isConnecting: null == isConnecting ? _self.isConnecting : isConnecting // ignore: cast_nullable_to_non_nullable
 as bool,showRoomList: null == showRoomList ? _self.showRoomList : showRoomList // ignore: cast_nullable_to_non_nullable
 as bool,roomListItems: null == roomListItems ? _self.roomListItems : roomListItems // ignore: cast_nullable_to_non_nullable
@@ -218,7 +224,7 @@ return $default(_that.isConnecting,_that.showRoomList,_that.roomListItems,_that.
 
 
 class _PartyRoomUIState implements PartyRoomUIState {
-  const _PartyRoomUIState({this.isConnecting = false, this.showRoomList = false, final  List<RoomListItem> roomListItems = const [], this.currentPage = 1, this.pageSize = 20, this.totalRooms = 0, this.selectedMainTagId, this.selectedSubTagId, this.searchOwnerName = '', this.isLoading = false, this.errorMessage, this.preRegisterCode = '', this.registerGameUserId = '', this.isReconnecting = false, this.reconnectAttempts = 0, this.isMinimized = false, this.isLoggingIn = false, this.isGuestMode = true, this.isRefreshingProfile = false}): _roomListItems = roomListItems;
+  const _PartyRoomUIState({this.isConnecting = false, this.showRoomList = false,  List<RoomListItem> roomListItems = const [], this.currentPage = 1, this.pageSize = 20, this.totalRooms = 0, this.selectedMainTagId, this.selectedSubTagId, this.searchOwnerName = '', this.isLoading = false, this.errorMessage, this.preRegisterCode = '', this.registerGameUserId = '', this.isReconnecting = false, this.reconnectAttempts = 0, this.isMinimized = false, this.isLoggingIn = false, this.isGuestMode = true, this.isRefreshingProfile = false}): _roomListItems = roomListItems;
   
 
 @override@JsonKey() final  bool isConnecting;
@@ -257,16 +263,18 @@ _$PartyRoomUIStateCopyWith<_PartyRoomUIState> get copyWith => __$PartyRoomUIStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomUIState&&(identical(other.isConnecting, isConnecting) || other.isConnecting == isConnecting)&&(identical(other.showRoomList, showRoomList) || other.showRoomList == showRoomList)&&const DeepCollectionEquality().equals(other._roomListItems, _roomListItems)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.totalRooms, totalRooms) || other.totalRooms == totalRooms)&&(identical(other.selectedMainTagId, selectedMainTagId) || other.selectedMainTagId == selectedMainTagId)&&(identical(other.selectedSubTagId, selectedSubTagId) || other.selectedSubTagId == selectedSubTagId)&&(identical(other.searchOwnerName, searchOwnerName) || other.searchOwnerName == searchOwnerName)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.preRegisterCode, preRegisterCode) || other.preRegisterCode == preRegisterCode)&&(identical(other.registerGameUserId, registerGameUserId) || other.registerGameUserId == registerGameUserId)&&(identical(other.isReconnecting, isReconnecting) || other.isReconnecting == isReconnecting)&&(identical(other.reconnectAttempts, reconnectAttempts) || other.reconnectAttempts == reconnectAttempts)&&(identical(other.isMinimized, isMinimized) || other.isMinimized == isMinimized)&&(identical(other.isLoggingIn, isLoggingIn) || other.isLoggingIn == isLoggingIn)&&(identical(other.isGuestMode, isGuestMode) || other.isGuestMode == isGuestMode)&&(identical(other.isRefreshingProfile, isRefreshingProfile) || other.isRefreshingProfile == isRefreshingProfile));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomUIState&&(identical(other.isConnecting, isConnecting) || other.isConnecting == isConnecting)&&(identical(other.showRoomList, showRoomList) || other.showRoomList == showRoomList)&&const DeepCollectionEquality().equals(other.roomListItems, _roomListItems)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.pageSize, pageSize) || other.pageSize == pageSize)&&(identical(other.totalRooms, totalRooms) || other.totalRooms == totalRooms)&&(identical(other.selectedMainTagId, selectedMainTagId) || other.selectedMainTagId == selectedMainTagId)&&(identical(other.selectedSubTagId, selectedSubTagId) || other.selectedSubTagId == selectedSubTagId)&&(identical(other.searchOwnerName, searchOwnerName) || other.searchOwnerName == searchOwnerName)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.preRegisterCode, preRegisterCode) || other.preRegisterCode == preRegisterCode)&&(identical(other.registerGameUserId, registerGameUserId) || other.registerGameUserId == registerGameUserId)&&(identical(other.isReconnecting, isReconnecting) || other.isReconnecting == isReconnecting)&&(identical(other.reconnectAttempts, reconnectAttempts) || other.reconnectAttempts == reconnectAttempts)&&(identical(other.isMinimized, isMinimized) || other.isMinimized == isMinimized)&&(identical(other.isLoggingIn, isLoggingIn) || other.isLoggingIn == isLoggingIn)&&(identical(other.isGuestMode, isGuestMode) || other.isGuestMode == isGuestMode)&&(identical(other.isRefreshingProfile, isRefreshingProfile) || other.isRefreshingProfile == isRefreshingProfile));
 }
 
 
 @override
-int get hashCode => Object.hashAll([runtimeType,isConnecting,showRoomList,const DeepCollectionEquality().hash(_roomListItems),currentPage,pageSize,totalRooms,selectedMainTagId,selectedSubTagId,searchOwnerName,isLoading,errorMessage,preRegisterCode,registerGameUserId,isReconnecting,reconnectAttempts,isMinimized,isLoggingIn,isGuestMode,isRefreshingProfile]);
+int get hashCode {
+    return Object.hashAll([runtimeType,isConnecting,showRoomList,const DeepCollectionEquality().hash(_roomListItems),currentPage,pageSize,totalRooms,selectedMainTagId,selectedSubTagId,searchOwnerName,isLoading,errorMessage,preRegisterCode,registerGameUserId,isReconnecting,reconnectAttempts,isMinimized,isLoggingIn,isGuestMode,isRefreshingProfile]);
+}
 
 @override
 String toString() {
-  return 'PartyRoomUIState(isConnecting: $isConnecting, showRoomList: $showRoomList, roomListItems: $roomListItems, currentPage: $currentPage, pageSize: $pageSize, totalRooms: $totalRooms, selectedMainTagId: $selectedMainTagId, selectedSubTagId: $selectedSubTagId, searchOwnerName: $searchOwnerName, isLoading: $isLoading, errorMessage: $errorMessage, preRegisterCode: $preRegisterCode, registerGameUserId: $registerGameUserId, isReconnecting: $isReconnecting, reconnectAttempts: $reconnectAttempts, isMinimized: $isMinimized, isLoggingIn: $isLoggingIn, isGuestMode: $isGuestMode, isRefreshingProfile: $isRefreshingProfile)';
+    return 'PartyRoomUIState(isConnecting: $isConnecting, showRoomList: $showRoomList, roomListItems: $roomListItems, currentPage: $currentPage, pageSize: $pageSize, totalRooms: $totalRooms, selectedMainTagId: $selectedMainTagId, selectedSubTagId: $selectedSubTagId, searchOwnerName: $searchOwnerName, isLoading: $isLoading, errorMessage: $errorMessage, preRegisterCode: $preRegisterCode, registerGameUserId: $registerGameUserId, isReconnecting: $isReconnecting, reconnectAttempts: $reconnectAttempts, isMinimized: $isMinimized, isLoggingIn: $isLoggingIn, isGuestMode: $isGuestMode, isRefreshingProfile: $isRefreshingProfile)';
 }
 
 

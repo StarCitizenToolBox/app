@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'citizen_news_data.dart';
@@ -9,6 +9,7 @@ part of 'citizen_news_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $CitizenNewsDataCopyWith<CitizenNewsData> get copyWith => _$CitizenNewsDataCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitizenNewsData&&const DeepCollectionEquality().equals(other.videos, videos)&&const DeepCollectionEquality().equals(other.articles, articles));
+  final _this = this as CitizenNewsData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitizenNewsData&&const DeepCollectionEquality().equals(other.videos, _this.videos)&&const DeepCollectionEquality().equals(other.articles, _this.articles));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(videos),const DeepCollectionEquality().hash(articles));
+int get hashCode {
+  final _this = this as CitizenNewsData;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.videos),const DeepCollectionEquality().hash(_this.articles));
+}
 
 @override
 String toString() {
-  return 'CitizenNewsData(videos: $videos, articles: $articles)';
+  final _this = this as CitizenNewsData;
+  return 'CitizenNewsData(videos: ${_this.videos}, articles: ${_this.articles})';
 }
 
 
@@ -66,7 +72,7 @@ class _$CitizenNewsDataCopyWithImpl<$Res>
 /// Create a copy of CitizenNewsData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? videos = null,Object? articles = null,}) {
-  return _then(_self.copyWith(
+  return _then(CitizenNewsData(
 videos: null == videos ? _self.videos : videos // ignore: cast_nullable_to_non_nullable
 as List<CitizenNewsVideosItemData>,articles: null == articles ? _self.articles : articles // ignore: cast_nullable_to_non_nullable
 as List<CitizenNewsArticlesItemData>,
@@ -204,7 +210,7 @@ return $default(_that.videos,_that.articles);case _:
 @JsonSerializable()
 
 class _CitizenNewsData extends CitizenNewsData {
-  const _CitizenNewsData({@JsonKey(name: 'videos') final  List<CitizenNewsVideosItemData> videos = const <CitizenNewsVideosItemData>[], @JsonKey(name: 'articles') final  List<CitizenNewsArticlesItemData> articles = const <CitizenNewsArticlesItemData>[]}): _videos = videos,_articles = articles,super._();
+  const _CitizenNewsData({@JsonKey(name: 'videos')  List<CitizenNewsVideosItemData> videos = const <CitizenNewsVideosItemData>[], @JsonKey(name: 'articles')  List<CitizenNewsArticlesItemData> articles = const <CitizenNewsArticlesItemData>[]}): _videos = videos,_articles = articles,super._();
   factory _CitizenNewsData.fromJson(Map<String, dynamic> json) => _$CitizenNewsDataFromJson(json);
 
  final  List<CitizenNewsVideosItemData> _videos;
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CitizenNewsData&&const DeepCollectionEquality().equals(other._videos, _videos)&&const DeepCollectionEquality().equals(other._articles, _articles));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CitizenNewsData&&const DeepCollectionEquality().equals(other.videos, _videos)&&const DeepCollectionEquality().equals(other.articles, _articles));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_videos),const DeepCollectionEquality().hash(_articles));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_videos),const DeepCollectionEquality().hash(_articles));
+}
 
 @override
 String toString() {
-  return 'CitizenNewsData(videos: $videos, articles: $articles)';
+    return 'CitizenNewsData(videos: $videos, articles: $articles)';
 }
 
 
@@ -300,16 +308,21 @@ $CitizenNewsVideosItemDataCopyWith<CitizenNewsVideosItemData> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitizenNewsVideosItemData&&(identical(other.title, title) || other.title == title)&&(identical(other.author, author) || other.author == author)&&(identical(other.description, description) || other.description == description)&&(identical(other.link, link) || other.link == link)&&(identical(other.pubDate, pubDate) || other.pubDate == pubDate)&&(identical(other.postId, postId) || other.postId == postId)&&const DeepCollectionEquality().equals(other.detailedDescription, detailedDescription)&&(identical(other.tag, tag) || other.tag == tag));
+  final _this = this as CitizenNewsVideosItemData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitizenNewsVideosItemData&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.link, _this.link) || other.link == _this.link)&&(identical(other.pubDate, _this.pubDate) || other.pubDate == _this.pubDate)&&(identical(other.postId, _this.postId) || other.postId == _this.postId)&&const DeepCollectionEquality().equals(other.detailedDescription, _this.detailedDescription)&&(identical(other.tag, _this.tag) || other.tag == _this.tag));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,author,description,link,pubDate,postId,const DeepCollectionEquality().hash(detailedDescription),tag);
+int get hashCode {
+  final _this = this as CitizenNewsVideosItemData;
+  return Object.hash(runtimeType,_this.title,_this.author,_this.description,_this.link,_this.pubDate,_this.postId,const DeepCollectionEquality().hash(_this.detailedDescription),_this.tag);
+}
 
 @override
 String toString() {
-  return 'CitizenNewsVideosItemData(title: $title, author: $author, description: $description, link: $link, pubDate: $pubDate, postId: $postId, detailedDescription: $detailedDescription, tag: $tag)';
+  final _this = this as CitizenNewsVideosItemData;
+  return 'CitizenNewsVideosItemData(title: ${_this.title}, author: ${_this.author}, description: ${_this.description}, link: ${_this.link}, pubDate: ${_this.pubDate}, postId: ${_this.postId}, detailedDescription: ${_this.detailedDescription}, tag: ${_this.tag})';
 }
 
 
@@ -338,7 +351,7 @@ class _$CitizenNewsVideosItemDataCopyWithImpl<$Res>
 /// Create a copy of CitizenNewsVideosItemData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? author = null,Object? description = null,Object? link = null,Object? pubDate = null,Object? postId = null,Object? detailedDescription = null,Object? tag = null,}) {
-  return _then(_self.copyWith(
+  return _then(CitizenNewsVideosItemData(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -482,7 +495,7 @@ return $default(_that.title,_that.author,_that.description,_that.link,_that.pubD
 @JsonSerializable()
 
 class _CitizenNewsVideosItemData extends CitizenNewsVideosItemData {
-  const _CitizenNewsVideosItemData({@JsonKey(name: 'title') this.title = '', @JsonKey(name: 'author') this.author = '', @JsonKey(name: 'description') this.description = '', @JsonKey(name: 'link') this.link = '', @JsonKey(name: 'pubDate') this.pubDate = '', @JsonKey(name: 'postId') this.postId = '', @JsonKey(name: 'detailedDescription') final  List<String> detailedDescription = const <String>[], @JsonKey(name: 'tag') this.tag = ''}): _detailedDescription = detailedDescription,super._();
+  const _CitizenNewsVideosItemData({@JsonKey(name: 'title') this.title = '', @JsonKey(name: 'author') this.author = '', @JsonKey(name: 'description') this.description = '', @JsonKey(name: 'link') this.link = '', @JsonKey(name: 'pubDate') this.pubDate = '', @JsonKey(name: 'postId') this.postId = '', @JsonKey(name: 'detailedDescription')  List<String> detailedDescription = const <String>[], @JsonKey(name: 'tag') this.tag = ''}): _detailedDescription = detailedDescription,super._();
   factory _CitizenNewsVideosItemData.fromJson(Map<String, dynamic> json) => _$CitizenNewsVideosItemDataFromJson(json);
 
 @override@JsonKey(name: 'title') final  String title;
@@ -513,16 +526,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CitizenNewsVideosItemData&&(identical(other.title, title) || other.title == title)&&(identical(other.author, author) || other.author == author)&&(identical(other.description, description) || other.description == description)&&(identical(other.link, link) || other.link == link)&&(identical(other.pubDate, pubDate) || other.pubDate == pubDate)&&(identical(other.postId, postId) || other.postId == postId)&&const DeepCollectionEquality().equals(other._detailedDescription, _detailedDescription)&&(identical(other.tag, tag) || other.tag == tag));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CitizenNewsVideosItemData&&(identical(other.title, title) || other.title == title)&&(identical(other.author, author) || other.author == author)&&(identical(other.description, description) || other.description == description)&&(identical(other.link, link) || other.link == link)&&(identical(other.pubDate, pubDate) || other.pubDate == pubDate)&&(identical(other.postId, postId) || other.postId == postId)&&const DeepCollectionEquality().equals(other.detailedDescription, _detailedDescription)&&(identical(other.tag, tag) || other.tag == tag));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,author,description,link,pubDate,postId,const DeepCollectionEquality().hash(_detailedDescription),tag);
+int get hashCode {
+    return Object.hash(runtimeType,title,author,description,link,pubDate,postId,const DeepCollectionEquality().hash(_detailedDescription),tag);
+}
 
 @override
 String toString() {
-  return 'CitizenNewsVideosItemData(title: $title, author: $author, description: $description, link: $link, pubDate: $pubDate, postId: $postId, detailedDescription: $detailedDescription, tag: $tag)';
+    return 'CitizenNewsVideosItemData(title: $title, author: $author, description: $description, link: $link, pubDate: $pubDate, postId: $postId, detailedDescription: $detailedDescription, tag: $tag)';
 }
 
 
@@ -584,16 +599,21 @@ $CitizenNewsArticlesItemDataCopyWith<CitizenNewsArticlesItemData> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitizenNewsArticlesItemData&&(identical(other.title, title) || other.title == title)&&(identical(other.author, author) || other.author == author)&&(identical(other.description, description) || other.description == description)&&(identical(other.link, link) || other.link == link)&&(identical(other.pubDate, pubDate) || other.pubDate == pubDate)&&(identical(other.postId, postId) || other.postId == postId)&&const DeepCollectionEquality().equals(other.detailedDescription, detailedDescription)&&(identical(other.tag, tag) || other.tag == tag));
+  final _this = this as CitizenNewsArticlesItemData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitizenNewsArticlesItemData&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.link, _this.link) || other.link == _this.link)&&(identical(other.pubDate, _this.pubDate) || other.pubDate == _this.pubDate)&&(identical(other.postId, _this.postId) || other.postId == _this.postId)&&const DeepCollectionEquality().equals(other.detailedDescription, _this.detailedDescription)&&(identical(other.tag, _this.tag) || other.tag == _this.tag));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,author,description,link,pubDate,postId,const DeepCollectionEquality().hash(detailedDescription),tag);
+int get hashCode {
+  final _this = this as CitizenNewsArticlesItemData;
+  return Object.hash(runtimeType,_this.title,_this.author,_this.description,_this.link,_this.pubDate,_this.postId,const DeepCollectionEquality().hash(_this.detailedDescription),_this.tag);
+}
 
 @override
 String toString() {
-  return 'CitizenNewsArticlesItemData(title: $title, author: $author, description: $description, link: $link, pubDate: $pubDate, postId: $postId, detailedDescription: $detailedDescription, tag: $tag)';
+  final _this = this as CitizenNewsArticlesItemData;
+  return 'CitizenNewsArticlesItemData(title: ${_this.title}, author: ${_this.author}, description: ${_this.description}, link: ${_this.link}, pubDate: ${_this.pubDate}, postId: ${_this.postId}, detailedDescription: ${_this.detailedDescription}, tag: ${_this.tag})';
 }
 
 
@@ -622,7 +642,7 @@ class _$CitizenNewsArticlesItemDataCopyWithImpl<$Res>
 /// Create a copy of CitizenNewsArticlesItemData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? author = null,Object? description = null,Object? link = null,Object? pubDate = null,Object? postId = null,Object? detailedDescription = null,Object? tag = null,}) {
-  return _then(_self.copyWith(
+  return _then(CitizenNewsArticlesItemData(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -766,7 +786,7 @@ return $default(_that.title,_that.author,_that.description,_that.link,_that.pubD
 @JsonSerializable()
 
 class _CitizenNewsArticlesItemData extends CitizenNewsArticlesItemData {
-  const _CitizenNewsArticlesItemData({@JsonKey(name: 'title') this.title = '', @JsonKey(name: 'author') this.author = '', @JsonKey(name: 'description') this.description = '', @JsonKey(name: 'link') this.link = '', @JsonKey(name: 'pubDate') this.pubDate = '', @JsonKey(name: 'postId') this.postId = '', @JsonKey(name: 'detailedDescription') final  List<String> detailedDescription = const <String>[], @JsonKey(name: 'tag') this.tag = ''}): _detailedDescription = detailedDescription,super._();
+  const _CitizenNewsArticlesItemData({@JsonKey(name: 'title') this.title = '', @JsonKey(name: 'author') this.author = '', @JsonKey(name: 'description') this.description = '', @JsonKey(name: 'link') this.link = '', @JsonKey(name: 'pubDate') this.pubDate = '', @JsonKey(name: 'postId') this.postId = '', @JsonKey(name: 'detailedDescription')  List<String> detailedDescription = const <String>[], @JsonKey(name: 'tag') this.tag = ''}): _detailedDescription = detailedDescription,super._();
   factory _CitizenNewsArticlesItemData.fromJson(Map<String, dynamic> json) => _$CitizenNewsArticlesItemDataFromJson(json);
 
 @override@JsonKey(name: 'title') final  String title;
@@ -797,16 +817,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CitizenNewsArticlesItemData&&(identical(other.title, title) || other.title == title)&&(identical(other.author, author) || other.author == author)&&(identical(other.description, description) || other.description == description)&&(identical(other.link, link) || other.link == link)&&(identical(other.pubDate, pubDate) || other.pubDate == pubDate)&&(identical(other.postId, postId) || other.postId == postId)&&const DeepCollectionEquality().equals(other._detailedDescription, _detailedDescription)&&(identical(other.tag, tag) || other.tag == tag));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CitizenNewsArticlesItemData&&(identical(other.title, title) || other.title == title)&&(identical(other.author, author) || other.author == author)&&(identical(other.description, description) || other.description == description)&&(identical(other.link, link) || other.link == link)&&(identical(other.pubDate, pubDate) || other.pubDate == pubDate)&&(identical(other.postId, postId) || other.postId == postId)&&const DeepCollectionEquality().equals(other.detailedDescription, _detailedDescription)&&(identical(other.tag, tag) || other.tag == tag));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,author,description,link,pubDate,postId,const DeepCollectionEquality().hash(_detailedDescription),tag);
+int get hashCode {
+    return Object.hash(runtimeType,title,author,description,link,pubDate,postId,const DeepCollectionEquality().hash(_detailedDescription),tag);
+}
 
 @override
 String toString() {
-  return 'CitizenNewsArticlesItemData(title: $title, author: $author, description: $description, link: $link, pubDate: $pubDate, postId: $postId, detailedDescription: $detailedDescription, tag: $tag)';
+    return 'CitizenNewsArticlesItemData(title: $title, author: $author, description: $description, link: $link, pubDate: $pubDate, postId: $postId, detailedDescription: $detailedDescription, tag: $tag)';
 }
 
 

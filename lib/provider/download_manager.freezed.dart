@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'download_manager.dart';
@@ -9,6 +9,7 @@ part of 'download_manager.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $DownloadManagerStateCopyWith<DownloadManagerState> get copyWith => _$DownloadMa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloadManagerState&&(identical(other.workingDir, workingDir) || other.workingDir == workingDir)&&(identical(other.downloadDir, downloadDir) || other.downloadDir == downloadDir)&&(identical(other.isInitialized, isInitialized) || other.isInitialized == isInitialized)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
+  final _this = this as DownloadManagerState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloadManagerState&&(identical(other.workingDir, _this.workingDir) || other.workingDir == _this.workingDir)&&(identical(other.downloadDir, _this.downloadDir) || other.downloadDir == _this.downloadDir)&&(identical(other.isInitialized, _this.isInitialized) || other.isInitialized == _this.isInitialized)&&(identical(other.globalStat, _this.globalStat) || other.globalStat == _this.globalStat));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,workingDir,downloadDir,isInitialized,globalStat);
+int get hashCode {
+  final _this = this as DownloadManagerState;
+  return Object.hash(runtimeType,_this.workingDir,_this.downloadDir,_this.isInitialized,_this.globalStat);
+}
 
 @override
 String toString() {
-  return 'DownloadManagerState(workingDir: $workingDir, downloadDir: $downloadDir, isInitialized: $isInitialized, globalStat: $globalStat)';
+  final _this = this as DownloadManagerState;
+  return 'DownloadManagerState(workingDir: ${_this.workingDir}, downloadDir: ${_this.downloadDir}, isInitialized: ${_this.isInitialized}, globalStat: ${_this.globalStat})';
 }
 
 
@@ -63,7 +69,7 @@ class _$DownloadManagerStateCopyWithImpl<$Res>
 /// Create a copy of DownloadManagerState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? workingDir = null,Object? downloadDir = null,Object? isInitialized = null,Object? globalStat = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DownloadManagerState(
 workingDir: null == workingDir ? _self.workingDir : workingDir // ignore: cast_nullable_to_non_nullable
 as String,downloadDir: null == downloadDir ? _self.downloadDir : downloadDir // ignore: cast_nullable_to_non_nullable
 as String,isInitialized: null == isInitialized ? _self.isInitialized : isInitialized // ignore: cast_nullable_to_non_nullable
@@ -227,16 +233,18 @@ _$DownloadManagerStateCopyWith<_DownloadManagerState> get copyWith => __$Downloa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DownloadManagerState&&(identical(other.workingDir, workingDir) || other.workingDir == workingDir)&&(identical(other.downloadDir, downloadDir) || other.downloadDir == downloadDir)&&(identical(other.isInitialized, isInitialized) || other.isInitialized == isInitialized)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DownloadManagerState&&(identical(other.workingDir, workingDir) || other.workingDir == workingDir)&&(identical(other.downloadDir, downloadDir) || other.downloadDir == downloadDir)&&(identical(other.isInitialized, isInitialized) || other.isInitialized == isInitialized)&&(identical(other.globalStat, globalStat) || other.globalStat == globalStat));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,workingDir,downloadDir,isInitialized,globalStat);
+int get hashCode {
+    return Object.hash(runtimeType,workingDir,downloadDir,isInitialized,globalStat);
+}
 
 @override
 String toString() {
-  return 'DownloadManagerState(workingDir: $workingDir, downloadDir: $downloadDir, isInitialized: $isInitialized, globalStat: $globalStat)';
+    return 'DownloadManagerState(workingDir: $workingDir, downloadDir: $downloadDir, isInitialized: $isInitialized, globalStat: $globalStat)';
 }
 
 

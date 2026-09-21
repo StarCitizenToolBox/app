@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'unp4k_model_api.dart';
@@ -9,6 +9,7 @@ part of 'unp4k_model_api.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $ModelConvertBytesResultCopyWith<ModelConvertBytesResult> get copyWith => _$Mode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelConvertBytesResult&&(identical(other.success, success) || other.success == success)&&const DeepCollectionEquality().equals(other.glbBytes, glbBytes)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&const DeepCollectionEquality().equals(other.warnings, warnings));
+  final _this = this as ModelConvertBytesResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelConvertBytesResult&&(identical(other.success, _this.success) || other.success == _this.success)&&const DeepCollectionEquality().equals(other.glbBytes, _this.glbBytes)&&(identical(other.errorCode, _this.errorCode) || other.errorCode == _this.errorCode)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage)&&const DeepCollectionEquality().equals(other.warnings, _this.warnings));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,const DeepCollectionEquality().hash(glbBytes),errorCode,errorMessage,const DeepCollectionEquality().hash(warnings));
+int get hashCode {
+  final _this = this as ModelConvertBytesResult;
+  return Object.hash(runtimeType,_this.success,const DeepCollectionEquality().hash(_this.glbBytes),_this.errorCode,_this.errorMessage,const DeepCollectionEquality().hash(_this.warnings));
+}
 
 @override
 String toString() {
-  return 'ModelConvertBytesResult(success: $success, glbBytes: $glbBytes, errorCode: $errorCode, errorMessage: $errorMessage, warnings: $warnings)';
+  final _this = this as ModelConvertBytesResult;
+  return 'ModelConvertBytesResult(success: ${_this.success}, glbBytes: ${_this.glbBytes}, errorCode: ${_this.errorCode}, errorMessage: ${_this.errorMessage}, warnings: ${_this.warnings})';
 }
 
 
@@ -63,7 +69,7 @@ class _$ModelConvertBytesResultCopyWithImpl<$Res>
 /// Create a copy of ModelConvertBytesResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? glbBytes = freezed,Object? errorCode = freezed,Object? errorMessage = freezed,Object? warnings = null,}) {
-  return _then(_self.copyWith(
+  return _then(ModelConvertBytesResult(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,glbBytes: freezed == glbBytes ? _self.glbBytes : glbBytes // ignore: cast_nullable_to_non_nullable
 as Uint8List?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
@@ -204,7 +210,7 @@ return $default(_that.success,_that.glbBytes,_that.errorCode,_that.errorMessage,
 
 
 class _ModelConvertBytesResult implements ModelConvertBytesResult {
-  const _ModelConvertBytesResult({required this.success, this.glbBytes, this.errorCode, this.errorMessage, required final  List<String> warnings}): _warnings = warnings;
+  const _ModelConvertBytesResult({required this.success, this.glbBytes, this.errorCode, this.errorMessage, required  List<String> warnings}): _warnings = warnings;
   
 
 @override final  bool success;
@@ -229,16 +235,18 @@ _$ModelConvertBytesResultCopyWith<_ModelConvertBytesResult> get copyWith => __$M
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelConvertBytesResult&&(identical(other.success, success) || other.success == success)&&const DeepCollectionEquality().equals(other.glbBytes, glbBytes)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&const DeepCollectionEquality().equals(other._warnings, _warnings));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelConvertBytesResult&&(identical(other.success, success) || other.success == success)&&const DeepCollectionEquality().equals(other.glbBytes, glbBytes)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&const DeepCollectionEquality().equals(other.warnings, _warnings));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,const DeepCollectionEquality().hash(glbBytes),errorCode,errorMessage,const DeepCollectionEquality().hash(_warnings));
+int get hashCode {
+    return Object.hash(runtimeType,success,const DeepCollectionEquality().hash(glbBytes),errorCode,errorMessage,const DeepCollectionEquality().hash(_warnings));
+}
 
 @override
 String toString() {
-  return 'ModelConvertBytesResult(success: $success, glbBytes: $glbBytes, errorCode: $errorCode, errorMessage: $errorMessage, warnings: $warnings)';
+    return 'ModelConvertBytesResult(success: $success, glbBytes: $glbBytes, errorCode: $errorCode, errorMessage: $errorMessage, warnings: $warnings)';
 }
 
 
@@ -294,16 +302,21 @@ $ModelConvertOptionsCopyWith<ModelConvertOptions> get copyWith => _$ModelConvert
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelConvertOptions&&(identical(other.embedTextures, embedTextures) || other.embedTextures == embedTextures)&&(identical(other.overwrite, overwrite) || other.overwrite == overwrite)&&(identical(other.maxTextureSize, maxTextureSize) || other.maxTextureSize == maxTextureSize));
+  final _this = this as ModelConvertOptions;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelConvertOptions&&(identical(other.embedTextures, _this.embedTextures) || other.embedTextures == _this.embedTextures)&&(identical(other.overwrite, _this.overwrite) || other.overwrite == _this.overwrite)&&(identical(other.maxTextureSize, _this.maxTextureSize) || other.maxTextureSize == _this.maxTextureSize));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,embedTextures,overwrite,maxTextureSize);
+int get hashCode {
+  final _this = this as ModelConvertOptions;
+  return Object.hash(runtimeType,_this.embedTextures,_this.overwrite,_this.maxTextureSize);
+}
 
 @override
 String toString() {
-  return 'ModelConvertOptions(embedTextures: $embedTextures, overwrite: $overwrite, maxTextureSize: $maxTextureSize)';
+  final _this = this as ModelConvertOptions;
+  return 'ModelConvertOptions(embedTextures: ${_this.embedTextures}, overwrite: ${_this.overwrite}, maxTextureSize: ${_this.maxTextureSize})';
 }
 
 
@@ -332,7 +345,7 @@ class _$ModelConvertOptionsCopyWithImpl<$Res>
 /// Create a copy of ModelConvertOptions
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? embedTextures = null,Object? overwrite = null,Object? maxTextureSize = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ModelConvertOptions(
 embedTextures: null == embedTextures ? _self.embedTextures : embedTextures // ignore: cast_nullable_to_non_nullable
 as bool,overwrite: null == overwrite ? _self.overwrite : overwrite // ignore: cast_nullable_to_non_nullable
 as bool,maxTextureSize: freezed == maxTextureSize ? _self.maxTextureSize : maxTextureSize // ignore: cast_nullable_to_non_nullable
@@ -488,16 +501,18 @@ _$ModelConvertOptionsCopyWith<_ModelConvertOptions> get copyWith => __$ModelConv
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelConvertOptions&&(identical(other.embedTextures, embedTextures) || other.embedTextures == embedTextures)&&(identical(other.overwrite, overwrite) || other.overwrite == overwrite)&&(identical(other.maxTextureSize, maxTextureSize) || other.maxTextureSize == maxTextureSize));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelConvertOptions&&(identical(other.embedTextures, embedTextures) || other.embedTextures == embedTextures)&&(identical(other.overwrite, overwrite) || other.overwrite == overwrite)&&(identical(other.maxTextureSize, maxTextureSize) || other.maxTextureSize == maxTextureSize));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,embedTextures,overwrite,maxTextureSize);
+int get hashCode {
+    return Object.hash(runtimeType,embedTextures,overwrite,maxTextureSize);
+}
 
 @override
 String toString() {
-  return 'ModelConvertOptions(embedTextures: $embedTextures, overwrite: $overwrite, maxTextureSize: $maxTextureSize)';
+    return 'ModelConvertOptions(embedTextures: $embedTextures, overwrite: $overwrite, maxTextureSize: $maxTextureSize)';
 }
 
 
@@ -551,16 +566,21 @@ $ModelConvertResultCopyWith<ModelConvertResult> get copyWith => _$ModelConvertRe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelConvertResult&&(identical(other.success, success) || other.success == success)&&(identical(other.outputPath, outputPath) || other.outputPath == outputPath)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&const DeepCollectionEquality().equals(other.warnings, warnings));
+  final _this = this as ModelConvertResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelConvertResult&&(identical(other.success, _this.success) || other.success == _this.success)&&(identical(other.outputPath, _this.outputPath) || other.outputPath == _this.outputPath)&&(identical(other.errorCode, _this.errorCode) || other.errorCode == _this.errorCode)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage)&&const DeepCollectionEquality().equals(other.warnings, _this.warnings));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,outputPath,errorCode,errorMessage,const DeepCollectionEquality().hash(warnings));
+int get hashCode {
+  final _this = this as ModelConvertResult;
+  return Object.hash(runtimeType,_this.success,_this.outputPath,_this.errorCode,_this.errorMessage,const DeepCollectionEquality().hash(_this.warnings));
+}
 
 @override
 String toString() {
-  return 'ModelConvertResult(success: $success, outputPath: $outputPath, errorCode: $errorCode, errorMessage: $errorMessage, warnings: $warnings)';
+  final _this = this as ModelConvertResult;
+  return 'ModelConvertResult(success: ${_this.success}, outputPath: ${_this.outputPath}, errorCode: ${_this.errorCode}, errorMessage: ${_this.errorMessage}, warnings: ${_this.warnings})';
 }
 
 
@@ -589,7 +609,7 @@ class _$ModelConvertResultCopyWithImpl<$Res>
 /// Create a copy of ModelConvertResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? outputPath = freezed,Object? errorCode = freezed,Object? errorMessage = freezed,Object? warnings = null,}) {
-  return _then(_self.copyWith(
+  return _then(ModelConvertResult(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,outputPath: freezed == outputPath ? _self.outputPath : outputPath // ignore: cast_nullable_to_non_nullable
 as String?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
@@ -730,7 +750,7 @@ return $default(_that.success,_that.outputPath,_that.errorCode,_that.errorMessag
 
 
 class _ModelConvertResult implements ModelConvertResult {
-  const _ModelConvertResult({required this.success, this.outputPath, this.errorCode, this.errorMessage, required final  List<String> warnings}): _warnings = warnings;
+  const _ModelConvertResult({required this.success, this.outputPath, this.errorCode, this.errorMessage, required  List<String> warnings}): _warnings = warnings;
   
 
 @override final  bool success;
@@ -755,16 +775,18 @@ _$ModelConvertResultCopyWith<_ModelConvertResult> get copyWith => __$ModelConver
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelConvertResult&&(identical(other.success, success) || other.success == success)&&(identical(other.outputPath, outputPath) || other.outputPath == outputPath)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&const DeepCollectionEquality().equals(other._warnings, _warnings));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelConvertResult&&(identical(other.success, success) || other.success == success)&&(identical(other.outputPath, outputPath) || other.outputPath == outputPath)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&const DeepCollectionEquality().equals(other.warnings, _warnings));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,outputPath,errorCode,errorMessage,const DeepCollectionEquality().hash(_warnings));
+int get hashCode {
+    return Object.hash(runtimeType,success,outputPath,errorCode,errorMessage,const DeepCollectionEquality().hash(_warnings));
+}
 
 @override
 String toString() {
-  return 'ModelConvertResult(success: $success, outputPath: $outputPath, errorCode: $errorCode, errorMessage: $errorMessage, warnings: $warnings)';
+    return 'ModelConvertResult(success: $success, outputPath: $outputPath, errorCode: $errorCode, errorMessage: $errorMessage, warnings: $warnings)';
 }
 
 
@@ -820,16 +842,21 @@ $ModelRenderResultCopyWith<ModelRenderResult> get copyWith => _$ModelRenderResul
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelRenderResult&&(identical(other.success, success) || other.success == success)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&const DeepCollectionEquality().equals(other.rgbaData, rgbaData)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  final _this = this as ModelRenderResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ModelRenderResult&&(identical(other.success, _this.success) || other.success == _this.success)&&(identical(other.width, _this.width) || other.width == _this.width)&&(identical(other.height, _this.height) || other.height == _this.height)&&const DeepCollectionEquality().equals(other.rgbaData, _this.rgbaData)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,width,height,const DeepCollectionEquality().hash(rgbaData),errorMessage);
+int get hashCode {
+  final _this = this as ModelRenderResult;
+  return Object.hash(runtimeType,_this.success,_this.width,_this.height,const DeepCollectionEquality().hash(_this.rgbaData),_this.errorMessage);
+}
 
 @override
 String toString() {
-  return 'ModelRenderResult(success: $success, width: $width, height: $height, rgbaData: $rgbaData, errorMessage: $errorMessage)';
+  final _this = this as ModelRenderResult;
+  return 'ModelRenderResult(success: ${_this.success}, width: ${_this.width}, height: ${_this.height}, rgbaData: ${_this.rgbaData}, errorMessage: ${_this.errorMessage})';
 }
 
 
@@ -858,7 +885,7 @@ class _$ModelRenderResultCopyWithImpl<$Res>
 /// Create a copy of ModelRenderResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? width = null,Object? height = null,Object? rgbaData = freezed,Object? errorMessage = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ModelRenderResult(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
@@ -1018,16 +1045,18 @@ _$ModelRenderResultCopyWith<_ModelRenderResult> get copyWith => __$ModelRenderRe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelRenderResult&&(identical(other.success, success) || other.success == success)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&const DeepCollectionEquality().equals(other.rgbaData, rgbaData)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModelRenderResult&&(identical(other.success, success) || other.success == success)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&const DeepCollectionEquality().equals(other.rgbaData, rgbaData)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,width,height,const DeepCollectionEquality().hash(rgbaData),errorMessage);
+int get hashCode {
+    return Object.hash(runtimeType,success,width,height,const DeepCollectionEquality().hash(rgbaData),errorMessage);
+}
 
 @override
 String toString() {
-  return 'ModelRenderResult(success: $success, width: $width, height: $height, rgbaData: $rgbaData, errorMessage: $errorMessage)';
+    return 'ModelRenderResult(success: $success, width: $width, height: $height, rgbaData: $rgbaData, errorMessage: $errorMessage)';
 }
 
 
@@ -1083,16 +1112,21 @@ $SessionCreateResultCopyWith<SessionCreateResult> get copyWith => _$SessionCreat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionCreateResult&&(identical(other.success, success) || other.success == success)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.modelRadius, modelRadius) || other.modelRadius == modelRadius)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  final _this = this as SessionCreateResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionCreateResult&&(identical(other.success, _this.success) || other.success == _this.success)&&(identical(other.sessionId, _this.sessionId) || other.sessionId == _this.sessionId)&&(identical(other.modelRadius, _this.modelRadius) || other.modelRadius == _this.modelRadius)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,sessionId,modelRadius,errorMessage);
+int get hashCode {
+  final _this = this as SessionCreateResult;
+  return Object.hash(runtimeType,_this.success,_this.sessionId,_this.modelRadius,_this.errorMessage);
+}
 
 @override
 String toString() {
-  return 'SessionCreateResult(success: $success, sessionId: $sessionId, modelRadius: $modelRadius, errorMessage: $errorMessage)';
+  final _this = this as SessionCreateResult;
+  return 'SessionCreateResult(success: ${_this.success}, sessionId: ${_this.sessionId}, modelRadius: ${_this.modelRadius}, errorMessage: ${_this.errorMessage})';
 }
 
 
@@ -1121,7 +1155,7 @@ class _$SessionCreateResultCopyWithImpl<$Res>
 /// Create a copy of SessionCreateResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? sessionId = freezed,Object? modelRadius = null,Object? errorMessage = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SessionCreateResult(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,sessionId: freezed == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
 as String?,modelRadius: null == modelRadius ? _self.modelRadius : modelRadius // ignore: cast_nullable_to_non_nullable
@@ -1279,16 +1313,18 @@ _$SessionCreateResultCopyWith<_SessionCreateResult> get copyWith => __$SessionCr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionCreateResult&&(identical(other.success, success) || other.success == success)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.modelRadius, modelRadius) || other.modelRadius == modelRadius)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionCreateResult&&(identical(other.success, success) || other.success == success)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.modelRadius, modelRadius) || other.modelRadius == modelRadius)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,sessionId,modelRadius,errorMessage);
+int get hashCode {
+    return Object.hash(runtimeType,success,sessionId,modelRadius,errorMessage);
+}
 
 @override
 String toString() {
-  return 'SessionCreateResult(success: $success, sessionId: $sessionId, modelRadius: $modelRadius, errorMessage: $errorMessage)';
+    return 'SessionCreateResult(success: $success, sessionId: $sessionId, modelRadius: $modelRadius, errorMessage: $errorMessage)';
 }
 
 
@@ -1343,16 +1379,21 @@ $SessionStartResultCopyWith<SessionStartResult> get copyWith => _$SessionStartRe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionStartResult&&(identical(other.success, success) || other.success == success)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  final _this = this as SessionStartResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionStartResult&&(identical(other.success, _this.success) || other.success == _this.success)&&(identical(other.sessionId, _this.sessionId) || other.sessionId == _this.sessionId)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,sessionId,errorMessage);
+int get hashCode {
+  final _this = this as SessionStartResult;
+  return Object.hash(runtimeType,_this.success,_this.sessionId,_this.errorMessage);
+}
 
 @override
 String toString() {
-  return 'SessionStartResult(success: $success, sessionId: $sessionId, errorMessage: $errorMessage)';
+  final _this = this as SessionStartResult;
+  return 'SessionStartResult(success: ${_this.success}, sessionId: ${_this.sessionId}, errorMessage: ${_this.errorMessage})';
 }
 
 
@@ -1381,7 +1422,7 @@ class _$SessionStartResultCopyWithImpl<$Res>
 /// Create a copy of SessionStartResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? sessionId = freezed,Object? errorMessage = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SessionStartResult(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,sessionId: freezed == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
 as String?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -1537,16 +1578,18 @@ _$SessionStartResultCopyWith<_SessionStartResult> get copyWith => __$SessionStar
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionStartResult&&(identical(other.success, success) || other.success == success)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionStartResult&&(identical(other.success, success) || other.success == success)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,success,sessionId,errorMessage);
+int get hashCode {
+    return Object.hash(runtimeType,success,sessionId,errorMessage);
+}
 
 @override
 String toString() {
-  return 'SessionStartResult(success: $success, sessionId: $sessionId, errorMessage: $errorMessage)';
+    return 'SessionStartResult(success: $success, sessionId: $sessionId, errorMessage: $errorMessage)';
 }
 
 
@@ -1600,16 +1643,21 @@ $SessionStatusResultCopyWith<SessionStatusResult> get copyWith => _$SessionStatu
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionStatusResult&&(identical(other.exists, exists) || other.exists == exists)&&(identical(other.ready, ready) || other.ready == ready)&&(identical(other.failed, failed) || other.failed == failed)&&(identical(other.stage, stage) || other.stage == stage)&&(identical(other.modelRadius, modelRadius) || other.modelRadius == modelRadius)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  final _this = this as SessionStatusResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionStatusResult&&(identical(other.exists, _this.exists) || other.exists == _this.exists)&&(identical(other.ready, _this.ready) || other.ready == _this.ready)&&(identical(other.failed, _this.failed) || other.failed == _this.failed)&&(identical(other.stage, _this.stage) || other.stage == _this.stage)&&(identical(other.modelRadius, _this.modelRadius) || other.modelRadius == _this.modelRadius)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,exists,ready,failed,stage,modelRadius,errorMessage);
+int get hashCode {
+  final _this = this as SessionStatusResult;
+  return Object.hash(runtimeType,_this.exists,_this.ready,_this.failed,_this.stage,_this.modelRadius,_this.errorMessage);
+}
 
 @override
 String toString() {
-  return 'SessionStatusResult(exists: $exists, ready: $ready, failed: $failed, stage: $stage, modelRadius: $modelRadius, errorMessage: $errorMessage)';
+  final _this = this as SessionStatusResult;
+  return 'SessionStatusResult(exists: ${_this.exists}, ready: ${_this.ready}, failed: ${_this.failed}, stage: ${_this.stage}, modelRadius: ${_this.modelRadius}, errorMessage: ${_this.errorMessage})';
 }
 
 
@@ -1638,7 +1686,7 @@ class _$SessionStatusResultCopyWithImpl<$Res>
 /// Create a copy of SessionStatusResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? exists = null,Object? ready = null,Object? failed = null,Object? stage = null,Object? modelRadius = null,Object? errorMessage = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SessionStatusResult(
 exists: null == exists ? _self.exists : exists // ignore: cast_nullable_to_non_nullable
 as bool,ready: null == ready ? _self.ready : ready // ignore: cast_nullable_to_non_nullable
 as bool,failed: null == failed ? _self.failed : failed // ignore: cast_nullable_to_non_nullable
@@ -1800,16 +1848,18 @@ _$SessionStatusResultCopyWith<_SessionStatusResult> get copyWith => __$SessionSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionStatusResult&&(identical(other.exists, exists) || other.exists == exists)&&(identical(other.ready, ready) || other.ready == ready)&&(identical(other.failed, failed) || other.failed == failed)&&(identical(other.stage, stage) || other.stage == stage)&&(identical(other.modelRadius, modelRadius) || other.modelRadius == modelRadius)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionStatusResult&&(identical(other.exists, exists) || other.exists == exists)&&(identical(other.ready, ready) || other.ready == ready)&&(identical(other.failed, failed) || other.failed == failed)&&(identical(other.stage, stage) || other.stage == stage)&&(identical(other.modelRadius, modelRadius) || other.modelRadius == modelRadius)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,exists,ready,failed,stage,modelRadius,errorMessage);
+int get hashCode {
+    return Object.hash(runtimeType,exists,ready,failed,stage,modelRadius,errorMessage);
+}
 
 @override
 String toString() {
-  return 'SessionStatusResult(exists: $exists, ready: $ready, failed: $failed, stage: $stage, modelRadius: $modelRadius, errorMessage: $errorMessage)';
+    return 'SessionStatusResult(exists: $exists, ready: $ready, failed: $failed, stage: $stage, modelRadius: $modelRadius, errorMessage: $errorMessage)';
 }
 
 

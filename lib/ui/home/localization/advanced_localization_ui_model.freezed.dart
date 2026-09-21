@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'advanced_localization_ui_model.dart';
@@ -9,6 +9,7 @@ part of 'advanced_localization_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $AdvancedLocalizationUIStateCopyWith<AdvancedLocalizationUIState> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdvancedLocalizationUIState&&(identical(other.workingText, workingText) || other.workingText == workingText)&&const DeepCollectionEquality().equals(other.classMap, classMap)&&(identical(other.p4kGlobalIni, p4kGlobalIni) || other.p4kGlobalIni == p4kGlobalIni)&&(identical(other.serverGlobalIni, serverGlobalIni) || other.serverGlobalIni == serverGlobalIni)&&(identical(other.customizeGlobalIni, customizeGlobalIni) || other.customizeGlobalIni == customizeGlobalIni)&&(identical(other.apiLocalizationData, apiLocalizationData) || other.apiLocalizationData == apiLocalizationData)&&(identical(other.p4kGlobalIniLines, p4kGlobalIniLines) || other.p4kGlobalIniLines == p4kGlobalIniLines)&&(identical(other.serverGlobalIniLines, serverGlobalIniLines) || other.serverGlobalIniLines == serverGlobalIniLines)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  final _this = this as AdvancedLocalizationUIState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdvancedLocalizationUIState&&(identical(other.workingText, _this.workingText) || other.workingText == _this.workingText)&&const DeepCollectionEquality().equals(other.classMap, _this.classMap)&&(identical(other.p4kGlobalIni, _this.p4kGlobalIni) || other.p4kGlobalIni == _this.p4kGlobalIni)&&(identical(other.serverGlobalIni, _this.serverGlobalIni) || other.serverGlobalIni == _this.serverGlobalIni)&&(identical(other.customizeGlobalIni, _this.customizeGlobalIni) || other.customizeGlobalIni == _this.customizeGlobalIni)&&(identical(other.apiLocalizationData, _this.apiLocalizationData) || other.apiLocalizationData == _this.apiLocalizationData)&&(identical(other.p4kGlobalIniLines, _this.p4kGlobalIniLines) || other.p4kGlobalIniLines == _this.p4kGlobalIniLines)&&(identical(other.serverGlobalIniLines, _this.serverGlobalIniLines) || other.serverGlobalIniLines == _this.serverGlobalIniLines)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,workingText,const DeepCollectionEquality().hash(classMap),p4kGlobalIni,serverGlobalIni,customizeGlobalIni,apiLocalizationData,p4kGlobalIniLines,serverGlobalIniLines,errorMessage);
+int get hashCode {
+  final _this = this as AdvancedLocalizationUIState;
+  return Object.hash(runtimeType,_this.workingText,const DeepCollectionEquality().hash(_this.classMap),_this.p4kGlobalIni,_this.serverGlobalIni,_this.customizeGlobalIni,_this.apiLocalizationData,_this.p4kGlobalIniLines,_this.serverGlobalIniLines,_this.errorMessage);
+}
 
 @override
 String toString() {
-  return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines, errorMessage: $errorMessage)';
+  final _this = this as AdvancedLocalizationUIState;
+  return 'AdvancedLocalizationUIState(workingText: ${_this.workingText}, classMap: ${_this.classMap}, p4kGlobalIni: ${_this.p4kGlobalIni}, serverGlobalIni: ${_this.serverGlobalIni}, customizeGlobalIni: ${_this.customizeGlobalIni}, apiLocalizationData: ${_this.apiLocalizationData}, p4kGlobalIniLines: ${_this.p4kGlobalIniLines}, serverGlobalIniLines: ${_this.serverGlobalIniLines}, errorMessage: ${_this.errorMessage})';
 }
 
 
@@ -63,7 +69,7 @@ class _$AdvancedLocalizationUIStateCopyWithImpl<$Res>
 /// Create a copy of AdvancedLocalizationUIState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? workingText = null,Object? classMap = freezed,Object? p4kGlobalIni = freezed,Object? serverGlobalIni = freezed,Object? customizeGlobalIni = freezed,Object? apiLocalizationData = freezed,Object? p4kGlobalIniLines = null,Object? serverGlobalIniLines = null,Object? errorMessage = null,}) {
-  return _then(_self.copyWith(
+  return _then(AdvancedLocalizationUIState(
 workingText: null == workingText ? _self.workingText : workingText // ignore: cast_nullable_to_non_nullable
 as String,classMap: freezed == classMap ? _self.classMap : classMap // ignore: cast_nullable_to_non_nullable
 as Map<String, AppAdvancedLocalizationClassKeysData>?,p4kGlobalIni: freezed == p4kGlobalIni ? _self.p4kGlobalIni : p4kGlobalIni // ignore: cast_nullable_to_non_nullable
@@ -214,7 +220,7 @@ return $default(_that.workingText,_that.classMap,_that.p4kGlobalIni,_that.server
 
 
 class _AdvancedLocalizationUIState implements AdvancedLocalizationUIState {
-   _AdvancedLocalizationUIState({this.workingText = "", final  Map<String, AppAdvancedLocalizationClassKeysData>? classMap, this.p4kGlobalIni, this.serverGlobalIni, this.customizeGlobalIni, this.apiLocalizationData, this.p4kGlobalIniLines = 0, this.serverGlobalIniLines = 0, this.errorMessage = ""}): _classMap = classMap;
+   _AdvancedLocalizationUIState({this.workingText = "",  Map<String, AppAdvancedLocalizationClassKeysData>? classMap, this.p4kGlobalIni, this.serverGlobalIni, this.customizeGlobalIni, this.apiLocalizationData, this.p4kGlobalIniLines = 0, this.serverGlobalIniLines = 0, this.errorMessage = ""}): _classMap = classMap;
   
 
 @override@JsonKey() final  String workingText;
@@ -245,16 +251,18 @@ _$AdvancedLocalizationUIStateCopyWith<_AdvancedLocalizationUIState> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdvancedLocalizationUIState&&(identical(other.workingText, workingText) || other.workingText == workingText)&&const DeepCollectionEquality().equals(other._classMap, _classMap)&&(identical(other.p4kGlobalIni, p4kGlobalIni) || other.p4kGlobalIni == p4kGlobalIni)&&(identical(other.serverGlobalIni, serverGlobalIni) || other.serverGlobalIni == serverGlobalIni)&&(identical(other.customizeGlobalIni, customizeGlobalIni) || other.customizeGlobalIni == customizeGlobalIni)&&(identical(other.apiLocalizationData, apiLocalizationData) || other.apiLocalizationData == apiLocalizationData)&&(identical(other.p4kGlobalIniLines, p4kGlobalIniLines) || other.p4kGlobalIniLines == p4kGlobalIniLines)&&(identical(other.serverGlobalIniLines, serverGlobalIniLines) || other.serverGlobalIniLines == serverGlobalIniLines)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdvancedLocalizationUIState&&(identical(other.workingText, workingText) || other.workingText == workingText)&&const DeepCollectionEquality().equals(other.classMap, _classMap)&&(identical(other.p4kGlobalIni, p4kGlobalIni) || other.p4kGlobalIni == p4kGlobalIni)&&(identical(other.serverGlobalIni, serverGlobalIni) || other.serverGlobalIni == serverGlobalIni)&&(identical(other.customizeGlobalIni, customizeGlobalIni) || other.customizeGlobalIni == customizeGlobalIni)&&(identical(other.apiLocalizationData, apiLocalizationData) || other.apiLocalizationData == apiLocalizationData)&&(identical(other.p4kGlobalIniLines, p4kGlobalIniLines) || other.p4kGlobalIniLines == p4kGlobalIniLines)&&(identical(other.serverGlobalIniLines, serverGlobalIniLines) || other.serverGlobalIniLines == serverGlobalIniLines)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,workingText,const DeepCollectionEquality().hash(_classMap),p4kGlobalIni,serverGlobalIni,customizeGlobalIni,apiLocalizationData,p4kGlobalIniLines,serverGlobalIniLines,errorMessage);
+int get hashCode {
+    return Object.hash(runtimeType,workingText,const DeepCollectionEquality().hash(_classMap),p4kGlobalIni,serverGlobalIni,customizeGlobalIni,apiLocalizationData,p4kGlobalIniLines,serverGlobalIniLines,errorMessage);
+}
 
 @override
 String toString() {
-  return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines, errorMessage: $errorMessage)';
+    return 'AdvancedLocalizationUIState(workingText: $workingText, classMap: $classMap, p4kGlobalIni: $p4kGlobalIni, serverGlobalIni: $serverGlobalIni, customizeGlobalIni: $customizeGlobalIni, apiLocalizationData: $apiLocalizationData, p4kGlobalIniLines: $p4kGlobalIniLines, serverGlobalIniLines: $serverGlobalIniLines, errorMessage: $errorMessage)';
 }
 
 

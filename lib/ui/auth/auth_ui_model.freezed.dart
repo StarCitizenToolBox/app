@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'auth_ui_model.dart';
@@ -9,6 +9,7 @@ part of 'auth_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $AuthUIStateCopyWith<AuthUIState> get copyWith => _$AuthUIStateCopyWithImpl<Auth
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthUIState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isWaitingForConnection, isWaitingForConnection) || other.isWaitingForConnection == isWaitingForConnection)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.callbackUrl, callbackUrl) || other.callbackUrl == callbackUrl)&&(identical(other.stateParameter, stateParameter) || other.stateParameter == stateParameter)&&(identical(other.nonce, nonce) || other.nonce == nonce)&&(identical(other.code, code) || other.code == code)&&(identical(other.error, error) || other.error == error)&&(identical(other.isDomainTrusted, isDomainTrusted) || other.isDomainTrusted == isDomainTrusted)&&(identical(other.domainName, domainName) || other.domainName == domainName));
+  final _this = this as AuthUIState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthUIState&&(identical(other.isLoading, _this.isLoading) || other.isLoading == _this.isLoading)&&(identical(other.isLoggedIn, _this.isLoggedIn) || other.isLoggedIn == _this.isLoggedIn)&&(identical(other.isWaitingForConnection, _this.isWaitingForConnection) || other.isWaitingForConnection == _this.isWaitingForConnection)&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.callbackUrl, _this.callbackUrl) || other.callbackUrl == _this.callbackUrl)&&(identical(other.stateParameter, _this.stateParameter) || other.stateParameter == _this.stateParameter)&&(identical(other.nonce, _this.nonce) || other.nonce == _this.nonce)&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.error, _this.error) || other.error == _this.error)&&(identical(other.isDomainTrusted, _this.isDomainTrusted) || other.isDomainTrusted == _this.isDomainTrusted)&&(identical(other.domainName, _this.domainName) || other.domainName == _this.domainName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isLoggedIn,isWaitingForConnection,domain,callbackUrl,stateParameter,nonce,code,error,isDomainTrusted,domainName);
+int get hashCode {
+  final _this = this as AuthUIState;
+  return Object.hash(runtimeType,_this.isLoading,_this.isLoggedIn,_this.isWaitingForConnection,_this.domain,_this.callbackUrl,_this.stateParameter,_this.nonce,_this.code,_this.error,_this.isDomainTrusted,_this.domainName);
+}
 
 @override
 String toString() {
-  return 'AuthUIState(isLoading: $isLoading, isLoggedIn: $isLoggedIn, isWaitingForConnection: $isWaitingForConnection, domain: $domain, callbackUrl: $callbackUrl, stateParameter: $stateParameter, nonce: $nonce, code: $code, error: $error, isDomainTrusted: $isDomainTrusted, domainName: $domainName)';
+  final _this = this as AuthUIState;
+  return 'AuthUIState(isLoading: ${_this.isLoading}, isLoggedIn: ${_this.isLoggedIn}, isWaitingForConnection: ${_this.isWaitingForConnection}, domain: ${_this.domain}, callbackUrl: ${_this.callbackUrl}, stateParameter: ${_this.stateParameter}, nonce: ${_this.nonce}, code: ${_this.code}, error: ${_this.error}, isDomainTrusted: ${_this.isDomainTrusted}, domainName: ${_this.domainName})';
 }
 
 
@@ -63,7 +69,7 @@ class _$AuthUIStateCopyWithImpl<$Res>
 /// Create a copy of AuthUIState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isLoggedIn = null,Object? isWaitingForConnection = null,Object? domain = freezed,Object? callbackUrl = freezed,Object? stateParameter = freezed,Object? nonce = freezed,Object? code = freezed,Object? error = freezed,Object? isDomainTrusted = null,Object? domainName = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(AuthUIState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
 as bool,isWaitingForConnection: null == isWaitingForConnection ? _self.isWaitingForConnection : isWaitingForConnection // ignore: cast_nullable_to_non_nullable
@@ -235,16 +241,18 @@ _$AuthUIStateCopyWith<_AuthUIState> get copyWith => __$AuthUIStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthUIState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isWaitingForConnection, isWaitingForConnection) || other.isWaitingForConnection == isWaitingForConnection)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.callbackUrl, callbackUrl) || other.callbackUrl == callbackUrl)&&(identical(other.stateParameter, stateParameter) || other.stateParameter == stateParameter)&&(identical(other.nonce, nonce) || other.nonce == nonce)&&(identical(other.code, code) || other.code == code)&&(identical(other.error, error) || other.error == error)&&(identical(other.isDomainTrusted, isDomainTrusted) || other.isDomainTrusted == isDomainTrusted)&&(identical(other.domainName, domainName) || other.domainName == domainName));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthUIState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isWaitingForConnection, isWaitingForConnection) || other.isWaitingForConnection == isWaitingForConnection)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.callbackUrl, callbackUrl) || other.callbackUrl == callbackUrl)&&(identical(other.stateParameter, stateParameter) || other.stateParameter == stateParameter)&&(identical(other.nonce, nonce) || other.nonce == nonce)&&(identical(other.code, code) || other.code == code)&&(identical(other.error, error) || other.error == error)&&(identical(other.isDomainTrusted, isDomainTrusted) || other.isDomainTrusted == isDomainTrusted)&&(identical(other.domainName, domainName) || other.domainName == domainName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isLoggedIn,isWaitingForConnection,domain,callbackUrl,stateParameter,nonce,code,error,isDomainTrusted,domainName);
+int get hashCode {
+    return Object.hash(runtimeType,isLoading,isLoggedIn,isWaitingForConnection,domain,callbackUrl,stateParameter,nonce,code,error,isDomainTrusted,domainName);
+}
 
 @override
 String toString() {
-  return 'AuthUIState(isLoading: $isLoading, isLoggedIn: $isLoggedIn, isWaitingForConnection: $isWaitingForConnection, domain: $domain, callbackUrl: $callbackUrl, stateParameter: $stateParameter, nonce: $nonce, code: $code, error: $error, isDomainTrusted: $isDomainTrusted, domainName: $domainName)';
+    return 'AuthUIState(isLoading: $isLoading, isLoggedIn: $isLoggedIn, isWaitingForConnection: $isWaitingForConnection, domain: $domain, callbackUrl: $callbackUrl, stateParameter: $stateParameter, nonce: $nonce, code: $code, error: $error, isDomainTrusted: $isDomainTrusted, domainName: $domainName)';
 }
 
 

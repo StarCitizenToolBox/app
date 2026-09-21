@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'server.dart';
@@ -9,6 +9,7 @@ part of 'server.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $InputMethodServerStateCopyWith<InputMethodServerState> get copyWith => _$InputM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InputMethodServerState&&(identical(other.isServerStartup, isServerStartup) || other.isServerStartup == isServerStartup)&&(identical(other.serverAddressText, serverAddressText) || other.serverAddressText == serverAddressText));
+  final _this = this as InputMethodServerState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InputMethodServerState&&(identical(other.isServerStartup, _this.isServerStartup) || other.isServerStartup == _this.isServerStartup)&&(identical(other.serverAddressText, _this.serverAddressText) || other.serverAddressText == _this.serverAddressText));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isServerStartup,serverAddressText);
+int get hashCode {
+  final _this = this as InputMethodServerState;
+  return Object.hash(runtimeType,_this.isServerStartup,_this.serverAddressText);
+}
 
 @override
 String toString() {
-  return 'InputMethodServerState(isServerStartup: $isServerStartup, serverAddressText: $serverAddressText)';
+  final _this = this as InputMethodServerState;
+  return 'InputMethodServerState(isServerStartup: ${_this.isServerStartup}, serverAddressText: ${_this.serverAddressText})';
 }
 
 
@@ -63,7 +69,7 @@ class _$InputMethodServerStateCopyWithImpl<$Res>
 /// Create a copy of InputMethodServerState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isServerStartup = null,Object? serverAddressText = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(InputMethodServerState(
 isServerStartup: null == isServerStartup ? _self.isServerStartup : isServerStartup // ignore: cast_nullable_to_non_nullable
 as bool,serverAddressText: freezed == serverAddressText ? _self.serverAddressText : serverAddressText // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -223,16 +229,18 @@ _$InputMethodServerStateCopyWith<_InputMethodServerState> get copyWith => __$Inp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InputMethodServerState&&(identical(other.isServerStartup, isServerStartup) || other.isServerStartup == isServerStartup)&&(identical(other.serverAddressText, serverAddressText) || other.serverAddressText == serverAddressText));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InputMethodServerState&&(identical(other.isServerStartup, isServerStartup) || other.isServerStartup == isServerStartup)&&(identical(other.serverAddressText, serverAddressText) || other.serverAddressText == serverAddressText));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isServerStartup,serverAddressText);
+int get hashCode {
+    return Object.hash(runtimeType,isServerStartup,serverAddressText);
+}
 
 @override
 String toString() {
-  return 'InputMethodServerState(isServerStartup: $isServerStartup, serverAddressText: $serverAddressText)';
+    return 'InputMethodServerState(isServerStartup: $isServerStartup, serverAddressText: $serverAddressText)';
 }
 
 

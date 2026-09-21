@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'dcb_viewer.dart';
@@ -9,6 +9,7 @@ part of 'dcb_viewer.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -42,16 +43,21 @@ $DcbViewerStateCopyWith<DcbViewerState> get copyWith => _$DcbViewerStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DcbViewerState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.message, message) || other.message == message)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.dcbFilePath, dcbFilePath) || other.dcbFilePath == dcbFilePath)&&(identical(other.sourceType, sourceType) || other.sourceType == sourceType)&&const DeepCollectionEquality().equals(other.allRecords, allRecords)&&const DeepCollectionEquality().equals(other.filteredRecords, filteredRecords)&&(identical(other.selectedRecordPath, selectedRecordPath) || other.selectedRecordPath == selectedRecordPath)&&(identical(other.currentXml, currentXml) || other.currentXml == currentXml)&&(identical(other.listSearchQuery, listSearchQuery) || other.listSearchQuery == listSearchQuery)&&(identical(other.fullTextSearchQuery, fullTextSearchQuery) || other.fullTextSearchQuery == fullTextSearchQuery)&&(identical(other.viewMode, viewMode) || other.viewMode == viewMode)&&const DeepCollectionEquality().equals(other.searchResults, searchResults)&&(identical(other.isSearching, isSearching) || other.isSearching == isSearching)&&(identical(other.isLoadingXml, isLoadingXml) || other.isLoadingXml == isLoadingXml)&&(identical(other.isExporting, isExporting) || other.isExporting == isExporting)&&(identical(other.needSelectFile, needSelectFile) || other.needSelectFile == needSelectFile));
+  final _this = this as DcbViewerState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DcbViewerState&&(identical(other.isLoading, _this.isLoading) || other.isLoading == _this.isLoading)&&(identical(other.message, _this.message) || other.message == _this.message)&&(identical(other.errorMessage, _this.errorMessage) || other.errorMessage == _this.errorMessage)&&(identical(other.dcbFilePath, _this.dcbFilePath) || other.dcbFilePath == _this.dcbFilePath)&&(identical(other.sourceType, _this.sourceType) || other.sourceType == _this.sourceType)&&const DeepCollectionEquality().equals(other.allRecords, _this.allRecords)&&const DeepCollectionEquality().equals(other.filteredRecords, _this.filteredRecords)&&(identical(other.selectedRecordPath, _this.selectedRecordPath) || other.selectedRecordPath == _this.selectedRecordPath)&&(identical(other.currentXml, _this.currentXml) || other.currentXml == _this.currentXml)&&(identical(other.listSearchQuery, _this.listSearchQuery) || other.listSearchQuery == _this.listSearchQuery)&&(identical(other.fullTextSearchQuery, _this.fullTextSearchQuery) || other.fullTextSearchQuery == _this.fullTextSearchQuery)&&(identical(other.viewMode, _this.viewMode) || other.viewMode == _this.viewMode)&&const DeepCollectionEquality().equals(other.searchResults, _this.searchResults)&&(identical(other.isSearching, _this.isSearching) || other.isSearching == _this.isSearching)&&(identical(other.isLoadingXml, _this.isLoadingXml) || other.isLoadingXml == _this.isLoadingXml)&&(identical(other.isExporting, _this.isExporting) || other.isExporting == _this.isExporting)&&(identical(other.needSelectFile, _this.needSelectFile) || other.needSelectFile == _this.needSelectFile));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,message,errorMessage,dcbFilePath,sourceType,const DeepCollectionEquality().hash(allRecords),const DeepCollectionEquality().hash(filteredRecords),selectedRecordPath,currentXml,listSearchQuery,fullTextSearchQuery,viewMode,const DeepCollectionEquality().hash(searchResults),isSearching,isLoadingXml,isExporting,needSelectFile);
+int get hashCode {
+  final _this = this as DcbViewerState;
+  return Object.hash(runtimeType,_this.isLoading,_this.message,_this.errorMessage,_this.dcbFilePath,_this.sourceType,const DeepCollectionEquality().hash(_this.allRecords),const DeepCollectionEquality().hash(_this.filteredRecords),_this.selectedRecordPath,_this.currentXml,_this.listSearchQuery,_this.fullTextSearchQuery,_this.viewMode,const DeepCollectionEquality().hash(_this.searchResults),_this.isSearching,_this.isLoadingXml,_this.isExporting,_this.needSelectFile);
+}
 
 @override
 String toString() {
-  return 'DcbViewerState(isLoading: $isLoading, message: $message, errorMessage: $errorMessage, dcbFilePath: $dcbFilePath, sourceType: $sourceType, allRecords: $allRecords, filteredRecords: $filteredRecords, selectedRecordPath: $selectedRecordPath, currentXml: $currentXml, listSearchQuery: $listSearchQuery, fullTextSearchQuery: $fullTextSearchQuery, viewMode: $viewMode, searchResults: $searchResults, isSearching: $isSearching, isLoadingXml: $isLoadingXml, isExporting: $isExporting, needSelectFile: $needSelectFile)';
+  final _this = this as DcbViewerState;
+  return 'DcbViewerState(isLoading: ${_this.isLoading}, message: ${_this.message}, errorMessage: ${_this.errorMessage}, dcbFilePath: ${_this.dcbFilePath}, sourceType: ${_this.sourceType}, allRecords: ${_this.allRecords}, filteredRecords: ${_this.filteredRecords}, selectedRecordPath: ${_this.selectedRecordPath}, currentXml: ${_this.currentXml}, listSearchQuery: ${_this.listSearchQuery}, fullTextSearchQuery: ${_this.fullTextSearchQuery}, viewMode: ${_this.viewMode}, searchResults: ${_this.searchResults}, isSearching: ${_this.isSearching}, isLoadingXml: ${_this.isLoadingXml}, isExporting: ${_this.isExporting}, needSelectFile: ${_this.needSelectFile})';
 }
 
 
@@ -80,7 +86,7 @@ class _$DcbViewerStateCopyWithImpl<$Res>
 /// Create a copy of DcbViewerState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? message = null,Object? errorMessage = freezed,Object? dcbFilePath = null,Object? sourceType = null,Object? allRecords = null,Object? filteredRecords = null,Object? selectedRecordPath = freezed,Object? currentXml = null,Object? listSearchQuery = null,Object? fullTextSearchQuery = null,Object? viewMode = null,Object? searchResults = null,Object? isSearching = null,Object? isLoadingXml = null,Object? isExporting = null,Object? needSelectFile = null,}) {
-  return _then(_self.copyWith(
+  return _then(DcbViewerState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -239,7 +245,7 @@ return $default(_that.isLoading,_that.message,_that.errorMessage,_that.dcbFilePa
 
 
 class _DcbViewerState implements DcbViewerState {
-  const _DcbViewerState({this.isLoading = true, this.message = '', this.errorMessage, this.dcbFilePath = '', this.sourceType = DcbSourceType.none, final  List<DcbRecordData> allRecords = const [], final  List<DcbRecordData> filteredRecords = const [], this.selectedRecordPath, this.currentXml = '', this.listSearchQuery = '', this.fullTextSearchQuery = '', this.viewMode = DcbViewMode.browse, final  List<DcbSearchResultData> searchResults = const [], this.isSearching = false, this.isLoadingXml = false, this.isExporting = false, this.needSelectFile = false}): _allRecords = allRecords,_filteredRecords = filteredRecords,_searchResults = searchResults;
+  const _DcbViewerState({this.isLoading = true, this.message = '', this.errorMessage, this.dcbFilePath = '', this.sourceType = DcbSourceType.none,  List<DcbRecordData> allRecords = const [],  List<DcbRecordData> filteredRecords = const [], this.selectedRecordPath, this.currentXml = '', this.listSearchQuery = '', this.fullTextSearchQuery = '', this.viewMode = DcbViewMode.browse,  List<DcbSearchResultData> searchResults = const [], this.isSearching = false, this.isLoadingXml = false, this.isExporting = false, this.needSelectFile = false}): _allRecords = allRecords,_filteredRecords = filteredRecords,_searchResults = searchResults;
   
 
 /// 是否正在加载
@@ -308,16 +314,18 @@ _$DcbViewerStateCopyWith<_DcbViewerState> get copyWith => __$DcbViewerStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DcbViewerState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.message, message) || other.message == message)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.dcbFilePath, dcbFilePath) || other.dcbFilePath == dcbFilePath)&&(identical(other.sourceType, sourceType) || other.sourceType == sourceType)&&const DeepCollectionEquality().equals(other._allRecords, _allRecords)&&const DeepCollectionEquality().equals(other._filteredRecords, _filteredRecords)&&(identical(other.selectedRecordPath, selectedRecordPath) || other.selectedRecordPath == selectedRecordPath)&&(identical(other.currentXml, currentXml) || other.currentXml == currentXml)&&(identical(other.listSearchQuery, listSearchQuery) || other.listSearchQuery == listSearchQuery)&&(identical(other.fullTextSearchQuery, fullTextSearchQuery) || other.fullTextSearchQuery == fullTextSearchQuery)&&(identical(other.viewMode, viewMode) || other.viewMode == viewMode)&&const DeepCollectionEquality().equals(other._searchResults, _searchResults)&&(identical(other.isSearching, isSearching) || other.isSearching == isSearching)&&(identical(other.isLoadingXml, isLoadingXml) || other.isLoadingXml == isLoadingXml)&&(identical(other.isExporting, isExporting) || other.isExporting == isExporting)&&(identical(other.needSelectFile, needSelectFile) || other.needSelectFile == needSelectFile));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DcbViewerState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.message, message) || other.message == message)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.dcbFilePath, dcbFilePath) || other.dcbFilePath == dcbFilePath)&&(identical(other.sourceType, sourceType) || other.sourceType == sourceType)&&const DeepCollectionEquality().equals(other.allRecords, _allRecords)&&const DeepCollectionEquality().equals(other.filteredRecords, _filteredRecords)&&(identical(other.selectedRecordPath, selectedRecordPath) || other.selectedRecordPath == selectedRecordPath)&&(identical(other.currentXml, currentXml) || other.currentXml == currentXml)&&(identical(other.listSearchQuery, listSearchQuery) || other.listSearchQuery == listSearchQuery)&&(identical(other.fullTextSearchQuery, fullTextSearchQuery) || other.fullTextSearchQuery == fullTextSearchQuery)&&(identical(other.viewMode, viewMode) || other.viewMode == viewMode)&&const DeepCollectionEquality().equals(other.searchResults, _searchResults)&&(identical(other.isSearching, isSearching) || other.isSearching == isSearching)&&(identical(other.isLoadingXml, isLoadingXml) || other.isLoadingXml == isLoadingXml)&&(identical(other.isExporting, isExporting) || other.isExporting == isExporting)&&(identical(other.needSelectFile, needSelectFile) || other.needSelectFile == needSelectFile));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,message,errorMessage,dcbFilePath,sourceType,const DeepCollectionEquality().hash(_allRecords),const DeepCollectionEquality().hash(_filteredRecords),selectedRecordPath,currentXml,listSearchQuery,fullTextSearchQuery,viewMode,const DeepCollectionEquality().hash(_searchResults),isSearching,isLoadingXml,isExporting,needSelectFile);
+int get hashCode {
+    return Object.hash(runtimeType,isLoading,message,errorMessage,dcbFilePath,sourceType,const DeepCollectionEquality().hash(_allRecords),const DeepCollectionEquality().hash(_filteredRecords),selectedRecordPath,currentXml,listSearchQuery,fullTextSearchQuery,viewMode,const DeepCollectionEquality().hash(_searchResults),isSearching,isLoadingXml,isExporting,needSelectFile);
+}
 
 @override
 String toString() {
-  return 'DcbViewerState(isLoading: $isLoading, message: $message, errorMessage: $errorMessage, dcbFilePath: $dcbFilePath, sourceType: $sourceType, allRecords: $allRecords, filteredRecords: $filteredRecords, selectedRecordPath: $selectedRecordPath, currentXml: $currentXml, listSearchQuery: $listSearchQuery, fullTextSearchQuery: $fullTextSearchQuery, viewMode: $viewMode, searchResults: $searchResults, isSearching: $isSearching, isLoadingXml: $isLoadingXml, isExporting: $isExporting, needSelectFile: $needSelectFile)';
+    return 'DcbViewerState(isLoading: $isLoading, message: $message, errorMessage: $errorMessage, dcbFilePath: $dcbFilePath, sourceType: $sourceType, allRecords: $allRecords, filteredRecords: $filteredRecords, selectedRecordPath: $selectedRecordPath, currentXml: $currentXml, listSearchQuery: $listSearchQuery, fullTextSearchQuery: $fullTextSearchQuery, viewMode: $viewMode, searchResults: $searchResults, isSearching: $isSearching, isLoadingXml: $isLoadingXml, isExporting: $isExporting, needSelectFile: $needSelectFile)';
 }
 
 

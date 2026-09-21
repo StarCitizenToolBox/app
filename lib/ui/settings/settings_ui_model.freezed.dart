@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'settings_ui_model.dart';
@@ -9,6 +9,7 @@ part of 'settings_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $SettingsUIStateCopyWith<SettingsUIState> get copyWith => _$SettingsUIStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS)&&(identical(other.isEnableOnnxXnnPack, isEnableOnnxXnnPack) || other.isEnableOnnxXnnPack == isEnableOnnxXnnPack));
+  final _this = this as SettingsUIState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsUIState&&(identical(other.isEnableToolSiteMirrors, _this.isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == _this.isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, _this.inputGameLaunchECore) || other.inputGameLaunchECore == _this.inputGameLaunchECore)&&(identical(other.customLauncherPath, _this.customLauncherPath) || other.customLauncherPath == _this.customLauncherPath)&&(identical(other.customGamePath, _this.customGamePath) || other.customGamePath == _this.customGamePath)&&(identical(other.locationCacheSize, _this.locationCacheSize) || other.locationCacheSize == _this.locationCacheSize)&&(identical(other.isUseInternalDNS, _this.isUseInternalDNS) || other.isUseInternalDNS == _this.isUseInternalDNS)&&(identical(other.isEnableOnnxXnnPack, _this.isEnableOnnxXnnPack) || other.isEnableOnnxXnnPack == _this.isEnableOnnxXnnPack));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS,isEnableOnnxXnnPack);
+int get hashCode {
+  final _this = this as SettingsUIState;
+  return Object.hash(runtimeType,_this.isEnableToolSiteMirrors,_this.inputGameLaunchECore,_this.customLauncherPath,_this.customGamePath,_this.locationCacheSize,_this.isUseInternalDNS,_this.isEnableOnnxXnnPack);
+}
 
 @override
 String toString() {
-  return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS, isEnableOnnxXnnPack: $isEnableOnnxXnnPack)';
+  final _this = this as SettingsUIState;
+  return 'SettingsUIState(isEnableToolSiteMirrors: ${_this.isEnableToolSiteMirrors}, inputGameLaunchECore: ${_this.inputGameLaunchECore}, customLauncherPath: ${_this.customLauncherPath}, customGamePath: ${_this.customGamePath}, locationCacheSize: ${_this.locationCacheSize}, isUseInternalDNS: ${_this.isUseInternalDNS}, isEnableOnnxXnnPack: ${_this.isEnableOnnxXnnPack})';
 }
 
 
@@ -63,7 +69,7 @@ class _$SettingsUIStateCopyWithImpl<$Res>
 /// Create a copy of SettingsUIState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isEnableToolSiteMirrors = null,Object? inputGameLaunchECore = null,Object? customLauncherPath = freezed,Object? customGamePath = freezed,Object? locationCacheSize = null,Object? isUseInternalDNS = null,Object? isEnableOnnxXnnPack = null,}) {
-  return _then(_self.copyWith(
+  return _then(SettingsUIState(
 isEnableToolSiteMirrors: null == isEnableToolSiteMirrors ? _self.isEnableToolSiteMirrors : isEnableToolSiteMirrors // ignore: cast_nullable_to_non_nullable
 as bool,inputGameLaunchECore: null == inputGameLaunchECore ? _self.inputGameLaunchECore : inputGameLaunchECore // ignore: cast_nullable_to_non_nullable
 as String,customLauncherPath: freezed == customLauncherPath ? _self.customLauncherPath : customLauncherPath // ignore: cast_nullable_to_non_nullable
@@ -233,16 +239,18 @@ _$SettingsUIStateCopyWith<_SettingsUIState> get copyWith => __$SettingsUIStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS)&&(identical(other.isEnableOnnxXnnPack, isEnableOnnxXnnPack) || other.isEnableOnnxXnnPack == isEnableOnnxXnnPack));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsUIState&&(identical(other.isEnableToolSiteMirrors, isEnableToolSiteMirrors) || other.isEnableToolSiteMirrors == isEnableToolSiteMirrors)&&(identical(other.inputGameLaunchECore, inputGameLaunchECore) || other.inputGameLaunchECore == inputGameLaunchECore)&&(identical(other.customLauncherPath, customLauncherPath) || other.customLauncherPath == customLauncherPath)&&(identical(other.customGamePath, customGamePath) || other.customGamePath == customGamePath)&&(identical(other.locationCacheSize, locationCacheSize) || other.locationCacheSize == locationCacheSize)&&(identical(other.isUseInternalDNS, isUseInternalDNS) || other.isUseInternalDNS == isUseInternalDNS)&&(identical(other.isEnableOnnxXnnPack, isEnableOnnxXnnPack) || other.isEnableOnnxXnnPack == isEnableOnnxXnnPack));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS,isEnableOnnxXnnPack);
+int get hashCode {
+    return Object.hash(runtimeType,isEnableToolSiteMirrors,inputGameLaunchECore,customLauncherPath,customGamePath,locationCacheSize,isUseInternalDNS,isEnableOnnxXnnPack);
+}
 
 @override
 String toString() {
-  return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS, isEnableOnnxXnnPack: $isEnableOnnxXnnPack)';
+    return 'SettingsUIState(isEnableToolSiteMirrors: $isEnableToolSiteMirrors, inputGameLaunchECore: $inputGameLaunchECore, customLauncherPath: $customLauncherPath, customGamePath: $customGamePath, locationCacheSize: $locationCacheSize, isUseInternalDNS: $isUseInternalDNS, isEnableOnnxXnnPack: $isEnableOnnxXnnPack)';
 }
 
 

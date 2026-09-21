@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'audio_api.dart';
@@ -9,6 +9,7 @@ part of 'audio_api.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $AudioPlaybackStateCopyWith<AudioPlaybackState> get copyWith => _$AudioPlaybackS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AudioPlaybackState&&(identical(other.currentSourcePath, currentSourcePath) || other.currentSourcePath == currentSourcePath)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.positionMs, positionMs) || other.positionMs == positionMs)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.isPaused, isPaused) || other.isPaused == isPaused)&&(identical(other.volume, volume) || other.volume == volume));
+  final _this = this as AudioPlaybackState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AudioPlaybackState&&(identical(other.currentSourcePath, _this.currentSourcePath) || other.currentSourcePath == _this.currentSourcePath)&&(identical(other.durationMs, _this.durationMs) || other.durationMs == _this.durationMs)&&(identical(other.positionMs, _this.positionMs) || other.positionMs == _this.positionMs)&&(identical(other.isPlaying, _this.isPlaying) || other.isPlaying == _this.isPlaying)&&(identical(other.isPaused, _this.isPaused) || other.isPaused == _this.isPaused)&&(identical(other.volume, _this.volume) || other.volume == _this.volume));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentSourcePath,durationMs,positionMs,isPlaying,isPaused,volume);
+int get hashCode {
+  final _this = this as AudioPlaybackState;
+  return Object.hash(runtimeType,_this.currentSourcePath,_this.durationMs,_this.positionMs,_this.isPlaying,_this.isPaused,_this.volume);
+}
 
 @override
 String toString() {
-  return 'AudioPlaybackState(currentSourcePath: $currentSourcePath, durationMs: $durationMs, positionMs: $positionMs, isPlaying: $isPlaying, isPaused: $isPaused, volume: $volume)';
+  final _this = this as AudioPlaybackState;
+  return 'AudioPlaybackState(currentSourcePath: ${_this.currentSourcePath}, durationMs: ${_this.durationMs}, positionMs: ${_this.positionMs}, isPlaying: ${_this.isPlaying}, isPaused: ${_this.isPaused}, volume: ${_this.volume})';
 }
 
 
@@ -63,7 +69,7 @@ class _$AudioPlaybackStateCopyWithImpl<$Res>
 /// Create a copy of AudioPlaybackState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? currentSourcePath = freezed,Object? durationMs = freezed,Object? positionMs = null,Object? isPlaying = null,Object? isPaused = null,Object? volume = null,}) {
-  return _then(_self.copyWith(
+  return _then(AudioPlaybackState(
 currentSourcePath: freezed == currentSourcePath ? _self.currentSourcePath : currentSourcePath // ignore: cast_nullable_to_non_nullable
 as String?,durationMs: freezed == durationMs ? _self.durationMs : durationMs // ignore: cast_nullable_to_non_nullable
 as int?,positionMs: null == positionMs ? _self.positionMs : positionMs // ignore: cast_nullable_to_non_nullable
@@ -225,16 +231,18 @@ _$AudioPlaybackStateCopyWith<_AudioPlaybackState> get copyWith => __$AudioPlayba
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AudioPlaybackState&&(identical(other.currentSourcePath, currentSourcePath) || other.currentSourcePath == currentSourcePath)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.positionMs, positionMs) || other.positionMs == positionMs)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.isPaused, isPaused) || other.isPaused == isPaused)&&(identical(other.volume, volume) || other.volume == volume));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AudioPlaybackState&&(identical(other.currentSourcePath, currentSourcePath) || other.currentSourcePath == currentSourcePath)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.positionMs, positionMs) || other.positionMs == positionMs)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.isPaused, isPaused) || other.isPaused == isPaused)&&(identical(other.volume, volume) || other.volume == volume));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentSourcePath,durationMs,positionMs,isPlaying,isPaused,volume);
+int get hashCode {
+    return Object.hash(runtimeType,currentSourcePath,durationMs,positionMs,isPlaying,isPaused,volume);
+}
 
 @override
 String toString() {
-  return 'AudioPlaybackState(currentSourcePath: $currentSourcePath, durationMs: $durationMs, positionMs: $positionMs, isPlaying: $isPlaying, isPaused: $isPaused, volume: $volume)';
+    return 'AudioPlaybackState(currentSourcePath: $currentSourcePath, durationMs: $durationMs, positionMs: $positionMs, isPlaying: $isPlaying, isPaused: $isPaused, volume: $volume)';
 }
 
 

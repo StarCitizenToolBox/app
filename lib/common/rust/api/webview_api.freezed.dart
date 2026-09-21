@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'webview_api.dart';
@@ -9,6 +9,7 @@ part of 'webview_api.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $WebViewConfigurationCopyWith<WebViewConfiguration> get copyWith => _$WebViewCon
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewConfiguration&&(identical(other.title, title) || other.title == title)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.userDataFolder, userDataFolder) || other.userDataFolder == userDataFolder)&&(identical(other.enableDevtools, enableDevtools) || other.enableDevtools == enableDevtools)&&(identical(other.transparent, transparent) || other.transparent == transparent)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent));
+  final _this = this as WebViewConfiguration;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewConfiguration&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.width, _this.width) || other.width == _this.width)&&(identical(other.height, _this.height) || other.height == _this.height)&&(identical(other.userDataFolder, _this.userDataFolder) || other.userDataFolder == _this.userDataFolder)&&(identical(other.enableDevtools, _this.enableDevtools) || other.enableDevtools == _this.enableDevtools)&&(identical(other.transparent, _this.transparent) || other.transparent == _this.transparent)&&(identical(other.userAgent, _this.userAgent) || other.userAgent == _this.userAgent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,width,height,userDataFolder,enableDevtools,transparent,userAgent);
+int get hashCode {
+  final _this = this as WebViewConfiguration;
+  return Object.hash(runtimeType,_this.title,_this.width,_this.height,_this.userDataFolder,_this.enableDevtools,_this.transparent,_this.userAgent);
+}
 
 @override
 String toString() {
-  return 'WebViewConfiguration(title: $title, width: $width, height: $height, userDataFolder: $userDataFolder, enableDevtools: $enableDevtools, transparent: $transparent, userAgent: $userAgent)';
+  final _this = this as WebViewConfiguration;
+  return 'WebViewConfiguration(title: ${_this.title}, width: ${_this.width}, height: ${_this.height}, userDataFolder: ${_this.userDataFolder}, enableDevtools: ${_this.enableDevtools}, transparent: ${_this.transparent}, userAgent: ${_this.userAgent})';
 }
 
 
@@ -63,7 +69,7 @@ class _$WebViewConfigurationCopyWithImpl<$Res>
 /// Create a copy of WebViewConfiguration
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? width = null,Object? height = null,Object? userDataFolder = freezed,Object? enableDevtools = null,Object? transparent = null,Object? userAgent = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(WebViewConfiguration(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as int,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
@@ -227,16 +233,18 @@ _$WebViewConfigurationCopyWith<_WebViewConfiguration> get copyWith => __$WebView
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebViewConfiguration&&(identical(other.title, title) || other.title == title)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.userDataFolder, userDataFolder) || other.userDataFolder == userDataFolder)&&(identical(other.enableDevtools, enableDevtools) || other.enableDevtools == enableDevtools)&&(identical(other.transparent, transparent) || other.transparent == transparent)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebViewConfiguration&&(identical(other.title, title) || other.title == title)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.userDataFolder, userDataFolder) || other.userDataFolder == userDataFolder)&&(identical(other.enableDevtools, enableDevtools) || other.enableDevtools == enableDevtools)&&(identical(other.transparent, transparent) || other.transparent == transparent)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,width,height,userDataFolder,enableDevtools,transparent,userAgent);
+int get hashCode {
+    return Object.hash(runtimeType,title,width,height,userDataFolder,enableDevtools,transparent,userAgent);
+}
 
 @override
 String toString() {
-  return 'WebViewConfiguration(title: $title, width: $width, height: $height, userDataFolder: $userDataFolder, enableDevtools: $enableDevtools, transparent: $transparent, userAgent: $userAgent)';
+    return 'WebViewConfiguration(title: $title, width: $width, height: $height, userDataFolder: $userDataFolder, enableDevtools: $enableDevtools, transparent: $transparent, userAgent: $userAgent)';
 }
 
 
@@ -289,7 +297,7 @@ mixin _$WebViewEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent);
 }
 
 
@@ -298,7 +306,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'WebViewEvent()';
+    return 'WebViewEvent()';
 }
 
 
@@ -483,16 +491,18 @@ $WebViewEvent_NavigationStartedCopyWith<WebViewEvent_NavigationStarted> get copy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_NavigationStarted&&(identical(other.url, url) || other.url == url));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_NavigationStarted&&(identical(other.url, url) || other.url == url));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,url);
+int get hashCode {
+    return Object.hash(runtimeType,url);
+}
 
 @override
 String toString() {
-  return 'WebViewEvent.navigationStarted(url: $url)';
+    return 'WebViewEvent.navigationStarted(url: $url)';
 }
 
 
@@ -549,16 +559,18 @@ $WebViewEvent_NavigationCompletedCopyWith<WebViewEvent_NavigationCompleted> get 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_NavigationCompleted&&(identical(other.url, url) || other.url == url));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_NavigationCompleted&&(identical(other.url, url) || other.url == url));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,url);
+int get hashCode {
+    return Object.hash(runtimeType,url);
+}
 
 @override
 String toString() {
-  return 'WebViewEvent.navigationCompleted(url: $url)';
+    return 'WebViewEvent.navigationCompleted(url: $url)';
 }
 
 
@@ -615,16 +627,18 @@ $WebViewEvent_TitleChangedCopyWith<WebViewEvent_TitleChanged> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_TitleChanged&&(identical(other.title, title) || other.title == title));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_TitleChanged&&(identical(other.title, title) || other.title == title));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title);
+int get hashCode {
+    return Object.hash(runtimeType,title);
+}
 
 @override
 String toString() {
-  return 'WebViewEvent.titleChanged(title: $title)';
+    return 'WebViewEvent.titleChanged(title: $title)';
 }
 
 
@@ -681,16 +695,18 @@ $WebViewEvent_WebMessageCopyWith<WebViewEvent_WebMessage> get copyWith => _$WebV
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_WebMessage&&(identical(other.message, message) || other.message == message));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_WebMessage&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode {
+    return Object.hash(runtimeType,message);
+}
 
 @override
 String toString() {
-  return 'WebViewEvent.webMessage(message: $message)';
+    return 'WebViewEvent.webMessage(message: $message)';
 }
 
 
@@ -742,7 +758,7 @@ class WebViewEvent_WindowClosed extends WebViewEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_WindowClosed);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_WindowClosed);
 }
 
 
@@ -751,7 +767,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'WebViewEvent.windowClosed()';
+    return 'WebViewEvent.windowClosed()';
 }
 
 
@@ -779,16 +795,18 @@ $WebViewEvent_ErrorCopyWith<WebViewEvent_Error> get copyWith => _$WebViewEvent_E
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_Error&&(identical(other.message, message) || other.message == message));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewEvent_Error&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode {
+    return Object.hash(runtimeType,message);
+}
 
 @override
 String toString() {
-  return 'WebViewEvent.error(message: $message)';
+    return 'WebViewEvent.error(message: $message)';
 }
 
 
@@ -840,16 +858,21 @@ $WebViewNavigationStateCopyWith<WebViewNavigationState> get copyWith => _$WebVie
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewNavigationState&&(identical(other.url, url) || other.url == url)&&(identical(other.title, title) || other.title == title)&&(identical(other.canGoBack, canGoBack) || other.canGoBack == canGoBack)&&(identical(other.canGoForward, canGoForward) || other.canGoForward == canGoForward)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  final _this = this as WebViewNavigationState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebViewNavigationState&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.canGoBack, _this.canGoBack) || other.canGoBack == _this.canGoBack)&&(identical(other.canGoForward, _this.canGoForward) || other.canGoForward == _this.canGoForward)&&(identical(other.isLoading, _this.isLoading) || other.isLoading == _this.isLoading));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,url,title,canGoBack,canGoForward,isLoading);
+int get hashCode {
+  final _this = this as WebViewNavigationState;
+  return Object.hash(runtimeType,_this.url,_this.title,_this.canGoBack,_this.canGoForward,_this.isLoading);
+}
 
 @override
 String toString() {
-  return 'WebViewNavigationState(url: $url, title: $title, canGoBack: $canGoBack, canGoForward: $canGoForward, isLoading: $isLoading)';
+  final _this = this as WebViewNavigationState;
+  return 'WebViewNavigationState(url: ${_this.url}, title: ${_this.title}, canGoBack: ${_this.canGoBack}, canGoForward: ${_this.canGoForward}, isLoading: ${_this.isLoading})';
 }
 
 
@@ -878,7 +901,7 @@ class _$WebViewNavigationStateCopyWithImpl<$Res>
 /// Create a copy of WebViewNavigationState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? title = null,Object? canGoBack = null,Object? canGoForward = null,Object? isLoading = null,}) {
-  return _then(_self.copyWith(
+  return _then(WebViewNavigationState(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,canGoBack: null == canGoBack ? _self.canGoBack : canGoBack // ignore: cast_nullable_to_non_nullable
@@ -1038,16 +1061,18 @@ _$WebViewNavigationStateCopyWith<_WebViewNavigationState> get copyWith => __$Web
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebViewNavigationState&&(identical(other.url, url) || other.url == url)&&(identical(other.title, title) || other.title == title)&&(identical(other.canGoBack, canGoBack) || other.canGoBack == canGoBack)&&(identical(other.canGoForward, canGoForward) || other.canGoForward == canGoForward)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebViewNavigationState&&(identical(other.url, url) || other.url == url)&&(identical(other.title, title) || other.title == title)&&(identical(other.canGoBack, canGoBack) || other.canGoBack == canGoBack)&&(identical(other.canGoForward, canGoForward) || other.canGoForward == canGoForward)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,url,title,canGoBack,canGoForward,isLoading);
+int get hashCode {
+    return Object.hash(runtimeType,url,title,canGoBack,canGoForward,isLoading);
+}
 
 @override
 String toString() {
-  return 'WebViewNavigationState(url: $url, title: $title, canGoBack: $canGoBack, canGoForward: $canGoForward, isLoading: $isLoading)';
+    return 'WebViewNavigationState(url: $url, title: $title, canGoBack: $canGoBack, canGoForward: $canGoForward, isLoading: $isLoading)';
 }
 
 

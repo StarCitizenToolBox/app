@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'app.dart';
@@ -9,12 +9,13 @@ part of 'app.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppGlobalState {
 
- String? get deviceUUID; String? get applicationSupportDir; String? get applicationBinaryModuleDir; AppVersionData? get networkVersionData; ThemeConf get themeConf; Locale? get appLocale; Box? get appConfBox; dynamic get windowsVersion;
+ String? get deviceUUID; String? get applicationSupportDir; String? get applicationBinaryModuleDir; AppVersionData? get networkVersionData; ThemeConf get themeConf; Locale? get appLocale; Box<dynamic>? get appConfBox; dynamic get windowsVersion;
 /// Create a copy of AppGlobalState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,21 @@ $AppGlobalStateCopyWith<AppGlobalState> get copyWith => _$AppGlobalStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
+  final _this = this as AppGlobalState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppGlobalState&&(identical(other.deviceUUID, _this.deviceUUID) || other.deviceUUID == _this.deviceUUID)&&(identical(other.applicationSupportDir, _this.applicationSupportDir) || other.applicationSupportDir == _this.applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, _this.applicationBinaryModuleDir) || other.applicationBinaryModuleDir == _this.applicationBinaryModuleDir)&&(identical(other.networkVersionData, _this.networkVersionData) || other.networkVersionData == _this.networkVersionData)&&(identical(other.themeConf, _this.themeConf) || other.themeConf == _this.themeConf)&&(identical(other.appLocale, _this.appLocale) || other.appLocale == _this.appLocale)&&(identical(other.appConfBox, _this.appConfBox) || other.appConfBox == _this.appConfBox)&&const DeepCollectionEquality().equals(other.windowsVersion, _this.windowsVersion));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,appLocale,appConfBox,const DeepCollectionEquality().hash(windowsVersion));
+int get hashCode {
+  final _this = this as AppGlobalState;
+  return Object.hash(runtimeType,_this.deviceUUID,_this.applicationSupportDir,_this.applicationBinaryModuleDir,_this.networkVersionData,_this.themeConf,_this.appLocale,_this.appConfBox,const DeepCollectionEquality().hash(_this.windowsVersion));
+}
 
 @override
 String toString() {
-  return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox, windowsVersion: $windowsVersion)';
+  final _this = this as AppGlobalState;
+  return 'AppGlobalState(deviceUUID: ${_this.deviceUUID}, applicationSupportDir: ${_this.applicationSupportDir}, applicationBinaryModuleDir: ${_this.applicationBinaryModuleDir}, networkVersionData: ${_this.networkVersionData}, themeConf: ${_this.themeConf}, appLocale: ${_this.appLocale}, appConfBox: ${_this.appConfBox}, windowsVersion: ${_this.windowsVersion})';
 }
 
 
@@ -45,7 +51,7 @@ abstract mixin class $AppGlobalStateCopyWith<$Res>  {
   factory $AppGlobalStateCopyWith(AppGlobalState value, $Res Function(AppGlobalState) _then) = _$AppGlobalStateCopyWithImpl;
 @useResult
 $Res call({
- String? deviceUUID, String? applicationSupportDir, String? applicationBinaryModuleDir, AppVersionData? networkVersionData, ThemeConf themeConf, Locale? appLocale, Box? appConfBox, dynamic windowsVersion
+ String? deviceUUID, String? applicationSupportDir, String? applicationBinaryModuleDir, AppVersionData? networkVersionData, ThemeConf themeConf, Locale? appLocale, Box<dynamic>? appConfBox, dynamic windowsVersion
 });
 
 
@@ -63,7 +69,7 @@ class _$AppGlobalStateCopyWithImpl<$Res>
 /// Create a copy of AppGlobalState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? deviceUUID = freezed,Object? applicationSupportDir = freezed,Object? applicationBinaryModuleDir = freezed,Object? networkVersionData = freezed,Object? themeConf = null,Object? appLocale = freezed,Object? appConfBox = freezed,Object? windowsVersion = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(AppGlobalState(
 deviceUUID: freezed == deviceUUID ? _self.deviceUUID : deviceUUID // ignore: cast_nullable_to_non_nullable
 as String?,applicationSupportDir: freezed == applicationSupportDir ? _self.applicationSupportDir : applicationSupportDir // ignore: cast_nullable_to_non_nullable
 as String?,applicationBinaryModuleDir: freezed == applicationBinaryModuleDir ? _self.applicationBinaryModuleDir : applicationBinaryModuleDir // ignore: cast_nullable_to_non_nullable
@@ -71,7 +77,7 @@ as String?,networkVersionData: freezed == networkVersionData ? _self.networkVers
 as AppVersionData?,themeConf: null == themeConf ? _self.themeConf : themeConf // ignore: cast_nullable_to_non_nullable
 as ThemeConf,appLocale: freezed == appLocale ? _self.appLocale : appLocale // ignore: cast_nullable_to_non_nullable
 as Locale?,appConfBox: freezed == appConfBox ? _self.appConfBox : appConfBox // ignore: cast_nullable_to_non_nullable
-as Box?,windowsVersion: freezed == windowsVersion ? _self.windowsVersion : windowsVersion // ignore: cast_nullable_to_non_nullable
+as Box<dynamic>?,windowsVersion: freezed == windowsVersion ? _self.windowsVersion : windowsVersion // ignore: cast_nullable_to_non_nullable
 as dynamic,
   ));
 }
@@ -166,7 +172,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox,  dynamic windowsVersion)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box<dynamic>? appConfBox,  dynamic windowsVersion)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppGlobalState() when $default != null:
 return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox,_that.windowsVersion);case _:
@@ -187,7 +193,7 @@ return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox,  dynamic windowsVersion)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box<dynamic>? appConfBox,  dynamic windowsVersion)  $default,) {final _that = this;
 switch (_that) {
 case _AppGlobalState():
 return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox,_that.windowsVersion);case _:
@@ -207,7 +213,7 @@ return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box? appConfBox,  dynamic windowsVersion)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? deviceUUID,  String? applicationSupportDir,  String? applicationBinaryModuleDir,  AppVersionData? networkVersionData,  ThemeConf themeConf,  Locale? appLocale,  Box<dynamic>? appConfBox,  dynamic windowsVersion)?  $default,) {final _that = this;
 switch (_that) {
 case _AppGlobalState() when $default != null:
 return $default(_that.deviceUUID,_that.applicationSupportDir,_that.applicationBinaryModuleDir,_that.networkVersionData,_that.themeConf,_that.appLocale,_that.appConfBox,_that.windowsVersion);case _:
@@ -231,7 +237,7 @@ class _AppGlobalState implements AppGlobalState {
 @override final  AppVersionData? networkVersionData;
 @override@JsonKey() final  ThemeConf themeConf;
 @override final  Locale? appLocale;
-@override final  Box? appConfBox;
+@override final  Box<dynamic>? appConfBox;
 @override@JsonKey() final  dynamic windowsVersion;
 
 /// Create a copy of AppGlobalState
@@ -244,16 +250,18 @@ _$AppGlobalStateCopyWith<_AppGlobalState> get copyWith => __$AppGlobalStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,appLocale,appConfBox,const DeepCollectionEquality().hash(windowsVersion));
+int get hashCode {
+    return Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,appLocale,appConfBox,const DeepCollectionEquality().hash(windowsVersion));
+}
 
 @override
 String toString() {
-  return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox, windowsVersion: $windowsVersion)';
+    return 'AppGlobalState(deviceUUID: $deviceUUID, applicationSupportDir: $applicationSupportDir, applicationBinaryModuleDir: $applicationBinaryModuleDir, networkVersionData: $networkVersionData, themeConf: $themeConf, appLocale: $appLocale, appConfBox: $appConfBox, windowsVersion: $windowsVersion)';
 }
 
 
@@ -264,7 +272,7 @@ abstract mixin class _$AppGlobalStateCopyWith<$Res> implements $AppGlobalStateCo
   factory _$AppGlobalStateCopyWith(_AppGlobalState value, $Res Function(_AppGlobalState) _then) = __$AppGlobalStateCopyWithImpl;
 @override @useResult
 $Res call({
- String? deviceUUID, String? applicationSupportDir, String? applicationBinaryModuleDir, AppVersionData? networkVersionData, ThemeConf themeConf, Locale? appLocale, Box? appConfBox, dynamic windowsVersion
+ String? deviceUUID, String? applicationSupportDir, String? applicationBinaryModuleDir, AppVersionData? networkVersionData, ThemeConf themeConf, Locale? appLocale, Box<dynamic>? appConfBox, dynamic windowsVersion
 });
 
 
@@ -290,7 +298,7 @@ as String?,networkVersionData: freezed == networkVersionData ? _self.networkVers
 as AppVersionData?,themeConf: null == themeConf ? _self.themeConf : themeConf // ignore: cast_nullable_to_non_nullable
 as ThemeConf,appLocale: freezed == appLocale ? _self.appLocale : appLocale // ignore: cast_nullable_to_non_nullable
 as Locale?,appConfBox: freezed == appConfBox ? _self.appConfBox : appConfBox // ignore: cast_nullable_to_non_nullable
-as Box?,windowsVersion: freezed == windowsVersion ? _self.windowsVersion : windowsVersion // ignore: cast_nullable_to_non_nullable
+as Box<dynamic>?,windowsVersion: freezed == windowsVersion ? _self.windowsVersion : windowsVersion // ignore: cast_nullable_to_non_nullable
 as dynamic,
   ));
 }
@@ -321,16 +329,21 @@ $ThemeConfCopyWith<ThemeConf> get copyWith => _$ThemeConfCopyWithImpl<ThemeConf>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ThemeConf&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor));
+  final _this = this as ThemeConf;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ThemeConf&&(identical(other.backgroundColor, _this.backgroundColor) || other.backgroundColor == _this.backgroundColor)&&(identical(other.menuColor, _this.menuColor) || other.menuColor == _this.menuColor)&&(identical(other.micaColor, _this.micaColor) || other.micaColor == _this.micaColor));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,backgroundColor,menuColor,micaColor);
+int get hashCode {
+  final _this = this as ThemeConf;
+  return Object.hash(runtimeType,_this.backgroundColor,_this.menuColor,_this.micaColor);
+}
 
 @override
 String toString() {
-  return 'ThemeConf(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor)';
+  final _this = this as ThemeConf;
+  return 'ThemeConf(backgroundColor: ${_this.backgroundColor}, menuColor: ${_this.menuColor}, micaColor: ${_this.micaColor})';
 }
 
 
@@ -359,7 +372,7 @@ class _$ThemeConfCopyWithImpl<$Res>
 /// Create a copy of ThemeConf
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? backgroundColor = null,Object? menuColor = null,Object? micaColor = null,}) {
-  return _then(_self.copyWith(
+  return _then(ThemeConf(
 backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
 as Color,menuColor: null == menuColor ? _self.menuColor : menuColor // ignore: cast_nullable_to_non_nullable
 as Color,micaColor: null == micaColor ? _self.micaColor : micaColor // ignore: cast_nullable_to_non_nullable
@@ -521,16 +534,18 @@ _$ThemeConfCopyWith<_ThemeConf> get copyWith => __$ThemeConfCopyWithImpl<_ThemeC
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ThemeConf&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ThemeConf&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,backgroundColor,menuColor,micaColor);
+int get hashCode {
+    return Object.hash(runtimeType,backgroundColor,menuColor,micaColor);
+}
 
 @override
 String toString() {
-  return 'ThemeConf(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor)';
+    return 'ThemeConf(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor)';
 }
 
 

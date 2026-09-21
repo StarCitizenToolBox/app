@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'multi_window_manager.dart';
@@ -9,6 +9,7 @@ part of 'multi_window_manager.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $MultiWindowAppStateCopyWith<MultiWindowAppState> get copyWith => _$MultiWindowA
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MultiWindowAppState&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor)&&const DeepCollectionEquality().equals(other.gameInstallPaths, gameInstallPaths)&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
+  final _this = this as MultiWindowAppState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MultiWindowAppState&&(identical(other.backgroundColor, _this.backgroundColor) || other.backgroundColor == _this.backgroundColor)&&(identical(other.menuColor, _this.menuColor) || other.menuColor == _this.menuColor)&&(identical(other.micaColor, _this.micaColor) || other.micaColor == _this.micaColor)&&const DeepCollectionEquality().equals(other.gameInstallPaths, _this.gameInstallPaths)&&(identical(other.languageCode, _this.languageCode) || other.languageCode == _this.languageCode)&&(identical(other.countryCode, _this.countryCode) || other.countryCode == _this.countryCode)&&const DeepCollectionEquality().equals(other.windowsVersion, _this.windowsVersion));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,backgroundColor,menuColor,micaColor,const DeepCollectionEquality().hash(gameInstallPaths),languageCode,countryCode,const DeepCollectionEquality().hash(windowsVersion));
+int get hashCode {
+  final _this = this as MultiWindowAppState;
+  return Object.hash(runtimeType,_this.backgroundColor,_this.menuColor,_this.micaColor,const DeepCollectionEquality().hash(_this.gameInstallPaths),_this.languageCode,_this.countryCode,const DeepCollectionEquality().hash(_this.windowsVersion));
+}
 
 @override
 String toString() {
-  return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, gameInstallPaths: $gameInstallPaths, languageCode: $languageCode, countryCode: $countryCode, windowsVersion: $windowsVersion)';
+  final _this = this as MultiWindowAppState;
+  return 'MultiWindowAppState(backgroundColor: ${_this.backgroundColor}, menuColor: ${_this.menuColor}, micaColor: ${_this.micaColor}, gameInstallPaths: ${_this.gameInstallPaths}, languageCode: ${_this.languageCode}, countryCode: ${_this.countryCode}, windowsVersion: ${_this.windowsVersion})';
 }
 
 
@@ -66,7 +72,7 @@ class _$MultiWindowAppStateCopyWithImpl<$Res>
 /// Create a copy of MultiWindowAppState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? backgroundColor = null,Object? menuColor = null,Object? micaColor = null,Object? gameInstallPaths = null,Object? languageCode = freezed,Object? countryCode = freezed,Object? windowsVersion = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(MultiWindowAppState(
 backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
 as String,menuColor: null == menuColor ? _self.menuColor : menuColor // ignore: cast_nullable_to_non_nullable
 as String,micaColor: null == micaColor ? _self.micaColor : micaColor // ignore: cast_nullable_to_non_nullable
@@ -215,7 +221,7 @@ return $default(_that.backgroundColor,_that.menuColor,_that.micaColor,_that.game
 @JsonSerializable()
 
 class _MultiWindowAppState implements MultiWindowAppState {
-  const _MultiWindowAppState({required this.backgroundColor, required this.menuColor, required this.micaColor, required final  List<String> gameInstallPaths, this.languageCode, this.countryCode, this.windowsVersion = 10}): _gameInstallPaths = gameInstallPaths;
+  const _MultiWindowAppState({required this.backgroundColor, required this.menuColor, required this.micaColor, required  List<String> gameInstallPaths, this.languageCode, this.countryCode, this.windowsVersion = 10}): _gameInstallPaths = gameInstallPaths;
   factory _MultiWindowAppState.fromJson(Map<String, dynamic> json) => _$MultiWindowAppStateFromJson(json);
 
 @override final  String backgroundColor;
@@ -245,16 +251,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MultiWindowAppState&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor)&&const DeepCollectionEquality().equals(other._gameInstallPaths, _gameInstallPaths)&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MultiWindowAppState&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor)&&const DeepCollectionEquality().equals(other.gameInstallPaths, _gameInstallPaths)&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,backgroundColor,menuColor,micaColor,const DeepCollectionEquality().hash(_gameInstallPaths),languageCode,countryCode,const DeepCollectionEquality().hash(windowsVersion));
+int get hashCode {
+    return Object.hash(runtimeType,backgroundColor,menuColor,micaColor,const DeepCollectionEquality().hash(_gameInstallPaths),languageCode,countryCode,const DeepCollectionEquality().hash(windowsVersion));
+}
 
 @override
 String toString() {
-  return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, gameInstallPaths: $gameInstallPaths, languageCode: $languageCode, countryCode: $countryCode, windowsVersion: $windowsVersion)';
+    return 'MultiWindowAppState(backgroundColor: $backgroundColor, menuColor: $menuColor, micaColor: $micaColor, gameInstallPaths: $gameInstallPaths, languageCode: $languageCode, countryCode: $countryCode, windowsVersion: $windowsVersion)';
 }
 
 

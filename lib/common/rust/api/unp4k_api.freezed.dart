@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'unp4k_api.dart';
@@ -9,6 +9,7 @@ part of 'unp4k_api.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $DcbRecordItemCopyWith<DcbRecordItem> get copyWith => _$DcbRecordItemCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DcbRecordItem&&(identical(other.path, path) || other.path == path)&&(identical(other.index, index) || other.index == index));
+  final _this = this as DcbRecordItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DcbRecordItem&&(identical(other.path, _this.path) || other.path == _this.path)&&(identical(other.index, _this.index) || other.index == _this.index));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,path,index);
+int get hashCode {
+  final _this = this as DcbRecordItem;
+  return Object.hash(runtimeType,_this.path,_this.index);
+}
 
 @override
 String toString() {
-  return 'DcbRecordItem(path: $path, index: $index)';
+  final _this = this as DcbRecordItem;
+  return 'DcbRecordItem(path: ${_this.path}, index: ${_this.index})';
 }
 
 
@@ -63,7 +69,7 @@ class _$DcbRecordItemCopyWithImpl<$Res>
 /// Create a copy of DcbRecordItem
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? path = null,Object? index = null,}) {
-  return _then(_self.copyWith(
+  return _then(DcbRecordItem(
 path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as String,index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
 as BigInt,
@@ -217,16 +223,18 @@ _$DcbRecordItemCopyWith<_DcbRecordItem> get copyWith => __$DcbRecordItemCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DcbRecordItem&&(identical(other.path, path) || other.path == path)&&(identical(other.index, index) || other.index == index));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DcbRecordItem&&(identical(other.path, path) || other.path == path)&&(identical(other.index, index) || other.index == index));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,path,index);
+int get hashCode {
+    return Object.hash(runtimeType,path,index);
+}
 
 @override
 String toString() {
-  return 'DcbRecordItem(path: $path, index: $index)';
+    return 'DcbRecordItem(path: $path, index: $index)';
 }
 
 
@@ -279,16 +287,21 @@ $DcbSearchMatchCopyWith<DcbSearchMatch> get copyWith => _$DcbSearchMatchCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DcbSearchMatch&&(identical(other.lineNumber, lineNumber) || other.lineNumber == lineNumber)&&(identical(other.lineContent, lineContent) || other.lineContent == lineContent));
+  final _this = this as DcbSearchMatch;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DcbSearchMatch&&(identical(other.lineNumber, _this.lineNumber) || other.lineNumber == _this.lineNumber)&&(identical(other.lineContent, _this.lineContent) || other.lineContent == _this.lineContent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,lineNumber,lineContent);
+int get hashCode {
+  final _this = this as DcbSearchMatch;
+  return Object.hash(runtimeType,_this.lineNumber,_this.lineContent);
+}
 
 @override
 String toString() {
-  return 'DcbSearchMatch(lineNumber: $lineNumber, lineContent: $lineContent)';
+  final _this = this as DcbSearchMatch;
+  return 'DcbSearchMatch(lineNumber: ${_this.lineNumber}, lineContent: ${_this.lineContent})';
 }
 
 
@@ -317,7 +330,7 @@ class _$DcbSearchMatchCopyWithImpl<$Res>
 /// Create a copy of DcbSearchMatch
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? lineNumber = null,Object? lineContent = null,}) {
-  return _then(_self.copyWith(
+  return _then(DcbSearchMatch(
 lineNumber: null == lineNumber ? _self.lineNumber : lineNumber // ignore: cast_nullable_to_non_nullable
 as BigInt,lineContent: null == lineContent ? _self.lineContent : lineContent // ignore: cast_nullable_to_non_nullable
 as String,
@@ -471,16 +484,18 @@ _$DcbSearchMatchCopyWith<_DcbSearchMatch> get copyWith => __$DcbSearchMatchCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DcbSearchMatch&&(identical(other.lineNumber, lineNumber) || other.lineNumber == lineNumber)&&(identical(other.lineContent, lineContent) || other.lineContent == lineContent));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DcbSearchMatch&&(identical(other.lineNumber, lineNumber) || other.lineNumber == lineNumber)&&(identical(other.lineContent, lineContent) || other.lineContent == lineContent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,lineNumber,lineContent);
+int get hashCode {
+    return Object.hash(runtimeType,lineNumber,lineContent);
+}
 
 @override
 String toString() {
-  return 'DcbSearchMatch(lineNumber: $lineNumber, lineContent: $lineContent)';
+    return 'DcbSearchMatch(lineNumber: $lineNumber, lineContent: $lineContent)';
 }
 
 
@@ -533,16 +548,21 @@ $DcbSearchResultCopyWith<DcbSearchResult> get copyWith => _$DcbSearchResultCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DcbSearchResult&&(identical(other.path, path) || other.path == path)&&(identical(other.index, index) || other.index == index)&&const DeepCollectionEquality().equals(other.matches, matches));
+  final _this = this as DcbSearchResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DcbSearchResult&&(identical(other.path, _this.path) || other.path == _this.path)&&(identical(other.index, _this.index) || other.index == _this.index)&&const DeepCollectionEquality().equals(other.matches, _this.matches));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,path,index,const DeepCollectionEquality().hash(matches));
+int get hashCode {
+  final _this = this as DcbSearchResult;
+  return Object.hash(runtimeType,_this.path,_this.index,const DeepCollectionEquality().hash(_this.matches));
+}
 
 @override
 String toString() {
-  return 'DcbSearchResult(path: $path, index: $index, matches: $matches)';
+  final _this = this as DcbSearchResult;
+  return 'DcbSearchResult(path: ${_this.path}, index: ${_this.index}, matches: ${_this.matches})';
 }
 
 
@@ -571,7 +591,7 @@ class _$DcbSearchResultCopyWithImpl<$Res>
 /// Create a copy of DcbSearchResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? path = null,Object? index = null,Object? matches = null,}) {
-  return _then(_self.copyWith(
+  return _then(DcbSearchResult(
 path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as String,index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
 as BigInt,matches: null == matches ? _self.matches : matches // ignore: cast_nullable_to_non_nullable
@@ -710,7 +730,7 @@ return $default(_that.path,_that.index,_that.matches);case _:
 
 
 class _DcbSearchResult implements DcbSearchResult {
-  const _DcbSearchResult({required this.path, required this.index, required final  List<DcbSearchMatch> matches}): _matches = matches;
+  const _DcbSearchResult({required this.path, required this.index, required  List<DcbSearchMatch> matches}): _matches = matches;
   
 
 @override final  String path;
@@ -733,16 +753,18 @@ _$DcbSearchResultCopyWith<_DcbSearchResult> get copyWith => __$DcbSearchResultCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DcbSearchResult&&(identical(other.path, path) || other.path == path)&&(identical(other.index, index) || other.index == index)&&const DeepCollectionEquality().equals(other._matches, _matches));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DcbSearchResult&&(identical(other.path, path) || other.path == path)&&(identical(other.index, index) || other.index == index)&&const DeepCollectionEquality().equals(other.matches, _matches));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,path,index,const DeepCollectionEquality().hash(_matches));
+int get hashCode {
+    return Object.hash(runtimeType,path,index,const DeepCollectionEquality().hash(_matches));
+}
 
 @override
 String toString() {
-  return 'DcbSearchResult(path: $path, index: $index, matches: $matches)';
+    return 'DcbSearchResult(path: $path, index: $index, matches: $matches)';
 }
 
 
@@ -796,16 +818,21 @@ $DdsDebugInfoCopyWith<DdsDebugInfo> get copyWith => _$DdsDebugInfoCopyWithImpl<D
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsDebugInfo&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.baseKey, baseKey) || other.baseKey == baseKey)&&(identical(other.baseReal, baseReal) || other.baseReal == baseReal)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&const DeepCollectionEquality().equals(other.parts, parts));
+  final _this = this as DdsDebugInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsDebugInfo&&(identical(other.requestedPath, _this.requestedPath) || other.requestedPath == _this.requestedPath)&&(identical(other.basePath, _this.basePath) || other.basePath == _this.basePath)&&(identical(other.baseKey, _this.baseKey) || other.baseKey == _this.baseKey)&&(identical(other.baseReal, _this.baseReal) || other.baseReal == _this.baseReal)&&(identical(other.partCount, _this.partCount) || other.partCount == _this.partCount)&&const DeepCollectionEquality().equals(other.parts, _this.parts));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,requestedPath,basePath,baseKey,baseReal,partCount,const DeepCollectionEquality().hash(parts));
+int get hashCode {
+  final _this = this as DdsDebugInfo;
+  return Object.hash(runtimeType,_this.requestedPath,_this.basePath,_this.baseKey,_this.baseReal,_this.partCount,const DeepCollectionEquality().hash(_this.parts));
+}
 
 @override
 String toString() {
-  return 'DdsDebugInfo(requestedPath: $requestedPath, basePath: $basePath, baseKey: $baseKey, baseReal: $baseReal, partCount: $partCount, parts: $parts)';
+  final _this = this as DdsDebugInfo;
+  return 'DdsDebugInfo(requestedPath: ${_this.requestedPath}, basePath: ${_this.basePath}, baseKey: ${_this.baseKey}, baseReal: ${_this.baseReal}, partCount: ${_this.partCount}, parts: ${_this.parts})';
 }
 
 
@@ -834,7 +861,7 @@ class _$DdsDebugInfoCopyWithImpl<$Res>
 /// Create a copy of DdsDebugInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? requestedPath = null,Object? basePath = null,Object? baseKey = null,Object? baseReal = freezed,Object? partCount = null,Object? parts = null,}) {
-  return _then(_self.copyWith(
+  return _then(DdsDebugInfo(
 requestedPath: null == requestedPath ? _self.requestedPath : requestedPath // ignore: cast_nullable_to_non_nullable
 as String,basePath: null == basePath ? _self.basePath : basePath // ignore: cast_nullable_to_non_nullable
 as String,baseKey: null == baseKey ? _self.baseKey : baseKey // ignore: cast_nullable_to_non_nullable
@@ -976,7 +1003,7 @@ return $default(_that.requestedPath,_that.basePath,_that.baseKey,_that.baseReal,
 
 
 class _DdsDebugInfo implements DdsDebugInfo {
-  const _DdsDebugInfo({required this.requestedPath, required this.basePath, required this.baseKey, this.baseReal, required this.partCount, required final  List<DdsPartInfo> parts}): _parts = parts;
+  const _DdsDebugInfo({required this.requestedPath, required this.basePath, required this.baseKey, this.baseReal, required this.partCount, required  List<DdsPartInfo> parts}): _parts = parts;
   
 
 @override final  String requestedPath;
@@ -1002,16 +1029,18 @@ _$DdsDebugInfoCopyWith<_DdsDebugInfo> get copyWith => __$DdsDebugInfoCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsDebugInfo&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.baseKey, baseKey) || other.baseKey == baseKey)&&(identical(other.baseReal, baseReal) || other.baseReal == baseReal)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&const DeepCollectionEquality().equals(other._parts, _parts));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsDebugInfo&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.baseKey, baseKey) || other.baseKey == baseKey)&&(identical(other.baseReal, baseReal) || other.baseReal == baseReal)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&const DeepCollectionEquality().equals(other.parts, _parts));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,requestedPath,basePath,baseKey,baseReal,partCount,const DeepCollectionEquality().hash(_parts));
+int get hashCode {
+    return Object.hash(runtimeType,requestedPath,basePath,baseKey,baseReal,partCount,const DeepCollectionEquality().hash(_parts));
+}
 
 @override
 String toString() {
-  return 'DdsDebugInfo(requestedPath: $requestedPath, basePath: $basePath, baseKey: $baseKey, baseReal: $baseReal, partCount: $partCount, parts: $parts)';
+    return 'DdsDebugInfo(requestedPath: $requestedPath, basePath: $basePath, baseKey: $baseKey, baseReal: $baseReal, partCount: $partCount, parts: $parts)';
 }
 
 
@@ -1068,16 +1097,21 @@ $DdsPartInfoCopyWith<DdsPartInfo> get copyWith => _$DdsPartInfoCopyWithImpl<DdsP
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsPartInfo&&(identical(other.index, index) || other.index == index)&&(identical(other.path, path) || other.path == path));
+  final _this = this as DdsPartInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsPartInfo&&(identical(other.index, _this.index) || other.index == _this.index)&&(identical(other.path, _this.path) || other.path == _this.path));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,index,path);
+int get hashCode {
+  final _this = this as DdsPartInfo;
+  return Object.hash(runtimeType,_this.index,_this.path);
+}
 
 @override
 String toString() {
-  return 'DdsPartInfo(index: $index, path: $path)';
+  final _this = this as DdsPartInfo;
+  return 'DdsPartInfo(index: ${_this.index}, path: ${_this.path})';
 }
 
 
@@ -1106,7 +1140,7 @@ class _$DdsPartInfoCopyWithImpl<$Res>
 /// Create a copy of DdsPartInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? index = null,Object? path = null,}) {
-  return _then(_self.copyWith(
+  return _then(DdsPartInfo(
 index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
 as BigInt,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as String,
@@ -1260,16 +1294,18 @@ _$DdsPartInfoCopyWith<_DdsPartInfo> get copyWith => __$DdsPartInfoCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsPartInfo&&(identical(other.index, index) || other.index == index)&&(identical(other.path, path) || other.path == path));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsPartInfo&&(identical(other.index, index) || other.index == index)&&(identical(other.path, path) || other.path == path));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,index,path);
+int get hashCode {
+    return Object.hash(runtimeType,index,path);
+}
 
 @override
 String toString() {
-  return 'DdsPartInfo(index: $index, path: $path)';
+    return 'DdsPartInfo(index: $index, path: $path)';
 }
 
 
@@ -1322,16 +1358,21 @@ $DdsPngDebugCopyWith<DdsPngDebug> get copyWith => _$DdsPngDebugCopyWithImpl<DdsP
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsPngDebug&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&(identical(other.reconstructed, reconstructed) || other.reconstructed == reconstructed)&&(identical(other.decodeMode, decodeMode) || other.decodeMode == decodeMode)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height));
+  final _this = this as DdsPngDebug;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DdsPngDebug&&(identical(other.requestedPath, _this.requestedPath) || other.requestedPath == _this.requestedPath)&&(identical(other.basePath, _this.basePath) || other.basePath == _this.basePath)&&(identical(other.partCount, _this.partCount) || other.partCount == _this.partCount)&&(identical(other.reconstructed, _this.reconstructed) || other.reconstructed == _this.reconstructed)&&(identical(other.decodeMode, _this.decodeMode) || other.decodeMode == _this.decodeMode)&&(identical(other.width, _this.width) || other.width == _this.width)&&(identical(other.height, _this.height) || other.height == _this.height));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,requestedPath,basePath,partCount,reconstructed,decodeMode,width,height);
+int get hashCode {
+  final _this = this as DdsPngDebug;
+  return Object.hash(runtimeType,_this.requestedPath,_this.basePath,_this.partCount,_this.reconstructed,_this.decodeMode,_this.width,_this.height);
+}
 
 @override
 String toString() {
-  return 'DdsPngDebug(requestedPath: $requestedPath, basePath: $basePath, partCount: $partCount, reconstructed: $reconstructed, decodeMode: $decodeMode, width: $width, height: $height)';
+  final _this = this as DdsPngDebug;
+  return 'DdsPngDebug(requestedPath: ${_this.requestedPath}, basePath: ${_this.basePath}, partCount: ${_this.partCount}, reconstructed: ${_this.reconstructed}, decodeMode: ${_this.decodeMode}, width: ${_this.width}, height: ${_this.height})';
 }
 
 
@@ -1360,7 +1401,7 @@ class _$DdsPngDebugCopyWithImpl<$Res>
 /// Create a copy of DdsPngDebug
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? requestedPath = null,Object? basePath = null,Object? partCount = null,Object? reconstructed = null,Object? decodeMode = null,Object? width = null,Object? height = null,}) {
-  return _then(_self.copyWith(
+  return _then(DdsPngDebug(
 requestedPath: null == requestedPath ? _self.requestedPath : requestedPath // ignore: cast_nullable_to_non_nullable
 as String,basePath: null == basePath ? _self.basePath : basePath // ignore: cast_nullable_to_non_nullable
 as String,partCount: null == partCount ? _self.partCount : partCount // ignore: cast_nullable_to_non_nullable
@@ -1524,16 +1565,18 @@ _$DdsPngDebugCopyWith<_DdsPngDebug> get copyWith => __$DdsPngDebugCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsPngDebug&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&(identical(other.reconstructed, reconstructed) || other.reconstructed == reconstructed)&&(identical(other.decodeMode, decodeMode) || other.decodeMode == decodeMode)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DdsPngDebug&&(identical(other.requestedPath, requestedPath) || other.requestedPath == requestedPath)&&(identical(other.basePath, basePath) || other.basePath == basePath)&&(identical(other.partCount, partCount) || other.partCount == partCount)&&(identical(other.reconstructed, reconstructed) || other.reconstructed == reconstructed)&&(identical(other.decodeMode, decodeMode) || other.decodeMode == decodeMode)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,requestedPath,basePath,partCount,reconstructed,decodeMode,width,height);
+int get hashCode {
+    return Object.hash(runtimeType,requestedPath,basePath,partCount,reconstructed,decodeMode,width,height);
+}
 
 @override
 String toString() {
-  return 'DdsPngDebug(requestedPath: $requestedPath, basePath: $basePath, partCount: $partCount, reconstructed: $reconstructed, decodeMode: $decodeMode, width: $width, height: $height)';
+    return 'DdsPngDebug(requestedPath: $requestedPath, basePath: $basePath, partCount: $partCount, reconstructed: $reconstructed, decodeMode: $decodeMode, width: $width, height: $height)';
 }
 
 
@@ -1591,16 +1634,21 @@ $P4kFileItemCopyWith<P4kFileItem> get copyWith => _$P4kFileItemCopyWithImpl<P4kF
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is P4kFileItem&&(identical(other.name, name) || other.name == name)&&(identical(other.isDirectory, isDirectory) || other.isDirectory == isDirectory)&&(identical(other.size, size) || other.size == size)&&(identical(other.compressedSize, compressedSize) || other.compressedSize == compressedSize)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
+  final _this = this as P4kFileItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is P4kFileItem&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.isDirectory, _this.isDirectory) || other.isDirectory == _this.isDirectory)&&(identical(other.size, _this.size) || other.size == _this.size)&&(identical(other.compressedSize, _this.compressedSize) || other.compressedSize == _this.compressedSize)&&(identical(other.dateModified, _this.dateModified) || other.dateModified == _this.dateModified));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,isDirectory,size,compressedSize,dateModified);
+int get hashCode {
+  final _this = this as P4kFileItem;
+  return Object.hash(runtimeType,_this.name,_this.isDirectory,_this.size,_this.compressedSize,_this.dateModified);
+}
 
 @override
 String toString() {
-  return 'P4kFileItem(name: $name, isDirectory: $isDirectory, size: $size, compressedSize: $compressedSize, dateModified: $dateModified)';
+  final _this = this as P4kFileItem;
+  return 'P4kFileItem(name: ${_this.name}, isDirectory: ${_this.isDirectory}, size: ${_this.size}, compressedSize: ${_this.compressedSize}, dateModified: ${_this.dateModified})';
 }
 
 
@@ -1629,7 +1677,7 @@ class _$P4kFileItemCopyWithImpl<$Res>
 /// Create a copy of P4kFileItem
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? isDirectory = null,Object? size = null,Object? compressedSize = null,Object? dateModified = null,}) {
-  return _then(_self.copyWith(
+  return _then(P4kFileItem(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,isDirectory: null == isDirectory ? _self.isDirectory : isDirectory // ignore: cast_nullable_to_non_nullable
 as bool,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
@@ -1789,16 +1837,18 @@ _$P4kFileItemCopyWith<_P4kFileItem> get copyWith => __$P4kFileItemCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _P4kFileItem&&(identical(other.name, name) || other.name == name)&&(identical(other.isDirectory, isDirectory) || other.isDirectory == isDirectory)&&(identical(other.size, size) || other.size == size)&&(identical(other.compressedSize, compressedSize) || other.compressedSize == compressedSize)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _P4kFileItem&&(identical(other.name, name) || other.name == name)&&(identical(other.isDirectory, isDirectory) || other.isDirectory == isDirectory)&&(identical(other.size, size) || other.size == size)&&(identical(other.compressedSize, compressedSize) || other.compressedSize == compressedSize)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,isDirectory,size,compressedSize,dateModified);
+int get hashCode {
+    return Object.hash(runtimeType,name,isDirectory,size,compressedSize,dateModified);
+}
 
 @override
 String toString() {
-  return 'P4kFileItem(name: $name, isDirectory: $isDirectory, size: $size, compressedSize: $compressedSize, dateModified: $dateModified)';
+    return 'P4kFileItem(name: $name, isDirectory: $isDirectory, size: $size, compressedSize: $compressedSize, dateModified: $dateModified)';
 }
 
 
@@ -1854,16 +1904,21 @@ $WemDecodeProgressCopyWith<WemDecodeProgress> get copyWith => _$WemDecodeProgres
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WemDecodeProgress&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other.waveform, waveform)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other.pcmChunk, pcmChunk)&&(identical(other.sampleRate, sampleRate) || other.sampleRate == sampleRate)&&(identical(other.channels, channels) || other.channels == channels)&&(identical(other.chunkIndex, chunkIndex) || other.chunkIndex == chunkIndex));
+  final _this = this as WemDecodeProgress;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WemDecodeProgress&&(identical(other.progress, _this.progress) || other.progress == _this.progress)&&const DeepCollectionEquality().equals(other.waveform, _this.waveform)&&(identical(other.durationMs, _this.durationMs) || other.durationMs == _this.durationMs)&&(identical(other.isComplete, _this.isComplete) || other.isComplete == _this.isComplete)&&(identical(other.error, _this.error) || other.error == _this.error)&&const DeepCollectionEquality().equals(other.pcmChunk, _this.pcmChunk)&&(identical(other.sampleRate, _this.sampleRate) || other.sampleRate == _this.sampleRate)&&(identical(other.channels, _this.channels) || other.channels == _this.channels)&&(identical(other.chunkIndex, _this.chunkIndex) || other.chunkIndex == _this.chunkIndex));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(waveform),durationMs,isComplete,error,const DeepCollectionEquality().hash(pcmChunk),sampleRate,channels,chunkIndex);
+int get hashCode {
+  final _this = this as WemDecodeProgress;
+  return Object.hash(runtimeType,_this.progress,const DeepCollectionEquality().hash(_this.waveform),_this.durationMs,_this.isComplete,_this.error,const DeepCollectionEquality().hash(_this.pcmChunk),_this.sampleRate,_this.channels,_this.chunkIndex);
+}
 
 @override
 String toString() {
-  return 'WemDecodeProgress(progress: $progress, waveform: $waveform, durationMs: $durationMs, isComplete: $isComplete, error: $error, pcmChunk: $pcmChunk, sampleRate: $sampleRate, channels: $channels, chunkIndex: $chunkIndex)';
+  final _this = this as WemDecodeProgress;
+  return 'WemDecodeProgress(progress: ${_this.progress}, waveform: ${_this.waveform}, durationMs: ${_this.durationMs}, isComplete: ${_this.isComplete}, error: ${_this.error}, pcmChunk: ${_this.pcmChunk}, sampleRate: ${_this.sampleRate}, channels: ${_this.channels}, chunkIndex: ${_this.chunkIndex})';
 }
 
 
@@ -1892,7 +1947,7 @@ class _$WemDecodeProgressCopyWithImpl<$Res>
 /// Create a copy of WemDecodeProgress
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? progress = null,Object? waveform = freezed,Object? durationMs = freezed,Object? isComplete = null,Object? error = freezed,Object? pcmChunk = freezed,Object? sampleRate = freezed,Object? channels = freezed,Object? chunkIndex = null,}) {
-  return _then(_self.copyWith(
+  return _then(WemDecodeProgress(
 progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
 as double,waveform: freezed == waveform ? _self.waveform : waveform // ignore: cast_nullable_to_non_nullable
 as Float64List?,durationMs: freezed == durationMs ? _self.durationMs : durationMs // ignore: cast_nullable_to_non_nullable
@@ -2060,16 +2115,18 @@ _$WemDecodeProgressCopyWith<_WemDecodeProgress> get copyWith => __$WemDecodeProg
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WemDecodeProgress&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other.waveform, waveform)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other.pcmChunk, pcmChunk)&&(identical(other.sampleRate, sampleRate) || other.sampleRate == sampleRate)&&(identical(other.channels, channels) || other.channels == channels)&&(identical(other.chunkIndex, chunkIndex) || other.chunkIndex == chunkIndex));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WemDecodeProgress&&(identical(other.progress, progress) || other.progress == progress)&&const DeepCollectionEquality().equals(other.waveform, waveform)&&(identical(other.durationMs, durationMs) || other.durationMs == durationMs)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other.pcmChunk, pcmChunk)&&(identical(other.sampleRate, sampleRate) || other.sampleRate == sampleRate)&&(identical(other.channels, channels) || other.channels == channels)&&(identical(other.chunkIndex, chunkIndex) || other.chunkIndex == chunkIndex));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(waveform),durationMs,isComplete,error,const DeepCollectionEquality().hash(pcmChunk),sampleRate,channels,chunkIndex);
+int get hashCode {
+    return Object.hash(runtimeType,progress,const DeepCollectionEquality().hash(waveform),durationMs,isComplete,error,const DeepCollectionEquality().hash(pcmChunk),sampleRate,channels,chunkIndex);
+}
 
 @override
 String toString() {
-  return 'WemDecodeProgress(progress: $progress, waveform: $waveform, durationMs: $durationMs, isComplete: $isComplete, error: $error, pcmChunk: $pcmChunk, sampleRate: $sampleRate, channels: $channels, chunkIndex: $chunkIndex)';
+    return 'WemDecodeProgress(progress: $progress, waveform: $waveform, durationMs: $durationMs, isComplete: $isComplete, error: $error, pcmChunk: $pcmChunk, sampleRate: $sampleRate, channels: $channels, chunkIndex: $chunkIndex)';
 }
 
 

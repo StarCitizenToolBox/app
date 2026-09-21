@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'tools_ui_model.dart';
@@ -9,6 +9,7 @@ part of 'tools_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $ToolsUIStateCopyWith<ToolsUIState> get copyWith => _$ToolsUIStateCopyWithImpl<T
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToolsUIState&&(identical(other.working, working) || other.working == working)&&(identical(other.scInstalledPath, scInstalledPath) || other.scInstalledPath == scInstalledPath)&&(identical(other.rsiLauncherInstalledPath, rsiLauncherInstalledPath) || other.rsiLauncherInstalledPath == rsiLauncherInstalledPath)&&const DeepCollectionEquality().equals(other.scInstallPaths, scInstallPaths)&&const DeepCollectionEquality().equals(other.rsiLauncherInstallPaths, rsiLauncherInstallPaths)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.isItemLoading, isItemLoading) || other.isItemLoading == isItemLoading));
+  final _this = this as ToolsUIState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToolsUIState&&(identical(other.working, _this.working) || other.working == _this.working)&&(identical(other.scInstalledPath, _this.scInstalledPath) || other.scInstalledPath == _this.scInstalledPath)&&(identical(other.rsiLauncherInstalledPath, _this.rsiLauncherInstalledPath) || other.rsiLauncherInstalledPath == _this.rsiLauncherInstalledPath)&&const DeepCollectionEquality().equals(other.scInstallPaths, _this.scInstallPaths)&&const DeepCollectionEquality().equals(other.rsiLauncherInstallPaths, _this.rsiLauncherInstallPaths)&&const DeepCollectionEquality().equals(other.items, _this.items)&&(identical(other.isItemLoading, _this.isItemLoading) || other.isItemLoading == _this.isItemLoading));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,working,scInstalledPath,rsiLauncherInstalledPath,const DeepCollectionEquality().hash(scInstallPaths),const DeepCollectionEquality().hash(rsiLauncherInstallPaths),const DeepCollectionEquality().hash(items),isItemLoading);
+int get hashCode {
+  final _this = this as ToolsUIState;
+  return Object.hash(runtimeType,_this.working,_this.scInstalledPath,_this.rsiLauncherInstalledPath,const DeepCollectionEquality().hash(_this.scInstallPaths),const DeepCollectionEquality().hash(_this.rsiLauncherInstallPaths),const DeepCollectionEquality().hash(_this.items),_this.isItemLoading);
+}
 
 @override
 String toString() {
-  return 'ToolsUIState(working: $working, scInstalledPath: $scInstalledPath, rsiLauncherInstalledPath: $rsiLauncherInstalledPath, scInstallPaths: $scInstallPaths, rsiLauncherInstallPaths: $rsiLauncherInstallPaths, items: $items, isItemLoading: $isItemLoading)';
+  final _this = this as ToolsUIState;
+  return 'ToolsUIState(working: ${_this.working}, scInstalledPath: ${_this.scInstalledPath}, rsiLauncherInstalledPath: ${_this.rsiLauncherInstalledPath}, scInstallPaths: ${_this.scInstallPaths}, rsiLauncherInstallPaths: ${_this.rsiLauncherInstallPaths}, items: ${_this.items}, isItemLoading: ${_this.isItemLoading})';
 }
 
 
@@ -63,7 +69,7 @@ class _$ToolsUIStateCopyWithImpl<$Res>
 /// Create a copy of ToolsUIState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? working = null,Object? scInstalledPath = null,Object? rsiLauncherInstalledPath = null,Object? scInstallPaths = null,Object? rsiLauncherInstallPaths = null,Object? items = null,Object? isItemLoading = null,}) {
-  return _then(_self.copyWith(
+  return _then(ToolsUIState(
 working: null == working ? _self.working : working // ignore: cast_nullable_to_non_nullable
 as bool,scInstalledPath: null == scInstalledPath ? _self.scInstalledPath : scInstalledPath // ignore: cast_nullable_to_non_nullable
 as String,rsiLauncherInstalledPath: null == rsiLauncherInstalledPath ? _self.rsiLauncherInstalledPath : rsiLauncherInstalledPath // ignore: cast_nullable_to_non_nullable
@@ -212,7 +218,7 @@ return $default(_that.working,_that.scInstalledPath,_that.rsiLauncherInstalledPa
 
 
 class _ToolsUIState implements ToolsUIState {
-   _ToolsUIState({this.working = false, this.scInstalledPath = "", this.rsiLauncherInstalledPath = "", final  List<String> scInstallPaths = const [], final  List<String> rsiLauncherInstallPaths = const [], final  List<ToolsItemData> items = const [], this.isItemLoading = false}): _scInstallPaths = scInstallPaths,_rsiLauncherInstallPaths = rsiLauncherInstallPaths,_items = items;
+   _ToolsUIState({this.working = false, this.scInstalledPath = "", this.rsiLauncherInstalledPath = "",  List<String> scInstallPaths = const [],  List<String> rsiLauncherInstallPaths = const [],  List<ToolsItemData> items = const [], this.isItemLoading = false}): _scInstallPaths = scInstallPaths,_rsiLauncherInstallPaths = rsiLauncherInstallPaths,_items = items;
   
 
 @override@JsonKey() final  bool working;
@@ -251,16 +257,18 @@ _$ToolsUIStateCopyWith<_ToolsUIState> get copyWith => __$ToolsUIStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToolsUIState&&(identical(other.working, working) || other.working == working)&&(identical(other.scInstalledPath, scInstalledPath) || other.scInstalledPath == scInstalledPath)&&(identical(other.rsiLauncherInstalledPath, rsiLauncherInstalledPath) || other.rsiLauncherInstalledPath == rsiLauncherInstalledPath)&&const DeepCollectionEquality().equals(other._scInstallPaths, _scInstallPaths)&&const DeepCollectionEquality().equals(other._rsiLauncherInstallPaths, _rsiLauncherInstallPaths)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.isItemLoading, isItemLoading) || other.isItemLoading == isItemLoading));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ToolsUIState&&(identical(other.working, working) || other.working == working)&&(identical(other.scInstalledPath, scInstalledPath) || other.scInstalledPath == scInstalledPath)&&(identical(other.rsiLauncherInstalledPath, rsiLauncherInstalledPath) || other.rsiLauncherInstalledPath == rsiLauncherInstalledPath)&&const DeepCollectionEquality().equals(other.scInstallPaths, _scInstallPaths)&&const DeepCollectionEquality().equals(other.rsiLauncherInstallPaths, _rsiLauncherInstallPaths)&&const DeepCollectionEquality().equals(other.items, _items)&&(identical(other.isItemLoading, isItemLoading) || other.isItemLoading == isItemLoading));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,working,scInstalledPath,rsiLauncherInstalledPath,const DeepCollectionEquality().hash(_scInstallPaths),const DeepCollectionEquality().hash(_rsiLauncherInstallPaths),const DeepCollectionEquality().hash(_items),isItemLoading);
+int get hashCode {
+    return Object.hash(runtimeType,working,scInstalledPath,rsiLauncherInstalledPath,const DeepCollectionEquality().hash(_scInstallPaths),const DeepCollectionEquality().hash(_rsiLauncherInstallPaths),const DeepCollectionEquality().hash(_items),isItemLoading);
+}
 
 @override
 String toString() {
-  return 'ToolsUIState(working: $working, scInstalledPath: $scInstalledPath, rsiLauncherInstalledPath: $rsiLauncherInstalledPath, scInstallPaths: $scInstallPaths, rsiLauncherInstallPaths: $rsiLauncherInstallPaths, items: $items, isItemLoading: $isItemLoading)';
+    return 'ToolsUIState(working: $working, scInstalledPath: $scInstalledPath, rsiLauncherInstalledPath: $rsiLauncherInstalledPath, scInstallPaths: $scInstallPaths, rsiLauncherInstallPaths: $rsiLauncherInstallPaths, items: $items, isItemLoading: $isItemLoading)';
 }
 
 

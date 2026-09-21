@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'party_room.dart';
@@ -9,6 +9,7 @@ part of 'party_room.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $PartyRoomAuthStateCopyWith<PartyRoomAuthState> get copyWith => _$PartyRoomAuthS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomAuthState&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.secretKey, secretKey) || other.secretKey == secretKey)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.userInfo, userInfo) || other.userInfo == userInfo)&&(identical(other.lastLoginTime, lastLoginTime) || other.lastLoginTime == lastLoginTime));
+  final _this = this as PartyRoomAuthState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomAuthState&&(identical(other.uuid, _this.uuid) || other.uuid == _this.uuid)&&(identical(other.secretKey, _this.secretKey) || other.secretKey == _this.secretKey)&&(identical(other.isLoggedIn, _this.isLoggedIn) || other.isLoggedIn == _this.isLoggedIn)&&(identical(other.userInfo, _this.userInfo) || other.userInfo == _this.userInfo)&&(identical(other.lastLoginTime, _this.lastLoginTime) || other.lastLoginTime == _this.lastLoginTime));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uuid,secretKey,isLoggedIn,userInfo,lastLoginTime);
+int get hashCode {
+  final _this = this as PartyRoomAuthState;
+  return Object.hash(runtimeType,_this.uuid,_this.secretKey,_this.isLoggedIn,_this.userInfo,_this.lastLoginTime);
+}
 
 @override
 String toString() {
-  return 'PartyRoomAuthState(uuid: $uuid, secretKey: $secretKey, isLoggedIn: $isLoggedIn, userInfo: $userInfo, lastLoginTime: $lastLoginTime)';
+  final _this = this as PartyRoomAuthState;
+  return 'PartyRoomAuthState(uuid: ${_this.uuid}, secretKey: ${_this.secretKey}, isLoggedIn: ${_this.isLoggedIn}, userInfo: ${_this.userInfo}, lastLoginTime: ${_this.lastLoginTime})';
 }
 
 
@@ -63,7 +69,7 @@ class _$PartyRoomAuthStateCopyWithImpl<$Res>
 /// Create a copy of PartyRoomAuthState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? secretKey = null,Object? isLoggedIn = null,Object? userInfo = freezed,Object? lastLoginTime = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PartyRoomAuthState(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,secretKey: null == secretKey ? _self.secretKey : secretKey // ignore: cast_nullable_to_non_nullable
 as String,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
@@ -223,16 +229,18 @@ _$PartyRoomAuthStateCopyWith<_PartyRoomAuthState> get copyWith => __$PartyRoomAu
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomAuthState&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.secretKey, secretKey) || other.secretKey == secretKey)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.userInfo, userInfo) || other.userInfo == userInfo)&&(identical(other.lastLoginTime, lastLoginTime) || other.lastLoginTime == lastLoginTime));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomAuthState&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.secretKey, secretKey) || other.secretKey == secretKey)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.userInfo, userInfo) || other.userInfo == userInfo)&&(identical(other.lastLoginTime, lastLoginTime) || other.lastLoginTime == lastLoginTime));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uuid,secretKey,isLoggedIn,userInfo,lastLoginTime);
+int get hashCode {
+    return Object.hash(runtimeType,uuid,secretKey,isLoggedIn,userInfo,lastLoginTime);
+}
 
 @override
 String toString() {
-  return 'PartyRoomAuthState(uuid: $uuid, secretKey: $secretKey, isLoggedIn: $isLoggedIn, userInfo: $userInfo, lastLoginTime: $lastLoginTime)';
+    return 'PartyRoomAuthState(uuid: $uuid, secretKey: $secretKey, isLoggedIn: $isLoggedIn, userInfo: $userInfo, lastLoginTime: $lastLoginTime)';
 }
 
 
@@ -288,16 +296,21 @@ $PartyRoomStateCopyWith<PartyRoomState> get copyWith => _$PartyRoomStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomState&&(identical(other.currentRoom, currentRoom) || other.currentRoom == currentRoom)&&const DeepCollectionEquality().equals(other.members, members)&&const DeepCollectionEquality().equals(other.tags, tags)&&const DeepCollectionEquality().equals(other.signalTypes, signalTypes)&&(identical(other.isInRoom, isInRoom) || other.isInRoom == isInRoom)&&(identical(other.isOwner, isOwner) || other.isOwner == isOwner)&&(identical(other.roomUuid, roomUuid) || other.roomUuid == roomUuid)&&const DeepCollectionEquality().equals(other.recentEvents, recentEvents)&&(identical(other.eventStreamDisconnected, eventStreamDisconnected) || other.eventStreamDisconnected == eventStreamDisconnected));
+  final _this = this as PartyRoomState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomState&&(identical(other.currentRoom, _this.currentRoom) || other.currentRoom == _this.currentRoom)&&const DeepCollectionEquality().equals(other.members, _this.members)&&const DeepCollectionEquality().equals(other.tags, _this.tags)&&const DeepCollectionEquality().equals(other.signalTypes, _this.signalTypes)&&(identical(other.isInRoom, _this.isInRoom) || other.isInRoom == _this.isInRoom)&&(identical(other.isOwner, _this.isOwner) || other.isOwner == _this.isOwner)&&(identical(other.roomUuid, _this.roomUuid) || other.roomUuid == _this.roomUuid)&&const DeepCollectionEquality().equals(other.recentEvents, _this.recentEvents)&&(identical(other.eventStreamDisconnected, _this.eventStreamDisconnected) || other.eventStreamDisconnected == _this.eventStreamDisconnected));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentRoom,const DeepCollectionEquality().hash(members),const DeepCollectionEquality().hash(tags),const DeepCollectionEquality().hash(signalTypes),isInRoom,isOwner,roomUuid,const DeepCollectionEquality().hash(recentEvents),eventStreamDisconnected);
+int get hashCode {
+  final _this = this as PartyRoomState;
+  return Object.hash(runtimeType,_this.currentRoom,const DeepCollectionEquality().hash(_this.members),const DeepCollectionEquality().hash(_this.tags),const DeepCollectionEquality().hash(_this.signalTypes),_this.isInRoom,_this.isOwner,_this.roomUuid,const DeepCollectionEquality().hash(_this.recentEvents),_this.eventStreamDisconnected);
+}
 
 @override
 String toString() {
-  return 'PartyRoomState(currentRoom: $currentRoom, members: $members, tags: $tags, signalTypes: $signalTypes, isInRoom: $isInRoom, isOwner: $isOwner, roomUuid: $roomUuid, recentEvents: $recentEvents, eventStreamDisconnected: $eventStreamDisconnected)';
+  final _this = this as PartyRoomState;
+  return 'PartyRoomState(currentRoom: ${_this.currentRoom}, members: ${_this.members}, tags: ${_this.tags}, signalTypes: ${_this.signalTypes}, isInRoom: ${_this.isInRoom}, isOwner: ${_this.isOwner}, roomUuid: ${_this.roomUuid}, recentEvents: ${_this.recentEvents}, eventStreamDisconnected: ${_this.eventStreamDisconnected})';
 }
 
 
@@ -326,7 +339,7 @@ class _$PartyRoomStateCopyWithImpl<$Res>
 /// Create a copy of PartyRoomState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? currentRoom = freezed,Object? members = null,Object? tags = null,Object? signalTypes = null,Object? isInRoom = null,Object? isOwner = null,Object? roomUuid = freezed,Object? recentEvents = null,Object? eventStreamDisconnected = null,}) {
-  return _then(_self.copyWith(
+  return _then(PartyRoomState(
 currentRoom: freezed == currentRoom ? _self.currentRoom : currentRoom // ignore: cast_nullable_to_non_nullable
 as partroom.RoomInfo?,members: null == members ? _self.members : members // ignore: cast_nullable_to_non_nullable
 as List<partroom.RoomMember>,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
@@ -471,7 +484,7 @@ return $default(_that.currentRoom,_that.members,_that.tags,_that.signalTypes,_th
 
 
 class _PartyRoomState implements PartyRoomState {
-  const _PartyRoomState({this.currentRoom, final  List<partroom.RoomMember> members = const [], final  Map<String, common.Tag> tags = const {}, final  Map<String, common.SignalType> signalTypes = const {}, this.isInRoom = false, this.isOwner = false, this.roomUuid, final  List<partroom.RoomEvent> recentEvents = const [], this.eventStreamDisconnected = false}): _members = members,_tags = tags,_signalTypes = signalTypes,_recentEvents = recentEvents;
+  const _PartyRoomState({this.currentRoom,  List<partroom.RoomMember> members = const [],  Map<String, common.Tag> tags = const {},  Map<String, common.SignalType> signalTypes = const {}, this.isInRoom = false, this.isOwner = false, this.roomUuid,  List<partroom.RoomEvent> recentEvents = const [], this.eventStreamDisconnected = false}): _members = members,_tags = tags,_signalTypes = signalTypes,_recentEvents = recentEvents;
   
 
 @override final  partroom.RoomInfo? currentRoom;
@@ -518,16 +531,18 @@ _$PartyRoomStateCopyWith<_PartyRoomState> get copyWith => __$PartyRoomStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomState&&(identical(other.currentRoom, currentRoom) || other.currentRoom == currentRoom)&&const DeepCollectionEquality().equals(other._members, _members)&&const DeepCollectionEquality().equals(other._tags, _tags)&&const DeepCollectionEquality().equals(other._signalTypes, _signalTypes)&&(identical(other.isInRoom, isInRoom) || other.isInRoom == isInRoom)&&(identical(other.isOwner, isOwner) || other.isOwner == isOwner)&&(identical(other.roomUuid, roomUuid) || other.roomUuid == roomUuid)&&const DeepCollectionEquality().equals(other._recentEvents, _recentEvents)&&(identical(other.eventStreamDisconnected, eventStreamDisconnected) || other.eventStreamDisconnected == eventStreamDisconnected));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomState&&(identical(other.currentRoom, currentRoom) || other.currentRoom == currentRoom)&&const DeepCollectionEquality().equals(other.members, _members)&&const DeepCollectionEquality().equals(other.tags, _tags)&&const DeepCollectionEquality().equals(other.signalTypes, _signalTypes)&&(identical(other.isInRoom, isInRoom) || other.isInRoom == isInRoom)&&(identical(other.isOwner, isOwner) || other.isOwner == isOwner)&&(identical(other.roomUuid, roomUuid) || other.roomUuid == roomUuid)&&const DeepCollectionEquality().equals(other.recentEvents, _recentEvents)&&(identical(other.eventStreamDisconnected, eventStreamDisconnected) || other.eventStreamDisconnected == eventStreamDisconnected));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentRoom,const DeepCollectionEquality().hash(_members),const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_signalTypes),isInRoom,isOwner,roomUuid,const DeepCollectionEquality().hash(_recentEvents),eventStreamDisconnected);
+int get hashCode {
+    return Object.hash(runtimeType,currentRoom,const DeepCollectionEquality().hash(_members),const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_signalTypes),isInRoom,isOwner,roomUuid,const DeepCollectionEquality().hash(_recentEvents),eventStreamDisconnected);
+}
 
 @override
 String toString() {
-  return 'PartyRoomState(currentRoom: $currentRoom, members: $members, tags: $tags, signalTypes: $signalTypes, isInRoom: $isInRoom, isOwner: $isOwner, roomUuid: $roomUuid, recentEvents: $recentEvents, eventStreamDisconnected: $eventStreamDisconnected)';
+    return 'PartyRoomState(currentRoom: $currentRoom, members: $members, tags: $tags, signalTypes: $signalTypes, isInRoom: $isInRoom, isOwner: $isOwner, roomUuid: $roomUuid, recentEvents: $recentEvents, eventStreamDisconnected: $eventStreamDisconnected)';
 }
 
 
@@ -587,16 +602,21 @@ $PartyRoomClientStateCopyWith<PartyRoomClientState> get copyWith => _$PartyRoomC
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomClientState&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.authClient, authClient) || other.authClient == authClient)&&(identical(other.roomClient, roomClient) || other.roomClient == roomClient)&&(identical(other.commonClient, commonClient) || other.commonClient == commonClient)&&(identical(other.isConnected, isConnected) || other.isConnected == isConnected)&&(identical(other.serverAddress, serverAddress) || other.serverAddress == serverAddress)&&(identical(other.serverPort, serverPort) || other.serverPort == serverPort));
+  final _this = this as PartyRoomClientState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomClientState&&(identical(other.channel, _this.channel) || other.channel == _this.channel)&&(identical(other.authClient, _this.authClient) || other.authClient == _this.authClient)&&(identical(other.roomClient, _this.roomClient) || other.roomClient == _this.roomClient)&&(identical(other.commonClient, _this.commonClient) || other.commonClient == _this.commonClient)&&(identical(other.isConnected, _this.isConnected) || other.isConnected == _this.isConnected)&&(identical(other.serverAddress, _this.serverAddress) || other.serverAddress == _this.serverAddress)&&(identical(other.serverPort, _this.serverPort) || other.serverPort == _this.serverPort));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,channel,authClient,roomClient,commonClient,isConnected,serverAddress,serverPort);
+int get hashCode {
+  final _this = this as PartyRoomClientState;
+  return Object.hash(runtimeType,_this.channel,_this.authClient,_this.roomClient,_this.commonClient,_this.isConnected,_this.serverAddress,_this.serverPort);
+}
 
 @override
 String toString() {
-  return 'PartyRoomClientState(channel: $channel, authClient: $authClient, roomClient: $roomClient, commonClient: $commonClient, isConnected: $isConnected, serverAddress: $serverAddress, serverPort: $serverPort)';
+  final _this = this as PartyRoomClientState;
+  return 'PartyRoomClientState(channel: ${_this.channel}, authClient: ${_this.authClient}, roomClient: ${_this.roomClient}, commonClient: ${_this.commonClient}, isConnected: ${_this.isConnected}, serverAddress: ${_this.serverAddress}, serverPort: ${_this.serverPort})';
 }
 
 
@@ -625,7 +645,7 @@ class _$PartyRoomClientStateCopyWithImpl<$Res>
 /// Create a copy of PartyRoomClientState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? channel = freezed,Object? authClient = freezed,Object? roomClient = freezed,Object? commonClient = freezed,Object? isConnected = null,Object? serverAddress = null,Object? serverPort = null,}) {
-  return _then(_self.copyWith(
+  return _then(PartyRoomClientState(
 channel: freezed == channel ? _self.channel : channel // ignore: cast_nullable_to_non_nullable
 as ClientChannel?,authClient: freezed == authClient ? _self.authClient : authClient // ignore: cast_nullable_to_non_nullable
 as auth.AuthServiceClient?,roomClient: freezed == roomClient ? _self.roomClient : roomClient // ignore: cast_nullable_to_non_nullable
@@ -789,16 +809,18 @@ _$PartyRoomClientStateCopyWith<_PartyRoomClientState> get copyWith => __$PartyRo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomClientState&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.authClient, authClient) || other.authClient == authClient)&&(identical(other.roomClient, roomClient) || other.roomClient == roomClient)&&(identical(other.commonClient, commonClient) || other.commonClient == commonClient)&&(identical(other.isConnected, isConnected) || other.isConnected == isConnected)&&(identical(other.serverAddress, serverAddress) || other.serverAddress == serverAddress)&&(identical(other.serverPort, serverPort) || other.serverPort == serverPort));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomClientState&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.authClient, authClient) || other.authClient == authClient)&&(identical(other.roomClient, roomClient) || other.roomClient == roomClient)&&(identical(other.commonClient, commonClient) || other.commonClient == commonClient)&&(identical(other.isConnected, isConnected) || other.isConnected == isConnected)&&(identical(other.serverAddress, serverAddress) || other.serverAddress == serverAddress)&&(identical(other.serverPort, serverPort) || other.serverPort == serverPort));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,channel,authClient,roomClient,commonClient,isConnected,serverAddress,serverPort);
+int get hashCode {
+    return Object.hash(runtimeType,channel,authClient,roomClient,commonClient,isConnected,serverAddress,serverPort);
+}
 
 @override
 String toString() {
-  return 'PartyRoomClientState(channel: $channel, authClient: $authClient, roomClient: $roomClient, commonClient: $commonClient, isConnected: $isConnected, serverAddress: $serverAddress, serverPort: $serverPort)';
+    return 'PartyRoomClientState(channel: $channel, authClient: $authClient, roomClient: $roomClient, commonClient: $commonClient, isConnected: $isConnected, serverAddress: $serverAddress, serverPort: $serverPort)';
 }
 
 
@@ -856,16 +878,21 @@ $PartyRoomFullStateCopyWith<PartyRoomFullState> get copyWith => _$PartyRoomFullS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomFullState&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.room, room) || other.room == room)&&(identical(other.client, client) || other.client == client));
+  final _this = this as PartyRoomFullState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartyRoomFullState&&(identical(other.auth, _this.auth) || other.auth == _this.auth)&&(identical(other.room, _this.room) || other.room == _this.room)&&(identical(other.client, _this.client) || other.client == _this.client));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,auth,room,client);
+int get hashCode {
+  final _this = this as PartyRoomFullState;
+  return Object.hash(runtimeType,_this.auth,_this.room,_this.client);
+}
 
 @override
 String toString() {
-  return 'PartyRoomFullState(auth: $auth, room: $room, client: $client)';
+  final _this = this as PartyRoomFullState;
+  return 'PartyRoomFullState(auth: ${_this.auth}, room: ${_this.room}, client: ${_this.client})';
 }
 
 
@@ -894,7 +921,7 @@ class _$PartyRoomFullStateCopyWithImpl<$Res>
 /// Create a copy of PartyRoomFullState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? auth = null,Object? room = null,Object? client = null,}) {
-  return _then(_self.copyWith(
+  return _then(PartyRoomFullState(
 auth: null == auth ? _self.auth : auth // ignore: cast_nullable_to_non_nullable
 as PartyRoomAuthState,room: null == room ? _self.room : room // ignore: cast_nullable_to_non_nullable
 as PartyRoomState,client: null == client ? _self.client : client // ignore: cast_nullable_to_non_nullable
@@ -1077,16 +1104,18 @@ _$PartyRoomFullStateCopyWith<_PartyRoomFullState> get copyWith => __$PartyRoomFu
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomFullState&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.room, room) || other.room == room)&&(identical(other.client, client) || other.client == client));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartyRoomFullState&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.room, room) || other.room == room)&&(identical(other.client, client) || other.client == client));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,auth,room,client);
+int get hashCode {
+    return Object.hash(runtimeType,auth,room,client);
+}
 
 @override
 String toString() {
-  return 'PartyRoomFullState(auth: $auth, room: $room, client: $client)';
+    return 'PartyRoomFullState(auth: $auth, room: $room, client: $client)';
 }
 
 

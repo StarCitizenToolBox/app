@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'game_doctor_ui_model.dart';
@@ -9,6 +9,7 @@ part of 'game_doctor_ui_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $HomeGameDoctorStateCopyWith<HomeGameDoctorState> get copyWith => _$HomeGameDoct
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeGameDoctorState&&(identical(other.isChecking, isChecking) || other.isChecking == isChecking)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&const DeepCollectionEquality().equals(other.checkResult, checkResult));
+  final _this = this as HomeGameDoctorState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeGameDoctorState&&(identical(other.isChecking, _this.isChecking) || other.isChecking == _this.isChecking)&&(identical(other.isFixing, _this.isFixing) || other.isFixing == _this.isFixing)&&(identical(other.lastScreenInfo, _this.lastScreenInfo) || other.lastScreenInfo == _this.lastScreenInfo)&&(identical(other.isFixingString, _this.isFixingString) || other.isFixingString == _this.isFixingString)&&const DeepCollectionEquality().equals(other.checkResult, _this.checkResult));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isChecking,isFixing,lastScreenInfo,isFixingString,const DeepCollectionEquality().hash(checkResult));
+int get hashCode {
+  final _this = this as HomeGameDoctorState;
+  return Object.hash(runtimeType,_this.isChecking,_this.isFixing,_this.lastScreenInfo,_this.isFixingString,const DeepCollectionEquality().hash(_this.checkResult));
+}
 
 @override
 String toString() {
-  return 'HomeGameDoctorState(isChecking: $isChecking, isFixing: $isFixing, lastScreenInfo: $lastScreenInfo, isFixingString: $isFixingString, checkResult: $checkResult)';
+  final _this = this as HomeGameDoctorState;
+  return 'HomeGameDoctorState(isChecking: ${_this.isChecking}, isFixing: ${_this.isFixing}, lastScreenInfo: ${_this.lastScreenInfo}, isFixingString: ${_this.isFixingString}, checkResult: ${_this.checkResult})';
 }
 
 
@@ -63,7 +69,7 @@ class _$HomeGameDoctorStateCopyWithImpl<$Res>
 /// Create a copy of HomeGameDoctorState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isChecking = null,Object? isFixing = null,Object? lastScreenInfo = null,Object? isFixingString = null,Object? checkResult = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(HomeGameDoctorState(
 isChecking: null == isChecking ? _self.isChecking : isChecking // ignore: cast_nullable_to_non_nullable
 as bool,isFixing: null == isFixing ? _self.isFixing : isFixing // ignore: cast_nullable_to_non_nullable
 as bool,lastScreenInfo: null == lastScreenInfo ? _self.lastScreenInfo : lastScreenInfo // ignore: cast_nullable_to_non_nullable
@@ -210,7 +216,7 @@ return $default(_that.isChecking,_that.isFixing,_that.lastScreenInfo,_that.isFix
 
 
 class _HomeGameDoctorState implements HomeGameDoctorState {
-   _HomeGameDoctorState({this.isChecking = false, this.isFixing = false, this.lastScreenInfo = "", this.isFixingString = "", final  List<MapEntry<String, String>>? checkResult}): _checkResult = checkResult;
+   _HomeGameDoctorState({this.isChecking = false, this.isFixing = false, this.lastScreenInfo = "", this.isFixingString = "",  List<MapEntry<String, String>>? checkResult}): _checkResult = checkResult;
   
 
 @override@JsonKey() final  bool isChecking;
@@ -237,16 +243,18 @@ _$HomeGameDoctorStateCopyWith<_HomeGameDoctorState> get copyWith => __$HomeGameD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeGameDoctorState&&(identical(other.isChecking, isChecking) || other.isChecking == isChecking)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&const DeepCollectionEquality().equals(other._checkResult, _checkResult));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeGameDoctorState&&(identical(other.isChecking, isChecking) || other.isChecking == isChecking)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&const DeepCollectionEquality().equals(other.checkResult, _checkResult));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isChecking,isFixing,lastScreenInfo,isFixingString,const DeepCollectionEquality().hash(_checkResult));
+int get hashCode {
+    return Object.hash(runtimeType,isChecking,isFixing,lastScreenInfo,isFixingString,const DeepCollectionEquality().hash(_checkResult));
+}
 
 @override
 String toString() {
-  return 'HomeGameDoctorState(isChecking: $isChecking, isFixing: $isFixing, lastScreenInfo: $lastScreenInfo, isFixingString: $isFixingString, checkResult: $checkResult)';
+    return 'HomeGameDoctorState(isChecking: $isChecking, isFixing: $isFixing, lastScreenInfo: $lastScreenInfo, isFixingString: $isFixingString, checkResult: $checkResult)';
 }
 
 
