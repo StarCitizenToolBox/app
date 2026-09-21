@@ -68,21 +68,10 @@ class _P4kSignedUrlRejected implements Exception {
 
 enum P4kAssemblyTelemetryEvent { clicked, cancelled, failed, succeeded }
 
-String p4kAssemblyTelemetryKey(
-  P4kDownloadSource source,
-  P4kAssemblyTelemetryEvent event,
-) {
-  final sourceKey = source == P4kDownloadSource.official
-      ? 'official'
-      : 'community_mirror';
-  final eventKey = switch (event) {
-    P4kAssemblyTelemetryEvent.clicked => 'clicked',
-    P4kAssemblyTelemetryEvent.cancelled => 'cancelled',
-    P4kAssemblyTelemetryEvent.failed => 'failed',
-    P4kAssemblyTelemetryEvent.succeeded => 'succeeded',
-  };
-  return 'p4k_assemble_download_${sourceKey}_$eventKey';
-}
+const p4kAssemblyTelemetryKey = 'p4k_assemble_download';
+
+String p4kAssemblyTelemetryLabel(P4kDownloadSource source) =>
+    source == P4kDownloadSource.official ? 'official' : 'community_mirror';
 
 Future<P4kUpdateDialogResult?> resolveP4kMirrorProviderFailure({
   required P4kMirrorUnavailable error,
@@ -1024,7 +1013,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       });
     } catch (e) {
       if (reportDownloadFailure && !_cancelling) {
-        _reportTelemetry(P4kAssemblyTelemetryEvent.failed);
+        _reportTelemetry(P4kAssemblyTelemetryEvent.failed, error: e);
       }
       if (!mounted) return;
       final providerError = widget.source == P4kDownloadSource.communityMirror
@@ -1061,10 +1050,28 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     }
   }
 
-  void _reportTelemetry(P4kAssemblyTelemetryEvent event) {
-    unawaited(
-      AnalyticsApi.touch(p4kAssemblyTelemetryKey(widget.source, event)),
-    );
+  void _reportTelemetry(P4kAssemblyTelemetryEvent event, {Object? error}) {
+    const key = p4kAssemblyTelemetryKey;
+    final label = p4kAssemblyTelemetryLabel(widget.source);
+    unawaited(switch (event) {
+      P4kAssemblyTelemetryEvent.clicked => AnalyticsApi.touch(
+        key,
+        label: label,
+      ),
+      P4kAssemblyTelemetryEvent.cancelled => AnalyticsApi.cancel(
+        key,
+        label: label,
+      ),
+      P4kAssemblyTelemetryEvent.failed => AnalyticsApi.failure(
+        key,
+        label: label,
+        reason: AnalyticsApi.classifyError(error),
+      ),
+      P4kAssemblyTelemetryEvent.succeeded => AnalyticsApi.success(
+        key,
+        label: label,
+      ),
+    });
   }
 
   P4kUpgraderConfig? _buildConfig({bool deepVerify = false}) {
