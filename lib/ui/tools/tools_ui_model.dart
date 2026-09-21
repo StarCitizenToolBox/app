@@ -793,6 +793,7 @@ class ToolsUIModel extends _$ToolsUIModel {
         btData.data!,
         outputFolder: savePath,
       );
+      downloadManager.trackTaskOutcome(taskId, "p4k_download");
       state = state.copyWith(working: false);
       dPrint("DownloadManager.addTorrent resp === $taskId");
       AnalyticsApi.touch("p4k_download");

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'dart:io';
 
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/rust/api/downloader_api.dart' as downloader_api;
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
@@ -30,6 +31,9 @@ extension DownloadManagerStateExt on DownloadManagerState {
 
 @riverpod
 class DownloadManager extends _$DownloadManager {
+  /// Tasks whose final result is reported to analytics: task id -> analytics key.
+  final Map<int, String> _outcomeTasks = {};
+
   bool _disposed = false;
 
   @override
@@ -116,6 +120,9 @@ class DownloadManager extends _$DownloadManager {
         final globalStat = await downloader_api.downloaderGetGlobalStats();
         state = state.copyWith(globalStat: globalStat);
 
+        // Report tracked outcomes before finished tasks are removed below
+        await _reportTaskOutcomes();
+
         // Auto-remove completed tasks (no seeding behavior)
         await removeCompletedTasks();
       } catch (e) {
@@ -165,6 +172,34 @@ class DownloadManager extends _$DownloadManager {
 
   Future<void> removeTask(int taskId, {bool deleteFiles = false}) async {
     await downloader_api.downloaderRemove(taskId: BigInt.from(taskId), deleteFiles: deleteFiles);
+    // removed before it finished or failed: the user cancelled it
+    final analyticsKey = _outcomeTasks.remove(taskId);
+    if (analyticsKey != null) {
+      AnalyticsApi.cancel(analyticsKey);
+    }
+  }
+
+  /// Report the final result (success / failure / cancel) of [taskId] as [analyticsKey].
+  /// Tracking lives in memory, so a task still running when the app exits is not reported.
+  void trackTaskOutcome(int taskId, String analyticsKey) {
+    _outcomeTasks[taskId] = analyticsKey;
+  }
+
+  Future<void> _reportTaskOutcomes() async {
+    if (_outcomeTasks.isEmpty) return;
+    final tasks = await downloader_api.downloaderGetAllTasks();
+    for (final task in tasks) {
+      final taskId = task.id.toInt();
+      final analyticsKey = _outcomeTasks[taskId];
+      if (analyticsKey == null) continue;
+      if (task.status == downloader_api.DownloadTaskStatus.finished) {
+        _outcomeTasks.remove(taskId);
+        AnalyticsApi.success(analyticsKey);
+      } else if (task.status == downloader_api.DownloadTaskStatus.error) {
+        _outcomeTasks.remove(taskId);
+        AnalyticsApi.failure(analyticsKey, reason: "download_error");
+      }
+    }
   }
 
   Future<downloader_api.DownloadTaskInfo> getTaskInfo(int taskId) async {
