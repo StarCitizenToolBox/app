@@ -83,7 +83,16 @@ class RsiLauncherEnhanceDialogUI extends HookConsumerWidget {
       final newScript = await _genNewScript(assarState).unwrap(context: context);
       workingText.value = S.current.tools_rsi_launcher_enhance_working_msg2;
       if (!context.mounted) return;
-      await assarState.value?.data.writeMainJs(content: utf8.encode(newScript)).unwrap(context: context);
+      await assarState.value?.data
+          .writeMainJs(content: utf8.encode(newScript))
+          .then(
+            (_) => AnalyticsApi.success("rsi_launcher_mod_apply"),
+            onError: (Object e, StackTrace st) {
+              AnalyticsApi.failure("rsi_launcher_mod_apply", reason: AnalyticsApi.classifyError(e));
+              return Future<void>.error(e, st);
+            },
+          )
+          .unwrap(context: context);
       AnalyticsApi.touch("rsi_launcher_mod_apply");
       await readState();
     }

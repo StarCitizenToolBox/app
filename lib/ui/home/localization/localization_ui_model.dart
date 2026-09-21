@@ -610,7 +610,7 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     bool isEnableVehicleSorting = false,
     List<LocalizationExtensionItemData>? extensions,
   }) async {
-    AnalyticsApi.touch("install_localization");
+    AnalyticsApi.touch("install_localization", label: value.versionName);
 
     final savePath = File(
       "${_downloadDir.absolute.path}\\${value.versionName}.sclang".platformPath,
@@ -639,7 +639,13 @@ class LocalizationUIModel extends _$LocalizationUIModel {
         extensions: extensions,
         context: context,
       );
+      AnalyticsApi.success("install_localization", label: value.versionName);
     } catch (e) {
+      AnalyticsApi.failure(
+        "install_localization",
+        label: value.versionName,
+        reason: AnalyticsApi.classifyError(e),
+      );
       if (!context.mounted) return;
       await showToast(
         context,

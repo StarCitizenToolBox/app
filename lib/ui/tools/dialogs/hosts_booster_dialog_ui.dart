@@ -41,7 +41,13 @@ class HostsBoosterDialogUI extends HookConsumerWidget {
       final ipsMap = await _doCheckDns(workingMap, checkedMap);
       workingText.value = S.current.tools_hosts_info_writing_hosts;
       if (!context.mounted) return;
-      await _doWriteHosts(ipsMap).unwrap(context: context);
+      await _doWriteHosts(ipsMap).then(
+        (_) => AnalyticsApi.success("host_dns_boost"),
+        onError: (Object e, StackTrace st) {
+          AnalyticsApi.failure("host_dns_boost", reason: AnalyticsApi.classifyError(e));
+          return Future<void>.error(e, st);
+        },
+      ).unwrap(context: context);
       workingText.value = S.current.tools_hosts_info_reading_config;
       await _readHostsState(workingMap, checkedMap);
       workingText.value = "";

@@ -310,16 +310,22 @@ class AdvancedLocalizationUIModel extends _$AdvancedLocalizationUIModel {
     final installedExtensions = ref.read(localizationUIModelProvider).installedLocalizationExtensions;
 
     if (!context.mounted) return false;
-    await localizationUIModel.installFormString(
-      globalIni,
-      state.apiLocalizationData?.versionName ?? "-",
-      advanced: true,
-      isEnableCommunityInputMethod: isEnableCommunityInputMethod,
-      isEnableVehicleSorting: isEnableVehicleSorting,
-      extensions: extensions,
-      preserveExtensions: (extensions == null || extensions.isEmpty) ? installedExtensions : null,
-      context: context,
-    );
+    try {
+      await localizationUIModel.installFormString(
+        globalIni,
+        state.apiLocalizationData?.versionName ?? "-",
+        advanced: true,
+        isEnableCommunityInputMethod: isEnableCommunityInputMethod,
+        isEnableVehicleSorting: isEnableVehicleSorting,
+        extensions: extensions,
+        preserveExtensions: (extensions == null || extensions.isEmpty) ? installedExtensions : null,
+        context: context,
+      );
+    } catch (e) {
+      AnalyticsApi.failure("advanced_localization_apply", reason: AnalyticsApi.classifyError(e));
+      rethrow;
+    }
+    AnalyticsApi.success("advanced_localization_apply");
     state = state.copyWith(workingText: "");
     return true;
   }

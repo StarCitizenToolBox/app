@@ -212,11 +212,17 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
       }
     }
     state = state.copyWith(workingString: S.current.performance_info_write_out_config_file);
-    if (await confFile.exists()) {
-      await confFile.delete();
+    try {
+      if (await confFile.exists()) {
+        await confFile.delete();
+      }
+      await confFile.create();
+      await confFile.writeAsString(conf);
+    } catch (e) {
+      AnalyticsApi.failure("performance_apply", reason: AnalyticsApi.classifyError(e));
+      rethrow;
     }
-    await confFile.create();
-    await confFile.writeAsString(conf);
+    AnalyticsApi.success("performance_apply");
     if (cleanShader) {
       state = state.copyWith(workingString: S.current.performance_action_clear_shaders);
       await cleanShaderCache(null);

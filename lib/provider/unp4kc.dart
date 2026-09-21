@@ -318,10 +318,12 @@ class Unp4kCModel extends _$Unp4kCModel {
           endTime.difference(loadStartTime).inMilliseconds,
         ),
       );
+      AnalyticsApi.success("unp4k_launch");
     } catch (e) {
       dPrint("[unp4k] error: $e");
       state = state.copyWith(errorMessage: e.toString());
       AnalyticsApi.touch("unp4k_error");
+      AnalyticsApi.failure("unp4k_launch", reason: AnalyticsApi.classifyError(e));
     }
 
     ref.onDispose(() async {

@@ -778,6 +778,12 @@ class HomeUIModel extends _$HomeUIModel {
       dPrint('stdout: ${result.stdout}');
       dPrint('stderr: ${result.stderr}');
 
+      if (result.exitCode == 0) {
+        AnalyticsApi.success("gameLaunch");
+      } else {
+        AnalyticsApi.failure("gameLaunch", reason: "abnormal_exit");
+      }
+
       if (result.exitCode != 0) {
         final logs = await SCLoggerHelper.getGameRunningLogs(installPath);
         MapEntry<String, String>? exitInfo;
@@ -816,7 +822,9 @@ class HomeUIModel extends _$HomeUIModel {
       if (await launchFile.exists()) {
         await launchFile.delete();
       }
-    } catch (_) {}
+    } catch (e) {
+      AnalyticsApi.failure("gameLaunch", reason: AnalyticsApi.classifyError(e));
+    }
     runningMap = Map<String, bool>.from(state.isGameRunning);
     runningMap[installPath] = false;
     state = state.copyWith(isGameRunning: runningMap);

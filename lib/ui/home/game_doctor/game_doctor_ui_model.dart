@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -113,7 +114,12 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     state = state.copyWith(isChecking: true, lastScreenInfo: S.current.doctor_action_analyzing);
     dPrint("-------- start docker check -----");
     if (!context.mounted) return;
-    await _statCheck(context);
+    try {
+      await _statCheck(context);
+    } catch (e) {
+      AnalyticsApi.failure("auto_scan_issues", reason: AnalyticsApi.classifyError(e));
+      rethrow;
+    }
     state = state.copyWith(isChecking: false);
   }
 
@@ -133,6 +139,7 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
     await _checkEAC(context, scInstalledPath, checkResult);
     if (!context.mounted) return;
     await _checkGameRunningLog(context, scInstalledPath, checkResult);
+    AnalyticsApi.success("auto_scan_issues", label: checkResult.isEmpty ? "no_issue" : "issues_found");
 
     if (checkResult.isEmpty) {
       final lastScreenInfo = S.current.doctor_action_result_analysis_no_issue;

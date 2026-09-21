@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
 import 'package:starcitizen_doctor/common/utils/base_utils.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
@@ -54,6 +55,8 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
         // dPrint(
         //     "======rsiLoginCallback=== $ok ===== data==\n${json.encode(message)}");
         if (message == null || !ok) {
+          // login window closed or one-click launch tip declined
+          AnalyticsApi.cancel("gameLaunch");
           Navigator.pop(context);
           return;
         }
@@ -100,6 +103,7 @@ class HomeGameLoginUIModel extends _$HomeGameLoginUIModel {
                 cancel: S.current.home_login_info_action_ignore,
               );
               if (ok == true) {
+                AnalyticsApi.cancel("gameLaunch");
                 if (!context.mounted) return;
                 Navigator.pop(context);
                 return;
