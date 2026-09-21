@@ -105,3 +105,85 @@ install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
 install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
   CONFIGURATIONS Profile;Release
   COMPONENT Runtime)
+
+# === Bundled runtime DLLs ===
+# Ship the MSVC runtime next to the executable, so it starts on systems that
+# lack (or have a broken) Visual C++ Redistributable. Copied from the system's
+# own copies at configure time; a missing file fails the build.
+file(TO_CMAKE_PATH "$ENV{SystemRoot}/System32" SCTOOLBOX_SYSTEM_RUNTIME_DIR)
+set(SCTOOLBOX_RUNTIME_DLLS)
+foreach(dll msvcp140.dll msvcp140_1.dll vcruntime140.dll vcruntime140_1.dll)
+  set(dll_path "${SCTOOLBOX_SYSTEM_RUNTIME_DIR}/${dll}")
+  if(NOT EXISTS "${dll_path}")
+    message(FATAL_ERROR "Runtime DLL not found: ${dll_path}")
+  endif()
+  list(APPEND SCTOOLBOX_RUNTIME_DLLS "${dll_path}")
+endforeach()
+
+# msvcp140_app.dll is not part of the desktop redistributable; it ships in the
+# Microsoft.VCLibs.140.00 framework package, together with the two
+# vcruntime*_app.dll it imports. WindowsApps cannot be listed, so ask Appx for
+# the install location of the newest x64 package.
+execute_process(
+  COMMAND powershell -NoProfile -NonInteractive -Command
+    "(Get-AppxPackage -Name 'Microsoft.VCLibs.140.00' | Where-Object Architecture -eq 'X64' | Sort-Object Version -Descending | Select-Object -First 1).InstallLocation"
+  OUTPUT_VARIABLE SCTOOLBOX_VCLIBS_DIR
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  RESULT_VARIABLE vclibs_result)
+file(TO_CMAKE_PATH "${SCTOOLBOX_VCLIBS_DIR}" SCTOOLBOX_VCLIBS_DIR)
+if(NOT vclibs_result EQUAL 0 OR SCTOOLBOX_VCLIBS_DIR STREQUAL "")
+  message(FATAL_ERROR
+    "The Microsoft.VCLibs.140.00 (x64) framework package is not installed; "
+    "it provides msvcp140_app.dll.")
+endif()
+foreach(dll msvcp140_app.dll vcruntime140_app.dll vcruntime140_1_app.dll)
+  set(dll_path "${SCTOOLBOX_VCLIBS_DIR}/${dll}")
+  if(NOT EXISTS "${dll_path}")
+    message(FATAL_ERROR "Runtime DLL not found: ${dll_path}")
+  endif()
+  list(APPEND SCTOOLBOX_RUNTIME_DLLS "${dll_path}")
+endforeach()
+
+install(FILES ${SCTOOLBOX_RUNTIME_DLLS}
+  DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
+  COMPONENT Runtime)
+
+# Empty DirectML.dll placeholder for the prebuilt ONNX Runtime. Downloaded once
+# into the build tree and pinned by hash; a failed download is retried from the
+# same URL and then fails the build.
+set(SCTOOLBOX_DIRECTML_URL
+  "https://github.com/StarCitizenToolBox/Empty_DirectMLdll/releases/download/Empty_v1/DirectML.dll")
+set(SCTOOLBOX_DIRECTML_SHA256
+  "07766ef81f0057764dcfe9a0eb8f383bfe0420ea3bd35248ac5e1a1ffe3ebe0c")
+set(SCTOOLBOX_DIRECTML_DLL "${CMAKE_BINARY_DIR}/third_party/DirectML.dll")
+set(directml_hash "")
+if(EXISTS "${SCTOOLBOX_DIRECTML_DLL}")
+  file(SHA256 "${SCTOOLBOX_DIRECTML_DLL}" directml_hash)
+endif()
+if(NOT directml_hash STREQUAL SCTOOLBOX_DIRECTML_SHA256)
+  set(directml_error "")
+  foreach(attempt RANGE 1 3)
+    file(DOWNLOAD "${SCTOOLBOX_DIRECTML_URL}" "${SCTOOLBOX_DIRECTML_DLL}"
+      EXPECTED_HASH SHA256=${SCTOOLBOX_DIRECTML_SHA256}
+      TLS_VERIFY ON
+      TIMEOUT 120
+      STATUS directml_status)
+    list(GET directml_status 0 directml_code)
+    if(directml_code EQUAL 0)
+      set(directml_error "")
+      break()
+    endif()
+    list(GET directml_status 1 directml_error)
+    message(WARNING
+      "DirectML.dll download attempt ${attempt}/3 failed: ${directml_error}")
+  endforeach()
+  if(NOT directml_error STREQUAL "")
+    file(REMOVE "${SCTOOLBOX_DIRECTML_DLL}")
+    message(FATAL_ERROR
+      "Could not download DirectML.dll from ${SCTOOLBOX_DIRECTML_URL}: "
+      "${directml_error}")
+  endif()
+endif()
+install(FILES "${SCTOOLBOX_DIRECTML_DLL}"
+  DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
+  COMPONENT Runtime)
