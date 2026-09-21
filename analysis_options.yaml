@@ -27,8 +27,6 @@ linter:
     dangling_library_doc_comments: false
 
 analyzer:
-  plugins:
-    - custom_lint
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
@@ -43,3 +41,8 @@ analyzer:
     invalid_annotation_target: ignore
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
+
+# riverpod_lint 3 runs on the analysis_server_plugin system; custom_lint is
+# no longer used.
+plugins:
+  riverpod_lint: ^3.1.9

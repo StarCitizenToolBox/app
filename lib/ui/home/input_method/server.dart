@@ -108,7 +108,7 @@ class InputMethodServer extends _$InputMethodServer {
     String mimeType;
     try {
       if (path.startsWith('api')) {
-        return _onHandlerApi(request);
+        return await _onHandlerApi(request);
       }
       if (path == '/' || path == '') {
         contentByte =
