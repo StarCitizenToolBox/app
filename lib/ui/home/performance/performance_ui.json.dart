@@ -252,16 +252,6 @@ List get performanceUIConfJsonData => [
     "group": S.current.performance_json_text_title_graphics,
   },
   {
-    "key": "sys.OpenXR",
-    "name": S.current.performance_json_text_openxr,
-    "info": S.current.performance_json_text_openxr_info,
-    "type": "bool",
-    "max": 1,
-    "min": 0,
-    "value": 0,
-    "group": S.current.app_index_menu_settings,
-  },
-  {
     "key": "r_displayinfo",
     "name": S.current.performance_json_text_displayinfo,
     "info": S.current.performance_json_text_displayinfo_info,

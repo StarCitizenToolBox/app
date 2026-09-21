@@ -4672,26 +4672,6 @@ class S {
     );
   }
 
-  /// `Enable OpenXR`
-  String get performance_json_text_openxr {
-    return Intl.message(
-      'Enable OpenXR',
-      name: 'performance_json_text_openxr',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Connect to an OpenXR compatible headset, launch the game, and use left Alt + numeric keypad 5 to switch between VR and widescreen theater modes.`
-  String get performance_json_text_openxr_info {
-    return Intl.message(
-      'Connect to an OpenXR compatible headset, launch the game, and use left Alt + numeric keypad 5 to switch between VR and widescreen theater modes.',
-      name: 'performance_json_text_openxr_info',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Set FOV`
   String get performance_json_text_fov {
     return Intl.message(

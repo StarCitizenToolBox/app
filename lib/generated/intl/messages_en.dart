@@ -2342,12 +2342,6 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Model object detail, affects LOD, etc.",
         ),
-    "performance_json_text_openxr": MessageLookupByLibrary.simpleMessage(
-      "Enable OpenXR",
-    ),
-    "performance_json_text_openxr_info": MessageLookupByLibrary.simpleMessage(
-      "Connect to an OpenXR compatible headset, launch the game, and use left Alt + numeric keypad 5 to switch between VR and widescreen theater modes.",
-    ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
       "Particle Detail",
     ),

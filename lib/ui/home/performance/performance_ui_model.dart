@@ -81,27 +81,27 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     if (state.performanceMap == null) return;
     state = state.copyWith(enabled: true);
 
+    final itemsByKey = {
+      for (final items in state.performanceMap!.values)
+        for (final item in items)
+          if (item.key != null) item.key!: item,
+    };
+    final customize = StringBuffer(customizeCtrl.text);
     final confString = await confFile.readAsString();
-    for (var value in confString.split("\n")) {
-      final kv = value.split("=");
-      for (var m in state.performanceMap!.entries) {
-        for (var value in m.value) {
-          if (value.key == kv[0].trim()) {
-            var v = int.tryParse(kv[1].trim());
-            if (v != null) {
-              // Special mapping for sys.OpenXR: 42 -> 1
-              if (value.key == "sys.OpenXR" && v == 42) {
-                v = 1;
-              }
-              value.value = v;
-            }
-          }
-        }
+    for (var line in confString.split("\n")) {
+      final kv = line.split("=");
+      if (kv.length != 2) continue;
+      final key = kv[0].trim();
+      final item = itemsByKey[key];
+      if (item != null) {
+        final v = int.tryParse(kv[1].trim());
+        if (v != null) item.value = v;
       }
-      if (kv.length == 2 && !_inAppKeys.contains(kv[0].trim())) {
-        customizeCtrl.text = "${customizeCtrl.text}${kv[0].trim()}=${kv[1].trim()}\n";
+      if (!_inAppKeys.contains(key)) {
+        customize.write("$key=${kv[1].trim()}\n");
       }
     }
+    customizeCtrl.text = customize.toString();
   }
 
   Future<void> closeTip() async {
@@ -191,13 +191,7 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
             continue;
           }
 
-          // Special mapping for sys.OpenXR: 1 -> 42
-          var outputValue = c.value;
-          if (c.key == "sys.OpenXR" && c.value == 1) {
-            outputValue = 42;
-          }
-
-          conf = "$conf${c.key}=$outputValue\n";
+          conf = "$conf${c.key}=${c.value}\n";
         }
       }
     }
@@ -231,9 +225,5 @@ class HomePerformanceUIModel extends _$HomePerformanceUIModel {
     await await Future.delayed(const Duration(milliseconds: 300));
     await _init();
     state = state.copyWith(workingString: "");
-  }
-
-  void updateState() {
-    state = state.copyWith();
   }
 }

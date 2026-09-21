@@ -1841,12 +1841,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_json_text_object_detail_info":
         MessageLookupByLibrary.simpleMessage("模型物件細節，影響LOD等.."),
-    "performance_json_text_openxr": MessageLookupByLibrary.simpleMessage(
-      "啟用 OpenXR",
-    ),
-    "performance_json_text_openxr_info": MessageLookupByLibrary.simpleMessage(
-      "連接與 OpenXR 相容的頭顯，啟動遊戲後，使用左Alt+數位小鍵盤5切換 VR 與 寬螢幕劇院模式",
-    ),
     "performance_json_text_particles": MessageLookupByLibrary.simpleMessage(
       "粒子細節",
     ),
