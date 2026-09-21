@@ -63,8 +63,44 @@ jobs:
               run: | 
                     flutter pub global activate intl_utils
                     flutter pub global run intl_utils:generate
+            # windows/CMakeLists.txt bundles msvcp140_app.dll and the
+            # vcruntime*_app.dll it imports. They come from the
+            # Microsoft.VCLibs.140.00 framework package, which the runner does
+            # not have installed; take them from the x64 framework appx in the
+            # VS UWP extension SDK instead.
+            - name: Provide VCLibs app runtime
+              shell: pwsh
+              run: |
+                $sdk = Join-Path ${env:ProgramFiles(x86)} "Microsoft SDKs/Windows Kits/10/ExtensionSDKs/Microsoft.VCLibs/14.0/Appx/Retail/x64"
+                $appx = Get-ChildItem $sdk -Filter "Microsoft.VCLibs.x64.14.00.appx" -ErrorAction SilentlyContinue | Select-Object -First 1
+                if (-not $appx) { throw "Microsoft.VCLibs x64 framework appx not found under $sdk" }
+                $dir = Join-Path $env:RUNNER_TEMP "vclibs"
+                New-Item -ItemType Directory -Force $dir | Out-Null
+                Add-Type -AssemblyName System.IO.Compression.FileSystem
+                $zip = [System.IO.Compression.ZipFile]::OpenRead($appx.FullName)
+                try {
+                  foreach ($name in "msvcp140_app.dll", "vcruntime140_app.dll", "vcruntime140_1_app.dll") {
+                    $entry = $zip.Entries | Where-Object Name -eq $name | Select-Object -First 1
+                    if (-not $entry) { throw "$name not found in $($appx.FullName)" }
+                    [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, (Join-Path $dir $name), $true)
+                  }
+                } finally {
+                  $zip.Dispose()
+                }
+                Get-ChildItem $dir | ForEach-Object { "{0} {1}" -f $_.Name, $_.VersionInfo.FileVersion }
+                "SCTOOLBOX_VCLIBS_DIR=$dir" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
             - name: Flutter build Windows
               run: flutter build windows -v
+
+            - name: Check bundled runtime DLLs
+              shell: pwsh
+              run: |
+                $missing = @(
+                  "msvcp140.dll", "msvcp140_1.dll", "vcruntime140.dll", "vcruntime140_1.dll",
+                  "msvcp140_app.dll", "vcruntime140_app.dll", "vcruntime140_1_app.dll", "DirectML.dll"
+                ) | Where-Object { -not (Test-Path (Join-Path "build/windows/x64/runner/Release" $_)) }
+                if ($missing) { throw "Missing from the Release bundle: $($missing -join ', ')" }
 
             - name: Archive build
               uses: actions/upload-artifact@v7

@@ -122,20 +122,27 @@ endforeach()
 
 # msvcp140_app.dll is not part of the desktop redistributable; it ships in the
 # Microsoft.VCLibs.140.00 framework package, together with the two
-# vcruntime*_app.dll it imports. WindowsApps cannot be listed, so ask Appx for
-# the install location of the newest x64 package.
-execute_process(
-  COMMAND powershell -NoProfile -NonInteractive -Command
-    "(Get-AppxPackage -Name 'Microsoft.VCLibs.140.00' | Where-Object Architecture -eq 'X64' | Sort-Object Version -Descending | Select-Object -First 1).InstallLocation"
-  OUTPUT_VARIABLE SCTOOLBOX_VCLIBS_DIR
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-  RESULT_VARIABLE vclibs_result)
-file(TO_CMAKE_PATH "${SCTOOLBOX_VCLIBS_DIR}" SCTOOLBOX_VCLIBS_DIR)
-if(NOT vclibs_result EQUAL 0 OR SCTOOLBOX_VCLIBS_DIR STREQUAL "")
-  message(FATAL_ERROR
-    "The Microsoft.VCLibs.140.00 (x64) framework package is not installed; "
-    "it provides msvcp140_app.dll.")
+# vcruntime*_app.dll it imports. SCTOOLBOX_VCLIBS_DIR (environment) can point
+# at a folder holding them, e.g. extracted from the VS UWP extension SDK appx
+# on CI. Otherwise ask Appx for the newest installed x64 package, since
+# WindowsApps cannot be listed.
+if(DEFINED ENV{SCTOOLBOX_VCLIBS_DIR} AND NOT "$ENV{SCTOOLBOX_VCLIBS_DIR}" STREQUAL "")
+  set(SCTOOLBOX_VCLIBS_DIR "$ENV{SCTOOLBOX_VCLIBS_DIR}")
+else()
+  execute_process(
+    COMMAND powershell -NoProfile -NonInteractive -Command
+      "(Get-AppxPackage -Name 'Microsoft.VCLibs.140.00' | Where-Object Architecture -eq 'X64' | Sort-Object Version -Descending | Select-Object -First 1).InstallLocation"
+    OUTPUT_VARIABLE SCTOOLBOX_VCLIBS_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    RESULT_VARIABLE vclibs_result)
+  if(NOT vclibs_result EQUAL 0 OR SCTOOLBOX_VCLIBS_DIR STREQUAL "")
+    message(FATAL_ERROR
+      "The Microsoft.VCLibs.140.00 (x64) framework package is not installed; "
+      "it provides msvcp140_app.dll. Install it or set SCTOOLBOX_VCLIBS_DIR.")
+  endif()
 endif()
+file(TO_CMAKE_PATH "${SCTOOLBOX_VCLIBS_DIR}" SCTOOLBOX_VCLIBS_DIR)
+message(STATUS "VCLibs app runtime from: ${SCTOOLBOX_VCLIBS_DIR}")
 foreach(dll msvcp140_app.dll vcruntime140_app.dll vcruntime140_1_app.dll)
   set(dll_path "${SCTOOLBOX_VCLIBS_DIR}/${dll}")
   if(NOT EXISTS "${dll_path}")
