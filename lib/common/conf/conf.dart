@@ -1,9 +1,9 @@
 import 'dart:io';
 
 class ConstConf {
-  static const String appVersion = "3.3.1";
-  static const int appVersionCode = 86;
-  static const String appVersionDate = "2026-07-30";
+  static const String appVersion = "3.4.0";
+  static const int appVersionCode = 87;
+  static const String appVersionDate = "2026-09-22";
   static const _gameChannels = ["LIVE", "4.0_PREVIEW", "PTU", "EPTU", "TECH-PREVIEW", "HOTFIX"];
   static const isMSE = String.fromEnvironment("MSE", defaultValue: "false") == "true";
   static const win32AppId = isMSE
