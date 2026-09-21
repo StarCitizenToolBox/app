@@ -32,6 +32,14 @@ class IndexUI extends HookConsumerWidget {
     ref.watch(partyRoomUIModelProvider.select((value) => null));
 
     final curIndex = useState(0);
+    // Remember the previously selected tab so the indicator knows which way
+    // to flow, like NavigationPane's StickyNavigationIndicator did.
+    final lastIndex = useRef(curIndex.value);
+    final previousIndex = useRef(curIndex.value);
+    if (lastIndex.value != curIndex.value) {
+      previousIndex.value = lastIndex.value;
+      lastIndex.value = curIndex.value;
+    }
 
     // Initialize URL scheme handler
     useEffect(() {
@@ -43,8 +51,16 @@ class IndexUI extends HookConsumerWidget {
       titleBar: _makeTitleBar(context, curIndex),
       content: Row(
         children: [
-          _makeNavigationBar(curIndex),
-          Expanded(child: pageMenus.values.elementAt(curIndex.value).$2),
+          _makeNavigationBar(curIndex, previousIndex.value),
+          Expanded(
+            child: _makeContentPanel(
+              context,
+              KeyedSubtree(
+                key: ValueKey(curIndex.value),
+                child: pageMenus.values.elementAt(curIndex.value).$2,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -107,17 +123,43 @@ class IndexUI extends HookConsumerWidget {
     );
   }
 
-  Widget _makeNavigationBar(ValueNotifier<int> curIndex) {
-    final menus = pageMenus.entries.toList();
-
-    return Container(
-      width: 78,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border(
-          right: BorderSide(color: Colors.white.withValues(alpha: .04)),
+  /// Restores the content surface NavigationPane used to draw before the
+  /// custom navigation bar: scaffold fill, rounded top-left corner and the
+  /// card stroke, instead of a divider line next to the navigation bar.
+  Widget _makeContentPanel(BuildContext context, Widget child) {
+    final theme = FluentTheme.of(context);
+    final shape = RoundedRectangleBorder(
+      side: BorderSide(color: theme.resources.cardStrokeColorDefault),
+      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8)),
+    );
+    return DecoratedBox(
+      position: DecorationPosition.foreground,
+      decoration: ShapeDecoration(shape: shape),
+      child: ClipPath(
+        clipper: ShapeBorderClipper(shape: shape),
+        child: ColoredBox(
+          color: theme.scaffoldBackgroundColor,
+          // Same page switch animation NavigationBody used to provide.
+          child: AnimatedSwitcher(
+            switchInCurve: theme.animationCurve,
+            switchOutCurve: theme.animationCurve,
+            duration: theme.fastAnimationDuration,
+            reverseDuration: theme.fastAnimationDuration ~/ 2,
+            layoutBuilder: (child, children) => SizedBox(child: child),
+            transitionBuilder: (child, animation) =>
+                EntrancePageTransition(animation: animation, child: child),
+            child: child,
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _makeNavigationBar(ValueNotifier<int> curIndex, int previousIndex) {
+    final menus = pageMenus.entries.toList();
+
+    return SizedBox(
+      width: 78,
       child: SafeArea(
         top: false,
         bottom: false,
@@ -133,6 +175,11 @@ class IndexUI extends HookConsumerWidget {
               icon: menu.key,
               title: menu.value.$1,
               selected: selected,
+              indicator: _StickyNavIndicator(
+                itemIndex: index,
+                selectedIndex: curIndex.value,
+                previousIndex: previousIndex,
+              ),
               onTap: () => curIndex.value = index,
             );
           },
@@ -146,9 +193,9 @@ class IndexUI extends HookConsumerWidget {
     required IconData icon,
     required String title,
     required bool selected,
+    required Widget indicator,
     required VoidCallback onTap,
   }) {
-    final accentColor = FluentTheme.of(context).accentColor;
     final theme = FluentTheme.of(context);
     final navTheme = NavigationPaneTheme.of(context);
 
@@ -198,24 +245,7 @@ class IndexUI extends HookConsumerWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    AnimatedPositionedDirectional(
-                      duration: theme.fastAnimationDuration,
-                      curve: theme.animationCurve,
-                      start: selected ? 0 : -3,
-                      top: selected ? 10 : 23,
-                      bottom: selected ? 10 : 23,
-                      child: AnimatedContainer(
-                        duration: theme.fastAnimationDuration,
-                        curve: theme.animationCurve,
-                        width: 3,
-                        decoration: BoxDecoration(
-                          color: selected
-                              ? (navTheme.highlightColor ?? accentColor)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                    ),
+                    Positioned.fill(child: indicator),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
@@ -302,5 +332,128 @@ class IndexUI extends HookConsumerWidget {
     if (partyRoomIndex >= 0) {
       curIndexState.value = partyRoomIndex;
     }
+  }
+}
+
+/// Port of fluent_ui's StickyNavigationIndicator for the custom navigation
+/// bar: the old tab's bar shrinks towards the new tab during the first half,
+/// then the new tab's bar grows out from the old tab's side.
+class _StickyNavIndicator extends StatefulWidget {
+  const _StickyNavIndicator({
+    required this.itemIndex,
+    required this.selectedIndex,
+    required this.previousIndex,
+  });
+
+  final int itemIndex;
+  final int selectedIndex;
+  final int previousIndex;
+
+  static const double _padding = 10;
+  static const double _size = 3;
+
+  @override
+  State<_StickyNavIndicator> createState() => _StickyNavIndicatorState();
+}
+
+class _StickyNavIndicatorState extends State<_StickyNavIndicator>
+    with TickerProviderStateMixin {
+  late final AnimationController _shrinkController = AnimationController(
+    vsync: this,
+  );
+  late final AnimationController _growController = AnimationController(
+    vsync: this,
+    value: 1,
+  );
+  bool _goingDown = true;
+
+  bool get _isSelected => widget.itemIndex == widget.selectedIndex;
+
+  bool get _isPrevious =>
+      widget.itemIndex == widget.previousIndex &&
+      widget.previousIndex != widget.selectedIndex;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final duration = FluentTheme.of(context).slowAnimationDuration;
+    _shrinkController.duration = duration;
+    _growController.duration = duration;
+  }
+
+  @override
+  void didUpdateWidget(_StickyNavIndicator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedIndex == widget.selectedIndex) return;
+    _goingDown = widget.previousIndex > widget.selectedIndex;
+    if (_isSelected) {
+      _growController.forward(from: 0);
+    } else if (_isPrevious) {
+      _shrinkController.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _shrinkController.dispose();
+    _growController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = FluentTheme.of(context);
+    final color =
+        NavigationPaneTheme.of(context).highlightColor ?? theme.accentColor;
+    final curve = theme.animationCurve;
+
+    return IgnorePointer(
+      child: AnimatedBuilder(
+        animation: Listenable.merge([_shrinkController, _growController]),
+        builder: (context, child) {
+          var top = _StickyNavIndicator._padding;
+          var bottom = _StickyNavIndicator._padding;
+          if (_isSelected) {
+            final progress = CurvedAnimation(
+              parent: _growController,
+              curve: Interval(0.5, 1, curve: curve),
+            ).value;
+            if (progress == 0) return const SizedBox.shrink();
+            if (_goingDown) {
+              bottom = _StickyNavIndicator._padding * progress;
+            } else {
+              top = _StickyNavIndicator._padding * progress;
+            }
+          } else if (_isPrevious && _shrinkController.isAnimating) {
+            final progress = CurvedAnimation(
+              parent: _shrinkController,
+              curve: Interval(0, 0.5, curve: curve),
+            ).value;
+            if (progress == 1) return const SizedBox.shrink();
+            if (_goingDown) {
+              top = _StickyNavIndicator._padding * (1 - progress);
+            } else {
+              bottom = _StickyNavIndicator._padding * (1 - progress);
+            }
+          } else {
+            return const SizedBox.shrink();
+          }
+          return Padding(
+            padding: EdgeInsetsDirectional.only(top: top, bottom: bottom),
+            child: child,
+          );
+        },
+        child: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Container(
+            width: _StickyNavIndicator._size,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
