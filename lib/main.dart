@@ -90,6 +90,17 @@ class App extends HookConsumerWidget with WindowListener {
         menuColor: appState.themeConf.menuColor,
         micaBackgroundColor: appState.themeConf.micaColor,
         buttonTheme: ButtonThemeData(
+          // fluent_ui 4.16 fills disabled IconButtons with the button colour,
+          // which turns toolbars into grey blocks; keep them transparent.
+          iconButtonStyle: ButtonStyle(
+            backgroundColor: WidgetStateProperty.resolveWith((states) {
+              const res = ResourceDictionary.dark();
+              if (states.isDisabled) return res.subtleFillColorTransparent;
+              if (states.isPressed) return res.subtleFillColorTertiary;
+              if (states.isHovered) return res.subtleFillColorSecondary;
+              return res.subtleFillColorTransparent;
+            }),
+          ),
           defaultButtonStyle: ButtonStyle(
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(

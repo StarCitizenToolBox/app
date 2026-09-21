@@ -158,7 +158,7 @@ class UnP4kcUI extends HookConsumerWidget {
                         context,
                       ).cardColor.withValues(alpha: .06),
                     ),
-                    height: 36,
+                    height: 40,
                     padding: const EdgeInsets.only(left: 12, right: 12),
                     child: Row(
                       children: [

@@ -188,23 +188,27 @@ class FilterToolbar extends HookConsumerWidget {
           _SearchScopeButton(searchController: searchController, model: model),
           const SizedBox(width: 4),
           Expanded(
-            child: TextBox(
-              controller: searchController,
-              placeholder: searchPlaceholder,
-              suffix:
-                  searchController.text.isNotEmpty ||
-                      state.searchMatchedFiles != null
-                  ? IconButton(
-                      icon: const Icon(FluentIcons.clear, size: 12),
-                      onPressed: () {
-                        searchController.clear();
-                        model.clearSearch();
-                      },
-                    )
-                  : null,
-              onSubmitted: (value) {
-                model.search(value);
-              },
+            // Same height as the sort ComboBox so the row lines up.
+            child: SizedBox(
+              height: 40,
+              child: TextBox(
+                controller: searchController,
+                placeholder: searchPlaceholder,
+                suffix:
+                    searchController.text.isNotEmpty ||
+                        state.searchMatchedFiles != null
+                    ? IconButton(
+                        icon: const Icon(FluentIcons.clear, size: 12),
+                        onPressed: () {
+                          searchController.clear();
+                          model.clearSearch();
+                        },
+                      )
+                    : null,
+                onSubmitted: (value) {
+                  model.search(value);
+                },
+              ),
             ),
           ),
           const SizedBox(width: 4),
