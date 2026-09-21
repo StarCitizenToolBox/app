@@ -39,9 +39,9 @@ class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
       context,
       title: S.current.party_room_disconnected,
       content: Text(S.current.party_room_reconnect_prompt),
-      actions: [
+      actionsBuilder: (close) => [
         Button(
-          onPressed: () => Navigator.of(context).pop('leave'),
+          onPressed: () => close('leave'),
           child: Padding(
             padding: const EdgeInsets.only(
               top: 2,
@@ -53,7 +53,7 @@ class _PartyRoomDetailPageState extends ConsumerState<PartyRoomDetailPage> {
           ),
         ),
         FilledButton(
-          onPressed: () => Navigator.of(context).pop('reconnect'),
+          onPressed: () => close('reconnect'),
           child: Padding(
             padding: const EdgeInsets.only(
               top: 2,

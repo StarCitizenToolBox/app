@@ -26,13 +26,13 @@ Future showToast(BuildContext context, String msg, {BoxConstraints? constraints,
     context,
     title: title ?? S.current.app_common_tip,
     content: Text(msg),
-    actions: [
+    actionsBuilder: (close) => [
       FilledButton(
         child: Padding(
           padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
           child: Text(S.current.app_common_tip_i_know),
         ),
-        onPressed: () => Navigator.pop(context),
+        onPressed: () => close(),
       ),
     ],
     constraints: constraints,
@@ -56,16 +56,16 @@ Future<bool> showConfirmDialogs(
     context,
     title: title,
     content: content,
-    actions: [
+    actionsBuilder: (close) => [
       if (confirm.isNotEmpty)
         FilledButton(
           child: Padding(padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8), child: Text(confirm)),
-          onPressed: () => Navigator.pop(context, true),
+          onPressed: () => close(true),
         ),
       if (cancel.isNotEmpty)
         Button(
           child: Padding(padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8), child: Text(cancel)),
-          onPressed: () => Navigator.pop(context, false),
+          onPressed: () => close(false),
         ),
     ],
     constraints: constraints,
@@ -109,26 +109,49 @@ Future<String?> showInputDialogs(
   return null;
 }
 
+/// Closes the dialog it was created for, with [result].
+typedef DialogClose = void Function([Object? result]);
+
+/// Shows a [ContentDialog].
+///
+/// Prefer [actionsBuilder] over [actions]: its `close` closes this dialog even
+/// when another route has been pushed above it (e.g. the caller navigated to
+/// another page), where `Navigator.pop` would close that route instead.
 Future showBaseDialog(
   BuildContext context, {
   required String title,
   required Widget content,
   List<Widget>? actions,
+  List<Widget> Function(DialogClose close)? actionsBuilder,
   BoxConstraints? constraints,
   bool barrierDismissible = true,
   bool dismissWithEsc = true,
 }) async {
+  assert(actions == null || actionsBuilder == null);
   return await showDialog(
     context: context,
     barrierDismissible: barrierDismissible,
     dismissWithEsc: dismissWithEsc,
-    builder: (context) => ContentDialog(
+    builder: (dialogContext) => ContentDialog(
       title: Text(title),
       content: content,
       constraints: constraints ?? const BoxConstraints(maxWidth: 512, maxHeight: 756.0),
-      actions: actions,
+      actions: actionsBuilder?.call(([result]) => closeDialog(dialogContext, result)) ?? actions,
     ),
   );
+}
+
+/// Closes the dialog route that [dialogContext] belongs to: pops it when it
+/// is on top, otherwise removes just that route rather than popping whatever
+/// was pushed over it.
+void closeDialog(BuildContext dialogContext, [Object? result]) {
+  final route = ModalRoute.of(dialogContext);
+  final navigator = Navigator.of(dialogContext);
+  if (route == null || route.isCurrent) {
+    navigator.pop(result);
+  } else if (route.isActive) {
+    navigator.removeRoute(route, result);
+  }
 }
 
 bool stringIsNotEmpty(String? s) {
