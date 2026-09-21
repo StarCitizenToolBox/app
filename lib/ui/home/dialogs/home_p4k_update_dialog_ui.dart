@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:starcitizen_doctor/api/analytics.dart';
 import 'package:starcitizen_doctor/common/eac/eac_registrar.dart';
 import 'package:starcitizen_doctor/common/helper/launcher_permission_helper.dart';
 import 'package:starcitizen_doctor/common/helper/system_helper.dart';
@@ -63,6 +64,24 @@ class _P4kSignedUrlRejected implements Exception {
 
   @override
   String toString() => message;
+}
+
+enum P4kAssemblyTelemetryEvent { clicked, cancelled, failed, succeeded }
+
+String p4kAssemblyTelemetryKey(
+  P4kDownloadSource source,
+  P4kAssemblyTelemetryEvent event,
+) {
+  final sourceKey = source == P4kDownloadSource.official
+      ? 'official'
+      : 'community_mirror';
+  final eventKey = switch (event) {
+    P4kAssemblyTelemetryEvent.clicked => 'clicked',
+    P4kAssemblyTelemetryEvent.cancelled => 'cancelled',
+    P4kAssemblyTelemetryEvent.failed => 'failed',
+    P4kAssemblyTelemetryEvent.succeeded => 'succeeded',
+  };
+  return 'p4k_assemble_download_${sourceKey}_$eventKey';
 }
 
 Future<P4kUpdateDialogResult?> resolveP4kMirrorProviderFailure({
@@ -192,6 +211,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   String? _lastProgressEventPhase;
   int _lastProgressLogMillis = 0;
   String _lastProgressLogSignature = "";
+  bool _cancelTelemetryReported = false;
 
   static const _threadOptions = [4, 8, 16, 32, 64, 96];
   static const _maxLogLines = 300;
@@ -539,6 +559,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     required bool deepRepair,
   }) async {
     p4KUpgraderSetDownloadThreads(threads: BigInt.from(_downloadThreads));
+    _reportTelemetry(P4kAssemblyTelemetryEvent.clicked);
     var streamCompletedSuccessfully = false;
     await _runTask(
       status: status,
@@ -594,6 +615,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
                 eacPatchGuard = null;
               },
             );
+            _reportTelemetry(P4kAssemblyTelemetryEvent.succeeded);
           }
         } finally {
           _stopSignatureExpiryTimer();
@@ -608,6 +630,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       },
       success: success,
       context: context,
+      reportDownloadFailure: true,
     );
   }
 
@@ -918,6 +941,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
 
   void _stopUpdate() {
     if (_cancelling) return;
+    if (!_cancelTelemetryReported) {
+      _cancelTelemetryReported = true;
+      _reportTelemetry(P4kAssemblyTelemetryEvent.cancelled);
+    }
     p4KUpgraderCancel();
     if (!mounted) return;
     setState(() {
@@ -960,10 +987,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     required BuildContext context,
     bool? deepRepair,
     bool Function()? shouldCloseOnSuccess,
+    bool reportDownloadFailure = false,
   }) async {
     setState(() {
       _working = true;
       _cancelling = false;
+      _cancelTelemetryReported = false;
       _lastRunFailed = false;
       _status = status;
       _overallProgressPercent = null;
@@ -994,6 +1023,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         if (_status != S.current.p4k_update_canceled) _status = success;
       });
     } catch (e) {
+      if (reportDownloadFailure && !_cancelling) {
+        _reportTelemetry(P4kAssemblyTelemetryEvent.failed);
+      }
       if (!mounted) return;
       final providerError = widget.source == P4kDownloadSource.communityMirror
           ? mapP4kMirrorOperationalError(e)
@@ -1027,6 +1059,12 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         });
       }
     }
+  }
+
+  void _reportTelemetry(P4kAssemblyTelemetryEvent event) {
+    unawaited(
+      AnalyticsApi.touch(p4kAssemblyTelemetryKey(widget.source, event)),
+    );
   }
 
   P4kUpgraderConfig? _buildConfig({bool deepVerify = false}) {
