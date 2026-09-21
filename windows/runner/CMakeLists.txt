@@ -16,7 +16,16 @@ add_executable(${BINARY_NAME} WIN32
   "runner.exe.manifest"
 )
 
-SET_TARGET_PROPERTIES(${BINARY_NAME} PROPERTIES LINK_FLAGS    "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\" /SUBSYSTEM:WINDOWS")
+# Debug only: set SCTOOLBOX_NO_ADMIN=1 before `flutter run` to build an
+# asInvoker exe (no UAC prompt, so the window is created in the foreground and
+# the debugger attaches normally). Never ship a build made with this set.
+if("$ENV{SCTOOLBOX_NO_ADMIN}" STREQUAL "1")
+  message(WARNING "SCTOOLBOX_NO_ADMIN=1: building without requireAdministrator (debug only)")
+  set(SCTOOLBOX_UAC_LEVEL "asInvoker")
+else()
+  set(SCTOOLBOX_UAC_LEVEL "requireAdministrator")
+endif()
+SET_TARGET_PROPERTIES(${BINARY_NAME} PROPERTIES LINK_FLAGS    "/MANIFESTUAC:\"level='${SCTOOLBOX_UAC_LEVEL}' uiAccess='false'\" /SUBSYSTEM:WINDOWS")
 
 # Apply the standard set of build settings. This can be removed for applications
 # that need different build settings.
