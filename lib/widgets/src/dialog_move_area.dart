@@ -4,48 +4,54 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:window_manager/window_manager.dart';
 
-/// Counts the dialogs (`showDialog` routes) open on the navigator it is
-/// attached to, for [DialogMoveArea].
+/// Tracks whether the top-most route of the navigator it is attached to is a
+/// dialog (`showDialog` route), for [DialogMoveArea].
+///
+/// It follows the top route rather than counting open dialogs: a page can be
+/// pushed over a dialog that is still open (e.g. the input-method dialog
+/// navigating to the downloader), and a count would then keep the drag strip
+/// over that page, covering its back button.
 class DialogRouteObserver extends NavigatorObserver {
   DialogRouteObserver._();
 
   static final instance = DialogRouteObserver._();
 
-  final openDialogs = ValueNotifier<int>(0);
+  /// True while a dialog is the top-most route.
+  final dialogOnTop = ValueNotifier<bool>(false);
 
-  static bool _isDialog(Route<dynamic>? route) => route is RawDialogRoute;
+  Route<dynamic>? _top;
 
-  void _update(int delta) {
-    openDialogs.value = (openDialogs.value + delta).clamp(0, 1 << 20);
+  void _setTop(Route<dynamic>? route) {
+    _top = route;
+    dialogOnTop.value = route is RawDialogRoute;
   }
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    if (_isDialog(route)) _update(1);
+    _setTop(route);
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    if (_isDialog(route)) _update(-1);
+    if (identical(route, _top)) _setTop(previousRoute);
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    if (_isDialog(route)) _update(-1);
+    if (identical(route, _top)) _setTop(previousRoute);
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    if (_isDialog(oldRoute)) _update(-1);
-    if (_isDialog(newRoute)) _update(1);
+    if (identical(oldRoute, _top)) _setTop(newRoute);
   }
 }
 
-/// A window drag strip over the title bar, shown only while a dialog is open:
+/// A window drag strip over the title bar, shown only while a dialog is on top:
 /// the dialog's modal barrier otherwise covers the title bar's own
 /// [DragToMoveArea], so the window cannot be moved.
 ///
-/// It stays mounted for [unmountDelay] after the last dialog closes, so
+/// It stays mounted for [unmountDelay] after the dialog leaves the top, so
 /// removing it does not land in the middle of the dialog's exit animation.
 class DialogMoveArea extends StatefulWidget {
   const DialogMoveArea({
@@ -63,20 +69,20 @@ class DialogMoveArea extends StatefulWidget {
 }
 
 class _DialogMoveAreaState extends State<DialogMoveArea> {
-  final _openDialogs = DialogRouteObserver.instance.openDialogs;
+  final _dialogOnTop = DialogRouteObserver.instance.dialogOnTop;
   Timer? _unmountTimer;
   bool _active = false;
 
   @override
   void initState() {
     super.initState();
-    _active = _openDialogs.value > 0;
-    _openDialogs.addListener(_onDialogsChanged);
+    _active = _dialogOnTop.value;
+    _dialogOnTop.addListener(_onDialogsChanged);
   }
 
   @override
   void dispose() {
-    _openDialogs.removeListener(_onDialogsChanged);
+    _dialogOnTop.removeListener(_onDialogsChanged);
     _unmountTimer?.cancel();
     super.dispose();
   }
@@ -91,14 +97,14 @@ class _DialogMoveAreaState extends State<DialogMoveArea> {
       return;
     }
     if (!mounted) return;
-    if (_openDialogs.value > 0) {
+    if (_dialogOnTop.value) {
       _unmountTimer?.cancel();
       _unmountTimer = null;
       if (!_active) setState(() => _active = true);
     } else if (_active && _unmountTimer == null) {
       _unmountTimer = Timer(widget.unmountDelay, () {
         _unmountTimer = null;
-        if (mounted && _openDialogs.value == 0) {
+        if (mounted && !_dialogOnTop.value) {
           setState(() => _active = false);
         }
       });

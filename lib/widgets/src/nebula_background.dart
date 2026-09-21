@@ -29,7 +29,7 @@ class NebulaClock {
 /// reads as a backdrop that stays put behind a moving window.
 /// With [animated] off it paints a single static frame.
 ///
-/// The drift also pauses while a dialog is open, the window is unfocused or
+/// The drift also pauses while a dialog is on top, the window is unfocused or
 /// minimised: every animated frame recomposites the whole window, including
 /// costly layers such as dialog shadows.
 ///
@@ -55,7 +55,7 @@ class _NebulaBackgroundState extends State<NebulaBackground>
   static const _frameInterval = Duration(milliseconds: 33);
 
   late final Ticker _ticker = createTicker(_onTick);
-  final _openDialogs = DialogRouteObserver.instance.openDialogs;
+  final _dialogOnTop = DialogRouteObserver.instance.dialogOnTop;
   Duration _lastFrame = Duration.zero;
   bool _minimized = false;
   bool _focused = true;
@@ -65,7 +65,7 @@ class _NebulaBackgroundState extends State<NebulaBackground>
   @override
   void initState() {
     super.initState();
-    _openDialogs.addListener(_updateTicker);
+    _dialogOnTop.addListener(_updateTicker);
     _applyConfig();
   }
 
@@ -94,7 +94,7 @@ class _NebulaBackgroundState extends State<NebulaBackground>
 
   void _updateTicker() {
     final shouldRun =
-        widget.animated && !_minimized && _focused && _openDialogs.value == 0;
+        widget.animated && !_minimized && _focused && !_dialogOnTop.value;
     if (shouldRun && !_ticker.isActive) {
       _lastFrame = Duration.zero;
       _ticker.start();
@@ -166,7 +166,7 @@ class _NebulaBackgroundState extends State<NebulaBackground>
 
   @override
   void dispose() {
-    _openDialogs.removeListener(_updateTicker);
+    _dialogOnTop.removeListener(_updateTicker);
     windowManager.removeListener(this);
     _ticker.dispose();
     super.dispose();
