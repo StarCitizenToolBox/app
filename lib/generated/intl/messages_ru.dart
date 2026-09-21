@@ -2485,6 +2485,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings_item_dns_info": MessageLookupByLibrary.simpleMessage(
       "При включении может решить проблемы с DNS-загрязнением в некоторых регионах",
     ),
+    "settings_item_dynamic_background": MessageLookupByLibrary.simpleMessage(
+      "Динамический фон",
+    ),
+    "settings_item_dynamic_background_info":
+        MessageLookupByLibrary.simpleMessage(
+          "Фон-туманность медленно движется и смещается при перемещении окна; при отключении показывается статичный фон",
+        ),
     "settings_item_onnx_xnn_pack": MessageLookupByLibrary.simpleMessage(
       "Использовать XNN для ускорения ONNX",
     ),

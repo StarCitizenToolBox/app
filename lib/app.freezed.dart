@@ -517,7 +517,7 @@ return $default(_that.backgroundColor,_that.menuColor,_that.micaColor);case _:
 
 
 class _ThemeConf implements ThemeConf {
-  const _ThemeConf({this.backgroundColor = const Color(0xbf132431), this.menuColor = const Color(0xf2132431), this.micaColor = const Color(0xff0a3142)});
+  const _ThemeConf({this.backgroundColor = const Color(0x990b1118), this.menuColor = const Color(0xf20b1118), this.micaColor = const Color(0xff0b1118)});
   
 
 @override@JsonKey() final  Color backgroundColor;

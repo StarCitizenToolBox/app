@@ -2562,6 +2562,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings_item_dns_info": MessageLookupByLibrary.simpleMessage(
       "When enabled, may solve DNS pollution issues in some regions",
     ),
+    "settings_item_dynamic_background": MessageLookupByLibrary.simpleMessage(
+      "Dynamic background",
+    ),
+    "settings_item_dynamic_background_info":
+        MessageLookupByLibrary.simpleMessage(
+          "The nebula background drifts slowly and shifts as the window moves; when off, a static background is shown",
+        ),
     "settings_item_onnx_xnn_pack": MessageLookupByLibrary.simpleMessage(
       "Use XNN to accelerate ONNX inference",
     ),

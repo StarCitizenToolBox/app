@@ -64,7 +64,7 @@ class _CountdownTimeTextState extends State<CountdownTimeText> {
         Text(
           S.current.home_holiday_countdown_days(day),
           style: TextStyle(
-              fontSize: 24, color: day < 30 ? Colors.red : Colors.white),
+              fontSize: 24, color: day < 30 ? const Color(0xfff0b35a) : Colors.white),
         ),
         Text("${timePart(hour)}:${timePart(minute)}:${timePart(second)}"),
       ],

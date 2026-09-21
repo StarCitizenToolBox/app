@@ -9,7 +9,9 @@ import 'package:window_manager/window_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app.dart';
+import 'provider/dynamic_background.dart';
 import 'widgets/src/dialog_move_area.dart';
+import 'widgets/src/nebula_background.dart';
 import 'common/utils/multi_window_manager.dart';
 
 Future<void> main(List<String> args) async {
@@ -56,6 +58,7 @@ class App extends HookConsumerWidget with WindowListener {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final appState = ref.watch(appGlobalModelProvider);
+    final dynamicBackground = ref.watch(dynamicBackgroundProvider);
 
     useEffect(() {
       windowManager.addListener(this);
@@ -83,6 +86,7 @@ class App extends HookConsumerWidget with WindowListener {
           child: Stack(
             fit: StackFit.expand,
             children: [
+              NebulaBackground(animated: dynamicBackground),
               child ?? const SizedBox(),
               const DialogMoveArea(),
             ],
@@ -91,11 +95,34 @@ class App extends HookConsumerWidget with WindowListener {
       },
       theme: FluentThemeData(
         brightness: Brightness.dark,
+        // 强调色 #54ADF7；暗色主题下 Fluent 取 lighter 档作为默认画刷
+        accentColor: AccentColor.swatch(const {
+          "darkest": Color(0xff1f6aa8),
+          "darker": Color(0xff2f87d0),
+          "dark": Color(0xff3f9ce8),
+          "normal": Color(0xff54adf7),
+          "light": Color(0xff54adf7),
+          "lighter": Color(0xff54adf7),
+          "lightest": Color(0xff8cc8fa),
+        }),
         visualDensity: const VisualDensity(vertical: 1),
         fontFamily: "SourceHanSansCN-Regular",
         navigationPaneTheme: NavigationPaneThemeData(backgroundColor: appState.themeConf.backgroundColor),
         menuColor: appState.themeConf.menuColor,
         micaBackgroundColor: appState.themeConf.micaColor,
+        // Dialogs show the nebula too, under a denser tint than the window.
+        dialogTheme: ContentDialogThemeData(
+          decoration: NebulaDecoration(
+            tint: const Color(0xd90b1118),
+            borderRadius: BorderRadius.circular(12),
+            border: BorderSide(color: Colors.white.withValues(alpha: .05)),
+            boxShadow: kElevationToShadow[6] ?? const [],
+          ),
+          actionsDecoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: .2),
+            borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
+          ),
+        ),
         buttonTheme: ButtonThemeData(
           // fluent_ui 4.16 fills disabled IconButtons with the button colour,
           // which turns toolbars into grey blocks; keep them transparent.
@@ -112,7 +139,7 @@ class App extends HookConsumerWidget with WindowListener {
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
-                side: BorderSide(color: Colors.white.withValues(alpha: .01)),
+                side: BorderSide(color: Colors.white.withValues(alpha: .04)),
               ),
             ),
           ),

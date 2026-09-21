@@ -561,13 +561,22 @@ class _LocalizationItemCardState extends State<_LocalizationItemCard> {
                 else ...[
                   Icon(
                     _getIcon(),
-                    color: Colors.white.withValues(alpha: .8),
+                    color: widget.isInstalled
+                        ? Colors.white
+                        : Colors.white.withValues(alpha: .8),
                     size: 18,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     _getStatusText(),
-                    style: TextStyle(color: Colors.white.withValues(alpha: .8)),
+                    style: TextStyle(
+                      color: widget.isInstalled
+                          ? Colors.white
+                          : Colors.white.withValues(alpha: .8),
+                      fontWeight: widget.isInstalled
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
                   ),
                   const SizedBox(width: 6),
                   if (!widget.isInstalled && widget.isItemEnabled)

@@ -48,7 +48,7 @@ final class RouterProvider
   }
 }
 
-String _$routerHash() => r'e89f3f0277879147cdce5373cbe2554821e9cd31';
+String _$routerHash() => r'3b354627fd03989dc9d86e29f90f1226540eef31';
 
 @ProviderFor(AppGlobalModel)
 final appGlobalModelProvider = AppGlobalModelProvider._();
@@ -82,7 +82,7 @@ final class AppGlobalModelProvider
   }
 }
 
-String _$appGlobalModelHash() => r'ec90efc69954a363e21e4fcbe1fb9a5e7d6dcb91';
+String _$appGlobalModelHash() => r'1032426dea5ca55fb89ec9e0cd99d44f8ee33281';
 
 abstract class _$AppGlobalModel extends $Notifier<AppGlobalState> {
   AppGlobalState build();

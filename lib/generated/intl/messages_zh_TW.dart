@@ -2027,6 +2027,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings_item_dns_info": MessageLookupByLibrary.simpleMessage(
       "開啟後可能解決部分地區 DNS 污染的問題",
     ),
+    "settings_item_dynamic_background": MessageLookupByLibrary.simpleMessage(
+      "動態背景",
+    ),
+    "settings_item_dynamic_background_info":
+        MessageLookupByLibrary.simpleMessage("星雲背景緩慢流動，並隨視窗移動產生視差；關閉後顯示靜態背景"),
     "settings_item_onnx_xnn_pack": MessageLookupByLibrary.simpleMessage(
       "使用 XNN 加速 ONNX 推理",
     ),

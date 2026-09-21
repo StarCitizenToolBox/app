@@ -2180,6 +2180,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings_item_dns_info": MessageLookupByLibrary.simpleMessage(
       "有効にすると、一部の地域でのDNS汚染問題を解決する可能性があります",
     ),
+    "settings_item_dynamic_background": MessageLookupByLibrary.simpleMessage(
+      "動的な背景",
+    ),
+    "settings_item_dynamic_background_info":
+        MessageLookupByLibrary.simpleMessage(
+          "星雲の背景がゆっくり流れ、ウィンドウの移動に合わせて視差が生じます。オフにすると静止した背景を表示します",
+        ),
     "settings_item_onnx_xnn_pack": MessageLookupByLibrary.simpleMessage(
       "XNNを使用してONNX推論を高速化",
     ),

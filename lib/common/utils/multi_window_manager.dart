@@ -14,6 +14,7 @@ import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/common/helper/log_helper.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
 import 'package:starcitizen_doctor/ui/tools/log_analyze_ui/log_analyze_ui.dart';
+import 'package:starcitizen_doctor/widgets/src/nebula_background.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'base_utils.dart';
@@ -113,10 +114,11 @@ class MultiWindowManager {
 
     if (Platform.isWindows && windowAppState.windowsVersion >= 10) {
       await Window.initialize();
-      await Window.setEffect(effect: WindowEffect.acrylic);
+      // The background is drawn by NebulaBackground; no platform backdrop.
+      await Window.setEffect(effect: WindowEffect.disabled);
     }
 
-    final backgroundColor = HexColor(windowAppState.backgroundColor).withValues(alpha: .1);
+    final backgroundColor = HexColor(windowAppState.backgroundColor).withValues(alpha: .6);
 
     return runApp(
       ProviderScope(
@@ -133,6 +135,13 @@ class MultiWindowManager {
           ],
           supportedLocales: S.delegate.supportedLocales,
           home: windowWidget,
+          builder: (context, child) => Stack(
+            fit: StackFit.expand,
+            children: [
+              const NebulaBackground(animated: false, trackWindow: false),
+              child ?? const SizedBox(),
+            ],
+          ),
           theme: FluentThemeData(
             brightness: Brightness.dark,
             visualDensity: const VisualDensity(vertical: 1),
@@ -146,7 +155,7 @@ class MultiWindowManager {
                 shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
-                    side: BorderSide(color: Colors.white.withValues(alpha: .01)),
+                    side: BorderSide(color: Colors.white.withValues(alpha: .04)),
                   ),
                 ),
               ),

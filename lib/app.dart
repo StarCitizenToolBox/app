@@ -181,15 +181,9 @@ class AppGlobalModel extends _$AppGlobalModel {
       await windowManager.setSkipTaskbar(false);
       if (Platform.isWindows) {
         try {
-          if (_isWindows11OrGreater(windowsDeviceInfo)) {
-            // Apply acrylic effect before showing window.
-            await Window.setEffect(effect: WindowEffect.acrylic, color: Colors.transparent, dark: true);
-            state = state.copyWith(windowsVersion: 11);
-            dPrint("---- Windows 11 Acrylic Effect applied -----");
-          } else {
-            state = state.copyWith(windowsVersion: 10);
-            await Window.setEffect(effect: WindowEffect.disabled);
-          }
+          state = state.copyWith(windowsVersion: _isWindows11OrGreater(windowsDeviceInfo) ? 11 : 10);
+          // The background is drawn by NebulaBackground; no platform backdrop.
+          await Window.setEffect(effect: WindowEffect.disabled);
         } catch (e) {
           state = state.copyWith(windowsVersion: 10);
           dPrint("Window effect error: ${e.runtimeType}");
@@ -310,9 +304,9 @@ class AppGlobalModel extends _$AppGlobalModel {
       final colorCfg = networkVersionData.activityColors;
       state = state.copyWith(
         themeConf: ThemeConf(
-          backgroundColor: HexColor(colorCfg?.background ?? "#132431").withValues(alpha: .75),
-          menuColor: HexColor(colorCfg?.menu ?? "#132431").withValues(alpha: .95),
-          micaColor: HexColor(colorCfg?.mica ?? "#0A3142"),
+          backgroundColor: HexColor(colorCfg?.background ?? "#0B1118").withValues(alpha: .6),
+          menuColor: HexColor(colorCfg?.menu ?? "#0B1118").withValues(alpha: .95),
+          micaColor: HexColor(colorCfg?.mica ?? "#0B1118"),
         ),
       );
 
@@ -325,9 +319,9 @@ class AppGlobalModel extends _$AppGlobalModel {
       dPrint("reset Color ....");
       state = state.copyWith(
         themeConf: ThemeConf(
-          backgroundColor: HexColor("#132431").withValues(alpha: .75),
-          menuColor: HexColor("#132431").withValues(alpha: .95),
-          micaColor: HexColor("#0A3142"),
+          backgroundColor: HexColor("#0B1118").withValues(alpha: .6),
+          menuColor: HexColor("#0B1118").withValues(alpha: .95),
+          micaColor: HexColor("#0B1118"),
         ),
       );
     }
@@ -410,8 +404,8 @@ class AppGlobalModel extends _$AppGlobalModel {
 @freezed
 abstract class ThemeConf with _$ThemeConf {
   const factory ThemeConf({
-    @Default(Color(0xbf132431)) Color backgroundColor,
-    @Default(Color(0xf2132431)) Color menuColor,
-    @Default(Color(0xff0a3142)) Color micaColor,
+    @Default(Color(0x990b1118)) Color backgroundColor,
+    @Default(Color(0xf20b1118)) Color menuColor,
+    @Default(Color(0xff0b1118)) Color micaColor,
   }) = _ThemeConf;
 }

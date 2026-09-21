@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/generated/l10n.dart';
+import 'package:starcitizen_doctor/provider/dynamic_background.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 
 class SettingsUI extends HookConsumerWidget {
@@ -14,6 +15,8 @@ class SettingsUI extends HookConsumerWidget {
     final model = ref.read(settingsUIModelProvider.notifier);
     final appGlobalState = ref.watch(appGlobalModelProvider);
     final appGlobalModel = ref.read(appGlobalModelProvider.notifier);
+    final dynamicBackground = ref.watch(dynamicBackgroundProvider);
+    final dynamicBackgroundModel = ref.read(dynamicBackgroundProvider.notifier);
     return ListView(padding: const EdgeInsets.all(16), children: [
       makeTitle(S.current.settings_title_general),
       makeSettingsItem(
@@ -26,6 +29,13 @@ class SettingsUI extends HookConsumerWidget {
         selectedComboValue: appGlobalState.appLocale ?? const Locale("auto"),
         showGoIcon: false,
       ),
+      const SizedBox(height: 12),
+      makeSettingsItem(const Icon(FluentIcons.photo2, size: 20),
+          S.current.settings_item_dynamic_background,
+          subTitle: S.current.settings_item_dynamic_background_info,
+          switchStatus: dynamicBackground,
+          onSwitch: (v) => dynamicBackgroundModel.setEnabled(v ?? true),
+          onTap: () => dynamicBackgroundModel.setEnabled(!dynamicBackground)),
       const SizedBox(height: 12),
       makeSettingsItem(const Icon(FluentIcons.link, size: 20),
           S.current.setting_action_create_settings_shortcut,

@@ -5074,6 +5074,26 @@ class S {
     );
   }
 
+  /// `Dynamic background`
+  String get settings_item_dynamic_background {
+    return Intl.message(
+      'Dynamic background',
+      name: 'settings_item_dynamic_background',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The nebula background drifts slowly and shifts as the window moves; when off, a static background is shown`
+  String get settings_item_dynamic_background_info {
+    return Intl.message(
+      'The nebula background drifts slowly and shifts as the window moves; when off, a static background is shown',
+      name: 'settings_item_dynamic_background_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Game`
   String get settings_title_game {
     return Intl.message(

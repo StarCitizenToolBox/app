@@ -204,7 +204,7 @@ class HomeUI extends HookConsumerWidget {
                           : FluentIcons.play_solid,
                       color: homeState.isCurGameRunning
                           ? Colors.red.withValues(alpha: .8)
-                          : Colors.white,
+                          : const Color(0xff061a2c),
                     ),
                   ),
                 ),
@@ -214,11 +214,6 @@ class HomeUI extends HookConsumerWidget {
             Button(
               onPressed: () =>
                   _checkAndGoInputMethod(context, homeState, model, ref),
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith(
-                  (_) => Colors.blue,
-                ),
-              ),
               child: Padding(
                 padding: const EdgeInsets.all(6),
                 child: Icon(FluentIcons.keyboard_classic),
@@ -1022,12 +1017,12 @@ class HomeUI extends HookConsumerWidget {
 
   Color? _getRunButtonColor(Set<WidgetState> states) {
     if (states.isPressed) {
-      return const Color.fromRGBO(49, 227, 88, .5);
+      return const Color(0xff3f9ce8);
     }
-    if (states.isPressed) {
-      return const Color.fromRGBO(47, 213, 84, 1.0);
+    if (states.isHovered) {
+      return const Color(0xff6fbcf9);
     }
-    return const Color.fromRGBO(49, 227, 88, .8);
+    return const Color(0xff54adf7);
   }
 
   Future _checkGuide(BuildContext context, HomeUIModel model) async {

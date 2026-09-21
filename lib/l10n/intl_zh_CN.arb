@@ -833,6 +833,8 @@
   "settings_title_general": "通用",
   "settings_item_dns": "使用内置 DNS",
   "settings_item_dns_info": "开启后可能解决部分地区 DNS 污染的问题",
+  "settings_item_dynamic_background": "动态背景",
+  "settings_item_dynamic_background_info": "星云背景缓慢流动，并随窗口移动产生视差；关闭后显示静态背景",
   "settings_title_game": "游戏",
   "about_action_btn_faq": "常见问题",
   "guide_title_welcome": "欢迎",
