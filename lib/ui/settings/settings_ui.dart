@@ -164,7 +164,7 @@ class SettingsUI extends HookConsumerWidget {
             ],
             if (comboMenus.isNotEmpty) ...[
               SizedBox(
-                height: 36,
+                height: 40,
                 child: ComboBox(
                   value: selectedComboValue,
                   items: [

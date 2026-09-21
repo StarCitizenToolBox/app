@@ -340,7 +340,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
         ),
         SizedBox(width: 24),
         SizedBox(
-          height: 36,
+          height: 40,
           child: Row(
             children: [
               Text(
