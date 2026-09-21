@@ -98,7 +98,7 @@ class NavUI extends HookConsumerWidget {
             onTap: () {
               launchUrlString(item.link);
             },
-            child: Tilt.base(
+            child: HoverTilt(
               shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
               borderRadius: BorderRadius.circular(12),
               clipBehavior: Clip.hardEdge,

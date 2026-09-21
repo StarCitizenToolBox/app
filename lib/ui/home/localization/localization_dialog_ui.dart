@@ -230,7 +230,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
     final tapDisabled = isWorking || !isItemEnabled || isMineWorking;
     return GridItemAnimator(
       index: index,
-      child: Tilt.base(
+      child: HoverTilt(
         shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
         borderRadius: BorderRadius.circular(7),
         disable: tapDisabled,
@@ -403,7 +403,7 @@ class LocalizationDialogUI extends HookConsumerWidget {
       S.current.home_localization_title_localization_tools,
       [
         for (final item in toolsMenu.entries)
-          Tilt.base(
+          HoverTilt(
             disable: !enableTap,
             shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
             borderRadius: BorderRadius.circular(7),

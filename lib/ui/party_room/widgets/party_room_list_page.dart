@@ -359,7 +359,7 @@ class PartyRoomListPage extends HookConsumerWidget {
       index: index,
       child: GestureDetector(
         onTap: () => _joinRoom(context, ref, partyRoom, room),
-        child: Tilt.base(
+        child: HoverTilt(
           shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
           borderRadius: BorderRadius.circular(12),
           border: isCurrentRoom

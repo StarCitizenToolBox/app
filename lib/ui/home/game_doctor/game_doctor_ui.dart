@@ -137,7 +137,7 @@ class HomeGameDoctorUI extends HookConsumerWidget {
           "https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=-M4wEme_bCXbUGT4LFKLH0bAYTFt70Ad&authKey=vHVr0TNgRmKu%2BHwywoJV6EiLa7La2VX74Vkyixr05KA0H9TqB6qWlCdY%2B9jLQ4Ha&noverify=0&group_code=536454632",
         );
       },
-      child: Tilt.base(
+      child: HoverTilt(
         shadowConfig: const ShadowBaseConfig(maxIntensity: .2),
         borderRadius: BorderRadius.circular(12),
         child: Container(

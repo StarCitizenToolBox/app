@@ -499,7 +499,7 @@ class HomeUI extends HookConsumerWidget {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     final item = homeState.citizenNewsData!.articles[index];
-                    return Tilt.base(
+                    return HoverTilt(
                       shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
                       borderRadius: BorderRadius.circular(12),
                       child: GestureDetector(
@@ -722,7 +722,7 @@ class HomeUI extends HookConsumerWidget {
     String? info,
     String? touchKey,
   }) {
-    return Tilt.base(
+    return HoverTilt(
       shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
       borderRadius: BorderRadius.circular(12),
       child: GestureDetector(
@@ -792,7 +792,7 @@ class HomeUI extends HookConsumerWidget {
       "Arena Commander": S.current.home_action_rsi_status_arena_commander,
     };
 
-    return Tilt.base(
+    return HoverTilt(
       shadowConfig: const ShadowBaseConfig(maxIntensity: .2),
       borderRadius: BorderRadius.circular(12),
       child: GestureDetector(
@@ -859,7 +859,7 @@ class HomeUI extends HookConsumerWidget {
     double width,
     HomeUIModelState homeState,
   ) {
-    return Tilt.base(
+    return HoverTilt(
       borderRadius: BorderRadius.circular(12),
       shadowConfig: const ShadowBaseConfig(disable: true),
       child: GestureDetector(

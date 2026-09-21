@@ -3,6 +3,8 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_tilt/flutter_tilt.dart';
 
+import 'hover_tilt.dart';
+
 class HoverSwiper extends HookWidget {
   const HoverSwiper({
     super.key,
@@ -44,7 +46,7 @@ class HoverSwiper extends HookWidget {
       },
       child: Stack(
         children: [
-          Tilt.base(
+          HoverTilt(
             shadowConfig: const ShadowBaseConfig(maxIntensity: .3),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
