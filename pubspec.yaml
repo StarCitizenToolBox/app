@@ -56,7 +56,7 @@ dependencies:
     path: rust_builder
   # aria2 has been replaced by rqbit (Rust-based torrent library)
   intl: ^0.20.3
-  synchronized: ^3.4.1
+  synchronized: ^3.4.2
   super_sliver_list: ^0.4.1
   file: ^7.0.1
   re_editor: ^0.9.0
