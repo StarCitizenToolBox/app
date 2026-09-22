@@ -30,7 +30,7 @@ dependencies:
   url_launcher: ^6.3.2
   font_awesome_flutter: ^11.0.0
   cupertino_icons: ^1.0.9
-  hive_ce: ^2.19.3
+  hive_ce: ^2.20.0
   path_provider: ^2.1.6
   dio: ^5.11.1
   markdown: ^7.3.1
