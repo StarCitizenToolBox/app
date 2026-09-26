@@ -814,7 +814,12 @@ mod tests {
             outcome.error_message.as_deref(),
             Some(OPERATION_BUSY_MESSAGE)
         );
-        assert!(p4k_upgrader_verify(mirror_bridge_config()).is_err());
+        assert_eq!(
+            p4k_upgrader_verify(mirror_bridge_config())
+                .unwrap_err()
+                .to_string(),
+            OPERATION_BUSY_MESSAGE
+        );
         drop(guard);
         assert!(OperationGuard::acquire().is_some());
     }

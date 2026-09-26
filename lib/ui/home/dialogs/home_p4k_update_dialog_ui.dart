@@ -630,7 +630,18 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     final completer = Completer<void>();
     final sub = p4KUpgraderUpdateWithProgress(config: config).listen(
       (event) {
-        if (!mounted) return;
+        if (!mounted) {
+          // Still settle the run so the caller does not wait for onDone.
+          if (event.phase == "done") {
+            completedSuccessfully = true;
+            if (!completer.isCompleted) completer.complete();
+          } else if (event.phase == "cancelled") {
+            if (!completer.isCompleted) completer.complete();
+          } else if (event.phase == "error" && !completer.isCompleted) {
+            completer.completeError(Exception(event.message));
+          }
+          return;
+        }
         if (event.phase == "network_speed") {
           _recordDownloadSpeedEvent(event);
           return;
