@@ -519,41 +519,39 @@ class UnP4kcUI extends HookConsumerWidget {
     Unp4kcState state,
     List<AppUnp4kP4kItemData>? files,
     Unp4kCModel model,
-  ) {
-    final audioFiles = _getAudioFiles(files);
-    if (audioFiles.isEmpty) return null;
-
-    final currentIndex = audioFiles.indexWhere(
-      (f) => f.name == state.currentPreviewPath,
-    );
-    if (currentIndex <= 0) return null;
-
-    return () => model.openFile(audioFiles[currentIndex - 1].name ?? "");
-  }
+  ) => _neighbourAudioFile(state, files, model, -1);
 
   VoidCallback? _getNextAudioFile(
     Unp4kcState state,
     List<AppUnp4kP4kItemData>? files,
     Unp4kCModel model,
-  ) {
-    final audioFiles = _getAudioFiles(files);
-    if (audioFiles.isEmpty) return null;
+  ) => _neighbourAudioFile(state, files, model, 1);
 
-    final currentIndex = audioFiles.indexWhere(
+  /// Opens the nearest audio file before ([step] -1) or after ([step] 1) the
+  /// one being previewed. Scans outwards from the current entry instead of
+  /// filtering the whole listing, which runs on every rebuild and can hold
+  /// 100k+ entries in the music browser.
+  VoidCallback? _neighbourAudioFile(
+    Unp4kcState state,
+    List<AppUnp4kP4kItemData>? files,
+    Unp4kCModel model,
+    int step,
+  ) {
+    if (files == null) return null;
+    final currentIndex = files.indexWhere(
       (f) => f.name == state.currentPreviewPath,
     );
-    if (currentIndex < 0 || currentIndex >= audioFiles.length - 1) return null;
-
-    return () => model.openFile(audioFiles[currentIndex + 1].name ?? "");
+    if (currentIndex < 0) return null;
+    for (var i = currentIndex + step; i >= 0 && i < files.length; i += step) {
+      final f = files[i];
+      if (_isAudioFile(f)) return () => model.openFile(f.name ?? "");
+    }
+    return null;
   }
 
-  List<AppUnp4kP4kItemData> _getAudioFiles(List<AppUnp4kP4kItemData>? files) {
-    if (files == null) return [];
-    return files.where((f) {
-      final name = f.name?.toLowerCase() ?? "";
-      return !(f.isDirectory ?? false) && name.endsWith(".wem");
-    }).toList();
-  }
+  bool _isAudioFile(AppUnp4kP4kItemData f) =>
+      !(f.isDirectory ?? false) &&
+      (f.name?.toLowerCase() ?? "").endsWith(".wem");
 }
 
 class _P4KViewRail extends StatelessWidget {

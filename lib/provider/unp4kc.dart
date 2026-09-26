@@ -66,7 +66,10 @@ enum Unp4kModelCategory {
   other,
 }
 
-@freezed
+/// No generated ==/hashCode: Riverpod compares every new state with ==, and
+/// a deep compare of [files] (over a million entries) cost about a second on
+/// each update — every directory change or file click.
+@Freezed(equal: false)
 abstract class Unp4kcState with _$Unp4kcState {
   const factory Unp4kcState({
     required bool startUp,
@@ -323,7 +326,10 @@ class Unp4kCModel extends _$Unp4kCModel {
       dPrint("[unp4k] error: $e");
       state = state.copyWith(errorMessage: e.toString());
       AnalyticsApi.touch("unp4k_error");
-      AnalyticsApi.failure("unp4k_launch", reason: AnalyticsApi.classifyError(e));
+      AnalyticsApi.failure(
+        "unp4k_launch",
+        reason: AnalyticsApi.classifyError(e),
+      );
     }
 
     ref.onDispose(() async {
@@ -366,7 +372,44 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
   }
 
+  Object? _filesCacheKey;
+  List<AppUnp4kP4kItemData>? _filesCache;
+
+  /// The listing for the current view. Cached, since the page rebuilds on
+  /// every state change (e.g. opening a preview) while the listing only
+  /// depends on the fields in the key; a large directory takes tens of
+  /// milliseconds to list, filter and sort.
   List<AppUnp4kP4kItemData>? getFiles() {
+    final s = state;
+    // Collections are compared by identity: the state always replaces them.
+    final key = (
+      s.files,
+      s.fs,
+      s.curPath,
+      s.viewMode,
+      s.modelCategory,
+      s.searchMatchedFiles,
+      s.searchKeptDirectories,
+      s.sortType,
+      s.suffixFilter,
+      s.sizeFilterMode,
+      s.sizeFilterUnit,
+      s.sizeFilterSingleValue,
+      s.sizeFilterRangeStart,
+      s.sizeFilterRangeEnd,
+      s.dateFilterMode,
+      s.dateFilterSingleDate,
+      s.dateFilterRangeStart,
+      s.dateFilterRangeEnd,
+    );
+    if (key == _filesCacheKey) return _filesCache;
+    final files = _computeFiles();
+    _filesCacheKey = key;
+    _filesCache = files;
+    return files;
+  }
+
+  List<AppUnp4kP4kItemData>? _computeFiles() {
     final result = <AppUnp4kP4kItemData>[];
     final allFiles = state.files;
     if (allFiles == null) return null;
