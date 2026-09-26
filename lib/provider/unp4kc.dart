@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
-import 'package:file/memory.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -74,7 +73,6 @@ abstract class Unp4kcState with _$Unp4kcState {
   const factory Unp4kcState({
     required bool startUp,
     Map<String, AppUnp4kP4kItemData>? files,
-    MemoryFileSystem? fs,
     required String curPath,
     String? endMessage,
     PreviewFile? tempOpenFile,
@@ -85,9 +83,6 @@ abstract class Unp4kcState with _$Unp4kcState {
     @Default("") String searchQuery,
     @Default(<String>[]) List<String> availableSuffixes,
     @Default(false) bool isSearching,
-
-    /// 搜索结果的虚拟文件系统（支持分级展示）
-    MemoryFileSystem? searchFs,
 
     /// 搜索匹配的文件路径集合
     Set<String>? searchMatchedFiles,
@@ -153,6 +148,14 @@ class Unp4kCModel extends _$Unp4kCModel {
   final Map<Unp4kModelCategory, List<String>> _modelAssetIndex =
       <Unp4kModelCategory, List<String>>{};
   final List<String> _musicAssetIndex = <String>[];
+
+  /// Directory tree of the archive, keyed by directory path with a trailing
+  /// separator ("\\", "\data\\", ...). The archive has no directory
+  /// entries of its own; directories exist through the files under them.
+  final Map<String, _P4kDir> _dirIndex = <String, _P4kDir>{};
+
+  /// Every file path (key of [Unp4kcState.files]), for search.
+  List<String> _allFilePaths = const [];
 
   _FilterState _browseFilters = _FilterState();
   _FilterState _searchFilters = _FilterState();
@@ -245,7 +248,8 @@ class Unp4kCModel extends _$Unp4kCModel {
 
       final files = <String, AppUnp4kP4kItemData>{};
       final suffixes = <String>{};
-      final fs = MemoryFileSystem(style: FileSystemStyle.posix);
+      final filePaths = <String>[];
+      _dirIndex.clear();
       _suffixFilesIndex.clear();
       _musicAssetIndex.clear();
       _modelAssetIndex.clear();
@@ -281,12 +285,10 @@ class Unp4kCModel extends _$Unp4kCModel {
           if (_isSupportedMusicAsset(lowerPath)) {
             _musicAssetIndex.add(indexedPath);
           }
-        }
-
-        if (!item.isDirectory) {
-          await fs
-              .file(item.name.replaceAll("\\", "/"))
-              .create(recursive: true);
+          filePaths.add(item.name);
+          _dirFor(
+            indexedPath.substring(0, indexedPath.lastIndexOf("\\") + 1),
+          ).files.add(item.name);
         }
 
         if (i == nextAwait) {
@@ -308,11 +310,11 @@ class Unp4kCModel extends _$Unp4kCModel {
       });
       _modelAssetIndexReady = true;
       _musicAssetIndexReady = true;
+      _allFilePaths = filePaths;
 
       final endTime = DateTime.now();
       state = state.copyWith(
         files: files,
-        fs: fs,
         availableSuffixes: suffixes.toList()..sort(),
         loadingCurrent: p4kFiles.length,
         loadingTotal: p4kFiles.length,
@@ -372,6 +374,21 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
   }
 
+  /// The index entry for [dirPath] (with trailing separator), creating it
+  /// and registering it with its parent directories as needed.
+  _P4kDir _dirFor(String dirPath) {
+    final existing = _dirIndex[dirPath];
+    if (existing != null) return existing;
+    final dir = _P4kDir();
+    _dirIndex[dirPath] = dir;
+    if (dirPath != "\\") {
+      // Listed as "\data\sounds", like the entries of a file system.
+      final path = dirPath.substring(0, dirPath.length - 1);
+      _dirFor(path.substring(0, path.lastIndexOf("\\") + 1)).dirs.add(path);
+    }
+    return dir;
+  }
+
   Object? _filesCacheKey;
   List<AppUnp4kP4kItemData>? _filesCache;
 
@@ -384,7 +401,6 @@ class Unp4kCModel extends _$Unp4kCModel {
     // Collections are compared by identity: the state always replaces them.
     final key = (
       s.files,
-      s.fs,
       s.curPath,
       s.viewMode,
       s.modelCategory,
@@ -447,31 +463,18 @@ class Unp4kCModel extends _$Unp4kCModel {
         result.add(f);
       }
     } else {
-      final path = state.curPath.replaceAll("\\", "/");
-      final fs = state.fs;
-      if (fs == null) return null;
-
-      final dir = fs.directory(path);
-      if (!dir.existsSync()) return [];
-      final files = dir.listSync(recursive: false, followLinks: false);
-
-      for (var file in files) {
-        if (file is File) {
-          final f = allFiles[file.path.replaceAll("/", "\\")];
-          if (f != null) {
-            if (!(f.name?.startsWith("\\") ?? true)) {
-              f.name = "\\${f.name}";
-            }
-            result.add(f);
-          }
-        } else {
-          result.add(
-            AppUnp4kP4kItemData(
-              name: file.path.replaceAll("/", "\\"),
-              isDirectory: true,
-            ),
-          );
+      final dir = _dirIndex[_normalizeDirPath(state.curPath)];
+      if (dir == null) return [];
+      for (final path in dir.dirs) {
+        result.add(AppUnp4kP4kItemData(name: path, isDirectory: true));
+      }
+      for (final key in dir.files) {
+        final f = allFiles[key];
+        if (f == null) continue;
+        if (!(f.name?.startsWith("\\") ?? true)) {
+          f.name = "\\${f.name}";
         }
+        result.add(f);
       }
     }
 
@@ -667,34 +670,21 @@ class Unp4kCModel extends _$Unp4kCModel {
     return (a?.name ?? "").compareTo(b?.name ?? "");
   }
 
-  Map<String, AppUnp4kP4kItemData> _searchCandidateFiles(
-    Map<String, AppUnp4kP4kItemData> allFiles,
-  ) {
+  /// File paths the search runs over for the current view. Only paths go to
+  /// the search isolate: strings are shared between isolates, while sending
+  /// the item map deep-copies a million objects on the UI isolate first.
+  List<String> _searchCandidatePaths() {
     if (state.viewMode == Unp4kViewMode.modelBrowser) {
       _ensureModelAssetIndex();
-      final paths = state.modelCategory == null
-          ? _modelAssetIndex.values.expand((paths) => paths)
+      return state.modelCategory == null
+          ? _modelAssetIndex.values.expand((paths) => paths).toList()
           : (_modelAssetIndex[state.modelCategory] ?? const <String>[]);
-      return _mapFilesByPaths(allFiles, paths);
     }
     if (state.viewMode == Unp4kViewMode.musicBrowser) {
       _ensureMusicAssetIndex();
-      return _mapFilesByPaths(allFiles, _musicAssetIndex);
+      return _musicAssetIndex;
     }
-    return allFiles;
-  }
-
-  Map<String, AppUnp4kP4kItemData> _mapFilesByPaths(
-    Map<String, AppUnp4kP4kItemData> allFiles,
-    Iterable<String> paths,
-  ) {
-    final result = <String, AppUnp4kP4kItemData>{};
-    for (final path in paths) {
-      final file = allFiles[path] ?? allFiles[_stripLeadingSlash(path)];
-      if (file == null) continue;
-      result[path] = file;
-    }
-    return result;
+    return _allFilePaths;
   }
 
   void _applyAdvancedFilters(List<AppUnp4kP4kItemData> files) {
@@ -1085,17 +1075,15 @@ class Unp4kCModel extends _$Unp4kCModel {
       _searchFilters,
     );
 
-    final allFiles = state.files;
-    if (allFiles == null) {
+    if (state.files == null) {
       state = state.copyWith(isSearching: false);
       return;
     }
-    final searchFiles = _searchCandidateFiles(allFiles);
 
     try {
       final searchResult = await compute(
         _searchFiles,
-        _SearchParams(searchFiles, query, pathPrefix),
+        _SearchParams(_searchCandidatePaths(), query, pathPrefix),
       );
       final matchedFiles = searchResult.matchedFiles;
       final keptDirs = searchResult.keptDirectories;
@@ -1265,10 +1253,9 @@ class Unp4kCModel extends _$Unp4kCModel {
     var targetPath = fullPath ? name : "${state.curPath}$name\\";
     targetPath = _normalizeDirPath(targetPath);
 
-    final fs = state.fs;
-    if (fs == null) return false;
+    if (state.files == null) return false;
 
-    final exists = fs.directory(targetPath.replaceAll("\\", "/")).existsSync();
+    final exists = _dirIndex.containsKey(targetPath);
     if (!exists) {
       state = state.copyWith(
         endMessage: S.current.app_path_does_not_exist(targetPath),
@@ -1872,13 +1859,23 @@ class Unp4kCModel extends _$Unp4kCModel {
   }
 }
 
+/// Direct children of one directory in [Unp4kCModel._dirIndex].
+class _P4kDir {
+  /// Keys of [Unp4kcState.files].
+  final files = <String>[];
+
+  /// Child directory paths, without trailing separator.
+  final dirs = <String>[];
+}
+
 /// 搜索参数类
 class _SearchParams {
-  final Map<String, AppUnp4kP4kItemData> files;
+  /// File paths (keys of [Unp4kcState.files]) to search.
+  final List<String> paths;
   final String query;
   final String? pathPrefix;
 
-  _SearchParams(this.files, this.query, this.pathPrefix);
+  _SearchParams(this.paths, this.query, this.pathPrefix);
 }
 
 /// 搜索结果类
@@ -1892,8 +1889,6 @@ class _SearchResult {
 /// 在后台线程执行搜索
 _SearchResult _searchFiles(_SearchParams params) {
   final matchedFiles = <String>{};
-  final keptDirectories = <String>{};
-  final pathPrefix = params.pathPrefix;
 
   // 尝试编译正则表达式，如果失败则使用普通字符串匹配
   RegExp? regex;
@@ -1903,58 +1898,34 @@ _SearchResult _searchFiles(_SearchParams params) {
     // 正则无效，回退到普通字符串匹配
     regex = null;
   }
+  final lowerQuery = params.query.toLowerCase();
 
-  // 如果有路径前缀（当前目录搜索），收集该目录下的直接子文件夹
-  if (pathPrefix != null && pathPrefix.isNotEmpty) {
-    for (var entry in params.files.entries) {
-      final item = entry.value;
-      final name = item.name ?? "";
+  // 如果有路径前缀（当前目录搜索），只搜索该目录下的文件
+  final pathPrefix = params.pathPrefix?.replaceAll("/", "\\");
+  final hasPrefix = pathPrefix != null && pathPrefix.isNotEmpty;
 
-      // 只处理文件夹
-      if (!(item.isDirectory ?? false)) continue;
-
-      final normalizedName = name.replaceAll("\\", "/");
-      // 检查是否在目标目录下
-      if (!normalizedName.startsWith(pathPrefix)) continue;
-
-      // 获取相对于搜索目录的路径
-      final relativePath = normalizedName.substring(pathPrefix.length);
-      // 只保留直接子文件夹（不包含更多层级的）
-      if (!relativePath.contains("/")) {
-        keptDirectories.add(name.startsWith("\\") ? name : "\\$name");
-      }
-    }
-  }
-
-  for (var entry in params.files.entries) {
-    final item = entry.value;
-    final name = item.name ?? "";
-
-    // 跳过文件夹本身
-    if (item.isDirectory ?? false) continue;
-
-    // 如果有路径前缀，只搜索该目录下的文件
-    if (pathPrefix != null && pathPrefix.isNotEmpty) {
-      final normalizedName = name.replaceAll("\\", "/");
-      if (!normalizedName.startsWith(pathPrefix)) continue;
+  for (final name in params.paths) {
+    if (hasPrefix && !name.replaceAll("/", "\\").startsWith(pathPrefix)) {
+      continue;
     }
 
     bool matches = false;
     if (regex != null) {
       // 对文件名进行匹配（不是完整路径）
-      final fileName = name.split("\\").last;
-      matches = regex.hasMatch(fileName);
+      final sep = name.lastIndexOf("\\");
+      matches = regex.hasMatch(sep >= 0 ? name.substring(sep + 1) : name);
     } else {
-      matches = name.toLowerCase().contains(params.query.toLowerCase());
+      matches = name.toLowerCase().contains(lowerQuery);
     }
 
     if (matches) {
       // 添加匹配的文件路径
-      matchedFiles.add(name.startsWith("\\") ? name : "\\$name");
+      matchedFiles.add(name.startsWith("\\") ? name : "\$name");
     }
   }
 
-  return _SearchResult(matchedFiles, keptDirectories);
+  // The archive lists no directory entries, so there are no folders to keep.
+  return _SearchResult(matchedFiles, <String>{});
 }
 
 class _FilterState {
