@@ -1,23 +1,43 @@
 import 'dart:math' as math;
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 
 import 'models.dart';
 
+/// Digits of equal width, so time labels keep their width as they count.
+const _tabularFigures = [FontFeature.tabularFigures()];
+
 class WaveformPainter extends CustomPainter {
   final List<double> samples;
-  final double progress;
+
+  /// Playback position in milliseconds. The painter repaints on its own when
+  /// it changes, without rebuilding the widget around it.
+  final ValueListenable<double> positionMs;
+
+  /// Overrides [positionMs] while the playhead is being dragged.
+  final double? dragMs;
   final int totalMs;
+
+  /// Mark labels only change with [totalMs]; laid out once per painter, which
+  /// lives across the per-frame repaints.
+  final _labelCache = <String, TextPainter>{};
 
   WaveformPainter({
     required this.samples,
-    required this.progress,
+    required this.positionMs,
+    required this.dragMs,
     required this.totalMs,
-  });
+  }) : super(repaint: positionMs);
+
+  double get progress => totalMs > 0
+      ? ((dragMs ?? positionMs.value) / totalMs).clamp(0.0, 1.0)
+      : 0.0;
 
   @override
   void paint(Canvas canvas, Size size) {
     if (samples.isEmpty || size.width <= 0 || size.height <= 0) return;
+    final progress = this.progress;
 
     final topLabelH = 14.0;
     final bottomLabelH = 14.0;
@@ -99,9 +119,8 @@ class WaveformPainter extends CustomPainter {
       progressPaint,
     );
 
-    final currentSec = totalMs <= 0
-        ? 0
-        : ((totalMs * progress.clamp(0.0, 1.0)) / 1000).round();
+    // Truncated like the time readout under the waveform, so both agree.
+    final currentSec = totalMs <= 0 ? 0 : (totalMs * progress) ~/ 1000;
     _paintCurrentTag(
       canvas,
       _fmtSeconds(currentSec),
@@ -145,17 +164,21 @@ class WaveformPainter extends CustomPainter {
     required bool alignTop,
     required double canvasWidth,
   }) {
-    final tp = TextPainter(
-      text: TextSpan(
-        text: text,
-        style: TextStyle(
-          color: Colors.white.withValues(alpha: .7),
-          fontSize: 10,
+    final tp = _labelCache.putIfAbsent(
+      text,
+      () => TextPainter(
+        text: TextSpan(
+          text: text,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: .7),
+            fontSize: 10,
+            fontFeatures: _tabularFigures,
+          ),
         ),
-      ),
-      textDirection: TextDirection.ltr,
-      maxLines: 1,
-    )..layout();
+        textDirection: TextDirection.ltr,
+        maxLines: 1,
+      )..layout(),
+    );
     final dx = ((x - (tp.width / 2)).clamp(
       0.0,
       math.max(0.0, canvasWidth - tp.width),
@@ -171,39 +194,54 @@ class WaveformPainter extends CustomPainter {
     double y,
     double canvasWidth,
   ) {
+    const style = TextStyle(
+      color: Colors.white,
+      fontSize: 11,
+      fontWeight: FontWeight.w600,
+      fontFeatures: _tabularFigures,
+    );
     final tp = TextPainter(
-      text: TextSpan(
-        text: text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      text: TextSpan(text: text, style: style),
       textDirection: TextDirection.ltr,
       maxLines: 1,
     )..layout();
+    // Size the tag for the widest digits ("0:00" pattern) rather than the
+    // text itself: with proportional digits the box would change width as
+    // the seconds tick, and being centred on the playhead it would wobble.
+    final template = _labelCache.putIfAbsent(
+      "tag:${text.replaceAll(RegExp(r'\d'), '0')}",
+      () => TextPainter(
+        text: TextSpan(text: text.replaceAll(RegExp(r'\d'), '0'), style: style),
+        textDirection: TextDirection.ltr,
+        maxLines: 1,
+      )..layout(),
+    );
+    final textWidth = math.max(tp.width, template.width);
     final pad = 4.0;
     final rect = Rect.fromLTWH(
-      ((x - tp.width / 2 - pad).clamp(
+      ((x - textWidth / 2 - pad).clamp(
         0.0,
-        math.max(0.0, canvasWidth - tp.width - pad * 2),
+        math.max(0.0, canvasWidth - textWidth - pad * 2),
       )).toDouble(),
       y - tp.height / 2 - 2,
-      tp.width + pad * 2,
+      textWidth + pad * 2,
       tp.height + 4,
     );
     canvas.drawRRect(
       RRect.fromRectAndRadius(rect, const Radius.circular(3)),
       Paint()..color = const Color(0xFF0B121B).withValues(alpha: .85),
     );
-    tp.paint(canvas, Offset(rect.left + pad, rect.top + 2));
+    tp.paint(
+      canvas,
+      Offset(rect.left + pad + (textWidth - tp.width) / 2, rect.top + 2),
+    );
   }
 
   @override
   bool shouldRepaint(covariant WaveformPainter oldDelegate) {
     return oldDelegate.samples != samples ||
-        oldDelegate.progress != progress ||
+        oldDelegate.positionMs != positionMs ||
+        oldDelegate.dragMs != dragMs ||
         oldDelegate.totalMs != totalMs;
   }
 }

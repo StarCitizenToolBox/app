@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:starcitizen_doctor/common/rust/rust_audio_player.dart';
@@ -67,6 +68,9 @@ class AudioTempWidget extends HookWidget {
     final streamChannelsRef = useRef<int?>(null);
     final streamDurationMsRef = useRef<int>(0);
     const maxRestartPcmBufferSeconds = 120;
+    final vsync = useSingleTickerProvider();
+    final playhead = useMemoized(() => _PlayheadClock(vsync));
+    useEffect(() => playhead.dispose, [playhead]);
 
     void syncPlayerState(AudioPlaybackState state) {
       if (state.durationMs != null) {
@@ -107,6 +111,7 @@ class AudioTempWidget extends HookWidget {
       dragMs.value = null;
       lastPositionRef.value = 0;
       position.value = Duration.zero;
+      playhead.sync(0, playing: false, jump: true);
       duration.value = Duration.zero;
       estimatedDuration.value = Duration.zero;
       playablePath.value = null;
@@ -333,6 +338,15 @@ class AudioTempWidget extends HookWidget {
     }, [sourcePath]);
 
     useEffect(() {
+      playhead.sync(
+        position.value.inMilliseconds,
+        playing: isPlaying.value,
+        jump: isSeeking.value || dragMs.value != null,
+      );
+      return null;
+    }, [position.value, isPlaying.value]);
+
+    useEffect(() {
       final v = volume.value.clamp(0.0, 3.0);
       _audioLastVolume = v;
       unawaited(player.setVolume(v));
@@ -389,10 +403,7 @@ class AudioTempWidget extends HookWidget {
       0,
       totalMs > 0 ? totalMs : 0,
     );
-    final effectiveMs = dragMs.value ?? currentMs.toDouble();
-    final progress = totalMs > 0
-        ? (effectiveMs / totalMs).clamp(0.0, 1.0)
-        : 0.0;
+    playhead.totalMs = totalMs;
     final effectiveVolume = (dragVolume.value ?? volume.value).clamp(0.0, 3.0);
 
     bool isMissingStreamError(Object error) {
@@ -721,12 +732,17 @@ class AudioTempWidget extends HookWidget {
                             color: Colors.white.withValues(alpha: .12),
                           ),
                         ),
-                        child: CustomPaint(
-                          size: Size.infinite,
-                          painter: WaveformPainter(
-                            samples: waveform.value,
-                            progress: progress,
-                            totalMs: totalMs,
+                        // Repaints every frame while playing; keep that
+                        // to the waveform.
+                        child: RepaintBoundary(
+                          child: CustomPaint(
+                            size: Size.infinite,
+                            painter: WaveformPainter(
+                              samples: waveform.value,
+                              positionMs: playhead,
+                              dragMs: dragMs.value,
+                              totalMs: totalMs,
+                            ),
                           ),
                         ),
                       ),
@@ -751,11 +767,19 @@ class AudioTempWidget extends HookWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              Text(
-                _fmtDuration(Duration(milliseconds: effectiveMs.round())),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.white.withValues(alpha: .85),
+              ValueListenableBuilder<double>(
+                valueListenable: playhead,
+                builder: (context, positionMs, _) => Text(
+                  _fmtDuration(
+                    Duration(
+                      milliseconds: (dragMs.value ?? positionMs).round(),
+                    ),
+                  ),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white.withValues(alpha: .85),
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
                 ),
               ),
               const Spacer(),
@@ -1069,6 +1093,70 @@ class AudioTempWidget extends HookWidget {
       out.add(0.0);
     }
     return out;
+  }
+}
+
+/// Playback position shown by the waveform and the time readout.
+///
+/// The player is polled every 200 ms, which alone moves the playhead in
+/// visible steps. Between polls the position advances with the clock while
+/// playing. A poll that lands slightly behind the shown position (the stream
+/// position is stitched together across PCM chunks and jitters by a few
+/// dozen ms) is ignored rather than pulling the playhead back; a larger gap
+/// means the player really is elsewhere, and the playhead jumps to it.
+class _PlayheadClock extends ChangeNotifier implements ValueListenable<double> {
+  _PlayheadClock(TickerProvider vsync) {
+    _ticker = vsync.createTicker((_) => notifyListeners());
+  }
+
+  static const _maxIgnoredLagMs = 500;
+
+  /// How far past the last poll the playhead may run; if the player stalls
+  /// its polled position stops changing, and the playhead waits for it.
+  static const _maxExtrapolationMs = 600;
+
+  late final Ticker _ticker;
+  final _sinceAnchor = Stopwatch();
+  int _anchorMs = 0;
+  bool _running = false;
+
+  /// Upper bound for the position; updated from the widget on each build.
+  int totalMs = 0;
+
+  @override
+  double get value {
+    final ms =
+        _anchorMs +
+        (_running
+            ? math.min(_sinceAnchor.elapsedMilliseconds, _maxExtrapolationMs)
+            : 0);
+    return (totalMs > 0 ? math.min(ms, totalMs) : ms).toDouble();
+  }
+
+  /// Takes a polled [positionMs]. [jump] (seeks, a new track) applies it
+  /// even if it is behind the shown position.
+  void sync(int positionMs, {required bool playing, bool jump = false}) {
+    final shown = value.round();
+    final lag = shown - positionMs;
+    final keepShown =
+        !jump && playing && _running && lag > 0 && lag < _maxIgnoredLagMs;
+    _anchorMs = keepShown ? shown : positionMs;
+    _sinceAnchor
+      ..reset()
+      ..start();
+    _running = playing;
+    if (playing && !_ticker.isActive) {
+      _ticker.start();
+    } else if (!playing && _ticker.isActive) {
+      _ticker.stop();
+    }
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
   }
 }
 
