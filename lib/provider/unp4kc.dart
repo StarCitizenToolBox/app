@@ -273,31 +273,37 @@ class Unp4kCModel extends _$Unp4kCModel {
       // The archive has no directory entries: every name is a file.
       for (var i = 0; i < names.length; i++) {
         final name = names[i];
-        files[name] = AppUnp4kP4kItemData(
-          name: name,
-          isDirectory: false,
-          size: sizes[i],
-          compressedSize: compressedSizes[i],
-          dateModified: datesModified[i],
-        );
+        // Names are lowercased, so entries differing only in case arrive
+        // under one name. Keep the first: from StarBreaker ece285c on, the
+        // case-insensitive lookup orders case ties by entry index and
+        // resolves to the first as well (before that, to any of them).
+        if (!files.containsKey(name)) {
+          files[name] = AppUnp4kP4kItemData(
+            name: name,
+            isDirectory: false,
+            size: sizes[i],
+            compressedSize: compressedSizes[i],
+            dateModified: datesModified[i],
+          );
 
-        final ext = _extractFileExtension(name);
-        if (ext.isNotEmpty) {
-          suffixes.add(ext);
-          (_suffixFilesIndex[ext] ??= <String>[]).add(name);
+          final ext = _extractFileExtension(name);
+          if (ext.isNotEmpty) {
+            suffixes.add(ext);
+            (_suffixFilesIndex[ext] ??= <String>[]).add(name);
+          }
+          final indexedPath = _normalizeFileKey(name);
+          final lowerPath = indexedPath.toLowerCase();
+          if (_isExactModelAsset(lowerPath)) {
+            _modelAssetIndex[_classifyModelPath(lowerPath)]!.add(indexedPath);
+          }
+          if (_isSupportedMusicAsset(lowerPath)) {
+            _musicAssetIndex.add(indexedPath);
+          }
+          filePaths.add(name);
+          _dirFor(
+            indexedPath.substring(0, indexedPath.lastIndexOf("\\") + 1),
+          ).files.add(name);
         }
-        final indexedPath = _normalizeFileKey(name);
-        final lowerPath = indexedPath.toLowerCase();
-        if (_isExactModelAsset(lowerPath)) {
-          _modelAssetIndex[_classifyModelPath(lowerPath)]!.add(indexedPath);
-        }
-        if (_isSupportedMusicAsset(lowerPath)) {
-          _musicAssetIndex.add(indexedPath);
-        }
-        filePaths.add(name);
-        _dirFor(
-          indexedPath.substring(0, indexedPath.lastIndexOf("\\") + 1),
-        ).files.add(name);
 
         if (i == nextAwait) {
           state = state.copyWith(

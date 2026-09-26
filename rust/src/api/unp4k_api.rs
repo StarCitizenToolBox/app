@@ -163,6 +163,14 @@ pub async fn p4k_get_file_index() -> Result<P4kFileIndex> {
                 dates_modified: Vec::with_capacity(entries.len()),
             };
             for (i, entry) in entries.iter().enumerate() {
+                // '\n' separates the names; one inside a name would shift
+                // every following name against its size and date.
+                if entry.name.contains('\n') {
+                    return Err(anyhow!(
+                        "P4K entry name contains a line break: {:?}",
+                        entry.name
+                    ));
+                }
                 if i > 0 {
                     index.names.push(b'\n');
                 }
@@ -1020,12 +1028,15 @@ fn normalize_slashes(path: &str) -> String {
     path.replace('/', "\\")
 }
 
+/// 规范化路径：统一为 "\\"、补上开头的 "\\"、转小写。
+/// 只转换 ASCII 大小写，与 `find_entry` 的大小写不敏感查找一致，
+/// 保证列出的路径都能再查回对应文件。
 fn normalize_p4k_path(path: &str) -> String {
     let mut normalized = path.replace('/', "\\");
     if !normalized.starts_with('\\') {
         normalized = format!("\\{}", normalized);
     }
-    normalized.to_lowercase()
+    normalized.to_ascii_lowercase()
 }
 
 /// 提取文件到磁盘
