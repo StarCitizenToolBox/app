@@ -7,7 +7,9 @@ use p4k_upgrader::{
     DownloadSource, Error, MirrorUnavailableReason, ProgressEvent, ProgressReporter,
     SIGNED_URL_REFRESH_PHASE,
 };
+use std::panic::{catch_unwind, AssertUnwindSafe};
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
@@ -17,6 +19,39 @@ const PROGRESS_MEANINGFUL_BYTE_DELTA: u64 = 64 * 1024 * 1024;
 /// How long download workers wait for the app to push refreshed signatures
 /// (a silent re-login, or a manual one when the RSI session also expired).
 const SIGNED_URL_REFRESH_TIMEOUT_SEC: u64 = 300;
+const OPERATION_BUSY_MESSAGE: &str =
+    "另一个 P4K 下载/校验任务仍在运行，请等待它结束后再试（P4K operation already running）";
+
+/// The upgrader keeps its pause/cancel/signature state in process globals and
+/// every entry point resets it, so two overlapping operations would clear each
+/// other's cancel flag and could both write Data.p4k. Only one may run at once.
+static OPERATION_ACTIVE: AtomicBool = AtomicBool::new(false);
+
+struct OperationGuard;
+
+impl OperationGuard {
+    fn acquire() -> Option<Self> {
+        OPERATION_ACTIVE
+            .compare_exchange(false, true, Ordering::AcqRel, Ordering::Acquire)
+            .ok()
+            .map(|_| Self)
+    }
+}
+
+impl Drop for OperationGuard {
+    fn drop(&mut self) {
+        OPERATION_ACTIVE.store(false, Ordering::Release);
+    }
+}
+
+fn panic_message(payload: &(dyn std::any::Any + Send)) -> String {
+    let detail = payload
+        .downcast_ref::<&str>()
+        .map(|value| value.to_string())
+        .or_else(|| payload.downcast_ref::<String>().cloned())
+        .unwrap_or_else(|| "unknown panic".to_string());
+    format!("P4K updater crashed: {detail}")
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum P4kDownloadSource {
@@ -123,14 +158,25 @@ pub fn p4k_upgrader_default_object_path_templates() -> Vec<String> {
 
 #[flutter_rust_bridge::frb(serialize)]
 pub fn p4k_upgrader_estimate(config: P4kUpgraderConfig) -> P4kUpgraderEstimateOutcome {
-    let config = match to_upgrader_config(config) {
+    let mut config = match to_upgrader_config(config) {
         Ok(config) => config,
         Err(error) => return P4kUpgraderEstimateOutcome::from_anyhow(error),
     };
+    // Estimate has no progress stream, so nobody would answer a refresh
+    // request; fail fast with `signed_url_rejected` and let the app re-login.
+    config.signed_url_refresh_timeout_sec = 0;
+    let Some(_guard) = OperationGuard::acquire() else {
+        return P4kUpgraderEstimateOutcome::from_anyhow(anyhow::anyhow!(OPERATION_BUSY_MESSAGE));
+    };
     reset_update_control();
-    let report = match estimate_update_size(&config) {
-        Ok(report) => report,
-        Err(error) => return P4kUpgraderEstimateOutcome::from_upgrader(error),
+    let report = match catch_unwind(AssertUnwindSafe(|| estimate_update_size(&config))) {
+        Ok(Ok(report)) => report,
+        Ok(Err(error)) => return P4kUpgraderEstimateOutcome::from_upgrader(error),
+        Err(payload) => {
+            return P4kUpgraderEstimateOutcome::from_anyhow(anyhow::anyhow!(panic_message(
+                payload.as_ref()
+            )))
+        }
     };
     P4kUpgraderEstimateOutcome {
         report: Some(P4kUpgraderEstimateReport {
@@ -163,7 +209,9 @@ pub fn p4k_upgrader_estimate(config: P4kUpgraderConfig) -> P4kUpgraderEstimateOu
 
 #[flutter_rust_bridge::frb(serialize)]
 pub fn p4k_upgrader_verify(config: P4kUpgraderConfig) -> Result<()> {
-    let config = to_upgrader_config(config)?;
+    let mut config = to_upgrader_config(config)?;
+    config.signed_url_refresh_timeout_sec = 0;
+    let _guard = OperationGuard::acquire().ok_or_else(|| anyhow::anyhow!(OPERATION_BUSY_MESSAGE))?;
     reset_update_control();
     verify_existing(&config)?;
     Ok(())
@@ -172,6 +220,7 @@ pub fn p4k_upgrader_verify(config: P4kUpgraderConfig) -> Result<()> {
 #[flutter_rust_bridge::frb(serialize)]
 pub fn p4k_upgrader_update(config: P4kUpgraderConfig) -> Result<String> {
     let config = to_upgrader_config(config)?;
+    let _guard = OperationGuard::acquire().ok_or_else(|| anyhow::anyhow!(OPERATION_BUSY_MESSAGE))?;
     reset_update_control();
     let repair_mode = is_repair_update_mode(&config);
     let output = if repair_mode {
@@ -197,6 +246,13 @@ pub async fn p4k_upgrader_update_with_progress(
                 return;
             }
         };
+        let Some(guard) = OperationGuard::acquire() else {
+            let _ = sink.add(P4kUpgraderProgressEvent::error(
+                OPERATION_BUSY_MESSAGE.to_string(),
+                None,
+            ));
+            return;
+        };
         reset_update_control();
         let progress_coalescer = Arc::new(ProgressEventCoalescer::new(sink.clone()));
         let progress_sink = progress_coalescer.clone();
@@ -204,10 +260,25 @@ pub async fn p4k_upgrader_update_with_progress(
             progress_sink.report_progress(event);
         });
         let repair_mode = is_repair_update_mode(&config);
-        let result = if repair_mode {
-            run_repair_update(&config)
-        } else {
-            run_update(&config)
+        let result = catch_unwind(AssertUnwindSafe(|| {
+            if repair_mode {
+                run_repair_update(&config)
+            } else {
+                run_update(&config)
+            }
+        }));
+        // Release before the terminal event: the app may start the next pass
+        // (for example after a signed-URL refresh) as soon as it sees it.
+        drop(guard);
+        let result = match result {
+            Ok(result) => result,
+            Err(payload) => {
+                progress_coalescer.emit(P4kUpgraderProgressEvent::error(
+                    panic_message(payload.as_ref()),
+                    None,
+                ));
+                return;
+            }
         };
         match result {
             Ok(output) => {
@@ -733,6 +804,19 @@ mod tests {
             assert_eq!(mapped.compressed_size, Some(42));
             assert_eq!(mapped.message, "provider detail");
         }
+    }
+
+    #[test]
+    fn overlapping_operations_are_refused_until_the_first_finishes() {
+        let guard = OperationGuard::acquire().expect("no operation running");
+        let outcome = p4k_upgrader_estimate(mirror_bridge_config());
+        assert_eq!(
+            outcome.error_message.as_deref(),
+            Some(OPERATION_BUSY_MESSAGE)
+        );
+        assert!(p4k_upgrader_verify(mirror_bridge_config()).is_err());
+        drop(guard);
+        assert!(OperationGuard::acquire().is_some());
     }
 
     #[test]

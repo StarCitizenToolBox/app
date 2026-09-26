@@ -762,7 +762,16 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         }
       },
       onDone: () {
-        if (!completer.isCompleted) completer.complete();
+        if (completer.isCompleted) return;
+        // Every normal run ends with done/cancelled/error; a stream that just
+        // closes means the native task died, which must not read as success.
+        if (_cancelling) {
+          completer.complete();
+        } else {
+          completer.completeError(
+            Exception('P4K updater stopped without reporting a result'),
+          );
+        }
       },
     );
     try {
