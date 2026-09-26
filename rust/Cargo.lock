@@ -6536,7 +6536,7 @@ checksum = "6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596"
 [[package]]
 name = "starbreaker-3d"
 version = "0.3.2"
-source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=bab989b480e76304d4c7f7a9fedf02eb9c009575#bab989b480e76304d4c7f7a9fedf02eb9c009575"
+source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=ece285cf003ad595684a406078b89ddcea18485e#ece285cf003ad595684a406078b89ddcea18485e"
 dependencies = [
  "crc32fast",
  "exr",
@@ -6563,7 +6563,7 @@ dependencies = [
 [[package]]
 name = "starbreaker-blend"
 version = "0.3.2"
-source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=bab989b480e76304d4c7f7a9fedf02eb9c009575#bab989b480e76304d4c7f7a9fedf02eb9c009575"
+source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=ece285cf003ad595684a406078b89ddcea18485e#ece285cf003ad595684a406078b89ddcea18485e"
 dependencies = [
  "flate2",
  "rustc-hash 2.1.2",
@@ -6573,7 +6573,7 @@ dependencies = [
 [[package]]
 name = "starbreaker-chunks"
 version = "0.3.2"
-source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=bab989b480e76304d4c7f7a9fedf02eb9c009575#bab989b480e76304d4c7f7a9fedf02eb9c009575"
+source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=ece285cf003ad595684a406078b89ddcea18485e#ece285cf003ad595684a406078b89ddcea18485e"
 dependencies = [
  "starbreaker-common",
  "thiserror 2.0.20",
@@ -6583,7 +6583,7 @@ dependencies = [
 [[package]]
 name = "starbreaker-common"
 version = "0.3.2"
-source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=bab989b480e76304d4c7f7a9fedf02eb9c009575#bab989b480e76304d4c7f7a9fedf02eb9c009575"
+source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=ece285cf003ad595684a406078b89ddcea18485e#ece285cf003ad595684a406078b89ddcea18485e"
 dependencies = [
  "crc32c",
  "parking_lot",
@@ -6595,7 +6595,7 @@ dependencies = [
 [[package]]
 name = "starbreaker-cryxml"
 version = "0.3.2"
-source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=bab989b480e76304d4c7f7a9fedf02eb9c009575#bab989b480e76304d4c7f7a9fedf02eb9c009575"
+source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=ece285cf003ad595684a406078b89ddcea18485e#ece285cf003ad595684a406078b89ddcea18485e"
 dependencies = [
  "starbreaker-common",
  "thiserror 2.0.20",
@@ -6605,7 +6605,7 @@ dependencies = [
 [[package]]
 name = "starbreaker-datacore"
 version = "0.3.2"
-source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=bab989b480e76304d4c7f7a9fedf02eb9c009575#bab989b480e76304d4c7f7a9fedf02eb9c009575"
+source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=ece285cf003ad595684a406078b89ddcea18485e#ece285cf003ad595684a406078b89ddcea18485e"
 dependencies = [
  "log",
  "memmap2",
@@ -6622,7 +6622,7 @@ dependencies = [
 [[package]]
 name = "starbreaker-dds"
 version = "0.3.2"
-source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=bab989b480e76304d4c7f7a9fedf02eb9c009575#bab989b480e76304d4c7f7a9fedf02eb9c009575"
+source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=ece285cf003ad595684a406078b89ddcea18485e#ece285cf003ad595684a406078b89ddcea18485e"
 dependencies = [
  "bcdec_rs",
  "image",
@@ -6634,7 +6634,7 @@ dependencies = [
 [[package]]
 name = "starbreaker-p4k"
 version = "0.3.2"
-source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=bab989b480e76304d4c7f7a9fedf02eb9c009575#bab989b480e76304d4c7f7a9fedf02eb9c009575"
+source = "git+https://github.com/StarCitizenToolBox/StarBreaker.git?rev=ece285cf003ad595684a406078b89ddcea18485e#ece285cf003ad595684a406078b89ddcea18485e"
 dependencies = [
  "aes",
  "cbc",

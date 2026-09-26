@@ -71,10 +71,10 @@ ndarray = "0.17.2"
 serde_json = { version = "1.0.150", features = ["preserve_order"] }
 serde = { version = "1.0.228", features = ["derive"] }
 ryu = "1.0.20"
-starbreaker-p4k = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "bab989b480e76304d4c7f7a9fedf02eb9c009575" }
-starbreaker-cryxml = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "bab989b480e76304d4c7f7a9fedf02eb9c009575" }
-starbreaker-datacore = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "bab989b480e76304d4c7f7a9fedf02eb9c009575" }
-starbreaker-3d = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "bab989b480e76304d4c7f7a9fedf02eb9c009575" }
+starbreaker-p4k = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "ece285cf003ad595684a406078b89ddcea18485e" }
+starbreaker-cryxml = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "ece285cf003ad595684a406078b89ddcea18485e" }
+starbreaker-datacore = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "ece285cf003ad595684a406078b89ddcea18485e" }
+starbreaker-3d = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git", rev = "ece285cf003ad595684a406078b89ddcea18485e" }
 uuid = { version = "1.23.4", features = ["v4"] }
 lazy_static = "1.5"
 rayon = "1.12"
