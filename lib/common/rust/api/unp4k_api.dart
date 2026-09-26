@@ -8,7 +8,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'unp4k_api.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `build_preview_candidates`, `collect_dds_part_paths`, `collect_dds_parts`, `compute_dds_mip_sizes`, `compute_waveform_from_pcm`, `dcb_record_index_by_path`, `dcb_record_path`, `dcb_record_xml`, `dds_base_path`, `dds_block_bytes_dxgi`, `dds_block_bytes`, `dds_payload_layout`, `decode_dds_image`, `decode_image_for_preview`, `decode_uncompressed_dds`, `ensure_files_loaded`, `extract_masked_component`, `has_dds_signature`, `le_u32`, `model_dcb_cache_key`, `normalize_p4k_path`, `normalize_slashes`, `p4k_get_entry`, `reconstruct_dds_stream`, `sanitize_dcb_export_file_name`
+// These functions are ignored because they are not marked as `pub`: `build_preview_candidates`, `collect_dds_part_paths`, `collect_dds_parts`, `compute_dds_mip_sizes`, `compute_waveform_from_pcm`, `dcb_record_index_by_path`, `dcb_record_path`, `dcb_record_xml`, `dds_base_path`, `dds_block_bytes_dxgi`, `dds_block_bytes`, `dds_payload_layout`, `decode_dds_image`, `decode_image_for_preview`, `decode_uncompressed_dds`, `extract_masked_component`, `find_entry`, `has_dds_signature`, `le_u32`, `model_dcb_cache_key`, `normalize_p4k_path`, `normalize_slashes`, `p4k_get_entry`, `reconstruct_dds_stream`, `sanitize_dcb_export_file_name`, `with_reader`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`
 
 /// 打开 P4K 文件（仅打开，不读取文件列表）
@@ -21,13 +21,13 @@ Future<ArcDataForge> p4KGetOrLoadModelDcb({required String p4KPath}) =>
 Future<void> p4KClearModelDcbCache() =>
     RustLib.instance.api.crateApiUnp4KApiP4KClearModelDcbCache();
 
-/// 获取文件数量（会触发文件列表加载）
+/// 获取文件数量
 Future<BigInt> p4KGetFileCount() =>
     RustLib.instance.api.crateApiUnp4KApiP4KGetFileCount();
 
-/// 获取所有文件列表
-Future<List<P4kFileItem>> p4KGetAllFiles() =>
-    RustLib.instance.api.crateApiUnp4KApiP4KGetAllFiles();
+/// 获取全部文件列表（按列打包）
+Future<P4kFileIndex> p4KGetFileIndex() =>
+    RustLib.instance.api.crateApiUnp4KApiP4KGetFileIndex();
 
 /// 提取文件到内存
 Future<Uint8List> p4KExtractToMemory({required String filePath}) =>
@@ -237,16 +237,46 @@ sealed class DdsPngDebug with _$DdsPngDebug {
       RustLib.instance.api.crateApiUnp4KApiDdsPngDebugDefault();
 }
 
-/// P4K 文件项信息
-@freezed
-sealed class P4kFileItem with _$P4kFileItem {
-  const factory P4kFileItem({
-    required String name,
-    required bool isDirectory,
-    required BigInt size,
-    required BigInt compressedSize,
-    required PlatformInt64 dateModified,
-  }) = _P4kFileItem;
+/// P4K 文件列表，按列打包。
+///
+/// 第 i 个文件的信息分别位于各列的第 i 项。一百多万个文件逐个作为对象
+/// 传给 Dart 要数秒，并在 UI 线程上解码约 1 秒；按列只需传几块连续内存。
+class P4kFileIndex {
+  /// 规范化路径（"\\data\\..."，小写），以 '\n' 分隔的 UTF-8
+  final Uint8List names;
+
+  /// 文件大小（字节）
+  final Uint64List sizes;
+
+  /// 压缩后大小（字节）
+  final Uint64List compressedSizes;
+
+  /// 文件修改时间（毫秒时间戳）
+  final Int64List datesModified;
+
+  const P4kFileIndex({
+    required this.names,
+    required this.sizes,
+    required this.compressedSizes,
+    required this.datesModified,
+  });
+
+  @override
+  int get hashCode =>
+      names.hashCode ^
+      sizes.hashCode ^
+      compressedSizes.hashCode ^
+      datesModified.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is P4kFileIndex &&
+          runtimeType == other.runtimeType &&
+          names == other.names &&
+          sizes == other.sizes &&
+          compressedSizes == other.compressedSizes &&
+          datesModified == other.datesModified;
 }
 
 @freezed

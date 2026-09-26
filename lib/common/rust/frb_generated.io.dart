@@ -179,9 +179,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<DownloadTaskInfo> dco_decode_list_download_task_info(dynamic raw);
 
   @protected
-  List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw);
-
-  @protected
   List<P4kUpgraderEstimateEntry> dco_decode_list_p_4_k_upgrader_estimate_entry(
     dynamic raw,
   );
@@ -197,6 +194,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Int16List dco_decode_list_prim_i_16_strict(dynamic raw);
+
+  @protected
+  Int64List dco_decode_list_prim_i_64_strict(dynamic raw);
+
+  @protected
+  Uint64List dco_decode_list_prim_u_64_strict(dynamic raw);
 
   @protected
   List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
@@ -285,7 +288,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   P4kDownloadSource dco_decode_p_4_k_download_source(dynamic raw);
 
   @protected
-  P4kFileItem dco_decode_p_4_k_file_item(dynamic raw);
+  P4kFileIndex dco_decode_p_4_k_file_index(dynamic raw);
 
   @protected
   P4kMirrorUnavailable dco_decode_p_4_k_mirror_unavailable(dynamic raw);
@@ -554,11 +557,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  List<P4kFileItem> sse_decode_list_p_4_k_file_item(
-    SseDeserializer deserializer,
-  );
-
-  @protected
   List<P4kUpgraderEstimateEntry> sse_decode_list_p_4_k_upgrader_estimate_entry(
     SseDeserializer deserializer,
   );
@@ -574,6 +572,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Int16List sse_decode_list_prim_i_16_strict(SseDeserializer deserializer);
+
+  @protected
+  Int64List sse_decode_list_prim_i_64_strict(SseDeserializer deserializer);
+
+  @protected
+  Uint64List sse_decode_list_prim_u_64_strict(SseDeserializer deserializer);
 
   @protected
   List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
@@ -684,7 +688,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  P4kFileItem sse_decode_p_4_k_file_item(SseDeserializer deserializer);
+  P4kFileIndex sse_decode_p_4_k_file_index(SseDeserializer deserializer);
 
   @protected
   P4kMirrorUnavailable sse_decode_p_4_k_mirror_unavailable(
@@ -987,18 +991,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<wire_cst_list_p_4_k_file_item> cst_encode_list_p_4_k_file_item(
-    List<P4kFileItem> raw,
-  ) {
-    // Codec=Cst (C-struct based), see doc to use other codecs
-    final ans = wire.cst_new_list_p_4_k_file_item(raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      cst_api_fill_to_wire_p_4_k_file_item(raw[i], ans.ref.ptr[i]);
-    }
-    return ans;
-  }
-
-  @protected
   ffi.Pointer<wire_cst_list_prim_f_32_strict> cst_encode_list_prim_f_32_strict(
     Float32List raw,
   ) {
@@ -1035,6 +1027,26 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     // Codec=Cst (C-struct based), see doc to use other codecs
     final ans = wire.cst_new_list_prim_i_16_strict(raw.length);
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_i_64_strict> cst_encode_list_prim_i_64_strict(
+    Int64List raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_i_64_strict(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw.inner);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_u_64_strict> cst_encode_list_prim_u_64_strict(
+    Uint64List raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_prim_u_64_strict(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw.inner);
     return ans;
   }
 
@@ -1380,15 +1392,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  void cst_api_fill_to_wire_p_4_k_file_item(
-    P4kFileItem apiObj,
-    wire_cst_p_4_k_file_item wireObj,
+  void cst_api_fill_to_wire_p_4_k_file_index(
+    P4kFileIndex apiObj,
+    wire_cst_p_4_k_file_index wireObj,
   ) {
-    wireObj.name = cst_encode_String(apiObj.name);
-    wireObj.is_directory = cst_encode_bool(apiObj.isDirectory);
-    wireObj.size = cst_encode_u_64(apiObj.size);
-    wireObj.compressed_size = cst_encode_u_64(apiObj.compressedSize);
-    wireObj.date_modified = cst_encode_i_64(apiObj.dateModified);
+    wireObj.names = cst_encode_list_prim_u_8_strict(apiObj.names);
+    wireObj.sizes = cst_encode_list_prim_u_64_strict(apiObj.sizes);
+    wireObj.compressed_sizes = cst_encode_list_prim_u_64_strict(
+      apiObj.compressedSizes,
+    );
+    wireObj.dates_modified = cst_encode_list_prim_i_64_strict(
+      apiObj.datesModified,
+    );
   }
 
   @protected
@@ -1840,12 +1855,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_list_p_4_k_file_item(
-    List<P4kFileItem> self,
-    SseSerializer serializer,
-  );
-
-  @protected
   void sse_encode_list_p_4_k_upgrader_estimate_entry(
     List<P4kUpgraderEstimateEntry> self,
     SseSerializer serializer,
@@ -1872,6 +1881,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_prim_i_16_strict(
     Int16List self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_prim_i_64_strict(
+    Int64List self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_prim_u_64_strict(
+    Uint64List self,
     SseSerializer serializer,
   );
 
@@ -2008,7 +2029,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_p_4_k_file_item(P4kFileItem self, SseSerializer serializer);
+  void sse_encode_p_4_k_file_index(P4kFileIndex self, SseSerializer serializer);
 
   @protected
   void sse_encode_p_4_k_mirror_unavailable(
@@ -3956,18 +3977,6 @@ class RustLibWire implements BaseWire {
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
-  void wire__crate__api__unp4k_api__p4k_get_all_files(int port_) {
-    return _wire__crate__api__unp4k_api__p4k_get_all_files(port_);
-  }
-
-  late final _wire__crate__api__unp4k_api__p4k_get_all_filesPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_all_files',
-      );
-  late final _wire__crate__api__unp4k_api__p4k_get_all_files =
-      _wire__crate__api__unp4k_api__p4k_get_all_filesPtr
-          .asFunction<void Function(int)>();
-
   void wire__crate__api__unp4k_api__p4k_get_file_count(int port_) {
     return _wire__crate__api__unp4k_api__p4k_get_file_count(port_);
   }
@@ -3978,6 +3987,18 @@ class RustLibWire implements BaseWire {
       );
   late final _wire__crate__api__unp4k_api__p4k_get_file_count =
       _wire__crate__api__unp4k_api__p4k_get_file_countPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__unp4k_api__p4k_get_file_index(int port_) {
+    return _wire__crate__api__unp4k_api__p4k_get_file_index(port_);
+  }
+
+  late final _wire__crate__api__unp4k_api__p4k_get_file_indexPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_file_index',
+      );
+  late final _wire__crate__api__unp4k_api__p4k_get_file_index =
+      _wire__crate__api__unp4k_api__p4k_get_file_indexPtr
           .asFunction<void Function(int)>();
 
   void wire__crate__api__unp4k_api__p4k_get_or_load_model_dcb(
@@ -6020,21 +6041,6 @@ class RustLibWire implements BaseWire {
             ffi.Pointer<wire_cst_list_download_task_info> Function(int)
           >();
 
-  ffi.Pointer<wire_cst_list_p_4_k_file_item> cst_new_list_p_4_k_file_item(
-    int len,
-  ) {
-    return _cst_new_list_p_4_k_file_item(len);
-  }
-
-  late final _cst_new_list_p_4_k_file_itemPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Pointer<wire_cst_list_p_4_k_file_item> Function(ffi.Int32)
-        >
-      >('frbgen_starcitizen_doctor_cst_new_list_p_4_k_file_item');
-  late final _cst_new_list_p_4_k_file_item = _cst_new_list_p_4_k_file_itemPtr
-      .asFunction<ffi.Pointer<wire_cst_list_p_4_k_file_item> Function(int)>();
-
   ffi.Pointer<wire_cst_list_prim_f_32_strict> cst_new_list_prim_f_32_strict(
     int len,
   ) {
@@ -6094,6 +6100,36 @@ class RustLibWire implements BaseWire {
       >('frbgen_starcitizen_doctor_cst_new_list_prim_i_16_strict');
   late final _cst_new_list_prim_i_16_strict = _cst_new_list_prim_i_16_strictPtr
       .asFunction<ffi.Pointer<wire_cst_list_prim_i_16_strict> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_prim_i_64_strict> cst_new_list_prim_i_64_strict(
+    int len,
+  ) {
+    return _cst_new_list_prim_i_64_strict(len);
+  }
+
+  late final _cst_new_list_prim_i_64_strictPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_prim_i_64_strict> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_prim_i_64_strict');
+  late final _cst_new_list_prim_i_64_strict = _cst_new_list_prim_i_64_strictPtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_i_64_strict> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_prim_u_64_strict> cst_new_list_prim_u_64_strict(
+    int len,
+  ) {
+    return _cst_new_list_prim_u_64_strict(len);
+  }
+
+  late final _cst_new_list_prim_u_64_strictPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_prim_u_64_strict> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_prim_u_64_strict');
+  late final _cst_new_list_prim_u_64_strict = _cst_new_list_prim_u_64_strictPtr
+      .asFunction<ffi.Pointer<wire_cst_list_prim_u_64_strict> Function(int)>();
 
   ffi.Pointer<wire_cst_list_prim_u_8_loose> cst_new_list_prim_u_8_loose(
     int len,
@@ -6375,29 +6411,6 @@ final class wire_cst_list_download_task_info extends ffi.Struct {
   external int len;
 }
 
-final class wire_cst_p_4_k_file_item extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> name;
-
-  @ffi.Bool()
-  external bool is_directory;
-
-  @ffi.Uint64()
-  external int size;
-
-  @ffi.Uint64()
-  external int compressed_size;
-
-  @ffi.Int64()
-  external int date_modified;
-}
-
-final class wire_cst_list_p_4_k_file_item extends ffi.Struct {
-  external ffi.Pointer<wire_cst_p_4_k_file_item> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
 final class wire_cst_list_prim_f_64_strict extends ffi.Struct {
   external ffi.Pointer<ffi.Double> ptr;
 
@@ -6407,6 +6420,20 @@ final class wire_cst_list_prim_f_64_strict extends ffi.Struct {
 
 final class wire_cst_list_prim_i_16_strict extends ffi.Struct {
   external ffi.Pointer<ffi.Int16> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_list_prim_i_64_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Int64> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_list_prim_u_64_strict extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint64> ptr;
 
   @ffi.Int32()
   external int len;
@@ -6590,6 +6617,16 @@ final class wire_cst_model_render_result extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> rgba_data;
 
   external ffi.Pointer<wire_cst_list_prim_u_8_strict> error_message;
+}
+
+final class wire_cst_p_4_k_file_index extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> names;
+
+  external ffi.Pointer<wire_cst_list_prim_u_64_strict> sizes;
+
+  external ffi.Pointer<wire_cst_list_prim_u_64_strict> compressed_sizes;
+
+  external ffi.Pointer<wire_cst_list_prim_i_64_strict> dates_modified;
 }
 
 final class wire_cst_record_list_prim_u_8_strict_dds_png_debug

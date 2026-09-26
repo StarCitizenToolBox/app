@@ -18,27 +18,24 @@ type ModelDcbCache = Arc<Mutex<HashMap<String, Arc<DataForge>>>>;
 
 use crate::frb_generated::StreamSink;
 
-/// P4K 文件项信息
-#[frb(dart_metadata=("freezed"))]
-pub struct P4kFileItem {
-    /// 文件名/路径
-    pub name: String,
-    /// 是否为目录
-    pub is_directory: bool,
+/// P4K 文件列表，按列打包。
+///
+/// 第 i 个文件的信息分别位于各列的第 i 项。一百多万个文件逐个作为对象
+/// 传给 Dart 要数秒，并在 UI 线程上解码约 1 秒；按列只需传几块连续内存。
+pub struct P4kFileIndex {
+    /// 规范化路径（"\\data\\..."，小写），以 '\n' 分隔的 UTF-8
+    pub names: Vec<u8>,
     /// 文件大小（字节）
-    pub size: u64,
+    pub sizes: Vec<u64>,
     /// 压缩后大小（字节）
-    pub compressed_size: u64,
+    pub compressed_sizes: Vec<u64>,
     /// 文件修改时间（毫秒时间戳）
-    pub date_modified: i64,
+    pub dates_modified: Vec<i64>,
 }
 
 // 全局 P4K 读取器实例（用于保持状态）
 static GLOBAL_P4K_READER: once_cell::sync::Lazy<Arc<Mutex<Option<MappedP4k>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
-
-static GLOBAL_P4K_FILES: once_cell::sync::Lazy<Arc<Mutex<HashMap<String, P4kEntry>>>> =
-    once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(HashMap::new())));
 
 // 全局 DataForge 实例（用于 DCB 文件解析）
 static GLOBAL_DCB_READER: once_cell::sync::Lazy<Arc<Mutex<Option<DataForge>>>> =
@@ -91,8 +88,6 @@ pub async fn p4k_open(p4k_path: String) -> Result<()> {
     .await??;
 
     *GLOBAL_P4K_READER.lock().unwrap() = Some(reader);
-    // 清空之前的文件列表缓存
-    GLOBAL_P4K_FILES.lock().unwrap().clear();
 
     Ok(())
 }
@@ -134,58 +129,58 @@ pub fn p4k_clear_model_dcb_cache() {
     GLOBAL_MODEL_DCB_CACHE.lock().unwrap().clear();
 }
 
-/// 确保文件列表已加载（内部使用）
-fn ensure_files_loaded() -> Result<usize> {
-    let mut files = GLOBAL_P4K_FILES.lock().unwrap();
-    if !files.is_empty() {
-        return Ok(files.len());
-    }
-
-    let reader = GLOBAL_P4K_READER.lock().unwrap();
-    if reader.is_none() {
-        return Err(anyhow!("P4K reader not initialized"));
-    }
-
-    let entries = reader.as_ref().unwrap().entries();
-    for entry in entries {
-        let name = normalize_p4k_path(&entry.name);
-        files.insert(name, entry.clone());
-    }
-
-    Ok(files.len())
+/// 用已打开的 P4K 读取器执行 `f`（内部使用）
+fn with_reader<T>(f: impl FnOnce(&MappedP4k) -> Result<T>) -> Result<T> {
+    let guard = GLOBAL_P4K_READER.lock().unwrap();
+    let reader = guard
+        .as_ref()
+        .ok_or_else(|| anyhow!("P4K reader not initialized"))?;
+    f(reader)
 }
 
-/// 获取文件数量（会触发文件列表加载）
+/// 按路径查找条目（大小写不敏感，接受 "/" 与开头的 "\\"）。
+/// 使用读取器自带的排序索引，不再另建一份全量 HashMap。
+fn find_entry<'a>(reader: &'a MappedP4k, path: &str) -> Option<&'a P4kEntry> {
+    let path = path.replace('/', "\\");
+    let path = path.strip_prefix('\\').unwrap_or(&path);
+    reader.entry_case_insensitive(path)
+}
+
+/// 获取文件数量
 pub async fn p4k_get_file_count() -> Result<usize> {
-    tokio::task::spawn_blocking(ensure_files_loaded).await?
+    tokio::task::spawn_blocking(|| with_reader(|reader| Ok(reader.entries().len()))).await?
 }
 
-/// 获取所有文件列表
-pub async fn p4k_get_all_files() -> Result<Vec<P4kFileItem>> {
+/// 获取全部文件列表（按列打包）
+pub async fn p4k_get_file_index() -> Result<P4kFileIndex> {
     tokio::task::spawn_blocking(|| {
-        ensure_files_loaded()?;
-        let files = GLOBAL_P4K_FILES.lock().unwrap();
-        let mut result = Vec::with_capacity(files.len());
-
-        for (name, entry) in files.iter() {
-            result.push(P4kFileItem {
-                name: name.clone(),
-                is_directory: false,
-                size: entry.uncompressed_size,
-                compressed_size: entry.compressed_size,
-                date_modified: entry.last_modified_unix() * 1000,
-            });
-        }
-
-        Ok(result)
+        with_reader(|reader| {
+            let entries = reader.entries();
+            let mut index = P4kFileIndex {
+                names: Vec::with_capacity(entries.len() * 96),
+                sizes: Vec::with_capacity(entries.len()),
+                compressed_sizes: Vec::with_capacity(entries.len()),
+                dates_modified: Vec::with_capacity(entries.len()),
+            };
+            for (i, entry) in entries.iter().enumerate() {
+                if i > 0 {
+                    index.names.push(b'\n');
+                }
+                index
+                    .names
+                    .extend_from_slice(normalize_p4k_path(&entry.name).as_bytes());
+                index.sizes.push(entry.uncompressed_size);
+                index.compressed_sizes.push(entry.compressed_size);
+                index.dates_modified.push(entry.last_modified_unix() * 1000);
+            }
+            Ok(index)
+        })
     })
     .await?
 }
 
 /// 提取文件到内存
 pub async fn p4k_extract_to_memory(file_path: String) -> Result<Vec<u8>> {
-    // 确保文件列表已加载
-    tokio::task::spawn_blocking(ensure_files_loaded).await??;
     // 获取文件 entry 的克隆
     let entry = p4k_get_entry(file_path).await?;
 
@@ -233,24 +228,18 @@ fn dds_base_path(normalized_path: &str) -> Option<String> {
         .map(|idx| format!("{}{}", &normalized_path[..idx], ".dds"))
 }
 
+/// DDS 分片 `<base>.0` ~ `<base>.<max_parts>`，按序号排列。
+/// 逐个按路径查找，而不是遍历全部文件。
 fn collect_dds_parts(
-    files: &HashMap<String, P4kEntry>,
+    reader: &MappedP4k,
     base_path: &str,
     max_parts: usize,
 ) -> Vec<(usize, P4kEntry)> {
-    let prefix = format!("{base_path}.");
-    let mut parts = Vec::new();
-    for (name, entry) in files {
-        if let Some(suffix) = name.strip_prefix(&prefix) {
-            if let Ok(idx) = suffix.parse::<usize>() {
-                if idx <= max_parts {
-                    parts.push((idx, entry.clone()));
-                }
-            }
-        }
-    }
-    parts.sort_by_key(|(idx, _)| *idx);
-    parts
+    (0..=max_parts)
+        .filter_map(|idx| {
+            find_entry(reader, &format!("{base_path}.{idx}")).map(|entry| (idx, entry.clone()))
+        })
+        .collect()
 }
 
 fn decode_image_for_preview(path: &str, data: &[u8]) -> Result<DynamicImage> {
@@ -491,34 +480,27 @@ fn reconstruct_dds_stream(base_dds: &[u8], dds_parts: &[(usize, Vec<u8>)]) -> Op
 pub async fn p4k_preview_image_png(file_path: String) -> Result<Vec<u8>> {
     let normalized_path = normalize_p4k_path(&file_path);
     tokio::task::spawn_blocking(move || {
-        ensure_files_loaded()?;
+        let reader_guard = GLOBAL_P4K_READER.lock().unwrap();
+        let reader = reader_guard
+            .as_ref()
+            .ok_or_else(|| anyhow!("P4K reader not initialized"))?;
+
         let is_dds_request = normalized_path.contains(".dds");
         let candidates = build_preview_candidates(&normalized_path);
 
-        let (entries, dds_parts) = {
-            let files = GLOBAL_P4K_FILES.lock().unwrap();
-            let mut matched = Vec::new();
-            for candidate in candidates {
-                if let Some(entry) = files.get(&candidate) {
-                    matched.push(entry.clone());
-                }
-            }
-            let parts = if let Some(base) = dds_base_path(&normalized_path) {
-                collect_dds_parts(&files, &base, 64)
-            } else {
-                Vec::new()
-            };
-            (matched, parts)
+        let entries: Vec<P4kEntry> = candidates
+            .iter()
+            .filter_map(|candidate| find_entry(reader, candidate).cloned())
+            .collect();
+        let dds_parts = if let Some(base) = dds_base_path(&normalized_path) {
+            collect_dds_parts(reader, &base, 64)
+        } else {
+            Vec::new()
         };
 
         if entries.is_empty() {
             return Err(anyhow!("File not found: {}", file_path));
         }
-
-        let reader_guard = GLOBAL_P4K_READER.lock().unwrap();
-        let reader = reader_guard
-            .as_ref()
-            .ok_or_else(|| anyhow!("P4K reader not initialized"))?;
 
         // 缓存基础 dds 头（Star Citizen 的 .dds 常见为仅头部，数据在 .dds.x）
         let mut base_dds_header: Option<Vec<u8>> = None;
@@ -641,24 +623,16 @@ fn decode_dds_image(data: &[u8]) -> Result<DynamicImage> {
     decode_uncompressed_dds(data)
 }
 
+/// DDS 分片的真实路径，按序号排列。
 fn collect_dds_part_paths(
-    index: &HashMap<String, String>,
+    reader: &MappedP4k,
     base_path: &str,
     max_parts: usize,
 ) -> Vec<(usize, String)> {
-    let mut out = Vec::new();
-    let prefix = format!("{}.", normalize_p4k_path(base_path));
-    for (key, real) in index {
-        if let Some(suffix) = key.strip_prefix(&prefix) {
-            if let Ok(idx) = suffix.parse::<usize>() {
-                if idx <= max_parts {
-                    out.push((idx, real.clone()));
-                }
-            }
-        }
-    }
-    out.sort_by_key(|(idx, _)| *idx);
-    out
+    collect_dds_parts(reader, base_path, max_parts)
+        .into_iter()
+        .map(|(idx, entry)| (idx, entry.name))
+        .collect()
 }
 
 /// 提取 DDS 文件并转换为 PNG，返回 PNG 字节和调试信息
@@ -666,19 +640,14 @@ pub async fn p4k_extract_dds_as_png(file_path: String) -> Result<(Vec<u8>, DdsPn
     let requested = normalize_slashes(&file_path);
     let base_path = dds_base_path(&requested).unwrap_or_else(|| requested.clone());
 
-    let files = GLOBAL_P4K_FILES.lock().unwrap().clone();
-    let mut index = HashMap::<String, String>::with_capacity(files.len());
-    for (name, entry) in files {
-        index.insert(normalize_p4k_path(&name), entry.name);
-    }
-
-    let base_real = index
-        .get(&normalize_p4k_path(&base_path))
-        .cloned()
-        .ok_or_else(|| anyhow!("DDS base entry not found: {}", base_path))?;
+    let (base_real, part_paths) = with_reader(|reader| {
+        let base_real = find_entry(reader, &base_path)
+            .map(|entry| entry.name.clone())
+            .ok_or_else(|| anyhow!("DDS base entry not found: {}", base_path))?;
+        Ok((base_real, collect_dds_part_paths(reader, &base_path, 64)))
+    })?;
     let base_bytes = p4k_extract_to_memory(base_real.clone()).await?;
 
-    let part_paths = collect_dds_part_paths(&index, &base_path, 64);
     let mut part_bytes = Vec::<(usize, Vec<u8>)>::new();
     for (idx, real) in &part_paths {
         if let Ok(bytes) = p4k_extract_to_memory(real.clone()).await {
@@ -751,14 +720,13 @@ pub struct DdsDebugInfo {
 pub async fn p4k_debug_dds_parts(file_path: String) -> Result<DdsDebugInfo> {
     let requested = normalize_slashes(&file_path);
     let base_path = dds_base_path(&requested).unwrap_or_else(|| requested.clone());
-    let files = GLOBAL_P4K_FILES.lock().unwrap().clone();
-    let mut index = HashMap::<String, String>::with_capacity(files.len());
-    for (name, entry) in files {
-        index.insert(normalize_p4k_path(&name), entry.name);
-    }
     let base_key = normalize_p4k_path(&base_path);
-    let base_real = index.get(&base_key).cloned();
-    let parts = collect_dds_part_paths(&index, &base_path, 64);
+    let (base_real, parts) = with_reader(|reader| {
+        Ok((
+            find_entry(reader, &base_path).map(|entry| entry.name.clone()),
+            collect_dds_part_paths(reader, &base_path, 64),
+        ))
+    })?;
     Ok(DdsDebugInfo {
         requested_path: requested,
         base_path,
@@ -1037,22 +1005,15 @@ mod tests {
 }
 
 async fn p4k_get_entry(file_path: String) -> Result<P4kEntry> {
-    // 确保文件列表已加载
-    tokio::task::spawn_blocking(ensure_files_loaded).await??;
-
-    // 规范化路径，P4K 查找大小写不敏感
-    let normalized_path = normalize_p4k_path(&file_path);
-
-    // 获取文件 entry 的克隆
-    let entry = {
-        let files = GLOBAL_P4K_FILES.lock().unwrap();
-        files
-            .get(&normalized_path)
-            .ok_or_else(|| anyhow!("File not found: {}", file_path))?
-            .clone()
-    };
-
-    Ok(entry)
+    // P4K 查找大小写不敏感；获取文件 entry 的克隆
+    tokio::task::spawn_blocking(move || {
+        with_reader(|reader| {
+            find_entry(reader, &file_path)
+                .cloned()
+                .ok_or_else(|| anyhow!("File not found: {}", file_path))
+        })
+    })
+    .await?
 }
 
 fn normalize_slashes(path: &str) -> String {
@@ -1591,7 +1552,6 @@ fn compute_waveform_from_pcm(pcm: &[i16], points: usize) -> Vec<f64> {
 /// 关闭 P4K 读取器
 pub async fn p4k_close() -> Result<()> {
     *GLOBAL_P4K_READER.lock().unwrap() = None;
-    GLOBAL_P4K_FILES.lock().unwrap().clear();
     p4k_clear_model_dcb_cache();
     Ok(())
 }

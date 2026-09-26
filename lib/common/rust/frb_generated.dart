@@ -76,7 +76,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -1786636113;
+  int get rustContentHash => -2033133224;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -361,9 +361,9 @@ abstract class RustLibApi extends BaseApi {
     required String filePath,
   });
 
-  Future<List<P4kFileItem>> crateApiUnp4KApiP4KGetAllFiles();
-
   Future<BigInt> crateApiUnp4KApiP4KGetFileCount();
+
+  Future<P4kFileIndex> crateApiUnp4KApiP4KGetFileIndex();
 
   Future<ArcDataForge> crateApiUnp4KApiP4KGetOrLoadModelDcb({
     required String p4KPath,
@@ -2937,27 +2937,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<List<P4kFileItem>> crateApiUnp4KApiP4KGetAllFiles() {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          return wire.wire__crate__api__unp4k_api__p4k_get_all_files(port_);
-        },
-        codec: DcoCodec(
-          decodeSuccessData: dco_decode_list_p_4_k_file_item,
-          decodeErrorData: dco_decode_AnyhowException,
-        ),
-        constMeta: kCrateApiUnp4KApiP4KGetAllFilesConstMeta,
-        argValues: [],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiUnp4KApiP4KGetAllFilesConstMeta =>
-      const TaskConstMeta(debugName: "p4k_get_all_files", argNames: []);
-
-  @override
   Future<BigInt> crateApiUnp4KApiP4KGetFileCount() {
     return handler.executeNormal(
       NormalTask(
@@ -2977,6 +2956,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiUnp4KApiP4KGetFileCountConstMeta =>
       const TaskConstMeta(debugName: "p4k_get_file_count", argNames: []);
+
+  @override
+  Future<P4kFileIndex> crateApiUnp4KApiP4KGetFileIndex() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__unp4k_api__p4k_get_file_index(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_p_4_k_file_index,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiUnp4KApiP4KGetFileIndexConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiUnp4KApiP4KGetFileIndexConstMeta =>
+      const TaskConstMeta(debugName: "p4k_get_file_index", argNames: []);
 
   @override
   Future<ArcDataForge> crateApiUnp4KApiP4KGetOrLoadModelDcb({
@@ -5415,12 +5415,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<P4kFileItem> dco_decode_list_p_4_k_file_item(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>).map(dco_decode_p_4_k_file_item).toList();
-  }
-
-  @protected
   List<P4kUpgraderEstimateEntry> dco_decode_list_p_4_k_upgrader_estimate_entry(
     dynamic raw,
   ) {
@@ -5452,6 +5446,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Int16List dco_decode_list_prim_i_16_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Int16List;
+  }
+
+  @protected
+  Int64List dco_decode_list_prim_i_64_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeInt64List(raw);
+  }
+
+  @protected
+  Uint64List dco_decode_list_prim_u_64_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeUint64List(raw);
   }
 
   @protected
@@ -5662,17 +5668,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  P4kFileItem dco_decode_p_4_k_file_item(dynamic raw) {
+  P4kFileIndex dco_decode_p_4_k_file_index(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 5)
-      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
-    return P4kFileItem(
-      name: dco_decode_String(arr[0]),
-      isDirectory: dco_decode_bool(arr[1]),
-      size: dco_decode_u_64(arr[2]),
-      compressedSize: dco_decode_u_64(arr[3]),
-      dateModified: dco_decode_i_64(arr[4]),
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return P4kFileIndex(
+      names: dco_decode_list_prim_u_8_strict(arr[0]),
+      sizes: dco_decode_list_prim_u_64_strict(arr[1]),
+      compressedSizes: dco_decode_list_prim_u_64_strict(arr[2]),
+      datesModified: dco_decode_list_prim_i_64_strict(arr[3]),
     );
   }
 
@@ -6502,20 +6507,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<P4kFileItem> sse_decode_list_p_4_k_file_item(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <P4kFileItem>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_p_4_k_file_item(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
   List<P4kUpgraderEstimateEntry> sse_decode_list_p_4_k_upgrader_estimate_entry(
     SseDeserializer deserializer,
   ) {
@@ -6555,6 +6546,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getInt16List(len_);
+  }
+
+  @protected
+  Int64List sse_decode_list_prim_i_64_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getInt64List(len_);
+  }
+
+  @protected
+  Uint64List sse_decode_list_prim_u_64_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint64List(len_);
   }
 
   @protected
@@ -6889,19 +6894,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  P4kFileItem sse_decode_p_4_k_file_item(SseDeserializer deserializer) {
+  P4kFileIndex sse_decode_p_4_k_file_index(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_name = sse_decode_String(deserializer);
-    var var_isDirectory = sse_decode_bool(deserializer);
-    var var_size = sse_decode_u_64(deserializer);
-    var var_compressedSize = sse_decode_u_64(deserializer);
-    var var_dateModified = sse_decode_i_64(deserializer);
-    return P4kFileItem(
-      name: var_name,
-      isDirectory: var_isDirectory,
-      size: var_size,
-      compressedSize: var_compressedSize,
-      dateModified: var_dateModified,
+    var var_names = sse_decode_list_prim_u_8_strict(deserializer);
+    var var_sizes = sse_decode_list_prim_u_64_strict(deserializer);
+    var var_compressedSizes = sse_decode_list_prim_u_64_strict(deserializer);
+    var var_datesModified = sse_decode_list_prim_i_64_strict(deserializer);
+    return P4kFileIndex(
+      names: var_names,
+      sizes: var_sizes,
+      compressedSizes: var_compressedSizes,
+      datesModified: var_datesModified,
     );
   }
 
@@ -7890,18 +7893,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_list_p_4_k_file_item(
-    List<P4kFileItem> self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_p_4_k_file_item(item, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_list_p_4_k_upgrader_estimate_entry(
     List<P4kUpgraderEstimateEntry> self,
     SseSerializer serializer,
@@ -7953,6 +7944,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putInt16List(self);
+  }
+
+  @protected
+  void sse_encode_list_prim_i_64_strict(
+    Int64List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putInt64List(self);
+  }
+
+  @protected
+  void sse_encode_list_prim_u_64_strict(
+    Uint64List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint64List(self);
   }
 
   @protected
@@ -8268,13 +8279,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_p_4_k_file_item(P4kFileItem self, SseSerializer serializer) {
+  void sse_encode_p_4_k_file_index(
+    P4kFileIndex self,
+    SseSerializer serializer,
+  ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_String(self.name, serializer);
-    sse_encode_bool(self.isDirectory, serializer);
-    sse_encode_u_64(self.size, serializer);
-    sse_encode_u_64(self.compressedSize, serializer);
-    sse_encode_i_64(self.dateModified, serializer);
+    sse_encode_list_prim_u_8_strict(self.names, serializer);
+    sse_encode_list_prim_u_64_strict(self.sizes, serializer);
+    sse_encode_list_prim_u_64_strict(self.compressedSizes, serializer);
+    sse_encode_list_prim_i_64_strict(self.datesModified, serializer);
   }
 
   @protected

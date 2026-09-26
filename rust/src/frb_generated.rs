@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1786636113;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2033133224;
 
 // Section: executor
 
@@ -2044,28 +2044,6 @@ fn wire__crate__api__unp4k_api__p4k_extract_to_memory_impl(
         },
     )
 }
-fn wire__crate__api__unp4k_api__p4k_get_all_files_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "p4k_get_all_files",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            move |context| async move {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || async move {
-                        let output_ok = crate::api::unp4k_api::p4k_get_all_files().await?;
-                        std::result::Result::Ok(output_ok)
-                    })()
-                    .await,
-                )
-            }
-        },
-    )
-}
 fn wire__crate__api__unp4k_api__p4k_get_file_count_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
 ) {
@@ -2080,6 +2058,28 @@ fn wire__crate__api__unp4k_api__p4k_get_file_count_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || async move {
                         let output_ok = crate::api::unp4k_api::p4k_get_file_count().await?;
+                        std::result::Result::Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__unp4k_api__p4k_get_file_index_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::DcoCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "p4k_get_file_index",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| async move {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::unp4k_api::p4k_get_file_index().await?;
                         std::result::Result::Ok(output_ok)
                     })()
                     .await,
@@ -4279,20 +4279,6 @@ impl SseDecode for Vec<crate::api::downloader_api::DownloadTaskInfo> {
     }
 }
 
-impl SseDecode for Vec<crate::api::unp4k_api::P4kFileItem> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = Vec::with_capacity(len_ as usize);
-        for idx_ in 0..len_ {
-            ans_.push(<crate::api::unp4k_api::P4kFileItem>::sse_decode(
-                deserializer,
-            ));
-        }
-        return ans_;
-    }
-}
-
 impl SseDecode for Vec<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4338,6 +4324,30 @@ impl SseDecode for Vec<i16> {
         let mut ans_ = Vec::with_capacity(len_ as usize);
         for idx_ in 0..len_ {
             ans_.push(<i16>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<i64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<i64>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<u64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<u64>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -4683,20 +4693,18 @@ impl SseDecode for crate::api::p4k_upgrader_api::P4kDownloadSource {
     }
 }
 
-impl SseDecode for crate::api::unp4k_api::P4kFileItem {
+impl SseDecode for crate::api::unp4k_api::P4kFileIndex {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_name = <String>::sse_decode(deserializer);
-        let mut var_isDirectory = <bool>::sse_decode(deserializer);
-        let mut var_size = <u64>::sse_decode(deserializer);
-        let mut var_compressedSize = <u64>::sse_decode(deserializer);
-        let mut var_dateModified = <i64>::sse_decode(deserializer);
-        return crate::api::unp4k_api::P4kFileItem {
-            name: var_name,
-            is_directory: var_isDirectory,
-            size: var_size,
-            compressed_size: var_compressedSize,
-            date_modified: var_dateModified,
+        let mut var_names = <Vec<u8>>::sse_decode(deserializer);
+        let mut var_sizes = <Vec<u64>>::sse_decode(deserializer);
+        let mut var_compressedSizes = <Vec<u64>>::sse_decode(deserializer);
+        let mut var_datesModified = <Vec<i64>>::sse_decode(deserializer);
+        return crate::api::unp4k_api::P4kFileIndex {
+            names: var_names,
+            sizes: var_sizes,
+            compressed_sizes: var_compressedSizes,
+            dates_modified: var_datesModified,
         };
     }
 }
@@ -5655,26 +5663,25 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::p4k_upgrader_api::P4kDownload
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::P4kFileItem {
+impl flutter_rust_bridge::IntoDart for crate::api::unp4k_api::P4kFileIndex {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
-            self.name.into_into_dart().into_dart(),
-            self.is_directory.into_into_dart().into_dart(),
-            self.size.into_into_dart().into_dart(),
-            self.compressed_size.into_into_dart().into_dart(),
-            self.date_modified.into_into_dart().into_dart(),
+            self.names.into_into_dart().into_dart(),
+            self.sizes.into_into_dart().into_dart(),
+            self.compressed_sizes.into_into_dart().into_dart(),
+            self.dates_modified.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::unp4k_api::P4kFileItem
+    for crate::api::unp4k_api::P4kFileIndex
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::P4kFileItem>
-    for crate::api::unp4k_api::P4kFileItem
+impl flutter_rust_bridge::IntoIntoDart<crate::api::unp4k_api::P4kFileIndex>
+    for crate::api::unp4k_api::P4kFileIndex
 {
-    fn into_into_dart(self) -> crate::api::unp4k_api::P4kFileItem {
+    fn into_into_dart(self) -> crate::api::unp4k_api::P4kFileIndex {
         self
     }
 }
@@ -6503,16 +6510,6 @@ impl SseEncode for Vec<crate::api::downloader_api::DownloadTaskInfo> {
     }
 }
 
-impl SseEncode for Vec<crate::api::unp4k_api::P4kFileItem> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <crate::api::unp4k_api::P4kFileItem>::sse_encode(item, serializer);
-        }
-    }
-}
-
 impl SseEncode for Vec<crate::api::p4k_upgrader_api::P4kUpgraderEstimateEntry> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6549,6 +6546,26 @@ impl SseEncode for Vec<i16> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <i16>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<i64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <i64>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<u64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <u64>::sse_encode(item, serializer);
         }
     }
 }
@@ -6846,14 +6863,13 @@ impl SseEncode for crate::api::p4k_upgrader_api::P4kDownloadSource {
     }
 }
 
-impl SseEncode for crate::api::unp4k_api::P4kFileItem {
+impl SseEncode for crate::api::unp4k_api::P4kFileIndex {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.name, serializer);
-        <bool>::sse_encode(self.is_directory, serializer);
-        <u64>::sse_encode(self.size, serializer);
-        <u64>::sse_encode(self.compressed_size, serializer);
-        <i64>::sse_encode(self.date_modified, serializer);
+        <Vec<u8>>::sse_encode(self.names, serializer);
+        <Vec<u64>>::sse_encode(self.sizes, serializer);
+        <Vec<u64>>::sse_encode(self.compressed_sizes, serializer);
+        <Vec<i64>>::sse_encode(self.dates_modified, serializer);
     }
 }
 
@@ -7548,16 +7564,6 @@ mod io {
             vec.into_iter().map(CstDecode::cst_decode).collect()
         }
     }
-    impl CstDecode<Vec<crate::api::unp4k_api::P4kFileItem>> for *mut wire_cst_list_p_4_k_file_item {
-        // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> Vec<crate::api::unp4k_api::P4kFileItem> {
-            let vec = unsafe {
-                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-            };
-            vec.into_iter().map(CstDecode::cst_decode).collect()
-        }
-    }
     impl CstDecode<Vec<f32>> for *mut wire_cst_list_prim_f_32_strict {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<f32> {
@@ -7588,6 +7594,24 @@ mod io {
     impl CstDecode<Vec<i16>> for *mut wire_cst_list_prim_i_16_strict {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<i16> {
+            unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            }
+        }
+    }
+    impl CstDecode<Vec<i64>> for *mut wire_cst_list_prim_i_64_strict {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<i64> {
+            unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            }
+        }
+    }
+    impl CstDecode<Vec<u64>> for *mut wire_cst_list_prim_u_64_strict {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<u64> {
             unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -7692,15 +7716,14 @@ mod io {
             }
         }
     }
-    impl CstDecode<crate::api::unp4k_api::P4kFileItem> for wire_cst_p_4_k_file_item {
+    impl CstDecode<crate::api::unp4k_api::P4kFileIndex> for wire_cst_p_4_k_file_index {
         // Codec=Cst (C-struct based), see doc to use other codecs
-        fn cst_decode(self) -> crate::api::unp4k_api::P4kFileItem {
-            crate::api::unp4k_api::P4kFileItem {
-                name: self.name.cst_decode(),
-                is_directory: self.is_directory.cst_decode(),
-                size: self.size.cst_decode(),
-                compressed_size: self.compressed_size.cst_decode(),
-                date_modified: self.date_modified.cst_decode(),
+        fn cst_decode(self) -> crate::api::unp4k_api::P4kFileIndex {
+            crate::api::unp4k_api::P4kFileIndex {
+                names: self.names.cst_decode(),
+                sizes: self.sizes.cst_decode(),
+                compressed_sizes: self.compressed_sizes.cst_decode(),
+                dates_modified: self.dates_modified.cst_decode(),
             }
         }
     }
@@ -8112,18 +8135,17 @@ mod io {
             Self::new_with_null_ptr()
         }
     }
-    impl NewWithNullPtr for wire_cst_p_4_k_file_item {
+    impl NewWithNullPtr for wire_cst_p_4_k_file_index {
         fn new_with_null_ptr() -> Self {
             Self {
-                name: core::ptr::null_mut(),
-                is_directory: Default::default(),
-                size: Default::default(),
-                compressed_size: Default::default(),
-                date_modified: Default::default(),
+                names: core::ptr::null_mut(),
+                sizes: core::ptr::null_mut(),
+                compressed_sizes: core::ptr::null_mut(),
+                dates_modified: core::ptr::null_mut(),
             }
         }
     }
-    impl Default for wire_cst_p_4_k_file_item {
+    impl Default for wire_cst_p_4_k_file_index {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -9046,17 +9068,17 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_all_files(
-        port_: i64,
-    ) {
-        wire__crate__api__unp4k_api__p4k_get_all_files_impl(port_)
-    }
-
-    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_file_count(
         port_: i64,
     ) {
         wire__crate__api__unp4k_api__p4k_get_file_count_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__unp4k_api__p4k_get_file_index(
+        port_: i64,
+    ) {
+        wire__crate__api__unp4k_api__p4k_get_file_index_impl(port_)
     }
 
     #[unsafe(no_mangle)]
@@ -9805,20 +9827,6 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_p_4_k_file_item(
-        len: i32,
-    ) -> *mut wire_cst_list_p_4_k_file_item {
-        let wrap = wire_cst_list_p_4_k_file_item {
-            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
-                <wire_cst_p_4_k_file_item>::new_with_null_ptr(),
-                len,
-            ),
-            len,
-        };
-        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-    }
-
-    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_f_32_strict(
         len: i32,
     ) -> *mut wire_cst_list_prim_f_32_strict {
@@ -9856,6 +9864,28 @@ mod io {
         len: i32,
     ) -> *mut wire_cst_list_prim_i_16_strict {
         let ans = wire_cst_list_prim_i_16_strict {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_i_64_strict(
+        len: i32,
+    ) -> *mut wire_cst_list_prim_i_64_strict {
+        let ans = wire_cst_list_prim_i_64_strict {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_u_64_strict(
+        len: i32,
+    ) -> *mut wire_cst_list_prim_u_64_strict {
+        let ans = wire_cst_list_prim_u_64_strict {
             ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
             len,
         };
@@ -10050,12 +10080,6 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_list_p_4_k_file_item {
-        ptr: *mut wire_cst_p_4_k_file_item,
-        len: i32,
-    }
-    #[repr(C)]
-    #[derive(Clone, Copy)]
     pub struct wire_cst_list_prim_f_32_strict {
         ptr: *mut f32,
         len: i32,
@@ -10076,6 +10100,18 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_prim_i_16_strict {
         ptr: *mut i16,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_prim_i_64_strict {
+        ptr: *mut i64,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_prim_u_64_strict {
+        ptr: *mut u64,
         len: i32,
     }
     #[repr(C)]
@@ -10144,12 +10180,11 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
-    pub struct wire_cst_p_4_k_file_item {
-        name: *mut wire_cst_list_prim_u_8_strict,
-        is_directory: bool,
-        size: u64,
-        compressed_size: u64,
-        date_modified: i64,
+    pub struct wire_cst_p_4_k_file_index {
+        names: *mut wire_cst_list_prim_u_8_strict,
+        sizes: *mut wire_cst_list_prim_u_64_strict,
+        compressed_sizes: *mut wire_cst_list_prim_u_64_strict,
+        dates_modified: *mut wire_cst_list_prim_i_64_strict,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

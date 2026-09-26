@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_build_context_in_providers
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -243,8 +244,17 @@ class Unp4kCModel extends _$Unp4kCModel {
 
       state = state.copyWith(endMessage: S.current.tools_unp4k_msg_reading2);
 
-      final p4kFiles = await unp4k_api.p4KGetAllFiles();
-      state = state.copyWith(loadingCurrent: 0, loadingTotal: p4kFiles.length);
+      final index = await unp4k_api.p4KGetFileIndex();
+      // The bridge's 64-bit lists box every element as a BigInt; read the
+      // underlying typed lists as plain ints instead.
+      final sizes = index.sizes.inner;
+      final compressedSizes = index.compressedSizes.inner;
+      final datesModified = index.datesModified.inner;
+      // One UTF-8 decode and split of ~100 MB; keep it off the UI isolate.
+      final names = sizes.isEmpty
+          ? const <String>[]
+          : await compute(_decodeFileNames, index.names);
+      state = state.copyWith(loadingCurrent: 0, loadingTotal: names.length);
 
       final files = <String, AppUnp4kP4kItemData>{};
       final suffixes = <String>{};
@@ -260,40 +270,38 @@ class Unp4kCModel extends _$Unp4kCModel {
       _musicAssetIndexReady = false;
 
       var nextAwait = 0;
-      for (var i = 0; i < p4kFiles.length; i++) {
-        final item = p4kFiles[i];
-        final fileData = AppUnp4kP4kItemData(
-          name: item.name,
-          isDirectory: item.isDirectory,
-          size: item.size.toInt(),
-          compressedSize: item.compressedSize.toInt(),
-          dateModified: item.dateModified,
+      // The archive has no directory entries: every name is a file.
+      for (var i = 0; i < names.length; i++) {
+        final name = names[i];
+        files[name] = AppUnp4kP4kItemData(
+          name: name,
+          isDirectory: false,
+          size: sizes[i],
+          compressedSize: compressedSizes[i],
+          dateModified: datesModified[i],
         );
 
-        files[item.name] = fileData;
-        if (!item.isDirectory) {
-          final ext = _extractFileExtension(item.name);
-          if (ext.isNotEmpty) {
-            suffixes.add(ext);
-            (_suffixFilesIndex[ext] ??= <String>[]).add(item.name);
-          }
-          final indexedPath = _normalizeFileKey(item.name);
-          final lowerPath = indexedPath.toLowerCase();
-          if (_isExactModelAsset(lowerPath)) {
-            _modelAssetIndex[_classifyModelPath(lowerPath)]!.add(indexedPath);
-          }
-          if (_isSupportedMusicAsset(lowerPath)) {
-            _musicAssetIndex.add(indexedPath);
-          }
-          filePaths.add(item.name);
-          _dirFor(
-            indexedPath.substring(0, indexedPath.lastIndexOf("\\") + 1),
-          ).files.add(item.name);
+        final ext = _extractFileExtension(name);
+        if (ext.isNotEmpty) {
+          suffixes.add(ext);
+          (_suffixFilesIndex[ext] ??= <String>[]).add(name);
         }
+        final indexedPath = _normalizeFileKey(name);
+        final lowerPath = indexedPath.toLowerCase();
+        if (_isExactModelAsset(lowerPath)) {
+          _modelAssetIndex[_classifyModelPath(lowerPath)]!.add(indexedPath);
+        }
+        if (_isSupportedMusicAsset(lowerPath)) {
+          _musicAssetIndex.add(indexedPath);
+        }
+        filePaths.add(name);
+        _dirFor(
+          indexedPath.substring(0, indexedPath.lastIndexOf("\\") + 1),
+        ).files.add(name);
 
         if (i == nextAwait) {
           state = state.copyWith(
-            endMessage: S.current.tools_unp4k_msg_reading3(i, p4kFiles.length),
+            endMessage: S.current.tools_unp4k_msg_reading3(i, names.length),
             loadingCurrent: i,
           );
           await Future.delayed(Duration(milliseconds: 1));
@@ -316,8 +324,8 @@ class Unp4kCModel extends _$Unp4kCModel {
       state = state.copyWith(
         files: files,
         availableSuffixes: suffixes.toList()..sort(),
-        loadingCurrent: p4kFiles.length,
-        loadingTotal: p4kFiles.length,
+        loadingCurrent: names.length,
+        loadingTotal: names.length,
         endMessage: S.current.tools_unp4k_msg_read_completed(
           files.length,
           endTime.difference(loadStartTime).inMilliseconds,
@@ -1858,6 +1866,10 @@ class Unp4kCModel extends _$Unp4kCModel {
     }
   }
 }
+
+/// Splits the '\n'-separated UTF-8 paths of [unp4k_api.P4kFileIndex.names].
+List<String> _decodeFileNames(Uint8List names) =>
+    utf8.decode(names).split("\n");
 
 /// Direct children of one directory in [Unp4kCModel._dirIndex].
 class _P4kDir {
